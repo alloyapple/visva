@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="480dp"
+    android:background="@drawable/bg_home"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Distance/time"
+        android:textColor="@color/black"
+        android:textSize="24dp" />
+
+    <ListView
+        android:id="@+id/list_choice_setting"
+        android:layout_width="fill_parent"
+        android:layout_height="220dp"
+        android:layout_margin="10dp" >
+    </ListView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Operator"
+        android:textColor="@color/black"
+        android:textSize="24dp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" >
+
+        <TextView
+            android:id="@+id/textView_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="Speed"
+            android:textColor="@color/black"
+            android:textSize="24dp" />
+
+        <EditText
+            android:id="@+id/editText_speed"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/textView_speed"
+            android:background="@color/white"
+            android:gravity="center"
+            android:lines="2"
+            android:text="3"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btn_done_setting"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/tab_indicator"
+            android:layout_below="@id/editText_speed"
+            android:layout_marginTop="15dp"
+            android:textSize="24dp"
+            android:text="Done Setting" />
+    </RelativeLayout>
+
+</LinearLayout>
