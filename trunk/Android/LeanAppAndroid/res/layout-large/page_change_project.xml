@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="550dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_setting" >
+
+        <Button
+            android:id="@+id/btn_change_project_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/tab_indicator"
+            android:text="Done"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+        <Button
+            android:id="@+id/btn_change_project_new_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/tab_indicator"
+            android:text="New Project"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheel_change_project"
+            android:layout_width="250dp"
+            android:layout_height="300dp"
+            android:layout_below="@id/btn_change_project_new_project"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheel_change_process"
+            android:layout_width="250dp"
+            android:layout_height="300dp"
+            android:layout_below="@id/btn_change_project_new_project"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/wheel_change_project" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_change_project_new_project"
+            android:layout_alignBottom="@+id/btn_change_project_new_project"
+            android:layout_toLeftOf="@+id/btn_change_project_new_project"
+            android:text="Change Project/Process"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

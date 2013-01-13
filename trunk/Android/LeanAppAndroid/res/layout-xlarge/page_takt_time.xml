@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_home" >
+<RelativeLayout
+        android:id="@+id/tabbar"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/actionbar_bg"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/img_takt_time_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/ic_book" />
+
+        <ImageView
+            android:id="@+id/img_takt_time_export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/img_takt_time_book"
+            android:background="@drawable/ic_export" />
+
+        <ImageView
+            android:id="@+id/img_takt_time_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_currency" />
+
+        <ImageView
+            android:id="@+id/img_takt_time_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/img_takt_time_currency"
+            android:background="@drawable/ic_version" />
+
+        <ImageView
+            android:id="@+id/img_takt_time_change_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/img_takt_time_version"
+            android:background="@drawable/ic_bag" />
+
+        <ImageView
+            android:id="@+id/img_takt_time_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/img_takt_time_change_project"
+            android:background="@drawable/ic_setting" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="560dp"
+        android:layout_height="900dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="160dp"
+        android:background="@drawable/bg_task_time" >
+
+        <Button
+            android:id="@+id/btn_task_time_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tab_indicator"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btn_task_time_dong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tab_indicator"
+            android:text="Done" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_task_time_cancel"
+            android:layout_alignBottom="@+id/btn_task_time_cancel"
+            android:layout_centerHorizontal="true"
+            android:text="Takt Time"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+
+        <AbsoluteLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" >
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="15dp"
+                android:layout_y="114dp"
+                android:lines="2"
+                android:gravity="center"
+                android:hint="Shift Per Day"
+                android:background="@color/white"
+                android:ems="10" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="15dp"
+                android:layout_y="175dp"
+                android:lines="2"
+                android:hint="Operators per shift"
+                android:gravity="center"
+                android:background="@color/white"
+                android:ems="10" />
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="15dp"
+                android:layout_y="234dp"
+                android:lines="2"
+                android:gravity="center"
+                android:hint="Break per shift"
+                android:background="@color/white"
+                android:ems="10" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="15dp"
+                android:lines="2"
+                android:layout_y="293dp"
+                android:hint="Days per month"
+                android:gravity="center"
+                android:background="@color/white"
+                android:ems="10" />
+
+            <EditText
+                android:id="@+id/editText6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="15dp"
+                android:layout_y="415dp"
+                android:gravity="center"
+                android:hint="Customer demanded units"
+                android:lines="2"
+                android:background="@color/white"
+                android:ems="10" />
+
+            <EditText
+                android:id="@+id/editText5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="15dp"
+                android:layout_y="357dp"
+                android:lines="2"
+                android:hint="Days per week"
+                android:gravity="center"
+                android:background="@color/white"
+                android:ems="10" />
+
+            <kankan.wheel.widget.WheelView
+                android:id="@+id/wheel_task_time_2"
+                android:layout_width="200dp"
+                android:layout_height="255dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_x="343dp"
+                android:layout_y="338dp" />
+
+            <kankan.wheel.widget.WheelView
+                android:id="@+id/wheel_task_time_1"
+                android:layout_width="200dp"
+                android:layout_height="243dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_x="344dp"
+                android:layout_y="620dp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="262dp"
+                android:layout_y="414dp"
+                android:text="Per"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="257dp"
+                android:layout_height="168dp"
+                android:layout_x="266dp"
+                android:layout_y="120dp"
+                android:text="@string/textview_takt_time"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="293dp"
+                android:layout_height="146dp"
+                android:layout_x="35dp"
+                android:layout_y="647dp"
+                android:text="Takt Time = XXX"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="50dp" />
+
+        </AbsoluteLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
