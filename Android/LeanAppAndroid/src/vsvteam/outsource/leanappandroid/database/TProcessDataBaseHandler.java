@@ -266,7 +266,7 @@ public class TProcessDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Updating single process
-	public int updateProject(TProcessDataBase process) {
+	public int updateProcess(TProcessDataBase process) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
