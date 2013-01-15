@@ -1,0 +1,299 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E016A5053B00F50D40 /* UIKit.framework */; };
+		2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E216A5053B00F50D40 /* Foundation.framework */; };
+		2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */; };
+		2FDA03EB16A5053B00F50D40 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03E916A5053B00F50D40 /* InfoPlist.strings */; };
+		2FDA03ED16A5053B00F50D40 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA03EC16A5053B00F50D40 /* main.m */; };
+		2FDA03F116A5053B00F50D40 /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA03F016A5053B00F50D40 /* TDAppDelegate.m */; };
+		2FDA03F316A5053C00F50D40 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F216A5053C00F50D40 /* Default.png */; };
+		2FDA03F516A5053C00F50D40 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F416A5053C00F50D40 /* Default@2x.png */; };
+		2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */; };
+		2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */; };
+		2FDA03FD16A5053C00F50D40 /* TDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA03FC16A5053C00F50D40 /* TDViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2FDA03DC16A5053B00F50D40 /* LearnApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FDA03E016A5053B00F50D40 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2FDA03E216A5053B00F50D40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2FDA03E816A5053B00F50D40 /* LearnApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LearnApp-Info.plist"; sourceTree = "<group>"; };
+		2FDA03EA16A5053B00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2FDA03EC16A5053B00F50D40 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2FDA03EE16A5053B00F50D40 /* LearnApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LearnApp-Prefix.pch"; sourceTree = "<group>"; };
+		2FDA03EF16A5053B00F50D40 /* TDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDAppDelegate.h; sourceTree = "<group>"; };
+		2FDA03F016A5053B00F50D40 /* TDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDAppDelegate.m; sourceTree = "<group>"; };
+		2FDA03F216A5053C00F50D40 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		2FDA03F416A5053C00F50D40 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		2FDA03F916A5053C00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		2FDA03FB16A5053C00F50D40 /* TDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDViewController.h; sourceTree = "<group>"; };
+		2FDA03FC16A5053C00F50D40 /* TDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2FDA03D916A5053B00F50D40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */,
+				2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */,
+				2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2FDA03D116A5053B00F50D40 = {
+			isa = PBXGroup;
+			children = (
+				2FDA03E616A5053B00F50D40 /* LearnApp */,
+				2FDA03DF16A5053B00F50D40 /* Frameworks */,
+				2FDA03DD16A5053B00F50D40 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2FDA03DD16A5053B00F50D40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2FDA03DC16A5053B00F50D40 /* LearnApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2FDA03DF16A5053B00F50D40 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FDA03E016A5053B00F50D40 /* UIKit.framework */,
+				2FDA03E216A5053B00F50D40 /* Foundation.framework */,
+				2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2FDA03E616A5053B00F50D40 /* LearnApp */ = {
+			isa = PBXGroup;
+			children = (
+				2FDA03EF16A5053B00F50D40 /* TDAppDelegate.h */,
+				2FDA03F016A5053B00F50D40 /* TDAppDelegate.m */,
+				2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */,
+				2FDA03FB16A5053C00F50D40 /* TDViewController.h */,
+				2FDA03FC16A5053C00F50D40 /* TDViewController.m */,
+				2FDA03E716A5053B00F50D40 /* Supporting Files */,
+			);
+			path = LearnApp;
+			sourceTree = "<group>";
+		};
+		2FDA03E716A5053B00F50D40 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2FDA03E816A5053B00F50D40 /* LearnApp-Info.plist */,
+				2FDA03E916A5053B00F50D40 /* InfoPlist.strings */,
+				2FDA03EC16A5053B00F50D40 /* main.m */,
+				2FDA03EE16A5053B00F50D40 /* LearnApp-Prefix.pch */,
+				2FDA03F216A5053C00F50D40 /* Default.png */,
+				2FDA03F416A5053C00F50D40 /* Default@2x.png */,
+				2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2FDA03DB16A5053B00F50D40 /* LearnApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2FDA040016A5053C00F50D40 /* Build configuration list for PBXNativeTarget "LearnApp" */;
+			buildPhases = (
+				2FDA03D816A5053B00F50D40 /* Sources */,
+				2FDA03D916A5053B00F50D40 /* Frameworks */,
+				2FDA03DA16A5053B00F50D40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LearnApp;
+			productName = LearnApp;
+			productReference = 2FDA03DC16A5053B00F50D40 /* LearnApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2FDA03D316A5053B00F50D40 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = TD;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = tranduc;
+			};
+			buildConfigurationList = 2FDA03D616A5053B00F50D40 /* Build configuration list for PBXProject "LearnApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2FDA03D116A5053B00F50D40;
+			productRefGroup = 2FDA03DD16A5053B00F50D40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2FDA03DB16A5053B00F50D40 /* LearnApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2FDA03DA16A5053B00F50D40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FDA03EB16A5053B00F50D40 /* InfoPlist.strings in Resources */,
+				2FDA03F316A5053C00F50D40 /* Default.png in Resources */,
+				2FDA03F516A5053C00F50D40 /* Default@2x.png in Resources */,
+				2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */,
+				2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2FDA03D816A5053B00F50D40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FDA03ED16A5053B00F50D40 /* main.m in Sources */,
+				2FDA03F116A5053B00F50D40 /* TDAppDelegate.m in Sources */,
+				2FDA03FD16A5053C00F50D40 /* TDViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2FDA03E916A5053B00F50D40 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FDA03EA16A5053B00F50D40 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FDA03F916A5053C00F50D40 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2FDA03FE16A5053C00F50D40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		2FDA03FF16A5053C00F50D40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2FDA040116A5053C00F50D40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LearnApp/LearnApp-Prefix.pch";
+				INFOPLIST_FILE = "LearnApp/LearnApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2FDA040216A5053C00F50D40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LearnApp/LearnApp-Prefix.pch";
+				INFOPLIST_FILE = "LearnApp/LearnApp-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2FDA03D616A5053B00F50D40 /* Build configuration list for PBXProject "LearnApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FDA03FE16A5053C00F50D40 /* Debug */,
+				2FDA03FF16A5053C00F50D40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2FDA040016A5053C00F50D40 /* Build configuration list for PBXNativeTarget "LearnApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2FDA040116A5053C00F50D40 /* Debug */,
+				2FDA040216A5053C00F50D40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2FDA03D316A5053B00F50D40 /* Project object */;
+}
