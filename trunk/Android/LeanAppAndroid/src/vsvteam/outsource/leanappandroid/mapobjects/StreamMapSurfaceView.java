@@ -13,8 +13,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-public class StreamMapSurfaceView extends SurfaceView implements
-		SurfaceHolder.Callback, IGesture, ITouch {
+public class StreamMapSurfaceView extends SurfaceView implements SurfaceHolder.Callback, IGesture,
+		ITouch {
 	public IControl mControl;
 	private ArrayList<MapObject> mMapObjects = new ArrayList<MapObject>();
 	private ArrayList<Line> mLines = new ArrayList<Line>();
@@ -29,8 +29,7 @@ public class StreamMapSurfaceView extends SurfaceView implements
 		super(context);
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
-		mGestureDetector = new GestureDetector(context, new StreamMapDetector(
-				this));
+		mGestureDetector = new GestureDetector(context, new StreamMapDetector(this));
 		setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -78,16 +77,15 @@ public class StreamMapSurfaceView extends SurfaceView implements
 
 	public void draw(Canvas canvas) {
 		// TODO Auto-generated method stub
-		Paint g= new Paint();
+		Paint g = new Paint();
 		g.setColor(Color.BLACK);
 		canvas.drawRect(0, 0, getWidth(), getHeight(), g);
 		drawLine(canvas);
-		
+
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		// TODO Auto-generated method stub
 
 	}
@@ -135,27 +133,27 @@ public class StreamMapSurfaceView extends SurfaceView implements
 		case DfObjects.ARROW:
 			break;
 		case DfObjects.LINE:
-			
+
 			break;
 		case DfObjects.CLASSBOX:
 			addMapObject(new ClassBox(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		case DfObjects.RECTANGLE:
 			addMapObject(new Rectangle(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		case DfObjects.FILEBOX:
 			addMapObject(new FileBox(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		case DfObjects.SQUARE:
 			addMapObject(new Square(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		default:
 			// mSelectedObject=getObjectSelected(e);
@@ -183,8 +181,7 @@ public class StreamMapSurfaceView extends SurfaceView implements
 	}
 
 	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		// TODO Auto-generated method stub
 		// try {
 		// if (mSelectedObject != null) {
@@ -196,8 +193,7 @@ public class StreamMapSurfaceView extends SurfaceView implements
 		// // nothing
 		// }
 		addMapObject(new Rectangle(mContext, e2.getX(), e2.getY()));
-		((RelativeLayout) getParent()).addView(mMapObjects.get(
-				getCountObjetcs() - 1).getLayout());
+		((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1).getLayout());
 		// addMapObject(new Rectangle(mContext, 100, 40));
 
 		return false;
@@ -210,8 +206,7 @@ public class StreamMapSurfaceView extends SurfaceView implements
 	}
 
 	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		// TODO Auto-generated method stub
 
 		return false;
@@ -251,23 +246,23 @@ public class StreamMapSurfaceView extends SurfaceView implements
 			break;
 		case DfObjects.CLASSBOX:
 			addMapObject(new ClassBox(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		case DfObjects.RECTANGLE:
 			addMapObject(new Rectangle(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		case DfObjects.FILEBOX:
 			addMapObject(new FileBox(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		case DfObjects.SQUARE:
 			addMapObject(new Square(mContext, e.getX(), e.getY()));
-			((RelativeLayout) getParent()).addView(mMapObjects.get(
-					getCountObjetcs() - 1).getLayout());
+			((RelativeLayout) getParent()).addView(mMapObjects.get(getCountObjetcs() - 1)
+					.getLayout());
 			break;
 		case DfObjects.NONE:
 			mSelectedObject = getObjectSelected(e);
@@ -285,8 +280,7 @@ public class StreamMapSurfaceView extends SurfaceView implements
 		// TODO Auto-generated method stub
 		if (mIsDraw) {
 			mLineObject.setEndPoint(e);
-		} else if (mSelectedObject != null
-				&& mControl.getCurrentControl() == DfObjects.NONE) {
+		} else if (mSelectedObject != null && mControl.getCurrentControl() == DfObjects.NONE) {
 			mSelectedObject.move(e.getX(), e.getY());
 
 		}
@@ -301,15 +295,14 @@ public class StreamMapSurfaceView extends SurfaceView implements
 		// TODO Auto-generated method stub
 		if (mIsDraw) {
 			mSelectedObject = getObjectSelected(e);
-			if(mSelectedObject!=null)
-			{
+			if (mSelectedObject != null) {
 				mLineObject.setEndPoint(e);
 				mLines.add(mLineObject);
 				mLineObject.setEndObject(mSelectedObject);
-				
+
 			}
-			mIsDraw=false;
-			mLineObject=null;
+			mIsDraw = false;
+			mLineObject = null;
 		} else {
 
 		}
@@ -323,8 +316,7 @@ class MySurfaceThread extends Thread {
 	private StreamMapSurfaceView myThreadSurfaceView;
 	private boolean myThreadRun = false;
 
-	public MySurfaceThread(SurfaceHolder surfaceHolder,
-			StreamMapSurfaceView surfaceView) {
+	public MySurfaceThread(SurfaceHolder surfaceHolder, StreamMapSurfaceView surfaceView) {
 		myThreadSurfaceHolder = surfaceHolder;
 		myThreadSurfaceView = surfaceView;
 	}
@@ -380,8 +372,7 @@ class StreamMapDetector extends SimpleOnGestureListener {
 	}
 
 	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		// TODO Auto-generated method stub
 		mCaller.onFling(e1, e2, velocityX, velocityY);
 		return super.onFling(e1, e2, velocityX, velocityY);
@@ -395,8 +386,7 @@ class StreamMapDetector extends SimpleOnGestureListener {
 	}
 
 	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		// TODO Auto-generated method stub
 		mCaller.onScroll(e1, e2, distanceX, distanceY);
 		return super.onScroll(e1, e2, distanceX, distanceY);
@@ -432,13 +422,11 @@ interface IGesture {
 
 	public boolean onDown(MotionEvent e);
 
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY);
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY);
 
 	public void onLongPress(MotionEvent e);
 
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY);
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY);
 
 	public void onShowPress(MotionEvent e);
 

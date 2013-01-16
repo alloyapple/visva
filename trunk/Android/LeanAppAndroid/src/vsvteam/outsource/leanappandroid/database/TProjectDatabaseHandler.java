@@ -154,7 +154,6 @@ public class TProjectDatabaseHandler extends SQLiteOpenHelper {
 		String countQuery = "SELECT  * FROM " + TABLE_T_PROJECTS;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
-		cursor.close();
 
 		// return count
 		return cursor.getCount();
