@@ -327,7 +327,6 @@ public class TProcessDataBaseHandler extends SQLiteOpenHelper {
 		String countQuery = "SELECT  * FROM " + TABLE_T_PROCESS;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
-		cursor.close();
 
 		// return count
 		return cursor.getCount();
