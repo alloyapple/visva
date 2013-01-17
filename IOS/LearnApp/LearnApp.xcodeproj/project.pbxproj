@@ -13,6 +13,7 @@
 		2FD0D4C916A83E63002803CB /* VASpaChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C816A83E63002803CB /* VASpaChartViewController.m */; };
 		2FD0D4CC16A83EDD002803CB /* VAPqprViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */; };
 		2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */; };
+		2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4EA16A8439D002803CB /* VAProject.m */; };
 		2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E016A5053B00F50D40 /* UIKit.framework */; };
 		2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E216A5053B00F50D40 /* Foundation.framework */; };
 		2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */; };
@@ -38,6 +39,8 @@
 		2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAPqprViewController.m; sourceTree = "<group>"; };
 		2FD0D4CE16A83F00002803CB /* TDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDAppDelegate.h; sourceTree = "<group>"; };
 		2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDAppDelegate.m; sourceTree = "<group>"; };
+		2FD0D4E916A8439D002803CB /* VAProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProject.h; sourceTree = "<group>"; };
+		2FD0D4EA16A8439D002803CB /* VAProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProject.m; sourceTree = "<group>"; };
 		2FDA03DC16A5053B00F50D40 /* LearnApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FDA03E016A5053B00F50D40 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FDA03E216A5053B00F50D40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -178,6 +181,7 @@
 		2FD0D4D916A83F74002803CB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2FD0D4E716A84382002803CB /* VAM */,
 				2FD0D4DA16A83F74002803CB /* Const */,
 			);
 			path = Model;
@@ -219,6 +223,15 @@
 			children = (
 			);
 			path = Sound;
+			sourceTree = "<group>";
+		};
+		2FD0D4E716A84382002803CB /* VAM */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4E916A8439D002803CB /* VAProject.h */,
+				2FD0D4EA16A8439D002803CB /* VAProject.m */,
+			);
+			path = VAM;
 			sourceTree = "<group>";
 		};
 		2FDA03D116A5053B00F50D40 = {
@@ -349,6 +362,7 @@
 				2FD0D4C916A83E63002803CB /* VASpaChartViewController.m in Sources */,
 				2FD0D4CC16A83EDD002803CB /* VAPqprViewController.m in Sources */,
 				2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */,
+				2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
