@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface VAProject : NSObject
+@property(nonatomic, assign)int iPrId;
+@property(nonatomic, retain)NSString *sPrName;
+@property(nonatomic, retain)NSString *sCompany;
+@property(nonatomic, retain)NSString *sLocation;
+@property(nonatomic, retain)NSString *sDescription;
+@property(nonatomic, retain)NSString *sNote;
 
 @end
