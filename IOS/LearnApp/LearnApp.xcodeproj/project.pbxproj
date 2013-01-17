@@ -32,6 +32,7 @@
 		2FDA03F516A5053C00F50D40 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F416A5053C00F50D40 /* Default@2x.png */; };
 		2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */; };
 		2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */; };
+		A713E41C16A879680017F657 /* VAStep.m in Sources */ = {isa = PBXBuildFile; fileRef = A713E41B16A879680017F657 /* VAStep.m */; };
 		A73F391516A83B650055586C /* LeanApp.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A73F391416A83B650055586C /* LeanApp.sqlite */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,8 @@
 		2FDA03F416A5053C00F50D40 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2FDA03F916A5053C00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		A713E41A16A879680017F657 /* VAStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAStep.h; sourceTree = "<group>"; };
+		A713E41B16A879680017F657 /* VAStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAStep.m; sourceTree = "<group>"; };
 		A73F391416A83B650055586C /* LeanApp.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = LeanApp.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,6 +261,8 @@
 		2FD0D4E716A84382002803CB /* VAM */ = {
 			isa = PBXGroup;
 			children = (
+				A713E41A16A879680017F657 /* VAStep.h */,
+				A713E41B16A879680017F657 /* VAStep.m */,
 				2FD0D4E916A8439D002803CB /* VAProject.h */,
 				2FD0D4EA16A8439D002803CB /* VAProject.m */,
 			);
@@ -453,6 +458,7 @@
 				2FD0D51B16A85E4C002803CB /* TDDatabase.m in Sources */,
 				2FD0D51C16A85E4C002803CB /* TDSqlManager.m in Sources */,
 				2FD0D51F16A860CA002803CB /* TDTextView.m in Sources */,
+				A713E41C16A879680017F657 /* VAStep.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
