@@ -8,15 +8,18 @@ import vsvteam.outsource.leanappandroid.actionbar.ExportActivity;
 import vsvteam.outsource.leanappandroid.actionbar.SettingActivity;
 import vsvteam.outsource.leanappandroid.actionbar.VersionActivity;
 import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
-import vsvteam.outsource.leanappandroid.activity.valuestreammap.CreateProjectActivity;
+import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
+import vsvteam.outsource.leanappandroid.database.TTaktTimeDataBase;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +32,19 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 	private ImageView btnExport;
 	private ImageView btnVersion;
 	private ImageView btnChangedProject; 
+	
+	private EditText editTextShiftPerDay;
+	private EditText editTextBreakPerShift;
+	private EditText editTextDaysPerMonth;
+	private EditText editTextDaysPerWeek;
+	private EditText editTextOperatorsPerShift;
+	private EditText editTextCustomerDemandUnits;
+	
+	private Button btnTaktTimeCancel;
+	private Button btnTaktTimeDone;
 	// ==============================Class Define ==============================
+	private TTaktTimeDataBase tTaktTimeDataBase;
+	private LeanAppAndroidSharePreference leanAppAndroidSharePreference;
 	// ==============================Variable Define ===========================
 	private String[] taktTime = { "Second", "Minutes", "Hour", "Day", "Week", "Month" };
 
@@ -63,6 +78,7 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 	}
 
 	private void initialize() {
+		//wheel
 		wheelTaktTime1 = (WheelView) findViewById(R.id.wheel_task_time_1);
 		wheelTaktTime2 = (WheelView) findViewById(R.id.wheel_task_time_2);
 		wheelTaktTime1.setViewAdapter(new TaktTimeArrayAdapter(this, taktTime, 0));
@@ -71,7 +87,7 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 		wheelTaktTime1.setCurrentItem(0);
 		wheelTaktTime2.setVisibleItems(5);
 		wheelTaktTime2.setCurrentItem(0);
-
+		//actionbar
 		btnChangedProject = (ImageView) findViewById(R.id.img_takt_time_change_project);
 		btnChangedProject.setOnClickListener(this);
 		btnExport = (ImageView) findViewById(R.id.img_takt_time_export);
@@ -80,6 +96,12 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 		btnSetting.setOnClickListener(this);
 		btnVersion = (ImageView) findViewById(R.id.img_takt_time_version);
 		btnVersion.setOnClickListener(this);
+		//button
+		btnTaktTimeCancel = (Button)findViewById(R.id.btn_takt_time_cancel);
+		btnTaktTimeCancel.setOnClickListener(this);
+		btnTaktTimeDone = (Button)findViewById(R.id.btn_takt_time_done);
+		btnTaktTimeDone.setOnClickListener(this);
+		//edit text
 
 	}
 

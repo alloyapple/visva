@@ -92,12 +92,13 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private TStepsDataBaseHandler tStepsDataBaseHandler;
 	private LeanAppAndroidSharePreference leanAppAndroidSharePreference;
 	private QuickAction mQuickAction;
-	private QuickAction mQuickAction2;
+	private QuickAction mQuickActionStep;
 	private List<TProcessDataBase> processArrList;
 	private List<TStepsDataBase> stepArrList;
 	// =========================Variable Define =========================
 	private String[] processName = {};
 	private String[] stepName = {};
+	private int[] stepId = {};
 	private int[] processId = {};
 	private String[] project = new String[5];
 
@@ -120,6 +121,9 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private int _processCurrentId;
 	private int _stepCurrentId;
 	private int _currentWheelProcessItem = 0;
+	// index of process,step listview
+	private int _currentProcessListViewIndex;
+	private int _currentStepListViewIndex;
 
 	private ArrayList<HashMap<String, String>> ArrListProcess;
 	private ArrayList<HashMap<String, String>> ArrListStep;
@@ -158,23 +162,17 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		} else if (view == btnDoneCreatedProject) {
 			gotoActivityInGroup(this, DrawMapActivity.class);
 		} else if (view == btnExport) {
-//			Intent intentExport = new Intent(CreateProjectActivity.this, ExportActivity.class);
-//			startActivity(intentExport);
+
 			gotoActivityInGroup(CreateProjectActivity.this, ExportActivity.class);
 		} else if (view == btnSetting) {
 			Intent intentSetting = new Intent(CreateProjectActivity.this, SettingActivity.class);
 			startActivity(intentSetting);
 			gotoActivityInGroup(CreateProjectActivity.this, SettingActivity.class);
 		} else if (view == btnVersion) {
-			// Intent intentVersion = new Intent(CreateProjectActivity.this,
-			// VersionActivity.class);
-			// startActivity(intentVersion);
+
 			gotoActivityInGroup(CreateProjectActivity.this, VersionActivity.class);
 		} else if (view == btnChangedProject) {
-			// Intent intentChangeProject = new
-			// Intent(CreateProjectActivity.this,
-			// ChangeProjectActivity.class);
-			// startActivity(intentChangeProject);
+
 			gotoActivityInGroup(CreateProjectActivity.this, ChangeProjectActivity.class);
 		}
 	}
@@ -197,7 +195,8 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 				int currentProcessId;
 				_currentWheelProcessItem = wheelProcess.getCurrentItem();
 				currentProcessId = processId[_currentWheelProcessItem];
-				Log.e("current process id", "current process id aaaa " + currentProcessId);
+				Log.e("current id " + currentProcessId, "process current id "
+						+ _currentWheelProcessItem + " process Id size " + processId.length);
 				stepArrList = tStepsDataBaseHandler.getAllStep(currentProcessId);
 				int size = stepArrList.size();
 				for (int i = 0; i < size; i++) {
@@ -208,21 +207,30 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 				}
 				// no duplicate step
 				if (!isDuplicatedStep) {
+					// get current id for step to add new
+					List<TStepsDataBase> listAllStep = tStepsDataBaseHandler.getAllSteps();
+					int sizeAllStep = listAllStep.size();
+					if (sizeAllStep > 0)
+						_stepCurrentId = listAllStep.get(sizeAllStep - 1).getStepID();
+					else
+						_stepCurrentId = 0;
+
+					Log.e("size All Step", "size all step " + sizeAllStep);
+
 					_stepCurrentId++;
 					_stepName = editTextProcessStepName.getText().toString().trim();
 					String _videoFileName = new SimpleDateFormat("yyyyMMdd_HHmmss")
 							.format(new Date()) + ".mp4".toString();
-					Log.e("current adkfjslkdf", "adkfjhsadl "+currentProcessId);
+
 					// insert to database
 					tStepsDataBaseHandler.addNewStep(new TStepsDataBase(_stepCurrentId,
 							currentProcessId, _projectId, _stepCurrentId, _stepName, -1, -1,
 							_videoFileName));
-					// refresh list step after add new step name 
-					List<TStepsDataBase> listStep = tStepsDataBaseHandler.getAllSteps();
-					for(int i =0 ; i <listStep.size() ; i++){
-						Log.e("oijefijdf", "aeoifjwoi "+listStep.get(i).getProcessId());
-					}
-					Log.e("total step", "total all step " + tStepsDataBaseHandler.getStepsCount());
+					// refresh list step after add new step name
+					List<TStepsDataBase> listStep = tStepsDataBaseHandler
+							.getAllStep(currentProcessId);
+					Log.e("list step of process id " + currentProcessId,
+							"size of lits " + listStep.size());
 					refreshListViewStep();
 				} else {// duplicate process
 					Toast.makeText(CreateProjectActivity.this,
@@ -257,6 +265,7 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			processArrList = tProcessDataBaseHandler.getAllProcess(leanAppAndroidSharePreference
 					.getProjectIdActive());
 			int size = processArrList.size();
+			Log.e("project in project " + _projectName, "size of all process " + size);
 			for (int i = 0; i < size; i++) {
 				if (editTextProcessName.getText().toString()
 						.equals(processArrList.get(i).getProcessName())) {
@@ -265,6 +274,16 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			}
 			// no duplicate process
 			if (!isDuplicatedProcess) {
+
+				// get current id for project to add new
+				List<TProcessDataBase> listAllProcess = tProcessDataBaseHandler.getAllProcess();
+				int sizeAllProcess = listAllProcess.size();
+				if (sizeAllProcess > 0) {
+					_processCurrentId = listAllProcess.get(sizeAllProcess - 1).getProcessId();
+				} else
+					_processCurrentId = 0;
+
+				// set values for all fields to add new process
 				_processCurrentId++;
 				_processName = editTextProcessName.getText().toString();
 				_processDescription = editTextProcessDescription.getText().toString();
@@ -310,9 +329,7 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		listProcess.setAdapter(listProcessAdapter);
 		listProcessAdapter.notifyDataSetChanged();
 		listProcess.invalidate();
-		// refresh process wheel
-		ProcessArrayAdapter processArrayAdapter = new ProcessArrayAdapter(this, processName, 0);
-		wheelProcess.setViewAdapter(processArrayAdapter);
+
 		// Reading all process
 		List<TProcessDataBase> listProcess = tProcessDataBaseHandler.getAllProcess(_projectId);
 		int size = listProcess.size();
@@ -322,9 +339,15 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			for (int i = 0; i < size; i++) {
 				processName[i] = listProcess.get(i).getProcessName().toString();
 				processId[i] = listProcess.get(i).getProcessId();
-				Log.e("adfhsd", "oijaweofij "+processId[i]);
 			}
+		} else {
+			processName = new String[0];
+			processId = new int[0];
 		}
+
+		// refresh process wheel
+		ProcessArrayAdapter processArrayAdapter = new ProcessArrayAdapter(this, processName, 0);
+		wheelProcess.setViewAdapter(processArrayAdapter);
 	}
 
 	/**
@@ -350,11 +373,11 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 
 		initQuickAction();
 
-		initQuickActionDialog();
+		initQuickActionStep();
 
 	}
 
-	private void initQuickActionDialog() {
+	private void initQuickActionStep() {
 		// delete action
 		ActionItem deleteAction = new ActionItem();
 		deleteAction.setTitle("Delete");
@@ -362,22 +385,31 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		ActionItem editAction = new ActionItem();
 		editAction.setTitle("Edit");
 
-		mQuickAction2 = new QuickAction(this);
+		mQuickActionStep = new QuickAction(this);
 
-		mQuickAction2.addActionItem(deleteAction);
-		mQuickAction2.addActionItem(editAction);
+		mQuickActionStep.addActionItem(deleteAction);
+		mQuickActionStep.addActionItem(editAction);
 
 		// setup the action item click listener
-		mQuickAction2.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+		mQuickActionStep.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 			@Override
 			public void onItemClick(int pos) {
 				if (pos == 0) { // delete item selected
-					Toast.makeText(CreateProjectActivity.this, "delete", Toast.LENGTH_LONG).show();
-					// show dialog delete process
-					// sendMS(DIALOG_DELETE_PROCESS);
+					Toast.makeText(CreateProjectActivity.this,
+							"delete step " + stepName[_currentStepListViewIndex - 1],
+							Toast.LENGTH_LONG).show();
+
+					// delete row of table process id
+					tStepsDataBaseHandler.deleteStepByStepId(stepId[_currentStepListViewIndex - 1]);
+
+					// refresh ListView step
+					refreshListViewStep();
+
 				} else if (pos == 1) {// edit item seleted
-					Intent i = new Intent(CreateProjectActivity.this, EditProcessActivity.class);
-					startActivity(i);
+
+					Toast.makeText(CreateProjectActivity.this,
+							"Edit step " + stepName[_currentStepListViewIndex - 1],
+							Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -405,13 +437,27 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			@Override
 			public void onItemClick(int pos) {
 				if (pos == 0) { // delete item selected
-					Toast.makeText(CreateProjectActivity.this, "delete", Toast.LENGTH_LONG).show();
-					// show dialog delete process
-					// mQuickAction2.show(listStep, false);
-					// sendMS(DIALOG_DELETE_PROCESS);
+					Toast.makeText(CreateProjectActivity.this,
+							"delete process " + processName[_currentProcessListViewIndex - 1],
+							Toast.LENGTH_LONG).show();
+
+					// delete row of table process id
+					tProcessDataBaseHandler
+							.deleteProcess(processId[_currentProcessListViewIndex - 1]);
+					// delete row of table step at process id
+					tStepsDataBaseHandler.deleteStep(processId[_currentProcessListViewIndex - 1]);
+
+					// refrest ListView process
+					refreshListViewProcess();
+					// refresh ListView step
+					refreshListViewStep();
 				} else if (pos == 1) {// edit item seleted
-					Intent i = new Intent(CreateProjectActivity.this, EditProcessActivity.class);
-					startActivity(i);
+					// add process actived to share preference
+					leanAppAndroidSharePreference
+							.setProcessIdActive(processId[_currentProcessListViewIndex - 1]);
+					leanAppAndroidSharePreference
+							.setProcessNameActive(processName[_currentProcessListViewIndex - 1]);
+					gotoActivityInGroup(CreateProjectActivity.this, EditProcessActivity.class);
 				}
 			}
 		});
@@ -505,11 +551,10 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		wheelProcess.setViewAdapter(processArrayAdapter);
 		_currentWheelProcessItem = wheelProcess.getCurrentItem();
 		wheelProcess.addChangingListener(new OnWheelChangedListener() {
-			
+
 			@Override
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
 				// TODO Auto-generated method stub
-				Log.e("new value", "new value "+newValue);
 				_currentWheelProcessItem = newValue;
 				refreshListViewStep();
 			}
@@ -526,8 +571,6 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		btnDoneCreatedProject.setOnClickListener(this);
 		btnExport = (ImageView) findViewById(R.id.img_create_project_export);
 		btnExport.setOnClickListener(this);
-		btnSetting = (ImageView) findViewById(R.id.img_create_project_setting);
-		btnSetting.setOnClickListener(this);
 		btnVersion = (ImageView) findViewById(R.id.img_create_project_version);
 		btnVersion.setOnClickListener(this);
 		btnChangedProject = (ImageView) findViewById(R.id.img_create_project_change_project);
@@ -612,15 +655,17 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			int sizeOfSteps = listSteps.size();
 			if (sizeOfSteps > 0) {
 				stepName = new String[sizeOfSteps];
+				stepId = new int[sizeOfSteps];
 				for (int i = 0; i < sizeOfSteps; i++) {
 					stepName[i] = listSteps.get(i).getStepDescription().toString();
+					stepId[i] = listSteps.get(i).getStepID();
 				}
 			}
 			// get current id for step to add new
 			List<TStepsDataBase> listAllStep = tStepsDataBaseHandler.getAllSteps();
-			int sizeAllProcess = listAllStep.size();
-			if (sizeAllProcess > 0)
-				_stepCurrentId = listAllStep.size();
+			int sizeAllStep = listAllStep.size();
+			if (sizeAllStep > 0)
+				_stepCurrentId = listAllStep.get(sizeAllStep - 1).getStepID();
 			else
 				_stepCurrentId = 0;
 		}
@@ -647,7 +692,7 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		List<TProcessDataBase> listAllProcess = tProcessDataBaseHandler.getAllProcess();
 		int sizeAllProcess = listAllProcess.size();
 		if (sizeAllProcess > 0)
-			_processCurrentId = listAllProcess.size();
+			_processCurrentId = listAllProcess.get(sizeAllProcess - 1).getProcessId();
 		else
 			_processCurrentId = 0;
 	}
@@ -690,12 +735,14 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		if (arg0 == listProcess && arg2 > 0) {
 			mQuickAction.show(arg1, true);
+			_currentProcessListViewIndex = arg2;
 			listProcess.requestFocus(arg2);
 			mQuickAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_CENTER);
 		} else if (arg0 == listStep && arg2 > 0) {
-			mQuickAction.show(arg1, false);
+			mQuickActionStep.show(arg1, false);
+			_currentStepListViewIndex = arg2;
 			listStep.requestFocus(arg2);
-			mQuickAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_CENTER);
+			mQuickActionStep.setAnimStyle(QuickAction.ANIM_GROW_FROM_CENTER);
 		}
 		return true;
 	}
@@ -704,10 +751,12 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		if (arg0 == listProcess && arg2 > 0) {
 			mQuickAction.show(arg1, true);
+			_currentProcessListViewIndex = arg2;
 			mQuickAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_CENTER);
 		} else if (arg0 == listStep && arg2 > 0) {
-			mQuickAction.show(arg1, false);
-			mQuickAction.setAnimStyle(QuickAction.ANIM_GROW_FROM_CENTER);
+			mQuickActionStep.show(arg1, false);
+			_currentStepListViewIndex = arg2;
+			mQuickActionStep.setAnimStyle(QuickAction.ANIM_GROW_FROM_CENTER);
 		}
 	}
 
@@ -718,20 +767,20 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		ArrListStep = new ArrayList<HashMap<String, String>>();
 		// get process wheel current id
 		_currentWheelProcessItem = wheelProcess.getCurrentItem();
-		Log.e("current wheel process item", "current wheel process item " + _currentWheelProcessItem);
 
 		if (processName.length > 0) {
 			int _currentProcessId = 0;
 			if (processId.length > 0)
 				_currentProcessId = processId[_currentWheelProcessItem];
-			Log.e("current process id", "current process id "+_currentProcessId);
+
 			// Reading all step
 			List<TStepsDataBase> listStep = tStepsDataBaseHandler.getAllStep(_currentProcessId);
-			Log.e("list of step with process id", "list of step with process id "+listStep.size() );
 			if (listStep.size() > 0) {
 				stepName = new String[listStep.size()];
+				stepId = new int[listStep.size()];
 				for (int i = 0; i < listStep.size(); i++) {
 					stepName[i] = listStep.get(i).getStepDescription().toString();
+					stepId[i] = listStep.get(i).getStepID();
 					//
 					HashMap<String, String> temp = new HashMap<String, String>();
 					temp.put(Constant.FIRST_COLUMN, "" + listStep.get(i).getStepID());
@@ -740,6 +789,8 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 					ArrListStep.add(temp);
 				}
 			}
+		} else {
+
 		}
 	}
 
