@@ -15,6 +15,12 @@
 		2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */; };
 		2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4EA16A8439D002803CB /* VAProject.m */; };
 		2FD0D4EE16A8469F002803CB /* VAProjDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4ED16A8469F002803CB /* VAProjDetailViewController.m */; };
+		2FD0D4F316A85293002803CB /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4F216A85293002803CB /* SSTextView.m */; };
+		2FD0D4F716A85449002803CB /* TDLanguage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4F616A85449002803CB /* TDLanguage.m */; };
+		2FD0D4FC16A85541002803CB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD0D4FA16A85541002803CB /* Localizable.strings */; };
+		2FD0D50516A85B88002803CB /* UIGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4FF16A85B88002803CB /* UIGridView.m */; };
+		2FD0D50616A85B88002803CB /* UIGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D50116A85B88002803CB /* UIGridViewCell.m */; };
+		2FD0D50716A85B88002803CB /* UIGridViewRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D50416A85B88002803CB /* UIGridViewRow.m */; };
 		2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E016A5053B00F50D40 /* UIKit.framework */; };
 		2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E216A5053B00F50D40 /* Foundation.framework */; };
 		2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */; };
@@ -44,6 +50,19 @@
 		2FD0D4EA16A8439D002803CB /* VAProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProject.m; sourceTree = "<group>"; };
 		2FD0D4EC16A8469F002803CB /* VAProjDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProjDetailViewController.h; sourceTree = "<group>"; };
 		2FD0D4ED16A8469F002803CB /* VAProjDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProjDetailViewController.m; sourceTree = "<group>"; };
+		2FD0D4F116A85293002803CB /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
+		2FD0D4F216A85293002803CB /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
+		2FD0D4F516A85449002803CB /* TDLanguage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLanguage.h; sourceTree = "<group>"; };
+		2FD0D4F616A85449002803CB /* TDLanguage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLanguage.m; sourceTree = "<group>"; };
+		2FD0D4F916A854DB002803CB /* TDCommonLibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDCommonLibs.h; sourceTree = "<group>"; };
+		2FD0D4FB16A85541002803CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2FD0D4FE16A85B88002803CB /* UIGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGridView.h; sourceTree = "<group>"; };
+		2FD0D4FF16A85B88002803CB /* UIGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIGridView.m; sourceTree = "<group>"; };
+		2FD0D50016A85B88002803CB /* UIGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGridViewCell.h; sourceTree = "<group>"; };
+		2FD0D50116A85B88002803CB /* UIGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIGridViewCell.m; sourceTree = "<group>"; };
+		2FD0D50216A85B88002803CB /* UIGridViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGridViewDelegate.h; sourceTree = "<group>"; };
+		2FD0D50316A85B88002803CB /* UIGridViewRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGridViewRow.h; sourceTree = "<group>"; };
+		2FD0D50416A85B88002803CB /* UIGridViewRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIGridViewRow.m; sourceTree = "<group>"; };
 		2FDA03DC16A5053B00F50D40 /* LearnApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FDA03E016A5053B00F50D40 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FDA03E216A5053B00F50D40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -163,6 +182,11 @@
 		2FD0D4D616A83F74002803CB /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				2FD0D4F916A854DB002803CB /* TDCommonLibs.h */,
+				2FD0D4FD16A85B87002803CB /* UIGridView */,
+				2FD0D4F416A85423002803CB /* Language */,
+				2FD0D4EF16A85293002803CB /* DateTime */,
+				2FD0D4F016A85293002803CB /* ToolKit */,
 				2FD0D4D716A83F74002803CB /* Configs */,
 				2FD0D4D816A83F74002803CB /* Database */,
 			);
@@ -239,6 +263,45 @@
 			path = VAM;
 			sourceTree = "<group>";
 		};
+		2FD0D4EF16A85293002803CB /* DateTime */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DateTime;
+			sourceTree = "<group>";
+		};
+		2FD0D4F016A85293002803CB /* ToolKit */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4F116A85293002803CB /* SSTextView.h */,
+				2FD0D4F216A85293002803CB /* SSTextView.m */,
+			);
+			path = ToolKit;
+			sourceTree = "<group>";
+		};
+		2FD0D4F416A85423002803CB /* Language */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4F516A85449002803CB /* TDLanguage.h */,
+				2FD0D4F616A85449002803CB /* TDLanguage.m */,
+			);
+			path = Language;
+			sourceTree = "<group>";
+		};
+		2FD0D4FD16A85B87002803CB /* UIGridView */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4FE16A85B88002803CB /* UIGridView.h */,
+				2FD0D4FF16A85B88002803CB /* UIGridView.m */,
+				2FD0D50016A85B88002803CB /* UIGridViewCell.h */,
+				2FD0D50116A85B88002803CB /* UIGridViewCell.m */,
+				2FD0D50216A85B88002803CB /* UIGridViewDelegate.h */,
+				2FD0D50316A85B88002803CB /* UIGridViewRow.h */,
+				2FD0D50416A85B88002803CB /* UIGridViewRow.m */,
+			);
+			path = UIGridView;
+			sourceTree = "<group>";
+		};
 		2FDA03D116A5053B00F50D40 = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +343,7 @@
 		2FDA03E716A5053B00F50D40 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2FD0D4FA16A85541002803CB /* Localizable.strings */,
 				A73F391416A83B650055586C /* LeanApp.sqlite */,
 				2FDA03E816A5053B00F50D40 /* LearnApp-Info.plist */,
 				2FDA03E916A5053B00F50D40 /* InfoPlist.strings */,
@@ -350,6 +414,7 @@
 				2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */,
 				2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */,
 				A73F391516A83B650055586C /* LeanApp.sqlite in Resources */,
+				2FD0D4FC16A85541002803CB /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,12 +434,25 @@
 				2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */,
 				2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */,
 				2FD0D4EE16A8469F002803CB /* VAProjDetailViewController.m in Sources */,
+				2FD0D4F316A85293002803CB /* SSTextView.m in Sources */,
+				2FD0D4F716A85449002803CB /* TDLanguage.m in Sources */,
+				2FD0D50516A85B88002803CB /* UIGridView.m in Sources */,
+				2FD0D50616A85B88002803CB /* UIGridViewCell.m in Sources */,
+				2FD0D50716A85B88002803CB /* UIGridViewRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		2FD0D4FA16A85541002803CB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FD0D4FB16A85541002803CB /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		2FDA03E916A5053B00F50D40 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
