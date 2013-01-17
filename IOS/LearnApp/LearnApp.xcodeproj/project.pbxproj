@@ -15,7 +15,6 @@
 		2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */; };
 		2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4EA16A8439D002803CB /* VAProject.m */; };
 		2FD0D4EE16A8469F002803CB /* VAProjDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4ED16A8469F002803CB /* VAProjDetailViewController.m */; };
-		2FD0D4F316A85293002803CB /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4F216A85293002803CB /* SSTextView.m */; };
 		2FD0D4F716A85449002803CB /* TDLanguage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4F616A85449002803CB /* TDLanguage.m */; };
 		2FD0D4FC16A85541002803CB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD0D4FA16A85541002803CB /* Localizable.strings */; };
 		2FD0D50516A85B88002803CB /* UIGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4FF16A85B88002803CB /* UIGridView.m */; };
@@ -23,6 +22,7 @@
 		2FD0D50716A85B88002803CB /* UIGridViewRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D50416A85B88002803CB /* UIGridViewRow.m */; };
 		2FD0D51B16A85E4C002803CB /* TDDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51816A85E4C002803CB /* TDDatabase.m */; };
 		2FD0D51C16A85E4C002803CB /* TDSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51A16A85E4C002803CB /* TDSqlManager.m */; };
+		2FD0D51F16A860CA002803CB /* TDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51E16A860CA002803CB /* TDTextView.m */; };
 		2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E016A5053B00F50D40 /* UIKit.framework */; };
 		2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E216A5053B00F50D40 /* Foundation.framework */; };
 		2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */; };
@@ -52,8 +52,6 @@
 		2FD0D4EA16A8439D002803CB /* VAProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProject.m; sourceTree = "<group>"; };
 		2FD0D4EC16A8469F002803CB /* VAProjDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProjDetailViewController.h; sourceTree = "<group>"; };
 		2FD0D4ED16A8469F002803CB /* VAProjDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProjDetailViewController.m; sourceTree = "<group>"; };
-		2FD0D4F116A85293002803CB /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSTextView.h; sourceTree = "<group>"; };
-		2FD0D4F216A85293002803CB /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSTextView.m; sourceTree = "<group>"; };
 		2FD0D4F516A85449002803CB /* TDLanguage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLanguage.h; sourceTree = "<group>"; };
 		2FD0D4F616A85449002803CB /* TDLanguage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLanguage.m; sourceTree = "<group>"; };
 		2FD0D4F916A854DB002803CB /* TDCommonLibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDCommonLibs.h; sourceTree = "<group>"; };
@@ -70,6 +68,8 @@
 		2FD0D51816A85E4C002803CB /* TDDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDDatabase.m; sourceTree = "<group>"; };
 		2FD0D51916A85E4C002803CB /* TDSqlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDSqlManager.h; sourceTree = "<group>"; };
 		2FD0D51A16A85E4C002803CB /* TDSqlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDSqlManager.m; sourceTree = "<group>"; };
+		2FD0D51D16A860CA002803CB /* TDTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTextView.h; sourceTree = "<group>"; };
+		2FD0D51E16A860CA002803CB /* TDTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTextView.m; sourceTree = "<group>"; };
 		2FDA03DC16A5053B00F50D40 /* LearnApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FDA03E016A5053B00F50D40 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FDA03E216A5053B00F50D40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -274,8 +274,8 @@
 		2FD0D4F016A85293002803CB /* ToolKit */ = {
 			isa = PBXGroup;
 			children = (
-				2FD0D4F116A85293002803CB /* SSTextView.h */,
-				2FD0D4F216A85293002803CB /* SSTextView.m */,
+				2FD0D51D16A860CA002803CB /* TDTextView.h */,
+				2FD0D51E16A860CA002803CB /* TDTextView.m */,
 			);
 			path = ToolKit;
 			sourceTree = "<group>";
@@ -446,13 +446,13 @@
 				2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */,
 				2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */,
 				2FD0D4EE16A8469F002803CB /* VAProjDetailViewController.m in Sources */,
-				2FD0D4F316A85293002803CB /* SSTextView.m in Sources */,
 				2FD0D4F716A85449002803CB /* TDLanguage.m in Sources */,
 				2FD0D50516A85B88002803CB /* UIGridView.m in Sources */,
 				2FD0D50616A85B88002803CB /* UIGridViewCell.m in Sources */,
 				2FD0D50716A85B88002803CB /* UIGridViewRow.m in Sources */,
 				2FD0D51B16A85E4C002803CB /* TDDatabase.m in Sources */,
 				2FD0D51C16A85E4C002803CB /* TDSqlManager.m in Sources */,
+				2FD0D51F16A860CA002803CB /* TDTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
