@@ -7,21 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FD0D4C016A83D01002803CB /* VAVAMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */; };
+		2FD0D4C316A83D5A002803CB /* VATaktTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C216A83D5A002803CB /* VATaktTimeViewController.m */; };
+		2FD0D4C616A83DB7002803CB /* VACycleTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C516A83DB6002803CB /* VACycleTimeViewController.m */; };
+		2FD0D4C916A83E63002803CB /* VASpaChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C816A83E63002803CB /* VASpaChartViewController.m */; };
+		2FD0D4CC16A83EDD002803CB /* VAPqprViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */; };
+		2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */; };
 		2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E016A5053B00F50D40 /* UIKit.framework */; };
 		2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E216A5053B00F50D40 /* Foundation.framework */; };
 		2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */; };
 		2FDA03EB16A5053B00F50D40 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03E916A5053B00F50D40 /* InfoPlist.strings */; };
 		2FDA03ED16A5053B00F50D40 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA03EC16A5053B00F50D40 /* main.m */; };
-		2FDA03F116A5053B00F50D40 /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA03F016A5053B00F50D40 /* TDAppDelegate.m */; };
 		2FDA03F316A5053C00F50D40 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F216A5053C00F50D40 /* Default.png */; };
 		2FDA03F516A5053C00F50D40 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F416A5053C00F50D40 /* Default@2x.png */; };
 		2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */; };
 		2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */; };
-		2FDA03FD16A5053C00F50D40 /* TDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA03FC16A5053C00F50D40 /* TDViewController.m */; };
 		A73F391516A83B650055586C /* LeanApp.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A73F391416A83B650055586C /* LeanApp.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FD0D4BE16A83D01002803CB /* VAVAMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVAMViewController.h; sourceTree = "<group>"; };
+		2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVAMViewController.m; sourceTree = "<group>"; };
+		2FD0D4C116A83D5A002803CB /* VATaktTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VATaktTimeViewController.h; sourceTree = "<group>"; };
+		2FD0D4C216A83D5A002803CB /* VATaktTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VATaktTimeViewController.m; sourceTree = "<group>"; };
+		2FD0D4C416A83DB6002803CB /* VACycleTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VACycleTimeViewController.h; sourceTree = "<group>"; };
+		2FD0D4C516A83DB6002803CB /* VACycleTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VACycleTimeViewController.m; sourceTree = "<group>"; };
+		2FD0D4C716A83E63002803CB /* VASpaChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VASpaChartViewController.h; sourceTree = "<group>"; };
+		2FD0D4C816A83E63002803CB /* VASpaChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VASpaChartViewController.m; sourceTree = "<group>"; };
+		2FD0D4CA16A83EDC002803CB /* VAPqprViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAPqprViewController.h; sourceTree = "<group>"; };
+		2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAPqprViewController.m; sourceTree = "<group>"; };
+		2FD0D4CE16A83F00002803CB /* TDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDAppDelegate.h; sourceTree = "<group>"; };
+		2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDAppDelegate.m; sourceTree = "<group>"; };
 		2FDA03DC16A5053B00F50D40 /* LearnApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FDA03E016A5053B00F50D40 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FDA03E216A5053B00F50D40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -30,14 +46,10 @@
 		2FDA03EA16A5053B00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2FDA03EC16A5053B00F50D40 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2FDA03EE16A5053B00F50D40 /* LearnApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LearnApp-Prefix.pch"; sourceTree = "<group>"; };
-		2FDA03EF16A5053B00F50D40 /* TDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDAppDelegate.h; sourceTree = "<group>"; };
-		2FDA03F016A5053B00F50D40 /* TDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDAppDelegate.m; sourceTree = "<group>"; };
 		2FDA03F216A5053C00F50D40 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2FDA03F416A5053C00F50D40 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2FDA03F916A5053C00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		2FDA03FB16A5053C00F50D40 /* TDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TDViewController.h; sourceTree = "<group>"; };
-		2FDA03FC16A5053C00F50D40 /* TDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TDViewController.m; sourceTree = "<group>"; };
 		A73F391416A83B650055586C /* LeanApp.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = LeanApp.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,6 +67,160 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FD0D4B716A83CC7002803CB /* SourceCode */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4CD16A83EFF002803CB /* AppDelegate */,
+				2FD0D4D616A83F74002803CB /* Libs */,
+				2FD0D4D916A83F74002803CB /* Model */,
+				2FD0D4BD16A83CF2002803CB /* ViewController */,
+			);
+			path = SourceCode;
+			sourceTree = "<group>";
+		};
+		2FD0D4BC16A83CCE002803CB /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */,
+			);
+			name = StoryBoard;
+			sourceTree = "<group>";
+		};
+		2FD0D4BD16A83CF2002803CB /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4D116A83F10002803CB /* VAM */,
+				2FD0D4D216A83F22002803CB /* TaktTime */,
+				2FD0D4D316A83F2E002803CB /* CycleTime */,
+				2FD0D4D416A83F38002803CB /* SpaChart */,
+				2FD0D4D516A83F42002803CB /* PQPR */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2FD0D4CD16A83EFF002803CB /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4CE16A83F00002803CB /* TDAppDelegate.h */,
+				2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		2FD0D4D116A83F10002803CB /* VAM */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4BE16A83D01002803CB /* VAVAMViewController.h */,
+				2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */,
+			);
+			name = VAM;
+			sourceTree = "<group>";
+		};
+		2FD0D4D216A83F22002803CB /* TaktTime */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4C116A83D5A002803CB /* VATaktTimeViewController.h */,
+				2FD0D4C216A83D5A002803CB /* VATaktTimeViewController.m */,
+			);
+			name = TaktTime;
+			sourceTree = "<group>";
+		};
+		2FD0D4D316A83F2E002803CB /* CycleTime */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4C416A83DB6002803CB /* VACycleTimeViewController.h */,
+				2FD0D4C516A83DB6002803CB /* VACycleTimeViewController.m */,
+			);
+			name = CycleTime;
+			sourceTree = "<group>";
+		};
+		2FD0D4D416A83F38002803CB /* SpaChart */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4C716A83E63002803CB /* VASpaChartViewController.h */,
+				2FD0D4C816A83E63002803CB /* VASpaChartViewController.m */,
+			);
+			name = SpaChart;
+			sourceTree = "<group>";
+		};
+		2FD0D4D516A83F42002803CB /* PQPR */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4CA16A83EDC002803CB /* VAPqprViewController.h */,
+				2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */,
+			);
+			name = PQPR;
+			sourceTree = "<group>";
+		};
+		2FD0D4D616A83F74002803CB /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4D716A83F74002803CB /* Configs */,
+				2FD0D4D816A83F74002803CB /* Database */,
+			);
+			path = Libs;
+			sourceTree = "<group>";
+		};
+		2FD0D4D716A83F74002803CB /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		2FD0D4D816A83F74002803CB /* Database */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		2FD0D4D916A83F74002803CB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4DA16A83F74002803CB /* Const */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2FD0D4DA16A83F74002803CB /* Const */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Const;
+			sourceTree = "<group>";
+		};
+		2FD0D4DB16A8407E002803CB /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D4DC16A8407E002803CB /* Database */,
+				2FD0D4DD16A8407E002803CB /* Image */,
+				2FD0D4DE16A8407E002803CB /* Sound */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		2FD0D4DC16A8407E002803CB /* Database */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		2FD0D4DD16A8407E002803CB /* Image */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		2FD0D4DE16A8407E002803CB /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
 		2FDA03D116A5053B00F50D40 = {
 			isa = PBXGroup;
 			children = (
@@ -85,11 +251,9 @@
 		2FDA03E616A5053B00F50D40 /* LearnApp */ = {
 			isa = PBXGroup;
 			children = (
-				2FDA03EF16A5053B00F50D40 /* TDAppDelegate.h */,
-				2FDA03F016A5053B00F50D40 /* TDAppDelegate.m */,
-				2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */,
-				2FDA03FB16A5053C00F50D40 /* TDViewController.h */,
-				2FDA03FC16A5053C00F50D40 /* TDViewController.m */,
+				2FD0D4DB16A8407E002803CB /* Resource */,
+				2FD0D4B716A83CC7002803CB /* SourceCode */,
+				2FD0D4BC16A83CCE002803CB /* StoryBoard */,
 				2FDA03E716A5053B00F50D40 /* Supporting Files */,
 			);
 			path = LearnApp;
@@ -179,8 +343,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FDA03ED16A5053B00F50D40 /* main.m in Sources */,
-				2FDA03F116A5053B00F50D40 /* TDAppDelegate.m in Sources */,
-				2FDA03FD16A5053C00F50D40 /* TDViewController.m in Sources */,
+				2FD0D4C016A83D01002803CB /* VAVAMViewController.m in Sources */,
+				2FD0D4C316A83D5A002803CB /* VATaktTimeViewController.m in Sources */,
+				2FD0D4C616A83DB7002803CB /* VACycleTimeViewController.m in Sources */,
+				2FD0D4C916A83E63002803CB /* VASpaChartViewController.m in Sources */,
+				2FD0D4CC16A83EDD002803CB /* VAPqprViewController.m in Sources */,
+				2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,7 +395,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -247,7 +415,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -261,6 +429,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LearnApp/LearnApp-Prefix.pch";
 				INFOPLIST_FILE = "LearnApp/LearnApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -272,6 +441,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LearnApp/LearnApp-Prefix.pch";
 				INFOPLIST_FILE = "LearnApp/LearnApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
