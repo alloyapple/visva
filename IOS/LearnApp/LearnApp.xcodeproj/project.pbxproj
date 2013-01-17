@@ -21,6 +21,8 @@
 		2FD0D50516A85B88002803CB /* UIGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4FF16A85B88002803CB /* UIGridView.m */; };
 		2FD0D50616A85B88002803CB /* UIGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D50116A85B88002803CB /* UIGridViewCell.m */; };
 		2FD0D50716A85B88002803CB /* UIGridViewRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D50416A85B88002803CB /* UIGridViewRow.m */; };
+		2FD0D51B16A85E4C002803CB /* TDDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51816A85E4C002803CB /* TDDatabase.m */; };
+		2FD0D51C16A85E4C002803CB /* TDSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51A16A85E4C002803CB /* TDSqlManager.m */; };
 		2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E016A5053B00F50D40 /* UIKit.framework */; };
 		2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E216A5053B00F50D40 /* Foundation.framework */; };
 		2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */; };
@@ -63,6 +65,11 @@
 		2FD0D50216A85B88002803CB /* UIGridViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGridViewDelegate.h; sourceTree = "<group>"; };
 		2FD0D50316A85B88002803CB /* UIGridViewRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGridViewRow.h; sourceTree = "<group>"; };
 		2FD0D50416A85B88002803CB /* UIGridViewRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIGridViewRow.m; sourceTree = "<group>"; };
+		2FD0D51516A85E1D002803CB /* TDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLog.h; sourceTree = "<group>"; };
+		2FD0D51716A85E4C002803CB /* TDDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDDatabase.h; sourceTree = "<group>"; };
+		2FD0D51816A85E4C002803CB /* TDDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDDatabase.m; sourceTree = "<group>"; };
+		2FD0D51916A85E4C002803CB /* TDSqlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDSqlManager.h; sourceTree = "<group>"; };
+		2FD0D51A16A85E4C002803CB /* TDSqlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDSqlManager.m; sourceTree = "<group>"; };
 		2FDA03DC16A5053B00F50D40 /* LearnApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FDA03E016A5053B00F50D40 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FDA03E216A5053B00F50D40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -183,12 +190,12 @@
 			isa = PBXGroup;
 			children = (
 				2FD0D4F916A854DB002803CB /* TDCommonLibs.h */,
+				2FD0D51616A85E4C002803CB /* Database */,
 				2FD0D4FD16A85B87002803CB /* UIGridView */,
 				2FD0D4F416A85423002803CB /* Language */,
 				2FD0D4EF16A85293002803CB /* DateTime */,
 				2FD0D4F016A85293002803CB /* ToolKit */,
 				2FD0D4D716A83F74002803CB /* Configs */,
-				2FD0D4D816A83F74002803CB /* Database */,
 			);
 			path = Libs;
 			sourceTree = "<group>";
@@ -196,15 +203,9 @@
 		2FD0D4D716A83F74002803CB /* Configs */ = {
 			isa = PBXGroup;
 			children = (
+				2FD0D51516A85E1D002803CB /* TDLog.h */,
 			);
 			path = Configs;
-			sourceTree = "<group>";
-		};
-		2FD0D4D816A83F74002803CB /* Database */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Database;
 			sourceTree = "<group>";
 		};
 		2FD0D4D916A83F74002803CB /* Model */ = {
@@ -300,6 +301,17 @@
 				2FD0D50416A85B88002803CB /* UIGridViewRow.m */,
 			);
 			path = UIGridView;
+			sourceTree = "<group>";
+		};
+		2FD0D51616A85E4C002803CB /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				2FD0D51716A85E4C002803CB /* TDDatabase.h */,
+				2FD0D51816A85E4C002803CB /* TDDatabase.m */,
+				2FD0D51916A85E4C002803CB /* TDSqlManager.h */,
+				2FD0D51A16A85E4C002803CB /* TDSqlManager.m */,
+			);
+			path = Database;
 			sourceTree = "<group>";
 		};
 		2FDA03D116A5053B00F50D40 = {
@@ -439,6 +451,8 @@
 				2FD0D50516A85B88002803CB /* UIGridView.m in Sources */,
 				2FD0D50616A85B88002803CB /* UIGridViewCell.m in Sources */,
 				2FD0D50716A85B88002803CB /* UIGridViewRow.m in Sources */,
+				2FD0D51B16A85E4C002803CB /* TDDatabase.m in Sources */,
+				2FD0D51C16A85E4C002803CB /* TDSqlManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

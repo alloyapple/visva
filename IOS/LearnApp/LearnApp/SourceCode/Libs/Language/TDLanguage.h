@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+
+/*
+ * wrapper for NSLocalizedString.
+ */
 #define TDLocalizedString(string, comment) NSLocalizedString(string, comment)
 
 @interface TDLanguage : NSObject
