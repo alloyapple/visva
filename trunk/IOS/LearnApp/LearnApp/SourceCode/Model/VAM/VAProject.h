@@ -15,5 +15,5 @@
 @property(nonatomic, retain)NSString *sLocation;
 @property(nonatomic, retain)NSString *sDescription;
 @property(nonatomic, retain)NSString *sNote;
-
+@property(nonatomic, retain)NSArray *arrProcess;
 @end
