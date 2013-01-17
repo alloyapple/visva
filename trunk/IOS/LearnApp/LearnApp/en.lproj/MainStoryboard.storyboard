@@ -99,7 +99,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Project description" textAlignment="center" id="FJB-gw-KWk" customClass="SSTextView">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Project description" textAlignment="center" id="FJB-gw-KWk" customClass="TDTextView">
                                 <rect key="frame" x="14" y="98" width="361" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -113,7 +113,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Company Address" textAlignment="center" id="9L7-cd-ybF" customClass="SSTextView">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Company Address" textAlignment="center" id="9L7-cd-ybF" customClass="TDTextView">
                                 <rect key="frame" x="393" y="98" width="361" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -308,8 +308,8 @@
         </scene>
     </scenes>
     <classes>
-        <class className="SSTextView" superclassName="UITextView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SSTextView.h"/>
+        <class className="TDTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TDTextView.h"/>
         </class>
         <class className="VACycleTimeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VACycleTimeViewController.h"/>
@@ -332,9 +332,9 @@
                 <relationship kind="outlet" name="pkListProjects" candidateClass="UIPickerView"/>
                 <relationship kind="outlet" name="tfComputerName" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="tfProjectName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tvLocation" candidateClass="SSTextView"/>
-                <relationship kind="outlet" name="tvNote" candidateClass="SSTextView"/>
-                <relationship kind="outlet" name="tvProjDescription" candidateClass="SSTextView"/>
+                <relationship kind="outlet" name="tvLocation" candidateClass="TDTextView"/>
+                <relationship kind="outlet" name="tvNote" candidateClass="TDTextView"/>
+                <relationship kind="outlet" name="tvProjDescription" candidateClass="TDTextView"/>
             </relationships>
         </class>
     </classes>

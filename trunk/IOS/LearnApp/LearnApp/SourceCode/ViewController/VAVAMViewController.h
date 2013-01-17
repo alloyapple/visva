@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SSTextView.h"
+#import "TDTextView.h"
 
 @interface VAVAMViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 @property (retain, nonatomic) IBOutlet UITextField *tfProjectName;
 @property (retain, nonatomic) IBOutlet UITextField *tfComputerName;
-@property (retain, nonatomic) IBOutlet SSTextView *tvProjDescription;
-@property (retain, nonatomic) IBOutlet SSTextView *tvLocation;
-@property (retain, nonatomic) IBOutlet SSTextView *tvNote;
+@property (retain, nonatomic) IBOutlet TDTextView *tvProjDescription;
+@property (retain, nonatomic) IBOutlet TDTextView *tvLocation;
+@property (retain, nonatomic) IBOutlet TDTextView *tvNote;
 @property (retain, nonatomic) IBOutlet UIPickerView *pkListProjects;
 
 @end

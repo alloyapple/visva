@@ -1,33 +1,29 @@
 //
-//  SSTextView.m
-//  SSToolkit
+//  TDTextViewPlaceHolder.m
+//  LearnApp
 //
-//  Created by Sam Soffes on 8/18/10.
-//  Copyright 2010-2011 Sam Soffes. All rights reserved.
+//  Created by tranduc on 1/17/13.
+//  Copyright (c) 2013 tranduc. All rights reserved.
 //
 
-#import "SSTextView.h"
+#import "TDTextView.h"
 
-@interface SSTextView ()
-- (void)_initialize;
-- (void)_updateShouldDrawPlaceholder;
-- (void)_textChanged:(NSNotification *)notification;
+
+@interface TDTextView ()
+- (void)additionInit;
+- (void)updateShouldDrawPlaceholder;
+- (void)textChanged:(NSNotification *)notification;
 @end
 
 
-@implementation SSTextView {
-	BOOL _shouldDrawPlaceholder;
-}
-
-
+@implementation TDTextView
 #pragma mark - Accessors
-
 @synthesize placeholder = _placeholder;
 @synthesize placeholderTextColor = _placeholderTextColor;
 
 - (void)setText:(NSString *)string {
 	[super setText:string];
-	[self _updateShouldDrawPlaceholder];
+	[self updateShouldDrawPlaceholder];
 }
 
 
@@ -37,7 +33,7 @@
 	}
 	[_placeholder release];
 	_placeholder = [string retain];
-	[self _updateShouldDrawPlaceholder];
+	[self updateShouldDrawPlaceholder];
 }
 
 
@@ -55,7 +51,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	if ((self = [super initWithCoder:aDecoder])) {
-		[self _initialize];
+		[self additionInit];
 	}
 	return self;
 }
@@ -63,7 +59,7 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	if ((self = [super initWithFrame:frame])) {
-		[self _initialize];
+		[self additionInit];
 	}
 	return self;
 }
@@ -71,25 +67,24 @@
 
 - (void)drawRect:(CGRect)rect {
 	[super drawRect:rect];
-	
 	if (_shouldDrawPlaceholder) {
 		[_placeholderTextColor set];
-		[_placeholder drawInRect:CGRectMake(8.0f, 8.0f, self.frame.size.width - 16.0f, self.frame.size.height - 16.0f) withFont:self.font];
+		[_placeholder drawInRect:CGRectMake(8.0f, 8.0f, self.frame.size.width - 16.0f, self.frame.size.height - 16.0f) withFont:self.font lineBreakMode:NSLineBreakByWordWrapping  alignment:self.textAlignment];
 	}
 }
 
 
 #pragma mark - Private
 
-- (void)_initialize {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textChanged:) name:UITextViewTextDidChangeNotification object:self];
+- (void)additionInit {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:self];
 	
-	self.placeholderTextColor = [UIColor colorWithWhite:0.702f alpha:1.0f];
+	self.placeholderTextColor = [UIColor grayColor];
 	_shouldDrawPlaceholder = NO;
 }
 
 
-- (void)_updateShouldDrawPlaceholder {
+- (void)updateShouldDrawPlaceholder {
 	BOOL prev = _shouldDrawPlaceholder;
 	_shouldDrawPlaceholder = self.placeholder && self.placeholderTextColor && self.text.length == 0;
 	
@@ -99,8 +94,7 @@
 }
 
 
-- (void)_textChanged:(NSNotification *)notification {
-	[self _updateShouldDrawPlaceholder];	
+- (void)textChanged:(NSNotification *)notification {
+	[self updateShouldDrawPlaceholder];
 }
-
 @end
