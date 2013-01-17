@@ -113,7 +113,7 @@ public class TStepsDataBaseHandler extends SQLiteOpenHelper {
 				KEY_PREVIOUS_VERS_ID, KEY_VIDEO_FILE_NAME }, KEY_PROCESS_ID + "=?",
 				new String[] { String.valueOf(processId) }, null, null, null, null);
 		// looping through all rows and adding to list
-		Log.e("cursor count", "count "+cursor.getCount());
+		Log.e("cursor count", "count " + cursor.getCount());
 		if (cursor.moveToFirst()) {
 			do {
 
@@ -194,12 +194,27 @@ public class TStepsDataBaseHandler extends SQLiteOpenHelper {
 		db.close();
 	}
 
+	// Deleting single step at process id
+	public void deleteStep(int processId) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_T_STEPS, KEY_PROCESS_ID + " = ?",
+				new String[] { String.valueOf(processId) });
+		db.close();
+	}
+
+	// Deleting single step at step id
+	public void deleteStepByStepId(int stepId) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_T_STEPS, KEY_STEP_ID + " = ?", new String[] { String.valueOf(stepId) });
+		db.close();
+	}
+
 	// Getting steps Count
 	public int getStepsCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_T_STEPS;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
-	
+
 		// return count
 		return cursor.getCount();
 	}

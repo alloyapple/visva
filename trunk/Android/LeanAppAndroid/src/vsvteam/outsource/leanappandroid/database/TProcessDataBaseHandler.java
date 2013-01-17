@@ -130,48 +130,39 @@ public class TProcessDataBaseHandler extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 	}
 
-	// // Getting single process
-	// public TProcessDataBase getProject(int id) {
-	// SQLiteDatabase db = this.getReadableDatabase();
-	//
-	// Cursor cursor = db.query(TABLE_T_PROCESS, new String[] { KEY_PROCESS_ID,
-	// KEY_PROJECT_ID,
-	// KEY_PROJECT_NAME, KEY_PROCESS_NAME, KEY_PROCESS_DESCRIPTION,
-	// KEY_PROCESS_NOTES,
-	// KEY_TOTAL_CYCLE_TIME, KEY_VALUE_ADDING_TIME, KEY_NON_VALUE_ADDING_TIME,
-	// KEY_DEFECT_PERCENT, KEY_TOT_OPERATORS, KEY_SHIFTS, KEY_AVAILABLE,
-	// KEY_TOT_DISTANCE_TRAVELED, KEY_UPTIME, KEY_CHANGE_OVER_TIME,
-	// KEY_TAKT_TIME,
-	// KEY_VERSION_ID, KEY_PREVIOUS_PROCESS, KEY_NEXT_PROCESS, KEY_VSM_NAME },
-	// KEY_PROJECT_ID + "=?", new String[] { String.valueOf(id) }, null, null,
-	// null, null);
-	// if (cursor != null)
-	// cursor.moveToFirst();
-	//
-	// TProcessDataBase process = new
-	// TProcessDataBase(Integer.parseInt(cursor.getString(0)),
-	// Integer.parseInt(cursor.getString(1)), cursor.getString(2),
-	// cursor.getString(3),
-	// cursor.getString(4), cursor.getString(5),
-	// Integer.parseInt(cursor.getString(6)),
-	// Integer.parseInt(cursor.getString(7)),
-	// Integer.parseInt(cursor.getString(8)),
-	// Integer.parseInt(cursor.getString(9)),
-	// Integer.parseInt(cursor.getString(10)),
-	// Integer.parseInt(cursor.getString(11)),
-	// Integer.parseInt(cursor.getString(12)),
-	// Integer.parseInt(cursor.getString(13)),
-	// Integer.parseInt(cursor.getString(14)),
-	// Integer.parseInt(cursor.getString(15)),
-	// Integer.parseInt(cursor.getString(16)),
-	// Integer.parseInt(cursor.getString(17)), cursor.getString(18),
-	// cursor.getString(19),
-	// cursor.getString(20));
-	//
-	// db.close();
-	// // return contact
-	// return process;
-	// }
+	// Getting single process
+	public TProcessDataBase getProcess(int processId) {
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		Cursor cursor = db.query(TABLE_T_PROCESS, new String[] { KEY_PROCESS_ID, KEY_PROJECT_ID,
+				KEY_PROJECT_NAME, KEY_PROCESS_NAME, KEY_PROCESS_DESCRIPTION, KEY_PROCESS_NOTES,
+				KEY_TOTAL_CYCLE_TIME, KEY_VALUE_ADDING_TIME, KEY_NON_VALUE_ADDING_TIME,
+				KEY_DEFECT_PERCENT, KEY_TOT_OPERATORS, KEY_SHIFTS, KEY_AVAILABLE,
+				KEY_TOT_DISTANCE_TRAVELED, KEY_UPTIME, KEY_CHANGE_OVER_TIME, KEY_TAKT_TIME,
+				KEY_VERSION_ID, KEY_PREVIOUS_PROCESS, KEY_NEXT_PROCESS, KEY_VSM_NAME },
+				KEY_PROCESS_ID + "=?", new String[] { String.valueOf(processId) }, null, null,
+				null, null);
+		
+		if (cursor != null)
+			cursor.moveToFirst();
+
+		TProcessDataBase process = new TProcessDataBase(Integer.parseInt(cursor.getString(0)),
+				Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3),
+				cursor.getString(4), cursor.getString(5), Integer.parseInt(cursor.getString(6)),
+				Integer.parseInt(cursor.getString(7)), Integer.parseInt(cursor.getString(8)),
+				Integer.parseInt(cursor.getString(9)), Integer.parseInt(cursor.getString(10)),
+				Integer.parseInt(cursor.getString(11)), Integer.parseInt(cursor.getString(12)),
+				Integer.parseInt(cursor.getString(13)), Integer.parseInt(cursor.getString(14)),
+				Integer.parseInt(cursor.getString(15)), Integer.parseInt(cursor.getString(16)),
+				Integer.parseInt(cursor.getString(17)), cursor.getString(18), cursor.getString(19),
+				cursor.getString(20));
+
+		db.close();
+		// return process
+		return process;
+	}
+
 	// Getting all process from a project id
 	public List<TProcessDataBase> getAllProcess(int projectId) {
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -311,14 +302,14 @@ public class TProcessDataBaseHandler extends SQLiteOpenHelper {
 
 		// updating row
 		return db.update(TABLE_T_PROCESS, values, KEY_PROCESS_ID + " = ?",
-				new String[] { String.valueOf(process.getProjectId()) });
+				new String[] { String.valueOf(process.getProcessId()) });
 	}
 
 	// Deleting single process
-	public void deleteProcess(TProcessDataBase process) {
+	public void deleteProcess(int processId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_T_PROCESS, KEY_PROCESS_ID + " = ?",
-				new String[] { String.valueOf(process.getProjectId()) });
+				new String[] { String.valueOf(processId) });
 		db.close();
 	}
 

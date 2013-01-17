@@ -21,7 +21,7 @@ public class TStepsDataBase {
 			String stepDescription, int versionID, int previousVesID, String videoFileName) {
 		this.stepID = stepID;
 		this.processId = processId;
-		this.processId = projectID;
+		this.projectID = projectID;
 		this.stepNo = stepNo;
 		this.stepDescription = stepDescription;
 		this.versionID = versionID;

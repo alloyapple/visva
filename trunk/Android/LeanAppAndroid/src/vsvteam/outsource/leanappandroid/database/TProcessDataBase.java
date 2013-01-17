@@ -59,12 +59,12 @@ public class TProcessDataBase {
 	}
 
 	// construtor
-	public TProcessDataBase(int processId,String projectName, String processName, String processDescription,
+	public TProcessDataBase(int projectId,String projectName, String processName, String processDescription,
 			String processNotes, int totalCycleTime, int valueAddingTime, int nonValueAddingTime,
 			int defectPercent, int totOperators, int shifts, int availability,
 			int totDistanceTraveled, int upTime, int changeOverTime, int taktTime, int versionId,
 			String previousProcess, String nextProcess, String vsmName) {
-		this.processId = processId;
+		this.projectId = projectId;
 		this.projectName = projectName;
 		this.processName = processName;
 		this.processDescription = processDescription;
