@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F7A446016A8E1C100D1CD42 /* VAGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A445F16A8E1C100D1CD42 /* VAGlobal.m */; };
+		2F7A446C16A8EE8700D1CD42 /* TDString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A446B16A8EE8700D1CD42 /* TDString.m */; };
 		2FD0D4C016A83D01002803CB /* VAVAMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */; };
 		2FD0D4C316A83D5A002803CB /* VATaktTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C216A83D5A002803CB /* VATaktTimeViewController.m */; };
 		2FD0D4C616A83DB7002803CB /* VACycleTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C516A83DB6002803CB /* VACycleTimeViewController.m */; };
@@ -23,6 +25,7 @@
 		2FD0D51B16A85E4C002803CB /* TDDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51816A85E4C002803CB /* TDDatabase.m */; };
 		2FD0D51C16A85E4C002803CB /* TDSqlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51A16A85E4C002803CB /* TDSqlManager.m */; };
 		2FD0D51F16A860CA002803CB /* TDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D51E16A860CA002803CB /* TDTextView.m */; };
+		2FD0D53816A87848002803CB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD0D53716A87848002803CB /* libsqlite3.0.dylib */; };
 		2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E016A5053B00F50D40 /* UIKit.framework */; };
 		2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E216A5053B00F50D40 /* Foundation.framework */; };
 		2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */; };
@@ -32,13 +35,14 @@
 		2FDA03F516A5053C00F50D40 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F416A5053C00F50D40 /* Default@2x.png */; };
 		2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */; };
 		2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */; };
-		A713E41C16A879680017F657 /* VAStep.m in Sources */ = {isa = PBXBuildFile; fileRef = A713E41B16A879680017F657 /* VAStep.m */; };
 		A73F391516A83B650055586C /* LeanApp.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A73F391416A83B650055586C /* LeanApp.sqlite */; };
-		A77D1ED416A87E2200D40D30 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A77D1ED316A87E2200D40D30 /* libsqlite3.0.dylib */; };
-		A77D1ED816A87EC500D40D30 /* VAProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = A77D1ED716A87EC500D40D30 /* VAProcess.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F7A445E16A8E1C100D1CD42 /* VAGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAGlobal.h; sourceTree = "<group>"; };
+		2F7A445F16A8E1C100D1CD42 /* VAGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAGlobal.m; sourceTree = "<group>"; };
+		2F7A446A16A8EE8700D1CD42 /* TDString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDString.h; sourceTree = "<group>"; };
+		2F7A446B16A8EE8700D1CD42 /* TDString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDString.m; sourceTree = "<group>"; };
 		2FD0D4BE16A83D01002803CB /* VAVAMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVAMViewController.h; sourceTree = "<group>"; };
 		2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVAMViewController.m; sourceTree = "<group>"; };
 		2FD0D4C116A83D5A002803CB /* VATaktTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VATaktTimeViewController.h; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 		2FD0D51A16A85E4C002803CB /* TDSqlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDSqlManager.m; sourceTree = "<group>"; };
 		2FD0D51D16A860CA002803CB /* TDTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTextView.h; sourceTree = "<group>"; };
 		2FD0D51E16A860CA002803CB /* TDTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTextView.m; sourceTree = "<group>"; };
+		2FD0D53716A87848002803CB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		2FDA03DC16A5053B00F50D40 /* LearnApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FDA03E016A5053B00F50D40 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FDA03E216A5053B00F50D40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -85,12 +90,7 @@
 		2FDA03F416A5053C00F50D40 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2FDA03F916A5053C00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		A713E41A16A879680017F657 /* VAStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAStep.h; sourceTree = "<group>"; };
-		A713E41B16A879680017F657 /* VAStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAStep.m; sourceTree = "<group>"; };
 		A73F391416A83B650055586C /* LeanApp.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = LeanApp.sqlite; sourceTree = "<group>"; };
-		A77D1ED316A87E2200D40D30 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		A77D1ED616A87EC500D40D30 /* VAProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProcess.h; sourceTree = "<group>"; };
-		A77D1ED716A87EC500D40D30 /* VAProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProcess.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A77D1ED416A87E2200D40D30 /* libsqlite3.0.dylib in Frameworks */,
+				2FD0D53816A87848002803CB /* libsqlite3.0.dylib in Frameworks */,
 				2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */,
 				2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */,
 				2FDA03E516A5053B00F50D40 /* CoreGraphics.framework in Frameworks */,
@@ -108,6 +108,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F7A445C16A8E1A800D1CD42 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				2F7A445E16A8E1C100D1CD42 /* VAGlobal.h */,
+				2F7A445F16A8E1C100D1CD42 /* VAGlobal.m */,
+			);
+			path = Global;
+			sourceTree = "<group>";
+		};
+		2F7A446916A8EE6E00D1CD42 /* String */ = {
+			isa = PBXGroup;
+			children = (
+				2F7A446A16A8EE8700D1CD42 /* TDString.h */,
+				2F7A446B16A8EE8700D1CD42 /* TDString.m */,
+			);
+			path = String;
+			sourceTree = "<group>";
+		};
 		2FD0D4B716A83CC7002803CB /* SourceCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				2FD0D4F916A854DB002803CB /* TDCommonLibs.h */,
+				2F7A446916A8EE6E00D1CD42 /* String */,
 				2FD0D51616A85E4C002803CB /* Database */,
 				2FD0D4FD16A85B87002803CB /* UIGridView */,
 				2FD0D4F416A85423002803CB /* Language */,
@@ -220,6 +239,7 @@
 		2FD0D4D916A83F74002803CB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2F7A445C16A8E1A800D1CD42 /* Global */,
 				2FD0D4E716A84382002803CB /* VAM */,
 				2FD0D4DA16A83F74002803CB /* Const */,
 			);
@@ -267,12 +287,8 @@
 		2FD0D4E716A84382002803CB /* VAM */ = {
 			isa = PBXGroup;
 			children = (
-				A713E41A16A879680017F657 /* VAStep.h */,
-				A713E41B16A879680017F657 /* VAStep.m */,
 				2FD0D4E916A8439D002803CB /* VAProject.h */,
 				2FD0D4EA16A8439D002803CB /* VAProject.m */,
-				A77D1ED616A87EC500D40D30 /* VAProcess.h */,
-				A77D1ED716A87EC500D40D30 /* VAProcess.m */,
 			);
 			path = VAM;
 			sourceTree = "<group>";
@@ -347,7 +363,7 @@
 		2FDA03DF16A5053B00F50D40 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A77D1ED316A87E2200D40D30 /* libsqlite3.0.dylib */,
+				2FD0D53716A87848002803CB /* libsqlite3.0.dylib */,
 				2FDA03E016A5053B00F50D40 /* UIKit.framework */,
 				2FDA03E216A5053B00F50D40 /* Foundation.framework */,
 				2FDA03E416A5053B00F50D40 /* CoreGraphics.framework */,
@@ -467,8 +483,8 @@
 				2FD0D51B16A85E4C002803CB /* TDDatabase.m in Sources */,
 				2FD0D51C16A85E4C002803CB /* TDSqlManager.m in Sources */,
 				2FD0D51F16A860CA002803CB /* TDTextView.m in Sources */,
-				A713E41C16A879680017F657 /* VAStep.m in Sources */,
-				A77D1ED816A87EC500D40D30 /* VAProcess.m in Sources */,
+				2F7A446016A8E1C100D1CD42 /* VAGlobal.m in Sources */,
+				2F7A446C16A8EE8700D1CD42 /* TDString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

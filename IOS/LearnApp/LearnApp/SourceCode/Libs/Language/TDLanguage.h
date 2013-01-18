@@ -12,6 +12,7 @@
  * wrapper for NSLocalizedString.
  */
 #define TDLocalizedString(string, comment) NSLocalizedString(string, comment)
+#define TDLocalizedStringOne(string) NSLocalizedString(string, string)
 
 @interface TDLanguage : NSObject
 

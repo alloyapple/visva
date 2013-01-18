@@ -10,5 +10,6 @@
 #define LearnApp_TDCommonLibs_h
 
 #import "TDLanguage.h"
+#import "TDLog.h"
 
 #endif
