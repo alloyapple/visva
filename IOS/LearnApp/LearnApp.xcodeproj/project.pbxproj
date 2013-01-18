@@ -97,6 +97,8 @@
 		2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */; };
 		2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */; };
 		A73F391516A83B650055586C /* LeanApp.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A73F391416A83B650055586C /* LeanApp.sqlite */; };
+		A7C1155516A9045300457170 /* VAProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1155216A9045300457170 /* VAProcess.m */; };
+		A7C1155616A9045300457170 /* VAStep.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1155416A9045300457170 /* VAStep.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -213,6 +215,10 @@
 		2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2FDA03F916A5053C00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		A73F391416A83B650055586C /* LeanApp.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = LeanApp.sqlite; sourceTree = "<group>"; };
+		A7C1155116A9045300457170 /* VAProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProcess.h; sourceTree = "<group>"; };
+		A7C1155216A9045300457170 /* VAProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProcess.m; sourceTree = "<group>"; };
+		A7C1155316A9045300457170 /* VAStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAStep.h; sourceTree = "<group>"; };
+		A7C1155416A9045300457170 /* VAStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAStep.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -478,6 +484,10 @@
 		2FD0D4E716A84382002803CB /* VAM */ = {
 			isa = PBXGroup;
 			children = (
+				A7C1155116A9045300457170 /* VAProcess.h */,
+				A7C1155216A9045300457170 /* VAProcess.m */,
+				A7C1155316A9045300457170 /* VAStep.h */,
+				A7C1155416A9045300457170 /* VAStep.m */,
 				2FD0D4E916A8439D002803CB /* VAProject.h */,
 				2FD0D4EA16A8439D002803CB /* VAProject.m */,
 			);
@@ -737,6 +747,8 @@
 				2FD0D51F16A860CA002803CB /* TDTextView.m in Sources */,
 				2F7A446016A8E1C100D1CD42 /* VAGlobal.m in Sources */,
 				2F7A446C16A8EE8700D1CD42 /* TDString.m in Sources */,
+				A7C1155516A9045300457170 /* VAProcess.m in Sources */,
+				A7C1155616A9045300457170 /* VAStep.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
