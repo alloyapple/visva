@@ -38,11 +38,13 @@
 - (void)dealloc {
     [_processLabel release];
     [_processStartPointTextView release];
+    [_processEndPointTextView release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setProcessLabel:nil];
     [self setProcessStartPointTextView:nil];
+    [self setProcessEndPointTextView:nil];
     [super viewDidUnload];
 }
 @end

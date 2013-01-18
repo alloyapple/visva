@@ -172,6 +172,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="qtK-an-njF"/>
                     <connections>
+                        <outlet property="processEndPointTextView" destination="vVq-dj-F15" id="WvF-TO-2DV"/>
                         <outlet property="processLabel" destination="UYU-Fl-VfT" id="EvL-gO-QWT"/>
                         <outlet property="processStartPointTextView" destination="LTS-Rk-0rP" id="uLN-6P-VRf"/>
                     </connections>
@@ -468,6 +469,7 @@
         <class className="VAProjDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VAProjDetailViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="processEndPointTextView" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="processLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="processStartPointTextView" candidateClass="UITextField"/>
             </relationships>
