@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VATaktTimeViewController : UIViewController
+@interface VATaktTimeViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 
 @end

@@ -16,6 +16,20 @@
 }
 @end
 
+#pragma mark - regex
+@implementation NSString(Regex)
+-(BOOL)isFloatNumber{
+    NSRegularExpression *regex = [[NSRegularExpression alloc]
+                                  initWithPattern:
+                                  @" *?[0-9]*\\.?[0-9]+ *" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange range = [regex rangeOfFirstMatchInString:self options:0 range:NSMakeRange(0,self.length)];
+    if (range.location == 0 && range.length == self.length) {
+        return YES;
+    }
+    return NO;
+}
+@end
+
 @implementation TDString
 
 @end
