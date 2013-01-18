@@ -68,172 +68,176 @@
 
     <RelativeLayout
         android:layout_width="700dp"
-        android:layout_height="650dp"
+        android:layout_height="fill_parent"
         android:layout_marginLeft="150dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/bg_task_time" >
 
         <Button
-            android:id="@+id/btn_task_time_cancel"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_takt_time_cancel"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/tab_indicator"
-            android:text="Cancel" />
-
-        <Button
-            android:id="@+id/btn_task_time_dong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/tab_indicator"
-            android:text="Done" />
+            android:text="Cancel"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/btn_task_time_cancel"
-            android:layout_alignBottom="@+id/btn_task_time_cancel"
             android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
             android:text="Takt Time"
             android:textColor="@color/white"
             android:textSize="30dp" />
 
-        <AbsoluteLayout
+        <Button
+            android:id="@+id/btn_takt_time_done"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/tab_indicator"
+            android:text="Done"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" >
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_takt_time_cancel"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/textview_takt_time"
+            android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="559dp"
-                android:layout_height="wrap_content"
-                android:layout_x="16dp"
-                android:layout_y="71dp"
-                android:text="@string/textview_takt_time"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+        <EditText
+            android:id="@+id/editText_shift_per_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Shift Per Day"
+            android:inputType="number"
+            android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/editText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="18dp"
-                android:layout_y="177dp"
-                android:background="@color/white"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="Shift Per Day"
-                android:lines="2" />
+        <EditText
+            android:id="@+id/editText_break_per_shift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/editText_shift_per_day"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Break per shift"
+            android:inputType="number"
+            android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/editText4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="20dp"
-                android:layout_y="248dp"
-                android:background="@color/white"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="Days per month"
-                android:lines="2" />
+        <EditText
+            android:id="@+id/editText_day_per_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_shift_per_day"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Days per month"
+            android:inputType="number"
+            android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/editText3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="257dp"
-                android:layout_y="180dp"
-                android:background="@color/white"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="Break per shift"
-                android:lines="2" />
+        <EditText
+            android:id="@+id/editText_day_per_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_shift_per_day"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/editText_day_per_month"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Days per week"
+            android:inputType="number"
+            android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/editText5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="256dp"
-                android:layout_y="244dp"
-                android:background="@color/white"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="Days per week"
-                android:lines="2" />
+        <EditText
+            android:id="@+id/editText_operator_per_shift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_day_per_week"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/editText_day_per_month"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Operators per shift"
+            android:inputType="datetime"
+            android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/editText2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="257dp"
-                android:layout_y="307dp"
-                android:background="@color/white"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="Operators per shift"
-                android:lines="2" />
+        <EditText
+            android:id="@+id/editText_customer_demand_unit"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_operator_per_shift"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Customer demanded units"
+            android:inputType="number"
+            android:singleLine="true" >
+        </EditText>
 
-            <EditText
-                android:id="@+id/editText6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="225dp"
-                android:layout_y="370dp"
-                android:background="@color/white"
-                android:ems="10"
-                android:gravity="center"
-                android:hint="Customer demanded units"
-                android:lines="2" >
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_operator_per_shift"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/editText_customer_demand_unit"
+            android:text="Per"
+            android:textSize="24dp" />
 
-                <requestFocus />
-            </EditText>
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheel_task_time_2"
+            android:layout_width="150dp"
+            android:layout_height="180dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="200dp"
+            android:layout_toRightOf="@id/textView3" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="456dp"
-                android:layout_y="378dp"
-                android:text="Per"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="24dp" />
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheel_task_time_1"
+            android:layout_width="150dp"
+            android:layout_height="180dp"
+            android:layout_below="@id/wheel_task_time_2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/textView3" />
 
-            <kankan.wheel.widget.WheelView
-                android:id="@+id/wheel_task_time_2"
-                android:layout_width="166dp"
-                android:layout_height="192dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_x="512dp"
-                android:layout_y="235dp" />
-
-            <kankan.wheel.widget.WheelView
-                android:id="@+id/wheel_task_time_1"
-                android:layout_width="166dp"
-                android:layout_height="192dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_x="509dp"
-                android:layout_y="442dp" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_x="89dp"
-                android:layout_y="509dp"
-                android:text="Takt Time = XXX"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="50dp" />
-
-        </AbsoluteLayout>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_customer_demand_unit"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="100dp"
+            android:text="Takt Time = XXX"
+            android:textSize="40dp" />
     </RelativeLayout>
 
 </LinearLayout>
