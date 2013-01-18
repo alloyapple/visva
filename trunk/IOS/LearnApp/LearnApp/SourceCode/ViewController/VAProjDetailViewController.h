@@ -12,6 +12,7 @@
 @interface VAProjDetailViewController : UIViewController
 @property (retain, nonatomic) IBOutlet UILabel *processLabel;
 @property (retain, nonatomic) IBOutlet UITextField *processStartPointTextView;
+@property (retain, nonatomic) IBOutlet UITextField *processEndPointTextView;
 
 
 
