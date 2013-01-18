@@ -18,7 +18,7 @@
 @synthesize Version_id;
 @synthesize Previous_vers_id;
 @synthesize Video_file_name;
-
+@synthesize Step_name;
 @synthesize parentProcess;
 
 -(id)init {
@@ -38,6 +38,7 @@
     [self.Version_id release];
     [self.Previous_vers_id release];
     [self.Video_file_name release];
+    [self.Step_name release];
     [super dealloc];
 }
 @end
