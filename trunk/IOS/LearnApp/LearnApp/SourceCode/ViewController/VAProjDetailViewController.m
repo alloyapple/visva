@@ -35,4 +35,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [_processLabel release];
+    [_processStartPointTextView release];
+    [super dealloc];
+}
+- (void)viewDidUnload {
+    [self setProcessLabel:nil];
+    [self setProcessStartPointTextView:nil];
+    [super viewDidUnload];
+}
 @end
