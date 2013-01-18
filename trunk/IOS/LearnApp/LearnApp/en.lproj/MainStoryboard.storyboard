@@ -52,18 +52,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="AyY-3r-wnV">
-                                <rect key="frame" x="64" y="183" width="290" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="kyF-SC-ItK">
-                                <rect key="frame" x="414" y="122" width="290" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="90i-qi-Bq7">
                                 <rect key="frame" x="65" y="253" width="199" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -83,8 +71,11 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="t36-nT-HIV">
-                                <rect key="frame" x="618" y="186" width="79" height="27"/>
+                                <rect key="frame" x="628" y="203" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="verifySwitchChange:" destination="P1s-0v-Vsh" eventType="valueChanged" id="xMl-3g-hG5"/>
+                                </connections>
                             </switch>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="Kzi-cn-1cg">
                                 <rect key="frame" x="65" y="307" width="199" height="30"/>
@@ -115,6 +106,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="addProcessButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="CMi-am-jRU"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV">
                                 <rect key="frame" x="0.0" y="446" width="768" height="110"/>
@@ -145,6 +139,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="addStepButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="lb9-1p-Je7"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BZf-PL-7ic">
                                 <rect key="frame" x="557" y="632" width="199" height="44"/>
@@ -157,6 +154,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="iAmDoneButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="0zw-ye-BHr"/>
+                                </connections>
                             </button>
                             <pickerView contentMode="scaleToFill" id="0kq-Ti-RM3">
                                 <rect key="frame" x="0.0" y="682" width="264" height="216"/>
@@ -167,19 +167,53 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Defect Notes" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
+                                <rect key="frame" x="414" y="107" width="290" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Defect Notes" textAlignment="center" id="ILG-23-qaF" customClass="TDTextView">
+                                <rect key="frame" x="64" y="170" width="290" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Need to verify these details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O53-gz-tgK">
+                                <rect key="frame" x="414" y="203" width="206" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="qtK-an-njF"/>
                     <connections>
+                        <outlet property="communicationTextField" destination="agC-fQ-xv9" id="PtO-JT-U3o"/>
+                        <outlet property="defectNotesTextView" destination="FsQ-mz-2DV" id="dvK-Tv-ybC"/>
+                        <outlet property="defectTextField" destination="Kzi-cn-1cg" id="JQC-nH-OMj"/>
+                        <outlet property="nonvalueAddingTimeTextField" destination="bOT-4H-Uhk" id="Nt2-ln-pNW"/>
+                        <outlet property="outputInventoryTextField" destination="90i-qi-Bq7" id="olt-uG-14H"/>
+                        <outlet property="processDescription" destination="ILG-23-qaF" id="Xhh-pF-sxq"/>
                         <outlet property="processEndPointTextView" destination="vVq-dj-F15" id="WvF-TO-2DV"/>
                         <outlet property="processLabel" destination="UYU-Fl-VfT" id="EvL-gO-QWT"/>
+                        <outlet property="processNameTextView" destination="iTA-Eb-BYc" id="8UR-Am-qpy"/>
+                        <outlet property="processPickerView" destination="0kq-Ti-RM3" id="fGO-sM-3Pd"/>
                         <outlet property="processStartPointTextView" destination="LTS-Rk-0rP" id="uLN-6P-VRf"/>
+                        <outlet property="processTableView" destination="L7x-hk-nHV" id="zg0-0b-bHo"/>
+                        <outlet property="stepNameTextField" destination="iaP-Yr-oa0" id="WRa-3i-4iO"/>
+                        <outlet property="stepTableView" destination="2iz-nE-xxs" id="0E9-SF-ApJ"/>
+                        <outlet property="uptimeTextField" destination="DmZ-nh-6R0" id="HSQ-1b-VZo"/>
+                        <outlet property="valueAddingTimeTextField" destination="MeP-jM-aQi" id="2Pl-ag-6gG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h5g-8O-LUw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-378" y="-2537"/>
+            <point key="canvasLocation" x="-288" y="-2726"/>
         </scene>
         <!--Cycle Time View Controller-->
         <scene sceneID="HN4-Uu-MHg">
@@ -456,44 +490,6 @@
             <point key="canvasLocation" x="-1530" y="1276"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="TDTextView" superclassName="UITextView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TDTextView.h"/>
-        </class>
-        <class className="VACycleTimeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VACycleTimeViewController.h"/>
-        </class>
-        <class className="VAPqprViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAPqprViewController.h"/>
-        </class>
-        <class className="VAProjDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAProjDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="processEndPointTextView" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="processLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="processStartPointTextView" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="VASpaChartViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VASpaChartViewController.h"/>
-        </class>
-        <class className="VATaktTimeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VATaktTimeViewController.h"/>
-        </class>
-        <class className="VAVAMViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAVAMViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="btCreateNewPressed:"/>
-                <relationship kind="action" name="btSelectExistingPressed:"/>
-                <relationship kind="outlet" name="pkListProjects" candidateClass="UIPickerView"/>
-                <relationship kind="outlet" name="tfCompanyName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tfProjectName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tvLocation" candidateClass="TDTextView"/>
-                <relationship kind="outlet" name="tvNote" candidateClass="TDTextView"/>
-                <relationship kind="outlet" name="tvProjDescription" candidateClass="TDTextView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
