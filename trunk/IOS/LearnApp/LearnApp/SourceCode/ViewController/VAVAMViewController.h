@@ -11,7 +11,7 @@
 
 @interface VAVAMViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 @property (retain, nonatomic) IBOutlet UITextField *tfProjectName;
-@property (retain, nonatomic) IBOutlet UITextField *tfComputerName;
+@property (retain, nonatomic) IBOutlet UITextField *tfCompanyName;
 @property (retain, nonatomic) IBOutlet TDTextView *tvProjDescription;
 @property (retain, nonatomic) IBOutlet TDTextView *tvLocation;
 @property (retain, nonatomic) IBOutlet TDTextView *tvNote;

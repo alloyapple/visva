@@ -11,5 +11,8 @@
 @interface TDAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+/*
+ * @return: Share instance of TDAppDelegate
+ */
++(TDAppDelegate*)share;
 @end

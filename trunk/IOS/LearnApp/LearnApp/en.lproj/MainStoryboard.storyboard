@@ -58,7 +58,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QFB-uG-RzD">
-                                <rect key="frame" x="581" y="264" width="167" height="52"/>
+                                <rect key="frame" x="581" y="279" width="167" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Create new">
@@ -69,11 +69,11 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="P1s-0v-Vsh" kind="push" identifier="SGProjDetailCreate" id="Kcx-LI-Gjx"/>
+                                    <action selector="btCreateNewPressed:" destination="tul-wn-YF7" eventType="touchUpInside" id="Mh4-cE-4pD"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eLw-Te-zK4">
-                                <rect key="frame" x="581" y="595" width="167" height="52"/>
+                                <rect key="frame" x="581" y="580" width="167" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Select Existing">
@@ -84,11 +84,11 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="P1s-0v-Vsh" kind="push" identifier="SGProjDetailExisting" id="Xvf-mu-k1z"/>
+                                    <action selector="btSelectExistingPressed:" destination="tul-wn-YF7" eventType="touchUpInside" id="6ym-Nw-GQM"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Project Name" textAlignment="center" minimumFontSize="17" id="lp3-Tu-WuA">
-                                <rect key="frame" x="20" y="60" width="355" height="30"/>
+                                <rect key="frame" x="14" y="60" width="361" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -115,7 +115,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Company Address" textAlignment="center" id="9L7-cd-ybF" customClass="TDTextView">
-                                <rect key="frame" x="393" y="98" width="361" height="68"/>
+                                <rect key="frame" x="393" y="98" width="355" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -125,14 +125,14 @@
                                 <rect key="frame" x="20" y="20" width="191" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Or select an exiting one" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RGU-ec-PwV">
-                                <rect key="frame" x="20" y="264" width="279" height="51"/>
+                                <rect key="frame" x="20" y="289" width="279" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" id="pRt-JL-EFV">
@@ -149,11 +149,12 @@
                     <navigationItem key="navigationItem" title="LearnApp" id="9Xb-32-7nG"/>
                     <connections>
                         <outlet property="pkListProjects" destination="pRt-JL-EFV" id="x7Y-fN-b02"/>
-                        <outlet property="tfComputerName" destination="PqX-x5-khD" id="3de-Gv-hBO"/>
+                        <outlet property="tfCompanyName" destination="PqX-x5-khD" id="HwQ-Wf-ulF"/>
                         <outlet property="tfProjectName" destination="lp3-Tu-WuA" id="qPL-11-7WH"/>
                         <outlet property="tvLocation" destination="9L7-cd-ybF" id="OcZ-wV-gwK"/>
                         <outlet property="tvNote" destination="gKx-we-miV" id="oqq-dg-e86"/>
                         <outlet property="tvProjDescription" destination="FJB-gw-KWk" id="3nL-43-g1m"/>
+                        <segue destination="P1s-0v-Vsh" kind="push" identifier="SGProjDetail" id="rJp-8Y-zZ4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mh7-Hd-CIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -330,8 +331,10 @@
         <class className="VAVAMViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VAVAMViewController.h"/>
             <relationships>
+                <relationship kind="action" name="btCreateNewPressed:"/>
+                <relationship kind="action" name="btSelectExistingPressed:"/>
                 <relationship kind="outlet" name="pkListProjects" candidateClass="UIPickerView"/>
-                <relationship kind="outlet" name="tfComputerName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfCompanyName" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="tfProjectName" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="tvLocation" candidateClass="TDTextView"/>
                 <relationship kind="outlet" name="tvNote" candidateClass="TDTextView"/>
@@ -344,7 +347,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="Xvf-mu-k1z"/>
-    </inferredMetricsTieBreakers>
 </document>

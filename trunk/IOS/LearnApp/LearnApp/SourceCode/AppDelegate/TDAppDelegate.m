@@ -7,18 +7,27 @@
 //
 
 #import "TDAppDelegate.h"
+#import "VAGlobal.h"
 
+static TDAppDelegate *instance = nil;
 @implementation TDAppDelegate
 
 - (void)dealloc
 {
+    instance = nil;
+    [VAGlobal releaseGlobal];
     [_window release];
     [super dealloc];
 }
 
++(TDAppDelegate*)share{
+    return instance;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    instance = self;
+    [VAGlobal share];
     return YES;
 }
 							
