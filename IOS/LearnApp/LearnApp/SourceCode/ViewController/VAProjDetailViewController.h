@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TDTextView.h"
 
 @interface VAProjDetailViewController : UIViewController
+@property (retain, nonatomic) IBOutlet UILabel *processLabel;
+@property (retain, nonatomic) IBOutlet UITextField *processStartPointTextView;
+
+
 
 @end
