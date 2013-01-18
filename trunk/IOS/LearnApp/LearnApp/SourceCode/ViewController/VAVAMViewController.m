@@ -119,7 +119,8 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     NSString* identifier = segue.identifier;
     if ([kShowProjDetail isEqualToString:identifier]) {
-        VAProjDetailViewController *destination = segue.destinationViewController;        
+        VAProjDetailViewController *destination = segue.destinationViewController;
+        destination.currentProject = self.currentProject;
     }
 }
 -(void)showAlert:(NSString*)mess{

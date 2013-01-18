@@ -11,6 +11,11 @@
 -(BOOL)isEmpty;
 -(BOOL)isNotEmpty;
 @end
+
+#pragma mark - regex
+@interface NSString (Regex)
+-(BOOL)isFloatNumber;
+@end
 @interface TDString : NSObject
 
 @end
