@@ -9,10 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "TDTextView.h"
 #import "VAProject.h"
+#import "VAProcess.h"
+#import "VAStep.h"
+#import "UIGridView.h"
 
-@interface VAProjDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+@interface VAProjDetailViewController : UIViewController <UIGridViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+
+//cau truyen cho to thuoc tinh nay nhe duc
 @property (retain, nonatomic) VAProject *currentProject;
+
+
+
+////
+@property (retain, nonatomic) VAProcess *currentProcess;
+@property (retain, nonatomic) VAStep *currentStep;
+@property (retain, nonatomic) VAProcess *selectedProcess;
 
 @property (retain, nonatomic) IBOutlet UILabel *processLabel;
 @property (retain, nonatomic) IBOutlet UITextField *processStartPointTextView;
@@ -20,21 +32,25 @@
 @property (retain, nonatomic) IBOutlet UITextField *processNameTextView;
 @property (retain, nonatomic) IBOutlet TDTextView *defectNotesTextView;
 @property (retain, nonatomic) IBOutlet TDTextView *processDescription;
-
-
+@property (retain, nonatomic) IBOutlet UILabel *verifyLabel;
+@property (retain, nonatomic) IBOutlet UISwitch *veifySwitch;
 @property (retain, nonatomic) IBOutlet UITextField *outputInventoryTextField;
 @property (retain, nonatomic) IBOutlet UITextField *uptimeTextField;
 @property (retain, nonatomic) IBOutlet UITextField *valueAddingTimeTextField;
 @property (retain, nonatomic) IBOutlet UITextField *defectTextField;
 @property (retain, nonatomic) IBOutlet UITextField *communicationTextField;
 @property (retain, nonatomic) IBOutlet UITextField *nonvalueAddingTimeTextField;
-@property (retain, nonatomic) IBOutlet UITableView *processTableView;
+@property (retain, nonatomic) IBOutlet UIButton *addProcessButton;
 
-
+@property (retain, nonatomic) IBOutlet UIGridView *processTableView;
+@property (retain, nonatomic) IBOutlet UILabel *stepLabel;
 
 @property (retain, nonatomic) IBOutlet UITextField *stepNameTextField;
-@property (retain, nonatomic) IBOutlet UITableView *stepTableView;
+@property (retain, nonatomic) IBOutlet UIButton *addStepButton;
+@property (retain, nonatomic) IBOutlet UIButton *iAmDoneButton;
+@property (retain, nonatomic) IBOutlet UIGridView *stepTableView;
 @property (retain, nonatomic) IBOutlet UIPickerView *processPickerView;
+
 - (IBAction)addProcessButtonPressed:(id)sender;
 - (IBAction)addStepButtonPressed:(id)sender;
 - (IBAction)iAmDoneButtonPressed:(id)sender;

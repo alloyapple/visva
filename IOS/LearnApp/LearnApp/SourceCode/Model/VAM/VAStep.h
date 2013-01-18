@@ -20,6 +20,9 @@
 @property (retain, nonatomic) NSNumber *Previous_vers_id;
 @property (retain, nonatomic) NSString *Video_file_name;
 
+//additional
+@property (retain, nonatomic) NSString *Step_name;
+
 //additional properties for OOP
 @property (assign, nonatomic) VAProcess *parentProcess;
 @end
