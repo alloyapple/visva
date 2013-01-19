@@ -5,7 +5,6 @@ import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import vsvteam.outsource.leanappandroid.R;
 import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
