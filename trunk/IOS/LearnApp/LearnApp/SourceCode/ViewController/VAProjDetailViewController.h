@@ -11,10 +11,9 @@
 #import "VAProject.h"
 #import "VAProcess.h"
 #import "VAStep.h"
-#import "UIGridView.h"
 
 
-@interface VAProjDetailViewController : UIViewController <UIGridViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface VAProjDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 //cau truyen cho to thuoc tinh nay nhe duc
 @property (retain, nonatomic) VAProject *currentProject;
@@ -42,13 +41,13 @@
 @property (retain, nonatomic) IBOutlet UITextField *nonvalueAddingTimeTextField;
 @property (retain, nonatomic) IBOutlet UIButton *addProcessButton;
 
-@property (retain, nonatomic) IBOutlet UIGridView *processTableView;
+@property (retain, nonatomic) IBOutlet UITableView *processTableView;
 @property (retain, nonatomic) IBOutlet UILabel *stepLabel;
 
 @property (retain, nonatomic) IBOutlet UITextField *stepNameTextField;
 @property (retain, nonatomic) IBOutlet UIButton *addStepButton;
 @property (retain, nonatomic) IBOutlet UIButton *iAmDoneButton;
-@property (retain, nonatomic) IBOutlet UIGridView *stepTableView;
+@property (retain, nonatomic) IBOutlet UITableView *stepTableView;
 @property (retain, nonatomic) IBOutlet UIPickerView *processPickerView;
 
 - (IBAction)addProcessButtonPressed:(id)sender;

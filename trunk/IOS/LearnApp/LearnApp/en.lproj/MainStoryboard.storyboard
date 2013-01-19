@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="11E53" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="nfw-sM-OGJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="nfw-sM-OGJ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--Takt Time View Controller-->
@@ -211,16 +211,17 @@ The takt is how often you have to produce in order to meet your customer demand.
                                     <action selector="addProcessButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="CMi-am-jRU"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV" customClass="UIGridView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV">
                                 <rect key="frame" x="0.0" y="424" width="768" height="132"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="uiGridViewDelegate" destination="P1s-0v-Vsh" id="z0D-gh-ZRk"/>
+                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="2Je-xx-D6i"/>
+                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="GMr-6l-Ctc"/>
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DtH-Cg-i2x">
-                                <rect key="frame" x="20" y="570" width="728" height="54"/>
+                                <rect key="frame" x="20" y="569" width="728" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
@@ -236,7 +237,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <rect key="frame" x="338" y="631" width="199" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Add step">
+                                <state key="normal" title="Add Step">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -270,22 +271,23 @@ The takt is how often you have to produce in order to meet your customer demand.
                                     <outlet property="delegate" destination="P1s-0v-Vsh" id="2fJ-J6-SMx"/>
                                 </connections>
                             </pickerView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2iz-nE-xxs" customClass="UIGridView">
-                                <rect key="frame" x="266" y="682" width="502" height="215"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2iz-nE-xxs">
+                                <rect key="frame" x="266" y="696" width="502" height="215"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="uiGridViewDelegate" destination="P1s-0v-Vsh" id="Oah-s5-nLR"/>
+                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="eeL-NW-bZD"/>
+                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="abT-zx-1YQ"/>
                                 </connections>
                             </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Defect Notes" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
                                 <rect key="frame" x="414" y="107" width="290" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Process description" textAlignment="center" id="ILG-23-qaF" customClass="TDTextView">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="center" id="ILG-23-qaF" customClass="TDTextView">
                                 <rect key="frame" x="64" y="170" width="290" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1192,13 +1194,6 @@ The takt is how often you have to produce in order to meet your customer demand.
         <class className="TDTextView" superclassName="UITextView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TDTextView.h"/>
         </class>
-        <class className="UIGridView" superclassName="UITableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIGridView.h"/>
-            <relationships>
-                <relationship kind="action" name="cellPressed:"/>
-                <relationship kind="outlet" name="uiGridViewDelegate"/>
-            </relationships>
-        </class>
         <class className="VAAnalysisCTimeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VAAnalysisCTimeViewController.h"/>
             <relationships>
@@ -1245,10 +1240,10 @@ The takt is how often you have to produce in order to meet your customer demand.
                 <relationship kind="outlet" name="processNameTextView" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="processPickerView" candidateClass="UIPickerView"/>
                 <relationship kind="outlet" name="processStartPointTextView" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="processTableView" candidateClass="UIGridView"/>
+                <relationship kind="outlet" name="processTableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="stepLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="stepNameTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="stepTableView" candidateClass="UIGridView"/>
+                <relationship kind="outlet" name="stepTableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="uptimeTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="valueAddingTimeTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="veifySwitch" candidateClass="UISwitch"/>
