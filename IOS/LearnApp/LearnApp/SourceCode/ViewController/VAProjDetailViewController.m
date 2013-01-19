@@ -44,6 +44,9 @@
 -(VAStep *)stepFromView {
     self.currentStep = [[[VAStep alloc] init] autorelease];
     self.currentStep.Step_name = self.stepNameTextField.text;
+    if (![self isValidProcess:self.currentProcess]) {
+        return nil;
+    }
     [self.currentProcess.listStep addObject:self.currentStep];
     return self.currentStep;
 }
@@ -186,15 +189,23 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ProcessCellIdentifier];
         }
-        cell.textLabel.text = [[self.currentProject.arrProcess objectAtIndex:indexPath.row] Process_name];
+        cell.textLabel.text = [NSString stringWithFormat:@"%.2d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%@\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%@", indexPath.row,[[self.currentProject.arrProcess objectAtIndex:indexPath.row] Process_name], [[self.currentProject.arrProcess objectAtIndex:indexPath.row] Description] ];
         return cell;
     } else if (self.stepTableView == tableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:StepCellIdentifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:StepCellIdentifier];
         }
-        cell.textLabel.text = [[self.selectedProcess.listStep objectAtIndex:indexPath.row] Step_name];
+        cell.textLabel.text = [NSString stringWithFormat:@"%.2d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%@",indexPath.row,[[self.selectedProcess.listStep objectAtIndex:indexPath.row] Step_name]];
         return cell;
+    }
+    return nil;
+}
+-(NSString * )tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (self.stepTableView == tableView) {
+        return [NSString stringWithFormat:@"Step #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProcess Step Name"];
+    } else if (self.processTableView == tableView) {
+        return [NSString stringWithFormat:@"Process Id\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProcess Name\t\t\t\t\t\t\t\t\t\t\t\tProcess Description"];
     }
     return nil;
 }
