@@ -11,5 +11,6 @@
 
 #import "TDLanguage.h"
 #import "TDLog.h"
+#import "TDSize.h"
 
 #endif

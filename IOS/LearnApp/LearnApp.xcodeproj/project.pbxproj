@@ -85,6 +85,10 @@
 		2FC8E28316AA6BD00078B407 /* VAExportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27B16AA6BD00078B407 /* VAExportViewController.m */; };
 		2FC8E28416AA6BD00078B407 /* VASettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27D16AA6BD00078B407 /* VASettingViewController.m */; };
 		2FC8E28516AA6BD00078B407 /* VAVersionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27F16AA6BD00078B407 /* VAVersionViewController.m */; };
+		2FC8E29A16AA9AD40078B407 /* TDMoveObjsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E29916AA9AD40078B407 /* TDMoveObjsViewController.m */; };
+		2FC8E29C16AA9EC60078B407 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC8E29B16AA9EC60078B407 /* QuartzCore.framework */; };
+		2FC8E29F16AACC980078B407 /* VAVSMDrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E29E16AACC980078B407 /* VAVSMDrawViewController.m */; };
+		2FC8E2A716AAD9400078B407 /* TDSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E2A616AAD9400078B407 /* TDSize.m */; };
 		2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */; };
 		2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4EA16A8439D002803CB /* VAProject.m */; };
 		2FD0D4F716A85449002803CB /* TDLanguage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4F616A85449002803CB /* TDLanguage.m */; };
@@ -209,6 +213,13 @@
 		2FC8E27D16AA6BD00078B407 /* VASettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VASettingViewController.m; sourceTree = "<group>"; };
 		2FC8E27E16AA6BD00078B407 /* VAVersionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVersionViewController.h; sourceTree = "<group>"; };
 		2FC8E27F16AA6BD00078B407 /* VAVersionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVersionViewController.m; sourceTree = "<group>"; };
+		2FC8E29816AA9AD40078B407 /* TDMoveObjsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDMoveObjsViewController.h; sourceTree = "<group>"; };
+		2FC8E29916AA9AD40078B407 /* TDMoveObjsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDMoveObjsViewController.m; sourceTree = "<group>"; };
+		2FC8E29B16AA9EC60078B407 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2FC8E29D16AACC980078B407 /* VAVSMDrawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVSMDrawViewController.h; sourceTree = "<group>"; };
+		2FC8E29E16AACC980078B407 /* VAVSMDrawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVSMDrawViewController.m; sourceTree = "<group>"; };
+		2FC8E2A516AAD9400078B407 /* TDSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDSize.h; sourceTree = "<group>"; };
+		2FC8E2A616AAD9400078B407 /* TDSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDSize.m; sourceTree = "<group>"; };
 		2FD0D4CE16A83F00002803CB /* TDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDAppDelegate.h; sourceTree = "<group>"; };
 		2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDAppDelegate.m; sourceTree = "<group>"; };
 		2FD0D4E916A8439D002803CB /* VAProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProject.h; sourceTree = "<group>"; };
@@ -262,6 +273,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FC8E29C16AA9EC60078B407 /* QuartzCore.framework in Frameworks */,
 				2FD0D53816A87848002803CB /* libsqlite3.0.dylib in Frameworks */,
 				2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */,
 				2FDA03E316A5053B00F50D40 /* Foundation.framework in Frameworks */,
@@ -412,6 +424,8 @@
 			children = (
 				2F8B44C316AA66AD00A337A1 /* VAVAMViewController.h */,
 				2F8B44C416AA66AD00A337A1 /* VAVAMViewController.m */,
+				2FC8E29D16AACC980078B407 /* VAVSMDrawViewController.h */,
+				2FC8E29E16AACC980078B407 /* VAVSMDrawViewController.m */,
 			);
 			path = VAM;
 			sourceTree = "<group>";
@@ -446,6 +460,24 @@
 				2FC8E27F16AA6BD00078B407 /* VAVersionViewController.m */,
 			);
 			path = MenuViewController;
+			sourceTree = "<group>";
+		};
+		2FC8E29616AA99A60078B407 /* Guesture */ = {
+			isa = PBXGroup;
+			children = (
+				2FC8E29816AA9AD40078B407 /* TDMoveObjsViewController.h */,
+				2FC8E29916AA9AD40078B407 /* TDMoveObjsViewController.m */,
+			);
+			path = Guesture;
+			sourceTree = "<group>";
+		};
+		2FC8E2A416AAD92F0078B407 /* Size */ = {
+			isa = PBXGroup;
+			children = (
+				2FC8E2A516AAD9400078B407 /* TDSize.h */,
+				2FC8E2A616AAD9400078B407 /* TDSize.m */,
+			);
+			path = Size;
 			sourceTree = "<group>";
 		};
 		2FD0D4B716A83CC7002803CB /* SourceCode */ = {
@@ -495,6 +527,8 @@
 			isa = PBXGroup;
 			children = (
 				2FD0D4F916A854DB002803CB /* TDCommonLibs.h */,
+				2FC8E2A416AAD92F0078B407 /* Size */,
+				2FC8E29616AA99A60078B407 /* Guesture */,
 				2F7A446916A8EE6E00D1CD42 /* String */,
 				2FD0D51616A85E4C002803CB /* Database */,
 				2FD0D4FD16A85B87002803CB /* UIGridView */,
@@ -631,6 +665,7 @@
 		2FDA03D116A5053B00F50D40 = {
 			isa = PBXGroup;
 			children = (
+				2FC8E29B16AA9EC60078B407 /* QuartzCore.framework */,
 				2FDA03E616A5053B00F50D40 /* LearnApp */,
 				2FDA03DF16A5053B00F50D40 /* Frameworks */,
 				2FDA03DD16A5053B00F50D40 /* Products */,
@@ -842,6 +877,9 @@
 				2FC8E28316AA6BD00078B407 /* VAExportViewController.m in Sources */,
 				2FC8E28416AA6BD00078B407 /* VASettingViewController.m in Sources */,
 				2FC8E28516AA6BD00078B407 /* VAVersionViewController.m in Sources */,
+				2FC8E29A16AA9AD40078B407 /* TDMoveObjsViewController.m in Sources */,
+				2FC8E29F16AACC980078B407 /* VAVSMDrawViewController.m in Sources */,
+				2FC8E2A716AAD9400078B407 /* TDSize.m in Sources */,
 				A778F24B16AA9DFD00C45785 /* VAChangeProjectController.m in Sources */,
 				A778F25A16AAABB500C45785 /* VAVersionController.m in Sources */,
 				A778F26116AABFB300C45785 /* VAProcessDetailController.m in Sources */,
