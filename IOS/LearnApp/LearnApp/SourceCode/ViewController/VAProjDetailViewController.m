@@ -29,13 +29,14 @@
     self.currentProcess.Process_name = self.processNameTextView.text;
     self.currentProcess.Project_name = self.currentProject.sPrName;
     self.currentProcess.Description = self.processDescription.text;
+    self.currentProcess.listStep = [[[NSMutableArray alloc] init] autorelease];
     [self.currentProject.arrProcess addObject:self.currentProcess];
     return self.currentProcess;
 }
 -(VAStep *)stepFromView {
     self.currentStep = [[[VAStep alloc] init] autorelease];
     self.currentStep.Step_name = self.stepNameTextField.text;
-    [self.selectedProcess.listStep addObject:self.currentStep];
+    [self.currentProcess.listStep addObject:self.currentStep];
     return self.currentStep;
 }
 
@@ -52,14 +53,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.processLabel.text = TDLocalizedString(@"projectLabel", @"projectLabel");
+    self.processLabel.text = [self.currentProject.sPrName stringByAppendingString:TDLocalizedString(@"projectLabel", @"projectLabel")];
     self.processStartPointTextView.placeholder = TDLocalizedString(@"processStartPoint", @"processStartPoint");
     self.processEndPointTextView.placeholder = TDLocalizedString(@"processEndPoint", @"processEndPoint");
     self.processNameTextView.placeholder = TDLocalizedString(@"processName", @"processName");
     self.defectNotesTextView.placeholder = TDLocalizedString(@"defectNotes", @"defectNotes");
     self.processDescription.placeholder = TDLocalizedString(@"processDescription", @"processDescription");
     self.verifyLabel.text = TDLocalizedString(@"needToVerify", @"needToVerify");
-    self.outputInventoryTextField.placeholder = TDLocalizedString(@"output Inventory", "output Inventory");
+    self.outputInventoryTextField.placeholder = TDLocalizedString(@"outputInventory", "outputInventory");
     self.uptimeTextField.placeholder = TDLocalizedString(@"uptime", @"uptime");
     self.valueAddingTimeTextField.placeholder = TDLocalizedString(@"valueAddingTime", @"valueAddingTime");
     self.defectTextField.placeholder = TDLocalizedString(@"defect", "defect");
@@ -68,6 +69,7 @@
     //self.addProcessButton.titleLabel.text = TDLocalizedString(@"addProcessButton", @"addProcessButton");
     self.stepLabel.text = TDLocalizedString(@"stepLabel", @"stepLabel");
     self.stepNameTextField.placeholder = TDLocalizedString(@"stepName", @"stepName");
+    
     //self.addStepButton.titleLabel.text = TDLocalizedString(@"addStepButton", @"addStepButton");
     //self.iAmDoneButton.titleLabel.text = TDLocalizedString(@"iAmDoneButton", @"iAmDoneButton");
 	// Do any additional setup after loading the view.
@@ -137,12 +139,16 @@
 }
 - (IBAction)addProcessButtonPressed:(id)sender {
     NSLog(@"anh khong yeu em");
-    [self processFromView];
+    self.selectedProcess = [self processFromView];
     [self.processTableView reloadData];
     [self.processPickerView reloadAllComponents];
+    [self.processPickerView selectRow:([self.currentProject.arrProcess count]-1) inComponent:0 animated:YES];
 }
 
 - (IBAction)addStepButtonPressed:(id)sender {
+    [self stepFromView];
+    [self.stepTableView reloadData];
+    
 }
 
 - (IBAction)iAmDoneButtonPressed:(id)sender {
@@ -184,6 +190,26 @@
 }
 
 
+//-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSLog(@"aa");
+//    [self becomeFirstResponder];
+//    UIMenuItem *delete = [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(delete:)] autorelease];
+//    UIMenuItem *edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)] autorelease];
+//    UIMenuController *menu = [UIMenuController sharedMenuController];
+//    [menu setMenuItems:[NSArray arrayWithObjects:delete, edit, nil]];
+//    [menu setTargetRect:tableView.frame inView:self.view];
+//    menu.arrowDirection = UIMenuControllerArrowDown;
+//    [menu setMenuVisible:YES animated:YES];
+//}
+//- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return YES;
+//}
+//- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+//    if (action == @selector(edit:)) {
+//        return YES;
+//    }
+//}
+
 #pragma mark - UIPickerViewDelegate Methods
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -196,5 +222,9 @@
     return [[self.currentProject.arrProcess objectAtIndex:row] Process_name];
 }
 
-
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    self.selectedProcess = [self.currentProject.arrProcess objectAtIndex:row];
+    NSLog(@"%@", self.currentProcess.Process_name);
+    [self.stepTableView reloadData];
+}
 @end

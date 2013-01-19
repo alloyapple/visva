@@ -7,22 +7,15 @@
 //
 
 #import "VARootViewController.h"
-#import "VASettingViewController.h"
-#import "VAExportViewController.h"
+#import "VAChangeProjectController.h"
+#import "VAVersionController.h"
 
 @interface VARootViewController ()
-- (IBAction)btSetting:(id)sender;
-- (IBAction)btBag:(id)sender;
-- (IBAction)btVersion:(id)sender;
-- (IBAction)btCerrency:(id)sender;
-- (IBAction)btExport:(id)sender;
-- (IBAction)btBook:(id)sender;
-
-@property(nonatomic, retain)UIPopoverController *popOver;
 
 @end
 
 @implementation VARootViewController
+@synthesize popoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,18 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-}
--(void)dealloc{
-    [_popOver release];
-    [super dealloc];
-}
--(void)popOver: (UIViewController *)controller sender:(UIButton*)bt{
-    if (self.popOver != nil) {
-        [self.popOver dismissPopoverAnimated:NO];
-    }
-    self.popOver = [[[UIPopoverController alloc] initWithContentViewController:controller] autorelease];
-    [_popOver presentPopoverFromRect:bt.frame inView:bt.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,25 +38,33 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)btSetting:(id)sender {
-    VASettingViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"VASettingViewController"];
-    [self popOver:vc sender:sender];
+- (IBAction)changeProjectProcessButtonPressed:(id)sender {
+        VAChangeProjectController *changeProject = [[[VAChangeProjectController alloc] init] autorelease];
+    changeProject.navigationItem.title = @"Change Project/Process";
+        UINavigationController *navCtr = [[[UINavigationController alloc] initWithRootViewController:changeProject] autorelease];
+        self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:navCtr] autorelease];
+        self.popoverController.delegate = self;
+    [self.popoverController setPopoverContentSize:CGSizeMake(500, 260)];
+        [self.popoverController presentPopoverFromRect:[sender frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    NSLog(@"anhyeueme");
 }
 
-- (IBAction)btBag:(id)sender {
+- (IBAction)versionButtonPressed:(id)sender {
+    VAVersionController *versionController = [[[VAVersionController alloc] init] autorelease];
+    versionController.navigationItem.title = @"Versions";
+    UINavigationController *navCtr = [[[UINavigationController alloc] initWithRootViewController:versionController] autorelease];
+    self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:navCtr] autorelease];
+    self.popoverController.delegate = self;
+    [self.popoverController setPopoverContentSize:CGSizeMake(500, 240)];
+    [self.popoverController presentPopoverFromRect:[sender frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
 }
-
-- (IBAction)btVersion:(id)sender {
+- (void)dealloc {
+    [popoverController release];
+    [super dealloc];
 }
-
-- (IBAction)btCerrency:(id)sender {
-}
-
-- (IBAction)btExport:(id)sender {
-    VAExportViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"VAExportViewController"];
-    [self popOver:vc sender:sender];
-}
-
-- (IBAction)btBook:(id)sender {
+- (void)viewDidUnload {
+    [popoverController release];
+    [super viewDidUnload];
 }
 @end
