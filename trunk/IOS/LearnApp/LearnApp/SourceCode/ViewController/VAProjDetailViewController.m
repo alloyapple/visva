@@ -12,6 +12,7 @@
 #import "VAStep.h"
 #import "UIGridViewCell.h"
 #import "VAProcessDetailController.h"
+#import "VAVSMDrawViewController.h"
 @interface VAProjDetailViewController ()
 -(BOOL)isValidProcess:(VAProcess *)process;
 -(BOOL)isValidStep:(VAStep *)step;
@@ -165,6 +166,9 @@
 }
 
 - (IBAction)iAmDoneButtonPressed:(id)sender {
+    VAVSMDrawViewController *draw = [self.storyboard instantiateViewControllerWithIdentifier:@"VAVSMDrawViewController"];
+    [self.navigationController pushViewController:draw animated:YES];
+    return;
 }
 
 - (IBAction)verifySwitchChange:(id)sender {
