@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="11E53" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="nfw-sM-OGJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="nfw-sM-OGJ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--Takt Time View Controller-->
@@ -115,17 +115,6 @@ The takt is how often you have to produce in order to meet your customer demand.
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="KTN-Kp-pvp"/>
-                    <connections>
-                        <outlet property="lbTatkTime" destination="Jlc-Wq-PUy" id="8PX-Lk-hr6"/>
-                        <outlet property="pkChooseUnit" destination="IYI-KU-ZMv" id="QyJ-dl-eqe"/>
-                        <outlet property="pkResultUnit" destination="GmL-Bm-RTE" id="KY9-Ob-Cvb"/>
-                        <outlet property="tfBreakPerShift" destination="mJR-oj-ECd" id="SSI-YR-IYb"/>
-                        <outlet property="tfCustomerUnit" destination="my5-F0-gIE" id="ClD-WP-Hf2"/>
-                        <outlet property="tfDayPerMonth" destination="8jZ-1u-8A2" id="gFD-3E-lHT"/>
-                        <outlet property="tfDayPerWeek" destination="3Xt-fn-uzC" id="pRL-ll-jnP"/>
-                        <outlet property="tfOperationPerShift" destination="4Kd-4k-khx" id="hU8-sV-h8C"/>
-                        <outlet property="tfShiftPerDay" destination="cEO-LP-L4o" id="ius-Ko-fr7"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hfg-FI-clJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -222,22 +211,23 @@ The takt is how often you have to produce in order to meet your customer demand.
                                     <action selector="addProcessButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="CMi-am-jRU"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV" customClass="UIGridView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV">
                                 <rect key="frame" x="0.0" y="424" width="768" height="132"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="uiGridViewDelegate" destination="P1s-0v-Vsh" id="z0D-gh-ZRk"/>
+                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="2Je-xx-D6i"/>
+                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="GMr-6l-Ctc"/>
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DtH-Cg-i2x">
-                                <rect key="frame" x="20" y="570" width="728" height="54"/>
+                                <rect key="frame" x="20" y="569" width="728" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="iaP-Yr-oa0">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" id="iaP-Yr-oa0">
                                 <rect key="frame" x="65" y="638" width="199" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -247,7 +237,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <rect key="frame" x="338" y="631" width="199" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Add step">
+                                <state key="normal" title="Add Step">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -281,22 +271,23 @@ The takt is how often you have to produce in order to meet your customer demand.
                                     <outlet property="delegate" destination="P1s-0v-Vsh" id="2fJ-J6-SMx"/>
                                 </connections>
                             </pickerView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2iz-nE-xxs" customClass="UIGridView">
-                                <rect key="frame" x="266" y="682" width="502" height="215"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2iz-nE-xxs">
+                                <rect key="frame" x="266" y="696" width="502" height="215"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="uiGridViewDelegate" destination="P1s-0v-Vsh" id="Oah-s5-nLR"/>
+                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="eeL-NW-bZD"/>
+                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="abT-zx-1YQ"/>
                                 </connections>
                             </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Defect Notes" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
                                 <rect key="frame" x="414" y="107" width="290" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Process description" textAlignment="center" id="ILG-23-qaF" customClass="TDTextView">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="center" id="ILG-23-qaF" customClass="TDTextView">
                                 <rect key="frame" x="64" y="170" width="290" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -690,239 +681,109 @@ The takt is how often you have to produce in order to meet your customer demand.
         <!--Setting View Controller-->
         <scene sceneID="ceG-1X-bKb">
             <objects>
-                <viewController storyboardIdentifier="VASettingViewController" id="agP-O6-xNv" customClass="VASettingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VAMenuSettingViewController" id="agP-O6-xNv" customClass="VASettingViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="De9-ve-CLZ">
-                        <rect key="frame" x="0.0" y="0.0" width="337" height="400"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="4pD-zb-T7t">
-                                <rect key="frame" x="0.0" y="44" width="337" height="356"/>
+                            <view contentMode="scaleToFill" id="aOo-fc-V9l">
+                                <rect key="frame" x="401" y="57" width="347" height="503"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDSettingCellDistance" textLabel="OHX-xS-j1u" style="IBUITableViewCellStyleDefault" id="O7Z-ja-QuU">
-                                        <rect key="frame" x="0.0" y="34" width="337" height="45"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="317" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OHX-xS-j1u">
-                                                    <rect key="frame" x="10" y="0.0" width="297" height="43"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="4pD-zb-T7t">
+                                        <rect key="frame" x="4" y="51" width="339" height="445"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <prototypes>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDSettingCellDistance" textLabel="OHX-xS-j1u" style="IBUITableViewCellStyleDefault" id="O7Z-ja-QuU">
+                                                <rect key="frame" x="0.0" y="34" width="339" height="45"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="10" y="1" width="319" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDSettingCellOperator" id="Wyb-1B-ex6" customClass="TDTextFieldCell">
-                                        <rect key="frame" x="0.0" y="79" width="337" height="45"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="317" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Speed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Be8-jh-IDs">
-                                                    <rect key="frame" x="11" y="11" width="136" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="NQu-ni-mPf">
-                                                    <rect key="frame" x="185" y="7" width="124" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OHX-xS-j1u">
+                                                            <rect key="frame" x="10" y="0.0" width="299" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </tableViewCell>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDSettingCellOperator" id="Wyb-1B-ex6" customClass="TDTextFieldCell">
+                                                <rect key="frame" x="0.0" y="79" width="339" height="45"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="10" y="0.0" width="319" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Speed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Be8-jh-IDs">
+                                                            <rect key="frame" x="11" y="11" width="136" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </label>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="NQu-ni-mPf">
+                                                            <rect key="frame" x="185" y="7" width="124" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                        </textField>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                                <connections>
+                                                    <outlet property="lbTitle" destination="Be8-jh-IDs" id="JJn-zp-7rL"/>
+                                                    <outlet property="tfValue" destination="NQu-ni-mPf" id="s6a-4t-YYv"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
                                         <connections>
-                                            <outlet property="lbTitle" destination="Be8-jh-IDs" id="JJn-zp-7rL"/>
-                                            <outlet property="tfValue" destination="NQu-ni-mPf" id="s6a-4t-YYv"/>
+                                            <outlet property="dataSource" destination="agP-O6-xNv" id="ebT-ce-29L"/>
+                                            <outlet property="delegate" destination="agP-O6-xNv" id="wlk-yA-j2C"/>
                                         </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="agP-O6-xNv" id="ebT-ce-29L"/>
-                                    <outlet property="delegate" destination="agP-O6-xNv" id="wlk-yA-j2C"/>
-                                </connections>
-                            </tableView>
-                            <navigationBar contentMode="scaleToFill" id="mOA-5q-Aoy">
-                                <rect key="frame" x="0.0" y="0.0" width="337" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Setting" id="TCP-g2-tdS">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="mDT-jm-jxH">
-                                            <connections>
-                                                <action selector="btDonePressed:" destination="agP-O6-xNv" id="Ib4-1W-nRj"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
+                                    </tableView>
+                                    <navigationBar contentMode="scaleToFill" id="mOA-5q-Aoy">
+                                        <rect key="frame" x="0.0" y="0.0" width="347" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <items>
+                                            <navigationItem title="Setting" id="TCP-g2-tdS">
+                                                <barButtonItem key="leftBarButtonItem" systemItem="done" id="mDT-jm-jxH">
+                                                    <connections>
+                                                        <action selector="btDonePressed:" destination="agP-O6-xNv" id="Ib4-1W-nRj"/>
+                                                    </connections>
+                                                </barButtonItem>
+                                            </navigationItem>
+                                        </items>
+                                    </navigationBar>
+                                </subviews>
+                                <color key="backgroundColor" red="0.25882354378700256" green="0.30588236451148987" blue="0.38431376218795776" alpha="1" colorSpace="deviceRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TqF-21-GXR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4720" y="-1872"/>
+            <point key="canvasLocation" x="-4676" y="-2482"/>
         </scene>
         <!--Export View Controller-->
         <scene sceneID="g4m-AD-6R2">
             <objects>
-                <viewController storyboardIdentifier="VAExportViewController" id="il6-p5-iNE" customClass="VAExportViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VAMenuExportViewController" id="il6-p5-iNE" customClass="VAExportViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pAg-bo-6iZ">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="700"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <navigationBar contentMode="scaleToFill" id="bUU-CW-Mut">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Export" id="BJX-wc-ISm">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="pOW-3e-Zfw">
-                                            <connections>
-                                                <action selector="btDone:" destination="il6-p5-iNE" id="qvq-bn-VdE"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <pickerView contentMode="scaleToFill" id="O56-Vi-8Nh">
-                                <rect key="frame" x="0.0" y="44" width="768" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="il6-p5-iNE" id="rTv-Ak-IGj"/>
-                                    <outlet property="delegate" destination="il6-p5-iNE" id="SGg-b4-uf0"/>
-                                </connections>
-                            </pickerView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="4Fc-X1-uoo">
-                                <rect key="frame" x="6" y="262" width="252" height="438"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDCellExport" textLabel="Ojd-wG-bqK" style="IBUITableViewCellStyleDefault" id="ud1-Od-3Vd">
-                                        <rect key="frame" x="0.0" y="34" width="252" height="46"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="232" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ojd-wG-bqK">
-                                                    <rect key="frame" x="10" y="0.0" width="212" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="il6-p5-iNE" id="AFF-Ft-MSG"/>
-                                    <outlet property="delegate" destination="il6-p5-iNE" id="2Ah-co-T3r"/>
-                                </connections>
-                            </tableView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ozW-lg-19D">
-                                <rect key="frame" x="257" y="262" width="254" height="438"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDCellExport" textLabel="Xqt-cH-TNr" style="IBUITableViewCellStyleDefault" id="T8f-JH-9qQ">
-                                        <rect key="frame" x="0.0" y="34" width="254" height="46"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="234" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xqt-cH-TNr">
-                                                    <rect key="frame" x="10" y="0.0" width="214" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="il6-p5-iNE" id="BQp-GC-ZEe"/>
-                                    <outlet property="delegate" destination="il6-p5-iNE" id="v0i-9m-2XS"/>
-                                </connections>
-                            </tableView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ZR7-u9-aI5">
-                                <rect key="frame" x="511" y="262" width="257" height="289"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDCellExport" textLabel="Nyp-GZ-Cn7" style="IBUITableViewCellStyleDefault" id="IhF-y7-tts">
-                                        <rect key="frame" x="0.0" y="34" width="257" height="46"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="237" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nyp-GZ-Cn7">
-                                                    <rect key="frame" x="10" y="0.0" width="217" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="il6-p5-iNE" id="iqp-yo-q4J"/>
-                                    <outlet property="delegate" destination="il6-p5-iNE" id="xZu-ya-KKF"/>
-                                </connections>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jCr-jv-Bub">
-                                <rect key="frame" x="582" y="586" width="149" height="79"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Export">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="btExport:" destination="il6-p5-iNE" eventType="touchUpInside" id="EK5-H6-j7Y"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <connections>
-                        <outlet property="pkSelect" destination="pAg-bo-6iZ" id="egp-Gm-aao"/>
-                        <outlet property="tbDestination" destination="ozW-lg-19D" id="5JS-Ho-IJA"/>
-                        <outlet property="tbElement" destination="4Fc-X1-uoo" id="LNy-YQ-2Xv"/>
-                        <outlet property="tbFormat" destination="ZR7-u9-aI5" id="eDG-aO-m5Y"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XJb-5i-Uhd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5963" y="-1352"/>
+            <point key="canvasLocation" x="-5549" y="-1316"/>
         </scene>
         <!--Change Proj View Controller-->
         <scene sceneID="NKY-Ma-cfh">
@@ -969,7 +830,7 @@ The takt is how often you have to produce in order to meet your customer demand.
         <!--Root View Controller-->
         <scene sceneID="uVZ-F6-qTx">
             <objects>
-                <viewController storyboardIdentifier="VARootViewController" id="nfw-sM-OGJ" customClass="VARootViewController" sceneMemberID="viewController">
+                <viewController id="nfw-sM-OGJ" customClass="VARootViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ceb-fF-Bbt">
                         <rect key="frame" x="0.0" y="20" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1002,7 +863,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="btBook:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="4rw-fJ-jj2"/>
+                                            <segue destination="CG7-yI-KTa" kind="modal" id="fLa-PX-UN5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ocF-g9-AQH" userLabel="btExport">
@@ -1017,7 +878,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="btExport:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="E55-FJ-9xM"/>
+                                            <segue destination="il6-p5-iNE" kind="modal" id="ZXQ-yv-XuY"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="roS-OT-LQf" userLabel="btSetting">
@@ -1032,7 +893,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="btSetting:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="81j-QY-dO1"/>
+                                            <segue destination="agP-O6-xNv" kind="modal" animates="NO" id="ME6-Pm-OgN"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="k6o-OA-XyD" userLabel="btBag">
@@ -1047,7 +908,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="btBag:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="rSr-3T-Lci"/>
+                                            <action selector="changeProjectProcessButtonPressed:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="QEZ-pn-LXm"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dEj-n8-sx8" userLabel="btVersion">
@@ -1062,7 +923,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="btVersion:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="0Wl-LF-QM2"/>
+                                            <action selector="versionButtonPressed:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="c1f-4F-ZZN"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DCE-k6-JKN" userLabel="btConcurency">
@@ -1077,7 +938,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="btCerrency:" destination="nfw-sM-OGJ" eventType="touchUpInside" id="Z5A-Dr-Xbm"/>
+                                            <segue destination="2Sj-fx-Pgz" kind="modal" id="vC9-25-Xe2"/>
                                         </connections>
                                     </button>
                                 </subviews>

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VARootViewController : UIViewController
+@interface VARootViewController : UIViewController <UIPopoverControllerDelegate>
+- (IBAction)changeProjectProcessButtonPressed:(id)sender;
+- (IBAction)versionButtonPressed:(id)sender;
+@property (retain, nonatomic) UIPopoverController *popoverController;
 
 @end

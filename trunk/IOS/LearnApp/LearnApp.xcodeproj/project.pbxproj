@@ -106,6 +106,8 @@
 		2FDA03F716A5053C00F50D40 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */; };
 		2FDA03FA16A5053C00F50D40 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA03F816A5053C00F50D40 /* MainStoryboard.storyboard */; };
 		A73F391516A83B650055586C /* LeanApp.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A73F391416A83B650055586C /* LeanApp.sqlite */; };
+		A778F24B16AA9DFD00C45785 /* VAChangeProjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = A778F24916AA9DFD00C45785 /* VAChangeProjectController.m */; };
+		A778F25A16AAABB500C45785 /* VAVersionController.m in Sources */ = {isa = PBXBuildFile; fileRef = A778F25916AAABB400C45785 /* VAVersionController.m */; };
 		A7C1155516A9045300457170 /* VAProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1155216A9045300457170 /* VAProcess.m */; };
 		A7C1155616A9045300457170 /* VAStep.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1155416A9045300457170 /* VAStep.m */; };
 /* End PBXBuildFile section */
@@ -242,6 +244,10 @@
 		2FDA03F616A5053C00F50D40 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2FDA03F916A5053C00F50D40 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		A73F391416A83B650055586C /* LeanApp.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = LeanApp.sqlite; sourceTree = "<group>"; };
+		A778F24816AA9DFD00C45785 /* VAChangeProjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAChangeProjectController.h; sourceTree = "<group>"; };
+		A778F24916AA9DFD00C45785 /* VAChangeProjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAChangeProjectController.m; sourceTree = "<group>"; };
+		A778F25816AAABB400C45785 /* VAVersionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVersionController.h; sourceTree = "<group>"; };
+		A778F25916AAABB400C45785 /* VAVersionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVersionController.m; sourceTree = "<group>"; };
 		A7C1155116A9045300457170 /* VAProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProcess.h; sourceTree = "<group>"; };
 		A7C1155216A9045300457170 /* VAProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProcess.m; sourceTree = "<group>"; };
 		A7C1155316A9045300457170 /* VAStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAStep.h; sourceTree = "<group>"; };
@@ -410,6 +416,10 @@
 			children = (
 				2FC8E27016AA6B9A0078B407 /* VARootViewController.h */,
 				2FC8E27116AA6B9A0078B407 /* VARootViewController.m */,
+				A778F24816AA9DFD00C45785 /* VAChangeProjectController.h */,
+				A778F24916AA9DFD00C45785 /* VAChangeProjectController.m */,
+				A778F25816AAABB400C45785 /* VAVersionController.h */,
+				A778F25916AAABB400C45785 /* VAVersionController.m */,
 			);
 			path = RooViewController;
 			sourceTree = "<group>";
@@ -827,6 +837,8 @@
 				2FC8E28316AA6BD00078B407 /* VAExportViewController.m in Sources */,
 				2FC8E28416AA6BD00078B407 /* VASettingViewController.m in Sources */,
 				2FC8E28516AA6BD00078B407 /* VAVersionViewController.m in Sources */,
+				A778F24B16AA9DFD00C45785 /* VAChangeProjectController.m in Sources */,
+				A778F25A16AAABB500C45785 /* VAVersionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
