@@ -9,11 +9,11 @@
             <objects>
                 <viewController storyboardIdentifier="VATaktTimeViewController" id="eas-ke-cYz" customClass="VATaktTimeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BgS-54-Bzk">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="913"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="M27-yJ-QSO">
-                                <rect key="frame" x="32" y="254" width="705" height="645"/>
+                                <rect key="frame" x="32" y="296" width="705" height="645"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Operation per shift" textAlignment="center" minimumFontSize="17" id="4Kd-4k-khx">
@@ -238,7 +238,7 @@ The takt is how often you have to produce in order to meet your customer demand.
             <objects>
                 <viewController storyboardIdentifier="VAProjDetailViewController" id="P1s-0v-Vsh" customClass="VAProjDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="slb-go-X13" customClass="TDTextView">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="913"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UYU-Fl-VfT">
@@ -325,7 +325,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV">
-                                <rect key="frame" x="0.0" y="424" width="768" height="132"/>
+                                <rect key="frame" x="0.0" y="424" width="768" height="174"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -385,7 +385,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2iz-nE-xxs">
-                                <rect key="frame" x="266" y="696" width="502" height="215"/>
+                                <rect key="frame" x="266" y="696" width="502" height="257"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -452,7 +452,7 @@ The takt is how often you have to produce in order to meet your customer demand.
             <objects>
                 <viewController storyboardIdentifier="VACycleTimeViewController" id="Yxf-o3-g98" customClass="VACycleTimeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IrO-Q1-WDP">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="913"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" id="Dlv-Yp-MMZ">
@@ -568,11 +568,11 @@ The takt is how often you have to produce in order to meet your customer demand.
             <objects>
                 <viewController storyboardIdentifier="TDAnalysisCTimeViewController" id="jjL-Jt-tCN" customClass="VAAnalysisCTimeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y7g-mr-3qV">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="913"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_recording_detail.png" id="UTD-n1-8zw">
-                                <rect key="frame" x="0.0" y="-5" width="768" height="574"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="616"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <pickerView contentMode="scaleToFill" id="wBk-XQ-6AO">
@@ -647,7 +647,7 @@ The takt is how often you have to produce in order to meet your customer demand.
             <objects>
                 <viewController storyboardIdentifier="VAVAMViewController" id="tul-wn-YF7" customClass="VAVAMViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Grg-XR-Hzf">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="913"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QFB-uG-RzD">
@@ -754,10 +754,10 @@ The takt is how often you have to produce in order to meet your customer demand.
             </objects>
             <point key="canvasLocation" x="-1614" y="-2754"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--MainTabbar-->
         <scene sceneID="tvN-Zj-XzP">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="CNL-US-7Gl" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabbar" definesPresentationContext="YES" id="CNL-US-7Gl" userLabel="MainTabbar" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Aeb-6F-9u0"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="8Fa-Jb-ZjQ">
@@ -838,17 +838,9 @@ The takt is how often you have to produce in order to meet your customer demand.
             <objects>
                 <viewController id="nfw-sM-OGJ" customClass="VARootViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ceb-fF-Bbt">
-                        <rect key="frame" x="0.0" y="20" width="768" height="960"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <containerView contentMode="scaleToFill" id="OpK-TA-uzw">
-                                <rect key="frame" x="0.0" y="42" width="768" height="962"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="CNL-US-7Gl" kind="embed" id="zpL-dn-EGp"/>
-                                </connections>
-                            </containerView>
                             <view contentMode="scaleToFill" id="40K-mP-WXU">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -950,17 +942,23 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" id="Lcd-Ja-gPy" userLabel="vTabbar">
+                                <rect key="frame" x="0.0" y="45" width="768" height="959"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="ZOn-sA-ToI"/>
-                    </toolbarItems>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="vTabbar" destination="Lcd-Ja-gPy" id="V1X-WG-MFP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Elk-Hu-EN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5843" y="116"/>
+            <point key="canvasLocation" x="-4571" y="396"/>
         </scene>
         <!--Navigation Controller - ValueStreamMap-->
         <scene sceneID="Un4-sH-ikd">
@@ -1005,11 +1003,11 @@ The takt is how often you have to produce in order to meet your customer demand.
             <objects>
                 <viewController storyboardIdentifier="VASpaChartViewController" id="eLg-CF-0CS" customClass="VASpaChartViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="O5D-HQ-OKq">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="913"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" id="9JT-ch-N98">
-                                <rect key="frame" x="0.0" y="0.0" width="758" height="216"/>
+                                <rect key="frame" x="0.0" y="0.0" width="394" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="eLg-CF-0CS" id="fof-7a-mdk"/>
@@ -1048,7 +1046,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </state>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uFC-yU-Dva">
-                                <rect key="frame" x="0.0" y="722" width="768" height="305"/>
+                                <rect key="frame" x="0.0" y="722" width="768" height="347"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1109,7 +1107,7 @@ The takt is how often you have to produce in order to meet your customer demand.
             <objects>
                 <viewController storyboardIdentifier="VAPqprViewController" id="5d0-ot-eJ5" customClass="VAPqprViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MF1-JV-1wn">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="913"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -1264,18 +1262,18 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZs-Eb-qnu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4720" y="-1872"/>
+            <point key="canvasLocation" x="-4600" y="-2120"/>
         </scene>
         <!--Export View Controller-->
         <scene sceneID="xtl-04-UZM">
             <objects>
                 <viewController storyboardIdentifier="VAExportViewController" id="6lD-hM-ebQ" customClass="VAExportViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yaV-7G-ddW">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="700"/>
+                        <rect key="frame" x="0.0" y="0.0" width="741" height="700"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" id="nrO-Mh-cOG">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="741" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Export" id="w21-hA-35e">
@@ -1288,7 +1286,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </items>
                             </navigationBar>
                             <pickerView contentMode="scaleToFill" id="b2S-CR-H2I">
-                                <rect key="frame" x="0.0" y="44" width="768" height="216"/>
+                                <rect key="frame" x="0.0" y="44" width="741" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="6lD-hM-ebQ" id="gho-nH-leW"/>
@@ -1296,19 +1294,19 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </pickerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="iOh-Xr-X0b">
-                                <rect key="frame" x="6" y="262" width="252" height="438"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <rect key="frame" x="0.0" y="262" width="243" height="438"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDCellExport" textLabel="46Y-tO-dTv" style="IBUITableViewCellStyleDefault" id="JVK-EQ-Tnp">
-                                        <rect key="frame" x="0.0" y="34" width="252" height="46"/>
+                                        <rect key="frame" x="0.0" y="34" width="243" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="232" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="223" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="46Y-tO-dTv">
-                                                    <rect key="frame" x="10" y="0.0" width="212" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="203" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1325,19 +1323,19 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="kDr-CN-DcA">
-                                <rect key="frame" x="257" y="262" width="254" height="438"/>
+                                <rect key="frame" x="243" y="262" width="249" height="438"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDCellExport" textLabel="1Aa-bM-pV4" style="IBUITableViewCellStyleDefault" id="7CV-zZ-uoL">
-                                        <rect key="frame" x="0.0" y="34" width="254" height="46"/>
+                                        <rect key="frame" x="0.0" y="34" width="249" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="234" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="229" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Aa-bM-pV4">
-                                                    <rect key="frame" x="10" y="0.0" width="214" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="209" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1354,19 +1352,19 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="j1e-Vc-vqD">
-                                <rect key="frame" x="511" y="262" width="257" height="289"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <rect key="frame" x="492" y="262" width="249" height="289"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="IDCellExport" textLabel="TiN-oY-Hi2" style="IBUITableViewCellStyleDefault" id="yW3-an-bQh">
-                                        <rect key="frame" x="0.0" y="34" width="257" height="46"/>
+                                        <rect key="frame" x="0.0" y="34" width="249" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="237" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="229" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TiN-oY-Hi2">
-                                                    <rect key="frame" x="10" y="0.0" width="217" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="209" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1411,7 +1409,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xsg-jQ-zxV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5963" y="-1352"/>
+            <point key="canvasLocation" x="-5691" y="-1316"/>
         </scene>
     </scenes>
     <resources>
@@ -1432,6 +1430,143 @@ The takt is how often you have to produce in order to meet your customer demand.
         <image name="line.png" width="100" height="77"/>
         <image name="rect.png" width="100" height="50"/>
     </resources>
+    <classes>
+        <class className="TDTextFieldCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TDTextFieldCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="lbTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tfValue" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="TDTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TDTextView.h"/>
+        </class>
+        <class className="VAAnalysisCTimeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAAnalysisCTimeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="pkCompare" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="pkFullCycle" candidateClass="UIPickerView"/>
+            </relationships>
+        </class>
+        <class className="VABookViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VABookViewController.h"/>
+        </class>
+        <class className="VAChangeProjViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAChangeProjViewController.h"/>
+        </class>
+        <class className="VACurrencyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VACurrencyViewController.h"/>
+        </class>
+        <class className="VACycleTimeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VACycleTimeViewController.h"/>
+        </class>
+        <class className="VAExportViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAExportViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="btDone:"/>
+                <relationship kind="action" name="btExport:"/>
+                <relationship kind="outlet" name="pkSelect" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tbDestination" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tbElement" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tbFormat" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="VAPqprViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAPqprViewController.h"/>
+        </class>
+        <class className="VAProjDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAProjDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addProcessButtonPressed:"/>
+                <relationship kind="action" name="addStepButtonPressed:"/>
+                <relationship kind="action" name="iAmDoneButtonPressed:"/>
+                <relationship kind="action" name="verifySwitchChange:"/>
+                <relationship kind="outlet" name="addProcessButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="addStepButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="communicationTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="defectNotesTextView" candidateClass="TDTextView"/>
+                <relationship kind="outlet" name="defectTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="iAmDoneButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="nonvalueAddingTimeTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="outputInventoryTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="processDescription" candidateClass="TDTextView"/>
+                <relationship kind="outlet" name="processEndPointTextView" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="processLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="processNameTextView" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="processPickerView" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="processStartPointTextView" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="processTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="stepLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="stepNameTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="stepTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="uptimeTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="valueAddingTimeTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="veifySwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="verifyLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="VARootViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VARootViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="btBag:"/>
+                <relationship kind="action" name="btBook:"/>
+                <relationship kind="action" name="btCerrency:"/>
+                <relationship kind="action" name="btExport:"/>
+                <relationship kind="action" name="btSetting:"/>
+                <relationship kind="action" name="btVersion:"/>
+                <relationship kind="action" name="changeProjectProcessButtonPressed:"/>
+                <relationship kind="action" name="versionButtonPressed:"/>
+                <relationship kind="outlet" name="vTabbar" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="VASettingViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VASettingViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="btDonePressed:"/>
+            </relationships>
+        </class>
+        <class className="VASpaChartViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VASpaChartViewController.h"/>
+        </class>
+        <class className="VATaktTimeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VATaktTimeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="btCancelPressed:"/>
+                <relationship kind="action" name="btDonePressed:"/>
+                <relationship kind="outlet" name="lbTatkTime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="pkChooseUnit" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="pkResultUnit" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="tfBreakPerShift" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfCustomerUnit" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfDayPerMonth" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfDayPerWeek" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfOperationPerShift" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfShiftPerDay" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="VAVAMViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAVAMViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="btCreateNewPressed:"/>
+                <relationship kind="action" name="btSelectExistingPressed:"/>
+                <relationship kind="outlet" name="pkListProjects" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="tfCompanyName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfProjectName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tvLocation" candidateClass="TDTextView"/>
+                <relationship kind="outlet" name="tvNote" candidateClass="TDTextView"/>
+                <relationship kind="outlet" name="tvProjDescription" candidateClass="TDTextView"/>
+            </relationships>
+        </class>
+        <class className="VAVSMDrawViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAVSMDrawViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="btDrawObject:" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="VAVersionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAVersionViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
