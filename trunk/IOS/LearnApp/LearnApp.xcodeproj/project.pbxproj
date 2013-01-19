@@ -70,14 +70,23 @@
 		2F7A44E916A8F8D100D1CD42 /* toggle_button_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F7A44AC16A8F8D100D1CD42 /* toggle_button_on.png */; };
 		2F7A44EA16A8F8D100D1CD42 /* ukraine.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F7A44AD16A8F8D100D1CD42 /* ukraine.png */; };
 		2F7A44EB16A8F8D100D1CD42 /* usa.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F7A44AE16A8F8D100D1CD42 /* usa.png */; };
-		2FD0D4C016A83D01002803CB /* VAVAMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */; };
-		2FD0D4C316A83D5A002803CB /* VATaktTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C216A83D5A002803CB /* VATaktTimeViewController.m */; };
-		2FD0D4C616A83DB7002803CB /* VACycleTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C516A83DB6002803CB /* VACycleTimeViewController.m */; };
-		2FD0D4C916A83E63002803CB /* VASpaChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4C816A83E63002803CB /* VASpaChartViewController.m */; };
-		2FD0D4CC16A83EDD002803CB /* VAPqprViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */; };
+		2F8B44A116AA5A1300A337A1 /* VAAnalysisCTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B448216AA5A1300A337A1 /* VAAnalysisCTimeViewController.m */; };
+		2F8B44A216AA5A1300A337A1 /* VACycleTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B448416AA5A1300A337A1 /* VACycleTimeViewController.m */; };
+		2F8B44A916AA5A1300A337A1 /* VAPqprViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B449416AA5A1300A337A1 /* VAPqprViewController.m */; };
+		2F8B44AA16AA5A1300A337A1 /* VASpaChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B449816AA5A1300A337A1 /* VASpaChartViewController.m */; };
+		2F8B44AB16AA5A1300A337A1 /* VATaktTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B449B16AA5A1300A337A1 /* VATaktTimeViewController.m */; };
+		2F8B44B616AA5DB200A337A1 /* TDTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B44B516AA5DB200A337A1 /* TDTextFieldCell.m */; };
+		2F8B44BF16AA651B00A337A1 /* VAProjDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B44BC16AA651800A337A1 /* VAProjDetailViewController.m */; };
+		2F8B44C516AA66AD00A337A1 /* VAVAMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B44C416AA66AD00A337A1 /* VAVAMViewController.m */; };
+		2FC8E27216AA6B9A0078B407 /* VARootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27116AA6B9A0078B407 /* VARootViewController.m */; };
+		2FC8E28016AA6BD00078B407 /* VABookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27516AA6BD00078B407 /* VABookViewController.m */; };
+		2FC8E28116AA6BD00078B407 /* VAChangeProjViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27716AA6BD00078B407 /* VAChangeProjViewController.m */; };
+		2FC8E28216AA6BD00078B407 /* VACurrencyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27916AA6BD00078B407 /* VACurrencyViewController.m */; };
+		2FC8E28316AA6BD00078B407 /* VAExportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27B16AA6BD00078B407 /* VAExportViewController.m */; };
+		2FC8E28416AA6BD00078B407 /* VASettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27D16AA6BD00078B407 /* VASettingViewController.m */; };
+		2FC8E28516AA6BD00078B407 /* VAVersionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27F16AA6BD00078B407 /* VAVersionViewController.m */; };
 		2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */; };
 		2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4EA16A8439D002803CB /* VAProject.m */; };
-		2FD0D4EE16A8469F002803CB /* VAProjDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4ED16A8469F002803CB /* VAProjDetailViewController.m */; };
 		2FD0D4F716A85449002803CB /* TDLanguage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4F616A85449002803CB /* TDLanguage.m */; };
 		2FD0D4FC16A85541002803CB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FD0D4FA16A85541002803CB /* Localizable.strings */; };
 		2FD0D50516A85B88002803CB /* UIGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD0D4FF16A85B88002803CB /* UIGridView.m */; };
@@ -167,22 +176,40 @@
 		2F7A44AC16A8F8D100D1CD42 /* toggle_button_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toggle_button_on.png; sourceTree = "<group>"; };
 		2F7A44AD16A8F8D100D1CD42 /* ukraine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ukraine.png; sourceTree = "<group>"; };
 		2F7A44AE16A8F8D100D1CD42 /* usa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usa.png; sourceTree = "<group>"; };
-		2FD0D4BE16A83D01002803CB /* VAVAMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVAMViewController.h; sourceTree = "<group>"; };
-		2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVAMViewController.m; sourceTree = "<group>"; };
-		2FD0D4C116A83D5A002803CB /* VATaktTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VATaktTimeViewController.h; sourceTree = "<group>"; };
-		2FD0D4C216A83D5A002803CB /* VATaktTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VATaktTimeViewController.m; sourceTree = "<group>"; };
-		2FD0D4C416A83DB6002803CB /* VACycleTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VACycleTimeViewController.h; sourceTree = "<group>"; };
-		2FD0D4C516A83DB6002803CB /* VACycleTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VACycleTimeViewController.m; sourceTree = "<group>"; };
-		2FD0D4C716A83E63002803CB /* VASpaChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VASpaChartViewController.h; sourceTree = "<group>"; };
-		2FD0D4C816A83E63002803CB /* VASpaChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VASpaChartViewController.m; sourceTree = "<group>"; };
-		2FD0D4CA16A83EDC002803CB /* VAPqprViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAPqprViewController.h; sourceTree = "<group>"; };
-		2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAPqprViewController.m; sourceTree = "<group>"; };
+		2F8B448116AA5A1300A337A1 /* VAAnalysisCTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAAnalysisCTimeViewController.h; sourceTree = "<group>"; };
+		2F8B448216AA5A1300A337A1 /* VAAnalysisCTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAAnalysisCTimeViewController.m; sourceTree = "<group>"; };
+		2F8B448316AA5A1300A337A1 /* VACycleTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VACycleTimeViewController.h; sourceTree = "<group>"; };
+		2F8B448416AA5A1300A337A1 /* VACycleTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VACycleTimeViewController.m; sourceTree = "<group>"; };
+		2F8B449316AA5A1300A337A1 /* VAPqprViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAPqprViewController.h; sourceTree = "<group>"; };
+		2F8B449416AA5A1300A337A1 /* VAPqprViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAPqprViewController.m; sourceTree = "<group>"; };
+		2F8B449716AA5A1300A337A1 /* VASpaChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VASpaChartViewController.h; sourceTree = "<group>"; };
+		2F8B449816AA5A1300A337A1 /* VASpaChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VASpaChartViewController.m; sourceTree = "<group>"; };
+		2F8B449A16AA5A1300A337A1 /* VATaktTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VATaktTimeViewController.h; sourceTree = "<group>"; };
+		2F8B449B16AA5A1300A337A1 /* VATaktTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VATaktTimeViewController.m; sourceTree = "<group>"; };
+		2F8B44B416AA5DB200A337A1 /* TDTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDTextFieldCell.h; sourceTree = "<group>"; };
+		2F8B44B516AA5DB200A337A1 /* TDTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDTextFieldCell.m; sourceTree = "<group>"; };
+		2F8B44BB16AA651800A337A1 /* VAProjDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProjDetailViewController.h; sourceTree = "<group>"; };
+		2F8B44BC16AA651800A337A1 /* VAProjDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProjDetailViewController.m; sourceTree = "<group>"; };
+		2F8B44C316AA66AD00A337A1 /* VAVAMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVAMViewController.h; sourceTree = "<group>"; };
+		2F8B44C416AA66AD00A337A1 /* VAVAMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVAMViewController.m; sourceTree = "<group>"; };
+		2FC8E27016AA6B9A0078B407 /* VARootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VARootViewController.h; sourceTree = "<group>"; };
+		2FC8E27116AA6B9A0078B407 /* VARootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VARootViewController.m; sourceTree = "<group>"; };
+		2FC8E27416AA6BD00078B407 /* VABookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VABookViewController.h; sourceTree = "<group>"; };
+		2FC8E27516AA6BD00078B407 /* VABookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VABookViewController.m; sourceTree = "<group>"; };
+		2FC8E27616AA6BD00078B407 /* VAChangeProjViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAChangeProjViewController.h; sourceTree = "<group>"; };
+		2FC8E27716AA6BD00078B407 /* VAChangeProjViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAChangeProjViewController.m; sourceTree = "<group>"; };
+		2FC8E27816AA6BD00078B407 /* VACurrencyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VACurrencyViewController.h; sourceTree = "<group>"; };
+		2FC8E27916AA6BD00078B407 /* VACurrencyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VACurrencyViewController.m; sourceTree = "<group>"; };
+		2FC8E27A16AA6BD00078B407 /* VAExportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAExportViewController.h; sourceTree = "<group>"; };
+		2FC8E27B16AA6BD00078B407 /* VAExportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAExportViewController.m; sourceTree = "<group>"; };
+		2FC8E27C16AA6BD00078B407 /* VASettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VASettingViewController.h; sourceTree = "<group>"; };
+		2FC8E27D16AA6BD00078B407 /* VASettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VASettingViewController.m; sourceTree = "<group>"; };
+		2FC8E27E16AA6BD00078B407 /* VAVersionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVersionViewController.h; sourceTree = "<group>"; };
+		2FC8E27F16AA6BD00078B407 /* VAVersionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVersionViewController.m; sourceTree = "<group>"; };
 		2FD0D4CE16A83F00002803CB /* TDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDAppDelegate.h; sourceTree = "<group>"; };
 		2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDAppDelegate.m; sourceTree = "<group>"; };
 		2FD0D4E916A8439D002803CB /* VAProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProject.h; sourceTree = "<group>"; };
 		2FD0D4EA16A8439D002803CB /* VAProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProject.m; sourceTree = "<group>"; };
-		2FD0D4EC16A8469F002803CB /* VAProjDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAProjDetailViewController.h; sourceTree = "<group>"; };
-		2FD0D4ED16A8469F002803CB /* VAProjDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProjDetailViewController.m; sourceTree = "<group>"; };
 		2FD0D4F516A85449002803CB /* TDLanguage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDLanguage.h; sourceTree = "<group>"; };
 		2FD0D4F616A85449002803CB /* TDLanguage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDLanguage.m; sourceTree = "<group>"; };
 		2FD0D4F916A854DB002803CB /* TDCommonLibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDCommonLibs.h; sourceTree = "<group>"; };
@@ -322,6 +349,90 @@
 			path = SpecImage;
 			sourceTree = "<group>";
 		};
+		2F8B448016AA5A1300A337A1 /* CycleTime */ = {
+			isa = PBXGroup;
+			children = (
+				2F8B448116AA5A1300A337A1 /* VAAnalysisCTimeViewController.h */,
+				2F8B448216AA5A1300A337A1 /* VAAnalysisCTimeViewController.m */,
+				2F8B448316AA5A1300A337A1 /* VACycleTimeViewController.h */,
+				2F8B448416AA5A1300A337A1 /* VACycleTimeViewController.m */,
+			);
+			path = CycleTime;
+			sourceTree = "<group>";
+		};
+		2F8B449216AA5A1300A337A1 /* Pqpr */ = {
+			isa = PBXGroup;
+			children = (
+				2F8B449316AA5A1300A337A1 /* VAPqprViewController.h */,
+				2F8B449416AA5A1300A337A1 /* VAPqprViewController.m */,
+			);
+			path = Pqpr;
+			sourceTree = "<group>";
+		};
+		2F8B449616AA5A1300A337A1 /* SpaChart */ = {
+			isa = PBXGroup;
+			children = (
+				2F8B449716AA5A1300A337A1 /* VASpaChartViewController.h */,
+				2F8B449816AA5A1300A337A1 /* VASpaChartViewController.m */,
+			);
+			path = SpaChart;
+			sourceTree = "<group>";
+		};
+		2F8B449916AA5A1300A337A1 /* TaktTIme */ = {
+			isa = PBXGroup;
+			children = (
+				2F8B449A16AA5A1300A337A1 /* VATaktTimeViewController.h */,
+				2F8B449B16AA5A1300A337A1 /* VATaktTimeViewController.m */,
+			);
+			path = TaktTIme;
+			sourceTree = "<group>";
+		};
+		2F8B44C116AA652200A337A1 /* VAMProjDetail */ = {
+			isa = PBXGroup;
+			children = (
+				2F8B44BB16AA651800A337A1 /* VAProjDetailViewController.h */,
+				2F8B44BC16AA651800A337A1 /* VAProjDetailViewController.m */,
+			);
+			name = VAMProjDetail;
+			sourceTree = "<group>";
+		};
+		2F8B44C216AA66AD00A337A1 /* VAM */ = {
+			isa = PBXGroup;
+			children = (
+				2F8B44C316AA66AD00A337A1 /* VAVAMViewController.h */,
+				2F8B44C416AA66AD00A337A1 /* VAVAMViewController.m */,
+			);
+			path = VAM;
+			sourceTree = "<group>";
+		};
+		2FC8E26F16AA6B9A0078B407 /* RooViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2FC8E27016AA6B9A0078B407 /* VARootViewController.h */,
+				2FC8E27116AA6B9A0078B407 /* VARootViewController.m */,
+			);
+			path = RooViewController;
+			sourceTree = "<group>";
+		};
+		2FC8E27316AA6BD00078B407 /* MenuViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2FC8E27416AA6BD00078B407 /* VABookViewController.h */,
+				2FC8E27516AA6BD00078B407 /* VABookViewController.m */,
+				2FC8E27616AA6BD00078B407 /* VAChangeProjViewController.h */,
+				2FC8E27716AA6BD00078B407 /* VAChangeProjViewController.m */,
+				2FC8E27816AA6BD00078B407 /* VACurrencyViewController.h */,
+				2FC8E27916AA6BD00078B407 /* VACurrencyViewController.m */,
+				2FC8E27A16AA6BD00078B407 /* VAExportViewController.h */,
+				2FC8E27B16AA6BD00078B407 /* VAExportViewController.m */,
+				2FC8E27C16AA6BD00078B407 /* VASettingViewController.h */,
+				2FC8E27D16AA6BD00078B407 /* VASettingViewController.m */,
+				2FC8E27E16AA6BD00078B407 /* VAVersionViewController.h */,
+				2FC8E27F16AA6BD00078B407 /* VAVersionViewController.m */,
+			);
+			path = MenuViewController;
+			sourceTree = "<group>";
+		};
 		2FD0D4B716A83CC7002803CB /* SourceCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,11 +455,14 @@
 		2FD0D4BD16A83CF2002803CB /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2FD0D4D116A83F10002803CB /* VAM */,
-				2FD0D4D216A83F22002803CB /* TaktTime */,
-				2FD0D4D316A83F2E002803CB /* CycleTime */,
-				2FD0D4D416A83F38002803CB /* SpaChart */,
-				2FD0D4D516A83F42002803CB /* PQPR */,
+				2FC8E26F16AA6B9A0078B407 /* RooViewController */,
+				2FC8E27316AA6BD00078B407 /* MenuViewController */,
+				2F8B44C216AA66AD00A337A1 /* VAM */,
+				2F8B44C116AA652200A337A1 /* VAMProjDetail */,
+				2F8B448016AA5A1300A337A1 /* CycleTime */,
+				2F8B449216AA5A1300A337A1 /* Pqpr */,
+				2F8B449616AA5A1300A337A1 /* SpaChart */,
+				2F8B449916AA5A1300A337A1 /* TaktTIme */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -360,53 +474,6 @@
 				2FD0D4CF16A83F00002803CB /* TDAppDelegate.m */,
 			);
 			path = AppDelegate;
-			sourceTree = "<group>";
-		};
-		2FD0D4D116A83F10002803CB /* VAM */ = {
-			isa = PBXGroup;
-			children = (
-				2FD0D4BE16A83D01002803CB /* VAVAMViewController.h */,
-				2FD0D4BF16A83D01002803CB /* VAVAMViewController.m */,
-				2FD0D4EC16A8469F002803CB /* VAProjDetailViewController.h */,
-				2FD0D4ED16A8469F002803CB /* VAProjDetailViewController.m */,
-			);
-			name = VAM;
-			sourceTree = "<group>";
-		};
-		2FD0D4D216A83F22002803CB /* TaktTime */ = {
-			isa = PBXGroup;
-			children = (
-				2FD0D4C116A83D5A002803CB /* VATaktTimeViewController.h */,
-				2FD0D4C216A83D5A002803CB /* VATaktTimeViewController.m */,
-			);
-			name = TaktTime;
-			sourceTree = "<group>";
-		};
-		2FD0D4D316A83F2E002803CB /* CycleTime */ = {
-			isa = PBXGroup;
-			children = (
-				2FD0D4C416A83DB6002803CB /* VACycleTimeViewController.h */,
-				2FD0D4C516A83DB6002803CB /* VACycleTimeViewController.m */,
-			);
-			name = CycleTime;
-			sourceTree = "<group>";
-		};
-		2FD0D4D416A83F38002803CB /* SpaChart */ = {
-			isa = PBXGroup;
-			children = (
-				2FD0D4C716A83E63002803CB /* VASpaChartViewController.h */,
-				2FD0D4C816A83E63002803CB /* VASpaChartViewController.m */,
-			);
-			name = SpaChart;
-			sourceTree = "<group>";
-		};
-		2FD0D4D516A83F42002803CB /* PQPR */ = {
-			isa = PBXGroup;
-			children = (
-				2FD0D4CA16A83EDC002803CB /* VAPqprViewController.h */,
-				2FD0D4CB16A83EDC002803CB /* VAPqprViewController.m */,
-			);
-			name = PQPR;
 			sourceTree = "<group>";
 		};
 		2FD0D4D616A83F74002803CB /* Libs */ = {
@@ -506,6 +573,8 @@
 			children = (
 				2FD0D51D16A860CA002803CB /* TDTextView.h */,
 				2FD0D51E16A860CA002803CB /* TDTextView.m */,
+				2F8B44B416AA5DB200A337A1 /* TDTextFieldCell.h */,
+				2F8B44B516AA5DB200A337A1 /* TDTextFieldCell.m */,
 			);
 			path = ToolKit;
 			sourceTree = "<group>";
@@ -730,14 +799,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FDA03ED16A5053B00F50D40 /* main.m in Sources */,
-				2FD0D4C016A83D01002803CB /* VAVAMViewController.m in Sources */,
-				2FD0D4C316A83D5A002803CB /* VATaktTimeViewController.m in Sources */,
-				2FD0D4C616A83DB7002803CB /* VACycleTimeViewController.m in Sources */,
-				2FD0D4C916A83E63002803CB /* VASpaChartViewController.m in Sources */,
-				2FD0D4CC16A83EDD002803CB /* VAPqprViewController.m in Sources */,
 				2FD0D4D016A83F00002803CB /* TDAppDelegate.m in Sources */,
 				2FD0D4EB16A8439D002803CB /* VAProject.m in Sources */,
-				2FD0D4EE16A8469F002803CB /* VAProjDetailViewController.m in Sources */,
 				2FD0D4F716A85449002803CB /* TDLanguage.m in Sources */,
 				2FD0D50516A85B88002803CB /* UIGridView.m in Sources */,
 				2FD0D50616A85B88002803CB /* UIGridViewCell.m in Sources */,
@@ -749,6 +812,21 @@
 				2F7A446C16A8EE8700D1CD42 /* TDString.m in Sources */,
 				A7C1155516A9045300457170 /* VAProcess.m in Sources */,
 				A7C1155616A9045300457170 /* VAStep.m in Sources */,
+				2F8B44A116AA5A1300A337A1 /* VAAnalysisCTimeViewController.m in Sources */,
+				2F8B44A216AA5A1300A337A1 /* VACycleTimeViewController.m in Sources */,
+				2F8B44A916AA5A1300A337A1 /* VAPqprViewController.m in Sources */,
+				2F8B44AA16AA5A1300A337A1 /* VASpaChartViewController.m in Sources */,
+				2F8B44AB16AA5A1300A337A1 /* VATaktTimeViewController.m in Sources */,
+				2F8B44B616AA5DB200A337A1 /* TDTextFieldCell.m in Sources */,
+				2F8B44BF16AA651B00A337A1 /* VAProjDetailViewController.m in Sources */,
+				2F8B44C516AA66AD00A337A1 /* VAVAMViewController.m in Sources */,
+				2FC8E27216AA6B9A0078B407 /* VARootViewController.m in Sources */,
+				2FC8E28016AA6BD00078B407 /* VABookViewController.m in Sources */,
+				2FC8E28116AA6BD00078B407 /* VAChangeProjViewController.m in Sources */,
+				2FC8E28216AA6BD00078B407 /* VACurrencyViewController.m in Sources */,
+				2FC8E28316AA6BD00078B407 /* VAExportViewController.m in Sources */,
+				2FC8E28416AA6BD00078B407 /* VASettingViewController.m in Sources */,
+				2FC8E28516AA6BD00078B407 /* VAVersionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
