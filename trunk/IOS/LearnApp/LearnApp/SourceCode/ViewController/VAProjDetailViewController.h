@@ -13,7 +13,7 @@
 #import "VAStep.h"
 
 
-@interface VAProjDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverControllerDelegate>
+@interface VAProjDetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverControllerDelegate>
 
 //cau truyen cho to thuoc tinh nay nhe duc
 @property (retain, nonatomic) VAProject *currentProject;

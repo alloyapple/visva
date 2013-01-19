@@ -216,8 +216,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="2Je-xx-D6i"/>
-                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="GMr-6l-Ctc"/>
+                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="I7J-LY-pGr"/>
+                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="cnY-xJ-Au9"/>
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DtH-Cg-i2x">
@@ -276,8 +276,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="eeL-NW-bZD"/>
-                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="abT-zx-1YQ"/>
+                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="ROq-RE-j2b"/>
+                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="kL8-dn-9Vb"/>
                                 </connections>
                             </tableView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
