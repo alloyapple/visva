@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VAExportViewController : UIViewController
+@interface VAExportViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @end
