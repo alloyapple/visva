@@ -11,6 +11,7 @@
 #import "VAGlobal.h"
 #import "VAProject.h"
 #import "VAProjDetailViewController.h"
+#import "VAVSMDrawViewController.h"
 #import "TDString.h"
 
 @interface VAVAMViewController ()
@@ -129,6 +130,10 @@
     [al show];
 }
 - (IBAction)btSelectExistingPressed:(id)sender {
+    VAVSMDrawViewController *draw = [self.storyboard instantiateViewControllerWithIdentifier:@"VAVSMDrawViewController"];
+    [self.navigationController pushViewController:draw animated:YES];
+    return;
+    
     if (_listProject.count <=0) {
         [self showAlert:TDLocalizedString(@"NoneExistProject", @"NoneExistProject")];
         return;
