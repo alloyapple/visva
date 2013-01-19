@@ -11,7 +11,9 @@
 #import "VAVersionController.h"
 
 @interface VARootViewController ()
-
+- (void)changeProject;
+- (void)newProject;
+- (void)versionsChange;
 @end
 
 @implementation VARootViewController
@@ -42,6 +44,10 @@
         VAChangeProjectController *changeProject = [[[VAChangeProjectController alloc] init] autorelease];
     changeProject.navigationItem.title = @"Change Project/Process";
         UINavigationController *navCtr = [[[UINavigationController alloc] initWithRootViewController:changeProject] autorelease];
+    changeProject.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(changeProject)] autorelease];
+    changeProject.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleDone;
+    changeProject.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"New Project" style:UIBarButtonItemStylePlain target:self action:@selector(newProject)] autorelease];
+    
         self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:navCtr] autorelease];
         self.popoverController.delegate = self;
     [self.popoverController setPopoverContentSize:CGSizeMake(500, 260)];
@@ -52,6 +58,8 @@
 - (IBAction)versionButtonPressed:(id)sender {
     VAVersionController *versionController = [[[VAVersionController alloc] init] autorelease];
     versionController.navigationItem.title = @"Versions";
+    versionController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(versionsChange)] autorelease];
+    versionController.navigationItem.leftBarButtonItem.style = UIBarButtonSystemItemDone;
     UINavigationController *navCtr = [[[UINavigationController alloc] initWithRootViewController:versionController] autorelease];
     self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:navCtr] autorelease];
     self.popoverController.delegate = self;
@@ -66,5 +74,17 @@
 - (void)viewDidUnload {
     [popoverController release];
     [super viewDidUnload];
+}
+
+//actions
+
+- (void)changeProject {
+    [self.popoverController dismissPopoverAnimated:YES];
+}
+- (void)newProject {
+    [self.popoverController dismissPopoverAnimated:YES];
+}
+- (void)versionsChange {
+    [self.popoverController dismissPopoverAnimated:YES];
 }
 @end
