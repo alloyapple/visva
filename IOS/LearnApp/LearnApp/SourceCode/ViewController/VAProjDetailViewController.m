@@ -29,7 +29,7 @@
     self.currentProcess.Process_name = self.processNameTextView.text;
     self.currentProcess.Project_name = self.currentProject.sPrName;
     self.currentProcess.Description = self.processDescription.text;
-    [self.currentProject.arrProcess addObject:self.currentProject];
+    [self.currentProject.arrProcess addObject:self.currentProcess];
     return self.currentProcess;
 }
 -(VAStep *)stepFromView {
@@ -65,11 +65,11 @@
     self.defectTextField.placeholder = TDLocalizedString(@"defect", "defect");
     self.communicationTextField.placeholder = TDLocalizedString(@"communication", @"communication");
     self.nonvalueAddingTimeTextField.placeholder = TDLocalizedString(@"nonValueAddingTime", @"nonValueAddingTime");
-    self.addProcessButton.titleLabel.text = TDLocalizedString(@"addProcessButton", @"addProcessButton");
+    //self.addProcessButton.titleLabel.text = TDLocalizedString(@"addProcessButton", @"addProcessButton");
     self.stepLabel.text = TDLocalizedString(@"stepLabel", @"stepLabel");
     self.stepNameTextField.placeholder = TDLocalizedString(@"stepName", @"stepName");
-    self.addStepButton.titleLabel.text = TDLocalizedString(@"addStepButton", @"addStepButton");
-    self.iAmDoneButton.titleLabel.text = TDLocalizedString(@"iAmDoneButton", @"iAmDoneButton");
+    //self.addStepButton.titleLabel.text = TDLocalizedString(@"addStepButton", @"addStepButton");
+    //self.iAmDoneButton.titleLabel.text = TDLocalizedString(@"iAmDoneButton", @"iAmDoneButton");
 	// Do any additional setup after loading the view.
 }
 
@@ -136,8 +136,10 @@
     [super viewDidUnload];
 }
 - (IBAction)addProcessButtonPressed:(id)sender {
+    NSLog(@"anh khong yeu em");
     [self processFromView];
     [self.processTableView reloadData];
+    [self.processPickerView reloadAllComponents];
 }
 
 - (IBAction)addStepButtonPressed:(id)sender {
@@ -149,70 +151,50 @@
 - (IBAction)verifySwitchChange:(id)sender {
 }
 
-#pragma mark - UIGridViewDelegate Methods
-
-- (void) gridView:(UIGridView *)grid didSelect:(UIGridViewCell*)cell {
-    
+#pragma mark - UITableViewDelegate Methods
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
-
-- (CGFloat) gridView:(UIGridView *)grid widthForColumnAt:(int)columnIndex {
-    if ([self.processTableView isEqual:grid]) {
-        if (columnIndex == 0) {
-            return 20.0f;
-        } else if (columnIndex == 1) {
-            return 40.0f;
-        } else if (columnIndex == 2) {
-            return 60.0f;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.processTableView == tableView) {
+        return [self.currentProject.arrProcess count];
+    } else {
+        return [self.currentProcess.listStep count];
+    }
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *ProcessCellIdentifier = @"ProcessCellIdentifier";
+    static NSString *StepCellIdentifier = @"StepCellIndentifier";
+    if (self.processTableView == tableView) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ProcessCellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ProcessCellIdentifier];
         }
-    } else if ([self.stepTableView isEqual:grid]) {
-        if (columnIndex == 0) {
-            return 20.0f;
-        } else {
-            return 40.0f;
+        cell.textLabel.text = [[self.currentProject.arrProcess objectAtIndex:indexPath.row] Process_name];
+        return cell;
+    } else if (self.stepTableView == tableView) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:StepCellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:StepCellIdentifier];
         }
-    }
-    return 0;
-}
-- (CGFloat) gridView:(UIGridView *)grid heightForRowAt:(int)rowIndex {
-    if ([self.processTableView isEqual:grid]) {
-        return 44;
-    } else if ([self.stepTableView isEqual:grid]) {
-        return 44;
-    }
-    return 44;
-}
-
-- (NSInteger) numberOfColumnsOfGridView:(UIGridView *) grid {
-    if ([self.processTableView isEqual:grid]) {
-        return 3;
-    } else if ([self.stepTableView isEqual:grid]) {
-        return 2;
-    }
-    return 2;
-}
-- (NSInteger) numberOfCellsOfGridView:(UIGridView *) grid {
-    if ([self.processTableView isEqual:grid]) {
-        return [self.currentProject.arrProcess count] * 3;
-    } else if ([self.stepTableView isEqual:grid]) {
-        return [self.selectedProcess.listStep count] * 2;
-    }
-    return 3;
-}
-
-- (UIGridViewCell *) gridView:(UIGridView *)grid cellForRowAt:(int)rowIndex AndColumnAt:(int)columnIndex {
-    UIGridViewCell *cell = [[[UIGridViewCell alloc] init] autorelease];
-    cell.rowIndex = rowIndex;
-    cell.colIndex = columnIndex;
-    if ([self.processTableView isEqual:grid]) {
-        VAProcess *selectProcess = [self.currentProject.arrProcess objectAtIndex:rowIndex];
-        if (columnIndex == 2) {
-            cell.titleLabel.text = selectProcess.Process_name;
-        } else if (columnIndex == 3) {
-            cell.titleLabel.text = selectProcess.Description;
-        }
+        cell.textLabel.text = [[self.selectedProcess.listStep objectAtIndex:indexPath.row] Step_name];
         return cell;
     }
-    return cell;
+    return nil;
 }
+
+
+#pragma mark - UIPickerViewDelegate Methods
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [self.currentProject.arrProcess count];
+}
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    return [[self.currentProject.arrProcess objectAtIndex:row] Process_name];
+}
+
 
 @end

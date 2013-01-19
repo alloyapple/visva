@@ -121,6 +121,7 @@
     if ([kShowProjDetail isEqualToString:identifier]) {
         VAProjDetailViewController *destination = segue.destinationViewController;
         destination.currentProject = self.currentProject;
+        destination.currentProject.arrProcess = [[[NSMutableArray alloc] init] autorelease];
     }
 }
 -(void)showAlert:(NSString*)mess{
