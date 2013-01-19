@@ -13,6 +13,7 @@
 #import "UIGridViewCell.h"
 #import "VAProcessDetailController.h"
 #import "VAVSMDrawViewController.h"
+#import "TDCommonLibs.h"
 @interface VAProjDetailViewController ()
 -(BOOL)isValidProcess:(VAProcess *)process;
 -(BOOL)isValidStep:(VAStep *)step;
@@ -152,7 +153,7 @@
     [super viewDidUnload];
 }
 - (IBAction)addProcessButtonPressed:(id)sender {
-    NSLog(@"anh khong yeu em");
+    TDLOG(@"anh khong yeu em");
     self.selectedProcess = [self processFromView];
     [self.processTableView reloadData];
     [self.processPickerView reloadAllComponents];
@@ -256,13 +257,22 @@
     return 1;
 }
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    if (self.currentProject.arrProcess.count == 0) {
+        return 1;
+    }
     return [self.currentProject.arrProcess count];
 }
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    if (self.currentProject.arrProcess.count == 0) {
+        return TDLocalizedStringOne(@"NoProcess");
+    }
     return [[self.currentProject.arrProcess objectAtIndex:row] Process_name];
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (self.currentProject.arrProcess.count == 0) {
+        return;
+    }
     self.selectedProcess = [self.currentProject.arrProcess objectAtIndex:row];
     NSLog(@"%@", self.currentProcess.Process_name);
     [self.stepTableView reloadData];

@@ -24,6 +24,7 @@
 - (IBAction)btCerrency:(id)sender;
 - (IBAction)btExport:(id)sender;
 - (IBAction)btBook:(id)sender;
+@property (retain, nonatomic) IBOutlet UIView *vTabbar;
 
 @end
 
@@ -42,7 +43,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+#define kMainTabbar @"MainTabbar"
+    UITabBarController *tabbar = [self.storyboard instantiateViewControllerWithIdentifier:kMainTabbar];
+    [self addChildViewController:tabbar];
+    tabbar.view.frame = _vTabbar.frame;
+    [UIView transitionFromView:_vTabbar toView:tabbar.view duration:0.1 options:UIViewAnimationCurveEaseInOut completion:^(BOOL finished) {
+        
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -112,10 +120,12 @@
 
 - (void)dealloc {
     [popoverController release];
+    [_vTabbar release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [popoverController release];
+    [self setVTabbar:nil];
     [super viewDidUnload];
 }
 
