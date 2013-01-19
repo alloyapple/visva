@@ -13,7 +13,7 @@
 #import "VAStep.h"
 
 
-@interface VAProjDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface VAProjDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverControllerDelegate>
 
 //cau truyen cho to thuoc tinh nay nhe duc
 @property (retain, nonatomic) VAProject *currentProject;
@@ -49,6 +49,10 @@
 @property (retain, nonatomic) IBOutlet UIButton *iAmDoneButton;
 @property (retain, nonatomic) IBOutlet UITableView *stepTableView;
 @property (retain, nonatomic) IBOutlet UIPickerView *processPickerView;
+
+
+
+@property (retain, nonatomic) UIPopoverController *popoverController;
 
 - (IBAction)addProcessButtonPressed:(id)sender;
 - (IBAction)addStepButtonPressed:(id)sender;

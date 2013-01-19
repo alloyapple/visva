@@ -11,17 +11,25 @@
 #import "VAProcess.h"
 #import "VAStep.h"
 #import "UIGridViewCell.h"
+#import "VAProcessDetailController.h"
 @interface VAProjDetailViewController ()
 -(BOOL)isValidProcess:(VAProcess *)process;
+-(BOOL)isValidStep:(VAStep *)step;
 - (VAProcess *)processFromView;
 - (VAStep *)stepFromView;
-
+- (void)delete;
+- (void)edit:(id)sender;
 @end
 
 @implementation VAProjDetailViewController
+@synthesize popoverController;
 
 #pragma mark - Private Methods
+
 - (BOOL)isValidProcess:(VAProcess *)process {
+    return YES;
+}
+- (BOOL)isValidStep:(VAStep *)step {
     return YES;
 }
 -(VAProcess *)processFromView {
@@ -108,6 +116,7 @@
     [_addStepButton release];
     [_iAmDoneButton release];
     [_selectedProcess release];
+    [popoverController release];
     [super dealloc];
 }
 - (void)viewDidUnload {
@@ -135,6 +144,7 @@
     [self setAddStepButton:nil];
     [self setIAmDoneButton:nil];
     [self setSelectedProcess:nil];
+    [self setPopoverController:nil];
     [super viewDidUnload];
 }
 - (IBAction)addProcessButtonPressed:(id)sender {
@@ -189,26 +199,41 @@
     return nil;
 }
 
+//UIMenuController
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
 
-//-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSLog(@"aa");
-//    [self becomeFirstResponder];
-//    UIMenuItem *delete = [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(delete:)] autorelease];
-//    UIMenuItem *edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)] autorelease];
-//    UIMenuController *menu = [UIMenuController sharedMenuController];
-//    [menu setMenuItems:[NSArray arrayWithObjects:delete, edit, nil]];
-//    [menu setTargetRect:tableView.frame inView:self.view];
-//    menu.arrowDirection = UIMenuControllerArrowDown;
-//    [menu setMenuVisible:YES animated:YES];
-//}
-//- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return YES;
-//}
-//- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-//    if (action == @selector(edit:)) {
-//        return YES;
-//    }
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self becomeFirstResponder];
+    UIMenuItem *delete = [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(delete)] autorelease];
+    UIMenuItem *edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)] autorelease];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    [menuController setMenuItems:[NSArray arrayWithObjects:delete,edit, nil]];
+    [menuController setTargetRect:CGRectZero inView:cell];
+    [menuController setMenuVisible:YES animated:YES];
+    
+}
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    if (action == @selector(delete:) || action == @selector(edit:)) {
+        return YES;
+    }
+    return NO;
+}
+
+-(void)delete {
+    
+}
+- (void)edit:(id)sender {
+    VAProcessDetailController *processDetail = [[VAProcessDetailController alloc] init];
+    self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:processDetail] autorelease];
+    self.popoverController.delegate = self;
+    [self.popoverController setPopoverContentSize:processDetail.view.frame.size];
+    [self.popoverController presentPopoverFromRect:CGRectZero inView:self.processTableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+//UIPopoverController
 
 #pragma mark - UIPickerViewDelegate Methods
 
@@ -227,4 +252,6 @@
     NSLog(@"%@", self.currentProcess.Process_name);
     [self.stepTableView reloadData];
 }
+
+
 @end
