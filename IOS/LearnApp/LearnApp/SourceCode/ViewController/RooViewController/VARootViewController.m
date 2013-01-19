@@ -9,11 +9,22 @@
 #import "VARootViewController.h"
 #import "VAChangeProjectController.h"
 #import "VAVersionController.h"
+#import "TDLog.h"
+#import "VASettingViewController.h"
+#import "VAExportViewController.h"
 
 @interface VARootViewController ()
 - (void)changeProject;
 - (void)newProject;
 - (void)versionsChange;
+
+- (IBAction)btSetting:(id)sender;
+- (IBAction)btBag:(id)sender;
+- (IBAction)btVersion:(id)sender;
+- (IBAction)btCerrency:(id)sender;
+- (IBAction)btExport:(id)sender;
+- (IBAction)btBook:(id)sender;
+
 @end
 
 @implementation VARootViewController
@@ -52,7 +63,7 @@
         self.popoverController.delegate = self;
     [self.popoverController setPopoverContentSize:CGSizeMake(500, 260)];
         [self.popoverController presentPopoverFromRect:[sender frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    NSLog(@"anhyeueme");
+    TDLOG(@"anhyeueme");
 }
 
 - (IBAction)versionButtonPressed:(id)sender {
@@ -67,6 +78,38 @@
     [self.popoverController presentPopoverFromRect:[sender frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
 }
+
+-(void)popOver: (UIViewController *)controller sender:(UIButton*)bt{
+    if (self.popoverController != nil) {
+        [self.popoverController dismissPopoverAnimated:NO];
+    }
+    self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:controller] autorelease];
+    [self.popoverController presentPopoverFromRect:bt.frame inView:bt.superview permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+
+- (IBAction)btSetting:(id)sender {
+    VASettingViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"VASettingViewController"];
+    [self popOver:vc sender:sender];
+}
+
+- (IBAction)btBag:(id)sender {
+}
+
+- (IBAction)btVersion:(id)sender {
+}
+
+- (IBAction)btCerrency:(id)sender {
+}
+- (IBAction)btBook:(id)sender{
+    
+}
+- (IBAction)btExport:(id)sender {
+    VAExportViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"VAExportViewController"];
+    [self popOver:vc sender:sender];
+}
+
+
 - (void)dealloc {
     [popoverController release];
     [super dealloc];
