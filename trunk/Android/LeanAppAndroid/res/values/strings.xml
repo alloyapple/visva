@@ -7,7 +7,7 @@
     <string name="actionbar_activity_not_found">Action Bar Not Found</string>
     <!-- Tab host string -->
     <string name="value_stream_map">Value Stream Map</string>
-    <string name="task_time">Task Time</string>
+    <string name="task_time">Takt Time</string>
     <string name="cycle_time">Cycle Time</string>
     <string name="spaghetti_chart">Spaghetti Chart</string>
     <string name="pqpr">Pqpr</string>

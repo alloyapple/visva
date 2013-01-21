@@ -89,6 +89,7 @@
             android:layout_marginLeft="10dp"
             android:background="@color/white"
             android:hint="Project Name"
+            android:cursorVisible="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -101,6 +102,7 @@
             android:layout_toRightOf="@id/editText_CreatdProjectName"
             android:background="@color/white"
             android:hint="Company Name"
+            android:cursorVisible="true"
             android:textColor="@color/black" />
 
         <EditText
@@ -113,6 +115,7 @@
             android:background="@color/white"
             android:hint="Company Description"
             android:lines="3"
+            android:cursorVisible="true"
             android:textColor="@color/black" />
 
         <EditText
@@ -126,6 +129,7 @@
             android:layout_toRightOf="@id/editText_CreatdProjectName"
             android:background="@color/white"
             android:hint="Company Address"
+            android:cursorVisible="true"
             android:lines="3"
             android:textColor="@color/black" />
 
@@ -140,6 +144,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Notes"
+            android:cursorVisible="true"
             android:textColor="@color/black" />
 
         <Button

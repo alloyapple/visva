@@ -27,8 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
-		OnClickListener {
+public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClickListener {
 
 	// ==========================Control Define ==========================
 	private Button btnCreatedProject;
@@ -53,9 +52,9 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 	private List<TProjectDataBase> projectArrList;
 	// ==========================Variable Define =========================
 	private boolean scrolling = false;
-	private String project[];
-	private String projectName[];
-	private int projectId[];
+	private String project[] = {};
+	private String projectName[] = {};
+	private int projectId[] = {};
 	private int _projectCurrentId;
 
 	@Override
@@ -93,37 +92,34 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 
 	private void createDataBase() {
 		// init sharePreference
-		leanAppAndroidSharePreference = LeanAppAndroidSharePreference
-				.getInstance(this);
+		leanAppAndroidSharePreference = LeanAppAndroidSharePreference.getInstance(this);
 
 		// init database
 		databaseHandler = new TProjectDatabaseHandler(this);
-		project = new String[5];
-		projectName = new String[5];
-		projectId = new int[5];
+		// project = new String[5];
+		// projectName = new String[5];
+		// projectId = new int[5];
 
 		// Reading all projects
 		Log.d("Reading: ", "Reading all projects..");
-		List<TProjectDataBase> projectArrList = databaseHandler
-				.getAllProjects();
+		List<TProjectDataBase> projectArrList = databaseHandler.getAllProjects();
 
 		if (projectArrList.size() > 0) {
 			project = new String[projectArrList.size()];
 			projectName = new String[projectArrList.size()];
 			projectId = new int[projectArrList.size()];
 			for (int i = 0; i < projectArrList.size(); i++) {
-				project[i] = projectArrList.get(i).getCompanyName().toString()
-						+ " "
+				project[i] = projectArrList.get(i).getCompanyName().toString() + " "
 						+ projectArrList.get(i).getProjectName().toString();
-				projectName[i] = projectArrList.get(i).getProjectName()
-						.toString();
+				projectName[i] = projectArrList.get(i).getProjectName().toString();
 				projectId[i] = projectArrList.get(i).getProjectID();
 			}
 		} else {
-			project = new String[] { "No Project", "No Project", "No Project",
-					"No Project", "No Project" };
-			projectName = new String[] { "No Project", "No Project",
-					"No Project", "No Project", "No Project" };
+			// project = new String[] { "No Project", "No Project",
+			// "No Project",
+			// "No Project", "No Project" };
+			// projectName = new String[] { "No Project", "No Project",
+			// "No Project", "No Project", "No Project" };
 		}
 		// get current id for project to add new
 		_projectCurrentId = projectArrList.size();
@@ -162,8 +158,7 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 		// wheel android
 		projectWheel = (WheelView) findViewById(R.id.wheel_project);
 		projectWheel.setVisibleItems(5);
-		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this,
-				project, 3);
+		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this, project, 0);
 		projectWheel.setViewAdapter(projectAdapter);
 
 	}
@@ -172,8 +167,7 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 	 * Updates the city wheel
 	 */
 	private void updateCities(WheelView city, String cities[][], int index) {
-		ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
-				cities[index]);
+		ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this, cities[index]);
 		adapter.setTextSize(18);
 		city.setViewAdapter(adapter);
 		city.setCurrentItem(cities[index].length / 2);
@@ -195,48 +189,44 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 		if (view == btnCreatedProject) {
 			insertToDataBase();
 		} else if (view == btnSelectedProject) {
-			// insert to share preference
-			leanAppAndroidSharePreference
-					.setProjectCreatedOrSelectedExist(false);
-			leanAppAndroidSharePreference
-					.setProjectNameActive(projectName[projectWheel
-							.getCurrentItem()]);
-			leanAppAndroidSharePreference
-					.setProjectIdActive(projectId[projectWheel.getCurrentItem()]);
+			if (projectId.length > 0) {
+				// insert to share preference
+				leanAppAndroidSharePreference.setProjectCreatedOrSelectedExist(false);
+				leanAppAndroidSharePreference.setProjectNameActive(projectName[projectWheel
+						.getCurrentItem()]);
+				leanAppAndroidSharePreference.setProjectIdActive(projectId[projectWheel
+						.getCurrentItem()]);
 
-			Log.e("is Item selected ", "is project selected "
-					+ projectName[projectWheel.getCurrentItem()]);
-			//
-			gotoActivityInGroup(this, CreateProjectActivity.class);
+				Log.e("is Item selected ",
+						"is project selected " + projectName[projectWheel.getCurrentItem()]);
+				//
+				gotoActivityInGroup(this, CreateProjectActivity.class);
+			} else {
+				Toast.makeText(ChoiceProjectActivity.this, "No project is added to select",
+						Toast.LENGTH_LONG).show();
+			}
 		} else if (view == btnBookChoice) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionBookActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionBookActivity.class);
 		} else if (view == btnExport) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionExportActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionExportActivity.class);
 		} else if (view == btnSetting) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionSettingActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionSettingActivity.class);
 		} else if (view == btnVersion) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionVersionActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionVersionActivity.class);
 
 		} else if (view == btnChangeProject) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionChangeActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionChangeActivity.class);
 		}
 	}
 
 	private void insertToDataBase() {
 		if ("".equals(editTextProjectName.getText().toString().trim())
 				|| "".equals(editTextCompanyName.getText().toString().trim())
-				|| "".equals(editTextProjectDescription.getText().toString()
-						.trim())
+				|| "".equals(editTextProjectDescription.getText().toString().trim())
 				|| "".equals(editTextCompanyAddress.getText().toString().trim())
 				|| "".equals(editTextNotes.getText().toString().trim())) {
-			Toast.makeText(ChoiceProjectActivity.this,
-					"Fill all fields to create new project", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(ChoiceProjectActivity.this, "Fill all fields to create new project",
+					Toast.LENGTH_LONG).show();
 		} else {
 			boolean isDuplicate = false;
 			projectArrList = databaseHandler.getAllProjects();
@@ -252,30 +242,24 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 			}
 			if (!isDuplicate) {
 				_projectCurrentId++;// increase project id +1
-				databaseHandler.addNewProject(new TProjectDataBase(
-						_projectCurrentId, editTextProjectName.getText()
-								.toString(), editTextCompanyName.getText()
-								.toString(), editTextProjectDescription
-								.getText().toString(),
-						editTextProjectDescription.getText().toString(),
-						editTextCompanyAddress.getText().toString()));
+				databaseHandler.addNewProject(new TProjectDataBase(_projectCurrentId,
+						editTextProjectName.getText().toString(), editTextCompanyName.getText()
+								.toString(), editTextProjectDescription.getText().toString(),
+						editTextProjectDescription.getText().toString(), editTextCompanyAddress
+								.getText().toString()));
 				databaseHandler.close();
 
 				// insert to share preference
-				leanAppAndroidSharePreference
-						.setProjectIdActive(_projectCurrentId);
-				leanAppAndroidSharePreference
-						.setProjectNameActive(editTextProjectName.getText()
-								.toString());
-				leanAppAndroidSharePreference
-						.setProjectCreatedOrSelectedExist(true);
+				leanAppAndroidSharePreference.setProjectIdActive(_projectCurrentId);
+				leanAppAndroidSharePreference.setProjectNameActive(editTextProjectName.getText()
+						.toString());
+				leanAppAndroidSharePreference.setProjectCreatedOrSelectedExist(true);
 
 				// start create process activity
 				gotoActivityInGroup(this, CreateProjectActivity.class);
 			} else {
 				Toast.makeText(ChoiceProjectActivity.this,
-						"Duplicate project.Rename the project name",
-						Toast.LENGTH_LONG).show();
+						"Duplicate project.Rename the project name", Toast.LENGTH_LONG).show();
 				isDuplicate = false;
 			}
 		}
@@ -326,26 +310,24 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 	private void updateProjectWheel() {
 		// Reading all contacts
 		Log.d("Reading: ", "Reading all contacts..");
-		List<TProjectDataBase> projectArrList = databaseHandler
-				.getAllProjects();
+		List<TProjectDataBase> projectArrList = databaseHandler.getAllProjects();
 
 		if (projectArrList.size() > 0) {
 			project = new String[projectArrList.size()];
 			for (int i = 0; i < projectArrList.size(); i++) {
-				project[i] = projectArrList.get(i).getCompanyName().toString()
-						+ " "
+				project[i] = projectArrList.get(i).getCompanyName().toString() + " "
 						+ projectArrList.get(i).getProjectName().toString();
 			}
 		} else
-			project = new String[] { "No Project", "No Project", "No Project",
-					"No Project", "No Project" };
+			// project = new String[] { "No Project", "No Project",
+			// "No Project",
+			// "No Project", "No Project" };
 
-		// get current id for project to add new
-		_projectCurrentId = projectArrList.size();
+			// get current id for project to add new
+			_projectCurrentId = projectArrList.size();
 		//
 		projectWheel.setVisibleItems(5);
-		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this,
-				project, 3);
+		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this, project, 3);
 		projectWheel.setViewAdapter(projectAdapter);
 	}
 }

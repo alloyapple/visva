@@ -125,7 +125,8 @@
             android:gravity="center"
             android:hint="Shift Per Day"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_break_per_shift"
@@ -140,7 +141,8 @@
             android:gravity="center"
             android:hint="Break per shift"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_day_per_month"
@@ -154,7 +156,8 @@
             android:gravity="center"
             android:hint="Days per month"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_day_per_week"
@@ -169,7 +172,23 @@
             android:gravity="center"
             android:hint="Days per week"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/editText_hour_per_shift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_day_per_week"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Hour per shift"
+            android:inputType="datetime"
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_operator_per_shift"
@@ -184,7 +203,8 @@
             android:gravity="center"
             android:hint="Operators per shift"
             android:inputType="datetime"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_customer_demand_unit"
@@ -198,7 +218,8 @@
             android:gravity="center"
             android:hint="Customer demanded units"
             android:inputType="number"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:textColor="@color/black" >
         </EditText>
 
         <TextView

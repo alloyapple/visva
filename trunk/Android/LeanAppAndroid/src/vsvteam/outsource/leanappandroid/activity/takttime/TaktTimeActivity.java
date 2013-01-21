@@ -178,7 +178,7 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 		editTextOperatorsPerShift = (EditText) findViewById(R.id.editText_operator_per_shift);
 		editTextShiftPerDay = (EditText) findViewById(R.id.editText_shift_per_day);
 	}
-
+  
 	/**
 	 * Adapter for string based wheel. Highlights the current value.
 	 */

@@ -173,11 +173,13 @@
 
         <ToggleButton
             android:id="@+id/switch_process"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_below="@id/editText_defect_notes"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentRight="true"
             android:layout_toRightOf="@id/textView_verify"
             android:background="@drawable/btn_toggle"
             android:checked="true"
@@ -258,9 +260,8 @@
             android:layout_toRightOf="@id/editText_defect_percent"
             android:background="@color/white"
             android:gravity="center"
-            android:inputType="number"
             android:hint="Communication"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
