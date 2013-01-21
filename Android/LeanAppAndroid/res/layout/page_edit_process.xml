@@ -75,7 +75,7 @@
         <RelativeLayout
             android:id="@+id/relative_edit_process"
             android:layout_width="fill_parent"
-            android:layout_height="300dp"
+            android:layout_height="400dp"
             android:background="@drawable/bg_setting" >
 
             <Button
@@ -107,7 +107,8 @@
                 android:layout_toLeftOf="@id/btn_edit_process_next_item"
                 android:background="@drawable/tab_indicator"
                 android:text="Done" />
-            <TextView
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/btn_edit_process_done"
@@ -123,42 +124,28 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_edit_process_previous_item"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/text_project_created"
+                android:layout_marginTop="15dp"
+                android:text="Project Name - version 1 is created"
                 android:textColor="@color/white"
                 android:textSize="24dp" />
 
             <TextView
+                android:id="@+id/txt_edit_process_detail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btn_edit_process_previous_item"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="2dp"
-                android:layout_toRightOf="@id/txt_edit_process_projectName"
-                android:text="@string/text_project_created_detail"
+                android:layout_below="@id/txt_edit_process_projectName"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="Input the detail of each process belonging to this project then tap Add"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/editText_edit_process_name"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_edit_process_projectName"
-                android:layout_marginLeft="15dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:hint="Process Name"
-                android:singleLine="true"
-                android:textColor="@color/black" >
-            </EditText>
-
-            <EditText
                 android:id="@+id/editText_edit_process_supplier"
-                android:layout_width="300dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_edit_process_projectName"
+                android:layout_below="@id/txt_edit_process_detail"
                 android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@id/editText_edit_process_name"
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process Start Point(Supplier)"
@@ -170,7 +157,7 @@
                 android:id="@+id/editText_edit_process_customer"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txt_edit_process_projectName"
+                android:layout_below="@id/txt_edit_process_detail"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_toRightOf="@id/editText_edit_process_supplier"
@@ -181,46 +168,15 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/editText_edit_process_description"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/editText_edit_process_name"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:hint="Process Description"
-                android:lines="3"
-                android:textColor="@color/black" >
-            </EditText>
-
-            <EditText
-                android:id="@+id/editText_edit_process_output_inventory"
-                android:layout_width="300dp"
+                android:id="@+id/editText_edit_process_name"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText_edit_process_supplier"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/editText_edit_process_description"
                 android:background="@color/white"
                 android:gravity="center"
-                android:hint="Output Inventory"
-                android:singleLine="true"
-                android:textColor="@color/black" >
-            </EditText>
-
-            <EditText
-                android:id="@+id/editText_edit_process_defect_percent"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/editText_edit_process_output_inventory"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/editText_edit_process_description"
-                android:background="@color/white"
-                android:gravity="center"
-                android:hint="Defect %"
-                android:inputType="number"
+                android:hint="Process Name"
                 android:singleLine="true"
                 android:textColor="@color/black" >
             </EditText>
@@ -232,12 +188,26 @@
                 android:layout_below="@id/editText_edit_process_customer"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/editText_edit_process_defect_percent"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/editText_edit_process_name"
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Defect Notes(burst)"
-                android:lines="2"
+                android:lines="3"
+                android:textColor="@color/black" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_description"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_name"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="Process Description"
+                android:lines="3"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -248,17 +218,16 @@
                 android:layout_below="@id/editText_edit_process_defect_notes"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/editText_edit_process_defect_percent"
+                android:layout_toRightOf="@id/editText_edit_process_description"
                 android:text="Need to verify these details"
                 android:textColor="@color/white"
-                android:textSize="20dp" />
+                android:textSize="18dp" />
 
             <ToggleButton
                 android:id="@+id/switch_process"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText_edit_process_defect_notes"
-                android:layout_marginLeft="10dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/textView_verify"
@@ -269,50 +238,81 @@
                 android:textOn="" />
 
             <EditText
-                android:id="@+id/editText_edit_process_uptime"
-                android:layout_width="250dp"
+                android:id="@+id/editText_edit_process_output_inventory"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/switch_process"
+                android:layout_below="@id/editText_edit_process_description"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:background="@color/white"
                 android:gravity="center"
-                android:hint="Uptime"
+                android:hint="Output Inventory"
                 android:inputType="number"
-                android:singleLine="true"
+                android:lines="2"
                 android:textColor="@color/black" >
             </EditText>
 
             <EditText
-                android:id="@+id/editText_edit_proces_communication"
-                android:layout_width="250dp"
+                android:id="@+id/editText_edit_process_uptime"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/switch_process"
+                android:layout_below="@id/editText_edit_process_description"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/editText_edit_process_uptime"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/editText_edit_process_output_inventory"
                 android:background="@color/white"
                 android:gravity="center"
-                android:hint="Communication"
+                android:hint="Uptime"
                 android:inputType="number"
-                android:singleLine="true"
+                android:lines="2"
                 android:textColor="@color/black" >
             </EditText>
 
             <EditText
                 android:id="@+id/editText_edit_process_value_adding_time"
-                android:layout_width="250dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/switch_process"
+                android:layout_below="@id/editText_edit_process_description"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/editText_edit_proces_communication"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/editText_edit_process_uptime"
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Value Adding Time"
                 android:inputType="number"
-                android:singleLine="true"
+                android:lines="2"
+                android:textColor="@color/black" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_defect_percent"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_output_inventory"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="Defect %"
+                android:inputType="number"
+                android:lines="2"
+                android:textColor="@color/black" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_proces_communication"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_output_inventory"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/editText_edit_process_defect_percent"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="Communication"
+                android:inputType="number"
+                android:lines="2"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -320,16 +320,16 @@
                 android:id="@+id/editText_edit_process_non_value_adding_time"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/switch_process"
+                android:layout_below="@id/editText_edit_process_output_inventory"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/editText_edit_process_value_adding_time"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/editText_edit_proces_communication"
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Non value adding time"
                 android:inputType="number"
-                android:singleLine="true"
+                android:lines="2"
                 android:textColor="@color/black" >
             </EditText>
         </RelativeLayout>

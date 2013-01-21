@@ -97,8 +97,8 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="300dp"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/wheel_recording_2"
             android:background="@drawable/bg_task_time" >
 
@@ -106,8 +106,8 @@
                 android:id="@+id/textview_recording_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Setting"
                 android:layout_marginLeft="10dp"
+                android:text="Setting"
                 android:textColor="@color/white"
                 android:textSize="30dp" />
 
@@ -116,8 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_recording_setting"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
                 android:text="No Video,only timing"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
@@ -132,19 +132,20 @@
                 android:layout_marginRight="10dp"
                 android:layout_toRightOf="@id/textview_recording_no_video"
                 android:background="@drawable/btn_toggle"
-                android:checked="false" />
+                android:checked="true"
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/textview_recording_use_ms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_recording_no_video"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="40dp"
                 android:text="Use milliseconds"
-                android:layout_marginLeft="10dp"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
-
 
             <ToggleButton
                 android:id="@+id/toggle_btn_use_ms"
@@ -156,19 +157,20 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/btn_toggle"
-                android:checked="true" />
+                android:checked="true"
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/textview_recording_operator_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_recording_use_ms"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="40dp"
                 android:text="Operator Name"
                 android:textColor="@color/white"
-                android:layout_marginLeft="10dp"
                 android:textSize="20dp" />
-
 
             <EditText
                 android:id="@+id/editext_operator_name"
@@ -190,9 +192,9 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_recording_operator_name"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="50dp"
                 android:text="Shift Number"
-                android:layout_marginLeft="10dp"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -211,16 +213,29 @@
                 android:gravity="center"
                 android:hint="Shift Info"
                 android:lines="2" />
-
-           
         </RelativeLayout>
-         <ImageView
-                android:id="@+id/img_circle_timing_record_video"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="5dp"
-                android:layout_below="@id/wheel_recording_1"
-                android:background="@drawable/img_video_view" />
+
+        <RelativeLayout
+            android:id="@+id/img_circle_timing_record_video"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/wheel_recording_1"
+            android:layout_margin="5dp"
+            android:background="@drawable/img_video_view" >
+
+            <Button
+                android:id="@+id/btn_cycle_time_video_record"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/btn_video_record"
+                android:gravity="center|center"
+                android:textColor="#000000"
+                android:textStyle="bold" >
+            </Button>
+        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

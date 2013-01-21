@@ -168,11 +168,12 @@
 
         <ToggleButton
             android:id="@+id/switch_process"
-            android:layout_width="fill_parent"
+            android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_below="@id/editText_defect_notes"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/textView_verify"
             android:background="@drawable/btn_toggle"
             android:checked="true"
