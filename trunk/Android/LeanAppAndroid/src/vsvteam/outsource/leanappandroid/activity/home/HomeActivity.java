@@ -17,21 +17,21 @@ import vsvteam.outsource.leanappandroid.activity.spaghettichart.SpaghettiChartAc
 import vsvteam.outsource.leanappandroid.activity.takttime.TaktTimeActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupCircleTimingActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupTaktTimeActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
 
 @SuppressWarnings("deprecation")
 public class HomeActivity extends TabActivity {
-	
-	//==========================Control Define ===================
-	//==========================Class Define =====================
+
+	// ==========================Control Define ===================
+	// ==========================Class Define =====================
 	public static HomeActivity instance;
-	//==========================Variable Define ==================
+	// ==========================Variable Define ==================
 	private String TAG = "HomeActivity";
 	private int selecttab = 0;
 	private int currenttab;
 	public static boolean isFirstRun = true;
 	private static TabHost tabHost;
-	
 
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -78,8 +78,8 @@ public class HomeActivity extends TabActivity {
 		// TabGroupHomeActivity.class, false);
 		addTab(this.getString(R.string.value_stream_map), R.drawable.ic_stream_map,
 				TabGroupValueStreamMapActivity.class, false);
-		addTab(this.getString(R.string.task_time), R.drawable.ic_task_time, TaktTimeActivity.class,
-				false);
+		addTab(this.getString(R.string.task_time), R.drawable.ic_task_time,
+				TabGroupTaktTimeActivity.class, false);
 		addTab(this.getString(R.string.cycle_time), R.drawable.ic_cycle_time,
 				TabGroupCircleTimingActivity.class, false);
 		addTab(this.getString(R.string.spaghetti_chart), R.drawable.ic_chart,

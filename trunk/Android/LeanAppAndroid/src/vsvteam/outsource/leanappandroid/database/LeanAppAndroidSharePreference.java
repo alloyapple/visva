@@ -45,6 +45,7 @@ public class LeanAppAndroidSharePreference {
 	public static final String CURRENT_PROCESS_ID_ACTIVE = "CURRENT_PROCESS_ID_ACTIVE";
 	public static final String CURRENT_STEP_ID_ACTIVE = "CURRENT_STEP_ID_ACTIVE";
 	public static final String CURRENT_STEP_NAME_ACTIVE = "CURRENT_STEP_NAME_ACTIVE";
+	public static final String CURRENT_TAKT_TIME_DONE_OR_CANCEL = "CURRENT_TAKT_TIME_DONE_OR_CANCEL";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -242,4 +243,33 @@ public class LeanAppAndroidSharePreference {
 		setProjectIdActive(CURRENT_STEP_ID_ACTIVE, id);
 	}
 
+	/**
+	 * set vs get mode for takt time control ; MODE 1 : cancel takt time; MODE 2
+	 * :done takt time ok and go to stream map; MODE 3 : done takt time but no
+	 * process or project created.
+	 * 
+	 */
+	public void setModeTaktTime(String key, int id) {
+		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
+				0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putInt(key, id);
+		editor.commit();
+	}
+
+	public int getModeTaktTime(String key) {
+		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
+				0);
+		return pref.getInt(key, 1);
+	}
+
+	public int getModeTaktTimee() {
+		int idActive;
+		idActive = getProjectIdActive(CURRENT_TAKT_TIME_DONE_OR_CANCEL);
+		return idActive;
+	}
+
+	public void setModeTaktTime(int id) {
+		setProjectIdActive(CURRENT_TAKT_TIME_DONE_OR_CANCEL, id);
+	}
 }

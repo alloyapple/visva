@@ -14,6 +14,7 @@ import vsvteam.outsource.leanappandroid.actionbar.ActionChangeActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionExportActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionSettingActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionVersionActivity;
+import vsvteam.outsource.leanappandroid.activity.home.HomeActivity;
 import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
 import vsvteam.outsource.leanappandroid.adapter.ListProcessAdapter;
 import vsvteam.outsource.leanappandroid.adapter.ListStepAdapter;
@@ -26,6 +27,7 @@ import vsvteam.outsource.leanappandroid.database.TStepsDataBaseHandler;
 import vsvteam.outsource.leanappandroid.define.Constant;
 import vsvteam.outsource.leanappandroid.quickaction.ActionItem;
 import vsvteam.outsource.leanappandroid.quickaction.QuickAction;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -47,6 +49,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -93,6 +96,8 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private QuickAction mQuickActionStep;
 	private List<TProcessDataBase> processArrList;
 	private List<TStepsDataBase> stepArrList;
+	private HomeActivity homeActivity;
+	private TabGroupValueStreamMapActivity tabGroupValueStreamMapActivity;
 	// =========================Variable Define =========================
 	private String[] processName = {};
 	private String[] stepName = {};
@@ -148,6 +153,7 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		}
 	};
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
@@ -158,7 +164,11 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			// add new step
 			addNewStep();
 		} else if (view == btnDoneCreatedProject) {
-			gotoActivityInGroup(this, DrawMapActivity.class);
+			tabGroupValueStreamMapActivity = (TabGroupValueStreamMapActivity)this.getParent();
+			homeActivity =(HomeActivity)tabGroupValueStreamMapActivity.getParent();
+			//set to go to takt time screen to add data
+			homeActivity.setCurrentTab(1);
+			
 		} else if (view == btnExport) {
 			gotoActivityInGroup(CreateProjectActivity.this, ActionExportActivity.class);
 		} else if (view == btnSetting) {
