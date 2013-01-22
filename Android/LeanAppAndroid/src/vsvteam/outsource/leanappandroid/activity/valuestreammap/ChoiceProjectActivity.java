@@ -56,6 +56,9 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private String projectName[] = {};
 	private int projectId[] = {};
 	private int _projectCurrentId;
+	private static final int MODE_TAKT_TIME_CANCEL = 1;
+	private static final int MODE_TAKT_TIME_DONE_OK = 2;
+	private static final int MODE_TAKT_TIME_DONE_ERROR = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,10 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private void createDataBase() {
 		// init sharePreference
 		leanAppAndroidSharePreference = LeanAppAndroidSharePreference.getInstance(this);
-
+		leanAppAndroidSharePreference.setProjectIdActive(-1);
+		leanAppAndroidSharePreference.setProjectNameActive("");
+		leanAppAndroidSharePreference.setProcessIdActive(-1);
+		leanAppAndroidSharePreference.setProcessNameActive("");
 		// init database
 		databaseHandler = new TProjectDatabaseHandler(this);
 		// project = new String[5];
@@ -303,7 +309,20 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	public void onResume() {
 		super.onResume();
 		Log.e("onResume", "onResume");
-		updateProjectWheel();
+		switch (leanAppAndroidSharePreference.getModeTaktTimee()) {
+		case MODE_TAKT_TIME_CANCEL:
+			updateProjectWheel();
+			break;
+		case MODE_TAKT_TIME_DONE_ERROR:
+			gotoActivityInGroup(ChoiceProjectActivity.this, CreateProjectActivity.class);
+			break;
+		case MODE_TAKT_TIME_DONE_OK:
+			gotoActivityInGroup(ChoiceProjectActivity.this, DrawMapActivity.class);
+			break;
+
+		default:
+			break;
+		}
 
 	}
 
