@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="0.12" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_delete" >
+            </Button>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#000000"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:background="@drawable/icon_edit" >
+        </Button>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="0.38" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="1dp"
+            android:gravity="center"
+            android:text="Open box"
+            android:textColor="#000000"
+            android:textStyle="bold" >
+        </TextView>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="0.25" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_delete" >
+            </Button>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="#000000"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:background="@drawable/icon_edit" >
+        </Button>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="0.25" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="1dp"
+            android:gravity="center"
+            android:text="00:01:02"
+            android:textColor="#000000"
+            android:textStyle="bold" >
+        </TextView>
+    </FrameLayout>
+
+</LinearLayout>

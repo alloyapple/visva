@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:background="@drawable/actionbar_bg"
+        android:gravity="center"
+        android:id="@+id/tabbar"
+        android:layout_height="45dp"
+        android:layout_width="fill_parent" >
+
+        <ImageView
+            android:background="@drawable/ic_book"
+            android:id="@+id/imgBook"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content" />
+
+        <ImageView
+            android:background="@drawable/ic_export"
+            android:id="@+id/imgSearch"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/imgBook"
+            android:layout_width="wrap_content" />
+
+        <ImageView
+            android:background="@drawable/ic_currency"
+            android:id="@+id/imgCurrency"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content" />
+
+        <ImageView
+            android:background="@drawable/ic_version"
+            android:id="@+id/imgVersion"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/imgCurrency"
+            android:layout_width="wrap_content" />
+
+        <ImageView
+            android:background="@drawable/ic_bag"
+            android:id="@+id/imgProject"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/imgVersion"
+            android:layout_width="wrap_content" />
+
+        <ImageView
+            android:background="@drawable/ic_setting"
+            android:id="@+id/imgSetting"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/imgProject"
+            android:layout_width="wrap_content" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent" >
+
+        <FrameLayout
+            android:background="@drawable/help"
+            android:id="@+id/id_frame_help"
+            android:layout_gravity="left|top"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginRight="100dp"
+            android:layout_width="fill_parent" >
+        </FrameLayout>
+    </FrameLayout>
+
+</LinearLayout>
