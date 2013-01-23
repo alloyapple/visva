@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="620dp"
+        android:layout_height="400dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_setting" >
+
+        <Button
+            android:id="@+id/btn_spotter_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/tab_indicator"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:text="Variation Spotter"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <Button
+            android:id="@+id/btn_spotter_compare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/tab_indicator"
+            android:text="Compare"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/textView_recording_detail_1"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_spotter_cancel"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/textview_recording_detail_1"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/textView_recording_detail_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_spotter_cancel"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/textView_recording_detail_1"
+            android:gravity="center"
+            android:text="@string/textview_recording_detail_2"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheel_spotter_cycle_1"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_below="@id/textView_recording_detail_1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp" />
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheel_spotter_cycle_2"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_below="@id/textView_recording_detail_1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/wheel_spotter_cycle_1" />
+
+        <kankan.wheel.widget.WheelView
+            android:id="@+id/wheel_spotter_cycle_3"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/textView_recording_detail_1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/wheel_spotter_cycle_2" />
+    </RelativeLayout>
+
+</LinearLayout>
