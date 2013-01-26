@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:gravity="center"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/tabbar"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/actionbar_bg"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/img_choice_project_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/ic_book" />
+
+        <ImageView
+            android:id="@+id/img_choice_project_export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/img_choice_project_book"
+            android:background="@drawable/ic_export" />
+
+        <ImageView
+            android:id="@+id/img_choice_project_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_currency" />
+
+        <ImageView
+            android:id="@+id/img_choice_project_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_choice_project_currency"
+            android:background="@drawable/ic_version" />
+
+        <ImageView
+            android:id="@+id/img_choice_project_change_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_choice_project_version"
+            android:background="@drawable/ic_bag" />
+
+        <ImageView
+            android:id="@+id/img_choice_project_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_choice_project_change_project"
+            android:background="@drawable/ic_setting" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.12" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="1dp"
+            android:gravity="center"
+            android:text="@string/report_compare_step_in_spaghetti_chart"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" >
+        </TextView>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.3"
+        android:background="#FFFFFF"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="0.12"
+                android:background="#A9B3BC"
+                android:gravity="center"
+                android:text="Step#"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="0.38"
+                android:background="#A9B3BC"
+                android:gravity="center"
+                android:text="Step name"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="0.25"
+                android:background="#A9B3BC"
+                android:gravity="center"
+                android:text="Distance to next step"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="0.25"
+                android:background="#A9B3BC"
+                android:gravity="center"
+                android:text="Time to next step"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/id_listview_compare_step"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:cacheColorHint="#00000000" >
+        </ListView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="0.58"
+        android:background="#FFFFFF" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/icon_snapshot" >
+        </Button>
+    </FrameLayout>
+
+</LinearLayout>
