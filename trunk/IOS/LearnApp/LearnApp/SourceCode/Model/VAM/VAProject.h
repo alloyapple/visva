@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class TDSqlManager;
+@class VAProcess;
 @interface VAProject : NSObject
 @property(nonatomic, assign)int iPrId;
 @property(nonatomic, retain)NSString *sPrName;
@@ -16,7 +17,7 @@
 @property(nonatomic, retain)NSString *sLocation;
 @property(nonatomic, retain)NSString *sDescription;
 @property(nonatomic, retain)NSString *sNote;
-@property(nonatomic, retain)NSMutableArray *arrProcess; //List all process of project.
+@property(nonatomic, retain)NSMutableArray *aProcesses; //List all process of project.
 
 extern NSString *const dProjTable; // project table Name
 extern NSString *const dProjtId; // Project Id field.
@@ -51,4 +52,5 @@ extern NSString *const dProjtId; // Project Id field.
  * @return: Display name for project with company identify
  */
 -(NSString *)getDisplayNameWithCompany;
+-(void)addProcess:(VAProcess*)proc;
 @end

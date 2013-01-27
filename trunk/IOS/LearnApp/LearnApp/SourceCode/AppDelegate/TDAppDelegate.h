@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "VARootViewController.h"
 @interface TDAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, retain) VARootViewController *rootViewController;
 /*
  * @return: Share instance of TDAppDelegate
  */

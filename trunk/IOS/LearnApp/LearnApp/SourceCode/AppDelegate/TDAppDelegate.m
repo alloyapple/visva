@@ -8,6 +8,7 @@
 
 #import "TDAppDelegate.h"
 #import "VAGlobal.h"
+#import "TDLog.h"
 
 static TDAppDelegate *instance = nil;
 @implementation TDAppDelegate
@@ -17,6 +18,7 @@ static TDAppDelegate *instance = nil;
     instance = nil;
     [VAGlobal releaseGlobal];
     [_window release];
+    [_rootViewController release];
     [super dealloc];
 }
 
@@ -28,6 +30,13 @@ static TDAppDelegate *instance = nil;
 {
     instance = self;
     [VAGlobal share];
+    UIViewController *vc = _window.rootViewController;;
+    if ([vc isKindOfClass:[VARootViewController class]]) {
+        self.rootViewController =(VARootViewController*)vc;
+    }else{
+        TDLOG(@"Error ---- root view controller");
+    }
+    
     return YES;
 }
 							

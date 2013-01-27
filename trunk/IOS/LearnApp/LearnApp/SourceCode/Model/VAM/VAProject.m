@@ -125,6 +125,18 @@
 -(NSString *)getDisplayNameWithCompany{
     return [NSString stringWithFormat:@"%@ %@", _sCompany, _sPrName];
 }
+-(id)init{
+    self = [super init];
+    if (self) {
+        self.aProcesses = [NSMutableArray array];
+    }
+    return self;
+}
+#pragma mark - method
+-(void)addProcess:(VAProcess *)proc{
+    [self.aProcesses addObject:proc];
+}
+
 #pragma mark - dealloc
 -(void)dealloc{
     [_sPrName release];
@@ -132,7 +144,7 @@
     [_sDescription release];
     [_sLocation release];
     [_sNote release];
-    [_arrProcess release];
+    [_aProcesses release];
     [super dealloc];
 }
 

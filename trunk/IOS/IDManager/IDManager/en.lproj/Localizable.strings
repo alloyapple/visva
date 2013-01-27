@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  IDManager
+
+  Created by tranduc on 1/22/13.
+  Copyright (c) 2013 tranduc. All rights reserved.
+*/
+
+"PasswordMaster" = "Password Master";
+"PasswordLogin" = "Password Login";
+"PasswordNew" = "New Password";
