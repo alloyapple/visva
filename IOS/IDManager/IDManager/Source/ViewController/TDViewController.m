@@ -7,7 +7,7 @@
 //
 
 #import "TDViewController.h"
-
+#import "VALoginController.h"
 @interface TDViewController ()
 
 @end
@@ -17,9 +17,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	[self performSelector:@selector(pushLogin) withObject:nil afterDelay:0.002];
 }
-
+-(void)pushLogin{
+    VALoginController *login = [[[VALoginController alloc] initWithNibName:@"VALoginController" bundle:nil] autorelease];
+    [self presentModalViewController:login animated:NO];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

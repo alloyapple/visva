@@ -7,32 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @class VAProject;
+@class VAStep;
 @interface VAProcess : NSObject
+@property(nonatomic, assign)VAProject *parentProject;
+@property(nonatomic, assign)int iProcId;
+@property(nonatomic, retain)NSString *sProcName;
+@property(nonatomic, assign)int iVersionId;
+@property(nonatomic, retain)NSString *sStartPoint;
+@property(nonatomic, retain)NSString *sEndPoint;
 
-@property (retain, nonatomic) NSString *Project_name;
-@property (retain, nonatomic) NSString *Process_name;
-@property (retain, nonatomic) NSString *Description;
-@property (retain, nonatomic) NSString *Notes;
-@property (retain, nonatomic) NSDate *Total_cycle_time;
-@property (retain, nonatomic) NSDate *Value_adding_time;
-@property (retain, nonatomic) NSDate *Nonvalue_adding_time;
-@property (retain, nonatomic) NSNumber *Defect;
-@property (retain, nonatomic) NSNumber *Tot_operators;
-@property (retain, nonatomic) NSNumber *Shifts;
-@property (retain, nonatomic) NSNumber *Availability;
-@property (retain, nonatomic) NSNumber *Tot_distance_traveled;
-@property (retain, nonatomic) NSDate *Uptime;
-@property (retain, nonatomic) NSDate *Change_over_time;
-@property (retain, nonatomic) NSDate *Takt_time;
-@property (retain, nonatomic) NSNumber *Version_id;
-@property (retain, nonatomic) NSString *Previous_process;
-@property (retain, nonatomic) NSString *Next_process;
-@property (retain, nonatomic) NSString *VSM_name;
+@property(nonatomic, retain)NSString *sProcDescription;
+@property(nonatomic, retain)NSString *sProcDefectNote;
+@property(nonatomic, assign)NSTimeInterval tUptime;
+@property(nonatomic, assign)NSTimeInterval tValueAddingTime;
+@property(nonatomic, assign)NSTimeInterval tNonValAddingTime;
+@property(nonatomic, assign)float fDefect;
+@property(nonatomic, assign)BOOL bNeedVerify;
 
-
-//additional properties
-@property (retain, nonatomic) NSMutableArray *listStep;
-@property (assign, nonatomic) VAProject *parentProject;
-
+@property(nonatomic, retain)NSMutableArray *aSteps;
+-(void)addStep:(VAStep*)step;
 @end

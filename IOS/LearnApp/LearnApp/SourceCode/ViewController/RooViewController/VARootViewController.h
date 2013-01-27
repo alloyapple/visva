@@ -11,6 +11,8 @@
 @interface VARootViewController : UIViewController <UIPopoverControllerDelegate>
 - (IBAction)changeProjectProcessButtonPressed:(id)sender;
 - (IBAction)versionButtonPressed:(id)sender;
+
+-(void)selectTaskTimeTab;
 @property (retain, nonatomic) UIPopoverController *popoverController;
 
 @end

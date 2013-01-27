@@ -14,13 +14,53 @@
 #import "VAProcessDetailController.h"
 #import "VAVSMDrawViewController.h"
 #import "TDCommonLibs.h"
+#import "TDString.h"
+#import "TDAppDelegate.h"
+@implementation VAProcessCell
+
+- (void)dealloc {
+    [_lbProcId release];
+    [_lbProcName release];
+    [_lbProcDescription release];
+    [super dealloc];
+}
+@end
+@implementation VAStepCell
+
+
+- (void)dealloc {
+    [_lbStepId release];
+    [_lbStepName release];
+    [super dealloc];
+}
+@end
+
+
 @interface VAProjDetailViewController ()
--(BOOL)isValidProcess:(VAProcess *)process;
--(BOOL)isValidStep:(VAStep *)step;
+
+//IBOutlet
+@property (retain, nonatomic) IBOutlet UILabel *lbProcess;
+@property (retain, nonatomic) IBOutlet UITextField *tfProcStartPoint;
+@property (retain, nonatomic) IBOutlet UITextField *tfProcEndPoint;
+@property (retain, nonatomic) IBOutlet UITextField *tfProcName;
+@property (retain, nonatomic) IBOutlet TDTextView *tvProcDescription;
+@property (retain, nonatomic) IBOutlet TDTextView *tvDefectNote;
+@property (retain, nonatomic) IBOutlet UITextField *tfOutPutInventory;
+@property (retain, nonatomic) IBOutlet UITextField *tfUptime;
+@property (retain, nonatomic) IBOutlet UITextField *tfValueAdding;
+@property (retain, nonatomic) IBOutlet UITextField *tfDefect;
+@property (retain, nonatomic) IBOutlet UITextField *tfCommunication;
+@property (retain, nonatomic) IBOutlet UITextField *tfNonValueAdding;
+@property (retain, nonatomic) IBOutlet UISwitch *swNeedVerify;
+@property (retain, nonatomic) IBOutlet UITableView *gvListProcess;
+
+@property (retain, nonatomic) IBOutlet UITextField *tfStepName;
+@property (retain, nonatomic) IBOutlet UIPickerView *pkListProcess;
+@property (retain, nonatomic) IBOutlet UITableView *gvListStep;
+
 - (VAProcess *)processFromView;
 - (VAStep *)stepFromView;
-- (void)delete;
-- (void)edit:(id)sender;
+
 @end
 
 @implementation VAProjDetailViewController
@@ -28,31 +68,55 @@
 
 #pragma mark - Private Methods
 
-- (BOOL)isValidProcess:(VAProcess *)process {
-    return YES;
+- (BOOL)isValidProcess{
+    if ([_tfProcName.text isNotEmpty] && [_tvProcDescription.text isNotEmpty]) {
+        return YES;
+    }
+    return NO;
 }
-- (BOOL)isValidStep:(VAStep *)step {
-    return YES;
+- (BOOL)isValidStep{
+    if ([_tfStepName.text isNotEmpty]) {
+        return YES;
+    }
+    return NO;
 }
 -(VAProcess *)processFromView {
-    self.currentProcess = [[[VAProcess alloc] init] autorelease];
-    self.currentProcess.Process_name = self.processNameTextView.text;
-    self.currentProcess.Project_name = self.currentProject.sPrName;
-    self.currentProcess.Description = self.processDescription.text;
-    self.currentProcess.listStep = [[[NSMutableArray alloc] init] autorelease];
-    [self.currentProject.arrProcess addObject:self.currentProcess];
-    return self.currentProcess;
+    VAProcess *proc = [[[VAProcess alloc] init] autorelease];
+    proc.sProcName = _tfProcName.text;
+    proc.sStartPoint = _tfProcStartPoint.text;
+    proc.sEndPoint = _tfProcEndPoint.text;
+    proc.sProcDescription = _tvProcDescription.text;
+    proc.sProcDefectNote = _tvProcDescription.text;
+    proc.fDefect = [_tfDefect.text floatValue];
+    proc.tUptime = [_tfUptime.text doubleValue];
+    proc.tValueAddingTime = [_tfValueAdding.text doubleValue];
+    proc.tNonValAddingTime = [_tfNonValueAdding.text doubleValue];
+    proc.bNeedVerify = _swNeedVerify.isSelected;
+    return proc;
+}
+-(void)clearProcessField{
+    _tfProcName.text = @"";
+    _tfProcStartPoint.text = @"";
+    _tfProcEndPoint.text = @"";
+    _tvProcDescription.text = @"";
+    _tvProcDescription.text = @"";
+    _tfDefect.text = @"";
+    _tfUptime.text = @"";
+    _tfValueAdding.text = @"";
+    _tfNonValueAdding.text = @"";
+    _tvDefectNote.text = @"";
+    _tfCommunication.text = @"";
+    _tfOutPutInventory.text = @"";
+   
 }
 -(VAStep *)stepFromView {
-    self.currentStep = [[[VAStep alloc] init] autorelease];
-    self.currentStep.Step_name = self.stepNameTextField.text;
-    if (![self isValidProcess:self.currentProcess]) {
-        return nil;
-    }
-    [self.currentProcess.listStep addObject:self.currentStep];
-    return self.currentStep;
+    VAStep *step = [[[VAStep alloc] init] autorelease];
+    step.sStepName = _tfStepName.text;
+    return step;
 }
-
+-(void)clearStepField{
+    _tfStepName.text = @"";
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -66,26 +130,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.processLabel.text = [self.currentProject.sPrName stringByAppendingString:TDLocalizedString(@"projectLabel", @"projectLabel")];
-    self.processStartPointTextView.placeholder = TDLocalizedString(@"processStartPoint", @"processStartPoint");
-    self.processEndPointTextView.placeholder = TDLocalizedString(@"processEndPoint", @"processEndPoint");
-    self.processNameTextView.placeholder = TDLocalizedString(@"processName", @"processName");
-    self.defectNotesTextView.placeholder = TDLocalizedString(@"defectNotes", @"defectNotes");
-    self.processDescription.placeholder = TDLocalizedString(@"processDescription", @"processDescription");
-    self.verifyLabel.text = TDLocalizedString(@"needToVerify", @"needToVerify");
-    self.outputInventoryTextField.placeholder = TDLocalizedString(@"outputInventory", "outputInventory");
-    self.uptimeTextField.placeholder = TDLocalizedString(@"uptime", @"uptime");
-    self.valueAddingTimeTextField.placeholder = TDLocalizedString(@"valueAddingTime", @"valueAddingTime");
-    self.defectTextField.placeholder = TDLocalizedString(@"defect", "defect");
-    self.communicationTextField.placeholder = TDLocalizedString(@"communication", @"communication");
-    self.nonvalueAddingTimeTextField.placeholder = TDLocalizedString(@"nonValueAddingTime", @"nonValueAddingTime");
-    //self.addProcessButton.titleLabel.text = TDLocalizedString(@"addProcessButton", @"addProcessButton");
-    self.stepLabel.text = TDLocalizedString(@"stepLabel", @"stepLabel");
-    self.stepNameTextField.placeholder = TDLocalizedString(@"stepName", @"stepName");
+    self.lbProcess.text = [self.currentProject.sPrName stringByAppendingString:TDLocalizedString(@"projectLabel", @"projectLabel")];
+    self.tfProcStartPoint.placeholder = TDLocalizedString(@"processStartPoint", @"processStartPoint");
+    self.tfProcEndPoint.placeholder = TDLocalizedString(@"processEndPoint", @"processEndPoint");
+    self.tfProcName.placeholder = TDLocalizedString(@"processName", @"processName");
+    self.tfDefect.placeholder = TDLocalizedStringOne(@"defect");
+    self.tvDefectNote.placeholder = TDLocalizedString(@"defectNotes", @"defectNotes");
+    self.tvProcDescription.placeholder = TDLocalizedString(@"processDescription", @"processDescription");
+    //self.verifyLabel.text = TDLocalizedString(@"needToVerify", @"needToVerify");
+    self.tfOutPutInventory.placeholder = TDLocalizedString(@"outputInventory", "outputInventory");
+    self.tfUptime.placeholder = TDLocalizedString(@"uptime", @"uptime");
+    self.tfValueAdding.placeholder = TDLocalizedString(@"valueAddingTime", @"valueAddingTime");
+    self.tfCommunication.placeholder = TDLocalizedString(@"communication", @"communication");
+    self.tfNonValueAdding.placeholder = TDLocalizedString(@"nonValueAddingTime", @"nonValueAddingTime");
+    self.tfStepName.placeholder = TDLocalizedString(@"stepName", @"stepName");
     
-    //self.addStepButton.titleLabel.text = TDLocalizedString(@"addStepButton", @"addStepButton");
-    //self.iAmDoneButton.titleLabel.text = TDLocalizedString(@"iAmDoneButton", @"iAmDoneButton");
-	// Do any additional setup after loading the view.
+    self.tvDefectNote.text = @"";
+    self.tvProcDescription.text = @"";
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,79 +158,88 @@
 - (void)dealloc {
     [_currentProcess release];
     [_currentStep release];
-    [_processLabel release];
-    [_processStartPointTextView release];
-    [_processEndPointTextView release];
-    [_processNameTextView release];
-    [_defectNotesTextView release];
-    [_processDescription release];
-    [_outputInventoryTextField release];
-    [_uptimeTextField release];
-    [_valueAddingTimeTextField release];
-    [_defectTextField release];
-    [_communicationTextField release];
-    [_nonvalueAddingTimeTextField release];
-    [_processTableView release];
-    [_stepTableView release];
-    [_processPickerView release];
-    [_stepNameTextField release];
     [_currentProject release];
-    [_verifyLabel release];
-    [_veifySwitch release];
-    [_addProcessButton release];
-    [_stepLabel release];
-    [_addStepButton release];
-    [_iAmDoneButton release];
-    [_selectedProcess release];
     [popoverController release];
+    
+    
+    [_lbProcess release];
+    [_tfProcStartPoint release];
+    [_tfProcEndPoint release];
+    [_tfProcName release];
+    [_tvProcDescription release];
+    [_tvDefectNote release];
+    [_tfOutPutInventory release];
+    [_tfUptime release];
+    [_tfValueAdding release];
+    [_tfDefect release];
+    [_tfCommunication release];
+    [_tfNonValueAdding release];
+    [_swNeedVerify release];
+    [_gvListProcess release];
+    [_tfStepName release];
+    [_pkListProcess release];
+    [_gvListStep release];
     [super dealloc];
 }
 - (void)viewDidUnload {
-    [self setProcessLabel:nil];
-    [self setProcessStartPointTextView:nil];
-    [self setProcessEndPointTextView:nil];
-    [self setProcessNameTextView:nil];
-    [self setDefectNotesTextView:nil];
-    [self setProcessDescription:nil];
-    [self setOutputInventoryTextField:nil];
-    [self setUptimeTextField:nil];
-    [self setValueAddingTimeTextField:nil];
-    [self setDefectTextField:nil];
-    [self setCommunicationTextField:nil];
-    [self setNonvalueAddingTimeTextField:nil];
-    [self setProcessTableView:nil];
-    [self setStepTableView:nil];
-    [self setProcessPickerView:nil];
-    [self setStepNameTextField:nil];
-    [self setCurrentProject:nil];
-    [self setVerifyLabel:nil];
-    [self setVeifySwitch:nil];
-    [self setAddProcessButton:nil];
-    [self setStepLabel:nil];
-    [self setAddStepButton:nil];
-    [self setIAmDoneButton:nil];
-    [self setSelectedProcess:nil];
     [self setPopoverController:nil];
+    [self setLbProcess:nil];
+    [self setTfProcStartPoint:nil];
+    [self setTfProcEndPoint:nil];
+    [self setTfProcName:nil];
+    [self setTvProcDescription:nil];
+    [self setTvDefectNote:nil];
+    [self setTfOutPutInventory:nil];
+    [self setTfUptime:nil];
+    [self setTfValueAdding:nil];
+    [self setTfDefect:nil];
+    [self setTfCommunication:nil];
+    [self setTfNonValueAdding:nil];
+    [self setSwNeedVerify:nil];
+    [self setGvListProcess:nil];
+    [self setTfStepName:nil];
+    [self setPkListProcess:nil];
+    [self setGvListStep:nil];
     [super viewDidUnload];
 }
-- (IBAction)addProcessButtonPressed:(id)sender {
-    TDLOG(@"anh khong yeu em");
-    self.selectedProcess = [self processFromView];
-    [self.processTableView reloadData];
-    [self.processPickerView reloadAllComponents];
-    [self.processPickerView selectRow:([self.currentProject.arrProcess count]-1) inComponent:0 animated:YES];
-}
 
-- (IBAction)addStepButtonPressed:(id)sender {
-    [self stepFromView];
-    [self.stepTableView reloadData];
+- (IBAction)addProcessButtonPressed:(id)sender {
+    TDLOG(@"Add process button pressed");
+    
+    if ([self isValidProcess]) {
+        VAProcess *proc = [self processFromView];
+        [_currentProject addProcess:proc];
+        self.selectedProcess = proc;
+        [self.gvListProcess reloadData];
+        [self.pkListProcess reloadAllComponents];
+        [self.pkListProcess selectRow:([self.currentProject.aProcesses count]-1) inComponent:0 animated:YES];
+        [self clearProcessField];
+    }else{
+        //error here
+        [self showAlert:TDLocalizedStringOne(@"ErrorInput")];
+    }
     
 }
 
+- (IBAction)addStepButtonPressed:(id)sender {
+    if ([self isValidStep]) {
+        VAStep *step = [self stepFromView];
+        [_selectedProcess addStep:step];
+        [self.gvListStep reloadData];
+        [self clearStepField];
+    }else{
+        [self showAlert:TDLocalizedStringOne(@"ErrorInput")];
+    }
+}
+
+-(void)showAlert:(NSString *)title{
+    UIAlertView *al = [[[UIAlertView alloc]initWithTitle:title message:@"" delegate:self cancelButtonTitle:TDLocalizedStringOne(@"OK") otherButtonTitles: nil] autorelease];
+    [al show];
+}
+
 - (IBAction)iAmDoneButtonPressed:(id)sender {
-    VAVSMDrawViewController *draw = [self.storyboard instantiateViewControllerWithIdentifier:@"VAVSMDrawViewController"];
-    [self.navigationController pushViewController:draw animated:YES];
-    return;
+    TDAppDelegate *app = [TDAppDelegate share];
+    [app.rootViewController selectTaskTimeTab];
 }
 
 - (IBAction)verifySwitchChange:(id)sender {
@@ -179,41 +249,7 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.processTableView == tableView) {
-        return [self.currentProject.arrProcess count];
-    } else {
-        return [self.currentProcess.listStep count];
-    }
-}
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *ProcessCellIdentifier = @"ProcessCellIdentifier";
-    static NSString *StepCellIdentifier = @"StepCellIndentifier";
-    if (self.processTableView == tableView) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ProcessCellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ProcessCellIdentifier];
-        }
-        cell.textLabel.text = [NSString stringWithFormat:@"%.2d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%@\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%@", indexPath.row,[[self.currentProject.arrProcess objectAtIndex:indexPath.row] Process_name], [[self.currentProject.arrProcess objectAtIndex:indexPath.row] Description] ];
-        return cell;
-    } else if (self.stepTableView == tableView) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:StepCellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:StepCellIdentifier];
-        }
-        cell.textLabel.text = [NSString stringWithFormat:@"%.2d\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%@",indexPath.row,[[self.selectedProcess.listStep objectAtIndex:indexPath.row] Step_name]];
-        return cell;
-    }
-    return nil;
-}
--(NSString * )tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (self.stepTableView == tableView) {
-        return [NSString stringWithFormat:@"Step #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProcess Step Name"];
-    } else if (self.processTableView == tableView) {
-        return [NSString stringWithFormat:@"Process Id\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tProcess Name\t\t\t\t\t\t\t\t\t\t\t\tProcess Description"];
-    }
-    return nil;
-}
+
 
 //UIMenuController
 - (BOOL)canBecomeFirstResponder {
@@ -222,32 +258,48 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self becomeFirstResponder];
-    UIMenuItem *delete = [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(delete)] autorelease];
-    UIMenuItem *edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(edit:)] autorelease];
-    
+    UIMenuItem *delete, *edit;
+    if (tableView == _gvListProcess) {
+        delete = [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteProcess:)] autorelease];
+        edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editProcess:)] autorelease];
+        _iProcessIndex = indexPath.row;
+    }else{
+        delete =  [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteStep:)] autorelease];
+        edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editStep:)] autorelease];
+        _iStepIndex = indexPath.row;
+    }
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     UIMenuController *menuController = [UIMenuController sharedMenuController];
     [menuController setMenuItems:[NSArray arrayWithObjects:delete,edit, nil]];
     [menuController setTargetRect:CGRectZero inView:cell];
     [menuController setMenuVisible:YES animated:YES];
-    
 }
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    if (action == @selector(delete:) || action == @selector(edit:)) {
-        return YES;
-    }
-    return NO;
-}
+//- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+//    if (action == @selector(delete:) || action == @selector(edit:)) {
+//        return YES;
+//    }
+//    return NO;
+//}
 
--(void)delete {
-    
+-(void)deleteProcess:(UIMenuItem*)sender {
+    [_currentProject.aProcesses removeObjectAtIndex:_iProcessIndex];
+    [_gvListProcess reloadData];
+    [_pkListProcess reloadComponent:0];
+    [_gvListStep reloadData];
 }
-- (void)edit:(id)sender {
+- (void)editProcess:(UIMenuItem*)sender {
     VAProcessDetailController *processDetail = [[VAProcessDetailController alloc] init];
     self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:processDetail] autorelease];
     self.popoverController.delegate = self;
     [self.popoverController setPopoverContentSize:processDetail.view.frame.size];
-    [self.popoverController presentPopoverFromRect:CGRectZero inView:self.processTableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.popoverController presentPopoverFromRect:CGRectZero inView:self.gvListProcess permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+-(void)deleteStep:(UIMenuItem*)sender{
+    [_selectedProcess.aSteps removeObjectAtIndex:_iStepIndex];
+    [_gvListStep reloadData];
+}
+- (void)editStep:(UIMenuItem*)sender{
+    
 }
 //UIPopoverController
 
@@ -257,26 +309,58 @@
     return 1;
 }
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (self.currentProject.arrProcess.count == 0) {
+    if (self.currentProject.aProcesses.count == 0) {
         return 1;
     }
-    return [self.currentProject.arrProcess count];
+    return [self.currentProject.aProcesses count];
 }
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    if (self.currentProject.arrProcess.count == 0) {
+    if (self.currentProject.aProcesses.count == 0) {
         return TDLocalizedStringOne(@"NoProcess");
     }
-    return [[self.currentProject.arrProcess objectAtIndex:row] Process_name];
+    VAProcess *proc = [self.currentProject.aProcesses objectAtIndex:row];
+    return proc.sProcName;
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (self.currentProject.arrProcess.count == 0) {
+    if (self.currentProject.aProcesses.count == 0) {
         return;
     }
-    self.selectedProcess = [self.currentProject.arrProcess objectAtIndex:row];
-    NSLog(@"%@", self.currentProcess.Process_name);
-    [self.stepTableView reloadData];
+    self.selectedProcess = [self.currentProject.aProcesses objectAtIndex:row];
+    TDLOG(@"%@", self.currentProcess.sProcName);
+    [self.gvListStep reloadData];
 }
 
+
+#pragma mark - table view
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == _gvListProcess) {
+        return _currentProject.aProcesses.count;
+    }else{
+        return _selectedProcess.aSteps.count;
+    }
+}
+
+// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
+// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == _gvListProcess) {
+        static NSString *processCellIdentify = @"VAProcessCell";
+        VAProcessCell *cell = [tableView dequeueReusableCellWithIdentifier:processCellIdentify];
+        VAProcess *proc = [_currentProject.aProcesses objectAtIndex:indexPath.row];
+        cell.lbProcId.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
+        cell.lbProcName.text = proc.sProcName;
+        cell.lbProcDescription.text = proc.sProcDescription;
+        return cell;
+    }else{
+        static NSString *stepCellIdentify = @"VAStepCell";
+        VAStepCell *cell = [tableView dequeueReusableCellWithIdentifier:stepCellIdentify];
+        VAStep *step = [_selectedProcess.aSteps objectAtIndex:indexPath.row];
+        cell.lbStepId.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
+        cell.lbStepName.text = step.sStepName;
+        return cell;
+    }
+}
 
 @end

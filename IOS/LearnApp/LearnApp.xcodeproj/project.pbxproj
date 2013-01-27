@@ -598,12 +598,12 @@
 		2FD0D4E716A84382002803CB /* VAM */ = {
 			isa = PBXGroup;
 			children = (
+				2FD0D4E916A8439D002803CB /* VAProject.h */,
+				2FD0D4EA16A8439D002803CB /* VAProject.m */,
 				A7C1155116A9045300457170 /* VAProcess.h */,
 				A7C1155216A9045300457170 /* VAProcess.m */,
 				A7C1155316A9045300457170 /* VAStep.h */,
 				A7C1155416A9045300457170 /* VAStep.m */,
-				2FD0D4E916A8439D002803CB /* VAProject.h */,
-				2FD0D4EA16A8439D002803CB /* VAProject.m */,
 			);
 			path = VAM;
 			sourceTree = "<group>";

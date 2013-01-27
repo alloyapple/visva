@@ -9,6 +9,7 @@
 #import "TDAppDelegate.h"
 
 #import "TDViewController.h"
+#import "VALoginController.h"
 
 @implementation TDAppDelegate
 

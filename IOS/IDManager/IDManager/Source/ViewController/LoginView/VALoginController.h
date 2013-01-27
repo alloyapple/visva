@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    kTypeMasterPasswordFirst,
+    kTypeMasterPasswordLogin,
+    kTypeMasterPasswordChangePass
+}kTypeMasterPassword;
+
 @interface VALoginController : UIViewController
+@property(nonatomic, readonly)kTypeMasterPassword typeMasterPass;
 
 @end

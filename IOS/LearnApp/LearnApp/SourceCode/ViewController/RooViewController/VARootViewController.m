@@ -14,6 +14,7 @@
 #import "VAExportViewController.h"
 
 @interface VARootViewController ()
+@property(nonatomic, retain)UITabBarController* tbTabbar;
 - (void)changeProject;
 - (void)newProject;
 - (void)versionsChange;
@@ -24,6 +25,7 @@
 - (IBAction)btCerrency:(id)sender;
 - (IBAction)btExport:(id)sender;
 - (IBAction)btBook:(id)sender;
+- (void)selectTab:(int)index;
 @property (retain, nonatomic) IBOutlet UIView *vTabbar;
 
 @end
@@ -44,10 +46,10 @@
 {
     [super viewDidLoad];
 #define kMainTabbar @"MainTabbar"
-    UITabBarController *tabbar = [self.storyboard instantiateViewControllerWithIdentifier:kMainTabbar];
-    [self addChildViewController:tabbar];
-    tabbar.view.frame = _vTabbar.frame;
-    [UIView transitionFromView:_vTabbar toView:tabbar.view duration:0.1 options:UIViewAnimationCurveEaseInOut completion:^(BOOL finished) {
+    self.tbTabbar = [self.storyboard instantiateViewControllerWithIdentifier:kMainTabbar];
+    [self addChildViewController:_tbTabbar];
+    _tbTabbar.view.frame = _vTabbar.frame;
+    [UIView transitionFromView:_vTabbar toView:_tbTabbar.view duration:0.1 options:UIViewAnimationCurveEaseInOut completion:^(BOOL finished) {
         
     }];
     
@@ -121,6 +123,7 @@
 - (void)dealloc {
     [popoverController release];
     [_vTabbar release];
+    [_tbTabbar release];
     [super dealloc];
 }
 - (void)viewDidUnload {
@@ -139,5 +142,11 @@
 }
 - (void)versionsChange {
     [self.popoverController dismissPopoverAnimated:YES];
+}
+-(void)selectTab:(int)index{
+    [_tbTabbar setSelectedIndex:index];
+}
+-(void)selectTaskTimeTab{
+    [self selectTab:1];
 }
 @end
