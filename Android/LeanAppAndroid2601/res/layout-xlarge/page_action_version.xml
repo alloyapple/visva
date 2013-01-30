@@ -156,6 +156,7 @@
 
                 <ListView
                     android:background="#FFFFFF"
+                    android:id="@+id/id_listview_version"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent" >
                 </ListView>

@@ -601,7 +601,7 @@
                                 </TextView>
 
                                 <CheckBox
-                                    android:id="@+id/id_checkbox_include_video"
+                                    android:id="@+id/id_checkbox_excel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"

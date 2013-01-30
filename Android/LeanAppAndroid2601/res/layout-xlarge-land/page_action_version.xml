@@ -154,9 +154,13 @@
             </FrameLayout>
 
             <ListView
+                android:id="@+id/id_listview_version"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF" >
+            </ListView>
+
+            <ListView>
             </ListView>
         </LinearLayout>
     </FrameLayout>
