@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <RelativeLayout
+    <RelativeLayout
         android:id="@+id/tabbar"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
@@ -11,7 +11,7 @@
         android:gravity="center" >
 
         <ImageView
-            android:id="@+id/imgBook"
+            android:id="@+id/img_project_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -19,51 +19,54 @@
             android:background="@drawable/ic_book" />
 
         <ImageView
-            android:id="@+id/imgSearch"
+            android:id="@+id/img_project_export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/imgBook"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/img_project_book"
             android:background="@drawable/ic_export" />
 
         <ImageView
-            android:id="@+id/imgCurrency"
+            android:id="@+id/img_project_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/ic_currency" />
 
         <ImageView
-            android:id="@+id/imgVersion"
+            android:id="@+id/img_project_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/imgCurrency"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_currency"
             android:background="@drawable/ic_version" />
 
         <ImageView
-            android:id="@+id/imgProject"
+            android:id="@+id/img_project_change_project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/imgVersion"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_version"
             android:background="@drawable/ic_bag" />
 
         <ImageView
-            android:id="@+id/imgSetting"
+            android:id="@+id/img_project_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/imgProject"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_change_project"
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
-	<ImageView android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:background="@drawable/img_video_view_detail_landscape"/>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/img_video_view_detail_landscape" />
+
 </LinearLayout>

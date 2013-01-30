@@ -27,8 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
-		OnClickListener {
+public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClickListener {
 
 	// ==========================Control Define ==========================
 	private Button btnCreatedProject;
@@ -74,8 +73,7 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 
 	private void createDataBase() {
 		// init sharePreference
-		leanAppAndroidSharePreference = LeanAppAndroidSharePreference
-				.getInstance(this);
+		leanAppAndroidSharePreference = LeanAppAndroidSharePreference.getInstance(this);
 		leanAppAndroidSharePreference.setProjectIdActive(-1);
 		leanAppAndroidSharePreference.setProjectNameActive("");
 		leanAppAndroidSharePreference.setProcessIdActive(-1);
@@ -88,19 +86,16 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 
 		// Reading all projects
 		Log.d("Reading: ", "Reading all projects..");
-		List<TProjectDataBase> projectArrList = databaseHandler
-				.getAllProjects();
+		List<TProjectDataBase> projectArrList = databaseHandler.getAllProjects();
 
 		if (projectArrList.size() > 0) {
 			project = new String[projectArrList.size()];
 			projectName = new String[projectArrList.size()];
 			projectId = new int[projectArrList.size()];
 			for (int i = 0; i < projectArrList.size(); i++) {
-				project[i] = projectArrList.get(i).getCompanyName().toString()
-						+ " "
+				project[i] = projectArrList.get(i).getCompanyName().toString() + " "
 						+ projectArrList.get(i).getProjectName().toString();
-				projectName[i] = projectArrList.get(i).getProjectName()
-						.toString();
+				projectName[i] = projectArrList.get(i).getProjectName().toString();
 				projectId[i] = projectArrList.get(i).getProjectID();
 			}
 		} else {
@@ -117,21 +112,21 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 		btnSelectedProject = (Button) findViewById(R.id.btn_select);
 		btnCreatedProject.setOnClickListener(this);
 		btnSelectedProject.setOnClickListener(this);
-		btnBookChoice = (ImageView) findViewById(R.id.img_choice_project_book);
+		btnBookChoice = (ImageView) findViewById(R.id.img_project_book);
 		btnBookChoice.setOnClickListener(this);
 		//
-		btnExport = (ImageView) findViewById(R.id.img_choice_project_export);
+		btnExport = (ImageView) findViewById(R.id.img_project_export);
 		btnExport.setOnClickListener(this);
 		//
-		btnSetting = (ImageView) findViewById(R.id.img_choice_project_setting);
+		btnSetting = (ImageView) findViewById(R.id.img_project_setting);
 		btnSetting.setOnClickListener(this);
 		//
-		btnVersion = (ImageView) findViewById(R.id.img_choice_project_version);
+		btnVersion = (ImageView) findViewById(R.id.img_project_version);
 		btnVersion.setOnClickListener(this);
 		//
-		btnChangeProject = (ImageView) findViewById(R.id.img_choice_project_change_project);
+		btnChangeProject = (ImageView) findViewById(R.id.img_project_change_project);
 		btnChangeProject.setOnClickListener(this);
-		btnMoney = (ImageView) findViewById(R.id.img_choice_project_currency);
+		btnMoney = (ImageView) findViewById(R.id.img_project_currency);
 		btnMoney.setOnClickListener(this);
 		editTextProjectName = (EditText) findViewById(R.id.editText_CreatdProjectName);
 		editTextCompanyName = (EditText) findViewById(R.id.editText_CreatedCompanyName);
@@ -142,8 +137,7 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 		// wheel android
 		projectWheel = (WheelView) findViewById(R.id.wheel_project);
 		projectWheel.setVisibleItems(5);
-		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this,
-				project, 0);
+		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this, project, 0);
 		projectWheel.setViewAdapter(projectAdapter);
 
 	}
@@ -152,8 +146,7 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 	 * Updates the city wheel
 	 */
 	private void updateCities(WheelView city, String cities[][], int index) {
-		ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
-				cities[index]);
+		ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this, cities[index]);
 		adapter.setTextSize(18);
 		city.setViewAdapter(adapter);
 		city.setCurrentItem(cities[index].length / 2);
@@ -177,52 +170,41 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 		} else if (view == btnSelectedProject) {
 			if (projectId.length > 0) {
 				// insert to share preference
-				leanAppAndroidSharePreference
-						.setProjectCreatedOrSelectedExist(false);
-				leanAppAndroidSharePreference
-						.setProjectNameActive(projectName[projectWheel
-								.getCurrentItem()]);
-				leanAppAndroidSharePreference
-						.setProjectIdActive(projectId[projectWheel
-								.getCurrentItem()]);
+				leanAppAndroidSharePreference.setProjectCreatedOrSelectedExist(false);
+				leanAppAndroidSharePreference.setProjectNameActive(projectName[projectWheel
+						.getCurrentItem()]);
+				leanAppAndroidSharePreference.setProjectIdActive(projectId[projectWheel
+						.getCurrentItem()]);
 
-				Log.e("is Item selected ", "is project selected "
-						+ projectName[projectWheel.getCurrentItem()]);
+				Log.e("is Item selected ",
+						"is project selected " + projectName[projectWheel.getCurrentItem()]);
 				gotoActivityInGroup(this, CreateProjectActivity.class);
 			} else {
-				Toast.makeText(ChoiceProjectActivity.this,
-						"No project is added to select", Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(ChoiceProjectActivity.this, "No project is added to select",
+						Toast.LENGTH_LONG).show();
 			}
 		} else if (view == btnBookChoice) {
-			 gotoActivityInGroup(ChoiceProjectActivity.this,
-			 DrawMapActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, DrawMapActivity.class);
 		} else if (view == btnExport) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionExportActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionExportActivity.class);
 		} else if (view == btnSetting) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionSettingActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionSettingActivity.class);
 		} else if (view == btnVersion) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionVersionActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionVersionActivity.class);
 
 		} else if (view == btnChangeProject) {
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					ActionChangeActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, ActionChangeActivity.class);
 		}
 	}
 
 	private void insertToDataBase() {
 		if ("".equals(editTextProjectName.getText().toString().trim())
 				|| "".equals(editTextCompanyName.getText().toString().trim())
-				|| "".equals(editTextProjectDescription.getText().toString()
-						.trim())
+				|| "".equals(editTextProjectDescription.getText().toString().trim())
 				|| "".equals(editTextCompanyAddress.getText().toString().trim())
 				|| "".equals(editTextNotes.getText().toString().trim())) {
-			Toast.makeText(ChoiceProjectActivity.this,
-					"Fill all fields to create new project", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(ChoiceProjectActivity.this, "Fill all fields to create new project",
+					Toast.LENGTH_LONG).show();
 		} else {
 			boolean isDuplicate = false;
 			projectArrList = databaseHandler.getAllProjects();
@@ -238,30 +220,24 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 			}
 			if (!isDuplicate) {
 				_projectCurrentId++;// increase project id +1
-				databaseHandler.addNewProject(new TProjectDataBase(
-						_projectCurrentId, editTextProjectName.getText()
-								.toString(), editTextCompanyName.getText()
-								.toString(), editTextProjectDescription
-								.getText().toString(),
-						editTextProjectDescription.getText().toString(),
-						editTextCompanyAddress.getText().toString()));
+				databaseHandler.addNewProject(new TProjectDataBase(_projectCurrentId,
+						editTextProjectName.getText().toString(), editTextCompanyName.getText()
+								.toString(), editTextProjectDescription.getText().toString(),
+						editTextProjectDescription.getText().toString(), editTextCompanyAddress
+								.getText().toString()));
 				databaseHandler.close();
 
 				// insert to share preference
-				leanAppAndroidSharePreference
-						.setProjectIdActive(_projectCurrentId);
-				leanAppAndroidSharePreference
-						.setProjectNameActive(editTextProjectName.getText()
-								.toString());
-				leanAppAndroidSharePreference
-						.setProjectCreatedOrSelectedExist(true);
+				leanAppAndroidSharePreference.setProjectIdActive(_projectCurrentId);
+				leanAppAndroidSharePreference.setProjectNameActive(editTextProjectName.getText()
+						.toString());
+				leanAppAndroidSharePreference.setProjectCreatedOrSelectedExist(true);
 
 				// start create process activity
 				gotoActivityInGroup(this, CreateProjectActivity.class);
 			} else {
 				Toast.makeText(ChoiceProjectActivity.this,
-						"Duplicate project.Rename the project name",
-						Toast.LENGTH_LONG).show();
+						"Duplicate project.Rename the project name", Toast.LENGTH_LONG).show();
 				isDuplicate = false;
 			}
 		}
@@ -310,12 +286,10 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 			updateProjectWheel();
 			break;
 		case MODE_TAKT_TIME_DONE_ERROR:
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					CreateProjectActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, CreateProjectActivity.class);
 			break;
 		case MODE_TAKT_TIME_DONE_OK:
-			gotoActivityInGroup(ChoiceProjectActivity.this,
-					DrawMapActivity.class);
+			gotoActivityInGroup(ChoiceProjectActivity.this, DrawMapActivity.class);
 			break;
 
 		default:
@@ -327,14 +301,12 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 	private void updateProjectWheel() {
 		// Reading all contacts
 		Log.d("Reading: ", "Reading all contacts..");
-		List<TProjectDataBase> projectArrList = databaseHandler
-				.getAllProjects();
+		List<TProjectDataBase> projectArrList = databaseHandler.getAllProjects();
 
 		if (projectArrList.size() > 0) {
 			project = new String[projectArrList.size()];
 			for (int i = 0; i < projectArrList.size(); i++) {
-				project[i] = projectArrList.get(i).getCompanyName().toString()
-						+ " "
+				project[i] = projectArrList.get(i).getCompanyName().toString() + " "
 						+ projectArrList.get(i).getProjectName().toString();
 			}
 		} else
@@ -346,8 +318,7 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements
 			_projectCurrentId = projectArrList.size();
 		//
 		projectWheel.setVisibleItems(5);
-		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this,
-				project, 3);
+		ProjectArrayAdapter projectAdapter = new ProjectArrayAdapter(this, project, 3);
 		projectWheel.setViewAdapter(projectAdapter);
 	}
 }

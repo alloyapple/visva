@@ -63,16 +63,16 @@ public class SpaghettiChartActivity extends VSVTeamBaseActivity implements
 		setContentView(R.layout.page_menu_bar_chart);
 		mListViewCompareStep = (ListView) findViewById(R.id.id_listview_compare_step);
 		mListViewCompareStep.setAdapter(new ListCompareStepAdapter(this));
-		btnExport = (ImageView) findViewById(R.id.img_choice_project_export);
+		btnExport = (ImageView) findViewById(R.id.img_project_export);
 		btnExport.setOnClickListener(this);
 		//
-		btnSetting = (ImageView) findViewById(R.id.img_choice_project_setting);
+		btnSetting = (ImageView) findViewById(R.id.img_project_setting);
 		btnSetting.setOnClickListener(this);
 		//
-		btnVersion = (ImageView) findViewById(R.id.img_choice_project_version);
+		btnVersion = (ImageView) findViewById(R.id.img_project_version);
 		btnVersion.setOnClickListener(this);
 		//
-		btnChangeProject = (ImageView) findViewById(R.id.img_choice_project_change_project);
+		btnChangeProject = (ImageView) findViewById(R.id.img_project_change_project);
 		btnChangeProject.setOnClickListener(this);
 
 	}

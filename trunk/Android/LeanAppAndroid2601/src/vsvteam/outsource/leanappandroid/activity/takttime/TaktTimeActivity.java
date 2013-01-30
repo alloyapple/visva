@@ -223,16 +223,16 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 		wheelTaktTime2.setVisibleItems(5);
 		wheelTaktTime2.setCurrentItem(0);
 		// actionbar
-		btnExport = (ImageView) findViewById(R.id.img_choice_project_export);
+		btnExport = (ImageView) findViewById(R.id.img_project_export);
 		btnExport.setOnClickListener(this);
 		//
-		btnSetting = (ImageView) findViewById(R.id.img_choice_project_setting);
+		btnSetting = (ImageView) findViewById(R.id.img_project_setting);
 		btnSetting.setOnClickListener(this);
 		//
-		btnVersion = (ImageView) findViewById(R.id.img_choice_project_version);
+		btnVersion = (ImageView) findViewById(R.id.img_project_version);
 		btnVersion.setOnClickListener(this);
 		//
-		btnChangedProject = (ImageView) findViewById(R.id.img_choice_project_change_project);
+		btnChangedProject = (ImageView) findViewById(R.id.img_project_change_project);
 		btnChangedProject.setOnClickListener(this);
 		// button
 		btnTaktTimeCancel = (Button) findViewById(R.id.btn_takt_time_cancel);

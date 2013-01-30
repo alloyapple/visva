@@ -64,7 +64,7 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements
 	private Button btnDoneCreatedProject;
 
 	private ImageView btnSetting;
-	private ImageView btnExport;
+	private ImageView btnExport;  
 	private ImageView btnVersion;
 	private ImageView btnChangedProject;
 
@@ -640,16 +640,16 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements
 		btnDoneCreatedProject = (Button) findViewById(R.id.btn_process_i_am_done);
 		btnDoneCreatedProject.setOnClickListener(this);
 		//
-		btnExport = (ImageView) findViewById(R.id.img_choice_project_export);
+		btnExport = (ImageView) findViewById(R.id.img_project_export);
 		btnExport.setOnClickListener(this);
 		//
-		btnSetting = (ImageView) findViewById(R.id.img_choice_project_setting);
+		btnSetting = (ImageView) findViewById(R.id.img_project_setting);
 		btnSetting.setOnClickListener(this);
 		//
-		btnVersion = (ImageView) findViewById(R.id.img_choice_project_version);
+		btnVersion = (ImageView) findViewById(R.id.img_project_version);
 		btnVersion.setOnClickListener(this);
 		//
-		btnChangedProject = (ImageView) findViewById(R.id.img_choice_project_change_project);
+		btnChangedProject = (ImageView) findViewById(R.id.img_project_change_project);
 		btnChangedProject.setOnClickListener(this);
 
 		// EditText
