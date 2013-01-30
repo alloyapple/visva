@@ -89,16 +89,16 @@ public class DetailChartActivity extends VSVTeamBaseActivity implements
 		wheelViewVerision2.setCurrentItem(0);
 		wheelViewVerision2.setViewAdapter(new ChartDetailArrayAdapter(this,
 				project, 0));
-		btnExport = (ImageView) findViewById(R.id.img_choice_project_export);
+		btnExport = (ImageView) findViewById(R.id.img_project_export);
 		btnExport.setOnClickListener(this);
 		//
-		btnSetting = (ImageView) findViewById(R.id.img_choice_project_setting);
+		btnSetting = (ImageView) findViewById(R.id.img_project_setting);
 		btnSetting.setOnClickListener(this);
 		//
-		btnVersion = (ImageView) findViewById(R.id.img_choice_project_version);
+		btnVersion = (ImageView) findViewById(R.id.img_project_version);
 		btnVersion.setOnClickListener(this);
 		//
-		btnChangedProject = (ImageView) findViewById(R.id.img_choice_project_change_project);
+		btnChangedProject = (ImageView) findViewById(R.id.img_project_change_project);
 		btnChangedProject.setOnClickListener(this);
 		((FrameLayout) findViewById(R.id.id_fra_chart1))
 				.addView(addCombineChartView(new int[] { 1, 2, 3, 4, 5 },

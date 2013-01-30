@@ -72,16 +72,16 @@ public class PQPRActivity extends VSVTeamBaseActivity implements
 				.addView(addCombineChartView(new int[] { 1, 2, 3, 4, 5 },
 						new double[] { 10, 20, 30, 40, 50 }, new double[] { 10,
 								20, 38, 21, 50 }));
-		btnExport = (ImageView) findViewById(R.id.img_choice_project_export);
+		btnExport = (ImageView) findViewById(R.id.img_project_export);
 		btnExport.setOnClickListener(this);
 		//
-		btnSetting = (ImageView) findViewById(R.id.img_choice_project_setting);
+		btnSetting = (ImageView) findViewById(R.id.img_project_setting);
 		btnSetting.setOnClickListener(this);
 		//
-		btnVersion = (ImageView) findViewById(R.id.img_choice_project_version);
+		btnVersion = (ImageView) findViewById(R.id.img_project_version);
 		btnVersion.setOnClickListener(this);
 		//
-		btnChangeProject = (ImageView) findViewById(R.id.img_choice_project_change_project);
+		btnChangeProject = (ImageView) findViewById(R.id.img_project_change_project);
 		btnChangeProject.setOnClickListener(this);
 	}
 
