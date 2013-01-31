@@ -151,7 +151,7 @@ public class QuickAction extends PopupWindows {
 		}
 		Log.e("adfasdfsdf", "center x " + anchorRect.centerX());
 
-		showArrow(((onTop) ? R.id.arrow_down : R.id.arrow_up), 90);
+		showArrow(((onTop) ? R.id.arrow_down : R.id.arrow_up), 10);
 
 		setAnimationStyle(screenWidth, anchorRect.centerX(), onTop);
 

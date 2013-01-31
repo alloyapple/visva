@@ -5,7 +5,6 @@ import java.util.List;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import vsvteam.outsource.leanappandroid.R;
-import vsvteam.outsource.leanappandroid.actionbar.ActionBookActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionChangeActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionExportActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionSettingActivity;
@@ -55,20 +54,15 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private String projectName[] = {};
 	private int projectId[] = {};
 	private int _projectCurrentId;
-	private static final int MODE_TAKT_TIME_CANCEL = 1;
-	private static final int MODE_TAKT_TIME_DONE_OK = 2;
-	private static final int MODE_TAKT_TIME_DONE_ERROR = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.page_choice_project);
-
+		// intialize database
 		createDataBase();
-
+		setContentView(R.layout.page_choice_project);
 		initialize();
-
 	}
 
 	private void createDataBase() {
@@ -80,9 +74,6 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 		leanAppAndroidSharePreference.setProcessNameActive("");
 		// init database
 		databaseHandler = new TProjectDatabaseHandler(this);
-		// project = new String[5];
-		// projectName = new String[5];
-		// projectId = new int[5];
 
 		// Reading all projects
 		Log.d("Reading: ", "Reading all projects..");
@@ -102,7 +93,6 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 		}
 		// get current id for project to add new
 		_projectCurrentId = projectArrList.size();
-		Log.e("aaaaaaaaaa", "currentId " + _projectCurrentId);
 
 	}
 
@@ -142,27 +132,6 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 
 	}
 
-	/**
-	 * Updates the city wheel
-	 */
-	private void updateCities(WheelView city, String cities[][], int index) {
-		ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this, cities[index]);
-		adapter.setTextSize(18);
-		city.setViewAdapter(adapter);
-		city.setCurrentItem(cities[index].length / 2);
-	}
-
-	/**
-	 * Returns wheel by Id
-	 * 
-	 * @param id
-	 *            the wheel Id
-	 * @return the wheel with passed Id
-	 */
-	private WheelView getWheel(int id) {
-		return (WheelView) findViewById(id);
-	}
-
 	@Override
 	public void onClick(View view) {
 		if (view == btnCreatedProject) {
@@ -176,8 +145,6 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 				leanAppAndroidSharePreference.setProjectIdActive(projectId[projectWheel
 						.getCurrentItem()]);
 
-				Log.e("is Item selected ",
-						"is project selected " + projectName[projectWheel.getCurrentItem()]);
 				gotoActivityInGroup(this, CreateProjectActivity.class);
 			} else {
 				Toast.makeText(ChoiceProjectActivity.this, "No project is added to select",
@@ -208,8 +175,8 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 		} else {
 			boolean isDuplicate = false;
 			projectArrList = databaseHandler.getAllProjects();
+
 			int size = projectArrList.size();
-			Log.e("size", "size " + size);
 			for (int i = 0; i < size; i++) {
 				if (editTextCompanyName.getText().toString()
 						.equals(projectArrList.get(i).getCompanyName())
@@ -233,6 +200,9 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 						.toString());
 				leanAppAndroidSharePreference.setProjectCreatedOrSelectedExist(true);
 
+				//reset all field
+				resetField();
+				
 				// start create process activity
 				gotoActivityInGroup(this, CreateProjectActivity.class);
 			} else {
@@ -278,24 +248,21 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 		}
 	}
 
+	/*
+	 * reset all field after create project
+	 */
+	private void resetField() {
+		editTextCompanyAddress.setText("");
+		editTextCompanyName.setText("");
+		editTextNotes.setText("");
+		editTextProjectDescription.setText("");
+		editTextProjectName.setText("");
+	}
+
 	public void onResume() {
 		super.onResume();
-		Log.e("onResume", "onResume");
-		switch (leanAppAndroidSharePreference.getModeTaktTimee()) {
-		case MODE_TAKT_TIME_CANCEL:
-			updateProjectWheel();
-			break;
-		case MODE_TAKT_TIME_DONE_ERROR:
-			gotoActivityInGroup(ChoiceProjectActivity.this, CreateProjectActivity.class);
-			break;
-		case MODE_TAKT_TIME_DONE_OK:
-			gotoActivityInGroup(ChoiceProjectActivity.this, DrawMapActivity.class);
-			break;
-
-		default:
-			break;
-		}
-
+		Log.e("onResume", "onResume " + leanAppAndroidSharePreference.getModeTaktTimee());
+		updateProjectWheel();
 	}
 
 	private void updateProjectWheel() {
@@ -310,9 +277,6 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 						+ projectArrList.get(i).getProjectName().toString();
 			}
 		} else
-			// project = new String[] { "No Project", "No Project",
-			// "No Project",
-			// "No Project", "No Project" };
 
 			// get current id for project to add new
 			_projectCurrentId = projectArrList.size();

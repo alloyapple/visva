@@ -22,6 +22,7 @@ import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -94,22 +95,25 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 
 			cancelTaktTime();
 		} else if (view == btnTaktTimeDone) {
+
 			if (leanAppAndroidSharePreference.getProjectIdActive() == -1) {
 				Toast.makeText(this, "No project is selected to add takt time", Toast.LENGTH_LONG)
 						.show();
 				cancelTaktTime();
-			}
 
-			else {
+			} else {
+
 				TProcessDataBaseHandler tProcessDataBaseHandler = new TProcessDataBaseHandler(this);
-				List<TProcessDataBase> listProcess=tProcessDataBaseHandler.getAllProcess(_currentProjectIdActive);
+				List<TProcessDataBase> listProcess = tProcessDataBaseHandler
+						.getAllProcess(_currentProjectIdActive);
 				if (listProcess.size() == 0) {
 					Toast.makeText(
 							this,
 							"No process added in project "
 									+ leanAppAndroidSharePreference.getProjectNameActive()
-									+ ".Please insert a process", Toast.LENGTH_LONG).show();
-					CreateTaktTimeError();
+									+ ".Please select  project and insert a process", Toast.LENGTH_LONG).show();
+					createTaktTimeErrorNoProcess();
+
 				} else
 					doneTaktTime();
 				tProcessDataBaseHandler.close();
@@ -117,23 +121,23 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 		}
 	}
 
-	private void CreateTaktTimeError() {
-		leanAppAndroidSharePreference.setModeTaktTime(MODE_TAKT_TIME_DONE_ERROR);
+	/**
+	 * create takt time error for no process
+	 */
+	private void createTaktTimeErrorNoProcess() {
+		Log.e("run here ","run here");
 		tabGroupTaktTimeActivity = (TabGroupTaktTimeActivity) this.getParent();
 		homeActivity = (HomeActivity) tabGroupTaktTimeActivity.getParent();
 		homeActivity.setCurrentTab(0);
-		
 	}
 
 	/**
 	 * cancel takt time -> back to create project activity
 	 */
 	private void cancelTaktTime() {
-		leanAppAndroidSharePreference.setModeTaktTime(MODE_TAKT_TIME_CANCEL);
 		tabGroupTaktTimeActivity = (TabGroupTaktTimeActivity) this.getParent();
 		homeActivity = (HomeActivity) tabGroupTaktTimeActivity.getParent();
 		homeActivity.setCurrentTab(0);
-		
 	}
 
 	/**
@@ -171,10 +175,12 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 			tTaktTimeDataBaseHandler.close();
 
 			// go to draw stream map
-//			leanAppAndroidSharePreference.setModeTaktTime(MODE_TAKT_TIME_DONE_OK);
-//			tabGroupTaktTimeActivity = (TabGroupTaktTimeActivity) this.getParent();
-//			homeActivity = (HomeActivity) tabGroupTaktTimeActivity.getParent();
-//			homeActivity.setCurrentTab(0);
+			// leanAppAndroidSharePreference.setModeTaktTime(MODE_TAKT_TIME_DONE_OK);
+			// tabGroupTaktTimeActivity = (TabGroupTaktTimeActivity)
+			// this.getParent();
+			// homeActivity = (HomeActivity)
+			// tabGroupTaktTimeActivity.getParent();
+			// homeActivity.setCurrentTab(0);
 			gotoActivityInGroup(TaktTimeActivity.this, DrawMapActivity.class);
 		}
 	}
@@ -206,7 +212,7 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 
 		// initialize database
 		tTaktTimeDataBaseHandler = new TTaktTimeDataBaseHandler(this);
-		
+
 	}
 
 	/**

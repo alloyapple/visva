@@ -159,9 +159,6 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF" >
             </ListView>
-
-            <ListView>
-            </ListView>
         </LinearLayout>
     </FrameLayout>
 

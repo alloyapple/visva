@@ -100,7 +100,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Process Name"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -114,7 +114,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Process Start Point(Supplier)"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -129,7 +129,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Process End Point(Customer)"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" />
 
         <EditText
@@ -142,7 +142,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Process Description"
-            android:lines="5"
+            android:lines="4"
             android:textColor="@color/black" >
         </EditText>
 
@@ -152,11 +152,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_process_supplier"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:layout_toRightOf="@id/editText_process_description"
             android:background="@color/white"
             android:gravity="center"
             android:hint="Output Inventory"
+            android:inputType="number"
             android:lines="2"
             android:textColor="@color/black" >
         </EditText>
@@ -167,7 +168,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_output_inventory"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/editText_process_description"
             android:background="@color/white"
             android:gravity="center"
@@ -189,7 +190,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Defect Notes(burst)"
-            android:lines="3"
+            android:lines="2"
             android:textColor="@color/black" >
         </EditText>
 
@@ -227,7 +228,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/switch_process"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@color/white"
             android:gravity="center"
             android:hint="Uptime"
@@ -242,7 +243,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/switch_process"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/editText_uptime"
             android:background="@color/white"
             android:gravity="center"
@@ -258,7 +259,7 @@
             android:layout_below="@id/switch_process"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/editText_communication"
             android:background="@color/white"
             android:gravity="center"
@@ -275,7 +276,7 @@
             android:layout_below="@id/switch_process"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/editText_value_adding_time"
             android:background="@color/white"
             android:gravity="center"

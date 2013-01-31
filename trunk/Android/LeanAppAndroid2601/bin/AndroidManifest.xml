@@ -107,6 +107,10 @@
             android:name=".tabbar.TabGroupPQPRActivity"
             android:label="@string/app_name" >
         </activity>
+         <activity
+            android:name=".tabbar.TabGroupProcessActivity"
+            android:label="@string/app_name" >
+        </activity>
         <!-- ACTION BAR -->
         <activity
             android:name=".actionbar.ActionBookActivity"
