@@ -136,6 +136,7 @@
                 android:layout_below="@id/txt_edit_process_projectName"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
                 android:text="Input the detail of each process belonging to this project then tap Add"
                 android:textColor="@color/white"
                 android:textSize="22dp" />
@@ -149,7 +150,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process Start Point(Supplier)"
-                android:lines="2"
+                android:singleLine="true"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -164,7 +165,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process End Point(Customer)"
-                android:lines="2"
+                android:singleLine="true"
                 android:textColor="@color/black" />
 
             <EditText
@@ -177,7 +178,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process Name"
-                android:lines="2"
+                android:singleLine="true"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -229,7 +230,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText_edit_process_defect_notes"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:layout_toRightOf="@id/textView_verify"
                 android:background="@drawable/btn_toggle"
                 android:checked="true"

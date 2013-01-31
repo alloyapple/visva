@@ -98,7 +98,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Process Start Point(Supplier)"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -112,7 +112,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Process End Point(Customer)"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" />
 
         <EditText
@@ -125,7 +125,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Process Name"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -163,7 +163,8 @@
             android:id="@+id/textView_verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editText_defect_percent"
+            android:layout_below="@id/editText_defect_notes"
+            android:layout_toRightOf="@id/editText_process_description"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
             android:text="Need to verify these details"
@@ -174,7 +175,7 @@
             android:id="@+id/switch_process"
             android:layout_width="60dp"
             android:layout_height="30dp"
-            android:layout_below="@id/editText_defect_percent"
+            android:layout_below="@id/editText_defect_notes"
             android:layout_marginRight="15dp"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="20dp"
@@ -196,7 +197,7 @@
             android:gravity="center"
             android:hint="Output Inventory"
             android:inputType="number"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -212,7 +213,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Uptime"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -229,7 +230,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Value Adding Time"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -244,7 +245,7 @@
             android:gravity="center"
             android:hint="Defect %"
             android:inputType="number"
-            android:lines="2"
+            android:singleLine="true"
             android:textColor="@color/black" >
         </EditText>
 
@@ -275,7 +276,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:hint="Non value adding time"
-            android:lines="2"
+            android:singleLine="true"
             android:inputType="number"
             android:textColor="@color/black" >
         </EditText>

@@ -12,8 +12,6 @@ import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
 import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
 import vsvteam.outsource.leanappandroid.database.TProcessDataBase;
 import vsvteam.outsource.leanappandroid.database.TProcessDataBaseHandler;
-import android.R.integer;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class EditProcessActivity extends VSVTeamBaseActivity implements
-		OnClickListener {
+public class EditProcessActivity extends VSVTeamBaseActivity implements OnClickListener {
 
 	// ============================Control Define =====================
 	private ImageView btnSetting;
@@ -59,7 +56,6 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 	private List<TProcessDataBase> tprocessList;
 
 	// ============================Variable Define ====================
-
 	private int _currentProcessId;
 	private String _currentProcessName;
 	private String _currentProjectNameActive;
@@ -72,25 +68,24 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 	private String _processDescription;
 	private String _processStartPoint;
 	private String _processEndPoint;
-	private String _processOutPutInventory;
+	private int _processOutPutInventory;
 	private String _processDefectNote;
 
 	private int _processDefectPercent;
 	private int _processUpTime;
-	private int _processCommunication;
+	private String _processCommunication;
 	private int _processValueAddingTime;
 	private int _processNonValueAddingTime;
 	private int _processTotalCycleTime;
 	private int _processTotOperators;
 	private int _processShifts;
-	private int _processAvailability;
 	private int _processTotDistanceTraveled;
-	private int _processChangeOverTime;
 	private int _processTaktTime;
 	private int _processVersionId;
 	private String _processPreviousProcess;
 	private String _processNextProcess;
 	private String _processVsmName;
+	private boolean _verify_details;
 
 	// array process id
 	private ArrayList<Integer> processId;
@@ -158,8 +153,7 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 
 		// TextView project name
 		txtProcessName = (TextView) findViewById(R.id.txt_edit_process_projectName);
-		txtProcessName.setText("Process " + _currentProcessName
-				+ " is selected.");
+		txtProcessName.setText("Process " + _currentProcessName + " is selected.");
 
 		// refresh all editext of process id
 		refreshEditText(_currentProcessId);
@@ -167,26 +161,20 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 
 	private void initDataBase() {
 		// init share preference
-		leanAppAndroidSharePreference = LeanAppAndroidSharePreference
-				.getInstance(this);
+		leanAppAndroidSharePreference = LeanAppAndroidSharePreference.getInstance(this);
 		_currentProcessId = leanAppAndroidSharePreference.getProcessIdActive();
-		_currentProcessName = leanAppAndroidSharePreference
-				.getProcessNameActive();
-		_currentProjectIdActive = leanAppAndroidSharePreference
-				.getProjectIdActive();
-		_currentProjectNameActive = leanAppAndroidSharePreference
-				.getProjectNameActive();
+		_currentProcessName = leanAppAndroidSharePreference.getProcessNameActive();
+		_currentProjectIdActive = leanAppAndroidSharePreference.getProjectIdActive();
+		_currentProjectNameActive = leanAppAndroidSharePreference.getProjectNameActive();
 
 		// init database
 		tProcessDataBaseHandler = new TProcessDataBaseHandler(this);
 		Log.e("_projectId", "_projectId " + _currentProjectIdActive);
 		Log.e("_projectName", "_projectName " + _currentProjectNameActive);
-		tprocessList = tProcessDataBaseHandler
-				.getAllProcess(_currentProjectIdActive);
+		tprocessList = tProcessDataBaseHandler.getAllProcess(_currentProjectIdActive);
 
 		processId = new ArrayList<Integer>();
-		Log.e("size of tprocessList",
-				"size of tprocessList " + tprocessList.size());
+		Log.e("size of tprocessList", "size of tprocessList " + tprocessList.size());
 		int size = tprocessList.size();
 		for (int i = 0; i < size; i++) {
 			processId.add(tprocessList.get(i).getProcessId());
@@ -200,17 +188,13 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 	@Override
 	public void onClick(View v) {
 		if (v == btnExport) {
-			gotoActivityInGroup(EditProcessActivity.this,
-					ActionExportActivity.class);
+			gotoActivityInGroup(EditProcessActivity.this, ActionExportActivity.class);
 		} else if (v == btnSetting) {
-			gotoActivityInGroup(EditProcessActivity.this,
-					ActionSettingActivity.class);
+			gotoActivityInGroup(EditProcessActivity.this, ActionSettingActivity.class);
 		} else if (v == btnVersion) {
-			gotoActivityInGroup(EditProcessActivity.this,
-					ActionVersionActivity.class);
+			gotoActivityInGroup(EditProcessActivity.this, ActionVersionActivity.class);
 		} else if (v == btnChangedProject) {
-			gotoActivityInGroup(EditProcessActivity.this,
-					ActionChangeActivity.class);
+			gotoActivityInGroup(EditProcessActivity.this, ActionChangeActivity.class);
 		} else if (v == btnDoneEditProcess) {
 			updateDataBase(_currentProcessId);
 		} else if (v == btnPreviousItem) {
@@ -259,23 +243,18 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 				|| "".equals(editTextProcessDescription.getText().toString())
 				|| "".equals(editTextProcessEndPoint.getText().toString())
 				|| "".equals(editTextProcessName.getText().toString())
-				|| "".equals(editTextProcessNonValueAddingTime.getText()
-						.toString())
-				|| "".equals(editTextProcessOutPutInventory.getText()
-						.toString())
+				|| "".equals(editTextProcessNonValueAddingTime.getText().toString())
+				|| "".equals(editTextProcessOutPutInventory.getText().toString())
 				|| "".equals(editTextProcessStartPoint.getText().toString())
 				|| "".equals(editTextProcessUpTime.getText().toString())
-				|| "".equals(editTextProcessValueAddingTime.getText()
-						.toString())) {
-			Toast.makeText(EditProcessActivity.this,
-					"Fill all fields to edit process", Toast.LENGTH_LONG)
-					.show();
+				|| "".equals(editTextProcessValueAddingTime.getText().toString())) {
+			Toast.makeText(EditProcessActivity.this, "Fill all fields to edit process",
+					Toast.LENGTH_LONG).show();
 		} else {
 			// check if add duplicate processes
 			boolean isDuplicatedProcess = false;
-			tprocessList = tProcessDataBaseHandler
-					.getAllProcess(leanAppAndroidSharePreference
-							.getProjectIdActive());
+			tprocessList = tProcessDataBaseHandler.getAllProcess(leanAppAndroidSharePreference
+					.getProjectIdActive());
 			int size = tprocessList.size();
 			for (int i = 0; i < size; i++) {
 				if (editTextProcessName.getText().toString()
@@ -286,49 +265,36 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 			// no duplicate process
 			if (!isDuplicatedProcess) {
 				_processName = editTextProcessName.getText().toString();
-				_processDescription = editTextProcessDescription.getText()
-						.toString();
-				_processStartPoint = editTextProcessStartPoint.getText()
-						.toString();
+				_processDescription = editTextProcessDescription.getText().toString();
+				_processStartPoint = editTextProcessStartPoint.getText().toString();
 				_processEndPoint = editTextProcessEndPoint.getText().toString();
-				_processCommunication = Integer
-						.parseInt(editTextProcessCommunication.getText()
-								.toString());
-				_processDefectNote = editTextProcessDefectNotes.getText()
-						.toString();
-				_processDefectPercent = Integer
-						.parseInt(editTextProcessDefectPercent.getText()
-								.toString());
-				_processNonValueAddingTime = Integer
-						.parseInt(editTextProcessNonValueAddingTime.getText()
-								.toString());
-				_processOutPutInventory = editTextProcessOutPutInventory
-						.getText().toString();
-				_processUpTime = Integer.parseInt(editTextProcessUpTime
+				_processCommunication = editTextProcessCommunication.getText().toString();
+				_processDefectNote = editTextProcessDefectNotes.getText().toString();
+				_processDefectPercent = Integer.parseInt(editTextProcessDefectPercent.getText()
+						.toString());
+				_processNonValueAddingTime = Integer.parseInt(editTextProcessNonValueAddingTime
 						.getText().toString());
-				_processValueAddingTime = Integer
-						.parseInt(editTextProcessValueAddingTime.getText()
-								.toString());
-
+				_processOutPutInventory = Integer.parseInt(editTextProcessOutPutInventory.getText()
+						.toString());
+				_processUpTime = Integer.parseInt(editTextProcessUpTime.getText().toString());
+				_processValueAddingTime = Integer.parseInt(editTextProcessValueAddingTime.getText()
+						.toString());
+				_verify_details = toggleBtnProcessDetail.isChecked();
+				
 				// update to database
-				/**
-				 * defectNotes
-				 */
-				tProcessDataBaseHandler.updateProcess(new TProcessDataBase(
-						_currentProcessId, _currentProjectIdActive,
-						_currentProjectNameActive, _processName,
-						_processDescription, _processDefectNote, 0,
-						_processValueAddingTime, _processNonValueAddingTime,
-						_processDefectPercent, 0, 0, 0, 0, _processUpTime, 0,
-						0, 0, "test", "test", "test"));
+				tProcessDataBaseHandler.updateProcess(new TProcessDataBase(_currentProcessId,
+						_currentProjectIdActive, _currentProjectNameActive, _processName,
+						_processDescription, _processDefectNote, 0, _processValueAddingTime,
+						_processNonValueAddingTime, _processDefectPercent, 0, 0, _processUpTime, 0,
+						0, "test", "test", "test", _verify_details, _processOutPutInventory,
+						_processStartPoint, _processEndPoint, _processCommunication));
 
 				// return process activity
 				finish();
 
 			} else {// duplicate process
 				Toast.makeText(EditProcessActivity.this,
-						"Duplicate process.Rename the process name",
-						Toast.LENGTH_LONG).show();
+						"Duplicate process.Rename the process name", Toast.LENGTH_LONG).show();
 				isDuplicatedProcess = false;
 			}
 		}
@@ -338,34 +304,35 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 	 * refresh all edit text
 	 */
 	private void refreshEditText(int currentProcessId) {
-		TProcessDataBase tProcessDataBase = tProcessDataBaseHandler
-				.getProcess(_currentProcessId);
+		TProcessDataBase tProcessDataBase = tProcessDataBaseHandler.getProcess(_currentProcessId);
 
 		// get all values of this row database
 		_processName = tProcessDataBase.getProcessName();
 		_projectName = tProcessDataBase.getProjectName();
 		_projectId = tProcessDataBase.getProjectId();
 		_processDescription = tProcessDataBase.getProcessDescription();
-		_processDefectNote = tProcessDataBase.getProcessNotes();
+		_processDefectNote = tProcessDataBase.getDefectNotes();
 		_processTotalCycleTime = tProcessDataBase.getTotalCycleTime();
 		_processValueAddingTime = tProcessDataBase.getValueAddingTime();
 		_processNonValueAddingTime = tProcessDataBase.getNonValueAddingTime();
 		_processDefectPercent = tProcessDataBase.getDefectPercent();
-		_processTotOperators = tProcessDataBase.getTotOperators();
 		_processShifts = tProcessDataBase.getShifts();
-		_processAvailability = tProcessDataBase.getAvailability();
 		_processTotDistanceTraveled = tProcessDataBase.getTotDistanceTraveled();
 		_processUpTime = tProcessDataBase.getUpTime();
-		_processChangeOverTime = tProcessDataBase.getChangeOverTime();
 		_processTaktTime = tProcessDataBase.getTaktTime();
 		_processVersionId = tProcessDataBase.getVersionId();
 		_processPreviousProcess = tProcessDataBase.getPreviousProcess();
 		_processNextProcess = tProcessDataBase.getNextProcess();
 		_processVsmName = tProcessDataBase.getVsmName();
 
+		_verify_details = tProcessDataBase.isVerify_details();
+		_processOutPutInventory = tProcessDataBase.getOutputInventory();
+		_processStartPoint = tProcessDataBase.getSupplierStartPoint();
+		_processEndPoint = tProcessDataBase.getCustomerEndPoint();
+		_processCommunication = tProcessDataBase.getCommunication();
+
 		// add value to edit text
-		Log.e("_processDefectPercent ", " _processDefectPercent "
-				+ _processDefectPercent);
+		Log.e("_processDefectPercent ", " _processDefectPercent " + _processDefectPercent);
 		Log.e("_processNonValueAddingTime", "_processNonValueAddingTime "
 				+ _processNonValueAddingTime);
 		editTextProcessCommunication.setText("" + _processCommunication);
@@ -374,11 +341,11 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements
 		editTextProcessDescription.setText("" + _processDescription);
 		editTextProcessEndPoint.setText("" + _processEndPoint);
 		editTextProcessName.setText("" + _processName);
-		editTextProcessNonValueAddingTime.setText(""
-				+ _processNonValueAddingTime);
+		editTextProcessNonValueAddingTime.setText("" + _processNonValueAddingTime);
 		editTextProcessOutPutInventory.setText("" + _processOutPutInventory);
 		editTextProcessStartPoint.setText("" + _processStartPoint);
 		editTextProcessUpTime.setText("" + _processUpTime);
 		editTextProcessValueAddingTime.setText("" + _processValueAddingTime);
+		toggleBtnProcessDetail.setChecked(_verify_details);
 	}
 }

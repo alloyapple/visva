@@ -18,6 +18,7 @@ import vsvteam.outsource.leanappandroid.activity.spaghettichart.SpaghettiChartAc
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupCircleTimingActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupPQPRActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupProcessActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupSpaghettiChartActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupTaktTimeActivity;
 import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
@@ -86,8 +87,25 @@ public class HomeActivity extends TabActivity {
 				TabGroupCircleTimingActivity.class, false);
 		addTab(this.getString(R.string.spaghetti_chart), R.drawable.ic_chart,
 				TabGroupSpaghettiChartActivity.class, false);
-		addTab(this.getString(R.string.pqpr), R.drawable.ic_qprn, TabGroupPQPRActivity.class,
-				false);
+		addTab(this.getString(R.string.pqpr), R.drawable.ic_qprn, TabGroupPQPRActivity.class, false);
+	}
+
+	/*
+	 * refresh all tabs host for creating error takt time as no process
+	 */
+	public void setTabsForCreateErrorTaktTimeNoProcess() {
+		// addTab(this.getString(R.string.text_tab_home),
+		// R.drawable.ic_tab_home,
+		// TabGroupHomeActivity.class, false);
+		addTab(this.getString(R.string.value_stream_map), R.drawable.ic_stream_map,
+				TabGroupProcessActivity.class, false);
+		addTab(this.getString(R.string.task_time), R.drawable.ic_task_time,
+				TabGroupTaktTimeActivity.class, false);
+		addTab(this.getString(R.string.cycle_time), R.drawable.ic_cycle_time,
+				TabGroupCircleTimingActivity.class, false);
+		addTab(this.getString(R.string.spaghetti_chart), R.drawable.ic_chart,
+				TabGroupSpaghettiChartActivity.class, false);
+		addTab(this.getString(R.string.pqpr), R.drawable.ic_qprn, TabGroupPQPRActivity.class, false);
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c, boolean isShowBadge) {
@@ -116,6 +134,10 @@ public class HomeActivity extends TabActivity {
 
 	public void showTabBar() {
 		tabHost.getTabWidget().setVisibility(ViewGroup.VISIBLE);
+	}
+
+	public void removeAllTabs() {
+		tabHost.clearAllTabs();
 	}
 
 	public Context getContext() {

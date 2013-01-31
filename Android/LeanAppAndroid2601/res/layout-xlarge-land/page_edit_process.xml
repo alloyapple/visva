@@ -149,7 +149,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process Name"
-                android:lines="2"
+                android:singleLine="true"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -163,7 +163,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process Start Point(Supplier)"
-                android:lines="2"
+                android:singleLine="true"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -178,7 +178,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process End Point(Customer)"
-                android:lines="2"
+                android:singleLine="true"
                 android:textColor="@color/black" />
 
             <EditText
@@ -191,7 +191,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Process Description"
-                android:lines="5"
+                android:lines="4"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -201,12 +201,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText_edit_process_supplier"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:layout_toRightOf="@id/editText_edit_process_description"
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Output Inventory"
-                android:lines="2"
+                android:inputType="number"
+                android:singleLine="true"
                 android:textColor="@color/black" >
             </EditText>
 
@@ -216,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText_edit_process_output_inventory"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="20dp"
                 android:layout_toRightOf="@id/editText_edit_process_description"
                 android:background="@color/white"
                 android:gravity="center"
@@ -238,9 +239,24 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Defect Notes(burst)"
-                android:lines="3"
+                android:lines="2"
                 android:textColor="@color/black" >
             </EditText>
+
+            <ToggleButton
+                android:id="@+id/switch_process"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/editText_edit_process_defect_notes"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/btn_toggle"
+                android:checked="true"
+                android:textColor="@color/black"
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/textView_verify"
@@ -248,26 +264,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText_edit_process_defect_notes"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@id/editText_edit_process_defect_percent"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@id/switch_process"
                 android:text="Need to verify these details"
                 android:textColor="@color/white"
-                android:textSize="24dp" />
-
-            <ToggleButton
-                android:id="@+id/switch_process"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/editText_edit_process_defect_notes"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/textView_verify"
-                android:background="@drawable/btn_toggle"
-                android:checked="true"
-                android:textColor="@color/black"
-                android:textOff=""
-                android:textOn="" />
+                android:textSize="22dp" />
 
             <EditText
                 android:id="@+id/editText_edit_process_uptime"
@@ -275,7 +276,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/switch_process"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Uptime"
@@ -290,7 +291,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/switch_process"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_toRightOf="@id/editText_edit_process_uptime"
                 android:background="@color/white"
                 android:gravity="center"
@@ -307,7 +308,7 @@
                 android:layout_below="@id/switch_process"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_toRightOf="@id/editText_edit_proces_communication"
                 android:background="@color/white"
                 android:gravity="center"
@@ -324,7 +325,7 @@
                 android:layout_below="@id/switch_process"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_toRightOf="@id/editText_edit_process_value_adding_time"
                 android:background="@color/white"
                 android:gravity="center"
