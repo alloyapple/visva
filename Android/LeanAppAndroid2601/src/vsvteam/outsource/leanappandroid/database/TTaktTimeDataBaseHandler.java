@@ -29,9 +29,8 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_SHIFT_PER_DAY = "KEY_SHIFT_PER_DAY";
 	private static final String KEY_HOUR_PER_SHIFT = "KEY_HOUR_PER_SHIFT";
 	private static final String KEY_BREAK_TIME_PER_SHIFT = "KEY_BREAK_TIME_PER_SHIFT";
-	private static final String KEY_LUNCH_TIME_PER_SHIFT = "KEY_LUNCH_TIME_PER_SHIFT";
-	private static final String KEY_PLANNED_DOWNTIME_PER_SHIFT = "KEY_PLANNED_DOWNTIME_PER_SHIFT";
-	private static final String KEY_CUSTOMER_DEMAND_PER_SHIFT = "KEY_CUSTOMER_DEMAND_PER_SHIFT";
+	private static final String KEY_OPERATOR_PER_SHIFT = "KEY_OPERATOR_PER_SHIFT";
+	private static final String KEY_CUSTOMER_DEMAND_PER_UNITS = "KEY_CUSTOMER_DEMAND_PER_UNITS";
 	private static final String KEY_CALCULATED_TAKT_TIME = "KEY_CALCULATED_TAKT_TIME";
 	private static final String KEY_VERSION_ID = "KEY_VERSION_ID";
 
@@ -47,10 +46,9 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 				+ " INTEGER PRIMARY KEY," + KEY_PROCESS_ID + " INTEGER," + KEY_PROJECT_ID
 				+ " INTEGER," + KEY_PROCESS_NAME + " TEXT," + KEY_PROJECT_NAME + " TEXT,"
 				+ KEY_SHIFT_PER_DAY + " INTEGER," + KEY_HOUR_PER_SHIFT + " INTEGER,"
-				+ KEY_BREAK_TIME_PER_SHIFT + " INTEGER," + KEY_LUNCH_TIME_PER_SHIFT + " INTEGER,"
-				+ KEY_PLANNED_DOWNTIME_PER_SHIFT + " INTEGER," + KEY_CUSTOMER_DEMAND_PER_SHIFT
-				+ " INTEGER," + KEY_CALCULATED_TAKT_TIME + " TEXT," + KEY_VERSION_ID + " INTEGER"
-				+ ")";
+				+ KEY_BREAK_TIME_PER_SHIFT + " INTEGER," + KEY_OPERATOR_PER_SHIFT + " INTEGER,"
+				+ KEY_CUSTOMER_DEMAND_PER_UNITS + " INTEGER," + KEY_CALCULATED_TAKT_TIME + " TEXT,"
+				+ KEY_VERSION_ID + " INTEGER" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 	}
 
@@ -85,12 +83,10 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_HOUR_PER_SHIFT, taktTime.getHourPerShift());
 		// break time per shift
 		values.put(KEY_BREAK_TIME_PER_SHIFT, taktTime.getBreakTimePerShift());
-		// lunch time per shift
-		values.put(KEY_LUNCH_TIME_PER_SHIFT, taktTime.getLunchTimePerShift());
-		// planned down time/ shift
-		values.put(KEY_PLANNED_DOWNTIME_PER_SHIFT, taktTime.getPlanedDownPerShift());
+		// operator per shift
+		values.put(KEY_OPERATOR_PER_SHIFT, taktTime.getOperatorPerShift());
 		// customer demand per shift
-		values.put(KEY_CUSTOMER_DEMAND_PER_SHIFT, taktTime.getCustomerDemandPerShift());
+		values.put(KEY_CUSTOMER_DEMAND_PER_UNITS, taktTime.getCustomerDemandPerUnits());
 		// calculated takt time
 		values.put(KEY_CALCULATED_TAKT_TIME, taktTime.getCalculatdTaktTime());
 		// version id
@@ -108,10 +104,10 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 
 		Cursor cursor = db.query(TABLE_T_TAKTTIME, new String[] { KEY_TAKT_TIME_ID, KEY_PROCESS_ID,
 				KEY_PROJECT_ID, KEY_PROCESS_NAME, KEY_PROJECT_NAME, KEY_SHIFT_PER_DAY,
-				KEY_HOUR_PER_SHIFT, KEY_BREAK_TIME_PER_SHIFT, KEY_LUNCH_TIME_PER_SHIFT,
-				KEY_PLANNED_DOWNTIME_PER_SHIFT, KEY_CUSTOMER_DEMAND_PER_SHIFT,
-				KEY_CALCULATED_TAKT_TIME, KEY_VERSION_ID }, KEY_PROCESS_ID + "=?",
-				new String[] { String.valueOf(processId) }, null, null, null, null);
+				KEY_HOUR_PER_SHIFT, KEY_BREAK_TIME_PER_SHIFT, KEY_OPERATOR_PER_SHIFT,
+				KEY_CUSTOMER_DEMAND_PER_UNITS, KEY_CALCULATED_TAKT_TIME, KEY_VERSION_ID },
+				KEY_PROCESS_ID + "=?", new String[] { String.valueOf(processId) }, null, null,
+				null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
@@ -120,8 +116,7 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 				cursor.getString(3), cursor.getString(4), Integer.parseInt(cursor.getString(5)),
 				Integer.parseInt(cursor.getString(6)), Integer.parseInt(cursor.getString(7)),
 				Integer.parseInt(cursor.getString(8)), Integer.parseInt(cursor.getString(9)),
-				Integer.parseInt(cursor.getString(10)), cursor.getString(11),
-				Integer.parseInt(cursor.getString(12)));
+				cursor.getString(10),Integer.parseInt( cursor.getString(11)));
 		db.close();
 		// return contact
 		return taktTime;
@@ -148,11 +143,10 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 				taktTime.setShiftPerDay(Integer.parseInt(cursor.getString(5)));
 				taktTime.setHourPerShift(Integer.parseInt(cursor.getString(6)));
 				taktTime.setBreakTimePerShift(Integer.parseInt(cursor.getString(7)));
-				taktTime.setLunchTimePerShift(Integer.parseInt(cursor.getString(8)));
-				taktTime.setPlanedDownPerShift(Integer.parseInt(cursor.getString(9)));
-				taktTime.setCustomerDemandPerShift(Integer.parseInt(cursor.getString(10)));
-				taktTime.setCalculatdTaktTime(cursor.getString(11));
-				taktTime.setVersionId(Integer.parseInt(cursor.getString(12)));
+				taktTime.setOperatorPerShift(Integer.parseInt(cursor.getString(8)));
+				taktTime.setCustomerDemandPerUnits(Integer.parseInt(cursor.getString(9)));
+				taktTime.setCalculatdTaktTime(cursor.getString(10));
+				taktTime.setVersionId(Integer.parseInt(cursor.getString(11)));
 				// Adding contact to list
 				taktTimeList.add(taktTime);
 			} while (cursor.moveToNext());
@@ -178,11 +172,9 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 		// break time per shift
 		values.put(KEY_BREAK_TIME_PER_SHIFT, taktTime.getBreakTimePerShift());
 		// lunch time per shift
-		values.put(KEY_LUNCH_TIME_PER_SHIFT, taktTime.getLunchTimePerShift());
-		// planned down time/ shift
-		values.put(KEY_PLANNED_DOWNTIME_PER_SHIFT, taktTime.getPlanedDownPerShift());
+		values.put(KEY_OPERATOR_PER_SHIFT, taktTime.getOperatorPerShift());
 		// customer demand per shift
-		values.put(KEY_CUSTOMER_DEMAND_PER_SHIFT, taktTime.getCustomerDemandPerShift());
+		values.put(KEY_CUSTOMER_DEMAND_PER_UNITS, taktTime.getCustomerDemandPerUnits());
 		// calculated takt time
 		values.put(KEY_CALCULATED_TAKT_TIME, taktTime.getCalculatdTaktTime());
 		// version id
@@ -206,7 +198,7 @@ public class TTaktTimeDataBaseHandler extends SQLiteOpenHelper {
 		String countQuery = "SELECT  * FROM " + TABLE_T_TAKTTIME;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
-		
+
 		// return count
 		return cursor.getCount();
 	}

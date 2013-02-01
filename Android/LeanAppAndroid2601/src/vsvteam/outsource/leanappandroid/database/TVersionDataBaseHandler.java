@@ -17,7 +17,7 @@ public class TVersionDataBaseHandler extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	// Database Name
-	private static final String DATABASE_NAME = "ProjectManager";
+	private static final String DATABASE_NAME = "VersionManager";
 
 	// Contacts table name
 	private static final String TABLE_T_VERSION = "T_VERSIONS";

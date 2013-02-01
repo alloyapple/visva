@@ -13,7 +13,7 @@
         android:gravity="center" >
 
         <ImageView
-            android:id="@+id/img_draw_map_book"
+            android:id="@+id/img_project_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -21,49 +21,56 @@
             android:background="@drawable/ic_book" />
 
         <ImageView
-            android:id="@+id/img_draw_map_export"
+            android:id="@+id/img_project_export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/img_draw_map_book"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/img_project_book"
             android:background="@drawable/ic_export" />
 
         <ImageView
-            android:id="@+id/img_draw_map_currency"
+            android:id="@+id/img_project_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/ic_currency" />
 
         <ImageView
-            android:id="@+id/img_draw_map_version"
+            android:id="@+id/img_project_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/img_draw_map_currency"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_currency"
             android:background="@drawable/ic_version" />
 
         <ImageView
-            android:id="@+id/img_draw_map_project"
+            android:id="@+id/img_project_change_project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/img_draw_map_version"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_version"
             android:background="@drawable/ic_bag" />
 
         <ImageView
-            android:id="@+id/img_draw_map_setting"
+            android:id="@+id/img_project_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/img_draw_map_project"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_change_project"
             android:background="@drawable/ic_setting" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/id_fr_draw_map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#000000" >
     </RelativeLayout>
 
 </LinearLayout>
