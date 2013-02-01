@@ -1,5 +1,7 @@
 package vsvteam.outsource.leanappandroid.activity.valuestreammap;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import kankan.wheel.widget.WheelView;
@@ -13,6 +15,9 @@ import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
 import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
 import vsvteam.outsource.leanappandroid.database.TProjectDataBase;
 import vsvteam.outsource.leanappandroid.database.TProjectDatabaseHandler;
+import vsvteam.outsource.leanappandroid.database.TVersionDataBase;
+import vsvteam.outsource.leanappandroid.database.TVersionDataBaseHandler;
+import vsvteam.outsource.leanappandroid.database.V_VSMDataBaseHandler;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -47,6 +52,8 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private WheelView projectWheel;
 	// ==========================Class Define ============================
 	private TProjectDatabaseHandler databaseHandler;
+	private V_VSMDataBaseHandler vsmDataBaseHandler;
+	private TVersionDataBaseHandler tVersionDataBaseHandler;
 	private LeanAppAndroidSharePreference leanAppAndroidSharePreference;
 	private List<TProjectDataBase> projectArrList;
 	// ==========================Variable Define =========================
@@ -54,6 +61,10 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private String projectName[] = {};
 	private int projectId[] = {};
 	private int _projectCurrentId;
+	private int _versionCurrentNo;
+	private int _versionCurrentId;
+	private String _versionCurrentNote;
+	private String _versionCurentDateTime;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -94,8 +105,18 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 		// get current id for project to add new
 		_projectCurrentId = projectArrList.size();
 
+		// init vsm databasehandler
+		vsmDataBaseHandler = new V_VSMDataBaseHandler(this);
+
+		// init version databasehandler
+		tVersionDataBaseHandler = new TVersionDataBaseHandler(this);
+		List<TVersionDataBase> tVersionDataBases = tVersionDataBaseHandler.getAllVersions();
+		_versionCurrentNo = tVersionDataBases.size();
 	}
 
+	/**
+	 * initialize all control
+	 */
 	private void initialize() {
 		//
 		btnCreatedProject = (Button) findViewById(R.id.btn_created);
@@ -192,7 +213,22 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 								.toString(), editTextProjectDescription.getText().toString(),
 						editTextProjectDescription.getText().toString(), editTextCompanyAddress
 								.getText().toString()));
+
+				// insert values to version database
+				_versionCurrentNo++;
+				_versionCurentDateTime = (new SimpleDateFormat("yyyyMMdd_HHmmss")
+						.format(new Date()) + ".mp3").toString();
+				Date dateTime = new Date();
+				Log.e("datetime", "date time "+dateTime.getDate());
+				_versionCurrentNote = "Project " + editTextProjectName.getText().toString().trim();
+				
+				tVersionDataBaseHandler.addNewVersion(new TVersionDataBase(_projectCurrentId,
+						_projectCurrentId, _versionCurrentNo, _versionCurentDateTime,
+						_versionCurrentNote));
+				// close database
 				databaseHandler.close();
+				tVersionDataBaseHandler.close();
+				vsmDataBaseHandler.close();
 
 				// insert to share preference
 				leanAppAndroidSharePreference.setProjectIdActive(_projectCurrentId);
@@ -200,9 +236,9 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 						.toString());
 				leanAppAndroidSharePreference.setProjectCreatedOrSelectedExist(true);
 
-				//reset all field
+				// reset all field
 				resetField();
-				
+
 				// start create process activity
 				gotoActivityInGroup(this, CreateProjectActivity.class);
 			} else {

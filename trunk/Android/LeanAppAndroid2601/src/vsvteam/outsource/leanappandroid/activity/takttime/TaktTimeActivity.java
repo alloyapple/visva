@@ -111,7 +111,8 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 							this,
 							"No process added in project "
 									+ leanAppAndroidSharePreference.getProjectNameActive()
-									+ ".Please select  project and insert a process", Toast.LENGTH_LONG).show();
+									+ ".Please select  project and insert a process",
+							Toast.LENGTH_LONG).show();
 					createTaktTimeErrorNoProcess();
 
 				} else
@@ -125,7 +126,7 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 	 * create takt time error for no process
 	 */
 	private void createTaktTimeErrorNoProcess() {
-		Log.e("run here ","run here");
+		Log.e("run here ", "run here");
 		tabGroupTaktTimeActivity = (TabGroupTaktTimeActivity) this.getParent();
 		homeActivity = (HomeActivity) tabGroupTaktTimeActivity.getParent();
 		homeActivity.setCurrentTab(0);
@@ -168,19 +169,14 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 			_operatorPerShift = Integer.parseInt(editTextOperatorsPerShift.getText().toString());
 			_shiftPerDay = Integer.parseInt(editTextShiftPerDay.getText().toString());
 
-			tTaktTimeDataBaseHandler.addNewTaktTime(new TTaktTimeDataBase(taktTimeId,
-					_currentProcessIdActive, _currentProjectIdActive, _currentProcessNameActive,
-					_currentProjectNameActive, _shiftPerDay, _hourPerShift, _breakPerShift,
-					_hourPerShift, _breakPerShift, _customerDemandPerUnit, "test", -1));
+			//add new takt time database
+			tTaktTimeDataBaseHandler.addNewTaktTime(new TTaktTimeDataBase(taktTimeId, _currentProcessIdActive,
+					_currentProjectIdActive, _currentProcessNameActive, _currentProjectNameActive, _shiftPerDay, _hourPerShift,
+					_breakPerShift, _operatorPerShift, _customerDemandPerUnit,
+					"test", -1));
 			tTaktTimeDataBaseHandler.close();
 
 			// go to draw stream map
-			// leanAppAndroidSharePreference.setModeTaktTime(MODE_TAKT_TIME_DONE_OK);
-			// tabGroupTaktTimeActivity = (TabGroupTaktTimeActivity)
-			// this.getParent();
-			// homeActivity = (HomeActivity)
-			// tabGroupTaktTimeActivity.getParent();
-			// homeActivity.setCurrentTab(0);
 			gotoActivityInGroup(TaktTimeActivity.this, DrawMapActivity.class);
 		}
 	}

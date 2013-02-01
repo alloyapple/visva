@@ -1,101 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:gravity="center"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/tabbar"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
         android:background="@drawable/actionbar_bg"
-        android:gravity="center" >
+        android:gravity="center"
+        android:id="@+id/tabbar"
+        android:layout_height="45dp"
+        android:layout_width="fill_parent" >
 
         <ImageView
+            android:background="@drawable/ic_book"
             android:id="@+id/img_choice_project_book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/ic_book" />
+            android:layout_width="wrap_content" />
 
         <ImageView
+            android:background="@drawable/ic_export"
             android:id="@+id/img_choice_project_export"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/img_choice_project_book"
-            android:background="@drawable/ic_export" />
+            android:layout_width="wrap_content" />
 
         <ImageView
+            android:background="@drawable/ic_currency"
             android:id="@+id/img_choice_project_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:background="@drawable/ic_currency" />
+            android:layout_width="wrap_content" />
 
         <ImageView
+            android:background="@drawable/ic_version"
             android:id="@+id/img_choice_project_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/img_choice_project_currency"
-            android:background="@drawable/ic_version" />
+            android:layout_width="wrap_content" />
 
         <ImageView
+            android:background="@drawable/ic_bag"
             android:id="@+id/img_choice_project_change_project"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/img_choice_project_version"
-            android:background="@drawable/ic_bag" />
+            android:layout_width="wrap_content" />
 
         <ImageView
+            android:background="@drawable/ic_setting"
             android:id="@+id/img_choice_project_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/img_choice_project_change_project"
-            android:background="@drawable/ic_setting" />
+            android:layout_width="wrap_content" />
     </RelativeLayout>
 
     <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent" >
 
         <FrameLayout
             android:id="@+id/id_frame_parent_version"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent" >
         </FrameLayout>
 
         <LinearLayout
+            android:background="@drawable/version"
             android:id="@+id/id_linear_version"
-            android:layout_width="fill_parent"
-            android:layout_height="350dp"
             android:layout_gravity="right|top"
+            android:layout_height="350dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/version"
+            android:layout_width="fill_parent"
             android:orientation="vertical" >
 
             <FrameLayout
                 android:id="@+id/id_title_export"
-                android:layout_width="fill_parent"
-                android:layout_height="74dp" >
+                android:layout_height="74dp"
+                android:layout_width="fill_parent" >
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
+                    android:layout_width="wrap_content"
                     android:text="@string/title_version"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" >
@@ -103,43 +103,43 @@
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:background="#FFFFFF"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:background="#FFFFFF"
+                android:layout_width="fill_parent"
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="0px"
+                    android:background="#A9B3BC"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="0.2"
-                    android:background="#A9B3BC"
-                    android:gravity="center"
+                    android:layout_width="0px"
                     android:text="Version#"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" >
                 </TextView>
 
                 <TextView
-                    android:layout_width="0px"
+                    android:background="#A9B3BC"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="0.35"
-                    android:background="#A9B3BC"
-                    android:gravity="center"
+                    android:layout_width="0px"
                     android:text="Name"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" >
                 </TextView>
 
                 <TextView
-                    android:layout_width="0px"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.45"
                     android:background="#A9B3BC"
                     android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:layout_width="0px"
                     android:text="Note"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" >
@@ -147,17 +147,18 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="fill_parent"
+                android:background="#FFFFFF"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp" >
+                android:layout_marginRight="8dp"
+                android:layout_width="fill_parent" >
 
                 <ListView
+                    android:background="#FFFFFF"
                     android:id="@+id/id_listview_version"
-                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF" >
+                    android:layout_width="fill_parent" >
                 </ListView>
             </FrameLayout>
         </LinearLayout>

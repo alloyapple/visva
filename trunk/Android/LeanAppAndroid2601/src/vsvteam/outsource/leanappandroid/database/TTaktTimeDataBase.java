@@ -10,9 +10,8 @@ public class TTaktTimeDataBase {
 	private int shiftPerDay;// shift per day
 	private int hourPerShift;// hour per shift
 	private int breakTimePerShift;// break time per shift(minutes)
-	private int lunchTimePerShift;// lunch time per shift(minutes)
-	private int planedDownPerShift;// planned down time per shift(minutes)
-	private int customerDemandPerShift; // customer demand per shift(minutes)
+	private int operatorPerShift; // operator per shift
+	private int customerDemandPerUnits; // customer demand per shift(minutes)
 	private String calculatdTaktTime; // calculated takt time(minutes)
 	private int versionId; // version id
 
@@ -24,8 +23,8 @@ public class TTaktTimeDataBase {
 	// constructor
 	public TTaktTimeDataBase(int taktTimeId, int processId, int projectId, String processName,
 			String projectName, int shiftPerDay, int hourPerShift, int breakTimePerShift,
-			int lunchTimePerShift, int planedDownPerShift, int customerDemandPerShift,
-			String calculatedTaktTime, int versionId) {
+			int operatorPerShift, int customerDemandPerUnits, String calculatedTaktTime,
+			int versionId) {
 		this.taktTimeId = taktTimeId;
 		this.processId = processId;
 		this.projectId = projectId;
@@ -34,18 +33,17 @@ public class TTaktTimeDataBase {
 		this.shiftPerDay = shiftPerDay;
 		this.hourPerShift = hourPerShift;
 		this.breakTimePerShift = breakTimePerShift;
-		this.lunchTimePerShift = lunchTimePerShift;
-		this.planedDownPerShift = planedDownPerShift;
-		this.customerDemandPerShift = customerDemandPerShift;
+		this.operatorPerShift = operatorPerShift;
+		this.customerDemandPerUnits = customerDemandPerUnits;
 		this.calculatdTaktTime = calculatedTaktTime;
 		this.versionId = versionId;
 	}
 
 	// constructor
 	public TTaktTimeDataBase(int processId, int projectId, String processName, String projectName,
-			int shiftPerDay, int hourPerShift, int breakTimePerShift, int lunchTimePerShift,
-			int planedDownPerShift, int customerDemandPerShift, String calculatedTaktTime,
-			int versionId) {
+			int shiftPerDay, int hourPerShift, int breakTimePerShift, int operatorPerShift,
+			int customerDemandPerUnits, String calculatedTaktTime, int versionId) {
+		this.processId = processId;
 		this.processId = processId;
 		this.projectId = projectId;
 		this.processName = processName;
@@ -53,9 +51,8 @@ public class TTaktTimeDataBase {
 		this.shiftPerDay = shiftPerDay;
 		this.hourPerShift = hourPerShift;
 		this.breakTimePerShift = breakTimePerShift;
-		this.lunchTimePerShift = lunchTimePerShift;
-		this.planedDownPerShift = planedDownPerShift;
-		this.customerDemandPerShift = customerDemandPerShift;
+		this.operatorPerShift = operatorPerShift;
+		this.customerDemandPerUnits = customerDemandPerUnits;
 		this.calculatdTaktTime = calculatedTaktTime;
 		this.versionId = versionId;
 	}
@@ -124,28 +121,12 @@ public class TTaktTimeDataBase {
 		this.breakTimePerShift = breakTimePerShift;
 	}
 
-	public int getLunchTimePerShift() {
-		return lunchTimePerShift;
+	public int getCustomerDemandPerUnits() {
+		return customerDemandPerUnits;
 	}
 
-	public void setLunchTimePerShift(int lunchTimePerShift) {
-		this.lunchTimePerShift = lunchTimePerShift;
-	}
-
-	public int getPlanedDownPerShift() {
-		return planedDownPerShift;
-	}
-
-	public void setPlanedDownPerShift(int planedDownPerShift) {
-		this.planedDownPerShift = planedDownPerShift;
-	}
-
-	public int getCustomerDemandPerShift() {
-		return customerDemandPerShift;
-	}
-
-	public void setCustomerDemandPerShift(int customerDemandPerShift) {
-		this.customerDemandPerShift = customerDemandPerShift;
+	public void setCustomerDemandPerUnits(int customerDemandPerUnits) {
+		this.customerDemandPerUnits = customerDemandPerUnits;
 	}
 
 	public String getCalculatdTaktTime() {
@@ -162,5 +143,13 @@ public class TTaktTimeDataBase {
 
 	public void setVersionId(int versionId) {
 		this.versionId = versionId;
+	}
+
+	public int getOperatorPerShift() {
+		return operatorPerShift;
+	}
+
+	public void setOperatorPerShift(int operatorPerShift) {
+		this.operatorPerShift = operatorPerShift;
 	}
 }

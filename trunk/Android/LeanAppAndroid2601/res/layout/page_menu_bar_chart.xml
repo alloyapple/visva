@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+     android:gravity="center"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -66,10 +66,27 @@
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="0.12" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="1dp"
+            android:gravity="center"
+            android:text="@string/report_compare_step_in_spaghetti_chart"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" >
+        </TextView>
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0px"
-        android:layout_weight="0.37"
+        android:layout_weight="0.3"
         android:background="#FFFFFF"
         android:orientation="vertical" >
 
@@ -82,10 +99,10 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
-                android:layout_weight="0.24"
+                android:layout_weight="0.12"
                 android:background="#A9B3BC"
                 android:gravity="center"
-                android:text="Part name"
+                android:text="Step#"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" >
             </TextView>
@@ -94,21 +111,10 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
-                android:layout_weight="0.13"
+                android:layout_weight="0.38"
                 android:background="#A9B3BC"
                 android:gravity="center"
-                android:text="Demand qty"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
-                android:background="#A9B3BC"
-                android:gravity="center"
-                android:text="% of total"
+                android:text="Step name"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" >
             </TextView>
@@ -117,10 +123,10 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
-                android:layout_weight="0.16"
+                android:layout_weight="0.25"
                 android:background="#A9B3BC"
                 android:gravity="center"
-                android:text="Open box seq."
+                android:text="Distance to next step"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" >
             </TextView>
@@ -129,28 +135,17 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
-                android:layout_weight="0.16"
+                android:layout_weight="0.25"
                 android:background="#A9B3BC"
                 android:gravity="center"
-                android:text="Extract seq."
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                android:layout_width="0px"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.16"
-                android:background="#A9B3BC"
-                android:gravity="center"
-                android:text="Part on t.seq"
+                android:text="Time to next step"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" >
             </TextView>
         </LinearLayout>
 
         <ListView
-            android:id="@+id/id_listview_pqpr"
+            android:id="@+id/id_listview_compare_step"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -158,72 +153,22 @@
         </ListView>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0px"
-        android:layout_weight="0.08"
-        android:orientation="horizontal" >
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="0.58"
+        android:background="#FFFFFF" >
 
-        <FrameLayout
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
             android:layout_marginRight="10dp"
-            android:layout_weight="0.5" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="1dp"
-                android:gravity="center"
-                android:text="x= part name, y=quantity sort desc"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" >
-            </TextView>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="0.5" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="1dp"
-                android:gravity="center"
-                android:text="x= part name, y=quantity sort desc"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" >
-            </TextView>
-        </FrameLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="0.55"
-        android:orientation="horizontal" >
-
-        <FrameLayout
-            android:id="@+id/id_frame_chart_in_pqpr_1"
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0.5"
-            android:background="#FFFFFF" >
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/id_frame_chart_in_pqpr_2"
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="0.5"
-            android:background="#FFFFFF" >
-        </FrameLayout>
-    </LinearLayout>
+            android:background="@drawable/icon_snapshot" >
+        </Button>
+    </FrameLayout>
 
 </LinearLayout>
