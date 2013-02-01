@@ -3,11 +3,15 @@ package vsvteam.outsource.leanappandroid.database;
 public class TUnitDataBase {
 	// private all variables
 	private int tUnitId;
-	private String tUnitName;
-	private String code;
-	private String reference;
-	private int conversionRate;
-	private String conversionReference;
+	private int operatorSpeed;
+
+	public int getOperatorSpeed() {
+		return operatorSpeed;
+	}
+
+	public void setOperatorSpeed(int operatorSpeed) {
+		this.operatorSpeed = operatorSpeed;
+	}
 
 	// empty constructor
 	public TUnitDataBase() {
@@ -15,24 +19,14 @@ public class TUnitDataBase {
 	}
 
 	// constructor
-	public TUnitDataBase(int tUnitId, String tUnitName, String code, String reference,
-			int conversionRate, String conversionReference) {
+	public TUnitDataBase(int tUnitId, int operatorSpeed) {
 		this.tUnitId = tUnitId;
-		this.tUnitName = tUnitName;
-		this.code = code;
-		this.reference = reference;
-		this.conversionRate = conversionRate;
-		this.conversionReference = conversionReference;
+		this.operatorSpeed = operatorSpeed;
 	}
 
 	// constructor
-	public TUnitDataBase(String tUnitName, String code, String reference, int conversionRate,
-			String conversionReference) {
-		this.tUnitName = tUnitName;
-		this.code = code;
-		this.reference = reference;
-		this.conversionRate = conversionRate;
-		this.conversionReference = conversionReference;
+	public TUnitDataBase(int operatorSpeed) {
+		this.operatorSpeed = operatorSpeed;
 	}
 
 	public int gettUnitId() {
@@ -41,45 +35,5 @@ public class TUnitDataBase {
 
 	public void settUnitId(int tUnitId) {
 		this.tUnitId = tUnitId;
-	}
-
-	public String gettUnitName() {
-		return tUnitName;
-	}
-
-	public void settUnitName(String tUnitName) {
-		this.tUnitName = tUnitName;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getReference() {
-		return reference;
-	}
-
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
-	public int getConversionRate() {
-		return conversionRate;
-	}
-
-	public void setConversionRate(int conversionRate) {
-		this.conversionRate = conversionRate;
-	}
-
-	public String getConversionReference() {
-		return conversionReference;
-	}
-
-	public void setConversionReference(String conversionReference) {
-		this.conversionReference = conversionReference;
 	}
 }
