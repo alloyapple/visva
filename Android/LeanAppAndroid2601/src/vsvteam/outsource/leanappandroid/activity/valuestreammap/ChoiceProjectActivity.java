@@ -17,6 +17,7 @@ import vsvteam.outsource.leanappandroid.database.TProjectDataBase;
 import vsvteam.outsource.leanappandroid.database.TProjectDatabaseHandler;
 import vsvteam.outsource.leanappandroid.database.TVersionDataBase;
 import vsvteam.outsource.leanappandroid.database.TVersionDataBaseHandler;
+import vsvteam.outsource.leanappandroid.database.V_VSMDataBase;
 import vsvteam.outsource.leanappandroid.database.V_VSMDataBaseHandler;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -65,6 +66,8 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	private int _versionCurrentId;
 	private String _versionCurrentNote;
 	private String _versionCurentDateTime;
+	private int _vsmCurrentId;
+	private String _vsmCurrentName;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,9 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 		initialize();
 	}
 
+	/**
+	 * create database project, vsm,and version
+	 */
 	private void createDataBase() {
 		// init sharePreference
 		leanAppAndroidSharePreference = LeanAppAndroidSharePreference.getInstance(this);
@@ -219,12 +225,18 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 				_versionCurentDateTime = (new SimpleDateFormat("yyyyMMdd_HHmmss")
 						.format(new Date()) + ".mp3").toString();
 				Date dateTime = new Date();
-				Log.e("datetime", "date time "+dateTime.getDate());
+				Log.e("datetime", "date time " + dateTime.getDate());
 				_versionCurrentNote = "Project " + editTextProjectName.getText().toString().trim();
-				
+
 				tVersionDataBaseHandler.addNewVersion(new TVersionDataBase(_projectCurrentId,
 						_projectCurrentId, _versionCurrentNo, _versionCurentDateTime,
 						_versionCurrentNote));
+
+				// insert values to vsm database
+				_vsmCurrentName = "VSM " + editTextProjectName.getText().toString().trim();
+				vsmDataBaseHandler.addNewVSM(new V_VSMDataBase(_projectCurrentId,
+						editTextProjectName.getText().toString().trim(), _vsmCurrentName, "test",
+						"test", "test", _projectCurrentId));
 				// close database
 				databaseHandler.close();
 				tVersionDataBaseHandler.close();
