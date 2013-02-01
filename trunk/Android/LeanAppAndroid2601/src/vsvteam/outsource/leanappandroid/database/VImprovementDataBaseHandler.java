@@ -41,6 +41,9 @@ public class VImprovementDataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_THROUGH_TIME = "";
 	private static final String KEY_PREV_VERS_DIFFERENCE_THROUGHPUT = "";
 	private static final String KEY_VOL_X_TIME = "";
+	private static final String KEY_SAVED_TRAVEL_DISTANCE = "KEY_SAVED_TRAVEL_DISTANCE";
+	private static final String KEY_SAVED_TRAVEL_TIME = "KEY_SAVED_TRAVEL_TIME";
+	private static final String KEY_UNIT_ID = "UNIT_ID";
 
 	// constructor
 	public VImprovementDataBaseHandler(Context context) {
@@ -52,17 +55,22 @@ public class VImprovementDataBaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		Log.v("create db improvement", "create db improvement");
-		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_IPROVEMENT + "("
-				+ KEY_IMPROVEMENT_ID + " INTEGER PRIMARY KEY," + KEY_STEP_ID + " INTEGER,"
-				+ KEY_PROCESS_ID + " INTEGER," + KEY_PROJECT_ID + " INTEGER," + KEY_STEP_NAME
-				+ " INTEGER," + KEY_PROCESS_NAME + " TEXT" + KEY_PROJECT_NAME + " TEXT,"
-				+ KEY_VERSION_ID + " TEXT," + KEY_PREVIOUS_VERS_ID + " INTEGER,"
-				+ KEY_SUM_OF_PREV_VERS_DIFFERENCE_LOWEST_TIME + " TEXT,"
-				+ KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUSTED_TIME + " TEXT,"
-				+ KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUTSTMEN + " TEXT," + KEY_SUM_OF_LOWEST_TIME
-				+ " TEXT," + KEY_SUM_OF_ADJUSTMENT + " TEXT," + KEY_SUM_OF_ADJUSTED_TIME + " TEXT,"
-				+ KEY_THROUGH_TIME + " INTEGER," + KEY_PREV_VERS_DIFFERENCE_THROUGHPUT
-				+ " INTEGER," + KEY_VOL_X_TIME + " INTEGER" + ")";
+		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_IPROVEMENT
+				+ "(" + KEY_IMPROVEMENT_ID + " INTEGER PRIMARY KEY,"
+				+ KEY_STEP_ID + " INTEGER," + KEY_PROCESS_ID + " INTEGER,"
+				+ KEY_PROJECT_ID + " INTEGER," + KEY_STEP_NAME + " INTEGER,"
+				+ KEY_PROCESS_NAME + " TEXT" + KEY_PROJECT_NAME + " TEXT,"
+				+ KEY_VERSION_ID + " TEXT," + KEY_PREVIOUS_VERS_ID
+				+ " INTEGER," + KEY_SUM_OF_PREV_VERS_DIFFERENCE_LOWEST_TIME
+				+ " TEXT," + KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUSTED_TIME
+				+ " TEXT," + KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUTSTMEN
+				+ " TEXT," + KEY_SUM_OF_LOWEST_TIME + " TEXT,"
+				+ KEY_SUM_OF_ADJUSTMENT + " TEXT," + KEY_SUM_OF_ADJUSTED_TIME
+				+ " TEXT," + KEY_THROUGH_TIME + " INTEGER,"
+				+ KEY_PREV_VERS_DIFFERENCE_THROUGHPUT + " INTEGER,"
+				+ KEY_VOL_X_TIME + " INTEGER," + KEY_SAVED_TRAVEL_DISTANCE
+				+ " INTEGER," + KEY_SAVED_TRAVEL_TIME + " TEXT," + KEY_UNIT_ID
+				+ " INTEGER" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 
 	}
@@ -126,6 +134,13 @@ public class VImprovementDataBaseHandler extends SQLiteOpenHelper {
 				improvement.getPreVersDifferenceThroughPut());
 		// volume x time( adjustment * demand)
 		values.put(KEY_VOL_X_TIME, improvement.getVolXTime());
+		// saved travel distance
+		values.put(KEY_SAVED_TRAVEL_DISTANCE,
+				improvement.getSavedTravelDistance());
+		// saved travel time
+		values.put(KEY_SAVED_TRAVEL_TIME, improvement.getSavedTravelTime());
+		// unit id
+		values.put(KEY_UNIT_ID, improvement.gettUnitid());
 
 		// Inserting Row
 		db.insert(TABLE_T_IPROVEMENT, null, values);
@@ -137,26 +152,38 @@ public class VImprovementDataBaseHandler extends SQLiteOpenHelper {
 	public VImprovementDataBase getImprovement(int stepId) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_T_IPROVEMENT, new String[] { KEY_IMPROVEMENT_ID,
-				KEY_STEP_ID, KEY_PROCESS_ID, KEY_PROJECT_ID, KEY_STEP_NAME, KEY_PROCESS_NAME,
-				KEY_PROJECT_NAME, KEY_VERSION_ID, KEY_PREVIOUS_VERS_ID,
-				KEY_SUM_OF_PREV_VERS_DIFFERENCE_LOWEST_TIME,
-				KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUSTED_TIME,
-				KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUTSTMEN, KEY_SUM_OF_LOWEST_TIME,
-				KEY_SUM_OF_ADJUSTMENT, KEY_SUM_OF_ADJUSTED_TIME, KEY_THROUGH_TIME,
-				KEY_PREV_VERS_DIFFERENCE_THROUGHPUT, KEY_VOL_X_TIME }, KEY_PROJECT_ID + "=?",
-				new String[] { String.valueOf(stepId) }, null, null, null, null);
+		Cursor cursor = db
+				.query(TABLE_T_IPROVEMENT, new String[] { KEY_IMPROVEMENT_ID,
+						KEY_STEP_ID, KEY_PROCESS_ID, KEY_PROJECT_ID,
+						KEY_STEP_NAME, KEY_PROCESS_NAME, KEY_PROJECT_NAME,
+						KEY_VERSION_ID, KEY_PREVIOUS_VERS_ID,
+						KEY_SUM_OF_PREV_VERS_DIFFERENCE_LOWEST_TIME,
+						KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUSTED_TIME,
+						KEY_SUM_OF_PREV_VERS_DIFFERENCE_ADJUTSTMEN,
+						KEY_SUM_OF_LOWEST_TIME, KEY_SUM_OF_ADJUSTMENT,
+						KEY_SUM_OF_ADJUSTED_TIME, KEY_THROUGH_TIME,
+						KEY_PREV_VERS_DIFFERENCE_THROUGHPUT, KEY_VOL_X_TIME,
+						KEY_SAVED_TRAVEL_DISTANCE, KEY_SAVED_TRAVEL_TIME,
+						KEY_UNIT_ID }, KEY_PROJECT_ID + "=?",
+						new String[] { String.valueOf(stepId) }, null, null,
+						null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		VImprovementDataBase improvement = new VImprovementDataBase(Integer.parseInt(cursor
-				.getString(0)), Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor
-				.getString(2)), Integer.parseInt(cursor.getString(3)), cursor.getString(4),
-				cursor.getString(5), cursor.getString(6), Integer.parseInt(cursor.getString(7)),
-				Integer.parseInt(cursor.getString(8)), cursor.getString(9), cursor.getString(10),
-				cursor.getString(11), cursor.getString(12), cursor.getString(13),
+		VImprovementDataBase improvement = new VImprovementDataBase(
+				Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor
+						.getString(1)), Integer.parseInt(cursor.getString(2)),
+				Integer.parseInt(cursor.getString(3)), cursor.getString(4),
+				cursor.getString(5), cursor.getString(6),
+				Integer.parseInt(cursor.getString(7)), Integer.parseInt(cursor
+						.getString(8)), cursor.getString(9),
+				cursor.getString(10), cursor.getString(11),
+				cursor.getString(12), cursor.getString(13),
 				cursor.getString(14), Integer.parseInt(cursor.getString(15)),
-				Integer.parseInt(cursor.getString(16)), Integer.parseInt(cursor.getString(17)));
+				Integer.parseInt(cursor.getString(16)), Integer.parseInt(cursor
+						.getString(17)),
+				Integer.parseInt(cursor.getString(18)), cursor.getString(19),
+				Integer.parseInt(cursor.getString(20)));
 
 		db.close();
 		// return improvement
@@ -176,7 +203,8 @@ public class VImprovementDataBaseHandler extends SQLiteOpenHelper {
 		if (cursor.moveToFirst()) {
 			do {
 				VImprovementDataBase improvement = new VImprovementDataBase();
-				improvement.setvImprovementId(Integer.parseInt(cursor.getString(0)));
+				improvement.setvImprovementId(Integer.parseInt(cursor
+						.getString(0)));
 				improvement.setStepId(Integer.parseInt(cursor.getString(1)));
 				improvement.setProcessId(Integer.parseInt(cursor.getString(2)));
 				improvement.setProjectId(Integer.parseInt(cursor.getString(3)));
@@ -184,16 +212,26 @@ public class VImprovementDataBaseHandler extends SQLiteOpenHelper {
 				improvement.setProcessName(cursor.getString(5));
 				improvement.setProjectName(cursor.getString(6));
 				improvement.setVersionId(Integer.parseInt(cursor.getString(7)));
-				improvement.setPreVerionId(Integer.parseInt(cursor.getString(8)));
-				improvement.setSumOfPreVersDifferenceLowestTime(cursor.getString(9));
-				improvement.setSumOfPreVersDifferenceAdjustedTime(cursor.getString(10));
-				improvement.setSumOfPreVersDifferenceAdjustment(cursor.getString(11));
+				improvement
+						.setPreVerionId(Integer.parseInt(cursor.getString(8)));
+				improvement.setSumOfPreVersDifferenceLowestTime(cursor
+						.getString(9));
+				improvement.setSumOfPreVersDifferenceAdjustedTime(cursor
+						.getString(10));
+				improvement.setSumOfPreVersDifferenceAdjustment(cursor
+						.getString(11));
 				improvement.setSumOfLowesTime(cursor.getString(12));
 				improvement.setSumOfAdjustment(cursor.getString(13));
 				improvement.setSumOfAdjustedTime(cursor.getString(14));
-				improvement.setThroughPut(Integer.parseInt(cursor.getString(15)));
-				improvement.setPreVersDifferenceThroughPut(Integer.parseInt(cursor.getString(16)));
+				improvement
+						.setThroughPut(Integer.parseInt(cursor.getString(15)));
+				improvement.setPreVersDifferenceThroughPut(Integer
+						.parseInt(cursor.getString(16)));
 				improvement.setVolXTime(Integer.parseInt(cursor.getString(17)));
+				improvement.setSavedTravelDistance(Integer.parseInt(cursor
+						.getString(18)));
+				improvement.setSavedTravelTime(cursor.getString(19));
+				improvement.settUnitid(Integer.parseInt(cursor.getString(20)));
 				// Adding improvement to list
 				improvementList.add(improvement);
 			} while (cursor.moveToNext());
@@ -247,16 +285,27 @@ public class VImprovementDataBaseHandler extends SQLiteOpenHelper {
 				improvement.getPreVersDifferenceThroughPut());
 		// volume x time( adjustment * demand)
 		values.put(KEY_VOL_X_TIME, improvement.getVolXTime());
+		// saved travel distance
+		values.put(KEY_SAVED_TRAVEL_DISTANCE,
+				improvement.getSavedTravelDistance());
+		// saved travel time
+		values.put(KEY_SAVED_TRAVEL_TIME, improvement.getSavedTravelTime());
+		// unit id
+		values.put(KEY_UNIT_ID, improvement.gettUnitid());
 
 		// updating row
-		return db.update(TABLE_T_IPROVEMENT, values, KEY_IMPROVEMENT_ID + " = ?",
-				new String[] { String.valueOf(improvement.getvImprovementId()) });
+		return db
+				.update(TABLE_T_IPROVEMENT, values,
+						KEY_IMPROVEMENT_ID + " = ?", new String[] { String
+								.valueOf(improvement.getvImprovementId()) });
 	}
 
 	// Deleting single improvement
 	public void deleteImprovement(VImprovementDataBase improvement) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_T_IPROVEMENT, KEY_IMPROVEMENT_ID + " = ?",
+		db.delete(
+				TABLE_T_IPROVEMENT,
+				KEY_IMPROVEMENT_ID + " = ?",
 				new String[] { String.valueOf(improvement.getvImprovementId()) });
 		db.close();
 	}
