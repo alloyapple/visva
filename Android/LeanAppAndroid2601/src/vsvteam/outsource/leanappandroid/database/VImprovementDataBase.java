@@ -21,6 +21,10 @@ public class VImprovementDataBase {
 	private int throughPut;
 	private int PreVersDifferenceThroughPut;
 	private int volXTime;
+	private int savedTravelDistance;
+
+	private String savedTravelTime;
+	private int tUnitid;
 
 	// empty constructor
 	public VImprovementDataBase() {
@@ -28,12 +32,15 @@ public class VImprovementDataBase {
 	}
 
 	// constructor
-	public VImprovementDataBase(int vImprovementId, int stepId, int processId, int projectId,
-			String stepName, String processName, String projectName, int versionId,
-			int preVersionId, String sumOfPreVerDifferenceLowestTime,
-			String sumOfPreVersDifferenceAdjustedTime, String sumOfPreVersDifferenceAdjustment,
-			String sumOfLowestTime, String sumOfAdjustment, String sumOfAdjustedTime,
-			int throughPut, int PreVersDifferenceThroughPut, int volXTime) {
+	public VImprovementDataBase(int vImprovementId, int stepId, int processId,
+			int projectId, String stepName, String processName,
+			String projectName, int versionId, int preVersionId,
+			String sumOfPreVerDifferenceLowestTime,
+			String sumOfPreVersDifferenceAdjustedTime,
+			String sumOfPreVersDifferenceAdjustment, String sumOfLowestTime,
+			String sumOfAdjustment, String sumOfAdjustedTime, int throughPut,
+			int PreVersDifferenceThroughPut, int volXTime,
+			int savedTravelDistance, String savedTravelTime, int tUnitid) {
 
 		this.vImprovementId = vImprovementId;
 		this.stepId = stepId;
@@ -52,15 +59,21 @@ public class VImprovementDataBase {
 		this.throughPut = throughPut;
 		this.PreVersDifferenceThroughPut = PreVersDifferenceThroughPut;
 		this.volXTime = volXTime;
+		this.savedTravelDistance = savedTravelDistance;
+		this.savedTravelTime = savedTravelTime;
+		this.tUnitid = tUnitid;
 	}
 
 	// constructor
-	public VImprovementDataBase(int stepId, int processId, int projectId, String stepName,
-			String processName, String projectName, int versionId, int preVersionId,
-			String sumOfPreVerDifferenceLowestTime, String sumOfPreVersDifferenceAdjustedTime,
+	public VImprovementDataBase(int stepId, int processId, int projectId,
+			String stepName, String processName, String projectName,
+			int versionId, int preVersionId,
+			String sumOfPreVerDifferenceLowestTime,
+			String sumOfPreVersDifferenceAdjustedTime,
 			String sumOfPreVersDifferenceAdjustment, String sumOfLowestTime,
 			String sumOfAdjustment, String sumOfAdjustedTime, int throughPut,
-			int PreVersDifferenceThroughPut, int volXTime) {
+			int PreVersDifferenceThroughPut, int volXTime,
+			int savedTravelDistance, String savedTravelTime, int tUnitid) {
 
 		this.stepId = stepId;
 		this.processId = processId;
@@ -78,6 +91,9 @@ public class VImprovementDataBase {
 		this.throughPut = throughPut;
 		this.PreVersDifferenceThroughPut = PreVersDifferenceThroughPut;
 		this.volXTime = volXTime;
+		this.savedTravelDistance = savedTravelDistance;
+		this.savedTravelTime = savedTravelTime;
+		this.tUnitid = tUnitid;
 	}
 
 	public int getvImprovementId() {
@@ -156,7 +172,8 @@ public class VImprovementDataBase {
 		return sumOfPreVersDifferenceLowestTime;
 	}
 
-	public void setSumOfPreVersDifferenceLowestTime(String sumOfPreVersDifferenceLowestTime) {
+	public void setSumOfPreVersDifferenceLowestTime(
+			String sumOfPreVersDifferenceLowestTime) {
 		this.sumOfPreVersDifferenceLowestTime = sumOfPreVersDifferenceLowestTime;
 	}
 
@@ -164,7 +181,8 @@ public class VImprovementDataBase {
 		return sumOfPreVersDifferenceAdjustedTime;
 	}
 
-	public void setSumOfPreVersDifferenceAdjustedTime(String sumOfPreVersDifferenceAdjustedTime) {
+	public void setSumOfPreVersDifferenceAdjustedTime(
+			String sumOfPreVersDifferenceAdjustedTime) {
 		this.sumOfPreVersDifferenceAdjustedTime = sumOfPreVersDifferenceAdjustedTime;
 	}
 
@@ -172,7 +190,8 @@ public class VImprovementDataBase {
 		return sumOfPreVersDifferenceAdjustment;
 	}
 
-	public void setSumOfPreVersDifferenceAdjustment(String sumOfPreVersDifferenceAdjustment) {
+	public void setSumOfPreVersDifferenceAdjustment(
+			String sumOfPreVersDifferenceAdjustment) {
 		this.sumOfPreVersDifferenceAdjustment = sumOfPreVersDifferenceAdjustment;
 	}
 
@@ -223,4 +242,29 @@ public class VImprovementDataBase {
 	public void setVolXTime(int volXTime) {
 		this.volXTime = volXTime;
 	}
+
+	public int getSavedTravelDistance() {
+		return savedTravelDistance;
+	}
+
+	public void setSavedTravelDistance(int savedTravelDistance) {
+		this.savedTravelDistance = savedTravelDistance;
+	}
+
+	public String getSavedTravelTime() {
+		return savedTravelTime;
+	}
+
+	public void setSavedTravelTime(String savedTravelTime) {
+		this.savedTravelTime = savedTravelTime;
+	}
+
+	public int gettUnitid() {
+		return tUnitid;
+	}
+
+	public void settUnitid(int tUnitid) {
+		this.tUnitid = tUnitid;
+	}
+
 }

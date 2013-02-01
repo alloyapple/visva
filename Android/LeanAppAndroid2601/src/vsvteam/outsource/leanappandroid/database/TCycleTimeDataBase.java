@@ -7,8 +7,9 @@ public class TCycleTimeDataBase {
 	private int projectId;
 	private String processName;
 	private String projectName;
+
 	private int cycleCounter;
-	private String operator;
+	private String operatorName;
 	private int shiftNo;
 	private int stepId;
 	private String stepDescription;
@@ -24,6 +25,32 @@ public class TCycleTimeDataBase {
 	private String preVerDifferenceLowestTime;
 	private String preVerDifferenceAdjustedTime;
 	private String preVerDifferenceAdjustment;
+	private boolean noVideoOnlyTiming;
+	public String getOperatorName() {
+		return operatorName;
+	}
+
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
+	}
+
+	public boolean isNoVideoOnlyTiming() {
+		return noVideoOnlyTiming;
+	}
+
+	public void setNoVideoOnlyTiming(boolean noVideoOnlyTiming) {
+		this.noVideoOnlyTiming = noVideoOnlyTiming;
+	}
+
+	public boolean isUseMilliseconds() {
+		return useMilliseconds;
+	}
+
+	public void setUseMilliseconds(boolean useMilliseconds) {
+		this.useMilliseconds = useMilliseconds;
+	}
+
+	private boolean useMilliseconds;
 
 	// empty constructor
 	public TCycleTimeDataBase() {
@@ -31,19 +58,24 @@ public class TCycleTimeDataBase {
 	}
 
 	// constructor
-	public TCycleTimeDataBase(int cycleTimeId, int processId, int projectId, String processName,
-			String projectName, int cycleCounter, String operator, int shiftNo, int stepId,
-			String stepDescription, String lowestTime, String adjustment, String adjustTime,
-			String audioNote, String videoFileName, String startTimeStamp, String endTimeStamp,
-			int versionId, int previousVersionId, String preDifferenceLowestTime,
-			String preVerDifferenceAdjustedTime, String preVerDifferenceAdjustment) {
+	public TCycleTimeDataBase(int cycleTimeId, int processId, int projectId,
+			String processName, String projectName, int cycleCounter,
+			String operatorName, int shiftNo, int stepId,
+			String stepDescription, String lowestTime, String adjustment,
+			String adjustTime, String audioNote, String videoFileName,
+			String startTimeStamp, String endTimeStamp, int versionId,
+			int previousVersionId, String preDifferenceLowestTime,
+			String preVerDifferenceAdjustedTime,
+			String preVerDifferenceAdjustment, boolean noVideoOnlyTiming,
+			boolean useMilliseconds) {
+
 		this.cycleTimeId = cycleTimeId;
 		this.processId = processId;
 		this.projectId = projectId;
 		this.processName = processName;
 		this.projectName = projectName;
 		this.cycleCounter = cycleCounter;
-		this.operator = operator;
+		this.operatorName = operatorName;
 		this.shiftNo = shiftNo;
 		this.stepId = stepId;
 		this.stepDescription = stepDescription;
@@ -59,21 +91,28 @@ public class TCycleTimeDataBase {
 		this.preVerDifferenceLowestTime = preDifferenceLowestTime;
 		this.preVerDifferenceAdjustedTime = preVerDifferenceAdjustedTime;
 		this.preVerDifferenceAdjustment = preVerDifferenceAdjustment;
+		this.noVideoOnlyTiming = noVideoOnlyTiming;
+		this.useMilliseconds = useMilliseconds;
 	}
 
 	// constructor
-	public TCycleTimeDataBase(int processId, int projectId, String processName, String projectName,
-			int cycleCounter, String operator, int shiftNo, int stepId, String stepDescription,
-			String lowestTime, String adjustment, String adjustTime, String audioNote,
-			String videoFileName, String startTimeStamp, String endTimeStamp, int versionId,
-			int previousVersionId, String preDifferenceLowestTime,
-			String preVerDifferenceAdjustedTime, String preVerDifferenceAdjustment) {
+	public TCycleTimeDataBase(int processId, int projectId, String processName,
+			String projectName, int cycleCounter, String operatorName,
+			int shiftNo, int stepId, String stepDescription, String lowestTime,
+			String adjustment, String adjustTime, String audioNote,
+			String videoFileName, String startTimeStamp, String endTimeStamp,
+			int versionId, int previousVersionId,
+			String preDifferenceLowestTime,
+			String preVerDifferenceAdjustedTime,
+			String preVerDifferenceAdjustment, boolean noVideoOnlyTiming,
+			boolean useMilliseconds) {
+
 		this.processId = processId;
 		this.projectId = projectId;
 		this.processName = processName;
 		this.projectName = projectName;
 		this.cycleCounter = cycleCounter;
-		this.operator = operator;
+		this.operatorName = operatorName;
 		this.shiftNo = shiftNo;
 		this.stepId = stepId;
 		this.stepDescription = stepDescription;
@@ -89,6 +128,8 @@ public class TCycleTimeDataBase {
 		this.preVerDifferenceLowestTime = preDifferenceLowestTime;
 		this.preVerDifferenceAdjustedTime = preVerDifferenceAdjustedTime;
 		this.preVerDifferenceAdjustment = preVerDifferenceAdjustment;
+		this.noVideoOnlyTiming = noVideoOnlyTiming;
+		this.useMilliseconds = useMilliseconds;
 	}
 
 	public int getCycleTimeId() {
@@ -137,14 +178,6 @@ public class TCycleTimeDataBase {
 
 	public void setCycleCounter(int cycleCounter) {
 		this.cycleCounter = cycleCounter;
-	}
-
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
 	}
 
 	public int getShiftNo() {
@@ -255,7 +288,8 @@ public class TCycleTimeDataBase {
 		return preVerDifferenceAdjustedTime;
 	}
 
-	public void setPreVerDifferenceAdjustedTime(String preVerDifferenceAdjustedTime) {
+	public void setPreVerDifferenceAdjustedTime(
+			String preVerDifferenceAdjustedTime) {
 		this.preVerDifferenceAdjustedTime = preVerDifferenceAdjustedTime;
 	}
 
