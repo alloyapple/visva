@@ -152,6 +152,7 @@
             android:layout_toRightOf="@id/editText_process_description"
             android:background="@color/white"
             android:gravity="center"
+            android:inputType="number"
             android:hint="@string/output_inventory"
             android:lines="1" >
         </EditText>
