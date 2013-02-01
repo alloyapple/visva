@@ -3,6 +3,7 @@ package vsvteam.outsource.leanappandroid.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -23,11 +24,7 @@ public class TUnitDataBaseHandler extends SQLiteOpenHelper {
 	private static final String TABLE_T_UNIT = "TABLE_T_UNIT";
 	// Contacts Table Columns names
 	private static final String KEY_UNIT_ID = "KEY_UNIT_ID";
-	private static final String KEY_UNIT_NAME = "KEY_UNIT_NAME";
-	private static final String KEY_CODE = "KEY_CODE";
-	private static final String KEY_REFERENCE = "KEY_REFERENCE";
-	private static final String KEY_CONVERSION_RATE = "KEY_CONVERSION_RATE";
-	private static final String KEY_CONVERSION_REFERENCE = "KEY_CONVERSION_REFERENCE";
+	private static final String KEY_OPERATOR_SPEED = "KEY_OPERATOR_SPEED";
 
 	public TUnitDataBaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,10 +34,9 @@ public class TUnitDataBaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		Log.v("create db process", "create db project");
-		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_UNIT + "(" + KEY_UNIT_ID
-				+ " INTEGER PRIMARY KEY," + KEY_UNIT_NAME + " TEXT," + KEY_CODE + " TEXT,"
-				+ KEY_REFERENCE + " TEXT," + KEY_CONVERSION_RATE + " INTEGER,"
-				+ KEY_CONVERSION_REFERENCE + " TEXT" + ")";
+		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_UNIT + "("
+				+ KEY_UNIT_ID + " INTEGER PRIMARY KEY," + KEY_OPERATOR_SPEED
+				+ " INTEGER" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 
 	}
@@ -65,13 +61,8 @@ public class TUnitDataBaseHandler extends SQLiteOpenHelper {
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_UNIT_ID, unit.gettUnitId()); // unit id
-		values.put(KEY_UNIT_NAME, unit.gettUnitName()); // unit name
-		values.put(KEY_CODE, unit.getCode()); // code
-		values.put(KEY_REFERENCE, unit.getReference());// reference
-		// conversion rate
-		values.put(KEY_CONVERSION_RATE, unit.getConversionRate());
-		// conversion reference
-		values.put(KEY_CONVERSION_REFERENCE, unit.getConversionReference());
+		values.put(KEY_OPERATOR_SPEED, unit.getOperatorSpeed());
+
 		// Inserting Row
 		db.insert(TABLE_T_UNIT, null, values);
 		// close db after use
@@ -82,15 +73,16 @@ public class TUnitDataBaseHandler extends SQLiteOpenHelper {
 	public TUnitDataBase getUnit(int unitId) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_T_UNIT, new String[] { KEY_UNIT_ID, KEY_UNIT_NAME, KEY_CODE,
-				KEY_REFERENCE, KEY_CONVERSION_RATE, KEY_CONVERSION_REFERENCE }, KEY_UNIT_ID + "=?",
-				new String[] { String.valueOf(unitId) }, null, null, null, null);
+		Cursor cursor = db
+				.query(TABLE_T_UNIT, new String[] { KEY_UNIT_ID,
+						KEY_OPERATOR_SPEED }, KEY_UNIT_ID + "=?",
+						new String[] { String.valueOf(unitId) }, null, null,
+						null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		TUnitDataBase unit = new TUnitDataBase(Integer.parseInt(cursor.getString(0)),
-				cursor.getString(1), cursor.getString(2), cursor.getString(3),
-				Integer.parseInt(cursor.getString(4)), cursor.getString(5));
+		TUnitDataBase unit = new TUnitDataBase(Integer.parseInt(cursor
+				.getString(0)), Integer.parseInt(cursor.getString(1)));
 
 		db.close();
 		// return contact
@@ -111,11 +103,7 @@ public class TUnitDataBaseHandler extends SQLiteOpenHelper {
 			do {
 				TUnitDataBase unit = new TUnitDataBase();
 				unit.settUnitId(Integer.parseInt(cursor.getString(0)));
-				unit.settUnitName(cursor.getString(1));
-				unit.setCode(cursor.getString(2));
-				unit.setReference(cursor.getString(3));
-				unit.setConversionRate(Integer.parseInt(cursor.getString(4)));
-				unit.setConversionReference(cursor.getString(5));
+				unit.setOperatorSpeed(Integer.parseInt(cursor.getString(1)));
 				// Adding unit to list
 				unitList.add(unit);
 			} while (cursor.moveToNext());
@@ -130,13 +118,7 @@ public class TUnitDataBaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KEY_UNIT_NAME, unit.gettUnitName()); // unit name
-		values.put(KEY_CODE, unit.getCode()); // code
-		values.put(KEY_REFERENCE, unit.getReference());// reference
-		// conversion rate
-		values.put(KEY_CONVERSION_RATE, unit.getConversionRate());
-		// conversion reference
-		values.put(KEY_CONVERSION_REFERENCE, unit.getConversionReference());
+		values.put(KEY_OPERATOR_SPEED, unit.getOperatorSpeed());
 		// updating row
 		return db.update(TABLE_T_UNIT, values, KEY_UNIT_ID + " = ?",
 				new String[] { String.valueOf(unit.gettUnitId()) });
