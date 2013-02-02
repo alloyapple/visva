@@ -9,9 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "VASetting.h"
 #import "VAUser.h"
+#import "TDSqlManager.h"
 @interface VAGlobal : NSObject
 @property(nonatomic, retain)VASetting *appSetting;
 @property(nonatomic, retain)VAUser *user;
+@property(nonatomic, retain)TDSqlManager *dbManager;
+
 +(VAGlobal*)share;
 +(void)releaseShare;
+-(void)initFirstDatabase;
+-(BOOL)insertCurrentUser;
+-(void)loadDataAfterLogin;
+
 @end

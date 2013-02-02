@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface VASetting : NSObject
+@property(nonatomic, assign)BOOL isFirstUse;
 @property(nonatomic, assign)BOOL isSecurityOn;
 @property(nonatomic, assign)float fSecurityDuration;
 @property(nonatomic, assign)BOOL isDestroyData;
-
+-(void)saveSetting;
+-(void)getSetting;
 @end

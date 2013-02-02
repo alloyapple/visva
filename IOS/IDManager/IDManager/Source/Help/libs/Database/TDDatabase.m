@@ -7,6 +7,7 @@
 //
 
 #import "TDDatabase.h"
+#import "TDLog.h"
 
 @implementation TDDatabase
 +(NSString*)pathBundle:(NSString*)file type:(NSString*)type{
@@ -17,6 +18,20 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *pathFile = [documentsDirectory stringByAppendingPathComponent:file];
     return pathFile;
+}
++(BOOL)deleteFile:(NSString*)path{
+    NSFileManager *fileMana = [NSFileManager defaultManager];
+    if ([fileMana isDeletableFileAtPath:path]) {
+        NSError *error=nil;
+        [fileMana removeItemAtPath:path error:&error];
+        if (error == nil) {
+            return YES;
+        }else{
+            TDLOGERROR(@"Delete file error %@", error);
+            return NO;
+        }
+    }
+    return YES;
 }
 
 /*

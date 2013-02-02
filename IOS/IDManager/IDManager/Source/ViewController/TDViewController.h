@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TDViewController : UIViewController
-
+@interface TDViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,
+UISearchBarDelegate, UIAlertViewDelegate>
+-(void)reLoadData;
 @end

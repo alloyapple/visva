@@ -8,8 +8,13 @@
 
 #import "VALoginController.h"
 #import "TDCommonLibs.h"
+#import "VAGlobal.h"
+#import "TDString.h"
+#import "TDAppDelegate.h"
 
 @interface VALoginController ()
+@property (assign, nonatomic) int iCountWrongPass;
+
 @property (retain, nonatomic) IBOutlet UILabel *lbTitle;
 @property (retain, nonatomic) IBOutlet UITextField *tfOrigin;
 @property (retain, nonatomic) IBOutlet UITextField *tfConfirm;
@@ -44,13 +49,17 @@
             [_tfConfirm becomeFirstResponder];
             _lbTitle.text = TDLocalizedStringOne(@"PasswordMaster");
             break;
+            
+        //login and relogin
         case kTypeMasterPasswordLogin:
+        case kTypeMasterPasswordReLogin:
             _lbOrigin.hidden = YES;
             _lbConfirm.hidden = YES;
             _tfOrigin.hidden = YES;
             [_tfConfirm becomeFirstResponder];
             _lbTitle.text = TDLocalizedStringOne(@"PasswordLogin");
             break;
+
         case kTypeMasterPasswordChangePass:
             _lbConfirm.hidden = NO;
             _lbOrigin.hidden = NO;
@@ -60,6 +69,7 @@
             default:
             break;
     }
+    _iCountWrongPass = 0;
     
 }
 -(void)registerNotification{
@@ -130,7 +140,91 @@
     }
 }
 
-- (IBAction)confirm:(id)sender {
-    
+-(BOOL)isValidPasswordString:(NSString*)str{
+    return [str isNotEmpty];
 }
+-(void)loginFirstTime{
+    VAGlobal *global = [VAGlobal share];
+    NSString *masterPass = _tfConfirm.text;
+    if ([self isValidPasswordString:masterPass]) {
+        global.user.sUserPassword = masterPass;
+        [global initFirstDatabase];
+        if ([global insertCurrentUser]) {
+            TDLOG(@"Init complete");
+            global.appSetting.isFirstUse = NO;
+            [global.appSetting saveSetting];
+            [global loadDataAfterLogin];
+            [[TDAppDelegate share].viewController reLoadData];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            TDLOGERROR(@"Init error");
+            _tfConfirm.text = @"";
+            [self showAlertSimple:TDLocalizedStringOne(@"InitUserError") tag:0];
+        }
+        
+    }else{
+        //pass error
+        TDLOGERROR(@"enter password error");
+        _tfConfirm.text = @"";
+        [self showAlertSimple:TDLocalizedStringOne(@"InvalidPass") tag:0];
+    }
+}
+-(void)login{
+    VAGlobal *global = [VAGlobal share];
+    if ([global.user.sUserPassword isEqualToString:_tfConfirm.text]) {
+        [global loadDataAfterLogin];
+        [[TDAppDelegate share].viewController reLoadData];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        //wrong pass - clear - show alert
+        TDLOG(@"Wrong pass when login");
+        _tfConfirm.text = @"";
+        [self showAlertSimple:TDLocalizedStringOne(@"WrongPass") tag:0];
+        _iCountWrongPass +=1;
+    }
+}
+-(void)relogin{
+    if ([[VAGlobal share].user.sUserPassword isEqualToString:_tfConfirm.text]) {
+         [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        //wrong pass
+        TDLOG(@"Wrong pass when relogin");
+        _tfConfirm.text = @"";
+        [self showAlertSimple:TDLocalizedStringOne(@"WrongPass") tag:0];
+        _iCountWrongPass +=1;
+    }
+}
+-(void)changePass{
+    VAUser *user = [VAGlobal share].user;
+    if ([user.sUserPassword isEqualToString:_tfOrigin.text]) {
+        user.sUserPassword = _tfConfirm.text;
+        [user updateToDb:[VAGlobal share].dbManager];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        //wrong pass
+        TDLOG(@"Wrong pass when change password");
+        _tfConfirm.text = @"";
+        _tfOrigin.text = @"";
+        [self showAlertSimple:TDLocalizedStringOne(@"WrongPass") tag:0];
+        _iCountWrongPass +=1;
+    }
+}
+- (IBAction)confirm:(id)sender {
+    if (_typeMasterPass == kTypeMasterPasswordFirst) { //user app first time
+        [self loginFirstTime];
+    }else if (_typeMasterPass == kTypeMasterPasswordLogin){
+        [self login];
+    }else if (_typeMasterPass == kTypeMasterPasswordLogin){ //login
+        [self relogin];
+    }else{ //changepass
+        [self changePass];
+    }
+}
+#pragma mark - alert
+-(void)showAlertSimple:(NSString*)title tag:(int)tag{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:TDLocalizedStringOne(@"OK") otherButtonTitles: nil];
+    alert.tag = tag;
+    [alert show];
+}
+
 @end

@@ -9,3 +9,15 @@
 "PasswordMaster" = "Password Master";
 "PasswordLogin" = "Password Login";
 "PasswordNew" = "New Password";
+
+"WrongPass" = "Password is incorrect. Please try again.";
+"InvalidPass" = "Password is invalid";
+
+"EnterGrName" = "Enter group name";
+"Cancel" = "Cancel";
+"OK" = "OK";
+"NameGrError" = "Group name is invalid!";
+"InsertGroupError" = "Error occurr when insert group";
+
+
+"InitUserError" = "Create user Error";

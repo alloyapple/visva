@@ -28,4 +28,5 @@
  *
  */
 +(void)copyDataFrom:(NSString *)sourceFile to:(NSString *)dest;
++(BOOL)deleteFile:(NSString*)path;
 @end

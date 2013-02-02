@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TDViewController.h"
 
 @class TDViewController;
 
@@ -15,5 +16,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) TDViewController *viewController;
++(TDAppDelegate*)share;
 
 @end
