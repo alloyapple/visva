@@ -11,21 +11,27 @@
 #import "TDViewController.h"
 #import "VALoginController.h"
 
+static TDAppDelegate *instance = nil;
 @implementation TDAppDelegate
 
 - (void)dealloc
 {
     [_window release];
     [_viewController release];
+    instance = nil;
     [super dealloc];
 }
-
++(TDAppDelegate*)share{
+    return instance;
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    instance = self;
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.viewController = [[[TDViewController alloc] initWithNibName:@"TDViewController" bundle:nil] autorelease];
-    self.window.rootViewController = self.viewController;
+    UINavigationController *navi = [[[UINavigationController alloc] initWithRootViewController:self.viewController] autorelease];
+    self.window.rootViewController = navi;
     [self.window makeKeyAndVisible];
     return YES;
 }

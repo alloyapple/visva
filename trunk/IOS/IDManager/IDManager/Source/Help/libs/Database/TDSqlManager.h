@@ -33,16 +33,28 @@
 
 #pragma mark - wraper funtion
 static inline NSString *TDSqlText(sqlite3_stmt*stmt, int cC){
-    return [NSString stringWithUTF8String:(const char*)sqlite3_column_text(stmt, cC)];
+    const unsigned char *str = sqlite3_column_text(stmt, cC);
+    if (str) {
+        return [NSString stringWithUTF8String:(const char*)str];
+    }else{
+        return nil;
+    }
+    
 }
 static inline int TDSqlInt(sqlite3_stmt *stmt, int cCollumn){
     return sqlite3_column_int(stmt, cCollumn);
+}
+static inline int TDSqlDouble(sqlite3_stmt *stmt, int cCollumn){
+    return sqlite3_column_double(stmt, cCollumn);
 }
 static inline int TDSqlBindText(sqlite3_stmt *stmt, int cCollumn, NSString *str){
     return sqlite3_bind_text(stmt, cCollumn, [str UTF8String], str.length, NULL);
 }
 static inline int TDSqlBindInt(sqlite3_stmt *stmt, int cCollumn, int value){
     return sqlite3_bind_int(stmt, cCollumn, value);
+}
+static inline int TDSqlBindDouble(sqlite3_stmt *stmt, int cCollumn, int value){
+    return sqlite3_bind_double(stmt, cCollumn, value);
 }
 
 static inline BOOL TDSqlExecuteQuery(NSString *query, sqlite3 *db){

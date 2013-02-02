@@ -11,10 +11,13 @@
 typedef enum {
     kTypeMasterPasswordFirst,
     kTypeMasterPasswordLogin,
+    kTypeMasterPasswordReLogin,
     kTypeMasterPasswordChangePass
 }kTypeMasterPassword;
 
-@interface VALoginController : UIViewController
-@property(nonatomic, readonly)kTypeMasterPassword typeMasterPass;
+@interface VALoginController : UIViewController{
+    
+}
+@property(nonatomic, assign)kTypeMasterPassword typeMasterPass;
 
 @end

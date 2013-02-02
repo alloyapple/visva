@@ -111,8 +111,6 @@
         return NO;
     }else{
         sqlite3_finalize(stmt);
-        int lastIndex = sqlite3_last_insert_rowid(db);
-        self.iPrId = lastIndex;
         return YES;
     }
 }
