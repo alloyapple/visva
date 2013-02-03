@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "VAElementViewController.h"
 @interface TDViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,
-UISearchBarDelegate, UIAlertViewDelegate>
+UISearchBarDelegate, UIAlertViewDelegate, VAElementViewDelegate>
+
 -(void)reLoadData;
 @end

@@ -169,22 +169,49 @@
     [self showTextFileAlert:TDLocalizedStringOne(@"EnterGrName") tag:kTagAlertAddGroup];
 }
 
+
+- (IBAction)btEditPressed:(id)sender {
+}
+
 - (IBAction)btAddIdPressed:(id)sender {
     if (_iSelectedGroup >= _user.aUserFolder.count) {
         TDLOGERROR(@"Not create in here");
     }else{
         VAElementId *element = [[[VAElementId alloc] init] autorelease];
-        element.sTitle = @"element";
-        element.sUrl = @"http://";
-        element.sEIcon = [[NSBundle mainBundle] pathForResource:@"Thumb/JP_ISP/au.png" ofType:nil];
         element.group = _selectedGroup;
-        [element insertToDb:[VAGlobal share].dbManager];
-        [_selectedGroup.aElements addObject:element];
-        [_tbId reloadData];
+        VAElementViewController *vc = [[[VAElementViewController alloc] initWithNibName:@"VAElementViewController" bundle:nil]autorelease];
+        vc.currentElement = element;
+        vc.elementDelegate = self;
+        [self presentModalViewController:vc animated:YES];
     }
 }
-
-- (IBAction)btEditPressed:(id)sender {
+#pragma mark - ElementViewDelegate
+-(void)elementViewDidCancel:(VAElementViewController *)controller{
+    [controller dismissModalViewControllerAnimated:YES];
+}
+-(void)insertTorecent:(VAElementId*)element{
+    [_user.recentGroup.aElements removeObject:element];
+    [_user.recentGroup.aElements insertObject:element atIndex:0];
+    if (_user.recentGroup.aElements.count >10) {
+        [_user.recentGroup.aElements removeObjectAtIndex:_user.recentGroup.aElements.count -1];
+    }
+}
+-(void)elementViewDidSave:(VAElementViewController *)controller{
+    
+    VAElementId *element = controller.currentElement;
+    
+    if (![element.sTitle isNotEmpty]) {
+        return;
+    }
+    
+    [element insertToDb:[VAGlobal share].dbManager];
+    [_selectedGroup.aElements addObject:element];
+    if (element.iFavorite == 1) {
+        [_user.favoriteGroup.aElements addObject:element];
+    }
+    [self insertTorecent:element];
+    [controller dismissModalViewControllerAnimated:YES];
+    [_tbId reloadData];
 }
 
 #pragma mark - edit db
