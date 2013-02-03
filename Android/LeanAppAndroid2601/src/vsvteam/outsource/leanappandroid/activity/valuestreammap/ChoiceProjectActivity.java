@@ -77,6 +77,11 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 		createDataBase();
 		setContentView(R.layout.page_choice_project);
 		initialize();
+		
+		int width = getWindowManager().getDefaultDisplay().getWidth();
+		int height = getWindowManager().getDefaultDisplay().getHeight();
+		Log.e("adsjfhadsf", "adkjfh "+width+" dhfkasd "+height);
+		
 	}
 
 	/**
@@ -162,7 +167,7 @@ public class ChoiceProjectActivity extends VSVTeamBaseActivity implements OnClic
 	@Override
 	public void onClick(View view) {
 		if (view == btnCreatedProject) {
-			insertToDataBase();
+			insertToDataBase();  
 		} else if (view == btnSelectedProject) {
 			if (projectId.length > 0) {
 				// insert to share preference

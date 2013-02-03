@@ -32,7 +32,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class CircleTimeActivity extends VSVTeamBaseActivity implements
-		OnClickListener {
+		OnClickListener {  
 	// ==============================Control Define =========================
 	private WheelView wheelCircleTime1;
 	private WheelView wheelCircleTime2;

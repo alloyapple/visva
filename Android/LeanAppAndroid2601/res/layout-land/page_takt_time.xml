@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/bg_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -13,7 +13,7 @@
         android:gravity="center" >
 
         <ImageView
-            android:id="@+id/img_takt_time_book"
+            android:id="@+id/img_project_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -21,48 +21,48 @@
             android:background="@drawable/ic_book" />
 
         <ImageView
-            android:id="@+id/img_takt_time_export"
+            android:id="@+id/img_project_export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/img_takt_time_book"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/img_project_book"
             android:background="@drawable/ic_export" />
 
         <ImageView
-            android:id="@+id/img_takt_time_currency"
+            android:id="@+id/img_project_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/ic_currency" />
 
         <ImageView
-            android:id="@+id/img_takt_time_version"
+            android:id="@+id/img_project_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/img_takt_time_currency"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_currency"
             android:background="@drawable/ic_version" />
 
         <ImageView
-            android:id="@+id/img_takt_time_change_project"
+            android:id="@+id/img_project_change_project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/img_takt_time_version"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_version"
             android:background="@drawable/ic_bag" />
 
         <ImageView
-            android:id="@+id/img_takt_time_setting"
+            android:id="@+id/img_project_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/img_takt_time_change_project"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/img_project_change_project"
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
 
@@ -123,8 +123,9 @@
             android:gravity="center"
             android:hint="Shift Per Day"
             android:inputType="number"
-            android:singleLine="true" />
-
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
         <EditText
             android:id="@+id/editText_break_per_shift"
             android:layout_width="wrap_content"
@@ -138,7 +139,8 @@
             android:gravity="center"
             android:hint="Break per shift"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_day_per_month"
@@ -152,7 +154,8 @@
             android:gravity="center"
             android:hint="Days per month"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_day_per_week"
@@ -167,7 +170,23 @@
             android:gravity="center"
             android:hint="Days per week"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/editText_hour_per_shift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_day_per_week"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Hour Per Shift"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_operator_per_shift"
@@ -182,7 +201,8 @@
             android:gravity="center"
             android:hint="Operators per shift"
             android:inputType="number"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_customer_demand_unit"
@@ -190,13 +210,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_operator_per_shift"
             android:layout_marginLeft="200dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@color/white"
             android:ems="10"
             android:gravity="center"
             android:hint="Customer demanded units"
             android:inputType="number"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:textColor="@color/black" >
         </EditText>
 
         <TextView
@@ -205,7 +226,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_operator_per_shift"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/editText_customer_demand_unit"
             android:text="Per"
             android:textSize="24dp" />

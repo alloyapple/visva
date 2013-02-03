@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/FirstText"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Process Id"
@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/SecondText"
-        android:layout_width="250dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/FirstText"
         android:gravity="center"
