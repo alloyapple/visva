@@ -135,7 +135,7 @@ public class EditProcessActivity extends VSVTeamBaseActivity implements OnClickL
 		btnPreviousItem.setOnClickListener(this);
 
 		// EditText
-		editTextProcessCommunication = (EditText) findViewById(R.id.editText_edit_proces_communication);
+		editTextProcessCommunication = (EditText) findViewById(R.id.editText_edit_process_communication);
 		editTextProcessCommunication.setText("" + Integer.parseInt("15"));
 		editTextProcessDefectNotes = (EditText) findViewById(R.id.editText_edit_process_defect_notes);
 		editTextProcessDefectPercent = (EditText) findViewById(R.id.editText_edit_process_defect_percent);

@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/tabbar"
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="30dp"
         android:background="@drawable/actionbar_bg"
         android:gravity="center" >
 
@@ -70,60 +70,65 @@
         android:id="@+id/txt_projectName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:text="@string/text_project_created"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
         android:text="@string/text_project_created_detail"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="15dp" >
+        android:layout_marginTop="5dp" >
 
         <EditText
             android:id="@+id/editText_process_supplier"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_width="180dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="5dp"
             android:background="@color/white"
             android:gravity="center"
             android:hint="@string/process_start_point"
-            android:lines="1" >
+            android:lines="2"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
             android:id="@+id/editText_process_customer"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/editText_process_supplier"
             android:background="@color/white"
             android:gravity="center"
             android:hint="@string/process_end_point"
-            android:lines="1" />
+            android:lines="2"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/editText_process_name"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_process_supplier"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
             android:gravity="center"
-            android:hint="@string/process_name"
-            android:lines="1" >
+            android:hint="Process Name"
+            android:lines="2"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
@@ -131,27 +136,31 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_process_customer"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/editText_process_name"
             android:background="@color/white"
             android:gravity="center"
             android:hint="@string/defect_notes"
-            android:lines="3" >
+            android:lines="2"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
             android:id="@+id/editText_process_description"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_process_name"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
             android:gravity="center"
             android:hint="@string/process_description"
-            android:lines="3" >
+            android:lines="2"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <TextView
@@ -159,21 +168,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_defect_notes"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/editText_process_description"
             android:text="Need to verify these details"
             android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:textSize="12sp" />
 
         <ToggleButton
             android:id="@+id/switch_process"
             android:layout_width="60dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_below="@id/editText_defect_notes"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/textView_verify"
             android:background="@drawable/btn_toggle"
             android:checked="true"
@@ -182,31 +191,37 @@
 
         <EditText
             android:id="@+id/editText_output_inventory"
-            android:layout_width="180dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_process_description"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="15dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="@string/output_inventory"
             android:inputType="number"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
             android:id="@+id/editText_uptime"
-            android:layout_width="180dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_process_description"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/editText_output_inventory"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="@string/up_time"
             android:inputType="number"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
@@ -214,43 +229,52 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_process_description"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/editText_uptime"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="@string/value_adding_time"
-            android:inputType="number"
-            android:singleLine="true" >
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
             android:id="@+id/editText_defect_percent"
-            android:layout_width="180dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_output_inventory"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="@string/defect_percent"
             android:inputType="number"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
             android:id="@+id/editText_communication"
-            android:layout_width="180dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_output_inventory"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/editText_defect_percent"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="@string/communication"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <EditText
@@ -258,54 +282,60 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_output_inventory"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/editText_communication"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="@string/non_value_adding_time"
             android:inputType="number"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="12sp" >
         </EditText>
 
         <Button
             android:id="@+id/btn_add_process"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/editText_non_value_adding_time"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/tab_indicator"
-            android:text="Add Process" />
+            android:text="Add Process"
+            android:textColor="@color/white" />
 
-        <LinearLayout
+        <ListView
             android:id="@+id/list_process"
             android:layout_width="fill_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_below="@id/btn_add_process"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white" >
-        </LinearLayout>
+        </ListView>
 
         <TextView
             android:id="@+id/textView_process_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/list_process"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:text="@string/string_textview_process_2"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="10dp" />
 
         <EditText
             android:id="@+id/editText_process_step_name"
-            android:layout_width="250dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_process_2"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
             android:gravity="center"
             android:hint="Step Name"
@@ -313,46 +343,48 @@
 
         <Button
             android:id="@+id/btn_process_add_step"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
             android:layout_below="@id/textView_process_2"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/editText_process_step_name"
             android:background="@drawable/tab_indicator"
-            android:text="Add Step" />
+            android:text="Add Step"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btn_process_i_am_done"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/textView_process_2"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/btn_process_add_step"
             android:background="@drawable/tab_indicator"
-            android:text="I am Done" />
+            android:text="I am Done"
+            android:textColor="@color/white" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_process"
-            android:layout_width="250dp"
+            android:layout_width="150dp"
             android:layout_height="300dp"
             android:layout_below="@id/btn_process_i_am_done"
             android:layout_marginBottom="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp" />
 
         <ListView
-            android:id="@+id/list_process_2"
+            android:id="@+id/list_step"
             android:layout_width="fill_parent"
             android:layout_height="300dp"
             android:layout_below="@id/btn_process_i_am_done"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/wheel_process"
             android:background="@color/white" />
     </RelativeLayout>

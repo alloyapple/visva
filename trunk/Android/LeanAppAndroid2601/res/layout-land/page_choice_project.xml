@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_home"
     android:gravity="center"
     android:orientation="vertical" >
 
@@ -14,7 +13,7 @@
         android:gravity="center" >
 
         <ImageView
-            android:id="@+id/img_choice_project_book"
+            android:id="@+id/img_project_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -22,16 +21,16 @@
             android:background="@drawable/ic_book" />
 
         <ImageView
-            android:id="@+id/img_choice_project_export"
+            android:id="@+id/img_project_export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/img_choice_project_book"
+            android:layout_toRightOf="@id/img_project_book"
             android:background="@drawable/ic_export" />
 
         <ImageView
-            android:id="@+id/img_choice_project_currency"
+            android:id="@+id/img_project_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -40,30 +39,30 @@
             android:background="@drawable/ic_currency" />
 
         <ImageView
-            android:id="@+id/img_choice_project_version"
+            android:id="@+id/img_project_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/img_choice_project_currency"
+            android:layout_toLeftOf="@id/img_project_currency"
             android:background="@drawable/ic_version" />
 
         <ImageView
-            android:id="@+id/img_choice_project_change_project"
+            android:id="@+id/img_project_change_project"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/img_choice_project_version"
+            android:layout_toLeftOf="@id/img_project_version"
             android:background="@drawable/ic_bag" />
 
         <ImageView
-            android:id="@+id/img_choice_project_setting"
+            android:id="@+id/img_project_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/img_choice_project_change_project"
+            android:layout_toLeftOf="@id/img_project_change_project"
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
 
@@ -84,11 +83,12 @@
 
         <EditText
             android:id="@+id/editText_CreatdProjectName"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="2dp"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/project_name"
             android:singleLine="true"
@@ -97,12 +97,13 @@
 
         <EditText
             android:id="@+id/editText_CreatedCompanyName"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_CreatdProjectName"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/company_name"
             android:singleLine="true"
@@ -110,12 +111,13 @@
 
         <EditText
             android:id="@+id/editText_CreatedProjectDescription"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/editText_CreatdProjectName"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/project_description"
             android:lines="3"
@@ -123,13 +125,14 @@
 
         <EditText
             android:id="@+id/editText_CreatedCompanyAddress"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_CreatedCompanyName"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/company_address"
             android:lines="3"
@@ -137,13 +140,14 @@
 
         <EditText
             android:id="@+id/editText_CreatedNotes"
-            android:layout_width="400dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_CreatedProjectDescription"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/editText_CreatedCompanyAddress"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/notes"
             android:lines="3"
@@ -172,7 +176,7 @@
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_project"
-            android:layout_width="810dp"
+            android:layout_width="610dp"
             android:layout_height="150dp"
             android:layout_below="@id/textview_selectexist"
             android:layout_marginBottom="10dp"

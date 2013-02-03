@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/tabbar"
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="30dp"
         android:background="@drawable/actionbar_bg"
         android:gravity="center" >
 
@@ -106,12 +106,13 @@
 
         <EditText
             android:id="@+id/editText_shift_per_day"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView1"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="30dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="Shift Per Day"
             android:inputType="number"
@@ -124,34 +125,20 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView1"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/editText_shift_per_day"
             android:text="@string/textview_takt_time"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/editText_operator_per_shift"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_shift_per_day"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
-            android:gravity="center"
-            android:hint="Operators per shift"
-            android:inputType="number"
-            android:singleLine="true"
-            android:textColor="@color/black" >
-        </EditText>
-
-        <EditText
-            android:id="@+id/editText_operator_per_shift"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editText_shift_per_day"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="Operators per shift"
             android:inputType="number"
@@ -161,12 +148,13 @@
 
         <EditText
             android:id="@+id/editText_break_per_shift"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_operator_per_shift"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="Break per shift"
             android:inputType="number"
@@ -176,12 +164,13 @@
 
         <EditText
             android:id="@+id/editText_hour_per_shift"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_break_per_shift"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="Hour Per Shift"
             android:inputType="number"
@@ -190,12 +179,13 @@
 
         <EditText
             android:id="@+id/editText_day_per_month"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_hour_per_shift"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="Days per month"
             android:inputType="number"
@@ -204,12 +194,13 @@
 
         <EditText
             android:id="@+id/editText_day_per_week"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_day_per_month"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="Days per week"
             android:inputType="number"
@@ -218,12 +209,13 @@
 
         <EditText
             android:id="@+id/editText_customer_demand_unit"
-            android:layout_width="250dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_day_per_week"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:ellipsize="start"
             android:gravity="center"
             android:hint="Customer demanded units"
             android:inputType="number"
@@ -236,36 +228,35 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_day_per_week"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/editText_customer_demand_unit"
             android:text="Per"
             android:textSize="24dp" />
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="293dp"
-            android:layout_height="146dp"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:layout_below="@id/editText_customer_demand_unit"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="50dp"
             android:text="Takt Time = XXX"
-            android:textSize="50dp" />
+            android:textSize="40dp" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_task_time_2"
-            android:layout_width="200dp"
-            android:layout_height="255dp"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="180dp"
             android:layout_toRightOf="@+id/textView3" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_task_time_1"
-            android:layout_width="200dp"
-            android:layout_height="243dp"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
             android:layout_below="@id/wheel_task_time_2"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/textView3" />
     </RelativeLayout>
 

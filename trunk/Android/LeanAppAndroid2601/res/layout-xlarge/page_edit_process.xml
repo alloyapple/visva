@@ -302,7 +302,7 @@
             </EditText>
 
             <EditText
-                android:id="@+id/editText_edit_proces_communication"
+                android:id="@+id/editText_edit_process_communication"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText_edit_process_output_inventory"

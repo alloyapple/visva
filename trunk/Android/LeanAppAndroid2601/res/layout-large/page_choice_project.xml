@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/tabbar"
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="30dp"
         android:background="@drawable/actionbar_bg"
         android:gravity="center" >
 
@@ -71,27 +71,26 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="5dp"
         android:text="@string/create_new_project_text"
-        android:textColor="@color/white"
-        android:textSize="24dp" />
+        android:textColor="@color/white" />
 
     <RelativeLayout
         android:id="@+id/layout_projectCreate"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="10dp" >
+        android:layout_marginTop="5dp" >
 
         <EditText
             android:id="@+id/editText_CreatdProjectName"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/project_name"
-            android:singleLine="true"
-            android:cursorVisible="true"
+            android:lines="2"
             android:textColor="@color/black" >
         </EditText>
 
@@ -99,25 +98,24 @@
             android:id="@+id/editText_CreatedCompanyName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_toRightOf="@id/editText_CreatdProjectName"
             android:background="@color/white"
             android:gravity="center"
-            android:cursorVisible="true"
             android:hint="@string/company_name"
-            android:singleLine="true"
+            android:lines="2"
             android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_CreatedProjectDescription"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_CreatdProjectName"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:cursorVisible="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/project_description"
             android:lines="3"
@@ -128,12 +126,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_CreatedCompanyName"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:cursorVisible="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/editText_CreatdProjectName"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/company_address"
             android:lines="3"
@@ -144,27 +142,28 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/editText_CreatedProjectDescription"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="@string/notes"
-            android:cursorVisible="true"
             android:lines="2"
             android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_created"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/editText_CreatedNotes"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/tab_indicator"
             android:singleLine="true"
-            android:text="@string/create_new_button" />
+            android:text="@string/create_new_button"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/textview_selectexist"
@@ -172,31 +171,28 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_created"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:singleLine="true"
             android:text="@string/or_select_exist_one"
-            android:textColor="@color/white"
-            android:textSize="24dp" />
+            android:textColor="@color/white" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_project"
             android:layout_width="fill_parent"
-            android:layout_height="300dp"
+            android:layout_height="150dp"
             android:layout_below="@id/textview_selectexist"
-            android:layout_margin="10dp"
-            android:layout_marginTop="50dp" />
+            android:layout_margin="5dp" />
 
         <Button
             android:id="@+id/btn_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/wheel_project"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/tab_indicator"
-            android:text="@string/select_exist_button" />
+            android:text="@string/select_exist_button"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </LinearLayout>
