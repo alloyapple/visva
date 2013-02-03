@@ -53,7 +53,7 @@ public class CircleTimeActivity extends TabGroupActivity implements OnClickListe
 	// ==============================Class Define ===========================
 	private TProcessDataBaseHandler tProcessDataBaseHandler;
 	private TStepsDataBaseHandler tStepsDataBaseHandler;
-	private TCycleTimeDataBaseHandler tCycleTimeDataBaseHandler;
+	private TCycleTimeDataBaseHandler tCycleTimeDataBaseHandler;   
 	// ==============================Variable Define ========================
 	private static final String TAG = CircleTimeActivity.class.getSimpleName();
 	private static final int REQUEST_VIDEO_CAPTURED = 1002;
