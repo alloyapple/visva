@@ -231,20 +231,6 @@
                 android:textStyle="bold" >
             </Button>
 
-            <Button
-                android:id="@+id/btn_start_recording"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/tab_indicator"
-                android:gravity="center|center"
-                android:text="Start Recording"
-                android:textColor="@color/white"
-                android:textStyle="bold" >
-            </Button>
         </RelativeLayout>
     </RelativeLayout>
 
