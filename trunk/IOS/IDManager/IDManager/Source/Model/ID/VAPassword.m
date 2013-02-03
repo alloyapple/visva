@@ -17,7 +17,12 @@ NSString *dpassTitleNameId = @"titleNameId";
 NSString *dpasswordCollumn = @"password";
 @implementation VAPassword
 
-
+-(id)init{
+    if (self = [super init]) {
+        _iPasswordId = -1;
+    }
+    return self;
+}
 #pragma mark - database
 +(NSString*)getCreateTableQuery{
     NSString *str = [NSString stringWithFormat:@"CREATE  TABLE Password (\"passwordId\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"eId\" INTEGER, \"titleNameId\" TEXT, \"password\" TEXT)"];

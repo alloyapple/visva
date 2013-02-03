@@ -40,8 +40,4 @@
  */
 -(BOOL)deleteFromDb:(TDSqlManager*)manager;
 
-/*
- * weak delete Group from database
- */
--(BOOL)weakDeleteFromDb:(TDSqlManager*)manager;
 @end
