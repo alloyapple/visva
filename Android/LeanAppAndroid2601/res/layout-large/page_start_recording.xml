@@ -218,8 +218,38 @@
             android:layout_margin="5dp"
             android:background="@color/white" >
 
+            <TextView
+                android:id="@+id/textView_recording_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="5dp"
+                android:text="Tot.rec.time: 00:00:00"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView_recording_step_name_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView_recording_time"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:text="Cycle 1 Step name time :00:00:00:00"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textView_recording_next_step"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
+                android:text="Step name"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
             <Button
-                android:id="@+id/btn_cycle_time_video_record"
+                android:id="@+id/btn_recording_start"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
                 android:layout_centerInParent="true"
@@ -232,21 +262,21 @@
             </Button>
 
             <Button
-                android:id="@+id/btn_start_recording"
+                android:id="@+id/btn_recording_save_stop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/tab_indicator"
-                android:gravity="bottom|center"
-                android:text="Start Recording"
+                android:gravity="center"
+                android:text="Save|Stop"
                 android:textColor="@color/white"
                 android:textStyle="bold" >
             </Button>
 
             <Button
-                android:id="@+id/btn_next_step"
+                android:id="@+id/btn_recording_next_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -260,14 +290,14 @@
             </Button>
 
             <Button
-                android:id="@+id/btn_audio_note"
+                android:id="@+id/btn_recording_audio_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_margin="5dp"
                 android:background="@drawable/tab_indicator"
-                android:gravity="bottom|center"
+                android:gravity="right|center"
                 android:text="Audio Note"
                 android:textColor="@color/white"
                 android:textStyle="bold" >

@@ -1,9 +1,20 @@
 package vsvteam.outsource.leanappandroid.activity.home;
 
+import vsvteam.outsource.leanappandroid.R;
+import vsvteam.outsource.leanappandroid.activity.circletiming.CircleTimeActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupCircleTimingActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupPQPRActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupProcessActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupSpaghettiChartActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupTaktTimeActivity;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,16 +23,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
-import vsvteam.outsource.leanappandroid.R;
-import vsvteam.outsource.leanappandroid.activity.pqpr.PQPRActivity;
-import vsvteam.outsource.leanappandroid.activity.spaghettichart.SpaghettiChartActivity;
-import vsvteam.outsource.leanappandroid.tabbar.TabGroupActivity;
-import vsvteam.outsource.leanappandroid.tabbar.TabGroupCircleTimingActivity;
-import vsvteam.outsource.leanappandroid.tabbar.TabGroupPQPRActivity;
-import vsvteam.outsource.leanappandroid.tabbar.TabGroupProcessActivity;
-import vsvteam.outsource.leanappandroid.tabbar.TabGroupSpaghettiChartActivity;
-import vsvteam.outsource.leanappandroid.tabbar.TabGroupTaktTimeActivity;
-import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
+import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 public class HomeActivity extends TabActivity {
@@ -84,7 +86,7 @@ public class HomeActivity extends TabActivity {
 		addTab(this.getString(R.string.task_time), R.drawable.ic_task_time,
 				TabGroupTaktTimeActivity.class, false);
 		addTab(this.getString(R.string.cycle_time), R.drawable.ic_cycle_time,
-				TabGroupCircleTimingActivity.class, false);
+				CircleTimeActivity.class, false);
 		addTab(this.getString(R.string.spaghetti_chart), R.drawable.ic_chart,
 				TabGroupSpaghettiChartActivity.class, false);
 		addTab(this.getString(R.string.pqpr), R.drawable.ic_qprn, TabGroupPQPRActivity.class, false);
@@ -142,5 +144,21 @@ public class HomeActivity extends TabActivity {
 
 	public Context getContext() {
 		return HomeActivity.this;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.e("adjfhaskdjfh " + requestCode, "adfjuahsdfkuh " + data.getFlags());
+		if (resultCode == RESULT_OK) {
+			if (requestCode == 1002) {
+				Uri fileUri = data.getData();
+				Toast.makeText(HomeActivity.this, fileUri.getPath(),
+						Toast.LENGTH_LONG).show();
+			}
+		} else if (resultCode == RESULT_CANCELED) {
+			Uri fileUri = null;
+			Toast.makeText(HomeActivity.this, "Cancelled!", Toast.LENGTH_LONG)
+					.show();
+		}
 	}
 }
