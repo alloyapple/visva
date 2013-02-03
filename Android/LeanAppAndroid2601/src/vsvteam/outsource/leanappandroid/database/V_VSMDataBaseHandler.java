@@ -19,7 +19,7 @@ public class V_VSMDataBaseHandler extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "ProjectManager";
 
 	// Contacts table name
-	private static final String TABLE_V_VSM = "V_VSM";
+	private static final String TABLE_V_VSM = "V_VSMManager";
 	// Contacts Table Columns names
 	private static final String KEY_ID = "id";
 	private static final String KEY_PROJECT_NAME = "KEY_PROJECT_NAME";
