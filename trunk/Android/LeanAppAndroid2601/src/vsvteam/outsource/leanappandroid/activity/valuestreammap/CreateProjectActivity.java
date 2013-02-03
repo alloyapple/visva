@@ -206,12 +206,6 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 							currentProcessId, _projectId, _stepCurrentId, _stepName, -1, -1,
 							_videoFileName));
 
-					// // refresh list step after add new step name
-					// List<TStepsDataBase> listStep = tStepsDataBaseHandler
-					// .getAllStep(currentProcessId);
-					// Log.e("list step of process id " + currentProcessId,
-					// "size of lits " + listStep.size());
-
 					// reset listview step
 					refreshListViewStep();
 
@@ -290,13 +284,6 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 				/**
 				 * defectNotes
 				 */
-				// tProcessDataBaseHandler.addNewProject(new
-				// TProcessDataBase(_processCurrentId,
-				// _projectId, _projectName, _processName, _processDescription,
-				// _defectNotes,
-				// 0, _valueAddingTime, _nonValueAddingTime, _defectPercent, 0,
-				// 0, 0, 0,
-				// _upTime, 0, 0, 0, "test", "test", "test"));
 
 				tProcessDataBaseHandler.addNewProject(new TProcessDataBase(_processCurrentId,
 						_projectId, _projectName, _processName, _processDescription, _defectNotes,
@@ -306,7 +293,6 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 
 				// refresh listview process
 				refreshListViewProcess();
-
 				// reset listview process
 				resetFieldAfterCreateProcess();
 
@@ -401,29 +387,32 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 		// mQuickActionStep.addActionItem(editAction);
 
 		// setup the action item click listener
-		mQuickActionStep.setOnActionItemClickListener(new QuickActionStep.OnActionItemClickListener() {
-			@Override
-			public void onItemClick(int pos) {
-				if (pos == 0) { // delete item selected
-					Toast.makeText(CreateProjectActivity.this,
-							"delete step " + stepName[_currentStepListViewIndex - 1],
-							Toast.LENGTH_LONG).show();
+		mQuickActionStep
+				.setOnActionItemClickListener(new QuickActionStep.OnActionItemClickListener() {
+					@Override
+					public void onItemClick(int pos) {
+						if (pos == 0) { // delete item selected
+							Toast.makeText(CreateProjectActivity.this,
+									"delete step " + stepName[_currentStepListViewIndex - 1],
+									Toast.LENGTH_LONG).show();
 
-					// delete row of table process id
-					tStepsDataBaseHandler.deleteStepByStepId(stepId[_currentStepListViewIndex - 1]);
+							// delete row of table process id
+							tStepsDataBaseHandler
+									.deleteStepByStepId(stepId[_currentStepListViewIndex - 1]);
 
-					// refresh ListView step
-					refreshListViewStep();
+							// refresh ListView step
+							refreshListViewStep();
 
-				}
-				// else if (pos == 1) {// edit item seleted
-				//
-				// Toast.makeText(CreateProjectActivity.this,
-				// "Edit step " + stepName[_currentStepListViewIndex - 1],
-				// Toast.LENGTH_LONG).show();
-				// }
-			}
-		});
+						}
+						// else if (pos == 1) {// edit item seleted
+						//
+						// Toast.makeText(CreateProjectActivity.this,
+						// "Edit step " + stepName[_currentStepListViewIndex -
+						// 1],
+						// Toast.LENGTH_LONG).show();
+						// }
+					}
+				});
 
 	}
 
@@ -496,6 +485,11 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			}
 		});
 
+		//set values for current project id
+		if(leanAppAndroidSharePreference.getProcessIdActive() == -1 && processName.length >0){
+			leanAppAndroidSharePreference.setProcessIdActive(processId[0]);
+			leanAppAndroidSharePreference.setProcessNameActive(processName[0]);
+		}
 		// Button
 		btnAddProcess = (Button) findViewById(R.id.btn_add_process);
 		btnAddProcess.setOnClickListener(this);
