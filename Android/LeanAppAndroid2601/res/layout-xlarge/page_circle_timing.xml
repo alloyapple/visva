@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/tabbar"
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="30dp"
         android:background="@drawable/actionbar_bg"
         android:gravity="center" >
 
@@ -186,6 +186,7 @@
                 android:background="@color/white"
                 android:checked="true"
                 android:gravity="center"
+                android:ellipsize="start"
                 android:hint="Op Name"
                 android:lines="2" />
 
@@ -213,7 +214,9 @@
                 android:background="@color/white"
                 android:checked="true"
                 android:gravity="center"
+                android:ellipsize="start"
                 android:hint="Shift Info"
+                android:inputType="number"
                 android:lines="2" />
         </RelativeLayout>
 

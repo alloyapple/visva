@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.box.androidlib.activities.BoxAuthentication;
 
 public class AuthenticationActivity extends Activity {
@@ -16,8 +15,7 @@ public class AuthenticationActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = new Intent(this, BoxAuthentication.class);
-		intent.putExtra("API_KEY", SendBoxController.API_KEY); // API_KEY is
-																// required
+		intent.putExtra("API_KEY", SendBoxController.API_KEY); // API_KEY is																// required
 		startActivityForResult(intent, AUTH_REQUEST_CODE);
 	}
 

@@ -66,11 +66,23 @@
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/img_recording_detail"
+    <VideoView
+        android:id="@+id/videoView_recording_detail"
         android:layout_width="fill_parent"
-        android:layout_height="650dp"
-        android:background="@drawable/img_recording_detail" />
+        android:layout_height="450dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center" />
+
+    <ListView
+        android:id="@+id/listview_recording_detail"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/listview_recording" >
+    </ListView>
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -132,17 +144,19 @@
             android:layout_below="@id/wheel_recording_cycle_1"
             android:layout_margin="10dp"
             android:background="@drawable/tab_indicator"
-            android:text="  Play " />
+            android:text="  Play "
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btn_recording_detail_compare"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
             android:layout_below="@id/wheel_recording_cycle_1"
             android:layout_margin="10dp"
-            android:layout_alignParentLeft="true"
             android:background="@drawable/tab_indicator"
-            android:text="Compare two steps" />
+            android:text="Compare two steps"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </LinearLayout>

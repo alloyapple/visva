@@ -2,8 +2,6 @@ package vsvteam.outsource.leanappandroid.activity.circletiming;
 
 import java.util.List;
 
-import com.qoppa.notes.settings.CircleAnnotSettings;
-
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import vsvteam.outsource.leanappandroid.R;
@@ -12,6 +10,7 @@ import vsvteam.outsource.leanappandroid.actionbar.ActionExportActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionSettingActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionVersionActivity;
 import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
+import vsvteam.outsource.leanappandroid.database.TCycleTimeDataBase;
 import vsvteam.outsource.leanappandroid.database.TCycleTimeDataBaseHandler;
 import vsvteam.outsource.leanappandroid.database.TProcessDataBase;
 import vsvteam.outsource.leanappandroid.database.TProcessDataBaseHandler;
@@ -61,14 +60,35 @@ public class CircleTimeActivity extends TabGroupActivity implements OnClickListe
 	private static final String TAG = CircleTimeActivity.class.getSimpleName();
 	private static final int REQUEST_VIDEO_CAPTURED = 1002;
 	private Uri fileUri;
-	private String mCameraFileName;
 	private String _currentProjectNameActive;
 	private int _currentProjectIdActive;
 	private String _currentProcessNameActice;
 	private int _currentProcessIdActice;
 
 	private String[] circleTimeProcess = {};
+	private int[] circleTimeProcessId = {};
 	private String[] circleTimeStep = {};
+	private int[] circleStepId = {};
+	// cycle time values
+	private int cycleCounter;
+	private String operatorName;
+	private int shiftNo;
+	private int stepId;
+	private String stepDescription;
+	private String lowestTime;
+	private String adjustment;
+	private String adjustTime;
+	private String audioNote;
+	private String videoFileName;
+	private String startTimeStamp;
+	private String endTimeStamp;
+	private int versionId;
+	private int previousVersionId;
+	private String preVerDifferenceLowestTime;
+	private String preVerDifferenceAdjustedTime;
+	private String preVerDifferenceAdjustment;
+	private boolean noVideoOnlyTiming;
+	private boolean useMilliseconds;
 
 	@Override
 	public void onClick(View v) {
@@ -82,11 +102,27 @@ public class CircleTimeActivity extends TabGroupActivity implements OnClickListe
 		} else if (v == btnChangeProject) {
 			gotoActivityInGroup(CircleTimeActivity.this, ActionChangeActivity.class);
 		} else if (v == btnStartRecordVideo) {
-			if (toggleBtnVideoOrAudio.isChecked()) {
-				// call capture video
-				onCaptureVideo();
-			} else
-				Toast.makeText(CircleTimeActivity.this, "Audio Note", Toast.LENGTH_LONG).show();
+			if ("".equals(editTextOperatorName.getText().toString().trim())
+					|| "".equals(editTextShiftNumber.getText().toString().trim())) {
+				Toast.makeText(CircleTimeActivity.this, "Fill all field to recording",
+						Toast.LENGTH_LONG).show();
+			} else {
+				if (!toggleBtnVideoOrAudio.isChecked()) {
+
+					if (circleTimeStep.length > 0)
+						// call capture video
+						onCaptureVideo();
+					else
+						Toast.makeText(CircleTimeActivity.this,
+								"No Step is selected.Create a step to continue", Toast.LENGTH_LONG)
+								.show();
+				} else {
+					Toast.makeText(CircleTimeActivity.this,
+							"Only Timing.No Video and audio note is recorded", Toast.LENGTH_LONG)
+							.show();
+					gotoActivityInGroup(CircleTimeActivity.this, CircleTimeRecordingActivity.class);
+				}
+			}
 		}
 	}
 
@@ -117,6 +153,8 @@ public class CircleTimeActivity extends TabGroupActivity implements OnClickListe
 		tProcessDataBaseHandler = new TProcessDataBaseHandler(this);
 		tCycleTimeDataBaseHandler = new TCycleTimeDataBaseHandler(this);
 		//
+		List<TCycleTimeDataBase> cycleList = tCycleTimeDataBaseHandler.getAllCycleTime();
+		cycleCounter = cycleList.size();
 
 	}
 
@@ -209,7 +247,6 @@ public class CircleTimeActivity extends TabGroupActivity implements OnClickListe
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.e("adjfhaskdjfh " + requestCode, "adfjuahsdfkuh " + data.getFlags());
 		if (resultCode == RESULT_OK) {
 			if (requestCode == REQUEST_VIDEO_CAPTURED) {
 				fileUri = data.getData();
@@ -226,6 +263,47 @@ public class CircleTimeActivity extends TabGroupActivity implements OnClickListe
 	public void onResume() {
 		super.onResume();
 		if (fileUri != null) {
+
+			cycleCounter++;
+			operatorName = editTextOperatorName.getText().toString().trim();
+			shiftNo = Integer.parseInt(editTextShiftNumber.getText().toString());
+			// get wheel item
+			if (circleStepId.length > 0) {
+				int currentWheel = wheelCircleTimeStep.getCurrentItem();
+				stepId = circleStepId[currentWheel];
+				stepDescription = circleTimeStep[currentWheel];
+			}
+
+			// cycle time db values
+			lowestTime = "";
+			adjustment = "";
+			adjustTime = "";
+			audioNote = "";
+			videoFileName = fileUri.getPath();
+			startTimeStamp = "";
+			endTimeStamp = "";
+			versionId = -1;
+			previousVersionId = -1;
+			preVerDifferenceAdjustedTime = "";
+			preVerDifferenceAdjustment = "";
+			preVerDifferenceLowestTime = "";
+			noVideoOnlyTiming = toggleBtnVideoOrAudio.isChecked();
+			useMilliseconds = toggleBtnUseMs.isChecked();
+
+			//
+			/**
+			 * 
+			 */
+			leanAppAndroidSharePreference.setFileName(videoFileName);
+
+			// insert to cycle timedatabase
+			tCycleTimeDataBaseHandler.addNewCycleTime(new TCycleTimeDataBase(cycleCounter,
+					_currentProcessIdActice, _currentProjectIdActive, _currentProcessNameActice,
+					_currentProjectNameActive, cycleCounter, operatorName, shiftNo, stepId,
+					stepDescription, lowestTime, adjustment, adjustTime, audioNote, videoFileName,
+					startTimeStamp, endTimeStamp, versionId, previousVersionId,
+					preVerDifferenceLowestTime, preVerDifferenceAdjustedTime,
+					preVerDifferenceAdjustment, noVideoOnlyTiming, useMilliseconds));
 			gotoActivityInGroup(CircleTimeActivity.this, CircleTimeRecordingActivity.class);
 		}
 		if (_currentProjectIdActive != -1 && _currentProcessIdActice != -1) {
@@ -249,13 +327,17 @@ public class CircleTimeActivity extends TabGroupActivity implements OnClickListe
 		List<TProcessDataBase> listProcess = tProcessDataBaseHandler
 				.getAllProcess(_currentProjectIdActive);
 		circleTimeProcess = new String[listProcess.size()];
+		circleTimeProcessId = new int[listProcess.size()];
 		for (int i = 0; i < listProcess.size(); i++) {
 			circleTimeProcess[i] = listProcess.get(i).getProcessName();
+			circleTimeProcessId[i] = listProcess.get(i).getProcessId();
 		}
 		List<TStepsDataBase> listStep = tStepsDataBaseHandler.getAllStep(_currentProcessIdActice);
 		circleTimeStep = new String[listStep.size()];
+		circleStepId = new int[listStep.size()];
 		for (int i = 0; i < listStep.size(); i++) {
 			circleTimeStep[i] = listStep.get(i).getStepDescription();
+			circleStepId[i] = listStep.get(i).getStepID();
 		}
 
 		// refresh data for wheel process

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
-    android:layout_height="match_parent"
     android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -67,61 +67,86 @@
     </RelativeLayout>
 
     <FrameLayout
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
         <FrameLayout
             android:id="@+id/id_frame_parent_change"
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
         </FrameLayout>
 
-        <LinearLayout
-            android:background="@drawable/change"
-            android:id="@+id/id_linear_change"
-            android:layout_gravity="right|top"
+        <FrameLayout  android:id="@+id/id_fr_change"
+            android:layout_width="400dp"
             android:layout_height="250dp"
-            android:layout_marginRight="20dp"
-            android:layout_width="510dp"
-            android:orientation="vertical" >
-
-            <FrameLayout
-                android:id="@+id/id_title_export"
-                android:layout_height="48dp"
-                android:layout_width="fill_parent" >
-
-                <TextView
-                    android:layout_gravity="center|bottom"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/title_change"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" >
-                </TextView>
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="6dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="4dp"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="20dp" >
+            <LinearLayout
+                android:id="@+id/id_linear_change"
                 android:layout_width="fill_parent"
-                android:orientation="horizontal" >
+                android:layout_height="fill_parent"
+                android:layout_gravity="center|center"
+                android:background="@drawable/change"
+                android:orientation="vertical" >
 
-                <kankan.wheel.widget.WheelView
-                    android:id="@+id/id_wheelwiew_change_1"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="0.5"
-                    android:layout_width="0px" />
+                <FrameLayout
+                    android:id="@+id/id_title_export"
+                    android:layout_width="fill_parent"
+                    android:layout_height="48dp" >
 
-                <kankan.wheel.widget.WheelView
-                    android:id="@+id/id_wheelwiew_change_2"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:text="@string/title_change"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" >
+                    </TextView>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="0.5"
-                    android:layout_width="0px" />
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal" >
+
+                    <kankan.wheel.widget.WheelView
+                        android:id="@+id/id_wheelview_change_1"
+                        android:layout_width="0px"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.5" />
+
+                    <kankan.wheel.widget.WheelView
+                        android:id="@+id/id_wheelview_change_2"
+                        android:layout_width="0px"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+
+            <Button
+                android:id="@+id/id_done_change"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_gravity="left|top"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/done" >
+            </Button>
+
+            <Button
+                android:id="@+id/id_new_pro_change"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_gravity="right|top"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/new_pro" >
+            </Button>
+        </FrameLayout>
     </FrameLayout>
 
 </LinearLayout>

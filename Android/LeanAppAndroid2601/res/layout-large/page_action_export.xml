@@ -399,7 +399,7 @@
                                     android:button="@drawable/checkbox_remember" />
                             </FrameLayout>
 
-                            <FrameLayout
+                     <!--        <FrameLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_marginBottom="1dp"
@@ -424,7 +424,7 @@
                                     android:layout_gravity="right|center"
                                     android:layout_marginRight="4dp"
                                     android:button="@drawable/checkbox_remember" />
-                            </FrameLayout>
+                            </FrameLayout> -->
 
                             <FrameLayout
                                 android:layout_width="fill_parent"
@@ -507,6 +507,13 @@
                                     android:button="@drawable/checkbox_remember" />
                             </FrameLayout>
 
+                            <FrameLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginBottom="1dp"
+                                android:layout_weight="1"
+                                android:background="@color/transparent" >
+                            </FrameLayout>
                             <FrameLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
@@ -666,7 +673,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <Button
+                        <Button android:id="@+id/id_btn_export"
                             android:layout_width="100dp"
                             android:layout_height="60dp"
                             android:layout_gravity="center|bottom"

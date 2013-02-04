@@ -169,16 +169,31 @@ public class TaktTimeActivity extends VSVTeamBaseActivity implements OnClickList
 			_operatorPerShift = Integer.parseInt(editTextOperatorsPerShift.getText().toString());
 			_shiftPerDay = Integer.parseInt(editTextShiftPerDay.getText().toString());
 
-			//add new takt time database
-			tTaktTimeDataBaseHandler.addNewTaktTime(new TTaktTimeDataBase(taktTimeId, _currentProcessIdActive,
-					_currentProjectIdActive, _currentProcessNameActive, _currentProjectNameActive, _shiftPerDay, _hourPerShift,
-					_breakPerShift, _operatorPerShift, _customerDemandPerUnit,
-					"test", -1));
+			// add new takt time database
+			tTaktTimeDataBaseHandler.addNewTaktTime(new TTaktTimeDataBase(taktTimeId,
+					_currentProcessIdActive, _currentProjectIdActive, _currentProcessNameActive,
+					_currentProjectNameActive, _shiftPerDay, _hourPerShift, _breakPerShift,
+					_operatorPerShift, _customerDemandPerUnit, "test", -1));
 			tTaktTimeDataBaseHandler.close();
-
+			// reset all edittext
+			resetAllEditText();
 			// go to draw stream map
 			gotoActivityInGroup(TaktTimeActivity.this, DrawMapActivity.class);
 		}
+	}
+
+	/**
+	 * refresh all edit text
+	 * 
+	 */
+	private void resetAllEditText() {
+		editTextBreakPerShift.setText("");
+		editTextCustomerDemandUnits.setText("");
+		editTextDaysPerMonth.setText("");
+		editTextDaysPerWeek.setText("");
+		editTextHourPerShift.setText("");
+		editTextOperatorsPerShift.setText("");
+		editTextOperatorsPerShift.setText("");
 	}
 
 	@Override

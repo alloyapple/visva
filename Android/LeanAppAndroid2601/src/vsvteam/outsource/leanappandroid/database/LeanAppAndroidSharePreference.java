@@ -46,6 +46,8 @@ public class LeanAppAndroidSharePreference {
 	public static final String CURRENT_STEP_ID_ACTIVE = "CURRENT_STEP_ID_ACTIVE";
 	public static final String CURRENT_STEP_NAME_ACTIVE = "CURRENT_STEP_NAME_ACTIVE";
 	public static final String CURRENT_TAKT_TIME_DONE_OR_CANCEL = "CURRENT_TAKT_TIME_DONE_OR_CANCEL";
+	public static final String TYPE_EXPORT = "TYPE_EXPORT";
+	public static final String FILE_NAME_TEMP="FILE_NAME_TEMP";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -56,16 +58,16 @@ public class LeanAppAndroidSharePreference {
 	 * set vs get current project name active
 	 */
 	public void setProjectNameActive(String key, String projectName) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString(key, projectName);
 		editor.commit();
 	}
 
 	public String getProjectNameActive(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getString(key, "");
 	}
 
@@ -83,16 +85,16 @@ public class LeanAppAndroidSharePreference {
 	 * set vs get project id active
 	 */
 	public void setProjectIdActive(String key, int id) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, id);
 		editor.commit();
 	}
 
 	public int getProjectIdActive(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, -1);
 	}
 
@@ -112,21 +114,22 @@ public class LeanAppAndroidSharePreference {
 	 * is created :true is selected exist : false
 	 */
 	public void setProjectCreatedOrSelectedExist(String key, boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
 	}
 
 	public boolean isProjectCreatedOrSelectedExist(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, true);
 	}
 
 	public void setProjectCreatedOrSelectedExist(boolean b) {
-		setProjectCreatedOrSelectedExist(CURRENT_PROJECT_CREATE_OR_SELECT_EXIST, b);
+		setProjectCreatedOrSelectedExist(
+				CURRENT_PROJECT_CREATE_OR_SELECT_EXIST, b);
 	}
 
 	public boolean isProjectCreatedOrSelectedExist() {
@@ -139,16 +142,16 @@ public class LeanAppAndroidSharePreference {
 	 * set vs get process is actived
 	 */
 	public void setProcessIdActive(String key, int id) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, id);
 		editor.commit();
 	}
 
 	public int getProcessIdActive(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, -1);
 	}
 
@@ -166,16 +169,16 @@ public class LeanAppAndroidSharePreference {
 	 * set vs get process name is actived
 	 */
 	public void setProcessNameActive(String key, String projectName) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString(key, projectName);
 		editor.commit();
 	}
 
 	public String getProcessNameActive(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getString(key, "");
 	}
 
@@ -193,16 +196,16 @@ public class LeanAppAndroidSharePreference {
 	 * set vs get step name is actived
 	 */
 	public void setStepNameActive(String key, String projectName) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString(key, projectName);
 		editor.commit();
 	}
 
 	public String getStepNameActive(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getString(key, "");
 	}
 
@@ -220,16 +223,16 @@ public class LeanAppAndroidSharePreference {
 	 * set vs get step id is actived
 	 */
 	public void setStepIdActive(String key, int id) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, id);
 		editor.commit();
 	}
 
 	public int getStepIdActive(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, -1);
 	}
 
@@ -250,16 +253,30 @@ public class LeanAppAndroidSharePreference {
 	 * 
 	 */
 	public void setModeTaktTime(String key, int id) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, id);
 		editor.commit();
 	}
 
+	public void setModeExport(String key, int typeExport) {
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putInt(key, typeExport);
+		editor.commit();
+	}
+
+	public int getModeExport(String key) {
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
+		return pref.getInt(key, -1);
+	}
+
 	public int getModeTaktTime(String key) {
-		SharedPreferences pref = context.getSharedPreferences(GlobalValue.LEANAPP_SHARE_PREFERENCE,
-				0);
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, 1);
 	}
 
@@ -271,5 +288,32 @@ public class LeanAppAndroidSharePreference {
 
 	public void setModeTaktTime(int id) {
 		setProjectIdActive(CURRENT_TAKT_TIME_DONE_OR_CANCEL, id);
+	}
+	
+	/**
+	 * set vs get current file name temp
+	 */
+	public void setFileName(String key, String projectName) {
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putString(key, projectName);
+		editor.commit();
+	}
+
+	public String getFileName(String key) {
+		SharedPreferences pref = context.getSharedPreferences(
+				GlobalValue.LEANAPP_SHARE_PREFERENCE, 0);
+		return pref.getString(key, "");
+	}
+
+	public String getFileName() {
+		String projectName;
+		projectName = getFileName(FILE_NAME_TEMP);
+		return projectName;
+	}
+
+	public void setFileName(String projectName) {
+		setFileName(FILE_NAME_TEMP, projectName);
 	}
 }

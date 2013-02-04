@@ -1,5 +1,10 @@
 package vsvteam.outsource.leanappandroid.activity.spaghettichart;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart;
@@ -17,16 +22,22 @@ import vsvteam.outsource.leanappandroid.actionbar.ActionSettingActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionVersionActivity;
 import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
 import vsvteam.outsource.leanappandroid.activity.valuestreammap.ChoiceProjectActivity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -38,21 +49,49 @@ public class SpaghettiChartActivity extends VSVTeamBaseActivity implements
 	private ImageView btnSetting;
 	private ImageView btnVersion;
 	private ImageView btnChangeProject;
+	final static private int NEW_PICTURE = 1;
+	private String mCameraFileName;
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if (v==btnExport) {
+		if (v == btnExport) {
 			gotoActivityInGroup(SpaghettiChartActivity.this,
 					ActionExportActivity.class);
-		} else if (v==btnSetting) {
+		} else if (v == btnSetting) {
 			gotoActivityInGroup(SpaghettiChartActivity.this,
 					ActionSettingActivity.class);
-		} else if (v==btnVersion) {
+		} else if (v == btnVersion) {
 			gotoActivityInGroup(SpaghettiChartActivity.this,
 					ActionVersionActivity.class);
-		} else if (v==btnChangeProject) {
+		} else if (v == btnChangeProject) {
 			gotoActivityInGroup(SpaghettiChartActivity.this,
 					ActionChangeActivity.class);
+		} else if (v.getId() == R.id.id_chart_snap) {
+			Intent intent = new Intent();
+			// Picture from camera
+			intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+			// This is not the right way to do this, but for some reason, having
+			// it store it in
+			// MediaStore.Images.Media.EXTERNAL_CONTENT_URI isn't working right.
+
+			Date date = new Date();
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd-kk-mm-ss");
+
+			String newPicFile = df.format(date) + ".jpg";
+			String outPath = "/sdcard/" + newPicFile;
+			File outFile = new File(outPath);
+
+			mCameraFileName = outFile.toString();
+			Uri outuri = Uri.fromFile(outFile);
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, outuri);
+			Log.i(TAG, "Importing New Picture: " + mCameraFileName);
+			try {
+				startActivityForResult(intent, NEW_PICTURE);
+			} catch (ActivityNotFoundException e) {
+
+			}
 		}
 	}
 
@@ -74,6 +113,8 @@ public class SpaghettiChartActivity extends VSVTeamBaseActivity implements
 		//
 		btnChangeProject = (ImageView) findViewById(R.id.img_project_change_project);
 		btnChangeProject.setOnClickListener(this);
+
+		((Button) findViewById(R.id.id_chart_snap)).setOnClickListener(this);
 
 	}
 

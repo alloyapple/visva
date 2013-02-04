@@ -66,133 +66,169 @@
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/create_new_project_text"
-        android:textColor="@color/white"
-        android:textSize="24dp" />
-
-    <RelativeLayout
-        android:id="@+id/layout_projectCreate"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="10dp" >
+        android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/editText_CreatdProjectName"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:background="@color/white"
-            android:cursorVisible="true"
-            android:gravity="center"
-            android:hint="@string/project_name"
-            android:singleLine="true"
-            android:textColor="@color/black" >
-        </EditText>
-
-        <EditText
-            android:id="@+id/editText_CreatedCompanyName"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editText_CreatdProjectName"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
-            android:cursorVisible="true"
-            android:gravity="center"
-            android:hint="@string/company_name"
-            android:singleLine="true"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/editText_CreatedProjectDescription"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/editText_CreatdProjectName"
-            android:background="@color/white"
-            android:cursorVisible="true"
-            android:gravity="center"
-            android:hint="@string/project_description"
-            android:lines="3"
-            android:textColor="@color/black" />
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/editText_CreatedCompanyAddress"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editText_CreatedCompanyName"
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/create_new_project_text"
+                android:textColor="@color/white" >
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="fill_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.32"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/editText_CreatdProjectName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0px"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0.25"
+                        android:background="@drawable/all_corner"
+                        android:cursorVisible="true"
+                        android:gravity="center"
+                        android:hint="@string/project_name"
+                        android:textColor="@color/black" >
+
+                        <requestFocus />
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/editText_CreatedCompanyName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0px"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="0.25"
+                        android:background="@drawable/all_corner"
+                        android:cursorVisible="true"
+                        android:gravity="center"
+                        android:hint="@string/company_name"
+                        android:textColor="@color/black" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/editText_CreatedProjectDescription"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0px"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/all_corner"
+                        android:cursorVisible="true"
+                        android:gravity="center"
+                        android:hint="@string/project_description"
+                        android:textColor="@color/black" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.32"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/editText_CreatedCompanyAddress"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0px"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/all_corner"
+                        android:cursorVisible="true"
+                        android:gravity="center"
+                        android:hint="@string/company_address"
+                        android:textColor="@color/black" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/editText_CreatedNotes"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0px"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/all_corner"
+                        android:cursorVisible="true"
+                        android:gravity="center"
+                        android:hint="@string/notes"
+                        android:textColor="@color/black" >
+                    </EditText>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_created"
+                    android:layout_width="0px"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.36"
+                    android:background="@drawable/tab_indicator"
+                    android:text="@string/create_new_button" >
+                </Button>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
-            android:cursorVisible="true"
-            android:gravity="center"
-            android:hint="@string/company_address"
-            android:lines="3"
-            android:textColor="@color/black" />
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/editText_CreatedNotes"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editText_CreatedProjectDescription"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@id/editText_CreatedCompanyAddress"
-            android:background="@color/white"
-            android:cursorVisible="true"
-            android:gravity="center"
-            android:hint="@string/notes"
-            android:lines="3"
-            android:textColor="@color/black" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/create_new_project_text"
+                android:textColor="@color/white" >
+            </TextView>
 
-        <Button
-            android:id="@+id/btn_created"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@id/editText_CreatedProjectDescription"
-            android:background="@drawable/tab_indicator"
-            android:text="@string/create_new_button" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/textview_selectexist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editText_CreatedCompanyAddress"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/or_select_exist_one"
-            android:textColor="@color/white"
-            android:textSize="24dp" />
+                <kankan.wheel.widget.WheelView
+                    android:id="@+id/wheel_project"
+                    android:layout_width="0px"
+                    android:layout_height="fill_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.64" >
+                </kankan.wheel.widget.WheelView>
 
-        <kankan.wheel.widget.WheelView
-            android:id="@+id/wheel_project"
-            android:layout_width="610dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/textview_selectexist"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp" />
-
-        <Button
-            android:id="@+id/btn_select"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/textview_selectexist"
-            android:layout_margin="10dp"
-            android:layout_toRightOf="@id/wheel_project"
-            android:background="@drawable/tab_indicator"
-            android:text="Select Existing" />
-    </RelativeLayout>
+                <Button
+                    android:id="@+id/btn_select"
+                    android:layout_width="0px"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.36"
+                    android:background="@drawable/tab_indicator"
+                    android:text="Select Existing" >
+                </Button>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
