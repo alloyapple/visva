@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:gravity="center"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/tabbar"
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="30dp"
         android:background="@drawable/actionbar_bg"
         android:gravity="center" >
 
@@ -65,32 +65,55 @@
             android:layout_toLeftOf="@id/img_project_change_project"
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
+
     <RelativeLayout
+        android:id="@+id/layout_video_list_view_recording"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/img_recording_detail" >
+        android:layout_below="@id/tabbar"
+        android:orientation="vertical" >
+
+        <VideoView
+            android:id="@+id/videoView_recording_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center" />
+
+        <ListView
+            android:id="@+id/listview_recording_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:layout_below="@id/videoView_recording_detail"
+            android:background="@drawable/listview_recording" >
+        </ListView>
 
         <Button
             android:id="@+id/btn_recording_detail_play"
-            android:layout_width="100dp"
-            android:layout_height="60dp"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/listview_recording_detail"
             android:layout_margin="10dp"
             android:background="@drawable/tab_indicator"
             android:text="Play"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/btn_recording_detail_compare"
-            android:layout_width="130dp"
-            android:layout_height="60dp"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/listview_recording_detail"
             android:layout_margin="10dp"
             android:layout_toLeftOf="@id/btn_recording_detail_play"
             android:background="@drawable/tab_indicator"
             android:text="Compare Two Steps"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="24sp" />
     </RelativeLayout>
 
 </LinearLayout>

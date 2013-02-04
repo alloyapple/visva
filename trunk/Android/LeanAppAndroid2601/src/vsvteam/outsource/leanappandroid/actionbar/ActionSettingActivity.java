@@ -1,8 +1,11 @@
 package vsvteam.outsource.leanappandroid.actionbar;
 
 import vsvteam.outsource.leanappandroid.R;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
@@ -10,12 +13,21 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Toast;
 
-public class ActionSettingActivity extends Activity implements OnClickListener{
+public class ActionSettingActivity extends Activity implements OnClickListener {
+	public static final int DISTANCE_TIME_M_S = 0;
+	public static final int DISTANCE_TIME_KM_H = 2;
+	public static final int DISTANCE_TIME_YA_SE = 3;
+	public static final int DISTANCE_TIME_MILE_H = 4;
+	public static final String PREF_SETTING = "Setting Lean App";
+	public static final String KEY_DISTANCE = "Distance time";
+	public static final String KEY_SPEED = "Speed";
 	private static final byte DARK = 1;
 	private static final byte BRIGHT = 2;
 	private int idCheckBoxDistanceTime[] = {
@@ -46,6 +58,20 @@ public class ActionSettingActivity extends Activity implements OnClickListener{
 			}
 		}
 	};
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			saveSetting();
+			break;
+
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -108,6 +134,30 @@ public class ActionSettingActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void saveSetting() {
+		Toast.makeText(TabGroupValueStreamMapActivity.instance, "saved setting", Toast.LENGTH_LONG).show();
+		SharedPreferences preferenceManager = getSharedPreferences(
+				PREF_SETTING, 0);
+		SharedPreferences.Editor editor = preferenceManager.edit();
+		for (int j = 0; j < 4; j++) {
+			if (((CheckBox) findViewById(idCheckBoxDistanceTime[j]))
+					.isChecked()) {
+				editor.putInt(KEY_DISTANCE, j);
+				break;
+			}
+		}
+		try {
+			editor.putFloat(
+					KEY_SPEED,
+					Float.parseFloat(((EditText) findViewById(R.id.id_editText_speed))
+							.getText().toString()));
+		} catch (Exception e) {
+			editor.putFloat(KEY_SPEED, 0);
+		}
+		editor.commit();
+
 	}
 }

@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/tabbar"
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="30dp"
         android:background="@drawable/actionbar_bg"
         android:gravity="center" >
 
@@ -66,11 +66,23 @@
             android:background="@drawable/ic_setting" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/img_recording_detail"
+    <VideoView
+        android:id="@+id/videoView_recording_detail"
         android:layout_width="fill_parent"
-        android:layout_height="500dp"
-        android:background="@drawable/img_recording_detail" />
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center" />
+
+    <ListView
+        android:id="@+id/listview_recording_detail"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/listview_recording" >
+    </ListView>
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -78,50 +90,49 @@
 
         <TextView
             android:id="@+id/textView_recording_detail_1"
-            android:layout_width="380dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:gravity="center"
             android:text="@string/textview_recording_detail_1"
             android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/textView_recording_detail_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:layout_toRightOf="@id/textView_recording_detail_1"
             android:gravity="center"
             android:text="@string/textview_recording_detail_2"
             android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:textSize="12sp" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_recording_cycle_1"
-            android:layout_width="180dp"
-            android:layout_height="250dp"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
             android:layout_below="@id/textView_recording_detail_1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_recording_cycle_2"
-            android:layout_width="180dp"
-            android:layout_height="250dp"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
             android:layout_below="@id/textView_recording_detail_1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_toRightOf="@id/wheel_recording_cycle_1" />
 
         <kankan.wheel.widget.WheelView
             android:id="@+id/wheel_recording_cycle_3"
             android:layout_width="fill_parent"
-            android:layout_height="250dp"
+            android:layout_height="100dp"
             android:layout_below="@id/textView_recording_detail_1"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
             android:layout_toRightOf="@id/wheel_recording_cycle_2" />
 
         <Button
@@ -130,19 +141,21 @@
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/wheel_recording_cycle_1"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/tab_indicator"
-            android:text="  Play " />
+            android:text="  Play "
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btn_recording_detail_compare"
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_below="@id/wheel_recording_cycle_1"
-            android:layout_margin="10dp"
             android:layout_alignParentLeft="true"
+            android:layout_below="@id/wheel_recording_cycle_1"
+            android:layout_margin="5dp"
             android:background="@drawable/tab_indicator"
-            android:text="Compare two steps" />
+            android:text="Compare two steps"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </LinearLayout>

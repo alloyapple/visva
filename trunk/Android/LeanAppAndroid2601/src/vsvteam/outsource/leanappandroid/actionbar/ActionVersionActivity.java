@@ -2,12 +2,16 @@ package vsvteam.outsource.leanappandroid.actionbar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import vsvteam.outsource.leanappandroid.R;
+import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
+import vsvteam.outsource.leanappandroid.database.TVersionDataBase;
+import vsvteam.outsource.leanappandroid.database.TVersionDataBaseHandler;
+import vsvteam.outsource.leanappandroid.tabbar.TabGroupValueStreamMapActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,22 +19,26 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class ActionVersionActivity extends Activity implements OnClickListener{
+public class ActionVersionActivity extends Activity implements OnClickListener {
 	private static final byte DARK = 1;
 	private static final byte BRIGHT = 2;
 	private ListView mListView;
-	private ArrayList<String> mListContent = new ArrayList<String>();
+	// private ArrayList<String> mListContent = new ArrayList<String>();
 	private ImageView btnExport;
 	private ImageView btnSetting;
 	private ImageView btnVersion;
 	private ImageView btnChangeProject;
+	private ArrayList<VersionItem> mListVersions = new ArrayList<ActionVersionActivity.VersionItem>();
+	private TVersionDataBaseHandler mVersionDataHandler;
+	private LeanAppAndroidSharePreference leanAppAndroidSharePreference;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -39,11 +47,28 @@ public class ActionVersionActivity extends Activity implements OnClickListener{
 		visibleView((FrameLayout) findViewById(R.id.id_frame_parent_version),
 				(LinearLayout) findViewById(R.id.id_linear_version),
 				View.VISIBLE);
-		mListContent.add("Version1");
-		mListContent.add("Version2");
-		mListContent.add("Version3");
+		// mListContent.add("Version1");
+		// mListContent.add("Version2");
+		// mListContent.add("Version3");
+		leanAppAndroidSharePreference = LeanAppAndroidSharePreference
+				.getInstance(this);
+		mVersionDataHandler = new TVersionDataBaseHandler(this);
+
+		Log.i("projectId", String.valueOf(leanAppAndroidSharePreference
+				.getProjectIdActive()));
+		List<TVersionDataBase> listVersionDataBase = mVersionDataHandler
+				.getAllVersions(leanAppAndroidSharePreference
+						.getProjectIdActive());
+		Log.i("number", String.valueOf(listVersionDataBase.size()));
+		for (int i = 0; i < listVersionDataBase.size(); i++) {
+			VersionItem item = new VersionItem();
+			item.mId = listVersionDataBase.get(i).getVersionNo();
+			item.mName = listVersionDataBase.get(i).getVersionNote();
+			item.mNote = listVersionDataBase.get(i).getVersionNote();
+			mListVersions.add(item);
+		}
 		mListView = (ListView) findViewById(R.id.id_listview_version);
-		mListView.setAdapter(new ListVersionAdapter(this));
+		mListView.setAdapter(new ListVersionAdapter(this, mListVersions));
 		btnExport = (ImageView) findViewById(R.id.img_choice_project_export);
 		btnExport.setOnClickListener(this);
 		//
@@ -55,6 +80,8 @@ public class ActionVersionActivity extends Activity implements OnClickListener{
 		//
 		btnChangeProject = (ImageView) findViewById(R.id.img_choice_project_change_project);
 		btnChangeProject.setOnClickListener(this);
+		//
+
 	}
 
 	public void setTheme(View v, byte type) {
@@ -92,23 +119,27 @@ public class ActionVersionActivity extends Activity implements OnClickListener{
 
 	class ListVersionAdapter extends BaseAdapter {
 
-		private Context mContext;
+		private Activity mContext;
+		private List<VersionItem> mListVersion;
 
-		public ListVersionAdapter(Context pContext) {
+		public ListVersionAdapter(Activity pContext,
+				List<VersionItem> pListVersion) {
 			// TODO Auto-generated constructor stub
+			super();
 			mContext = pContext;
+			mListVersion = pListVersion;
 		}
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 4;
+			return mListVersion.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return null;
+			return mListVersion.get(position);
 		}
 
 		@Override
@@ -120,18 +151,40 @@ public class ActionVersionActivity extends Activity implements OnClickListener{
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-
 			View v = convertView;
-			LayoutInflater mInflater = LayoutInflater.from(mContext);
-			v = mInflater.inflate(R.layout.item_list_version, null);
+			LayoutInflater mInflater = mContext.getLayoutInflater();
+			ViewHolder holder = new ViewHolder();
+	
+				v = mInflater.inflate(R.layout.item_list_version, null);
+				holder.txtNo = (TextView) v.findViewById(R.id.id_no_version);
+				holder.txtName = (TextView) v
+						.findViewById(R.id.id_name_version);
+				holder.txtNote = (TextView) v
+						.findViewById(R.id.id_note_version);
+			
+			holder.txtNo.setText(String.valueOf(mListVersion.get(position).mId));
+			holder.txtName.setText(mListVersion.get(position).mName);
+			holder.txtNote.setText(mListVersion.get(position).mNote);
 			return v;
 		}
 
 	}
 
+	private class ViewHolder {
+		TextView txtNo;
+		TextView txtName;
+		TextView txtNote;
+	}
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	class VersionItem {
+		public int mId;
+		public String mName;
+		public String mNote;
 	}
 }

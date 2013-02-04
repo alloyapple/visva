@@ -1,43 +1,66 @@
 package vsvteam.outsource.leanappandroid.activity.circletiming;
 
+import java.util.List;
+
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import vsvteam.outsource.leanappandroid.R;
 import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
 import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
+import vsvteam.outsource.leanappandroid.database.TCycleTimeDataBaseHandler;
+import vsvteam.outsource.leanappandroid.database.TProcessDataBase;
+import vsvteam.outsource.leanappandroid.database.TProcessDataBaseHandler;
+import vsvteam.outsource.leanappandroid.database.TStepsDataBase;
+import vsvteam.outsource.leanappandroid.database.TStepsDataBaseHandler;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class CircleTimeRecordingActivity extends VSVTeamBaseActivity implements OnClickListener {
+public class CircleTimeRecordingActivity extends VSVTeamBaseActivity implements
+		OnClickListener {
 	// =============================Control Define =============================
-	private WheelView wheelCircleTime1;
-	private WheelView wheelCircleTime2;
-	private ImageView imgRecording;
+	private WheelView wheelCircleTimeProcess;
+	private WheelView wheelCircleTimeStep;
+
 	private TextView textViewTimeRecording;
 	private TextView textViewNextStep;
 	private TextView textViewStepName_Time;
+	private TextView textViewRecordingDetail;
 	private Button btnSaveStop;
 	private Button btnAudioNote;
 	private Button btnNextStep;
 	private Button btnStartRecording;
 	// =============================Class Define ===============================
 	private LeanAppAndroidSharePreference leanAppAndroidSharePreference;
+	private TProcessDataBaseHandler tProcessDataBaseHandler;
+	private TStepsDataBaseHandler tStepsDataBaseHandler;
+	private TCycleTimeDataBaseHandler tCycleTimeDataBaseHandler;
 	// =============================Variable Define ===========================
-	private String[] circleTime1 = { "Part Procurement", "Part Procurement", "Part Procurement",
-			"Part Procurement", "Part Procurement" };
-	private String[] circleTime2 = { "Open Box", "Extract Parts", "Put It On Table", "Open Box" };
+	private String[] circleTimeProcess = {};
+	private String[] circleTimeStep = {};
+	private int _currentProjectIdActive;
+	private int _currentProcessIdActive;
+	private String _currentProjectNameActive;
+	private String _currentProcessNameActive;
 
 	@Override
 	public void onClick(View v) {
 		if (v == btnSaveStop) {
-
+			gotoActivityInGroup(CircleTimeRecordingActivity.this,
+					CircleTimeDetailActivity.class);
+		} else if (v == btnNextStep) {
+			Toast.makeText(CircleTimeRecordingActivity.this,
+					"This feature is coming soon!", Toast.LENGTH_LONG).show();
+		} else if (v == btnAudioNote) {
+			Toast.makeText(CircleTimeRecordingActivity.this,
+					"This feature is coming soon!", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -58,7 +81,21 @@ public class CircleTimeRecordingActivity extends VSVTeamBaseActivity implements 
 	 */
 	private void initDataBase() {
 		// share preference
-		leanAppAndroidSharePreference = LeanAppAndroidSharePreference.getInstance(this);
+		leanAppAndroidSharePreference = LeanAppAndroidSharePreference
+				.getInstance(this);
+		_currentProcessIdActive = leanAppAndroidSharePreference
+				.getProcessIdActive();
+		_currentProcessNameActive = leanAppAndroidSharePreference
+				.getProcessNameActive();
+		_currentProjectIdActive = leanAppAndroidSharePreference
+				.getProjectIdActive();
+		_currentProjectNameActive = leanAppAndroidSharePreference
+				.getProjectNameActive();
+		// init database
+		tProcessDataBaseHandler = new TProcessDataBaseHandler(this);
+		tStepsDataBaseHandler = new TStepsDataBaseHandler(this);
+		tCycleTimeDataBaseHandler = new TCycleTimeDataBaseHandler(this);
+
 	}
 
 	/**
@@ -66,25 +103,39 @@ public class CircleTimeRecordingActivity extends VSVTeamBaseActivity implements 
 	 */
 	private void initControl() {
 		// wheel
-		wheelCircleTime1 = (WheelView) findViewById(R.id.wheel_recording_1);
-		wheelCircleTime2 = (WheelView) findViewById(R.id.wheel_recording_2);
-		wheelCircleTime1.setViewAdapter(new TaktTimeArrayAdapter(this, circleTime1, 0));
-		wheelCircleTime2.setViewAdapter(new TaktTimeArrayAdapter(this, circleTime2, 0));
-		wheelCircleTime1.setVisibleItems(5);
-		wheelCircleTime1.setCurrentItem(0);
-		wheelCircleTime2.setVisibleItems(5);
-		wheelCircleTime2.setCurrentItem(0);
+		wheelCircleTimeProcess = (WheelView) findViewById(R.id.wheel_recording_1);
+		wheelCircleTimeStep = (WheelView) findViewById(R.id.wheel_recording_2);
+		wheelCircleTimeProcess
+				.setViewAdapter(new CircleTimeRecordingArrayAdapter(this,
+						circleTimeProcess, 0));
+		wheelCircleTimeStep.setViewAdapter(new CircleTimeRecordingArrayAdapter(
+				this, circleTimeStep, 0));
+		wheelCircleTimeProcess.setVisibleItems(5);
+		wheelCircleTimeProcess.setCurrentItem(0);
+		wheelCircleTimeStep.setVisibleItems(5);
+		wheelCircleTimeStep.setCurrentItem(0);
 
 		// textview
 		textViewNextStep = (TextView) findViewById(R.id.textView_recording_next_step);
 		textViewStepName_Time = (TextView) findViewById(R.id.textView_recording_step_name_time);
 		textViewTimeRecording = (TextView) findViewById(R.id.textView_recording_time);
+		textViewRecordingDetail = (TextView) findViewById(R.id.textView_recording_info);
+		// button
+		btnAudioNote = (Button) findViewById(R.id.btn_recording_audio_note);
+		btnAudioNote.setOnClickListener(this);
+		btnNextStep = (Button) findViewById(R.id.btn_recording_next_step);
+		btnNextStep.setOnClickListener(this);
+		btnSaveStop = (Button) findViewById(R.id.btn_recording_save_stop);
+		btnSaveStop.setOnClickListener(this);
+		btnStartRecording = (Button) findViewById(R.id.btn_recording_start);
+		btnStartRecording.setOnClickListener(this);
 	}
-
+  
 	/**
 	 * Adapter for string based wheel. Highlights the current value.
 	 */
-	private class TaktTimeArrayAdapter extends ArrayWheelAdapter<String> {
+	private class CircleTimeRecordingArrayAdapter extends
+			ArrayWheelAdapter<String> {
 		// Index of current item
 		int currentItem;
 		// Index of item to be highlighted
@@ -93,7 +144,8 @@ public class CircleTimeRecordingActivity extends VSVTeamBaseActivity implements 
 		/**
 		 * Constructor
 		 */
-		public TaktTimeArrayAdapter(Context context, String[] items, int current) {
+		public CircleTimeRecordingArrayAdapter(Context context, String[] items,
+				int current) {
 			super(context, items);
 			this.currentValue = current;
 			setTextSize(24);
@@ -114,4 +166,45 @@ public class CircleTimeRecordingActivity extends VSVTeamBaseActivity implements 
 			return super.getItem(index, cachedView, parent);
 		}
 	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		// reset data
+		textViewRecordingDetail.setText("		Select step to be recorded.		"
+				+ _currentProjectNameActive + "-" + _currentProcessNameActive
+				+ "-Version 1");
+		// set values for wheel
+		setDataForWheel();
+	}
+
+	/**
+	 * refresh data for wheel
+	 */
+	private void setDataForWheel() {
+		List<TProcessDataBase> listProcess = tProcessDataBaseHandler
+				.getAllProcess(_currentProjectIdActive);
+		circleTimeProcess = new String[listProcess.size()];
+		for (int i = 0; i < listProcess.size(); i++) {
+			circleTimeProcess[i] = listProcess.get(i).getProcessName();
+		}
+		List<TStepsDataBase> listStep = tStepsDataBaseHandler
+				.getAllStep(_currentProcessIdActive);
+		circleTimeStep = new String[listStep.size()];
+		for (int i = 0; i < listStep.size(); i++) {
+			circleTimeStep[i] = listStep.get(i).getStepDescription();
+		}
+
+		// refresh data for wheel process
+		CircleTimeRecordingArrayAdapter circleTimeArrayAdapter = new CircleTimeRecordingArrayAdapter(
+				this, circleTimeProcess, 0);
+		wheelCircleTimeProcess.setViewAdapter(circleTimeArrayAdapter);
+		wheelCircleTimeProcess.setCurrentItem(0);
+		// refresh data for wheel step
+		CircleTimeRecordingArrayAdapter circleTimeArrayAdapter2 = new CircleTimeRecordingArrayAdapter(
+				this, circleTimeStep, 0);
+		wheelCircleTimeStep.setViewAdapter(circleTimeArrayAdapter2);
+		wheelCircleTimeStep.setCurrentItem(0);
+	}
+
 }

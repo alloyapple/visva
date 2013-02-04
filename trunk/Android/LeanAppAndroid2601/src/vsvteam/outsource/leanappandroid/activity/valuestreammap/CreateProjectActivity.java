@@ -138,6 +138,15 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			addNewStep();
 		} else if (view == btnDoneCreatedProject) {
 			if (processId.length > 0) {
+				// set current process to share preference
+				if (processId.length > 0) {
+					int currentWheelItem = wheelProcess.getCurrentItem();
+					int _processId = processId[currentWheelItem];
+					String _processName = processName[currentWheelItem];
+					leanAppAndroidSharePreference.setProcessIdActive(_processId);
+					leanAppAndroidSharePreference.setProcessNameActive(_processName);
+				}
+				// go to takt time
 				tabGroupValueStreamMapActivity = (TabGroupValueStreamMapActivity) this.getParent();
 				homeActivity = (HomeActivity) tabGroupValueStreamMapActivity.getParent();
 				// set to go to takt time screen to add data
@@ -485,8 +494,8 @@ public class CreateProjectActivity extends VSVTeamBaseActivity implements OnClic
 			}
 		});
 
-		//set values for current project id
-		if(leanAppAndroidSharePreference.getProcessIdActive() == -1 && processName.length >0){
+		// set values for current project id
+		if (leanAppAndroidSharePreference.getProcessIdActive() == -1 && processName.length > 0) {
 			leanAppAndroidSharePreference.setProcessIdActive(processId[0]);
 			leanAppAndroidSharePreference.setProcessNameActive(processName[0]);
 		}

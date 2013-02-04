@@ -205,8 +205,10 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/white"
                 android:checked="true"
+                android:ellipsize="start"
                 android:gravity="center"
                 android:hint="Shift Info"
+                android:inputType="number"
                 android:lines="1" />
         </RelativeLayout>
 

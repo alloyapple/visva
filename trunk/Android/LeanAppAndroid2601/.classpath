@@ -4,12 +4,12 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/achartengine-1.0.0.jar"/>
-	<classpathentry kind="lib" path="libs/poi-3.7.jar"/>
-	<classpathentry kind="lib" path="libs/qoppapdf.jar"/>
-	<classpathentry kind="lib" path="libs/box-lib/boxandroidlibrary.jar"/>
-	<classpathentry kind="lib" path="libs/dropbox-sdk/dropbox-android-sdk.jar"/>
-	<classpathentry kind="lib" path="libs/dropbox-sdk/httpmime-4.0.3.jar"/>
-	<classpathentry kind="lib" path="libs/dropbox-sdk/json_simple-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/poi-3.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/qoppapdf.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/box-lib/boxandroidlibrary.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/dropbox-sdk/dropbox-android-sdk.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/dropbox-sdk/httpmime-4.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/dropbox-sdk/json_simple-1.1.jar"/>
 	<classpathentry kind="lib" path="libs/google-api-client/google-api-client-1.13.2-beta.jar"/>
 	<classpathentry kind="lib" path="libs/google-api-client/google-api-client-android-1.13.2-beta.jar"/>
 	<classpathentry kind="lib" path="libs/google-api-client/google-http-client-1.13.1-beta.jar"/>

@@ -185,6 +185,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="7dp"
                 android:text="Shift Number"
+                android:inputType="number"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
@@ -200,6 +201,7 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="Shift Info"
+                android:ellipsize="start"
                 android:lines="1" />
         </RelativeLayout>
 

@@ -34,7 +34,7 @@ import com.google.api.services.drive.DriveScopes;
 public class SendGoogleDriverController {
 	private Context mContext;
 	private AccountManager mAccountManager;
-	private String mApiKey;
+	private String mApiKey="AIzaSyC7bmvtm7i0o5BrOGhQ5TuF3IZp_QcJ7Jg";
 
 	public SendGoogleDriverController(Context pContext, String pApiKey) {
 		// TODO Auto-generated constructor stub

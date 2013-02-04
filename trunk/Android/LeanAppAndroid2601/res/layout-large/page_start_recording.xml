@@ -67,6 +67,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/textView_recording_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="		Select step to be recorded.		Project Name-Project Name-Version 1"
@@ -207,6 +208,7 @@
                 android:ellipsize="start"
                 android:gravity="center"
                 android:hint="Shift Info"
+                android:inputType="number"
                 android:singleLine="true" />
         </RelativeLayout>
 

@@ -162,7 +162,7 @@
         android:layout_weight="0.58"
         android:background="#FFFFFF" >
 
-        <Button
+        <Button android:id="@+id/id_chart_snap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"

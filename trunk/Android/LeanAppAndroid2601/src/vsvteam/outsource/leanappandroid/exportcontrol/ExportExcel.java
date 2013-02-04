@@ -32,11 +32,11 @@ public class ExportExcel {
 		mContext = pContext;
 	}
 
-	public boolean saveExcelFile(String fileName) {
+	public File saveExcelFile(String forder,String fileName) {
 		// check if available and not read only
 		if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
 			Log.w("FileUtils", "Storage not available or read only");
-			return false;
+			return null;
 		}
 		boolean success = false;
 		// New Workbook
@@ -73,6 +73,7 @@ public class ExportExcel {
 			os = new FileOutputStream(file);
 			wb.write(os);
 			Log.w("FileUtils", "Writing file" + file);
+			Toast.makeText(mContext, "Saved", Toast.LENGTH_LONG).show();
 			success = true;
 		} catch (IOException e) {
 			Log.w("FileUtils", "Error writing " + file, e);
@@ -85,7 +86,8 @@ public class ExportExcel {
 			} catch (Exception ex) {
 			}
 		}
-		return success;
+		
+		return file;
 	}
 
 	public void readExcelFile(String filename) {

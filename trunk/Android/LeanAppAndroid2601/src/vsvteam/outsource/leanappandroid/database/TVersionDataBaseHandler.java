@@ -118,7 +118,32 @@ public class TVersionDataBaseHandler extends SQLiteOpenHelper {
 		// return contact list
 		return tVersionList;
 	}
+	// Getting All version 
+	public List<TVersionDataBase> getAllVersions(int projectId) {
+		List<TVersionDataBase> tVersionList = new ArrayList<TVersionDataBase>();
+		// Select All Query
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(TABLE_T_VERSION, new String[] { KEY_PROJECT_ID, KEY_VERSION_ID,
+				KEY_VERSION_NO, KEY_VERSION_DATE_TIME, KEY_VERSION_NOTES }, KEY_PROJECT_ID + "=?",
+				new String[] { String.valueOf(projectId) }, null, null, null, null);
 
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				TVersionDataBase tVersion = new TVersionDataBase();
+				tVersion.setProjectId(Integer.parseInt(cursor.getString(0)));
+				tVersion.setVersionId(Integer.parseInt(cursor.getString(1)));
+				tVersion.setVersionNo(Integer.parseInt(cursor.getString(2)));
+				tVersion.setVersionDateTime(cursor.getString(3));
+				tVersion.setVersionNote(cursor.getString(4));
+				// Adding contact to list
+				tVersionList.add(tVersion);
+			} while (cursor.moveToNext());
+		}
+		db.close();
+		// return contact list
+		return tVersionList;
+	}
 	// Updating single version
 	public int updateVersion(TVersionDataBase tVersion) {
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -143,7 +168,7 @@ public class TVersionDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Getting version count
-	public int getVSMsCount() {
+	public int getVersionCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_T_VERSION;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
