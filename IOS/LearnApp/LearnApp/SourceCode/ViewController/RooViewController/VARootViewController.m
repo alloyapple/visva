@@ -53,7 +53,19 @@
         
     }];
     
+    for (UIViewController *vc in _tbTabbar.viewControllers) {
+        vc.tabBarItem.imageInsets = UIEdgeInsetsMake(4, 4, 4, 4);
+    }
+    
 }
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
+    if (toInterfaceOrientation  == UIInterfaceOrientationLandscapeLeft ||
+        toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        return YES;
+    }
+    return NO;
+}
+
 
 - (void)didReceiveMemoryWarning
 {

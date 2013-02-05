@@ -10,16 +10,20 @@
 
 @class VAProject;
 @class VAStep;
+@class TDSqlManager;
+
 @interface VAProcess : NSObject
+
 @property(nonatomic, assign)VAProject *parentProject;
 @property(nonatomic, assign)int iProcId;
 @property(nonatomic, retain)NSString *sProcName;
 @property(nonatomic, assign)int iVersionId;
 @property(nonatomic, retain)NSString *sStartPoint;
 @property(nonatomic, retain)NSString *sEndPoint;
-
 @property(nonatomic, retain)NSString *sProcDescription;
 @property(nonatomic, retain)NSString *sProcDefectNote;
+
+
 @property(nonatomic, assign)NSTimeInterval tUptime;
 @property(nonatomic, assign)NSTimeInterval tValueAddingTime;
 @property(nonatomic, assign)NSTimeInterval tNonValAddingTime;
@@ -28,4 +32,11 @@
 
 @property(nonatomic, retain)NSMutableArray *aSteps;
 -(void)addStep:(VAStep*)step;
+
++(NSString*)getCreateTableString;
++(NSMutableArray*)getListProcess:(TDSqlManager*)manager project:(VAProject*)proj;
+-(BOOL)insertToDb:(TDSqlManager*)manager;
+-(BOOL)deleteFromDb:(TDSqlManager*)manager;
+-(void)getListStep:(TDSqlManager*)manager;
+
 @end

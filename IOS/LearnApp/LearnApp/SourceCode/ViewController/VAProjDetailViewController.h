@@ -11,6 +11,7 @@
 #import "VAProject.h"
 #import "VAProcess.h"
 #import "VAStep.h"
+#import "TDSqlManager.h"
 
 @interface VAProcessCell : UITableViewCell
 @property (retain, nonatomic) IBOutlet UILabel *lbProcId;
@@ -24,7 +25,7 @@
 
 @end
 
-@interface VAProjDetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverControllerDelegate>{
+@interface VAProjDetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverControllerDelegate, UITextFieldDelegate>{
     int _iProcessIndex, _iStepIndex;
 }
 
@@ -33,6 +34,7 @@
 @property (retain, nonatomic) VAProcess *currentProcess;
 @property (retain, nonatomic) VAStep *currentStep;
 @property (retain, nonatomic) VAProcess *selectedProcess;
+@property (retain, nonatomic) TDSqlManager *manager;
 
 
 @property (retain, nonatomic) UIPopoverController *popoverController;
@@ -41,5 +43,6 @@
 - (IBAction)addStepButtonPressed:(id)sender;
 - (IBAction)iAmDoneButtonPressed:(id)sender;
 - (IBAction)verifySwitchChange:(id)sender;
+
 
 @end

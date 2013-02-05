@@ -129,14 +129,13 @@
     [al show];
 }
 - (IBAction)btSelectExistingPressed:(id)sender {
-    
-    
     if (_listProject.count <=0) {
         [self showAlert:TDLocalizedString(@"NoneExistProject", @"NoneExistProject")];
         return;
     }
     int index = [_pkListProjects selectedRowInComponent:0];
     self.currentProject = [_listProject objectAtIndex:index];
+    [self.currentProject getListProcess:[VAGlobal share].dbManager];
     [self performSegueWithIdentifier:kShowProjDetail sender:self];
 }
 
