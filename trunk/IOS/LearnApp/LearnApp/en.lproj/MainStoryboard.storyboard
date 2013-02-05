@@ -9,21 +9,21 @@
             <objects>
                 <viewController storyboardIdentifier="VATaktTimeViewController" id="eas-ke-cYz" customClass="VATaktTimeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BgS-54-Bzk">
-                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="M27-yJ-QSO">
-                                <rect key="frame" x="32" y="296" width="705" height="645"/>
+                                <rect key="frame" x="32" y="40" width="705" height="645"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Operation per shift" textAlignment="center" minimumFontSize="17" id="4Kd-4k-khx">
-                                        <rect key="frame" x="30" y="117" width="380" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shifts per day" textAlignment="center" minimumFontSize="17" id="cEO-LP-L4o">
+                                        <rect key="frame" x="30" y="66" width="380" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shifts per day" textAlignment="center" minimumFontSize="17" id="cEO-LP-L4o">
-                                        <rect key="frame" x="30" y="66" width="380" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Operation per shift" textAlignment="center" minimumFontSize="17" id="4Kd-4k-khx">
+                                        <rect key="frame" x="30" y="117" width="380" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
@@ -34,14 +34,14 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Days per week" textAlignment="center" minimumFontSize="17" id="3Xt-fn-uzC">
-                                        <rect key="frame" x="30" y="274" width="380" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Days per month" textAlignment="center" minimumFontSize="17" id="8jZ-1u-8A2">
+                                        <rect key="frame" x="30" y="217" width="380" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Days per month" textAlignment="center" minimumFontSize="17" id="8jZ-1u-8A2">
-                                        <rect key="frame" x="30" y="217" width="380" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Days per week" textAlignment="center" minimumFontSize="17" id="3Xt-fn-uzC">
+                                        <rect key="frame" x="30" y="274" width="380" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
@@ -68,12 +68,6 @@ The takt is how often you have to produce in order to meet your customer demand.
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tatk time = " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jlc-Wq-PUy">
-                                        <rect key="frame" x="33" y="465" width="386" height="129"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <pickerView contentMode="scaleToFill" id="IYI-KU-ZMv">
                                         <rect key="frame" x="427" y="198" width="248" height="216"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -90,6 +84,12 @@ The takt is how often you have to produce in order to meet your customer demand.
                                             <outlet property="delegate" destination="eas-ke-cYz" id="i6k-sq-rgq"/>
                                         </connections>
                                     </pickerView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tatk time = " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jlc-Wq-PUy">
+                                        <rect key="frame" x="33" y="465" width="386" height="129"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <navigationBar contentMode="scaleToFill" id="KZ5-7F-6Yx">
                                         <rect key="frame" x="0.0" y="0.0" width="705" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -113,12 +113,24 @@ The takt is how often you have to produce in order to meet your customer demand.
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="KTN-Kp-pvp"/>
+                    <connections>
+                        <outlet property="lbTatkTime" destination="Jlc-Wq-PUy" id="ZCA-c6-pnx"/>
+                        <outlet property="pkChooseUnit" destination="IYI-KU-ZMv" id="dCi-5Y-BEn"/>
+                        <outlet property="pkResultUnit" destination="GmL-Bm-RTE" id="Ri0-CH-E0D"/>
+                        <outlet property="tfBreakPerShift" destination="mJR-oj-ECd" id="5Nx-v2-tcF"/>
+                        <outlet property="tfCustomerUnit" destination="my5-F0-gIE" id="zCk-Dz-mW5"/>
+                        <outlet property="tfDayPerMonth" destination="8jZ-1u-8A2" id="cYF-Ha-jqJ"/>
+                        <outlet property="tfDayPerWeek" destination="3Xt-fn-uzC" id="b2k-vc-OA8"/>
+                        <outlet property="tfOperationPerShift" destination="4Kd-4k-khx" id="eMu-IT-xgE"/>
+                        <outlet property="tfShiftPerDay" destination="cEO-LP-L4o" id="tcA-hq-W7h"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hfg-FI-clJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1673" y="-1620"/>
+            <point key="canvasLocation" x="-1457" y="-1572"/>
         </scene>
         <!--Draw View Controller-->
         <scene sceneID="1mE-05-KWO">
@@ -233,299 +245,495 @@ The takt is how often you have to produce in order to meet your customer demand.
             </objects>
             <point key="canvasLocation" x="-1623" y="-3927"/>
         </scene>
-        <!--Proj Detail View Controller-->
-        <scene sceneID="F6M-vw-POY">
+        <!--Edit Process Controller-->
+        <scene sceneID="csQ-zq-KhQ">
             <objects>
-                <viewController storyboardIdentifier="VAProjDetailViewController" id="P1s-0v-Vsh" customClass="VAProjDetailViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="slb-go-X13" customClass="TDTextView">
-                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
+                <viewController id="pOu-ko-qup" customClass="VAEditProcessController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="n7i-mb-4i1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="620"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UYU-Fl-VfT">
-                                <rect key="frame" x="64" y="0.0" width="640" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process Start Point (Supplier)" textAlignment="center" minimumFontSize="17" id="LTS-Rk-0rP">
-                                <rect key="frame" x="19" y="67" width="337" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process Start Point (Supplier)" textAlignment="center" minimumFontSize="17" id="H9h-tY-Wu3">
+                                <rect key="frame" x="292" y="61" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process End Pointer (Customer)" textAlignment="center" minimumFontSize="17" id="vVq-dj-F15">
-                                <rect key="frame" x="414" y="67" width="342" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process End Pointer (Customer)" textAlignment="center" minimumFontSize="17" id="vvn-Ic-1U2">
+                                <rect key="frame" x="292" y="99" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process name" textAlignment="center" minimumFontSize="17" id="iTA-Eb-BYc">
-                                <rect key="frame" x="19" y="116" width="337" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process name" textAlignment="center" minimumFontSize="17" id="WEZ-Oo-oOh">
+                                <rect key="frame" x="292" y="148" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Output Inventory" textAlignment="center" minimumFontSize="17" id="90i-qi-Bq7">
-                                <rect key="frame" x="19" y="253" width="223" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Output Inventory" textAlignment="center" minimumFontSize="17" id="16e-PH-oq4">
+                                <rect key="frame" x="292" y="530" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Uptime" textAlignment="center" minimumFontSize="17" id="DmZ-nh-6R0">
-                                <rect key="frame" x="266" y="253" width="219" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Uptime" textAlignment="center" minimumFontSize="17" id="4mm-PJ-Iup">
+                                <rect key="frame" x="292" y="372" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value adding time" textAlignment="center" minimumFontSize="17" id="MeP-jM-aQi">
-                                <rect key="frame" x="514" y="253" width="242" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value adding time" textAlignment="center" minimumFontSize="17" id="pUU-7H-Loo">
+                                <rect key="frame" x="292" y="410" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="t36-nT-HIV">
-                                <rect key="frame" x="279" y="355" width="79" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="h4G-Ab-Qst">
+                                <rect key="frame" x="292" y="568" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="verifySwitchChange:" destination="P1s-0v-Vsh" eventType="valueChanged" id="xMl-3g-hG5"/>
+                                    <action selector="verifySwitchChange:" destination="P1s-0v-Vsh" eventType="valueChanged" id="EJF-IB-nik"/>
                                 </connections>
                             </switch>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Defect %" textAlignment="center" minimumFontSize="17" id="Kzi-cn-1cg">
-                                <rect key="frame" x="19" y="307" width="223" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Defect %" textAlignment="center" minimumFontSize="17" id="ODR-CE-jZl">
+                                <rect key="frame" x="292" y="334" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Communication" textAlignment="center" minimumFontSize="17" id="agC-fQ-xv9">
-                                <rect key="frame" x="266" y="307" width="219" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Communication" textAlignment="center" minimumFontSize="17" id="tLo-5Y-ixz">
+                                <rect key="frame" x="292" y="492" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Non value adding time" textAlignment="center" minimumFontSize="17" id="bOT-4H-Uhk">
-                                <rect key="frame" x="514" y="307" width="242" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Non value adding time" textAlignment="center" minimumFontSize="17" id="nlD-2i-m8C">
+                                <rect key="frame" x="292" y="448" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="55G-gw-vNe">
-                                <rect key="frame" x="514" y="348" width="242" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Add Process">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="addProcessButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="CMi-am-jRU"/>
-                                </connections>
-                            </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV">
-                                <rect key="frame" x="0.0" y="428" width="761" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="VAProcessCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VAProcessCell" id="C46-Gw-MiI" customClass="VAProcessCell">
-                                        <rect key="frame" x="0.0" y="22" width="761" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="761" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1NA-cW-OXv">
-                                                    <rect key="frame" x="0.0" y="8" width="128" height="27"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3hp-DQ-djz">
-                                                    <rect key="frame" x="159" y="8" width="247" height="27"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lAE-ft-gLe">
-                                                    <rect key="frame" x="414" y="8" width="338" height="27"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <connections>
-                                            <outlet property="lbProcDescription" destination="lAE-ft-gLe" id="XRN-JT-YQv"/>
-                                            <outlet property="lbProcId" destination="1NA-cW-OXv" id="9mg-Jj-fp0"/>
-                                            <outlet property="lbProcName" destination="3hp-DQ-djz" id="d3g-PW-p27"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="34V-K2-C5L"/>
-                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="ltM-To-E5o"/>
-                                </connections>
-                            </tableView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Step" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DtH-Cg-i2x">
-                                <rect key="frame" x="0.0" y="605" width="748" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Step name" textAlignment="center" minimumFontSize="17" id="iaP-Yr-oa0">
-                                <rect key="frame" x="20" y="638" width="280" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zrd-XQ-4eD">
-                                <rect key="frame" x="338" y="631" width="199" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Add Step">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="addStepButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="lb9-1p-Je7"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BZf-PL-7ic">
-                                <rect key="frame" x="557" y="631" width="199" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="I Am Done">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="iAmDoneButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="0zw-ye-BHr"/>
-                                </connections>
-                            </button>
-                            <pickerView contentMode="scaleToFill" id="0kq-Ti-RM3">
-                                <rect key="frame" x="0.0" y="695" width="264" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="U8J-oY-phL"/>
-                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="2fJ-J6-SMx"/>
-                                </connections>
-                            </pickerView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2iz-nE-xxs">
-                                <rect key="frame" x="266" y="716" width="495" height="195"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VAStepCell" id="ABH-Uq-KWC" customClass="VAStepCell">
-                                        <rect key="frame" x="0.0" y="22" width="495" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="495" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ys9-ks-42d">
-                                                    <rect key="frame" x="0.0" y="11" width="167" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5rC-KP-CeB">
-                                                    <rect key="frame" x="175" y="11" width="312" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <connections>
-                                            <outlet property="lbStepId" destination="Ys9-ks-42d" id="cuI-NR-L8R"/>
-                                            <outlet property="lbStepName" destination="5rC-KP-CeB" id="GCB-Ih-rRR"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="t0g-1f-X4r"/>
-                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="zRO-Fj-QFI"/>
-                                </connections>
-                            </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Defect Note(burst)" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
-                                <rect key="frame" x="414" y="170" width="342" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Defect Note(burst)" textAlignment="center" id="fbD-AQ-pXj" customClass="TDTextView">
+                                <rect key="frame" x="292" y="186" width="280" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Process Description" textAlignment="center" id="ILG-23-qaF" customClass="TDTextView">
-                                <rect key="frame" x="19" y="170" width="337" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Process Description" textAlignment="center" id="n5L-Sf-BY6" customClass="TDTextView">
+                                <rect key="frame" x="292" y="260" width="280" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Need to verify these details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O53-gz-tgK">
-                                <rect key="frame" x="65" y="358" width="206" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Need to verify these details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sJ4-8a-yHX">
+                                <rect key="frame" x="20" y="574" width="206" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process Id" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dun-xk-7FE">
-                                <rect key="frame" x="0.0" y="407" width="159" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process Start Point (Supplier)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v3z-2E-FLR">
+                                <rect key="frame" x="20" y="70" width="224" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="giz-YO-t6K">
-                                <rect key="frame" x="159" y="407" width="256" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process End Pointer (Customer)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XXm-mG-TEI">
+                                <rect key="frame" x="20" y="108" width="245" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ntC-pp-YgN">
-                                <rect key="frame" x="414" y="407" width="347" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bo2-Yg-DMP">
+                                <rect key="frame" x="20" y="148" width="129" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Step #" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6PU-JW-NvP">
-                                <rect key="frame" x="266" y="695" width="179" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Defect Note(burst)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mTq-qb-aT7">
+                                <rect key="frame" x="20" y="205" width="139" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process step name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yPL-0r-czp">
-                                <rect key="frame" x="444" y="695" width="317" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vu3-0s-bzt">
+                                <rect key="frame" x="20" y="279" width="152" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Defect %" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z83-X6-boF">
+                                <rect key="frame" x="20" y="337" width="129" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Uptime" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xAW-3g-7ah">
+                                <rect key="frame" x="20" y="375" width="129" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Value adding time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vIs-QW-4ry">
+                                <rect key="frame" x="20" y="414" width="137" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Non value adding time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="E61-ka-Rom">
+                                <rect key="frame" x="20" y="451" width="170" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Communication" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TRv-FI-X1i">
+                                <rect key="frame" x="20" y="496" width="129" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Output Inventory" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iRL-fP-7ai">
+                                <rect key="frame" x="20" y="534" width="129" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dXg-b6-M3X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-585" y="-3630"/>
+        </scene>
+        <!--Proj Detail View Controller-->
+        <scene sceneID="F6M-vw-POY">
+            <objects>
+                <viewController storyboardIdentifier="VAProjDetailViewController" id="P1s-0v-Vsh" customClass="VAProjDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="slb-go-X13">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="9NC-Ih-HHu">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="700"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="ijb-fK-VJz">
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="700"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Step name" textAlignment="center" minimumFontSize="17" id="iaP-Yr-oa0">
+                                                <rect key="frame" x="719" y="425" width="300" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="wbx-MR-J9v"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zrd-XQ-4eD">
+                                                <rect key="frame" x="719" y="470" width="300" height="37"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="Add Step">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addStepButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="lb9-1p-Je7"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BZf-PL-7ic">
+                                                <rect key="frame" x="719" y="514" width="298" height="64"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="I Am Done">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="iAmDoneButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="0zw-ye-BHr"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process step name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yPL-0r-czp">
+                                                <rect key="frame" x="401" y="426" width="308" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Step #" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6PU-JW-NvP">
+                                                <rect key="frame" x="298" y="426" width="103" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2iz-nE-xxs">
+                                                <rect key="frame" x="298" y="450" width="411" height="191"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <prototypes>
+                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VAStepCell" id="ABH-Uq-KWC" customClass="VAStepCell">
+                                                        <rect key="frame" x="0.0" y="22" width="411" height="44"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                            <rect key="frame" x="0.0" y="0.0" width="411" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ys9-ks-42d">
+                                                                    <rect key="frame" x="0.0" y="11" width="93" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5rC-KP-CeB">
+                                                                    <rect key="frame" x="101" y="11" width="521" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <connections>
+                                                            <outlet property="lbStepId" destination="Ys9-ks-42d" id="cuI-NR-L8R"/>
+                                                            <outlet property="lbStepName" destination="5rC-KP-CeB" id="GCB-Ih-rRR"/>
+                                                        </connections>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="t0g-1f-X4r"/>
+                                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="zRO-Fj-QFI"/>
+                                                </connections>
+                                            </tableView>
+                                            <pickerView contentMode="scaleToFill" id="0kq-Ti-RM3">
+                                                <rect key="frame" x="26" y="425" width="264" height="216"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="U8J-oY-phL"/>
+                                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="2fJ-J6-SMx"/>
+                                                </connections>
+                                            </pickerView>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L7x-hk-nHV">
+                                                <rect key="frame" x="26" y="263" width="988" height="104"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <prototypes>
+                                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="VAProcessCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="VAProcessCell" id="C46-Gw-MiI" customClass="VAProcessCell">
+                                                        <rect key="frame" x="0.0" y="22" width="988" height="44"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                            <rect key="frame" x="0.0" y="0.0" width="988" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1NA-cW-OXv">
+                                                                    <rect key="frame" x="0.0" y="8" width="128" height="27"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3hp-DQ-djz">
+                                                                    <rect key="frame" x="142" y="8" width="252" height="27"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lAE-ft-gLe">
+                                                                    <rect key="frame" x="414" y="8" width="338" height="27"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <connections>
+                                                            <outlet property="lbProcDescription" destination="lAE-ft-gLe" id="XRN-JT-YQv"/>
+                                                            <outlet property="lbProcId" destination="1NA-cW-OXv" id="9mg-Jj-fp0"/>
+                                                            <outlet property="lbProcName" destination="3hp-DQ-djz" id="d3g-PW-p27"/>
+                                                        </connections>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="P1s-0v-Vsh" id="34V-K2-C5L"/>
+                                                    <outlet property="delegate" destination="P1s-0v-Vsh" id="ltM-To-E5o"/>
+                                                </connections>
+                                            </tableView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process Id" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dun-xk-7FE">
+                                                <rect key="frame" x="26" y="239" width="144" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="giz-YO-t6K">
+                                                <rect key="frame" x="169" y="239" width="256" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ntC-pp-YgN">
+                                                <rect key="frame" x="427" y="239" width="587" height="24"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Non value adding time" textAlignment="center" minimumFontSize="17" id="bOT-4H-Uhk">
+                                                <rect key="frame" x="362" y="201" width="300" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="t36-nT-HIV">
+                                                <rect key="frame" x="247" y="201" width="79" height="27"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <action selector="verifySwitchChange:" destination="P1s-0v-Vsh" eventType="valueChanged" id="xMl-3g-hG5"/>
+                                                </connections>
+                                            </switch>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Uptime" textAlignment="center" minimumFontSize="17" id="DmZ-nh-6R0">
+                                                <rect key="frame" x="20" y="161" width="301" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Communication" textAlignment="center" minimumFontSize="17" id="agC-fQ-xv9">
+                                                <rect key="frame" x="362" y="161" width="300" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Defect %" textAlignment="center" minimumFontSize="17" id="Kzi-cn-1cg">
+                                                <rect key="frame" x="362" y="121" width="300" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Output Inventory" textAlignment="center" minimumFontSize="17" id="90i-qi-Bq7">
+                                                <rect key="frame" x="362" y="81" width="300" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process Start Point (Supplier)" textAlignment="center" minimumFontSize="17" id="LTS-Rk-0rP">
+                                                <rect key="frame" x="362" y="41" width="300" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process name" textAlignment="center" minimumFontSize="17" id="iTA-Eb-BYc">
+                                                <rect key="frame" x="21" y="41" width="300" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Process Description" textAlignment="center" id="ILG-23-qaF" customClass="TDTextView">
+                                                <rect key="frame" x="20" y="81" width="300" height="72"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Process End Pointer (Customer)" textAlignment="center" minimumFontSize="17" id="vVq-dj-F15">
+                                                <rect key="frame" x="704" y="43" width="300" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Defect Note(burst)" textAlignment="center" id="FsQ-mz-2DV" customClass="TDTextView">
+                                                <rect key="frame" x="704" y="83" width="300" height="70"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value adding time" textAlignment="center" minimumFontSize="17" id="MeP-jM-aQi">
+                                                <rect key="frame" x="704" y="163" width="300" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="55G-gw-vNe">
+                                                <rect key="frame" x="704" y="199" width="297" height="33"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="Add Process">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addProcessButtonPressed:" destination="P1s-0v-Vsh" eventType="touchUpInside" id="CMi-am-jRU"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Step" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DtH-Cg-i2x">
+                                                <rect key="frame" x="26" y="375" width="298" height="46"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Need to verify these details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O53-gz-tgK">
+                                                <rect key="frame" x="20" y="207" width="206" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Labelhihihihihd" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UYU-Fl-VfT">
+                                                <rect key="frame" x="25" y="0.0" width="684" height="41"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="qtK-an-njF"/>
                     <connections>
@@ -533,6 +741,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                         <outlet property="gvListStep" destination="2iz-nE-xxs" id="SFM-hO-cZM"/>
                         <outlet property="lbProcess" destination="UYU-Fl-VfT" id="eaC-kl-HEP"/>
                         <outlet property="pkListProcess" destination="0kq-Ti-RM3" id="Q30-UT-2S2"/>
+                        <outlet property="svContent" destination="9NC-Ih-HHu" id="myo-vv-0XK"/>
                         <outlet property="swNeedVerify" destination="t36-nT-HIV" id="bvJ-vK-yvU"/>
                         <outlet property="tfCommunication" destination="agC-fQ-xv9" id="AZm-zF-3Ws"/>
                         <outlet property="tfDefect" destination="Kzi-cn-1cg" id="MK1-t1-XgB"/>
@@ -550,18 +759,18 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h5g-8O-LUw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-834" y="-2744"/>
+            <point key="canvasLocation" x="-366" y="-2584"/>
         </scene>
         <!--Cycle Time View Controller-->
         <scene sceneID="HN4-Uu-MHg">
             <objects>
                 <viewController storyboardIdentifier="VACycleTimeViewController" id="Yxf-o3-g98" customClass="VACycleTimeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IrO-Q1-WDP">
-                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" id="Dlv-Yp-MMZ">
-                                <rect key="frame" x="9" y="39" width="385" height="216"/>
+                                <rect key="frame" x="9" y="39" width="641" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Yxf-o3-g98" id="QFj-P1-MKW"/>
@@ -661,27 +870,28 @@ The takt is how often you have to produce in order to meet your customer demand.
                             </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="weo-SU-prX"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="83c-qA-XTw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1650" y="620"/>
+            <point key="canvasLocation" x="-1466" y="260"/>
         </scene>
         <!--AnalysisC Time View Controller-->
         <scene sceneID="XBj-wb-F6J">
             <objects>
                 <viewController storyboardIdentifier="TDAnalysisCTimeViewController" id="jjL-Jt-tCN" customClass="VAAnalysisCTimeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y7g-mr-3qV">
-                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_recording_detail.png" id="UTD-n1-8zw">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="616"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="360"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <pickerView contentMode="scaleToFill" id="wBk-XQ-6AO">
-                                <rect key="frame" x="0.0" y="617" width="758" height="216"/>
+                                <rect key="frame" x="0.0" y="617" width="1014" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="jjL-Jt-tCN" id="fmk-bs-83q"/>
@@ -689,7 +899,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </pickerView>
                             <pickerView contentMode="scaleToFill" id="JEr-eJ-qjl">
-                                <rect key="frame" x="508" y="617" width="758" height="216"/>
+                                <rect key="frame" x="508" y="617" width="1014" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="jjL-Jt-tCN" id="FHh-Op-uDi"/>
@@ -736,6 +946,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                             </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="gR7-eo-pnS"/>
                     <connections>
@@ -745,18 +956,18 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="38i-xQ-8A1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-682" y="620"/>
+            <point key="canvasLocation" x="-338" y="396"/>
         </scene>
         <!--View Controller - LearnApp-->
         <scene sceneID="TcB-m2-TWM">
             <objects>
                 <viewController storyboardIdentifier="VAVAMViewController" id="tul-wn-YF7" customClass="VAVAMViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Grg-XR-Hzf">
-                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QFB-uG-RzD">
-                                <rect key="frame" x="379" y="279" width="379" height="52"/>
+                                <rect key="frame" x="507" y="277" width="503" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Create new">
@@ -771,7 +982,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eLw-Te-zK4">
-                                <rect key="frame" x="379" y="580" width="379" height="52"/>
+                                <rect key="frame" x="507" y="576" width="503" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Select Existing">
@@ -786,26 +997,26 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Project Name" textAlignment="center" minimumFontSize="17" id="lp3-Tu-WuA">
-                                <rect key="frame" x="14" y="60" width="357" height="30"/>
+                                <rect key="frame" x="14" y="60" width="482" height="32"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Company Name" textAlignment="center" minimumFontSize="17" id="PqX-x5-khD">
-                                <rect key="frame" x="379" y="60" width="379" height="30"/>
+                                <rect key="frame" x="507" y="56" width="503" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Project description" textAlignment="center" id="FJB-gw-KWk" customClass="TDTextView">
-                                <rect key="frame" x="14" y="98" width="357" height="68"/>
+                                <rect key="frame" x="14" y="98" width="482" height="72"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Note" textAlignment="center" id="gKx-we-miV" customClass="TDTextView">
-                                <rect key="frame" x="20" y="188" width="758" height="68"/>
+                                <rect key="frame" x="14" y="189" width="1000" height="72"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -813,28 +1024,28 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Company Address" textAlignment="center" id="9L7-cd-ybF" customClass="TDTextView">
-                                <rect key="frame" x="379" y="98" width="379" height="68"/>
+                                <rect key="frame" x="507" y="98" width="503" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Create a new Project" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Bxx-1D-JPX">
-                                <rect key="frame" x="20" y="20" width="191" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="20" y="20" width="257" height="24"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Or select an exiting one" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RGU-ec-PwV">
-                                <rect key="frame" x="20" y="289" width="748" height="51"/>
+                                <rect key="frame" x="20" y="289" width="461" height="48"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" id="pRt-JL-EFV">
-                                <rect key="frame" x="0.0" y="348" width="768" height="216"/>
+                                <rect key="frame" x="14" y="348" width="1000" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="tul-wn-YF7" id="Nkq-4U-Zfu"/>
@@ -843,6 +1054,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                             </pickerView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" title="LearnApp" id="9Xb-32-7nG"/>
                     <connections>
@@ -857,7 +1069,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mh7-Hd-CIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1673" y="-2744"/>
+            <point key="canvasLocation" x="-1521" y="-2568"/>
         </scene>
         <!--MainTabbar-->
         <scene sceneID="tvN-Zj-XzP">
@@ -865,6 +1077,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 <tabBarController storyboardIdentifier="MainTabbar" definesPresentationContext="YES" id="CNL-US-7Gl" userLabel="MainTabbar" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Aeb-6F-9u0"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="8Fa-Jb-ZjQ">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -880,78 +1093,86 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tUN-Vq-Eru" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3643" y="371"/>
+            <point key="canvasLocation" x="-3987" y="235"/>
         </scene>
         <!--Book View Controller-->
         <scene sceneID="EgU-oy-ckV">
             <objects>
                 <viewController storyboardIdentifier="VABookViewController" id="CG7-yI-KTa" customClass="VABookViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bls-zB-tcv">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wy-Ni-wXI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5557" y="-2468"/>
+            <point key="canvasLocation" x="-6053" y="-2488"/>
         </scene>
         <!--Change Proj View Controller-->
         <scene sceneID="NKY-Ma-cfh">
             <objects>
                 <viewController storyboardIdentifier="VAMenuChangeProjViewController" id="y83-Ii-aLC" customClass="VAChangeProjViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g9b-Gp-BwK">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ELy-KN-D3q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4657" y="-1344"/>
+            <point key="canvasLocation" x="-5105" y="-1392"/>
         </scene>
         <!--Currency View Controller-->
         <scene sceneID="yGs-rA-YTS">
             <objects>
                 <viewController storyboardIdentifier="VACurrencyViewController" id="2Sj-fx-Pgz" customClass="VACurrencyViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Np8-rN-nYP">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r78-Ed-WUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3757" y="-1336"/>
+            <point key="canvasLocation" x="-3997" y="-1408"/>
         </scene>
         <!--Version View Controller-->
         <scene sceneID="Ueq-KB-bm0">
             <objects>
                 <viewController storyboardIdentifier="VAMenuVersionViewController" id="jin-0Q-dLt" customClass="VAVersionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j2k-8K-Avb">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mcU-70-4cW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3741" y="-2488"/>
+            <point key="canvasLocation" x="-4461" y="-2480"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="uVZ-F6-qTx">
             <objects>
                 <viewController id="nfw-sM-OGJ" customClass="VARootViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ceb-fF-Bbt">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="40K-mP-WXU">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="actionbar_bg.png" id="m2g-A4-448">
-                                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9iK-pN-dHr" userLabel="btBook">
@@ -985,8 +1206,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="roS-OT-LQf" userLabel="btSetting">
-                                        <rect key="frame" x="540" y="4" width="59" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="796" y="4" width="59" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="ic_setting.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1000,8 +1221,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="k6o-OA-XyD" userLabel="btBag">
-                                        <rect key="frame" x="595" y="4" width="59" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="851" y="4" width="59" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="ic_bag.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1015,8 +1236,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dEj-n8-sx8" userLabel="btVersion">
-                                        <rect key="frame" x="648" y="4" width="59" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="904" y="4" width="59" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="ic_version.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1030,8 +1251,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DCE-k6-JKN" userLabel="btConcurency">
-                                        <rect key="frame" x="700" y="4" width="59" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="frame" x="956" y="4" width="59" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="ic_currency.png">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1048,28 +1269,30 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="Lcd-Ja-gPy" userLabel="vTabbar">
-                                <rect key="frame" x="0.0" y="45" width="768" height="959"/>
+                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="vTabbar" destination="Lcd-Ja-gPy" id="V1X-WG-MFP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Elk-Hu-EN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4571" y="396"/>
+            <point key="canvasLocation" x="-5171" y="196"/>
         </scene>
         <!--Navigation Controller - ValueStreamMap-->
         <scene sceneID="Un4-sH-ikd">
             <objects>
                 <navigationController navigationBarHidden="YES" id="Tvu-Je-CwZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="ValueStreamMap" id="YzI-ju-jwb"/>
+                    <tabBarItem key="tabBarItem" title="ValueStreamMap" image="ic_stream_map.png" id="YzI-ju-jwb"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gup-Ch-Iml">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -1082,13 +1305,13 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aKD-hz-5A6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2535" y="-2744"/>
+            <point key="canvasLocation" x="-2727" y="-2480"/>
         </scene>
-        <!--Navigation Controller - TalkTime-->
+        <!--Navigation Controller - Takt time-->
         <scene sceneID="Yed-Ps-4Fb">
             <objects>
                 <navigationController navigationBarHidden="YES" id="a1N-Ss-LvX" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="TalkTime" id="L9c-GM-F14"/>
+                    <tabBarItem key="tabBarItem" title="Takt time" image="ic_task_time.png" id="L9c-GM-F14"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jwg-TC-fgP">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -1101,18 +1324,18 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rP5-S5-1e2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2535" y="-1620"/>
+            <point key="canvasLocation" x="-2679" y="-1580"/>
         </scene>
         <!--Spa Chart View Controller - Learn App-->
         <scene sceneID="hpc-y9-pSf">
             <objects>
                 <viewController storyboardIdentifier="VASpaChartViewController" id="eLg-CF-0CS" customClass="VASpaChartViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="O5D-HQ-OKq">
-                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" id="9JT-ch-N98">
-                                <rect key="frame" x="0.0" y="0.0" width="394" height="216"/>
+                                <rect key="frame" x="0.0" y="0.0" width="650" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="eLg-CF-0CS" id="fof-7a-mdk"/>
@@ -1151,7 +1374,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </state>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uFC-yU-Dva">
-                                <rect key="frame" x="0.0" y="722" width="768" height="347"/>
+                                <rect key="frame" x="0.0" y="722" width="1024" height="91"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1200,33 +1423,35 @@ The takt is how often you have to produce in order to meet your customer demand.
                             </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" title="Learn App" id="XC3-r0-VUl"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yz8-KR-MaD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1673" y="-500"/>
+            <point key="canvasLocation" x="-1473" y="-660"/>
         </scene>
         <!--Pqpr View Controller-->
         <scene sceneID="tHB-c8-UzN">
             <objects>
                 <viewController storyboardIdentifier="VAPqprViewController" id="5d0-ot-eJ5" customClass="VAPqprViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MF1-JV-1wn">
-                        <rect key="frame" x="0.0" y="20" width="768" height="955"/>
+                        <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="srw-Dn-OdH"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i4m-5l-No1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1593" y="1748"/>
+            <point key="canvasLocation" x="-1466" y="1220"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - Spaghetti chart-->
         <scene sceneID="tYb-Aa-XLp">
             <objects>
                 <navigationController navigationBarHidden="YES" id="hKN-tj-XEe" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="oaJ-RN-7JU"/>
+                    <tabBarItem key="tabBarItem" title="Spaghetti chart" image="ic_chart.png" id="oaJ-RN-7JU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dmc-sB-1Z5">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -1239,13 +1464,13 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8IE-2z-AIH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2559" y="658"/>
+            <point key="canvasLocation" x="-2655" y="346"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - CirleTime-->
         <scene sceneID="u9y-iV-V05">
             <objects>
                 <navigationController navigationBarHidden="YES" id="Viy-Fa-GEi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="xMD-g2-mZd"/>
+                    <tabBarItem key="tabBarItem" title="CirleTime" image="ic_cycle_time.png" id="xMD-g2-mZd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kHT-uD-0Kc">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -1258,13 +1483,13 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xl1-Ib-bCx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2535" y="-500"/>
+            <point key="canvasLocation" x="-2671" y="-628"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - Pqpr-->
         <scene sceneID="RXX-Va-o1e">
             <objects>
                 <navigationController navigationBarHidden="YES" id="bqM-j3-ocv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="ivd-3y-jUM"/>
+                    <tabBarItem key="tabBarItem" title="Pqpr" image="ic_qprn.png" id="ivd-3y-jUM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KQa-AG-WVN">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -1277,7 +1502,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mF6-ee-RUA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2567" y="1748"/>
+            <point key="canvasLocation" x="-2639" y="1268"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="25Q-vN-i6B">
@@ -1367,7 +1592,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZs-Eb-qnu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4600" y="-2120"/>
+            <point key="canvasLocation" x="-4880" y="-2136"/>
         </scene>
         <!--Export View Controller-->
         <scene sceneID="xtl-04-UZM">
@@ -1514,7 +1739,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xsg-jQ-zxV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5691" y="-1316"/>
+            <point key="canvasLocation" x="-5985" y="-1380"/>
         </scene>
     </scenes>
     <resources>
@@ -1525,9 +1750,14 @@ The takt is how often you have to produce in order to meet your customer demand.
         <image name="box3.png" width="100" height="81"/>
         <image name="ic_bag.png" width="45" height="30"/>
         <image name="ic_book.png" width="45" height="30"/>
+        <image name="ic_chart.png" width="30" height="30"/>
         <image name="ic_currency.png" width="45" height="30"/>
+        <image name="ic_cycle_time.png" width="30" height="30"/>
         <image name="ic_export.png" width="45" height="30"/>
+        <image name="ic_qprn.png" width="30" height="30"/>
         <image name="ic_setting.png" width="45" height="30"/>
+        <image name="ic_stream_map.png" width="30" height="30"/>
+        <image name="ic_task_time.png" width="30" height="30"/>
         <image name="ic_version.png" width="45" height="30"/>
         <image name="img_chart_single.png" width="338" height="189"/>
         <image name="img_recording_detail.png" width="558" height="453"/>
@@ -1598,6 +1828,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 <relationship kind="outlet" name="gvListStep" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="lbProcess" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="pkListProcess" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="svContent" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="swNeedVerify" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="tfCommunication" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="tfDefect" candidateClass="UITextField"/>

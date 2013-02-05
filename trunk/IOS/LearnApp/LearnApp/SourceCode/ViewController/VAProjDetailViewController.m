@@ -16,6 +16,8 @@
 #import "TDCommonLibs.h"
 #import "TDString.h"
 #import "TDAppDelegate.h"
+#import "VAGlobal.h"
+
 @implementation VAProcessCell
 
 - (void)dealloc {
@@ -57,6 +59,8 @@
 @property (retain, nonatomic) IBOutlet UITextField *tfStepName;
 @property (retain, nonatomic) IBOutlet UIPickerView *pkListProcess;
 @property (retain, nonatomic) IBOutlet UITableView *gvListStep;
+@property (retain, nonatomic) id tfActiveTextField;
+@property (retain, nonatomic) IBOutlet UIScrollView *svContent;
 
 - (VAProcess *)processFromView;
 - (VAStep *)stepFromView;
@@ -130,6 +134,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.manager = [VAGlobal share].dbManager;
     self.lbProcess.text = [self.currentProject.sPrName stringByAppendingString:TDLocalizedString(@"projectLabel", @"projectLabel")];
     self.tfProcStartPoint.placeholder = TDLocalizedString(@"processStartPoint", @"processStartPoint");
     self.tfProcEndPoint.placeholder = TDLocalizedString(@"processEndPoint", @"processEndPoint");
@@ -147,6 +152,21 @@
     
     self.tvDefectNote.text = @"";
     self.tvProcDescription.text = @"";
+    [self registerKeyboard];
+    _iProcessIndex = 0;
+    [self checkSelectedProcess];
+}
+
+-(void)checkSelectedProcess{
+    if (_currentProject.aProcesses.count > _iProcessIndex) {
+        self.selectedProcess = [_currentProject.aProcesses objectAtIndex:_iProcessIndex];
+    }else if (_currentProject.aProcesses.count >0) {
+        _iProcessIndex = 0;
+        self.selectedProcess = [_currentProject.aProcesses objectAtIndex:_iProcessIndex];
+    }else{
+        _iProcessIndex = -1;
+        self.selectedProcess = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -160,7 +180,7 @@
     [_currentStep release];
     [_currentProject release];
     [popoverController release];
-    
+    [_tfActiveTextField release];
     
     [_lbProcess release];
     [_tfProcStartPoint release];
@@ -179,6 +199,8 @@
     [_tfStepName release];
     [_pkListProcess release];
     [_gvListStep release];
+    [_svContent release];
+    [_manager release];
     [super dealloc];
 }
 - (void)viewDidUnload {
@@ -200,20 +222,80 @@
     [self setTfStepName:nil];
     [self setPkListProcess:nil];
     [self setGvListStep:nil];
+    [self setSvContent:nil];
     [super viewDidUnload];
 }
+#pragma mark keyboard
+-(void)registerKeyboard{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    _svContent.contentInset = contentInsets;
+    _svContent.scrollIndicatorInsets = contentInsets;
+    
+    // If active text field is hidden by keyboard, scroll it so it's visible
+    // Your application might not need or want this behavior.
+    if (kbSize.width < kbSize.height) {
+        kbSize = CGSizeMake(kbSize.height, kbSize.width);
+    }
+    CGRect aRect = self.view.frame;
+    aRect.size.height = aRect.size.height - kbSize.height;
+    if (_tfActiveTextField &&
+        !CGRectContainsPoint(aRect, [_tfActiveTextField frame].origin) ) {
+        
+    
+        CGPoint scrollPoint;
+        if (_tfActiveTextField == _tfStepName) {
+            scrollPoint = CGPointMake(0.0, [_tfActiveTextField frame].origin.y +
+                                      _gvListStep.frame.size.height - aRect.size.height);
+        }else{
+            scrollPoint = CGPointMake(0.0, [_tfActiveTextField frame].origin.y - aRect.size.height);
+        }
+        
+        [_svContent setContentOffset:scrollPoint animated:YES];
+    }
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    _svContent.contentInset = contentInsets;
+    _svContent.scrollIndicatorInsets = contentInsets;
+    
+}
+
 
 - (IBAction)addProcessButtonPressed:(id)sender {
     TDLOG(@"Add process button pressed");
     
     if ([self isValidProcess]) {
         VAProcess *proc = [self processFromView];
+        proc.parentProject = _currentProject;
+        [proc insertToDb:_manager];
+        
         [_currentProject addProcess:proc];
+        
+        
         self.selectedProcess = proc;
         [self.gvListProcess reloadData];
         [self.pkListProcess reloadAllComponents];
         [self.pkListProcess selectRow:([self.currentProject.aProcesses count]-1) inComponent:0 animated:YES];
         [self clearProcessField];
+        
+        
     }else{
         //error here
         [self showAlert:TDLocalizedStringOne(@"ErrorInput")];
@@ -224,9 +306,16 @@
 - (IBAction)addStepButtonPressed:(id)sender {
     if ([self isValidStep]) {
         VAStep *step = [self stepFromView];
-        [_selectedProcess addStep:step];
-        [self.gvListStep reloadData];
-        [self clearStepField];
+        step.parentProcess = _selectedProcess;
+        if ([step insertToDb:_manager]) {
+            [_selectedProcess addStep:step];
+            
+            [self.gvListStep reloadData];
+            [self clearStepField];
+        }else{
+            TDLOGERROR(@"Insert step error");
+        }
+        
     }else{
         [self showAlert:TDLocalizedStringOne(@"ErrorInput")];
     }
@@ -250,30 +339,11 @@
     return 1;
 }
 
-
-//UIMenuController
-- (BOOL)canBecomeFirstResponder {
+-(BOOL)canBecomeFirstResponder{
+     
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self becomeFirstResponder];
-    UIMenuItem *delete, *edit;
-    if (tableView == _gvListProcess) {
-        delete = [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteProcess:)] autorelease];
-        edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editProcess:)] autorelease];
-        _iProcessIndex = indexPath.row;
-    }else{
-        delete =  [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteStep:)] autorelease];
-        edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editStep:)] autorelease];
-        _iStepIndex = indexPath.row;
-    }
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    UIMenuController *menuController = [UIMenuController sharedMenuController];
-    [menuController setMenuItems:[NSArray arrayWithObjects:delete,edit, nil]];
-    [menuController setTargetRect:CGRectZero inView:cell];
-    [menuController setMenuVisible:YES animated:YES];
-}
 //- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
 //    if (action == @selector(delete:) || action == @selector(edit:)) {
 //        return YES;
@@ -282,12 +352,20 @@
 //}
 
 -(void)deleteProcess:(UIMenuItem*)sender {
-    [_currentProject.aProcesses removeObjectAtIndex:_iProcessIndex];
-    [_gvListProcess reloadData];
-    [_pkListProcess reloadComponent:0];
-    [_gvListStep reloadData];
+    VAProcess *process = [_currentProject.aProcesses objectAtIndex:_iProcessIndex];
+    if ([process deleteFromDb:_manager]) {
+        [_currentProject.aProcesses removeObjectAtIndex:_iProcessIndex];
+        [self checkSelectedProcess];
+        [_gvListProcess reloadData];
+        [_pkListProcess reloadComponent:0];
+        [_gvListStep reloadData];
+    }else{
+        TDLOGERROR(@"Error delete proces: %d", _iProcessIndex);
+    }
+    
 }
 - (void)editProcess:(UIMenuItem*)sender {
+    
     VAProcessDetailController *processDetail = [[VAProcessDetailController alloc] init];
     self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:processDetail] autorelease];
     self.popoverController.delegate = self;
@@ -295,8 +373,15 @@
     [self.popoverController presentPopoverFromRect:CGRectZero inView:self.gvListProcess permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 -(void)deleteStep:(UIMenuItem*)sender{
-    [_selectedProcess.aSteps removeObjectAtIndex:_iStepIndex];
-    [_gvListStep reloadData];
+    VAStep *step = [_selectedProcess.aSteps objectAtIndex:_iStepIndex];
+    if ([step deleteFromDb:_manager]) {
+        [_selectedProcess.aSteps removeObjectAtIndex:_iStepIndex];
+        
+        [_gvListStep reloadData];
+    }else{
+        TDLOGERROR(@"Delete step error");
+    }
+    
 }
 - (void)editStep:(UIMenuItem*)sender{
     
@@ -326,8 +411,9 @@
     if (self.currentProject.aProcesses.count == 0) {
         return;
     }
+    
     self.selectedProcess = [self.currentProject.aProcesses objectAtIndex:row];
-    TDLOG(@"%@", self.currentProcess.sProcName);
+    TDLOG(@"%@", self.selectedProcess.sProcName);
     [self.gvListStep reloadData];
 }
 
@@ -362,5 +448,33 @@
         return cell;
     }
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self becomeFirstResponder];
+    [_tfActiveTextField resignFirstResponder];
+    UIMenuItem *delete, *edit;
+    if (tableView == _gvListProcess) {
+        delete = [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteProcess:)] autorelease];
+        edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editProcess:)] autorelease];
+        _iProcessIndex = indexPath.row;
+    }else{
+        delete =  [[[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteStep:)] autorelease];
+        edit = [[[UIMenuItem alloc] initWithTitle:@"Edit" action:@selector(editStep:)] autorelease];
+        _iStepIndex = indexPath.row;
+    }
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    [menuController setMenuItems:[NSArray arrayWithObjects:delete,edit, nil]];
+    [menuController setTargetRect:CGRectZero inView:cell];
+    [menuController setMenuVisible:YES animated:YES];
+}
+#pragma mark - text field
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    self.tfActiveTextField = textField;
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    self.tfActiveTextField = nil;
+}
+
 
 @end

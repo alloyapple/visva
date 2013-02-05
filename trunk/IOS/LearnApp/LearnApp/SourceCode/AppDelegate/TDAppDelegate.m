@@ -39,6 +39,7 @@ static TDAppDelegate *instance = nil;
     
     return YES;
 }
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

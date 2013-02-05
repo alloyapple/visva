@@ -9,6 +9,8 @@
 #import "VAGlobal.h"
 #import "TDDatabase.h"
 #import "VAProject.h"
+#import "VAProcess.h"
+#import "VAStep.h"
 
 static VAGlobal* instance = nil;
 @implementation VAGlobal
@@ -43,6 +45,8 @@ static VAGlobal* instance = nil;
     self.dbManager = [[[TDSqlManager alloc] initWithPath:path] autorelease];
     
     //create table if not exits
-    [_dbManager executeQuery:[VAProject getCreateProjTableString]];
+    [_dbManager executeQuery:[VAProject getCreateTableString]];
+    [_dbManager executeQuery:[VAProcess getCreateTableString]];
+    [_dbManager executeQuery:[VAStep getCreateTableString]];
 }
 @end

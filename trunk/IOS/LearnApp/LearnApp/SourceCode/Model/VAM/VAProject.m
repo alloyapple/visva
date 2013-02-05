@@ -9,7 +9,7 @@
 #import "VAProject.h"
 #import "TDLog.h"
 #import "TDSqlManager.h"
-
+#import "VAProcess.h"
 @implementation VAProject
 
 #pragma mark - fields Name
@@ -23,7 +23,7 @@
   NSString *const dProjNote = @"Note";
 
 #pragma mark - static method
-+(NSString*)getCreateProjTableString{
++(NSString*)getCreateTableString{
     NSString *query = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (\
                        %@ INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE ,\
                        %@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT, %@ TEXT)", dProjTable,dProjId,
@@ -115,7 +115,7 @@
     }
 }
 -(BOOL)deleteFromDb:(TDSqlManager*)manager{
-    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dProjTable, dProjId, _iPrId];
+    NSString *query = [NSString stringWithFormat:@"DELETE from %@ WHERE %@=%d", dProjTable, dProjId, _iPrId];
     return [manager executeQuery:query];
 }
 
@@ -133,6 +133,13 @@
 #pragma mark - method
 -(void)addProcess:(VAProcess *)proc{
     [self.aProcesses addObject:proc];
+}
+
+-(void)getListProcess:(TDSqlManager*)manager{
+    self.aProcesses = [VAProcess getListProcess:manager project:self];
+    for (VAProcess *process in _aProcesses) {
+        [process getListStep:manager];
+    }
 }
 
 #pragma mark - dealloc

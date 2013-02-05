@@ -25,7 +25,7 @@ extern NSString *const dProjtId; // Project Id field.
 /*
  * Get string create Project table
  */
-+(NSString*)getCreateProjTableString;
++(NSString*)getCreateTableString;
 /*
  * Get list Projects from database
  * @return: Project Array if exists, nil if error
@@ -53,4 +53,5 @@ extern NSString *const dProjtId; // Project Id field.
  */
 -(NSString *)getDisplayNameWithCompany;
 -(void)addProcess:(VAProcess*)proc;
+-(void)getListProcess:(TDSqlManager*)manager;
 @end
