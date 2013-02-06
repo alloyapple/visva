@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">IDManager</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="old_pass">Old:</string>
+    <string name="new_pass">New:</string>
+    <string name="setting_title">Setting</string>
+    <string name="security_mode_title">Setup Security Mode</string>
+    <string name="remove_data_title">Setup Remove Data</string>
+    <string name="password_generator_title">Password Generator</string>
+    <string name="button_generate">Generate</string>
+    <string name="item_setup">Setup</string>
+    <string name="item_change_master_apss">Change master password</string>
+    <string name="item_mode_security">Security mode</string>
+    <string name="item_remove_data">Remove data</string>
+    <string name="item_sync">Synchronization</string>
+    <string name="item_google">GoogleDrive</string>
+    <string name="item_dropbox">Dropbox</string>
+    <string name="item_cloud">Read text data(via Cloud)</string>
+    <string name="item_payment">Payment Service</string>
+    <string name="item_unlimited_item">Unlimited items</string>
+    <string name="item_no_admod">No advertisement</string>
+    <string name="item_export_data">Export data to text</string>
+    <string name="item_number">Number</string>
+    <string name="item_capital">Capital</string>
+    <string name="item_lower_case">Lower Case</string>
+    <string name="item_sign">Sign</string>
+    <string name="item_duplicate">Duplicate Prevention</string>
+    <string name="item_number_character">Number of Characters</string>
+
+</resources>
