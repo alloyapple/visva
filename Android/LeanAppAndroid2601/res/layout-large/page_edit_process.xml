@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_home"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/tabbar"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/actionbar_bg"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/img_project_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/ic_book" />
+
+        <ImageView
+            android:id="@+id/img_project_export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/img_project_book"
+            android:background="@drawable/ic_export" />
+
+        <ImageView
+            android:id="@+id/img_project_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_currency" />
+
+        <ImageView
+            android:id="@+id/img_project_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/img_project_currency"
+            android:background="@drawable/ic_version" />
+
+        <ImageView
+            android:id="@+id/img_project_change_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/img_project_version"
+            android:background="@drawable/ic_bag" />
+
+        <ImageView
+            android:id="@+id/img_project_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/img_project_change_project"
+            android:background="@drawable/ic_setting" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_edit_process"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center" >
+
+        <RelativeLayout
+            android:id="@+id/relative_edit_process"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+             >
+
+            <Button
+                android:id="@+id/btn_edit_process_previous_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/tab_indicator"
+                android:text="Previous Item"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_edit_process_next_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/tab_indicator"
+                android:text="Next Item"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_edit_process_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:layout_toLeftOf="@id/btn_edit_process_next_item"
+                android:background="@drawable/tab_indicator"
+                android:text="Done"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/btn_edit_process_done"
+                android:layout_alignBottom="@id/btn_edit_process_done"
+                android:layout_centerHorizontal="true"
+                android:text="Process Details"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/txt_edit_process_projectName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_edit_process_previous_item"
+                android:layout_marginLeft="15dp"
+                android:text="Project Name - version 1 is created"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/txt_edit_process_detail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_edit_process_projectName"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Input the detail of each process belonging to this project then tap Add"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/editText_edit_process_supplier"
+                android:layout_width="180dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/txt_edit_process_detail"
+                android:layout_marginLeft="5dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="@string/process_start_point"
+                android:lines="2"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_customer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_edit_process_detail"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/editText_edit_process_supplier"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="@string/process_end_point"
+                android:lines="2"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/editText_edit_process_name"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_supplier"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="Process Name"
+                android:lines="2"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_defect_notes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_customer"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/editText_edit_process_name"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="@string/defect_notes"
+                android:lines="2"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_description"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_name"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="@string/process_description"
+                android:lines="2"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/textView_verify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_defect_notes"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/editText_edit_process_description"
+                android:text="Need to verify these details"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <ToggleButton
+                android:id="@+id/switch_process"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_below="@id/editText_edit_process_defect_notes"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/textView_verify"
+                android:background="@drawable/btn_toggle"
+                android:checked="true"
+                android:textOff=""
+                android:textOn="" />
+
+            <EditText
+                android:id="@+id/editText_edit_process_output_inventory"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_description"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:hint="@string/output_inventory"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_uptime"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_description"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/editText_edit_process_output_inventory"
+                android:background="@color/white"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:hint="@string/up_time"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_value_adding_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_description"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/editText_edit_process_uptime"
+                android:background="@color/white"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:hint="@string/value_adding_time"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_defect_percent"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_output_inventory"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:hint="@string/defect_percent"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_communication"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_output_inventory"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/editText_edit_process_defect_percent"
+                android:background="@color/white"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:hint="@string/communication"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+
+            <EditText
+                android:id="@+id/editText_edit_process_non_value_adding_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_edit_process_output_inventory"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/editText_edit_process_communication"
+                android:background="@color/white"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:hint="@string/non_value_adding_time"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" >
+            </EditText>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

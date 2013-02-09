@@ -91,8 +91,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="40dp" >
 
-                <Button
-                    android:id="@+id/id_btn_export"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
@@ -100,7 +99,7 @@
                     android:text="@string/title_export"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" >
-                </Button>
+                </TextView>
             </FrameLayout>
 
             <LinearLayout
@@ -199,8 +198,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_element_all"
+                                <CheckBox android:id="@+id/id_checkbox_element_all"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -228,8 +226,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_element_stream_map"
+                                <CheckBox android:id="@+id/id_checkbox_element_stream_map"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -256,8 +253,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_element_cycle_time"
+                                <CheckBox android:id="@+id/id_checkbox_element_cycle_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -284,8 +280,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_element_pqpr"
+                                <CheckBox android:id="@+id/id_checkbox_element_pqpr"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -312,8 +307,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_element_chart"
+                                <CheckBox android:id="@+id/id_checkbox_element_chart"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -340,8 +334,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_element_focus_improvements"
+                                <CheckBox android:id="@+id/id_checkbox_element_focus_improvements"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -398,8 +391,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_email"
+                                <CheckBox android:id="@+id/id_checkbox_email"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -408,8 +400,7 @@
                                     android:button="@drawable/checkbox_remember" />
                             </FrameLayout>
 
-                            <!--
-                                 <FrameLayout
+                     <!--        <FrameLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_marginBottom="1dp"
@@ -434,8 +425,7 @@
                                     android:layout_gravity="right|center"
                                     android:layout_marginRight="4dp"
                                     android:button="@drawable/checkbox_remember" />
-                            </FrameLayout>
-                            -->
+                            </FrameLayout> -->
 
                             <FrameLayout
                                 android:layout_width="fill_parent"
@@ -456,8 +446,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_dropbox"
+                                <CheckBox android:id="@+id/id_checkbox_dropbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -484,8 +473,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_box"
+                                <CheckBox android:id="@+id/id_checkbox_box"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -512,8 +500,7 @@
                                     android:textStyle="normal" >
                                 </TextView>
 
-                                <CheckBox
-                                    android:id="@+id/id_checkbox_google_driver"
+                                <CheckBox android:id="@+id/id_checkbox_google_driver"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
@@ -528,7 +515,6 @@
                                 android:layout_weight="1"
                                 android:background="@color/transparent" >
                             </FrameLayout>
-
                             <FrameLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
@@ -589,8 +575,7 @@
                                         android:textStyle="normal" >
                                     </TextView>
 
-                                    <CheckBox
-                                        android:id="@+id/id_checkbox_pdf"
+                                    <CheckBox android:id="@+id/id_checkbox_pdf"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="right|center"
@@ -618,8 +603,7 @@
                                         android:textStyle="normal" >
                                     </TextView>
 
-                                    <CheckBox
-                                        android:id="@+id/id_checkbox_excel"
+                                    <CheckBox android:id="@+id/id_checkbox_excel"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="right|center"
@@ -665,9 +649,7 @@
                                         android:textSize="11dp"
                                         android:textStyle="normal" >
                                     </TextView>
-
-                                    <CheckBox
-                                        android:id="@+id/id_checkbox_include_video"
+                                    <CheckBox android:id="@+id/id_checkbox_include_video"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="right|center"
@@ -693,8 +675,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <Button
-                            android:id="@+id/id_btn_export_aa"
+                        <Button android:id="@+id/id_btn_export"
                             android:layout_width="100dp"
                             android:layout_height="60dp"
                             android:layout_gravity="center|bottom"
