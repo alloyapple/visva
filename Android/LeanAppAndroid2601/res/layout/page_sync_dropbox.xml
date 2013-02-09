@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dropbox"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btn_start_sync"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/tab_indicator"
+        android:text="Start Sync"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_link_to_dropbox"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_above="@id/btn_start_sync"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/tab_indicator"
+        android:text="Link To DropBox"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
