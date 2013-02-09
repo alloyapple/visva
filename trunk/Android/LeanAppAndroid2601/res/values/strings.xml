@@ -59,6 +59,6 @@
     <string name="title_setting">Setting</string>
     <string name="report_compare_step_in_spaghetti_chart">Draw your spaghetti chart on a piece of paper, take a picture and upload it here. Measure the distance between the steps and the app will calculate the time. If needed you can change the step sequence. Measurements and speed can be changeed in the setting</string>
     <string name="content_takt_time">&lt;b>Customer Demand:&lt;/b>&lt;br>50 pieces per Year&lt;br>(Takt time 33.6 hours)</string>
-    <string name="content_process_box">VA=YYY&lt;br>NVA=XXX&lt;br>Uptime:UUU&lt;br>defect 0%</string>
+    <string name="content_process_box">VA=YYY&lt;br>NVA=XXX&lt;br>Uptime:UUU&lt;br>defect $$$ %</string>
 
 </resources>

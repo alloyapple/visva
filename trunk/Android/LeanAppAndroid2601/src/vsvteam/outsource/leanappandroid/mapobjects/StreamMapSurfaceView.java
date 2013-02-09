@@ -3,6 +3,8 @@ package vsvteam.outsource.leanappandroid.mapobjects;
 import java.util.ArrayList;
 
 import vsvteam.outsource.leanappandroid.activity.valuestreammap.DrawMapActivity;
+import vsvteam.outsource.leanappandroid.database.TProcessDataBase;
+import vsvteam.outsource.leanappandroid.database.TProcessDataBaseHandler;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -25,9 +27,11 @@ public class StreamMapSurfaceView extends SurfaceView implements
 	private MySurfaceThread thread;
 	private MapObject mSelectedObject;
 	private PointF first = new PointF();
+	public TProcessDataBaseHandler mProcessDataBaseHandler;
 
 	public StreamMapSurfaceView(DrawMapActivity context, RelativeLayout parent) {
 		super(context);
+
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
@@ -54,29 +58,78 @@ public class StreamMapSurfaceView extends SurfaceView implements
 		});
 		setActivityParent(context);
 		mParent = parent;
+		mProcessDataBaseHandler = new TProcessDataBaseHandler(mContext);
 		// initMap();
 	}
 
 	public void initMap() {
 		// add process box: add operators && add eye grass
-		addMapObject(new ObjProcessBox(mContext, 500, 30));
-		addMapObject(new ObjCustomer(mContext, 300, 30, "Change implemented"));
-		addMapObject(new ObjSupplier(mContext, 700, 30, "Change implemented"));
-		addMapObject(new ObjBurst(mContext, 400, 300));
-		addMapObject(new ObjInventory(mContext, 500, 330));
-		mLines.add(new ObjSingleArrow(mContext, mMapObjects.get(0), mMapObjects
-				.get(1)));
-		mLines.add(new ObjSingleArrow(mContext, mMapObjects.get(0), mMapObjects
-				.get(2)));
-		mLines.add(new ObjBigArrow(mContext, mMapObjects.get(1), mMapObjects
-				.get(3)));
-		mLines.add(new ObjBigArrow(mContext, mMapObjects.get(4), mMapObjects
-				.get(2)));
-		// add burst
-		// add inventory
-		// add takt time box
-		mParent.addView(new ObjTaktTimeBox(mContext, mContext.getWidth() - 160,
-				40).getLayout());
+		TProcessDataBase mTProcessDataBase = mContext.mTProcessDataBase;
+		if (mTProcessDataBase != null) {
+			addMapObject(new ObjProcessBox(mContext,
+					mContext.getWidth() / 2 - 60, 20, mTProcessDataBase));
+			addMapObject(new ObjCustomer(mContext, 40, 20,
+					mTProcessDataBase.getCustomerEndPoint()));
+			addMapObject(new ObjSupplier(mContext, mContext.getWidth() - 240,
+					20, mTProcessDataBase.getSupplierStartPoint()));
+			// addMapObject(new ObjBurst(mContext, 400, 300));
+			// addMapObject(new ObjInventory(mContext, 500, 330));
+			ObjSingleArrow mArrowCustomer = new ObjSingleArrow(mContext,
+					mMapObjects.get(0), mMapObjects.get(1),
+					mTProcessDataBase.getCommunication());
+			mLines.add(mArrowCustomer);
+			mParent.addView(mArrowCustomer.mLayout);
+			ObjSingleArrow mArrowSupplier = new ObjSingleArrow(mContext,
+					mMapObjects.get(0), mMapObjects.get(2),
+					mTProcessDataBase.getCommunication());
+			mLines.add(mArrowSupplier);
+			mParent.addView(mArrowSupplier.mLayout);
+			int mFirstProcessId = -1;
+			try {
+				mFirstProcessId = Integer.parseInt(mTProcessDataBase
+						.getPreviousProcess());
+			} catch (Exception e) {
+				// TODO: handle exception
+				mFirstProcessId = -1;
+			}
+			if (mFirstProcessId > 0) {
+				TProcessDataBase mTProcessDataBaseFirst = mProcessDataBaseHandler
+						.getProcess(mFirstProcessId);
+				addMapObject(new ObjProcessBox(mContext,
+						mContext.getWidth() / 2 - 200,
+						mContext.getHeight() - 160, mTProcessDataBaseFirst));
+
+				mLines.add(new ObjBigArrow(mContext, mMapObjects.get(1),
+						mMapObjects.get(3)));
+				mLines.add(new ObjSingleArrow(mContext, mMapObjects.get(0),
+						mMapObjects.get(3), "Previous"));
+			}
+			int mNextProcessId = -1;
+			try {
+				mNextProcessId = Integer.parseInt(mTProcessDataBase
+						.getNextProcess());
+			} catch (Exception e) {
+				// TODO: handle exception
+				mNextProcessId = -1;
+			}
+			if (mNextProcessId > 0) {
+				TProcessDataBase mTProcessDataBaseNext = mProcessDataBaseHandler
+						.getProcess(mFirstProcessId);
+				addMapObject(new ObjProcessBox(mContext,
+						mContext.getWidth() / 2 + 20,
+						mContext.getHeight() - 160, mTProcessDataBaseNext));
+
+				mLines.add(new ObjBigArrow(mContext, mMapObjects.get(4),
+						mMapObjects.get(2)));
+				mLines.add(new ObjSingleArrow(mContext, mMapObjects.get(0),
+						mMapObjects.get(4), "Next"));
+				addMapObject(new ObjBurst(mContext, mContext.getWidth() - 160, 180));
+				addMapObject(new ObjInventory(mContext, 500, 300));
+			}
+			mParent.addView(new ObjTaktTimeBox(mContext,
+					mContext.getWidth() - 160, 40).getLayout());
+
+		}
 		// add customer
 		// add supplier
 		// add big arrow

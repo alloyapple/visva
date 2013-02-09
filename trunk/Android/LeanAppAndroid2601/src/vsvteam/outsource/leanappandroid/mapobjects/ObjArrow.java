@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
-public abstract class ObjArrow {
+public abstract class ObjArrow extends MapObject{
 	private float kY, kX;
 	protected PointF mEdgeFist = new PointF();
 	protected PointF mTriangle1 = new PointF();
@@ -17,6 +17,7 @@ public abstract class ObjArrow {
 
 	public ObjArrow(Context pContext, MapObject pFirst, MapObject pEnd) {
 		// TODO Auto-generated constructor stub
+		super(pContext, 0, 0);
 		mFisrtObject = pFirst;
 		mEndObject = pEnd;
 		mFisrtPoint = mFisrtObject.getCenter();
@@ -215,5 +216,9 @@ public abstract class ObjArrow {
 	public abstract void updateParam();
 
 	public abstract void renderArrow(Canvas cv);
-
+	@Override
+	public void drawObjects(Canvas cv) {
+		// TODO Auto-generated method stub
+		
+	}
 }
