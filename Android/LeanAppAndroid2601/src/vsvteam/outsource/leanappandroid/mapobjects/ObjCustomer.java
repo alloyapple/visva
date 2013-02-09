@@ -35,7 +35,7 @@ public class ObjCustomer extends MapObject {
 		param.bottomMargin = 4;
 		mTextView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
 		mTextView.setLines(8);
-		mTextView.setText("Customer");
+		mTextView.setText(mTextContent);
 		mTextView.setTextColor(Color.BLACK);
 		// mTextView.setTypeface(Typeface.BOLD);
 		mLayout.addView(mTextView);

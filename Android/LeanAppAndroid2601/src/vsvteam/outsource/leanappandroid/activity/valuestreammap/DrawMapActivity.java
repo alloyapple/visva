@@ -6,6 +6,9 @@ import vsvteam.outsource.leanappandroid.actionbar.ActionExportActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionSettingActivity;
 import vsvteam.outsource.leanappandroid.actionbar.ActionVersionActivity;
 import vsvteam.outsource.leanappandroid.activity.home.VSVTeamBaseActivity;
+import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
+import vsvteam.outsource.leanappandroid.database.TProcessDataBase;
+import vsvteam.outsource.leanappandroid.database.TProcessDataBaseHandler;
 import vsvteam.outsource.leanappandroid.mapobjects.StreamMapSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class DrawMapActivity extends VSVTeamBaseActivity implements
-		OnClickListener{
+		OnClickListener {
 
 	private ImageView btnSetting;
 	private ImageView btnExport;
@@ -26,6 +29,8 @@ public class DrawMapActivity extends VSVTeamBaseActivity implements
 	private RelativeLayout frDrawStreamMap;
 	private int width;
 	private int height;
+	public TProcessDataBase mTProcessDataBase=null;
+	public TProcessDataBaseHandler mProcessDataBaseHandler;
 
 	public static final int NUM_OBJECTS = 6;
 	private StreamMapSurfaceView mSurfaceView;
@@ -35,16 +40,27 @@ public class DrawMapActivity extends VSVTeamBaseActivity implements
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_draw_map);
-		Display d= getWindowManager().getDefaultDisplay();
-		width=d.getWidth();
-		height=d.getHeight();
+		Display d = getWindowManager().getDefaultDisplay();
+		getDataValueStream();
+		width = d.getWidth();
+		height = d.getHeight();
 		intitalize();
 		initDrawFrame();
 	}
 
+	public void getDataValueStream() {
+		mProcessDataBaseHandler = new TProcessDataBaseHandler(this);
+		LeanAppAndroidSharePreference mPreference = LeanAppAndroidSharePreference
+				.getInstance(this);
+		if (mPreference.getProcessIdActive() >= 0) {
+			mTProcessDataBase = mProcessDataBaseHandler.getProcess(mPreference
+					.getProcessIdActive());
+		}
+	}
+
 	private void intitalize() {
 		frDrawStreamMap = (RelativeLayout) findViewById(R.id.id_fr_draw_map);
-		
+
 		btnExport = (ImageView) findViewById(R.id.img_project_export);
 		btnExport.setOnClickListener(this);
 		//
@@ -60,7 +76,7 @@ public class DrawMapActivity extends VSVTeamBaseActivity implements
 	}
 
 	public void initDrawFrame() {
-		mSurfaceView = new StreamMapSurfaceView(this,frDrawStreamMap);
+		mSurfaceView = new StreamMapSurfaceView(this, frDrawStreamMap);
 		frDrawStreamMap.addView(mSurfaceView);
 		mSurfaceView.initMap();
 
