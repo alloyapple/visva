@@ -40,8 +40,8 @@ import com.dropbox.client2.session.Session.AccessType;
 
 public class SendDropboxController {
 	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
-	private final static String APP_KEY = "a94dtzcws76ioru";
-	final static private String APP_SECRET = "vdgsfqsv6rajoou";
+	private final static String APP_KEY = "hjbjrmiite1q77n";
+	final static private String APP_SECRET = "qdx8opx1f11nktp";
 
 	final static private String ACCOUNT_PREFS_NAME = "prefs";
 	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
