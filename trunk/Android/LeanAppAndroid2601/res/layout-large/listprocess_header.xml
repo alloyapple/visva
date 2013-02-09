@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#000000" >
+
+    <TextView
+        android:id="@+id/FirstText"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Process Id" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/SecondText"
+        android:layout_width="150dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/FirstText"
+        android:text="Process Name" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/ThirdText"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/SecondText"
+        android:text="Process Description" >
+    </TextView>
+
+</RelativeLayout>

@@ -401,6 +401,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
                                     android:layout_marginRight="4dp"
+                                    android:checked="true"
                                     android:button="@drawable/checkbox_remember" />
                             </FrameLayout>
 <!-- 
@@ -585,6 +586,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right|center"
                                     android:layout_marginRight="4dp"
+                                    android:checked="true"
                                     android:button="@drawable/checkbox_remember" />
                             </FrameLayout>
 
