@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 public class FolderDataBaseHandler extends SQLiteOpenHelper {
 	// All Static variables
 	// Database Version
@@ -22,6 +21,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 
 	// Contacts Table Columns names
 	private static final String KEY_FOLDER_ID = "KEY_FOLDER_ID";
+	private static final String KEY_USER_ID = "KEY_USER_ID";
 	private static final String KEY_FOLDER_NAME = "KEY_FOLDER_NAME";
 	private static final String KEY_IMG_FOLDER_ID = "KEY_IMG_FOLDER_ID";
 	private static final String KEY_IMG_FOLDER_ICON_ID = "KEY_IMG_FOLDER_ICON_ID";
@@ -34,11 +34,10 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 	// create database
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_FOLDERS + "("
-				+ KEY_FOLDER_ID + " INTEGER PRIMARY KEY," + KEY_FOLDER_NAME
-				+ " TEXT," + KEY_IMG_FOLDER_ID + " INTEGER,"
-				+ KEY_IMG_FOLDER_ICON_ID + " INTEGER," + KEY_IMG_FOLDER_EDIT_ID
-				+ " INTEGER" + ")";
+		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_FOLDERS + "(" + KEY_FOLDER_ID
+				+ " INTEGER PRIMARY KEY," + KEY_USER_ID + " INTEGER," + KEY_FOLDER_NAME + " TEXT,"
+				+ KEY_IMG_FOLDER_ID + " INTEGER," + KEY_IMG_FOLDER_ICON_ID + " INTEGER,"
+				+ KEY_IMG_FOLDER_EDIT_ID + " INTEGER" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 
 	}
@@ -61,6 +60,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_FOLDER_ID, contact.getFolderId()); // folder id
+		values.put(KEY_USER_ID, contact.getUserId()); // user id
 		values.put(KEY_FOLDER_NAME, contact.getFolderName()); // folder name
 		values.put(KEY_IMG_FOLDER_ID, contact.getImgFolderId()); // folder name
 		// image folder icon id
@@ -78,18 +78,17 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 	public FolderDatabase getFolder(int folderId) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_T_FOLDERS, new String[] { KEY_FOLDER_ID,
-				KEY_FOLDER_NAME, KEY_IMG_FOLDER_ID, KEY_IMG_FOLDER_ICON_ID,
-				KEY_IMG_FOLDER_EDIT_ID }, TABLE_T_FOLDERS + "=?",
-				new String[] { String.valueOf(folderId) }, null, null, null,
-				null);
+		Cursor cursor = db.query(TABLE_T_FOLDERS,
+				new String[] { KEY_FOLDER_ID, KEY_USER_ID, KEY_FOLDER_NAME, KEY_IMG_FOLDER_ID,
+						KEY_IMG_FOLDER_ICON_ID, KEY_IMG_FOLDER_EDIT_ID }, KEY_FOLDER_ID + "=?",
+				new String[] { String.valueOf(folderId) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		FolderDatabase folder = new FolderDatabase(Integer.parseInt(cursor
-				.getString(0)), cursor.getString(1), Integer.parseInt(cursor
-				.getString(2)), Integer.parseInt(cursor.getString(3)),
-				Integer.parseInt(cursor.getString(4)));
+		FolderDatabase folder = new FolderDatabase(Integer.parseInt(cursor.getString(0)),
+				Integer.parseInt(cursor.getString(1)), cursor.getString(2), Integer.parseInt(cursor
+						.getString(3)), Integer.parseInt(cursor.getString(4)),
+				Integer.parseInt(cursor.getString(5)));
 		db.close();
 		// return folder
 		return folder;
@@ -109,10 +108,11 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 			do {
 				FolderDatabase contact = new FolderDatabase();
 				contact.setFolderId(Integer.parseInt(cursor.getString(0)));
-				contact.setFolderName(cursor.getString(1));
-				contact.setImgFolderId(Integer.parseInt(cursor.getString(2)));
-				contact.setImgFolderIconId(Integer.parseInt(cursor.getString(3)));
-				contact.setImgFolderEditId(Integer.parseInt(cursor.getString(4)));
+				contact.setUserId(Integer.parseInt(cursor.getString(1)));
+				contact.setFolderName(cursor.getString(2));
+				contact.setImgFolderId(Integer.parseInt(cursor.getString(3)));
+				contact.setImgFolderIconId(Integer.parseInt(cursor.getString(4)));
+				contact.setImgFolderEditId(Integer.parseInt(cursor.getString(5)));
 				// Adding contact to list
 				foldertList.add(contact);
 			} while (cursor.moveToNext());
@@ -128,6 +128,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_FOLDER_ID, folder.getFolderId());
+		values.put(KEY_USER_ID, folder.getUserId());
 		values.put(KEY_FOLDER_NAME, folder.getFolderName());
 		values.put(KEY_IMG_FOLDER_ID, folder.getImgFolderId());
 		values.put(KEY_IMG_FOLDER_ICON_ID, folder.getImgFolderIconId());
