@@ -3,6 +3,7 @@ package visvateam.outsource.idmanager.database;
 public class FolderDatabase {
 	// all variables
 	private int folderId;
+	private int userId;
 	private String folderName;
 	private int imgFolderId;
 	private int imgFolderIconId;
@@ -14,9 +15,10 @@ public class FolderDatabase {
 	}
 
 	// constructor
-	public FolderDatabase(int folderId, String folderName, int imgFolderId,
+	public FolderDatabase(int folderId,int userId, String folderName, int imgFolderId,
 			int imgFolderIconId, int imgFolerEditId) {
 		this.folderId = folderId;
+		this.userId = userId;
 		this.folderName = folderName;
 		this.imgFolderId = imgFolderId;
 		this.imgFolderIconId = imgFolderIconId;
@@ -24,8 +26,9 @@ public class FolderDatabase {
 	}
 
 	// constructor
-	public FolderDatabase(String folderName, int imgFolderId,
+	public FolderDatabase(int userId,String folderName, int imgFolderId,
 			int imgFolderIconId, int imgFolerEditId) {
+		this.userId = userId;
 		this.folderName = folderName;
 		this.imgFolderId = imgFolderId;
 		this.imgFolderIconId = imgFolderIconId;
@@ -71,4 +74,13 @@ public class FolderDatabase {
 	public void setImgFolderEditId(int imgFolderEditId) {
 		this.imgFolderEditId = imgFolderEditId;
 	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
 }
