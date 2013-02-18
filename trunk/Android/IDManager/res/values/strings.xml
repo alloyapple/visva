@@ -29,5 +29,6 @@
     <string name="item_sign">Sign</string>
     <string name="item_duplicate">Duplicate Prevention</string>
     <string name="item_number_character">Number of Characters</string>
+    <string name="hint_search">Search</string>
 
 </resources>

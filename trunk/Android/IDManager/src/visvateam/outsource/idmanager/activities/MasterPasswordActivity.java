@@ -1,6 +1,4 @@
 package visvateam.outsource.idmanager.activities;
-
-import visvateam.outsource.idmanager.activities.homescreen.DragAndDropListView;
 import visvateam.outsource.idmanager.activities.homescreen.DragAndDropListViewDemo;
 import android.app.Activity;
 import android.content.Intent;

@@ -1,121 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
     android:background="@drawable/bg_00"
-    android:orientation="vertical"
-    android:weightSum="5" >
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="vertical" >
 
-    <RelativeLayout
+    <LinearLayout
+        android:background="@drawable/black_bar"
         android:id="@+id/action_bar"
+        android:layout_height="46dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_actionbar" >
+        android:orientation="horizontal" >
 
         <Button
+            android:background="@drawable/edit"
             android:id="@+id/btn_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_height="36dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/edit" />
+            android:layout_width="36dp" />
 
         <EditText
-            android:id="@+id/editText_search"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
             android:ellipsize="start"
-            android:hint="Search"
+            android:hint="@string/hint_search"
+            android:id="@+id/editText_search"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:textColor="@color/black" />
 
         <Button
+            android:background="@drawable/btn_plus"
             android:id="@+id/btn_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_height="36dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/plus" />
-    </RelativeLayout>
+            android:layout_width="36dp" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/layout_listview"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
         android:layout_width="fill_parent"
-        android:layout_height="400dp"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/layout_listview_folder"
-            android:layout_width="80dp"
             android:layout_height="fill_parent"
+            android:layout_width="80dp"
             android:orientation="vertical" >
 
             <exp.mtparet.dragdrop.view.ListViewDragDrop
                 android:id="@+id/list_view_folder"
-                android:layout_width="80dp"
-                android:layout_height="350dp" />
+                android:layout_height="350dp"
+                android:layout_width="80dp" />
 
             <Button
+                android:background="@drawable/folder"
                 android:id="@+id/btn_add_new_folder"
-                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/folder" />
+                android:layout_width="80dp" />
         </LinearLayout>
 
         <exp.mtparet.dragdrop.view.ListViewDragDrop
             android:id="@+id/list_view_item"
-            android:layout_width="fill_parent"
             android:layout_height="400dp"
-            android:layout_toRightOf="@id/layout_listview_folder" />
+            android:layout_toRightOf="@id/layout_listview_folder"
+            android:layout_width="fill_parent" />
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_width="50dp"
             android:visibility="gone" >
         </ImageView>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:background="@drawable/bg_actionbar"
         android:id="@+id/layout_bottom"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/bg_actionbar" >
+        android:layout_height="46dp"
+        android:layout_width="fill_parent" >
 
         <Button
+            android:background="@drawable/btn_info"
             android:id="@+id/btn_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/i" />
+            android:layout_gravity="center"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="30dp" />
 
         <Button
+            android:background="@drawable/btn_setting"
             android:id="@+id/btn_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_height="30dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="2dp"
-            android:layout_toRightOf="@id/btn_info"
-            android:background="@drawable/setting" />
+            android:layout_width="30dp" />
 
         <Button
-            android:id="@+id/btn_sync"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center|bottom"
-            android:layout_marginBottom="5dp"
             android:background="@drawable/sync"
-            android:gravity="center|center" />
-    </RelativeLayout>
+            android:id="@+id/btn_sync"
+            android:layout_gravity="center"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="30dp" />
+    </LinearLayout>
 
 </LinearLayout>
