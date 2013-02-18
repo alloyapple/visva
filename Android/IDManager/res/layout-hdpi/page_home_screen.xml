@@ -34,7 +34,7 @@
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btn_plus"
+            android:id="@+id/btn_add_new_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -52,18 +52,20 @@
 
         <LinearLayout
             android:id="@+id/layout_listview_folder"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
 
-            <exp.mtparet.dragdrop.view.ListViewDragDrop
+            <ListView
                 android:id="@+id/list_view_folder"
-                android:layout_width="80dp"
+                android:layout_width="100dp"
                 android:layout_height="350dp" />
 
             <Button
                 android:id="@+id/btn_add_new_folder"
-                android:layout_width="80dp"
+                android:layout_width="90dp"
+                android:gravity="center"
+                android:layout_gravity="center|center"
                 android:layout_height="wrap_content"
                 android:background="@drawable/folder" />
         </LinearLayout>
