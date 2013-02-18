@@ -68,8 +68,8 @@ public class FolderListViewAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.imgFolder.setBackgroundResource(R.drawable.folder_s_common);
-		holder.imgFolderIcon.setBackgroundResource(R.drawable.favorite);
+		holder.imgFolder.setBackgroundResource(imgFolderId[position]);
+		holder.imgFolderIcon.setBackgroundResource(imgFolderIconId[position]);
 		holder.imgFolderEdit.setBackgroundResource(R.drawable.delete);
 		if (isEdit == true) {
 			holder.imgFolderEdit.setVisibility(View.VISIBLE);

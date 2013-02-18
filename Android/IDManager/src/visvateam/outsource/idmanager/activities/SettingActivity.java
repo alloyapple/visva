@@ -1,6 +1,7 @@
 package visvateam.outsource.idmanager.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,9 @@ public class SettingActivity extends Activity {
 	}
 
 	public void onChangeMasterPass(View v) {
-		MasterPasswordChangeActivity.startActivity(this);
+		Intent intentChangePW = new Intent(SettingActivity.this, MasterPasswordChangeActivity.class);
+		intentChangePW.putExtra("isChangePW", true);
+		startActivity(intentChangePW);
 	}
 
 	public void onSecurityMode(View v) {

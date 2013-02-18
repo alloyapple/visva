@@ -1,6 +1,7 @@
 package visvateam.outsource.idmanager.activities;
 
-import visvateam.outsource.idmanager.activities.homescreen.DragAndDropListViewDemo;
+import visvateam.outsource.idmanager.activities.homescreen.DragAndDropListView;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +9,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MasterPasswordActivity extends Activity implements OnClickListener {
 
+	// =========================Control Define =====================
 	private Button btnDone;
 	private EditText editTextMasterPW;
+	// ========================Class Define =======================
+	private IdManagerPreference idManagerPreference;
+	// =========================Variable Define ====================
+	private String masterPW;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +30,18 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		btnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
 		btnDone.setOnClickListener(this);
 		editTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
+
+		// init idmanager preference
+		idManagerPreference = IdManagerPreference.getInstance(this);
+		masterPW = idManagerPreference.getMasterPW();
 	}
 
 	public void confirmMaster(View v) {
+
+	}
+
+	private void showToast(String string) {
+		Toast.makeText(MasterPasswordActivity.this, string, Toast.LENGTH_LONG).show();
 	}
 
 	public void onReturn(View v) {
@@ -40,8 +56,17 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		if (v == btnDone) {
-			Intent intent = new Intent(MasterPasswordActivity.this, DragAndDropListViewDemo.class);
-			startActivity(intent);
+			if ("".equals(editTextMasterPW.getText().toString())) {
+				showToast("Type your master password to continue");
+			} else {
+				if (!masterPW.equals(editTextMasterPW.getText().toString()))
+					showToast("Your password is not correct");
+				else {
+					Intent intent = new Intent(MasterPasswordActivity.this,
+							DragAndDropListView.class);
+					startActivity(intent);
+				}
+			}
 		}
 
 	}

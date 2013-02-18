@@ -1,15 +1,18 @@
 package visvateam.outsource.idmanager.activities;
 
 import visvateam.outsource.idmanager.activities.login.TermOfServiceActivity;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.database.UserDataBase;
 import visvateam.outsource.idmanager.database.UserDataBaseHandler;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MasterPasswordChangeActivity extends Activity {
 	// =======================Control Define ====================
@@ -22,24 +25,33 @@ public class MasterPasswordChangeActivity extends Activity {
 	private TextView txtNewPW;
 	// =======================Class Define ======================
 	private UserDataBaseHandler userDataBaseHandler;
+	private IdManagerPreference idManagerPreference;
 	// =======================Variables Define ==================
 	private boolean isChangePW;
+	private String masterPW;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.change_master_password);
 		isChangePW = getIntent().getExtras().getBoolean("isChangePW");
+		Log.e("isChangePW", "isCHangePW " + isChangePW);
 
-		/*init database*/
+		/* init database */
 		initDataBase();
 		/* init control */
 		initControl();
 	}
 
 	private void initDataBase() {
+
+		/* init share preference */
+		idManagerPreference = IdManagerPreference.getInstance(this);
+		masterPW = idManagerPreference.getMasterPW();
+		Log.e("masterpw", "masterpw "+masterPW);
+		/* init database */
 		userDataBaseHandler = new UserDataBaseHandler(this);
-		
+
 	}
 
 	private void initControl() {
@@ -65,12 +77,35 @@ public class MasterPasswordChangeActivity extends Activity {
 	}
 
 	public void confirmMaster(View v) {
+
+		/* is create new master pw */
 		if (!isChangePW) {
-			Intent intent = new Intent(MasterPasswordChangeActivity.this,
-					TermOfServiceActivity.class);
-			startActivity(intent);
-		}else{
-			
+			if (!editTextNewPW.getText().toString().trim()
+					.equals(editTextOldPW.getText().toString().trim()))
+				showToast("Password retyped is not correct");
+			else {
+				/* set master pw */
+				masterPW = editTextOldPW.getText().toString();
+				idManagerPreference.setMasterPW(masterPW);
+
+				/* return Term of service */
+				Intent intent = new Intent(MasterPasswordChangeActivity.this,
+						TermOfServiceActivity.class);
+				startActivity(intent);
+			}
+		} else {
+
+			/* change master pw */
+			if (!masterPW.equals(editTextOldPW.getText().toString())) {
+				showToast("Your old master password is not correct");
+			} else {
+				masterPW = editTextNewPW.getText().toString();
+				idManagerPreference.setMasterPW(masterPW);
+
+				/* return setting activity */
+				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
+				startActivity(intent);
+			}
 		}
 	}
 
@@ -81,5 +116,9 @@ public class MasterPasswordChangeActivity extends Activity {
 	public static void startActivity(Activity activity) {
 		Intent i = new Intent(activity, MasterPasswordChangeActivity.class);
 		activity.startActivity(i);
+	}
+
+	private void showToast(String string) {
+		Toast.makeText(MasterPasswordChangeActivity.this, string, Toast.LENGTH_LONG).show();
 	}
 }

@@ -75,17 +75,17 @@ public class IdManagerPreference {
 		editor.commit();
 	}
 
-	public boolean getMasterPW(String key) {
+	public String getMasterPW(String key) {
 		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
-		return pref.getBoolean(key, true);
+		return pref.getString(key, "");
 	}
 
 	public void setMasterPW(String b) {
 		setMasterPW(MASTER_PASSWORD, b);
 	}
 
-	public boolean getMasterPW() {
-		boolean b;
+	public String getMasterPW() {
+		String b;
 		b = getMasterPW(MASTER_PASSWORD);
 		return b;
 	}
