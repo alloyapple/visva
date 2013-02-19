@@ -66,7 +66,7 @@ public class ItemAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup arg2) {
 
 		if(convertView == null){
-			convertView = (RelativeLayout)RelativeLayout.inflate(context,R.layout.list_library_row, null);
+			convertView = (RelativeLayout)RelativeLayout.inflate(context,R.layout.list_id_row, null);
 
 		}
 		

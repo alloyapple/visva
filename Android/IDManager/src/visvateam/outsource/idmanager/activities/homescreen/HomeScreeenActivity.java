@@ -57,12 +57,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	// ============================Variable Define ==================
 	private static final int DIALOG_ADD_NEW_FOLDER = 0;
 	private static final int NUMBER_FOLDER_DEFALT = 2;
-	private static final String NAME_HISTORY_FOLDER="history";
-	private static final String NAME_FAVOURITE_FOLDER="favourite";
+	private static final String NAME_HISTORY_FOLDER = "history";
+	private static final String NAME_FAVOURITE_FOLDER = "favourite";
 	private static final int TEXT_ID = 0;
 	private Context context;
 	private int[] imgFolderId;
 	private int[] imgFolderIconId;
+	private int[] imgFolderType;
 	private boolean isEdit = false;
 
 	@Override
@@ -76,7 +77,6 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* init control */
 		initControl();
-
 	}
 
 	/**
@@ -102,8 +102,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		/* init adapter for listview */
 		itemAdapter = new ItemAdapter(context, constructList());
 		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
-				imgFolderIconId, false);
+				imgFolderIconId, imgFolderType, false);
 		lvPicture.setAdapter(itemAdapter);
+
 		// lvRecever.setAdapter(receverAdapter);
 		folderListView.setAdapter(folderListViewAdapter);
 
@@ -171,9 +172,12 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		Log.e("size", "size " + sizeOfFolder);
 		imgFolderIconId = new int[sizeOfFolder];
 		imgFolderId = new int[sizeOfFolder];
+		imgFolderType = new int[sizeOfFolder];
 		for (int i = 0; i < sizeOfFolder; i++) {
 			imgFolderIconId[i] = folderList.get(i).getImgFolderIconId();
 			imgFolderId[i] = folderList.get(i).getImgFolderId();
+			imgFolderType[i] = folderList.get(i).getTypeOfFolder();
+			Log.e("adskjfhskdjh", "asdfjh " + imgFolderType[i]);
 		}
 	}
 
@@ -184,15 +188,16 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		if (sizeOfFolder < NUMBER_FOLDER_DEFALT) {
-			/* add favourite table to folder db*/
+			/* add favourite table to folder db */
 			FolderDatabase folderFavourite = new FolderDatabase(0, 1,
 					NAME_FAVOURITE_FOLDER, R.drawable.folder_s_common,
-					R.drawable.favorite, false);
+					R.drawable.favorite, 0);
 			folderDataBaseHandler.addNewFolder(folderFavourite);
-			
+
 			/* add history table to folder db */
-			FolderDatabase folderHistory = new FolderDatabase(1, 1, NAME_HISTORY_FOLDER,
-					R.drawable.folder_s_common, R.drawable.history, false);
+			FolderDatabase folderHistory = new FolderDatabase(1, 1,
+					NAME_HISTORY_FOLDER, R.drawable.folder_s_common,
+					R.drawable.history, 0);
 			folderDataBaseHandler.addNewFolder(folderHistory);
 		}
 	}
@@ -325,44 +330,6 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		return al;
 	}
 
-	// private ArrayList<ReceiverOneItem> constructListFolder() {
-	// // ArrayList<OneItem> al = new ArrayList<OneItem>();
-	// //
-	// // OneItem op = new OneItem(R.drawable.unionpay2, "unionpay2");
-	// // al.add(op);
-	// //
-	// // OneItem op2 = new OneItem(R.drawable.bank_of_china, "bank_of_china");
-	// // al.add(op2);
-	// //
-	// // OneItem op3 = new OneItem(R.drawable.bank_of_shanghai,
-	// // "bank_of_shanghai");
-	// // al.add(op3);
-	// //
-	// // OneItem op4 = new OneItem(
-	// // R.drawable.china_construction_bank_corporation,
-	// // "china_construction_bank_corporation");
-	// // al.add(op4);
-	// //
-	// // OneItem op5 = new OneItem(R.drawable.agricultural_bank_of_china,
-	// // "agricultural_bank_of_china");
-	// // al.add(op5);
-	// //
-	// // OneItem op6 = new
-	// // OneItem(R.drawable.china_construction_bank_corporation,
-	// // "china_construction_bank_corporation");
-	// // al.add(op6);
-	// //
-	// // OneItem op7 = new OneItem(R.drawable.bank_of_shanghai,
-	// // "bank_of_shanghai");
-	// // al.add(op7);
-	// // return al;
-	// ArrayList<ReceiverOneItem> receiverOneItem = new
-	// ArrayList<ReceiverOneItem>();
-	// // ReceiverOneItem op = new ReceiverOneItem(idImgFolder,
-	// // idImgFolderIcon, idImgEdit, name);
-	// return receiverOneItem;
-	// }
-
 	@Override
 	public void onClick(View v) {
 		/* add new folder */
@@ -380,9 +347,15 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			if (isEdit) {
 				btnEdit.setBackgroundResource(R.drawable.edit);
 				isEdit = false;
+
+				/* set folder and id listview in normal mode */
+				setNormalModeForFolderAndIdListView();
 			} else {
 				btnEdit.setBackgroundResource(R.drawable.return_back);
 				isEdit = true;
+
+				/* set folder and id listview in edit mode */
+				setEditModeForFolderAndIdListView();
 			}
 		}
 
@@ -397,7 +370,31 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		else if (v == btnSync) {
 
 		}
+	}
 
+	/**
+	 * set mode normal for folder and id list view
+	 */
+	private void setNormalModeForFolderAndIdListView() {
+		/* set mode edit for folder */
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
+				imgFolderIconId, imgFolderType, false);
+		folderListView.setAdapter(folderListViewAdapter);
+		folderListViewAdapter.notifyDataSetChanged();
+		folderListView.invalidate();
+
+	}
+
+	/**
+	 * set mode edit for folder and id list view
+	 */
+	private void setEditModeForFolderAndIdListView() {
+		/* set mode edit for folder */
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
+				imgFolderIconId, imgFolderType, true);
+		folderListView.setAdapter(folderListViewAdapter);
+		folderListViewAdapter.notifyDataSetChanged();
+		folderListView.invalidate();
 	}
 
 	/**
@@ -480,23 +477,22 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * add new folder to database
 	 */
 	private void addNewFolderToDatabase(String folderName) {
-		/*add new folder*/
+
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		sizeOfFolder++;
 		int imgFolderIconId = R.drawable.jog_note_push;
 		int imgFolderId = R.drawable.folder_common;
 		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1,
-				folderName, imgFolderId, imgFolderIconId, true));
-		
+				folderName, imgFolderId, imgFolderIconId, 1));
+
 		/* refresh listview folder */
 		refreshFolderListView();
 	}
 
 	public void onResume() {
 		super.onResume();
-		Log.e("onResume", "onResume");
-		
+
 		/* refresh listview id */
 		refreshIdListView();
 	}
@@ -513,15 +509,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * refresh folder list view after change
 	 */
 	private void refreshFolderListView() {
-		
-		List<FolderDatabase>folderList=folderDataBaseHandler.getAllFolders();
-		Log.e("folderList", "size folder "+folderList.size());
-		
+
+		/* load data from folder database */
 		loadDataFromFolderDataBase();
-		
-		
+
+		/* refresh list view */
 		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
-				imgFolderIconId, false);
+				imgFolderIconId, imgFolderType, false);
 		folderListView.setAdapter(folderListViewAdapter);
 		folderListViewAdapter.notifyDataSetChanged();
 		folderListView.invalidate();
