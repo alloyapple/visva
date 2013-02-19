@@ -49,7 +49,7 @@ import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.data.ReceiverOneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
-public class DragAndDropListView extends Activity implements OnClickListener {
+public class HomeScreeenActivity extends Activity implements OnClickListener {
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop lvPicture;
@@ -387,7 +387,7 @@ public class DragAndDropListView extends Activity implements OnClickListener {
 
 		/* setting */
 		else if (v == btnSetting) {
-			Intent intentSeting = new Intent(DragAndDropListView.this, SettingActivity.class);
+			Intent intentSeting = new Intent(HomeScreeenActivity.this, SettingActivity.class);
 			startActivity(intentSeting);
 		} 
 		

@@ -1,6 +1,6 @@
 package visvateam.outsource.idmanager.activities;
 
-import visvateam.outsource.idmanager.activities.homescreen.DragAndDropListView;
+import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.app.Activity;
 import android.content.Intent;
@@ -41,7 +41,8 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	}
 
 	private void showToast(String string) {
-		Toast.makeText(MasterPasswordActivity.this, string, Toast.LENGTH_LONG).show();
+		Toast.makeText(MasterPasswordActivity.this, string, Toast.LENGTH_LONG)
+				.show();
 	}
 
 	public void onReturn(View v) {
@@ -62,8 +63,12 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 				if (!masterPW.equals(editTextMasterPW.getText().toString()))
 					showToast("Your password is not correct");
 				else {
+					/* reset edit text master pw */
+					editTextMasterPW.setText("");
+					
+					/* go to HomeScreen activity */
 					Intent intent = new Intent(MasterPasswordActivity.this,
-							DragAndDropListView.class);
+							HomeScreeenActivity.class);
 					startActivity(intent);
 				}
 			}
