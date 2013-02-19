@@ -29,6 +29,6 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_toLeftOf="@id/img_folder_icon"
-        android:background="@drawable/delete" />
+         />
 
 </RelativeLayout>

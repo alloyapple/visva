@@ -7,7 +7,7 @@ public class FolderDatabase {
 	private String folderName;
 	private int imgFolderId;
 	private int imgFolderIconId;
-	private boolean isNormalFolder;
+	private int typeOfFolder;
 
 	// constructor
 	public FolderDatabase() {
@@ -16,23 +16,23 @@ public class FolderDatabase {
 
 	// constructor
 	public FolderDatabase(int folderId, int userId, String folderName,
-			int imgFolderId, int imgFolderIconId, boolean isNormalFolder) {
+			int imgFolderId, int imgFolderIconId, int typeOfFolder) {
 		this.folderId = folderId;
 		this.userId = userId;
 		this.folderName = folderName;
 		this.imgFolderId = imgFolderId;
 		this.imgFolderIconId = imgFolderIconId;
-		this.isNormalFolder = isNormalFolder;
+		this.typeOfFolder = typeOfFolder;
 	}
 
 	// constructor
 	public FolderDatabase(int userId, String folderName, int imgFolderId,
-			int imgFolderIconId, int imgFolerEditId, boolean isNormalFolder) {
+			int imgFolderIconId, int imgFolerEditId, int typeOfFolder) {
 		this.userId = userId;
 		this.folderName = folderName;
 		this.imgFolderId = imgFolderId;
 		this.imgFolderIconId = imgFolderIconId;
-		this.isNormalFolder = isNormalFolder;
+		this.typeOfFolder = typeOfFolder;
 	}
 
 	public int getFolderId() {
@@ -75,12 +75,12 @@ public class FolderDatabase {
 		this.userId = userId;
 	}
 
-	public boolean isNormalFolder() {
-		return isNormalFolder;
+	public int getTypeOfFolder() {
+		return typeOfFolder;
 	}
 
-	public void setNormalFolder(boolean isNormalFolder) {
-		this.isNormalFolder = isNormalFolder;
+	public void setTypeOfFolder(int typeOfFolder) {
+		this.typeOfFolder = typeOfFolder;
 	}
 
 }

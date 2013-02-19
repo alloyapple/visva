@@ -15,6 +15,7 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 
 	// =========================Control Define =====================
 	private Button btnDone;
+	private Button btnBack;
 	private EditText editTextMasterPW;
 	// ========================Class Define =======================
 	private IdManagerPreference idManagerPreference;
@@ -26,7 +27,7 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.master_password);
 
-		//
+		//button
 		btnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
 		btnDone.setOnClickListener(this);
 		editTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);

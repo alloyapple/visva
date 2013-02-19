@@ -1,6 +1,5 @@
 package exp.mtparet.dragdrop.adapter;
 
-import java.util.HashMap;
 import visvateam.outsource.idmanager.activities.R;
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,22 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 public class FolderListViewAdapter extends BaseAdapter {
 
 	private int[] imgFolderId;
 	private int[] imgFolderIconId;
-	private int[] imgFolderEditId;
+	private int[] imgFolderType;
 	Activity activity;
 	private boolean isEdit;
 
 	// constructor
-	public FolderListViewAdapter(Activity activity, int[] imgFolderId, int[] imgFolderIconId,
-			boolean isEdit) {
+	public FolderListViewAdapter(Activity activity, int[] imgFolderId,
+			int[] imgFolderIconId, int[] imgFolderType, boolean isEdit) {
 		this.activity = activity;
 		this.imgFolderIconId = imgFolderIconId;
 		this.imgFolderId = imgFolderId;
+		this.imgFolderType = imgFolderType;
 		this.isEdit = isEdit;
 	}
 
@@ -60,9 +59,12 @@ public class FolderListViewAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.list_item_row, null);
 			holder = new ViewHolder();
-			holder.imgFolder = (ImageView) convertView.findViewById(R.id.img_folder);
-			holder.imgFolderEdit = (ImageView) convertView.findViewById(R.id.img_folder_edit);
-			holder.imgFolderIcon = (ImageView) convertView.findViewById(R.id.img_folder_icon);
+			holder.imgFolder = (ImageView) convertView
+					.findViewById(R.id.img_folder);
+			holder.imgFolderEdit = (ImageView) convertView
+					.findViewById(R.id.img_folder_edit);
+			holder.imgFolderIcon = (ImageView) convertView
+					.findViewById(R.id.img_folder_icon);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -71,7 +73,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 		holder.imgFolder.setBackgroundResource(imgFolderId[position]);
 		holder.imgFolderIcon.setBackgroundResource(imgFolderIconId[position]);
 		holder.imgFolderEdit.setBackgroundResource(R.drawable.delete);
-		if (isEdit == true) {
+		if (isEdit == true && imgFolderType[position] == 1) {
 			holder.imgFolderEdit.setVisibility(View.VISIBLE);
 		} else
 			holder.imgFolderEdit.setVisibility(View.GONE);

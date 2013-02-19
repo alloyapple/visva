@@ -15,7 +15,7 @@ public class SettingActivity extends Activity {
 	}
 
 	public void onReturn(View v) {
-
+		finish();
 	}
 
 	public void onChangeMasterPass(View v) {
