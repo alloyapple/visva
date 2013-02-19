@@ -7,7 +7,7 @@ public class FolderDatabase {
 	private String folderName;
 	private int imgFolderId;
 	private int imgFolderIconId;
-	private int imgFolderEditId;
+	private boolean isNormalFolder;
 
 	// constructor
 	public FolderDatabase() {
@@ -15,24 +15,24 @@ public class FolderDatabase {
 	}
 
 	// constructor
-	public FolderDatabase(int folderId,int userId, String folderName, int imgFolderId,
-			int imgFolderIconId, int imgFolerEditId) {
+	public FolderDatabase(int folderId, int userId, String folderName,
+			int imgFolderId, int imgFolderIconId, boolean isNormalFolder) {
 		this.folderId = folderId;
 		this.userId = userId;
 		this.folderName = folderName;
 		this.imgFolderId = imgFolderId;
 		this.imgFolderIconId = imgFolderIconId;
-		this.imgFolderEditId = imgFolerEditId;
+		this.isNormalFolder = isNormalFolder;
 	}
 
 	// constructor
-	public FolderDatabase(int userId,String folderName, int imgFolderId,
-			int imgFolderIconId, int imgFolerEditId) {
+	public FolderDatabase(int userId, String folderName, int imgFolderId,
+			int imgFolderIconId, int imgFolerEditId, boolean isNormalFolder) {
 		this.userId = userId;
 		this.folderName = folderName;
 		this.imgFolderId = imgFolderId;
 		this.imgFolderIconId = imgFolderIconId;
-		this.imgFolderEditId = imgFolerEditId;
+		this.isNormalFolder = isNormalFolder;
 	}
 
 	public int getFolderId() {
@@ -67,14 +67,6 @@ public class FolderDatabase {
 		this.imgFolderIconId = imgFolderIconId;
 	}
 
-	public int getImgFolderEditId() {
-		return imgFolderEditId;
-	}
-
-	public void setImgFolderEditId(int imgFolderEditId) {
-		this.imgFolderEditId = imgFolderEditId;
-	}
-
 	public int getUserId() {
 		return userId;
 	}
@@ -82,5 +74,13 @@ public class FolderDatabase {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
+
+	public boolean isNormalFolder() {
+		return isNormalFolder;
+	}
+
+	public void setNormalFolder(boolean isNormalFolder) {
+		this.isNormalFolder = isNormalFolder;
+	}
+
 }

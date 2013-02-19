@@ -36,5 +36,6 @@
     <string name="create_new_password_confirm">OK</string>
     <string name="create_new_password_cancel">Cancel</string>
     <string name="hint_search">Search</string>
+    <string name="search">Search</string>
 
 </resources>

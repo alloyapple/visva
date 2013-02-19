@@ -25,7 +25,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_FOLDER_NAME = "KEY_FOLDER_NAME";
 	private static final String KEY_IMG_FOLDER_ID = "KEY_IMG_FOLDER_ID";
 	private static final String KEY_IMG_FOLDER_ICON_ID = "KEY_IMG_FOLDER_ICON_ID";
-	private static final String KEY_IMG_FOLDER_EDIT_ID = "KEY_IMG_FOLDER_EDIT_ID";
+	private static final String KEY_IS_NORMAL_FOLDER = "KEY_IS_NORMAL_FOLDER";
 
 	public FolderDataBaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,7 +37,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_FOLDERS + "(" + KEY_FOLDER_ID
 				+ " INTEGER PRIMARY KEY," + KEY_USER_ID + " INTEGER," + KEY_FOLDER_NAME + " TEXT,"
 				+ KEY_IMG_FOLDER_ID + " INTEGER," + KEY_IMG_FOLDER_ICON_ID + " INTEGER,"
-				+ KEY_IMG_FOLDER_EDIT_ID + " INTEGER" + ")";
+				+ KEY_IS_NORMAL_FOLDER + " BOOLEAN" + ")";
 		db.execSQL(CREATE_CONTACTS_TABLE);
 
 	}
@@ -66,7 +66,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 		// image folder icon id
 		values.put(KEY_IMG_FOLDER_ICON_ID, contact.getImgFolderIconId());
 		// image folder icon edit
-		values.put(KEY_IMG_FOLDER_EDIT_ID, contact.getImgFolderEditId());
+		values.put(KEY_IS_NORMAL_FOLDER, contact.isNormalFolder());
 
 		// Inserting Row
 		db.insert(TABLE_T_FOLDERS, null, values);
@@ -80,7 +80,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 
 		Cursor cursor = db.query(TABLE_T_FOLDERS,
 				new String[] { KEY_FOLDER_ID, KEY_USER_ID, KEY_FOLDER_NAME, KEY_IMG_FOLDER_ID,
-						KEY_IMG_FOLDER_ICON_ID, KEY_IMG_FOLDER_EDIT_ID }, KEY_FOLDER_ID + "=?",
+						KEY_IMG_FOLDER_ICON_ID, KEY_IS_NORMAL_FOLDER }, KEY_FOLDER_ID + "=?",
 				new String[] { String.valueOf(folderId) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
@@ -88,7 +88,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 		FolderDatabase folder = new FolderDatabase(Integer.parseInt(cursor.getString(0)),
 				Integer.parseInt(cursor.getString(1)), cursor.getString(2), Integer.parseInt(cursor
 						.getString(3)), Integer.parseInt(cursor.getString(4)),
-				Integer.parseInt(cursor.getString(5)));
+				Boolean.parseBoolean(cursor.getString(5)));
 		db.close();
 		// return folder
 		return folder;
@@ -112,7 +112,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 				contact.setFolderName(cursor.getString(2));
 				contact.setImgFolderId(Integer.parseInt(cursor.getString(3)));
 				contact.setImgFolderIconId(Integer.parseInt(cursor.getString(4)));
-				contact.setImgFolderEditId(Integer.parseInt(cursor.getString(5)));
+				contact.setNormalFolder(Boolean.parseBoolean(cursor.getString(5)));
 				// Adding contact to list
 				foldertList.add(contact);
 			} while (cursor.moveToNext());
@@ -132,7 +132,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_FOLDER_NAME, folder.getFolderName());
 		values.put(KEY_IMG_FOLDER_ID, folder.getImgFolderId());
 		values.put(KEY_IMG_FOLDER_ICON_ID, folder.getImgFolderIconId());
-		values.put(KEY_IMG_FOLDER_EDIT_ID, folder.getImgFolderEditId());
+		values.put(KEY_IS_NORMAL_FOLDER, folder.isNormalFolder());
 		// updating row
 		return db.update(TABLE_T_FOLDERS, values, KEY_FOLDER_ID + " = ?",
 				new String[] { String.valueOf(folder.getFolderId()) });
@@ -146,7 +146,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	// Getting folders Count
+	// Getting folders count
 	public int getProjectsCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_T_FOLDERS;
 		SQLiteDatabase db = this.getReadableDatabase();
