@@ -48,7 +48,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="visvateam.outsource.idmanager.activities.homescreen.DragAndDropListView"
+            android:name="visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

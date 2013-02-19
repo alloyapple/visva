@@ -1,22 +1,3 @@
-/*
- *Copyright 2011 Matthieu Paret
- *
- *This file is part of DragAndDrop.
- *
- *DragAndDrop is free software: you can redistribute it and/or modify
- *it under the terms of the GNU Lesser General Public License as published by
- *the Free Software Foundation, either version 3 of the License, or
- *(at your option) any later version.
- *
- *DragAndDrop is distributed in the hope that it will be useful,
- *but WITHOUT ANY WARRANTY; without even the implied warranty of
- *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *GNU General Public License for more details.
- *
- *You should have received a copy of the GNU Lesser General Public License
- *along with DragAndDrop.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package visvateam.outsource.idmanager.activities.homescreen;
 
 import java.util.ArrayList;
@@ -27,7 +8,10 @@ import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +30,6 @@ import android.widget.RelativeLayout;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.data.OneItem;
-import exp.mtparet.dragdrop.data.ReceiverOneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
 public class HomeScreeenActivity extends Activity implements OnClickListener {
@@ -72,10 +55,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private FolderDataBaseHandler folderDataBaseHandler;
 
 	// ============================Variable Define ==================
+	private static final int DIALOG_ADD_NEW_FOLDER = 0;
+	private static final int NUMBER_FOLDER_DEFALT = 2;
+	private static final String NAME_HISTORY_FOLDER="history";
+	private static final String NAME_FAVOURITE_FOLDER="favourite";
+	private static final int TEXT_ID = 0;
 	private Context context;
 	private int[] imgFolderId;
 	private int[] imgFolderIconId;
-	private int[] imgFolderEditId;
 	private boolean isEdit = false;
 
 	@Override
@@ -101,16 +88,21 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				R.layout.page_home_screen, null);
 
 		/* init listview */
-		lvPicture = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
-		folderListView = (ListView) mainRelativeLayout.findViewById(R.id.list_view_folder);
+		lvPicture = (ListViewDragDrop) mainRelativeLayout
+				.findViewById(R.id.list_view_item);
+		folderListView = (ListView) mainRelativeLayout
+				.findViewById(R.id.list_view_folder);
 
 		/**/
-		imageDrag = (ImageView) mainRelativeLayout.findViewById(R.id.imageView1);
-		layoutDrag = (RelativeLayout) mainRelativeLayout.findViewById(R.id.layoutDrag);
+		imageDrag = (ImageView) mainRelativeLayout
+				.findViewById(R.id.imageView1);
+		layoutDrag = (RelativeLayout) mainRelativeLayout
+				.findViewById(R.id.layoutDrag);
 
 		/* init adapter for listview */
 		itemAdapter = new ItemAdapter(context, constructList());
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId, false);
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
+				imgFolderIconId, false);
 		lvPicture.setAdapter(itemAdapter);
 		// lvRecever.setAdapter(receverAdapter);
 		folderListView.setAdapter(folderListViewAdapter);
@@ -133,10 +125,12 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		folderListView.setOnItemClickListener(listenerFolderListView);
 
 		/* init button */
-		btnAddNewFolder = (Button) mainRelativeLayout.findViewById(R.id.btn_add_new_folder);
+		btnAddNewFolder = (Button) mainRelativeLayout
+				.findViewById(R.id.btn_add_new_folder);
 		btnAddNewFolder.setOnClickListener(this);
 
-		btnAddNewId = (Button) mainRelativeLayout.findViewById(R.id.btn_add_new_id);
+		btnAddNewId = (Button) mainRelativeLayout
+				.findViewById(R.id.btn_add_new_id);
 		btnAddNewId.setOnClickListener(this);
 
 		btnEdit = (Button) mainRelativeLayout.findViewById(R.id.btn_edit);
@@ -149,7 +143,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		btnSync.setOnClickListener(this);
 
 		/* init editText */
-		editTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.editText_search);
+		editTextSearch = (EditText) mainRelativeLayout
+				.findViewById(R.id.editText_search);
 
 		/* set contentView for home screen layout */
 		setContentView(mainRelativeLayout);
@@ -174,11 +169,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		Log.e("size", "size " + sizeOfFolder);
-		imgFolderEditId = new int[sizeOfFolder];
 		imgFolderIconId = new int[sizeOfFolder];
 		imgFolderId = new int[sizeOfFolder];
 		for (int i = 0; i < sizeOfFolder; i++) {
-			imgFolderEditId[i] = folderList.get(i).getImgFolderEditId();
 			imgFolderIconId[i] = folderList.get(i).getImgFolderIconId();
 			imgFolderId[i] = folderList.get(i).getImgFolderId();
 		}
@@ -190,16 +183,16 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void checkSizeFolderDataBase() {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
-		Log.e("size of folder", "size of folder " + sizeOfFolder);
-		if (sizeOfFolder < 2) {
-			// add favourite table to folder db
-			FolderDatabase folderFavourite = new FolderDatabase(0, 1, "favourite",
-					R.drawable.folder_s_common, R.drawable.favorite, R.drawable.delete);
+		if (sizeOfFolder < NUMBER_FOLDER_DEFALT) {
+			/* add favourite table to folder db*/
+			FolderDatabase folderFavourite = new FolderDatabase(0, 1,
+					NAME_FAVOURITE_FOLDER, R.drawable.folder_s_common,
+					R.drawable.favorite, false);
 			folderDataBaseHandler.addNewFolder(folderFavourite);
-			// add history table to folder db
-
-			FolderDatabase folderHistory = new FolderDatabase(1, 1, "history",
-					R.drawable.folder_s_common, R.drawable.history, R.drawable.delete);
+			
+			/* add history table to folder db */
+			FolderDatabase folderHistory = new FolderDatabase(1, 1, NAME_HISTORY_FOLDER,
+					R.drawable.folder_s_common, R.drawable.history, false);
 			folderDataBaseHandler.addNewFolder(folderHistory);
 		}
 	}
@@ -210,14 +203,15 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private AdapterView.OnItemSelectedListener mOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
 
 		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 
 			/**
 			 * retrieve selected item from adapterview
 			 */
 			oneItemSelected = (OneItem) arg0.getItemAtPosition(arg2);
-			Log.e("one item info", "infro " + oneItemSelected.getName());
-			imageDrag.setImageDrawable(context.getResources().getDrawable(oneItemSelected.getId()));
+			imageDrag.setImageDrawable(context.getResources().getDrawable(
+					oneItemSelected.getId()));
 		}
 
 		@Override
@@ -247,7 +241,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	//
 	// };
 	private OnItemClickListener listenerFolderListView = new OnItemClickListener() {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 			// if (oneItemSelected != null)
 			// receverAdapter.addPicture(oneItemSelected, arg2);
 		}
@@ -280,8 +275,10 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_MOVE) {
-				layout.leftMargin = (int) event.getX() + imageDrag.getWidth() / 2;
-				layout.topMargin = (int) event.getY() - imageDrag.getHeight() / 2;
+				layout.leftMargin = (int) event.getX() + imageDrag.getWidth()
+						/ 2;
+				layout.topMargin = (int) event.getY() - imageDrag.getHeight()
+						/ 2;
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -304,10 +301,12 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		OneItem op2 = new OneItem(R.drawable.bank_of_china, "bank_of_china");
 		al.add(op2);
 
-		OneItem op3 = new OneItem(R.drawable.bank_of_shanghai, "bank_of_shanghai");
+		OneItem op3 = new OneItem(R.drawable.bank_of_shanghai,
+				"bank_of_shanghai");
 		al.add(op3);
 
-		OneItem op4 = new OneItem(R.drawable.china_construction_bank_corporation,
+		OneItem op4 = new OneItem(
+				R.drawable.china_construction_bank_corporation,
 				"china_construction_bank_corporation");
 		al.add(op4);
 
@@ -315,11 +314,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				"agricultural_bank_of_china");
 		al.add(op5);
 
-		OneItem op6 = new OneItem(R.drawable.china_construction_bank_corporation,
+		OneItem op6 = new OneItem(
+				R.drawable.china_construction_bank_corporation,
 				"china_construction_bank_corporation");
 		al.add(op6);
 
-		OneItem op7 = new OneItem(R.drawable.bank_of_shanghai, "bank_of_shanghai");
+		OneItem op7 = new OneItem(R.drawable.bank_of_shanghai,
+				"bank_of_shanghai");
 		al.add(op7);
 		return al;
 	}
@@ -366,7 +367,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		/* add new folder */
 		if (v == btnAddNewFolder) {
-
+			addNewFolder();
 		}
 
 		/* add new id */
@@ -378,7 +379,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		else if (v == btnEdit) {
 			if (isEdit) {
 				btnEdit.setBackgroundResource(R.drawable.edit);
-				isEdit =false;
+				isEdit = false;
 			} else {
 				btnEdit.setBackgroundResource(R.drawable.return_back);
 				isEdit = true;
@@ -387,14 +388,142 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* setting */
 		else if (v == btnSetting) {
-			Intent intentSeting = new Intent(HomeScreeenActivity.this, SettingActivity.class);
+			Intent intentSeting = new Intent(HomeScreeenActivity.this,
+					SettingActivity.class);
 			startActivity(intentSeting);
-		} 
-		
-		/* sync data to cloud */
-		else if (v == btnSync) {
-			
 		}
 
+		/* sync data to cloud */
+		else if (v == btnSync) {
+
+		}
+
+	}
+
+	/**
+	 * Called to create a dialog to be shown.
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+
+		switch (id) {
+		case DIALOG_ADD_NEW_FOLDER:
+			return createExampleDialog();
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * If a dialog has already been created, this is called to reset the dialog
+	 * before showing it a 2nd time. Optional.
+	 */
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+
+		switch (id) {
+		case DIALOG_ADD_NEW_FOLDER:
+			// Clear the input box.
+			EditText text = (EditText) dialog.findViewById(TEXT_ID);
+			text.setText("");
+			break;
+		}
+	}
+
+	/**
+	 * add new folder to group
+	 */
+	private void addNewFolder() {
+		showDialog(DIALOG_ADD_NEW_FOLDER);
+	}
+
+	/**
+	 * Create and return an example alert dialog with an edit text box.
+	 */
+	private Dialog createExampleDialog() {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Add New Folder");
+		builder.setMessage("Type the name of new folder:");
+		builder.setIcon(R.drawable.icon);
+
+		// Use an EditText view to get user input.
+		final EditText input = new EditText(this);
+		input.setId(TEXT_ID);
+		builder.setView(input);
+
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String folderName = input.getText().toString();
+				/* add new folder to database */
+				addNewFolderToDatabase(folderName);
+				return;
+			}
+
+		});
+
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						return;
+					}
+				});
+
+		return builder.create();
+	}
+
+	/**
+	 * add new folder to database
+	 */
+	private void addNewFolderToDatabase(String folderName) {
+		/*add new folder*/
+		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
+		int sizeOfFolder = folderList.size();
+		sizeOfFolder++;
+		int imgFolderIconId = R.drawable.jog_note_push;
+		int imgFolderId = R.drawable.folder_common;
+		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1,
+				folderName, imgFolderId, imgFolderIconId, true));
+		
+		/* refresh listview folder */
+		refreshFolderListView();
+	}
+
+	public void onResume() {
+		super.onResume();
+		Log.e("onResume", "onResume");
+		
+		/* refresh listview id */
+		refreshIdListView();
+	}
+
+	/**
+	 * refresh id listview after change
+	 */
+	private void refreshIdListView() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * refresh folder list view after change
+	 */
+	private void refreshFolderListView() {
+		
+		List<FolderDatabase>folderList=folderDataBaseHandler.getAllFolders();
+		Log.e("folderList", "size folder "+folderList.size());
+		
+		loadDataFromFolderDataBase();
+		
+		
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
+				imgFolderIconId, false);
+		folderListView.setAdapter(folderListViewAdapter);
+		folderListViewAdapter.notifyDataSetChanged();
+		folderListView.invalidate();
 	}
 }
