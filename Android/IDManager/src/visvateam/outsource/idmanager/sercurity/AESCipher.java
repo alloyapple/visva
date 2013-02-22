@@ -1,8 +1,13 @@
 package visvateam.outsource.idmanager.sercurity;
 
+import java.io.ByteArrayOutputStream;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class AESCipher {
 	public static String encrypt(String plainText, String key) {
@@ -10,7 +15,7 @@ public class AESCipher {
 			String cipherText = "";
 			// Get the KeyGenerator
 			KeyGenerator kgen = KeyGenerator.getInstance("AES");
-			kgen.init(128); // 192 and 256 bits may not be available
+			kgen.init(256); // 192 and 256 bits may not be available
 
 			byte[] keyBytes = key.getBytes();
 			SecretKeySpec skeySpec = new SecretKeySpec(keyBytes, "AES");
@@ -30,7 +35,7 @@ public class AESCipher {
 			String plainText = "";
 			// Get the KeyGenerator
 			KeyGenerator kgen = KeyGenerator.getInstance("AES");
-			kgen.init(128); // 192 and 256 bits may not be available
+			kgen.init(256); // 192 and 256 bits may not be available
 
 			byte[] keyBytes = key.getBytes();
 			SecretKeySpec skeySpec = new SecretKeySpec(keyBytes, "AES");
@@ -81,6 +86,33 @@ public class AESCipher {
 
 	public static byte[] hexToBytes(String hex) {
 		return hexToBytes(hex.toCharArray());
+	}
+
+	public static byte[] encryptImg(String mPath, String key) {
+		Bitmap bitmap = BitmapFactory.decodeFile(mPath);
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 60, outStream);
+		byte[] convertToByte = outStream.toByteArray();
+		byte[] encrypt = null;
+		try {
+			KeyGenerator kgen = KeyGenerator.getInstance("AES");
+			kgen.init(256); // 192 and 256 bits may not be available
+
+			byte[] keyBytes = key.getBytes();
+			SecretKeySpec skeySpec = new SecretKeySpec(keyBytes, "AES");
+			Cipher cipher = Cipher.getInstance("AES");
+			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+
+			encrypt = cipher.doFinal(convertToByte);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return encrypt;
+
+	}
+
+	public static byte[] decryptImg(byte[] cipher) {
+		return null;
 	}
 
 }
