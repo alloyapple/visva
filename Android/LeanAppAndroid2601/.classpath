@@ -4,12 +4,8 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="libs/google-client/google-api-client-1.13.2-beta.jar"/>
-	<classpathentry kind="lib" path="libs/google-client/google-api-client-android-1.13.2-beta.jar"/>
-	<classpathentry kind="lib" path="libs/google-client/google-http-client-1.13.1-beta.jar"/>
-	<classpathentry kind="lib" path="libs/google-client/google-http-client-android-1.13.1-beta.jar"/>
-	<classpathentry kind="lib" path="libs/google-client/google-http-client-jackson-1.13.1-beta.jar"/>
-	<classpathentry kind="lib" path="libs/google-client/google-oauth-client-1.13.1-beta.jar"/>
-	<classpathentry kind="lib" path="libs/google-client/guava-jdk5-13.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/Android/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry kind="lib" path="libs/pdf/qoppapdf.jar"/>
+	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/drive-v2r55lv1.12.0-beta"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
