@@ -7,7 +7,6 @@ import com.itextpdf.text.Document;
 
 import vsvteam.outsource.leanappandroid.R;
 import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
-import vsvteam.outsource.leanappandroid.exportcontrol.ExportExcel;
 import vsvteam.outsource.leanappandroid.exportcontrol.SendBoxController;
 import vsvteam.outsource.leanappandroid.exportcontrol.SendEmailController;
 import vsvteam.outsource.leanappandroid.exportcontrol.excelcreator.ExcelDocumentController;
@@ -309,7 +308,10 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 			startActivity(intentDropBox);
 			break;
 		case SEND_BOX:
-			mBox.upload(null);
+			Intent intentGGDrive = new Intent(ActionExportActivity.this, GGDriveSyncActivity.class);
+			intentGGDrive.putExtra("isSendFileFormat", isSendPdfFile);
+			startActivity(intentGGDrive);
+//			mBox.upload(null);
 			break;
 		case SEND_GOOGLE_DRIVE:
 			break;
