@@ -18,18 +18,18 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.collection.PdfTargetDictionary;
 
 public class PDFDocumentController {
-	
+
 	private Document document;
 	private Context mContext;
-	
-	public PDFDocumentController(Context context){
+
+	public PDFDocumentController(Context context) {
 		this.mContext = context;
-		//document = new Document();
+		// document = new Document();
 	}
-	
-	public Document creatPDFDocument(String pFolder, String pFileName){
+
+	public Document creatPDFDocument(String pFolder, String pFileName) {
 		Document dcm = new Document();
-		String file = "/sdcard/" + pFolder + "/" + pFileName + ".pdf";
+		String file = pFolder + "/" + pFileName + ".pdf";
 		try {
 			PdfWriter.getInstance(dcm, new FileOutputStream(file));
 			Log.e("pdf", "creat");
@@ -42,26 +42,26 @@ public class PDFDocumentController {
 		}
 		return dcm;
 	}
-	 
-	 public void addText (Document document, String content) throws DocumentException{
-		 document.add(new Paragraph(content));
-	 }
-	 
-	 public PdfPTable addTable (String[] header){
-		 PdfPTable table = new PdfPTable(header.length);
-		 for (int i = 0; i < header.length; i++){
-			 PdfPCell cell = new PdfPCell(new Phrase(header[i]));
-		     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-		     table.addCell(cell);
-		 }
-		 table.setHeaderRows(1);
-		 return table;
-	 }
-	 
-	 public void addContentTable (PdfPTable table, String[] content){
-		 for (int i = 0; i < content.length; i++){
-			 table.addCell(content[i]);
-		 }
-	 }
+
+	public void addText(Document document, String content) throws DocumentException {
+		document.add(new Paragraph(content));
+	}
+
+	public PdfPTable addTable(String[] header) {
+		PdfPTable table = new PdfPTable(header.length);
+		for (int i = 0; i < header.length; i++) {
+			PdfPCell cell = new PdfPCell(new Phrase(header[i]));
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			table.addCell(cell);
+		}
+		table.setHeaderRows(1);
+		return table;
+	}
+
+	public void addContentTable(PdfPTable table, String[] content) {
+		for (int i = 0; i < content.length; i++) {
+			table.addCell(content[i]);
+		}
+	}
 
 }

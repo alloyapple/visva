@@ -3,12 +3,15 @@ package vsvteam.outsource.leanappandroid.actionbar;
 import java.io.File;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
+import com.itextpdf.text.Document;
+
 import vsvteam.outsource.leanappandroid.R;
 import vsvteam.outsource.leanappandroid.database.LeanAppAndroidSharePreference;
 import vsvteam.outsource.leanappandroid.exportcontrol.ExportExcel;
 import vsvteam.outsource.leanappandroid.exportcontrol.SendBoxController;
 import vsvteam.outsource.leanappandroid.exportcontrol.SendEmailController;
-import vsvteam.outsource.leanappandroid.exportcontrol.SendGoogleDriverController;
+import vsvteam.outsource.leanappandroid.exportcontrol.excelcreator.ExcelDocumentController;
+import vsvteam.outsource.leanappandroid.exportcontrol.pdfcreator.PDFDocumentController;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,9 +42,8 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	// =============================Class Define ============================
 	private SendBoxController mBox;
 	private SendEmailController mEmail;
-	private SendGoogleDriverController mGoogle;
-	private ExportExcel mExcel;
-
+	private ExcelDocumentController mExcel;
+	private PDFDocumentController mPdf;
 	//
 	DropboxAPI<AndroidAuthSession> mApi;
 
@@ -50,7 +52,6 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	private static final byte BRIGHT = 2;
 	public static final String PATH_FOLDER = "/LeanApp/";
 	public static final String PATH_FOLDER_DROPBOX = "/Photos/";
-	public static final String FILE_NAME = "test.xls";
 	public static final int FORMAT_PDF = 0;
 	public static final int FORMAT_EXCEL = 1;
 	public static final int FORMAT_VIDEO = 2;
@@ -130,12 +131,8 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 				for (int j = 0; j < 2; j++) {
 					if (buttonView.getId() == idCheckBoxFormat[j]) {
 						((CheckBox) findViewById(idCheckBoxFormat[j])).setChecked(true);
-						isSendPdfFile = false;
-						Log.e("pdf", "pdf");
 					} else {
 						((CheckBox) findViewById(idCheckBoxFormat[j])).setChecked(false);
-						isSendPdfFile = true;
-						Log.e("excel", "excel");
 					}
 				}
 			}
@@ -155,8 +152,8 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 
 		mEmail = new SendEmailController(getParent());
 		mBox = new SendBoxController(this, getParent());
-		mGoogle = new SendGoogleDriverController(getParent(), "");
-		mExcel = new ExportExcel(getParent());
+		mExcel = new ExcelDocumentController(getParent());
+		mPdf = new PDFDocumentController(getParent());
 	}
 
 	private void initControl() {
@@ -279,25 +276,27 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 			showToast("Sdcard is unvailable.Check it again");
 		} else {
 			mFormat = getTypeFormat();
-			File file = null;
+			String fileName = null ;
 			switch (mFormat) {
 			case FORMAT_PDF:
-				file = saveFileToPDF();
+				fileName = saveFileToPDF();
+				isSendPdfFile = true;
 				// createPdfFile(FILE_NAME_PDF);
 				break;
 			case FORMAT_EXCEL:
-				file = saveFileToExcel();
+				fileName = saveFileToExcel();
+				isSendPdfFile = false;
 				// createExcelFile(FILE_NAME_EXCEL);
 				break;
 			default:
 				break;
 			}
-			if (file != null)
-				sendFile(file);
+			if(!"".equals(fileName))
+				sendFile(fileName);
 		}
 	}
 
-	private void sendFile(File pFile) {
+	private void sendFile(String fileName) {
 		mTypeExport = getTypeExport();
 		switch (mTypeExport) {
 		case SEND_EMAIL:
@@ -313,7 +312,6 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 			mBox.upload(null);
 			break;
 		case SEND_GOOGLE_DRIVE:
-			mGoogle.uploadFile(null);
 			break;
 		default:
 			break;
@@ -334,7 +332,11 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private File saveFileToPDF() {
+	private String saveFileToPDF() {
+		String fileName = FILE_NAME_PDF;
+		pathFile = PATH_FOLDER + FILE_NAME_PDF;
+		Document dcm = mPdf.creatPDFDocument(PATH_FOLDER_DOCUMENT, FILE_NAME_PDF);
+
 		switch (mElement) {
 		case ELEMENT_ALL:
 			break;
@@ -351,13 +353,13 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 		default:
 			break;
 		}
-		return null;
+		return fileName;
 	}
 
-	public File saveFileToExcel() {
-		pathFile = PATH_FOLDER + FILE_NAME;
-		File file = mExcel.saveExcelFile(Environment.getExternalStorageDirectory().getPath()
-				+ PATH_FOLDER, FILE_NAME);
+	public String saveFileToExcel() {
+		String fileName = FILE_NAME_EXCEL;
+		pathFile = PATH_FOLDER + FILE_NAME_EXCEL;
+		File file = mExcel.saveExcelFile( FILE_NAME_EXCEL);
 		switch (mElement) {
 		case ELEMENT_ALL:
 			break;
@@ -374,7 +376,7 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 		default:
 			break;
 		}
-		return file;
+		return fileName;
 	}
 
 	/**

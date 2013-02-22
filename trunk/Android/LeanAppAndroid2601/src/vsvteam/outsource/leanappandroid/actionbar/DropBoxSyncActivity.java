@@ -2,7 +2,7 @@ package vsvteam.outsource.leanappandroid.actionbar;
 
 import java.io.File;
 
-import vsvteam.outsource.leanappandroid.exportcontrol.dropbox.UploadFile;
+import vsvteam.outsource.leanappandroid.exportcontrol.dropbox.DropBoxController;
 import vsvteam.outsource.leanappandroid.exportcontrol.excelcreator.ExcelDocumentController;
 import vsvteam.outsource.leanappandroid.exportcontrol.pdfcreator.PDFDocumentController;
 import android.app.Activity;
@@ -144,7 +144,7 @@ public class DropBoxSyncActivity extends Activity {
 	private void exportFilePdfToDropBox(String fileExcelName) {
 		File file = new File(PATH_FOLDER_DOCUMENT + fileExcelName + ".pdf");
 		if (file.exists()) {
-			UploadFile uploadFile = new UploadFile(DropBoxSyncActivity.this, mApi,
+			DropBoxController uploadFile = new DropBoxController(DropBoxSyncActivity.this, mApi,
 					MY_FILE_LOCATION, file);
 			uploadFile.execute();
 		}
@@ -182,7 +182,7 @@ public class DropBoxSyncActivity extends Activity {
 
 		/* upload file to dropbox */
 		File fileExcel = new File(PATH_FOLDER_DOCUMENT + fileName);
-		UploadFile newFile = new UploadFile(DropBoxSyncActivity.this, mApi, MY_FILE_LOCATION,
+		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi, MY_FILE_LOCATION,
 				fileExcel);
 		newFile.execute();
 	}
