@@ -89,7 +89,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void initControl() {
 		/* init layout */
 		mainRelativeLayout = (LinearLayout) LinearLayout.inflate(context,
-				R.layout.page_home_screen, null);
+				R.layout.page_home_demo, null);
 
 		/* init listview */
 		idListView = (ListViewDragDrop) mainRelativeLayout
@@ -135,7 +135,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		btnAddNewFolder.setOnClickListener(this);
 
 		btnAddNewId = (Button) mainRelativeLayout
-				.findViewById(R.id.btn_add_new_id);
+				.findViewById(R.id.btn_plus);
 		btnAddNewId.setOnClickListener(this);
 
 		btnEdit = (Button) mainRelativeLayout.findViewById(R.id.btn_edit);
