@@ -8,6 +8,8 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="16" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -49,6 +51,10 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.CopyItemActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

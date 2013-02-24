@@ -37,5 +37,12 @@
     <string name="create_new_password_cancel">Cancel</string>
     <string name="hint_search">Search</string>
     <string name="search">Search</string>
+    <!-- page terms of use -->
+    <string name="btn_continue">Continue</string>
+    <string name="btn_cancel">Cancel</string>
+    <!-- page copy item -->
+    <string name="btn_copy_id">ID</string>
+    <string name="btn_copy_pass">Password</string>
+    <string name="btn_copy">Copy</string>
 
 </resources>
