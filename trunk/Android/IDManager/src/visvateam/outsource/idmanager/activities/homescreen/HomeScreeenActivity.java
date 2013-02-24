@@ -3,6 +3,7 @@ package visvateam.outsource.idmanager.activities.homescreen;
 import java.util.ArrayList;
 import java.util.List;
 
+import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
@@ -291,6 +292,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
 				imageDrag.setVisibility(View.GONE);
+				CopyItemActivity.startActivity(HomeScreeenActivity.this);
 			}
 			// set params
 			imageDrag.setLayoutParams(layout);
