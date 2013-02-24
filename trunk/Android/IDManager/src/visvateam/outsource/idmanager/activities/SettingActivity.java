@@ -1,5 +1,7 @@
 package visvateam.outsource.idmanager.activities;
 
+import visvateam.outsource.idmanager.activities.synccloud.DropBoxSyncActivity;
+import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
 import android.app.Activity;
 import android.content.Intent;
 
@@ -33,11 +35,13 @@ public class SettingActivity extends Activity {
 	}
 
 	public void onGoogle(View v) {
-
+		Intent intentDropbox = new Intent(SettingActivity.this,GGDriveSyncActivity.class);
+		startActivity(intentDropbox);
 	}
 
 	public void onDropbox(View v) {
-
+		Intent intentDropbox = new Intent(SettingActivity.this,DropBoxSyncActivity.class);
+		startActivity(intentDropbox);
 	}
 
 	public void onCloud(View v) {
