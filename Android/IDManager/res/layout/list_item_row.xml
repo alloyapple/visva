@@ -3,26 +3,26 @@
     android:layout_height="100dp"
     android:layout_width="100dp" >
 
-    <ImageView
+    <Button
         android:background="@drawable/folder_s_common"
         android:id="@+id/img_folder"
         android:layout_gravity="center|center"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
 
-    <ImageView
+    <Button
         android:background="@drawable/favorite"
         android:id="@+id/img_folder_icon"
         android:layout_gravity="center|center"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
 
-    <ImageView
+    <Button
         android:id="@+id/img_folder_edit"
         android:layout_gravity="left|center"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginLeft="10dp"
         android:background="@drawable/delete"
-        android:layout_width="wrap_content" />
+        android:layout_width="20dp" />
 
 </FrameLayout>

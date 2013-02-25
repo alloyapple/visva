@@ -20,19 +20,38 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/edit" />
 
-        <EditText
-            android:id="@+id/editText_search"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
-            android:ellipsize="start"
-            android:hint="@string/hint_search"
-            android:textColor="@color/black" />
+            android:background="@drawable/all_corner"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/search" />
+
+            <EditText
+                android:id="@+id/edit_text_search"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:hint="Search"
+                android:background="@color/transparent" >
+            </EditText>
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_plus"
+            android:layout_marginLeft="5dp"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
@@ -77,9 +96,9 @@
             android:id="@+id/layoutDrag"
             android:layout_width="250dp"
             android:layout_height="80dp"
-            android:visibility="gone"
             android:layout_toRightOf="@id/layout_listview_folder"
-            android:background="@drawable/item_bar" >
+            android:background="@drawable/item_bar"
+            android:visibility="gone" >
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -146,7 +165,7 @@
         android:background="@drawable/bg_actionbar" >
 
         <Button
-            android:id="@+id/btn_info"
+            android:id="@+id/btn_main_info"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"

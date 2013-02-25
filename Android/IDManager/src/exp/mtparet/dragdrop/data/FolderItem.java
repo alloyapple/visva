@@ -2,28 +2,23 @@ package exp.mtparet.dragdrop.data;
 
 public class FolderItem {
 
-	private int id;
+	private int folderImgid;
+	private int folderId;
 	private int folderIconId;
 	private int imgFolderType;
 
 	public FolderItem(FolderItem folder) {
-		this.id = folder.id;
+		this.folderImgid = folder.folderImgid;
 		this.folderIconId = folder.folderIconId;
 		this.imgFolderType = folder.imgFolderType;
+		this.folderId = folder.folderId;
 	}
 
-	public FolderItem(int id, int folderIconId, int imgFolderType) {
-		this.id = id;
+	public FolderItem(int folderId,int folderImgid, int folderIconId, int imgFolderType) {
+		this.folderImgid = folderImgid;
 		this.folderIconId = folderIconId;
 		this.imgFolderType = imgFolderType;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		this.folderId = folderId;
 	}
 
 	public int getFolderIconId() {
@@ -40,5 +35,21 @@ public class FolderItem {
 
 	public void setImgFolderType(int imgFolderType) {
 		this.imgFolderType = imgFolderType;
+	}
+
+	public int getFolderImgid() {
+		return folderImgid;
+	}
+
+	public void setFolderImgid(int folderImgid) {
+		this.folderImgid = folderImgid;
+	}
+
+	public int getFolderId() {
+		return folderId;
+	}
+
+	public void setFolderId(int folderId) {
+		this.folderId = folderId;
 	}
 }

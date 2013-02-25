@@ -37,6 +37,7 @@
             android:name="visvateam.outsource.idmanager.activities.MasterPasswordActivity"
             android:screenOrientation="portrait" >
         </activity>
+        
         <activity
             android:name="visvateam.outsource.idmanager.activities.PasswordGeneratorActivity"
             android:screenOrientation="portrait" >
@@ -80,6 +81,10 @@
         <activity
             android:name="visvateam.outsource.idmanager.activities.GGDriveSyncActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name="visvateam.outsource.idmanager.activities.BrowserActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

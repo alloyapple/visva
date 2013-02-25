@@ -23,11 +23,16 @@ import java.util.ArrayList;
 
 import com.google.android.gms.internal.f;
 
+import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import exp.mtparet.dragdrop.data.OneItem;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -37,27 +42,28 @@ import android.widget.RelativeLayout;
 public class ItemAdapter extends BaseAdapter {
 
 	private Context context;
-	private ArrayList<OneItem> alPicture;
+	private ArrayList<OneItem> idItemList;
 
 	private boolean isModeEdit;
+	private Handler mHandler;
 
-	public ItemAdapter(Context context, ArrayList<OneItem> alPicture,
-			boolean isModeEdit) {
+	public ItemAdapter(Context context, ArrayList<OneItem> idItemList, boolean isModeEdit,Handler mHandler) {
 		this.context = context;
-		this.alPicture = alPicture;
+		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
+		this.mHandler = mHandler;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return alPicture.size();
+		return idItemList.size();
 	}
 
 	@Override
 	public OneItem getItem(int arg0) {
 		// TODO Auto-generated method stub
-		return this.alPicture.get(arg0);
+		return this.idItemList.get(arg0);
 	}
 
 	@Override
@@ -70,29 +76,27 @@ public class ItemAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup arg2) {
 
 		if (convertView == null) {
-			convertView = (RelativeLayout) RelativeLayout.inflate(context,
-					R.layout.list_id_row, null);
+			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_id_row,
+					null);
 
 		}
 
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(context.getResources().getDrawable(
-				alPicture.get(position).getId()));
-		iv.setContentDescription(this.alPicture.get(position).getName());
+		iv.setImageDrawable(context.getResources().getDrawable(idItemList.get(position).getId()));
+		iv.setContentDescription(this.idItemList.get(position).getName());
 
-		/*btn edit*/
-		
-		Button btnEdit = (Button)convertView.findViewById(R.id.btn_id_item_edit);
-	
+		/* btn edit */
+
+		Button btnEdit = (Button) convertView.findViewById(R.id.btn_id_item_edit);
+		btnEdit.setOnClickListener(mOnEditClickListener);
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
-
-		if (isModeEdit){
+		btnDelete.setOnClickListener(mOnDeleteClickListener);
+		if (isModeEdit) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
-		}
-		else{
+		} else {
 			btnEdit.setVisibility(View.GONE);
 			btnDelete.setVisibility(View.GONE);
 		}
@@ -102,10 +106,10 @@ public class ItemAdapter extends BaseAdapter {
 
 	public void addPicture(OneItem onItem, int position) {
 
-		if (position < alPicture.size()) {
-			alPicture.add(position, onItem);
+		if (position < idItemList.size()) {
+			idItemList.add(position, onItem);
 		} else {
-			alPicture.add(onItem);
+			idItemList.add(onItem);
 		}
 
 		notifyDataSetChanged();
@@ -113,19 +117,34 @@ public class ItemAdapter extends BaseAdapter {
 
 	public void addPicture(OneItem onItem) {
 
-		alPicture.add(onItem);
+		idItemList.add(onItem);
 
 		notifyDataSetChanged();
 	}
 
-	public void removeItem(int arg1) {
-		alPicture.remove(arg1);
+	public void removeItem(int position) {
+		idItemList.remove(position);
 		notifyDataSetChanged();
 	}
-	
+
 	public void updateModeForListView(boolean isEdit) {
 		this.isModeEdit = isEdit;
 		notifyDataSetChanged();
 	}
 
+	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Log.e("onClickDelete", "onClickDelete");
+		}
+	};
+
+	private OnClickListener mOnEditClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Log.e("OnclickEdit", "OnClickEdit");
+			Intent intent = new Intent(context, EditIdPasswordActivity.class);
+			context.startActivity(intent);
+		}
+	};
 }
