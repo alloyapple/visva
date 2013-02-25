@@ -2,12 +2,15 @@ package visvateam.outsource.idmanager.activities.homescreen;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,13 +26,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.adapter.ReceverAdapter;
@@ -36,6 +40,7 @@ import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
+@SuppressLint("HandlerLeak")
 public class HomeScreeenActivity extends Activity implements OnClickListener {
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
@@ -53,29 +58,54 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private Button btnAddNewId;
 	private Button btnEdit;
 	private Button btnSync;
-	private Button btnEditId;
-	private Button btnEditFolder;
+	private Button btnInfo;
+	private Button btnSearch;
 
 	private EditText editTextSearch;
 
 	// ===========================Class Define =====================
 	private ItemAdapter itemAdapter;
-	private ReceverAdapter receverAdapter;
 	private FolderListViewAdapter folderListViewAdapter;
 	private OneItem oneItemSelected;
 	private FolderDataBaseHandler folderDataBaseHandler;
 	private ArrayList<FolderItem> mFolderListItems = new ArrayList<FolderItem>();
+	private ArrayList<OneItem> mIdListItems = new ArrayList<OneItem>();
 
 	// ============================Variable Define ==================
 	private static final int DIALOG_ADD_NEW_FOLDER = 0;
+	private static final int DIALOG_DELETE_FOLDER = 1;
+	private static final int DIALOG_EDIT_FOLDER = 2;
+	private static final int DIALOG_DELETE_ID = 3;
+	private static final int DIALOG_EDIT_ID = 4;
+
 	private static final int NUMBER_FOLDER_DEFALT = 2;
 	private static final String NAME_HISTORY_FOLDER = "history";
 	private static final String NAME_FAVOURITE_FOLDER = "favourite";
 	private static final int TYPE_FOLDER_NORMAL = 1;
 	private static final int TYPE_FOLDER_NON_NORMAL = 0;
 	private static final int TEXT_ID = 0;
+	private static final int DELETE_FOLDER = 1;
+	private static final int EDIT_FOLDER = 2;
+	private static final int EDIT_ID = 4;
+
 	private Context context;
 	private boolean isEdit = false;
+	private int positionReturnedByHandler;
+	private int currentFolderId;
+
+	private Handler mMainHandler = new Handler() {
+		@SuppressWarnings("deprecation")
+		public void handleMessage(android.os.Message msg) {
+			Log.e("get msg", "get mass " + msg.arg1);
+			if (msg.arg1 == DELETE_FOLDER) {
+				showDialog(DIALOG_DELETE_FOLDER);
+			} else if (msg.arg1 == EDIT_FOLDER)
+				showDialog(DIALOG_EDIT_FOLDER);
+			else if (msg.arg1 == EDIT_ID)
+				showDialog(EDIT_ID);
+			positionReturnedByHandler = msg.arg2;
+		};
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -122,8 +152,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		btnSync = (Button) mainRelativeLayout.findViewById(R.id.btn_sync);
 		btnSync.setOnClickListener(this);
 
+		btnInfo = (Button) mainRelativeLayout.findViewById(R.id.btn_main_info);
+		btnInfo.setOnClickListener(this);
+		
+		btnSearch = (Button)mainRelativeLayout.findViewById(R.id.btn_search);
+		btnSearch.setOnClickListener(this);
+
 		/* init editText */
-		editTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.editText_search);
+		editTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.edit_text_search);
 
 		/* set contentView for home screen layout */
 		setContentView(mainRelativeLayout);
@@ -135,7 +171,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
 
 		/* init adapter for listview */
-		itemAdapter = new ItemAdapter(context, constructList(), false);
+		mIdListItems = constructList();
+		itemAdapter = new ItemAdapter(context, mIdListItems, false,mMainHandler);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -163,16 +200,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void initListViewFolder() {
 		// TODO Auto-generated method stub
 		folderListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_folder);
-		folderListViewAdapter = new FolderListViewAdapter(this, mFolderListItems, false);
+		folderListViewAdapter = new FolderListViewAdapter(this, mFolderListItems, false,
+				mMainHandler, folderListView);
 		folderListView.setAdapter(folderListViewAdapter);
 		/**
 		 * Listener to know on what position the new item must be insert
 		 */
 		folderListView.setOnItemReceiverListener(listenerReceivePicture);
-		/**
-		 * listener to set action on item click to folder listview
-		 */
-		folderListView.setOnItemClickListener(listenerFolderListView);
 	}
 
 	private void initLayoutDrag() {
@@ -200,10 +234,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void loadDataFromFolderDataBase() {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
-		
+
 		for (int i = NUMBER_FOLDER_DEFALT; i < sizeOfFolder; i++) {
-			FolderItem folder = new FolderItem(folderList.get(i).getImgFolderId(), folderList
-					.get(i).getImgFolderIconId(), folderList.get(i).getTypeOfFolder());
+			FolderItem folder = new FolderItem(folderList.get(i).getFolderId(), folderList.get(i)
+					.getImgFolderId(), folderList.get(i).getImgFolderIconId(), folderList.get(i)
+					.getTypeOfFolder());
 			mFolderListItems.add(folder);
 		}
 	}
@@ -228,11 +263,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		}
 
 		// add 2 folder favourite and history
-		FolderItem folderItemFavourite = new FolderItem(R.drawable.folder_s_common,
+		FolderItem folderItemFavourite = new FolderItem(0, R.drawable.folder_s_common,
 				R.drawable.favorite, TYPE_FOLDER_NON_NORMAL);
 		mFolderListItems.add(folderItemFavourite);
 
-		FolderItem folderItemHistory = new FolderItem(R.drawable.folder_s_common,
+		FolderItem folderItemHistory = new FolderItem(1, R.drawable.folder_s_common,
 				R.drawable.history, TYPE_FOLDER_NON_NORMAL);
 		mFolderListItems.add(folderItemHistory);
 	}
@@ -289,26 +324,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			if (oneItemSelected != null)
 				// receverAdapter.addPicture(oneItemSelected, arg2);
 				Log.e("ongetitemreceiver", "item name " + oneItemSelected.getName() + "position "
-						+ arg2);
-		}
-
-	};
-	private OnItemClickListener listenerFolderListView = new OnItemClickListener() {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			// if (oneItemSelected != null)
-			// receverAdapter.addPicture(oneItemSelected, arg2);
-			Log.e("ongetitemreceiver", "item nameee " + oneItemSelected.getName() + "position "
-					+ arg2);
-		}
-
-	};
-
-	private OnItemLongClickListener listenerRemoveItem = new OnItemLongClickListener() {
-
-		@Override
-		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			receverAdapter.removeItem(arg2);
-			return false;
+						+ mFolderListItems.get(arg2).getImgFolderType());
 		}
 
 	};
@@ -409,7 +425,18 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* sync data to cloud */
 		else if (v == btnSync) {
+			showToast("This feature is coming soon");
+		}
 
+		/* go to a browser */
+		else if (v == btnInfo) {
+			Intent intentBrowser = new Intent(HomeScreeenActivity.this, BrowserActivity.class);
+			startActivity(intentBrowser);
+		}else if(v == btnSearch){
+			if("".equals(editTextSearch.getText().toString())){
+				showToast("Type to edit text to search");
+			}else 
+				showToast("Start search");
 		}
 	}
 
@@ -432,7 +459,15 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		switch (id) {
 		case DIALOG_ADD_NEW_FOLDER:
-			return createExampleDialog();
+			return createExampleDialog(DIALOG_ADD_NEW_FOLDER);
+		case DIALOG_DELETE_FOLDER:
+			return createExampleDialog(DIALOG_DELETE_FOLDER);
+		case DIALOG_EDIT_FOLDER:
+			return createExampleDialog(DIALOG_EDIT_FOLDER);
+		case DIALOG_DELETE_ID:
+			return createExampleDialog(DIALOG_DELETE_ID);
+		case DIALOG_EDIT_ID:
+			return createExampleDialog(DIALOG_EDIT_ID);
 		default:
 			return null;
 		}
@@ -465,39 +500,168 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	/**
 	 * Create and return an example alert dialog with an edit text box.
 	 */
-	private Dialog createExampleDialog() {
-
+	private Dialog createExampleDialog(int id) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Add New Folder");
-		builder.setMessage("Type the name of new folder:");
-		builder.setIcon(R.drawable.icon);
 
-		// Use an EditText view to get user input.
-		final EditText input = new EditText(this);
-		input.setId(TEXT_ID);
-		builder.setView(input);
+		switch (id) {
+		case DIALOG_ADD_NEW_FOLDER:
+			builder.setTitle("Add New Folder");
+			builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
 
-		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			// Use an EditText view to get user input.
+			final EditText input = new EditText(this);
+			input.setId(TEXT_ID);
+			input.setText("");
+			builder.setView(input);
 
-			@Override
-			public void onClick(DialogInterface dialog, int whichButton) {
-				String folderName = input.getText().toString();
-				/* add new folder to database */
-				addNewFolderToDatabase(folderName);
-				return;
-			}
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
-		});
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					String folderName = input.getText().toString();
+					/* add new folder to database */
+					addNewFolderToDatabase(folderName);
+					return;
+				}
 
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			});
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				return;
-			}
-		});
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
-		return builder.create();
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					return;
+				}
+			});
+			return builder.create();
+
+		case DIALOG_DELETE_FOLDER:
+			builder.setTitle("Delete Folder");
+			builder.setMessage("Do you want to delete this folder?");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					Log.e("ok delete", "delete");
+					deleteFolder(positionReturnedByHandler);
+					return;
+				}
+
+			});
+
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					return;
+				}
+			});
+
+			return builder.create();
+		case DIALOG_EDIT_FOLDER:
+			builder.setTitle("Edit A Folder");
+			builder.setMessage("Type the name of folder to edit :");
+			builder.setIcon(R.drawable.icon);
+
+			// Use an EditText view to get user input.
+			final EditText inputEdit = new EditText(this);
+			inputEdit.setId(TEXT_ID);
+			inputEdit.setText("");
+			builder.setView(inputEdit);
+
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					String folderName = inputEdit.getText().toString();
+					/* edit folder to database */
+					editFolderToDatabase(folderName, positionReturnedByHandler);
+					return;
+				}
+
+			});
+
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					return;
+				}
+			});
+			return builder.create();
+
+		case DIALOG_DELETE_ID:
+			builder.setTitle("Delete Folder");
+			builder.setMessage("Do you want to delete this folder?");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					Log.e("ok delete", "delete");
+					deleteID(positionReturnedByHandler);
+					return;
+				}
+			});
+
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					return;
+				}
+			});
+
+			return builder.create();
+		default:
+			return null;
+		}
+
+	}
+
+	/**
+	 * delete id 
+	 * @param positionReturnedByHandler
+	 */
+	private void deleteID(int positionReturnedByHandler) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * edit folder to database
+	 * 
+	 * @param folderName
+	 * @param positionReturnedByHandler
+	 */
+
+	private void editFolderToDatabase(String folderName, int positionReturnedByHandler) {
+		// TODO Auto-generated method stub
+		FolderItem folderItem = mFolderListItems.get(positionReturnedByHandler);
+		FolderDatabase folder = new FolderDatabase(folderItem.getFolderId(), 1, folderName,
+				folderItem.getFolderImgid(), folderItem.getFolderIconId(), TYPE_FOLDER_NORMAL);
+		folderDataBaseHandler.updateFolder(folder);
+
+		showToast("Folder " + folderName + " is updated");
+	}
+
+	/**
+	 * delete folder
+	 * 
+	 * @param positionReturnedByHandler
+	 */
+	private void deleteFolder(int positionReturnedByHandler) {
+		// TODO Auto-generated method stub
+		/* delete folder in database */
+		folderDataBaseHandler.deleteFolder(mFolderListItems.get(positionReturnedByHandler)
+				.getFolderId());
+
+		/* refresh folder listview */
+		folderListViewAdapter.removeItem(positionReturnedByHandler);
 	}
 
 	/**
@@ -514,13 +678,19 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				imgFolderId, imgFolderIconId, TYPE_FOLDER_NORMAL));
 
 		// /* refresh listview folder */
-		FolderItem folder = new FolderItem(imgFolderId, imgFolderIconId, TYPE_FOLDER_NORMAL);
+		FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId, imgFolderIconId,
+				TYPE_FOLDER_NORMAL);
 		folderListViewAdapter.addNewFolder(folder);
+		folderListView.invalidate();
 
 	}
 
 	public void onResume() {
 		super.onResume();
 
+	}
+
+	private void showToast(String string) {
+		Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
 	}
 }

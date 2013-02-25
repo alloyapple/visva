@@ -97,6 +97,7 @@ public class GGDriveSyncActivity extends Activity {
           if (file != null) {
             showToast("Photo uploaded: " + file.getTitle());
 //            startCameraIntent();
+            finish();
           }
         } catch (UserRecoverableAuthIOException e) {
           startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);

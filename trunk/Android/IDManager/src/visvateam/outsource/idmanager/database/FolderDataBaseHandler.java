@@ -68,7 +68,7 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_IMG_FOLDER_ICON_ID, folder.getImgFolderIconId());
 		// image folder icon edit
 		values.put(KEY_IS_NORMAL_FOLDER, folder.getTypeOfFolder());
-		Log.e("adkfjalsdfj", "asdfjahsdlfjd "+folder.getTypeOfFolder());
+		Log.e("adkfjalsdfj", "asdfjahsdlfjd " + folder.getTypeOfFolder());
 		// Inserting Row
 		db.insert(TABLE_T_FOLDERS, null, values);
 		// close db after use
@@ -79,10 +79,10 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 	public FolderDatabase getFolder(int folderId) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_T_FOLDERS,
-				new String[] { KEY_FOLDER_ID, KEY_USER_ID, KEY_FOLDER_NAME, KEY_IMG_FOLDER_ID,
-						KEY_IMG_FOLDER_ICON_ID, KEY_IS_NORMAL_FOLDER }, KEY_FOLDER_ID + "=?",
-				new String[] { String.valueOf(folderId) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_T_FOLDERS, new String[] { KEY_FOLDER_ID, KEY_USER_ID,
+				KEY_FOLDER_NAME, KEY_IMG_FOLDER_ID, KEY_IMG_FOLDER_ICON_ID, KEY_IS_NORMAL_FOLDER },
+				KEY_FOLDER_ID + "=?", new String[] { String.valueOf(folderId) }, null, null, null,
+				null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
@@ -114,8 +114,8 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 				folder.setImgFolderId(Integer.parseInt(cursor.getString(3)));
 				folder.setImgFolderIconId(Integer.parseInt(cursor.getString(4)));
 				folder.setTypeOfFolder(Integer.parseInt(cursor.getString(5)));
-				
-				Log.e("adsifhdkf", "adjfhdkh "+Integer.parseInt(cursor.getString(5)));
+
+				Log.e("adsifhdkf", "adjfhdkh " + Integer.parseInt(cursor.getString(5)));
 				// Adding folder to list
 				foldertList.add(folder);
 			} while (cursor.moveToNext());
@@ -142,10 +142,10 @@ public class FolderDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Deleting single folder
-	public void deleteProject(FolderDatabase folder) {
+	public void deleteFolder(int folderId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_T_FOLDERS, KEY_FOLDER_ID + " = ?",
-				new String[] { String.valueOf(folder.getFolderId()) });
+				new String[] { String.valueOf(folderId) });
 		db.close();
 	}
 

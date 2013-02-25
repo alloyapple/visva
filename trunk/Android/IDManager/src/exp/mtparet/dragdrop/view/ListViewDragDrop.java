@@ -22,6 +22,7 @@ package exp.mtparet.dragdrop.view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -105,92 +106,94 @@ public class ListViewDragDrop extends ListView {
 	 * @param e
 	 * @return
 	 */
-	public boolean onUpReceive(MotionEvent e) {
+	 /**
+	    * 
+	    * @param e
+	    * @return
+	    */
+	   public boolean onUpReceive(MotionEvent e) {
 
-		if (e.getAction() == MotionEvent.ACTION_UP) {
+			if(e.getAction() == MotionEvent.ACTION_UP){
+				
+				int x = (int)e.getX();
+				int y = (int)e.getY();
 
-			int x = (int) e.getX();
-			int y = (int) e.getY();
-
-			for (int i = 0; i < getChildCount(); i++) {
-				Rect viewRect = new Rect();
-				View child = getChildAt(i);
-				int left = child.getLeft() + this.getLeft();
-				int right = child.getRight() + this.getLeft();
-				int top = child.getTop() + this.getTop();
-				int bottom = child.getTop() + child.getHeight() / 2 + this.getTop();
-				viewRect.set(left, top, right, bottom);
-
-				if (viewRect.contains(x, y)) {
-					if (getOnItemSelectedListener() != null) {
-						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i,
-								getItemIdAtPosition(i));
+				for(int i=0;i<getChildCount();i++){
+					Rect viewRect = new Rect();
+					View child = getChildAt(i);
+					int left = child.getLeft() + this.getLeft() - 100 ;/*edit here */
+					int right = child.getRight() + this.getRight();
+					int top = child.getTop() + this.getTop();
+					int bottom = child.getTop() + child.getHeight()  + this.getTop();
+					viewRect.set(left, top, right, bottom);
+					Log.e("left "+left+" top "+top, "bottom "+bottom+"  right "+right +"x	"+x +"y	"+y);
+					if(viewRect.contains(x,y)){
+						if(getOnItemSelectedListener() != null){
+							getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i, getItemIdAtPosition(i));
+						}
+						if(mOnItemReceiver != null){
+							mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i, getItemIdAtPosition(i));
+						}
+						return true;
 					}
-					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i,
-								getItemIdAtPosition(i));
+					
+					Rect viewRect2 = new Rect();
+					left = child.getLeft() + this.getLeft();
+					right = child.getRight() + this.getLeft();
+					top = child.getTop()  + child.getHeight()/2 + this.getTop();
+					bottom = child.getBottom() + this.getTop();
+					viewRect2.set(left, top, right, bottom);
+					
+					if(viewRect2.contains(x,y)){
+						if(getOnItemSelectedListener() != null){
+							getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i, getItemIdAtPosition(i));
+						}
+						if(mOnItemReceiver != null){
+							mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i + 1, getItemIdAtPosition(i));
+						}
+						return true;
 					}
-					return true;
+
 				}
 
-				Rect viewRect2 = new Rect();
-				left = child.getLeft() + this.getLeft();
-				right = child.getRight() + this.getLeft();
-				top = child.getTop() + child.getHeight() / 2 + this.getTop();
-				bottom = child.getBottom() + this.getTop();
-				viewRect2.set(left, top, right, bottom);
+				int left = this.getLeft();
+				int right = this.getRight();
+				int top = this.getTop();
+				int bottom = this.getBottom();
+				Rect rect = new Rect(left, top, right, bottom);
 
-				if (viewRect2.contains(x, y)) {
-					if (getOnItemSelectedListener() != null) {
-						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i,
-								getItemIdAtPosition(i));
-					}
-					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i + 1,
-								getItemIdAtPosition(i));
-					}
-					return true;
-				}
+				if(rect.contains(x,y)){
 
-			}
+					if(this.getChildCount() > 0){
+						int  minY = this.getChildAt(this.getChildCount() - 1).getBottom();
+						int maxY = this.getChildAt(0).getTop();
 
-			int left = this.getLeft();
-			int right = this.getRight();
-			int top = this.getTop();
-			int bottom = this.getBottom();
-			Rect rect = new Rect(left, top, right, bottom);
+						if(y < minY){
+							mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, 0, 0);
+						}else{
+							if(y > maxY){
+								mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, this.getChildCount() , 0);
+							}
 
-			if (rect.contains(x, y)) {
-
-				if (this.getChildCount() > 0) {
-					int minY = this.getChildAt(this.getChildCount() - 1).getBottom();
-					int maxY = this.getChildAt(0).getTop();
-
-					if (y < minY) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, 0, 0);
-					} else {
-						if (y > maxY) {
-							mOnItemReceiver.onItemClick(ListViewDragDrop.this, null,
-									this.getChildCount(), 0);
 						}
 
+						return true;
+
+					}else{
+
+						if(mOnItemReceiver != null){
+							mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, 0, 0);
+						}
+						return true;
 					}
 
-					return true;
-
-				} else {
-
-					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, 0, 0);
-					}
-					return true;
 				}
 
-			}
 
+			}
+			return false;
 		}
-		return false;
-	}
+
 
 	public boolean onMove(MotionEvent event) {
 

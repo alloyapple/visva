@@ -68,6 +68,7 @@
 
             <WebView
                 android:layout_width="fill_parent"
+                android:id="@+id/web_view"
                 android:layout_height="wrap_content" >
             </WebView>
         </ScrollView>
