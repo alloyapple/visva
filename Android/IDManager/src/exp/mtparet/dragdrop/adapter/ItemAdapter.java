@@ -20,14 +20,13 @@
 package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
+
+import com.google.android.gms.internal.f;
 
 import visvateam.outsource.idmanager.activities.R;
 import exp.mtparet.dragdrop.data.OneItem;
-
 import android.content.Context;
-import android.graphics.Color;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -82,12 +81,21 @@ public class ItemAdapter extends BaseAdapter {
 				alPicture.get(position).getId()));
 		iv.setContentDescription(this.alPicture.get(position).getName());
 
+		/*btn edit*/
+		
+		Button btnEdit = (Button)convertView.findViewById(R.id.btn_id_item_edit);
+	
 		/* button delete */
-		Button btnEdit = (Button) convertView.findViewById(R.id.btn_id_edit);
-		if (isModeEdit)
+		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
+
+		if (isModeEdit){
 			btnEdit.setVisibility(View.VISIBLE);
-		else
+			btnDelete.setVisibility(View.VISIBLE);
+		}
+		else{
 			btnEdit.setVisibility(View.GONE);
+			btnDelete.setVisibility(View.GONE);
+		}
 
 		return convertView;
 	}
@@ -114,5 +122,6 @@ public class ItemAdapter extends BaseAdapter {
 		alPicture.remove(arg1);
 		notifyDataSetChanged();
 	}
+
 
 }

@@ -23,15 +23,17 @@ public class OneItem {
 	
 	private int id;
 	private String name;
+	private String url;
 	
 	public OneItem(OneItem op){
 		this.id = op.id;
 		this.name = op.name;
 	}
 	
-	public OneItem(int id, String name) {
+	public OneItem(int id, String name,String url) {
 		this.id = id;
 		this.name = name;
+		this.url = url;
 	}
 
 	public int getId(){
@@ -40,6 +42,14 @@ public class OneItem {
 	
 	public String getName(){
 		return this.name;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
 

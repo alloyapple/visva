@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.data.OneItem;
@@ -39,8 +40,12 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop idListView;
 	private ListView folderListView;
+
+	/* layout drag */
 	private RelativeLayout layoutDrag;
 	private ImageView imageDrag;
+	private TextView txtIdName;
+	private TextView txtIdUrl;
 
 	private Button btnSetting;
 	private Button btnAddNewFolder;
@@ -91,24 +96,22 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void initControl() {
 		/* init layout */
 		mainRelativeLayout = (LinearLayout) LinearLayout.inflate(context,
-				R.layout.page_home_demo, null);
+				R.layout.page_home_screen, null);
 
 		/* init listview */
-		idListView = (ListViewDragDrop) mainRelativeLayout
-				.findViewById(R.id.list_view_item);
-		folderListView = (ListView) mainRelativeLayout
-				.findViewById(R.id.list_view_folder);
+		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
+		folderListView = (ListView) mainRelativeLayout.findViewById(R.id.list_view_folder);
 
-		/**/
-		imageDrag = (ImageView) mainRelativeLayout
-				.findViewById(R.id.imageView1);
-		layoutDrag = (RelativeLayout) mainRelativeLayout
-				.findViewById(R.id.layoutDrag);
+		/* init layout drag */
+		layoutDrag = (RelativeLayout) mainRelativeLayout.findViewById(R.id.layoutDrag);
+		imageDrag = (ImageView) mainRelativeLayout.findViewById(R.id.imageView1);
+		txtIdName = (TextView)mainRelativeLayout. findViewById(R.id.txt_id_name);
+		txtIdUrl = (TextView) mainRelativeLayout.findViewById(R.id.txt_id_url);
 
 		/* init adapter for listview */
 		itemAdapter = new ItemAdapter(context, constructList(), false);
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
-				imgFolderIconId, imgFolderType, false);
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
+				imgFolderType, false);
 		idListView.setAdapter(itemAdapter);
 
 		// lvRecever.setAdapter(receverAdapter);
@@ -132,8 +135,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		folderListView.setOnItemClickListener(listenerFolderListView);
 
 		/* init button */
-		btnAddNewFolder = (Button) mainRelativeLayout
-				.findViewById(R.id.btn_add_new_folder);
+		btnAddNewFolder = (Button) mainRelativeLayout.findViewById(R.id.btn_add_new_folder);
 		btnAddNewFolder.setOnClickListener(this);
 
 		btnAddNewId = (Button) mainRelativeLayout.findViewById(R.id.btn_plus);
@@ -149,8 +151,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		btnSync.setOnClickListener(this);
 
 		/* init editText */
-		editTextSearch = (EditText) mainRelativeLayout
-				.findViewById(R.id.editText_search);
+		editTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.editText_search);
 
 		/* set contentView for home screen layout */
 		setContentView(mainRelativeLayout);
@@ -193,15 +194,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		int sizeOfFolder = folderList.size();
 		if (sizeOfFolder < NUMBER_FOLDER_DEFALT) {
 			/* add favourite table to folder db */
-			FolderDatabase folderFavourite = new FolderDatabase(0, 1,
-					NAME_FAVOURITE_FOLDER, R.drawable.folder_s_common,
-					R.drawable.favorite, TYPE_FOLDER_NON_NORMAL);
+			FolderDatabase folderFavourite = new FolderDatabase(0, 1, NAME_FAVOURITE_FOLDER,
+					R.drawable.folder_s_common, R.drawable.favorite, TYPE_FOLDER_NON_NORMAL);
 			folderDataBaseHandler.addNewFolder(folderFavourite);
 
 			/* add history table to folder db */
-			FolderDatabase folderHistory = new FolderDatabase(1, 1,
-					NAME_HISTORY_FOLDER, R.drawable.folder_s_common,
-					R.drawable.history, TYPE_FOLDER_NON_NORMAL);
+			FolderDatabase folderHistory = new FolderDatabase(1, 1, NAME_HISTORY_FOLDER,
+					R.drawable.folder_s_common, R.drawable.history, TYPE_FOLDER_NON_NORMAL);
 			folderDataBaseHandler.addNewFolder(folderHistory);
 		}
 	}
@@ -212,15 +211,15 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private AdapterView.OnItemSelectedListener mOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
 
 		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
 			/**
 			 * retrieve selected item from adapterview
 			 */
 			oneItemSelected = (OneItem) arg0.getItemAtPosition(arg2);
-			imageDrag.setImageDrawable(context.getResources().getDrawable(
-					oneItemSelected.getId()));
+			imageDrag.setImageDrawable(context.getResources().getDrawable(oneItemSelected.getId()));
+			txtIdName.setText(oneItemSelected.getName());
+			txtIdUrl.setText(oneItemSelected.getUrl());
 		}
 
 		@Override
@@ -250,8 +249,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	//
 	// };
 	private OnItemClickListener listenerFolderListView = new OnItemClickListener() {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 			// if (oneItemSelected != null)
 			// receverAdapter.addPicture(oneItemSelected, arg2);
 		}
@@ -274,28 +272,26 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) imageDrag
+			RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) layoutDrag
 					.getLayoutParams();
-			imageDrag.setVisibility(ImageView.VISIBLE);
+			layoutDrag.setVisibility(RelativeLayout.VISIBLE);
 
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				imageDrag.bringToFront();
+				layoutDrag.bringToFront();
 				return true;
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_MOVE) {
-				layout.leftMargin = (int) event.getX() + imageDrag.getWidth()
-						/ 2;
-				layout.topMargin = (int) event.getY() - imageDrag.getHeight()
-						/ 2;
+				layout.leftMargin = (int) event.getX();
+				layout.topMargin = (int) event.getY() - layoutDrag.getHeight() / 2;
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
-				imageDrag.setVisibility(View.GONE);
+				layoutDrag.setVisibility(View.GONE);
 				CopyItemActivity.startActivity(HomeScreeenActivity.this);
 			}
 			// set params
-			imageDrag.setLayoutParams(layout);
+			layoutDrag.setLayoutParams(layout);
 
 			return true;
 		}
@@ -305,32 +301,28 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private ArrayList<OneItem> constructList() {
 		ArrayList<OneItem> al = new ArrayList<OneItem>();
 
-		OneItem op = new OneItem(R.drawable.unionpay2, "unionpay2");
+		OneItem op = new OneItem(R.drawable.unionpay2, "FaceBook", "www.facebook.com");
 		al.add(op);
 
-		OneItem op2 = new OneItem(R.drawable.bank_of_china, "bank_of_china");
+		OneItem op2 = new OneItem(R.drawable.bank_of_china, "FaceBook", "www.facebook.com");
 		al.add(op2);
 
-		OneItem op3 = new OneItem(R.drawable.bank_of_shanghai,
-				"bank_of_shanghai");
+		OneItem op3 = new OneItem(R.drawable.bank_of_shanghai, "FaceBook", "www.facebook.com");
 		al.add(op3);
 
-		OneItem op4 = new OneItem(
-				R.drawable.china_construction_bank_corporation,
-				"china_construction_bank_corporation");
+		OneItem op4 = new OneItem(R.drawable.china_construction_bank_corporation, "FaceBook",
+				"www.facebook.com");
 		al.add(op4);
 
-		OneItem op5 = new OneItem(R.drawable.agricultural_bank_of_china,
-				"agricultural_bank_of_china");
+		OneItem op5 = new OneItem(R.drawable.agricultural_bank_of_china, "He he ha ha",
+				"www.facebook.com");
 		al.add(op5);
 
-		OneItem op6 = new OneItem(
-				R.drawable.china_construction_bank_corporation,
-				"china_construction_bank_corporation");
+		OneItem op6 = new OneItem(R.drawable.china_construction_bank_corporation, " FaceBook",
+				"www.facebook.com");
 		al.add(op6);
 
-		OneItem op7 = new OneItem(R.drawable.bank_of_shanghai,
-				"bank_of_shanghai");
+		OneItem op7 = new OneItem(R.drawable.bank_of_shanghai, "FaceBook", "www.facebook.com");
 		al.add(op7);
 		return al;
 	}
@@ -366,8 +358,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* setting */
 		else if (v == btnSetting) {
-			Intent intentSeting = new Intent(HomeScreeenActivity.this,
-					SettingActivity.class);
+			Intent intentSeting = new Intent(HomeScreeenActivity.this, SettingActivity.class);
 			startActivity(intentSeting);
 		}
 
@@ -382,8 +373,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 */
 	private void setNormalModeForFolderAndIdListView() {
 		/* set mode normal for folder */
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
-				imgFolderIconId, imgFolderType, false);
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
+				imgFolderType, false);
 		folderListView.setAdapter(folderListViewAdapter);
 		folderListViewAdapter.notifyDataSetChanged();
 		folderListView.invalidate();
@@ -400,8 +391,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 */
 	private void setEditModeForFolderAndIdListView() {
 		/* set mode edit for folder */
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
-				imgFolderIconId, imgFolderType, true);
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
+				imgFolderType, true);
 		folderListView.setAdapter(folderListViewAdapter);
 		folderListViewAdapter.notifyDataSetChanged();
 		folderListView.invalidate();
@@ -478,14 +469,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		});
 
-		builder.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						return;
-					}
-				});
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				return;
+			}
+		});
 
 		return builder.create();
 	}
@@ -500,8 +490,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		sizeOfFolder++;
 		int imgFolderIconId = R.drawable.jog_note_push;
 		int imgFolderId = R.drawable.folder_common;
-		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1,
-				folderName, imgFolderId, imgFolderIconId, TYPE_FOLDER_NORMAL));
+		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName,
+				imgFolderId, imgFolderIconId, TYPE_FOLDER_NORMAL));
 
 		/* refresh listview folder */
 		refreshFolderListView();
@@ -531,10 +521,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		loadDataFromFolderDataBase();
 
 		/* refresh list view */
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId,
-				imgFolderIconId, imgFolderType, false);
+		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
+				imgFolderType, false);
 		folderListView.setAdapter(folderListViewAdapter);
 		folderListViewAdapter.notifyDataSetChanged();
 		folderListView.invalidate();
+	}
+
+	public void onBtnClickEdit() {
+		Log.e("is onclick", "is onClick");
 	}
 }

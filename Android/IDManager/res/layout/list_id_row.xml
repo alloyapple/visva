@@ -13,7 +13,7 @@
         android:layout_margin="5dp" />
 
     <Button
-        android:id="@+id/btn_id_edit"
+        android:id="@+id/btn_id_item_delete"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentLeft="true"
@@ -22,8 +22,9 @@
         android:background="@drawable/delete" />
 
     <TextView
-        android:id="@+id/lblSongName"
-        style="@style/textViewWrapBlackMedium"
+        android:id="@+id/txt_id_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/imageView1"
@@ -35,27 +36,31 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/lblSingerName"
-        style="@style/textViewWrapBlackSmall"
-        android:layout_below="@id/lblSongName"
+        android:id="@+id/txt_id_item_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_id_item_name"
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/imageView1"
         android:ellipsize="marquee"
         android:gravity="bottom"
         android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
         android:text="http://www.facebook.com"
         android:textColor="@color/blue"
         android:textSize="12sp"
-        android:singleLine="true"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/lnrPart3"
+    <Button
+        android:id="@+id/btn_id_item_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="60dp" >
-    </LinearLayout>
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:visibility="gone"
+        android:background="@drawable/btn_jog_push"
+        android:onClick="onBtnClickEdit" >
+    </Button>
 
 </RelativeLayout>
