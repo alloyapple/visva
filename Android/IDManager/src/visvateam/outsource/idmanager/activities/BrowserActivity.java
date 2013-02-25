@@ -23,18 +23,16 @@ public class BrowserActivity extends Activity{
 	private void initControl() {
 		// TODO Auto-generated method stub
 		webView = (WebView) findViewById(R.id.web_view);
-		// String pdf =
-		// "http://www.adobe.com/devnet/acrobat/pdfs/pdf_open_parameters.pdf";
+		
 		webView.loadUrl("http://www.google.com");
 
 		webView.setContentDescription("application/pdf");
-		// getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setLoadsImagesAutomatically(true);
 		webSettings.setSupportZoom(true);
 		webSettings.setBuiltInZoomControls(true);
-		// findViewById(R.id.LinearLayout01).;
+		
 		webView.invokeZoomPicker();
 		this.webView.setWebViewClient(new WebViewClient() {
 
