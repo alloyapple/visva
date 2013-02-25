@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
+import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
@@ -135,8 +136,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				.findViewById(R.id.btn_add_new_folder);
 		btnAddNewFolder.setOnClickListener(this);
 
-		btnAddNewId = (Button) mainRelativeLayout
-				.findViewById(R.id.btn_plus);
+		btnAddNewId = (Button) mainRelativeLayout.findViewById(R.id.btn_plus);
 		btnAddNewId.setOnClickListener(this);
 
 		btnEdit = (Button) mainRelativeLayout.findViewById(R.id.btn_edit);
@@ -344,7 +344,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* add new id */
 		else if (v == btnAddNewId) {
-
+			EditIdPasswordActivity.startActivity(this);
 		}
 
 		/* edit listview */
