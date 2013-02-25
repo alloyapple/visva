@@ -2,7 +2,6 @@ package visvateam.outsource.idmanager.activities.homescreen;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
@@ -23,15 +22,17 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
+import exp.mtparet.dragdrop.adapter.ReceverAdapter;
+import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
@@ -39,7 +40,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop idListView;
-	private ListView folderListView;
+	private ListViewDragDrop folderListView;
 
 	/* layout drag */
 	private RelativeLayout layoutDrag;
@@ -59,9 +60,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	// ===========================Class Define =====================
 	private ItemAdapter itemAdapter;
+	private ReceverAdapter receverAdapter;
 	private FolderListViewAdapter folderListViewAdapter;
 	private OneItem oneItemSelected;
 	private FolderDataBaseHandler folderDataBaseHandler;
+	private ArrayList<FolderItem> mFolderListItems = new ArrayList<FolderItem>();
 
 	// ============================Variable Define ==================
 	private static final int DIALOG_ADD_NEW_FOLDER = 0;
@@ -72,15 +75,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private static final int TYPE_FOLDER_NON_NORMAL = 0;
 	private static final int TEXT_ID = 0;
 	private Context context;
-	private int[] imgFolderId;
-	private int[] imgFolderIconId;
-	private int[] imgFolderType;
 	private boolean isEdit = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		context = this;
 
 		/* init database */
@@ -98,41 +97,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		mainRelativeLayout = (LinearLayout) LinearLayout.inflate(context,
 				R.layout.page_home_screen, null);
 
-		/* init listview */
-		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
-		folderListView = (ListView) mainRelativeLayout.findViewById(R.id.list_view_folder);
-
 		/* init layout drag */
-		layoutDrag = (RelativeLayout) mainRelativeLayout.findViewById(R.id.layoutDrag);
-		imageDrag = (ImageView) mainRelativeLayout.findViewById(R.id.imageView1);
-		txtIdName = (TextView)mainRelativeLayout. findViewById(R.id.txt_id_name);
-		txtIdUrl = (TextView) mainRelativeLayout.findViewById(R.id.txt_id_url);
+		initLayoutDrag();
 
-		/* init adapter for listview */
-		itemAdapter = new ItemAdapter(context, constructList(), false);
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
-				imgFolderType, false);
-		idListView.setAdapter(itemAdapter);
+		/* init listview folder */
+		initListViewFolder();
 
-		// lvRecever.setAdapter(receverAdapter);
-		folderListView.setAdapter(folderListViewAdapter);
-
-		/**
-		 * Set selected Listener to know what item must be drag
-		 */
-		idListView.setOnItemSelectedListener(mOnItemSelectedListener);
-
-		/**
-		 * Set an touch listener to know what is the position when item are move
-		 * out of the listview
-		 */
-		idListView.setOnItemMoveListener(mOnItemMoveListener);
-
-		/**
-		 * Listener to know if the item is droped out of this origin ListView
-		 */
-		idListView.setOnItemUpOutListener(mOnItemUpOutListener);
-		folderListView.setOnItemClickListener(listenerFolderListView);
+		/* init ListView Id */
+		initListViewId();
 
 		/* init button */
 		btnAddNewFolder = (Button) mainRelativeLayout.findViewById(R.id.btn_add_new_folder);
@@ -158,6 +130,59 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	}
 
+	private void initListViewId() {
+		/* init listview */
+		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
+
+		/* init adapter for listview */
+		itemAdapter = new ItemAdapter(context, constructList(), false);
+		idListView.setAdapter(itemAdapter);
+
+		/**
+		 * Set selected Listener to know what item must be drag
+		 */
+		idListView.setOnItemSelectedListener(mOnItemSelectedListener);
+
+		/**
+		 * set on item click listener to id listview
+		 */
+		idListView.setOnItemClickListener(mOnIdListItemClickListener);
+
+		/**
+		 * Set an touch listener to know what is the position when item are move
+		 * out of the listview
+		 */
+		idListView.setOnItemMoveListener(mOnItemMoveListener);
+
+		/**
+		 * Listener to know if the item is droped out of this origin ListView
+		 */
+		idListView.setOnItemUpOutListener(mOnItemUpOutListener);
+	}
+
+	private void initListViewFolder() {
+		// TODO Auto-generated method stub
+		folderListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_folder);
+		folderListViewAdapter = new FolderListViewAdapter(this, mFolderListItems, false);
+		folderListView.setAdapter(folderListViewAdapter);
+		/**
+		 * Listener to know on what position the new item must be insert
+		 */
+		folderListView.setOnItemReceiverListener(listenerReceivePicture);
+		/**
+		 * listener to set action on item click to folder listview
+		 */
+		folderListView.setOnItemClickListener(listenerFolderListView);
+	}
+
+	private void initLayoutDrag() {
+		/* init layout drag */
+		layoutDrag = (RelativeLayout) mainRelativeLayout.findViewById(R.id.layoutDrag);
+		imageDrag = (ImageView) mainRelativeLayout.findViewById(R.id.imageView1);
+		txtIdName = (TextView) mainRelativeLayout.findViewById(R.id.txt_id_name);
+		txtIdUrl = (TextView) mainRelativeLayout.findViewById(R.id.txt_id_url);
+	}
+
 	/**
 	 * initialize database
 	 */
@@ -175,14 +200,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void loadDataFromFolderDataBase() {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
-		Log.e("size", "size " + sizeOfFolder);
-		imgFolderIconId = new int[sizeOfFolder];
-		imgFolderId = new int[sizeOfFolder];
-		imgFolderType = new int[sizeOfFolder];
-		for (int i = 0; i < sizeOfFolder; i++) {
-			imgFolderIconId[i] = folderList.get(i).getImgFolderIconId();
-			imgFolderId[i] = folderList.get(i).getImgFolderId();
-			imgFolderType[i] = folderList.get(i).getTypeOfFolder();
+		
+		for (int i = NUMBER_FOLDER_DEFALT; i < sizeOfFolder; i++) {
+			FolderItem folder = new FolderItem(folderList.get(i).getImgFolderId(), folderList
+					.get(i).getImgFolderIconId(), folderList.get(i).getTypeOfFolder());
+			mFolderListItems.add(folder);
 		}
 	}
 
@@ -193,6 +215,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		if (sizeOfFolder < NUMBER_FOLDER_DEFALT) {
+
 			/* add favourite table to folder db */
 			FolderDatabase folderFavourite = new FolderDatabase(0, 1, NAME_FAVOURITE_FOLDER,
 					R.drawable.folder_s_common, R.drawable.favorite, TYPE_FOLDER_NON_NORMAL);
@@ -203,6 +226,15 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 					R.drawable.folder_s_common, R.drawable.history, TYPE_FOLDER_NON_NORMAL);
 			folderDataBaseHandler.addNewFolder(folderHistory);
 		}
+
+		// add 2 folder favourite and history
+		FolderItem folderItemFavourite = new FolderItem(R.drawable.folder_s_common,
+				R.drawable.favorite, TYPE_FOLDER_NON_NORMAL);
+		mFolderListItems.add(folderItemFavourite);
+
+		FolderItem folderItemHistory = new FolderItem(R.drawable.folder_s_common,
+				R.drawable.history, TYPE_FOLDER_NON_NORMAL);
+		mFolderListItems.add(folderItemHistory);
 	}
 
 	/**
@@ -229,44 +261,57 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	};
 
+	/**
+	 * on item click listener
+	 */
+	private OnItemClickListener mOnIdListItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			// TODO Auto-generated method stub
+			Log.e("position", "position " + arg2);
+			if (!isEdit)
+				CopyItemActivity.startActivity(HomeScreeenActivity.this);
+		}
+	};
 	private OnTouchListener mOnItemUpOutListener = new OnTouchListener() {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 
-			return true;
+			return folderListView.onUpReceive(event);
 		}
 	};
 
-	// private OnItemClickListener listenerReceivePicture = new
-	// OnItemClickListener() {
-	//
-	// public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long
-	// arg3) {
-	// if (oneItemSelected != null)
-	// receverAdapter.addPicture(oneItemSelected, arg2);
-	// }
-	//
-	// };
+	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
+
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			if (oneItemSelected != null)
+				// receverAdapter.addPicture(oneItemSelected, arg2);
+				Log.e("ongetitemreceiver", "item name " + oneItemSelected.getName() + "position "
+						+ arg2);
+		}
+
+	};
 	private OnItemClickListener listenerFolderListView = new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 			// if (oneItemSelected != null)
 			// receverAdapter.addPicture(oneItemSelected, arg2);
+			Log.e("ongetitemreceiver", "item nameee " + oneItemSelected.getName() + "position "
+					+ arg2);
 		}
 
 	};
 
-	// private OnItemLongClickListener listenerRemoveItem = new
-	// OnItemLongClickListener() {
-	//
-	// @Override
-	// public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
-	// long arg3) {
-	// receverAdapter.removeItem(arg2);
-	// return false;
-	// }
-	//
-	// };
+	private OnItemLongClickListener listenerRemoveItem = new OnItemLongClickListener() {
+
+		@Override
+		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			receverAdapter.removeItem(arg2);
+			return false;
+		}
+
+	};
 
 	private OnTouchListener mOnItemMoveListener = new OnTouchListener() {
 
@@ -274,7 +319,10 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		public boolean onTouch(View v, MotionEvent event) {
 			RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) layoutDrag
 					.getLayoutParams();
-			layoutDrag.setVisibility(RelativeLayout.VISIBLE);
+			if (isEdit)
+				layoutDrag.setVisibility(RelativeLayout.VISIBLE);
+			else
+				layoutDrag.setVisibility(RelativeLayout.GONE);
 
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				layoutDrag.bringToFront();
@@ -288,8 +336,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
 				layoutDrag.setVisibility(View.GONE);
-				CopyItemActivity.startActivity(HomeScreeenActivity.this);
 			}
+
 			// set params
 			layoutDrag.setLayoutParams(layout);
 
@@ -344,16 +392,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			if (isEdit) {
 				btnEdit.setBackgroundResource(R.drawable.edit);
 				isEdit = false;
-
-				/* set folder and id listview in normal mode */
-				setNormalModeForFolderAndIdListView();
 			} else {
 				btnEdit.setBackgroundResource(R.drawable.return_back);
 				isEdit = true;
-
-				/* set folder and id listview in edit mode */
-				setEditModeForFolderAndIdListView();
 			}
+
+			/* set folder and id listview in edit mode */
+			setEditModeForFolderAndIdListView(isEdit);
 		}
 
 		/* setting */
@@ -369,40 +414,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * set mode normal for folder and id list view
-	 */
-	private void setNormalModeForFolderAndIdListView() {
-		/* set mode normal for folder */
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
-				imgFolderType, false);
-		folderListView.setAdapter(folderListViewAdapter);
-		folderListViewAdapter.notifyDataSetChanged();
-		folderListView.invalidate();
-
-		/* set mode normal for id */
-		itemAdapter = new ItemAdapter(this, constructList(), false);
-		idListView.setAdapter(itemAdapter);
-		itemAdapter.notifyDataSetChanged();
-		idListView.invalidate();
-	}
-
-	/**
 	 * set mode edit for folder and id list view
 	 */
-	private void setEditModeForFolderAndIdListView() {
+	private void setEditModeForFolderAndIdListView(boolean isEdit) {
 		/* set mode edit for folder */
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
-				imgFolderType, true);
-		folderListView.setAdapter(folderListViewAdapter);
-		folderListViewAdapter.notifyDataSetChanged();
-		folderListView.invalidate();
+		folderListViewAdapter.updateModeForListView(isEdit);
 
 		/* set mode edit for id */
-		itemAdapter = new ItemAdapter(this, constructList(), true);
-		idListView.setAdapter(itemAdapter);
-		itemAdapter.notifyDataSetChanged();
-		idListView.invalidate();
-
+		itemAdapter.updateModeForListView(isEdit);
 	}
 
 	/**
@@ -438,6 +457,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	/**
 	 * add new folder to group
 	 */
+	@SuppressWarnings("deprecation")
 	private void addNewFolder() {
 		showDialog(DIALOG_ADD_NEW_FOLDER);
 	}
@@ -493,42 +513,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName,
 				imgFolderId, imgFolderIconId, TYPE_FOLDER_NORMAL));
 
-		/* refresh listview folder */
-		refreshFolderListView();
+		// /* refresh listview folder */
+		FolderItem folder = new FolderItem(imgFolderId, imgFolderIconId, TYPE_FOLDER_NORMAL);
+		folderListViewAdapter.addNewFolder(folder);
+
 	}
 
 	public void onResume() {
 		super.onResume();
 
-		/* refresh listview id */
-		refreshIdListView();
-	}
-
-	/**
-	 * refresh id listview after change
-	 */
-	private void refreshIdListView() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * refresh folder list view after change
-	 */
-	private void refreshFolderListView() {
-
-		/* load data from folder database */
-		loadDataFromFolderDataBase();
-
-		/* refresh list view */
-		folderListViewAdapter = new FolderListViewAdapter(this, imgFolderId, imgFolderIconId,
-				imgFolderType, false);
-		folderListView.setAdapter(folderListViewAdapter);
-		folderListViewAdapter.notifyDataSetChanged();
-		folderListView.invalidate();
-	}
-
-	public void onBtnClickEdit() {
-		Log.e("is onclick", "is onClick");
 	}
 }

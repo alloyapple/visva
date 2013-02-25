@@ -122,6 +122,10 @@ public class ItemAdapter extends BaseAdapter {
 		alPicture.remove(arg1);
 		notifyDataSetChanged();
 	}
-
+	
+	public void updateModeForListView(boolean isEdit) {
+		this.isModeEdit = isEdit;
+		notifyDataSetChanged();
+	}
 
 }
