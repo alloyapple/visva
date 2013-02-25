@@ -107,6 +107,7 @@ public class MasterPasswordChangeActivity extends Activity {
 				startActivity(intent);
 			}
 		}
+		finish();
 	}
 
 	public void onReturn(View v) {

@@ -1,21 +1,21 @@
 /*
-*Copyright 2011 Matthieu Paret
-*
-*This file is part of DragAndDrop.
-*
-*DragAndDrop is free software: you can redistribute it and/or modify
-*it under the terms of the GNU Lesser General Public License as published by
-*the Free Software Foundation, either version 3 of the License, or
-*(at your option) any later version.
-*
-*DragAndDrop is distributed in the hope that it will be useful,
-*but WITHOUT ANY WARRANTY; without even the implied warranty of
-*MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*GNU General Public License for more details.
-*
-*You should have received a copy of the GNU Lesser General Public License
-*along with DragAndDrop.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *Copyright 2011 Matthieu Paret
+ *
+ *This file is part of DragAndDrop.
+ *
+ *DragAndDrop is free software: you can redistribute it and/or modify
+ *it under the terms of the GNU Lesser General Public License as published by
+ *the Free Software Foundation, either version 3 of the License, or
+ *(at your option) any later version.
+ *
+ *DragAndDrop is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU Lesser General Public License
+ *along with DragAndDrop.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package exp.mtparet.dragdrop.view;
 
@@ -29,19 +29,21 @@ import android.widget.ListView;
 
 /**
  * Extends ListView, implement some additionnal listener
+ * 
  * @author Matthieu Paret
- *
+ * 
  */
-public class ListViewDragDrop extends ListView{
-	
+public class ListViewDragDrop extends ListView {
+
 	private OnTouchListener mOnItemOutUpListener;
-	private OnTouchListener mOnItemMoveListener; //It is an hacked touchLister, in fact it is OnMoveListener
+	private OnTouchListener mOnItemMoveListener; // It is an hacked touchLister,
+													// in fact it is
+													// OnMoveListener
 	private OnItemClickListener mOnItemReceiver;
 	private boolean isMove = false;
 	private View childSelected;
 	private float xInit;
 	private float yInit;
-
 
 	public ListViewDragDrop(Context context) {
 		super(context);
@@ -49,96 +51,103 @@ public class ListViewDragDrop extends ListView{
 	}
 
 	public ListViewDragDrop(Context context, AttributeSet attrs) {
-       super(context, attrs);
-  }
+		super(context, attrs);
+	}
 
-   public ListViewDragDrop(Context context, AttributeSet attrs, int defStyle) {
-         super(context, attrs, defStyle);
-   }
-   
-   /**
-    * When an item is moved horizontally out of this position, this listener is called. Before this OnItemSelectedListener is called.
-    * @param listener
-    */
-	public void setOnItemMoveListener(AdapterView.OnTouchListener listener){
+	public ListViewDragDrop(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
+
+	/**
+	 * When an item is moved horizontally out of this position, this listener is
+	 * called. Before this OnItemSelectedListener is called.
+	 * 
+	 * @param listener
+	 */
+	public void setOnItemMoveListener(AdapterView.OnTouchListener listener) {
 		mOnItemMoveListener = listener;
 	}
 
 	/**
 	 * When a gesture on a item is terminated out of the the listView
+	 * 
 	 * @param listener
 	 */
-	public void setOnItemUpOutListener(AdapterView.OnTouchListener listener){
+	public void setOnItemUpOutListener(AdapterView.OnTouchListener listener) {
 		this.mOnItemOutUpListener = listener;
 	}
 
 	/**
-	 * When an outsider item is moved and up on this listview. Return position where to add this item.
+	 * When an outsider item is moved and up on this listview. Return position
+	 * where to add this item.
+	 * 
 	 * @param listener
 	 */
-	public void setOnItemReceiverListener(AdapterView.OnItemClickListener listener){
+	public void setOnItemReceiverListener(AdapterView.OnItemClickListener listener) {
 		this.mOnItemReceiver = listener;
 	}
-	
 
-	
-   @Override
-   public boolean onTouchEvent(MotionEvent ev) {
-	   boolean handled = false;
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		boolean handled = false;
 
-		if(mOnItemMoveListener != null && !handled)
+		if (mOnItemMoveListener != null && !handled)
 			handled = onMove(ev);
-		
-		if(!handled)
-       return super.onTouchEvent(ev);
-		
-	return handled;
-   }
 
-   /**
-    * 
-    * @param e
-    * @return
-    */
-   public boolean onUpReceive(MotionEvent e) {
+		if (!handled)
+			return super.onTouchEvent(ev);
 
-		if(e.getAction() == MotionEvent.ACTION_UP){
-			
-			int x = (int)e.getX();
-			int y = (int)e.getY();
+		return handled;
+	}
 
-			for(int i=0;i<getChildCount();i++){
+	/**
+	 * 
+	 * @param e
+	 * @return
+	 */
+	public boolean onUpReceive(MotionEvent e) {
+
+		if (e.getAction() == MotionEvent.ACTION_UP) {
+
+			int x = (int) e.getX();
+			int y = (int) e.getY();
+
+			for (int i = 0; i < getChildCount(); i++) {
 				Rect viewRect = new Rect();
 				View child = getChildAt(i);
 				int left = child.getLeft() + this.getLeft();
 				int right = child.getRight() + this.getLeft();
 				int top = child.getTop() + this.getTop();
-				int bottom = child.getTop() + child.getHeight()/2 + this.getTop();
+				int bottom = child.getTop() + child.getHeight() / 2 + this.getTop();
 				viewRect.set(left, top, right, bottom);
-				
-				if(viewRect.contains(x,y)){
-					if(getOnItemSelectedListener() != null){
-						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i, getItemIdAtPosition(i));
+
+				if (viewRect.contains(x, y)) {
+					if (getOnItemSelectedListener() != null) {
+						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i,
+								getItemIdAtPosition(i));
 					}
-					if(mOnItemReceiver != null){
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i, getItemIdAtPosition(i));
+					if (mOnItemReceiver != null) {
+						mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i,
+								getItemIdAtPosition(i));
 					}
 					return true;
 				}
-				
+
 				Rect viewRect2 = new Rect();
 				left = child.getLeft() + this.getLeft();
 				right = child.getRight() + this.getLeft();
-				top = child.getTop()  + child.getHeight()/2 + this.getTop();
+				top = child.getTop() + child.getHeight() / 2 + this.getTop();
 				bottom = child.getBottom() + this.getTop();
 				viewRect2.set(left, top, right, bottom);
-				
-				if(viewRect2.contains(x,y)){
-					if(getOnItemSelectedListener() != null){
-						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i, getItemIdAtPosition(i));
+
+				if (viewRect2.contains(x, y)) {
+					if (getOnItemSelectedListener() != null) {
+						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i,
+								getItemIdAtPosition(i));
 					}
-					if(mOnItemReceiver != null){
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i + 1, getItemIdAtPosition(i));
+					if (mOnItemReceiver != null) {
+						mOnItemReceiver.onItemClick(ListViewDragDrop.this, child, i + 1,
+								getItemIdAtPosition(i));
 					}
 					return true;
 				}
@@ -151,33 +160,33 @@ public class ListViewDragDrop extends ListView{
 			int bottom = this.getBottom();
 			Rect rect = new Rect(left, top, right, bottom);
 
-			if(rect.contains(x,y)){
+			if (rect.contains(x, y)) {
 
-				if(this.getChildCount() > 0){
-					int  minY = this.getChildAt(this.getChildCount() - 1).getBottom();
+				if (this.getChildCount() > 0) {
+					int minY = this.getChildAt(this.getChildCount() - 1).getBottom();
 					int maxY = this.getChildAt(0).getTop();
 
-					if(y < minY){
+					if (y < minY) {
 						mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, 0, 0);
-					}else{
-						if(y > maxY){
-							mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, this.getChildCount() , 0);
+					} else {
+						if (y > maxY) {
+							mOnItemReceiver.onItemClick(ListViewDragDrop.this, null,
+									this.getChildCount(), 0);
 						}
 
 					}
 
 					return true;
 
-				}else{
+				} else {
 
-					if(mOnItemReceiver != null){
+					if (mOnItemReceiver != null) {
 						mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, 0, 0);
 					}
 					return true;
 				}
 
 			}
-
 
 		}
 		return false;
@@ -185,87 +194,81 @@ public class ListViewDragDrop extends ListView{
 
 	public boolean onMove(MotionEvent event) {
 
-
-
 		float xNow = event.getX();
 		float yNow = event.getY();
 
 		Rect viewRect = new Rect();
 
-		if(event.getAction() == MotionEvent.ACTION_DOWN){
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			float xInit1 = event.getX();
 			float yInit1 = event.getY();
-			
-			for(int i=0;i<getChildCount();i++){
+
+			for (int i = 0; i < getChildCount(); i++) {
 				View child = getChildAt(i);
 				int left = child.getLeft();
 				int right = child.getRight();
 				int top = child.getTop();
 				int bottom = child.getBottom();
 				viewRect.set(left, top, right, bottom);
-				if(viewRect.contains((int)xInit1, (int)yInit1)){
+				if (viewRect.contains((int) xInit1, (int) yInit1)) {
 
-					if(getOnItemSelectedListener() != null){
-						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i, getItemIdAtPosition(i));
+					if (getOnItemSelectedListener() != null) {
+						getOnItemSelectedListener().onItemSelected(ListViewDragDrop.this, child, i,
+								getItemIdAtPosition(i));
 					}
-					
+
 					this.xInit = xInit1;
 					this.yInit = yInit1;
-					
-					childSelected = child;
 
+					childSelected = child;
 
 				}
 			}
 		}
 
-		if(event.getAction() == MotionEvent.ACTION_MOVE){
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
-			if(!isMove){
+			if (!isMove) {
 
-				if( Math.abs(xNow -xInit) > 0 && Math.abs(yNow - yInit) < 4){
+				if (Math.abs(xNow - xInit) > 0 && Math.abs(yNow - yInit) < 4) {
 
-					if(mOnItemMoveListener != null){
+					if (mOnItemMoveListener != null) {
 						mOnItemMoveListener.onTouch(ListViewDragDrop.this, event);
 					}
 
 					isMove = true;
 					return true;
-
 				}
 
-			}else{
+			} else {
 				mOnItemMoveListener.onTouch(ListViewDragDrop.this, event);
 
 				return true;
 			}
 		}
 
-		if(event.getAction() == MotionEvent.ACTION_UP && isMove){
+		if (event.getAction() == MotionEvent.ACTION_UP && isMove) {
 			int left = this.getLeft();
 			int right = this.getRight();
 			int top = this.getTop();
 			int bottom = this.getBottom();
 			Rect rect = new Rect(left, top, right, bottom);
-			
-			if(mOnItemMoveListener != null){
+
+			if (mOnItemMoveListener != null) {
 				mOnItemMoveListener.onTouch(ListViewDragDrop.this, event);
 			}
 
-			if(!rect.contains((int)xNow, (int)yNow)){
-				
-				if(mOnItemOutUpListener != null){
+			if (!rect.contains((int) xNow, (int) yNow)) {
+
+				if (mOnItemOutUpListener != null) {
 					mOnItemOutUpListener.onTouch(this.childSelected, event);
 				}
-
 			}
-
 			isMove = false;
 			return false;
 		}
 
 		return false;
 	}
-
 
 }
