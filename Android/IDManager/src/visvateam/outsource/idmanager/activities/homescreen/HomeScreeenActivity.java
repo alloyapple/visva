@@ -35,7 +35,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
-import exp.mtparet.dragdrop.adapter.ReceverAdapter;
 import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
@@ -101,6 +100,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				showDialog(DIALOG_DELETE_FOLDER);
 			} else if (msg.arg1 == EDIT_FOLDER)
 				showDialog(DIALOG_EDIT_FOLDER);
+			else if (msg.arg1 == DIALOG_DELETE_ID) 
+				showDialog(DIALOG_DELETE_ID);
 			else if (msg.arg1 == EDIT_ID)
 				showDialog(EDIT_ID);
 			positionReturnedByHandler = msg.arg2;
@@ -172,7 +173,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* init adapter for listview */
 		mIdListItems = constructList();
-		itemAdapter = new ItemAdapter(context, mIdListItems, false,mMainHandler);
+		itemAdapter = new ItemAdapter(context, mIdListItems, false,mMainHandler,idListView);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -595,7 +596,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		case DIALOG_DELETE_ID:
 			builder.setTitle("Delete Folder");
-			builder.setMessage("Do you want to delete this folder?");
+			builder.setMessage("Do you want to delete this ID?");
 			builder.setIcon(R.drawable.icon);
 
 			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

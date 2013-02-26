@@ -95,7 +95,6 @@
             android:layout_height="40px"
             android:src="@drawable/sliding_drawer_handle_bottom" />
     </it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
-
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

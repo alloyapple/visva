@@ -14,7 +14,7 @@ public class PasswordGeneratorActivity extends Activity {
 	}
 
 	public void onReturn(View v) {
-
+		finish();
 	}
 
 	public void onGenerate(View v) {
