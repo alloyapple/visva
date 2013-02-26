@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/id_txt_nameItem"
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/all_corner"
+            android:text="Pass"
+            android:textColor="#000000" >
+        </EditText>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/all_corner"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/id_txt_detailItem"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:textColor="#000000" >
+            </EditText>
+
+            <ImageButton
+                android:id="@+id/id_btn_generator"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/text_setting"
+                android:onClick="onToGeneratorPass" >
+            </ImageButton>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

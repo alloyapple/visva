@@ -1,155 +1,161 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_04"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_04"
     android:orientation="vertical" >
 
-    <ScrollView
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:id="@+id/action_bar"
         android:layout_width="fill_parent"
-        android:scrollbars="vertical" >
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_return"
+            android:onClick="onReturn" />
+
+        <Button
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="right|center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_info"
+            android:onClick="onInfo" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:background="#404040"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="#FFFFFF"
+            android:onClick="onImgAvatar" >
+        </ImageButton>
+
         <LinearLayout
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/all_corner"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/id_name_id_pass"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:textColor="#000000" >
+            </EditText>
+
+            <CheckBox
+                android:id="@+id/id_like"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/checkbox_like"
+                android:button="@android:color/transparent" >
+            </CheckBox>
+        </LinearLayout>
+    </LinearLayout>
+
+    <it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer
+        xmlns:my="http://schemas.android.com/apk/res/visvateam.outsource.idmanager.activities"
+        android:id="@+id/drawer"
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        my:content="@+id/content"
+        my:direction="topToBottom"
+        my:handle="@+id/handle" >
+
+        <include
+            android:id="@id/content"
+            layout="@layout/pen_content" />
+
+        <ImageView
+            android:id="@id/handle"
+            android:layout_width="wrap_content"
+            android:layout_height="40px"
+            android:src="@drawable/sliding_drawer_handle_bottom" />
+    </it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical" >
 
-            <FrameLayout
-                android:background="@drawable/black_bar"
-                android:id="@+id/action_bar"
-                android:layout_height="46dp"
-                android:layout_width="fill_parent"
-                android:orientation="horizontal" >
-
-                <Button
-                    android:background="@drawable/bt_return"
-                    android:layout_gravity="left|center"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="36dp"
-                    android:onClick="onReturn" />
-
-                <Button
-                    android:background="@drawable/btn_info"
-                    android:layout_gravity="right|center"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="36dp"
-                    android:onClick="onInfo" />
-            </FrameLayout>
-
             <LinearLayout
-                android:background="#404040"
-                android:layout_height="90dp"
                 android:layout_width="fill_parent"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:background="#FFFFFF"
-                    android:layout_gravity="center"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="100dp" >
-                </ImageView>
-
-                <LinearLayout
-                    android:background="@drawable/all_corner"
-                    android:layout_gravity="center"
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:orientation="horizontal" >
-
-                    <EditText
-                        android:background="@color/transparent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:textColor="#000000" >
-                    </EditText>
-
-                    <ImageButton
-                        android:background="@drawable/f1"
-                        android:layout_gravity="center"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="4dp"
-                        android:layout_width="30dp" android:onClick="onLike">
-                    </ImageButton>
-                </LinearLayout>
-            </LinearLayout>
-
-            <it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer
-                xmlns:my="http://schemas.android.com/apk/res/visvateam.outsource.idmanager.activities"
-                android:id="@+id/drawer"
-                android:layout_height="180dp"
-                android:layout_width="fill_parent"
-                my:content="@+id/content"
-                my:direction="topToBottom"
-                my:handle="@+id/handle" >
-
-                <include
-                    android:id="@id/content"
-                    layout="@layout/pen_content" />
-
-                <ImageView
-                    android:id="@id/handle"
-                    android:layout_height="40px"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/sliding_drawer_handle_bottom" />
-            </it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
-
-            <LinearLayout
-                android:background="@drawable/all_corner"
-                android:layout_gravity="center"
                 android:layout_height="32dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_width="fill_parent"
+                android:background="@drawable/all_corner"
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:background="@color/transparent"
-                    android:hint="http://"
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:background="@color/transparent"
+                    android:hint="http://"
                     android:textColor="#000000" >
                 </EditText>
 
                 <ImageButton
-                    android:background="@drawable/google_icon"
-                    android:layout_gravity="center"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="4dp"
                     android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/google_icon"
                     android:onClick="onGoogleHome" >
                 </ImageButton>
             </LinearLayout>
 
             <EditText
-                android:background="@drawable/all_corner"
-                android:hint="Note"
+                android:layout_width="fill_parent"
                 android:layout_height="64dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_width="fill_parent"
+                android:background="@drawable/all_corner"
+                android:hint="Note"
                 android:textColor="#000000" >
             </EditText>
 
             <ImageView
-                android:background="#FFFFFF"
-                android:layout_gravity="center"
+                android:layout_width="fill_parent"
                 android:layout_height="32dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_width="fill_parent" >
+                android:background="#FFFFFF" >
             </ImageView>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+</LinearLayout>
