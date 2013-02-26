@@ -7,16 +7,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-
-public class EditIdPasswordActivity extends Activity {
+public class EditIdPasswordActivity extends Activity implements OnItemClickListener{
 	private ListView mListView;
 	private ImageButton mBtnLike;
 	private static int MAX_ITEM = 15;
@@ -26,11 +29,13 @@ public class EditIdPasswordActivity extends Activity {
 			"Pass11", "ID12", "Pass12", "ID13", "Pass13", "ID14", "Pass14",
 			"ID15", "Pass15" };
 
+	private ListView listViewId;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_id_pass);
+
 		mListView = (ListView) findViewById(R.id.id_listview_item_add);
 		ArrayList<Item> mItems = new ArrayList<EditIdPasswordActivity.Item>();
 		for (int i = 0; i < MAX_ITEM * 2; i++) {
@@ -41,6 +46,7 @@ public class EditIdPasswordActivity extends Activity {
 
 		}
 		mListView.setAdapter(new ItemAddAdapter(this, mItems));
+
 
 	}
 
@@ -63,7 +69,7 @@ public class EditIdPasswordActivity extends Activity {
 	}
 
 	public void onInfo(View v) {
-
+		BrowserActivity.startActivity(this);
 	}
 
 	public void onGoogleHome(View v) {
@@ -140,6 +146,16 @@ public class EditIdPasswordActivity extends Activity {
 	private class Item {
 		public String mNameItem;
 		public String mContentItem;
+	}
+	
+	public void onAvatarClick(View v){
+		Log.e("avatar", "avatar");
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

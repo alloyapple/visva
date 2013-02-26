@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import exp.mtparet.dragdrop.data.OneItem;
+import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Message;
 import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.View;
@@ -39,17 +41,23 @@ import android.widget.RelativeLayout;
 
 public class ItemAdapter extends BaseAdapter {
 
+	private static final int DIALOG_DELETE_ID = 3;
+	private static final int DIALOG_EDIT_ID = 4;
+
 	private Context context;
 	private ArrayList<OneItem> idItemList;
+	private ListViewDragDrop idListView;
 
 	private boolean isModeEdit;
 	private Handler mHandler;
 
-	public ItemAdapter(Context context, ArrayList<OneItem> idItemList, boolean isModeEdit,Handler mHandler) {
+	public ItemAdapter(Context context, ArrayList<OneItem> idItemList, boolean isModeEdit,
+			Handler mHandler, ListViewDragDrop idListView) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
 		this.mHandler = mHandler;
+		this.idListView = idListView;
 	}
 
 	@Override
@@ -134,6 +142,12 @@ public class ItemAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View v) {
 			Log.e("onClickDelete", "onClickDelete");
+			final int position = idListView.getPositionForView((View) v.getParent());
+            Log.e("clickc lcik ", "Title clicked, row %d"+ position);
+			Message msg = mHandler.obtainMessage();
+			msg.arg1 = DIALOG_DELETE_ID;
+			msg.arg2 = position;
+			mHandler.sendMessage(msg);
 		}
 	};
 
@@ -141,6 +155,12 @@ public class ItemAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View v) {
 			Log.e("OnclickEdit", "OnClickEdit");
+			final int position = idListView.getPositionForView((View) v.getParent());
+            Log.e("clickc lcik ", "Title clicked, row %d"+ position);
+            Message msg = mHandler.obtainMessage();
+            msg.arg1 = DIALOG_EDIT_ID;
+            msg.arg2 = position;
+            mHandler.sendMessage(msg);
 			Intent intent = new Intent(context, EditIdPasswordActivity.class);
 			context.startActivity(intent);
 		}

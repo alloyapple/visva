@@ -54,7 +54,7 @@ public class DropBoxSyncActivity extends Activity {
 	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 	final static private String MY_FILE_LOCATION = "/Documents/";
 
-	DropboxAPI<AndroidAuthSession> mApi; 
+	DropboxAPI<AndroidAuthSession> mApi;
 
 	private boolean mLoggedIn;
 
@@ -68,7 +68,6 @@ public class DropBoxSyncActivity extends Activity {
 	public static final String PATH_FOLDER_DOCUMENT = Environment.getExternalStorageDirectory()
 			.getPath() + "/LeanApp/Documents/";
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,6 +76,11 @@ public class DropBoxSyncActivity extends Activity {
 			mCameraFileName = savedInstanceState.getString("mCameraFileName");
 		}
 
+		/* create file if not exist */
+		File file = new File(PATH_FOLDER_DOCUMENT);
+		if (!file.exists())
+			file.mkdirs();
+		
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
@@ -124,8 +128,6 @@ public class DropBoxSyncActivity extends Activity {
 		super.onSaveInstanceState(outState);
 	}
 
-	
-
 	/**
 	 * create file excel in folder document and check sdcard
 	 */
@@ -158,11 +160,10 @@ public class DropBoxSyncActivity extends Activity {
 
 		/* upload file to dropbox */
 		File fileExcel = new File(PATH_FOLDER_DOCUMENT + fileName);
-		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi, MY_FILE_LOCATION,
-				fileExcel);
+		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi,
+				MY_FILE_LOCATION, fileExcel);
 		newFile.execute();
 	}
-
 
 	@Override
 	protected void onResume() {

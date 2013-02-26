@@ -21,7 +21,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private static final int DELETE_FOLDER = 1;
 	private static final int EDIT_FOLDER = 2;
 	private boolean isEdit;
-	private Context context;
+	private Context context; 
 	private ArrayList<FolderItem> folderList;
 	private Handler mHandler;
 	private ListViewDragDrop folderListView;
