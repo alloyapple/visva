@@ -21,8 +21,6 @@ package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
 
-import com.google.android.gms.internal.f;
-
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import exp.mtparet.dragdrop.data.OneItem;
