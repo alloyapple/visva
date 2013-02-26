@@ -50,7 +50,7 @@ public class EditIdPasswordActivity extends Activity {
 	}
 
 	public void onImgAvatar(View v) {
-
+		ImageMemoActivity.startActivity(this);
 	}
 
 	public void onToGenerator(int i) {
@@ -69,7 +69,6 @@ public class EditIdPasswordActivity extends Activity {
 	public void onGoogleHome(View v) {
 
 	}
-
 
 	class ItemAddAdapter extends BaseAdapter {
 		Activity mActivity;
