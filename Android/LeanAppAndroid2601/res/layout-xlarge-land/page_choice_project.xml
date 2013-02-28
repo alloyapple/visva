@@ -88,11 +88,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="2dp"
-            android:background="@color/white"
-            android:textColor="@color/black"
-            android:gravity="center"
+            android:background="@drawable/all_corner"
             android:cursorVisible="true"
-            android:hint="Project Name" >
+            android:gravity="center"
+            android:hint="Project Name"
+            android:textColor="@color/black" >
         </EditText>
 
         <EditText
@@ -102,11 +102,11 @@
             android:layout_below="@id/editText_CreatdProjectName"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
-            android:background="@color/white"
-            android:textColor="@color/black"
-            android:gravity="center"
+            android:background="@drawable/all_corner"
             android:cursorVisible="true"
-            android:hint="Company Name" />
+            android:gravity="center"
+            android:hint="Company Name"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_CreatedProjectDescription"
@@ -115,12 +115,12 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/editText_CreatdProjectName"
-            android:background="@color/white"
-            android:textColor="@color/black"
-            android:gravity="center"
+            android:background="@drawable/all_corner"
             android:cursorVisible="true"
+            android:gravity="center"
             android:hint="Company Description"
-            android:lines="3" />
+            android:lines="3"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_CreatedCompanyAddress"
@@ -130,12 +130,12 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
-            android:textColor="@color/black"
+            android:background="@drawable/all_corner"
             android:cursorVisible="true"
-            android:background="@color/white"
             android:gravity="center"
             android:hint="Company Address"
-            android:lines="3" />
+            android:lines="3"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_CreatedNotes"
@@ -144,13 +144,13 @@
             android:layout_below="@id/editText_CreatedProjectDescription"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
-            android:textColor="@color/black"
-            android:cursorVisible="true"
             android:layout_toRightOf="@id/editText_CreatedCompanyAddress"
-            android:background="@color/white"
+            android:background="@drawable/all_corner"
+            android:cursorVisible="true"
             android:gravity="center"
             android:hint="Notes"
-            android:lines="3" />
+            android:lines="3"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_created"
@@ -193,7 +193,6 @@
             android:layout_toRightOf="@id/wheel_project"
             android:background="@drawable/tab_indicator"
             android:text="Select Existing" />
-
     </RelativeLayout>
 
 </LinearLayout>

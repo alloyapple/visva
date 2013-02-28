@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_recording_use_ms"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:text="Operator Name"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
@@ -178,11 +178,12 @@
                 android:layout_below="@id/textview_recording_use_ms"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
-                android:background="@color/white"
+               android:background="@drawable/all_corner"
+                android:textColor="@color/black"
                 android:checked="true"
                 android:gravity="center"
                 android:hint="Op Name"
-                android:lines="2" />
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/textview_shift_number"
@@ -190,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_recording_operator_name"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:text="Shift Number"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
@@ -205,12 +206,13 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
                 android:layout_toRightOf="@+id/textview_shift_number"
-                android:background="@color/white"
+                android:background="@drawable/all_corner"
+                android:textColor="@color/black"
                 android:checked="true"
                 android:gravity="center"
                 android:inputType="number"
                 android:hint="Shift Info"
-                android:lines="2" />
+                android:singleLine="true" />
         </RelativeLayout>
 
         <RelativeLayout

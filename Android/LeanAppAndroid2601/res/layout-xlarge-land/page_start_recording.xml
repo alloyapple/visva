@@ -173,11 +173,12 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/textview_recording_no_video"
-                android:background="@color/white"
+                android:background="@drawable/all_corner"
+                android:textColor="@color/black"
                 android:checked="true"
                 android:gravity="center"
                 android:hint="Op Name"
-                android:lines="1" />
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/textview_shift_number"
@@ -199,13 +200,14 @@
                 android:layout_below="@id/editext_operator_name"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/white"
+                android:background="@drawable/all_corner"
+                android:textColor="@color/black"
                 android:checked="true"
                 android:ellipsize="start"
                 android:gravity="center"
                 android:hint="Shift Info"
                 android:inputType="number"
-                android:lines="1" />
+                android:singleLine="true" />
         </RelativeLayout>
 
         <RelativeLayout
