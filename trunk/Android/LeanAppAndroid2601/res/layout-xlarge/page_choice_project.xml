@@ -87,10 +87,10 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@color/white"
+            android:background="@drawable/all_corner"
+            android:gravity="center"
             android:hint="Project Name"
-            android:cursorVisible="true"
-            android:textColor="@color/black" >
+            android:textColor="#000000" >
         </EditText>
 
         <EditText
@@ -100,10 +100,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/editText_CreatdProjectName"
-            android:background="@color/white"
+            android:background="@drawable/all_corner"
+            android:gravity="center"
             android:hint="Company Name"
-            android:cursorVisible="true"
-            android:textColor="@color/black" />
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/editText_CreatedProjectDescription"
@@ -112,11 +112,11 @@
             android:layout_below="@id/editText_CreatdProjectName"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
+            android:background="@drawable/all_corner"
+            android:gravity="center"
             android:hint="Company Description"
             android:lines="3"
-            android:cursorVisible="true"
-            android:textColor="@color/black" />
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/editText_CreatedCompanyAddress"
@@ -127,11 +127,11 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/editText_CreatdProjectName"
-            android:background="@color/white"
+            android:background="@drawable/all_corner"
+            android:gravity="center"
             android:hint="Company Address"
-            android:cursorVisible="true"
             android:lines="3"
-            android:textColor="@color/black" />
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/editText_CreatedNotes"
@@ -141,16 +141,16 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
+            android:background="@drawable/all_corner"
             android:gravity="center"
             android:hint="Notes"
-            android:cursorVisible="true"
-            android:textColor="@color/black" />
+            android:lines="3"
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/btn_created"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/editText_CreatedNotes"
             android:layout_marginRight="10dp"
@@ -178,8 +178,8 @@
 
         <Button
             android:id="@+id/btn_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/wheel_project"
             android:layout_marginRight="10dp"

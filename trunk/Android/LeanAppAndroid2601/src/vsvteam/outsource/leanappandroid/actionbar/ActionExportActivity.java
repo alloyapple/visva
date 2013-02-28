@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
@@ -60,7 +59,7 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	public static final int SEND_DROP_BOX = 1;
 	public static final int SEND_BOX = 2;
 	public static final int SEND_GOOGLE_DRIVE = 3;
-  
+
 	public static final int ELEMENT_ALL = 0;
 	public static final int ELEMENT_STREAM_MAP = 1;
 	public static final int ELEMENT_CYCLE_TIME = 2;
@@ -70,17 +69,20 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 
 	public static final String FILE_NAME_EXCEL = "test.xls";
 	private static final String FILE_NAME_PDF = "test";
-	public static final String PATH_FOLDER_DOCUMENT = Environment.getExternalStorageDirectory()
-			.getPath() + "/LeanApp/Documents/";
+	public static final String PATH_FOLDER_DOCUMENT = Environment
+			.getExternalStorageDirectory().getPath() + "/LeanApp/Documents/";
 	// ============================Variable Define ==========================
 
 	private int idCheckBoxElement[] = { R.id.id_checkbox_element_all,
-			R.id.id_checkbox_element_stream_map, R.id.id_checkbox_element_cycle_time,
-			R.id.id_checkbox_element_pqpr, R.id.id_checkbox_element_chart,
+			R.id.id_checkbox_element_stream_map,
+			R.id.id_checkbox_element_cycle_time, R.id.id_checkbox_element_pqpr,
+			R.id.id_checkbox_element_chart,
 			R.id.id_checkbox_element_focus_improvements };
-	private int idCheckBoxExportTo[] = { R.id.id_checkbox_email, R.id.id_checkbox_dropbox,
-			R.id.id_checkbox_box, R.id.id_checkbox_google_driver };
-	private int idCheckBoxFormat[] = { R.id.id_checkbox_pdf, R.id.id_checkbox_excel };
+	private int idCheckBoxExportTo[] = { R.id.id_checkbox_email,
+			R.id.id_checkbox_dropbox, R.id.id_checkbox_box,
+			R.id.id_checkbox_google_driver };
+	private int idCheckBoxFormat[] = { R.id.id_checkbox_pdf,
+			R.id.id_checkbox_excel };
 
 	private int mFormat;
 	private int mElement;
@@ -92,14 +94,17 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	private OnCheckedChangeListener mListenerElements = new OnCheckedChangeListener() {
 
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
 			// TODO Auto-generated method stub
 			if (isChecked) {
 				for (int j = 0; j < 6; j++) {
 					if (buttonView.getId() == idCheckBoxElement[j]) {
-						((CheckBox) findViewById(idCheckBoxElement[j])).setChecked(true);
+						((CheckBox) findViewById(idCheckBoxElement[j]))
+								.setChecked(true);
 					} else {
-						((CheckBox) findViewById(idCheckBoxElement[j])).setChecked(false);
+						((CheckBox) findViewById(idCheckBoxElement[j]))
+								.setChecked(false);
 					}
 				}
 			}
@@ -108,14 +113,17 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	private OnCheckedChangeListener mListenerExportTo = new OnCheckedChangeListener() {
 
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
 			// TODO Auto-generated method stub
 			if (isChecked) {
 				for (int j = 0; j < 4; j++) {
 					if (buttonView.getId() == idCheckBoxExportTo[j]) {
-						((CheckBox) findViewById(idCheckBoxExportTo[j])).setChecked(true);
+						((CheckBox) findViewById(idCheckBoxExportTo[j]))
+								.setChecked(true);
 					} else {
-						((CheckBox) findViewById(idCheckBoxExportTo[j])).setChecked(false);
+						((CheckBox) findViewById(idCheckBoxExportTo[j]))
+								.setChecked(false);
 					}
 				}
 			}
@@ -124,14 +132,17 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	private OnCheckedChangeListener mListenerFormat = new OnCheckedChangeListener() {
 
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
 			// TODO Auto-generated method stub
 			if (isChecked) {
 				for (int j = 0; j < 2; j++) {
 					if (buttonView.getId() == idCheckBoxFormat[j]) {
-						((CheckBox) findViewById(idCheckBoxFormat[j])).setChecked(true);
+						((CheckBox) findViewById(idCheckBoxFormat[j]))
+								.setChecked(true);
 					} else {
-						((CheckBox) findViewById(idCheckBoxFormat[j])).setChecked(false);
+						((CheckBox) findViewById(idCheckBoxFormat[j]))
+								.setChecked(false);
 					}
 				}
 			}
@@ -157,7 +168,8 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 
 	private void initControl() {
 		visibleView((FrameLayout) findViewById(R.id.id_frame_parent_export),
-				(LinearLayout) findViewById(R.id.id_linear_export), View.VISIBLE);
+				(LinearLayout) findViewById(R.id.id_linear_export),
+				View.VISIBLE);
 		for (int i = 0; i < 6; i++) {
 			((CheckBox) findViewById(idCheckBoxElement[i]))
 					.setOnCheckedChangeListener(mListenerElements);
@@ -189,16 +201,17 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		int typeExport = LeanAppAndroidSharePreference.getInstance(this).getModeExport(
-				LeanAppAndroidSharePreference.TYPE_EXPORT);
+		int typeExport = LeanAppAndroidSharePreference.getInstance(this)
+				.getModeExport(LeanAppAndroidSharePreference.TYPE_EXPORT);
 		if (typeExport < 0)
 			return;
 		else {
 			switch (typeExport) {
 			case SEND_DROP_BOX:
 				// mDropBox.sendFile();
-				(LeanAppAndroidSharePreference.getInstance(this)).setModeExport(
-						LeanAppAndroidSharePreference.TYPE_EXPORT, -1);
+				(LeanAppAndroidSharePreference.getInstance(this))
+						.setModeExport(
+								LeanAppAndroidSharePreference.TYPE_EXPORT, -1);
 				break;
 
 			default:
@@ -224,12 +237,14 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 		if (visible == View.VISIBLE) {
 			setTheme(parent, DARK);
 			v.setVisibility(View.VISIBLE);
-			ScaleAnimation scale = new ScaleAnimation(1, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f,
+			ScaleAnimation scale = new ScaleAnimation(1, 1, 0, 1,
+					Animation.RELATIVE_TO_SELF, 0.5f,
 					Animation.RELATIVE_TO_SELF, 0f);
 			scale.setDuration(500);
 			v.startAnimation(scale);
 		} else {
-			ScaleAnimation scale = new ScaleAnimation(1, 1, 1, 0, Animation.RELATIVE_TO_SELF, 0.5f,
+			ScaleAnimation scale = new ScaleAnimation(1, 1, 1, 0,
+					Animation.RELATIVE_TO_SELF, 0.5f,
 					Animation.RELATIVE_TO_SELF, 1f);
 			scale.setDuration(300);
 			v.startAnimation(scale);
@@ -270,12 +285,17 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private void export() {
+	private void export() {// ///////////.
+		/* create folder before export */
+		File file = new File(PATH_FOLDER_DOCUMENT);
+		if (!file.exists())
+			file.mkdirs();
+
 		if (!isExternalStorageAvailable()) {
 			showToast("Sdcard is unvailable.Check it again");
 		} else {
 			mFormat = getTypeFormat();
-			String fileName = null ;
+			String fileName = null;
 			switch (mFormat) {
 			case FORMAT_PDF:
 				fileName = saveFileToPDF();
@@ -290,7 +310,7 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-			if(!"".equals(fileName))
+			if (!"".equals(fileName))
 				sendFile(fileName);
 		}
 	}
@@ -303,17 +323,19 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 			break;
 		case SEND_DROP_BOX:
 			/* export file to dropbox */
-			Intent intentDropBox = new Intent(ActionExportActivity.this, DropBoxSyncActivity.class);
+			Intent intentDropBox = new Intent(ActionExportActivity.this,
+					DropBoxSyncActivity.class);
 			intentDropBox.putExtra("isSendFileFormat", isSendPdfFile);
 			startActivity(intentDropBox);
 			break;
 		case SEND_BOX:
-			Intent intentGGDrive = new Intent(ActionExportActivity.this, GGDriveSyncActivity.class);
-			intentGGDrive.putExtra("isSendFileFormat", isSendPdfFile);
-			startActivity(intentGGDrive);
-//			mBox.upload(null);
+			mBox.upload(null);
 			break;
 		case SEND_GOOGLE_DRIVE:
+			Intent intentGGDrive = new Intent(ActionExportActivity.this,
+					GGDriveSyncActivity.class);
+			intentGGDrive.putExtra("isSendFileFormat", isSendPdfFile);
+			startActivity(intentGGDrive);
 			break;
 		default:
 			break;
@@ -337,7 +359,8 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	private String saveFileToPDF() {
 		String fileName = FILE_NAME_PDF;
 		pathFile = PATH_FOLDER + FILE_NAME_PDF;
-		Document dcm = mPdf.creatPDFDocument(PATH_FOLDER_DOCUMENT, FILE_NAME_PDF);
+		Document dcm = mPdf.creatPDFDocument(PATH_FOLDER_DOCUMENT,
+				FILE_NAME_PDF);
 
 		switch (mElement) {
 		case ELEMENT_ALL:
@@ -361,7 +384,7 @@ public class ActionExportActivity extends Activity implements OnClickListener {
 	public String saveFileToExcel() {
 		String fileName = FILE_NAME_EXCEL;
 		pathFile = PATH_FOLDER + FILE_NAME_EXCEL;
-		File file = mExcel.saveExcelFile( FILE_NAME_EXCEL);
+		File file = mExcel.saveExcelFile(FILE_NAME_EXCEL);
 		switch (mElement) {
 		case ELEMENT_ALL:
 			break;
