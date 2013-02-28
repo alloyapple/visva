@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VAProject.h"
+#import "AVCamCaptureManager.h"
+@interface VACycleTimeViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, AVCamCaptureManagerDelegate>{
+    BOOL _isSaving;
+    BOOL _isNextCircleStep;
+}
 
-@interface VACycleTimeViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
+@property (nonatomic,retain) AVCamCaptureManager *captureManager;
+@property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
 
 @end

@@ -56,7 +56,13 @@
     for (UIViewController *vc in _tbTabbar.viewControllers) {
         vc.tabBarItem.imageInsets = UIEdgeInsetsMake(4, 4, 4, 4);
     }
+#ifdef TARGET_OS_IPHONE
     
+#endif
+    
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
     if (toInterfaceOrientation  == UIInterfaceOrientationLandscapeLeft ||

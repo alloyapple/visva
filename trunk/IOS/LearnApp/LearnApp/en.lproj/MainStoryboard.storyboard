@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="11E53" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="nfw-sM-OGJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11E53" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="nfw-sM-OGJ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Takt Time View Controller-->
@@ -480,7 +480,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                                 </connections>
                                             </button>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Process step name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yPL-0r-czp">
-                                                <rect key="frame" x="401" y="426" width="308" height="24"/>
+                                                <rect key="frame" x="402" y="426" width="307" height="24"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -770,7 +770,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" id="Dlv-Yp-MMZ">
-                                <rect key="frame" x="9" y="39" width="641" height="216"/>
+                                <rect key="frame" x="9" y="39" width="599" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Yxf-o3-g98" id="QFj-P1-MKW"/>
@@ -792,7 +792,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" id="uub-46-QQI">
-                                <rect key="frame" x="403" y="39" width="355" height="216"/>
+                                <rect key="frame" x="616" y="39" width="379" height="216"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1oX-oX-irR">
@@ -810,7 +810,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Use miliseconds" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VPe-Qx-c0H">
-                                        <rect key="frame" x="11" y="78" width="161" height="21"/>
+                                        <rect key="frame" x="11" y="81" width="161" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -833,13 +833,19 @@ The takt is how often you have to produce in order to meet your customer demand.
                                     <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="qas-Qw-lbk">
                                         <rect key="frame" x="239" y="38" width="79" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="swNoVideoChange:" destination="Yxf-o3-g98" eventType="valueChanged" id="tS2-ms-HT9"/>
+                                        </connections>
                                     </switch>
                                     <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="heJ-mp-pb9">
                                         <rect key="frame" x="239" y="75" width="79" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="swMilisecChange:" destination="Yxf-o3-g98" eventType="valueChanged" id="pWG-ao-suo"/>
+                                        </connections>
                                     </switch>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Op name" minimumFontSize="17" id="2Tu-Ze-f9X">
-                                        <rect key="frame" x="170" y="112" width="146" height="30"/>
+                                        <rect key="frame" x="170" y="111" width="146" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -853,11 +859,58 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L3Q-f0-bCZ">
-                                <rect key="frame" x="0.0" y="263" width="768" height="649"/>
+                            <view contentMode="scaleToFill" id="99D-Yq-qsH">
+                                <rect key="frame" x="260" y="321" width="505" height="322"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tot. rec. time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lov-mu-Gmi">
+                                <rect key="frame" x="9" y="263" width="113" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00:00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jJC-2p-gAG">
+                                <rect key="frame" x="130" y="263" width="113" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="00:00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kcz-2T-57l">
+                                <rect key="frame" x="193" y="292" width="113" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Next step:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NHD-z9-NL1">
+                                <rect key="frame" x="392" y="263" width="101" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="xxxxxxx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AvD-8U-BIf">
+                                <rect key="frame" x="495" y="263" width="101" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cycle 1 Step xxx time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cKS-bz-mDu">
+                                <rect key="frame" x="9" y="292" width="169" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ahI-c0-gxk">
+                                <rect key="frame" x="78" y="449" width="100" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" backgroundImage="img_video_view.png">
+                                <state key="normal" title="AudioNote">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -865,7 +918,52 @@ The takt is how often you have to produce in order to meet your customer demand.
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="jjL-Jt-tCN" kind="push" identifier="SGAnalysisCycleTime" id="cVU-fF-RsE"/>
+                                    <action selector="audioNotePressed:" destination="Yxf-o3-g98" eventType="touchUpInside" id="Qul-8l-awa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ATq-7Z-Fo2">
+                                <rect key="frame" x="834" y="449" width="90" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="NextStep">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nextStepPressed:" destination="Yxf-o3-g98" eventType="touchUpInside" id="9Sa-60-IRe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zc1-dR-wyV">
+                                <rect key="frame" x="517" y="651" width="94" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="savePressed:" destination="Yxf-o3-g98" eventType="touchUpInside" id="DoT-vq-Q5J"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0Su-U5-LRP">
+                                <rect key="frame" x="413" y="651" width="96" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Start/Stop">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startStopPressed:" destination="Yxf-o3-g98" eventType="touchUpInside" id="Dtk-cl-mkp"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -873,10 +971,24 @@ The takt is how often you have to produce in order to meet your customer demand.
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="weo-SU-prX"/>
+                    <connections>
+                        <outlet property="btStartStop" destination="0Su-U5-LRP" id="pIi-bu-TPM"/>
+                        <outlet property="lbCurrentStepTime" destination="kcz-2T-57l" id="hf1-TR-y2A"/>
+                        <outlet property="lbNextStep" destination="AvD-8U-BIf" id="LOl-W2-iY0"/>
+                        <outlet property="lbProcessName" destination="NaI-ig-bQU" id="YNE-y3-E4t"/>
+                        <outlet property="lbTotaltime" destination="jJC-2p-gAG" id="9SW-PT-wQW"/>
+                        <outlet property="pkStep" destination="Dlv-Yp-MMZ" id="a6M-4U-6B9"/>
+                        <outlet property="swMilisecond" destination="heJ-mp-pb9" id="GGC-Eg-oMr"/>
+                        <outlet property="swNoVideo" destination="qas-Qw-lbk" id="Rgd-B4-xBF"/>
+                        <outlet property="tfOpName" destination="2Tu-Ze-f9X" id="gHY-2b-RzX"/>
+                        <outlet property="tfShiftNo" destination="D91-eu-jCS" id="J7P-mn-DIK"/>
+                        <outlet property="vCamera" destination="99D-Yq-qsH" id="pLJ-t4-J5F"/>
+                        <segue destination="jjL-Jt-tCN" kind="push" identifier="CircleAnalysis" id="Sao-oH-kiO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="83c-qA-XTw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1466" y="260"/>
+            <point key="canvasLocation" x="-1457" y="-700"/>
         </scene>
         <!--AnalysisC Time View Controller-->
         <scene sceneID="XBj-wb-F6J">
@@ -886,12 +998,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                         <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_recording_detail.png" id="UTD-n1-8zw">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="360"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
                             <pickerView contentMode="scaleToFill" id="wBk-XQ-6AO">
-                                <rect key="frame" x="0.0" y="617" width="1014" height="216"/>
+                                <rect key="frame" x="10" y="474" width="734" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="jjL-Jt-tCN" id="fmk-bs-83q"/>
@@ -899,7 +1007,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </pickerView>
                             <pickerView contentMode="scaleToFill" id="JEr-eJ-qjl">
-                                <rect key="frame" x="508" y="617" width="1014" height="216"/>
+                                <rect key="frame" x="745" y="474" width="267" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="jjL-Jt-tCN" id="FHh-Op-uDi"/>
@@ -907,14 +1015,14 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </pickerView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Compare two cycles of certain step" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K9I-Ki-aCE">
-                                <rect key="frame" x="20" y="588" width="488" height="21"/>
+                                <rect key="frame" x="-100" y="445" width="488" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Or select a full cycles to play" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cnG-QU-q9r">
-                                <rect key="frame" x="528" y="588" width="228" height="21"/>
+                                <rect key="frame" x="745" y="445" width="228" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -944,6 +1052,70 @@ The takt is how often you have to produce in order to meet your customer demand.
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9ai-lu-ra4">
+                                <rect key="frame" x="0.0" y="272" width="1033" height="165"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="CiT-Vs-qUe">
+                                        <rect key="frame" x="0.0" y="22" width="1033" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="1033" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Step name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NXz-zW-2iz">
+                                <rect key="frame" x="0.0" y="249" width="227" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Circle 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8CU-Uz-BVh">
+                                <rect key="frame" x="226" y="249" width="180" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Circle2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xgh-1k-g7V">
+                                <rect key="frame" x="405" y="249" width="178" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="LowestTime" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RDo-8E-4Yb">
+                                <rect key="frame" x="581" y="249" width="150" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Adjustment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vOy-sy-Jki">
+                                <rect key="frame" x="723" y="249" width="150" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Adjusted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uv0-Fg-Im5">
+                                <rect key="frame" x="874" y="249" width="150" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.63529413940000001" green="0.68235296010000002" blue="0.71764707569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -956,7 +1128,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="38i-xQ-8A1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-338" y="396"/>
+            <point key="canvasLocation" x="-306" y="-716"/>
         </scene>
         <!--View Controller - LearnApp-->
         <scene sceneID="TcB-m2-TWM">
@@ -982,8 +1154,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eLw-Te-zK4">
-                                <rect key="frame" x="507" y="576" width="503" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="507" y="572" width="503" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Select Existing">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1269,8 +1441,8 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="Lcd-Ja-gPy" userLabel="vTabbar">
-                                <rect key="frame" x="0.0" y="44" width="768" height="960"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="44" width="1024" height="704"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -1335,7 +1507,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" id="9JT-ch-N98">
-                                <rect key="frame" x="0.0" y="0.0" width="650" height="216"/>
+                                <rect key="frame" x="0.0" y="0.0" width="449" height="216"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="eLg-CF-0CS" id="fof-7a-mdk"/>
@@ -1343,26 +1515,26 @@ The takt is how often you have to produce in order to meet your customer demand.
                                 </connections>
                             </pickerView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select the two level of the project which wish to compare. The system will show you the focus areas and improvement results" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hkj-dC-LCH">
-                                <rect key="frame" x="402" y="0.0" width="346" height="101"/>
+                                <rect key="frame" x="457" y="-11" width="346" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_chart_single.png" id="4ab-za-wKN">
-                                <rect key="frame" x="0.0" y="215" width="394" height="240"/>
+                                <rect key="frame" x="0.0" y="219" width="322" height="207"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_chart_single.png" id="cZH-3r-LYd">
-                                <rect key="frame" x="0.0" y="455" width="394" height="240"/>
+                                <rect key="frame" x="325" y="219" width="347" height="207"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="img_chart_single.png" id="aHo-sj-0S7">
-                                <rect key="frame" x="391" y="455" width="377" height="240"/>
+                                <rect key="frame" x="678" y="219" width="346" height="207"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="twD-Ya-Ce5">
-                                <rect key="frame" x="503" y="313" width="185" height="44"/>
+                                <rect key="frame" x="487" y="98" width="185" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Compare">
@@ -1429,7 +1601,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yz8-KR-MaD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1473" y="-660"/>
+            <point key="canvasLocation" x="-1481" y="180"/>
         </scene>
         <!--Pqpr View Controller-->
         <scene sceneID="tHB-c8-UzN">
@@ -1447,11 +1619,11 @@ The takt is how often you have to produce in order to meet your customer demand.
             </objects>
             <point key="canvasLocation" x="-1466" y="1220"/>
         </scene>
-        <!--Navigation Controller - Spaghetti chart-->
+        <!--Navigation Controller - CirleTime -->
         <scene sceneID="tYb-Aa-XLp">
             <objects>
                 <navigationController navigationBarHidden="YES" id="hKN-tj-XEe" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Spaghetti chart" image="ic_chart.png" id="oaJ-RN-7JU"/>
+                    <tabBarItem key="tabBarItem" title="CirleTime " image="ic_cycle_time.png" id="oaJ-RN-7JU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dmc-sB-1Z5">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -1464,13 +1636,13 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8IE-2z-AIH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2655" y="346"/>
+            <point key="canvasLocation" x="-2623" y="-694"/>
         </scene>
-        <!--Navigation Controller - CirleTime-->
+        <!--Navigation Controller - Spaghetti chart-->
         <scene sceneID="u9y-iV-V05">
             <objects>
                 <navigationController navigationBarHidden="YES" id="Viy-Fa-GEi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="CirleTime" image="ic_cycle_time.png" id="xMD-g2-mZd"/>
+                    <tabBarItem key="tabBarItem" title="Spaghetti chart" image="ic_chart.png" id="xMD-g2-mZd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kHT-uD-0Kc">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -1483,7 +1655,7 @@ The takt is how often you have to produce in order to meet your customer demand.
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xl1-Ib-bCx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2671" y="-628"/>
+            <point key="canvasLocation" x="-2711" y="196"/>
         </scene>
         <!--Navigation Controller - Pqpr-->
         <scene sceneID="RXX-Va-o1e">
@@ -1760,8 +1932,6 @@ The takt is how often you have to produce in order to meet your customer demand.
         <image name="ic_task_time.png" width="30" height="30"/>
         <image name="ic_version.png" width="45" height="30"/>
         <image name="img_chart_single.png" width="338" height="189"/>
-        <image name="img_recording_detail.png" width="558" height="453"/>
-        <image name="img_video_view.png" width="556" height="473"/>
         <image name="line.png" width="100" height="77"/>
         <image name="rect.png" width="100" height="50"/>
     </resources>
@@ -1794,6 +1964,28 @@ The takt is how often you have to produce in order to meet your customer demand.
         </class>
         <class className="VACycleTimeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VACycleTimeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="audioNotePressed:"/>
+                <relationship kind="action" name="nextStepPressed:"/>
+                <relationship kind="action" name="savePressed:"/>
+                <relationship kind="action" name="startStopPressed:"/>
+                <relationship kind="action" name="swMilisecChange:"/>
+                <relationship kind="action" name="swNoVideoChange:"/>
+                <relationship kind="outlet" name="btStartStop" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="lbCurrentStepTime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbNextStep" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbProcessName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lbTotaltime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="pkStep" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="swMilisecond" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="swNoVideo" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="tfOpName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="tfShiftNo" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="vCamera" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="VAEditProcessController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/VAEditProcessController.h"/>
         </class>
         <class className="VAExportViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/VAExportViewController.h"/>

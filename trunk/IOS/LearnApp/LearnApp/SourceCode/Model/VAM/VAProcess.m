@@ -210,6 +210,9 @@ NSString * dNeedVerify=@"need_verify";
 
 -(void)getListStep:(TDSqlManager *)manager{
     self.aSteps = [VAStep getListStep:manager process:self];
+    for (VAStep *step in _aSteps) {
+        [step getListCircle:manager];
+    }
 }
 
 @end
