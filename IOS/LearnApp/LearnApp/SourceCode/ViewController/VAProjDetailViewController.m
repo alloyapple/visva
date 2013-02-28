@@ -155,6 +155,7 @@
     [self registerKeyboard];
     _iProcessIndex = 0;
     [self checkSelectedProcess];
+    [VAGlobal share].currentProject = _currentProject;
 }
 
 -(void)checkSelectedProcess{

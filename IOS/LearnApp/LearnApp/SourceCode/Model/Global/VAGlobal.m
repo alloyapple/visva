@@ -11,6 +11,7 @@
 #import "VAProject.h"
 #import "VAProcess.h"
 #import "VAStep.h"
+#import "TDCommonLibs.h"
 
 static VAGlobal* instance = nil;
 @implementation VAGlobal
@@ -29,6 +30,7 @@ static VAGlobal* instance = nil;
 -(void)dealloc{
     instance = nil;
     [_dbManager release];
+    [_currentProject release];
     [super dealloc];
 }
 -(id)init{
@@ -40,13 +42,15 @@ static VAGlobal* instance = nil;
 
 #pragma mark - database
 -(void)openDatabase{
-    NSString *dataName = @"learnApp.sqlite";
+    NSString *dataName = @"learnAppv1.sqlite";
     NSString *path = [TDDatabase pathInDocument:dataName];
+    TDLOG(@"Open database = %@", path);
     self.dbManager = [[[TDSqlManager alloc] initWithPath:path] autorelease];
     
     //create table if not exits
     [_dbManager executeQuery:[VAProject getCreateTableString]];
     [_dbManager executeQuery:[VAProcess getCreateTableString]];
     [_dbManager executeQuery:[VAStep getCreateTableString]];
+    [_dbManager executeQuery:[VACircle getCreateTableString]];
 }
 @end

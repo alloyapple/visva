@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "TDSqlManager.h"
+#import "VAProject.h"
 
 @interface VAGlobal : NSObject
 @property(nonatomic, retain)TDSqlManager *dbManager;
+@property(nonatomic, retain)VAProject *currentProject;
 
 /*
  * @return: VAGlobal object

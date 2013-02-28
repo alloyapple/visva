@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F77410216D51F3C005FB25D /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F7740FD16D51F3C005FB25D /* AVCamCaptureManager.m */; };
+		2F77410316D51F3C005FB25D /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F7740FF16D51F3C005FB25D /* AVCamRecorder.m */; };
+		2F77410416D51F3C005FB25D /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F77410116D51F3C005FB25D /* AVCamUtilities.m */; };
+		2F77410716D5254E005FB25D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F77410616D5254E005FB25D /* AVFoundation.framework */; };
+		2F77410916D5256A005FB25D /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F77410816D52569005FB25D /* AssetsLibrary.framework */; };
 		2F7A446016A8E1C100D1CD42 /* VAGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A445F16A8E1C100D1CD42 /* VAGlobal.m */; };
 		2F7A446C16A8EE8700D1CD42 /* TDString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F7A446B16A8EE8700D1CD42 /* TDString.m */; };
 		2F7A44AF16A8F8D100D1CD42 /* actionbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F7A447216A8F8D100D1CD42 /* actionbar_bg.png */; };
@@ -76,6 +81,7 @@
 		2F8B44B616AA5DB200A337A1 /* TDTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B44B516AA5DB200A337A1 /* TDTextFieldCell.m */; };
 		2F8B44BF16AA651B00A337A1 /* VAProjDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B44BC16AA651800A337A1 /* VAProjDetailViewController.m */; };
 		2F8B44C516AA66AD00A337A1 /* VAVAMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B44C416AA66AD00A337A1 /* VAVAMViewController.m */; };
+		2FC1761E16C208D600DA7734 /* VAEditProcessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC1761D16C208D400DA7734 /* VAEditProcessController.m */; };
 		2FC8E27216AA6B9A0078B407 /* VARootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27116AA6B9A0078B407 /* VARootViewController.m */; };
 		2FC8E28016AA6BD00078B407 /* VABookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27516AA6BD00078B407 /* VABookViewController.m */; };
 		2FC8E28116AA6BD00078B407 /* VAChangeProjViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC8E27716AA6BD00078B407 /* VAChangeProjViewController.m */; };
@@ -118,6 +124,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F7740FC16D51F3C005FB25D /* AVCamCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamCaptureManager.h; sourceTree = "<group>"; };
+		2F7740FD16D51F3C005FB25D /* AVCamCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamCaptureManager.m; sourceTree = "<group>"; };
+		2F7740FE16D51F3C005FB25D /* AVCamRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamRecorder.h; sourceTree = "<group>"; };
+		2F7740FF16D51F3C005FB25D /* AVCamRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamRecorder.m; sourceTree = "<group>"; };
+		2F77410016D51F3C005FB25D /* AVCamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamUtilities.h; sourceTree = "<group>"; };
+		2F77410116D51F3C005FB25D /* AVCamUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamUtilities.m; sourceTree = "<group>"; };
+		2F77410616D5254E005FB25D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2F77410816D52569005FB25D /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		2F7A445E16A8E1C100D1CD42 /* VAGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAGlobal.h; sourceTree = "<group>"; };
 		2F7A445F16A8E1C100D1CD42 /* VAGlobal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAGlobal.m; sourceTree = "<group>"; };
 		2F7A446A16A8EE8700D1CD42 /* TDString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDString.h; sourceTree = "<group>"; };
@@ -197,6 +211,8 @@
 		2F8B44BC16AA651800A337A1 /* VAProjDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAProjDetailViewController.m; sourceTree = "<group>"; };
 		2F8B44C316AA66AD00A337A1 /* VAVAMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAVAMViewController.h; sourceTree = "<group>"; };
 		2F8B44C416AA66AD00A337A1 /* VAVAMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VAVAMViewController.m; sourceTree = "<group>"; };
+		2FC1761C16C208D300DA7734 /* VAEditProcessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VAEditProcessController.h; path = EditProject/VAEditProcessController.h; sourceTree = "<group>"; };
+		2FC1761D16C208D400DA7734 /* VAEditProcessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VAEditProcessController.m; path = EditProject/VAEditProcessController.m; sourceTree = "<group>"; };
 		2FC8E27016AA6B9A0078B407 /* VARootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VARootViewController.h; sourceTree = "<group>"; };
 		2FC8E27116AA6B9A0078B407 /* VARootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VARootViewController.m; sourceTree = "<group>"; };
 		2FC8E27416AA6BD00078B407 /* VABookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VABookViewController.h; sourceTree = "<group>"; };
@@ -273,6 +289,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F77410916D5256A005FB25D /* AssetsLibrary.framework in Frameworks */,
+				2F77410716D5254E005FB25D /* AVFoundation.framework in Frameworks */,
 				2FC8E29C16AA9EC60078B407 /* QuartzCore.framework in Frameworks */,
 				2FD0D53816A87848002803CB /* libsqlite3.0.dylib in Frameworks */,
 				2FDA03E116A5053B00F50D40 /* UIKit.framework in Frameworks */,
@@ -284,6 +302,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F7740FB16D51F3C005FB25D /* Cam */ = {
+			isa = PBXGroup;
+			children = (
+				2F7740FC16D51F3C005FB25D /* AVCamCaptureManager.h */,
+				2F7740FD16D51F3C005FB25D /* AVCamCaptureManager.m */,
+				2F7740FE16D51F3C005FB25D /* AVCamRecorder.h */,
+				2F7740FF16D51F3C005FB25D /* AVCamRecorder.m */,
+				2F77410016D51F3C005FB25D /* AVCamUtilities.h */,
+				2F77410116D51F3C005FB25D /* AVCamUtilities.m */,
+			);
+			path = Cam;
+			sourceTree = "<group>";
+		};
 		2F7A445C16A8E1A800D1CD42 /* Global */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +444,8 @@
 				2F8B44BC16AA651800A337A1 /* VAProjDetailViewController.m */,
 				A778F25F16AABFB200C45785 /* VAProcessDetailController.h */,
 				A778F26016AABFB300C45785 /* VAProcessDetailController.m */,
+				2FC1761C16C208D300DA7734 /* VAEditProcessController.h */,
+				2FC1761D16C208D400DA7734 /* VAEditProcessController.m */,
 			);
 			name = VAMProjDetail;
 			sourceTree = "<group>";
@@ -525,6 +558,7 @@
 			isa = PBXGroup;
 			children = (
 				2FD0D4F916A854DB002803CB /* TDCommonLibs.h */,
+				2F7740FB16D51F3C005FB25D /* Cam */,
 				2FC8E2A416AAD92F0078B407 /* Size */,
 				2FC8E29616AA99A60078B407 /* Guesture */,
 				2F7A446916A8EE6E00D1CD42 /* String */,
@@ -663,6 +697,8 @@
 		2FDA03D116A5053B00F50D40 = {
 			isa = PBXGroup;
 			children = (
+				2F77410816D52569005FB25D /* AssetsLibrary.framework */,
+				2F77410616D5254E005FB25D /* AVFoundation.framework */,
 				2FE3944116AB0C3E0060D3D3 /* Default-Portrait~ipad.png */,
 				2FE3943F16AB0C120060D3D3 /* icon-72.png */,
 				2FC8E29B16AA9EC60078B407 /* QuartzCore.framework */,
@@ -883,6 +919,10 @@
 				A778F24B16AA9DFD00C45785 /* VAChangeProjectController.m in Sources */,
 				A778F25A16AAABB500C45785 /* VAVersionController.m in Sources */,
 				A778F26116AABFB300C45785 /* VAProcessDetailController.m in Sources */,
+				2FC1761E16C208D600DA7734 /* VAEditProcessController.m in Sources */,
+				2F77410216D51F3C005FB25D /* AVCamCaptureManager.m in Sources */,
+				2F77410316D51F3C005FB25D /* AVCamRecorder.m in Sources */,
+				2F77410416D51F3C005FB25D /* AVCamUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,6 +1015,7 @@
 				INFOPLIST_FILE = "LearnApp/LearnApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -987,6 +1028,7 @@
 				INFOPLIST_FILE = "LearnApp/LearnApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
