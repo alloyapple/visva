@@ -19,7 +19,9 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-public class EditIdPasswordActivity extends Activity implements OnItemClickListener{
+
+public class EditIdPasswordActivity extends Activity implements
+		OnItemClickListener {
 	private ListView mListView;
 	private ImageButton mBtnLike;
 	private static int MAX_ITEM = 15;
@@ -30,6 +32,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			"ID15", "Pass15" };
 
 	private ListView listViewId;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -47,7 +50,6 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		}
 		mListView.setAdapter(new ItemAddAdapter(this, mItems));
 
-
 	}
 
 	public static void startActivity(Activity activity) {
@@ -56,7 +58,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	}
 
 	public void onImgAvatar(View v) {
-		ImageMemoActivity.startActivity(this);
+		ListIconActivity.startActivity(this);
+
 	}
 
 	public void onToGenerator(int i) {
@@ -73,7 +76,11 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	}
 
 	public void onGoogleHome(View v) {
+		SettingURLActivity.startActivity(this);
+	}
 
+	public void onMemoImage(View v) {
+		ImageMemoActivity.startActivity(this);
 	}
 
 	class ItemAddAdapter extends BaseAdapter {
@@ -147,15 +154,15 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		public String mNameItem;
 		public String mContentItem;
 	}
-	
-	public void onAvatarClick(View v){
+
+	public void onAvatarClick(View v) {
 		Log.e("avatar", "avatar");
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class SettingURLActivity extends Activity {
+public class EditIconActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.page_url_setup);
+		setContentView(R.layout.page_edit_icon);
 	}
 
 	public static void startActivity(Activity activity) {
-		Intent i = new Intent(activity, SettingURLActivity.class);
+		Intent i = new Intent(activity, EditIconActivity.class);
 		activity.startActivity(i);
 	}
 
@@ -23,15 +23,11 @@ public class SettingURLActivity extends Activity {
 		finish();
 	}
 
-	public void onRefresh(View v) {
+	public void onLibrary(View v) {
 	}
 
-	public void onBroutherBack(View v) {
-
-	}
-
-	public void onBroutherNext(View v) {
-
+	public void onInternet(View v) {
+		GetInternetImageActivity.startActivity(this);
 	}
 
 }
