@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:background="@drawable/black_bar"
+        android:id="@+id/action_bar"
+        android:layout_height="46dp"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal" >
+
+        <Button
+            android:background="@drawable/bt_return"
+            android:layout_gravity="left|center"
+            android:layout_height="36dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="36dp"
+            android:onClick="onReturn" />
+
+        <LinearLayout
+            android:background="@drawable/all_corner"
+            android:layout_gravity="center"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:layout_width="0dip"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:background="@color/transparent"
+                android:hint="http://google.com"
+                android:layout_gravity="center"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_width="0dip"
+                android:textColor="#000000" >
+            </EditText>
+
+            <Button
+                android:background="@drawable/refresh"
+                android:layout_gravity="center"
+                android:layout_height="30dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="30dp" />
+        </LinearLayout>
+
+        <CheckBox
+            android:background="@drawable/checkbox_mark"
+            android:button="@android:color/transparent"
+            android:layout_gravity="center"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_width="30dp" >
+        </CheckBox>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_width="fill_parent" >
+
+        <WebView
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent" >
+        </WebView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:background="@drawable/black_bar"
+        android:layout_height="50dp"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_gravity="left|center"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:background="@drawable/brouther_back"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="36dp"
+                android:onClick="onBroutherBack" />
+
+            <Button
+                android:background="@drawable/brouther_next"
+                android:layout_height="36dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="36dp"
+                android:onClick="onBroutherNext" />
+        </LinearLayout>
+
+        <EditText
+            android:background="@drawable/all_corner"
+            android:hint="Google"
+            android:layout_gravity="right|center"
+            android:layout_height="36dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="150dp"
+            android:textColor="#000000" >
+        </EditText>
+    </FrameLayout>
+
+</LinearLayout>
