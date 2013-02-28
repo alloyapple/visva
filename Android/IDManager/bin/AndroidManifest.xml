@@ -91,6 +91,22 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="visvateam.outsource.idmanager.activities.GetInternetImageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.ListIconActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.SettingURLActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.EditIconActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.dropbox.client2.android.AuthActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask" >
