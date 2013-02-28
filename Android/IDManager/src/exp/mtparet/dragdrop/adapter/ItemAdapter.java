@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
+import visvateam.outsource.idmanager.contants.Contants;
 import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import android.content.Context;
@@ -162,6 +163,7 @@ public class ItemAdapter extends BaseAdapter {
             msg.arg2 = position;
             mHandler.sendMessage(msg);
 			Intent intent = new Intent(context, EditIdPasswordActivity.class);
+			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, false);
 			context.startActivity(intent);
 		}
 	};

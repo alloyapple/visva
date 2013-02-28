@@ -1,17 +1,48 @@
 package visvateam.outsource.idmanager.activities;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import visvateam.outsource.idmanager.contants.Contants;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 
 public class ImageMemoActivity extends Activity {
+
+	private ImageView imageView;
+	private Uri fileUri;
+	private CheckBox mCheckBoxChoiceImgMemo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_memo);
+
+		imageView = (ImageView) findViewById(R.id.img_memo);
+		mCheckBoxChoiceImgMemo = (CheckBox)findViewById(R.id.check_box_choice_img);
+		mCheckBoxChoiceImgMemo.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				// TODO Auto-generated method stub
+				if(imageView !=null)
+					finish();
+				else 
+					showToast("No image is choosed");
+			}
+		});
 	}
 
 	public static void startActivity(Activity activity) {
@@ -24,14 +55,64 @@ public class ImageMemoActivity extends Activity {
 	}
 
 	public void onCamera(View v) {
-
+		startCameraIntent();
 	}
 
 	public void onLibrary(View v) {
-
+		startGalleryIntent();
 	}
 
 	public void onTrash(View v) {
+		imageView.setImageBitmap(null);
 	}
 
+	private void startCameraIntent() {
+		String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_PICTURES).getPath();
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir + java.io.File.separator + "IMG_"
+				+ "test" + ".jpg"));
+
+		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+		startActivityForResult(cameraIntent, Contants.CAPTURE_IMAGE);
+	}
+
+	private void startGalleryIntent() {
+		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+		photoPickerIntent.setType("image/*");
+		startActivityForResult(photoPickerIntent, Contants.SELECT_PHOTO);
+	}
+
+	@Override
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+		switch (requestCode) {
+		case Contants.CAPTURE_IMAGE:
+			if (resultCode == Activity.RESULT_OK) {
+				// Bitmap photo = (Bitmap) data.getExtras().get("data");
+				// imageView.setImageBitmap(photo);
+				imageView.setImageURI(fileUri);
+			}
+		case Contants.SELECT_PHOTO:
+			if (resultCode == RESULT_OK) {
+				fileUri = data.getData();
+				// InputStream imageStream =
+				// getContentResolver().openInputStream(selectedImage);
+				// Bitmap yourSelectedImage =
+				// BitmapFactory.decodeStream(imageStream);
+				imageView.setImageBitmap(null);
+				imageView.setImageURI(fileUri);
+			}
+
+		}
+	}
+
+	public void showToast(final String toast) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 }
