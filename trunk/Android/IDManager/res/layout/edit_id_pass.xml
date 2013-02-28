@@ -40,6 +40,7 @@
             android:background="#FFFFFF"
             android:layout_gravity="center"
             android:layout_height="70dp"
+            android:id="@+id/img_avatar"
             android:layout_marginLeft="10dp"
             android:layout_width="100dp"
             android:onClick="onImgAvatar" >
@@ -70,7 +71,7 @@
                 android:id="@+id/id_like"
                 android:layout_gravity="center"
                 android:layout_height="30dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginRight="4dp"           
                 android:layout_width="30dp" >
             </CheckBox>
         </LinearLayout>
@@ -119,6 +120,7 @@
                 <EditText
                     android:background="@color/transparent"
                     android:hint="http://"
+                    android:id="@+id/edit_text_url"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -138,6 +140,7 @@
             <EditText
                 android:background="@drawable/all_corner"
                 android:hint="Note"
+                android:id="@+id/edit_text_note"
                 android:layout_height="64dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

@@ -8,6 +8,7 @@ import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
+import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
 import android.annotation.SuppressLint;
@@ -71,21 +72,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private ArrayList<OneItem> mIdListItems = new ArrayList<OneItem>();
 
 	// ============================Variable Define ==================
-	private static final int DIALOG_ADD_NEW_FOLDER = 0;
-	private static final int DIALOG_DELETE_FOLDER = 1;
-	private static final int DIALOG_EDIT_FOLDER = 2;
-	private static final int DIALOG_DELETE_ID = 3;
-	private static final int DIALOG_EDIT_ID = 4;
 
-	private static final int NUMBER_FOLDER_DEFALT = 2;
-	private static final String NAME_HISTORY_FOLDER = "history";
-	private static final String NAME_FAVOURITE_FOLDER = "favourite";
-	private static final int TYPE_FOLDER_NORMAL = 1;
-	private static final int TYPE_FOLDER_NON_NORMAL = 0;
-	private static final int TEXT_ID = 0;
-	private static final int DELETE_FOLDER = 1;
-	private static final int EDIT_FOLDER = 2;
-	private static final int EDIT_ID = 4;
 
 	private Context context;
 	private boolean isEdit = false;
@@ -96,14 +83,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		@SuppressWarnings("deprecation")
 		public void handleMessage(android.os.Message msg) {
 			Log.e("get msg", "get mass " + msg.arg1);
-			if (msg.arg1 == DELETE_FOLDER) {
-				showDialog(DIALOG_DELETE_FOLDER);
-			} else if (msg.arg1 == EDIT_FOLDER)
-				showDialog(DIALOG_EDIT_FOLDER);
-			else if (msg.arg1 == DIALOG_DELETE_ID) 
-				showDialog(DIALOG_DELETE_ID);
-			else if (msg.arg1 == EDIT_ID)
-				showDialog(EDIT_ID);
+			if (msg.arg1 == Contants.DIALOG_DELETE_FOLDER) {
+				showDialog(Contants.DIALOG_DELETE_FOLDER);
+			} else if (msg.arg1 == Contants.DIALOG_EDIT_FOLDER)
+				showDialog(Contants.DIALOG_EDIT_FOLDER);
+			else if (msg.arg1 == Contants.DIALOG_DELETE_ID) 
+				showDialog(Contants.DIALOG_DELETE_ID);
+			else if (msg.arg1 == Contants.DIALOG_EDIT_ID)
+				showDialog(Contants.DIALOG_EDIT_ID);
 			positionReturnedByHandler = msg.arg2;
 		};
 	};
@@ -236,7 +223,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 
-		for (int i = NUMBER_FOLDER_DEFALT; i < sizeOfFolder; i++) {
+		for (int i = Contants.NUMBER_FOLDER_DEFALT; i < sizeOfFolder; i++) {
 			FolderItem folder = new FolderItem(folderList.get(i).getFolderId(), folderList.get(i)
 					.getImgFolderId(), folderList.get(i).getImgFolderIconId(), folderList.get(i)
 					.getTypeOfFolder());
@@ -250,26 +237,26 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void checkSizeFolderDataBase() {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
-		if (sizeOfFolder < NUMBER_FOLDER_DEFALT) {
+		if (sizeOfFolder < Contants.NUMBER_FOLDER_DEFALT) {
 
 			/* add favourite table to folder db */
-			FolderDatabase folderFavourite = new FolderDatabase(0, 1, NAME_FAVOURITE_FOLDER,
-					R.drawable.folder_s_common, R.drawable.favorite, TYPE_FOLDER_NON_NORMAL);
+			FolderDatabase folderFavourite = new FolderDatabase(0, 1, Contants.NAME_FAVOURITE_FOLDER,
+					R.drawable.folder_s_common, R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
 			folderDataBaseHandler.addNewFolder(folderFavourite);
 
 			/* add history table to folder db */
-			FolderDatabase folderHistory = new FolderDatabase(1, 1, NAME_HISTORY_FOLDER,
-					R.drawable.folder_s_common, R.drawable.history, TYPE_FOLDER_NON_NORMAL);
+			FolderDatabase folderHistory = new FolderDatabase(1, 1, Contants.NAME_HISTORY_FOLDER,
+					R.drawable.folder_s_common, R.drawable.history, Contants.TYPE_FOLDER_NON_NORMAL);
 			folderDataBaseHandler.addNewFolder(folderHistory);
 		}
 
 		// add 2 folder favourite and history
 		FolderItem folderItemFavourite = new FolderItem(0, R.drawable.folder_s_common,
-				R.drawable.favorite, TYPE_FOLDER_NON_NORMAL);
+				R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
 		mFolderListItems.add(folderItemFavourite);
 
 		FolderItem folderItemHistory = new FolderItem(1, R.drawable.folder_s_common,
-				R.drawable.history, TYPE_FOLDER_NON_NORMAL);
+				R.drawable.history, Contants.TYPE_FOLDER_NON_NORMAL);
 		mFolderListItems.add(folderItemHistory);
 	}
 
@@ -401,7 +388,10 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* add new id */
 		else if (v == btnAddNewId) {
-			EditIdPasswordActivity.startActivity(this);
+//			EditIdPasswordActivity.startActivity(this);
+			Intent newIdIntent = new Intent(HomeScreeenActivity.this,EditIdPasswordActivity.class);
+			newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
+			startActivity(newIdIntent);
 		}
 
 		/* edit listview */
@@ -459,16 +449,16 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	protected Dialog onCreateDialog(int id) {
 
 		switch (id) {
-		case DIALOG_ADD_NEW_FOLDER:
-			return createExampleDialog(DIALOG_ADD_NEW_FOLDER);
-		case DIALOG_DELETE_FOLDER:
-			return createExampleDialog(DIALOG_DELETE_FOLDER);
-		case DIALOG_EDIT_FOLDER:
-			return createExampleDialog(DIALOG_EDIT_FOLDER);
-		case DIALOG_DELETE_ID:
-			return createExampleDialog(DIALOG_DELETE_ID);
-		case DIALOG_EDIT_ID:
-			return createExampleDialog(DIALOG_EDIT_ID);
+		case Contants.DIALOG_ADD_NEW_FOLDER:
+			return createExampleDialog(Contants.DIALOG_ADD_NEW_FOLDER);
+		case Contants.DIALOG_DELETE_FOLDER:
+			return createExampleDialog(Contants.DIALOG_DELETE_FOLDER);
+		case Contants.DIALOG_EDIT_FOLDER:
+			return createExampleDialog(Contants.DIALOG_EDIT_FOLDER);
+		case Contants.DIALOG_DELETE_ID:
+			return createExampleDialog(Contants.DIALOG_DELETE_ID);
+		case Contants.DIALOG_EDIT_ID:
+			return createExampleDialog(Contants.DIALOG_EDIT_ID);
 		default:
 			return null;
 		}
@@ -482,9 +472,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	protected void onPrepareDialog(int id, Dialog dialog) {
 
 		switch (id) {
-		case DIALOG_ADD_NEW_FOLDER:
+		case Contants.DIALOG_ADD_NEW_FOLDER:
 			// Clear the input box.
-			EditText text = (EditText) dialog.findViewById(TEXT_ID);
+			EditText text = (EditText) dialog.findViewById(Contants.TEXT_ID);
 			text.setText("");
 			break;
 		}
@@ -495,7 +485,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 */
 	@SuppressWarnings("deprecation")
 	private void addNewFolder() {
-		showDialog(DIALOG_ADD_NEW_FOLDER);
+		showDialog(Contants.DIALOG_ADD_NEW_FOLDER);
 	}
 
 	/**
@@ -505,14 +495,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		switch (id) {
-		case DIALOG_ADD_NEW_FOLDER:
+		case Contants.DIALOG_ADD_NEW_FOLDER:
 			builder.setTitle("Add New Folder");
 			builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
 
 			// Use an EditText view to get user input.
 			final EditText input = new EditText(this);
-			input.setId(TEXT_ID);
+			input.setId(Contants.TEXT_ID);
 			input.setText("");
 			builder.setView(input);
 
@@ -537,7 +527,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			});
 			return builder.create();
 
-		case DIALOG_DELETE_FOLDER:
+		case Contants.DIALOG_DELETE_FOLDER:
 			builder.setTitle("Delete Folder");
 			builder.setMessage("Do you want to delete this folder?");
 			builder.setIcon(R.drawable.icon);
@@ -562,14 +552,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			});
 
 			return builder.create();
-		case DIALOG_EDIT_FOLDER:
+		case Contants.DIALOG_EDIT_FOLDER:
 			builder.setTitle("Edit A Folder");
 			builder.setMessage("Type the name of folder to edit :");
 			builder.setIcon(R.drawable.icon);
 
 			// Use an EditText view to get user input.
 			final EditText inputEdit = new EditText(this);
-			inputEdit.setId(TEXT_ID);
+			inputEdit.setId(Contants.TEXT_ID);
 			inputEdit.setText("");
 			builder.setView(inputEdit);
 
@@ -594,7 +584,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			});
 			return builder.create();
 
-		case DIALOG_DELETE_ID:
+		case Contants.DIALOG_DELETE_ID:
 			builder.setTitle("Delete Folder");
 			builder.setMessage("Do you want to delete this ID?");
 			builder.setIcon(R.drawable.icon);
@@ -644,7 +634,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		FolderItem folderItem = mFolderListItems.get(positionReturnedByHandler);
 		FolderDatabase folder = new FolderDatabase(folderItem.getFolderId(), 1, folderName,
-				folderItem.getFolderImgid(), folderItem.getFolderIconId(), TYPE_FOLDER_NORMAL);
+				folderItem.getFolderImgid(), folderItem.getFolderIconId(), Contants.TYPE_FOLDER_NORMAL);
 		folderDataBaseHandler.updateFolder(folder);
 
 		showToast("Folder " + folderName + " is updated");
@@ -676,11 +666,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		int imgFolderIconId = R.drawable.jog_note_push;
 		int imgFolderId = R.drawable.folder_common;
 		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName,
-				imgFolderId, imgFolderIconId, TYPE_FOLDER_NORMAL));
+				imgFolderId, imgFolderIconId, Contants.TYPE_FOLDER_NORMAL));
 
 		// /* refresh listview folder */
 		FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId, imgFolderIconId,
-				TYPE_FOLDER_NORMAL);
+				Contants.TYPE_FOLDER_NORMAL);
 		folderListViewAdapter.addNewFolder(folder);
 		folderListView.invalidate();
 
