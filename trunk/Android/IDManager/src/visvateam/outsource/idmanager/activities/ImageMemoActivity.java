@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -31,16 +32,26 @@ public class ImageMemoActivity extends Activity {
 		setContentView(R.layout.page_memo);
 
 		imageView = (ImageView) findViewById(R.id.img_memo);
-		mCheckBoxChoiceImgMemo = (CheckBox)findViewById(R.id.check_box_choice_img);
+		mCheckBoxChoiceImgMemo = (CheckBox) findViewById(R.id.check_box_choice_img);
 		mCheckBoxChoiceImgMemo.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-				if(imageView !=null)
-					finish();
-				else 
+				Log.e("file uri", "fie uri " + fileUri);
+
+				if (fileUri != null && mCheckBoxChoiceImgMemo.isChecked()) {
+					 Intent resultIntent =new Intent();
+					 String filePathImgMemo = fileUri.getPath();
+					 Log.e("file a", "file a"+filePathImgMemo);
+					 resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
+					 filePathImgMemo);
+					 setResult(Activity.RESULT_OK, resultIntent);
+					 finish();
+				} else {
 					showToast("No image is choosed");
+					mCheckBoxChoiceImgMemo.setChecked(false);
+				}
 			}
 		});
 	}
@@ -64,6 +75,7 @@ public class ImageMemoActivity extends Activity {
 
 	public void onTrash(View v) {
 		imageView.setImageBitmap(null);
+		fileUri = null;
 	}
 
 	private void startCameraIntent() {
@@ -93,8 +105,10 @@ public class ImageMemoActivity extends Activity {
 				// imageView.setImageBitmap(photo);
 				imageView.setImageURI(fileUri);
 			}
+			break;
 		case Contants.SELECT_PHOTO:
 			if (resultCode == RESULT_OK) {
+				Log.e("data", "dataat " + data);
 				fileUri = data.getData();
 				// InputStream imageStream =
 				// getContentResolver().openInputStream(selectedImage);
@@ -103,7 +117,9 @@ public class ImageMemoActivity extends Activity {
 				imageView.setImageBitmap(null);
 				imageView.setImageURI(fileUri);
 			}
-
+			break;
+		default:
+			return;
 		}
 	}
 

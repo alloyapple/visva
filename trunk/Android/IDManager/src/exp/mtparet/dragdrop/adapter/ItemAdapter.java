@@ -39,6 +39,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class ItemAdapter extends BaseAdapter {
 
@@ -51,14 +52,16 @@ public class ItemAdapter extends BaseAdapter {
 
 	private boolean isModeEdit;
 	private Handler mHandler;
+	private int currentFolderId;
 
 	public ItemAdapter(Context context, ArrayList<OneItem> idItemList, boolean isModeEdit,
-			Handler mHandler, ListViewDragDrop idListView) {
+			Handler mHandler, ListViewDragDrop idListView,int currentFolderId) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
 		this.mHandler = mHandler;
 		this.idListView = idListView;
+		this.currentFolderId =currentFolderId;
 	}
 
 	@Override
@@ -85,7 +88,6 @@ public class ItemAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_id_row,
 					null);
-
 		}
 
 		/* image logo */
@@ -93,8 +95,15 @@ public class ItemAdapter extends BaseAdapter {
 		iv.setImageDrawable(context.getResources().getDrawable(idItemList.get(position).getId()));
 		iv.setContentDescription(this.idItemList.get(position).getName());
 
-		/* btn edit */
+		/* text name vs text url */
+		TextView txtIdName = (TextView) convertView.findViewById(R.id.txt_id_item_name);
+		txtIdName.setText(this.idItemList.get(position).getName());
+		txtIdName.setSelected(true);
+		TextView txtIdUrl = (TextView) convertView.findViewById(R.id.txt_id_item_url);
+		txtIdUrl.setText(this.idItemList.get(position).getUrl());
+		txtIdUrl.setSelected(true);
 
+		/* btn edit */
 		Button btnEdit = (Button) convertView.findViewById(R.id.btn_id_item_edit);
 		btnEdit.setOnClickListener(mOnEditClickListener);
 		/* button delete */
@@ -144,7 +153,7 @@ public class ItemAdapter extends BaseAdapter {
 		public void onClick(View v) {
 			Log.e("onClickDelete", "onClickDelete");
 			final int position = idListView.getPositionForView((View) v.getParent());
-            Log.e("clickc lcik ", "Title clicked, row %d"+ position);
+			Log.e("clickc lcik ", "Title clicked, row %d" + position);
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DIALOG_DELETE_ID;
 			msg.arg2 = position;
@@ -157,14 +166,25 @@ public class ItemAdapter extends BaseAdapter {
 		public void onClick(View v) {
 			Log.e("OnclickEdit", "OnClickEdit");
 			final int position = idListView.getPositionForView((View) v.getParent());
-            Log.e("clickc lcik ", "Title clicked, row %d"+ position);
-            Message msg = mHandler.obtainMessage();
-            msg.arg1 = DIALOG_EDIT_ID;
-            msg.arg2 = position;
-            mHandler.sendMessage(msg);
+			Log.e("clickc lcik ", "Title clicked, row %d" + position);
+			Message msg = mHandler.obtainMessage();
+			msg.arg1 = DIALOG_EDIT_ID;
+			msg.arg2 = position;
+			mHandler.sendMessage(msg);
 			Intent intent = new Intent(context, EditIdPasswordActivity.class);
 			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, false);
+			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 			context.startActivity(intent);
 		}
 	};
+
+	public ArrayList<OneItem> getIdItemList() {
+		return idItemList;
+	}
+
+	public void setIdItemList(ArrayList<OneItem> idItemList,int currentFolderId) {
+		this.currentFolderId = currentFolderId;
+		this.idItemList = idItemList;
+		notifyDataSetChanged();
+	}
 }

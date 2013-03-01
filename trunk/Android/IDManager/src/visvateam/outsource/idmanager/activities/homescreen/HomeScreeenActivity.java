@@ -11,6 +11,8 @@ import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
+import visvateam.outsource.idmanager.database.IDDataBase;
+import visvateam.outsource.idmanager.database.IDDataBaseHandler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -61,23 +63,23 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private Button btnInfo;
 	private Button btnSearch;
 
-	private EditText editTextSearch;
+	private EditText mEditTextSearch;
 
 	// ===========================Class Define =====================
 	private ItemAdapter itemAdapter;
 	private FolderListViewAdapter folderListViewAdapter;
 	private OneItem oneItemSelected;
 	private FolderDataBaseHandler folderDataBaseHandler;
+	private IDDataBaseHandler mIDataBaseHandler;
 	private ArrayList<FolderItem> mFolderListItems = new ArrayList<FolderItem>();
 	private ArrayList<OneItem> mIdListItems = new ArrayList<OneItem>();
 
 	// ============================Variable Define ==================
 
-
 	private Context context;
 	private boolean isEdit = false;
 	private int positionReturnedByHandler;
-	private int currentFolderId;
+	private int currentFolderId = 0;
 
 	private Handler mMainHandler = new Handler() {
 		@SuppressWarnings("deprecation")
@@ -87,7 +89,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				showDialog(Contants.DIALOG_DELETE_FOLDER);
 			} else if (msg.arg1 == Contants.DIALOG_EDIT_FOLDER)
 				showDialog(Contants.DIALOG_EDIT_FOLDER);
-			else if (msg.arg1 == Contants.DIALOG_DELETE_ID) 
+			else if (msg.arg1 == Contants.DIALOG_DELETE_ID)
 				showDialog(Contants.DIALOG_DELETE_ID);
 			else if (msg.arg1 == Contants.DIALOG_EDIT_ID)
 				showDialog(Contants.DIALOG_EDIT_ID);
@@ -142,12 +144,12 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		btnInfo = (Button) mainRelativeLayout.findViewById(R.id.btn_main_info);
 		btnInfo.setOnClickListener(this);
-		
-		btnSearch = (Button)mainRelativeLayout.findViewById(R.id.btn_search);
+
+		btnSearch = (Button) mainRelativeLayout.findViewById(R.id.btn_search);
 		btnSearch.setOnClickListener(this);
 
 		/* init editText */
-		editTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.edit_text_search);
+		mEditTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.edit_text_search);
 
 		/* set contentView for home screen layout */
 		setContentView(mainRelativeLayout);
@@ -159,8 +161,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
 
 		/* init adapter for listview */
-		mIdListItems = constructList();
-		itemAdapter = new ItemAdapter(context, mIdListItems, false,mMainHandler,idListView);
+		mIdListItems = constructList(currentFolderId);
+		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
+				currentFolderId);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -191,6 +194,12 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		folderListViewAdapter = new FolderListViewAdapter(this, mFolderListItems, false,
 				mMainHandler, folderListView);
 		folderListView.setAdapter(folderListViewAdapter);
+
+		/**
+		 * listener to click item folder
+		 */
+		folderListView.setOnItemClickListener(listenerClickFolderItem);
+
 		/**
 		 * Listener to know on what position the new item must be insert
 		 */
@@ -210,6 +219,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 */
 	private void initDataBase() {
 		folderDataBaseHandler = new FolderDataBaseHandler(this);
+		mIDataBaseHandler = new IDDataBaseHandler(this);
 		// check size of folder database
 		checkSizeFolderDataBase();
 		// get data from folder database
@@ -240,8 +250,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		if (sizeOfFolder < Contants.NUMBER_FOLDER_DEFALT) {
 
 			/* add favourite table to folder db */
-			FolderDatabase folderFavourite = new FolderDatabase(0, 1, Contants.NAME_FAVOURITE_FOLDER,
-					R.drawable.folder_s_common, R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
+			FolderDatabase folderFavourite = new FolderDatabase(0, 1,
+					Contants.NAME_FAVOURITE_FOLDER, R.drawable.folder_s_common,
+					R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
 			folderDataBaseHandler.addNewFolder(folderFavourite);
 
 			/* add history table to folder db */
@@ -306,6 +317,22 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		}
 	};
 
+	/**
+	 * on folder item click listener
+	 */
+	private OnItemClickListener listenerClickFolderItem = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+			// TODO Auto-generated method stub
+			Log.e("aaaaaaaa", "bbbbbbbb " + position);
+			currentFolderId = position;
+			/* reset adapter id */
+			// List<OneItem>
+			mIdListItems = constructList(currentFolderId);
+			Log.e("size ", "size items " + mIdListItems.size());
+			itemAdapter.setIdItemList(mIdListItems, currentFolderId);
+		}
+	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
 
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -350,33 +377,33 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	};
 
-	private ArrayList<OneItem> constructList() {
+	private ArrayList<OneItem> constructList(int currentFolderId) {
+
+		List<IDDataBase> idList = mIDataBaseHandler.getAllIDsFromFolderId(currentFolderId);
 		ArrayList<OneItem> al = new ArrayList<OneItem>();
+		int idListSize = idList.size();
+		for (int i = 0; i < idListSize; i++) {
+			Log.e("name", "name " + idList.get(i).getTitleRecord());
+			OneItem item = new OneItem(R.drawable.bank_of_china, idList.get(i).getTitleRecord(),
+					idList.get(i).getUrl());
+			al.add(item);
+		}
 
-		OneItem op = new OneItem(R.drawable.unionpay2, "FaceBook", "www.facebook.com");
-		al.add(op);
-
-		OneItem op2 = new OneItem(R.drawable.bank_of_china, "FaceBook", "www.facebook.com");
-		al.add(op2);
-
-		OneItem op3 = new OneItem(R.drawable.bank_of_shanghai, "FaceBook", "www.facebook.com");
-		al.add(op3);
-
-		OneItem op4 = new OneItem(R.drawable.china_construction_bank_corporation, "FaceBook",
-				"www.facebook.com");
-		al.add(op4);
-
-		OneItem op5 = new OneItem(R.drawable.agricultural_bank_of_china, "He he ha ha",
-				"www.facebook.com");
-		al.add(op5);
-
-		OneItem op6 = new OneItem(R.drawable.china_construction_bank_corporation, " FaceBook",
-				"www.facebook.com");
-		al.add(op6);
-
-		OneItem op7 = new OneItem(R.drawable.bank_of_shanghai, "FaceBook", "www.facebook.com");
-		al.add(op7);
 		return al;
+	}
+
+	private ArrayList<OneItem> getAllId() {
+		List<IDDataBase> idList = mIDataBaseHandler.getAllIDs();
+		ArrayList<OneItem> allIds = new ArrayList<OneItem>();
+		int idListSize = idList.size();
+		for (int i = 0; i < idListSize; i++) {
+			Log.e("name", "name " + idList.get(i).getTitleRecord());
+			OneItem item = new OneItem(R.drawable.bank_of_china, idList.get(i).getTitleRecord(),
+					idList.get(i).getUrl());
+			allIds.add(item);
+		}
+
+		return allIds;
 	}
 
 	@Override
@@ -388,9 +415,10 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* add new id */
 		else if (v == btnAddNewId) {
-//			EditIdPasswordActivity.startActivity(this);
-			Intent newIdIntent = new Intent(HomeScreeenActivity.this,EditIdPasswordActivity.class);
+			// EditIdPasswordActivity.startActivity(this);
+			Intent newIdIntent = new Intent(HomeScreeenActivity.this, EditIdPasswordActivity.class);
 			newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
+			newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 			startActivity(newIdIntent);
 		}
 
@@ -423,12 +451,42 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		else if (v == btnInfo) {
 			Intent intentBrowser = new Intent(HomeScreeenActivity.this, BrowserActivity.class);
 			startActivity(intentBrowser);
-		}else if(v == btnSearch){
-			if("".equals(editTextSearch.getText().toString())){
+		} else if (v == btnSearch) {
+			if ("".equals(mEditTextSearch.getText().toString())) {
 				showToast("Type to edit text to search");
-			}else 
+			} else {
 				showToast("Start search");
+				String textSearch = mEditTextSearch.getText().toString();
+				mIdListItems = startSearch(textSearch);
+				/* reset adapter */
+				itemAdapter.setIdItemList(mIdListItems, currentFolderId);
+
+			}
 		}
+	}
+
+	/**
+	 * start search
+	 * 
+	 * @param textSearch
+	 */
+	private ArrayList<OneItem> startSearch(String textSearch) {
+		List<IDDataBase> idListDb = mIDataBaseHandler.getAllIDs();
+		ArrayList<OneItem> searchItems = new ArrayList<OneItem>();
+		int size = idListDb.size();
+		for (int i = 0; i < size; i++) {
+			String idName = idListDb.get(i).getTitleRecord().toString().toUpperCase();
+			String idNote = idListDb.get(i).getNote().toString().toUpperCase();
+			boolean isFoundId = idName.indexOf(textSearch.toUpperCase()) != -1;
+			boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
+			
+			if (isFoundId || isFoundNote) {
+				OneItem item = new OneItem(R.drawable.bank_of_china, idListDb.get(i)
+						.getTitleRecord(), idListDb.get(i).getUrl());
+				searchItems.add(item);
+			}
+		}
+		return searchItems;
 	}
 
 	/**
@@ -615,7 +673,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * delete id 
+	 * delete id
+	 * 
 	 * @param positionReturnedByHandler
 	 */
 	private void deleteID(int positionReturnedByHandler) {
@@ -634,7 +693,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		FolderItem folderItem = mFolderListItems.get(positionReturnedByHandler);
 		FolderDatabase folder = new FolderDatabase(folderItem.getFolderId(), 1, folderName,
-				folderItem.getFolderImgid(), folderItem.getFolderIconId(), Contants.TYPE_FOLDER_NORMAL);
+				folderItem.getFolderImgid(), folderItem.getFolderIconId(),
+				Contants.TYPE_FOLDER_NORMAL);
 		folderDataBaseHandler.updateFolder(folder);
 
 		showToast("Folder " + folderName + " is updated");
@@ -678,7 +738,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	public void onResume() {
 		super.onResume();
-
+		/* reset adapter */
+		mIdListItems = constructList(currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderId);
 	}
 
 	private void showToast(String string) {

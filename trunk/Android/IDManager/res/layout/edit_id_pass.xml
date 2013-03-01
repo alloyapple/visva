@@ -1,78 +1,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_04"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_04"
     android:orientation="vertical" >
 
     <FrameLayout
-        android:background="@drawable/black_bar"
         android:id="@+id/action_bar"
-        android:layout_height="46dp"
         android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
         android:orientation="horizontal" >
 
         <Button
-            android:background="@drawable/bt_return"
-            android:layout_gravity="left|center"
-            android:layout_height="36dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_return"
             android:onClick="onReturn" />
 
         <Button
-            android:background="@drawable/btn_info"
-            android:layout_gravity="right|center"
+            android:layout_width="36dp"
             android:layout_height="36dp"
+            android:layout_gravity="right|center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_width="36dp"
+            android:background="@drawable/btn_info"
             android:onClick="onInfo" />
     </FrameLayout>
 
     <LinearLayout
-        android:background="#404040"
-        android:layout_height="90dp"
         android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:background="#404040"
         android:orientation="horizontal" >
 
         <ImageButton
-            android:background="#FFFFFF"
-            android:layout_gravity="center"
-            android:layout_height="70dp"
             android:id="@+id/img_avatar"
-            android:layout_marginLeft="10dp"
             android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="#FFFFFF"
             android:onClick="onImgAvatar" >
         </ImageButton>
 
         <LinearLayout
-            android:background="@drawable/all_corner"
-            android:layout_gravity="center"
+            android:layout_width="0dp"
             android:layout_height="32dp"
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:layout_width="0dp"
+            android:background="@drawable/all_corner"
             android:orientation="horizontal" >
 
             <EditText
-                android:background="@color/transparent"
                 android:id="@+id/id_name_id_pass"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:layout_width="0dp"
-                android:textColor="#000000" >
+                android:background="@color/transparent"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:singleLine="true" >
             </EditText>
 
             <CheckBox
-                android:background="@drawable/checkbox_like"
-                android:button="@android:color/transparent"
                 android:id="@+id/id_like"
-                android:layout_gravity="center"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="4dp"           
-                android:layout_width="30dp" >
+                android:layout_gravity="center"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/checkbox_like"
+                android:button="@android:color/transparent" >
             </CheckBox>
         </LinearLayout>
     </LinearLayout>
@@ -80,8 +82,8 @@
     <it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer
         xmlns:my="http://schemas.android.com/apk/res/visvateam.outsource.idmanager.activities"
         android:id="@+id/drawer"
-        android:layout_height="180dp"
         android:layout_width="fill_parent"
+        android:layout_height="180dp"
         my:content="@+id/content"
         my:direction="topToBottom"
         my:handle="@+id/handle" >
@@ -92,71 +94,74 @@
 
         <ImageView
             android:id="@id/handle"
-            android:layout_height="40px"
             android:layout_width="wrap_content"
+            android:layout_height="40px"
             android:src="@drawable/sliding_drawer_handle_bottom" />
     </it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
 
     <ScrollView
-        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical" >
 
         <LinearLayout
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical" >
 
             <LinearLayout
-                android:background="@drawable/all_corner"
-                android:layout_gravity="center"
+                android:layout_width="fill_parent"
                 android:layout_height="32dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_width="fill_parent"
+                android:background="@drawable/all_corner"
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:background="@color/transparent"
-                    android:hint="http://"
                     android:id="@+id/edit_text_url"
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:background="@color/transparent"
+                    android:hint="http://"
+                    android:singleLine="true"
+                    android:inputType="textWebEditText"
                     android:textColor="#000000" >
                 </EditText>
 
                 <ImageButton
-                    android:background="@drawable/google_icon"
-                    android:layout_gravity="center"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="4dp"
                     android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/google_icon"
                     android:onClick="onGoogleHome" >
                 </ImageButton>
             </LinearLayout>
 
             <EditText
-                android:background="@drawable/all_corner"
-                android:hint="Note"
                 android:id="@+id/edit_text_note"
+                android:layout_width="fill_parent"
                 android:layout_height="64dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_width="fill_parent"
+                android:background="@drawable/all_corner"
+                android:hint="Note"
                 android:textColor="#000000" >
             </EditText>
 
             <Button
-                android:background="@drawable/all_corner_button"
-                android:layout_gravity="center"
+                android:id="@+id/btn_img_memo"
+                android:layout_width="fill_parent"
                 android:layout_height="32dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_width="fill_parent"
+                android:background="@drawable/all_corner_button"
                 android:onClick="onMemoImage"
                 android:text="No Image"
                 android:textColor="@color/gray" >

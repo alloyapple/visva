@@ -38,13 +38,15 @@ public class IdManagerPreference {
 	// =========================Setting Preferences =====================
 
 	public static final String APPLICATION_INSTALL_FIRST_TIME = "APPLICATION_INSTALL_FIRST_TIME";
-	public static final String MASTER_PASSWORD ="MASTER_PASSWORD"; 
+	public static final String MASTER_PASSWORD = "MASTER_PASSWORD";
+	public static final String REMOVE_DATA = "REMOVE_DATA";
+	public static final String SECURITY_MODE = "SECURITY_MODE";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
 	 * 
 	 */
-	
+
 	/* set vs get project is first time installed */
 	public void setApplicationFirstTimeInstalled(String key, boolean b) {
 		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
@@ -67,7 +69,8 @@ public class IdManagerPreference {
 		b = isApplicationFirstTimeInstalled(APPLICATION_INSTALL_FIRST_TIME);
 		return b;
 	}
-	/* set vs get master password  */
+
+	/* set vs get master password */
 	public void setMasterPW(String key, String pw) {
 		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
@@ -87,6 +90,52 @@ public class IdManagerPreference {
 	public String getMasterPW() {
 		String b;
 		b = getMasterPW(MASTER_PASSWORD);
+		return b;
+	}
+
+	/* set vs get values remove data */
+	public void setValuesremoveData(String key, int dataValues) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putInt(key, dataValues);
+		editor.commit();
+	}
+
+	public int getValuesRemoveData(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getInt(key, 0);
+	}
+
+	public void setValuesremoveData(int b) {
+		setValuesremoveData(REMOVE_DATA, b);
+	}
+
+	public int getValuesRemoveData() {
+		int b;
+		b = getValuesRemoveData(REMOVE_DATA);
+		return b;
+	}
+
+	/* set vs get values security mode */
+	public void setSecurityMode(String key, int securityMode) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putInt(key, securityMode);
+		editor.commit();
+	}
+
+	public int getSecurityMode(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getInt(key, 0);
+	}
+
+	public void setSecurityMode(int b) {
+		setSecurityMode(SECURITY_MODE, b);
+	}
+
+	public int getSecurityMode() {
+		int b;
+		b = getSecurityMode(SECURITY_MODE);
 		return b;
 	}
 }

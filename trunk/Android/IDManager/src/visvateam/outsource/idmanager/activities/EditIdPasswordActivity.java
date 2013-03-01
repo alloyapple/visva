@@ -1,5 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +44,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private EditText mEditTextUrlId;
 	private EditText mEditTextNameId;
 	private EditText mEditTextNote;
+
+	private Button mBtnImageMemo;
 	// =========================Class Define ====================
 	private IDDataBaseHandler mIdDataBaseHandler;
 	// =========================Variable Define =================
@@ -98,7 +103,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		setContentView(R.layout.edit_id_pass);
 
 		isCreateNewId = getIntent().getExtras().getBoolean(Contants.IS_INTENT_CREATE_NEW_ID);
-
+		currentFolderId = getIntent().getExtras().getInt(Contants.CURRENT_FOLDER_ID);
+		Log.e("currentFOlder id", "currentFolderId "+currentFolderId);
 		/* initialize database */
 		initDataBase();
 
@@ -112,7 +118,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private void initDataBase() {
 		// TODO Auto-generated method stub
 		mIdDataBaseHandler = new IDDataBaseHandler(this);
-		List<IDDataBase> idList = mIdDataBaseHandler.getAllIDsFromFolderId(currentFolderId);
+		List<IDDataBase> idList = mIdDataBaseHandler.getAllIDs();
 		numberOfId = idList.size();
 	}
 
@@ -135,6 +141,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			}
 		});
 
+		mBtnImageMemo = (Button) findViewById(R.id.btn_img_memo);
 		mListView = (ListView) findViewById(R.id.id_listview_item_add);
 		ArrayList<Item> mItems = new ArrayList<EditIdPasswordActivity.Item>();
 		for (int i = 0; i < MAX_ITEM * 2; i++) {
@@ -176,7 +183,9 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	}
 
 	public void onMemoImage(View v) {
-		ImageMemoActivity.startActivity(this);
+		// ImageMemoActivity.startActivity(this);
+		Intent intentMemo = new Intent(EditIdPasswordActivity.this, ImageMemoActivity.class);
+		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
 	}
 
 	class ItemAddAdapter extends BaseAdapter {
@@ -318,9 +327,26 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			showToast("Type the name of this Id before creating");
 		else if ("".equals(mEditTextUrlId.getText().toString()))
 			showToast("Type the link url of this Id before creating");
+		else if (!checkValidataUrl(mEditTextUrlId.getText().toString()))
+			showToast("Your url is not validate");
 		else
 			/* start create new Id */
 			addNewIdValuesToDataBase();
+	}
+
+	private static boolean checkValidataUrl(String pUrl) {
+		URL u = null;
+		try {
+			u = new URL(pUrl);
+		} catch (MalformedURLException e) {
+			return false;
+		}
+		try {
+			u.toURI();
+		} catch (URISyntaxException e) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -335,20 +361,24 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	 * add new id password to database
 	 */
 	private void addNewIdValuesToDataBase() {
-		/*set values for id database*/
-		numberOfId++; 
+		/* set values for id database */
+		numberOfId++;
+		Log.e("numer of id", "number of id "+numberOfId);
 		titleRecord = mEditTextNameId.getText().toString();
 		icon = getString(R.drawable.bank_of_shanghai);
 		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();
-		
+		Log.e("currnentFolderId", "currentFolderId "+currentFolderId);
+
 		IDDataBase id = new IDDataBase(numberOfId, currentFolderId, titleRecord, icon,
 				favouriteGroup, titleId1, dataId1, titleId2, dataId2, titleId3, dataId3, titleId4,
 				dataId4, titleId5, dataId5, titleId6, dataId6, titleId7, dataId7, titleId8,
 				dataId8, titleId9, dataId9, titleId10, dataId10, titleId11, dataId11, titleId12,
 				dataId12, url, note, imageMemo, flag, timeStamp, isEncrypted, userId);
-		/*add new*/
+		/* add new */
 		mIdDataBaseHandler.addNewID(id);
+		/* return home */
+		finish();
 	}
 
 	@Override
@@ -366,4 +396,20 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		});
 	}
 
+	@Override
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+		switch (requestCode) {
+		case Contants.INTENT_IMG_MEMO:
+			if (resultCode == Activity.RESULT_OK) {
+				String filePath = data.getExtras().getString(Contants.FIlE_PATH_IMG_MEMO);
+				Log.e("file path", "file path " + filePath);
+				if (!"".equals(filePath)) {
+					imageMemo = filePath;
+					mBtnImageMemo.setText("Image " + imageMemo);
+				}
+			}
+		default:
+			return;
+		}
+	}
 }
