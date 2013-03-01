@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import visvateam.outsource.idmanager.activities.R;
+import visvateam.outsource.idmanager.contants.Contants;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -15,19 +16,20 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 public class FolderListViewAdapter extends BaseAdapter {
 
 	private static final int DELETE_FOLDER = 1;
 	private static final int EDIT_FOLDER = 2;
 	private boolean isEdit;
-	private Context context; 
+	private Context context;
 	private ArrayList<FolderItem> folderList;
 	private Handler mHandler;
 	private ListViewDragDrop folderListView;
 
 	public FolderListViewAdapter(Context context, ArrayList<FolderItem> folderList, boolean isEdit,
-			Handler mHandler,ListViewDragDrop folderListView) {
+			Handler mHandler, ListViewDragDrop folderListView) {
 		this.context = context;
 		this.folderList = folderList;
 		this.isEdit = isEdit;
@@ -44,48 +46,45 @@ public class FolderListViewAdapter extends BaseAdapter {
 	@Override
 	public FolderItem getItem(int position) {
 		// TODO Auto-generated method stub
-		return folderList.get(position);
+		return this.folderList.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		return position;
+		return 0;
 	}
 
-	private class ViewHolder {
-		private Button imgFolder;
-		private Button imgFolderIcon;
-		private Button imgFolderDelete;
-	}
+	// private class ViewHolder {
+	// private Button imgFolder;
+	// private Button imgFolderIcon;
+	// private Button imgFolderDelete;
+	// }
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup arg2) {
 		// TODO Auto-generated method stub
-		ViewHolder holder;
 
 		if (convertView == null) {
-			convertView = (FrameLayout) FrameLayout.inflate(context, R.layout.list_item_row, null);
-			holder = new ViewHolder();
-			holder.imgFolder = (Button) convertView.findViewById(R.id.img_folder);
-			holder.imgFolderDelete = (Button) convertView.findViewById(R.id.img_folder_edit);
-			holder.imgFolderIcon = (Button) convertView.findViewById(R.id.img_folder_icon);
-
-			/* set action for button */
-			holder.imgFolderDelete.setOnClickListener(mOnDeleteClickListener);
-			holder.imgFolderIcon.setOnClickListener(mOnEditClickListener);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
+			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_item_row, null);
 		}
 
-		holder.imgFolder.setBackgroundResource(folderList.get(position).getFolderImgid());
-		holder.imgFolderIcon.setBackgroundResource(folderList.get(position).getFolderIconId());
+		Button imgFolderDelete = (Button) convertView.findViewById(R.id.img_folder_edit);
+		Button imgFolderIcon = (Button) convertView.findViewById(R.id.img_folder_icon);
+		imgFolderDelete.setFocusable(false);
+		imgFolderIcon.setFocusable(false);
+		
+		/* set action for button */
+		imgFolderDelete.setOnClickListener(mOnDeleteClickListener);
+		imgFolderIcon.setOnClickListener(mOnEditClickListener);
+
+		convertView.setBackgroundResource(folderList.get(position).getFolderImgid());
+		imgFolderIcon.setBackgroundResource(folderList.get(position).getFolderIconId());
 
 		if (isEdit == true && folderList.get(position).getImgFolderType() == 1) {
-			holder.imgFolderDelete.setVisibility(View.VISIBLE);
+			imgFolderDelete.setVisibility(View.VISIBLE);
 		} else
-			holder.imgFolderDelete.setVisibility(View.GONE);
+			imgFolderDelete.setVisibility(View.GONE);
 
 		return convertView;
 	}
@@ -110,7 +109,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 		public void onClick(View v) {
 			Log.e("onClickDelete", "onClickDelete");
 			final int position = folderListView.getPositionForView((View) v.getParent());
-            Log.e("clickc lcik ", "Title clicked, row %d"+ position);
+			Log.e("clickc lcik ", "Title clicked, row %d" + position);
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DELETE_FOLDER;
 			msg.arg2 = position;
@@ -123,12 +122,15 @@ public class FolderListViewAdapter extends BaseAdapter {
 		public void onClick(View v) {
 			Log.e("OnclickEdit", "OnClickEdit");
 			final int position = folderListView.getPositionForView((View) v.getParent());
-            Log.e("clickc lcik ", "Title clicked, row %d"+ position);
-			Message msg = mHandler.obtainMessage();
-			msg.arg1 = EDIT_FOLDER;
-			msg.arg2 = position;
-			mHandler.sendMessage(msg);
+			Log.e("clickc lcik ", "Title clicked, row %d" + position);
+			if (isEdit
+					&& folderList.get(position).getImgFolderType() == Contants.TYPE_FOLDER_NORMAL) {
+
+				Message msg = mHandler.obtainMessage();
+				msg.arg1 = EDIT_FOLDER;
+				msg.arg2 = position;
+				mHandler.sendMessage(msg);
+			}
 		}
 	};
-
 }

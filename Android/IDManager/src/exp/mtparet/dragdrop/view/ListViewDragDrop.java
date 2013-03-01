@@ -174,7 +174,6 @@ public class ListViewDragDrop extends ListView {
 							if(y > maxY){
 								mOnItemReceiver.onItemClick(ListViewDragDrop.this, null, this.getChildCount() , 0);
 							}
-
 						}
 
 						return true;

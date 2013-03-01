@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
     android:layout_height="100dp"
-    android:layout_width="100dp" >
+    android:background="@drawable/folder_s_common" >
 
     <Button
-        android:background="@drawable/folder_s_common"
-        android:id="@+id/img_folder"
-        android:layout_gravity="center|center"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
-
-    <Button
-        android:background="@drawable/favorite"
         android:id="@+id/img_folder_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
         android:layout_gravity="center|center"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:background="@drawable/favorite" />
 
     <Button
         android:id="@+id/img_folder_edit"
-        android:layout_gravity="left|center"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/delete"
-        android:layout_width="20dp" />
+        android:layout_toLeftOf="@id/img_folder_icon"
+        android:background="@drawable/delete" />
 
-</FrameLayout>
+</RelativeLayout>
