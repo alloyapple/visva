@@ -4,8 +4,19 @@
     android:layout_height="100dp"
     android:background="@drawable/folder_s_common" >
 
+    <TextView
+        android:id="@+id/txt_folder_item_name"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
     <Button
-        android:id="@+id/img_folder_icon"
+        android:id="@+id/img_folder_item_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
@@ -13,12 +24,23 @@
         android:background="@drawable/favorite" />
 
     <Button
-        android:id="@+id/img_folder_edit"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_centerInParent="true"
+        android:id="@+id/img_folder_item_edit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/txt_folder_item_name"
+        android:background="@drawable/jog_note_push" />
+
+    <Button
+        android:id="@+id/img_folder_item_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@id/img_folder_icon"
+        android:layout_toLeftOf="@id/txt_folder_item_name"
         android:background="@drawable/delete" />
 
 </RelativeLayout>

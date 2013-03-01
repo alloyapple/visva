@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
-import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import android.content.Context;
 import android.os.Handler;
@@ -14,9 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import visvateam.outsource.idmanager.activities.R;
 
 public class FolderListViewAdapter extends BaseAdapter {
 
@@ -57,7 +57,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 
 	// private class ViewHolder {
 	// private Button imgFolder;
-	// private Button imgFolderIcon;
+	// private Button imgFolderEdit;
 	// private Button imgFolderDelete;
 	// }
 
@@ -66,25 +66,43 @@ public class FolderListViewAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 
 		if (convertView == null) {
-			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_item_row, null);
+			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_item_row,
+					null);
 		}
 
-		Button imgFolderDelete = (Button) convertView.findViewById(R.id.img_folder_edit);
-		Button imgFolderIcon = (Button) convertView.findViewById(R.id.img_folder_icon);
-		imgFolderDelete.setFocusable(false);
+		Button imgFolderDelete = (Button) convertView.findViewById(R.id.img_folder_item_delete);
+		Button imgFolderEdit = (Button) convertView.findViewById(R.id.img_folder_item_edit);
+		TextView txtFodlerName = (TextView) convertView.findViewById(R.id.txt_folder_item_name);
+		Button imgFolderIcon = (Button) convertView.findViewById(R.id.img_folder_item_icon);
 		imgFolderIcon.setFocusable(false);
-		
+		txtFodlerName.setSelected(true);
+		imgFolderDelete.setFocusable(false);
+		imgFolderEdit.setFocusable(false);
+
 		/* set action for button */
 		imgFolderDelete.setOnClickListener(mOnDeleteClickListener);
-		imgFolderIcon.setOnClickListener(mOnEditClickListener);
+		imgFolderEdit.setOnClickListener(mOnEditClickListener);
 
 		convertView.setBackgroundResource(folderList.get(position).getFolderImgid());
 		imgFolderIcon.setBackgroundResource(folderList.get(position).getFolderIconId());
-
-		if (isEdit == true && folderList.get(position).getImgFolderType() == 1) {
-			imgFolderDelete.setVisibility(View.VISIBLE);
-		} else
+		txtFodlerName.setText(""+folderList.get(position).getTextFolderName());
+		if (folderList.get(position).getImgFolderType() == Contants.TYPE_FOLDER_NON_NORMAL) {
 			imgFolderDelete.setVisibility(View.GONE);
+			imgFolderEdit.setVisibility(View.GONE);
+			txtFodlerName.setVisibility(View.GONE);
+			imgFolderIcon.setVisibility(View.VISIBLE);
+		} else {
+			imgFolderIcon.setVisibility(View.GONE);
+			if (isEdit == true) {
+				imgFolderDelete.setVisibility(View.VISIBLE);
+				imgFolderEdit.setVisibility(View.VISIBLE);
+				txtFodlerName.setVisibility(View.GONE);
+			} else {
+				imgFolderDelete.setVisibility(View.GONE);
+				imgFolderEdit.setVisibility(View.GONE);
+				txtFodlerName.setVisibility(View.VISIBLE);
+			}
+		}
 
 		return convertView;
 	}

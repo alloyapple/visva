@@ -22,10 +22,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -35,6 +39,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
@@ -62,6 +67,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private Button btnSync;
 	private Button btnInfo;
 	private Button btnSearch;
+	private Button btnClearTextSearch;
 
 	private EditText mEditTextSearch;
 
@@ -148,8 +154,31 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		btnSearch = (Button) mainRelativeLayout.findViewById(R.id.btn_search);
 		btnSearch.setOnClickListener(this);
 
+		btnClearTextSearch = (Button) mainRelativeLayout.findViewById(R.id.btn_close);
+		btnClearTextSearch.setOnClickListener(this);
+		btnClearTextSearch.setVisibility(View.GONE);
+
 		/* init editText */
 		mEditTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.edit_text_search);
+		mEditTextSearch.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				btnClearTextSearch.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+			}
+		});
 
 		/* set contentView for home screen layout */
 		setContentView(mainRelativeLayout);
@@ -236,7 +265,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		for (int i = Contants.NUMBER_FOLDER_DEFALT; i < sizeOfFolder; i++) {
 			FolderItem folder = new FolderItem(folderList.get(i).getFolderId(), folderList.get(i)
 					.getImgFolderId(), folderList.get(i).getImgFolderIconId(), folderList.get(i)
-					.getTypeOfFolder());
+					.getFolderName(), folderList.get(i).getTypeOfFolder());
 			mFolderListItems.add(folder);
 		}
 	}
@@ -263,11 +292,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		// add 2 folder favourite and history
 		FolderItem folderItemFavourite = new FolderItem(0, R.drawable.folder_s_common,
-				R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
+				R.drawable.favorite,"", Contants.TYPE_FOLDER_NON_NORMAL);
 		mFolderListItems.add(folderItemFavourite);
 
 		FolderItem folderItemHistory = new FolderItem(1, R.drawable.folder_s_common,
-				R.drawable.history, Contants.TYPE_FOLDER_NON_NORMAL);
+				R.drawable.history,"", Contants.TYPE_FOLDER_NON_NORMAL);
 		mFolderListItems.add(folderItemHistory);
 	}
 
@@ -303,7 +332,6 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 			// TODO Auto-generated method stub
-			Log.e("position", "position " + arg2);
 			if (!isEdit)
 				CopyItemActivity.startActivity(HomeScreeenActivity.this);
 		}
@@ -402,7 +430,6 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 					idList.get(i).getUrl());
 			allIds.add(item);
 		}
-
 		return allIds;
 	}
 
@@ -457,11 +484,17 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			} else {
 				showToast("Start search");
 				String textSearch = mEditTextSearch.getText().toString();
+				/* clear text */
+				mEditTextSearch.setText("");
+
 				mIdListItems = startSearch(textSearch);
 				/* reset adapter */
 				itemAdapter.setIdItemList(mIdListItems, currentFolderId);
-
+				btnClearTextSearch.setVisibility(View.GONE);
 			}
+		} else if (v == btnClearTextSearch) {
+			mEditTextSearch.setText("");
+			btnClearTextSearch.setVisibility(View.GONE);
 		}
 	}
 
@@ -479,7 +512,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			String idNote = idListDb.get(i).getNote().toString().toUpperCase();
 			boolean isFoundId = idName.indexOf(textSearch.toUpperCase()) != -1;
 			boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
-			
+
 			if (isFoundId || isFoundNote) {
 				OneItem item = new OneItem(R.drawable.bank_of_china, idListDb.get(i)
 						.getTitleRecord(), idListDb.get(i).getUrl());
@@ -723,13 +756,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		sizeOfFolder++;
-		int imgFolderIconId = R.drawable.jog_note_push;
+		int imgFolderIconId = R.drawable.btn_edit;
 		int imgFolderId = R.drawable.folder_common;
 		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName,
 				imgFolderId, imgFolderIconId, Contants.TYPE_FOLDER_NORMAL));
 
 		// /* refresh listview folder */
-		FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId, imgFolderIconId,
+		FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId, imgFolderIconId, folderName,
 				Contants.TYPE_FOLDER_NORMAL);
 		folderListViewAdapter.addNewFolder(folder);
 		folderListView.invalidate();
