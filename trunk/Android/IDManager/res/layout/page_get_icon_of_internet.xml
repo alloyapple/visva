@@ -47,7 +47,7 @@
                 android:background="@drawable/refresh" />
         </LinearLayout>
 
-        <CheckBox
+        <CheckBox android:id="@+id/id_checkbox_get_icon_internet"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -58,23 +58,37 @@
         </CheckBox>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical" >
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center" >
 
-            <WebView
-                android:id="@+id/id_webview_get_icon"
+            <ScrollView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-            </WebView>
-        </ScrollView>
-    </LinearLayout>
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" >
+
+                <WebView
+                    android:id="@+id/id_webview_get_icon"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+                </WebView>
+            </ScrollView>
+        </LinearLayout>
+
+        <ImageView android:background="@drawable/bound_icon"
+            android:layout_width="fill_parent"
+            android:layout_gravity="center|center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="180dp" >
+        </ImageView>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"

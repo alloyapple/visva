@@ -1,65 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <FrameLayout
-        android:background="@drawable/black_bar"
         android:id="@+id/action_bar"
-        android:layout_height="46dp"
         android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
         android:orientation="horizontal" >
 
         <Button
-            android:background="@drawable/bt_return"
-            android:layout_gravity="left|center"
-            android:layout_height="36dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_return"
             android:onClick="onReturn" />
 
         <LinearLayout
-            android:layout_gravity="right|center"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
             android:orientation="horizontal" >
 
             <Button
-                android:background="@drawable/sync"
+                android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="36dp"
+                android:background="@drawable/sync"
                 android:onClick="onRefresh" />
 
             <Button
-                android:background="@drawable/brouther_back"
+                android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="36dp"
+                android:background="@drawable/brouther_back"
                 android:onClick="onBroutherBack" />
 
             <Button
-                android:background="@drawable/brouther_next"
+                android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="36dp"
+                android:background="@drawable/brouther_next"
                 android:onClick="onBroutherNext" />
         </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-        <WebView
-            android:id="@+id/id_webview_url_setup"
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent" >
-        </WebView>
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" >
+
+            <WebView
+                android:id="@+id/id_webview_url_setup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </WebView>
+        </ScrollView>
     </LinearLayout>
 
 </LinearLayout>
