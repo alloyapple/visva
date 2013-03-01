@@ -8,15 +8,18 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.CheckBox;
 
 public class GetInternetImageActivity extends Activity {
 	private WebView webView;
+	private CheckBox mCheckBox;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_get_icon_of_internet);
+		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_get_icon_internet);
 		initControl();
 	}
 
@@ -26,9 +29,19 @@ public class GetInternetImageActivity extends Activity {
 	}
 
 	public void onReturn(View v) {
+		if (mCheckBox.isChecked()) {
+			finish();
+		} else {
+			finish();
+		}
 	}
 
 	public void onBroutherBack(View v) {
+		webView.goBack();
+	}
+
+	public void onBroutherNext(View v) {
+		webView.goForward();
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
