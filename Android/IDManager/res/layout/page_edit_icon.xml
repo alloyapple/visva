@@ -1,61 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <FrameLayout
-        android:background="@drawable/black_bar"
         android:id="@+id/action_bar"
-        android:layout_height="46dp"
         android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
         android:orientation="horizontal" >
 
         <Button
-            android:background="@drawable/bt_return"
-            android:layout_gravity="left|center"
-            android:layout_height="36dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_return"
             android:onClick="onReturn" />
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_width="fill_parent" >
-    </FrameLayout>
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25" >
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/id_img_icon_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#ffffee"
+            android:layout_weight="0.5" >
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25" >
+        </LinearLayout>
+    </LinearLayout>
 
     <FrameLayout
-        android:background="@drawable/black_bar"
-        android:layout_height="46dp"
         android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
         android:orientation="horizontal" >
 
         <Button
-            android:background="@drawable/library_icon"
-            android:layout_gravity="left|center"
-            android:layout_height="32dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="48dp"
+            android:layout_height="32dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/library_icon"
             android:onClick="onLibrary" />
 
         <Button
-            android:background="@drawable/icon_internet"
-            android:layout_gravity="center|center"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center|center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/icon_internet"
             android:onClick="onInternet" />
 
         <CheckBox
-            android:background="@drawable/checkbox_mark"
-            android:button="@android:color/transparent"
-            android:layout_gravity="right|center"
+            android:layout_width="42dp"
             android:layout_height="36dp"
+            android:layout_gravity="right|center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_width="42dp" />
+            android:background="@drawable/checkbox_mark"
+            android:button="@android:color/transparent" />
     </FrameLayout>
 
 </LinearLayout>
