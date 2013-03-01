@@ -241,7 +241,7 @@ public class ListIconActivity extends Activity {
 	}
 
 	public void onReturn(View v) {
-
+		finish();
 	}
 
 	public void onEditImage(View v) {
@@ -288,60 +288,6 @@ public class ListIconActivity extends Activity {
 			break;
 		}
 		return null;
-	}
-
-	public class IconAdapter extends BaseAdapter {
-		int[] listId;
-		Activity mActivity;
-
-		public IconAdapter(Activity pActivity, int[] list) {
-			super();
-			listId = list;
-			mActivity = pActivity;
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return listId.length;
-		}
-
-		@Override
-		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return listId[position];
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
-
-		@SuppressLint("NewApi")
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-
-			final int pos = position;
-			LayoutInflater inflater = mActivity.getLayoutInflater();
-
-			convertView = inflater.inflate(R.layout.item_grid_icon, null);
-			((ImageButton) convertView.findViewById(R.id.id_img_icon))
-					.setBackgroundDrawable(getResources().getDrawable(
-							listId[position]));
-			((ImageButton) convertView.findViewById(R.id.id_img_icon))
-					.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-
-						}
-					});
-
-			return convertView;
-		}
 	}
 
 }
