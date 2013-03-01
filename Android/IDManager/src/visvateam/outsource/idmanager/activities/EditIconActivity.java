@@ -3,22 +3,37 @@ package visvateam.outsource.idmanager.activities;
 import visvateam.outsource.idmanager.contants.Contants;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 public class EditIconActivity extends Activity {
 	ImageView imageView;
 	private Uri fileUri;
+	public static Drawable mDrawableIconEdit;
+	private CheckBox mCheckBox;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_edit_icon);
-		imageView=(ImageView) findViewById(R.id.id_img_icon_edit);
+		imageView = (ImageView) findViewById(R.id.id_img_icon_edit);
+		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_edit_icon);
+		mDrawableIconEdit = EditIdPasswordActivity.mDrawableIcon;
+
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		imageView.setBackgroundDrawable(mDrawableIconEdit);
 	}
 
 	public static void startActivity(Activity activity) {
@@ -27,7 +42,12 @@ public class EditIconActivity extends Activity {
 	}
 
 	public void onReturn(View v) {
-		finish();
+		if (!mCheckBox.isChecked()) {
+			finish();
+		} else {
+			EditIdPasswordActivity.mDrawableIcon = imageView.getDrawable();
+			finish();
+		}
 	}
 
 	public void onLibrary(View v) {

@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,8 +35,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class EditIdPasswordActivity extends Activity implements OnItemClickListener,
-		android.content.DialogInterface.OnClickListener {
+public class EditIdPasswordActivity extends Activity implements
+		OnItemClickListener, android.content.DialogInterface.OnClickListener {
 	// =========================Control Define ==================
 	private ListView mListView;
 	private ListView listViewId;
@@ -51,9 +52,10 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	// =========================Variable Define =================
 
 	private static int MAX_ITEM = 15;
-	private String nameItem[] = { "ID1", "Pass1", "ID2", "Pass2", "ID3", "Pass3", "ID4", "Pass4",
-			"ID5", "Pass5", "ID6", "Pass6", "ID7", "Pass7", "ID8", "Pass8", "ID9", "Pass9", "ID10",
-			"Pass10", "ID11", "Pass11", "ID12", "Pass12", "ID13", "Pass13", "ID14", "Pass14",
+	private String nameItem[] = { "ID1", "Pass1", "ID2", "Pass2", "ID3",
+			"Pass3", "ID4", "Pass4", "ID5", "Pass5", "ID6", "Pass6", "ID7",
+			"Pass7", "ID8", "Pass8", "ID9", "Pass9", "ID10", "Pass10", "ID11",
+			"Pass11", "ID12", "Pass12", "ID13", "Pass13", "ID14", "Pass14",
 			"ID15", "Pass15" };
 	private boolean isCreateNewId;
 
@@ -96,20 +98,38 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private boolean isEncrypted;
 	private int userId;
 
+	public static Drawable mDrawableIcon;
+	public static String mUrlItem;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_id_pass);
 
-		isCreateNewId = getIntent().getExtras().getBoolean(Contants.IS_INTENT_CREATE_NEW_ID);
-		currentFolderId = getIntent().getExtras().getInt(Contants.CURRENT_FOLDER_ID);
-		Log.e("currentFOlder id", "currentFolderId "+currentFolderId);
+		isCreateNewId = getIntent().getExtras().getBoolean(
+				Contants.IS_INTENT_CREATE_NEW_ID);
+		currentFolderId = getIntent().getExtras().getInt(
+				Contants.CURRENT_FOLDER_ID);
+		Log.e("currentFOlder id", "currentFolderId " + currentFolderId);
+		if (mDrawableIcon == null) {
+			mDrawableIcon=getResources().getDrawable(R.drawable.default_icon);
+		}
+		if(mUrlItem==null){
+			mUrlItem="http://google.com";
+		}
 		/* initialize database */
 		initDataBase();
 
 		/* initialize control */
 		initControl();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		((ImageButton)findViewById(R.id.img_avatar)).setBackgroundDrawable(mDrawableIcon);
+		((EditText)findViewById(R.id.edit_text_url)).setText(mUrlItem);
 	}
 
 	/**
@@ -135,7 +155,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		mCheckBoxLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 				// TODO Auto-generated method stub
 
 			}
@@ -184,7 +205,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 
 	public void onMemoImage(View v) {
 		// ImageMemoActivity.startActivity(this);
-		Intent intentMemo = new Intent(EditIdPasswordActivity.this, ImageMemoActivity.class);
+		Intent intentMemo = new Intent(EditIdPasswordActivity.this,
+				ImageMemoActivity.class);
 		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
 	}
 
@@ -225,9 +247,11 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.item_id_pass_add, null);
 				holder = new ViewHolder();
-				holder.nameItem = (EditText) convertView.findViewById(R.id.id_txt_nameItem);
+				holder.nameItem = (EditText) convertView
+						.findViewById(R.id.id_txt_nameItem);
 				holder.nameItem.setText(mItems.get(position).mNameItem);
-				holder.contentItem = (EditText) convertView.findViewById(R.id.id_txt_detailItem);
+				holder.contentItem = (EditText) convertView
+						.findViewById(R.id.id_txt_detailItem);
 				holder.contentItem.setText(mItems.get(position).mContentItem);
 				((ImageButton) convertView.findViewById(R.id.id_btn_generator))
 						.setOnClickListener(new OnClickListener() {
@@ -293,25 +317,27 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			}
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					if (isCreateNewId)
-						createNewId();
-					else
-						updateId();
-				}
-			});
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							if (isCreateNewId)
+								createNewId();
+							else
+								updateId();
+						}
+					});
+			builder.setNegativeButton("Cancel",
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					return;
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							return;
+						}
+					});
 			return builder.create();
 		default:
 			return null;
@@ -363,18 +389,20 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private void addNewIdValuesToDataBase() {
 		/* set values for id database */
 		numberOfId++;
-		Log.e("numer of id", "number of id "+numberOfId);
+		Log.e("numer of id", "number of id " + numberOfId);
 		titleRecord = mEditTextNameId.getText().toString();
 		icon = getString(R.drawable.bank_of_shanghai);
 		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();
-		Log.e("currnentFolderId", "currentFolderId "+currentFolderId);
+		Log.e("currnentFolderId", "currentFolderId " + currentFolderId);
 
-		IDDataBase id = new IDDataBase(numberOfId, currentFolderId, titleRecord, icon,
-				favouriteGroup, titleId1, dataId1, titleId2, dataId2, titleId3, dataId3, titleId4,
-				dataId4, titleId5, dataId5, titleId6, dataId6, titleId7, dataId7, titleId8,
-				dataId8, titleId9, dataId9, titleId10, dataId10, titleId11, dataId11, titleId12,
-				dataId12, url, note, imageMemo, flag, timeStamp, isEncrypted, userId);
+		IDDataBase id = new IDDataBase(numberOfId, currentFolderId,
+				titleRecord, icon, favouriteGroup, titleId1, dataId1, titleId2,
+				dataId2, titleId3, dataId3, titleId4, dataId4, titleId5,
+				dataId5, titleId6, dataId6, titleId7, dataId7, titleId8,
+				dataId8, titleId9, dataId9, titleId10, dataId10, titleId11,
+				dataId11, titleId12, dataId12, url, note, imageMemo, flag,
+				timeStamp, isEncrypted, userId);
 		/* add new */
 		mIdDataBaseHandler.addNewID(id);
 		/* return home */
@@ -391,17 +419,20 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), toast,
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
 
 	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	protected void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
 		switch (requestCode) {
 		case Contants.INTENT_IMG_MEMO:
 			if (resultCode == Activity.RESULT_OK) {
-				String filePath = data.getExtras().getString(Contants.FIlE_PATH_IMG_MEMO);
+				String filePath = data.getExtras().getString(
+						Contants.FIlE_PATH_IMG_MEMO);
 				Log.e("file path", "file path " + filePath);
 				if (!"".equals(filePath)) {
 					imageMemo = filePath;

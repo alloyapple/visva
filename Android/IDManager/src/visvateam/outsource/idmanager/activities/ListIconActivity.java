@@ -164,6 +164,7 @@ public class ListIconActivity extends Activity {
 	public void initListIcon() {
 
 		for (int i = 0; i < mCatalogueName.length; i++) {
+			final int catalogue = i;
 			LinearLayout mLinearItemCatalogue = new LinearLayout(this);
 			mLinearItemCatalogue.setLayoutParams(new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.FILL_PARENT,
@@ -210,15 +211,23 @@ public class ListIconActivity extends Activity {
 					((TableLayout.LayoutParams) mTableRow.getLayoutParams()).topMargin = 5;
 					((TableLayout.LayoutParams) mTableRow.getLayoutParams()).bottomMargin = 5;
 					for (int k = 0; k < 4; k++) {
-
+						final int index = j * 4 + k;
 						ImageButton mIcon = new ImageButton(this);
 						mIcon.setLayoutParams(new TableRow.LayoutParams(0,
 								TableRow.LayoutParams.WRAP_CONTENT, 0.25f));
 						((TableRow.LayoutParams) mIcon.getLayoutParams()).leftMargin = 5;
 						((TableRow.LayoutParams) mIcon.getLayoutParams()).rightMargin = 5;
-						if ((j * 4 + k < mIdIcon.get(i).length)) {
+						if ((index < mIdIcon.get(i).length)) {
 							mIcon.setBackgroundDrawable(getResources()
 									.getDrawable(mIdIcon.get(i)[j * 4 + k]));
+							mIcon.setOnClickListener(new OnClickListener() {
+
+								@Override
+								public void onClick(View v) {
+									// TODO Auto-generated method stub
+									selectIcon(catalogue, index);
+								}
+							});
 						} else {
 							mIcon.setBackgroundColor(Color.TRANSPARENT);
 						}
@@ -233,6 +242,12 @@ public class ListIconActivity extends Activity {
 			}
 			mLinearListIcon.addView(mLinearItemCatalogue);
 		}
+	}
+
+	public void selectIcon(int cataloge, int index) {
+		EditIdPasswordActivity.mDrawableIcon = getResources().getDrawable(
+				mIdIcon.get(cataloge)[index]);
+		finish();
 	}
 
 	public static void startActivity(Activity activity) {
@@ -269,7 +284,10 @@ public class ListIconActivity extends Activity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									// TODO Auto-generated method stub
-
+									EditIdPasswordActivity.mDrawableIcon = getResources()
+											.getDrawable(
+													R.drawable.default_icon);
+									ListIconActivity.this.finish();
 								}
 							})
 					.setNegativeButton(
