@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">IDManager</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
@@ -50,5 +49,8 @@
     <string name="list_carrier_title">Carrier</string>
     <string name="list_e_commerce">E-commerce</string>
     <string name="list_isp">ISP</string>
+    <string name="list_finance">Finance</string>
+    <string name="list_webservice">Web service</string>
+    <string name="list_airline">Airline</string>
 
 </resources>
