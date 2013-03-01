@@ -6,19 +6,23 @@ public class FolderItem {
 	private int folderId;
 	private int folderIconId;
 	private int imgFolderType;
+	private String textFolderName;
 
 	public FolderItem(FolderItem folder) {
 		this.folderImgid = folder.folderImgid;
 		this.folderIconId = folder.folderIconId;
 		this.imgFolderType = folder.imgFolderType;
 		this.folderId = folder.folderId;
+		this.textFolderName = folder.textFolderName;
 	}
 
-	public FolderItem(int folderId,int folderImgid, int folderIconId, int imgFolderType) {
+	public FolderItem(int folderId, int folderImgid, int folderIconId, String textFolderName,
+			int imgFolderType) {
 		this.folderImgid = folderImgid;
 		this.folderIconId = folderIconId;
 		this.imgFolderType = imgFolderType;
 		this.folderId = folderId;
+		this.textFolderName = textFolderName;
 	}
 
 	public int getFolderIconId() {
@@ -51,5 +55,13 @@ public class FolderItem {
 
 	public void setFolderId(int folderId) {
 		this.folderId = folderId;
+	}
+
+	public String getTextFolderName() {
+		return textFolderName;
+	}
+
+	public void setTextFolderName(String textFolderName) {
+		this.textFolderName = textFolderName;
 	}
 }
