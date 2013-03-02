@@ -55,13 +55,13 @@ public class ItemAdapter extends BaseAdapter {
 	private int currentFolderId;
 
 	public ItemAdapter(Context context, ArrayList<OneItem> idItemList, boolean isModeEdit,
-			Handler mHandler, ListViewDragDrop idListView,int currentFolderId) {
+			Handler mHandler, ListViewDragDrop idListView, int currentFolderId) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
 		this.mHandler = mHandler;
 		this.idListView = idListView;
-		this.currentFolderId =currentFolderId;
+		this.currentFolderId = currentFolderId;
 	}
 
 	@Override
@@ -92,7 +92,8 @@ public class ItemAdapter extends BaseAdapter {
 
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(context.getResources().getDrawable(idItemList.get(position).getIconId()));
+		iv.setImageDrawable(context.getResources()
+				.getDrawable(idItemList.get(position).getIconId()));
 		iv.setContentDescription(this.idItemList.get(position).getName());
 
 		/* text name vs text url */
@@ -174,6 +175,8 @@ public class ItemAdapter extends BaseAdapter {
 			Intent intent = new Intent(context, EditIdPasswordActivity.class);
 			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, false);
 			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
+			intent.putExtra(Contants.CURRENT_PASSWORD_ID, idItemList.get(position).getPasswordId());
+			Log.e("currnet position "+position, "passid "+idItemList.get(position).getPasswordId());
 			context.startActivity(intent);
 		}
 	};
@@ -182,7 +185,7 @@ public class ItemAdapter extends BaseAdapter {
 		return idItemList;
 	}
 
-	public void setIdItemList(ArrayList<OneItem> idItemList,int currentFolderId) {
+	public void setIdItemList(ArrayList<OneItem> idItemList, int currentFolderId) {
 		this.currentFolderId = currentFolderId;
 		this.idItemList = idItemList;
 		notifyDataSetChanged();
