@@ -18,6 +18,7 @@ public class Contants {
 	public static final int TYPE_FOLDER_NORMAL = 1;
 	public static final int TYPE_FOLDER_NON_NORMAL = 0;
 	public static final int TEXT_ID = 0;
+	public static final int TEXT_NUMBER_CHARACTER_ID = 1000;
 	
 	public static final int CAPTURE_IMAGE = 1;
 	public static final int SELECT_PHOTO = 2;
