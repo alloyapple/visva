@@ -138,6 +138,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text="FaceBook"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -153,7 +154,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text="http://www.facebook.com"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <Button

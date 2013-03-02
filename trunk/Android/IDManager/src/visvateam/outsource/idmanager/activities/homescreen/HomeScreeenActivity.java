@@ -8,6 +8,7 @@ import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
+import visvateam.outsource.idmanager.activities.synccloud.SyncCloudActivity;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
@@ -25,11 +26,9 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -39,7 +38,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
@@ -47,7 +45,7 @@ import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
-@SuppressLint("HandlerLeak")
+@SuppressLint({ "HandlerLeak", "DefaultLocale" })
 public class HomeScreeenActivity extends Activity implements OnClickListener {
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
@@ -85,7 +83,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private Context context;
 	private boolean isEdit = false;
 	private int positionReturnedByHandler;
-	private int currentFolderId = 0;
+	private int currentFolderItem = 0;
 
 	private Handler mMainHandler = new Handler() {
 		@SuppressWarnings("deprecation")
@@ -190,9 +188,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
 
 		/* init adapter for listview */
-		mIdListItems = constructList(currentFolderId);
+		mIdListItems = constructList(currentFolderItem);
 		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
-				currentFolderId);
+				currentFolderItem);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -221,7 +219,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		folderListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_folder);
 		folderListViewAdapter = new FolderListViewAdapter(this, mFolderListItems, false,
-				mMainHandler, folderListView);
+				mMainHandler, folderListView, currentFolderItem);
 		folderListView.setAdapter(folderListViewAdapter);
 
 		/**
@@ -266,7 +264,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			FolderItem folder = new FolderItem(folderList.get(i).getFolderId(), folderList.get(i)
 					.getImgFolderId(), folderList.get(i).getImgFolderIconId(), folderList.get(i)
 					.getFolderName(), folderList.get(i).getTypeOfFolder());
-			mFolderListItems.add(folder);
+			mFolderListItems.add(0, folder);
 		}
 	}
 
@@ -278,26 +276,29 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		int sizeOfFolder = folderList.size();
 		if (sizeOfFolder < Contants.NUMBER_FOLDER_DEFALT) {
 
+			/* add history table to folder db */
+			FolderDatabase folderHistory = new FolderDatabase(0, 1, Contants.NAME_HISTORY_FOLDER,
+					R.drawable.folder_s_common, R.drawable.history, Contants.TYPE_FOLDER_NON_NORMAL);
+			folderDataBaseHandler.addNewFolder(folderHistory);
+
 			/* add favourite table to folder db */
-			FolderDatabase folderFavourite = new FolderDatabase(0, 1,
+			FolderDatabase folderFavourite = new FolderDatabase(1, 1,
 					Contants.NAME_FAVOURITE_FOLDER, R.drawable.folder_s_common,
 					R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
 			folderDataBaseHandler.addNewFolder(folderFavourite);
 
-			/* add history table to folder db */
-			FolderDatabase folderHistory = new FolderDatabase(1, 1, Contants.NAME_HISTORY_FOLDER,
-					R.drawable.folder_s_common, R.drawable.history, Contants.TYPE_FOLDER_NON_NORMAL);
-			folderDataBaseHandler.addNewFolder(folderHistory);
 		}
 
 		// add 2 folder favourite and history
-		FolderItem folderItemFavourite = new FolderItem(0, R.drawable.folder_s_common,
-				R.drawable.favorite,"", Contants.TYPE_FOLDER_NON_NORMAL);
-		mFolderListItems.add(folderItemFavourite);
 
-		FolderItem folderItemHistory = new FolderItem(1, R.drawable.folder_s_common,
-				R.drawable.history,"", Contants.TYPE_FOLDER_NON_NORMAL);
-		mFolderListItems.add(folderItemHistory);
+		FolderItem folderItemHistory = new FolderItem(0, R.drawable.folder_s_common,
+				R.drawable.history, "", Contants.TYPE_FOLDER_NON_NORMAL);
+		mFolderListItems.add(0, folderItemHistory);
+
+		FolderItem folderItemFavourite = new FolderItem(1, R.drawable.folder_s_common,
+				R.drawable.favorite, "", Contants.TYPE_FOLDER_NON_NORMAL);
+		mFolderListItems.add(0, folderItemFavourite);
+
 	}
 
 	/**
@@ -312,7 +313,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			 * retrieve selected item from adapterview
 			 */
 			oneItemSelected = (OneItem) arg0.getItemAtPosition(arg2);
-			imageDrag.setImageDrawable(context.getResources().getDrawable(oneItemSelected.getId()));
+			imageDrag.setImageDrawable(context.getResources().getDrawable(
+					oneItemSelected.getIconId()));
 			txtIdName.setText(oneItemSelected.getName());
 			txtIdUrl.setText(oneItemSelected.getUrl());
 		}
@@ -353,12 +355,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 			// TODO Auto-generated method stub
 			Log.e("aaaaaaaa", "bbbbbbbb " + position);
-			currentFolderId = position;
+			currentFolderItem = position;
+
+			/* refresh folder list */
+			folderListViewAdapter.setFolderSelected(currentFolderItem);
+
 			/* reset adapter id */
-			// List<OneItem>
-			mIdListItems = constructList(currentFolderId);
-			Log.e("size ", "size items " + mIdListItems.size());
-			itemAdapter.setIdItemList(mIdListItems, currentFolderId);
+			mIdListItems = constructList(currentFolderItem);
+			itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
 		}
 	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
@@ -405,34 +409,21 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	};
 
-	private ArrayList<OneItem> constructList(int currentFolderId) {
+	private ArrayList<OneItem> constructList(int currentFolderItem) {
 
-		List<IDDataBase> idList = mIDataBaseHandler.getAllIDsFromFolderId(currentFolderId);
+		List<IDDataBase> idList = mIDataBaseHandler.getAllIDsFromFolderId(currentFolderItem);
 		ArrayList<OneItem> al = new ArrayList<OneItem>();
 		int idListSize = idList.size();
 		for (int i = 0; i < idListSize; i++) {
 			Log.e("name", "name " + idList.get(i).getTitleRecord());
-			OneItem item = new OneItem(R.drawable.bank_of_china, idList.get(i).getTitleRecord(),
-					idList.get(i).getUrl());
+			OneItem item = new OneItem(idList.get(i).getPassWordId(), R.drawable.bank_of_china,
+					idList.get(i).getTitleRecord(), idList.get(i).getUrl());
 			al.add(item);
 		}
-
 		return al;
 	}
 
-	private ArrayList<OneItem> getAllId() {
-		List<IDDataBase> idList = mIDataBaseHandler.getAllIDs();
-		ArrayList<OneItem> allIds = new ArrayList<OneItem>();
-		int idListSize = idList.size();
-		for (int i = 0; i < idListSize; i++) {
-			Log.e("name", "name " + idList.get(i).getTitleRecord());
-			OneItem item = new OneItem(R.drawable.bank_of_china, idList.get(i).getTitleRecord(),
-					idList.get(i).getUrl());
-			allIds.add(item);
-		}
-		return allIds;
-	}
-
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		/* add new folder */
@@ -443,18 +434,17 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		/* add new id */
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
-			Intent newIdIntent = new Intent(HomeScreeenActivity.this, EditIdPasswordActivity.class);
-			newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
-			newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
-			startActivity(newIdIntent);
+			showDialog(Contants.DIALOG_CREATE_ID);
 		}
 
 		/* edit listview */
 		else if (v == btnEdit) {
 			if (isEdit) {
 				btnEdit.setBackgroundResource(R.drawable.edit);
+				btnSync.setVisibility(View.VISIBLE);
 				isEdit = false;
 			} else {
+				btnSync.setVisibility(View.GONE);
 				btnEdit.setBackgroundResource(R.drawable.return_back);
 				isEdit = true;
 			}
@@ -471,7 +461,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* sync data to cloud */
 		else if (v == btnSync) {
-			showToast("This feature is coming soon");
+			Intent intentSync = new Intent(HomeScreeenActivity.this, SyncCloudActivity.class);
+			startActivity(intentSync);
 		}
 
 		/* go to a browser */
@@ -489,7 +480,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 				mIdListItems = startSearch(textSearch);
 				/* reset adapter */
-				itemAdapter.setIdItemList(mIdListItems, currentFolderId);
+				itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
 				btnClearTextSearch.setVisibility(View.GONE);
 			}
 		} else if (v == btnClearTextSearch) {
@@ -514,8 +505,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
 
 			if (isFoundId || isFoundNote) {
-				OneItem item = new OneItem(R.drawable.bank_of_china, idListDb.get(i)
-						.getTitleRecord(), idListDb.get(i).getUrl());
+				OneItem item = new OneItem(idListDb.get(i).getPassWordId(),
+						R.drawable.bank_of_china, idListDb.get(i).getTitleRecord(), idListDb.get(i)
+								.getUrl());
 				searchItems.add(item);
 			}
 		}
@@ -550,6 +542,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			return createExampleDialog(Contants.DIALOG_DELETE_ID);
 		case Contants.DIALOG_EDIT_ID:
 			return createExampleDialog(Contants.DIALOG_EDIT_ID);
+		case Contants.DIALOG_CREATE_ID:
+			return createExampleDialog(Contants.DIALOG_CREATE_ID);
 		default:
 			return null;
 		}
@@ -651,9 +645,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			// Use an EditText view to get user input.
 			final EditText inputEdit = new EditText(this);
 			inputEdit.setId(Contants.TEXT_ID);
-			inputEdit.setText("");
 			builder.setView(inputEdit);
-
+			inputEdit.setText("");
 			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
 				@Override
@@ -699,10 +692,46 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			});
 
 			return builder.create();
+		case Contants.DIALOG_CREATE_ID:
+			builder.setTitle("Create New Id");
+			builder.setMessage("Users can register up to 12 free Ids.Type the key code to cancel the limit ids:");
+			builder.setIcon(R.drawable.icon);
+
+			// Use an EditText view to get user input.
+			final EditText inputkeyCode = new EditText(this);
+			inputkeyCode.setId(Contants.TEXT_ID);
+			builder.setView(inputkeyCode);
+			inputkeyCode.setText("");
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					String folderName = inputkeyCode.getText().toString();
+					startIntentCreateNewIds();
+					return;
+				}
+			});
+
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					startIntentCreateNewIds();
+					return;
+				}
+			});
+			return builder.create();
+
 		default:
 			return null;
 		}
+	}
 
+	private void startIntentCreateNewIds() {
+		Intent newIdIntent = new Intent(HomeScreeenActivity.this, EditIdPasswordActivity.class);
+		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
+		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderItem);
+		startActivity(newIdIntent);
 	}
 
 	/**
@@ -712,7 +741,13 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 */
 	private void deleteID(int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
+		/* delete in database */
+		mIDataBaseHandler.deleteIDPassword(mIdListItems.get(positionReturnedByHandler)
+				.getPasswordId());
 
+		/* reset id list view */
+		mIdListItems.remove(positionReturnedByHandler);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
 	}
 
 	/**
@@ -730,6 +765,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				Contants.TYPE_FOLDER_NORMAL);
 		folderDataBaseHandler.updateFolder(folder);
 
+		/* reset folder list */
+		mFolderListItems.get(positionReturnedByHandler).setTextFolderName(folderName);
+		folderListViewAdapter.updateFolderList(mFolderListItems);
 		showToast("Folder " + folderName + " is updated");
 	}
 
@@ -743,7 +781,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		/* delete folder in database */
 		folderDataBaseHandler.deleteFolder(mFolderListItems.get(positionReturnedByHandler)
 				.getFolderId());
-
+		/* delete all ids in this folder */
+		mIDataBaseHandler.deleteIDPasswordFromFolderId(positionReturnedByHandler);
+		/* refresh id list view */
+		mIdListItems = constructList(positionReturnedByHandler);
+		itemAdapter.setIdItemList(mIdListItems, positionReturnedByHandler);
 		/* refresh folder listview */
 		folderListViewAdapter.removeItem(positionReturnedByHandler);
 	}
@@ -772,8 +814,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 		/* reset adapter */
-		mIdListItems = constructList(currentFolderId);
-		itemAdapter.setIdItemList(mIdListItems, currentFolderId);
+		mIdListItems = constructList(currentFolderItem);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
 	}
 
 	private void showToast(String string) {

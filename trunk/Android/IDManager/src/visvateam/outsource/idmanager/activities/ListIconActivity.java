@@ -12,16 +12,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -32,7 +29,7 @@ public class ListIconActivity extends Activity {
 	private int mCatalogueName[] = { R.string.list_carrier_title,
 			R.string.list_e_commerce, R.string.list_isp,
 			R.string.list_webservice, R.string.list_airline,
-			R.string.list_finance };
+			R.string.list_finance }; 
 	private ArrayList<int[]> mIdIcon = new ArrayList<int[]>();
 
 	public static int idAirline[] = { R.drawable.airline_0,

@@ -299,7 +299,7 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 				KEY_TITLE_ID_7, KEY_DATA_ID_7, KEY_TITLE_ID_8, KEY_DATA_ID_8, KEY_TITLE_ID_9,
 				KEY_DATA_ID_9, KEY_TITLE_ID_10, KEY_DATA_ID_10, KEY_TITLE_ID_11, KEY_DATA_ID_11,
 				KEY_TITLE_ID_12, KEY_DATA_ID_12, KEY_URL, KEY_NOTE, KEY_IMAGE_MEMO, KEY_FLAG,
-				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED,KEY_USER_ID }, KEY_FOLDER_ID + "=?",
+				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED, KEY_USER_ID }, KEY_FOLDER_ID + "=?",
 				new String[] { String.valueOf(folderId) }, null, null, null, null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
@@ -427,19 +427,25 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_TIMES_STAMP, id.getTimeStamp());
 		// is encrypted
 		values.put(KEY_IS_ENCRYPTED, id.isEncrypted());
-		//user id
+		// user id
 		values.put(KEY_USER_ID, id.getUserId());
-		
+
 		// updating row
 		return db.update(TABLE_T_IDS, values, KEY_PASS_WORD_ID + " = ?",
 				new String[] { String.valueOf(id.getPassWordId()) });
 	}
 
 	// Deleting single id
-	public void deleteProject(IDDataBase id) {
+	public void deleteIDPassword(int id) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_T_IDS, KEY_PASS_WORD_ID + " = ?",
-				new String[] { String.valueOf(id.getPassWordId()) });
+		db.delete(TABLE_T_IDS, KEY_PASS_WORD_ID + " = ?", new String[] { String.valueOf(id) });
+		db.close();
+	}
+
+	// Deleting single id from folderId
+	public void deleteIDPasswordFromFolderId(int folderId) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_T_IDS, KEY_FOLDER_ID + " = ?", new String[] { String.valueOf(folderId) });
 		db.close();
 	}
 
