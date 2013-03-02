@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
-import visvateam.outsource.idmanager.database.IDDataBaseHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -50,7 +50,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 
 	private Button mBtnImageMemo;
 	// =========================Class Define ====================
-	private IDDataBaseHandler mIdDataBaseHandler;
+	private DataBaseHandler mDataBaseHandler;
 	private ArrayList<Item> mItems;
 	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
@@ -127,8 +127,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	 */
 	private void initDataBase() {
 		// TODO Auto-generated method stub
-		mIdDataBaseHandler = new IDDataBaseHandler(this);
-		List<IDDataBase> idList = mIdDataBaseHandler.getAllIDs();
+		mDataBaseHandler = new DataBaseHandler(this);
+		List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
 		numberOfId = idList.size();
 	}
 
@@ -187,7 +187,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				showToast("Edit Id error");
 				finish();
 			}
-			IDDataBase id = mIdDataBaseHandler.getId(currentPasswordId);
+			IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
 
 			mEditTextNameId.setText(id.getTitleRecord());
 			mEditTextNote.setText(id.getNote());
@@ -528,9 +528,9 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				userId);
 
 		if (isCreateNewId)
-			mIdDataBaseHandler.addNewID(id);
+			mDataBaseHandler.addNewID(id);
 		else
-			mIdDataBaseHandler.updateId(id);
+			mDataBaseHandler.updateId(id);
 		/* return home */
 		finish();
 	}
