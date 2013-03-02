@@ -1,5 +1,7 @@
 package visvateam.outsource.idmanager.activities;
 
+import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
+
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -50,6 +52,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	// =========================Class Define ====================
 	private IDDataBaseHandler mIdDataBaseHandler;
 	private ArrayList<Item> mItems;
+	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
 	private String nameItem[] = { "ID1", "Pass1", "ID2", "Pass2", "ID3", "Pass3", "ID4", "Pass4",
 			"ID5", "Pass5", "ID6", "Pass6", "ID7", "Pass7", "ID8", "Pass8", "ID9", "Pass9", "ID10",
@@ -71,7 +74,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private String timeStamp;
 	private boolean isEncrypted;
 	private int userId;
- 
+
 	public static Drawable mDrawableIcon;
 	public static String mUrlItem;
 	public static String mStringOfSelectItem = "";
@@ -111,6 +114,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		super.onResume();
 		((ImageButton) findViewById(R.id.img_avatar)).setBackgroundDrawable(mDrawableIcon);
 		((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+
 		if (itemSelect >= 0) {
 			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
 			mListView.setAdapter(new ItemAddAdapter(this, mItems));
@@ -152,6 +156,12 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		/* load data for list item id */
 		mItems = loadDataForListItem();
 		mListView.setAdapter(new ItemAddAdapter(this, mItems));
+
+		mSlidingDrawer = (MultiDirectionSlidingDrawer) findViewById(R.id.drawer);
+		if (isCreateNewId)
+			mSlidingDrawer.close();
+		else
+			mSlidingDrawer.open();
 	}
 
 	/**
