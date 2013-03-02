@@ -69,7 +69,7 @@ public class ReceverAdapter extends BaseAdapter {
 		}
 
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(context.getResources().getDrawable(alPicture.get(position).getId()));
+		iv.setImageDrawable(context.getResources().getDrawable(alPicture.get(position).getIconId()));
 		iv.setContentDescription(this.alPicture.get(position).getName());
 
 		return convertView;

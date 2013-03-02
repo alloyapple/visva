@@ -92,7 +92,7 @@ public class ItemAdapter extends BaseAdapter {
 
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(context.getResources().getDrawable(idItemList.get(position).getId()));
+		iv.setImageDrawable(context.getResources().getDrawable(idItemList.get(position).getIconId()));
 		iv.setContentDescription(this.idItemList.get(position).getName());
 
 		/* text name vs text url */

@@ -24,17 +24,22 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private static final int EDIT_FOLDER = 2;
 	private boolean isEdit;
 	private Context context;
-	private ArrayList<FolderItem> folderList;
+	private ArrayList<FolderItem> folderList = new ArrayList<FolderItem>();
 	private Handler mHandler;
 	private ListViewDragDrop folderListView;
+	private int currentFolderId;
 
 	public FolderListViewAdapter(Context context, ArrayList<FolderItem> folderList, boolean isEdit,
-			Handler mHandler, ListViewDragDrop folderListView) {
+			Handler mHandler, ListViewDragDrop folderListView,int currentFolderId) {
 		this.context = context;
-		this.folderList = folderList;
 		this.isEdit = isEdit;
 		this.mHandler = mHandler;
 		this.folderListView = folderListView;
+		this.currentFolderId = currentFolderId;
+		this.folderList = folderList;
+//		for(int i = folderList.size() - 1 ; i >= 0;i --){
+//			this.folderList.add(folderList.get(i));
+//		}
 	}
 
 	@Override
@@ -82,16 +87,21 @@ public class FolderListViewAdapter extends BaseAdapter {
 		/* set action for button */
 		imgFolderDelete.setOnClickListener(mOnDeleteClickListener);
 		imgFolderEdit.setOnClickListener(mOnEditClickListener);
-
+		
 		convertView.setBackgroundResource(folderList.get(position).getFolderImgid());
 		imgFolderIcon.setBackgroundResource(folderList.get(position).getFolderIconId());
 		txtFodlerName.setText(""+folderList.get(position).getTextFolderName());
 		if (folderList.get(position).getImgFolderType() == Contants.TYPE_FOLDER_NON_NORMAL) {
+			if(position == currentFolderId)
+				convertView.setBackgroundResource(R.drawable.folder_s_select);
 			imgFolderDelete.setVisibility(View.GONE);
 			imgFolderEdit.setVisibility(View.GONE);
 			txtFodlerName.setVisibility(View.GONE);
 			imgFolderIcon.setVisibility(View.VISIBLE);
+			
 		} else {
+			if(position == currentFolderId)
+				convertView.setBackgroundResource(R.drawable.folder_select);
 			imgFolderIcon.setVisibility(View.GONE);
 			if (isEdit == true) {
 				imgFolderDelete.setVisibility(View.VISIBLE);
@@ -117,11 +127,19 @@ public class FolderListViewAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void setFolderSelected(int currentFolderId){
+		this.currentFolderId = currentFolderId;
+		notifyDataSetChanged();
+	}
 	public void addNewFolder(FolderItem folder) {
-		folderList.add(folder);
+		folderList.add(0,folder);
 		notifyDataSetChanged();
 	}
 
+	public void updateFolderList(ArrayList<FolderItem> folderItems){
+		this.folderList = folderItems;
+		notifyDataSetChanged();
+	}
 	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {

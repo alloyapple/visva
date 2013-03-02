@@ -1,46 +1,36 @@
-/*
-*Copyright 2011 Matthieu Paret
-*
-*This file is part of DragAndDrop.
-*
-*DragAndDrop is free software: you can redistribute it and/or modify
-*it under the terms of the GNU Lesser General Public License as published by
-*the Free Software Foundation, either version 3 of the License, or
-*(at your option) any later version.
-*
-*DragAndDrop is distributed in the hope that it will be useful,
-*but WITHOUT ANY WARRANTY; without even the implied warranty of
-*MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*GNU General Public License for more details.
-*
-*You should have received a copy of the GNU Lesser General Public License
-*along with DragAndDrop.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 package exp.mtparet.dragdrop.data;
 
+/**
+ * @author visva-team
+ *
+ */
 public class OneItem {
-	
-	private int id;
+
+	private int iconId;
 	private String name;
 	private String url;
-	
-	public OneItem(OneItem op){
-		this.id = op.id;
+	private int passwordId;
+
+	public OneItem(OneItem op) {
+		this.iconId = op.iconId;
 		this.name = op.name;
+		this.url = op.url;
+		this.passwordId = op.passwordId;
 	}
-	
-	public OneItem(int id, String name,String url) {
-		this.id = id;
+
+	public OneItem(int passwordId, int iconId, String name, String url) {
+		this.passwordId = passwordId;
+		this.iconId = iconId;
 		this.name = name;
 		this.url = url;
 	}
 
-	public int getId(){
-		return this.id;
+	public int getIconId() {
+		return this.iconId;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return this.name;
 	}
 
@@ -51,6 +41,21 @@ public class OneItem {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
+	public int getPasswordId() {
+		return passwordId;
+	}
+
+	public void setPasswordId(int passwordId) {
+		this.passwordId = passwordId;
+	}
+
+	public void setIconId(int iconId) {
+		this.iconId = iconId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }

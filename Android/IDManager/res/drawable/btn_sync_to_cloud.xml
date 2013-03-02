@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- The second state over of button -->
+    <item android:drawable="@drawable/btn_to_cloud" android:state_focused="true" android:state_pressed="false"/>
+    <!-- The third state click of  button -->
+    <item android:drawable="@drawable/btn_to_cloud_select" android:state_focused="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/btn_to_cloud_select" android:state_focused="false" android:state_pressed="true"/>
+    <!-- The first state of button -->
+    <item android:drawable="@drawable/btn_to_cloud"/>
+
+</selector>

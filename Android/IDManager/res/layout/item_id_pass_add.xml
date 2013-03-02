@@ -19,6 +19,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/all_corner"
             android:text="Pass"
+            android:singleLine="true"
             android:textColor="#000000" >
         </EditText>
 
@@ -37,6 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:background="@color/transparent"
                 android:textColor="#000000" >
             </EditText>
