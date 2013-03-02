@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
+
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
@@ -86,7 +89,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_id_pass);
-
+		
 		isCreateNewId = getIntent().getExtras().getBoolean(Contants.IS_INTENT_CREATE_NEW_ID);
 		currentFolderId = getIntent().getExtras().getInt(Contants.CURRENT_FOLDER_ID);
 		if (!isCreateNewId)
@@ -127,6 +130,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	 */
 	private void initDataBase() {
 		// TODO Auto-generated method stub
+		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new DataBaseHandler(this);
 		List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
 		numberOfId = idList.size();

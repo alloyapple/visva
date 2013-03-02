@@ -3,6 +3,8 @@ package visvateam.outsource.idmanager.activities.homescreen;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
@@ -243,6 +245,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * initialize database
 	 */
 	private void initDataBase() {
+		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new DataBaseHandler(this);
 		
 		// check size of folder database

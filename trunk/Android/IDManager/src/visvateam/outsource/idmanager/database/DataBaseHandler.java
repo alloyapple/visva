@@ -3,12 +3,13 @@ package visvateam.outsource.idmanager.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
+
 import visvateam.outsource.idmanager.contants.Contants;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DataBaseHandler extends SQLiteOpenHelper {
@@ -75,6 +76,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		
 		// TODO Auto-generated method stub
 		String CREATE_FOLDERS_TABLE = "CREATE TABLE " + TABLE_T_FOLDERS + "(" + KEY_FOLDER_ID
 				+ " INTEGER PRIMARY KEY," + KEY_USER_ID + " INTEGER," + KEY_FOLDER_NAME + " TEXT,"
@@ -122,7 +124,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Adding new folder
 	public void addNewFolder(FolderDatabase folder) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_FOLDER_ID, folder.getFolderId()); // folder id
@@ -136,13 +138,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		Log.e("adkfjalsdfj", "asdfjahsdlfjd " + folder.getTypeOfFolder());
 		// Inserting Row
 		db.insert(TABLE_T_FOLDERS, null, values);
+		
 		// close db after use
 		db.close(); // Closing database connection
 	}
 
 	// Getting single folder
 	public FolderDatabase getFolder(int folderId) {
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
 		Cursor cursor = db.query(TABLE_T_FOLDERS, new String[] { KEY_FOLDER_ID, KEY_USER_ID,
 				KEY_FOLDER_NAME, KEY_IMG_FOLDER_ID, KEY_IMG_FOLDER_ICON_ID, KEY_IS_NORMAL_FOLDER },
@@ -166,7 +169,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_T_FOLDERS;
 
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
@@ -185,6 +188,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				foldertList.add(folder);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		db.close();
 		// return folder list
 		return foldertList;
@@ -192,7 +196,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Updating single folder
 	public int updateFolder(FolderDatabase folder) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_FOLDER_ID, folder.getFolderId());
@@ -208,7 +212,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Deleting single folder
 	public void deleteFolder(int folderId) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		db.delete(TABLE_T_FOLDERS, KEY_FOLDER_ID + " = ?",
 				new String[] { String.valueOf(folderId) });
 		db.close();
@@ -217,7 +221,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	// Getting folders count
 	public int getFoldersCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_T_FOLDERS;
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(countQuery, null);
 
 		// return count
@@ -230,7 +234,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Adding new id
 	public void addNewID(IDDataBase id) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_PASS_WORD_ID, id.getPassWordId()); // password id
@@ -301,7 +305,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Getting single id
 	public IDDataBase getId(int folderId) {
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
 		Cursor cursor = db.query(TABLE_T_IDS, new String[] { KEY_PASS_WORD_ID, KEY_FOLDER_ID,
 				KEY_TITLE_RECORD, KEY_ICON, KEY_FAVOURITE_GROUP, KEY_TITLE_ID_1, KEY_DATA_ID_1,
@@ -344,7 +348,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_T_IDS;
 
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
@@ -419,7 +423,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	 */
 	public List<IDDataBase> getAllIDsFromFolderId(int folderId) {
 		List<IDDataBase> idsList = new ArrayList<IDDataBase>();
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
 		Cursor cursor = db.query(TABLE_T_IDS, new String[] { KEY_PASS_WORD_ID, KEY_FOLDER_ID,
 				KEY_TITLE_RECORD, KEY_ICON, KEY_FAVOURITE_GROUP, KEY_TITLE_ID_1, KEY_DATA_ID_1,
@@ -489,6 +493,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				idsList.add(id);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		db.close();
 		// return id list
 		return idsList;
@@ -496,7 +501,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Updating single id
 	public int updateId(IDDataBase id) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_PASS_WORD_ID, id.getPassWordId()); // password id
@@ -566,14 +571,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Deleting single id
 	public void deleteIDPassword(int id) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		db.delete(TABLE_T_IDS, KEY_PASS_WORD_ID + " = ?", new String[] { String.valueOf(id) });
 		db.close();
 	}
 
 	// Deleting single id from folderId
 	public void deleteIDPasswordFromFolderId(int folderId) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		db.delete(TABLE_T_IDS, KEY_FOLDER_ID + " = ?", new String[] { String.valueOf(folderId) });
 		db.close();
 	}
@@ -581,7 +586,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	// Getting ids Count
 	public int getIDsCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_T_IDS;
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(countQuery, null);
 
 		// return count
@@ -594,7 +599,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Adding new user
 	public void addNewUser(UserDataBase user) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_USER_ID, user.getUserId()); // user id
@@ -610,7 +615,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Getting single user
 	public UserDataBase getUser(int userId) {
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
 		Cursor cursor = db.query(TABLE_T_USERS, new String[] { KEY_USER_ID, KEY_USER_PASSWORD,
 				KEY_LAST_TIME_SIGN_IN }, KEY_USER_ID + "=?",
@@ -631,7 +636,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_T_USERS;
 
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		// looping through all rows and adding to list
@@ -653,7 +658,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Updating single user
 	public int updateUser(UserDataBase user) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_USER_ID, user.getUserId());
@@ -667,7 +672,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Deleting single user
 	public void deleteUser(UserDataBase user) {
-		SQLiteDatabase db = this.getWritableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		db.delete(TABLE_T_USERS, KEY_USER_ID + " = ?",
 				new String[] { String.valueOf(user.getUserId()) });
 		db.close();
@@ -676,7 +681,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	// Getting users Count
 	public int getUserCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_T_USERS;
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(countQuery, null);
 
 		// return count
