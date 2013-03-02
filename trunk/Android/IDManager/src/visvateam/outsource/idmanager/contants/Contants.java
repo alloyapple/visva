@@ -31,6 +31,8 @@ public class Contants {
 	public static final String NAME_FAVOURITE_FOLDER = "favourite";
 	public static final String FIlE_PATH_IMG_MEMO ="FIlE_PATH_IMG_MEMO";
 	public static final String CURRENT_FOLDER_ID = "CURRENT_FOLDER_ID";
-	
-	
+	public static final String CURRENT_PASSWORD_ID="CURRENT_PASSWORD_ID";
+
+	public static int MAX_ITEM_PASS_ID = 12;
+
 }

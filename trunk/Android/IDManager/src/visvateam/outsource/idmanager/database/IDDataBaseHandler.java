@@ -171,7 +171,7 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Getting single id
-	public IDDataBase getIDFromFolder(int folderId) {
+	public IDDataBase getId(int folderId) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_T_IDS, new String[] { KEY_PASS_WORD_ID, KEY_FOLDER_ID,
@@ -181,7 +181,7 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 				KEY_TITLE_ID_7, KEY_DATA_ID_7, KEY_TITLE_ID_8, KEY_DATA_ID_8, KEY_TITLE_ID_9,
 				KEY_DATA_ID_9, KEY_TITLE_ID_10, KEY_DATA_ID_10, KEY_TITLE_ID_11, KEY_DATA_ID_11,
 				KEY_TITLE_ID_12, KEY_DATA_ID_12, KEY_URL, KEY_NOTE, KEY_IMAGE_MEMO, KEY_FLAG,
-				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED, KEY_USER_ID }, TABLE_T_IDS + "=?",
+				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED, KEY_USER_ID }, KEY_PASS_WORD_ID + "=?",
 				new String[] { String.valueOf(folderId) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
@@ -366,7 +366,7 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Updating single id
-	public int updateFolder(IDDataBase id) {
+	public int updateId(IDDataBase id) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
