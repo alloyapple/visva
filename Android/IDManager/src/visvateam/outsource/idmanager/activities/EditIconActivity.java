@@ -17,15 +17,25 @@ public class EditIconActivity extends Activity {
 	private Uri fileUri;
 	public static Drawable mDrawableIconEdit;
 	private CheckBox mCheckBox;
+	private boolean isCreatNewId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_edit_icon);
+		Bundle bundle = getIntent().getExtras();
+		isCreatNewId = bundle.getBoolean(Contants.IS_INTENT_CREATE_NEW_ID);
 		imageView = (ImageView) findViewById(R.id.id_img_icon_edit);
 		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_edit_icon);
 		mDrawableIconEdit = EditIdPasswordActivity.mDrawableIcon;
+		if (isCreatNewId) {
+		} else {
+		}
+
+	}
+
+	public void initDataItem() {
 
 	}
 

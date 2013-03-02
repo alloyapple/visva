@@ -1,5 +1,6 @@
 package visvateam.outsource.idmanager.activities;
 
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -100,6 +101,10 @@ public class EditIdPasswordActivity extends Activity implements
 
 	public static Drawable mDrawableIcon;
 	public static String mUrlItem;
+	public static String mStringOfSelectItem = "";
+	public ArrayList<ViewHolder> viewHolder= new ArrayList<EditIdPasswordActivity.ViewHolder>();
+	public int itemSelect = -1;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -112,10 +117,10 @@ public class EditIdPasswordActivity extends Activity implements
 				Contants.CURRENT_FOLDER_ID);
 		Log.e("currentFOlder id", "currentFolderId " + currentFolderId);
 		if (mDrawableIcon == null) {
-			mDrawableIcon=getResources().getDrawable(R.drawable.default_icon);
+			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
 		}
-		if(mUrlItem==null){
-			mUrlItem="http://google.com";
+		if (mUrlItem == null) {
+			mUrlItem = "http://google.com";
 		}
 		/* initialize database */
 		initDataBase();
@@ -128,9 +133,17 @@ public class EditIdPasswordActivity extends Activity implements
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((ImageButton)findViewById(R.id.img_avatar)).setBackgroundDrawable(mDrawableIcon);
-		((EditText)findViewById(R.id.edit_text_url)).setText(mUrlItem);
+		((ImageButton) findViewById(R.id.img_avatar))
+				.setBackgroundDrawable(mDrawableIcon);
+		((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+		if (itemSelect >= 0) {
+			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
+			mListView.setAdapter(new ItemAddAdapter(this, mItems));
+			itemSelect = -1;
+		}
 	}
+
+	private ArrayList<Item> mItems;
 
 	/**
 	 * initialize database
@@ -164,7 +177,7 @@ public class EditIdPasswordActivity extends Activity implements
 
 		mBtnImageMemo = (Button) findViewById(R.id.btn_img_memo);
 		mListView = (ListView) findViewById(R.id.id_listview_item_add);
-		ArrayList<Item> mItems = new ArrayList<EditIdPasswordActivity.Item>();
+		mItems = new ArrayList<EditIdPasswordActivity.Item>();
 		for (int i = 0; i < MAX_ITEM * 2; i++) {
 			Item item = new Item();
 			item.mNameItem = nameItem[i];
@@ -186,6 +199,7 @@ public class EditIdPasswordActivity extends Activity implements
 	}
 
 	public void onToGenerator(int i) {
+		itemSelect = i;
 		PasswordGeneratorActivity.startActivity(this);
 
 	}
@@ -218,12 +232,13 @@ public class EditIdPasswordActivity extends Activity implements
 			super();
 			mActivity = pActivity;
 			mItems = pItems;
+			viewHolder.clear();
 		}
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 30;
+			return mItems.size();
 		}
 
 		@Override
@@ -244,7 +259,7 @@ public class EditIdPasswordActivity extends Activity implements
 			ViewHolder holder;
 			final int pos = position;
 			LayoutInflater inflater = mActivity.getLayoutInflater();
-			if (convertView == null) {
+//			if (convertView == null) {
 				convertView = inflater.inflate(R.layout.item_id_pass_add, null);
 				holder = new ViewHolder();
 				holder.nameItem = (EditText) convertView
@@ -262,10 +277,11 @@ public class EditIdPasswordActivity extends Activity implements
 								onToGenerator(pos);
 							}
 						});
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder) convertView.getTag();
-			}
+				viewHolder.add(holder);
+//				convertView.setTag(holder);
+//			} else {
+//				holder = (ViewHolder) convertView.getTag();
+//			}
 			return convertView;
 		}
 

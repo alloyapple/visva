@@ -3,8 +3,9 @@ package visvateam.outsource.idmanager.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
-public class CopyItemActivity extends Activity{
+public class CopyItemActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -12,8 +13,13 @@ public class CopyItemActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_choice_id_pass_item);
 	}
+
 	public static void startActivity(Activity activity) {
 		Intent i = new Intent(activity, CopyItemActivity.class);
 		activity.startActivity(i);
+	}
+
+	public void onReturn(View v) {
+		finish();
 	}
 }
