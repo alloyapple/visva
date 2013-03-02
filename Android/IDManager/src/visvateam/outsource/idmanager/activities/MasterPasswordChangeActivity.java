@@ -22,9 +22,8 @@ public class MasterPasswordChangeActivity extends Activity {
 	private TextView txtChangePW;
 	private TextView txtOldPW;
 	private TextView txtNewPW;
-	// =======================Class Define ======================
-	private DataBaseHandler mDataBaseHandler;
 	private IdManagerPreference idManagerPreference;
+	private DataBaseHandler mDataBaseHandler;
 	// =======================Variables Define ==================
 	private boolean isChangePW;
 	private String masterPW;
@@ -47,9 +46,6 @@ public class MasterPasswordChangeActivity extends Activity {
 		/* init share preference */
 		idManagerPreference = IdManagerPreference.getInstance(this);
 		masterPW = idManagerPreference.getMasterPW();
-		Log.e("masterpw", "masterpw "+masterPW);
-		/* init database */
-		mDataBaseHandler = new DataBaseHandler(this);
 
 	}
 
@@ -91,6 +87,7 @@ public class MasterPasswordChangeActivity extends Activity {
 				Intent intent = new Intent(MasterPasswordChangeActivity.this,
 						TermOfServiceActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		} else {
 
@@ -104,9 +101,10 @@ public class MasterPasswordChangeActivity extends Activity {
 				/* return setting activity */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		}
-		finish();
+
 	}
 
 	public void onReturn(View v) {

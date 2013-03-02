@@ -35,5 +35,6 @@ public class Contants {
 	public static final int MAX_ITEM_PASS_ID = 12;
 	public static final String DATA_IDMANAGER_NAME = "idmanager.db";
 	public static final int DATA_VERSION = 1;
+	public static final String KEY_DATA_PW="key_data_id_manager";
 
 }
