@@ -1,9 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
 import visvateam.outsource.idmanager.activities.login.TermOfServiceActivity;
+import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
-import visvateam.outsource.idmanager.database.UserDataBase;
-import visvateam.outsource.idmanager.database.UserDataBaseHandler;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +23,7 @@ public class MasterPasswordChangeActivity extends Activity {
 	private TextView txtOldPW;
 	private TextView txtNewPW;
 	// =======================Class Define ======================
-	private UserDataBaseHandler userDataBaseHandler;
+	private DataBaseHandler mDataBaseHandler;
 	private IdManagerPreference idManagerPreference;
 	// =======================Variables Define ==================
 	private boolean isChangePW;
@@ -50,7 +49,7 @@ public class MasterPasswordChangeActivity extends Activity {
 		masterPW = idManagerPreference.getMasterPW();
 		Log.e("masterpw", "masterpw "+masterPW);
 		/* init database */
-		userDataBaseHandler = new UserDataBaseHandler(this);
+		mDataBaseHandler = new DataBaseHandler(this);
 
 	}
 

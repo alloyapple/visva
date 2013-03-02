@@ -2,26 +2,31 @@ package visvateam.outsource.idmanager.database;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import visvateam.outsource.idmanager.contants.Contants;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-public class IDDataBaseHandler extends SQLiteOpenHelper {
-	// All Static variables
-	// Database Version
-	private static final int DATABASE_VERSION = 1;
+public class DataBaseHandler extends SQLiteOpenHelper {
 
-	// Database Name
-	private static final String DATABASE_NAME = "IDManager";
-
-	// Contacts table name
-	private static final String TABLE_T_IDS = "TABLE_T_IDS";
-
-	// Contacts Table Columns names
-	private static final String KEY_PASS_WORD_ID = "KEY_PASS_WORD_ID";
+	// folders table name
+	private static final String TABLE_T_FOLDERS = "TABLE_T_FOLDERS";
+	// folders Table Columns names
 	private static final String KEY_FOLDER_ID = "KEY_FOLDER_ID";
+	private static final String KEY_USER_ID = "KEY_USER_ID";
+	private static final String KEY_FOLDER_NAME = "KEY_FOLDER_NAME";
+	private static final String KEY_IMG_FOLDER_ID = "KEY_IMG_FOLDER_ID";
+	private static final String KEY_IMG_FOLDER_ICON_ID = "KEY_IMG_FOLDER_ICON_ID";
+	private static final String KEY_IS_NORMAL_FOLDER = "KEY_IS_NORMAL_FOLDER";
+
+	// id table name
+	private static final String TABLE_T_IDS = "TABLE_T_IDS";
+	// id Table Columns names
+	private static final String KEY_PASS_WORD_ID = "KEY_PASS_WORD_ID";
 	private static final String KEY_TITLE_RECORD = "KEY_TITLE_RECORD";
 	private static final String KEY_ICON = "KEY_ICON";
 	private static final String KEY_FAVOURITE_GROUP = "KEY_FAVOURITE_GROUP";
@@ -55,20 +60,29 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_FLAG = "KEY_FLAG";
 	private static final String KEY_TIMES_STAMP = "KEY_TIMES_STAMP";
 	private static final String KEY_IS_ENCRYPTED = "KEY_IS_ENCRYPTED";
-	private static final String KEY_USER_ID = "KEY_USER_ID";
 
-	public IDDataBaseHandler(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	// User table name
+	private static final String TABLE_T_USERS = "TABLE_T_USERS";
+
+	// User Table Columns names
+	private static final String KEY_USER_PASSWORD = "KEY_USER_PASSWORD";
+	private static final String KEY_LAST_TIME_SIGN_IN = "KEY_LAST_TIME_SIGN_IN";
+
+	public DataBaseHandler(Context context) {
+		super(context, Contants.DATA_IDMANAGER_NAME, null, Contants.DATA_VERSION);
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * create database
-	 * 
-	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_T_IDS + "(" + KEY_PASS_WORD_ID
+		// TODO Auto-generated method stub
+		String CREATE_FOLDERS_TABLE = "CREATE TABLE " + TABLE_T_FOLDERS + "(" + KEY_FOLDER_ID
+				+ " INTEGER PRIMARY KEY," + KEY_USER_ID + " INTEGER," + KEY_FOLDER_NAME + " TEXT,"
+				+ KEY_IMG_FOLDER_ID + " INTEGER," + KEY_IMG_FOLDER_ICON_ID + " INTEGER,"
+				+ KEY_IS_NORMAL_FOLDER + " INTEGER" + ")";
+		db.execSQL(CREATE_FOLDERS_TABLE);
+
+		String CREATE_IDS_TABLE = "CREATE TABLE " + TABLE_T_IDS + "(" + KEY_PASS_WORD_ID
 				+ " INTEGER PRIMARY KEY," + KEY_FOLDER_ID + " INTEGER," + KEY_TITLE_RECORD
 				+ " TEXT," + KEY_ICON + " INTEGER," + KEY_FAVOURITE_GROUP + " TEXT,"
 				+ KEY_TITLE_ID_1 + " TEXT," + KEY_DATA_ID_1 + " TEXT," + KEY_TITLE_ID_2 + " TEXT,"
@@ -82,17 +96,132 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 				+ KEY_DATA_ID_12 + " TEXT," + KEY_URL + " TEXT," + KEY_NOTE + " TEXT,"
 				+ KEY_IMAGE_MEMO + " TEXT," + KEY_FLAG + " TEXT," + KEY_TIMES_STAMP + " Date,"
 				+ KEY_IS_ENCRYPTED + " Boolean," + KEY_USER_ID + " INTEGER" + ")";
-		db.execSQL(CREATE_CONTACTS_TABLE);
+		db.execSQL(CREATE_IDS_TABLE);
 
+		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_T_USERS + "(" + KEY_USER_ID
+				+ " INTEGER PRIMARY KEY," + KEY_USER_PASSWORD + " TEXT," + KEY_LAST_TIME_SIGN_IN
+				+ " TEXT" + ")";
+		db.execSQL(CREATE_USER_TABLE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		// TODO Auto-generated method stub
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_T_FOLDERS);
 		// Drop older table if existed
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_T_IDS);
+		// Drop older table if existed
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_T_USERS);
 		// Create tables again
 		onCreate(db);
+	}
 
+	/**
+	 * All CRUD(Create, Read, Update, Delete) Operations
+	 */
+
+	// Adding new folder
+	public void addNewFolder(FolderDatabase folder) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_FOLDER_ID, folder.getFolderId()); // folder id
+		values.put(KEY_USER_ID, folder.getUserId()); // user id
+		values.put(KEY_FOLDER_NAME, folder.getFolderName()); // folder name
+		values.put(KEY_IMG_FOLDER_ID, folder.getImgFolderId()); // folder name
+		// image folder icon id
+		values.put(KEY_IMG_FOLDER_ICON_ID, folder.getImgFolderIconId());
+		// image folder icon edit
+		values.put(KEY_IS_NORMAL_FOLDER, folder.getTypeOfFolder());
+		Log.e("adkfjalsdfj", "asdfjahsdlfjd " + folder.getTypeOfFolder());
+		// Inserting Row
+		db.insert(TABLE_T_FOLDERS, null, values);
+		// close db after use
+		db.close(); // Closing database connection
+	}
+
+	// Getting single folder
+	public FolderDatabase getFolder(int folderId) {
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		Cursor cursor = db.query(TABLE_T_FOLDERS, new String[] { KEY_FOLDER_ID, KEY_USER_ID,
+				KEY_FOLDER_NAME, KEY_IMG_FOLDER_ID, KEY_IMG_FOLDER_ICON_ID, KEY_IS_NORMAL_FOLDER },
+				KEY_FOLDER_ID + "=?", new String[] { String.valueOf(folderId) }, null, null, null,
+				null);
+		if (cursor != null)
+			cursor.moveToFirst();
+
+		FolderDatabase folder = new FolderDatabase(Integer.parseInt(cursor.getString(0)),
+				Integer.parseInt(cursor.getString(1)), cursor.getString(2), Integer.parseInt(cursor
+						.getString(3)), Integer.parseInt(cursor.getString(4)),
+				Integer.parseInt(cursor.getString(5)));
+		db.close();
+		// return folder
+		return folder;
+	}
+
+	// Getting All folers
+	public List<FolderDatabase> getAllFolders() {
+		List<FolderDatabase> foldertList = new ArrayList<FolderDatabase>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_T_FOLDERS;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				FolderDatabase folder = new FolderDatabase();
+				folder.setFolderId(Integer.parseInt(cursor.getString(0)));
+				folder.setUserId(Integer.parseInt(cursor.getString(1)));
+				folder.setFolderName(cursor.getString(2));
+				folder.setImgFolderId(Integer.parseInt(cursor.getString(3)));
+				folder.setImgFolderIconId(Integer.parseInt(cursor.getString(4)));
+				folder.setTypeOfFolder(Integer.parseInt(cursor.getString(5)));
+
+				Log.e("adsifhdkf", "adjfhdkh " + Integer.parseInt(cursor.getString(5)));
+				// Adding folder to list
+				foldertList.add(folder);
+			} while (cursor.moveToNext());
+		}
+		db.close();
+		// return folder list
+		return foldertList;
+	}
+
+	// Updating single folder
+	public int updateFolder(FolderDatabase folder) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_FOLDER_ID, folder.getFolderId());
+		values.put(KEY_USER_ID, folder.getUserId());
+		values.put(KEY_FOLDER_NAME, folder.getFolderName());
+		values.put(KEY_IMG_FOLDER_ID, folder.getImgFolderId());
+		values.put(KEY_IMG_FOLDER_ICON_ID, folder.getImgFolderIconId());
+		values.put(KEY_IS_NORMAL_FOLDER, folder.getTypeOfFolder());
+		// updating row
+		return db.update(TABLE_T_FOLDERS, values, KEY_FOLDER_ID + " = ?",
+				new String[] { String.valueOf(folder.getFolderId()) });
+	}
+
+	// Deleting single folder
+	public void deleteFolder(int folderId) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_T_FOLDERS, KEY_FOLDER_ID + " = ?",
+				new String[] { String.valueOf(folderId) });
+		db.close();
+	}
+
+	// Getting folders count
+	public int getFoldersCount() {
+		String countQuery = "SELECT  * FROM " + TABLE_T_FOLDERS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(countQuery, null);
+
+		// return count
+		return cursor.getCount();
 	}
 
 	/**
@@ -452,6 +581,101 @@ public class IDDataBaseHandler extends SQLiteOpenHelper {
 	// Getting ids Count
 	public int getIDsCount() {
 		String countQuery = "SELECT  * FROM " + TABLE_T_IDS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(countQuery, null);
+
+		// return count
+		return cursor.getCount();
+	}
+
+	/**
+	 * All CRUD(Create, Read, Update, Delete) Operations
+	 */
+
+	// Adding new user
+	public void addNewUser(UserDataBase user) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_USER_ID, user.getUserId()); // user id
+		values.put(KEY_USER_PASSWORD, user.getUserPassword()); // user pw\
+		// last time sign in
+		values.put(KEY_LAST_TIME_SIGN_IN, user.getLastTimeSignIn());
+
+		// Inserting Row
+		db.insert(TABLE_T_USERS, null, values);
+		// close db after use
+		db.close(); // Closing database connection
+	}
+
+	// Getting single user
+	public UserDataBase getUser(int userId) {
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		Cursor cursor = db.query(TABLE_T_USERS, new String[] { KEY_USER_ID, KEY_USER_PASSWORD,
+				KEY_LAST_TIME_SIGN_IN }, KEY_USER_ID + "=?",
+				new String[] { String.valueOf(userId) }, null, null, null, null);
+		if (cursor != null)
+			cursor.moveToFirst();
+
+		UserDataBase user = new UserDataBase(Integer.parseInt(cursor.getString(0)),
+				cursor.getString(1), cursor.getString(2));
+		db.close();
+		// return folder
+		return user;
+	}
+
+	// Getting All users
+	public List<UserDataBase> getAllUsers() {
+		List<UserDataBase> userList = new ArrayList<UserDataBase>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_T_USERS;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				UserDataBase user = new UserDataBase();
+				user.setUserId(Integer.parseInt(cursor.getString(0)));
+				user.setUserPassword(cursor.getString(1));
+				user.setLastTimeSignIn(cursor.getString(2));
+
+				// Adding user to list
+				userList.add(user);
+			} while (cursor.moveToNext());
+		}
+		db.close();
+		// return user list
+		return userList;
+	}
+
+	// Updating single user
+	public int updateUser(UserDataBase user) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_USER_ID, user.getUserId());
+		values.put(KEY_USER_PASSWORD, user.getUserPassword());
+		values.put(KEY_LAST_TIME_SIGN_IN, user.getLastTimeSignIn());
+
+		// updating row
+		return db.update(TABLE_T_USERS, values, KEY_USER_ID + " = ?",
+				new String[] { String.valueOf(user.getUserId()) });
+	}
+
+	// Deleting single user
+	public void deleteUser(UserDataBase user) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_T_USERS, KEY_USER_ID + " = ?",
+				new String[] { String.valueOf(user.getUserId()) });
+		db.close();
+	}
+
+	// Getting users Count
+	public int getUserCount() {
+		String countQuery = "SELECT  * FROM " + TABLE_T_USERS;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 

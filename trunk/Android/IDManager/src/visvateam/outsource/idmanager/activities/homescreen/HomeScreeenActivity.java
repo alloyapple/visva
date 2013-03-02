@@ -10,10 +10,9 @@ import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.activities.synccloud.SyncCloudActivity;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.FolderDataBaseHandler;
+import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
 import visvateam.outsource.idmanager.database.IDDataBase;
-import visvateam.outsource.idmanager.database.IDDataBaseHandler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -73,8 +72,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private ItemAdapter itemAdapter;
 	private FolderListViewAdapter folderListViewAdapter;
 	private OneItem oneItemSelected;
-	private FolderDataBaseHandler folderDataBaseHandler;
-	private IDDataBaseHandler mIDataBaseHandler;
+	private DataBaseHandler mDataBaseHandler;
 	private ArrayList<FolderItem> mFolderListItems = new ArrayList<FolderItem>();
 	private ArrayList<OneItem> mIdListItems = new ArrayList<OneItem>();
 
@@ -245,8 +243,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * initialize database
 	 */
 	private void initDataBase() {
-		folderDataBaseHandler = new FolderDataBaseHandler(this);
-		mIDataBaseHandler = new IDDataBaseHandler(this);
+		mDataBaseHandler = new DataBaseHandler(this);
+		
 		// check size of folder database
 		checkSizeFolderDataBase();
 		// get data from folder database
@@ -257,7 +255,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * load data from folder database to display on listview group
 	 */
 	private void loadDataFromFolderDataBase() {
-		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
+		List<FolderDatabase> folderList = mDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 
 		for (int i = Contants.NUMBER_FOLDER_DEFALT; i < sizeOfFolder; i++) {
@@ -272,20 +270,20 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * check size folder database to add folder favourite and history
 	 */
 	private void checkSizeFolderDataBase() {
-		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
+		List<FolderDatabase> folderList = mDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		if (sizeOfFolder < Contants.NUMBER_FOLDER_DEFALT) {
 
 			/* add history table to folder db */
 			FolderDatabase folderHistory = new FolderDatabase(0, 1, Contants.NAME_HISTORY_FOLDER,
 					R.drawable.folder_s_common, R.drawable.history, Contants.TYPE_FOLDER_NON_NORMAL);
-			folderDataBaseHandler.addNewFolder(folderHistory);
+			mDataBaseHandler.addNewFolder(folderHistory);
 
 			/* add favourite table to folder db */
 			FolderDatabase folderFavourite = new FolderDatabase(1, 1,
 					Contants.NAME_FAVOURITE_FOLDER, R.drawable.folder_s_common,
 					R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
-			folderDataBaseHandler.addNewFolder(folderFavourite);
+			mDataBaseHandler.addNewFolder(folderFavourite);
 
 		}
 
@@ -411,7 +409,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	private ArrayList<OneItem> constructList(int currentFolderItem) {
 
-		List<IDDataBase> idList = mIDataBaseHandler.getAllIDsFromFolderId(currentFolderItem);
+		List<IDDataBase> idList = mDataBaseHandler.getAllIDsFromFolderId(currentFolderItem);
 		ArrayList<OneItem> al = new ArrayList<OneItem>();
 		int idListSize = idList.size();
 		for (int i = 0; i < idListSize; i++) {
@@ -495,7 +493,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * @param textSearch
 	 */
 	private ArrayList<OneItem> startSearch(String textSearch) {
-		List<IDDataBase> idListDb = mIDataBaseHandler.getAllIDs();
+		List<IDDataBase> idListDb = mDataBaseHandler.getAllIDs();
 		ArrayList<OneItem> searchItems = new ArrayList<OneItem>();
 		int size = idListDb.size();
 		for (int i = 0; i < size; i++) {
@@ -742,7 +740,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void deleteID(int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
 		/* delete in database */
-		mIDataBaseHandler.deleteIDPassword(mIdListItems.get(positionReturnedByHandler)
+		mDataBaseHandler.deleteIDPassword(mIdListItems.get(positionReturnedByHandler)
 				.getPasswordId());
 
 		/* reset id list view */
@@ -763,7 +761,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		FolderDatabase folder = new FolderDatabase(folderItem.getFolderId(), 1, folderName,
 				folderItem.getFolderImgid(), folderItem.getFolderIconId(),
 				Contants.TYPE_FOLDER_NORMAL);
-		folderDataBaseHandler.updateFolder(folder);
+		mDataBaseHandler.updateFolder(folder);
 
 		/* reset folder list */
 		mFolderListItems.get(positionReturnedByHandler).setTextFolderName(folderName);
@@ -779,10 +777,10 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void deleteFolder(int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
 		/* delete folder in database */
-		folderDataBaseHandler.deleteFolder(mFolderListItems.get(positionReturnedByHandler)
+		mDataBaseHandler.deleteFolder(mFolderListItems.get(positionReturnedByHandler)
 				.getFolderId());
 		/* delete all ids in this folder */
-		mIDataBaseHandler.deleteIDPasswordFromFolderId(positionReturnedByHandler);
+		mDataBaseHandler.deleteIDPasswordFromFolderId(positionReturnedByHandler);
 		/* refresh id list view */
 		mIdListItems = constructList(positionReturnedByHandler);
 		itemAdapter.setIdItemList(mIdListItems, positionReturnedByHandler);
@@ -795,12 +793,12 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 */
 	private void addNewFolderToDatabase(String folderName) {
 
-		List<FolderDatabase> folderList = folderDataBaseHandler.getAllFolders();
+		List<FolderDatabase> folderList = mDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		sizeOfFolder++;
 		int imgFolderIconId = R.drawable.btn_edit;
 		int imgFolderId = R.drawable.folder_common;
-		folderDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName,
+		mDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName,
 				imgFolderId, imgFolderIconId, Contants.TYPE_FOLDER_NORMAL));
 
 		// /* refresh listview folder */
