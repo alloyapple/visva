@@ -44,7 +44,7 @@
     <!-- page copy item -->
     <string name="btn_copy_id">ID</string>
     <string name="btn_copy_pass">Password</string>
-    <string name="btn_copy">Copy</string>
+    <string name="btn_paste_browse">Paste Browse</string>
     <!-- list icon -->
     <string name="list_carrier_title">Carrier</string>
     <string name="list_e_commerce">E-commerce</string>
