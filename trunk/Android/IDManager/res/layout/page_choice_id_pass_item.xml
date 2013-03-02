@@ -1,78 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@drawable/bg_00"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/action_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="46dp"
         android:background="@drawable/black_bar"
+        android:id="@+id/action_bar"
+        android:layout_height="46dp"
+        android:layout_width="fill_parent"
         android:orientation="horizontal" >
 
         <Button
+            android:background="@drawable/bt_return"
             android:id="@+id/btn_edit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
             android:layout_gravity="center"
+            android:layout_height="36dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/bt_return" />
+            android:layout_width="36dp"
+            android:onClick="onReturn" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
         android:orientation="horizontal" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:background="@drawable/edge_left"
             android:layout_height="fill_parent"
-            android:background="@drawable/edge_left" >
+            android:layout_width="wrap_content" >
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:orientation="vertical" >
 
             <Button
-                android:layout_width="fill_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="24dp"
                 android:background="@drawable/btn_copy_item"
                 android:gravity="center"
+                android:layout_height="46dp"
+                android:layout_marginTop="24dp"
+                android:layout_width="fill_parent"
                 android:text="@string/btn_copy_id"
                 android:textColor="#FFFFFF" >
             </Button>
 
             <Button
-                android:layout_width="fill_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_copy_item"
                 android:gravity="center"
+                android:layout_height="46dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
                 android:text="@string/btn_copy_pass"
                 android:textColor="#FFFFFF" >
             </Button>
 
             <Button
-                android:layout_width="fill_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_copy_item"
                 android:gravity="center"
+                android:layout_height="46dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
                 android:text="@string/btn_copy"
                 android:textColor="#FFFFFF" >
             </Button>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:background="@drawable/edge_right"
             android:layout_height="fill_parent"
-            android:background="@drawable/edge_right" >
+            android:layout_width="wrap_content" >
         </LinearLayout>
     </LinearLayout>
 
