@@ -49,7 +49,6 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 			startActivity(intentPW);
 			finish();
 		}
-
 	}
 
 	/**
@@ -57,9 +56,9 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 	 */
 	private void initControl() {
 		// button
-		btnCancel = (Button) findViewById(R.id.btn_cancel);
+		btnCancel = (Button) findViewById(R.id.btn_disagree);
 		btnCancel.setOnClickListener(this);
-		btnContinue = (Button) findViewById(R.id.btn_continue);
+		btnContinue = (Button) findViewById(R.id.btn_agree);
 		btnContinue.setOnClickListener(this);
 
 	}
