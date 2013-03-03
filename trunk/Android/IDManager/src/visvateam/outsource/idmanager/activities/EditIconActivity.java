@@ -1,8 +1,10 @@
 package visvateam.outsource.idmanager.activities;
 
 import visvateam.outsource.idmanager.contants.Contants;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -14,7 +16,7 @@ import android.widget.ImageView;
 
 public class EditIconActivity extends Activity {
 	ImageView imageView;
-	private Uri fileUri;
+	private Uri fileUri=null;
 	public static Drawable mDrawableIconEdit;
 	private CheckBox mCheckBox;
 	private boolean isCreatNewId;
@@ -24,14 +26,9 @@ public class EditIconActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_edit_icon);
-		Bundle bundle = getIntent().getExtras();
-		isCreatNewId = bundle.getBoolean(Contants.IS_INTENT_CREATE_NEW_ID);
 		imageView = (ImageView) findViewById(R.id.id_img_icon_edit);
 		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_edit_icon);
-		mDrawableIconEdit = EditIdPasswordActivity.mDrawableIcon;
-		if (isCreatNewId) {
-		} else {
-		}
+		mDrawableIconEdit = EditIdPasswordActivity.getIcon();
 
 	}
 
@@ -39,11 +36,14 @@ public class EditIconActivity extends Activity {
 
 	}
 
+//	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		imageView.setBackgroundDrawable(mDrawableIconEdit);
+		if (fileUri != null)
+			imageView.setBackgroundColor(Color.TRANSPARENT);
 	}
 
 	public static void startActivity(Activity activity) {
@@ -55,7 +55,11 @@ public class EditIconActivity extends Activity {
 		if (!mCheckBox.isChecked()) {
 			finish();
 		} else {
-			EditIdPasswordActivity.mDrawableIcon = imageView.getDrawable();
+			if(fileUri!=null)
+			EditIdPasswordActivity.updateIcon(imageView.getDrawable());
+			else{
+				EditIdPasswordActivity.updateIcon(mDrawableIconEdit);
+			}
 			finish();
 		}
 	}
@@ -69,11 +73,13 @@ public class EditIconActivity extends Activity {
 	}
 
 	private void startGalleryIntent() {
+		fileUri=null;
 		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
 		photoPickerIntent.setType("image/*");
 		startActivityForResult(photoPickerIntent, Contants.SELECT_PHOTO);
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {
@@ -87,6 +93,8 @@ public class EditIconActivity extends Activity {
 				// getContentResolver().openInputStream(selectedImage);
 				// Bitmap yourSelectedImage =
 				// BitmapFactory.decodeStream(imageStream);
+
+				imageView.requestLayout();
 				imageView.setImageBitmap(null);
 				imageView.setImageURI(fileUri);
 			}

@@ -147,11 +147,28 @@ public class PasswordGeneratorActivity extends Activity {
 				mTotalArrayChars.add(mSignChars[i]);
 			}
 		}
-		for (int i = 0; i < number; i++) {
-			int ranChar = random.nextInt(mTotalArrayChars.size());
-			resultGenarator.append(mTotalArrayChars.get(ranChar));
+		if (mTotalArrayChars.size() == 0)
+			return;
+		isDuplicate = ((CheckBox) findViewById(R.id.id_checkbox_duplicate))
+				.isChecked();
+		if (!isDuplicate) {
+			for (int i = 0; i < number; i++) {
+				int ranChar = random.nextInt(mTotalArrayChars.size());
+				resultGenarator.append(mTotalArrayChars.get(ranChar));
+			}
+			((TextView) findViewById(R.id.id_text_result_generator))
+					.setText(resultGenarator.toString());
+		} else {
+			for (int i = 0; i < number; i++) {
+				int ranChar = random.nextInt(mTotalArrayChars.size());
+				resultGenarator.append(mTotalArrayChars.get(ranChar));
+				mTotalArrayChars.remove(ranChar);
+				if(mTotalArrayChars.size()<=0)
+					break;
+			}
+			((TextView) findViewById(R.id.id_text_result_generator))
+					.setText(resultGenarator.toString());
 		}
-		((TextView) findViewById(R.id.id_text_result_generator))
-				.setText(resultGenarator.toString());
 	}
+
 }
