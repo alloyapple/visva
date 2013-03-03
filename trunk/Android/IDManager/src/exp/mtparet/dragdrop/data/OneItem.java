@@ -7,7 +7,7 @@ package exp.mtparet.dragdrop.data;
  */
 public class OneItem {
 
-	private int iconId;
+	private String iconId;
 	private String name;
 	private String url;
 	private int passwordId;
@@ -19,14 +19,14 @@ public class OneItem {
 		this.passwordId = op.passwordId;
 	}
 
-	public OneItem(int passwordId, int iconId, String name, String url) {
+	public OneItem(int passwordId, String iconId, String name, String url) {
 		this.passwordId = passwordId;
 		this.iconId = iconId;
 		this.name = name;
 		this.url = url;
 	}
 
-	public int getIconId() {
+	public String getIconId() {
 		return this.iconId;
 	}
 
@@ -50,7 +50,7 @@ public class OneItem {
 		this.passwordId = passwordId;
 	}
 
-	public void setIconId(int iconId) {
+	public void setIconId(String iconId) {
 		this.iconId = iconId;
 	}
 
