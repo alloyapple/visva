@@ -11,6 +11,7 @@
 #import "VAUser.h"
 #import "TDSqlManager.h"
 @interface VAGlobal : NSObject
+@property(nonatomic, readonly)NSString *dbFileName;
 @property(nonatomic, retain)VASetting *appSetting;
 @property(nonatomic, retain)VAUser *user;
 @property(nonatomic, retain)TDSqlManager *dbManager;
@@ -20,5 +21,6 @@
 -(void)initFirstDatabase;
 -(BOOL)insertCurrentUser;
 -(void)loadDataAfterLogin;
-
+-(void)destroyData;
+-(void)reloadUserData;
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#define kMaxId 13
 @class VAGroup;
 @class TDSqlManager;
 @interface VAUser : NSObject
@@ -29,6 +30,7 @@
 
 
 +(NSString *)getCreateTableQuery;
++(NSString*)getDestroyQuery;
 
 -(void)loadFavoriteAndRecentIDs;
 -(void)loadFullData:(TDSqlManager*)manager;
@@ -63,5 +65,7 @@
  * weak delete VAUser from database
  */
 -(BOOL)weakDeleteFromDb:(TDSqlManager*)manager;
-
+-(BOOL)updateGroupOrder:(TDSqlManager*)manager;
+-(void)exportToCSV:(NSString*)path;
+-(void)readCSV:(NSString*)path dbManager:(TDSqlManager*)mana error:(NSError**)error;
 @end

@@ -15,6 +15,8 @@
 
 -(sqlite3*)getDatabase;
 -(id)initWithPath:(NSString*)path;
+-(id)initWithPath:(NSString*)path pass:(NSString*)pass;
+
 -(BOOL)executeQuery:(NSString*)str;
 -(void)closeDatabase;
 - (NSArray *)getRowsForQuery:(NSString *)sql;

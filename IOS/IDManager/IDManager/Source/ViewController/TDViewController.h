@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "VAElementViewController.h"
+#import "TDWebViewController.h"
+#import "VALoginController.h"
+
+
 @interface TDViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,
-UISearchBarDelegate, UIAlertViewDelegate, VAElementViewDelegate>
+UISearchBarDelegate, UIAlertViewDelegate, VAElementViewDelegate, UIActionSheetDelegate,
+TDWebViewDelegate, VALoginDelegate>
 
 -(void)reLoadData;
+-(void)destroyData;
 @end

@@ -19,3 +19,25 @@
 @interface TDString : NSObject
 
 @end
+
+static inline NSString* TDiToS(int i){
+    return [NSString stringWithFormat:@"%d", i];
+}
+static inline int TDStoi(NSString *s){
+    return [s intValue];
+}
+static inline NSString *TDSnil(NSString *s){
+    if (s != nil) {
+        return s;
+    }
+    return @"";
+}
+
+static inline NSNumber *TDint(int i)
+{
+    return [NSNumber numberWithInt:i];
+}
+static inline NSNumber *TDbool(BOOL b)
+{
+    return [NSNumber numberWithBool:b];
+}

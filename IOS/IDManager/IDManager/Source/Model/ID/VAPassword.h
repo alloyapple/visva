@@ -23,6 +23,8 @@
  */
 +(NSMutableArray*)getListPass:(TDSqlManager*)manager element:(VAElementId*)element;
 +(NSString*)getCreateTableQuery;
++(NSString*)getDestroyQuery;
+
 /*
  * Insert Group into database. Set iPrId to new inserted id.
  * @return: YES if complete, NO if error
@@ -39,5 +41,6 @@
  * @return: YES if complete, NO if error
  */
 -(BOOL)deleteFromDb:(TDSqlManager*)manager;
++(BOOL)didDeleteFromDb:(TDSqlManager*)manager elementId:(VAElementId*)ele;
 
 @end

@@ -11,5 +11,7 @@
 @interface VAImageCell : UITableViewCell
 @property (retain, nonatomic) IBOutlet UIImageView *imBackground;
 @property (retain, nonatomic) IBOutlet UIImageView *imForceground;
+@property (retain, nonatomic) IBOutlet UIView *bgView;
+
 -(void)setSpecialCellGroupSelected:(BOOL)selected;
 @end

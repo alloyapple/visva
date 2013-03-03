@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  IDManager
+
+  Created by tranduc on 1/22/13.
+  Copyright (c) 2013 tranduc. All rights reserved.
+*/
+
+//pass word
+"Setting" = "設定";
+"ResetMasterPassword" = "マスターパスワードの変更";
+"MasterPassword" = "マスターパスワード";
+"CurrentMasterPassword" = "現在のマスターパスワード";
+"New" = "新規";
+"Verify" = "確認";
+"PassFail" = "確認パスワードの文字が符合しませんでした。再入力してください。";
+"SecurityMode" = "セキュリティモード";
+"Immediately" = "即時";
+"min" = "分";
+"ConfigurationFail" = "データ破壊設定";
+"WarnDataErase" = "指定回数マスターパスワードを間違って入力するとデータが消去されます。";
+"DataModeChanged" = "データ破壊設定が変更されました。";
+"DropboxSyned" = "Dropboxと同期する";
+"DropboxInfo" = "Dropboxとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予めアカウントの取得（無料）が必要です。";
+"StartUse" = "利用手続きの開始";
+"ResetSync" = "同期の解除";
+"DropboxLoginCompleted" = "IDxPasswordは既にDropboxを利用可能です。";
+"GDriverToDropbox" = "IDxPasswordは現在GoogleDriveを利用するようになっています。代わりにDropboxをご利用されますか？";
+"GDriverSyned" = "GoogleDriveと同期する";
+"GDriverInfo" = "GoogleDriveとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予め自分のアカウントの取得（無料）が必要です。";
+"GDriverLogined" = "IDxPasswordは既にGoogle Driveを利用可能です。";
+"DropboxToGDriver" = "IDxPasswordは現在Dropboxを利用するようになっています。代わりにGoogle Driveをご利用されますか？";
+"LoadTextData" = "テキストデータ読込";
+"InternetFail" = "インターネットが使えないようです。";
+"NoCloudSetup" = "同期できるサービスが設定されていません。［設定］-［同期］より同期設定が必要です。";
+"NoCloudData" = "クラウド上にデータがありません。";
+"DataReWritten" = "*のデータは書き換えられますよろしいですか？";
+"ChangeDataFormatFail" = "選択したデータを本アプリ形式に変換できませんでした。";
+"Succeed" = "読込に成功しました。";
+"ChargedOptionServices" = "課金オプション";
+"ItemsRestrictionsCancellation" = "項目数制限解除";
+"ConfirmInApp" = "アプリ内課金の確認";
+"InApp99" = "ID、パスワードの項目制限を無くします。85円課金されますがよろしいですか？";
+"Approval" = "承認";
+"Cancel" = "キャンセル";
+"AdCancellation" = "広告解除";
+"InApp499" = "このアプリ内での広告の表示を無くします。450円課金されますがよろしいですか？";
+"CSVExport" = "CSVテキスト形式での出力";
+"InAppCSV999" = "CSV形式での書出し機能を追加します。1,000円課金されますがよろしいですか？";
+"Note" = "Note";
+"NoImage" = "NO IMAGE";
+"DestructionTurnOnWarn" = "安全のための破壊設定がされています。あと##回間違えるとIDxPasswordのデータが失われます。";
+"ClipboardCopied" = "以下の項目がクリップボードにコピーされました。";
+"OpenWeb" = "ウェブページを開く";
+"PassGenerator" = "パスワードの自動生成";
+"Generation" = "生成";
+"Number" = "数字";
+"Capital" = "大文字";
+"LowerCase" = "小文字";
+"Sign" = "記号";
+"DuplicatePrevention" = "重複防止";
+"NumCharacter" = "文字数";
+"DeleteFolder" = "フォルダの削除";
+"Delete" = "削除";
+"Cancel" = "キャンセル";
+"InAppLimitWarn" = "フリー版でご登録いただけるIDパスワードは12個までです。より多くご利用になる方は機能制限解除のためのキーコード(85円)をご購入下さい。";
+"ChangeFolderName" = "フォルダ名の変更";
+"AddFolder" = "フォルダの追加";
+"Syncronization" = "同期の実行";
+"UnifyNewData" = "新しい方のデータで統一";
+"CloudName" = "利用クラウドサービス";
+"LastSync" = "最後の同期";
+"InternetError" = "インターネットが使えません。接続を確認して、もう一度お試しください。";
+"NoCloudSetup" = "同期できるサービスが設定されていません。［設定］-［同期］より同期設定が必要です。";
+"ReadCloudDataWarn" = "Dropbox(GoogleDrive)上のデータにこのiPhoneのデータを上書きしますがよろしいですか？";
+"WriteCloudDataWarn" = "Dropbox(GoogleDrive)上のデータを読み込みiPhone上のデータに上書きしますがよろしいですか？";
+"SyncInterupted" = "同期を中断しました。";
+"SyncFail" = "同期が失敗しました。";
+"SyncFinish" = "同期が終了しました。";
+"ReadCloudDataInfo" = "Dropbox(GoogleDrive)上のデータにこのiPhoneのデータを上書きします。";
+"ReadCloudDataSure" = "Dropbox(GoogleDrive)上のデータの方が新しいですが、本当に上書きしてよろしいですか？";
+"WriteCloudDataSure" = "Dropbox(GoogleDrive)上のデータより、このiPhoneのデータの方が新しいですが本当によろしいですか？";
+"WriteCloudDataInfo" = "Dropbox(GoogleDrive)上のデータを読み込みます。現在のデータは失われますがよろしいですか？";
+"Icon" = "ロゴ・アイコン";
+"General" = "一般";
+"Finance" = "金融";
+"Web" = "Web";
+"ECommerce" = "ショッピング";
+"Carrier" = "通信・ネット";

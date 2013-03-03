@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  IDManager
+
+  Created by tranduc on 1/22/13.
+  Copyright (c) 2013 tranduc. All rights reserved.
+*/
+
+//pass word
+"Setting" = "설정";
+"ResetMasterPassword" = "마스터 비밀 번호 변경";
+"MasterPassword" = "마스터 비밀 번호";
+"CurrentMasterPassword" = "현재 마스터 비밀 번호";
+"New" = "신규";
+"Verify" = "확인";
+"PassFail" = "확인 비밀 번호가 맞지 않았습니다. 다시 입력하십시오.";
+"SecurityMode" = "보안 모드";
+"Immediately" = "즉시";
+"min" = "분";
+"ConfigurationFail" = "데이터 파괴 설정";
+"WarnDataErase" = "지정 횟수 마스터 비밀 번호를 잘못 입력하면 데이터를 삭제합니다.";
+"DataModeChanged" = "데이터 파괴 설정이 변경되었습니다.";
+"DropboxSyned" = "Dropbox의 동기화";
+"DropboxInfo" = "Dropbox는 가장 인기있는 클라우드 서비스의 하나입니다. 이 서비스를 이용하려면 회원가입(무료)이 필요합니다.";
+"StartUse" = "이용 절차 시작";
+"ResetSync" = "동기화 해제";
+"DropboxLoginCompleted" = "IDxPassword는 이미 Dropbox를 사용할 수 있습니다.";
+"GDriverToDropbox" = "IDxPassword는 현재 GoogleDrive를 이용하게 되어 있습니다. 대신 Dropbox를 사용하겠습니까?";
+"GDriverSyned" = "GoogleDrive의 동기화";
+"GDriverInfo" = "GoogleDrive는 가장 인기있는 클라우드 서비스의 하나입니다. 이 서비스를 이용하려면 회원가입(무료)이 필요합니다.";
+"GDriverLogined" = "IDxPassword는 이미 Google Drive를 사용할 수 있습니다.";
+"DropboxToGDriver" = "IDxPassword 현재 Dropbox를 이용하게 되어 있습니다. 대신 Google Drive를 사용하시겠습니까?";
+"LoadTextData" = "텍스트 데이터 읽기";
+"InternetFail" = "인터넷을 사용 할 수 없습니다.";
+"NoCloudSetup" = "동기화 할 수있는 서비스가 설정되어 있지 않습니다. [설정] - [동기화]후 동기화 설정이 필요합니다.";
+"NoCloudData" = "클라우드 서버에 데이터가 존재하지 않습니다.";
+"DataReWritten" = "*의 데이터를 덮어쓰시겠습니까?";
+"ChangeDataFormatFail" = "선택한 데이터를 이 어플리케이션 형식으로 변환 할 수 없습니다.";
+"Succeed" = "인식 되었습니다.";
+"ChargedOptionServices" = "결제 옵션";
+"ItemsRestrictionsCancellation" = "항목 수 제한 해제";
+"ConfirmInApp" = "어플리 내 결제 확인";
+"InApp99" = "ID, 비밀번호 항목 제한을 없애고 있습니다. 1,000원이 부과됩니다 괜찮습니까?";
+"Approval" = "승인";
+"Cancel" = "취소";
+"AdCancellation" = "광고 해제";
+"InApp499" = "이 아프리의 광고를 삭제합니다. #,000원이 부과됩니다 동의니까?";
+"CSVExport" = "CSV 텍스트 형식으로 출력";
+"InAppCSV999" = "CSV 형식으로 출력 기능을 추가합니다. ##,000원 부과됩니다 도의합니까?";
+"Note" = "Note";
+"NoImage" = "NO IMAGE";
+"DestructionTurnOnWarn" = "안전을 위해 파괴 설정이 되어 있습니다. #번 잘못 입력 하면 IDxPassword의 데이타가 손실됩니다.";
+"ClipboardCopied" = "다음 항목이 클립 보드에 복사되었습니다.";
+"OpenWeb" = "웹 페이지 열기";
+"PassGenerator" = "비밀번호 자동 생성";
+"Generation" = "생성";
+"Number" = "숫자";
+"Capital" = "대문자";
+"LowerCase" = "소문자";
+"Sign" = "기호";
+"DuplicatePrevention" = "중복 방지";
+"NumCharacter" = "문자수";
+"DeleteFolder" = "폴더 삭제";
+"Delete" = "삭제";
+"Cancel" = "취소";
+"InAppLimitWarn" = "무료 버전으로 등록하실 ID 번호는 12개입니다. 더 이용하실 분은 기능 제한 해제를 위한 키 코드 (#,000원)을 구입하십시오.";
+"ChangeFolderName" = "폴더명 바꾸기";
+"AddFolder" = "폴더 추가";
+"Syncronization" = "동기화 실행";
+"UnifyNewData" = "새로운 방식의 데이터로 변경";
+"CloudName" = "이용 클라우드 서비스";
+"LastSync" = "마지막 동기화";
+"InternetError" = "인터넷을 사용할 수 없습니다. 확인하고 다시 시도하십시오.";
+"NoCloudSetup" = "동기화 할 수있는 서비스가 설정되어 있지 않습니다. [설정] -  [동기화]후 동기화 설정이 필요합니다.";
+"ReadCloudDataWarn" = "Dropbox (GoogleDrive)의 데이터에 이 iPhone의 데이터를 덮어 쓰지만 하시겠습니까?";
+"WriteCloudDataWarn" = "Dropbox (GoogleDrive)의 데이터를 읽어 iPhone의 데이터에 덮어 쓰겠습니다.";
+"SyncInterupted" = "동기화를 중단했습니다.";
+"SyncFail" = "동기화가 실패했습니다.";
+"SyncFinish" = "동기화가 완료되었습니다.";
+"ReadCloudDataInfo" = "Dropbox (GoogleDrive)의 데이터에이 iPhone의 데이터를 덮어 씁니다.";
+"ReadCloudDataSure" = "Dropbox (GoogleDrive)의 데이터가 더 새롭습니다. 정말 덮어 쓰시겠습니까?";
+"WriteCloudDataSure" = "Dropbox (GoogleDrive)의 데이터보다 이 iPhone의 데이터가 더 새롭습니다. 동의삽니까?";
+"WriteCloudDataInfo" = "Dropbox (GoogleDrive)의 데이터를 가져옵니다. 현재의 데이터가 손실되지만 동의 하십나까?";
+"Icon" = "로고 / 아이콘";
+"General" = "일반";
+"Finance" = "금융";
+"Web" = "Web";
+"ECommerce" = "쇼핑";
+"Carrier" = "통신 · 인터넷";

@@ -12,6 +12,7 @@
 #import "VAGroup.h"
 #import "VAElementId.h"
 #import "VAPassword.h"
+#import "TDAppDelegate.h"
 
 @interface VAGlobal()
 -(void)openDatabase;
@@ -19,22 +20,26 @@
 @end
 
 static VAGlobal* instance = nil;
+#define kFileName @"idpxData.dat"
+#define kPassSqlite @"19912012DUCK@#"
 @implementation VAGlobal
 -(id)init{
     if ((self = [super init])) {
         instance = self;
+        _dbFileName = [kFileName retain];
         self.appSetting = [[[VASetting alloc] init] autorelease];
+        
         if (_appSetting.isFirstUse) {
             self.user = [[[VAUser alloc] init] autorelease];
         }else{
+            [self openDatabase];
             [self createUser];
         }
-        
     }
     return self;
 }
 -(void)createUser{
-    [self openDatabase];
+    
     NSMutableArray *listUser = [VAUser getListUser:_dbManager];
     if (listUser.count > 0) {
         self.user = [listUser objectAtIndex:0];
@@ -43,9 +48,14 @@ static VAGlobal* instance = nil;
         self.user = [[[VAUser alloc] init] autorelease];
     }
 }
+-(void)reloadUserData{
+    [self createUser];
+    [_user loadFullData:_dbManager];
+}
 -(void)dealloc{
     instance = nil;
     [_appSetting release];
+    [_dbFileName release];
     [_user release];
     [_dbManager release];
     [super dealloc];
@@ -70,22 +80,23 @@ static VAGlobal* instance = nil;
     [_dbManager executeQuery:[VAElementId getCreateTableQuery]];
     [_dbManager executeQuery:[VAPassword getCreateTableQuery]];
 }
-#define kFileName @"data.dat"
+
 -(void)initFirstDatabase{
-    NSString *path = [TDDatabase pathInDocument:kFileName];
-    /*
-    BOOL val = [TDDatabase deleteFile:path];
-    if (!val) {
-        TDLOGERROR(@"delete file error %@", path);
-        return;
-    }
-     */
-    self.dbManager = [[[TDSqlManager alloc] initWithPath:path] autorelease];
+    [TDDatabase copyFromBundleToDocument:@"Thumb"];
+    [self openDatabase];
     [self createTable];
 }
 -(void)openDatabase{
-    NSString *path = [TDDatabase pathInDocument:kFileName];
-    self.dbManager = [[[TDSqlManager alloc] initWithPath:path] autorelease];
+    NSString *path = [TDDatabase pathInDocument:_dbFileName];
+    self.dbManager = [[[TDSqlManager alloc] initWithPath:path pass:kPassSqlite] autorelease];
+}
+-(void)destroyData{
+    //[_dbManager executeQuery:[VAUser getDestroyQuery]];
+    [_dbManager executeQuery:[VAGroup getDestroyQuery]];
+    [_dbManager executeQuery:[VAElementId getDestroyQuery]];
+    [_dbManager executeQuery:[VAPassword getDestroyQuery]];
+    [_appSetting makeDefault];
+    [_appSetting saveSetting];
 }
 -(void)loadDataAfterLogin{
     [_user loadFullData:_dbManager];

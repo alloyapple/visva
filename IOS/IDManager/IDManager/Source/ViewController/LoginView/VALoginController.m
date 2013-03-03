@@ -41,13 +41,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self registerNotification];
     switch (_typeMasterPass) {
         case kTypeMasterPasswordFirst:
             _lbOrigin.hidden = YES;
             _lbConfirm.hidden = YES;
             _tfOrigin.hidden = YES;
             [_tfConfirm becomeFirstResponder];
-            _lbTitle.text = TDLocalizedStringOne(@"PasswordMaster");
+            _lbTitle.text = TDLocStrOne(@"MasterPassword");
             break;
             
         //login and relogin
@@ -57,7 +58,7 @@
             _lbConfirm.hidden = YES;
             _tfOrigin.hidden = YES;
             [_tfConfirm becomeFirstResponder];
-            _lbTitle.text = TDLocalizedStringOne(@"PasswordLogin");
+            _lbTitle.text = TDLocStrOne(@"MasterPassword");
             break;
 
         case kTypeMasterPasswordChangePass:
@@ -65,7 +66,9 @@
             _lbOrigin.hidden = NO;
             _tfOrigin.hidden = NO;
             [_tfOrigin becomeFirstResponder];
-            _lbTitle.text = TDLocalizedStringOne(@"PasswordNew");
+            _lbTitle.text = TDLocStrOne(@"ResetMasterPassword");
+            _lbOrigin.text = TDLocStrOne(@"CurrentMasterPassword");
+            _lbConfirm.text = TDLocStrOne(@"New");
             default:
             break;
     }
@@ -110,13 +113,13 @@
 
 #pragma mark - notification
 -(void)keyboardWillShown:(NSNotification*)notifi{
-    
+    return;
 }
 -(void)keyboardWillChangeFrame:(NSNotification*)notifi{
     NSValue *keyboardBoundsValue = [[notifi userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardFrame;
     [keyboardBoundsValue getValue:&keyboardFrame];
-    keyboardFrame = [self.view convertRect:keyboardFrame toView:self.view];
+    keyboardFrame = [[TDAppDelegate share].window convertRect:keyboardFrame toView:self.view];
     _btChangeKeyboard.frame = CGRectMake(0, keyboardFrame.origin.y - _btChangeKeyboard.frame.size.height, _btChangeKeyboard.frame.size.width, _btChangeKeyboard.frame.size.height);
 }
 -(void)changeKeyboardFor:(UITextField *)tf{
@@ -156,42 +159,66 @@
             [global loadDataAfterLogin];
             [[TDAppDelegate share].viewController reLoadData];
             [self.navigationController popViewControllerAnimated:YES];
+            [_loginDelegate loginViewDidLogin:self];
         }else{
             TDLOGERROR(@"Init error");
             _tfConfirm.text = @"";
-            [self showAlertSimple:TDLocalizedStringOne(@"InitUserError") tag:0];
+            [self showAlertSimple:TDLocStrOne(@"InitUserError") tag:0];
         }
         
     }else{
         //pass error
         TDLOGERROR(@"enter password error");
         _tfConfirm.text = @"";
-        [self showAlertSimple:TDLocalizedStringOne(@"InvalidPass") tag:0];
+        [self showAlertSimple:TDLocStrOne(@"PassFail") tag:0];
     }
 }
+
+-(void)checkDestroyData{
+    VASetting *setting = [VAGlobal share].appSetting;
+    if (![setting isDestroyDataEnable]) {
+        [self showAlertSimple:TDLocStrOne(@"PassFail")
+                      message:@""
+                          tag:0];
+        return;
+    }
+    if (_iCountWrongPass < setting.numBeforeDestroyData) {
+        [self showAlertSimple:TDLocStrOne(@"PassFail")
+                      message:[NSString stringWithFormat:@"Remain %d before destroy data",  setting.numBeforeDestroyData - _iCountWrongPass]
+                          tag:0];
+    }else{
+        TDLOG(@"Destroy data");
+        TDViewController *vc = [TDAppDelegate share].viewController;
+        [vc destroyData];
+    }
+}
+
 -(void)login{
     VAGlobal *global = [VAGlobal share];
     if ([global.user.sUserPassword isEqualToString:_tfConfirm.text]) {
         [global loadDataAfterLogin];
         [[TDAppDelegate share].viewController reLoadData];
         [self.navigationController popViewControllerAnimated:YES];
+        [_loginDelegate loginViewDidLogin:self];
     }else{
         //wrong pass - clear - show alert
         TDLOG(@"Wrong pass when login");
         _tfConfirm.text = @"";
-        [self showAlertSimple:TDLocalizedStringOne(@"WrongPass") tag:0];
         _iCountWrongPass +=1;
+        [self checkDestroyData];
     }
 }
 -(void)relogin{
     if ([[VAGlobal share].user.sUserPassword isEqualToString:_tfConfirm.text]) {
-         [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
+        [_loginDelegate loginViewDidLogin:self];
     }else{
         //wrong pass
         TDLOG(@"Wrong pass when relogin");
         _tfConfirm.text = @"";
-        [self showAlertSimple:TDLocalizedStringOne(@"WrongPass") tag:0];
+        //[self showAlertSimple:TDLocStrOne(@"WrongPass") tag:0];
         _iCountWrongPass +=1;
+        [self checkDestroyData];
     }
 }
 -(void)changePass{
@@ -199,14 +226,15 @@
     if ([user.sUserPassword isEqualToString:_tfOrigin.text]) {
         user.sUserPassword = _tfConfirm.text;
         [user updateToDb:[VAGlobal share].dbManager];
-        [self.navigationController popViewControllerAnimated:YES];
+        [_loginDelegate loginViewDidLogin:self];
     }else{
         //wrong pass
         TDLOG(@"Wrong pass when change password");
         _tfConfirm.text = @"";
         _tfOrigin.text = @"";
-        [self showAlertSimple:TDLocalizedStringOne(@"WrongPass") tag:0];
+        //[self showAlertSimple:TDLocStrOne(@"WrongPass") tag:0];
         _iCountWrongPass +=1;
+        [self checkDestroyData];
     }
 }
 - (IBAction)confirm:(id)sender {
@@ -214,7 +242,7 @@
         [self loginFirstTime];
     }else if (_typeMasterPass == kTypeMasterPasswordLogin){
         [self login];
-    }else if (_typeMasterPass == kTypeMasterPasswordLogin){ //login
+    }else if (_typeMasterPass == kTypeMasterPasswordReLogin){ //login
         [self relogin];
     }else{ //changepass
         [self changePass];
@@ -222,9 +250,14 @@
 }
 #pragma mark - alert
 -(void)showAlertSimple:(NSString*)title tag:(int)tag{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:TDLocalizedStringOne(@"OK") otherButtonTitles: nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:TDLocStrOne(@"OK") otherButtonTitles: nil];
     alert.tag = tag;
     [alert show];
 }
 
+-(void)showAlertSimple:(NSString*)title message:(NSString*)mess tag:(int)tag{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:mess delegate:self cancelButtonTitle:TDLocStrOne(@"OK") otherButtonTitles: nil];
+    alert.tag = tag;
+    [alert show];
+}
 @end

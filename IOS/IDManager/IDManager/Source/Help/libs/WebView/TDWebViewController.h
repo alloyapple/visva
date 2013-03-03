@@ -15,6 +15,8 @@
 @property (retain, nonatomic) IBOutlet UIWebView *wvContent;
 @property (nonatomic, assign) id<TDWebViewDelegate> webDelegate;
 @property (nonatomic, assign) int iTag;
+@property (nonatomic, assign) BOOL bIsTakeScreenShot;
+@property (nonatomic, retain) UIImage *screenShot;
 @end
 
 @protocol TDWebViewDelegate <NSObject>
