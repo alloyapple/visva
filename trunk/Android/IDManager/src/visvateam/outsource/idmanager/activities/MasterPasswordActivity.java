@@ -18,6 +18,7 @@ import visvateam.outsource.idmanager.database.UserDataBase;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,33 +33,37 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
 	private DataBaseHandler mDataBaseHandler;
-	// =========================Variable Define ====================
-	private String mMasterPWPre;
 	private int mRemoveDataTimes;
 	private int mNumberAtemppt = 0;
-	private int mMasterPWId;
 	private String mMasterPW;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.master_password);
-
-		// button
-		mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
-		mBtnDone.setOnClickListener(this);
-		mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
-
 		// init idmanager preference
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
-		/* init database */
-		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
+		if (mIdManagerPreference.getSecurityMode() == Contants.KEY_OFF
+				|| !mIdManagerPreference.isApplicationFirstTimeInstalled()) {
+			/* go to HomeScreen activity */
+			Intent intent = new Intent(MasterPasswordActivity.this, HomeScreeenActivity.class);
+			startActivity(intent);
+			finish();
+		} else {
+			setContentView(R.layout.master_password);
 
-		mMasterPWId = Contants.MASTER_PASSWORD_ID;
+			// button
+			mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
+			mBtnDone.setOnClickListener(this);
+			mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
 
-		UserDataBase user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
-		mMasterPW = user.getUserPassword();
+			/* init database */
+			SQLiteDatabase.loadLibs(this);
+			mDataBaseHandler = new DataBaseHandler(this);
+
+			UserDataBase user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+			mMasterPW = user.getUserPassword();
+			Log.e("masterpw", "master pw " + mMasterPW);
+		}
 	}
 
 	public void confirmMaster(View v) {
@@ -121,18 +126,18 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	 * remove data after type master password times limit to remove data values
 	 */
 	private void removeData() {
-		/*remove database*/
+		/* remove database */
 		File db = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
 		if (db.exists())
 			db.delete();
-		
-		/*reset share preference*/
+
+		/* reset share preference */
 		mIdManagerPreference.setApplicationFirstTimeInstalled(true);
 		mIdManagerPreference.setMasterPW("");
 		mIdManagerPreference.setSecurityMode(Contants.KEY_OFF);
 		mIdManagerPreference.setValuesremoveData(Contants.KEY_OFF);
-		
-		//finish activity
+
+		// finish activity
 		finish();
 	}
 
@@ -169,7 +174,7 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-		mMasterPWPre = mIdManagerPreference.getMasterPW();
+		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getUserPassword();
 		mNumberAtemppt = 0;
 	}
 }

@@ -81,7 +81,11 @@ public class MasterPasswordChangeActivity extends Activity {
 			if (!editTextNewPW.getText().toString().trim()
 					.equals(editTextOldPW.getText().toString().trim()))
 				showToast("Password retyped is not matched");
+			else if ("".equals(editTextNewPW.getText().toString())
+					|| "".equals(editTextOldPW.getText().toString()))
+				showToast("Type all field to continue");
 			else {
+				Log.e("new pww", "new pww");
 				/* set master pw */
 				mMasterPassword = editTextOldPW.getText().toString();
 				/* delete old user */
@@ -104,13 +108,18 @@ public class MasterPasswordChangeActivity extends Activity {
 
 			UserDataBase user1 = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
 			masterPW = user1.getUserPassword();
-			
+
 			if (!masterPW.equals(editTextOldPW.getText().toString())) {
 				showToast("Your old master password is not correct");
-			} else {
+			} else if ("".equals(editTextNewPW.getText().toString())
+					|| "".equals(editTextOldPW.getText().toString()))
+				showToast("Type all field to continue");
+			else {
+				Log.e("change pww", "change pww");
 				mMasterPassword = editTextNewPW.getText().toString();
 				/* update this password to db */
-				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword, "test");
+				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
+						"test");
 				mDataBaseHandler.updateUser(user);
 
 				/* return setting activity */

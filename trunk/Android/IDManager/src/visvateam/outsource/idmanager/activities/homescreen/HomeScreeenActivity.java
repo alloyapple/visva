@@ -867,4 +867,5 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	
 }

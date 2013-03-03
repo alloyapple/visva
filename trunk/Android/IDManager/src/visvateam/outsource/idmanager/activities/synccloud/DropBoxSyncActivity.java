@@ -3,6 +3,9 @@ package visvateam.outsource.idmanager.activities.synccloud;
 import java.io.File;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -23,8 +26,11 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
 import visvateam.outsource.idmanager.activities.R;
+import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
+import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxDownloadFile;
 import visvateam.outsource.idmanager.exportcontroller.excelcreator.ExcelDocumentController;
+import visvateam.outsource.idmanager.util.NetworkUtility;
 
 public class DropBoxSyncActivity extends Activity {
 	private static final String TAG = "DBRoulette";
@@ -52,7 +58,7 @@ public class DropBoxSyncActivity extends Activity {
 	final static private String ACCOUNT_PREFS_NAME = "prefs";
 	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
 	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
-	final static private String MY_FILE_LOCATION = "/Documents/";
+	final static private String MY_FILE_LOCATION = Contants.FOLDER_ON_DROPBOX;
 
 	DropboxAPI<AndroidAuthSession> mApi;
 
@@ -61,26 +67,21 @@ public class DropBoxSyncActivity extends Activity {
 	// Android widgets
 	private Button btnLinkToDropbox;
 	private Button btnStartSync;
-	private String mCameraFileName;
+
 	private ExcelDocumentController exportExcel;
-	public static final String FILE_NAME_EXCEL = "test.xls";
-	private static final String FILE_NAME_PDF = "test";
-	public static final String PATH_FOLDER_DOCUMENT = Environment.getExternalStorageDirectory()
-			.getPath() + "/LeanApp/Documents/";
+	private boolean isSyncToCloud;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
-			mCameraFileName = savedInstanceState.getString("mCameraFileName");
-		}
-
 		/* create file if not exist */
-		File file = new File(PATH_FOLDER_DOCUMENT);
+		File file = new File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
-		
+
+		isSyncToCloud = getIntent().getExtras().getBoolean(Contants.IS_SYNC_TO_CLOUD);
+		Log.e("isSyncTOCLoud", "isSyncCloud " + isSyncToCloud);
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
@@ -108,13 +109,28 @@ public class DropBoxSyncActivity extends Activity {
 		btnStartSync = (Button) findViewById(R.id.btn_start_sync);
 
 		btnStartSync.setOnClickListener(new OnClickListener() {
+			@SuppressWarnings("deprecation")
 			public void onClick(View v) {
 				if (!isExternalStorageAvailable()) {
 					showToast("Sdcard is unvailable.Check it again");
 				} else {
-					createExcelFile(FILE_NAME_EXCEL);
+					if (NetworkUtility.getInstance(DropBoxSyncActivity.this).isNetworkAvailable())
+						if (mApi.getSession().isLinked()) {
+							if (isSyncToCloud) {
+								/* upload file to cloud */
+								startSyncToCloud();
+							} else {
+								/* download file to device */
+								startSyncToDevice();
+							}
+						} else {
+							showToast("You must authenticate with Dropbox first");
+						}
+					else
+						showDialog(Contants.DIALOG_NO_NET_WORK);
 				}
 			}
+
 		});
 
 		// Display the proper UI state if logged in or not
@@ -122,48 +138,26 @@ public class DropBoxSyncActivity extends Activity {
 
 	}
 
+	private void startSyncToDevice() {
+		// TODO Auto-generated method stub
+		DropBoxDownloadFile download = new DropBoxDownloadFile(DropBoxSyncActivity.this, mApi,
+				Contants.FOLDER_ON_DROPBOX);
+		download.execute();
+	}
+
+	private void startSyncToCloud() {
+		// TODO Auto-generated method stub
+		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
+		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi,
+				MY_FILE_LOCATION, dbFile);
+		newFile.execute();
+	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putString("mCameraFileName", mCameraFileName);
 		super.onSaveInstanceState(outState);
 	}
 
-	/**
-	 * create file excel in folder document and check sdcard
-	 */
-	private void createExcelFile(String fileExcelName) {
-
-		/* init export */
-		exportExcel = new ExcelDocumentController(DropBoxSyncActivity.this);
-
-		/* create file excel in sdcard */
-		exportExcel.saveExcelFile(fileExcelName);
-
-		/* export file excel to dropbox */
-		exportExcelToDropBox(fileExcelName);
-
-	}
-
-	/**
-	 * export excel file to dropbox
-	 * 
-	 * @param fileName
-	 */
-
-	private void exportExcelToDropBox(String fileName) {
-
-		/* create folder hold excel file */
-		File folderFile = new File(PATH_FOLDER_DOCUMENT);
-		if (!folderFile.exists()) {
-			folderFile.mkdirs();
-		}
-
-		/* upload file to dropbox */
-		File fileExcel = new File(PATH_FOLDER_DOCUMENT + fileName);
-		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi,
-				MY_FILE_LOCATION, fileExcel);
-		newFile.execute();
-	}
 
 	@Override
 	protected void onResume() {
@@ -319,5 +313,43 @@ public class DropBoxSyncActivity extends Activity {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Called to create a dialog to be shown.
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+
+		switch (id) {
+		case Contants.DIALOG_NO_NET_WORK:
+			return createExampleDialog(Contants.DIALOG_NO_NET_WORK);
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * Create and return an example alert dialog with an edit text box.
+	 */
+	private Dialog createExampleDialog(int id) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		switch (id) {
+		case Contants.DIALOG_NO_NET_WORK:
+			builder.setTitle("Id Manager");
+			builder.setMessage("Network is unvailable");
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					/* add new folder to database */
+					return;
+				}
+			});
+			return builder.create();
+		default:
+			return null;
+		}
 	}
 }
