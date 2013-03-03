@@ -18,19 +18,21 @@
             android:layout_height="36dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:onClick="onReturn"
-            android:background="@drawable/bt_return" />
+            android:background="@drawable/bt_return"
+            android:onClick="onReturn" />
 
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/all_corner"
             android:orientation="horizontal" >
 
             <EditText
+                android:id="@+id/id_edit_browser"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
@@ -44,16 +46,19 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:background="@drawable/refresh" />
+                android:background="@drawable/refresh"
+                android:onClick="onReload" />
         </LinearLayout>
 
         <Button
+            android:id="@+id/id_jogdial"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/btn_save" />
+            android:background="@drawable/btn_save"
+            android:onClick="onJogdial" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,8 +73,8 @@
             android:scrollbars="vertical" >
 
             <WebView
-                android:layout_width="fill_parent"
                 android:id="@+id/web_view"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
             </WebView>
         </ScrollView>
@@ -86,16 +91,17 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:onClick="onBack"
-                android:background="@drawable/btn_arrow_left" />
-            <Button
+                android:background="@drawable/btn_arrow_left"
+                android:onClick="onBack" />
+
+            <Button
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:onClick="onNext"
-                android:background="@drawable/btn_arrow_right" />
+                android:background="@drawable/btn_arrow_right"
+                android:onClick="onNext" />
         </LinearLayout>
     </LinearLayout>
 
