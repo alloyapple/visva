@@ -22,4 +22,7 @@ public class CopyItemActivity extends Activity {
 	public void onReturn(View v) {
 		finish();
 	}
+	public void onPasteBrowse(View v) {
+
+	}
 }

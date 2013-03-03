@@ -2,11 +2,27 @@ package visvateam.outsource.idmanager.activities;
 
 import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
@@ -14,14 +30,21 @@ import net.sqlcipher.database.SQLiteOpenHelper;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
+import visvateam.outsource.idmanager.sercurity.CipherUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,8 +64,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class EditIdPasswordActivity extends Activity implements OnItemClickListener,
-		android.content.DialogInterface.OnClickListener {
+public class EditIdPasswordActivity extends Activity implements
+		OnItemClickListener, android.content.DialogInterface.OnClickListener {
 	// =========================Control Define ==================
 	private ListView mListView;
 	private CheckBox mCheckBoxLike;
@@ -57,9 +80,10 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private ArrayList<Item> mItems;
 	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
-	private String nameItem[] = { "ID1", "Pass1", "ID2", "Pass2", "ID3", "Pass3", "ID4", "Pass4",
-			"ID5", "Pass5", "ID6", "Pass6", "ID7", "Pass7", "ID8", "Pass8", "ID9", "Pass9", "ID10",
-			"Pass10", "ID11", "Pass11", "ID12", "Pass12" };
+	private String nameItem[] = { "ID1", "Pass1", "ID2", "Pass2", "ID3",
+			"Pass3", "ID4", "Pass4", "ID5", "Pass5", "ID6", "Pass6", "ID7",
+			"Pass7", "ID8", "Pass8", "ID9", "Pass9", "ID10", "Pass10", "ID11",
+			"Pass11", "ID12", "Pass12" };
 	private boolean isCreateNewId;
 
 	// id password info
@@ -78,11 +102,13 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private boolean isEncrypted;
 	private int userId;
 
-	public static Drawable mDrawableIcon;
+	private static Drawable mDrawableIcon;
+	private static boolean isUpdateIcon;
 	public static String mUrlItem;
 	public static String mStringOfSelectItem = "";
 	public ArrayList<ViewHolder> viewHolder = new ArrayList<EditIdPasswordActivity.ViewHolder>();
 	public int itemSelect = -1;
+	private Random ran = new Random();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,17 +116,19 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_id_pass);
 		
-		isCreateNewId = getIntent().getExtras().getBoolean(Contants.IS_INTENT_CREATE_NEW_ID);
-		currentFolderId = getIntent().getExtras().getInt(Contants.CURRENT_FOLDER_ID);
+		isCreateNewId = getIntent().getExtras().getBoolean(
+				Contants.IS_INTENT_CREATE_NEW_ID);
+
+		currentFolderId = getIntent().getExtras().getInt(
+				Contants.CURRENT_FOLDER_ID);
 		if (!isCreateNewId)
-			currentPasswordId = getIntent().getExtras().getInt(Contants.CURRENT_PASSWORD_ID);
+			currentPasswordId = getIntent().getExtras().getInt(
+					Contants.CURRENT_PASSWORD_ID);
 		else
 			currentPasswordId = -1;
 
 		Log.e("currentFOlder id", "currentFolderId " + currentFolderId);
-		if (mDrawableIcon == null) {
-			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
-		}
+
 		if (mUrlItem == null) {
 			mUrlItem = "http://google.com";
 		}
@@ -109,13 +137,65 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 
 		/* initialize control */
 		initControl();
+		if (!isCreateNewId) {
+			isUpdateIcon = false;
+			mDrawableIcon = getIconDatabase(icon);
+			// mDrawableIcon =
+			// getResources().getDrawable(R.drawable.default_icon);
+		} else {
+			isUpdateIcon = true;
+			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
+		}
+	}
+
+	public Drawable getIconDatabase(String icon) {
+		File inputFile = new File(Environment.getExternalStorageDirectory()+"/"+icon);
+		byte[] cipherBytes = new byte[(int) inputFile.length()];
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(inputFile);
+			fis.read(cipherBytes, 0, cipherBytes.length);
+			fis.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		byte[] decryptBytes = null;
+		try {
+			decryptBytes = CipherUtil.decrypt(cipherBytes);
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidAlgorithmParameterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Bitmap bmp = BitmapFactory.decodeByteArray(decryptBytes, 0,
+				decryptBytes.length);
+		return (Drawable) new BitmapDrawable(bmp);
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((ImageButton) findViewById(R.id.img_avatar)).setBackgroundDrawable(mDrawableIcon);
+		((ImageButton) findViewById(R.id.img_avatar))
+				.setBackgroundDrawable(mDrawableIcon);
 		((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
 
 		if (itemSelect >= 0) {
@@ -149,7 +229,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		mCheckBoxLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 				// TODO Auto-generated method stub
 
 			}
@@ -256,6 +337,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			item12.mNameItem = id.getTitleId12();
 			item12.mContentItem = id.getDataId12();
 			itemList.add(item12);
+			icon = id.getIcon();
 		}
 		return itemList;
 	}
@@ -291,7 +373,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 
 	public void onMemoImage(View v) {
 		// ImageMemoActivity.startActivity(this);
-		Intent intentMemo = new Intent(EditIdPasswordActivity.this, ImageMemoActivity.class);
+		Intent intentMemo = new Intent(EditIdPasswordActivity.this,
+				ImageMemoActivity.class);
 		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
 	}
 
@@ -325,7 +408,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		}
 
 		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			// TODO Auto-generated method stub
 			ViewHolder holder;
 			final int pos = position;
@@ -333,18 +417,21 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			// if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_id_pass_add, null);
 			holder = new ViewHolder();
-			holder.nameItem = (EditText) convertView.findViewById(R.id.id_txt_nameItem);
+			holder.nameItem = (EditText) convertView
+					.findViewById(R.id.id_txt_nameItem);
 			holder.nameItem.setText(mItems.get(position).mNameItem);
 			holder.nameItem.addTextChangedListener(new TextWatcher() {
 
 				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
 					// TODO Auto-generated method stub
 
 				}
 
 				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
 					// TODO Auto-generated method stub
 
 				}
@@ -352,21 +439,25 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				@Override
 				public void afterTextChanged(Editable s) {
 					// TODO Auto-generated method stub
-					EditIdPasswordActivity.this.mItems.get(position).mNameItem = s.toString();
+					EditIdPasswordActivity.this.mItems.get(position).mNameItem = s
+							.toString();
 				}
 			});
-			holder.contentItem = (EditText) convertView.findViewById(R.id.id_txt_detailItem);
+			holder.contentItem = (EditText) convertView
+					.findViewById(R.id.id_txt_detailItem);
 			holder.contentItem.setText(mItems.get(position).mContentItem);
 			holder.contentItem.addTextChangedListener(new TextWatcher() {
 
 				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
 					// TODO Auto-generated method stub
 
 				}
 
 				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
 					// TODO Auto-generated method stub
 
 				}
@@ -374,7 +465,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				@Override
 				public void afterTextChanged(Editable s) {
 					// TODO Auto-generated method stub
-					EditIdPasswordActivity.this.mItems.get(position).mContentItem = s.toString();
+					EditIdPasswordActivity.this.mItems.get(position).mContentItem = s
+							.toString();
 				}
 			});
 			((ImageButton) convertView.findViewById(R.id.id_btn_generator))
@@ -442,26 +534,28 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			}
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					// if (isCreateNewId)
-					// createNewId();
-					// else
-					// updateId();
-					createOrUpdateId();
-				}
-			});
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							// if (isCreateNewId)
+							// createNewId();
+							// else
+							// updateId();
+							createOrUpdateId();
+						}
+					});
+			builder.setNegativeButton("Cancel",
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					return;
-				}
-			});
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							return;
+						}
+					});
 			return builder.create();
 		default:
 			return null;
@@ -484,6 +578,65 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 
 			addNewIdValuesToDataBase();
 		}
+
+	}
+
+	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
+		String namString = String.valueOf(System.currentTimeMillis());
+		String path = null;
+		if (isCreateNewId)
+			path =  namString
+					+ ".dat";
+		else
+			path = icon;
+		byte[] resultEncrypt = null;
+		try {
+			resultEncrypt = CipherUtil.encrypt(drawableToBitmap(pDrawable));
+		} catch (InvalidKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidKeySpecException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidParameterSpecException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalBlockSizeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (BadPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidAlgorithmParameterException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (resultEncrypt == null) {
+			return null;
+		}
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(Environment.getExternalStorageDirectory()+"/"+path);
+			try {
+				fileOutputStream.write(resultEncrypt, 0, resultEncrypt.length);
+				return path;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private static boolean checkValidataUrl(String pUrl) {
@@ -510,7 +663,11 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		numberOfId++;
 		Log.e("numer of id", "number of id " + numberOfId);
 		titleRecord = mEditTextNameId.getText().toString();
-		icon = getString(R.drawable.bank_of_shanghai);
+		if (isUpdateIcon) {
+			icon = encyptAndSaveIcon(mDrawableIcon, icon);
+			if (icon != null)
+				Log.i("<-------------Success-------->", icon);
+		}
 		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();
 		int passWordId = -1;
@@ -519,17 +676,21 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		else
 			passWordId = currentPasswordId;
 		/* add new id */
-		IDDataBase id = new IDDataBase(passWordId, currentFolderId, titleRecord, icon,
-				favouriteGroup, mItems.get(0).mNameItem, mItems.get(0).mContentItem,
-				mItems.get(1).mNameItem, mItems.get(1).mContentItem, mItems.get(2).mNameItem,
-				mItems.get(2).mContentItem, mItems.get(3).mNameItem, mItems.get(3).mContentItem,
-				mItems.get(4).mNameItem, mItems.get(4).mContentItem, mItems.get(5).mNameItem,
-				mItems.get(5).mContentItem, mItems.get(6).mNameItem, mItems.get(6).mContentItem,
-				mItems.get(7).mNameItem, mItems.get(7).mContentItem, mItems.get(8).mNameItem,
-				mItems.get(8).mContentItem, mItems.get(9).mNameItem, mItems.get(9).mContentItem,
-				mItems.get(10).mNameItem, mItems.get(10).mContentItem, mItems.get(11).mNameItem,
-				mItems.get(11).mContentItem, url, note, imageMemo, flag, timeStamp, isEncrypted,
-				userId);
+		IDDataBase id = new IDDataBase(passWordId, currentFolderId,
+				titleRecord, icon, favouriteGroup, mItems.get(0).mNameItem,
+				mItems.get(0).mContentItem, mItems.get(1).mNameItem,
+				mItems.get(1).mContentItem, mItems.get(2).mNameItem,
+				mItems.get(2).mContentItem, mItems.get(3).mNameItem,
+				mItems.get(3).mContentItem, mItems.get(4).mNameItem,
+				mItems.get(4).mContentItem, mItems.get(5).mNameItem,
+				mItems.get(5).mContentItem, mItems.get(6).mNameItem,
+				mItems.get(6).mContentItem, mItems.get(7).mNameItem,
+				mItems.get(7).mContentItem, mItems.get(8).mNameItem,
+				mItems.get(8).mContentItem, mItems.get(9).mNameItem,
+				mItems.get(9).mContentItem, mItems.get(10).mNameItem,
+				mItems.get(10).mContentItem, mItems.get(11).mNameItem,
+				mItems.get(11).mContentItem, url, note, imageMemo, flag,
+				timeStamp, isEncrypted, userId);
 
 		if (isCreateNewId)
 			mDataBaseHandler.addNewID(id);
@@ -549,17 +710,20 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), toast,
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
 
 	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	protected void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
 		switch (requestCode) {
 		case Contants.INTENT_IMG_MEMO:
 			if (resultCode == Activity.RESULT_OK) {
-				String filePath = data.getExtras().getString(Contants.FIlE_PATH_IMG_MEMO);
+				String filePath = data.getExtras().getString(
+						Contants.FIlE_PATH_IMG_MEMO);
 				Log.e("file path", "file path " + filePath);
 				if (!"".equals(filePath)) {
 					imageMemo = filePath;
@@ -569,5 +733,32 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		default:
 			return;
 		}
+	}
+
+	public static void updateIcon(Drawable pDrawable) {
+		mDrawableIcon = pDrawable;
+		isUpdateIcon = true;
+	}
+
+	public static Drawable getIcon() {
+		return mDrawableIcon;
+	}
+
+	public static Bitmap drawableToBitmap(Drawable drawable) {
+		if (drawable instanceof BitmapDrawable) {
+			return ((BitmapDrawable) drawable).getBitmap();
+		}
+
+		int width = drawable.getIntrinsicWidth();
+		width = width > 0 ? width : 1;
+		int height = drawable.getIntrinsicHeight();
+		height = height > 0 ? height : 1;
+
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+		drawable.draw(canvas);
+
+		return bitmap;
 	}
 }

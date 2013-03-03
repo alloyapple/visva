@@ -29,7 +29,7 @@ public class ListIconActivity extends Activity {
 	private int mCatalogueName[] = { R.string.list_carrier_title,
 			R.string.list_e_commerce, R.string.list_isp,
 			R.string.list_webservice, R.string.list_airline,
-			R.string.list_finance }; 
+			R.string.list_finance };
 	private ArrayList<int[]> mIdIcon = new ArrayList<int[]>();
 
 	public static int idAirline[] = { R.drawable.airline_0,
@@ -242,8 +242,8 @@ public class ListIconActivity extends Activity {
 	}
 
 	public void selectIcon(int cataloge, int index) {
-		EditIdPasswordActivity.mDrawableIcon = getResources().getDrawable(
-				mIdIcon.get(cataloge)[index]);
+		EditIdPasswordActivity.updateIcon(getResources().getDrawable(
+				mIdIcon.get(cataloge)[index]));
 		finish();
 	}
 
@@ -281,9 +281,10 @@ public class ListIconActivity extends Activity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									// TODO Auto-generated method stub
-									EditIdPasswordActivity.mDrawableIcon = getResources()
-											.getDrawable(
-													R.drawable.default_icon);
+									EditIdPasswordActivity
+											.updateIcon(getResources()
+													.getDrawable(
+															R.drawable.default_icon));
 									ListIconActivity.this.finish();
 								}
 							})
