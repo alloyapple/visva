@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -20,6 +21,18 @@ public class BrowserActivity extends Activity {
 
 		/* init control */
 		initControl();
+	}
+
+	public void onReturn(View v) {
+		finish();
+	}
+
+	public void onBack(View v) {
+		webView.goBack();
+	}
+
+	public void onNext(View v) {
+		webView.goForward();
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
