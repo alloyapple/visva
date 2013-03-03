@@ -24,6 +24,7 @@ public class SettingActivity extends Activity {
 		Intent intentChangePW = new Intent(SettingActivity.this, MasterPasswordChangeActivity.class);
 		intentChangePW.putExtra("isChangePW", true);
 		startActivity(intentChangePW);
+		finish();
 	}
 
 	public void onSecurityMode(View v) {

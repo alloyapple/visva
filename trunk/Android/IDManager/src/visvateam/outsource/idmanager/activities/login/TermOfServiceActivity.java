@@ -1,8 +1,12 @@
 package visvateam.outsource.idmanager.activities.login;
 
+import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.MasterPasswordActivity;
 import visvateam.outsource.idmanager.activities.MasterPasswordChangeActivity;
 import visvateam.outsource.idmanager.activities.R;
+import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
+import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,23 +23,33 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 	private Button btnContinue;
 	// =============================Class Define ======================
 	private IdManagerPreference idManagerPreference;
-
+	private DataBaseHandler mDataBaseHandler;
 	// =============================Variables Define ==================
+	private int mMasterPWId;
+	private String mMasterPW;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.page_term_of_use);
-		/* check is first installed app */
-		idManagerPreference = IdManagerPreference.getInstance(this);
-		if (!idManagerPreference.isApplicationFirstTimeInstalled()) {
-			showDialogCreateNewPassWord();
+
+		/* init database */
+		SQLiteDatabase.loadLibs(this);
+		mDataBaseHandler = new DataBaseHandler(this);
+		int userCount = mDataBaseHandler.getUserCount();
+		if (userCount < 1) {
+			setContentView(R.layout.page_term_of_use);
+			/* check is first installed app */
+			idManagerPreference = IdManagerPreference.getInstance(this);
+			
+			/* init control */
+			initControl();
 		} else {
-			idManagerPreference.setApplicationFirstTimeInstalled(false);
+			Intent intentPW = new Intent(TermOfServiceActivity.this, MasterPasswordActivity.class);
+			startActivity(intentPW);
+			finish();
 		}
-		/* init control */
-		initControl();
+
 	}
 
 	/**
@@ -61,8 +75,9 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 			 * status:false is create new password;status :true is change
 			 * password
 			 */
-			intent.putExtra("isChangePW", false);
+			intent.putExtra(Contants.IS_CHANGE_PASSWORD, false);
 			startActivity(intent);
+			finish();
 		}
 	}
 
@@ -77,9 +92,15 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 
 				case DialogInterface.BUTTON_NEGATIVE:
 					// Exit button clicked
-					Intent intent = new Intent(TermOfServiceActivity.this,
-							MasterPasswordActivity.class);
-					startActivity(intent);
+					if (idManagerPreference.getSecurityMode() == Contants.KEY_OFF) {
+						Intent intentHome = new Intent(TermOfServiceActivity.this,
+								HomeScreeenActivity.class);
+						startActivity(intentHome);
+					} else {
+						Intent intent = new Intent(TermOfServiceActivity.this,
+								MasterPasswordActivity.class);
+						startActivity(intent);
+					}
 					finish();
 					break;
 				}

@@ -1,5 +1,7 @@
 package visvateam.outsource.idmanager.contants;
 
+import android.os.Environment;
+
 /**
  * This class initialize contant values for project
  * 
@@ -13,6 +15,9 @@ public class Contants {
 	public static final int DIALOG_DELETE_ID = 3;
 	public static final int DIALOG_EDIT_ID = 4;
 	public static final int DIALOG_CREATE_ID = 5;
+	public static final int DIALOG_EXIT = 6;
+	public static final int DIALOG_WRONG_PASS = 7;
+	public static final int DIALOG_EMPTY_PASS = 8;
 
 	public static final int NUMBER_FOLDER_DEFALT = 2;
 	public static final int TYPE_FOLDER_NORMAL = 1;
@@ -35,6 +40,12 @@ public class Contants {
 	public static final int MAX_ITEM_PASS_ID = 12;
 	public static final String DATA_IDMANAGER_NAME = "idmanager.db";
 	public static final int DATA_VERSION = 1;
-	public static final String KEY_DATA_PW="key_data_id_manager";
+	public static final String KEY_DATA_PW = "key_data_id_manager";
+	public static final int KEY_OFF = 0;
+	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
+	public static final String PATH_ID_FILES = Environment.getExternalStorageDirectory().getPath()
+			+ "/IDManager/Files/";
+	public static final String IS_CHANGE_PASSWORD = "isChangePW";
+	public static int MASTER_PASSWORD_ID = 101;
 
 }
