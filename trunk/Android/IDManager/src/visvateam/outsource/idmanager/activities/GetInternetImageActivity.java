@@ -44,6 +44,10 @@ public class GetInternetImageActivity extends Activity {
 		initControl();
 	}
 
+	public void onReload(View v) {
+		webView.reload();
+	}
+
 	public Bitmap snapScreen() {
 		mFrameWebView.setDrawingCacheEnabled(true);
 		// this is the important code :)
@@ -92,7 +96,7 @@ public class GetInternetImageActivity extends Activity {
 		// TODO Auto-generated method stub
 		webView = (WebView) findViewById(R.id.id_webview_get_icon);
 
-		webView.loadUrl("http://www.google.com");
+		webView.loadUrl(EditIdPasswordActivity.mUrlItem);
 
 		webView.setContentDescription("application/pdf");
 		WebSettings webSettings = webView.getSettings();
