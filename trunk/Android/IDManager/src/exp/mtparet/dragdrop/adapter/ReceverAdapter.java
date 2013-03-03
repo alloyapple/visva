@@ -21,6 +21,7 @@ package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
 
+import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import exp.mtparet.dragdrop.data.OneItem;
 
@@ -63,13 +64,14 @@ public class ReceverAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		if (convertView == null) {
-			convertView = (RelativeLayout) RelativeLayout
-					.inflate(context, R.layout.item_list, null);
+			convertView = (RelativeLayout) RelativeLayout.inflate(context,
+					R.layout.item_list, null);
 
 		}
 
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(context.getResources().getDrawable(alPicture.get(position).getIconId()));
+		iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(alPicture
+				.get(position).getIconId()));
 		iv.setContentDescription(this.alPicture.get(position).getName());
 
 		return convertView;
