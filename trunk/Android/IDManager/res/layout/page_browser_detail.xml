@@ -30,6 +30,7 @@
             android:orientation="horizontal" >
 
             <EditText
+                android:id="@+id/id_editText_jogdial"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
@@ -42,17 +43,10 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:background="@drawable/refresh" />
+                android:layout_marginRight="8dp"
+                android:background="@drawable/refresh"
+                android:onClick="onReload" />
         </LinearLayout>
-
-        <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_save" />
     </LinearLayout>
 
     <LinearLayout
@@ -68,35 +62,36 @@
             android:scrollbars="vertical" >
 
             <WebView
+                android:id="@+id/webview_jogdial"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
             </WebView>
         </ScrollView>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="1"
-            android:background="@drawable/paster_bk"
-            android:orientation="vertical" >
+            android:layout_weight="1" >
 
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="46dp"
-                android:scrollbars="horizontal" >
+            <LinearLayout android:layout_gravity="center|center"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/paster_bk"
+                android:orientation="vertical" >
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="horizontal" >
-                </LinearLayout>
-            </ScrollView>
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="46dp"
+                    android:scrollbars="horizontal" >
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </ImageButton>
-        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
 </LinearLayout>
