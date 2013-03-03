@@ -9,6 +9,10 @@ import android.os.Environment;
  * 
  */
 public class Contants {
+	public static final String KEY_TO_BROWSER = "browserActivity";
+	public static final int INFO_TO = 0;
+	public static final int PASTE_TO = 1;
+	
 	public static final int DIALOG_ADD_NEW_FOLDER = 0;
 	public static final int DIALOG_DELETE_FOLDER = 1;
 	public static final int DIALOG_EDIT_FOLDER = 2;
