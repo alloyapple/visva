@@ -102,6 +102,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="visvateam.outsource.idmanager.activities.BrowserJogdialActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="visvateam.outsource.idmanager.activities.ImageMemoActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -119,6 +123,14 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.EditIconActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.export.ExportDataDropBoxActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.export.ExportDataGGDriveActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

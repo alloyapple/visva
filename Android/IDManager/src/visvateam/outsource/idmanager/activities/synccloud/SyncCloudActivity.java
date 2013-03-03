@@ -105,7 +105,6 @@ public class SyncCloudActivity extends Activity {
 					Intent intent = null;
 					if (item == 0) {
 						intent = new Intent(SyncCloudActivity.this, GGDriveSyncActivity.class);
-						startSyncActivity(intent, isSyncToCloud);
 					} else if (item == 1) {
 						intent = new Intent(SyncCloudActivity.this, DropBoxSyncActivity.class);
 					}

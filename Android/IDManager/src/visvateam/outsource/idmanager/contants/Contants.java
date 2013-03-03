@@ -55,5 +55,7 @@ public class Contants {
 	public static final String IS_CHANGE_PASSWORD = "isChangePW";
 	public static int MASTER_PASSWORD_ID = 101;
 	public static final String IS_SYNC_TO_CLOUD = "IS_SYNC_TO_CLOUD";
+	public static final String FILE_CSV_NAME = "idmanager.csv";
+	public static final String IS_EXPORT_FILE = "IS_EXPORT_FILE";
 
 }

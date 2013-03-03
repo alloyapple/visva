@@ -1,7 +1,6 @@
-package visvateam.outsource.idmanager.activities.synccloud;
+package visvateam.outsource.idmanager.activities.export;
 
 import java.io.File;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,10 +28,9 @@ import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxDownloadFile;
-import visvateam.outsource.idmanager.exportcontroller.excelcreator.ExcelDocumentController;
 import visvateam.outsource.idmanager.util.NetworkUtility;
 
-public class DropBoxSyncActivity extends Activity {
+public class ExportDataDropBoxActivity extends Activity {
 	private static final String TAG = "DBRoulette";
 
 	// /////////////////////////////////////////////////////////////////////////
@@ -67,8 +65,7 @@ public class DropBoxSyncActivity extends Activity {
 	private Button btnLinkToDropbox;
 	private Button btnStartSync;
 
-	private boolean isSyncToCloud;
-	
+	private boolean isExportData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +76,14 @@ public class DropBoxSyncActivity extends Activity {
 		if (!file.exists())
 			file.mkdirs();
 
-		isSyncToCloud = getIntent().getExtras().getBoolean(Contants.IS_SYNC_TO_CLOUD);
-		Log.e("isSyncTOCLoud", "isSyncCloud " + isSyncToCloud);
+		isExportData = getIntent().getExtras().getBoolean(Contants.IS_EXPORT_FILE);
+		Log.e("isExportData", "isSyncCloud " + isExportData);
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
 
 		// Basic Android widgets
-		setContentView(R.layout.page_sync_dropbox);
+		setContentView(R.layout.page_export_dropbox);
 
 		checkAppKeySetup();
 
@@ -99,13 +96,17 @@ public class DropBoxSyncActivity extends Activity {
 					logOut();
 				} else {
 					// Start the remote authentication
-					mApi.getSession().startAuthentication(DropBoxSyncActivity.this);
+					mApi.getSession().startAuthentication(ExportDataDropBoxActivity.this);
 				}
 			}
 		});
 
 		// This is the button to take a photo
 		btnStartSync = (Button) findViewById(R.id.btn_start_sync);
+		if (isExportData)
+			btnStartSync.setText("Start Export");
+		else
+			btnStartSync.setText("Start Import");
 
 		btnStartSync.setOnClickListener(new OnClickListener() {
 			@SuppressWarnings("deprecation")
@@ -113,9 +114,10 @@ public class DropBoxSyncActivity extends Activity {
 				if (!isExternalStorageAvailable()) {
 					showToast("Sdcard is unvailable.Check it again");
 				} else {
-					if (NetworkUtility.getInstance(DropBoxSyncActivity.this).isNetworkAvailable())
+					if (NetworkUtility.getInstance(ExportDataDropBoxActivity.this)
+							.isNetworkAvailable())
 						if (mApi.getSession().isLinked()) {
-							if (isSyncToCloud) {
+							if (isExportData) {
 								/* upload file to cloud */
 								startSyncToCloud();
 							} else {
@@ -139,24 +141,26 @@ public class DropBoxSyncActivity extends Activity {
 
 	private void startSyncToDevice() {
 		// TODO Auto-generated method stub
-		DropBoxDownloadFile download = new DropBoxDownloadFile(DropBoxSyncActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX);
+		DropBoxDownloadFile download = new DropBoxDownloadFile(ExportDataDropBoxActivity.this,
+				mApi, Contants.FOLDER_ON_DROPBOX);
 		download.execute();
 	}
 
 	private void startSyncToCloud() {
 		// TODO Auto-generated method stub
-		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX, dbFile);
-		newFile.execute();
+		File fileExport = new File(Contants.PATH_ID_FILES + "/" + Contants.FILE_CSV_NAME);
+		if (fileExport.exists()) {
+			DropBoxController newFile = new DropBoxController(ExportDataDropBoxActivity.this, mApi,
+					Contants.FOLDER_ON_DROPBOX, fileExport);
+			newFile.execute();
+		} else
+			showToast("File not found");
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
-
 
 	@Override
 	protected void onResume() {

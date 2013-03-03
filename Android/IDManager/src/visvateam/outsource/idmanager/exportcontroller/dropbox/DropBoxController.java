@@ -67,7 +67,8 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
     private String mErrorMsg;
 
 
-    public DropBoxController(Context context, DropboxAPI<?> api, String dropboxPath,
+    @SuppressWarnings("deprecation")
+	public DropBoxController(Context context, DropboxAPI<?> api, String dropboxPath,
             File file) {
         // We set the context this way so we don't accidentally leak activities
         mContext = context.getApplicationContext();
