@@ -58,5 +58,6 @@
     <string name="term_of_use">Term Of Use Agreement</string>
     <string name="term_of_use_content">\nYou agree to the terms and conditions outlined in this Terms of Use Agreement (“Agreement”) with respect to our App (the “App”).\nThis Agreement constitutes the entire and only agreement between us and you, and supersedes all prior or contemporaneous agreements, representations, warranties and understandings with respect to the App, the content, products or services provided by or through the App, and the subject matter of this Agreement.\nThis Agreement may be amended at any time by us from time to time without specific notice to you. \nThe latest Agreement will be posted on the App, and you should review this Agreement prior to using the App.</string>
     <string name="txt_dropbox_tut">Dropbox is one of the most popular cloud services. To use this service is required to get the account (free) in advance.</string>
+    <string name="txt_gg_drive_tut">GoogleDrive is one of the most popular cloud services. To use this service is required to get the account (free) in advance.</string>
 
 </resources>

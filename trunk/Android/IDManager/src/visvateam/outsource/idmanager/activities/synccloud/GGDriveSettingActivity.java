@@ -1,19 +1,15 @@
-package visvateam.outsource.idmanager.activities;
+package visvateam.outsource.idmanager.activities.synccloud;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
+import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -26,42 +22,35 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 
-public class GGDriveSyncActivity extends Activity {
+public class GGDriveSettingActivity extends Activity {
 	private static final int REQUEST_ACCOUNT_PICKER = 1;
 	private static final int REQUEST_AUTHORIZATION = 2;
 	private static final int CAPTURE_IMAGE = 3;
 	private static Uri fileUri;
 	private static Drive service;
 	private GoogleAccountCredential credential;
-	private Button mBtnLinkToGG;
-	private Button mBtnStartSync;
+	private Button mBtnLinkToGGDrive;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.page_sync_gg_drive);
+		setContentView(R.layout.page_gg_drive_setting);
+		
 		/* create file if not exist */
 		java.io.File file = new java.io.File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
 
 		credential = GoogleAccountCredential.usingOAuth2(this, DriveScopes.DRIVE);
-		mBtnLinkToGG = (Button) findViewById(R.id.btn_link_to_gg_drive);
-		mBtnLinkToGG.setOnClickListener(new View.OnClickListener() {
+
+		mBtnLinkToGGDrive = (Button) findViewById(R.id.btn_link_to_gg_drive);
+		mBtnLinkToGGDrive.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+
 				startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
-			}
-		});
-		mBtnStartSync = (Button) findViewById(R.id.btn_start_sync_gg);
-		mBtnStartSync.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				startCameraIntent();
 			}
 		});
 	}
@@ -90,18 +79,6 @@ public class GGDriveSyncActivity extends Activity {
 				saveFileToDrive();
 			}
 		}
-	}
-
-	private void startCameraIntent() {
-		String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_PICTURES).getPath();
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir + java.io.File.separator + "IMG_"
-				+ "test" + ".jpg"));
-
-		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-		startActivityForResult(cameraIntent, CAPTURE_IMAGE);
 	}
 
 	private void saveFileToDrive() {
