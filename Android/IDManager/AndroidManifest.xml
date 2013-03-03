@@ -102,6 +102,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="visvateam.outsource.idmanager.activities.BrowserJogdialActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="visvateam.outsource.idmanager.activities.ImageMemoActivity"
             android:screenOrientation="portrait" >
         </activity>
