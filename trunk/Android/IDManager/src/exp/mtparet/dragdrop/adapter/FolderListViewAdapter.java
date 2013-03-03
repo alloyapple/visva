@@ -132,7 +132,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 	public void addNewFolder(FolderItem folder) {
-		folderList.add(0,folder);
+		folderList.add(folder);
 		notifyDataSetChanged();
 	}
 

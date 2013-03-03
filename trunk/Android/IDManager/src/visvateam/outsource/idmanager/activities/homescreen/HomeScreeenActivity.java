@@ -86,6 +86,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private boolean isEdit = false;
 	private int positionReturnedByHandler;
 	private int currentFolderItem = 0;
+	private int currentFolderId;
 
 	private Handler mMainHandler = new Handler() {
 		@SuppressWarnings("deprecation")
@@ -282,7 +283,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 							.getImgFolderIconId(), folderList.get(i)
 							.getFolderName(), folderList.get(i)
 							.getTypeOfFolder());
-			mFolderListItems.add(0, folder);
+			mFolderListItems.add(folder);
 		}
 	}
 
@@ -310,15 +311,14 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		// add 2 folder favourite and history
 
-		FolderItem folderItemHistory = new FolderItem(0,
-				R.drawable.folder_s_common, R.drawable.history, "",
-				Contants.TYPE_FOLDER_NON_NORMAL);
-		mFolderListItems.add(0, folderItemHistory);
-
 		FolderItem folderItemFavourite = new FolderItem(1,
 				R.drawable.folder_s_common, R.drawable.favorite, "",
 				Contants.TYPE_FOLDER_NON_NORMAL);
-		mFolderListItems.add(0, folderItemFavourite);
+		mFolderListItems.add(folderItemFavourite);
+		
+		FolderItem folderItemHistory = new FolderItem(0, R.drawable.folder_s_common,
+				R.drawable.history, "", Contants.TYPE_FOLDER_NON_NORMAL);
+		mFolderListItems.add(folderItemHistory);
 
 	}
 
