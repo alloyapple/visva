@@ -17,6 +17,7 @@
 @property(nonatomic, assign) VAUser *user;
 @property(nonatomic, assign) int iDeleted;
 @property(nonatomic, retain)NSMutableArray *aElements;
+@property(nonatomic, assign) int iOrder;
 
 /*
  * Get list Group from database
@@ -24,6 +25,7 @@
  */
 +(NSMutableArray*)getListGroup:(TDSqlManager*)manager user:(VAUser*)u;
 +(NSString*)getCreateTableQuery;
++(NSString*)getDestroyQuery;
 
 -(void)getListElement:(TDSqlManager*)manager;
 -(void)getListElementWithFullData:(TDSqlManager*)manager;
@@ -39,6 +41,9 @@
  * @return: YES if complete, NO if error
  */
 -(BOOL)updateToDb:(TDSqlManager*)manager;
+-(BOOL)updateOrderToDb:(TDSqlManager*)manager;
+-(void)updateElementOrder:(TDSqlManager*)manager;
+
 /*
  * Delete Group from database.
  * @return: YES if complete, NO if error

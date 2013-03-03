@@ -16,11 +16,19 @@
  */
 
 +(NSString*)pathBundle:(NSString*)file type:(NSString*)type;
++(NSString*)pathInBundle:(NSString*)path;
+
 /* @param: NSString *file : file name in document
  * @return: NSString* : full path of file in document
  * @comment: Get full path in document folder
  */
 +(NSString*)pathInDocument:(NSString*)file;
+
++(BOOL)copyFromBundleToDocument:(NSString*)pathFromBunder;
++(BOOL)createDirectery:(NSString*)path;
++(BOOL)createDirecteryInDocument:(NSString *)path;
+
++(NSString*)documentPath;
 
 /* @param: NSString *sourceFile : Path file contains source folder
  * @param: NSString *dest: Path file save duplicate data.
@@ -29,4 +37,5 @@
  */
 +(void)copyDataFrom:(NSString *)sourceFile to:(NSString *)dest;
 +(BOOL)deleteFile:(NSString*)path;
++(void)createFile:(NSString*)path;
 @end

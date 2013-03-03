@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1536</int>
+		<int key="IBDocument.SystemTarget">1552</int>
 		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1138.47</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1926</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -42,7 +42,7 @@
 							<object class="IBUIImageView" id="694268779">
 								<reference key="NSNextResponder" ref="577077973"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{1, 1}, {68, 68}}</string>
+								<string key="NSFrame">{{2, 1}, {68, 68}}</string>
 								<reference key="NSSuperview" ref="577077973"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="899355422"/>
@@ -57,10 +57,9 @@
 							<object class="IBUIImageView" id="899355422">
 								<reference key="NSNextResponder" ref="577077973"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{12, 14}, {46, 42}}</string>
+								<string key="NSFrame">{{13, 14}, {46, 42}}</string>
 								<reference key="NSSuperview" ref="577077973"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUIContentMode">1</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -74,7 +73,6 @@
 						<string key="NSFrameSize">{70, 69}</string>
 						<reference key="NSSuperview" ref="121738649"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="694268779"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="482145155">
 							<int key="NSColorSpace">3</int>
@@ -142,8 +140,8 @@
 						<int key="objectID">2</int>
 						<reference key="object" ref="121738649"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="694268779"/>
 							<reference ref="899355422"/>
+							<reference ref="694268779"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -172,7 +170,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">6</int>
+			<int key="maxID">17</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -180,10 +178,15 @@
 					<string key="className">VAImageCell</string>
 					<string key="superclassName">UITableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bgView">UIView</string>
 						<string key="imBackground">UIImageView</string>
 						<string key="imForceground">UIImageView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bgView">
+							<string key="name">bgView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="imBackground">
 							<string key="name">imBackground</string>
 							<string key="candidateClassName">UIImageView</string>
@@ -208,6 +211,6 @@
 			<string key="Favorite.png">{61, 61}</string>
 			<string key="folder-s-select.png">{139, 142}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1926</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

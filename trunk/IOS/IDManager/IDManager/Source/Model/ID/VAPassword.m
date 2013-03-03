@@ -28,6 +28,9 @@ NSString *dpasswordCollumn = @"password";
     NSString *str = [NSString stringWithFormat:@"CREATE  TABLE Password (\"passwordId\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"eId\" INTEGER, \"titleNameId\" TEXT, \"password\" TEXT)"];
     return str;
 }
++(NSString*)getDestroyQuery{
+    return [NSString stringWithFormat: @"DELETE From %@ WHERE 1;", dpasswordTable];
+}
 
 +(NSMutableArray*)getListPass:(TDSqlManager *)manager element:(VAElementId *)element{
     sqlite3 *db = [manager getDatabase];
@@ -106,6 +109,11 @@ NSString *dpasswordCollumn = @"password";
 }
 -(BOOL)deleteFromDb:(TDSqlManager*)manager{
     NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dpasswordTable, dpasswordId, _iPasswordId];
+    return [manager executeQuery:query];
+}
+
++(BOOL)didDeleteFromDb:(TDSqlManager*)manager elementId:(VAElementId*)ele{
+    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dpasswordTable, dpassElementId, ele.iId];
     return [manager executeQuery:query];
 }
 @end

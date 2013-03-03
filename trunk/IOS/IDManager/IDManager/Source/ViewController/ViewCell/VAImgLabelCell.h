@@ -11,5 +11,7 @@
 @interface VAImgLabelCell : UITableViewCell
 @property (retain, nonatomic) IBOutlet UIImageView *imBackgroud;
 @property (retain, nonatomic) IBOutlet UILabel *lbTitle;
+@property (retain, nonatomic) IBOutlet UIView *bgView;
+
 -(void)setCellGroupSelected:(BOOL)selected;
 @end

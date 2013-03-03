@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  IDManager
+
+  Created by tranduc on 1/22/13.
+  Copyright (c) 2013 tranduc. All rights reserved.
+*/
+
+//pass word
+"Setting" = "設置";
+"ResetMasterPassword" = "修改密碼";
+"MasterPassword" = "密碼";
+"CurrentMasterPassword" = "當前密碼";
+"New" = "新";
+"Verify" = "確認";
+"PassFail" = "您輸入的密碼不正確，請重新輸入。";
+"SecurityMode" = "安全模式";
+"Immediately" = "立即";
+"min" = "分";
+"ConfigurationFail" = "配置數據損壞";
+"WarnDataErase" = "達到您制定的密碼錯誤次數時，數據將被刪除。";
+"DataModeChanged" = "成功變更數據刪除設置。";
+"DropboxSyned" = "與Dropbox同步";
+"DropboxInfo" = "Dropbox是最有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。";
+"StartUse" = "開始使用";
+"ResetSync" = "解除同步";
+"DropboxLoginCompleted" = "您的帳戶已經可以使用Dropbox。";
+"GDriverToDropbox" = "您現在使用GoogleDrive。代替使用Dropbox嗎？";
+"GDriverSyned" = "與GoogleDrive同步";
+"GDriverInfo" = "GoogleDrive是有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。";
+"GDriverLogined" = "您的帳號已經可以使用GoogleDrive。";
+"DropboxToGDriver" = "您現在使用Dropbox。代替使用GoogleDrive嗎？";
+"LoadTextData" = "加載文本數據";
+"InternetFail" = "無法使用互聯網。";
+"NoCloudSetup" = "同步設置信息不存在，請在【設置】-【同步】進行同步程序設置。";
+"NoCloudData" = "Cloud上數據不存在。";
+"DataReWritten" = "您要替換*的數據嗎？";
+"ChangeDataFormatFail" = "無法轉換數據爲應用程序形式。";
+"Succeed" = "";
+"ChargedOptionServices" = "結算設置";
+"ItemsRestrictionsCancellation" = "解除項目個數限制";
+"ConfirmInApp" = "確認您的程序內購買";
+"InApp99" = "您要解除帳戶、密碼個數限制，您將支付*台币。";
+"Approval" = "同意";
+"Cancel" = "取消";
+"AdCancellation" = "刪除廣告";
+"InApp499" = "您要刪除廣告，您將支付*台币。";
+"CSVExport" = "通過CSV形式輸出";
+"InAppCSV999" = "您要通過CSV形式輸出數據，您將支付*台币。";
+"Note" = "Note";
+"NoImage" = "預定日期";
+"DestructionTurnOnWarn" = "";
+"ClipboardCopied" = "該項目已被複制到剪貼板。";
+"OpenWeb" = "關閉應用程序。";
+"PassGenerator" = "密碼生成";
+"Generation" = "生成";
+"Number" = "數字";
+"Capital" = "大寫";
+"LowerCase" = "小寫";
+"Sign" = "符號";
+"DuplicatePrevention" = "重複防止";
+"NumCharacter" = "字數";
+"DeleteFolder" = "刪除文件夾";
+"Delete" = "刪除";
+"Cancel" = "取消";
+"InAppLimitWarn" = "多達12個ID密碼免費註冊一個免費的版本。如果你想使用更多的功能限制（¥85），請購買的解鎖鍵碼。";
+"ChangeFolderName" = "重命名文件夾";
+"AddFolder" = "“添加文件夾”";
+"Syncronization" = "同步運行";
+"UnifyNewData" = "新的數據統一由";
+"CloudName" = "使用雲計算服務";
+"LastSync" = "上次同步";
+"InternetError" = "我不能使用互聯網。檢查接線，請再試一次。";
+"NoCloudSetup" = "可以同步的服務沒有設置。 [同步] - [設置]，必須設置同步。";
+"ReadCloudDataWarn" = "您確定您要覆蓋的數據，但在此的iPhone（GoogleDrive）Dropbox的數據嗎？";
+"WriteCloudDataWarn" = "你確定你要覆蓋的iPhone上的數據，但讀取數據（GoogleDrive）Dropbox的嗎？";
+"SyncInterupted" = "我被中斷的同步。";
+"SyncFail" = "我同步失敗。";
+"SyncFinish" = "我結束了同步。";
+"ReadCloudDataInfo" = "在此的iPhone（GoogleDrive）的Dropbox在數據覆蓋數據。";
+"ReadCloudDataSure" = "更好的數據（GoogleDrive）是新的，但Dropbox，你確定你真的要覆蓋它嗎？";
+"WriteCloudDataSure" = "你確定你想從（GoogleDrive）Dropbox的，誰是新的數據，本次iPhone上的數據嗎？";
+"WriteCloudDataInfo" = "閱讀（GoogleDrive）的Dropbox上的數據。你確定要當前數據丟失了嗎？";
+"Icon" = "標誌/圖標";
+"General" = "一般";
+"Finance" = "金融";
+"Web" = "捲筒紙";
+"ECommerce" = "購物";
+"Carrier" = "昂納光通信";

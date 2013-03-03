@@ -15,9 +15,15 @@ typedef enum {
     kTypeMasterPasswordChangePass
 }kTypeMasterPassword;
 
+@protocol VALoginDelegate;
 @interface VALoginController : UIViewController{
     
 }
 @property(nonatomic, assign)kTypeMasterPassword typeMasterPass;
+@property(nonatomic, assign)id<VALoginDelegate> loginDelegate;
+@end
+
+@protocol VALoginDelegate <NSObject>
+-(void)loginViewDidLogin:(VALoginController*)vc;
 
 @end

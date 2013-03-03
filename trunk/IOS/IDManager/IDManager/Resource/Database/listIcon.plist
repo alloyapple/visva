@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Finance</string>
+		<key>ics</key>
+		<array>
+			<string>Thumb/CH_Finance/Agricultural Bank of China.png</string>
+			<string>Thumb/CH_Finance/Bank of China.png</string>
+			<string>Thumb/CH_Finance/Bank of Shanghai.png</string>
+			<string>Thumb/CH_Finance/China Construction Bank Corporation.png</string>
+			<string>Thumb/CH_Finance/UnionPay.png</string>
+			<string>Thumb/CH_Finance/unionpay2.png</string>
+			<string>Thumb/FR_Finance/BNP Paribas.png</string>
+			<string>Thumb/IN_Finance/ICICIbank.png</string>
+			<string>Thumb/IN_Finance/SBI.png</string>
+			<string>Thumb/IN_Finance/indianBank.png</string>
+			<string>Thumb/JP_Finance/AEON1.png</string>
+			<string>Thumb/JP_Finance/AMERICANEXPRESS.png</string>
+			<string>Thumb/JP_Finance/DC.png</string>
+			<string>Thumb/JP_Finance/OMC.png</string>
+			<string>Thumb/JP_Finance/UC.png</string>
+			<string>Thumb/JP_Finance/VISA.png</string>
+			<string>Thumb/JP_Finance/aeon2.png</string>
+			<string>Thumb/JP_Finance/aozora.png</string>
+			<string>Thumb/JP_Finance/cedyna.png</string>
+			<string>Thumb/JP_Finance/central.png</string>
+			<string>Thumb/JP_Finance/city.png</string>
+			<string>Thumb/JP_Finance/cyberagent.png</string>
+			<string>Thumb/JP_Finance/daiwa.png</string>
+			<string>Thumb/JP_Finance/daiwanext.png</string>
+			<string>Thumb/JP_Finance/dinersclub.png</string>
+			<string>Thumb/JP_Finance/discover.png</string>
+			<string>Thumb/JP_Finance/dmm.png</string>
+			<string>Thumb/JP_Finance/dotcommodity.png</string>
+			<string>Thumb/JP_Finance/edy.png</string>
+			<string>Thumb/JP_Finance/foreland.png</string>
+			<string>Thumb/JP_Finance/fujifuture.png</string>
+			<string>Thumb/JP_Finance/fxprime.png</string>
+			<string>Thumb/JP_Finance/gmo.png</string>
+			<string>Thumb/JP_Finance/himawari.png</string>
+			<string>Thumb/JP_Finance/hokkaido.png</string>
+			<string>Thumb/JP_Finance/id.png</string>
+			<string>Thumb/JP_Finance/jaccs.png</string>
+			<string>Thumb/JP_Finance/japannet.png</string>
+			<string>Thumb/JP_Finance/jcb.png</string>
+			<string>Thumb/JP_Finance/jibun.png</string>
+			<string>Thumb/JP_Finance/kabu.png</string>
+			<string>Thumb/JP_Finance/livestar.png</string>
+			<string>Thumb/JP_Finance/master.png</string>
+			<string>Thumb/JP_Finance/matsui.png</string>
+			<string>Thumb/JP_Finance/mitsuisumitomo.png</string>
+			<string>Thumb/JP_Finance/mizuho.png</string>
+			<string>Thumb/JP_Finance/monex.png</string>
+			<string>Thumb/JP_Finance/nicos.png</string>
+			<string>Thumb/JP_Finance/nicos2.png</string>
+			<string>Thumb/JP_Finance/nomura.png</string>
+			<string>Thumb/JP_Finance/okasan.png</string>
+			<string>Thumb/JP_Finance/online.png</string>
+			<string>Thumb/JP_Finance/orico.png</string>
+			<string>Thumb/JP_Finance/pasmo.png</string>
+			<string>Thumb/JP_Finance/paypal.png</string>
+			<string>Thumb/JP_Finance/rakuten.png</string>
+			<string>Thumb/JP_Finance/rakutensyouken.png</string>
+			<string>Thumb/JP_Finance/resona.png</string>
+			<string>Thumb/JP_Finance/saison.png</string>
+			<string>Thumb/JP_Finance/sbi (1).png</string>
+			<string>Thumb/JP_Finance/sbi.png</string>
+			<string>Thumb/JP_Finance/sbj.png</string>
+			<string>Thumb/JP_Finance/seven.png</string>
+			<string>Thumb/JP_Finance/sinsei.png</string>
+			<string>Thumb/JP_Finance/smbcfriend.png</string>
+			<string>Thumb/JP_Finance/smbcnikko.png</string>
+			<string>Thumb/JP_Finance/sony.png</string>
+			<string>Thumb/JP_Finance/suica.png</string>
+			<string>Thumb/JP_Finance/tokyostar.png</string>
+			<string>Thumb/JP_Finance/toukai.png</string>
+			<string>Thumb/JP_Finance/ueda.png</string>
+			<string>Thumb/JP_Finance/ufj.png</string>
+			<string>Thumb/JP_Finance/unitedwolrd.png</string>
+			<string>Thumb/JP_Finance/waon.png</string>
+			<string>Thumb/JP_Finance/yuucho.png</string>
+			<string>Thumb/UK_Finance/Alpari.png</string>
+			<string>Thumb/US_Finance/AvaFX.png</string>
+		<string>Thumb/US_Finance/Axis Bank (Formerly UTI Bank).png</string>
+		<string>Thumb/US_Finance/Bank of Baroda (BOB).png</string>
+		<string>Thumb/US_Finance/Bank of Scotland.png</string>
+		<string>Thumb/US_Finance/BankofAmerica2.png</string>
+		<string>Thumb/US_Finance/BankofInternetUSA.png</string>
+		<string>Thumb/US_Finance/Barclays PLC.png</string>
+		<string>Thumb/US_Finance/Capital One Financial Corp.png</string>
+		<string>Thumb/US_Finance/Charles Schwab.png</string>
+		<string>Thumb/US_Finance/Citibank.png</string>
+		<string>Thumb/US_Finance/Citigroup.png</string>
+		<string>Thumb/US_Finance/Credit Agricole Group.png</string>
+		<string>Thumb/US_Finance/Credit Suisse Group.png</string>
+		<string>Thumb/US_Finance/Discover.png</string>
+		<string>Thumb/US_Finance/Dukascopy.png</string>
+		<string>Thumb/US_Finance/ETrade.png</string>
+		<string>Thumb/US_Finance/FIBO Group.png</string>
+		<string>Thumb/US_Finance/FXCM.png</string>
+		<string>Thumb/US_Finance/FXDD.png</string>
+		<string>Thumb/US_Finance/Fidelity.png</string>
+		<string>Thumb/US_Finance/Firstrade.png</string>
+		<string>Thumb/US_Finance/FxPro.png</string>
+		<string>Thumb/US_Finance/Groupe BPCE.png</string>
+		<string>Thumb/US_Finance/HDFC Bank.png</string>
+		<string>Thumb/US_Finance/HSBC.png</string>
+		<string>Thumb/US_Finance/ICICI Bank.png</string>
+		<string>Thumb/US_Finance/ING Group.png</string>
+		<string>Thumb/US_Finance/Industrial and Commercial Bank of China.png</string>
+		<string>Thumb/US_Finance/JPmorganChase.png</string>
+		<string>Thumb/US_Finance/Key Bank.png</string>
+		<string>Thumb/US_Finance/Lloyds Banking Group.png</string>
+		<string>Thumb/US_Finance/OANDA.png</string>
+		<string>Thumb/US_Finance/OptionsHouse.png</string>
+		<string>Thumb/US_Finance/PNC Financial Services.png</string>
+		<string>Thumb/US_Finance/Punjab National Bank (PNB).png</string>
+		<string>Thumb/US_Finance/Rabobank.png</string>
+		<string>Thumb/US_Finance/Royal Bank of Scotland.png</string>
+		<string>Thumb/US_Finance/Santander Group.png</string>
+		<string>Thumb/US_Finance/Scottrade.png</string>
+		<string>Thumb/US_Finance/ShareBuilder.png</string>
+		<string>Thumb/US_Finance/Societe Generale.png</string>
+		<string>Thumb/US_Finance/State Bank Of India (SBI).png</string>
+		<string>Thumb/US_Finance/TD Ameritrade.png</string>
+		<string>Thumb/US_Finance/TradeKing.png</string>
+		<string>Thumb/US_Finance/UBS.png</string>
+		<string>Thumb/US_Finance/USBancoup.png</string>
+		<string>Thumb/US_Finance/UniCredit Group.png</string>
+		<string>Thumb/US_Finance/WellsFargo.png</string>
+		<string>Thumb/US_Finance/ally.png</string>
+		<string>Thumb/US_Finance/amex_blue.png</string>
+		<string>Thumb/US_Finance/amex_gold.png</string>
+		<string>Thumb/US_Finance/amex_platinum.png</string>
+		<string>Thumb/US_Finance/bankofAmerica.png</string>
+		<string>Thumb/US_Finance/barclaycard.png</string>
+		<string>Thumb/US_Finance/dinersClub.png</string>
+		<string>Thumb/US_Finance/mastercard2.png</string>
+		<string>Thumb/US_Finance/optionsXpress.png</string>
+		<string>Thumb/US_Finance/paypal.png</string>
+		<string>Thumb/US_Finance/visa2.png</string>
+		<string>Thumb/US_Finance/visa_debit.png</string>
+
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Carrier</string>
+		<key>ics</key>
+		<array>
+			<string>Thumb/GR_CommCarrier/Eclipse Internet.png</string>
+			<string>Thumb/JP_CommCarrier/SoftBank.png</string>
+			<string>Thumb/JP_CommCarrier/au.png</string>
+			<string>Thumb/JP_CommCarrier/docomo.png</string>
+			<string>Thumb/UK_CommCarrier/BT.png</string>
+			<string>Thumb/UN_Airline/Air Astana.png</string>
+		<string>Thumb/UN_Airline/Air Canada.png</string>
+		<string>Thumb/UN_Airline/Air China.png</string>
+		<string>Thumb/UN_Airline/Air France.png</string>
+		<string>Thumb/UN_Airline/Air New Zealand.png</string>
+		<string>Thumb/UN_Airline/Asiana Airline.png</string>
+		<string>Thumb/UN_Airline/Austrian Airlines.png</string>
+		<string>Thumb/UN_Airline/Bangkok Airways.png</string>
+		<string>Thumb/UN_Airline/British Airways.png</string>
+		<string>Thumb/UN_Airline/Cathay Pacific.png</string>
+		<string>Thumb/UN_Airline/China Airlines.png</string>
+		<string>Thumb/UN_Airline/China Southern Airlines.png</string>
+		<string>Thumb/UN_Airline/Dragonair.png</string>
+		<string>Thumb/UN_Airline/GFT.png</string>
+		<string>Thumb/UN_Airline/Garuda Indonesia.png</string>
+		<string>Thumb/UN_Airline/Hainan Airlines.png</string>
+		<string>Thumb/UN_Airline/Kingfisher Airlines.png</string>
+		<string>Thumb/UN_Airline/Lufthansa.png</string>
+		<string>Thumb/UN_Airline/Malaysia Airlines.png</string>
+		<string>Thumb/UN_Airline/Qatar Airways.png</string>
+		<string>Thumb/UN_Airline/Royal Duch Airlines.png</string>
+		<string>Thumb/UN_Airline/Singapore Airlines.png</string>
+		<string>Thumb/UN_Airline/Swiss Int'l Air Lines.png</string>
+		<string>Thumb/UN_Airline/Thai Airways.png</string>
+		<string>Thumb/UN_Airline/Tianjin Airlines.png</string>
+		<string>Thumb/UN_Airline/Virgin Australia.png</string>
+		<string>Thumb/UN_Airline/ana.png</string>
+		<string>Thumb/UN_Airline/delta.png</string>
+		<string>Thumb/UN_Airline/jal.png</string>
+		<string>Thumb/UN_Airline/koreanair.png</string>
+
+		<string>Thumb/US_carrier/AOL.png</string>
+		<string>Thumb/US_carrier/GCI.png</string>
+		<string>Thumb/US_carrier/O2.png</string>
+		<string>Thumb/US_carrier/Virgin media.png</string>
+		<string>Thumb/US_carrier/at&amp;t.png</string>
+		<string>Thumb/US_carrier/comcast.png</string>
+		<string>Thumb/US_carrier/verizon.png</string>
+
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Web</string>
+		<key>ics</key>
+		<array>
+			<string>Thumb/JP_ISP/au.png</string>
+			<string>Thumb/JP_ISP/biglobe.png</string>
+			<string>Thumb/JP_ISP/gyao_hikari.png</string>
+			<string>Thumb/JP_ISP/hikari_next.png</string>
+			<string>Thumb/JP_ISP/nifty.png</string>
+			<string>Thumb/JP_ISP/ocn.png</string>
+			<string>Thumb/JP_ISP/rakuten.png</string>
+			<string>Thumb/JP_ISP/sonet.png</string>
+			<string>Thumb/JP_ISP/ucom.png</string>
+			<string>Thumb/JP_ISP/yahoobb.png</string>
+			<string>Thumb/JP_WebService/ameba.png</string>
+			<string>Thumb/JP_WebService/cocolog.png</string>
+			<string>Thumb/JP_WebService/cookpad.png</string>
+			<string>Thumb/JP_WebService/dmm.png</string>
+			<string>Thumb/JP_WebService/dropbox.png</string>
+			<string>Thumb/JP_WebService/evernote.png</string>
+			<string>Thumb/JP_WebService/facebook.png</string>
+			<string>Thumb/JP_WebService/fc2.png</string>
+			<string>Thumb/JP_WebService/flickr.png</string>
+			<string>Thumb/JP_WebService/goo.png</string>
+			<string>Thumb/JP_WebService/google+.png</string>
+			<string>Thumb/JP_WebService/google.png</string>
+			<string>Thumb/JP_WebService/gree.png</string>
+			<string>Thumb/JP_WebService/kakaku.png</string>
+			<string>Thumb/JP_WebService/livedoor.png</string>
+			<string>Thumb/JP_WebService/microsoft.png</string>
+			<string>Thumb/JP_WebService/mixi.png</string>
+			<string>Thumb/JP_WebService/mobage.png</string>
+			<string>Thumb/JP_WebService/msn.png</string>
+			<string>Thumb/JP_WebService/niconico.png</string>
+			<string>Thumb/JP_WebService/rakuten.png</string>
+			<string>Thumb/JP_WebService/skype.png</string>
+			<string>Thumb/JP_WebService/tabelog.png</string>
+			<string>Thumb/JP_WebService/tsutaya.png</string>
+			<string>Thumb/JP_WebService/twitter.png</string>
+			<string>Thumb/JP_WebService/ustream.png</string>
+			<string>Thumb/JP_WebService/yahoojapan.png</string>
+			<string>Thumb/JP_WebService/youtube.png</string>
+		<string>Thumb/US_WebService/GoogleCheckout.png</string>
+		<string>Thumb/US_WebService/Netflix.png</string>
+		<string>Thumb/US_WebService/facebook.png</string>
+		<string>Thumb/US_WebService/flickr.png</string>
+		<string>Thumb/US_WebService/gmail.png</string>
+		<string>Thumb/US_WebService/icloud.png</string>
+		<string>Thumb/US_WebService/icloud2.png</string>
+		<string>Thumb/US_WebService/msn.png</string>
+		<string>Thumb/US_WebService/twitter.png</string>
+		<string>Thumb/US_WebService/yahoo.png</string>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>ECommerce</string>
+		<key>ics</key>
+		<array>
+			<string>Thumb/JP_e-commerce/alibaba.png</string>
+			<string>Thumb/JP_e-commerce/amazon.png</string>
+			<string>Thumb/JP_e-commerce/amazon2.png</string>
+			<string>Thumb/JP_e-commerce/nissen.png</string>
+			<string>Thumb/JP_e-commerce/rakuten ichiba.png</string>
+			<string>Thumb/US_e-commerce/amazon.png</string>
+		<string>Thumb/US_e-commerce/amazon2.png</string>
+		<string>Thumb/US_e-commerce/ebay.png</string>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>General</string>
+		<key>ics</key>
+		<array>
+			<string>Thumb/UN_General/DW129_icon_b01.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b02.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b03.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b04.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b05.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b06.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b07.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b08.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b09.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b10.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b11.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b12.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b13.jpg</string>
+		<string>Thumb/UN_General/DW129_icon_b14.jpg</string>
+		<string>Thumb/UN_General/WiFi.png</string>
+		<string>Thumb/UN_General/airport.png</string>
+		<string>Thumb/UN_General/album.png</string>
+		<string>Thumb/UN_General/bank.png</string>
+		<string>Thumb/UN_General/bank2.png</string>
+		<string>Thumb/UN_General/baterfly.png</string>
+		<string>Thumb/UN_General/book.png</string>
+		<string>Thumb/UN_General/boy.png</string>
+		<string>Thumb/UN_General/cake.png</string>
+		<string>Thumb/UN_General/cart.png</string>
+		<string>Thumb/UN_General/coffee.png</string>
+		<string>Thumb/UN_General/dog.png</string>
+		<string>Thumb/UN_General/doller.png</string>
+		<string>Thumb/UN_General/earth.png</string>
+		<string>Thumb/UN_General/family.png</string>
+		<string>Thumb/UN_General/firefox.png</string>
+		<string>Thumb/UN_General/flower.png</string>
+		<string>Thumb/UN_General/folder.png</string>
+		<string>Thumb/UN_General/heart.png</string>
+		<string>Thumb/UN_General/helmet.png</string>
+		<string>Thumb/UN_General/ibook.png</string>
+		<string>Thumb/UN_General/jpg.png</string>
+		<string>Thumb/UN_General/keyholder.png</string>
+		<string>Thumb/UN_General/mac.png</string>
+		<string>Thumb/UN_General/map.png</string>
+		<string>Thumb/UN_General/money.png</string>
+		<string>Thumb/UN_General/nimo.png</string>
+		<string>Thumb/UN_General/note.png</string>
+		<string>Thumb/UN_General/parth.png</string>
+		<string>Thumb/UN_General/people.png</string>
+		<string>Thumb/UN_General/ring.png</string>
+		<string>Thumb/UN_General/rose.png</string>
+		<string>Thumb/UN_General/shark.png</string>
+		<string>Thumb/UN_General/smile1.png</string>
+		<string>Thumb/UN_General/smile2.png</string>
+		<string>Thumb/UN_General/sumdrive.png</string>
+		<string>Thumb/UN_General/walet.png</string>
+		</array>
+	</dict>
+</array>
+</plist>

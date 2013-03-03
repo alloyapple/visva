@@ -8,6 +8,7 @@
 
 #import "TDWebViewController.h"
 #import "TDCommonLibs.h"
+#import "MPAnimation.h"
 
 @interface TDWebViewController ()
 @property (retain, nonatomic) IBOutlet UIView *vBottom;
@@ -16,8 +17,10 @@
 @property (retain, nonatomic) IBOutlet UIButton *btBackward;
 @property (retain, nonatomic) IBOutlet UIButton *btForward;
 @property (retain, nonatomic) IBOutlet UITextField *tfUrl;
+@property (retain, nonatomic) IBOutlet UIButton *btScreenShot;
 
 
+- (IBAction)btScreenShotPress:(id)sender;
 
 - (IBAction)btBackPressed:(id)sender;
 
@@ -33,6 +36,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        _bIsTakeScreenShot = NO;
     }
     return self;
 }
@@ -41,6 +45,11 @@
 {
     [super viewDidLoad];
     [self gotoPage:_sUrlStart];
+    if (_bIsTakeScreenShot) {
+        _btScreenShot.hidden = NO;
+    }else{
+        _btScreenShot.hidden = YES;
+    }
 }
 -(void)gotoPage:(NSString *)urlstr{
     //urlstr = [urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -65,6 +74,7 @@
     
     [_sUrlStart release];
     [_sUrl release];
+    [_btScreenShot release];
     [super dealloc];
 }
 - (void)viewDidUnload {
@@ -75,8 +85,14 @@
     [self setBtBackward:nil];
     [self setBtForward:nil];
     [self setTfUrl:nil];
+    [self setBtScreenShot:nil];
     [super viewDidUnload];
 }
+- (IBAction)btScreenShotPress:(id)sender {
+    self.screenShot = [MPAnimation renderImageFromView:_wvContent];
+    [_webDelegate browserBack:self];
+}
+
 - (IBAction)btBackPressed:(id)sender {
     [self.webDelegate browserBack:self];
 }
@@ -119,7 +135,7 @@
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSString *mess = [NSString stringWithFormat:@"%@", error];
-    [self showAlertSimple:TDLocalizedStringOne(@"Error") mess: mess tag:0];
+    [self showAlertSimple:TDLocStrOne(@"Error") mess: mess tag:0];
 }
 
 #pragma mark - text field
@@ -149,7 +165,7 @@
 
 #pragma mark - alert
 -(void)showAlertSimple:(NSString*)title mess:(NSString*)mess tag:(int)tag{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:mess delegate:self cancelButtonTitle:TDLocalizedStringOne(@"OK") otherButtonTitles: nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:mess delegate:self cancelButtonTitle:TDLocStrOne(@"OK") otherButtonTitles: nil];
     alert.tag = tag;
     [alert show];
 }

@@ -9,6 +9,7 @@
 #import "TDSqlManager.h"
 #import "TDDatabase.h"
 #import "TDLog.h"
+#import <sqlite3.h>
 
 @implementation TDSqlManager
 -(sqlite3*)getDatabase{
@@ -25,6 +26,21 @@
             database = NULL;
             NSAssert(0, @"Fail to open data base");
         }
+    }
+    return self;
+}
+
+-(id)initWithPath:(NSString*)path pass:(NSString*)pass{
+    self = [super init];
+    if (self) {
+        if(sqlite3_open([path UTF8String], &database)!= SQLITE_OK){
+            sqlite3_close(database);
+            database = NULL;
+            NSAssert(0, @"Fail to open data base");
+        }
+        const char* key = [pass UTF8String];
+        sqlite3_key(database, key, pass.length);
+        
     }
     return self;
 }
@@ -55,6 +71,7 @@
     if (database == NULL) {
         return NO;
     }
+    TDLOG(@"Excute::%@", str);
     return TDSqlExecuteQuery(str, database);
 }
 - (NSArray *)getRowsForQuery:(NSString *)sql {

@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  IDManager
+
+  Created by tranduc on 1/22/13.
+  Copyright (c) 2013 tranduc. All rights reserved.
+*/
+
+//pass word
+"Setting" = "Ajustar";
+"ResetMasterPassword" = "Cambiar contraseña maestra";
+"MasterPassword" = "Contraseña Maestra";
+"CurrentMasterPassword" = "Contraseña maestra actual";
+"New" = "nuevo";
+"Verify" = "Verificar";
+"PassFail" = "La contraseña no coincide. Por favor, hazlo de nuevo.";
+"SecurityMode" = "Modo de Seguridad";
+"Immediately" = "inmediatamente";
+"min" = "min";
+"ConfigurationFail" = "Daños en los datos de configuración";
+"WarnDataErase" = "Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione.";
+"DataModeChanged" = "El modo de datos de demolición ha sido cambiado.";
+"DropboxSyned" = "Dropbox sincronización";
+"DropboxInfo" = "Dropbox es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.";
+"StartUse" = "Comenzar a Utilizar";
+"ResetSync" = "Restablecer Sync";
+"DropboxLoginCompleted" = "IDxPassword ya pueden utilizar Dropbox.";
+"GDriverToDropbox" = "IDxPassword está utilizando Google Drive en estos momentos. ¿Quieres utilizar Dropbox en su lugar?";
+"GDriverSyned" = "GoogleDrive sincronización";
+"GDriverInfo" = "GoogleDrive es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.";
+"GDriverLogined" = "IDxPassword ya pueden utilizar Google Drive.";
+"DropboxToGDriver" = "IDxPassword está usando Dropbox en estos momentos. ¿Quieres usar Google Drive en su lugar?";
+"LoadTextData" = "Carga Texto Datos";
+"InternetFail" = "Internet no se puede utilizar.";
+"NoCloudSetup" = "No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.";
+"NoCloudData" = "No hay datos en la nube.";
+"DataReWritten" = "Los datos de este * se escribiría así. ¿Estás seguro?";
+"ChangeDataFormatFail" = "Los datos seleccionados no se podía cambiar al formato adecuado.";
+"Succeed" = "Tenido éxito!";
+"ChargedOptionServices" = "Acusados Servicios Opcionales";
+"ItemsRestrictionsCancellation" = "Artículos Restricciones de Cancelación";
+"ConfirmInApp" = "Confirme su In-App Purchase";
+"InApp99" = "Para eliminar el límite en el número de artículo IDxPassword, se cobra ***.";
+"Approval" = "Aprobación";
+"Cancel" = "Cancelar";
+"AdCancellation" = "Anuncio de Cancelación";
+"InApp499" = "Para eliminar la publicidad, se le cobrará $4.99.";
+"CSVExport" = "CSV Plaintext Export";
+"InAppCSV999" = "Para agregar la función de la exportación de datos en formato CSV. Se cobra $9.99.";
+"Note" = "Nota";
+"NoImage" = "NO IMAGE";
+"DestructionTurnOnWarn" = "El modo de destrucción está encendido. Usted perderá datos IDxPassword después de entrar en # # PW mal momento.";
+"ClipboardCopied" = "El siguiente punto se ha copiado en el portapapeles.";
+"OpenWeb" = "Abra la página web";
+"PassGenerator" = "Password Generator";
+"Generation" = "Generación";
+"Number" = "Número";
+"Capital" = "Capital";
+"LowerCase" = "Minúscula";
+"Sign" = "Firmar";
+"DuplicatePrevention" = "Duplicar la Prevención";
+"NumCharacter" = "Número de Caracteres";
+"DeleteFolder" = "Eliminar carpeta";
+"Delete" = "Borrar";
+"Cancel" = "Cancelar";
+"InAppLimitWarn" = "A sólo 12 elementos pueden ser registrado en esta aplicación. Usted puede pagar ¢ 99 para llave de código para eliminar el límite de elementos.";
+"ChangeFolderName" = "Cambiar nombre de la carpeta";
+"AddFolder" = "Añadir carpeta";
+"Syncronization" = "sincronización";
+"UnifyNewData" = "Unificar por los datos más recientes";
+"CloudName" = "Nube nombre de servicio:";
+"LastSync" = "Última sincronización:";
+"InternetError" = "Internet no se puede utilizar. Vuelva a intentarlo después de comprobar la conexión.";
+"NoCloudSetup" = "No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.";
+"ReadCloudDataWarn" = "Los datos de Dropbox (GoogleDrive) se sobrescribirán con los datos de este iPhone. Estás seguro?";
+"WriteCloudDataWarn" = "Datos de este iPhone se sobrescribirán con los datos más recientes sobre Dropbox (GoogleDrive).";
+"SyncInterupted" = "La sincronización se interrumpe.";
+"SyncFail" = "La sincronización se ha fallado.";
+"SyncFinish" = "La sincronización se terminó.";
+"ReadCloudDataInfo" = "Los datos de Dropbox (GoogleDrive) se sobrescribirán con los datos de este iPhone.";
+"ReadCloudDataSure" = "Aunque los datos sobre Dropbox (GoogleDrive) es más reciente, que está seguro de sobreescribirlo?";
+"WriteCloudDataSure" = "Datos Este iPhone es más reciente. Está seguro que desea sobrescribir la más antigua en Dropbox (GoogleDrive)?";
+"WriteCloudDataInfo" = "Datos de este iPhone se sobrescribirán con los datos más recientes sobre Dropbox (GoogleDrive).";
+"Icon" = "Logo / Icon";
+"General" = "General";
+"Finance" = "Financiar";
+"Web" = "Web";
+"ECommerce" = "E-commerce";
+"Carrier" = "Carrior";

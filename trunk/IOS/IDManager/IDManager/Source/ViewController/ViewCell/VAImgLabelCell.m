@@ -7,8 +7,14 @@
 //
 
 #import "VAImgLabelCell.h"
-
+#import "TDCommonLibs.h"
 @implementation VAImgLabelCell
+-(void)awakeFromNib{
+    [super awakeFromNib];
+    TDLOG(@"bg = %@, bgSelf = %@", _bgView, self.backgroundView);
+    self.backgroundView = _bgView;
+    
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -29,6 +35,7 @@
 - (void)dealloc {
     [_imBackgroud release];
     [_lbTitle release];
+    [_bgView release];
     [super dealloc];
 }
 - (void)setCellGroupSelected:(BOOL)selected{

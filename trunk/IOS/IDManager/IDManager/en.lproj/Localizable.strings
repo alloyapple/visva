@@ -6,18 +6,96 @@
   Copyright (c) 2013 tranduc. All rights reserved.
 */
 
-"PasswordMaster" = "Password Master";
-"PasswordLogin" = "Password Login";
-"PasswordNew" = "New Password";
+//pass word
+"Setting" = "Setting";
+"ResetMasterPassword" = "Reset Master Password";
+"MasterPassword" = "Master Password";
+"CurrentMasterPassword" = "Current Master Password";
+"New" = "New";
+"Verify" = "Verify";
+"PassFail" = "The password does not match. Please do it again.";
 
-"WrongPass" = "Password is incorrect. Please try again.";
-"InvalidPass" = "Password is invalid";
 
-"EnterGrName" = "Enter group name";
+"SecurityMode" = "Security mode";
+"Immediately" = "Immediately";
+"min" = "min";
+"ConfigurationFail" = "Configuration data corruption";
+"WarnDataErase" = "Data will be erased after entering the wrong master password the times you will select.";
+"DataModeChanged" = "Data demolition mode has been changed.";
+
+"DropboxSyned" = "Dropbox Synchronize";
+"DropboxInfo" = "Dropbox is one of the most popular cloud services. To use this service is required to get the account (free) in advance.";
+"StartUse" = "Start to use";
+"ResetSync" = "Reset Sync";
+"DropboxLoginCompleted" = "IDxPassword can already use Dropbox.";
+"GDriverToDropbox" = "IDxPassword is using Google Drive right now. Do you want to use Dropbox instead?";
+"GDriverSyned" = "GoogleDrive Syncing";
+"GDriverInfo" = "GoogleDrive is one of the most popular cloud services. To use this service is required to get the account (free) in advance.";
+"GDriverLogined" = "IDxPassword can already use Google Drive.";
+"DropboxToGDriver" = "IDxPassword is using Dropbox right now. Do you want to use Google Drive instead?";
+
+"LoadTextData" = "Load Text Data";
+"InternetFail" = "Internet can not be used.";
+"NoCloudSetup" = "No cloud service has not set up. You need set it up through Sync menu on the setting page.";
+"NoCloudData" = "There is no data on the cloud.";
+"DataReWritten" = "The data on this * would be rewritten. Are you sure?";
+"ChangeDataFormatFail" = "The select data could not be changed to proper format.";
+
+"Succeed" = "Succeeded!";
+"ChargedOptionServices" = "Charged Option Services";
+"ItemsRestrictionsCancellation" = "Items Restrictions Cancellation";
+"ConfirmInApp" = "Confirm Your In-App Purchase";
+"InApp99" = "To eliminate the limit the number of item IDxPassword, it charges $0.99.";
+"Approval" = "Approval";
 "Cancel" = "Cancel";
-"OK" = "OK";
-"NameGrError" = "Group name is invalid!";
-"InsertGroupError" = "Error occurr when insert group";
+
+"AdCancellation" = "Advertisement Cancellation";
+"InApp499" = "To eliminate the advertisement, you are charged $4.99.";
+"CSVExport" = "CSV Plaintext Export";
+"InAppCSV999" = "To add the function of the data exportation in CSV format. It charges $9.99.";
+
+"Note" = "Note";
+"NoImage" = "NO IMAGE";
+"DestructionTurnOnWarn" = "Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW ## times.";
+"ClipboardCopied" = "The following item has been copied to the clipboard.";
+"OpenWeb" = "Open the web page";
+"PassGenerator" = "Password Generator";
+"Generation" = "Generation";
+"Number" = "Number";
+"Capital" = "Capital";
+"LowerCase" = "Lower Case";
+"Sign" = "Sign";
+"DuplicatePrevention" = "Duplicate Prevention";
+"NumCharacter" = "Number of Characters";
+"DeleteFolder" = "Delete Folder";
+"Delete" = "Delete";
+"Cancel" = "Cancel";
+
+"InAppLimitWarn" = "Just 12 items can be registrated with this app. You can pay ￠99 for key-code to remove the item limit.";
+"ChangeFolderName" = "Change folder name";
+"AddFolder" = "Add folder";
+"Syncronization" = "Syncronization";
+"UnifyNewData" = "Unify by the newer data";
+"CloudName" = "Cloud service name:";
+"LastSync" = "Last Sync:";
+
+"InternetError" = "Internet can not be used. Try again after check the connection.";
+"NoCloudSetup" = "No cloud service has not set up. You need set it up through Sync menu on the setting page.";
+"ReadCloudDataWarn" = "The data on Dropbox(GoogleDrive) will be overwritten by this iPhone's data. Are you sure?";
+"WriteCloudDataWarn" = "This iPhone's data will be overwritten by the newer data on Dropbox(GoogleDrive).";
+"SyncInterupted" = "The synchronization was interrupted.";
+"SyncFail" = "The synchronization was failed.";
+"SyncFinish" = "The synchronization was finished.";
 
 
-"InitUserError" = "Create user Error";
+"ReadCloudDataInfo" = "The data on Dropbox(GoogleDrive) will be overwritten by this iPhone's data.";
+"ReadCloudDataSure" = "Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?";
+"WriteCloudDataSure" = "This iPhone's data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?";
+"WriteCloudDataInfo" = "This iPhone's data will be overwritten by the newer data on Dropbox(GoogleDrive).";
+
+"Icon" = "Logo/Icon";
+"General" = "General";
+"Finance" = "Finance";
+"Web" = "Web";
+"ECommerce" = "E-commerce";
+"Carrier" = "Carrier";

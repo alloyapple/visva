@@ -8,6 +8,9 @@
 
 #import "TDPreference.h"
 #import "TDDatabase.h"
+#import "NSDictionary_Encrypt.h"
+
+#define kPasswordPref @"12345676543234Adfghbcvvbsn"
 
 static TDPreference *instance = nil;
 @interface TDPreference()
@@ -18,8 +21,8 @@ static TDPreference *instance = nil;
 -(id)init{
     if ((self = [super init])) {
         instance = self;
-        self.fileName = @"preference.plist";
-        self.dic = [NSMutableDictionary dictionaryWithContentsOfFile:[TDDatabase pathInDocument:_fileName]];
+        self.fileName = @"preference_enc.dat";
+        self.dic = [TDPlist mutableObjectFromFile:[TDDatabase pathInDocument:_fileName] passAES256:kPasswordPref];
         if (_dic == nil) {
             self.dic = [[[NSMutableDictionary alloc] init] autorelease];
         }
@@ -33,7 +36,8 @@ static TDPreference *instance = nil;
     [super dealloc];
 }
 -(void)synchronize{
-    [self.dic writeToFile:[TDDatabase pathInDocument:_fileName] atomically:YES];
+    [TDPlist write:self.dic toFile:[TDDatabase pathInDocument:_fileName]
+        atomically:YES passAES256:kPasswordPref];
 }
 +(TDPreference*)share{
     if (instance) {
@@ -57,5 +61,8 @@ static TDPreference *instance = nil;
 +(void)sync{
     //[[NSUserDefaults standardUserDefaults] synchronize];
     [[TDPreference share] synchronize];
+}
++(void)clearPreference{
+    [TDPreference share].dic = [NSMutableDictionary dictionary];
 }
 @end

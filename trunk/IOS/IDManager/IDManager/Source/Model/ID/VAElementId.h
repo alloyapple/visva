@@ -23,6 +23,7 @@
 @property(nonatomic, retain) NSString *sUrl;
 @property(nonatomic, retain) NSString *sNote;
 @property(nonatomic, retain) NSString *sImage;
+@property(nonatomic, assign) int iOrder;
 
 @property(nonatomic, retain) NSMutableArray *aPasswords;
 
@@ -32,6 +33,7 @@
  */
 +(NSMutableArray*)getListElement:(TDSqlManager*)manager group:(VAGroup*)u;
 +(NSString*)getCreateTableQuery;
++(NSString*)getDestroyQuery;
 
 /*
  * Insert Group into database. Set iPrId to new inserted id.
@@ -46,6 +48,7 @@
  * @return: YES if complete, NO if error
  */
 -(BOOL)updateToDb:(TDSqlManager*)manager;
+-(BOOL)updateOrderToDb:(TDSqlManager*)manager;
 /*
  * Delete Group from database.
  * @return: YES if complete, NO if error
@@ -56,4 +59,6 @@
  * weak delete Group from database
  */
 -(BOOL)weakDeleteFromDb:(TDSqlManager*)manager;
+
+
 @end

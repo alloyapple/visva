@@ -14,17 +14,18 @@
 
 NSString *delementIdTable = @"ElementID";
 NSString *deId = @"eId";
-NSString *degroupId = @"groupId";
-NSString *detitle = @"title";
-NSString *deicon = @"icon";
-NSString *detimeStamp = @"timeStamp";
-NSString *dedeleted = @"deleted";
-NSString *defavorite = @"favorite";
-NSString *deflag = @"flag";
-NSString *decountId = @"countId";
-NSString *deurl = @"url";
-NSString *denote = @"note";
-NSString *deimage = @"image";
+NSString *degroupId = @"eGroupId";
+NSString *detitle = @"eTitle";
+NSString *deicon = @"eIcon";
+NSString *detimeStamp = @"eTimeStamp";
+NSString *dedeleted = @"eDeleted";
+NSString *defavorite = @"eFavorite";
+NSString *deflag = @"eFlag";
+NSString *decountId = @"eCountId";
+NSString *deurl = @"eUrl";
+NSString *denote = @"eNote";
+NSString *deimage = @"eImage";
+NSString *deOrder = @"eOrder";
 
 @implementation VAElementId
 
@@ -46,15 +47,28 @@ NSString *deimage = @"image";
 }
 #pragma mark - database
 +(NSString*)getCreateTableQuery{
-    NSString *str = [NSString stringWithFormat:@"CREATE  TABLE ElementID (\"eId\" INTEGER PRIMARY KEY  NOT NULL , \"groupId\" INTEGER, \"title\" TEXT, \"icon\" TEXT, \"timeStamp\" DOUBLE, \"deleted\" INTEGER, \"favorite\" INTEGER, \"flag\" INTEGER, \"countId\" INTEGER, \"url\" TEXT, \"note\" TEXT, \"image\" TEXT)"];
+    NSString *str = [NSString stringWithFormat:@"CREATE  TABLE %@ (\
+                     %@ INTEGER PRIMARY KEY  NOT NULL , %@ INTEGER, %@ TEXT, %@ TEXT,\
+                     %@ DOUBLE, %@ INTEGER, %@ INTEGER, %@ INTEGER, \
+                     %@ INTEGER, %@ TEXT, %@ TEXT, %@ TEXT,\
+                     %@ INTEGER)",
+                     delementIdTable,
+                     deId, degroupId, detitle, deicon,
+                     detimeStamp, dedeleted, defavorite, deflag,
+                     decountId, deurl, denote, deimage,
+                     deOrder];
     return str;
 }
++(NSString*)getDestroyQuery{
+    return [NSString stringWithFormat: @"DELETE %@ WHERE 1;", delementIdTable];
+}
+
 +(NSMutableArray*)getListElement:(TDSqlManager *)manager group:(VAGroup *)group{
     sqlite3 *db = [manager getDatabase];
     if (db == NULL) {
         return nil;
     }
-    NSString *query = [NSString stringWithFormat:@"SELECT * from %@ Where %@=0 and %@=%d ", delementIdTable, dedeleted, degroupId, group.iGroupId];
+    NSString *query = [NSString stringWithFormat:@"SELECT * from %@ Where %@=0 and %@=%d ORDER BY %@ ", delementIdTable, dedeleted, degroupId, group.iGroupId, deOrder];
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
         return nil;
@@ -63,6 +77,7 @@ NSString *deimage = @"image";
     while (sqlite3_step(stmt)==SQLITE_ROW) {
         VAElementId *element = [[[VAElementId alloc] init] autorelease];
         element.iId = TDSqlInt(stmt, 0);
+        element.group = group;
         element.sTitle = TDSqlText(stmt, 2);
         element.sEIcon = TDSqlText(stmt, 3);
         element.dTimeStamp = TDSqlDouble(stmt, 4);
@@ -73,6 +88,7 @@ NSString *deimage = @"image";
         element.sUrl = TDSqlText(stmt, 9);
         element.sNote = TDSqlText(stmt, 10);
         element.sImage = TDSqlText(stmt, 11);
+        element.iOrder = TDSqlInt(stmt, 12);
         [arr addObject:element];
     }
     return arr;
@@ -88,8 +104,13 @@ NSString *deimage = @"image";
         return NO;
     }
     NSString *query = [NSString stringWithFormat:@"INSERT INTO %@ \
-                       (%@, %@, %@, %@,  %@, %@, %@, %@,  %@, %@, %@) VALUES (?,?,?,? ,?,?,?,? ,?,?,?)",
-                       delementIdTable, detitle, deicon, detimeStamp, dedeleted, defavorite, deflag,decountId, deurl, denote, deimage, degroupId];
+                       (%@, %@, %@, %@,  \
+                       %@, %@, %@, %@,  \
+                       %@, %@, %@, %@) VALUES (?,?,?,? ,?,?,?,? ,?,?,?,?)",
+                       delementIdTable,
+                       detitle, deicon, detimeStamp, dedeleted,
+                       defavorite, deflag,decountId, deurl,
+                       denote, deimage, degroupId, deOrder];
     TDLOG(@"Query insert VAProject = %@", query);
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
@@ -106,6 +127,7 @@ NSString *deimage = @"image";
     TDSqlBindText(stmt, 9, _sNote);
     TDSqlBindText(stmt, 10, _sImage);
     TDSqlBindInt(stmt, 11, _group.iGroupId);
+    TDSqlBindInt(stmt, 12, _iOrder);
     
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         sqlite3_finalize(stmt);
@@ -115,6 +137,12 @@ NSString *deimage = @"image";
         sqlite3_finalize(stmt);
         int lastIndex = sqlite3_last_insert_rowid(db);
         self.iId = lastIndex;
+        
+        //insert list id
+        for (VAPassword *pass in _aPasswords) {
+            [pass insertToDb: manager];
+        }
+        
         return YES;
     }
 }
@@ -124,8 +152,17 @@ NSString *deimage = @"image";
     if (db == NULL) {
         return NO;
     }
-    NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET %@ =?, %@=? ,%@=?, %@=?, %@=?, %@ =?, %@=? ,%@=?, %@=?, %@=?  WHERE %@=?",
-                       delementIdTable, detitle, deicon, detimeStamp, dedeleted, defavorite, deflag,decountId, deurl, denote, deimage, deId];
+    NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET \
+                       %@ =?, %@=? ,%@=?, %@=?,\
+                       %@=?, %@ =?, %@=? ,%@=?,\
+                       %@=?, %@=?, %@=?, %@=?\
+                       WHERE %@=?",
+                       delementIdTable,
+                       detitle, deicon, detimeStamp, dedeleted,
+                       defavorite, deflag,decountId, deurl,
+                       denote, deimage, degroupId, deOrder, 
+                       deId];
+    TDLOG(@"query element=%@", query);
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
         return NO;
@@ -141,7 +178,9 @@ NSString *deimage = @"image";
     TDSqlBindText(stmt, 8, _sUrl);
     TDSqlBindText(stmt, 9, _sNote);
     TDSqlBindText(stmt, 10, _sImage);
-    TDSqlBindInt(stmt, 11, _iId);
+    TDSqlBindInt(stmt, 11, _group.iGroupId);
+    TDSqlBindInt(stmt, 12, _iOrder);
+    TDSqlBindInt(stmt, 13, _iId);
     
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         sqlite3_finalize(stmt);
@@ -152,9 +191,38 @@ NSString *deimage = @"image";
         return YES;
     }
 }
+
+-(BOOL)updateOrderToDb:(TDSqlManager*)manager{
+    sqlite3 *db = [manager getDatabase];
+    if (db == NULL) {
+        return NO;
+    }
+    NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET \
+                       %@ =? WHERE %@=?",
+                       delementIdTable,
+                       deOrder, deId];
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
+        return NO;
+    }
+    TDSqlBindInt(stmt, 1, _iOrder);
+    TDSqlBindInt(stmt, 2, _iId);
+    
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        sqlite3_finalize(stmt);
+        NSAssert(0, @"Error updating table: %@", query);
+        return NO;
+    }else{
+        sqlite3_finalize(stmt);
+        return YES;
+    }
+}
+
 -(BOOL)deleteFromDb:(TDSqlManager*)manager{
-    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", delementIdTable, dedeleted, _iId];
-    return [manager executeQuery:query];
+    NSString *query = [NSString stringWithFormat:@"DELETE From %@ WHERE %@=%d", delementIdTable, dedeleted, _iId];
+    BOOL value = [manager executeQuery:query];
+    BOOL rtnDeletePw = [VAPassword didDeleteFromDb:manager elementId:self];
+    return value && rtnDeletePw;
 }
 
 -(BOOL)weakDeleteFromDb:(TDSqlManager*)manager{
@@ -167,4 +235,5 @@ NSString *deimage = @"image";
         return NO;
     }
 }
+
 @end

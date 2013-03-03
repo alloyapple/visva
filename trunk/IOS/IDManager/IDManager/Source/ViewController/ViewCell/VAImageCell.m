@@ -7,9 +7,15 @@
 //
 
 #import "VAImageCell.h"
-
+#import "TDCommonLibs.h"
 @implementation VAImageCell
-
+-(void)awakeFromNib{
+    [super awakeFromNib];
+    TDLOG(@"bg = %@, bgSelf = %@", _bgView, self.backgroundView);
+    //self.backgroundView = _bgView;
+    //self.selectedBackgroundView = _bgView;
+    
+}
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -35,6 +41,7 @@
 - (void)dealloc {
     [_imBackground release];
     [_imForceground release];
+    [_bgView release];
     [super dealloc];
 }
 @end

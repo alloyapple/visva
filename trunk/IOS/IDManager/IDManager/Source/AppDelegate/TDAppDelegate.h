@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "TDViewController.h"
-
+#import "TDIdleWindow.h"
 @class TDViewController;
 
 @interface TDAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) TDIdleWindow *window;
 
 @property (strong, nonatomic) TDViewController *viewController;
 +(TDAppDelegate*)share;
+
+#pragma mark - Dropbox:: begin
+extern NSString *kDropboxChangeLinkedStatus;
+#pragma mark Dropbox:: end
 
 @end
