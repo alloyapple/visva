@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">IDManager</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
@@ -34,6 +35,8 @@
 
     <!-- dialog create new master password -->
     <string name="create_new_password_msg">Create new master password?</string>
+    <string name="btn_agree">Agree</string>
+    <string name="btn_disagree">Disagree</string>
     <string name="create_new_password_confirm">OK</string>
     <string name="create_new_password_cancel">Cancel</string>
     <string name="hint_search">Search</string>
@@ -52,5 +55,7 @@
     <string name="list_finance">Finance</string>
     <string name="list_webservice">Web service</string>
     <string name="list_airline">Airline</string>
+    <string name="term_of_use">Term Of Use Agreement</string>
+    <string name="term_of_use_content">\nYou agree to the terms and conditions outlined in this Terms of Use Agreement (“Agreement”) with respect to our App (the “App”).\nThis Agreement constitutes the entire and only agreement between us and you, and supersedes all prior or contemporaneous agreements, representations, warranties and understandings with respect to the App, the content, products or services provided by or through the App, and the subject matter of this Agreement.\nThis Agreement may be amended at any time by us from time to time without specific notice to you. \nThe latest Agreement will be posted on the App, and you should review this Agreement prior to using the App.</string>
 
 </resources>

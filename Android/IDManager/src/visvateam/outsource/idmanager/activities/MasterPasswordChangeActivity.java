@@ -1,38 +1,38 @@
 package visvateam.outsource.idmanager.activities;
 
-import visvateam.outsource.idmanager.activities.login.TermOfServiceActivity;
+import net.sqlcipher.database.SQLiteDatabase;
+import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
-import visvateam.outsource.idmanager.database.IdManagerPreference;
+import visvateam.outsource.idmanager.database.UserDataBase;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MasterPasswordChangeActivity extends Activity {
 	// =======================Control Define ====================
-	private Button btnReturn;
-	private Button btnDone;
+
 	private EditText editTextNewPW;
 	private EditText editTextOldPW;
 	private TextView txtChangePW;
 	private TextView txtOldPW;
 	private TextView txtNewPW;
-	private IdManagerPreference idManagerPreference;
+	// ==============================Class Define================
 	private DataBaseHandler mDataBaseHandler;
 	// =======================Variables Define ==================
 	private boolean isChangePW;
 	private String masterPW;
+	private String mMasterPassword;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.change_master_password);
-		isChangePW = getIntent().getExtras().getBoolean("isChangePW");
+		isChangePW = getIntent().getExtras().getBoolean(Contants.IS_CHANGE_PASSWORD);
 		Log.e("isChangePW", "isCHangePW " + isChangePW);
 
 		/* init database */
@@ -41,11 +41,14 @@ public class MasterPasswordChangeActivity extends Activity {
 		initControl();
 	}
 
+	/**
+	 * intialize database
+	 */
 	private void initDataBase() {
-
-		/* init share preference */
-		idManagerPreference = IdManagerPreference.getInstance(this);
-		masterPW = idManagerPreference.getMasterPW();
+		/* init database */
+		SQLiteDatabase.loadLibs(this);
+		mDataBaseHandler = new DataBaseHandler(this);
+		mDataBaseHandler.getUserCount();
 
 	}
 
@@ -77,26 +80,38 @@ public class MasterPasswordChangeActivity extends Activity {
 		if (!isChangePW) {
 			if (!editTextNewPW.getText().toString().trim()
 					.equals(editTextOldPW.getText().toString().trim()))
-				showToast("Password retyped is not correct");
+				showToast("Password retyped is not matched");
 			else {
 				/* set master pw */
-				masterPW = editTextOldPW.getText().toString();
-				idManagerPreference.setMasterPW(masterPW);
+				mMasterPassword = editTextOldPW.getText().toString();
+				/* delete old user */
+				mDataBaseHandler.deleteFolder(Contants.MASTER_PASSWORD_ID);
+				/* add user to db */
+				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
+						"test");
+				mDataBaseHandler.addNewUser(user);
 
 				/* return Term of service */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this,
-						TermOfServiceActivity.class);
+						MasterPasswordActivity.class);
 				startActivity(intent);
 				finish();
 			}
-		} else {
+		}
 
-			/* change master pw */
+		/* change master pw */
+		else {
+
+			UserDataBase user1 = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+			masterPW = user1.getUserPassword();
+			
 			if (!masterPW.equals(editTextOldPW.getText().toString())) {
 				showToast("Your old master password is not correct");
 			} else {
-				masterPW = editTextNewPW.getText().toString();
-				idManagerPreference.setMasterPW(masterPW);
+				mMasterPassword = editTextNewPW.getText().toString();
+				/* update this password to db */
+				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword, "test");
+				mDataBaseHandler.updateUser(user);
 
 				/* return setting activity */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);

@@ -15,6 +15,7 @@ import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
 import visvateam.outsource.idmanager.database.IDDataBase;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,6 +28,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,7 +79,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private DataBaseHandler mDataBaseHandler;
 	private ArrayList<FolderItem> mFolderListItems = new ArrayList<FolderItem>();
 	private ArrayList<OneItem> mIdListItems = new ArrayList<OneItem>();
-
+	private IdManagerPreference mIdManagerPreference;
 	// ============================Variable Define ==================
 
 	private Context context;
@@ -245,9 +247,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * initialize database
 	 */
 	private void initDataBase() {
+		/* share preference */
+		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new DataBaseHandler(this);
-		
+
 		// check size of folder database
 		checkSizeFolderDataBase();
 		// get data from folder database
@@ -545,6 +549,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			return createExampleDialog(Contants.DIALOG_EDIT_ID);
 		case Contants.DIALOG_CREATE_ID:
 			return createExampleDialog(Contants.DIALOG_CREATE_ID);
+		case Contants.DIALOG_EXIT:
+			return createExampleDialog(Contants.DIALOG_EXIT);
 		default:
 			return null;
 		}
@@ -722,6 +728,28 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				}
 			});
 			return builder.create();
+		case Contants.DIALOG_EXIT:
+			builder.setTitle("IDManager");
+			builder.setMessage("Are you sure to want to exit?");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					finish();
+					return;
+				}
+			});
+
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					return;
+				}
+			});
+			return builder.create();
 
 		default:
 			return null;
@@ -780,8 +808,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private void deleteFolder(int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
 		/* delete folder in database */
-		mDataBaseHandler.deleteFolder(mFolderListItems.get(positionReturnedByHandler)
-				.getFolderId());
+		mDataBaseHandler
+				.deleteFolder(mFolderListItems.get(positionReturnedByHandler).getFolderId());
 		/* delete all ids in this folder */
 		mDataBaseHandler.deleteIDPasswordFromFolderId(positionReturnedByHandler);
 		/* refresh id list view */
@@ -801,8 +829,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		sizeOfFolder++;
 		int imgFolderIconId = R.drawable.btn_edit;
 		int imgFolderId = R.drawable.folder_common;
-		mDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName,
-				imgFolderId, imgFolderIconId, Contants.TYPE_FOLDER_NORMAL));
+		mDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName, imgFolderId,
+				imgFolderIconId, Contants.TYPE_FOLDER_NORMAL));
 
 		// /* refresh listview folder */
 		FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId, imgFolderIconId, folderName,
@@ -821,5 +849,22 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	private void showToast(String string) {
 		Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			if (mIdManagerPreference.getSecurityMode() == Contants.KEY_OFF) {
+				finish();
+			} else
+				showDialog(Contants.DIALOG_EXIT);
+			break;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

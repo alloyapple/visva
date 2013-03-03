@@ -625,6 +625,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 		UserDataBase user = new UserDataBase(Integer.parseInt(cursor.getString(0)),
 				cursor.getString(1), cursor.getString(2));
+		cursor.close();
 		db.close();
 		// return folder
 		return user;
@@ -680,11 +681,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Getting users Count
 	public int getUserCount() {
+		int count = 0;
 		String countQuery = "SELECT  * FROM " + TABLE_T_USERS;
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
-		Cursor cursor = db.rawQuery(countQuery, null);
-
+		Cursor cursor = db.rawQuery(countQuery, null);	
 		// return count
-		return cursor.getCount();
+		count = cursor.getCount();
+		cursor.close();
+		db.close();
+		return count;
 	}
 }
