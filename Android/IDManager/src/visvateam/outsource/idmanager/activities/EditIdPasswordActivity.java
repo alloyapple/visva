@@ -101,7 +101,6 @@ public class EditIdPasswordActivity extends Activity implements
 	private String timeStamp;
 	private boolean isEncrypted;
 	private int userId;
-
 	private static Drawable mDrawableIcon;
 	private static boolean isUpdateIcon;
 	public static String mUrlItem;
@@ -129,9 +128,7 @@ public class EditIdPasswordActivity extends Activity implements
 
 		Log.e("currentFOlder id", "currentFolderId " + currentFolderId);
 
-		if (mUrlItem == null) {
-			mUrlItem = "http://google.com";
-		}
+		
 		/* initialize database */
 		initDataBase();
 
@@ -265,6 +262,7 @@ public class EditIdPasswordActivity extends Activity implements
 				item.mContentItem = "";
 				itemList.add(item);
 			}
+			mUrlItem = "http://google.com";
 
 			/* is edit id */
 		} else {
@@ -276,6 +274,7 @@ public class EditIdPasswordActivity extends Activity implements
 
 			mEditTextNameId.setText(id.getTitleRecord());
 			mEditTextNote.setText(id.getNote());
+			mUrlItem=id.getUrl();
 			mEditTextUrlId.setText(id.getUrl());
 			// load info from database
 			Item item1 = new Item();
