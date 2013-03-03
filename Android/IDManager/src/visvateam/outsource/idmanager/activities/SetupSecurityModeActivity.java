@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class SetupSecurityModeActivity extends Activity {
 	private WheelView mWheelViewModeSecurity;
 	private IdManagerPreference mIdManagerPreference;
-	private String modes[] = { "Off", "1 minute", "3 minute", "5 minute", "7 minute", "10 minute" };
+	private String modes[] = { "Off", "1 minute", "3 minute", "5 minute", "10 minute" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

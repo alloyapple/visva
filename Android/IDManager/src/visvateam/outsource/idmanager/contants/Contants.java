@@ -18,6 +18,8 @@ public class Contants {
 	public static final int DIALOG_EXIT = 6;
 	public static final int DIALOG_WRONG_PASS = 7;
 	public static final int DIALOG_EMPTY_PASS = 8;
+	public static final int DIALOG_NO_NET_WORK = 9;
+	public static final int DIALOG_CHOICE_CLOUD_TYPE = 10;
 
 	public static final int NUMBER_FOLDER_DEFALT = 2;
 	public static final int TYPE_FOLDER_NORMAL = 1;
@@ -45,7 +47,9 @@ public class Contants {
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment.getExternalStorageDirectory().getPath()
 			+ "/IDManager/Files/";
+	public static final String FOLDER_ON_DROPBOX = "/Documents/";
 	public static final String IS_CHANGE_PASSWORD = "isChangePW";
 	public static int MASTER_PASSWORD_ID = 101;
+	public static final String IS_SYNC_TO_CLOUD = "IS_SYNC_TO_CLOUD";
 
 }
