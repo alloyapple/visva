@@ -27,6 +27,7 @@ import javax.crypto.NoSuchPaddingException;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
 
+import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
@@ -145,7 +146,7 @@ public class EditIdPasswordActivity extends Activity implements
 		}
 	}
 
-	public Drawable getIconDatabase(String icon) {
+	public static Drawable getIconDatabase(String icon) {
 		File inputFile = new File(Environment.getExternalStorageDirectory()+"/"+icon);
 		byte[] cipherBytes = new byte[(int) inputFile.length()];
 		FileInputStream fis = null;
@@ -363,7 +364,9 @@ public class EditIdPasswordActivity extends Activity implements
 	}
 
 	public void onInfo(View v) {
-		BrowserActivity.startActivity(this);
+		Intent intentBrowser = new Intent(EditIdPasswordActivity.this, BrowserActivity.class);
+		intentBrowser.putExtra(Contants.KEY_TO_BROWSER	, Contants.INFO_TO);
+		startActivity(intentBrowser);
 	}
 
 	public void onGoogleHome(View v) {
@@ -552,7 +555,7 @@ public class EditIdPasswordActivity extends Activity implements
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// TODO Auto-generated method stub
-							return;
+							finish();
 						}
 					});
 			return builder.create();

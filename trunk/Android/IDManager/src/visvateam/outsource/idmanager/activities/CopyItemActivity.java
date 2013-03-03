@@ -1,5 +1,6 @@
 package visvateam.outsource.idmanager.activities;
 
+import visvateam.outsource.idmanager.contants.Contants;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class CopyItemActivity extends Activity {
 		finish();
 	}
 	public void onPasteBrowse(View v) {
-
+		Intent intentBrowser = new Intent(CopyItemActivity.this, BrowserActivity.class);
+		intentBrowser.putExtra(Contants.KEY_TO_BROWSER	, Contants.PASTE_TO);
+		startActivity(intentBrowser);
 	}
 }
