@@ -12,7 +12,7 @@ public class Contants {
 	public static final String KEY_TO_BROWSER = "browserActivity";
 	public static final int INFO_TO = 0;
 	public static final int PASTE_TO = 1;
-	
+
 	public static final int DIALOG_ADD_NEW_FOLDER = 0;
 	public static final int DIALOG_DELETE_FOLDER = 1;
 	public static final int DIALOG_EDIT_FOLDER = 2;
@@ -24,8 +24,10 @@ public class Contants {
 	public static final int DIALOG_EMPTY_PASS = 8;
 	public static final int DIALOG_NO_NET_WORK = 9;
 	public static final int DIALOG_CHOICE_CLOUD_TYPE = 10;
-
-	public static final int NUMBER_FOLDER_DEFALT = 2;
+	public static final int DIALOG_MOVE_ID_TO_FOLDER = 11;
+	public static final int IS_SEARCH_MODE = 12;
+	
+	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
 	public static final int TYPE_FOLDER_NON_NORMAL = 0;
 	public static final int TEXT_ID = 0;
@@ -57,5 +59,6 @@ public class Contants {
 	public static final String IS_SYNC_TO_CLOUD = "IS_SYNC_TO_CLOUD";
 	public static final String FILE_CSV_NAME = "idmanager.csv";
 	public static final String IS_EXPORT_FILE = "IS_EXPORT_FILE";
+	
 
 }

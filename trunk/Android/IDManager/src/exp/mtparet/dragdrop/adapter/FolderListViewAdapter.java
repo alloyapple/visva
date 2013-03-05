@@ -23,6 +23,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private static final int DELETE_FOLDER = 1;
 	private static final int EDIT_FOLDER = 2;
 	private boolean isEdit;
+	private boolean isSearchMode;
 	private Context context;
 	private ArrayList<FolderItem> folderList = new ArrayList<FolderItem>();
 	private Handler mHandler;
@@ -30,16 +31,18 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private int currentFolderId;
 
 	public FolderListViewAdapter(Context context, ArrayList<FolderItem> folderList, boolean isEdit,
-			Handler mHandler, ListViewDragDrop folderListView,int currentFolderId) {
+			Handler mHandler, ListViewDragDrop folderListView, int currentFolderId,
+			boolean isSearchMode) {
 		this.context = context;
 		this.isEdit = isEdit;
 		this.mHandler = mHandler;
 		this.folderListView = folderListView;
 		this.currentFolderId = currentFolderId;
 		this.folderList = folderList;
-//		for(int i = folderList.size() - 1 ; i >= 0;i --){
-//			this.folderList.add(folderList.get(i));
-//		}
+		this.isSearchMode = isSearchMode;
+		// for(int i = folderList.size() - 1 ; i >= 0;i --){
+		// this.folderList.add(folderList.get(i));
+		// }
 	}
 
 	@Override
@@ -87,20 +90,28 @@ public class FolderListViewAdapter extends BaseAdapter {
 		/* set action for button */
 		imgFolderDelete.setOnClickListener(mOnDeleteClickListener);
 		imgFolderEdit.setOnClickListener(mOnEditClickListener);
-		
+
 		convertView.setBackgroundResource(folderList.get(position).getFolderImgid());
 		imgFolderIcon.setBackgroundResource(folderList.get(position).getFolderIconId());
-		txtFodlerName.setText(""+folderList.get(position).getTextFolderName());
+		txtFodlerName.setText("" + folderList.get(position).getTextFolderName());
 		if (folderList.get(position).getImgFolderType() == Contants.TYPE_FOLDER_NON_NORMAL) {
-			if(position == currentFolderId)
+			if (position == currentFolderId)
 				convertView.setBackgroundResource(R.drawable.folder_s_select);
+			if (isSearchMode && position == 0){
+				convertView.setBackgroundResource(R.drawable.folder_select);
+				isSearchMode = false;
+				Message msg = mHandler.obtainMessage();
+				msg.arg1 = Contants.IS_SEARCH_MODE;
+				msg.arg2 = 0;
+				mHandler.sendMessage(msg);
+			}
 			imgFolderDelete.setVisibility(View.GONE);
 			imgFolderEdit.setVisibility(View.GONE);
 			txtFodlerName.setVisibility(View.GONE);
 			imgFolderIcon.setVisibility(View.VISIBLE);
-			
+
 		} else {
-			if(position == currentFolderId)
+			if (position == currentFolderId)
 				convertView.setBackgroundResource(R.drawable.folder_select);
 			imgFolderIcon.setVisibility(View.GONE);
 			if (isEdit == true) {
@@ -113,7 +124,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 				txtFodlerName.setVisibility(View.VISIBLE);
 			}
 		}
-
+		
 		return convertView;
 	}
 
@@ -127,19 +138,26 @@ public class FolderListViewAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void setFolderSelected(int currentFolderId){
+	public void setFolderSelected(int currentFolderId) {
 		this.currentFolderId = currentFolderId;
 		notifyDataSetChanged();
 	}
+
 	public void addNewFolder(FolderItem folder) {
 		folderList.add(folder);
 		notifyDataSetChanged();
 	}
 
-	public void updateFolderList(ArrayList<FolderItem> folderItems){
+	public void updateSearchMode(boolean isSearchMode) {
+		this.isSearchMode =isSearchMode;
+		notifyDataSetChanged();
+	}
+
+	public void updateFolderList(ArrayList<FolderItem> folderItems) {
 		this.folderList = folderItems;
 		notifyDataSetChanged();
 	}
+
 	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {

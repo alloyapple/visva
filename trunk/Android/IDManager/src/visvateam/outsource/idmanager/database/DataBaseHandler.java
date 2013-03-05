@@ -337,6 +337,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				cursor.getString(29), cursor.getString(30), cursor.getString(31),
 				cursor.getString(32), cursor.getString(33), Boolean.parseBoolean(cursor
 						.getString(34)), Integer.parseInt(cursor.getString(35)));
+		cursor.close();
 		db.close();
 		// return folder
 		return id;

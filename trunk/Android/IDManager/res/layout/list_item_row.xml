@@ -13,7 +13,9 @@
         android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/img_folder_item_icon"

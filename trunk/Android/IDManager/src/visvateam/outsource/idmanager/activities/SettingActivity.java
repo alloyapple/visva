@@ -195,14 +195,19 @@ public class SettingActivity extends Activity {
 		java.util.List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
 		try {
 			FileWriter writer = new FileWriter(sFileName);
+			writer.append("");
+			writer.append(",");
 			writer.append("Folder Tables");
 			writer.append("\n");
 			writer.append("Folder Name");
+			writer.append("\n");
 			for (int i = 0; i < folderList.size(); i++) {
 				writer.append("" + folderList.get(i).getFolderName());
 				writer.append("\n");
 			}
-
+			writer.append("\n");
+			writer.append("");
+			writer.append(",");
 			writer.append("IDxPassword tables");
 			writer.append("\n");
 			writer.append("Name");
