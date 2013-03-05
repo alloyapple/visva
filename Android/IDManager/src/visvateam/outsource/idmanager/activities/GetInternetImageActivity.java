@@ -71,7 +71,7 @@ public class GetInternetImageActivity extends Activity {
 //					break;
 //				default:
 //					break;
-//				}
+//				} 
 //				return false;
 //			}
 //		});

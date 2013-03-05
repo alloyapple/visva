@@ -23,7 +23,7 @@ import android.widget.Toast;
 public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 	private static final int REQUEST_ACCOUNT_PICKER = 1;
 	private static final int REQUEST_AUTHORIZATION = 2;
-	
+
 	private Context mContext;
 	private final ProgressDialog mDialog;
 	private Drive mService;
@@ -65,14 +65,15 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 			File body = new File();
 			body.setTitle(mFileDb.getName());
 			body.setMimeType("image/text");
-
-			File file = mService.files().insert(body, mediaContent).execute();
-			if (file != null) {
-				Log.e("finish", "finish");
-				return true;
+			if (mService != null) {
+				File file = mService.files().insert(body, mediaContent).execute();
+				if (file != null) {
+					Log.e("finish", "finish");
+					return true;
+				}
 			}
 		} catch (UserRecoverableAuthIOException e) {
-			showToast("Sync error.");
+			showToast("Sync error");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,18 +84,18 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		// TODO Auto-generated method stub
 		mDialog.dismiss();
-		if(result){
+		if (result) {
 			showToast("Sync completed");
-		}else
-			showToast("Sync error");
+		} else
+			showToast("You must authenticate your google account");
 		super.onPostExecute(result);
 	}
 
 	@Override
 	protected void onProgressUpdate(Long... progress) {
 		// TODO Auto-generated method stub
-		int percent = (int)(100.0*(double)progress[0]/mFileLength + 0.5);
-        mDialog.setProgress(percent);
+		int percent = (int) (100.0 * (double) progress[0] / mFileLength + 0.5);
+		mDialog.setProgress(percent);
 	}
 
 	private Drive getDriveService(GoogleAccountCredential credential) {
