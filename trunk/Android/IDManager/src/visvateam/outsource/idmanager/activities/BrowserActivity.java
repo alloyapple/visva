@@ -8,11 +8,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class BrowserActivity extends Activity {
 
@@ -21,6 +23,8 @@ public class BrowserActivity extends Activity {
 	private int mode;
 	private int currentPasswordId;
 	private DataBaseHandler mDataBaseHandler;
+	private EditText editText;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -30,16 +34,16 @@ public class BrowserActivity extends Activity {
 		setContentView(R.layout.page_browser);
 		currentPasswordId = getIntent().getExtras().getInt(
 				Contants.CURRENT_PASSWORD_ID);
-		initData();
+
 		if (mode == Contants.INFO_TO) {
 			((Button) findViewById(R.id.id_jogdial)).setVisibility(View.GONE);
 			url = "http://www.google.com";
 		} else {
 			((Button) findViewById(R.id.id_jogdial))
 					.setVisibility(View.VISIBLE);
-			url = "http://www.google.com";
+			initData();
 		}
-		
+		editText = (EditText) findViewById(R.id.id_edit_browser);
 		initControl();
 	}
 
@@ -47,12 +51,13 @@ public class BrowserActivity extends Activity {
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new DataBaseHandler(this);
 		IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
-		url=id.getUrl();
+		url = id.getUrl();
 	}
 
 	public void onJogdial(View v) {
 		Intent i = new Intent(BrowserActivity.this,
 				BrowserJogdialActivity.class);
+		i.putExtra(Contants.CURRENT_PASSWORD_ID, currentPasswordId);
 		startActivity(i);
 	}
 
@@ -69,7 +74,13 @@ public class BrowserActivity extends Activity {
 	}
 
 	public void onNext(View v) {
-		webView.goForward();
+		try {
+			KeyEvent shiftPressEvent = new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,
+					KeyEvent.KEYCODE_SHIFT_RIGHT, 0, 0);
+			shiftPressEvent.dispatch(webView);
+		} catch (Exception e) {
+			throw new AssertionError(e);
+		}
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
@@ -102,9 +113,11 @@ public class BrowserActivity extends Activity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				// TODO Auto-generated method stub
+				editText.setText(webView.getUrl());
 				super.onPageFinished(view, url);
 			}
 		});
+
 	}
 
 	public static void startActivity(Activity activity) {
