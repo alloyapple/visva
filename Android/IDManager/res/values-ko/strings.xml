@@ -60,11 +60,11 @@
     <string name="confirm_ok">Ok</string>
     <string name="confirm_cancel">Cancel</string>
     
-    <string name="list_carrier_title">Carrior</string>
-    <string name="list_e_commerce">E-commerce</string>
-    <string name="list_finance">Finance</string>
+    <string name="list_carrier_title">통신 · 인터넷</string>
+    <string name="list_e_commerce">쇼핑</string>
+    <string name="list_finance">금융</string>
     <string name="list_webservice">Web</string>
-    <string name="list_general">General</string>
+    <string name="list_general">일반</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 

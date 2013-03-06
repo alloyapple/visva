@@ -9,7 +9,7 @@
     <string name="list_icon_title">List icon</string>
     <string name="memo_title">Memo Image</string>
     <string name="setting_title">Setting</string>
-     <string name="copy_title">Copy</string>
+    <string name="copy_title">Copy</string>
     <string name="security_mode_title">Setup Security Mode</string>
     <string name="remove_data_title">Setup Remove Data</string>
     <string name="password_generator_title">Password Generator</string>
@@ -50,12 +50,6 @@
     <string name="btn_copy_pass">Password</string>
     <string name="btn_paste_browse">Paste Browse</string>
     <!-- list icon -->
-    <string name="list_carrier_title">Carrier</string>
-    <string name="list_e_commerce">E-commerce</string>
-    <string name="list_isp">ISP</string>
-    <string name="list_finance">Finance</string>
-    <string name="list_webservice">Web service</string>
-    <string name="list_airline">Airline</string>
     <string name="term_of_use">Term Of Use Agreement</string>
     <string name="term_of_use_content">\nYou agree to the terms and conditions outlined in this Terms of Use Agreement (“Agreement”) with respect to our App (the “App”).\nThis Agreement constitutes the entire and only agreement between us and you, and supersedes all prior or contemporaneous agreements, representations, warranties and understandings with respect to the App, the content, products or services provided by or through the App, and the subject matter of this Agreement.\nThis Agreement may be amended at any time by us from time to time without specific notice to you. \nThe latest Agreement will be posted on the App, and you should review this Agreement prior to using the App.</string>
     <string name="txt_dropbox_tut">Dropbox is one of the most popular cloud services. To use this service is required to get the account (free) in advance.</string>
@@ -65,5 +59,13 @@
     <string name="message_setting_chage">SettingChange</string>
     <string name="confirm_ok">Ok</string>
     <string name="confirm_cancel">Cancel</string>
+    
+    <string name="list_carrier_title">Carrior</string>
+    <string name="list_e_commerce">E-commerce</string>
+    <string name="list_finance">Finance</string>
+    <string name="list_webservice">Web</string>
+    <string name="list_general">General</string>
+    <string name="list_airline">Airline</string>
+    <string name="list_isp">ISP</string>
 
 </resources>
