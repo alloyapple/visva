@@ -6,9 +6,11 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 
 public class BrowserJogdialActivity extends Activity {
 	WebView webView;
+	String url;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +24,21 @@ public class BrowserJogdialActivity extends Activity {
 		finish();
 	}
 
+	public void onReload(View v) {
+		webView.reload();
+	}
+
+	public void onNote(View v) {
+	}
+
+	public void onKeyBoard(View v) {
+	}
+
 	private void initControl() {
 		// TODO Auto-generated method stub
 		webView = (WebView) findViewById(R.id.webview_jogdial);
 
-		webView.loadUrl("http://google.com");
+		webView.loadUrl("url");
 
 		webView.setContentDescription("application/pdf");
 		WebSettings webSettings = webView.getSettings();
@@ -47,6 +59,14 @@ public class BrowserJogdialActivity extends Activity {
 			@Override
 			public void onLoadResource(WebView view, String url) {
 			}
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				// TODO Auto-generated method stub
+				super.onPageFinished(view, url);
+				((EditText) findViewById(R.id.id_editText_jogdial)).setText(webView.getUrl());
+			}
+			
 		});
 	}
 
