@@ -45,14 +45,16 @@ public class IDDataBase {
 	}
 
 	// constructor
-	public IDDataBase(int passWordId, int folderId, String titleRecord, String icon,
-			String favouriteGroup, String titleId1, String dataId1, String titleId2,
-			String dataId2, String titleId3, String dataId3, String titleId4, String dataId4,
-			String titleId5, String dataId5, String titleId6, String dataId6, String titleId7,
-			String dataId7, String titleId8, String dataId8, String titleId9, String dataId9,
-			String titleId10, String dataId10, String titleId11, String dataId11, String titleId12,
-			String dataId12, String url, String note, String imageMemo, String flag,
-			String timeStamp, boolean isEncrypted,int userId) {
+	public IDDataBase(int passWordId, int folderId, String titleRecord,
+			String icon, String favouriteGroup, String titleId1,
+			String dataId1, String titleId2, String dataId2, String titleId3,
+			String dataId3, String titleId4, String dataId4, String titleId5,
+			String dataId5, String titleId6, String dataId6, String titleId7,
+			String dataId7, String titleId8, String dataId8, String titleId9,
+			String dataId9, String titleId10, String dataId10,
+			String titleId11, String dataId11, String titleId12,
+			String dataId12, String url, String note, String imageMemo,
+			String flag, String timeStamp, boolean isEncrypted, int userId) {
 		super();
 		this.passWordId = passWordId;
 		this.folderId = folderId;
@@ -93,13 +95,16 @@ public class IDDataBase {
 	}
 
 	// constructor
-	public IDDataBase(int folderId, String titleRecord, String icon, String favouriteGroup,
-			String titleId1, String dataId1, String titleId2, String dataId2, String titleId3,
-			String dataId3, String titleId4, String dataId4, String titleId5, String dataId5,
-			String titleId6, String dataId6, String titleId7, String dataId7, String titleId8,
-			String dataId8, String titleId9, String dataId9, String titleId10, String dataId10,
-			String titleId11, String dataId11, String titleId12, String dataId12, String url,
-			String note, String imageMemo, String flag, String timeStamp, boolean isEncrypted,int userId) {
+	public IDDataBase(int folderId, String titleRecord, String icon,
+			String favouriteGroup, String titleId1, String dataId1,
+			String titleId2, String dataId2, String titleId3, String dataId3,
+			String titleId4, String dataId4, String titleId5, String dataId5,
+			String titleId6, String dataId6, String titleId7, String dataId7,
+			String titleId8, String dataId8, String titleId9, String dataId9,
+			String titleId10, String dataId10, String titleId11,
+			String dataId11, String titleId12, String dataId12, String url,
+			String note, String imageMemo, String flag, String timeStamp,
+			boolean isEncrypted, int userId) {
 		super();
 		this.folderId = folderId;
 		this.titleRecord = titleRecord;
@@ -178,6 +183,38 @@ public class IDDataBase {
 		this.favouriteGroup = favouriteGroup;
 	}
 
+	public String getDataId(int i) {
+		switch (i) {
+		case 1:
+			return getDataId1();
+		case 2:
+			return getDataId2();
+		case 3:
+			return getDataId3();
+		case 4:
+			return getDataId4();
+		case 5:
+			return getDataId5();
+		case 6:
+			return getDataId6();
+		case 7:
+			return getDataId7();
+		case 8:
+			return getDataId8();
+		case 9:
+			return getDataId9();
+		case 10:
+			return getDataId10();
+		case 11:
+			return getDataId11();
+		case 12:
+			return getDataId12();
+
+		default:
+			return "";
+		}
+	}
+
 	public String getTitleId1() {
 		return titleId1;
 	}
@@ -195,6 +232,7 @@ public class IDDataBase {
 	}
 
 	public String getTitleId2() {
+		
 		return titleId2;
 	}
 
@@ -425,5 +463,5 @@ public class IDDataBase {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	
+
 }
