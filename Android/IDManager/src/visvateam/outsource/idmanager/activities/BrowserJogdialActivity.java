@@ -10,15 +10,20 @@ import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 public class BrowserJogdialActivity extends Activity {
 	WebView webView;
 	String url;
+	FrameLayout mFrameJogdial;
 	ArrayList<String> listId = new ArrayList<String>();
 	ArrayList<String> listPass = new ArrayList<String>();
 	private int currentPasswordId;
@@ -31,6 +36,16 @@ public class BrowserJogdialActivity extends Activity {
 		currentPasswordId = getIntent().getExtras().getInt(
 				Contants.CURRENT_PASSWORD_ID);
 		setContentView(R.layout.page_browser_detail);
+		mFrameJogdial=(FrameLayout) findViewById(R.id.id_fr_jogdial);
+		mFrameJogdial.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				Log.i("<-------------Touch Jogdial-------->", getClass().toString());
+				return false;
+			}
+		});
 		initData();
 		initControl();
 	}
