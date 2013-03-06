@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:layout_width="fill_parent" >
 
-            <FrameLayout
+            <FrameLayout android:id="@+id/id_fr_jogdial"
                 android:background="@drawable/paster_bk"
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent" >
