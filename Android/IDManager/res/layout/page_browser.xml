@@ -1,106 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@drawable/bg_04"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/action_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="46dp"
         android:background="@drawable/black_bar"
+        android:id="@+id/action_bar"
+        android:layout_height="46dp"
+        android:layout_width="fill_parent"
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/btn_edit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
+            android:id="@+id/btn_edit"
+            android:layout_gravity="center"
+            android:layout_height="36dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="36dp"
             android:onClick="onReturn" />
 
         <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="30dp"
+            android:background="@drawable/all_corner"
             android:layout_gravity="center"
+            android:layout_height="30dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:background="@drawable/all_corner"
+            android:layout_width="0dip"
             android:orientation="horizontal" >
 
             <EditText
+                android:background="@color/transparent"
                 android:id="@+id/id_edit_browser"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
                 android:layout_gravity="center"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@color/transparent" >
+                android:layout_width="0dip"
+                android:singleLine="true" >
             </EditText>
 
             <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:background="@drawable/refresh"
                 android:layout_gravity="center"
+                android:layout_height="30dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:background="@drawable/refresh"
+                android:layout_width="30dp"
                 android:onClick="onReload" />
         </LinearLayout>
 
         <Button
+            android:background="@drawable/btn_save"
             android:id="@+id/id_jogdial"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
             android:layout_gravity="center"
+            android:layout_height="36dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/btn_save"
+            android:layout_width="36dp"
             android:onClick="onJogdial" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
         android:orientation="vertical" >
 
         <ScrollView
-            android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:scrollbars="vertical" >
 
             <WebView
                 android:id="@+id/web_view"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent" >
             </WebView>
         </ScrollView>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="46dp"
             android:background="@drawable/top_bar"
+            android:layout_height="46dp"
+            android:layout_width="fill_parent"
             android:orientation="horizontal" >
 
             <Button
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:background="@drawable/btn_arrow_left"
                 android:layout_gravity="center"
+                android:layout_height="20dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/btn_arrow_left"
+                android:layout_width="20dp"
                 android:onClick="onBack" />
 
             <Button
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:background="@drawable/btn_arrow_right"
                 android:layout_gravity="center"
+                android:layout_height="20dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/btn_arrow_right"
+                android:layout_width="20dp"
                 android:onClick="onNext" />
         </LinearLayout>
     </LinearLayout>
