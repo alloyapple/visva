@@ -1,6 +1,9 @@
 package visvateam.outsource.idmanager.activities;
 
+import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.database.DataBaseHandler;
+import visvateam.outsource.idmanager.database.IDDataBase;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,8 +19,8 @@ public class BrowserActivity extends Activity {
 	private WebView webView;
 	private String url;
 	private int mode;
-
-
+	private int currentPasswordId;
+	private DataBaseHandler mDataBaseHandler;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -25,16 +28,26 @@ public class BrowserActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		mode = b.getInt(Contants.KEY_TO_BROWSER);
 		setContentView(R.layout.page_browser);
-
+		currentPasswordId = getIntent().getExtras().getInt(
+				Contants.CURRENT_PASSWORD_ID);
+		initData();
 		if (mode == Contants.INFO_TO) {
 			((Button) findViewById(R.id.id_jogdial)).setVisibility(View.GONE);
-			url="http://www.google.com";
+			url = "http://www.google.com";
 		} else {
 			((Button) findViewById(R.id.id_jogdial))
 					.setVisibility(View.VISIBLE);
-			url="http://www.google.com";
+			url = "http://www.google.com";
 		}
+		
 		initControl();
+	}
+
+	public void initData() {
+		SQLiteDatabase.loadLibs(this);
+		mDataBaseHandler = new DataBaseHandler(this);
+		IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
+		url=id.getUrl();
 	}
 
 	public void onJogdial(View v) {
@@ -45,6 +58,10 @@ public class BrowserActivity extends Activity {
 
 	public void onReturn(View v) {
 		finish();
+	}
+
+	public void onReload(View v) {
+		webView.reload();
 	}
 
 	public void onBack(View v) {
