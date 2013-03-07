@@ -3,6 +3,8 @@ package visvateam.outsource.idmanager.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.hssf.record.formula.udf.UDFFinder;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
 
@@ -61,6 +63,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_FLAG = "KEY_FLAG";
 	private static final String KEY_TIMES_STAMP = "KEY_TIMES_STAMP";
 	private static final String KEY_IS_ENCRYPTED = "KEY_IS_ENCRYPTED";
+	private static final String KEY_IS_LIKE = "KEY_IS_LIKE";
 
 	// User table name
 	private static final String TABLE_T_USERS = "TABLE_T_USERS";
@@ -76,7 +79,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		
+
 		// TODO Auto-generated method stub
 		String CREATE_FOLDERS_TABLE = "CREATE TABLE " + TABLE_T_FOLDERS + "(" + KEY_FOLDER_ID
 				+ " INTEGER PRIMARY KEY," + KEY_USER_ID + " INTEGER," + KEY_FOLDER_NAME + " TEXT,"
@@ -96,8 +99,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				+ KEY_TITLE_ID_10 + " TEXT," + KEY_DATA_ID_10 + " TEXT," + KEY_TITLE_ID_11
 				+ " TEXT," + KEY_DATA_ID_11 + " TEXT," + KEY_TITLE_ID_12 + " TEXT,"
 				+ KEY_DATA_ID_12 + " TEXT," + KEY_URL + " TEXT," + KEY_NOTE + " TEXT,"
-				+ KEY_IMAGE_MEMO + " TEXT," + KEY_FLAG + " TEXT," + KEY_TIMES_STAMP + " Date,"
-				+ KEY_IS_ENCRYPTED + " Boolean," + KEY_USER_ID + " INTEGER" + ")";
+				+ KEY_IMAGE_MEMO + " TEXT," + KEY_FLAG + " TEXT," + KEY_TIMES_STAMP + " TEXT,"
+				+ KEY_IS_ENCRYPTED + " Boolean," + KEY_USER_ID + " INTEGER," + KEY_IS_LIKE
+				+ " Boolean" + ")";
 		db.execSQL(CREATE_IDS_TABLE);
 
 		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_T_USERS + "(" + KEY_USER_ID
@@ -138,7 +142,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		Log.e("adkfjalsdfj", "asdfjahsdlfjd " + folder.getTypeOfFolder());
 		// Inserting Row
 		db.insert(TABLE_T_FOLDERS, null, values);
-		
+
 		// close db after use
 		db.close(); // Closing database connection
 	}
@@ -296,7 +300,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_IS_ENCRYPTED, id.isEncrypted());
 		// user id
 		values.put(KEY_USER_ID, id.getUserId());
-
+		// is farourite
+		values.put(KEY_IS_LIKE, id.isLike());
+		Log.e("s issksdl", "aksdhflskj "+id.isLike());
 		// Inserting Row
 		db.insert(TABLE_T_IDS, null, values);
 		// close db after use
@@ -314,8 +320,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				KEY_TITLE_ID_7, KEY_DATA_ID_7, KEY_TITLE_ID_8, KEY_DATA_ID_8, KEY_TITLE_ID_9,
 				KEY_DATA_ID_9, KEY_TITLE_ID_10, KEY_DATA_ID_10, KEY_TITLE_ID_11, KEY_DATA_ID_11,
 				KEY_TITLE_ID_12, KEY_DATA_ID_12, KEY_URL, KEY_NOTE, KEY_IMAGE_MEMO, KEY_FLAG,
-				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED, KEY_USER_ID }, KEY_PASS_WORD_ID + "=?",
-				new String[] { String.valueOf(folderId) }, null, null, null, null);
+				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED, KEY_USER_ID, KEY_IS_LIKE }, KEY_PASS_WORD_ID
+				+ "=?", new String[] { String.valueOf(folderId) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
@@ -336,7 +342,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				cursor.getString(26), cursor.getString(27), cursor.getString(28),
 				cursor.getString(29), cursor.getString(30), cursor.getString(31),
 				cursor.getString(32), cursor.getString(33), Boolean.parseBoolean(cursor
-						.getString(34)), Integer.parseInt(cursor.getString(35)));
+						.getString(34)), Integer.parseInt(cursor.getString(35)),
+				Boolean.parseBoolean(cursor.getString(36)));
 		cursor.close();
 		db.close();
 		// return folder
@@ -406,11 +413,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				id.setTimeStamp(cursor.getString(33));
 				id.setEncrypted(Boolean.getBoolean(cursor.getString(34)));
 				id.setUserId(Integer.parseInt(cursor.getString(35)));
-
+				id.setLike(Boolean.parseBoolean(cursor.getString(36)));
 				// Adding id to list
 				idsList.add(id);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		db.close();
 		// return id list
 		return idsList;
@@ -433,7 +441,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				KEY_TITLE_ID_7, KEY_DATA_ID_7, KEY_TITLE_ID_8, KEY_DATA_ID_8, KEY_TITLE_ID_9,
 				KEY_DATA_ID_9, KEY_TITLE_ID_10, KEY_DATA_ID_10, KEY_TITLE_ID_11, KEY_DATA_ID_11,
 				KEY_TITLE_ID_12, KEY_DATA_ID_12, KEY_URL, KEY_NOTE, KEY_IMAGE_MEMO, KEY_FLAG,
-				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED, KEY_USER_ID }, KEY_FOLDER_ID + "=?",
+				KEY_TIMES_STAMP, KEY_IS_ENCRYPTED, KEY_USER_ID,KEY_IS_LIKE }, KEY_FOLDER_ID + "=?",
 				new String[] { String.valueOf(folderId) }, null, null, null, null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
@@ -489,7 +497,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				id.setTimeStamp(cursor.getString(33));
 				id.setEncrypted(Boolean.getBoolean(cursor.getString(34)));
 				id.setUserId(Integer.parseInt(cursor.getString(35)));
-
+				id.setLike(Boolean.parseBoolean(cursor.getString(36)));
+				
 				// Adding id to list
 				idsList.add(id);
 			} while (cursor.moveToNext());
@@ -564,6 +573,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_IS_ENCRYPTED, id.isEncrypted());
 		// user id
 		values.put(KEY_USER_ID, id.getUserId());
+		// is favourite
+		values.put(KEY_IS_LIKE, id.isLike());
 
 		// updating row
 		return db.update(TABLE_T_IDS, values, KEY_PASS_WORD_ID + " = ?",
@@ -685,7 +696,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		int count = 0;
 		String countQuery = "SELECT  * FROM " + TABLE_T_USERS;
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
-		Cursor cursor = db.rawQuery(countQuery, null);	
+		Cursor cursor = db.rawQuery(countQuery, null);
 		// return count
 		count = cursor.getCount();
 		cursor.close();

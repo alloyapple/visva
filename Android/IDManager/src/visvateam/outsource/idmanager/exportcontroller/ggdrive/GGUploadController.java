@@ -71,7 +71,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 					Log.e("finish", "finish");
 					return true;
 				}
-			}
+			} 
 		} catch (UserRecoverableAuthIOException e) {
 			showToast("Sync error");
 		} catch (IOException e) {
