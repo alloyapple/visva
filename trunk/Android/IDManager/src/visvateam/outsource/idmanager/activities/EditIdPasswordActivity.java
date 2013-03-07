@@ -90,6 +90,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private int currentFolderId;
 	private int currentPasswordId;
 
+	private boolean isLike;
 	private int numberOfId;
 	private String titleRecord;
 	private String icon;
@@ -215,14 +216,17 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		mEditTextNameId = (EditText) findViewById(R.id.id_name_id_pass);
 		mEditTextNote = (EditText) findViewById(R.id.edit_text_note);
 		mEditTextUrlId = (EditText) findViewById(R.id.edit_text_url);
-
 		mCheckBoxLike = (CheckBox) findViewById(R.id.id_like);
 		mCheckBoxLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
-
+				if (isChecked)
+					isLike = true;
+				else
+					isLike = false;
+				Log.e("isChecked", "isCheck "+isChecked);
 			}
 		});
 
@@ -653,10 +657,15 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();
 		int passWordId = -1;
+		long currentTime = System.currentTimeMillis();
+		timeStamp = String.valueOf(currentTime);
 		if (isCreateNewId)
 			passWordId = numberOfId;
 		else
 			passWordId = currentPasswordId;
+		if(isLike){
+			currentFolderId = 1;
+		}
 		/* add new id */
 		IDDataBase id = new IDDataBase(passWordId, currentFolderId, titleRecord, icon,
 				favouriteGroup, mItems.get(0).mNameItem, mItems.get(0).mContentItem,
@@ -668,12 +677,13 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				mItems.get(8).mContentItem, mItems.get(9).mNameItem, mItems.get(9).mContentItem,
 				mItems.get(10).mNameItem, mItems.get(10).mContentItem, mItems.get(11).mNameItem,
 				mItems.get(11).mContentItem, url, note, imageMemo, flag, timeStamp, isEncrypted,
-				userId);
-
+				userId,isLike);
+		Log.e("isLike", "isLike "+isLike);
 		if (isCreateNewId)
 			mDataBaseHandler.addNewID(id);
 		else
 			mDataBaseHandler.updateId(id);
+		Log.e("mDatadhslf", "mDatahandfj "+mDataBaseHandler.getId(passWordId).isLike());
 		/* return home */
 		finish();
 	}
