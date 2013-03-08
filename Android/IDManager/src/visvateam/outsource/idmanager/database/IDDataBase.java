@@ -47,14 +47,17 @@ public class IDDataBase {
 	}
 
 	// constructor
-	public IDDataBase(int passWordId, int folderId, String titleRecord, String icon,
-			String favouriteGroup, String titleId1, String dataId1, String titleId2,
-			String dataId2, String titleId3, String dataId3, String titleId4, String dataId4,
-			String titleId5, String dataId5, String titleId6, String dataId6, String titleId7,
-			String dataId7, String titleId8, String dataId8, String titleId9, String dataId9,
-			String titleId10, String dataId10, String titleId11, String dataId11, String titleId12,
-			String dataId12, String url, String note, String imageMemo, String flag,
-			String timeStamp, boolean isEncrypted, int userId, boolean isLike) {
+	public IDDataBase(int passWordId, int folderId, String titleRecord,
+			String icon, String favouriteGroup, String titleId1,
+			String dataId1, String titleId2, String dataId2, String titleId3,
+			String dataId3, String titleId4, String dataId4, String titleId5,
+			String dataId5, String titleId6, String dataId6, String titleId7,
+			String dataId7, String titleId8, String dataId8, String titleId9,
+			String dataId9, String titleId10, String dataId10,
+			String titleId11, String dataId11, String titleId12,
+			String dataId12, String url, String note, String imageMemo,
+			String flag, String timeStamp, boolean isEncrypted, int userId,
+			boolean isLike) {
 		super();
 		this.passWordId = passWordId;
 		this.folderId = folderId;
@@ -161,6 +164,38 @@ public class IDDataBase {
 			return getDataId11();
 		case 12:
 			return getDataId12();
+
+		default:
+			return "";
+		}
+	}
+
+	public String getTitleId(int i) {
+		switch (i) {
+		case 1:
+			return getTitleId1();
+		case 2:
+			return getTitleId2();
+		case 3:
+			return getTitleId3();
+		case 4:
+			return getTitleId4();
+		case 5:
+			return getTitleId5();
+		case 6:
+			return getTitleId6();
+		case 7:
+			return getTitleId7();
+		case 8:
+			return getTitleId8();
+		case 9:
+			return getTitleId9();
+		case 10:
+			return getTitleId10();
+		case 11:
+			return getTitleId11();
+		case 12:
+			return getTitleId12();
 
 		default:
 			return "";
