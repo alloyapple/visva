@@ -8,7 +8,7 @@
     <string name="new_pass">New:</string>
     <string name="list_icon_title">List icon</string>
     <string name="memo_title">Memo Image</string>
-    <string name="setting_title">Setting</string>
+    
     <string name="copy_title">Copy</string>
     <string name="security_mode_title">Setup Security Mode</string>
     <string name="remove_data_title">Setup Remove Data</string>
@@ -60,6 +60,8 @@
     <string name="confirm_ok">Ok</string>
     <string name="confirm_cancel">Cancel</string>
     
+    
+    <string name="setting_title">Setting</string>
     <string name="list_carrier_title">Carrior</string>
     <string name="list_e_commerce">E-commerce</string>
     <string name="list_finance">Finance</string>
