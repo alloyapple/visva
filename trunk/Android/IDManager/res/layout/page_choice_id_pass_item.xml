@@ -1,82 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/bg_00"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_00"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:background="@drawable/black_bar"
         android:id="@+id/action_bar"
-        android:layout_height="46dp"
         android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
         android:orientation="horizontal" >
 
         <Button
-            android:background="@drawable/bt_return"
             android:id="@+id/btn_edit"
-            android:layout_gravity="center"
-            android:layout_height="36dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_return"
             android:onClick="onReturn" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="horizontal" >
 
         <LinearLayout
-            android:background="@drawable/edge_left"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_width="wrap_content" >
+            android:background="@drawable/edge_left" >
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:layout_width="fill_parent"
             android:orientation="vertical" >
 
-            <Button
-                android:background="@drawable/btn_copy_item"
-                android:gravity="center"
-                android:layout_height="46dp"
-                android:layout_marginTop="24dp"
+            <ScrollView
                 android:layout_width="fill_parent"
-                android:onClick="onCopyId"
-                android:text="@string/btn_copy_id"
-                android:textColor="#FFFFFF" >
-            </Button>
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" >
 
-            <Button
-                android:background="@drawable/btn_copy_item"
-                android:gravity="center"
-                android:layout_height="46dp"
-                android:layout_marginTop="10dp"
-                android:layout_width="fill_parent"
-                android:onClick="onCopyPassword"
-                android:text="@string/btn_copy_pass"
-                android:textColor="#FFFFFF" >
-            </Button>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
-            <Button
-                android:background="@drawable/btn_copy_item"
-                android:gravity="center"
-                android:layout_height="46dp"
-                android:layout_marginTop="10dp"
-                android:layout_width="fill_parent"
-                android:onClick="onPasteBrowse"
-                android:text="@string/btn_paste_browse"
-                android:textColor="#FFFFFF" >
-            </Button>
+                    <LinearLayout
+                        android:id="@+id/id_linear_copy_item"
+                        android:layout_width="fill_parent"
+                        android:layout_marginTop="14dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+
+                    <!--
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/btn_copy_item"
+                        android:gravity="center"
+                        android:onClick="onCopyId"
+                        android:text="@string/btn_copy_id"
+                        android:textColor="#FFFFFF" >
+                    </Button>
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_copy_item"
+                        android:gravity="center"
+                        android:onClick="onCopyPassword"
+                        android:text="@string/btn_copy_pass"
+                        android:textColor="#FFFFFF" >
+                    </Button>
+                    -->
+
+                    <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_copy_item"
+                        android:gravity="center"
+                        android:onClick="onPasteBrowse"
+                        android:text="@string/btn_paste_browse"
+                        android:textColor="#FFFFFF" >
+                    </Button>
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
-            android:background="@drawable/edge_right"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_width="wrap_content" >
+            android:background="@drawable/edge_right" >
         </LinearLayout>
     </LinearLayout>
 
