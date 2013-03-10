@@ -9,13 +9,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipboardManager;
+//import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 //import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+@SuppressWarnings("deprecation")
 @SuppressLint("NewApi")
 public class CopyItemActivity extends Activity {
 	private int currentPasswordId;
@@ -86,6 +88,7 @@ public class CopyItemActivity extends Activity {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onCopy(String nameCopy, String contentCopy) {
 		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 		clipboard.setText(contentCopy);
