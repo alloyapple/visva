@@ -1,65 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">IDManager</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
-    <string name="old_pass">Old:</string>
-    <string name="new_pass">New:</string>
-    <string name="list_icon_title">List icon</string>
-    <string name="memo_title">Memo Image</string>
-    <string name="setting_title">Setting</string>
-    <string name="copy_title">Copy</string>
-    <string name="security_mode_title">Setup Security Mode</string>
-    <string name="remove_data_title">Setup Remove Data</string>
-    <string name="password_generator_title">Password Generator</string>
-    <string name="button_generate">Generate</string>
-    <string name="item_setup">Setup</string>
-    <string name="item_change_master_apss">Change master password</string>
-    <string name="item_mode_security">Security mode</string>
-    <string name="item_remove_data">Remove data</string>
-    <string name="item_sync">Synchronization</string>
-    <string name="item_google">GoogleDrive</string>
-    <string name="item_dropbox">Dropbox</string>
-    <string name="item_cloud">Read text data(via Cloud)</string>
-    <string name="item_payment">Payment Service</string>
-    <string name="item_unlimited_item">Unlimited items</string>
-    <string name="item_no_admod">No advertisement</string>
-    <string name="item_export_data">Export data to text</string>
-    <string name="item_number">Number</string>
-    <string name="item_capital">Capital</string>
-    <string name="item_lower_case">Lower Case</string>
-    <string name="item_sign">Sign</string>
-    <string name="item_duplicate">Duplicate Prevention</string>
-    <string name="item_number_character">Number of Characters</string>
-    <string name="confirm_pass">Retype:</string>
-
-    <!-- dialog create new master password -->
-    <string name="create_new_password_msg">Create new master password?</string>
-    <string name="btn_agree">Agree</string>
-    <string name="btn_disagree">Disagree</string>
-    <string name="create_new_password_confirm">OK</string>
-    <string name="create_new_password_cancel">Cancel</string>
-    <string name="hint_search">Search</string>
-    <string name="search">Search</string>
-    <!-- page terms of use -->
-    <string name="btn_continue">Continue</string>
-    <string name="btn_cancel">Cancel</string>
-    <!-- page copy item -->
-    <string name="btn_copy_id">ID</string>
-    <string name="btn_copy_pass">Password</string>
-    <string name="btn_paste_browse">Paste Browse</string>
-    <!-- list icon -->
-    <string name="term_of_use">Term Of Use Agreement</string>
-    <string name="term_of_use_content">\nYou agree to the terms and conditions outlined in this Terms of Use Agreement (“Agreement”) with respect to our App (the “App”).\nThis Agreement constitutes the entire and only agreement between us and you, and supersedes all prior or contemporaneous agreements, representations, warranties and understandings with respect to the App, the content, products or services provided by or through the App, and the subject matter of this Agreement.\nThis Agreement may be amended at any time by us from time to time without specific notice to you. \nThe latest Agreement will be posted on the App, and you should review this Agreement prior to using the App.</string>
-    <string name="txt_dropbox_tut">Dropbox is one of the most popular cloud services. To use this service is required to get the account (free) in advance.</string>
-    <string name="txt_gg_drive_tut">GoogleDrive is one of the most popular cloud services. To use this service is required to get the account (free) in advance.</string>
-    <string name="coppied_id">ID coppied</string>
-    <string name="coppied_pass">Password is coppied</string>
-    <string name="message_setting_chage">SettingChange</string>
-    <string name="confirm_ok">Ok</string>
-    <string name="confirm_cancel">Cancel</string>
+    <string name="title_create_pass">Create Master Password</string>
+    <string name="title_master_pass">マスターパスワード</string>
+    <string name="title_delete_items">削除</string>
+    <string name="title_add_items">新規</string>
+    <string name="title_creat_item">Creat item</string>
     
+    <string name="text_min">分</string>
+    <string name="hint_no_image">NO IMAGE</string>
+    <string name="hint_note">Note</string>
+    <string name="btn_paste_browse">ウェブページを開く</string>
+    <string name="message_add_item">フリー版でご登録いただけるIDパスワードは12個までです。より多くご利用になる方は機能制限解除のためのキーコード(85円)をご購入下さい。</string>
+    <string name="title_add_folder">フォルダの追加</string>
+    <string name="title_change_folder">フォルダ名の変更</string>
+    
+    <string name="confirm_delete">削除</string>
+    <string name="title_delete">フォルダの削除</string>
+    <string name="security_mode_title">セキュリティモード</string>
+    <string name="remove_data_title">データ破壊設定</string>
+    
+    <string name="item_change_master_apss">マスターパスワードの変更</string>
+    <string name="item_mode_security">セキュリティモード</string>
+    <string name="item_remove_data">データ破壊設定</string>
+    <string name="item_sync">同期の実行</string>
+    <string name="item_google">GoogleDriveと同期する</string>
+    <string name="item_dropbox">Dropboxと同期する</string>
+    <string name="item_cloud">テキストデータ読込</string>
+    <string name="item_payment">課金オプション</string>
+    <string name="item_unlimited_item">項目数制限解除</string>
+    <string name="item_no_admod">広告解除</string>
+    <string name="item_export_data">CSVテキスト形式での出力</string>
+    
+    <string name="new_pass">新規:</string>
+    <string name="confirm_pass">確認:</string>
+    
+    <string name="password_generator_title">パスワードの自動生成</string>
+    <string name="button_generate">生成</string>
+    <string name="item_number">数字</string>
+    <string name="item_capital">大文字</string>
+    <string name="item_lower_case">小文字</string>
+    <string name="item_sign">記号</string>
+    <string name="item_duplicate">重複防止</string>
+    <string name="item_number_character">文字数</string>
+
+    <string name="list_icon_title">ロゴ・アイコン</string>
+    <string name="setting_title">設定</string>
+    <string name="confirm_ok">承認</string>
+    <string name="confirm_cancel">キャンセル</string>
     <string name="list_carrier_title">通信・ネット</string>
     <string name="list_e_commerce">ショッピング</string>
     <string name="list_finance">金融</string>
