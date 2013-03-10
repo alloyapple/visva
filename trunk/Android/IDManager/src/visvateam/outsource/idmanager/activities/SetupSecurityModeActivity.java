@@ -22,8 +22,8 @@ public class SetupSecurityModeActivity extends Activity {
 	private final static int SETTING_CHANGE = 0;
 	private WheelView mWheelViewModeSecurity;
 	private IdManagerPreference mIdManagerPreference;
-	private String modes[] = { "Off", "1 minute", "3 minute", "5 minute",
-			"10 minute" };
+	private String modes[] = { "Off", "1 ", "3 ", "5 ",
+			"10 " };
 	private int mChoied;
 
 	@Override
@@ -32,6 +32,9 @@ public class SetupSecurityModeActivity extends Activity {
 		setContentView(R.layout.sercurity_mode);
 		mWheelViewModeSecurity = (WheelView) findViewById(R.id.id_wheelview_security_mode);
 		mWheelViewModeSecurity.setVisibility(View.VISIBLE);
+		for(int i=1;i<modes.length;i++){
+			modes[i]=modes[i]+getResources().getString(R.string.text_min);
+		}
 		mWheelViewModeSecurity.setViewAdapter(new SecurityModeAdapter(this,
 				modes, 0));
 		mIdManagerPreference = IdManagerPreference.getInstance(this);

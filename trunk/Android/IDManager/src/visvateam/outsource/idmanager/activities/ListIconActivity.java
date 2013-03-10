@@ -27,9 +27,8 @@ public class ListIconActivity extends Activity {
 	public static final int DIALOG_DELETE = 0;
 	private LinearLayout mLinearListIcon;
 	private int mCatalogueName[] = { R.string.list_carrier_title,
-			R.string.list_e_commerce, R.string.list_isp,
-			R.string.list_webservice, R.string.list_airline,
-			R.string.list_finance };
+			R.string.list_e_commerce, R.string.list_webservice,
+			R.string.list_finance, R.string.list_general };
 	private ArrayList<int[]> mIdIcon = new ArrayList<int[]>();
 
 	public static int idAirline[] = { R.drawable.airline_0,
@@ -49,7 +48,7 @@ public class ListIconActivity extends Activity {
 	public static int idEcomerce[] = { R.drawable.e_commerce_0,
 			R.drawable.e_commerce_1, R.drawable.e_commerce_2,
 			R.drawable.e_commerce_3, R.drawable.e_commerce_4,
-			R.drawable.e_commerce_5 };;
+			R.drawable.e_commerce_5 };
 	public static int idIsp[] = { R.drawable.isp_0, R.drawable.isp_1,
 			R.drawable.isp_2, R.drawable.isp_3, R.drawable.isp_4,
 			R.drawable.isp_5, R.drawable.isp_6, R.drawable.isp_7,
@@ -142,6 +141,30 @@ public class ListIconActivity extends Activity {
 			R.drawable.finance_126, R.drawable.finance_127,
 			R.drawable.finance_128, R.drawable.finance_129,
 			R.drawable.finance_130, R.drawable.finance_131, };
+	public static int idGeneral[] = { R.drawable.general_1, R.drawable.general_2,
+			R.drawable.general_3, R.drawable.general_4, R.drawable.general_5,
+			R.drawable.general_6, R.drawable.general_7, R.drawable.general_8,
+			R.drawable.general_9, R.drawable.general_10, R.drawable.general_11,
+			R.drawable.general_12, R.drawable.general_13,
+			R.drawable.general_14, R.drawable.general_15,
+			R.drawable.general_16, R.drawable.general_17,
+			R.drawable.general_18, R.drawable.general_19,
+			R.drawable.general_20, R.drawable.general_21,
+			R.drawable.general_22, R.drawable.general_23,
+			R.drawable.general_24, R.drawable.general_25,
+			R.drawable.general_26, R.drawable.general_27,
+			R.drawable.general_28, R.drawable.general_29,
+			R.drawable.general_31, R.drawable.general_32,
+			R.drawable.general_33, R.drawable.general_34,
+			R.drawable.general_35, R.drawable.general_36,
+			R.drawable.general_37, R.drawable.general_38,
+			R.drawable.general_39, R.drawable.general_40,
+			R.drawable.general_41, R.drawable.general_42,
+			R.drawable.general_43, R.drawable.general_44,
+			R.drawable.general_45, R.drawable.general_46,
+			R.drawable.general_47, R.drawable.general_48,
+			R.drawable.general_49, R.drawable.general_50, R.drawable.general_51 };
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -150,10 +173,9 @@ public class ListIconActivity extends Activity {
 		setContentView(R.layout.page_list_icon);
 		mIdIcon.add(idCarrier);
 		mIdIcon.add(idEcomerce);
-		mIdIcon.add(idIsp);
 		mIdIcon.add(idWebservice);
-		mIdIcon.add(idAirline);
 		mIdIcon.add(idFinance);
+		mIdIcon.add(idGeneral);
 		mLinearListIcon = (LinearLayout) findViewById(R.id.id_linear_list_icon);
 		initListIcon();
 	}
@@ -177,18 +199,6 @@ public class ListIconActivity extends Activity {
 				mTextView.setTextColor(Color.BLACK);
 				mTextView.setTypeface(null, Typeface.BOLD);
 				mTextView.setText(getResources().getString(mCatalogueName[i]));
-
-				// GridView mGridView = new GridView(this);
-				// mGridView.setLayoutParams(new LinearLayout.LayoutParams(
-				// LinearLayout.LayoutParams.FILL_PARENT,
-				// LinearLayout.LayoutParams.WRAP_CONTENT));
-				// mGridView.setColumnWidth(90);
-				// mGridView.setGravity(Gravity.CENTER);
-				// mGridView.setHorizontalSpacing(10);
-				// mGridView.setNumColumns(GridView.AUTO_FIT);
-				// mGridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-				// mGridView.setVerticalSpacing(10);
-				// mGridView.setAdapter(new IconAdapter(this, mIdIcon.get(i)));
 
 				TableLayout mTableLayout = new TableLayout(this);
 				mTableLayout.setLayoutParams(new LinearLayout.LayoutParams(

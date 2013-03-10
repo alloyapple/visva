@@ -535,7 +535,7 @@ public class EditIdPasswordActivity extends Activity implements
 		switch (id) {
 		case Contants.DIALOG_CREATE_ID:
 			if (isCreateNewId) {
-				builder.setTitle("Create New Id Password");
+				builder.setTitle(getResources().getString(R.string.title_creat_item));
 				builder.setMessage("Do you want to create new Id?");
 			} else {
 				builder.setTitle("Edit Id Password ");
@@ -543,7 +543,7 @@ public class EditIdPasswordActivity extends Activity implements
 			}
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton("Ok",
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -556,7 +556,7 @@ public class EditIdPasswordActivity extends Activity implements
 							createOrUpdateId();
 						}
 					});
-			builder.setNegativeButton("Cancel",
+			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
 					new DialogInterface.OnClickListener() {
 
 						@Override
