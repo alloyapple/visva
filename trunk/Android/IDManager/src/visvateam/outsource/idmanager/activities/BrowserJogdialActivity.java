@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +34,7 @@ public class BrowserJogdialActivity extends Activity {
 	ArrayList<String> listId = new ArrayList<String>();
 	ArrayList<String> listPass = new ArrayList<String>();
 	ArrayList<String> items = new ArrayList<String>();
+	String[] pasteItem;
 	private int currentPasswordId;
 	private DataBaseHandler mDataBaseHandler;
 	private LinearLayout mLinear;
@@ -40,6 +42,9 @@ public class BrowserJogdialActivity extends Activity {
 	private ImageView dialer;
 	private int dialerHeight, dialerWidth;
 	private MediaPlayer effect_sound;
+	String valuePaste = "khaidt.hut@gmail";
+	int count;
+	String valueGet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,15 +93,17 @@ public class BrowserJogdialActivity extends Activity {
 		initData();
 		initControl();
 	}
+
 	private void playSoundEffect(int _idSound) {
 		if (effect_sound == null)
 			effect_sound = MediaPlayer.create(this, _idSound);
-		if (effect_sound != null ) {
+		if (effect_sound != null) {
 			effect_sound.seekTo(0);
 			effect_sound.start();
 		}
 
 	}
+
 	public void onReturn(View v) {
 		finish();
 	}
@@ -168,6 +175,10 @@ public class BrowserJogdialActivity extends Activity {
 				mLinear.addView(mLinearItem);
 			}
 		}
+		pasteItem = new String[items.size()];
+		for (int i = 0; i < items.size(); i++) {
+			pasteItem[i] = items.get(i);
+		}
 	}
 
 	public void onReload(View v) {
@@ -185,10 +196,39 @@ public class BrowserJogdialActivity extends Activity {
 	public void pasteJogdial(boolean clockwise) {
 		playSoundEffect(R.raw.jogwheel);
 		if (clockwise) {
-			webView.loadUrl("javascript:"
-					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");var paste="+items+";for (var i = 0; i < nodes.length; i++){nodes[i].value=paste[i];}");
+			for (int i = 0; i < count; i++) {
+				if (i < pasteItem.length)
+					valuePaste = pasteItem[i];
+				else
+					valuePaste = "";
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+						+ i + ";Android.getValueField(nodes[k].value);");
+				if (valueGet == null) {
+					webView.loadUrl("javascript:"
+							+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+							+ i + ";nodes[k].value=\"" + valuePaste + "\";");
+				}
+			}
 		} else {
+			// webView.loadUrl("javascript:"
+			// +
+			// "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");var paste=Android.readData();for (var i = 0; i < nodes.length; i++){nodes[i].value=paste[i];}");
+			for (int i = 0; i < count; i++) {
+				if (i < pasteItem.length)
+					valuePaste = pasteItem[i];
+				else
+					valuePaste = "";
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+						+ i + ";Android.getValueField(nodes[k].value);");
 
+				if (valueGet == null) {
+					webView.loadUrl("javascript:"
+							+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+							+ i + ";nodes[k].value=\"" + valuePaste + "\";");
+				}
+			}
 		}
 	}
 
@@ -225,6 +265,8 @@ public class BrowserJogdialActivity extends Activity {
 						.setText(webView.getUrl());
 				webView.addJavascriptInterface(new JavaScriptInterface(
 						BrowserJogdialActivity.this), "Android");
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");Android.count(nodes.length);");
 
 			}
 
@@ -239,10 +281,18 @@ public class BrowserJogdialActivity extends Activity {
 			mContext = c;
 		}
 
+		public String[] readData() {
+			return pasteItem;
+		}
+
+		public void count(int c) {
+			count = c;
+		}
+
 		/** Show a toast from the web page */
 		@JavascriptInterface
-		public void getInputField(String[] result) {
-			idInputWeb = result;
+		public void getValueField(String v) {
+			valueGet = v;
 		}
 	}
 }

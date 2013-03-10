@@ -245,9 +245,9 @@ public class EditIdPasswordActivity extends Activity implements
 		mListView.setAdapter(new ItemAddAdapter(this, mItems));
 
 		mSlidingDrawer = (MultiDirectionSlidingDrawer) findViewById(R.id.drawer);
-		if (isCreateNewId)
-			mSlidingDrawer.close();
-		else
+//		if (isCreateNewId)
+//			mSlidingDrawer.close();
+//		else
 			mSlidingDrawer.open();
 	}
 
