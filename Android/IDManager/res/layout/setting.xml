@@ -31,80 +31,29 @@
         </TextView>
     </FrameLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical" >
+            android:layout_height="fill_parent" >
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/top_corner_button"
-                android:onClick="onChangeMasterPass" >
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" >
 
-                <TextView
+                <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="left|center"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="left|center"
-                    android:text="@string/item_change_master_apss"
-                    android:textColor="#000000" >
-                </TextView>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/icon_item_shift" >
-                </ImageView>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="1px"
-                android:background="@drawable/bottom_corner_button"
-                android:onClick="onSecurityMode" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="left|center"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="left|center"
-                    android:text="@string/item_mode_security"
-                    android:textColor="#000000" >
-                </TextView>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/icon_item_shift" >
-                </ImageView>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="20px"
-                android:background="@drawable/all_corner_button"
-                android:onClick="onRemoveData" >
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginRight="20dp" >
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/top_corner_button"
+                    android:onClick="onChangeMasterPass" >
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -112,203 +61,275 @@
                         android:layout_gravity="left|center"
                         android:layout_marginLeft="4dp"
                         android:gravity="left|center"
-                        android:text="@string/item_remove_data"
+                        android:text="@string/item_change_master_apss"
                         android:textColor="#000000" >
                     </TextView>
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/icon_item_shift" >
-                </ImageView>
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="left|center"
-                    android:text="@string/item_sync"
-                    android:textColor="#000000" >
-                </TextView>
-            </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="1px"
-                android:background="@drawable/top_corner_button"
-                android:onClick="onGoogle" >
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginRight="20dp" >
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="fill_parent"
-                        android:src="@drawable/logo_google" >
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
                     </ImageView>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="1px"
+                    android:background="@drawable/bottom_corner_button"
+                    android:onClick="onSecurityMode" >
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
+                        android:layout_gravity="left|center"
                         android:layout_marginLeft="4dp"
                         android:gravity="left|center"
-                        android:text="@string/item_google"
+                        android:text="@string/item_mode_security"
                         android:textColor="#000000" >
                     </TextView>
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/icon_item_shift" >
-                </ImageView>
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="1px"
-                android:background="@drawable/no_corner_button"
-                android:onClick="onDropbox" >
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginRight="20dp" >
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="fill_parent"
-                        android:src="@drawable/logo_dropbox" >
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
                     </ImageView>
+                </FrameLayout>
 
-                    <TextView
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20px"
+                    android:background="@drawable/all_corner_button"
+                    android:onClick="onRemoveData" >
+
+                    <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_dropbox"
-                        android:textColor="#000000" >
-                    </TextView>
-                </LinearLayout>
+                        android:layout_marginRight="20dp" >
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/icon_item_shift" >
-                </ImageView>
-            </FrameLayout>
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="@string/item_remove_data"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="1px"
-                android:background="@drawable/bottom_corner_button"
-                android:onClick="onReadFileviaCloud" >
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
+                    </ImageView>
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginRight="20dp" >
+                    android:layout_height="40dp" >
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_marginLeft="4dp"
                         android:gravity="left|center"
-                        android:text="@string/item_cloud"
+                        android:text="@string/item_sync"
                         android:textColor="#000000" >
                     </TextView>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/icon_item_shift" >
-                </ImageView>
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp" >
-
-                <TextView
+                <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="left|center"
-                    android:text="@string/item_payment"
-                    android:textColor="#000000" >
-                </TextView>
-            </LinearLayout>
+                    android:layout_height="40dp"
+                    android:layout_marginTop="1px"
+                    android:background="@drawable/top_corner_button"
+                    android:onClick="onGoogle" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/top_corner_button"
-                android:onClick="onUnlimitedItems" >
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="20dp" >
 
-                <TextView
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="fill_parent"
+                            android:src="@drawable/logo_google" >
+                        </ImageView>
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="@string/item_google"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
+                    </ImageView>
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="left|center"
-                    android:text="@string/item_unlimited_item"
-                    android:textColor="#000000" >
-                </TextView>
-            </LinearLayout>
+                    android:layout_height="40dp"
+                    android:layout_marginTop="1px"
+                    android:background="@drawable/no_corner_button"
+                    android:onClick="onDropbox" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="1px"
-                android:background="@drawable/no_corner_button"
-                android:onClick="onNoAdmod" >
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="20dp" >
 
-                <TextView
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="fill_parent"
+                            android:src="@drawable/logo_dropbox" >
+                        </ImageView>
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="@string/item_dropbox"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
+                    </ImageView>
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="left|center"
-                    android:text="@string/item_no_admod"
-                    android:textColor="#000000" >
-                </TextView>
-            </LinearLayout>
+                    android:layout_height="40dp"
+                    android:layout_marginTop="1px"
+                    android:background="@drawable/bottom_corner_button"
+                    android:onClick="onReadFileviaCloud" >
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="1px"
-                android:background="@drawable/bottom_corner_button"
-                android:onClick="onExportData" >
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="20dp" >
 
-                <TextView
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="@string/item_cloud"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
+                    </ImageView>
+                </FrameLayout>
+
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="4dp"
-                    android:gravity="left|center"
-                    android:text="@string/item_export_data"
-                    android:textColor="#000000" >
-                </TextView>
+                    android:layout_height="40dp" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="4dp"
+                        android:gravity="left|center"
+                        android:text="@string/item_payment"
+                        android:textColor="#000000" >
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/top_corner_button"
+                    android:onClick="onUnlimitedItems" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="4dp"
+                        android:gravity="left|center"
+                        android:text="@string/item_unlimited_item"
+                        android:textColor="#000000" >
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="1px"
+                    android:background="@drawable/no_corner_button"
+                    android:onClick="onNoAdmod" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="4dp"
+                        android:gravity="left|center"
+                        android:text="@string/item_no_admod"
+                        android:textColor="#000000" >
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="1px"
+                    android:background="@drawable/bottom_corner_button"
+                    android:onClick="onExportData" >
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="4dp"
+                        android:gravity="left|center"
+                        android:text="@string/item_export_data"
+                        android:textColor="#000000" >
+                    </TextView>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.google.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+            android:id="@+id/main_adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="a15000d2c279fed" />
+    </LinearLayout>
 
 </LinearLayout>
