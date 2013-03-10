@@ -90,11 +90,12 @@
     <string name="csv_plain_text_export">CSV Plaintext Export</string>
     <string name="item_limit">Just 12 items can be registrated with this app. You can pay ￠99 for key-code to remove the item limit.</string>
     <string name="add_data_function">To add the function of the data exportation in CSV format. It charges $9.99.</string>
-	<string name="unify_newer_data">Unify by the newer data</string>
-	<string name="last_sync">Last Sync:</string>
-	<string name="no_cloud_serivce_set_up">No cloud service has not set up. You need set it up through Sync menu on the setting page.</string>
-	<string name="sync_interrupt">The synchronization was interrupted.</string>
-	<string name="sync_failed">The synchronization was failed.</string>
-	<string name="sync_finish">The synchronization was finished</string>
-	<string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
+    <string name="unify_newer_data">Unify by the newer data</string>
+    <string name="last_sync">Last Sync:</string>
+    <string name="no_cloud_serivce_set_up">No cloud service has not set up. You need set it up through Sync menu on the setting page.</string>
+    <string name="sync_interrupt">The synchronization was interrupted.</string>
+    <string name="sync_failed">The synchronization was failed.</string>
+    <string name="sync_finish">The synchronization was finished</string>
+    <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
+
 </resources>

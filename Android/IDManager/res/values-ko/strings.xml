@@ -56,4 +56,37 @@
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 
+    <string name="txt_dropbox_tut">Dropbox는 가장 인기있는 클라우드 서비스의 하나입니다. 이 서비스를 이용하려면 회원가입(무료)이 필요합니다.</string>
+    <!-- <string name="item_sync">동기화 실행</string>
+    <string name="item_dropbox">Dropbox의 동기화</string>
+    <string name="item_cloud">텍스트 데이터 읽기</string> -->
+    <string name="dropbox_start_to_use">이용 절차 시작</string>
+    <string name="dropbox_reset_sync">동기화 해제</string>
+    <string name="dropbox_already_use">IDxPassword는 이미 Dropbox를 사용할 수 있습니다.</string>
+    <string name="dropbox_use_instead">IDxPassword는 현재 GoogleDrive를 이용하게 되어 있습니다. 대신 Dropbox를 사용하겠습니까?</string>
+    <!-- <string name="item_google">GoogleDrive의 동기화</string> -->
+    <string name="txt_gg_drive_tut">GoogleDrive는 가장 인기있는 클라우드 서비스의 하나입니다. 이 서비스를 이용하려면 회원가입(무료)이 필요합니다.</string>
+    <string name="gg_drive_already_use">IDxPassword는 이미 Google Drive를 사용할 수 있습니다.</string>
+    <string name="gg_drive_use_instead">IDxPassword 현재 Dropbox를 이용하게 되어 있습니다. 대신 Google Drive를 사용하시겠습니까?</string>
+    <string name="internet_not_use">인터넷을 사용 할 수 없습니다.</string>
+    <string name="no_cloud_set_up">동기화 할 수있는 서비스가 설정되어 있지 않습니다. [설정] - [동기화]후 동기화 설정이 필요합니다.</string>
+    <string name="no_data_on_cloud">클라우드 서버에 데이터가 존재하지 않습니다.</string>
+    <string name="data_rewritten">*의 데이터를 덮어쓰시겠습니까?</string>
+    <string name="data_not_change_format">선택한 데이터를 이 어플리케이션 형식으로 변환 할 수 없습니다.</string>
+    <string name="success">인식 되었습니다.</string>
+    <string name="charge_option_service">결제 옵션</string>
+    <string name="item_restrict_cancel">항목 수 제한 해제</string>
+    <string name="confirm_app_purchase">어플리 내 결제 확인</string>
+    <string name="eliminate_item_purchase">ID, 비밀번호 항목 제한을 없애고 있습니다. 1,000원이 부과됩니다 괜찮습니까?</string>
+    <string name="csv_plain_text_export">CSV 텍스트 형식으로 출력</string>
+    <string name="item_limit">무료 버전으로 등록하실 ID 번호는 12개입니다. 더 이용하실 분은 기능 제한 해제를 위한 키 코드 (#,000원)을 구입하십시오.</string>
+    <string name="add_data_function">CSV 형식으로 출력 기능을 추가합니다. ##,000원 부과됩니다 도의합니까?</string>
+    <string name="unify_newer_data">새로운 방식의 데이터로 변경</string>
+    <string name="last_sync">마지막 동기화</string>
+    <string name="no_cloud_serivce_set_up">동기화 할 수있는 서비스가 설정되어 있지 않습니다. [설정] -  [동기화]후 동기화 설정이 필요합니다.</string>
+    <string name="sync_interrupt">동기화를 중단했습니다.</string>
+    <string name="sync_failed">동기화가 실패했습니다.</string>
+    <string name="sync_finish">동기화가 완료되었습니다.</string>
+    <string name="data_cloud_newer">Dropbox (GoogleDrive)의 데이터가 더 새롭습니다. 정말 덮어 쓰시겠습니까?</string>
+    
 </resources>

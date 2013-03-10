@@ -55,4 +55,37 @@
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 
+    <string name="txt_dropbox_tut">Dropboxとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予めアカウントの取得（無料）が必要です。</string>
+<!--     <string name="item_sync">同期の実行</string>
+    <string name="item_dropbox">Dropboxと同期する</string>
+    <string name="item_cloud">テキストデータ読込</string> -->
+    <string name="dropbox_start_to_use">利用手続きの開始</string>
+    <string name="dropbox_reset_sync">同期の解除</string>
+    <string name="dropbox_already_use">IDxPasswordは既にDropboxを利用可能です。 </string>
+    <string name="dropbox_use_instead">IDxPasswordは現在GoogleDriveを利用するようになっています。代わりにDropboxをご利用されますか？</string>
+<!--     <string name="item_google">GoogleDriveと同期する</string> -->
+    <string name="txt_gg_drive_tut">GoogleDriveとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予め自分のアカウントの取得（無料）が必要です。</string>
+    <string name="gg_drive_already_use">IDxPasswordは既にGoogle Driveを利用可能です。 </string>
+    <string name="gg_drive_use_instead">IDxPasswordは現在Dropboxを利用するようになっています。代わりにGoogle Driveをご利用されますか？</string>
+    <string name="internet_not_use">インターネットが使えないようです。</string>
+    <string name="no_cloud_set_up">同期できるサービスが設定されていません。［設定］-［同期］より同期設定が必要です。</string>
+    <string name="no_data_on_cloud">クラウド上にデータがありません。</string>
+    <string name="data_rewritten">*のデータは書き換えられますよろしいですか？</string>
+    <string name="data_not_change_format">選択したデータを本アプリ形式に変換できませんでした。</string>
+    <string name="success">読込に成功しました。</string>
+    <string name="charge_option_service">課金オプション</string>
+    <string name="item_restrict_cancel">項目数制限解除</string>
+    <string name="confirm_app_purchase">アプリ内課金の確認</string>
+    <string name="eliminate_item_purchase">ID、パスワードの項目制限を無くします。85円課金されますがよろしいですか？</string>
+    <string name="csv_plain_text_export">CSVテキスト形式での出力</string>
+    <string name="item_limit">フリー版でご登録いただけるIDパスワードは12個までです。より多くご利用になる方は機能制限解除のためのキーコード(85円)をご購入下さい。</string>
+    <string name="add_data_function">CSV形式での書出し機能を追加します。1,000円課金されますがよろしいですか？</string>
+    <string name="unify_newer_data">新しい方のデータで統一</string>
+    <string name="last_sync">最後の同期</string>
+    <string name="no_cloud_serivce_set_up">同期できるサービスが設定されていません。［設定］-［同期］より同期設定が必要です。</string>
+    <string name="sync_interrupt">同期を中断しました。</string>
+    <string name="sync_failed">同期が失敗しました。</string>
+    <string name="sync_finish">同期が終了しました。</string>
+    <string name="data_cloud_newer">Dropbox(GoogleDrive)上のデータの方が新しいですが、本当に上書きしてよろしいですか？</string>
+    
 </resources>

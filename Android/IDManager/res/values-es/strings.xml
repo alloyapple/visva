@@ -54,5 +54,40 @@
     <string name="list_general">General</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
-
+    
+	<string name="txt_dropbox_tut">Dropbox es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
+  <!--   <string name="item_sync">Sincronización</string>
+    <string name="item_dropbox">Dropbox sincronización</string>
+    <string name="item_cloud">Carga Texto Datos</string> -->
+    <string name="dropbox_start_to_use">Comenzar a Utilizar</string>
+    <string name="dropbox_reset_sync">Restablecer Sync</string>
+    <string name="dropbox_already_use">IDxPassword ya pueden utilizar Dropbox.</string>
+    <string name="dropbox_use_instead">IDxPassword está utilizando Google Drive en estos momentos. ¿Quieres utilizar Dropbox en su lugar?</string>
+    
+   <!--  <string name="item_google">GoogleDrive sincronización</string> -->
+    <string name="txt_gg_drive_tut">GoogleDrive es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
+    <string name="gg_drive_already_use">IDxPassword ya pueden utilizar Google Drive.</string>
+    <string name="gg_drive_use_instead">IDxPassword está usando Dropbox en estos momentos. ¿Quieres usar Google Drive en su lugar?</string>
+    
+    <string name="internet_not_use">Internet no se puede utilizar.</string>
+    <string name="no_cloud_set_up">No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.</string>
+    <string name="no_data_on_cloud">No hay datos en la nube.</string>
+    <string name="data_rewritten">Los datos de este * se escribiría así. ¿Estás seguro?</string>
+    <string name="data_not_change_format">Los datos seleccionados no se podía cambiar al formato adecuado.</string>
+    <string name="success">Tenido éxito!</string>
+    <string name="charge_option_service">Acusados ​​Servicios Opcionales</string>
+    <string name="item_restrict_cancel">Artículos Restricciones de Cancelación</string>
+    <string name="confirm_app_purchase">Confirme su In-App Purchase</string>
+    <string name="eliminate_item_purchase">Para eliminar el límite en el número de artículo IDxPassword, se cobra ***.</string>
+    <string name="csv_plain_text_export">CSV Plaintext Export</string>
+    <string name="item_limit">A sólo 12 elementos pueden ser registrado en esta aplicación. Usted puede pagar ¢ 99 para llave de código para eliminar el límite de elementos.</string>
+    <string name="add_data_function">Para agregar la función de la exportación de datos en formato CSV. Se cobra $9.99.</string>
+    <string name="unify_newer_data">Unificar por los datos más recientes</string>
+    <string name="last_sync">Última sincronización:</string>
+    <string name="no_cloud_serivce_set_up">No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.</string>
+    <string name="sync_interrupt">La sincronización se interrumpe.</string>
+    <string name="sync_failed">La sincronización se ha fallado.</string>
+    <string name="sync_finish">La sincronización se terminó.</string>
+    <string name="data_cloud_newer">Aunque los datos sobre Dropbox (GoogleDrive) es más reciente, que está seguro de sobreescribirlo?</string>
+    
 </resources>
