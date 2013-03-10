@@ -56,4 +56,37 @@
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 
+    <string name="txt_dropbox_tut">Dropbox是最有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。</string>
+    <!-- <string name="item_sync">同步運行</string>
+    <string name="item_dropbox">與Dropbox同步</string>
+    <string name="item_cloud">加載文本數據</string> -->
+    <string name="dropbox_start_to_use">開始使用</string>
+    <string name="dropbox_reset_sync">解除同步</string>
+    <string name="dropbox_already_use">您的帳戶已經可以使用Dropbox。</string>
+    <string name="dropbox_use_instead">您現在使用GoogleDrive。代替使用Dropbox嗎？</string>
+    <!-- <string name="item_google">與GoogleDrive同步</string> -->
+    <string name="txt_gg_drive_tut">GoogleDrive是有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。</string>
+    <string name="gg_drive_already_use">您的帳號已經可以使用GoogleDrive。</string>
+    <string name="gg_drive_use_instead">您現在使用Dropbox。代替使用GoogleDrive嗎？</string>
+    <string name="internet_not_use">無法使用互聯網。</string>
+    <string name="no_cloud_set_up">同步設置信息不存在，請在【設置】-【同步】進行同步程序設置。</string>
+    <string name="no_data_on_cloud">Cloud上數據不存在。</string>
+    <string name="data_rewritten">您要替換*的數據嗎？</string>
+    <string name="data_not_change_format">無法轉換數據爲應用程序形式。</string>
+    <string name="success">Succeeded!</string>
+    <string name="charge_option_service">結算設置</string>
+    <string name="item_restrict_cancel">解除項目個數限制</string>
+    <string name="confirm_app_purchase">確認您的程序內購買</string>
+    <string name="eliminate_item_purchase">您要刪除廣告，您將支付*台币。</string>
+    <string name="csv_plain_text_export">通過CSV形式輸出</string>
+    <string name="item_limit">多達12個ID密碼免費註冊一個免費的版本。如果你想使用更多的功能限制（¥85），請購買的解鎖鍵碼。</string>
+    <string name="add_data_function">您要通過CSV形式輸出數據，您將支付*台币。</string>
+    <string name="unify_newer_data">新的數據統一由</string>
+    <string name="last_sync">上次同步</string>
+    <string name="no_cloud_serivce_set_up">可以同步的服務沒有設置。 [同步​​​​] - [設置]，必須設置同步。</string>
+    <string name="sync_interrupt">我被中斷的同步。</string>
+    <string name="sync_failed">我同步失敗。</string>
+    <string name="sync_finish">我結束了同步。</string>
+    <string name="data_cloud_newer">更好的數據（GoogleDrive）是新的，但Dropbox，你確定你真的要覆蓋它嗎？</string>
+    
 </resources>
