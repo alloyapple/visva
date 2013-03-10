@@ -62,7 +62,7 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity"
-            android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.CopyItemActivity"
@@ -100,11 +100,11 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.BrowserActivity"
-            android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.BrowserJogdialActivity"
-            android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.ImageMemoActivity"
@@ -112,7 +112,7 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.GetInternetImageActivity"
-            android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.ListIconActivity"
