@@ -45,6 +45,7 @@
                 android:layout_gravity="center"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:singleLine="true"
                 android:layout_width="0dip" >
             </EditText>
 
