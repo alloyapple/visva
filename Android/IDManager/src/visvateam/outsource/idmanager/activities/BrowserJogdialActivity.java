@@ -6,26 +6,24 @@ import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class BrowserJogdialActivity extends Activity {
@@ -34,10 +32,14 @@ public class BrowserJogdialActivity extends Activity {
 	FrameLayout mFrameJogdial;
 	ArrayList<String> listId = new ArrayList<String>();
 	ArrayList<String> listPass = new ArrayList<String>();
+	ArrayList<String> items = new ArrayList<String>();
 	private int currentPasswordId;
 	private DataBaseHandler mDataBaseHandler;
 	private LinearLayout mLinear;
 	public String[] idInputWeb;
+	private ImageView dialer;
+	private int dialerHeight, dialerWidth;
+	private MediaPlayer effect_sound;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +50,99 @@ public class BrowserJogdialActivity extends Activity {
 		setContentView(R.layout.page_browser_detail);
 		mFrameJogdial = (FrameLayout) findViewById(R.id.id_fr_jogdial);
 		mLinear = (LinearLayout) findViewById(R.id.id_list_item_copy);
-		mFrameJogdial.setOnTouchListener(new OnTouchListener() {
+		dialer = (ImageView) findViewById(R.id.id_img_wheel);
+		dialer.setOnTouchListener(new OnTouchListener() {
+			private double startAngle;
+			private int countClockwise = 0;
+			private int countUnclockwise = 0;
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				Log.i("<-------------Touch Jogdial-------->", getClass()
-						.toString());
-				return false;
+				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+				case MotionEvent.ACTION_DOWN:
+					startAngle = getAngle(event.getX(), event.getY());
+					countClockwise = 0;
+					countUnclockwise = 0;
+					break;
+				case MotionEvent.ACTION_UP:
+					if (countClockwise > countUnclockwise) {
+						pasteJogdial(true);
+					} else if (countClockwise < countUnclockwise) {
+						pasteJogdial(false);
+					}
+					break;
+				case MotionEvent.ACTION_MOVE:
+					double currentAngle = getAngle(event.getX(), event.getY());
+					if (((float) (startAngle - currentAngle)) >= 0) {
+						countClockwise++;
+					} else {
+						countUnclockwise++;
+					}
+					startAngle = currentAngle;
+					break;
+				}
+				return true;
 			}
 		});
 		initData();
 		initControl();
 	}
+	private void playSoundEffect(int _idSound) {
+		if (effect_sound == null)
+			effect_sound = MediaPlayer.create(this, _idSound);
+		if (effect_sound != null ) {
+			effect_sound.seekTo(0);
+			effect_sound.start();
+		}
 
+	}
 	public void onReturn(View v) {
 		finish();
 	}
 
+	private double getAngle(double xTouch, double yTouch) {
+		dialerWidth = dialer.getWidth();
+		dialerHeight = dialer.getHeight();
+		double x = xTouch - (dialerWidth / 2d);
+		double y = dialerHeight - yTouch - (dialerHeight / 2d);
+		switch (getQuadrant(x, y)) {
+		case 1:
+			return Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI;
+		case 2:
+			return 180 - Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI;
+		case 3:
+			return 180 + (-1 * Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI);
+		case 4:
+			return 360 + Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI;
+		default:
+			return 0;
+		}
+	}
+
+	/**
+	 * @return The selected quadrant.
+	 */
+	private static int getQuadrant(double x, double y) {
+		if (x >= 0) {
+			return y >= 0 ? 1 : 4;
+		} else {
+			return y >= 0 ? 2 : 3;
+		}
+	}
+
+	@SuppressWarnings("deprecation")
 	public void initData() {
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new DataBaseHandler(this);
 		IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
 		url = id.getUrl();
-		Drawable d=getResources().getDrawable(R.drawable.jog_upperswitch);
+		Drawable d = getResources().getDrawable(R.drawable.jog_upperswitch);
 		for (int i = 0; i < CopyItemActivity.MAX_ID; i++) {
 			if (!id.getDataId(i + 1).equals("")) {
 				LinearLayout mLinearItem = new LinearLayout(this);
-				mLinearItem.setLayoutParams(new LinearLayout.LayoutParams(
-						d.getIntrinsicWidth(),
+				mLinearItem.setLayoutParams(new LinearLayout.LayoutParams(d
+						.getIntrinsicWidth(),
 						LinearLayout.LayoutParams.FILL_PARENT));
 				((LinearLayout.LayoutParams) mLinearItem.getLayoutParams()).leftMargin = 6;
 				mLinearItem.setBackgroundResource(R.drawable.jog_upperswitch);
@@ -95,6 +161,7 @@ public class BrowserJogdialActivity extends Activity {
 							LinearLayout.LayoutParams.FILL_PARENT, 0, 0.5f));
 					textContent.setTextColor(Color.BLACK);
 					textContent.setGravity(Gravity.CENTER);
+					items.add(id.getDataId(i + 1));
 					textContent.setText(id.getDataId(i + 1));
 					mLinearItem.addView(textContent);
 				}
@@ -108,13 +175,24 @@ public class BrowserJogdialActivity extends Activity {
 
 	}
 
-	public void onNotes(View v) {
+	public void onNote(View v) {
 
 	}
 
 	public void onKeyBoard(View v) {
 	}
 
+	public void pasteJogdial(boolean clockwise) {
+		playSoundEffect(R.raw.jogwheel);
+		if (clockwise) {
+			webView.loadUrl("javascript:"
+					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");var paste="+items+";for (var i = 0; i < nodes.length; i++){nodes[i].value=paste[i];}");
+		} else {
+
+		}
+	}
+
+	@SuppressLint("SetJavaScriptEnabled")
 	private void initControl() {
 		// TODO Auto-generated method stub
 		webView = (WebView) findViewById(R.id.webview_jogdial);
@@ -146,10 +224,7 @@ public class BrowserJogdialActivity extends Activity {
 				((EditText) findViewById(R.id.id_editText_jogdial))
 						.setText(webView.getUrl());
 				webView.addJavascriptInterface(new JavaScriptInterface(
-						BrowserJogdialActivity.this, new String[] { "abc",
-								"abc" }), "Android");
-				webView.loadUrl("javascript:"
-						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");for (var i = 0; i < nodes.length; i++){nodes[i].value=\'abc\';}");
+						BrowserJogdialActivity.this), "Android");
 
 			}
 
@@ -158,12 +233,10 @@ public class BrowserJogdialActivity extends Activity {
 
 	public class JavaScriptInterface {
 		Context mContext;
-		String[] a;
 
 		/** Instantiate the interface and set the context */
-		JavaScriptInterface(Context c, String[] p) {
+		JavaScriptInterface(Context c) {
 			mContext = c;
-			a = p;
 		}
 
 		/** Show a toast from the web page */

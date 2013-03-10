@@ -64,13 +64,13 @@ public class MasterPasswordChangeActivity extends Activity {
 
 		/* check is change pw or create new pw */
 		if (isChangePW) {
-			txtChangePW.setText("Change Your Master PassWord");
-			txtNewPW.setText("New:");
-			txtOldPW.setText("Old:");
+			txtChangePW.setText(getResources().getString(R.string.item_change_master_apss));
+			txtNewPW.setText(getResources().getString(R.string.new_pass));
+			txtOldPW.setText(getResources().getString(R.string.old_pass));
 		} else {
-			txtChangePW.setText("Create New Your Master PassWord");
-			txtNewPW.setText("Retype:");
-			txtOldPW.setText("New:");
+			txtChangePW.setText(getResources().getString(R.string.title_create_pass));
+			txtNewPW.setText(getResources().getString(R.string.confirm_pass));
+			txtOldPW.setText(getResources().getString(R.string.new_pass));
 		}
 	}
 

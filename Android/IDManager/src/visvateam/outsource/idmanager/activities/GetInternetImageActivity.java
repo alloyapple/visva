@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -42,7 +41,7 @@ public class GetInternetImageActivity extends Activity {
 
 	private ScrollView mScrollView;
 	private RelativeLayout mRelativeLayout;
-	private LinearLayout mLinearLayout;
+//	private LinearLayout mLinearLayout;
 
 	private static final String TAG = "Touch";
 	@SuppressWarnings("unused")
