@@ -9,7 +9,6 @@ import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
-import visvateam.outsource.idmanager.activities.R.id;
 import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.activities.synccloud.SyncCloudActivity;
 import visvateam.outsource.idmanager.contants.Contants;
@@ -752,17 +751,16 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		switch (id) {
 		case Contants.DIALOG_ADD_NEW_FOLDER:
-			builder.setTitle("Add New Folder");
-			builder.setMessage("Type the name of new folder:");
+			builder.setTitle(getResources().getString(R.string.title_add_folder));
+//			builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
-
 			// Use an EditText view to get user input.
 			final EditText input = new EditText(this);
 			input.setId(Contants.TEXT_ID);
 			input.setText("");
 			builder.setView(input);
 
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -774,7 +772,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 			});
 
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -784,22 +782,21 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			return builder.create();
 
 		case Contants.DIALOG_DELETE_FOLDER:
-			builder.setTitle("Delete Folder");
-			builder.setMessage("Do you want to delete this folder?");
+			builder.setTitle(getResources().getString(R.string.title_delete));
+//			builder.setMessage("Do you want to delete this folder?");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
-					Log.e("ok delete", "delete");
 					deleteFolder(positionReturnedByHandler);
 					return;
 				}
 
 			});
 
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -809,8 +806,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 			return builder.create();
 		case Contants.DIALOG_EDIT_FOLDER:
-			builder.setTitle("Edit A Folder");
-			builder.setMessage("Type the name of folder to edit :");
+			builder.setTitle(getResources().getString(R.string.title_change_folder));
+//			builder.setMessage("Type the name of folder to edit :");
 			builder.setIcon(R.drawable.icon);
 
 			// Use an EditText view to get user input.
@@ -818,7 +815,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			inputEdit.setId(Contants.TEXT_ID);
 			builder.setView(inputEdit);
 			inputEdit.setText("");
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -830,7 +827,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 			});
 
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -840,21 +837,20 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			return builder.create();
 
 		case Contants.DIALOG_DELETE_ID:
-			builder.setTitle("Delete Folder");
-			builder.setMessage("Do you want to delete this ID?");
+			builder.setTitle(getResources().getString(R.string.title_delete_items));
+//			builder.setMessage("Do you want to delete this ID?");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getResources().getString(R.string.confirm_delete), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
-					Log.e("ok delete", "delete");
 					deleteID(positionReturnedByHandler);
 					return;
 				}
 			});
 
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -864,11 +860,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 			return builder.create();
 		case Contants.DIALOG_CREATE_ID:
-			builder.setTitle("Create New Id");
-			builder.setMessage("Users can register up to 12 free Ids.Type the key code to cancel the limit ids:");
+			builder.setTitle(getResources().getString(R.string.title_add_items));
+			builder.setMessage(getResources().getString(R.string.message_add_item));
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -883,7 +879,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			builder.setMessage("Are you sure to want to exit?");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -892,7 +888,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				}
 			});
 
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -901,8 +897,6 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			});
 			return builder.create();
 		case Contants.DIALOG_MOVE_ID_TO_FOLDER:
-			Log.e("he he ", "ha ha"
-					+ mFolderListItems.get(mCurrentFolderPosition).getTextFolderName());
 			AlertDialog.Builder builderMoveId = new AlertDialog.Builder(this);
 			builderMoveId.setTitle("IDManager");
 			builderMoveId
@@ -910,7 +904,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 							+ mFolderListItems.get(mCurrentFolderPosition).getTextFolderName()
 							+ " folder?");
 			builderMoveId.setIcon(R.drawable.icon);
-			builderMoveId.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builderMoveId.setPositiveButton(getResources().getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
@@ -922,7 +916,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				}
 			});
 
-			builderMoveId.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			builderMoveId.setNegativeButton(getResources().getString(R.string.confirm_cancel), new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
