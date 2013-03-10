@@ -41,6 +41,7 @@ public class IdManagerPreference {
 	public static final String MASTER_PASSWORD = "MASTER_PASSWORD";
 	public static final String REMOVE_DATA = "REMOVE_DATA";
 	public static final String SECURITY_MODE = "SECURITY_MODE";
+	public static final String IS_SECURITY_LOOP="IS_SECURITY_LOOP";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -136,6 +137,28 @@ public class IdManagerPreference {
 	public int getSecurityMode() {
 		int b;
 		b = getSecurityMode(SECURITY_MODE);
+		return b;
+	}
+	/* set vs get is security loop */
+	public void setSecurityLoop(String key, boolean securityMode) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(key, securityMode);
+		editor.commit();
+	}
+
+	public boolean isSecurityLoop(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(key, true);
+	}
+
+	public void setSecurityLoop(boolean b) {
+		setSecurityLoop(IS_SECURITY_LOOP, b);
+	}
+
+	public boolean isSecurityLoop() {
+		boolean b;
+		b = isSecurityLoop(IS_SECURITY_LOOP);
 		return b;
 	}
 }

@@ -94,6 +94,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	private int mCurrentFolderPosition;
 	private int mCurrentFirstVisibleFolderItem;
 	private int mCurrentId;
+	private String mTextSearch = "";
 
 	private Handler mMainHandler = new Handler() {
 		@SuppressWarnings("deprecation")
@@ -401,7 +402,10 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			/* reset adapter id */
 			if (position == 0) {
 				// folder search
-				mIdListItems = constructList(currentFolderItem);
+				if (!"".equals(mTextSearch))
+					mIdListItems = startSearch(mTextSearch);
+				else
+					mIdListItems.clear();
 			} else if (position == 1) {
 				// folder favourite
 				mIdListItems = constructList(currentFolderItem);
@@ -511,7 +515,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
 		ArrayList<OneItem> al = new ArrayList<OneItem>();
 		int idListSize = idList.size();
-		Log.e("idSize ", "id size"+idListSize);
+		Log.e("idSize ", "id size" + idListSize);
 		for (int i = 0; i < idListSize; i++) {
 			Log.e("sdfasd " + i, "adfdf " + idList.get(i).isLike());
 			if (idList.get(i).isLike()) {
@@ -581,7 +585,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		/* add new id */
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
-			if (currentFolderItem > 0)
+			if (currentFolderItem > 2)
 				showDialog(Contants.DIALOG_CREATE_ID);
 			else
 				showToast("Choose another folder to add idxpassword");
@@ -625,11 +629,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				showToast("Type to edit text to search");
 			} else {
 				showToast("Start search");
-				String textSearch = mEditTextSearch.getText().toString();
+				mTextSearch = mEditTextSearch.getText().toString();
 				/* clear text */
 				mEditTextSearch.setText("");
 
-				mIdListItems = startSearch(textSearch);
+				mIdListItems = startSearch(mTextSearch);
 				/* reset id adapter */
 				itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
 				btnClearTextSearch.setVisibility(View.GONE);
@@ -651,22 +655,26 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	 * @param textSearch
 	 */
 	private ArrayList<OneItem> startSearch(String textSearch) {
-		List<IDDataBase> idListDb = mDataBaseHandler.getAllIDs();
-		ArrayList<OneItem> searchItems = new ArrayList<OneItem>();
-		int size = idListDb.size();
-		for (int i = 0; i < size; i++) {
-			String idName = idListDb.get(i).getTitleRecord().toString().toUpperCase();
-			String idNote = idListDb.get(i).getNote().toString().toUpperCase();
-			boolean isFoundId = idName.indexOf(textSearch.toUpperCase()) != -1;
-			boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
+		if (!"".equals(textSearch)) {
+			List<IDDataBase> idListDb = mDataBaseHandler.getAllIDs();
+			ArrayList<OneItem> searchItems = new ArrayList<OneItem>();
+			int size = idListDb.size();
+			for (int i = 0; i < size; i++) {
+				String idName = idListDb.get(i).getTitleRecord().toString().toUpperCase();
+				String idNote = idListDb.get(i).getNote().toString().toUpperCase();
+				boolean isFoundId = idName.indexOf(textSearch.toUpperCase()) != -1;
+				boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
 
-			if (isFoundId || isFoundNote) {
-				OneItem item = new OneItem(idListDb.get(i).getPassWordId(), idListDb.get(i)
-						.getIcon(), idListDb.get(i).getTitleRecord(), idListDb.get(i).getUrl());
-				searchItems.add(item);
+				if (isFoundId || isFoundNote) {
+					OneItem item = new OneItem(idListDb.get(i).getPassWordId(), idListDb.get(i)
+							.getIcon(), idListDb.get(i).getTitleRecord(), idListDb.get(i).getUrl());
+					searchItems.add(item);
+				}
 			}
-		}
-		return searchItems;
+			Log.e("textSearch " + mTextSearch, "size " + searchItems.size());
+			return searchItems;
+		} else
+			return null;
 	}
 
 	/**
@@ -1032,7 +1040,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		super.onResume();
 		/* reset adapter */
 		mIdListItems = constructList(currentFolderItem);
-		
+
 		itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
 	}
 
