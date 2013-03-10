@@ -1,4 +1,4 @@
-package visvateam.outsource.idmanager.activities;
+package visvateam.outsource.idmanager.activities.securityservice;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +15,7 @@ import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.database.UserDataBase;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,18 +25,20 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import visvateam.outsource.idmanager.activities.R;
 
-public class MasterPasswordActivity extends Activity implements OnClickListener {
+public class SecurityMasterPasswordActivity extends Activity implements
+		OnClickListener {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
 	private EditText mEditTextMasterPW;
-	// private EditText mEditText
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
 	private DataBaseHandler mDataBaseHandler;
@@ -45,7 +48,6 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	private int mNumberAtemppt = 0;
 	private String mMasterPW;
 	private int mSecurityValues;
-	private boolean isBindService = false;
 	private boolean isKeyBoardNumber = false;
 
 	@Override
@@ -56,28 +58,33 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		if (mIdManagerPreference.getSecurityMode() == Contants.KEY_OFF
 				|| !mIdManagerPreference.isApplicationFirstTimeInstalled()) {
 			/* go to HomeScreen activity */
-			Intent intent = new Intent(MasterPasswordActivity.this, HomeScreeenActivity.class);
+			Intent intent = new Intent(SecurityMasterPasswordActivity.this,
+					HomeScreeenActivity.class);
 			startActivity(intent);
 			finish();
 		} else {
-			setContentView(R.layout.master_password);
+			setContentView(R.layout.page_security_masterpw);
 
-			mIdManagerPreference.setSecurityLoop(true);
 			// button
 			mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
 			mBtnDone.setOnClickListener(this);
 			mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
+
 			/* init database */
 			SQLiteDatabase.loadLibs(this);
 			mDataBaseHandler = new DataBaseHandler(this);
 
-			UserDataBase user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+			UserDataBase user = mDataBaseHandler
+					.getUser(Contants.MASTER_PASSWORD_ID);
 			mMasterPW = user.getUserPassword();
 			Log.e("masterpw", "master pw " + mMasterPW);
 
-			bindService(new Intent(MasterPasswordActivity.this, SecurityService.class), mConection,
-					Context.BIND_AUTO_CREATE);
-
+			/* init service */
+			if (mSecurityService == null) {
+				bindService(new Intent(SecurityMasterPasswordActivity.this,
+						SecurityService.class), mConection,
+						Context.BIND_AUTO_CREATE);
+			}
 		}
 	}
 
@@ -86,7 +93,8 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	}
 
 	private void showToast(String string) {
-		Toast.makeText(MasterPasswordActivity.this, string, Toast.LENGTH_SHORT).show();
+		Toast.makeText(SecurityMasterPasswordActivity.this, string,
+				Toast.LENGTH_SHORT).show();
 	}
 
 	public void onReturn(View v) {
@@ -94,7 +102,7 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	}
 
 	public static void startActivity(Activity activity) {
-		Intent i = new Intent(activity, MasterPasswordActivity.class);
+		Intent i = new Intent(activity, SecurityMasterPasswordActivity.class);
 		activity.startActivity(i);
 	}
 
@@ -112,16 +120,6 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		}
 	}
 
-	public void onClickChangerKeyBoard(View v) {
-		if (isKeyBoardNumber) {
-			mEditTextMasterPW.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-			isKeyBoardNumber = false;
-		} else {
-			mEditTextMasterPW.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-			isKeyBoardNumber = true;
-		}
-	}
-
 	private void checkRemoveDataValues() {
 		// TODO Auto-generated method stub
 		if (!mMasterPW.equals(mEditTextMasterPW.getText().toString())) {
@@ -130,15 +128,16 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 			} else {
 				mNumberAtemppt++;
 				if (mNumberAtemppt >= mRemoveDataTimes) {
-					showToast("Wrong master password.(Attempt " + mNumberAtemppt + "/"
-							+ mRemoveDataTimes + ").All IdxPassword data is removed");
+					showToast("Wrong master password.(Attempt "
+							+ mNumberAtemppt + "/" + mRemoveDataTimes
+							+ ").All IdxPassword data is removed");
 					mNumberAtemppt = 0;
 					/* remove data */
 					removeData();
 
 				} else
-					showToast("Wrong master password.(Attempt " + mNumberAtemppt + "/"
-							+ mRemoveDataTimes + ")");
+					showToast("Wrong master password.(Attempt "
+							+ mNumberAtemppt + "/" + mRemoveDataTimes + ")");
 			}
 		} else {
 			/* check security service */
@@ -158,9 +157,18 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 			long time = 60 * securityValues * 1000;
 			mSecurityService.startCountDownTimer(time);
 
-			/* go to HomeScreen activity */
-			Intent intent = new Intent(MasterPasswordActivity.this, HomeScreeenActivity.class);
-			startActivity(intent);
+			finish();
+		}
+	}
+
+	@SuppressLint("InlinedApi")
+	public void onClickChangerKeyBoard(View v) {
+		if (isKeyBoardNumber) {
+			mEditTextMasterPW.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+			isKeyBoardNumber = false;
+		} else {
+			mEditTextMasterPW.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+			isKeyBoardNumber = true;
 		}
 	}
 
@@ -204,7 +212,8 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 			out.close();
 			System.out.println("File copied.");
 		} catch (FileNotFoundException ex) {
-			System.out.println(ex.getMessage() + " in the specified directory.");
+			System.out
+					.println(ex.getMessage() + " in the specified directory.");
 			System.exit(0);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -216,7 +225,8 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getUserPassword();
+		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
+				.getUserPassword();
 		mNumberAtemppt = 0;
 	}
 
@@ -230,14 +240,27 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 
 		@Override
 		public void onServiceConnected(ComponentName arg0, IBinder service) {
-			mSecurityService = ((SecurityService.LocalService) service).getService();
+			mSecurityService = ((SecurityService.LocalService) service)
+					.getService();
 		}
 	};
 
 	protected void onDestroy() {
 		super.onDestroy();
-		if (mSecurityService != null)
-			unbindService(mConection);
-		mIdManagerPreference.setSecurityLoop(false);
+		unbindService(mConection);
 	};
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			Log.e("lam cai log", "lam cai log");
+			return false;
+
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }

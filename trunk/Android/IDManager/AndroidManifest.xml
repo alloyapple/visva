@@ -155,6 +155,13 @@
         <activity
             android:name="com.box.androidlib.activities.BoxAuthentication"
             android:configChanges="orientation|keyboardHidden" />
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.securityservice.SecurityMasterPasswordActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service android:name="visvateam.outsource.idmanager.activities.securityservice.SecurityService" >
+        </service>
     </application>
 
 </manifest>
