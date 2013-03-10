@@ -62,7 +62,7 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait" android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.CopyItemActivity"
