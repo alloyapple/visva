@@ -62,9 +62,9 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                android:textColor="#000000"
                 android:gravity="center"
-                android:singleLine="true" >
+                android:singleLine="true"
+                android:textColor="#000000" >
             </EditText>
 
             <CheckBox
@@ -99,74 +99,95 @@
             android:src="@drawable/sliding_drawer_handle_bottom" />
     </it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" >
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" >
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/all_corner"
-                android:orientation="horizontal" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/all_corner"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/edit_text_url"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:hint="http://"
+                        android:inputType="textWebEditText"
+                        android:singleLine="true"
+                        android:textColor="#000000" >
+                    </EditText>
+
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="4dp"
+                        android:background="@drawable/google_icon"
+                        android:onClick="onGoogleHome" >
+                    </ImageButton>
+                </LinearLayout>
 
                 <EditText
-                    android:id="@+id/edit_text_url"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:background="@color/transparent"
-                    android:hint="http://"
-                    android:singleLine="true"
-                    android:inputType="textWebEditText"
+                    android:id="@+id/edit_text_note"
+                    android:layout_width="fill_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/all_corner"
+                    android:hint="Note"
                     android:textColor="#000000" >
                 </EditText>
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <Button
+                    android:id="@+id/btn_img_memo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"
-                    android:layout_marginRight="4dp"
-                    android:background="@drawable/google_icon"
-                    android:onClick="onGoogleHome" >
-                </ImageButton>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/all_corner_button"
+                    android:onClick="onMemoImage"
+                    android:text="No Image"
+                    android:textColor="@color/gray" >
+                </Button>
             </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/edit_text_note"
-                android:layout_width="fill_parent"
-                android:layout_height="64dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/all_corner"
-                android:hint="Note"
-                android:textColor="#000000" >
-            </EditText>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/btn_img_memo"
-                android:layout_width="fill_parent"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/all_corner_button"
-                android:onClick="onMemoImage"
-                android:text="No Image"
-                android:textColor="@color/gray" >
-            </Button>
-        </LinearLayout>
-    </ScrollView>
+        <com.google.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+            android:id="@+id/main_adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="a15000d2c279fed" />
+    </LinearLayout>
 
 </LinearLayout>
