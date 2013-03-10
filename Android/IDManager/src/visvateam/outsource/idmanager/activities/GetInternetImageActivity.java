@@ -1,5 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -157,6 +160,15 @@ public class GetInternetImageActivity extends Activity {
 		mScrollView = (ScrollView) findViewById(R.id.id_scroll);
 		imgBound = (ImageView) findViewById(R.id.id_img_bound);
 		initControl();
+		initAdmod();
+	}
+	public void initAdmod() {
+		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
 	}
 	public void resiseBound(float scale) {
 		int left = (getParam().leftMargin + getParam().width / 2) - (int) ((w * scale) / 2);
