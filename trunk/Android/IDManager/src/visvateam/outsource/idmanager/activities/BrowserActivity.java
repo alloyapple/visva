@@ -1,5 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
@@ -45,8 +48,16 @@ public class BrowserActivity extends Activity {
 		}
 		editText = (EditText) findViewById(R.id.id_edit_browser);
 		initControl();
+		initAdmod();
 	}
-
+	public void initAdmod() {
+		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
+	}
 	public void initData() {
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new DataBaseHandler(this);

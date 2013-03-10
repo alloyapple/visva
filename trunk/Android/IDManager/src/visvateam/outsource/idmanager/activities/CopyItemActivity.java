@@ -1,6 +1,10 @@
 package visvateam.outsource.idmanager.activities;
 
 import java.util.ArrayList;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
@@ -52,9 +56,17 @@ public class CopyItemActivity extends Activity {
 		setContentView(R.layout.page_choice_id_pass_item);
 		mLinear = (LinearLayout) findViewById(R.id.id_linear_copy_item);
 		initDataBase();
+		initAdmod();
 
 	}
-
+	public void initAdmod() {
+		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
+	}
 	private void initDataBase() {
 		// TODO Auto-generated method stub
 		SQLiteDatabase.loadLibs(this);

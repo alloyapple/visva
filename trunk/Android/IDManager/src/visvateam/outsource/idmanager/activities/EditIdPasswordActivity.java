@@ -24,6 +24,9 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
 
@@ -144,8 +147,16 @@ public class EditIdPasswordActivity extends Activity implements
 			isUpdateIcon = true;
 			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
 		}
+		initAdmod();
 	}
-
+	public void initAdmod() {
+		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
+	}
 	public static Drawable getIconDatabase(String icon) {
 		File inputFile = new File(Environment.getExternalStorageDirectory()
 				+ "/" + icon);

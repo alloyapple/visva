@@ -2,6 +2,9 @@ package visvateam.outsource.idmanager.activities;
 
 import java.util.ArrayList;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -178,8 +181,16 @@ public class ListIconActivity extends Activity {
 		mIdIcon.add(idGeneral);
 		mLinearListIcon = (LinearLayout) findViewById(R.id.id_linear_list_icon);
 		initListIcon();
+		initAdmod();
 	}
-
+	public void initAdmod() {
+		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
+	}
 	public void initListIcon() {
 
 		for (int i = 0; i < mCatalogueName.length; i++) {

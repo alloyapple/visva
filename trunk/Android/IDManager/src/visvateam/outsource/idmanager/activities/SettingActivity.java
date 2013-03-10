@@ -8,6 +8,8 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 import com.google.api.services.drive.Drive.Apps.List;
 
 import visvateam.outsource.idmanager.activities.export.ExportDataDropBoxActivity;
@@ -45,8 +47,16 @@ public class SettingActivity extends Activity {
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new DataBaseHandler(this);
+		initAdmod();
 	}
-
+	public void initAdmod() {
+		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
+	}
 	public void onReturn(View v) {
 		finish();
 	}

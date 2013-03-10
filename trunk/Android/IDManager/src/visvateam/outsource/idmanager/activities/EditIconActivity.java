@@ -1,5 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import visvateam.outsource.idmanager.contants.Contants;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,9 +32,17 @@ public class EditIconActivity extends Activity {
 		imageView = (ImageView) findViewById(R.id.id_img_icon_edit);
 		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_edit_icon);
 		mDrawableIconEdit = EditIdPasswordActivity.getIcon();
+		initAdmod();
 
 	}
-
+	public void initAdmod() {
+		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
+	}
 	public void initDataItem() {
 
 	}
