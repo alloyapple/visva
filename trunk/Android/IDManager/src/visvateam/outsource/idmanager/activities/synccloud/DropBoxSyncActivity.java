@@ -127,15 +127,10 @@ public class DropBoxSyncActivity extends Activity {
 				} else {
 					if (NetworkUtility.getInstance(DropBoxSyncActivity.this).isNetworkAvailable())
 						if (mApi.getSession().isLinked()) {
-							if (isSyncToCloud) {
-								/* upload file to cloud */
-								startSyncToCloud();
-							} else {
-								/* download file to device */
-								checkDataOnDropbox();
-								// startSyncToDevice();
 
-							}
+							/* download file to device */
+							checkDataOnDropbox();
+
 						} else {
 							showToast("You must authenticate with Dropbox first");
 						}
@@ -194,7 +189,7 @@ public class DropBoxSyncActivity extends Activity {
 		mIdManagerPreference.setLastTimeSyncCloud(mLastTime);
 		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
 		String dbFilePath = dbFile.getParent();
-		
+
 		DropBoxDownloadFile download = new DropBoxDownloadFile(DropBoxSyncActivity.this, mApi,
 				Contants.FOLDER_ON_DROPBOX, dbFilePath);
 		download.execute();
@@ -431,7 +426,10 @@ public class DropBoxSyncActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
-							startSyncToDevice();
+							if (isSyncToCloud)
+								startSyncToCloud();
+							else
+								startSyncToDevice();
 							return;
 						}
 					});
