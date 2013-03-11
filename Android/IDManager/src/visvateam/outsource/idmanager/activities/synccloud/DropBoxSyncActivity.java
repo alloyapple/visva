@@ -1,6 +1,8 @@
 package visvateam.outsource.idmanager.activities.synccloud;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,14 +21,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.android.AuthActivity;
+import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxDownloadFile;
 import visvateam.outsource.idmanager.exportcontroller.excelcreator.ExcelDocumentController;
@@ -68,11 +73,18 @@ public class DropBoxSyncActivity extends Activity {
 	private Button btnStartSync;
 
 	private boolean isSyncToCloud;
-	
+
+	private IdManagerPreference mIdManagerPreference;
+	private long mLastTimeSync;
+	private long mLastTime;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		/* share preference */
+		mIdManagerPreference = IdManagerPreference.getInstance(this);
+		mLastTimeSync = mIdManagerPreference.getLastTimeSyncCloud();
 
 		/* create file if not exist */
 		File file = new File(Contants.PATH_ID_FILES);
@@ -120,7 +132,9 @@ public class DropBoxSyncActivity extends Activity {
 								startSyncToCloud();
 							} else {
 								/* download file to device */
-								startSyncToDevice();
+								checkDataOnDropbox();
+								// startSyncToDevice();
+
 							}
 						} else {
 							showToast("You must authenticate with Dropbox first");
@@ -137,10 +151,52 @@ public class DropBoxSyncActivity extends Activity {
 
 	}
 
+	@SuppressWarnings({ "deprecation", "unused" })
+	private void checkDataOnDropbox() {
+		// TODO Auto-generated method stub
+		// Get the metadata for a directory
+		Entry dirent = null;
+		try {
+			dirent = mApi.metadata(Contants.FOLDER_ON_DROPBOX, 1000, null, true, null);
+		} catch (DropboxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (!dirent.isDir || dirent.contents == null) {
+			// It's not a directory, or there's nothing in it
+			showDialog(Contants.DIALOG_NO_DATA_CLOUD);
+
+		}
+
+		// Make a list of everything in it that we can get a thumbnail for
+		Entry entry = null;
+		for (Entry ent : dirent.contents) {
+			if (Contants.DATA_IDMANAGER_NAME.equals(ent.fileName().toString())) {
+				// Add it to the list of thumbs we can choose from
+				entry = ent;
+			}
+		}
+
+		// Now pick a random one
+		if (null != entry) {
+			String modify = entry.modified;
+			Date date = new Date(modify);
+			mLastTime = date.getTime();
+			showDialog(Contants.DIALOG_DATA_REWRITTEN);
+		} else
+			showDialog(Contants.DIALOG_NO_DATA_CLOUD);
+
+	}
+
 	private void startSyncToDevice() {
 		// TODO Auto-generated method stub
+		mIdManagerPreference.setLastTimeSyncCloud(mLastTime);
+		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
+		String dbFilePath = dbFile.getParent();
+		
 		DropBoxDownloadFile download = new DropBoxDownloadFile(DropBoxSyncActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX);
+				Contants.FOLDER_ON_DROPBOX, dbFilePath);
 		download.execute();
 	}
 
@@ -156,7 +212,6 @@ public class DropBoxSyncActivity extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 	}
-
 
 	@Override
 	protected void onResume() {
@@ -323,6 +378,10 @@ public class DropBoxSyncActivity extends Activity {
 		switch (id) {
 		case Contants.DIALOG_NO_NET_WORK:
 			return createExampleDialog(Contants.DIALOG_NO_NET_WORK);
+		case Contants.DIALOG_NO_DATA_CLOUD:
+			return createExampleDialog(Contants.DIALOG_NO_DATA_CLOUD);
+		case Contants.DIALOG_DATA_REWRITTEN:
+			return createExampleDialog(Contants.DIALOG_DATA_REWRITTEN);
 		default:
 			return null;
 		}
@@ -336,17 +395,56 @@ public class DropBoxSyncActivity extends Activity {
 
 		switch (id) {
 		case Contants.DIALOG_NO_NET_WORK:
-			builder.setTitle("Id Manager");
-			builder.setMessage("Network is unvailable");
+			builder.setTitle(getString(R.string.app_name));
+			builder.setMessage(getString(R.string.internet_not_use));
 			builder.setIcon(R.drawable.icon);
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int whichButton) {
-					/* add new folder to database */
-					return;
-				}
-			});
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
 			return builder.create();
+		case Contants.DIALOG_NO_DATA_CLOUD:
+			AlertDialog.Builder builderNoData = new AlertDialog.Builder(this);
+			builderNoData.setTitle(R.string.app_name);
+			builderNoData.setMessage(R.string.no_data_on_cloud);
+			builderNoData.setIcon(R.drawable.icon);
+			builderNoData.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
+			return builderNoData.create();
+		case Contants.DIALOG_DATA_REWRITTEN:
+			AlertDialog.Builder builderDataRewritten = new AlertDialog.Builder(this);
+			builderDataRewritten.setTitle(R.string.app_name);
+			builderDataRewritten.setMessage(R.string.data_rewritten);
+			builderDataRewritten.setIcon(R.drawable.icon);
+			builderDataRewritten.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* add new folder to database */
+							startSyncToDevice();
+							return;
+						}
+					});
+			builderDataRewritten.setNegativeButton(getString(R.string.confirm_cancel),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							return;
+						}
+					});
+			return builderDataRewritten.create();
 		default:
 			return null;
 		}

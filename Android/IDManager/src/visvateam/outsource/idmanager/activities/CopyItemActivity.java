@@ -1,10 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
 import java.util.ArrayList;
-
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
@@ -16,7 +14,6 @@ import android.app.Dialog;
 //import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-//import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,6 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+//import android.content.DialogInterface.OnClickListener;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("NewApi")
