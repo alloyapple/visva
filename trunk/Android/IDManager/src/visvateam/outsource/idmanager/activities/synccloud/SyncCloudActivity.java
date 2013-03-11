@@ -71,6 +71,8 @@ public class SyncCloudActivity extends Activity {
 			return createExampleDialog(Contants.DIALOG_NO_NET_WORK);
 		case Contants.DIALOG_CHOICE_CLOUD_TYPE:
 			return createExampleDialog(Contants.DIALOG_CHOICE_CLOUD_TYPE);
+		case Contants.DIALOG_NO_DATA_CLOUD:
+			return createExampleDialog(Contants.DIALOG_NO_DATA_CLOUD);
 		default:
 			return null;
 		}
@@ -84,10 +86,10 @@ public class SyncCloudActivity extends Activity {
 
 		switch (id) {
 		case Contants.DIALOG_NO_NET_WORK:
-			builder.setTitle("Id Manager");
-			builder.setMessage("Network is unvailable");
+			builder.setTitle(R.string.app_name);
+			builder.setMessage(R.string.internet_not_use);
 			builder.setIcon(R.drawable.icon);
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
 					/* add new folder to database */
@@ -116,6 +118,19 @@ public class SyncCloudActivity extends Activity {
 				}
 			});
 			return builder2.create();
+		case Contants.DIALOG_NO_DATA_CLOUD:
+			AlertDialog.Builder builderNoData = new AlertDialog.Builder(this);
+			builderNoData.setTitle(R.string.app_name);
+			builderNoData.setMessage(R.string.no_data_on_cloud);
+			builderNoData.setIcon(R.drawable.icon);
+			builderNoData.setPositiveButton(getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					/* add new folder to database */
+					return;
+				}
+			});
+			return builder.create();
 		default:
 			return null;
 		}

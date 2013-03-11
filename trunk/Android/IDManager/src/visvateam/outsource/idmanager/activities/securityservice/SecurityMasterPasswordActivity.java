@@ -249,7 +249,11 @@ public class SecurityMasterPasswordActivity extends Activity implements
 		super.onDestroy();
 		unbindService(mConection);
 	};
-	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+//		super.onBackPressed();
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub

@@ -26,7 +26,9 @@ public class Contants {
 	public static final int DIALOG_CHOICE_CLOUD_TYPE = 10;
 	public static final int DIALOG_MOVE_ID_TO_FOLDER = 11;
 	public static final int IS_SEARCH_MODE = 12;
-	
+	public static final int DIALOG_NO_DATA_CLOUD = 13;
+	public static final int DIALOG_DATA_REWRITTEN = 14;
+
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
 	public static final int TYPE_FOLDER_NON_NORMAL = 0;
@@ -59,6 +61,6 @@ public class Contants {
 	public static final String IS_SYNC_TO_CLOUD = "IS_SYNC_TO_CLOUD";
 	public static final String FILE_CSV_NAME = "idmanager.csv";
 	public static final String IS_EXPORT_FILE = "IS_EXPORT_FILE";
-	
+	public static final String FOLDER_ID_APP_ON_DROPBOX = "/Apps/IDManager/";
 
 }

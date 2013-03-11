@@ -1,37 +1,16 @@
-/*
- * Copyright (c) 2010-11 Dropbox, Inc.
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
-
 package visvateam.outsource.idmanager.exportcontroller.dropbox;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
+import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,11 +18,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
-import com.dropbox.client2.DropboxAPI.ThumbFormat;
-import com.dropbox.client2.DropboxAPI.ThumbSize;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxIOException;
 import com.dropbox.client2.exception.DropboxParseException;
@@ -55,10 +31,8 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
  * Here we show getting metadata for a directory and downloading a file in a
  * background thread, trying to show typical exception handling and flow of
  * control for an app that downloads a file from Dropbox.
- * 
- * @author KieuThang
- * 
  */
+
 public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 
 	private Context mContext;
@@ -66,25 +40,21 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 	private DropboxAPI<?> mApi;
 	private String mPath;
 	private FileOutputStream mFos;
-
 	private boolean mCanceled;
 	private Long mFileLen;
 	private String mErrorMsg;
-
-	// Note that, since we use a single file name here for simplicity, you
-	// won't be able to use this code for two simultaneous downloads.
-	private final static String IMAGE_FILE_NAME = "dbroulette.png";
+	private String mDbFilePath;
 
 	@SuppressWarnings("deprecation")
-	public DropBoxDownloadFile(Context context, DropboxAPI<?> api, String dropboxPath) {
+	public DropBoxDownloadFile(Context context, DropboxAPI<?> api, String dropboxPath,String dbFilePath) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
 
 		mApi = api;
 		mPath = dropboxPath;
-
+		mDbFilePath = dbFilePath;
 		mDialog = new ProgressDialog(context);
-		mDialog.setMessage("Syncing data from dropbox...");
+		mDialog.setMessage("Downloading Image");
 		mDialog.setButton("Cancel", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				mCanceled = true;
@@ -102,6 +72,33 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 		});
 
 		mDialog.show();
+
+		createExampleDialog(Contants.DIALOG_NO_NET_WORK);
+	}
+
+	/**
+	 * Create and return an example alert dialog with an edit text box.
+	 */
+	private Dialog createExampleDialog(int id) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+		switch (id) {
+		case Contants.DIALOG_NO_NET_WORK:
+			builder.setTitle("Id Manager");
+			builder.setMessage("Network is unvailable");
+			builder.setIcon(R.drawable.icon);
+			builder.setCancelable(false);
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int whichButton) {
+					/* add new folder to database */
+					return;
+				}
+			});
+			return builder.create();
+		default:
+			return null;
+		}
 	}
 
 	@Override
@@ -112,7 +109,7 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 			}
 
 			// Get the metadata for a directory
-			Entry dirent = mApi.metadata(mPath, 2000, null, true, null);
+			Entry dirent = mApi.metadata(mPath, 1000, null, true, null);
 
 			if (!dirent.isDir || dirent.contents == null) {
 				// It's not a directory, or there's nothing in it
@@ -123,10 +120,11 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 			// Make a list of everything in it that we can get a thumbnail for
 			ArrayList<Entry> thumbs = new ArrayList<Entry>();
 			for (Entry ent : dirent.contents) {
-				if (ent.thumbExists) {
+				Log.d("file " + ent.thumbExists, "file ent " + ent.fileName());
+				if (Contants.DATA_IDMANAGER_NAME.equals(ent.fileName().toString())) {
 					// Add it to the list of thumbs we can choose from
 					thumbs.add(ent);
-				}
+				} 
 			}
 
 			if (mCanceled) {
@@ -135,21 +133,24 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 
 			if (thumbs.size() == 0) {
 				// No thumbs in that directory
-				mErrorMsg = "No file in that directory "+dirent.fileName();
+				mErrorMsg = "No pictures in that directory";
 				return false;
 			}
 
 			// Now pick a random one
-			String path = "";
-			for (int i = 0; i < thumbs.size(); i++) {
-				if (thumbs.get(i).fileName().equals(Contants.DATA_IDMANAGER_NAME)) {
-					Entry ent = thumbs.get(i);
-					path = ent.path;
-					mFileLen = ent.bytes;
-				}
-			}
+			int index = (int) (Math.random() * thumbs.size());
+			Entry ent = thumbs.get(index);
+			String path = ent.path;
+			mFileLen = ent.bytes;
+			Log.e("modify ", "modify time " + ent.modified);
+			String modify = ent.modified;
+			@SuppressWarnings("deprecation")
+			Date date = new Date(modify);
+			long modifyTime = date.getTime();
+			Log.e("time", "time " + modifyTime);
 
-			String cachePath = mContext.getCacheDir().getAbsolutePath() + "/" + IMAGE_FILE_NAME;
+			String cachePath = mDbFilePath + "/" + Contants.DATA_IDMANAGER_NAME;
+			Log.e("file path", "file Path " + cachePath);
 			try {
 				mFos = new FileOutputStream(cachePath);
 			} catch (FileNotFoundException e) {
@@ -157,14 +158,12 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 				return false;
 			}
 
-			// This downloads a smaller, thumbnail version of the file. The
-			// API to download the actual file is roughly the same.
-			mApi.getThumbnail(path, mFos, ThumbSize.BESTFIT_960x640, ThumbFormat.JPEG, null);
+			mApi.getFile(path, "test", mFos, null);
 			if (mCanceled) {
 				return false;
 			}
 
-			// Drawable.createFromPath(cachePath);
+			// mDrawable = Drawable.createFromPath(cachePath);
 			// We must have a legitimate picture
 			return true;
 
@@ -223,17 +222,11 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		mDialog.dismiss();
 		if (result) {
-			// Set the image now that we have it
-			copyFileToDb();
+			showToast("Sucess");
 		} else {
 			// Couldn't download it, so show an error
 			showToast(mErrorMsg);
 		}
-	}
-
-	private void copyFileToDb() {
-		// TODO Auto-generated method stub
-		Log.e("xong", "xoing");
 	}
 
 	private void showToast(String msg) {

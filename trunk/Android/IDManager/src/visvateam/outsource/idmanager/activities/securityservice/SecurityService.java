@@ -62,7 +62,6 @@ public class SecurityService extends Service {
 			@Override
 			public void onTick(long millisUntilFinished) {
 				// TODO Auto-generated method stub
-				
 				mIdManagerPreference = IdManagerPreference.getInstance(SecurityService.this);
 				if (!mIdManagerPreference.isSecurityLoop()){
 					onFinish();

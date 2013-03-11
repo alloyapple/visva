@@ -142,7 +142,7 @@ public class ExportDataDropBoxActivity extends Activity {
 	private void startSyncToDevice() {
 		// TODO Auto-generated method stub
 		DropBoxDownloadFile download = new DropBoxDownloadFile(ExportDataDropBoxActivity.this,
-				mApi, Contants.FOLDER_ON_DROPBOX);
+				mApi, Contants.FOLDER_ON_DROPBOX,"");
 		download.execute();
 	}
 

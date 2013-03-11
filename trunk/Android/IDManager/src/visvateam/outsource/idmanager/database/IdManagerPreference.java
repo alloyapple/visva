@@ -41,7 +41,8 @@ public class IdManagerPreference {
 	public static final String MASTER_PASSWORD = "MASTER_PASSWORD";
 	public static final String REMOVE_DATA = "REMOVE_DATA";
 	public static final String SECURITY_MODE = "SECURITY_MODE";
-	public static final String IS_SECURITY_LOOP="IS_SECURITY_LOOP";
+	public static final String IS_SECURITY_LOOP = "IS_SECURITY_LOOP";
+	public static final String LAST_TIME_SYNC_CLOUD = "LAST_TIME_SYNC_CLOUD";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -139,6 +140,7 @@ public class IdManagerPreference {
 		b = getSecurityMode(SECURITY_MODE);
 		return b;
 	}
+
 	/* set vs get is security loop */
 	public void setSecurityLoop(String key, boolean securityMode) {
 		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
@@ -159,6 +161,29 @@ public class IdManagerPreference {
 	public boolean isSecurityLoop() {
 		boolean b;
 		b = isSecurityLoop(IS_SECURITY_LOOP);
+		return b;
+	}
+
+	/* set vs get last time sync cloud */
+	public void setLastTimeSyncCloud(String key, long lastTimeSync) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putLong(key, lastTimeSync);
+		editor.commit();
+	}
+
+	public long getLastTimeSyncCloud(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getLong(key, 0);
+	}
+
+	public void setLastTimeSyncCloud(long b) {
+		setLastTimeSyncCloud(LAST_TIME_SYNC_CLOUD, b);
+	}
+
+	public long getLastTimeSyncCloud() {
+		long b;
+		b = getLastTimeSyncCloud(LAST_TIME_SYNC_CLOUD);
 		return b;
 	}
 }
