@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <string name="title_create_pass">Create Master Password</string>
+
+    <string name="title_create_pass">Create Master Password</string>
     <string name="title_master_pass">Contraseña Maestra</string>
     <string name="title_delete_items">Borrar</string>
     <string name="title_add_items">Nuevo</string>
     <string name="title_creat_item">Creat item</string>
-    
     <string name="text_min">min</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Nota</string>
@@ -13,13 +13,11 @@
     <string name="message_add_item">A sólo 12 elementos pueden ser registrado en esta aplicación. Usted puede pagar ¢ 99 para llave de código para eliminar el límite de elementos.</string>
     <string name="title_add_folder">Añadir carpeta</string>
     <string name="title_change_folder">Cambiar nombre de la carpeta</string>
-    
     <string name="confirm_delete">Borrar</string>
     <string name="title_delete">Eliminar carpeta</string>
     <string name="security_mode_title">Modo de Seguridad</string>
     <string name="remove_data_title">Daños en los datos de configuración</string>
-    
-	<string name="item_change_master_apss">Cambiar contraseña maestra</string>
+    <string name="item_change_master_apss">Cambiar contraseña maestra</string>
     <string name="item_mode_security">Modo de Seguridad</string>
     <string name="item_remove_data">Daños en los datos de configuración</string>
     <string name="item_sync">Sincronización</string>
@@ -30,10 +28,8 @@
     <string name="item_unlimited_item">Artículos Restricciones de Cancelación</string>
     <string name="item_no_admod">Anuncio de Cancelación</string>
     <string name="item_export_data">CSV Plaintext Export</string>
-    
     <string name="new_pass">Nuevo:</string>
     <string name="confirm_pass">Verificar:</string>
-    
     <string name="password_generator_title">Password Generator</string>
     <string name="button_generate">Generación</string>
     <string name="item_number">Número</string>
@@ -42,7 +38,6 @@
     <string name="item_sign">Firmar</string>
     <string name="item_duplicate">Duplicar la Prevención</string>
     <string name="item_number_character">Número de Caracteres</string>
-    
     <string name="list_icon_title">Logo/Icon</string>
     <string name="setting_title">Ajustar</string>
     <string name="confirm_ok">Aprobación</string>
@@ -54,21 +49,21 @@
     <string name="list_general">General</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
-    
-	<string name="txt_dropbox_tut">Dropbox es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
-  <!--   <string name="item_sync">Sincronización</string>
+    <string name="txt_dropbox_tut">Dropbox es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
+    <!--
+    <string name="item_sync">Sincronización</string>
     <string name="item_dropbox">Dropbox sincronización</string>
-    <string name="item_cloud">Carga Texto Datos</string> -->
+    <string name="item_cloud">Carga Texto Datos</string>
+    -->
     <string name="dropbox_start_to_use">Comenzar a Utilizar</string>
     <string name="dropbox_reset_sync">Restablecer Sync</string>
     <string name="dropbox_already_use">IDxPassword ya pueden utilizar Dropbox.</string>
     <string name="dropbox_use_instead">IDxPassword está utilizando Google Drive en estos momentos. ¿Quieres utilizar Dropbox en su lugar?</string>
-    
-   <!--  <string name="item_google">GoogleDrive sincronización</string> -->
+
+    <!-- <string name="item_google">GoogleDrive sincronización</string> -->
     <string name="txt_gg_drive_tut">GoogleDrive es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
     <string name="gg_drive_already_use">IDxPassword ya pueden utilizar Google Drive.</string>
     <string name="gg_drive_use_instead">IDxPassword está usando Dropbox en estos momentos. ¿Quieres usar Google Drive en su lugar?</string>
-    
     <string name="internet_not_use">Internet no se puede utilizar.</string>
     <string name="no_cloud_set_up">No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.</string>
     <string name="no_data_on_cloud">No hay datos en la nube.</string>
@@ -89,5 +84,10 @@
     <string name="sync_failed">La sincronización se ha fallado.</string>
     <string name="sync_finish">La sincronización se terminó.</string>
     <string name="data_cloud_newer">Aunque los datos sobre Dropbox (GoogleDrive) es más reciente, que está seguro de sobreescribirlo?</string>
-    
+    <string name="limit_login_msg">El modo de destrucción está encendido. Usted perderá datos IDxPassword después de entrar en %d PW mal momento.</string>
+
+    <!-- others -->
+    <string name="wrong_pw_login">La contraseña no coincide. Por favor, hazlo de nuevo.</string>
+    <string name="data_erased_msg">Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione..</string>
+
 </resources>

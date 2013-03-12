@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="title_create_pass">Create Master Password</string>
     <string name="title_master_pass">マスターパスワード</string>
     <string name="title_delete_items">削除</string>
     <string name="title_add_items">新規</string>
     <string name="title_creat_item">Creat item</string>
-    
     <string name="text_min">分</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
@@ -13,12 +13,10 @@
     <string name="message_add_item">フリー版でご登録いただけるIDパスワードは12個までです。より多くご利用になる方は機能制限解除のためのキーコード(85円)をご購入下さい。</string>
     <string name="title_add_folder">フォルダの追加</string>
     <string name="title_change_folder">フォルダ名の変更</string>
-    
     <string name="confirm_delete">削除</string>
     <string name="title_delete">フォルダの削除</string>
     <string name="security_mode_title">セキュリティモード</string>
     <string name="remove_data_title">データ破壊設定</string>
-    
     <string name="item_change_master_apss">マスターパスワードの変更</string>
     <string name="item_mode_security">セキュリティモード</string>
     <string name="item_remove_data">データ破壊設定</string>
@@ -30,10 +28,8 @@
     <string name="item_unlimited_item">項目数制限解除</string>
     <string name="item_no_admod">広告解除</string>
     <string name="item_export_data">CSVテキスト形式での出力</string>
-    
     <string name="new_pass">新規:</string>
     <string name="confirm_pass">確認:</string>
-    
     <string name="password_generator_title">パスワードの自動生成</string>
     <string name="button_generate">生成</string>
     <string name="item_number">数字</string>
@@ -42,7 +38,6 @@
     <string name="item_sign">記号</string>
     <string name="item_duplicate">重複防止</string>
     <string name="item_number_character">文字数</string>
-
     <string name="list_icon_title">ロゴ・アイコン</string>
     <string name="setting_title">設定</string>
     <string name="confirm_ok">承認</string>
@@ -54,16 +49,17 @@
     <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
-
     <string name="txt_dropbox_tut">Dropboxとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予めアカウントの取得（無料）が必要です。</string>
-<!--     <string name="item_sync">同期の実行</string>
+    <!--
+         <string name="item_sync">同期の実行</string>
     <string name="item_dropbox">Dropboxと同期する</string>
-    <string name="item_cloud">テキストデータ読込</string> -->
+    <string name="item_cloud">テキストデータ読込</string>
+    -->
     <string name="dropbox_start_to_use">利用手続きの開始</string>
     <string name="dropbox_reset_sync">同期の解除</string>
     <string name="dropbox_already_use">IDxPasswordは既にDropboxを利用可能です。 </string>
     <string name="dropbox_use_instead">IDxPasswordは現在GoogleDriveを利用するようになっています。代わりにDropboxをご利用されますか？</string>
-<!--     <string name="item_google">GoogleDriveと同期する</string> -->
+    <!-- <string name="item_google">GoogleDriveと同期する</string> -->
     <string name="txt_gg_drive_tut">GoogleDriveとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予め自分のアカウントの取得（無料）が必要です。</string>
     <string name="gg_drive_already_use">IDxPasswordは既にGoogle Driveを利用可能です。 </string>
     <string name="gg_drive_use_instead">IDxPasswordは現在Dropboxを利用するようになっています。代わりにGoogle Driveをご利用されますか？</string>
@@ -87,5 +83,10 @@
     <string name="sync_failed">同期が失敗しました。</string>
     <string name="sync_finish">同期が終了しました。</string>
     <string name="data_cloud_newer">Dropbox(GoogleDrive)上のデータの方が新しいですが、本当に上書きしてよろしいですか？</string>
-    
+    <string name="limit_login_msg">安全のための破壊設定がされています。あと%d回間違えるとIDxPasswordのデータが失われます。</string>
+
+    <!-- others -->
+    <string name="wrong_pw_login">確認パスワードの文字が符合しませんでした。再入力してください。</string>
+    <string name="data_erased_msg">指定回数マスターパスワードを間違って入力するとデータが消去されます。</string>
+
 </resources>

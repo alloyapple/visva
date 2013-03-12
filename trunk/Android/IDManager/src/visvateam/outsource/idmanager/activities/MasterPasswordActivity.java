@@ -16,8 +16,11 @@ import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.database.UserDataBase;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -45,8 +48,6 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 	private int mNumberAtemppt = 0;
 	private String mMasterPW;
 	private int mSecurityValues;
-	private boolean isBindService = false;
-	private boolean isKeyBoardNumber = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,33 +113,21 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		}
 	}
 
-	public void onClickChangerKeyBoard(View v) {
-		if (isKeyBoardNumber) {
-			mEditTextMasterPW.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-			isKeyBoardNumber = false;
-		} else {
-			mEditTextMasterPW.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-			isKeyBoardNumber = true;
-		}
-	}
-
+	@SuppressWarnings("deprecation")
 	private void checkRemoveDataValues() {
 		// TODO Auto-generated method stub
 		if (!mMasterPW.equals(mEditTextMasterPW.getText().toString())) {
 			if (mRemoveDataTimes == Contants.KEY_OFF) {
-				showToast("Wrong master password.Try again");
+				showDialog(Contants.DIALOG_WRONG_PASS_NO_SECURE);
 			} else {
 				mNumberAtemppt++;
 				if (mNumberAtemppt >= mRemoveDataTimes) {
-					showToast("Wrong master password.(Attempt " + mNumberAtemppt + "/"
-							+ mRemoveDataTimes + ").All IdxPassword data is removed");
+					showDialog(Contants.DIALOG_REMOVED_DATA);
 					mNumberAtemppt = 0;
-					/* remove data */
-					removeData();
 
-				} else
-					showToast("Wrong master password.(Attempt " + mNumberAtemppt + "/"
-							+ mRemoveDataTimes + ")");
+				} else {
+					showDialog(Contants.DIALOG_LOGIN_WRONG_PASS);
+				}
 			}
 		} else {
 			/* check security service */
@@ -183,34 +172,6 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		finish();
 	}
 
-	private static void copyfile(String srFile, String dtFile) {
-		try {
-			File f1 = new File(srFile);
-			File f2 = new File(dtFile);
-			InputStream in = new FileInputStream(f1);
-
-			// For Append the file.
-			// OutputStream out = new FileOutputStream(f2,true);
-
-			// For Overwrite the file.
-			OutputStream out = new FileOutputStream(f2);
-
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			in.close();
-			out.close();
-			System.out.println("File copied.");
-		} catch (FileNotFoundException ex) {
-			System.out.println(ex.getMessage() + " in the specified directory.");
-			System.exit(0);
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -220,8 +181,10 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		mNumberAtemppt = 0;
 	}
 
+	/**
+	 * connection to service to add security mode
+	 */
 	private ServiceConnection mConection = new ServiceConnection() {
-
 		@Override
 		public void onServiceDisconnected(ComponentName arg0) {
 			// TODO Auto-generated method stub
@@ -240,4 +203,81 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 			unbindService(mConection);
 		mIdManagerPreference.setSecurityLoop(false);
 	};
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+
+		switch (id) {
+		case Contants.DIALOG_LOGIN_WRONG_PASS:
+			return createDialog(Contants.DIALOG_LOGIN_WRONG_PASS);
+		case Contants.DIALOG_WRONG_PASS_NO_SECURE:
+			return createDialog(Contants.DIALOG_WRONG_PASS_NO_SECURE);
+		case Contants.DIALOG_REMOVED_DATA:
+			return createDialog(Contants.DIALOG_REMOVED_DATA);
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * Create and return an example alert dialog with an edit text box.
+	 */
+	private Dialog createDialog(int id) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		switch (id) {
+		case Contants.DIALOG_LOGIN_WRONG_PASS:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.limit_login_msg, 2));
+			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							return;
+						}
+
+					});
+			return builder.create();
+		case Contants.DIALOG_WRONG_PASS_NO_SECURE:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.wrong_pw_login));
+			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							return;
+						}
+
+					});
+			return builder.create();
+		case Contants.DIALOG_REMOVED_DATA:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.data_erased_msg));
+			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* remove data */
+							removeData();
+							return;
+						}
+
+					});
+			return builder.create();
+		default:
+			return null;
+		}
+	}
 }

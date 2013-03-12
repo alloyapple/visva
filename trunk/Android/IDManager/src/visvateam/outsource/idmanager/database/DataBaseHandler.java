@@ -100,8 +100,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				+ " TEXT," + KEY_DATA_ID_11 + " TEXT," + KEY_TITLE_ID_12 + " TEXT,"
 				+ KEY_DATA_ID_12 + " TEXT," + KEY_URL + " TEXT," + KEY_NOTE + " TEXT,"
 				+ KEY_IMAGE_MEMO + " TEXT," + KEY_FLAG + " TEXT," + KEY_TIMES_STAMP + " TEXT,"
-				+ KEY_IS_ENCRYPTED + " Boolean," + KEY_USER_ID + " INTEGER," + KEY_IS_LIKE
-				+ " Boolean" + ")";
+				+ KEY_IS_ENCRYPTED + " BOOLEAN," + KEY_USER_ID + " INTEGER," + KEY_IS_LIKE
+				+ " INTEGER" + ")";
 		db.execSQL(CREATE_IDS_TABLE);
 
 		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_T_USERS + "(" + KEY_USER_ID
@@ -301,8 +301,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		// user id
 		values.put(KEY_USER_ID, id.getUserId());
 		// is farourite
-		values.put(KEY_IS_LIKE, id.isLike());
-		Log.e("s issksdl", "aksdhflskj "+id.isLike());
+		values.put(KEY_IS_LIKE, id.getLike());
+		Log.e("s issksdl", "aksdhflskj "+id.getLike());
 		// Inserting Row
 		db.insert(TABLE_T_IDS, null, values);
 		// close db after use
@@ -343,7 +343,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				cursor.getString(29), cursor.getString(30), cursor.getString(31),
 				cursor.getString(32), cursor.getString(33), Boolean.parseBoolean(cursor
 						.getString(34)), Integer.parseInt(cursor.getString(35)),
-				Boolean.parseBoolean(cursor.getString(36)));
+				Integer.parseInt(cursor.getString(36)));
 		cursor.close();
 		db.close();
 		// return folder
@@ -413,7 +413,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				id.setTimeStamp(cursor.getString(33));
 				id.setEncrypted(Boolean.getBoolean(cursor.getString(34)));
 				id.setUserId(Integer.parseInt(cursor.getString(35)));
-				id.setLike(Boolean.parseBoolean(cursor.getString(36)));
+				id.setLike(Integer.parseInt(cursor.getString(36)));
 				// Adding id to list
 				idsList.add(id);
 			} while (cursor.moveToNext());
@@ -497,7 +497,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				id.setTimeStamp(cursor.getString(33));
 				id.setEncrypted(Boolean.getBoolean(cursor.getString(34)));
 				id.setUserId(Integer.parseInt(cursor.getString(35)));
-				id.setLike(Boolean.parseBoolean(cursor.getString(36)));
+				id.setLike(Integer.parseInt(cursor.getString(36)));
 				
 				// Adding id to list
 				idsList.add(id);
@@ -574,7 +574,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		// user id
 		values.put(KEY_USER_ID, id.getUserId());
 		// is favourite
-		values.put(KEY_IS_LIKE, id.isLike());
+		values.put(KEY_IS_LIKE, id.getLike());
 
 		// updating row
 		return db.update(TABLE_T_IDS, values, KEY_PASS_WORD_ID + " = ?",

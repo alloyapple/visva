@@ -97,5 +97,10 @@
     <string name="sync_failed">The synchronization was failed.</string>
     <string name="sync_finish">The synchronization was finished</string>
     <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
+    <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
+
+    <!-- others -->
+    <string name="wrong_pw_login">The password does not match. Please do it again.</string>
+    <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
 
 </resources>

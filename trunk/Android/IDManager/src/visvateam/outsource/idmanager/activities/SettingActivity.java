@@ -1,28 +1,18 @@
 package visvateam.outsource.idmanager.activities;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import net.sqlcipher.database.SQLiteDatabase;
-
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.google.api.services.drive.Drive.Apps.List;
-
 import visvateam.outsource.idmanager.activities.export.ExportDataDropBoxActivity;
 import visvateam.outsource.idmanager.activities.export.ExportDataGGDriveActivity;
-import visvateam.outsource.idmanager.activities.synccloud.DropBoxSyncActivity;
 import visvateam.outsource.idmanager.activities.synccloud.DropboxSettingActivity;
 import visvateam.outsource.idmanager.activities.synccloud.GGDriveSettingActivity;
-import visvateam.outsource.idmanager.activities.synccloud.SyncCloudActivity;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
 import visvateam.outsource.idmanager.database.IDDataBase;
-import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
 import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.app.Activity;
 import android.app.AlertDialog;
