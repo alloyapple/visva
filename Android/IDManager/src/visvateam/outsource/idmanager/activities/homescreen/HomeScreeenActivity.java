@@ -218,8 +218,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		// set for search item list
 		mIdListItems = constructList(currentFolderItem);
 		// mIdListItems = constructSearchList();
+		currentFolderId = mFolderListItems.get(currentFolderItem).getFolderId();
 		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
-				currentFolderItem);
+				currentFolderItem,currentFolderId);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -407,7 +408,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			Log.e("aaaaaaaa", "bbbbbbbb " + position);
 			currentFolderItem = position;
-
+			currentFolderId = mFolderListItems.get(currentFolderItem).getFolderId();
 			/* refresh folder list */
 			folderListViewAdapter.setFolderSelected(currentFolderItem);
 
@@ -426,8 +427,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 				mIdListItems = constructHistoryList();
 
 			} else
-				mIdListItems = constructList(currentFolderItem);
-			itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
+				mIdListItems = constructList(currentFolderId);
+			itemAdapter.setIdItemList(mIdListItems, currentFolderItem,currentFolderId);
 		}
 	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
@@ -659,7 +660,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 				mIdListItems = startSearch(mTextSearch);
 				/* reset id adapter */
-				itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
+				currentFolderId = mFolderListItems.get(currentFolderItem).getFolderId();
+				itemAdapter.setIdItemList(mIdListItems, currentFolderItem,currentFolderId);
 				btnClearTextSearch.setVisibility(View.GONE);
 
 				/* reset folder adapter */
@@ -968,10 +970,10 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private void moveIdToFolder(int passwordId, int folderId) {
+	private void moveIdToFolder(int passwordId, int currentFolderPosition) {
 		/* update to database */
 		IDDataBase id = mDataBaseHandler.getId(passwordId);
-		id.setFolderId(folderId);
+		id.setFolderId(currentFolderPosition);
 		mDataBaseHandler.updateId(id);
 		/* refresh id listview */
 		Log.e("password ", "pww id " + passwordId);
@@ -981,15 +983,16 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		}
 		// OneItem item = mIdListItems.get(passwordId);
 		// mIdListItems.remove(item);
-		itemAdapter.setIdItemList(mIdListItems, folderId);
+		currentFolderId = mFolderListItems.get(currentFolderPosition).getFolderId();
+		itemAdapter.setIdItemList(mIdListItems, currentFolderPosition,currentFolderId);
 	}
 
 	private void startIntentCreateNewIds() {
 		Log.e("mIdListItem position "+currentFolderItem	, "folder Id"+mFolderListItems.get(currentFolderItem).getFolderId());
-		
+		int currentFolderId = mFolderListItems.get(currentFolderItem).getFolderId();
 		Intent newIdIntent = new Intent(HomeScreeenActivity.this, EditIdPasswordActivity.class);
 		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
-		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderItem);
+		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 		startActivity(newIdIntent);
 	}
 
@@ -1006,7 +1009,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		/* reset id list view */
 		mIdListItems.remove(positionReturnedByHandler);
-		itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
+		currentFolderId = mFolderListItems.get(currentFolderItem).getFolderId();
+		itemAdapter.setIdItemList(mIdListItems, currentFolderItem,currentFolderId);
 	}
 
 	/**
@@ -1044,9 +1048,11 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		mDataBaseHandler.deleteIDPasswordFromFolderId(positionReturnedByHandler);
 		/* refresh id list view */
 		mIdListItems = constructList(positionReturnedByHandler);
-		itemAdapter.setIdItemList(mIdListItems, positionReturnedByHandler);
+		currentFolderId = mFolderListItems.get(positionReturnedByHandler).getFolderId();
+		itemAdapter.setIdItemList(mIdListItems, positionReturnedByHandler,currentFolderId);
 		/* refresh folder listview */
 		folderListViewAdapter.removeItem(positionReturnedByHandler);
+		Log.e("size of folder", "size of folder "+mFolderListItems.size());
 	}
 
 	/**
@@ -1065,8 +1071,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId, imgFolderIconId, folderName,
 				Contants.TYPE_FOLDER_NORMAL);
 		folderListViewAdapter.addNewFolder(folder);
+		Log.e("size of folder", "size of folder "+mFolderListItems.size());
 		folderListView.invalidate();
-
 	}
 
 	public void onResume() {
@@ -1082,8 +1088,9 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		loadDataFromFolderDataBase();
 
 		/* reset adapter */
-		mIdListItems = constructList(currentFolderItem);
-		itemAdapter.setIdItemList(mIdListItems, currentFolderItem);
+		currentFolderId = mFolderListItems.get(currentFolderItem).getFolderId();
+		mIdListItems = constructList(currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderItem,currentFolderId);
 	}
 
 	private void showToast(String string) {
