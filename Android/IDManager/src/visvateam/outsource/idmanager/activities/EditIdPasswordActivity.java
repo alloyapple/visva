@@ -18,21 +18,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
 import visvateam.outsource.idmanager.sercurity.CipherUtil;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -81,6 +76,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 	private ArrayList<Item> mItems;
 	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
+
 	public static String nameItem[] = { "ID1", "Pass1", "ID2", "Pass2", "ID3", "Pass3", "ID4",
 			"Pass4", "ID5", "Pass5", "ID6", "Pass6", "ID7", "Pass7", "ID8", "Pass8", "ID9",
 			"Pass9", "ID10", "Pass10", "ID11", "Pass11", "ID12", "Pass12" };
@@ -122,8 +118,6 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			currentPasswordId = getIntent().getExtras().getInt(Contants.CURRENT_PASSWORD_ID);
 		else
 			currentPasswordId = -1;
-
-		Log.e("currentFOlder id", "currentFolderId " + currentFolderId);
 
 		/* initialize database */
 		initDataBase();
@@ -279,12 +273,15 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				finish();
 			}
 			IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
-
+			Log.e("status like", "status like " + id.getLike());
 			mEditTextNameId.setText(id.getTitleRecord());
 			mEditTextNote.setText(id.getNote());
 			mUrlItem = id.getUrl();
 			mEditTextUrlId.setText(id.getUrl());
-			mCheckBoxLike.setChecked(id.isLike());
+			if (id.getLike() == 0)
+				mCheckBoxLike.setChecked(false);
+			else if (id.getLike() == 1)
+				mCheckBoxLike.setChecked(true);
 			// load info from database
 			Item item1 = new Item();
 			item1.mNameItem = id.getTitleId1();
@@ -679,9 +676,7 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 			passWordId = numberOfId;
 		else
 			passWordId = currentPasswordId;
-		if (isLike) {
-			currentFolderId = 1;
-		}
+
 		/* add new id */
 		IDDataBase id = new IDDataBase(passWordId, currentFolderId, titleRecord, icon,
 				favouriteGroup, mItems.get(0).mNameItem, mItems.get(0).mContentItem,
@@ -693,13 +688,20 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				mItems.get(8).mContentItem, mItems.get(9).mNameItem, mItems.get(9).mContentItem,
 				mItems.get(10).mNameItem, mItems.get(10).mContentItem, mItems.get(11).mNameItem,
 				mItems.get(11).mContentItem, url, note, imageMemo, flag, timeStamp, isEncrypted,
-				userId, isLike);
-		Log.e("isLike", "isLike " + isLike);
+				userId, 0);
+
+		/* if user click like, add id to folder history */
+		if (isLike) {
+			id.setLike(Contants.IS_FAVOURITE);
+		} else
+			id.setLike(Contants.NOT_FAVORITE);
+		
+		// create id int normal folder
 		if (isCreateNewId)
 			mDataBaseHandler.addNewID(id);
 		else
 			mDataBaseHandler.updateId(id);
-		Log.e("mDatadhslf", "mDatahandfj " + mDataBaseHandler.getId(passWordId).isLike());
+
 		/* return home */
 		finish();
 	}

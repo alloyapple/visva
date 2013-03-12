@@ -420,7 +420,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 					mIdListItems.clear();
 			} else if (position == 1) {
 				// folder favourite
-				mIdListItems = constructList(currentFolderItem);
+				mIdListItems = constructFavouriteList();
 			} else if (position == 2) {
 				// folder history
 				mIdListItems = constructHistoryList();
@@ -529,8 +529,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		int idListSize = idList.size();
 		Log.e("idSize ", "id size" + idListSize);
 		for (int i = 0; i < idListSize; i++) {
-			Log.e("sdfasd " + i, "adfdf " + idList.get(i).isLike());
-			if (idList.get(i).isLike()) {
+			Log.e("sdfasd " + i, "adfdf " + idList.get(i).getLike());
+			if (idList.get(i).getLike() == Contants.IS_FAVOURITE) {
 				OneItem item = new OneItem(idList.get(i).getPassWordId(), idList.get(i).getIcon(),
 						idList.get(i).getTitleRecord(), idList.get(i).getUrl());
 				al.add(item);
@@ -548,6 +548,18 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		ArrayList<OneItem> allItem = new ArrayList<OneItem>();
 		List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
+//		int sizeTemp = idList.size();
+//		Log.e("size ", "sizeTemp " + sizeTemp);
+//		for (int i = 0; i < idList.size(); i++) {
+////			if (idList.get(i).getFolderId() == 1)
+////				idList.remove(idList.get(i));
+//			Log.e("folder id", "folder Id "+idList.get(i).getFolderId());
+//			if(idList.get(i).getFolderId() == 1){
+//				Log.e("found i" +i, "found "+idList.get(i).getFolderId());
+//				idList.remove(idList.get(i));
+//			}
+//		}
+		
 		int size = idList.size();
 		Log.e("size ", "size " + size);
 		long timeStamp[] = new long[size];
@@ -1067,7 +1079,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		checkSizeFolderDataBase();
 		// get data from folder database
 		loadDataFromFolderDataBase();
-		
+
 		/* reset adapter */
 		mIdListItems = constructList(currentFolderItem);
 		itemAdapter.setIdItemList(mIdListItems, currentFolderItem);

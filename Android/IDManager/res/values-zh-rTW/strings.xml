@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="title_create_pass">Create Master Password</string>
     <string name="title_master_pass">密碼</string>
     <string name="title_delete_items">刪除</string>
-     <string name="title_add_items">新</string>
+    <string name="title_add_items">新</string>
     <string name="title_creat_item">Creat item</string>
-    
     <string name="text_min">分</string>
     <string name="hint_no_image">預定日期</string>
     <string name="hint_note">Note</string>
@@ -13,12 +13,10 @@
     <string name="message_add_item">多達12個ID密碼免費註冊一個免費的版本。如果你想使用更多的功能限制（¥85），請購買的解鎖鍵碼。</string>
     <string name="title_add_folder">“添加文件夾”</string>
     <string name="title_change_folder">重命名文件夾</string>
-    
     <string name="confirm_delete">刪除</string>
     <string name="title_delete">刪除文件夾</string>
     <string name="security_mode_title">安全模式</string>
     <string name="remove_data_title">配置數據損壞</string>
-    
     <string name="item_change_master_apss">修改密碼</string>
     <string name="item_mode_security">安全模式</string>
     <string name="item_remove_data">配置數據損壞</string>
@@ -30,10 +28,8 @@
     <string name="item_unlimited_item">解除項目個數限制</string>
     <string name="item_no_admod">刪除廣告</string>
     <string name="item_export_data">通過CSV形式輸出</string>
-    
     <string name="new_pass">新:</string>
     <string name="confirm_pass">確認:</string>
-    
     <string name="password_generator_title">密碼生成</string>
     <string name="button_generate">生成</string>
     <string name="item_number">數字</string>
@@ -42,12 +38,10 @@
     <string name="item_sign">符號</string>
     <string name="item_duplicate">重複防止</string>
     <string name="item_number_character">字數</string>
-    
     <string name="list_icon_title">標誌/圖標</string>
     <string name="setting_title">設置</string>
     <string name="confirm_ok">同意</string>
     <string name="confirm_cancel">取消</string>
-    
     <string name="list_carrier_title">昂納光通信</string>
     <string name="list_e_commerce">購物</string>
     <string name="list_finance">金融</string>
@@ -55,11 +49,12 @@
     <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
-
     <string name="txt_dropbox_tut">Dropbox是最有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。</string>
-    <!-- <string name="item_sync">同步運行</string>
+    <!--
+    <string name="item_sync">同步運行</string>
     <string name="item_dropbox">與Dropbox同步</string>
-    <string name="item_cloud">加載文本數據</string> -->
+    <string name="item_cloud">加載文本數據</string>
+    -->
     <string name="dropbox_start_to_use">開始使用</string>
     <string name="dropbox_reset_sync">解除同步</string>
     <string name="dropbox_already_use">您的帳戶已經可以使用Dropbox。</string>
@@ -88,5 +83,9 @@
     <string name="sync_failed">我同步失敗。</string>
     <string name="sync_finish">我結束了同步。</string>
     <string name="data_cloud_newer">更好的數據（GoogleDrive）是新的，但Dropbox，你確定你真的要覆蓋它嗎？</string>
-    
+
+    <!-- others -->
+    <string name="wrong_pw_login">您輸入的密碼不正確，請重新輸入。</string>
+    <string name="data_erased_msg">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
+
 </resources>

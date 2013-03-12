@@ -20,7 +20,7 @@ public class Contants {
 	public static final int DIALOG_EDIT_ID = 4;
 	public static final int DIALOG_CREATE_ID = 5;
 	public static final int DIALOG_EXIT = 6;
-	public static final int DIALOG_WRONG_PASS = 7;
+	public static final int DIALOG_WRONG_PASS_NO_SECURE = 7;
 	public static final int DIALOG_EMPTY_PASS = 8;
 	public static final int DIALOG_NO_NET_WORK = 9;
 	public static final int DIALOG_CHOICE_CLOUD_TYPE = 10;
@@ -28,6 +28,8 @@ public class Contants {
 	public static final int IS_SEARCH_MODE = 12;
 	public static final int DIALOG_NO_DATA_CLOUD = 13;
 	public static final int DIALOG_DATA_REWRITTEN = 14;
+	public static final int DIALOG_LOGIN_WRONG_PASS = 15;
+	public static final int DIALOG_REMOVED_DATA = 16;
 
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
@@ -62,5 +64,11 @@ public class Contants {
 	public static final String FILE_CSV_NAME = "idmanager.csv";
 	public static final String IS_EXPORT_FILE = "IS_EXPORT_FILE";
 	public static final String FOLDER_ID_APP_ON_DROPBOX = "/Apps/IDManager/";
+
+	public static final int IS_FAVOURITE = 1;
+	public static final int NOT_FAVORITE = 0;
+	public static final int FOLDER_SEARCH = 0;
+	public static final int FOLDER_FAVOURITE = 1;
+	public static final int FOLDER_HISTORY = 2;
 
 }

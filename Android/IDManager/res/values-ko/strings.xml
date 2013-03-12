@@ -88,5 +88,9 @@
     <string name="sync_failed">동기화가 실패했습니다.</string>
     <string name="sync_finish">동기화가 완료되었습니다.</string>
     <string name="data_cloud_newer">Dropbox (GoogleDrive)의 데이터가 더 새롭습니다. 정말 덮어 쓰시겠습니까?</string>
+    <string name="limit_login_msg">안전을 위해 파괴 설정이 되어 있습니다. %d번 잘못 입력 하면 IDxPassword의 데이타가 손실됩니다.</string>
     
+     <!--others  -->
+    <string name="wrong_pw_login">확인 비밀 번호가 맞지 않았습니다. 다시 입력하십시오.</string>
+    <string name="data_erased_msg">지정 횟수 마스터 비밀 번호를 잘못 입력하면 데이터를 삭제합니다.</string>
 </resources>

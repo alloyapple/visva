@@ -1,14 +1,7 @@
 package visvateam.outsource.idmanager.activities.securityservice;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import net.sqlcipher.database.SQLiteDatabase;
-
 import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.activities.securityservice.SecurityService;
 import visvateam.outsource.idmanager.contants.Contants;
@@ -17,8 +10,11 @@ import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.database.UserDataBase;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -33,8 +29,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import visvateam.outsource.idmanager.activities.R;
 
-public class SecurityMasterPasswordActivity extends Activity implements
-		OnClickListener {
+public class SecurityMasterPasswordActivity extends Activity implements OnClickListener {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
@@ -74,16 +69,14 @@ public class SecurityMasterPasswordActivity extends Activity implements
 			SQLiteDatabase.loadLibs(this);
 			mDataBaseHandler = new DataBaseHandler(this);
 
-			UserDataBase user = mDataBaseHandler
-					.getUser(Contants.MASTER_PASSWORD_ID);
+			UserDataBase user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
 			mMasterPW = user.getUserPassword();
 			Log.e("masterpw", "master pw " + mMasterPW);
 
 			/* init service */
 			if (mSecurityService == null) {
-				bindService(new Intent(SecurityMasterPasswordActivity.this,
-						SecurityService.class), mConection,
-						Context.BIND_AUTO_CREATE);
+				bindService(new Intent(SecurityMasterPasswordActivity.this, SecurityService.class),
+						mConection, Context.BIND_AUTO_CREATE);
 			}
 		}
 	}
@@ -93,8 +86,7 @@ public class SecurityMasterPasswordActivity extends Activity implements
 	}
 
 	private void showToast(String string) {
-		Toast.makeText(SecurityMasterPasswordActivity.this, string,
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(SecurityMasterPasswordActivity.this, string, Toast.LENGTH_SHORT).show();
 	}
 
 	public void onReturn(View v) {
@@ -120,24 +112,21 @@ public class SecurityMasterPasswordActivity extends Activity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void checkRemoveDataValues() {
 		// TODO Auto-generated method stub
 		if (!mMasterPW.equals(mEditTextMasterPW.getText().toString())) {
 			if (mRemoveDataTimes == Contants.KEY_OFF) {
-				showToast("Wrong master password.Try again");
+				showDialog(Contants.DIALOG_WRONG_PASS_NO_SECURE);
 			} else {
 				mNumberAtemppt++;
 				if (mNumberAtemppt >= mRemoveDataTimes) {
-					showToast("Wrong master password.(Attempt "
-							+ mNumberAtemppt + "/" + mRemoveDataTimes
-							+ ").All IdxPassword data is removed");
+					showDialog(Contants.DIALOG_REMOVED_DATA);
 					mNumberAtemppt = 0;
-					/* remove data */
-					removeData();
 
-				} else
-					showToast("Wrong master password.(Attempt "
-							+ mNumberAtemppt + "/" + mRemoveDataTimes + ")");
+				} else {
+					showDialog(Contants.DIALOG_LOGIN_WRONG_PASS);
+				}
 			}
 		} else {
 			/* check security service */
@@ -157,6 +146,7 @@ public class SecurityMasterPasswordActivity extends Activity implements
 			long time = 60 * securityValues * 1000;
 			mSecurityService.startCountDownTimer(time);
 
+			/*finish*/
 			finish();
 		}
 	}
@@ -191,42 +181,12 @@ public class SecurityMasterPasswordActivity extends Activity implements
 		finish();
 	}
 
-	private static void copyfile(String srFile, String dtFile) {
-		try {
-			File f1 = new File(srFile);
-			File f2 = new File(dtFile);
-			InputStream in = new FileInputStream(f1);
-
-			// For Append the file.
-			// OutputStream out = new FileOutputStream(f2,true);
-
-			// For Overwrite the file.
-			OutputStream out = new FileOutputStream(f2);
-
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			in.close();
-			out.close();
-			System.out.println("File copied.");
-		} catch (FileNotFoundException ex) {
-			System.out
-					.println(ex.getMessage() + " in the specified directory.");
-			System.exit(0);
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
-				.getUserPassword();
+		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getUserPassword();
 		mNumberAtemppt = 0;
 	}
 
@@ -240,8 +200,7 @@ public class SecurityMasterPasswordActivity extends Activity implements
 
 		@Override
 		public void onServiceConnected(ComponentName arg0, IBinder service) {
-			mSecurityService = ((SecurityService.LocalService) service)
-					.getService();
+			mSecurityService = ((SecurityService.LocalService) service).getService();
 		}
 	};
 
@@ -249,11 +208,13 @@ public class SecurityMasterPasswordActivity extends Activity implements
 		super.onDestroy();
 		unbindService(mConection);
 	};
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-//		super.onBackPressed();
+		// super.onBackPressed();
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -266,5 +227,82 @@ public class SecurityMasterPasswordActivity extends Activity implements
 			break;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+
+		switch (id) {
+		case Contants.DIALOG_LOGIN_WRONG_PASS:
+			return createDialog(Contants.DIALOG_LOGIN_WRONG_PASS);
+		case Contants.DIALOG_WRONG_PASS_NO_SECURE:
+			return createDialog(Contants.DIALOG_WRONG_PASS_NO_SECURE);
+		case Contants.DIALOG_REMOVED_DATA:
+			return createDialog(Contants.DIALOG_REMOVED_DATA);
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * Create and return an example alert dialog with an edit text box.
+	 */
+	private Dialog createDialog(int id) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		switch (id) {
+		case Contants.DIALOG_LOGIN_WRONG_PASS:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.limit_login_msg, 2));
+			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							return;
+						}
+
+					});
+			return builder.create();
+		case Contants.DIALOG_WRONG_PASS_NO_SECURE:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.wrong_pw_login));
+			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							return;
+						}
+
+					});
+			return builder.create();
+		case Contants.DIALOG_REMOVED_DATA:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.data_erased_msg));
+			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* remove data */
+							removeData();
+							return;
+						}
+
+					});
+			return builder.create();
+		default:
+			return null;
+		}
 	}
 }

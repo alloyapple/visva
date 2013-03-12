@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <string name="title_create_pass">Create Master Password</string>
+
+    <string name="title_create_pass">Create Master Password</string>
     <string name="title_master_pass">密码</string>
     <string name="title_delete_items">删除</string>
-     <string name="title_add_items">新</string>
+    <string name="title_add_items">新</string>
     <string name="title_creat_item">Creat item</string>
-    
     <string name="text_min">分</string>
     <string name="hint_no_image">预定日期</string>
     <string name="hint_note">Note</string>
@@ -13,12 +13,10 @@
     <string name="message_add_item">多达12个ID密码免费注册一个免费的版本。如果你想使用更多的功能限制（¥85），请购买的解锁键码。</string>
     <string name="title_add_folder">“添加文件夹”</string>
     <string name="title_change_folder">重命名文件夹</string>
-    
     <string name="confirm_delete">删除</string>
     <string name="title_delete">删除文件夹</string>
     <string name="security_mode_title">安全模式</string>
     <string name="remove_data_title">配置数据损坏</string>
-    
     <string name="item_change_master_apss">修改密码</string>
     <string name="item_mode_security">安全模式</string>
     <string name="item_remove_data">配置数据损坏</string>
@@ -30,10 +28,8 @@
     <string name="item_unlimited_item">解除项目个数限制</string>
     <string name="item_no_admod">删除广告</string>
     <string name="item_export_data">通过CSV形式输出</string>
-    
     <string name="new_pass">新:</string>
     <string name="confirm_pass">确认:</string>
-    
     <string name="password_generator_title">密码生成</string>
     <string name="button_generate">生成</string>
     <string name="item_number">数字</string>
@@ -42,12 +38,10 @@
     <string name="item_sign">符号</string>
     <string name="item_duplicate">重复防止</string>
     <string name="item_number_character">字数</string>
-
     <string name="list_icon_title">标志/图标</string>
     <string name="setting_title">设置</string>
     <string name="confirm_ok">同意</string>
     <string name="confirm_cancel">取消</string>
-    
     <string name="list_carrier_title">昂纳光通信</string>
     <string name="list_e_commerce">购物</string>
     <string name="list_finance">金融</string>
@@ -55,16 +49,17 @@
     <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
-
     <string name="txt_dropbox_tut">Dropbox是最有名的提供同步本地文件的网络存储在线应用之一。使用此服务需要获得帐户（免费）。</string>
-   <!--  <string name="item_sync">同步运行</string>
+    <!--
+    <string name="item_sync">同步运行</string>
     <string name="item_dropbox">与Dropbox同步</string>
-    <string name="item_cloud">加载文本数据</string> -->
+    <string name="item_cloud">加载文本数据</string>
+    -->
     <string name="dropbox_start_to_use">开始使用</string>
     <string name="dropbox_reset_sync">解除同步</string>
     <string name="dropbox_already_use">您的帐户已经可以使用Dropbox。</string>
     <string name="dropbox_use_instead">您现在使用GoogleDrive。代替使用Dropbox吗？</string>
-   <!--  <string name="item_google">与GoogleDrive同步</string> -->
+    <!-- <string name="item_google">与GoogleDrive同步</string> -->
     <string name="txt_gg_drive_tut">GoogleDrive是有名的提供同步本地文件的网络存储在线应用之一。使用此服务需要获得帐户（免费）。</string>
     <string name="gg_drive_already_use">您的帐号已经可以使用GoogleDrive。</string>
     <string name="gg_drive_use_instead">您现在使用Dropbox。代替使用GoogleDrive吗？</string>
@@ -88,5 +83,9 @@
     <string name="sync_failed">我同步失败。</string>
     <string name="sync_finish">我结束了同步。</string>
     <string name="data_cloud_newer">更好的数据（GoogleDrive）是新的，但Dropbox，你确定你真的要覆盖它吗？</string>
-    
+
+    <!-- others -->
+    <string name="wrong_pw_login">您输入的密码不正确，请重新输入。</string>
+    <string name="data_erased_msg">达到您制定的密码错误次数时，数据将被删除。</string>
+
 </resources>

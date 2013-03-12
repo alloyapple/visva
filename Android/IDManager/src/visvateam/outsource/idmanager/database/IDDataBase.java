@@ -39,7 +39,7 @@ public class IDDataBase {
 	private boolean isEncrypted;
 
 	private int userId;
-	private boolean isLike;
+	private int like;
 
 	// constructor
 	public IDDataBase() {
@@ -57,7 +57,7 @@ public class IDDataBase {
 			String titleId11, String dataId11, String titleId12,
 			String dataId12, String url, String note, String imageMemo,
 			String flag, String timeStamp, boolean isEncrypted, int userId,
-			boolean isLike) {
+			int like) {
 		super();
 		this.passWordId = passWordId;
 		this.folderId = folderId;
@@ -95,7 +95,7 @@ public class IDDataBase {
 		this.timeStamp = timeStamp;
 		this.isEncrypted = isEncrypted;
 		this.userId = userId;
-		this.isLike = isLike;
+		this.like = like;
 	}
 
 	public int getPassWordId() {
@@ -451,12 +451,12 @@ public class IDDataBase {
 		this.userId = userId;
 	}
 
-	public boolean isLike() {
-		return isLike;
+	public int getLike() {
+		return like;
 	}
 
-	public void setLike(boolean isLike) {
-		this.isLike = isLike;
+	public void setLike(int like) {
+		this.like = like;
 	}
 
 }
