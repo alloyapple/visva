@@ -51,16 +51,18 @@ public class ItemAdapter extends BaseAdapter {
 
 	private boolean isModeEdit;
 	private Handler mHandler;
+	private int currentFolderItem;
 	private int currentFolderId;
 
 	public ItemAdapter(Context context, ArrayList<OneItem> idItemList, boolean isModeEdit,
-			Handler mHandler, ListViewDragDrop idListView, int currentFolderId) {
+			Handler mHandler, ListViewDragDrop idListView, int currentFolderItem,int currentFoldeId) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
 		this.mHandler = mHandler;
 		this.idListView = idListView;
-		this.currentFolderId = currentFolderId;
+		this.currentFolderItem = currentFolderItem;
+		this.currentFolderId = currentFoldeId;
 	}
 
 	@Override
@@ -108,7 +110,7 @@ public class ItemAdapter extends BaseAdapter {
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-		if (isModeEdit && currentFolderId > 2) {
+		if (isModeEdit && currentFolderItem > 2) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
 		} else {
@@ -156,7 +158,6 @@ public class ItemAdapter extends BaseAdapter {
 			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, false);
 			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 			intent.putExtra(Contants.CURRENT_PASSWORD_ID, idItemList.get(position).getPasswordId());
-			Log.e("currnet position "+position, "passid "+idItemList.get(position).getPasswordId());
 			context.startActivity(intent);
 		}
 	};
@@ -165,7 +166,8 @@ public class ItemAdapter extends BaseAdapter {
 		return idItemList;
 	}
 
-	public void setIdItemList(ArrayList<OneItem> idItemList, int currentFolderId) {
+	public void setIdItemList(ArrayList<OneItem> idItemList, int currentFolderItem,int currentFolderId) {
+		this.currentFolderItem = currentFolderItem;
 		this.currentFolderId = currentFolderId;
 		this.idItemList = idItemList;
 		notifyDataSetChanged();
