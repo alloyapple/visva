@@ -985,6 +985,8 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 	}
 
 	private void startIntentCreateNewIds() {
+		Log.e("mIdListItem position "+currentFolderItem	, "folder Id"+mFolderListItems.get(currentFolderItem).getFolderId());
+		
 		Intent newIdIntent = new Intent(HomeScreeenActivity.this, EditIdPasswordActivity.class);
 		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
 		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderItem);
@@ -1054,7 +1056,6 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 		List<FolderDatabase> folderList = mDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
-		sizeOfFolder++;
 		int imgFolderIconId = R.drawable.btn_edit;
 		int imgFolderId = R.drawable.folder_common;
 		mDataBaseHandler.addNewFolder(new FolderDatabase(sizeOfFolder, 1, folderName, imgFolderId,

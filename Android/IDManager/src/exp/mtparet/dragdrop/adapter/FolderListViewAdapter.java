@@ -28,21 +28,18 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private ArrayList<FolderItem> folderList = new ArrayList<FolderItem>();
 	private Handler mHandler;
 	private ListViewDragDrop folderListView;
-	private int currentFolderId;
+	private int currentFolderItem;
 
 	public FolderListViewAdapter(Context context, ArrayList<FolderItem> folderList, boolean isEdit,
-			Handler mHandler, ListViewDragDrop folderListView, int currentFolderId,
+			Handler mHandler, ListViewDragDrop folderListView, int currentFolderItem,
 			boolean isSearchMode) {
 		this.context = context;
 		this.isEdit = isEdit;
 		this.mHandler = mHandler;
 		this.folderListView = folderListView;
-		this.currentFolderId = currentFolderId;
+		this.currentFolderItem = currentFolderItem;
 		this.folderList = folderList;
 		this.isSearchMode = isSearchMode;
-		// for(int i = folderList.size() - 1 ; i >= 0;i --){
-		// this.folderList.add(folderList.get(i));
-		// }
 	}
 
 	@Override
@@ -63,11 +60,6 @@ public class FolderListViewAdapter extends BaseAdapter {
 		return 0;
 	}
 
-	// private class ViewHolder {
-	// private Button imgFolder;
-	// private Button imgFolderEdit;
-	// private Button imgFolderDelete;
-	// }
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup arg2) {
@@ -95,7 +87,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 		imgFolderIcon.setBackgroundResource(folderList.get(position).getFolderIconId());
 		txtFodlerName.setText("" + folderList.get(position).getTextFolderName());
 		if (folderList.get(position).getImgFolderType() == Contants.TYPE_FOLDER_NON_NORMAL) {
-			if (position == currentFolderId)
+			if (position == currentFolderItem)
 				convertView.setBackgroundResource(R.drawable.folder_s_select);
 			if (isSearchMode && position == 0){
 				convertView.setBackgroundResource(R.drawable.folder_select);
@@ -111,7 +103,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 			imgFolderIcon.setVisibility(View.VISIBLE);
 
 		} else {
-			if (position == currentFolderId)
+			if (position == currentFolderItem)
 				convertView.setBackgroundResource(R.drawable.folder_select);
 			imgFolderIcon.setVisibility(View.GONE);
 			if (isEdit == true) {
@@ -138,8 +130,8 @@ public class FolderListViewAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void setFolderSelected(int currentFolderId) {
-		this.currentFolderId = currentFolderId;
+	public void setFolderSelected(int currentFolderItem) {
+		this.currentFolderItem = currentFolderItem;
 		notifyDataSetChanged();
 	}
 
