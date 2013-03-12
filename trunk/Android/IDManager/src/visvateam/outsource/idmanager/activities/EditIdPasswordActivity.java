@@ -273,7 +273,8 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				finish();
 			}
 			IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
-			Log.e("status like", "status like " + id.getLike());
+
+			/* set values for item of edit idpw activity */
 			mEditTextNameId.setText(id.getTitleRecord());
 			mEditTextNote.setText(id.getNote());
 			mUrlItem = id.getUrl();
@@ -282,68 +283,23 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 				mCheckBoxLike.setChecked(false);
 			else if (id.getLike() == 1)
 				mCheckBoxLike.setChecked(true);
+
 			// load info from database
-			Item item1 = new Item();
-			item1.mNameItem = id.getTitleId1();
-			item1.mContentItem = id.getDataId1();
-			itemList.add(item1);
-
-			Item item2 = new Item();
-			item2.mNameItem = id.getTitleId2();
-			item2.mContentItem = id.getDataId2();
-			itemList.add(item2);
-
-			Item item3 = new Item();
-			item3.mNameItem = id.getTitleId3();
-			item3.mContentItem = id.getDataId3();
-			itemList.add(item3);
-
-			Item item4 = new Item();
-			item4.mNameItem = id.getTitleId4();
-			item4.mContentItem = id.getDataId4();
-			itemList.add(item4);
-
-			Item item5 = new Item();
-			item5.mNameItem = id.getTitleId5();
-			item5.mContentItem = id.getDataId5();
-			itemList.add(item5);
-
-			Item item6 = new Item();
-			item6.mNameItem = id.getTitleId6();
-			item6.mContentItem = id.getDataId6();
-			itemList.add(item6);
-
-			Item item7 = new Item();
-			item7.mNameItem = id.getTitleId7();
-			item7.mContentItem = id.getDataId7();
-			itemList.add(item7);
-
-			Item item8 = new Item();
-			item8.mNameItem = id.getTitleId8();
-			item8.mContentItem = id.getDataId8();
-			itemList.add(item8);
-
-			Item item9 = new Item();
-			item9.mNameItem = id.getTitleId9();
-			item9.mContentItem = id.getDataId9();
-			itemList.add(item9);
-
-			Item item10 = new Item();
-			item10.mNameItem = id.getTitleId10();
-			item10.mContentItem = id.getDataId10();
-			itemList.add(item10);
-
-			Item item11 = new Item();
-			item11.mNameItem = id.getTitleId11();
-			item11.mContentItem = id.getDataId11();
-			itemList.add(item11);
-
-			Item item12 = new Item();
-			item12.mNameItem = id.getTitleId12();
-			item12.mContentItem = id.getDataId12();
-			itemList.add(item12);
+			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID * 2; i++) {
+				Item item = new Item();
+				item.mNameItem = nameItem[i];
+				int temp;
+				if (i % 2 == 0) {
+					temp = (i+2) / 2;
+					item.mContentItem = id.getTitleId(temp);
+				} else {
+					temp = (i + 1) / 2;
+					item.mContentItem = id.getDataId(temp);
+				}
+				itemList.add(item);
+			}
+			// set icon for image icon
 			icon = id.getIcon();
-
 		}
 		return itemList;
 	}
@@ -679,23 +635,25 @@ public class EditIdPasswordActivity extends Activity implements OnItemClickListe
 
 		/* add new id */
 		IDDataBase id = new IDDataBase(passWordId, currentFolderId, titleRecord, icon,
-				favouriteGroup, mItems.get(0).mNameItem, mItems.get(0).mContentItem,
-				mItems.get(1).mNameItem, mItems.get(1).mContentItem, mItems.get(2).mNameItem,
-				mItems.get(2).mContentItem, mItems.get(3).mNameItem, mItems.get(3).mContentItem,
-				mItems.get(4).mNameItem, mItems.get(4).mContentItem, mItems.get(5).mNameItem,
-				mItems.get(5).mContentItem, mItems.get(6).mNameItem, mItems.get(6).mContentItem,
-				mItems.get(7).mNameItem, mItems.get(7).mContentItem, mItems.get(8).mNameItem,
-				mItems.get(8).mContentItem, mItems.get(9).mNameItem, mItems.get(9).mContentItem,
-				mItems.get(10).mNameItem, mItems.get(10).mContentItem, mItems.get(11).mNameItem,
-				mItems.get(11).mContentItem, url, note, imageMemo, flag, timeStamp, isEncrypted,
-				userId, 0);
+				favouriteGroup, mItems.get(0).mContentItem, mItems.get(1).mContentItem,
+				mItems.get(2).mContentItem, mItems.get(3).mContentItem, mItems.get(4).mContentItem,
+				mItems.get(5).mContentItem, mItems.get(6).mContentItem, mItems.get(7).mContentItem,
+				mItems.get(8).mContentItem, mItems.get(9).mContentItem,
+				mItems.get(10).mContentItem, mItems.get(11).mContentItem,
+				mItems.get(12).mContentItem, mItems.get(13).mContentItem,
+				mItems.get(14).mContentItem, mItems.get(15).mContentItem,
+				mItems.get(16).mContentItem, mItems.get(17).mContentItem,
+				mItems.get(18).mContentItem, mItems.get(19).mContentItem,
+				mItems.get(20).mContentItem, mItems.get(21).mContentItem,
+				mItems.get(22).mContentItem, mItems.get(23).mContentItem, url, note, imageMemo,
+				flag, timeStamp, isEncrypted, userId, 0);
 
 		/* if user click like, add id to folder history */
 		if (isLike) {
 			id.setLike(Contants.IS_FAVOURITE);
 		} else
 			id.setLike(Contants.NOT_FAVORITE);
-		
+
 		// create id int normal folder
 		if (isCreateNewId)
 			mDataBaseHandler.addNewID(id);

@@ -30,7 +30,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -109,7 +108,7 @@ public class ItemAdapter extends BaseAdapter {
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-		if (isModeEdit) {
+		if (isModeEdit && currentFolderId > 2) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
 		} else {
@@ -118,24 +117,6 @@ public class ItemAdapter extends BaseAdapter {
 		}
 
 		return convertView;
-	}
-
-	public void addPicture(OneItem onItem, int position) {
-
-		if (position < idItemList.size()) {
-			idItemList.add(position, onItem);
-		} else {
-			idItemList.add(onItem);
-		}
-
-		notifyDataSetChanged();
-	}
-
-	public void addPicture(OneItem onItem) {
-
-		idItemList.add(onItem);
-
-		notifyDataSetChanged();
 	}
 
 	public void removeItem(int position) {

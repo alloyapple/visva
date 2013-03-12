@@ -346,9 +346,9 @@ public class SettingActivity extends Activity {
 				writer.append(",");
 
 				writer.append("" + idList.get(i).getTitleId12());
-				writer.append("\n");
-				writer.append("" + idList.get(i).getDataId12());
 				writer.append(",");
+				writer.append("" + idList.get(i).getDataId12());
+				writer.append("\n");
 
 			}
 
