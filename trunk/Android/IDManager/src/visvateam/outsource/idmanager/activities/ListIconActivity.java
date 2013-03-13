@@ -278,7 +278,9 @@ public class ListIconActivity extends Activity {
 	}
 
 	public void onEditImage(View v) {
-		EditIconActivity.startActivity(this);
+		Intent i = new Intent(this, EditIconActivity.class);
+		startActivity(i);
+		finish();
 	}
 
 	public void onDeleteImage(View v) {
@@ -326,5 +328,11 @@ public class ListIconActivity extends Activity {
 		}
 		return null;
 	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 
 }

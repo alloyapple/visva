@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -77,26 +78,30 @@ public class GetInternetImageActivity extends Activity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
-					mRelativeLayout.setVisibility(View.VISIBLE);
-					mScrollView.setOnTouchListener(new OnTouchListener() {
-
-						@Override
-						public boolean onTouch(View v, MotionEvent event) {
-
-							return true;
-						}
-					});
+//					mRelativeLayout.setVisibility(View.VISIBLE);
+//					mScrollView.setOnTouchListener(new OnTouchListener() {
+//
+//						@Override
+//						public boolean onTouch(View v, MotionEvent event) {
+//
+//							return true;
+//						}
+//					});
+					EditIconActivity.mDrawableIconEdit = (Drawable) new BitmapDrawable(
+							snapScreen());
+					finish();
+					
 
 				} else {
-					mRelativeLayout.setVisibility(View.GONE);
-					mScrollView.setOnTouchListener(new OnTouchListener() {
-
-						@Override
-						public boolean onTouch(View v, MotionEvent event) {
-
-							return false;
-						}
-					});
+//					mRelativeLayout.setVisibility(View.GONE);
+//					mScrollView.setOnTouchListener(new OnTouchListener() {
+//
+//						@Override
+//						public boolean onTouch(View v, MotionEvent event) {
+//
+//							return false;
+//						}
+//					});
 				}
 			}
 		});
@@ -104,63 +109,74 @@ public class GetInternetImageActivity extends Activity {
 		// mFrameWebView = (FrameLayout) findViewById(R.id.id_frame_webview);
 		mFrameWebView = (FrameLayout) findViewById(R.id.id_linear_webview);
 		mRelativeLayout = (RelativeLayout) findViewById(R.id.id_frame_bound);
-		mRelativeLayout.setVisibility(View.GONE);
-
-		mRelativeLayout.setOnTouchListener(new OnTouchListener() {
-			float scale;
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				switch (event.getAction() & MotionEvent.ACTION_MASK) {
-				case MotionEvent.ACTION_DOWN:
-					w = getParam().width;
-					h = getParam().height;
-					start.set(event.getX(), event.getY());
-					Log.d(TAG, "mode=DRAG"); // write to LogCat
-					mode = DRAG;
-
-					break;
-				case MotionEvent.ACTION_POINTER_DOWN:
-					oldDist = spacing(event);
-					l = getParam().leftMargin;
-					t = getParam().topMargin;
-					Log.d(TAG, "oldDist=" + oldDist);
-					if (oldDist > 5f) {
-						midPoint(mid, event);
-						mode = ZOOM;
-						Log.d(TAG, "mode=ZOOM");
-					}
-					break;
-				case MotionEvent.ACTION_UP:
-					break;
-				case MotionEvent.ACTION_POINTER_UP:
-					mode = NONE;
-					Log.d(TAG, "mode=NONE");
-					break;
-
-				case MotionEvent.ACTION_MOVE:
-					if (mode == DRAG) {
-						x_offset = event.getX() - start.x;
-						y_offset = event.getY() - start.y;
-						translateBound(x_offset, y_offset);
-						start.set(event.getX(), event.getY());
-					} else if (mode == ZOOM) {
-						float newDist = spacing(event);
-						scale = newDist / oldDist;
-						resiseBound(scale);
-					}
-					break;
-				default:
-					break;
-				}
-				return true;
-			}
-		});
+//		mRelativeLayout.setVisibility(View.GONE);
+//
+//		mRelativeLayout.setOnTouchListener(new OnTouchListener() {
+//			float scale;
+//
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//				case MotionEvent.ACTION_DOWN:
+//					w = getParam().width;
+//					h = getParam().height;
+//					start.set(event.getX(), event.getY());
+//					Log.d(TAG, "mode=DRAG"); // write to LogCat
+//					mode = DRAG;
+//
+//					break;
+//				case MotionEvent.ACTION_POINTER_DOWN:
+//					oldDist = spacing(event);
+//					l = getParam().leftMargin;
+//					t = getParam().topMargin;
+//					Log.d(TAG, "oldDist=" + oldDist);
+//					if (oldDist > 5f) {
+//						midPoint(mid, event);
+//						mode = ZOOM;
+//						Log.d(TAG, "mode=ZOOM");
+//					}
+//					break;
+//				case MotionEvent.ACTION_UP:
+//					break;
+//				case MotionEvent.ACTION_POINTER_UP:
+//					mode = NONE;
+//					Log.d(TAG, "mode=NONE");
+//					break;
+//
+//				case MotionEvent.ACTION_MOVE:
+//					if (mode == DRAG) {
+//						x_offset = event.getX() - start.x;
+//						y_offset = event.getY() - start.y;
+//						translateBound(x_offset, y_offset);
+//						start.set(event.getX(), event.getY());
+//					} else if (mode == ZOOM) {
+//						float newDist = spacing(event);
+//						scale = newDist / oldDist;
+//						resiseBound(scale);
+//					}
+//					break;
+//				default:
+//					break;
+//				}
+//				return true;
+//			}
+//		});
 		mScrollView = (ScrollView) findViewById(R.id.id_scroll);
 		imgBound = (ImageView) findViewById(R.id.id_img_bound);
 		initControl();
 		initAdmod();
+	}
+	@Override
+	public void onAttachedToWindow() {
+		// TODO Auto-generated method stub
+		super.onAttachedToWindow();
+		Display d = getWindowManager().getDefaultDisplay();
+		getParam().width = d.getWidth()-20;
+		getParam().height = (int) ((d.getWidth()-20) * 0.75f);
+		getParam().leftMargin = 10;
+		getParam().topMargin = 60;
+		imgBound.requestLayout();
 	}
 	public void initAdmod() {
 		AdView adview = (AdView) findViewById(R.id.main_adView);
@@ -272,13 +288,9 @@ public class GetInternetImageActivity extends Activity {
 	}
 
 	public void onReturn(View v) {
-		if (mCheckBox.isChecked()) {
-			EditIconActivity.mDrawableIconEdit = (Drawable) new BitmapDrawable(
-					snapScreen());
+		
 			finish();
-		} else {
-			finish();
-		}
+		
 	}
 
 	public void onBroutherBack(View v) {
