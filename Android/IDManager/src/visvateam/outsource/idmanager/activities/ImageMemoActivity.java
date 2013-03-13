@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -30,30 +31,30 @@ public class ImageMemoActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_memo);
-
 		imageView = (ImageView) findViewById(R.id.img_memo);
 		mCheckBoxChoiceImgMemo = (CheckBox) findViewById(R.id.check_box_choice_img);
-		mCheckBoxChoiceImgMemo.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		mCheckBoxChoiceImgMemo
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
-				Log.e("file uri", "fie uri " + fileUri);
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						// TODO Auto-generated method stub
+						Log.e("file uri", "fie uri " + fileUri);
 
-				if (fileUri != null && mCheckBoxChoiceImgMemo.isChecked()) {
-					 Intent resultIntent =new Intent();
-					 String filePathImgMemo = fileUri.getPath();
-					 Log.e("file a", "file a"+filePathImgMemo);
-					 resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
-					 filePathImgMemo);
-					 setResult(Activity.RESULT_OK, resultIntent);
-					 finish();
-				} else {
-					showToast("No image is choosed");
-					mCheckBoxChoiceImgMemo.setChecked(false);
-				}
-			}
-		});
+						if (fileUri != null
+								&& mCheckBoxChoiceImgMemo.isChecked()) {
+							Intent resultIntent = new Intent();
+							resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
+							fileUri.toString());
+							setResult(Activity.RESULT_OK, resultIntent);
+							finish();
+						} else {
+							showToast("No image is choosed");
+							mCheckBoxChoiceImgMemo.setChecked(false);
+						}
+					}
+				});
 	}
 
 	public static void startActivity(Activity activity) {
@@ -81,9 +82,10 @@ public class ImageMemoActivity extends Activity {
 	private void startCameraIntent() {
 		String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
 				Environment.DIRECTORY_PICTURES).getPath();
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir + java.io.File.separator + "IMG_"
-				+ "test" + ".jpg"));
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+				.format(new Date());
+		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir
+				+ java.io.File.separator + "IMG_" + "test" + ".jpg"));
 
 		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -97,7 +99,8 @@ public class ImageMemoActivity extends Activity {
 	}
 
 	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	protected void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
 		switch (requestCode) {
 		case Contants.CAPTURE_IMAGE:
 			if (resultCode == Activity.RESULT_OK) {
@@ -127,7 +130,8 @@ public class ImageMemoActivity extends Activity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), toast,
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
