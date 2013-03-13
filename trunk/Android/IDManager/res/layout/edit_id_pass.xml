@@ -159,19 +159,32 @@
                     android:textColor="#000000" >
                 </EditText>
 
-                <Button
-                    android:id="@+id/btn_img_memo"
+                <FrameLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="32dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/all_corner_button"
-                    android:onClick="onMemoImage"
-                    android:text="No Image"
-                    android:textColor="@color/gray" >
-                </Button>
+                    android:layout_marginTop="8dp" >
+
+                    <Button
+                        android:id="@+id/button_img_memo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="32dp"
+                        android:background="@drawable/all_corner_button"
+                        android:onClick="onMemoImage"
+                        android:text="@string/hint_no_image"
+                        android:textColor="@color/gray" >
+                    </Button>
+
+                    <ImageButton
+                        android:id="@+id/btn_img_memo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="onMemoImage"
+                        android:textColor="@color/gray" >
+                    </ImageButton>
+                </FrameLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

@@ -20,34 +20,35 @@
             android:onClick="onReturn" />
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/id_relative_background"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.25" >
-        </LinearLayout>
+            android:layout_height="fill_parent" >
+
+            <ImageView
+                android:id="@+id/id_img_need_edit"
+                android:layout_width="240dp"
+                android:layout_height="180dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="80dip" >
+            </ImageView>
+        </RelativeLayout>
 
         <ImageView
-            android:id="@+id/id_img_icon_edit"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0.5"
-            android:background="#ffffee" >
+            android:id="@+id/id_bound_edit_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+             android:layout_marginTop="80dip"
+            android:background="@drawable/bound_icon" >
         </ImageView>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.25" >
-        </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
