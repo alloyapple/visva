@@ -119,7 +119,7 @@ public class CopyItemActivity extends Activity {
 
 	public void onPasteBrowse(View v) {
 		Intent intentBrowser = new Intent(CopyItemActivity.this,
-				BrowserActivity.class);
+				BrowserJogdialActivity.class);
 		intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.PASTE_TO);
 		intentBrowser.putExtra(Contants.CURRENT_PASSWORD_ID, currentPasswordId);
 		startActivity(intentBrowser);

@@ -21,6 +21,7 @@ import android.view.View.OnTouchListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -30,7 +31,7 @@ import android.widget.TextView;
 public class BrowserJogdialActivity extends Activity {
 	WebView webView;
 	String url;
-	FrameLayout mFrameJogdial;
+	FrameLayout mFrameWheel;
 	ArrayList<String> listId = new ArrayList<String>();
 	ArrayList<String> listPass = new ArrayList<String>();
 	ArrayList<String> items = new ArrayList<String>();
@@ -42,6 +43,10 @@ public class BrowserJogdialActivity extends Activity {
 	private ImageView dialer;
 	private int dialerHeight, dialerWidth;
 	private MediaPlayer effect_sound;
+	private Button mBtnJogdial;
+	private LinearLayout mLinearBottom;
+	private FrameLayout mFrameJogdial;
+	private boolean isJogdial = false;
 	String valuePaste = "khaidt.hut@gmail";
 	int count;
 	String valueGet;
@@ -52,10 +57,14 @@ public class BrowserJogdialActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		currentPasswordId = getIntent().getExtras().getInt(
 				Contants.CURRENT_PASSWORD_ID);
-		setContentView(R.layout.page_browser_detail);
-		mFrameJogdial = (FrameLayout) findViewById(R.id.id_fr_jogdial);
+		setContentView(R.layout.page_browser_jogdial);
+		mFrameWheel = (FrameLayout) findViewById(R.id.id_fr_wheel);
 		mLinear = (LinearLayout) findViewById(R.id.id_list_item_copy);
 		dialer = (ImageView) findViewById(R.id.id_img_wheel);
+		mBtnJogdial = (Button) findViewById(R.id.id_jogdial);
+		mFrameJogdial = (FrameLayout) findViewById(R.id.id_frame_jogdial);
+		mLinearBottom=(LinearLayout) findViewById(R.id.id_linear_bottom_browser);
+		mFrameJogdial.setVisibility(View.GONE);
 		dialer.setOnTouchListener(new OnTouchListener() {
 			private double startAngle;
 			private int countClockwise = 0;
@@ -92,6 +101,17 @@ public class BrowserJogdialActivity extends Activity {
 		});
 		initData();
 		initControl();
+	}
+
+	public void onJogdial(View v) {
+		isJogdial = !isJogdial;
+		if (isJogdial) {
+			mFrameJogdial.setVisibility(View.VISIBLE);
+			mLinearBottom.setVisibility(View.GONE);
+		}else{
+			mFrameJogdial.setVisibility(View.GONE);
+			mLinearBottom.setVisibility(View.VISIBLE);
+		}
 	}
 
 	private void playSoundEffect(int _idSound) {

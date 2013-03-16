@@ -67,8 +67,9 @@ public class PasswordGeneratorActivity extends Activity {
 
 	public void showInputNumberCharacter() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Input");
-		builder.setMessage("Enter number of characters:");
+		builder.setTitle(getResources().getString(
+				R.string.item_number_character));
+
 		builder.setIcon(R.drawable.icon);
 
 		// Use an EditText view to get user input.
@@ -77,24 +78,31 @@ public class PasswordGeneratorActivity extends Activity {
 		inputkeyCode.setInputType(InputType.TYPE_CLASS_NUMBER);
 		builder.setView(inputkeyCode);
 		inputkeyCode.setText("");
-		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(
+				getResources().getString(R.string.confirm_ok),
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int whichButton) {
-				String numberCharacters = inputkeyCode.getText().toString();
-				int number;
-				try {
-					number = Integer.parseInt(numberCharacters);
-				} catch (Exception e) {
-					// TODO: handle exception
-					number = -1;
-				}
-				setTextNumberCharacter(number);
-				return;
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int whichButton) {
+						String numberCharacters = inputkeyCode.getText()
+								.toString();
 
-		builder.setNegativeButton("Cancel",
+						int number;
+						try {
+							number = Integer.parseInt(numberCharacters);
+						} catch (Exception e) {
+							// TODO: handle exception
+							number = -1;
+						}
+						if (number > 21)
+							number = 21;
+						setTextNumberCharacter(number);
+						return;
+					}
+				});
+
+		builder.setNegativeButton(
+				getResources().getString(R.string.confirm_cancel),
 				new DialogInterface.OnClickListener() {
 
 					@Override
@@ -163,7 +171,7 @@ public class PasswordGeneratorActivity extends Activity {
 				int ranChar = random.nextInt(mTotalArrayChars.size());
 				resultGenarator.append(mTotalArrayChars.get(ranChar));
 				mTotalArrayChars.remove(ranChar);
-				if(mTotalArrayChars.size()<=0)
+				if (mTotalArrayChars.size() <= 0)
 					break;
 			}
 			((TextView) findViewById(R.id.id_text_result_generator))
