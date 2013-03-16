@@ -19,21 +19,21 @@
 
 NSString *duserTable = @"User";
 NSString *duserId = @"userId";
-NSString *duserName = @"userName";
+//NSString *duserName = @"userName";
 NSString *duserPassword = @"password";
-NSString *duserDeleted = @"deleted";
+//NSString *duserDeleted = @"deleted";
 @implementation VAUser
 -(id)init{
     if ((self = [super init])) {
         self.aUserFolder = [NSMutableArray array];
-        self.iDeleted = 0;
+        //self.iDeleted = 0;
         self.bIsLoadFullData = NO;
     }
     return self;
 }
 -(void)dealloc{
     [_aUserFolder release];
-    [_sUserName release];
+    //[_sUserName release];
     [_sUserPassword release];
     [super dealloc];
 }
@@ -100,7 +100,16 @@ NSString *duserDeleted = @"deleted";
 
 
 +(NSString *)getCreateTableQuery{
+    /*
     NSString *str = [NSString stringWithFormat: @"CREATE  TABLE User (\"userId\" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , \"userName\" TEXT, \"password\" TEXT, \"deleted\" INTEGER)" ];
+    */
+    NSString *str = [NSString stringWithFormat:@"CREATE  TABLE %@ (\
+                     %@ INTEGER PRIMARY KEY  NOT NULL,\
+                     %@ TEXT)",
+                     duserTable,
+                     duserId,
+                     duserPassword];
+
     return str;
 }
 +(NSString*)getDestroyQuery{
@@ -111,7 +120,9 @@ NSString *duserDeleted = @"deleted";
     if (db == NULL) {
         return nil;
     }
-    NSString *query = [NSString stringWithFormat:@"SELECT * from %@ Where %@=0", duserTable, duserDeleted];
+    //NSString *query = [NSString stringWithFormat:@"SELECT * from %@ Where %@=0", duserTable, duserDeleted];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * from %@;", duserTable];
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
         return nil;
@@ -120,7 +131,7 @@ NSString *duserDeleted = @"deleted";
     while (sqlite3_step(stmt)==SQLITE_ROW) {
         VAUser *user = [[[VAUser alloc] init] autorelease];
         user.iUserId = TDSqlInt(stmt, 0);
-        user.sUserName = TDSqlText(stmt, 1);
+        //user.sUserName = TDSqlText(stmt, 1);
         user.sUserPassword = TDSqlText(stmt, 2);
         //get list group
         [arr addObject:user];
@@ -135,15 +146,17 @@ NSString *duserDeleted = @"deleted";
     if (db == NULL) {
         return NO;
     }
-    NSString *query = [NSString stringWithFormat:@"INSERT INTO %@ (%@, %@, %@) VALUES (?,?,?)", duserTable, duserName, duserPassword, duserDeleted];
+//    NSString *query = [NSString stringWithFormat:@"INSERT INTO %@ (%@, %@, %@) VALUES (?,?,?)", duserTable, duserName, duserPassword, duserDeleted];
+    
+    NSString *query = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES (?)", duserTable, duserPassword];
     TDLOG(@"Query insert VAProject = %@", query);
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
         return NO;
     }
-    TDSqlBindText(stmt, 1, _sUserName);
-    TDSqlBindText(stmt, 2, _sUserPassword);
-    TDSqlBindInt(stmt, 3, _iDeleted);
+    //TDSqlBindText(stmt, 1, _sUserName);
+    TDSqlBindText(stmt, 1, _sUserPassword);
+    //TDSqlBindInt(stmt, 2, _iDeleted);
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         sqlite3_finalize(stmt);
         NSAssert(0, @"Error updating table: %@", query);
@@ -161,16 +174,19 @@ NSString *duserDeleted = @"deleted";
     if (db == NULL) {
         return NO;
     }
-    NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET %@ =?, %@=? ,%@=? WHERE %@=?", duserTable, duserName, duserPassword,duserDeleted, duserId];
+//    NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET %@ =?, %@=? ,%@=? WHERE %@=?", duserTable, duserName, duserPassword,duserDeleted, duserId];
+    
+    NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET %@ =? WHERE %@=?", duserTable, duserPassword, duserId];
+    
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
         return NO;
     }
     
-    TDSqlBindText(stmt, 1, _sUserName);
-    TDSqlBindText(stmt, 2, _sUserPassword);
-    TDSqlBindInt(stmt, 3, _iDeleted);
-    TDSqlBindInt(stmt, 4, _iUserId);
+   // TDSqlBindText(stmt, 1, _sUserName);
+    TDSqlBindText(stmt, 1, _sUserPassword);
+    //TDSqlBindInt(stmt, 3, _iDeleted);
+    TDSqlBindInt(stmt, 2, _iUserId);
     
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         sqlite3_finalize(stmt);
@@ -182,17 +198,20 @@ NSString *duserDeleted = @"deleted";
     }
 }
 -(BOOL)deleteFromDb:(TDSqlManager*)manager{
-    NSString *query = [NSString stringWithFormat:@"DELETE From %@ WHERE %@=%d", duserName, duserId, _iUserId];
+    NSString *query = [NSString stringWithFormat:@"DELETE From %@ WHERE %@=%d", duserTable, duserId, _iUserId];
+    
     return [manager executeQuery:query];
 }
 
 -(BOOL)weakDeleteFromDb:(TDSqlManager*)manager{
-    self.iDeleted = 1;
+    return [self deleteFromDb:manager];
+    
+    //self.iDeleted = 1;
     BOOL ret = [self updateToDb:manager];
     if (ret) {
         return YES;
     }else{
-        self.iDeleted = 0;
+       // self.iDeleted = 0;
         return NO;
     }
 }
@@ -295,7 +314,7 @@ NSString *duserDeleted = @"deleted";
             pass.elementId = e;
             pass.sTitleNameId = sId;
             pass.sPassword = spw;
-            [pass insertToDb:mana];
+            [pass saveToDB:mana];
             [e.aPasswords addObject:pass];
         }
         

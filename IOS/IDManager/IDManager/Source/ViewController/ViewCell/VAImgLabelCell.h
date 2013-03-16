@@ -12,6 +12,7 @@
 @property (retain, nonatomic) IBOutlet UIImageView *imBackgroud;
 @property (retain, nonatomic) IBOutlet UILabel *lbTitle;
 @property (retain, nonatomic) IBOutlet UIView *bgView;
+@property (retain, nonatomic) IBOutlet UIView *vEdit;
 
 -(void)setCellGroupSelected:(BOOL)selected;
 @end

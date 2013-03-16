@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "UIGridView.h"
 #import "VAEditImageViewController.h"
+
+
 @protocol VAChooseIconDelegate;
 @interface VAChooseIconViewController : UIViewController<UIGridViewDelegate,
     VAEditImageDelegate>

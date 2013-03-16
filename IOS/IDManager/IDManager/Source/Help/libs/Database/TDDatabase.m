@@ -19,9 +19,18 @@
     
 }
 +(NSString*)pathInDocument:(NSString *)file{
+    if (file == nil) {
+        return nil;
+    }
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *pathFile = [documentsDirectory stringByAppendingPathComponent:file];
+    return pathFile;
+}
++(NSString*)pathInCache:(NSString *)filePath{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *pathFile = [documentsDirectory stringByAppendingPathComponent:filePath];
     return pathFile;
 }
 +(NSString*)documentPath{

@@ -33,11 +33,11 @@ static inline NSString *TDSnil(NSString *s){
     return @"";
 }
 
-static inline NSNumber *TDint(int i)
+static inline NSNumber *TDNint(int i)
 {
     return [NSNumber numberWithInt:i];
 }
-static inline NSNumber *TDbool(BOOL b)
+static inline NSNumber *TDNbool(BOOL b)
 {
     return [NSNumber numberWithBool:b];
 }

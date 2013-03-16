@@ -23,6 +23,7 @@
  * @comment: Get full path in document folder
  */
 +(NSString*)pathInDocument:(NSString*)file;
++(NSString*)pathInCache:(NSString*)filePath;
 
 +(BOOL)copyFromBundleToDocument:(NSString*)pathFromBunder;
 +(BOOL)createDirectery:(NSString*)path;

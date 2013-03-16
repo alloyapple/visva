@@ -20,8 +20,10 @@
 @end
 
 static VAGlobal* instance = nil;
-#define kFileName @"idpxData.dat"
+#define kFileName @"idpxData.sqlite"
 #define kPassSqlite @"19912012DUCK@#"
+
+
 @implementation VAGlobal
 -(id)init{
     if ((self = [super init])) {

@@ -12,6 +12,7 @@
 #import "TDImageEncrypt.h"
 #import "TDCommonLibs.h"
 #import "VAEditImageViewController.h"
+#import "TDAlert.h"
 
 @interface VAGridViewCell : UIGridViewCell
 @property(nonatomic, retain)UIImageView *iconImage;
@@ -116,6 +117,7 @@ typedef struct {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
     NSArray *array = [TDImageEncrypt listIcon: kFileNameListIcon];
     self.listIcons = [VAIconsCatalogy listCatFromArray:array];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -191,15 +193,28 @@ typedef struct {
     return cell;
 }
 -(void)selectCell:(VAGridViewCell*)cell isSelect:(BOOL)isS{
-    if (isS) {
+    
+    /*if (isS)
+    {
         cell.selectedImage.image = [UIImage imageNamed:@"check-mark.png"];
-    }else{
+    }else*/
+    {
         cell.selectedImage.image = nil;
     }
     
 }
+-(void)chooseIcon:(NSString*)path{
+    self.currentIconPath = path;
+    [_chooseIcDelegate chooseIconSave:self];
+}
 -(void)gridView:(UIGridView *)grid didSelect:(UIGridViewCell *)cell{
     int index = cell.rowIndex * kNumCollumn + cell.colIndex;
+    
+    VAIconsCatalogy *cat = [_listIcons objectAtIndex:cell.section];
+    NSString *file= [cat.listIcons objectAtIndex:index];
+    [self chooseIcon:file];
+    /*
+     
     _selectedIcon.isSelect = YES;
     _selectedIcon.section = cell.section;
     _selectedIcon.index = index;
@@ -209,6 +224,7 @@ typedef struct {
     }
     self.selectedCell = (VAGridViewCell*)cell;
     [self selectCell:_selectedCell isSelect:YES];
+     */
 }
 - (NSString*)fileNameSelected{
     if (_selectedIcon.isSelect) {
@@ -219,18 +235,20 @@ typedef struct {
     return nil;
 }
 - (IBAction)btBackPressed:(id)sender {
-    
+    /*
     self.currentIconPath = [self fileNameSelected];
     [self updateListIcon];
     if (self.currentIconPath) {
         [_chooseIcDelegate chooseIconSave:self];
         return;
     }
+    */
     [_chooseIcDelegate chooseIconCancel:self];
 }
 
 - (IBAction)btEditPressed:(id)sender {
-    NSString *str = [self fileNameSelected];
+    //NSString *str = [self fileNameSelected];
+    NSString *str = self.currentIconPath;
     if (str) {
         VAEditImageViewController *vc = [[[VAEditImageViewController alloc] initWithNibName:
                                          @"VAEditImageViewController" bundle:nil] autorelease];
@@ -238,13 +256,15 @@ typedef struct {
         vc.delegate = self;
         [self presentModalViewController:vc animated:YES];
     }else{
-        
+        [TDAlert showMessageWithTitle:TDLocStrOne(@"NoImageChoosed") message:nil delegate:self];
     }
     
 }
 
 - (IBAction)btTrashPressed:(id)sender
 {
+    [self chooseIcon:nil];
+    /*
     if (_selectedIcon.isSelect) {
         VAIconsCatalogy *cat = [_listIcons objectAtIndex:_selectedIcon.section];
         NSString *str = [cat.listIcons objectAtIndex:_selectedIcon.index];
@@ -257,6 +277,7 @@ typedef struct {
             //warning here
         
     }
+     */
 }
 #pragma mark - EditImage delegate
 -(void)updateListIcon{

@@ -52,4 +52,11 @@
 #define ccp(X,Y) CGPointMake((X),(Y))
 #define TDLOGRect(str, f) TDLOG(@"%@ (x=%f, y=%f, w=%f, h=%f)", str, f.origin.x, f.origin.y, f.size.width, f.size.height)
 
+#define TDLOGFUNC() TDLOG(@"%@: %@", NSStringFromSelector(_cmd), self);
+
+#define TDLOGFUNCS() TDLOG(@"-------------------------------------");\
+TDLOG(@"%@: %@", NSStringFromSelector(_cmd), self);
+
+#define TDLOGFUNC_C() TDLOG(@"%s: %@", __func__, self);
+
 #endif

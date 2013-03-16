@@ -41,6 +41,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [(TDApplicationIdle*)[UIApplication sharedApplication] removeIdleCheck];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
     [self registerNotification];
     switch (_typeMasterPass) {
         case kTypeMasterPasswordFirst:
@@ -158,7 +160,7 @@
             [global.appSetting saveSetting];
             [global loadDataAfterLogin];
             [[TDAppDelegate share].viewController reLoadData];
-            [self.navigationController popViewControllerAnimated:YES];
+            
             [_loginDelegate loginViewDidLogin:self];
         }else{
             TDLOGERROR(@"Init error");
@@ -174,6 +176,11 @@
     }
 }
 
+-(NSString*)warningFor:(int)time{
+    return [NSString stringWithFormat:TDLocStrOne(@"DestructionTurnOnWarn1s"),
+            [NSString stringWithFormat:@"%d", time]];
+}
+
 -(void)checkDestroyData{
     VASetting *setting = [VAGlobal share].appSetting;
     if (![setting isDestroyDataEnable]) {
@@ -183,8 +190,8 @@
         return;
     }
     if (_iCountWrongPass < setting.numBeforeDestroyData) {
-        [self showAlertSimple:TDLocStrOne(@"PassFail")
-                      message:[NSString stringWithFormat:@"Remain %d before destroy data",  setting.numBeforeDestroyData - _iCountWrongPass]
+        [self showAlertSimple:[self warningFor:setting.numBeforeDestroyData - _iCountWrongPass]
+                      message:nil
                           tag:0];
     }else{
         TDLOG(@"Destroy data");
@@ -198,7 +205,6 @@
     if ([global.user.sUserPassword isEqualToString:_tfConfirm.text]) {
         [global loadDataAfterLogin];
         [[TDAppDelegate share].viewController reLoadData];
-        [self.navigationController popViewControllerAnimated:YES];
         [_loginDelegate loginViewDidLogin:self];
     }else{
         //wrong pass - clear - show alert
@@ -210,7 +216,7 @@
 }
 -(void)relogin{
     if ([[VAGlobal share].user.sUserPassword isEqualToString:_tfConfirm.text]) {
-        [self.navigationController popViewControllerAnimated:YES];
+        
         [_loginDelegate loginViewDidLogin:self];
     }else{
         //wrong pass
@@ -226,6 +232,7 @@
     if ([user.sUserPassword isEqualToString:_tfOrigin.text]) {
         user.sUserPassword = _tfConfirm.text;
         [user updateToDb:[VAGlobal share].dbManager];
+        
         [_loginDelegate loginViewDidLogin:self];
     }else{
         //wrong pass

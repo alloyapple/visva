@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "TDWebViewController.h"
+
+typedef enum {
+    kTypeChooseIcon,
+    kTypeChooseMemoImage
+}kTypeChoosen;
 @protocol VAEditImageDelegate;
 @interface VAEditImageViewController : UIViewController<UIImagePickerControllerDelegate, UIScrollViewDelegate,
     TDWebViewDelegate>
 @property(nonatomic, retain)NSString *sCurrentImagePath;
 @property(nonatomic, readonly)BOOL isAddNewImage;
+@property(nonatomic, assign)int tag;
+@property(nonatomic, assign)kTypeChoosen type;
 @property(nonatomic, assign)id<VAEditImageDelegate> delegate;
 @end
 

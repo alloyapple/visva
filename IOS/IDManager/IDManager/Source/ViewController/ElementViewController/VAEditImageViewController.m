@@ -45,8 +45,13 @@
 @property (retain, nonatomic) IBOutlet UIImageView *imView;
 @property (retain, nonatomic) IBOutlet UIScrollView *svImage;
 @property (nonatomic, retain) UIImage *currentImage;
+@property (retain, nonatomic) IBOutlet UIButton *btBetween;
+@property (retain, nonatomic) IBOutlet UIButton *btCheckTop;
 
-- (IBAction)btCamSeleted:(id)sender;
+@property (retain, nonatomic) IBOutlet UIButton *btBottomCheck;
+
+
+
 - (IBAction)btLibrarySeleted:(id)sender;
 - (IBAction)btCheckSeleted:(id)sender;
 - (IBAction)btBackPressed:(id)sender;
@@ -61,6 +66,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         _isAddNewImage = NO;
+        _type = kTypeChooseIcon;
     }
     return self;
 }
@@ -68,6 +74,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
     
     [self updateDrawRect];
     UIImage *image = [TDImageEncrypt imageWithName:_sCurrentImagePath];
@@ -84,10 +91,21 @@
     twoFingerTapRecognizer.numberOfTouchesRequired = 2;
     [self.svImage addGestureRecognizer:twoFingerTapRecognizer];
     [self setUpZoomScale];
+    
+    if (self.type == kTypeChooseIcon) {
+        _btCheckTop.hidden = YES;
+        
+    }else{
+        _rectView.hidden = YES;
+        [_btBetween setImage:[UIImage imageNamed:@"camera-icon.png"] forState:UIControlStateNormal];
+        [_btBetween setImage:[UIImage imageNamed:@"camera-icon_push.png"] forState:UIControlStateHighlighted];
+        
+        [_btBottomCheck setImage:[UIImage imageNamed:@"trash-icon.png"] forState:UIControlStateNormal];
+        [_btBottomCheck setImage:[UIImage imageNamed:@"trash-icon_push.png"] forState:UIControlStateHighlighted];
+    }
 }
 -(void)updateDrawRect{
-    
-    
+
     float width = 320, height = 90*320/120;
     float x = (320 -width)*0.5f;
     float y = (_rectView.frame.size.height - height)*0.5f;
@@ -178,12 +196,18 @@
     [_rectView release];
     [_imView release];
     [_svImage release];
+    [_btBetween release];
+    [_btBottomCheck release];
+    [_btCheckTop release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setRectView:nil];
     [self setImView:nil];
     [self setSvImage:nil];
+    [self setBtBetween:nil];
+    [self setBtBottomCheck:nil];
+    [self setBtCheckTop:nil];
     [super viewDidUnload];
 }
 -(void)showImagePicker:(UIImagePickerControllerSourceType)type
@@ -248,24 +272,46 @@
     UIImage *image = [MPAnimation cropImage:_imView.image rect:rect];
     return image;
 }
+- (UIImage *)normalImage{
+    return _imView.image;
+}
 - (IBAction)btCheckSeleted:(id)sender {
-    // if (_isAddNewImage) {
-
+    if (_type == kTypeChooseIcon) {
+        //choose image
+        [self saveImage];
+    }else{
+        //delete image
+        self.sCurrentImagePath = nil;
+    }
+    [_delegate editImageAccept:self];
+}
+-(void)saveImage{
     NSString *fileName = @"Thumb/OtherImage";
     [TDDatabase createDirecteryInDocument:fileName];
     
     NSDate *date = [NSDate date];
     fileName = [fileName stringByAppendingFormat:@"/image%d_%f.png",
                 arc4random()%100000, [date timeIntervalSince1970]];
-    UIImage *cropImage = [self cropImage];
+    
+    UIImage *cropImage;
+    if (_type == kTypeChooseIcon) {
+        cropImage = [self cropImage];
+    }else{
+        cropImage = [self normalImage];
+    }
     [TDImageEncrypt saveImage:cropImage fileName:fileName];
     [TDImageEncrypt saveImageNoPass:cropImage fileName:[fileName stringByAppendingString:@".png"]];
-     
+    
     self.sCurrentImagePath = fileName;
     _isAddNewImage = YES;
-    //   }
-    [_delegate editImageAccept:self];
-    
+}
+- (IBAction)btTopCheckSelected:(id)sender {
+    if (_type == kTypeChooseMemoImage) { //only visible in choose image mode
+        [self saveImage];
+        [_delegate editImageAccept:self];
+    }else{
+        TDLOG(@"ERROR - top check is visible");
+    }
 }
 
 - (IBAction)btBackPressed:(id)sender {
@@ -274,6 +320,10 @@
 #define kTagWebImage 171
 - (IBAction)btWebPressed:(id)sender
 {
+    if (self.type == kTypeChooseMemoImage) {
+        [self btCamSeleted:nil];
+        return;
+    }
     TDWebViewController *web = [[[TDWebViewController alloc] initWithNibName:@"TDWebViewController" bundle:nil] autorelease];
     web.iTag = kTagWebImage;
     web.sUrlStart = @"http://google.com";

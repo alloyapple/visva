@@ -29,6 +29,9 @@
 #define kGDriveLastSync @"GDriveLastSync"
 #define kDropboxLastSync @"DropboxLastSync"
 #define kIsUnlockHideIad @"isUnlockhideIad"
+#define kIsUnlockLimitID @"isUnlockLimitId"
+
+#define kMaxLimitID 12
 -(void)getSetting{
     NSNumber *num;
     num = [TDPreference getValue:kisFirstUse];
@@ -43,9 +46,11 @@
         self.googleDriveLastSync = [TDPreference getValue:kGDriveLastSync];
         self.dropboxLastSync = [TDPreference getValue:kDropboxLastSync];
         self.isUnlockHideIad = [[TDPreference getValue:kIsUnlockHideIad] boolValue];
+        self.isUnlockLimitId = [[TDPreference getValue:kIsUnlockLimitID] boolValue];
     }else{
         [self makeDefault];
     }
+    _maxLimitId = kMaxLimitID;
 
 }
 -(void)makeDefault{
@@ -59,6 +64,8 @@
     self.googleDriveLastSync = nil;
     self.dropboxLastSync = nil;
     self.isUnlockHideIad = NO;
+    self.isUnlockLimitId = NO;
+    
 }
 -(void)saveSetting{
     [TDPreference set:[NSNumber numberWithBool:_isFirstUse] forkey:kisFirstUse];
@@ -68,7 +75,9 @@
     [TDPreference set:[NSNumber numberWithBool:_isUnlockCSVExport] forkey:kCSVExport];
     [TDPreference set:[NSNumber numberWithBool:_isUseDropboxSync] forkey:kUseDropBoxSync];
     [TDPreference set:[NSNumber numberWithBool:_isUseGoogleDriveSync] forkey:kUseGoogleDriveSync];
-    [TDPreference set:TDbool(_isUnlockHideIad) forkey:kIsUnlockHideIad];
+    
+    [TDPreference set:TDNbool(_isUnlockHideIad) forkey:kIsUnlockHideIad];
+    [TDPreference set:TDNbool(_isUnlockLimitId) forkey:kIsUnlockLimitID];
     
     if (_googleDriveLastSync) {
         [TDPreference set:_googleDriveLastSync forkey:kGDriveLastSync];
@@ -80,9 +89,10 @@
 }
 -(void)updateSecurityTime{
     if(_isSecurityOn){
-        [[TDAppDelegate share].window setFIdleTime:_fSecurityDuration*60];
+        [(TDApplicationIdle*)[UIApplication sharedApplication]
+         setFIdleTime:_fSecurityDuration*60];
     }else{
-        [[TDAppDelegate share].window removeIdleCheck];
+        [(TDApplicationIdle*)[UIApplication sharedApplication] removeIdleCheck];
     }
 }
 -(BOOL)isDestroyDataEnable{

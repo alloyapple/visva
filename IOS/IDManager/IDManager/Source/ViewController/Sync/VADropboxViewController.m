@@ -39,6 +39,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
+    
     _bIsAuthenning = NO;
     [self updateType];
     [self updateSysStatus];

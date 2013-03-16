@@ -23,12 +23,14 @@
 #import "VASettingViewController.h"
 #import "TDIdleWindow.h"
 #import "TDImageEncrypt.h"
+#import "TDAlert.h"
+#import "TDPreference.h"
 
 @interface TDViewController ()
 @property (nonatomic, assign) int iSelectedGroup;
 @property (nonatomic, retain) VAGroup *selectedGroup;
 @property (nonatomic, retain) VAUser *user;
-
+@property (nonatomic, retain) VAGroup *searchGroup;
 
 
 @property (nonatomic, retain) UIView *cellParent;
@@ -39,6 +41,7 @@
 @property (retain, nonatomic) IBOutlet UIButton *btEdit;
 @property (retain, nonatomic) IBOutlet UITableView *tbGroup;
 @property (retain, nonatomic) IBOutlet UITableView *tbId;
+@property (retain, nonatomic) IBOutlet UISearchBar *sbSearchBar;
 
 
 - (IBAction)btInfoPressed:(id)sender;
@@ -54,10 +57,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
 	[self.navigationController setNavigationBarHidden:YES];
-    
+    _isSearching = NO;
+    _isEditting = NO;
     _iSelectedGroup = 0;
+    self.searchGroup = [[[VAGroup alloc] init] autorelease];
     [self pushLogin];
+    
     
 }
 
@@ -77,25 +84,44 @@
 
 
 #pragma mark - loginDelegate
+#define kLastPasteboard @"kLastPasteboard"
 -(void)loginViewDidLogin:(VALoginController *)vc{
     if (vc.typeMasterPass == kTypeMasterPasswordFirst ||
         vc.typeMasterPass == kTypeMasterPasswordLogin) {
+        [vc.navigationController popViewControllerAnimated:YES];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(idleTimeRaise:) name:TDIdleNotification object:nil];
         [[VAGlobal share].appSetting updateSecurityTime];
+        
     }else if (vc.typeMasterPass == kTypeMasterPasswordReLogin){
+        [vc dismissModalViewControllerAnimated:YES];
         [[VAGlobal share].appSetting updateSecurityTime];
+        
+        NSString *str = [TDPreference getValue:kLastPasteboard];
+        if ([str isNotEmpty]) {
+            [[UIPasteboard generalPasteboard] setString:str];
+        }
     }
     
 }
--(void)idleTimeRaise:(NSNotification*)notifi{
+-(void)showReloginWindow{
     if ([VAGlobal share].appSetting.isSecurityOn) {
         VALoginController *login = [[[VALoginController alloc] initWithNibName:@"VALoginController" bundle:nil] autorelease];
-        [self.navigationController pushViewController:login animated:NO];
+        
         login.loginDelegate = self;
         login.typeMasterPass = kTypeMasterPasswordReLogin;
+        [[TDAppDelegate share].window.rootViewController presentModalViewController:login animated:YES];
     }else{
         TDLOGERROR(@"Error security off but idle is running");
     }
+}
+
+-(void)idleTimeRaise:(NSNotification*)notifi{
+    NSString *str = [UIPasteboard generalPasteboard].string;
+    if (str) {
+        [[UIPasteboard generalPasteboard] setString:@""];
+        [TDPreference set:str forkey:kLastPasteboard];
+    }
+    [self showReloginWindow];
 }
 //called after login
 -(void)reLoadData{
@@ -147,11 +173,13 @@
 }
 -(void)updateSelectedGroup{
     if (_iSelectedGroup < _user.aUserFolder.count) {
-        _selectedGroup = [_user.aUserFolder objectAtIndex:_iSelectedGroup];
+        self.selectedGroup = [_user.aUserFolder objectAtIndex:_iSelectedGroup];
     }else if (_iSelectedGroup == _user.aUserFolder.count){
-        _selectedGroup = _user.favoriteGroup;
+        self.selectedGroup = self.searchGroup;
+    }else if (_iSelectedGroup == _user.aUserFolder.count+1){
+        self.selectedGroup = _user.favoriteGroup;
     }else{
-        _selectedGroup = _user.recentGroup;
+        self.selectedGroup = _user.recentGroup;
     }
     [_tbId reloadData];
 }
@@ -163,24 +191,28 @@
 }
 
 - (void)dealloc {
+    [_searchGroup release];
     [_btEdit release];
     [_tbGroup release];
     [_tbId release];
     [_selectedGroup release];
     [_tfAlert release];
+    [_sbSearchBar release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setBtEdit:nil];
     [self setTbGroup:nil];
     [self setTbId:nil];
+    [self setSbSearchBar:nil];
     [super viewDidUnload];
 }
 #pragma mark - alert
 #define kTagAlertAddGroup 101
+#define kTagAlertChangeGroupName 102
 
 -(void)showTextFileAlert:(NSString *)title tag:(int)tag{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"\n\n" delegate:self cancelButtonTitle:TDLocStrOne(@"Cancel") otherButtonTitles:TDLocStrOne(@"OK"), nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"\n\n" delegate:self cancelButtonTitle:TDLocStrOne(@"OK")otherButtonTitles:TDLocStrOne(@"Cancel"), nil];
     _tfAlert.frame = CGRectMake(20, 50, 240, 35);
     _tfAlert.text = @"";
     [alert addSubview:_tfAlert];
@@ -196,20 +228,27 @@
 }
 
 #pragma mark - uialertview
+#define kTagAlertAddID 261
+#define kTagAlertAddIDLimitReach 262
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    switch (alertView.tag) {
-        case kTagAlertAddGroup:
-            if (buttonIndex == 0) {
-                return;
-            }else{
-                [_tfAlert resignFirstResponder];
-                [self addGroup:_tfAlert.text];
-            }
-            break;
+    if (alertView.tag == kTagAlertAddGroup) {
+        if (buttonIndex == 0) {
+            [_tfAlert resignFirstResponder];
+            [self addGroup:_tfAlert.text];
+        }else{
             
-        default:
-            break;
+        }
+    }else if (alertView.tag == kTagAlertChangeGroupName){
+        if (buttonIndex == 0) {
+            [self changeCurrentGroupName:_tfAlert.text];
+        }
+        
+        [_tfAlert resignFirstResponder];
+        
+    }else if (alertView.tag == kTagAlertAddID){
+        [self addElementID];
     }
+    
 }
 
 #pragma mark - button action
@@ -232,22 +271,46 @@
 
 
 - (IBAction)btEditPressed:(UIButton*)sender {
-    [_tbGroup setEditing:!_tbGroup.editing animated:YES];
-    [_tbId setEditing:!_tbId.editing animated:YES];
-    [sender setSelected:_tbId.editing];
-    if (!_tbId.isEditing) {
+    if (_isSearching) {
+        return;
+    }
+    _isEditting = !_isEditting;
+    [_tbGroup setEditing:_isEditting animated:YES];
+    [_tbId setEditing:_isEditting animated:YES];
+    
+    [sender setSelected:_isEditting];
+    if (_isEditting) {
         [_user updateGroupOrder:[VAGlobal share].dbManager];
+    }else{
     }
 }
+-(void)addElementID{
+    VAElementId *element = [[[VAElementId alloc] init] autorelease];
+    element.group = _selectedGroup;
+    element.iOrder = [[_selectedGroup.aElements lastObject] iOrder]+1;
+    
+    [self showEditElement:element isEdit:NO];
+}
 
-- (IBAction)btAddIdPressed:(id)sender {
+- (IBAction)btAddIdPressed:(id)sender
+{
     if (_iSelectedGroup >= _user.aUserFolder.count) {
         TDLOGERROR(@"Not create in here");
+        [TDAlert showMessageWithTitle:TDLocStrOne(@"InvalidFolder") message:nil delegate:self];
+        return;
+    }
+    if ([VAGlobal share].appSetting.isUnlockLimitId) {
+        [self addElementID];
+        return;
+    }
+    int total = 0;
+    for (VAGroup *g in _user.aUserFolder) {
+        total += g.aElements.count;
+    }
+    if (total < kMaxNumElementID) {
+        [TDAlert showMessageWithTitle:TDLocStrOne(@"InAppLimitWarn") message:nil delegate:self otherButton:nil tag:kTagAlertAddID];
     }else{
-        VAElementId *element = [[[VAElementId alloc] init] autorelease];
-        element.group = _selectedGroup;
-        element.iOrder = [[_selectedGroup.aElements lastObject] iOrder]+1;
-        [self showEditElement:element isEdit:NO];
+        [TDAlert showMessageWithTitle:TDLocStrOne(@"InAppLimitWarn") message:nil delegate:self otherButton:nil tag:kTagAlertAddIDLimitReach];
     }
 }
 -(void)showEditElement:(VAElementId*)element isEdit:(BOOL)isEdit{
@@ -318,6 +381,15 @@
         [self showAlert:TDLocStrOne(@"NameGrError") tag:0];
     }
 }
+-(void)changeCurrentGroupName:(NSString*)name{
+    if ([name isNotEmpty]) {
+        _selectedGroup.sGroupName = name;
+        [_tbGroup reloadData];
+    }else{
+        [self showAlert:TDLocStrOne(@"NameGrError") tag:0];
+    }
+    
+}
 
 
 #pragma mark - table view
@@ -325,7 +397,7 @@
     
     if (_user.bIsLoadFullData) {
         if (tableView == _tbGroup) {
-            return _user.aUserFolder.count +2;
+            return _user.aUserFolder.count + 3;
         }else{
             return _selectedGroup.aElements.count;
         }
@@ -346,7 +418,17 @@
             cell = [tableView dequeueReusableCellWithIdentifier:normalCellGroup];
             if (cell == nil) {
                 cell = [[[NSBundle mainBundle] loadNibNamed:normalCellGroup owner:self options:nil]objectAtIndex:0];
+                UITapGestureRecognizer *gesture = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapView:)] autorelease];
+                
+                gesture.delegate = self;
+                
+//                for (UIGestureRecognizer *g in cell.gestureRecognizers) {
+//                    [g requireGestureRecognizerToFail:gesture];
+//                }
+                [cell addGestureRecognizer:gesture];
             }
+            cell.tag = indexPat.row;
+            //[(VAImgLabelCell*)cell vEdit].tag = indexPat.row;
             VAGroup *group = [_user.aUserFolder objectAtIndex:row];
             ((VAImgLabelCell*)cell).lbTitle.text = group.sGroupName;
             
@@ -358,8 +440,11 @@
                 cell = [[[NSBundle mainBundle] loadNibNamed:specialCellGroup owner:self options:nil]objectAtIndex:0];
             }
             if (row == _user.aUserFolder.count) {
+                ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"sync.png"];
+            }else if (row == _user.aUserFolder.count+1){
                 ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"Favorite.png"];
-            }else{
+            }
+            else{
                 ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"history.png"];
             }
             
@@ -370,6 +455,35 @@
     }else{
         //_tb id
         return [self cellForElementTable:row];
+    }
+}
+-(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gesture
+{
+    if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
+        if (!_isEditting) {
+            return NO;
+        }
+        UIView *cell = (UIView*)gesture.view;
+        CGPoint pos = [gesture locationInView:cell];
+        CGSize size = cell.frame.size;
+        CGRect haftFrame = CGRectMake(size.width *0.5f, 0, size.width*0.5f, size.height);
+        if (CGRectContainsPoint(haftFrame, pos)) {
+            return YES;
+        }else{
+            return NO;
+        }
+    }
+    return YES;
+}
+-(void)tapView:(UITapGestureRecognizer*)gesture{
+    UIView *cell = (UIView*)gesture.view;
+    if (gesture.state == UIGestureRecognizerStateEnded){
+        TDLOG(@"end");
+        int tag = cell.tag;
+        if (tag < _user.aUserFolder.count) {
+            [self selectGroup:[NSIndexPath indexPathForRow:tag inSection:0]];
+            [self showTextFileAlert:TDLocStrOne(@"ChangeFolderName") tag:kTagAlertChangeGroupName];
+        }
     }
 }
 -(void)moveIdCell:(UILongPressGestureRecognizer*)recognizer{
@@ -435,6 +549,7 @@
         }
     }
 }
+#define kTagImageView 101
 -(UITableViewCell*)cellForElementTable:(int)row{
     NSString *cellIdentifier = @"VAElementCell";
     UITableViewCell *cell = [_tbId dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -456,9 +571,21 @@
     
     float offset = 5;
     float height = kHeightOfListElementCell - offset *2;
-    UIImageView *imgView=[[UIImageView alloc] initWithFrame:CGRectMake(offset, offset, height, height)];
-    imgView.backgroundColor=[UIColor clearColor];
-    [cell.contentView addSubview:imgView];
+    
+    UIImageView *imgView= nil;
+    for (UIView *v  in cell.contentView.subviews) {
+        if (v.tag == kTagImageView) {
+            imgView = (UIImageView*)v;
+            break;
+        }
+    }
+    if (imgView == nil) {
+        imgView=[[UIImageView alloc] initWithFrame:CGRectMake(offset, offset, height, height)];
+        imgView.backgroundColor=[UIColor clearColor];
+        imgView.tag = kTagImageView;
+        [cell.contentView addSubview:imgView];
+    }
+    
     cell.indentationWidth = kHeightOfListElementCell;
     cell.indentationLevel = 1;
     
@@ -476,12 +603,126 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (tableView == _tbGroup) {
-        [self selectGroup:indexPath];
+        if (_iSelectedGroup == indexPath.row && (indexPath.row < _user.aUserFolder.count)) {
+            return;
+            [self showTextFileAlert:TDLocStrOne(@"ChangeFolderName") tag:kTagAlertChangeGroupName];
+        }else{
+            [self selectGroup:indexPath];
+        }
     }else{ //_tb id
         [self showActionSheetForElement:[_selectedGroup.aElements objectAtIndex:indexPath.row]];
     }
 }
 
+
+#pragma mark - edit table
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == _tbGroup && indexPath.row>= _user.aUserFolder.count) {
+        return UITableViewCellEditingStyleNone;
+    }
+    return UITableViewCellEditingStyleDelete;
+}
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    TDLOG(@"row= %d, count=%d", indexPath.row, _user.aUserFolder.count);
+    if (tableView == _tbGroup) {
+        if ((indexPath.row >= (_user.aUserFolder.count))) {
+            return NO;
+        }
+        return YES;
+    }
+    if (_iSelectedGroup >= _user.aUserFolder.count) {
+        return NO;
+    }
+    return YES;
+}
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == _tbGroup) {
+        if ((indexPath.row >= (_user.aUserFolder.count))) {
+            return NO;
+        }
+        return YES;
+    }
+    if (_iSelectedGroup >= _user.aUserFolder.count) {
+        return NO;
+    }
+    return YES;
+}
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *) sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    NSUInteger sourceRow = sourceIndexPath.row;
+    NSUInteger desRow = destinationIndexPath.row;
+    
+    if (sourceRow != desRow) {
+        
+    }
+    
+    if (tableView == _tbGroup) {
+        if (desRow > _user.aUserFolder.count-1) {
+            return;
+        }
+        id object = [[_user.aUserFolder objectAtIndex:sourceRow] retain];
+        [_user.aUserFolder removeObjectAtIndex:sourceRow];
+        [_user.aUserFolder insertObject:object atIndex:desRow];
+        [object release];
+        int newSelected = [_user.aUserFolder indexOfObject:_selectedGroup];
+        [self selectGroup:[NSIndexPath indexPathForRow:newSelected inSection:0]];
+    } else {
+        id object = [[_selectedGroup.aElements objectAtIndex:sourceRow] retain];
+        [_selectedGroup.aElements removeObjectAtIndex:sourceRow];
+        [_selectedGroup.aElements insertObject:object atIndex:desRow];
+        [object release];
+        
+        [_selectedGroup updateElementOrder:[VAGlobal share].dbManager];
+    }
+}
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath{
+    
+    if (tableView == _tbGroup) {
+        if (proposedDestinationIndexPath.row > _user.aUserFolder.count-1) {
+            return sourceIndexPath;
+        }
+    }
+    return proposedDestinationIndexPath;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (UITableViewCellEditingStyleDelete != editingStyle) {
+        return;
+    }
+    int row = indexPath.row;
+    if (tableView == _tbGroup) {
+        VAGroup *group = [_user.aUserFolder objectAtIndex:row];
+        [group weakDeleteFromDb:[VAGlobal share].dbManager];
+        for (VAElementId *element in group.aElements) {
+            [element weakDeleteFromDb:[VAGlobal share].dbManager];
+            
+        }
+        [_user.favoriteGroup.aElements removeObjectsInArray:group.aElements];
+        [_user.recentGroup.aElements removeObjectsInArray:group.aElements];
+        [_searchGroup.aElements removeObjectsInArray:group.aElements];
+        
+        [_user.aUserFolder removeObjectAtIndex:row];
+        if (_iSelectedGroup >= _user.aUserFolder.count) {
+            _iSelectedGroup = _user.aUserFolder.count-1;
+        }
+        [self selectGroup:[NSIndexPath indexPathForRow:_iSelectedGroup inSection:0]];
+        [_tbGroup deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [_tbId reloadData];
+    }else{
+        VAElementId *element = [_selectedGroup.aElements objectAtIndex:row];
+        [element weakDeleteFromDb:[VAGlobal share].dbManager];
+        [_user.favoriteGroup.aElements removeObject:element];
+        [_user.recentGroup.aElements removeObject:element];
+        [_searchGroup.aElements removeObject:element];
+        
+        [_selectedGroup.aElements removeObjectAtIndex:row];
+        
+        [_tbId deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+    }
+}
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
 -(void)showActionSheetForElement:(VAElementId*)element{
     self.selectedElement = element;
     UIActionSheet *acSh = [[UIActionSheet alloc]initWithTitle:nil
@@ -524,6 +765,8 @@
         TDLOG(@"Start web");
         TDWebViewController *web = [[[TDWebViewController alloc] initWithNibName:@"TDWebViewController" bundle:nil]autorelease];
         web.sUrlStart = _selectedElement.sUrl;
+        web.bIsUseJogDial = YES;
+        web.listPWID = _selectedElement.aPasswords;
         web.webDelegate = self;
         web.iTag = 0;
         [self.navigationController pushViewController:web animated:YES];
@@ -547,81 +790,65 @@
     UIAlertView *al = [[[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:TDLocStrOne(@"OK") otherButtonTitles:nil]autorelease];
     [al show];
 }
-#pragma mark - edit table
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView == _tbGroup && indexPath.row>= _user.aUserFolder.count) {
-        return UITableViewCellEditingStyleNone;
-    }
-    return UITableViewCellEditingStyleDelete;
-}
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    TDLOG(@"row= %d, count=%d", indexPath.row, _user.aUserFolder.count);
-    if ((tableView == _tbGroup) && (indexPath.row >= (_user.aUserFolder.count))) {
-        return NO;
-    }
-    return YES;
-}
--(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView == _tbGroup && indexPath.row > _user.aUserFolder.count-1) {
-        return NO;
-    }
-    return YES;
-}
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *) sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    NSUInteger sourceRow = sourceIndexPath.row;
-    NSUInteger desRow = destinationIndexPath.row;
-    
-    if (sourceRow != desRow) {
-        
-    }
-    
-    if (tableView == _tbGroup) {
-        if (desRow > _user.aUserFolder.count-1) {
-            return;
-        }
-        id object = [[_user.aUserFolder objectAtIndex:sourceRow] retain];
-        [_user.aUserFolder removeObjectAtIndex:sourceRow];
-        [_user.aUserFolder insertObject:object atIndex:desRow];
-        [object release];
-        int newSelected = [_user.aUserFolder indexOfObject:_selectedGroup];
-        [self selectGroup:[NSIndexPath indexPathForRow:newSelected inSection:0]];
-    } else {
-        id object = [[_selectedGroup.aElements objectAtIndex:sourceRow] retain];
-        [_selectedGroup.aElements removeObjectAtIndex:sourceRow];
-        [_selectedGroup.aElements insertObject:object atIndex:desRow];
-        [object release];
-        
-        [_selectedGroup updateElementOrder:[VAGlobal share].dbManager];
-    }
-}
-- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath{
-    
-    if (tableView == _tbGroup) {
-        if (proposedDestinationIndexPath.row > _user.aUserFolder.count-1) {
-            return sourceIndexPath;
-        }
-    }
-    return proposedDestinationIndexPath;
-}
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (UITableViewCellEditingStyleDelete != editingStyle) {
-        return;
-    }
-    int row = indexPath.row;
-    if (tableView == _tbGroup) {
-        VAGroup *group = [_user.aUserFolder objectAtIndex:row];
-        [group weakDeleteFromDb:[VAGlobal share].dbManager];
-        [_user.aUserFolder removeObjectAtIndex:row];
-        if (_iSelectedGroup >= _user.aUserFolder.count) {
-            _iSelectedGroup = _user.aUserFolder.count-1;
-        }
-        [self selectGroup:[NSIndexPath indexPathForRow:_iSelectedGroup inSection:0]];
-        [_tbGroup deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+#pragma mark - search bar
+-(void)doSearch:(NSString*)text{
+    if (![text isNotEmpty]) {
+        _searchGroup.aElements = [NSMutableArray array];
     }else{
-        VAElementId *element = [_selectedGroup.aElements objectAtIndex:row];
-        [element weakDeleteFromDb:[VAGlobal share].dbManager];
-        [_selectedGroup.aElements removeObjectAtIndex:row];
-        [_tbId deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        NSMutableArray *arr = [NSMutableArray array];
+        for (VAGroup *group in _user.aUserFolder) {
+            for (VAElementId *element in group.aElements) {
+                BOOL isAdded = ([element.sTitle rangeOfString:text options:NSCaseInsensitiveSearch].location != NSNotFound);
+                if (!isAdded) {
+                    isAdded = ([element.sNote rangeOfString:text options:NSCaseInsensitiveSearch].location != NSNotFound);
+                }
+                if (isAdded) {
+                    [arr addObject:element];
+                }
+            }
+        }
+        _searchGroup.aElements = arr;
     }
+    
+    //check selected group
+    if (_iSelectedGroup != _user.aUserFolder.count) {
+        [self selectGroup:[NSIndexPath indexPathForRow:_user.aUserFolder.count inSection:0]];
+    }else{
+        [_tbId reloadData];
+    }
+}
+-(void)beginSearch{
+    _isSearching = YES;    
+}
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    if (_isEditting) {
+        return NO;
+    }
+    return YES;
+}// return NO to not become first responder
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    [searchBar setShowsCancelButton:YES animated:YES];
+    _isSearching = YES;
+}// called when text starts editing
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
+    return YES;
+}// return NO to not resign first responder
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    NSString *str = searchBar.text;
+    [self doSearch:str];
+    [searchBar setShowsCancelButton:NO animated:YES];
+    _isSearching = NO;
+}
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    [self doSearch:searchText];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
 }
 @end

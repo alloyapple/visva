@@ -7,7 +7,7 @@
 //
 
 #import "VASecurityModeViewController.h"
-
+#import "TDSoundManager.h"
 @interface VASecurityModeViewController ()
 
 - (IBAction)btBackPressed:(id)sender;
@@ -29,6 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
     // Do any additional setup after loading the view from its nib.
 }
 
