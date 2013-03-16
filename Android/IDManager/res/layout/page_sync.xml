@@ -15,16 +15,18 @@
         <Button
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:layout_centerVertical="true"            android:layout_marginLeft="10dp"
-            android:background="@drawable/bt_return" />
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_return"
+            android:onClick="onReturn" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="Sync Cloud"
+            android:text="@string/item_sync"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -35,16 +37,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
-
-        <Button
-            android:layout_width="280dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/btn_to_cloud_select"
-            android:gravity="center"
-            android:text="@string/btn_copy_id"
-            android:textColor="#FFFFFF" >
-        </Button>
 
         <Button
             android:layout_width="280dp"
