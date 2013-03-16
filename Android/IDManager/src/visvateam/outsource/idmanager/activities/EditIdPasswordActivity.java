@@ -68,7 +68,7 @@ public class EditIdPasswordActivity extends Activity implements
 	private ListView mListView;
 	private CheckBox mCheckBoxLike;
 
-	private EditText mEditTextUrlId;
+	private EditText mEditTextUrlId; 
 	private EditText mEditTextNameId;
 	private EditText mEditTextNote;
 

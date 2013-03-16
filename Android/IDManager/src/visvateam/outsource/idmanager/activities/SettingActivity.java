@@ -41,8 +41,8 @@ import android.widget.Toast;
 @SuppressLint("HandlerLeak")
 public class SettingActivity extends Activity {
 
-	private String items[] = { "Google Drive", "Dropbox" };
 	private CharSequence[] mListDataChoice;
+	private CharSequence mSelectedFile = "";
 	private CharSequence[] mListDataChoiceTemp;
 	private DataBaseHandler mDataBaseHandler;
 	private boolean isExportData;
@@ -141,7 +141,8 @@ public class SettingActivity extends Activity {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mApi.getSession().isLinked()) {
 				isExportData = false;
-				startReadFileViaCloud();
+				String fileName = "";
+				startReadFileViaCloud(fileName, false);
 			} else
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 		} else
@@ -176,6 +177,7 @@ public class SettingActivity extends Activity {
 			}
 		});
 	}
+
 	/**
 	 * If a dialog has already been created, this is called to reset the dialog
 	 * before showing it a 2nd time. Optional.
@@ -184,18 +186,20 @@ public class SettingActivity extends Activity {
 	protected void onPrepareDialog(int id, Dialog dialog) {
 
 		switch (id) {
-		
+
 		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
-			
-			if(mListDataChoiceTemp.length > 0){
+
+			if (mListDataChoiceTemp.length > 0) {
 				mListDataChoice = new String[mListDataChoiceTemp.length];
 				mListDataChoice = mListDataChoiceTemp;
-				
-				Log.e("onResume "+mListDataChoiceTemp.length, "asdgsfgdgd  "+mListDataChoice.length);
+
+				Log.e("onResume " + mListDataChoiceTemp.length, "asdgsfgdgd  "
+						+ mListDataChoice.length);
 			}
 			break;
 		}
 	}
+
 	/**
 	 * Called to create a dialog to be shown.
 	 */
@@ -223,6 +227,10 @@ public class SettingActivity extends Activity {
 			return createExampleDialog(Contants.DIALOG_NO_DATA_CLOUD);
 		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
 			return createExampleDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);
+		case Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
+		case Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
 		default:
 			return null;
 		}
@@ -306,6 +314,30 @@ public class SettingActivity extends Activity {
 						}
 					});
 			return builder.create();
+		case Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD:
+			builder.setTitle(getString(R.string.app_name));
+			builder.setCancelable(false);
+			builder.setMessage(getString(R.string.data_rewritten));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* add new folder to database */
+							startReadFileViaCloud(mSelectedFile, true);
+							return;
+						}
+					});
+			builder.setNegativeButton(getString(R.string.confirm_cancel),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							return;
+						}
+					});
+			return builder.create();
 		case Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE:
 			builder.setTitle(getString(R.string.app_name));
 			builder.setMessage(getString(R.string.sync_data_duplicate_msg));
@@ -346,15 +378,30 @@ public class SettingActivity extends Activity {
 						}
 					});
 			return builder.create();
+		case Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED:
+			builder.setCancelable(false);
+			builder.setTitle(getString(R.string.app_name));
+			builder.setMessage(getString(R.string.success));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							return;
+						}
+					});
+			return builder.create();
 		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
 			AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-			alertBuilder.setTitle(getString(R.string.app_name)+"  "+mListDataChoice.length);
+			alertBuilder.setTitle(getString(R.string.app_name) + "  " + mListDataChoice.length);
 			alertBuilder.setIcon(R.drawable.icon);
 			alertBuilder.setItems(mListDataChoice, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int item) {
-					Toast.makeText(getApplicationContext(), mListDataChoice[item], Toast.LENGTH_SHORT).show();
-					Log.e("item", "" + items[item]);
+					Toast.makeText(getApplicationContext(), mListDataChoice[item],
+							Toast.LENGTH_SHORT).show();
+					mSelectedFile = mListDataChoice[item];
+					startReadFileViaCloud(mSelectedFile, false);
 				}
 			});
 			return alertBuilder.create();
@@ -628,12 +675,12 @@ public class SettingActivity extends Activity {
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
-		
-//		Log.e("onResume", "inasdf");
-//		if(mListDataChoiceTemp.length > 0){
-//			mListDataChoice = new String[mListDataChoiceTemp.length];
-//			mListDataChoice = mListDataChoiceTemp;
-//		}
+
+		// Log.e("onResume", "inasdf");
+		// if(mListDataChoiceTemp.length > 0){
+		// mListDataChoice = new String[mListDataChoiceTemp.length];
+		// mListDataChoice = mListDataChoiceTemp;
+		// }
 	}
 
 	private void startSyncToCloud(String fileExportName, boolean isCheckDuplicated) {
@@ -654,17 +701,18 @@ public class SettingActivity extends Activity {
 	/**
 	 * start read file via cloud
 	 */
-	private void startReadFileViaCloud() {
+	private void startReadFileViaCloud(CharSequence fileName, boolean isCheckFile) {
 		// DropBoxDownloadFile download = new
 		// DropBoxDownloadFile(DropBoxSyncActivity.this, mApi,
 		// Contants.FOLDER_ON_DROPBOX_DB, dbFilePath);
 		// download.execute();
+		Log.e("isCheckFile", "isCheckFile "+isCheckFile);
 		File file = new File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
 		String mFilePath = file.getAbsolutePath();
 		ReadFileViaDropBox readFile = new ReadFileViaDropBox(SettingActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX_CSV, mFilePath, mHandler);
+				Contants.FOLDER_ON_DROPBOX_CSV, mFilePath, mHandler, fileName, isCheckFile);
 		readFile.execute();
 	}
 
@@ -681,7 +729,7 @@ public class SettingActivity extends Activity {
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED);
 			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD)
 				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_LIST_DATA) {
 				Object object = msg.obj;
 				Log.e("adfadf", "adsfas ");
 				ArrayList<String> mFileList = (ArrayList<String>) object;
@@ -690,10 +738,13 @@ public class SettingActivity extends Activity {
 				for (int i = 0; i < mFileList.size(); i++) {
 					mListDataChoice[i] = mFileList.get(i);
 					mListDataChoiceTemp[i] = mFileList.get(i);
-					Log.e("alsdfj " + i, "name " + mListDataChoiceTemp[i]);
 				}
-				if(mListDataChoiceTemp.length >0)
-					showDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);  
+				if (mListDataChoiceTemp.length > 0)
+					showDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);
+			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
+				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
+			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
+				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
 			}
 		};
 	};
