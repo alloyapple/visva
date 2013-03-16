@@ -49,6 +49,10 @@
     <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
+    
+        
+    <!--cloud and text data  -->
+    <string name="cloud_service_name">利用クラウドサービス:</string>
     <string name="txt_dropbox_tut">Dropboxとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予めアカウントの取得（無料）が必要です。</string>
     <!--
          <string name="item_sync">同期の実行</string>

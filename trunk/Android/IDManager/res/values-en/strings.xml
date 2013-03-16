@@ -64,7 +64,7 @@
     <string name="list_isp">ISP</string>
 
     <!-- cloud and text data -->
-
+    <string name="cloud_service_name">Cloud service name:</string>
     <string name="txt_dropbox_tut">Dropbox is one of the most popular cloud services. To use this service is required to get the account (free) in advance.</string>
     <string name="item_sync">Synchronization</string>
     <string name="item_dropbox">Dropbox Synchronize</string>
@@ -98,7 +98,7 @@
     <string name="sync_finish">The synchronization was finished</string>
     <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
     <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
-	<string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
+    <string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
 
     <!-- others -->
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
