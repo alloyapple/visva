@@ -85,7 +85,8 @@
     <string name="sync_finish">La sincronización se terminó.</string>
     <string name="data_cloud_newer">Aunque los datos sobre Dropbox (GoogleDrive) es más reciente, que está seguro de sobreescribirlo?</string>
     <string name="limit_login_msg">El modo de destrucción está encendido. Usted perderá datos IDxPassword después de entrar en %d PW mal momento.</string>
-
+	<string name="sync_data_duplicate_msg">Datos Este Android es más reciente. Está seguro que desea sobrescribir la más antigua en Dropbox (GoogleDrive)?.</string>
+    
     <!-- others -->
     <string name="wrong_pw_login">La contraseña no coincide. Por favor, hazlo de nuevo.</string>
     <string name="data_erased_msg">Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione..</string>

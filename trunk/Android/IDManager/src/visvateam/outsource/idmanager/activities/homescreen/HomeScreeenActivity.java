@@ -481,6 +481,7 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 
 	};
 
+	
 	public OnScrollListener onFolderScrollListener = new OnScrollListener() {
 
 		@Override

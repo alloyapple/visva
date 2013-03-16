@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class EditIconActivity extends Activity {
-	ImageView imageView;
+	ImageView imageView; 
 	private Uri fileUri = null;
 	public static Drawable mDrawableIconEdit;
 	private CheckBox mCheckBox;

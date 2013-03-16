@@ -1,5 +1,11 @@
 package visvateam.outsource.idmanager.activities.synccloud;
 
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
+
 import visvateam.outsource.idmanager.activities.GGDriveSyncActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
@@ -9,6 +15,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -19,6 +27,37 @@ public class SyncCloudActivity extends Activity {
 	private TextView mTextViewLastTimeSync;
 	private String items[] = { "Google Drive", "Dropbox" };
 	private boolean isSyncToCloud = true;
+
+	//=======================================
+	//Dropbox API
+	//=======================================
+	private static final String TAG = "DBRoulette";
+
+	// /////////////////////////////////////////////////////////////////////////
+	// Your app-specific settings. //
+	// /////////////////////////////////////////////////////////////////////////
+
+	// Replace this with your app key and secret assigned by Dropbox.
+	// Note that this is a really insecure way to do this, and you shouldn't
+	// ship code which contains your key & secret in such an obvious way.
+	// Obfuscation is good.
+	final static private String APP_KEY = "fxh7pnxcqbg3qwy";
+	final static private String APP_SECRET = "fjk6z73ot28n1t3";
+
+	// If you'd like to change the access type to the full Dropbox instead of
+	// an app folder, change this value.
+	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+
+	// /////////////////////////////////////////////////////////////////////////
+	// End app-specific settings. //
+	// /////////////////////////////////////////////////////////////////////////
+
+	// You don't need to change these, leave them alone.
+	final static private String ACCOUNT_PREFS_NAME = "prefs";
+	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
+	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
+
+	DropboxAPI<AndroidAuthSession> mApi;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -31,9 +70,17 @@ public class SyncCloudActivity extends Activity {
 		mTextViewCloudType = (TextView) findViewById(R.id.cloud_type);
 		mTextViewLastTimeSync = (TextView) findViewById(R.id.last_time_sync);
 
+		// We create a new AuthSession so that we can use the Dropbox API.
+		AndroidAuthSession session = buildSession();
+		mApi = new DropboxAPI<AndroidAuthSession>(session);
+
 		/* check netword */
 		if (!NetworkUtility.getInstance(this).isNetworkAvailable())
 			showDialog(Contants.DIALOG_NO_NET_WORK);
+		
+		if(mApi.getSession().isLinked())
+			mTextViewCloudType.setText("Dropbox");
+		else mTextViewCloudType.setText("Google Drive");
 	}
 
 	@SuppressWarnings("deprecation")
@@ -41,7 +88,7 @@ public class SyncCloudActivity extends Activity {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			isSyncToCloud = true;
 			showDialog(Contants.DIALOG_CHOICE_CLOUD_TYPE);
-		} else{
+		} else {
 			showDialog(Contants.DIALOG_NO_NET_WORK);
 		}
 	}
@@ -51,7 +98,7 @@ public class SyncCloudActivity extends Activity {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			isSyncToCloud = false;
 			showDialog(Contants.DIALOG_CHOICE_CLOUD_TYPE);
-		} else{
+		} else {
 			showDialog(Contants.DIALOG_NO_NET_WORK);
 		}
 	}
@@ -89,13 +136,14 @@ public class SyncCloudActivity extends Activity {
 			builder.setTitle(R.string.app_name);
 			builder.setMessage(R.string.internet_not_use);
 			builder.setIcon(R.drawable.icon);
-			builder.setPositiveButton(getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int whichButton) {
-					/* add new folder to database */
-					return;
-				}
-			});
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
 			return builder.create();
 		case Contants.DIALOG_CHOICE_CLOUD_TYPE:
 			AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
@@ -123,13 +171,14 @@ public class SyncCloudActivity extends Activity {
 			builderNoData.setTitle(R.string.app_name);
 			builderNoData.setMessage(R.string.no_data_on_cloud);
 			builderNoData.setIcon(R.drawable.icon);
-			builderNoData.setPositiveButton(getString(R.string.confirm_ok), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int whichButton) {
-					/* add new folder to database */
-					return;
-				}
-			});
+			builderNoData.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
 			return builder.create();
 		default:
 			return null;
@@ -140,4 +189,41 @@ public class SyncCloudActivity extends Activity {
 		intent.putExtra(Contants.IS_SYNC_TO_CLOUD, isSyncToCloud);
 		startActivity(intent);
 	}
+
+	private AndroidAuthSession buildSession() {
+		AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
+		AndroidAuthSession session;
+
+		String[] stored = getKeys();
+		if (stored != null) {
+			AccessTokenPair accessToken = new AccessTokenPair(stored[0], stored[1]);
+			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE, accessToken);
+		} else {
+			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
+		}
+
+		return session;
+	}
+	
+	/**
+	 * Shows keeping the access keys returned from Trusted Authenticator in a
+	 * local store, rather than storing user name & password, and
+	 * re-authenticating each time (which is not to be done, ever).
+	 * 
+	 * @return Array of [access_key, access_secret], or null if none stored
+	 */
+	private String[] getKeys() {
+		SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+		String key = prefs.getString(ACCESS_KEY_NAME, null);
+		String secret = prefs.getString(ACCESS_SECRET_NAME, null);
+		if (key != null && secret != null) {
+			String[] ret = new String[2];
+			ret[0] = key;
+			ret[1] = secret;
+			return ret;
+		} else {
+			return null;
+		}
+	}
+
 }

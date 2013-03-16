@@ -127,7 +127,7 @@ public class DropBoxSyncActivity extends Activity {
 				} else {
 					if (NetworkUtility.getInstance(DropBoxSyncActivity.this).isNetworkAvailable())
 						if (mApi.getSession().isLinked()) {
-
+							Log.e("run here", "run here");
 							/* download file to device */
 							checkDataOnDropbox();
 
@@ -152,36 +152,36 @@ public class DropBoxSyncActivity extends Activity {
 		// Get the metadata for a directory
 		Entry dirent = null;
 		try {
-			dirent = mApi.metadata(Contants.FOLDER_ON_DROPBOX, 1000, null, true, null);
+			dirent = mApi.metadata(Contants.FOLDER_ON_DROPBOX_DB, 1000, null, true, null);
 		} catch (DropboxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		if (!dirent.isDir || dirent.contents == null) {
-			// It's not a directory, or there's nothing in it
-			showDialog(Contants.DIALOG_NO_DATA_CLOUD);
-
-		}
+//		if (!dirent.isDir || dirent.contents == null) {
+//			// It's not a directory, or there's nothing in it
+//			showDialog(Contants.DIALOG_NO_DATA_CLOUD);
+//
+//		}
 
 		// Make a list of everything in it that we can get a thumbnail for
-		Entry entry = null;
-		for (Entry ent : dirent.contents) {
-			if (Contants.DATA_IDMANAGER_NAME.equals(ent.fileName().toString())) {
-				// Add it to the list of thumbs we can choose from
-				entry = ent;
-			}
-		}
+//		Entry entry = null;
+//		for (Entry ent : dirent.contents) {
+//			if (Contants.DATA_IDMANAGER_NAME.equals(ent.fileName().toString())) {
+//				// Add it to the list of thumbs we can choose from
+//				entry = ent;
+//			}
+//		}
 
-		// Now pick a random one
-		if (null != entry) {
-			String modify = entry.modified;
-			Date date = new Date(modify);
-			mLastTime = date.getTime();
-			showDialog(Contants.DIALOG_DATA_REWRITTEN);
-		} else
-			showDialog(Contants.DIALOG_NO_DATA_CLOUD);
-
+//		// Now pick a random one
+//		if (null != entry) {
+//			String modify = entry.modified;
+//			Date date = new Date(modify);
+//			mLastTime = date.getTime();
+//			showDialog(Contants.DIALOG_DATA_REWRITTEN);
+//		} else
+//			showDialog(Contants.DIALOG_NO_DATA_CLOUD);
+startSyncToCloud();
 	}
 
 	private void startSyncToDevice() {
@@ -191,16 +191,16 @@ public class DropBoxSyncActivity extends Activity {
 		String dbFilePath = dbFile.getParent();
 
 		DropBoxDownloadFile download = new DropBoxDownloadFile(DropBoxSyncActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX, dbFilePath);
+				Contants.FOLDER_ON_DROPBOX_DB, dbFilePath);
 		download.execute();
 	}
 
 	private void startSyncToCloud() {
 		// TODO Auto-generated method stub
 		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX, dbFile);
-		newFile.execute();
+//		DropBoxController newFile = new DropBoxController(DropBoxSyncActivity.this, mApi,
+//				Contants.FOLDER_ON_DROPBOX_DB, dbFile);
+//		newFile.execute();
 	}
 
 	@Override

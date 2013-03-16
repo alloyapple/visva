@@ -28,22 +28,19 @@ package visvateam.outsource.idmanager.exportcontroller.dropbox;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.nio.channels.AlreadyConnectedException;
-
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
-import android.widget.EditText;
-import android.widget.Toast;
-
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
 import com.dropbox.client2.exception.DropboxException;
@@ -59,7 +56,7 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
  * exception handling and flow of control for an app that uploads a file from
  * Dropbox.
  */
-public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
+public class DropBoxController extends AsyncTask<Void, Long, Integer> {
 
 	private DropboxAPI<?> mApi;
 	private String mPath;
@@ -70,9 +67,13 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
 	private Context mContext;
 	private final ProgressDialog mDialog;
 	private String mErrorMsg;
+	private String mFileName;
+	private Handler mHandler;
+	private boolean isCheckDuplicated;
 
 	@SuppressWarnings("deprecation")
-	public DropBoxController(Context context, DropboxAPI<?> api, String dropboxPath, File file) {
+	public DropBoxController(Context context, DropboxAPI<?> api, String dropboxPath, File file,
+			Handler mHandler, boolean isCheckDuplicated) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
 
@@ -80,18 +81,16 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
 		mApi = api;
 		mPath = dropboxPath;
 		mFile = file;
+		this.mHandler = mHandler;
+		this.mFileName = mFile.getName();
+		this.isCheckDuplicated = isCheckDuplicated;
 
 		mDialog = new ProgressDialog(context);
 		mDialog.setMax(100);
+		mDialog.setTitle(mContext.getString(R.string.app_name));
+		mDialog.setIcon(R.drawable.icon);
 		mDialog.setMessage("Uploading " + file.getName());
-		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mDialog.setProgress(0);
-		mDialog.setButton("Cancel", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				// This will cancel the putFile operation
-				mRequest.abort();
-			}
-		});
 		mDialog.show();
 
 		createDialog(mContext);
@@ -119,10 +118,28 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
 	}
 
 	@Override
-	protected Boolean doInBackground(Void... params) {
+	protected Integer doInBackground(Void... params) {
 		try {
+			if (isCheckDuplicated) {
+				// Get the metadata for a directory
+				Entry dirent = mApi.metadata(mPath, 1000, null, true, null);
+
+				if (!dirent.isDir || dirent.contents == null) {
+					// It's not a directory, or there's nothing in it
+					mErrorMsg = "File or empty directory";
+				}
+
+				for (Entry ent : dirent.contents) {
+					Log.d("file " + mFile, "file ent " + ent.fileName());
+					if (mFileName.equals(ent.fileName().toString())) {
+						// Add it to the list of thumbs we can choose from
+						return Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE;
+					}
+				}
+			}
 			// By creating a request, we get a handle to the putFile operation,
 			// so we can cancel it later if we want to
+
 			FileInputStream fis = new FileInputStream(mFile);
 			String path = mPath + mFile.getName();
 			mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
@@ -141,7 +158,7 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
 
 			if (mRequest != null) {
 				mRequest.upload();
-				return true;
+				return Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
 			}
 
 		} catch (DropboxUnlinkedException e) {
@@ -174,6 +191,7 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
 			if (mErrorMsg == null) {
 				mErrorMsg = e.body.error;
 			}
+			return Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 		} catch (DropboxIOException e) {
 			// Happens all the time, probably want to retry automatically.
 			mErrorMsg = "Network error.  Try again.";
@@ -185,7 +203,7 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
 			mErrorMsg = "Unknown error.  Try again.";
 		} catch (FileNotFoundException e) {
 		}
-		return false;
+		return Contants.DIALOG_MESSAGE_SYNC_FAILED;
 	}
 
 	@Override
@@ -195,17 +213,21 @@ public class DropBoxController extends AsyncTask<Void, Long, Boolean> {
 	}
 
 	@Override
-	protected void onPostExecute(Boolean result) {
+	protected void onPostExecute(Integer result) {
 		mDialog.dismiss();
-		if (result) {
-			showToast("File successfully uploaded");
-		} else {
-			showToast(mErrorMsg);
+		Message msg = mHandler.obtainMessage();
+		if (result == Contants.DIALOG_MESSAGE_SYNC_SUCCESS) {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
+			mHandler.sendMessage(msg);
+		} else if (result == Contants.DIALOG_MESSAGE_SYNC_FAILED) {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_FAILED;
+			mHandler.sendMessage(msg);
+		} else if (result == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE) {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE;
+			mHandler.sendMessage(msg);
+		} else if (result == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED) {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
+			mHandler.sendMessage(msg);
 		}
-	}
-
-	private void showToast(String msg) {
-		Toast error = Toast.makeText(mContext, msg, Toast.LENGTH_LONG);
-		error.show();
 	}
 }

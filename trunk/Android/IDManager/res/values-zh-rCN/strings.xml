@@ -83,7 +83,8 @@
     <string name="sync_failed">我同步失败。</string>
     <string name="sync_finish">我结束了同步。</string>
     <string name="data_cloud_newer">更好的数据（GoogleDrive）是新的，但Dropbox，你确定你真的要覆盖它吗？</string>
-
+	<string name="sync_data_duplicate_msg">你确定你想从（GoogleDrive）Dropbox的，谁是新的数据，本次Android上的数据吗？.</string>
+    
     <!-- others -->
     <string name="wrong_pw_login">您输入的密码不正确，请重新输入。</string>
     <string name="data_erased_msg">达到您制定的密码错误次数时，数据将被删除。</string>

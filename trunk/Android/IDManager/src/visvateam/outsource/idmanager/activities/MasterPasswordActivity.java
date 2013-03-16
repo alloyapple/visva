@@ -54,7 +54,7 @@ public class MasterPasswordActivity extends Activity implements OnClickListener 
 		super.onCreate(savedInstanceState);
 		// init idmanager preference
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
-		if (mIdManagerPreference.getSecurityMode() == Contants.KEY_OFF
+		if (mIdManagerPreference.getValuesRemoveData() == Contants.KEY_OFF
 				|| !mIdManagerPreference.isApplicationFirstTimeInstalled()) {
 			/* go to HomeScreen activity */
 			Intent intent = new Intent(MasterPasswordActivity.this, HomeScreeenActivity.class);
