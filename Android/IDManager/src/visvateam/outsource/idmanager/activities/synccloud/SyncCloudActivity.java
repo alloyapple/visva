@@ -77,10 +77,10 @@ public class SyncCloudActivity extends Activity {
 		if (!NetworkUtility.getInstance(this).isNetworkAvailable())
 			showDialog(Contants.DIALOG_NO_NET_WORK);
 
-		if (mApi.getSession().isLinked())
-			mTextViewCloudType.setText(getString(R.string.cloud_service_name) + " Dropbox");
-		else
-			mTextViewCloudType.setText(getString(R.string.cloud_service_name) + " Google Drive");
+//		if (mApi.getSession().isLinked())
+//			mTextViewCloudType.setText(getString(R.string.) + " Dropbox");
+//		else
+//			mTextViewCloudType.setText(getString(R.string.cloud_service_name) + " Google Drive");
 	}
 
 	@SuppressWarnings("deprecation")

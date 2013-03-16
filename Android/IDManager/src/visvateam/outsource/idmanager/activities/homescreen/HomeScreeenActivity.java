@@ -19,6 +19,7 @@ import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.FolderDatabase;
 import visvateam.outsource.idmanager.database.IDDataBase;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
+import visvateam.outsource.idmanager.idletime.ControlApplication;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -1202,5 +1203,17 @@ public class HomeScreeenActivity extends Activity implements OnClickListener {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	public ControlApplication getApp()
+    {
+        return (ControlApplication )this.getApplication();
+    }
+
+    @Override
+    public void onUserInteraction()
+    {
+        super.onUserInteraction();
+        getApp().touch();
+        Log.d("onUserInteraction", "User interaction to "+this.toString());
+    }
 
 }

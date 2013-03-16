@@ -8,7 +8,10 @@ import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -18,6 +21,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -49,6 +53,8 @@ public class BrowserJogdialActivity extends Activity {
 	private boolean isJogdial = false;
 	String valuePaste = "khaidt.hut@gmail";
 	int count;
+	int currentField = 0;
+	String note;
 	String valueGet;
 
 	@Override
@@ -63,7 +69,7 @@ public class BrowserJogdialActivity extends Activity {
 		dialer = (ImageView) findViewById(R.id.id_img_wheel);
 		mBtnJogdial = (Button) findViewById(R.id.id_jogdial);
 		mFrameJogdial = (FrameLayout) findViewById(R.id.id_frame_jogdial);
-		mLinearBottom=(LinearLayout) findViewById(R.id.id_linear_bottom_browser);
+		mLinearBottom = (LinearLayout) findViewById(R.id.id_linear_bottom_browser);
 		mFrameJogdial.setVisibility(View.GONE);
 		dialer.setOnTouchListener(new OnTouchListener() {
 			private double startAngle;
@@ -108,9 +114,13 @@ public class BrowserJogdialActivity extends Activity {
 		if (isJogdial) {
 			mFrameJogdial.setVisibility(View.VISIBLE);
 			mLinearBottom.setVisibility(View.GONE);
-		}else{
+			mBtnJogdial.setBackgroundResource(R.drawable.btn_wheel_false);
+			InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			mgr.hideSoftInputFromWindow(webView.getWindowToken(), 0);
+		} else {
 			mFrameJogdial.setVisibility(View.GONE);
 			mLinearBottom.setVisibility(View.VISIBLE);
+			mBtnJogdial.setBackgroundResource(R.drawable.btn_wheel);
 		}
 	}
 
@@ -199,6 +209,7 @@ public class BrowserJogdialActivity extends Activity {
 		for (int i = 0; i < items.size(); i++) {
 			pasteItem[i] = items.get(i);
 		}
+		note = id.getNote();
 	}
 
 	public void onReload(View v) {
@@ -207,48 +218,82 @@ public class BrowserJogdialActivity extends Activity {
 	}
 
 	public void onNote(View v) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getResources().getString(R.string.hint_note));
+		builder.setIcon(R.drawable.icon);
+		builder.setMessage(note);
+		builder.setPositiveButton(
+				getResources().getString(R.string.confirm_cancel),
+				new OnClickListener() {
 
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		builder.create().show();
 	}
 
 	public void onKeyBoard(View v) {
+		webView.setFocusable(true);
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				isJogdial=false;
+				webView.loadUrl("javascript:");
+				InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				mgr.showSoftInput(webView, InputMethodManager.SHOW_IMPLICIT);
+				mFrameJogdial.setVisibility(View.GONE);
+				mBtnJogdial.setBackgroundResource(R.drawable.btn_wheel);
+			}
+		});
 	}
 
 	public void pasteJogdial(boolean clockwise) {
 		playSoundEffect(R.raw.jogwheel);
 		if (clockwise) {
-			for (int i = 0; i < count; i++) {
-				if (i < pasteItem.length)
-					valuePaste = pasteItem[i];
-				else
-					valuePaste = "";
-				webView.loadUrl("javascript:"
-						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-						+ i + ";Android.getValueField(nodes[k].value);");
-				if (valueGet == null) {
-					webView.loadUrl("javascript:"
-							+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-							+ i + ";nodes[k].value=\"" + valuePaste + "\";");
-				}
-			}
-		} else {
-			// webView.loadUrl("javascript:"
-			// +
-			// "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");var paste=Android.readData();for (var i = 0; i < nodes.length; i++){nodes[i].value=paste[i];}");
-			for (int i = 0; i < count; i++) {
-				if (i < pasteItem.length)
-					valuePaste = pasteItem[i];
-				else
-					valuePaste = "";
-				webView.loadUrl("javascript:"
-						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-						+ i + ";Android.getValueField(nodes[k].value);");
 
-				if (valueGet == null) {
-					webView.loadUrl("javascript:"
-							+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-							+ i + ";nodes[k].value=\"" + valuePaste + "\";");
-				}
+			if (currentField < pasteItem.length)
+				valuePaste = pasteItem[currentField];
+			else{
+				valuePaste = "";
+				return;
 			}
+			webView.loadUrl("javascript:"
+					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+					+ currentField + ";Android.getValueField(nodes[k].value);");
+			if (valueGet == null) {
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+						+ currentField + ";nodes[k].value=\"" + valuePaste
+						+ "\";");
+			}
+			currentField++;
+			if (currentField >= pasteItem.length)
+				return;
+
+		} else {
+			if (currentField >= 0 && currentField < pasteItem.length)
+				valuePaste = pasteItem[currentField];
+			else {
+				valuePaste = "";
+				return;
+			}
+			webView.loadUrl("javascript:"
+					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+					+ currentField + ";Android.getValueField(nodes[k].value);");
+			if (valueGet != null) {
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+						+ currentField + ";nodes[k].value=\'\';");
+			}
+			currentField--;
+			if (currentField <0)
+				return;
+
 		}
 	}
 
