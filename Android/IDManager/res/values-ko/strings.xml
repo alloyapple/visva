@@ -56,6 +56,8 @@
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 
+    <!--cloud and text data  -->
+    <string name="cloud_service_name">이용 클라우드 서비스</string>
     <string name="txt_dropbox_tut">Dropbox는 가장 인기있는 클라우드 서비스의 하나입니다. 이 서비스를 이용하려면 회원가입(무료)이 필요합니다.</string>
     <!-- <string name="item_sync">동기화 실행</string>
     <string name="item_dropbox">Dropbox의 동기화</string>

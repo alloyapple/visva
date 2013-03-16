@@ -49,6 +49,9 @@
     <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
+    
+    <!--cloud and text data  -->
+    <string name="cloud_service_name">使用雲計算服務</string>
     <string name="txt_dropbox_tut">Dropbox是最有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。</string>
     <!--
     <string name="item_sync">同步運行</string>

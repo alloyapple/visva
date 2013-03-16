@@ -49,6 +49,9 @@
     <string name="list_general">General</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
+    
+     <!--cloud and data  -->
+    <string name="cloud_service_name">Nube nombre de servicio:</string>
     <string name="txt_dropbox_tut">Dropbox es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
     <!--
     <string name="item_sync">Sincronización</string>
