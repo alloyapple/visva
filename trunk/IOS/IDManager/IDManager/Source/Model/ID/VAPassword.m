@@ -15,11 +15,27 @@ NSString *dpasswordId = @"passwordId";
 NSString *dpassElementId = @"eId";
 NSString *dpassTitleNameId = @"titleNameId";
 NSString *dpasswordCollumn = @"password";
+
+@interface VAPassword()
+/*
+ * Insert Group into database. Set iPrId to new inserted id.
+ * @return: YES if complete, NO if error
+ */
+-(BOOL)insertToDb:(TDSqlManager*)manager;
+
+/*
+ * Update Group into database.
+ * @return: YES if complete, NO if error
+ */
+-(BOOL)updateToDb:(TDSqlManager*)manager;
+
+@end
 @implementation VAPassword
 
 -(id)init{
     if (self = [super init]) {
         _iPasswordId = -1;
+        _isInDatabase = NO;
     }
     return self;
 }
@@ -49,12 +65,20 @@ NSString *dpasswordCollumn = @"password";
         pass.sTitleNameId = TDSqlText(stmt, 2);
         pass.sPassword = TDSqlText(stmt, 3);
         pass.elementId = element;
+        pass.isInDatabase = YES;
         //get list group
         [arr addObject:pass];
     }
     return arr;
 }
 
+-(BOOL)saveToDB:(TDSqlManager *)manager{
+    if (_isInDatabase) {
+        return [self updateToDb:manager];
+    }else{
+        return [self insertToDb:manager];
+    }
+}
 
 -(BOOL)insertToDb:(TDSqlManager*)manager{
     sqlite3 *db = [manager getDatabase];
@@ -77,6 +101,7 @@ NSString *dpasswordCollumn = @"password";
     }else{
         sqlite3_finalize(stmt);
         int lastIndex = sqlite3_last_insert_rowid(db);
+        self.isInDatabase = YES;
         self.iPasswordId = lastIndex;
         return YES;
     }
@@ -115,5 +140,12 @@ NSString *dpasswordCollumn = @"password";
 +(BOOL)didDeleteFromDb:(TDSqlManager*)manager elementId:(VAElementId*)ele{
     NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dpasswordTable, dpassElementId, ele.iId];
     return [manager executeQuery:query];
+}
+-(void)copyFrom:(VAPassword *)pass{
+    self.iPasswordId = pass.iPasswordId;
+    self.elementId = pass.elementId;
+    self.sTitleNameId = pass.sTitleNameId;
+    self.sPassword = pass.sPassword;
+    self.isInDatabase = pass.isInDatabase;
 }
 @end

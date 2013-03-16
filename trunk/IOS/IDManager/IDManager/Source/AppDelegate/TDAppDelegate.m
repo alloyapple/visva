@@ -123,7 +123,7 @@ static int outstandingRequests;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     instance = self;
-    self.window = [[[TDIdleWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.viewController = [[[TDViewController alloc] initWithNibName:@"TDViewController" bundle:nil] autorelease];
     VARootViewController *root = [[[VARootViewController alloc] initWithNibName:@"VARootViewController" bundle:nil] autorelease];
@@ -143,6 +143,7 @@ static int outstandingRequests;
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     [[VAGlobal share].appSetting saveSetting];
+    [(TDApplicationIdle*)[UIApplication sharedApplication] appDidEnterBackground];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
@@ -150,6 +151,11 @@ static int outstandingRequests;
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    if ([VAGlobal share].appSetting.isSecurityOn) {
+        [_viewController showReloginWindow];
+    }else{
+        [(TDApplicationIdle*)[UIApplication sharedApplication] appDidEnterForceGround];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

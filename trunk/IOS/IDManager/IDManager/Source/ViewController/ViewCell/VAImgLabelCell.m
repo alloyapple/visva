@@ -36,6 +36,7 @@
     [_imBackgroud release];
     [_lbTitle release];
     [_bgView release];
+    [_vEdit release];
     [super dealloc];
 }
 - (void)setCellGroupSelected:(BOOL)selected{

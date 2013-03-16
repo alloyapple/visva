@@ -20,7 +20,7 @@
 @property(nonatomic, retain)ADBannerView *bannerView;
 @property(nonatomic, retain)UIView *contentView;
 @end
-#pragma mark iAd::end
+#pragma mark iAd::end - 
 
 @implementation VARootViewController
 
@@ -150,7 +150,7 @@
 // of the action should resume at this point.
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner{
 }
-#pragma mark iAd::end
+#pragma mark iAd::end -
 
 
 @end

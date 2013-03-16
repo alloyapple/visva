@@ -13,9 +13,9 @@
 @property(nonatomic, assign) int iGroupId;
 @property(nonatomic, retain) NSString *sGroupName;
 @property(nonatomic, assign) int iGroupType;
-@property(nonatomic, retain) NSString *sGroupIcon;
+//@property(nonatomic, retain) NSString *sGroupIcon;
 @property(nonatomic, assign) VAUser *user;
-@property(nonatomic, assign) int iDeleted;
+//@property(nonatomic, assign) int iDeleted;
 @property(nonatomic, retain)NSMutableArray *aElements;
 @property(nonatomic, assign) int iOrder;
 

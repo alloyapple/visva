@@ -41,6 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
     _lbSettingTitle.text = TDLocStrOne(@"Setting");
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -336,6 +337,7 @@
 }
 #pragma mark - login delegate
 -(void)loginViewDidLogin:(VALoginController *)vc{
+    [[VAGlobal share].appSetting updateSecurityTime];
     [vc  dismissModalViewControllerAnimated:YES];
 }
 

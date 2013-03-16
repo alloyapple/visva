@@ -15,6 +15,8 @@
 @property(nonatomic, assign)int numBeforeDestroyData;
 @property(nonatomic, assign)BOOL isUnlockCSVExport;
 @property(nonatomic, assign)BOOL isUnlockHideIad;
+@property(nonatomic, assign)BOOL isUnlockLimitId;
+@property(nonatomic, readonly)int maxLimitId;
 
 @property(nonatomic, assign)BOOL isUseDropboxSync;
 @property(nonatomic, assign)BOOL isUseGoogleDriveSync;

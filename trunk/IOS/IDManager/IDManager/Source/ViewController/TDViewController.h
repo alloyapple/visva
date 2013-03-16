@@ -14,8 +14,12 @@
 
 @interface TDViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,
 UISearchBarDelegate, UIAlertViewDelegate, VAElementViewDelegate, UIActionSheetDelegate,
-TDWebViewDelegate, VALoginDelegate>
+TDWebViewDelegate, VALoginDelegate, UIGestureRecognizerDelegate>{
+    BOOL _isSearching;
+    BOOL _isEditting;
+}
 
 -(void)reLoadData;
 -(void)destroyData;
+-(void)showReloginWindow;
 @end

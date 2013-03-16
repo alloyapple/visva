@@ -16,21 +16,21 @@ NSString *dgroupTable = @"GroupFolder";
 NSString *dgroupId = @"gId";
 NSString *dgroupName = @"gName";
 NSString *dgroupType = @"gType";
-NSString *dgroupIcon = @"gIcon";
+//NSString *dgroupIcon = @"gIcon";
 NSString *dgrUserId = @"gUserId";
-NSString *dgrDeleted = @"gDeleted";
+//NSString *dgrDeleted = @"gDeleted";
 NSString *diOrder = @"gOrder";
 @implementation VAGroup
 -(id)init{
     if ((self = [super init])) {
-        self.iDeleted = 0;
+        //self.iDeleted = 0;
         self.aElements = [NSMutableArray array];
     }
     return self;
 }
 -(void)dealloc{
     [_aElements release];
-    [_sGroupIcon release];
+    //[_sGroupIcon release];
     [_sGroupName release];
     [super dealloc];
 }
@@ -49,14 +49,24 @@ NSString *diOrder = @"gOrder";
 }
 
 +(NSString*)getCreateTableQuery{
+//    NSString *str = [NSString stringWithFormat:@"CREATE  TABLE %@ (\
+//                     %@ INTEGER PRIMARY KEY  NOT NULL,\
+//                     %@ TEXT, %@ INTEGER, %@ TEXT, %@ INTEGER,\
+//                     %@ INTEGER, %@ INTEGER)",
+//                     dgroupTable,
+//                     dgroupId,
+//                     dgroupName, dgroupType, dgroupIcon, dgrUserId,
+//                     dgrDeleted, diOrder];
+    
     NSString *str = [NSString stringWithFormat:@"CREATE  TABLE %@ (\
                      %@ INTEGER PRIMARY KEY  NOT NULL,\
-                     %@ TEXT, %@ INTEGER, %@ TEXT, %@ INTEGER,\
-                     %@ INTEGER, %@ INTEGER)",
+                     %@ TEXT, %@ INTEGER, %@ INTEGER,\
+                     %@ INTEGER)",
                      dgroupTable,
                      dgroupId,
-                     dgroupName, dgroupType, dgroupIcon, dgrUserId,
-                     dgrDeleted, diOrder];
+                     dgroupName, dgroupType, dgrUserId,
+                     diOrder];
+    
     return str;
 }
 +(NSString*)getDestroyQuery{
@@ -68,7 +78,10 @@ NSString *diOrder = @"gOrder";
     if (db == NULL) {
         return nil;
     }
-    NSString *query = [NSString stringWithFormat:@"SELECT * from %@ Where %@=0 and %@=%d ORDER BY %@", dgroupTable, dgrDeleted, dgrUserId, user.iUserId, diOrder];
+//    NSString *query = [NSString stringWithFormat:@"SELECT * from %@ Where %@=0 and %@=%d ORDER BY %@", dgroupTable, dgrDeleted, dgrUserId, user.iUserId, diOrder];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * from %@ Where %@=%d ORDER BY %@", dgroupTable, dgrUserId, user.iUserId, diOrder];
+    
     sqlite3_stmt *stmt;
     TDLOG(@"GetGroup=%@", query);
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
@@ -80,7 +93,7 @@ NSString *diOrder = @"gOrder";
         group.iGroupId = TDSqlInt(stmt, 0);
         group.sGroupName = TDSqlText(stmt, 1);
         group.iGroupType = TDSqlInt(stmt, 2);
-        group.sGroupIcon = TDSqlText(stmt, 3);
+        //group.sGroupIcon = TDSqlText(stmt, 3);
         group.user = user;
         //get list group
         [arr addObject:group];
@@ -92,12 +105,18 @@ NSString *diOrder = @"gOrder";
     if (db == NULL) {
         return NO;
     }
+//    NSString *query = [NSString stringWithFormat:@"INSERT INTO %@ (\
+//                       %@, %@, %@, %@, \
+//                       %@, %@) VALUES (?,?,?,?,?,?)",
+//                       dgroupTable,
+//                       dgroupName, dgroupType, dgroupIcon, dgrUserId,
+//                       dgrDeleted, diOrder];
+    
     NSString *query = [NSString stringWithFormat:@"INSERT INTO %@ (\
-                       %@, %@, %@, %@, \
-                       %@, %@) VALUES (?,?,?,?,?,?)",
+                       %@, %@, %@, %@) VALUES (?,?,?,?)",
                        dgroupTable,
-                       dgroupName, dgroupType, dgroupIcon, dgrUserId,
-                       dgrDeleted, diOrder];
+                       dgroupName, dgroupType, dgrUserId, diOrder];
+    
     TDLOG(@"Query insert VAProject = %@", query);
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
@@ -105,10 +124,10 @@ NSString *diOrder = @"gOrder";
     }
     TDSqlBindText(stmt, 1, _sGroupName);
     TDSqlBindInt(stmt, 2, _iGroupType);
-    TDSqlBindText(stmt, 3, _sGroupIcon);
-    TDSqlBindInt(stmt, 4, _user.iUserId);
-    TDSqlBindInt(stmt, 5, _iDeleted);
-    TDSqlBindInt(stmt, 6, _iOrder);
+    //TDSqlBindText(stmt, 3, _sGroupIcon);
+    TDSqlBindInt(stmt, 3, _user.iUserId);
+    //TDSqlBindInt(stmt, 5, _iDeleted);
+    TDSqlBindInt(stmt, 4, _iOrder);
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         sqlite3_finalize(stmt);
         NSAssert(0, @"Error updating table: %@", query);
@@ -126,12 +145,19 @@ NSString *diOrder = @"gOrder";
     if (db == NULL) {
         return NO;
     }
+//    NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET \
+//                       %@ =?, %@=? ,%@=?, %@=?,\
+//                       %@=?, %@=?  WHERE %@=?",
+//                       dgroupTable,
+//                       dgroupName, dgroupType,dgroupIcon,dgrUserId,
+//                       dgrDeleted, diOrder, dgroupId];
+    
     NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET \
                        %@ =?, %@=? ,%@=?, %@=?,\
                        %@=?, %@=?  WHERE %@=?",
                        dgroupTable,
-                       dgroupName, dgroupType,dgroupIcon,dgrUserId,
-                       dgrDeleted, diOrder, dgroupId];
+                       dgroupName, dgroupType,dgrUserId, diOrder, dgroupId];
+    
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
         return NO;
@@ -139,11 +165,11 @@ NSString *diOrder = @"gOrder";
     
     TDSqlBindText(stmt, 1, _sGroupName);
     TDSqlBindInt(stmt, 2, _iGroupType);
-    TDSqlBindText(stmt, 3, _sGroupIcon);
-    TDSqlBindInt(stmt, 4, _user.iUserId);
-    TDSqlBindInt(stmt, 5, _iDeleted);
-    TDSqlBindInt(stmt, 6, _iOrder);
-    TDSqlBindInt(stmt, 7, _iGroupId);
+    //TDSqlBindText(stmt, 3, _sGroupIcon);
+    TDSqlBindInt(stmt, 3, _user.iUserId);
+    //TDSqlBindInt(stmt, 5, _iDeleted);
+    TDSqlBindInt(stmt, 4, _iOrder);
+    TDSqlBindInt(stmt, 5, _iGroupId);
     
     
     if (sqlite3_step(stmt) != SQLITE_DONE) {
@@ -183,7 +209,7 @@ NSString *diOrder = @"gOrder";
 }
 
 -(BOOL)deleteFromDb:(TDSqlManager*)manager{
-    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dgroupName, dgrDeleted, _iGroupId];
+    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dgroupName, dgroupId, _iGroupId];
     BOOL returnValue = [manager executeQuery:query];
     if (!returnValue) {
         return returnValue;
@@ -196,12 +222,13 @@ NSString *diOrder = @"gOrder";
 }
 
 -(BOOL)weakDeleteFromDb:(TDSqlManager*)manager{
-    self.iDeleted = 1;
+    return [self deleteFromDb:manager];
+    //self.iDeleted = 1;
     BOOL ret = [self updateToDb:manager];
     if (ret) {
         return YES;
     }else{
-        self.iDeleted = 0;
+        //self.iDeleted = 0;
         return NO;
     }
 }

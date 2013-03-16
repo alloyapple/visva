@@ -91,6 +91,7 @@ typedef enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
     self.listOption = [NSMutableArray array];
     for (int i = kRandomTypeNumber; i<=kRandomTypeSign; i++) {
         [_listOption addObject:[[[TDTextRandom alloc] initWithType:i] autorelease]];

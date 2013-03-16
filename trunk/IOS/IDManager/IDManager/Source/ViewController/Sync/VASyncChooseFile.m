@@ -37,6 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
     [self startLoad];
     _lbTitle.text = TDLocStrOne(@"LoadTextData");
 }
