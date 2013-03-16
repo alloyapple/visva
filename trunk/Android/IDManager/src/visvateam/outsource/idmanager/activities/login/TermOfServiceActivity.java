@@ -108,8 +108,8 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 		AlertDialog.Builder builder = new AlertDialog.Builder(TermOfServiceActivity.this);
 		builder.setMessage(R.string.create_new_password_msg).setIcon(R.drawable.icon)
 				.setTitle(getString(R.string.app_name)).setCancelable(false)
-				.setPositiveButton(R.string.create_new_password_confirm, dialogClickListener)
-				.setNegativeButton(R.string.create_new_password_cancel, dialogClickListener);
+				.setPositiveButton(R.string.confirm_ok, dialogClickListener)
+				.setNegativeButton(R.string.confirm_cancel, dialogClickListener);
 		builder.show();
 	}
 }
