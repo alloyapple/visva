@@ -30,6 +30,14 @@ public class Contants {
 	public static final int DIALOG_DATA_REWRITTEN = 14;
 	public static final int DIALOG_LOGIN_WRONG_PASS = 15;
 	public static final int DIALOG_REMOVED_DATA = 16;
+	public static final int DIALOG_EXPORT_DATA = 17;
+	public static final int DIALOG_NO_CLOUD_SETUP = 18;
+	public static final int DIALOG_MESSAGE_SYNC_SUCCESS = 19;
+	public static final int DIALOG_MESSAGE_SYNC_FAILED = 20;
+	public static final int DIALOG_MESSAGE_SYNC_INTERRUPTED = 21;
+	public static final int DIALOG_MESSAGE_SYNC_DUPLICATED_FILE = 22;
+	public static final int DIALOG_MESSAGE_READ_DATA_SUCCESSED = 23;
+	public static final int DIALOG_MESSAGE_CHOICE_DATA_READ = 24;
 
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
@@ -57,13 +65,15 @@ public class Contants {
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment.getExternalStorageDirectory().getPath()
 			+ "/IDManager/Files/";
-	public static final String FOLDER_ON_DROPBOX = "/Documents/";
+	public static final String FOLDER_ON_DROPBOX_DB = "/Android/DataBase/";
+	public static final String FOLDER_ON_DROPBOX_CSV = "/IDxPassword/";
+
 	public static final String IS_CHANGE_PASSWORD = "isChangePW";
 	public static int MASTER_PASSWORD_ID = 101;
 	public static final String IS_SYNC_TO_CLOUD = "IS_SYNC_TO_CLOUD";
-	public static final String FILE_CSV_NAME = "idmanager.csv";
+	public static final String FILE_CSV_NAME = "idxp.idp";
+	public static final String FIlE_CSV_EXPORT = "idmanger.csv";
 	public static final String IS_EXPORT_FILE = "IS_EXPORT_FILE";
-	public static final String FOLDER_ID_APP_ON_DROPBOX = "/Apps/IDManager/";
 
 	public static final int IS_FAVOURITE = 1;
 	public static final int NOT_FAVORITE = 0;

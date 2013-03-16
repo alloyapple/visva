@@ -84,7 +84,8 @@
     <string name="sync_finish">同期が終了しました。</string>
     <string name="data_cloud_newer">Dropbox(GoogleDrive)上のデータの方が新しいですが、本当に上書きしてよろしいですか？</string>
     <string name="limit_login_msg">安全のための破壊設定がされています。あと%d回間違えるとIDxPasswordのデータが失われます。</string>
-
+	<string name="sync_data_duplicate_msg">Dropbox(GoogleDrive)上のデータより、このAndroidのデータの方が新しいですが本当によろしいですか？.</string>
+    
     <!-- others -->
     <string name="wrong_pw_login">確認パスワードの文字が符合しませんでした。再入力してください。</string>
     <string name="data_erased_msg">指定回数マスターパスワードを間違って入力するとデータが消去されます。</string>
