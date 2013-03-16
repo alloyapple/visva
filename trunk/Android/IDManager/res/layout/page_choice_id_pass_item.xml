@@ -58,30 +58,6 @@
                         android:orientation="vertical" >
                     </LinearLayout>
 
-                    <!--
-                    <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="46dp"
-                        android:layout_marginTop="24dp"
-                        android:background="@drawable/btn_copy_item"
-                        android:gravity="center"
-                        android:onClick="onCopyId"
-                        android:text="@string/btn_copy_id"
-                        android:textColor="#FFFFFF" >
-                    </Button>
-
-                    <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="46dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/btn_copy_item"
-                        android:gravity="center"
-                        android:onClick="onCopyPassword"
-                        android:text="@string/btn_copy_pass"
-                        android:textColor="#FFFFFF" >
-                    </Button>
-                    -->
-
                     <Button
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
