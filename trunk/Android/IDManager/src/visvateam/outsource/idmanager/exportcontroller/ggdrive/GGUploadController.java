@@ -2,6 +2,7 @@ package visvateam.outsource.idmanager.exportcontroller.ggdrive;
 
 import java.io.IOException;
 
+import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -10,7 +11,9 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecovera
 import com.google.api.client.http.FileContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.FileList;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,7 +33,6 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 	private java.io.File mFileDb;
 	private long mFileLength;
 
-	@SuppressWarnings("deprecation")
 	public GGUploadController(Context context, Drive service, java.io.File fileDb) {
 		this.mContext = context;
 		this.mService = service;
@@ -38,16 +40,10 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 		this.mFileLength = fileDb.length();
 
 		mDialog = new ProgressDialog(context);
-		mDialog.setMax(100);
+		mDialog.setTitle(mContext.getString(R.string.app_name));
+		mDialog.setIcon(R.drawable.icon);
 		mDialog.setMessage("Syncing data... ");
-		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mDialog.setProgress(0);
-		mDialog.setButton("Cancel", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				// This will cancel the putFile operation
-				mDialog.dismiss();
-			}
-		});
 		mDialog.show();
 	}
 
@@ -58,6 +54,19 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 			// File's binary content
 			// java.io.File fileContent = new
 			// java.io.File(fileUri.getPath());
+			//
+			File myBody = new File();
+
+			myBody.setTitle("title");
+
+			myBody.setMimeType("application/vnd.google-apps.folder ");
+
+			File file2 = mService.files().insert(myBody).execute();
+			Files.List request = mService.files().list()
+					.setQ("mimeType='application/vnd.google-apps.folder' and trashed=false");
+			FileList files = request.execute();
+			request.setPageToken(files.getNextPageToken());
+			//
 
 			FileContent mediaContent = new FileContent("image/text", mFileDb);
 
@@ -71,7 +80,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 					Log.e("finish", "finish");
 					return true;
 				}
-			} 
+			}
 		} catch (UserRecoverableAuthIOException e) {
 			showToast("Sync error");
 		} catch (IOException e) {

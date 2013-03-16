@@ -92,36 +92,8 @@ public class GGDriveSyncActivity extends Activity {
 	}
 
 	private void saveFileToDrive() {
-//		Thread t = new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				try {
-//					// File's binary content
-//					// java.io.File fileContent = new
-//					// java.io.File(fileUri.getPath());
-//					java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-//					FileContent mediaContent = new FileContent("image/text", fileDb);
-//
-//					// File's metadata.
-//					File body = new File();
-//					body.setTitle(fileDb.getName());
-//					body.setMimeType("image/text");
-//
-//					File file = service.files().insert(body, mediaContent).execute();
-//					if (file != null) {
-//						showToast("Photo uploaded: " + file.getTitle());
-////						finish();
-//					}
-//				} catch (UserRecoverableAuthIOException e) {
-//					startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//		t.start();
 		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		GGUploadController drive =new GGUploadController(this, service, fileDb);
+		GGUploadController drive = new GGUploadController(this, service, fileDb);
 		drive.execute();
 	}
 

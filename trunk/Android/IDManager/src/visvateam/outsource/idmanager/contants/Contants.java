@@ -36,8 +36,10 @@ public class Contants {
 	public static final int DIALOG_MESSAGE_SYNC_FAILED = 20;
 	public static final int DIALOG_MESSAGE_SYNC_INTERRUPTED = 21;
 	public static final int DIALOG_MESSAGE_SYNC_DUPLICATED_FILE = 22;
-	public static final int DIALOG_MESSAGE_READ_DATA_SUCCESSED = 23;
+	public static final int DIALOG_MESSAGE_READ_LIST_DATA = 23;
 	public static final int DIALOG_MESSAGE_CHOICE_DATA_READ = 24;
+	public static final int DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD = 25;
+	public static final int DIALOG_MESSAGE_READ_DATA_SUCCESSED= 26;
 
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;

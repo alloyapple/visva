@@ -16,7 +16,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -28,9 +27,9 @@ public class SyncCloudActivity extends Activity {
 	private String items[] = { "Google Drive", "Dropbox" };
 	private boolean isSyncToCloud = true;
 
-	//=======================================
-	//Dropbox API
-	//=======================================
+	// =======================================
+	// Dropbox API
+	// =======================================
 	private static final String TAG = "DBRoulette";
 
 	// /////////////////////////////////////////////////////////////////////////
@@ -77,10 +76,11 @@ public class SyncCloudActivity extends Activity {
 		/* check netword */
 		if (!NetworkUtility.getInstance(this).isNetworkAvailable())
 			showDialog(Contants.DIALOG_NO_NET_WORK);
-		
-		if(mApi.getSession().isLinked())
-			mTextViewCloudType.setText("Dropbox");
-		else mTextViewCloudType.setText("Google Drive");
+
+		if (mApi.getSession().isLinked())
+			mTextViewCloudType.setText(getString(R.string.cloud_service_name) + " Dropbox");
+		else
+			mTextViewCloudType.setText(getString(R.string.cloud_service_name) + " Google Drive");
 	}
 
 	@SuppressWarnings("deprecation")
@@ -204,7 +204,7 @@ public class SyncCloudActivity extends Activity {
 
 		return session;
 	}
-	
+
 	/**
 	 * Shows keeping the access keys returned from Trusted Authenticator in a
 	 * local store, rather than storing user name & password, and
