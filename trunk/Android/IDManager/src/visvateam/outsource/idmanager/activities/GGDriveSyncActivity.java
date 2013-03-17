@@ -5,9 +5,10 @@ import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGUploadController
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+
 import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,8 +22,6 @@ import com.google.api.services.drive.DriveScopes;
 public class GGDriveSyncActivity extends Activity {
 	private static final int REQUEST_ACCOUNT_PICKER = 1;
 	private static final int REQUEST_AUTHORIZATION = 2;
-	private static final int CAPTURE_IMAGE = 3;
-	private static Uri fileUri;
 	private static Drive service;
 	private GoogleAccountCredential credential;
 	private Button mBtnLinkToGG;
@@ -98,7 +97,7 @@ public class GGDriveSyncActivity extends Activity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), toast,Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
