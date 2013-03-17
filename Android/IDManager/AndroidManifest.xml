@@ -38,6 +38,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="visvateam.outsource.idmanager.activities.EnterOldPasswordActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="visvateam.outsource.idmanager.activities.MasterPasswordActivity"
             android:screenOrientation="portrait" >
         </activity>
