@@ -25,8 +25,7 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 	private IdManagerPreference idManagerPreference;
 	private DataBaseHandler mDataBaseHandler;
 	// =============================Variables Define ==================
-	private int mMasterPWId;
-	private String mMasterPW;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +79,7 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void showDialogCreateNewPassWord() {
 		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 			@Override
@@ -106,7 +106,7 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 			}
 		};
 		AlertDialog.Builder builder = new AlertDialog.Builder(TermOfServiceActivity.this);
-		builder.setMessage(R.string.create_new_password_msg).setIcon(R.drawable.icon)
+		builder.setMessage(R.string.title_master_pass).setIcon(R.drawable.icon)
 				.setTitle(getString(R.string.app_name)).setCancelable(false)
 				.setPositiveButton(R.string.confirm_ok, dialogClickListener)
 				.setNegativeButton(R.string.confirm_cancel, dialogClickListener);
