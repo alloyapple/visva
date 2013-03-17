@@ -10,15 +10,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcel;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class ImageMemoActivity extends Activity {
 
@@ -40,8 +39,6 @@ public class ImageMemoActivity extends Activity {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						// TODO Auto-generated method stub
-						Log.e("file uri", "fie uri " + fileUri);
-
 						if (fileUri != null
 								&& mCheckBoxChoiceImgMemo.isChecked()) {
 							Intent resultIntent = new Intent();
@@ -82,6 +79,7 @@ public class ImageMemoActivity extends Activity {
 	private void startCameraIntent() {
 		String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
 				Environment.DIRECTORY_PICTURES).getPath();
+		@SuppressWarnings("unused")
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
 				.format(new Date());
 		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir

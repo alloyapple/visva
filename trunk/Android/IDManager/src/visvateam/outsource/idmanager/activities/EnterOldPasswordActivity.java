@@ -1,16 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import net.sqlcipher.database.SQLiteDatabase;
 
-import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
-import visvateam.outsource.idmanager.activities.securityservice.SecurityService;
+import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -18,22 +10,17 @@ import visvateam.outsource.idmanager.database.UserDataBase;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
-public class EnterOldPasswordActivity extends Activity implements OnClickListener {
+public class EnterOldPasswordActivity extends Activity implements
+		OnClickListener {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
@@ -42,52 +29,49 @@ public class EnterOldPasswordActivity extends Activity implements OnClickListene
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
 	private DataBaseHandler mDataBaseHandler;
-	private SecurityService mSecurityService;
+
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
 	private int mNumberAtemppt = 0;
 	private String mMasterPW;
-	private int mSecurityValues;
+	private int mode;
+	public static int FROM_SETTING = 0;
+	public static int FROM_ENTER_OLD_PASS = 1;
+	public static String KEY_MODE = "KEY_TO";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// init idmanager preference
-		mIdManagerPreference = IdManagerPreference.getInstance(this);
-		if (mIdManagerPreference.getValuesRemoveData() == Contants.KEY_OFF
-				|| !mIdManagerPreference.isApplicationFirstTimeInstalled()) {
-			/* go to HomeScreen activity */
-			Intent intent = new Intent(EnterOldPasswordActivity.this, HomeScreeenActivity.class);
-			startActivity(intent);
-			finish();
-		} else {
-			setContentView(R.layout.master_password);
-
-			mIdManagerPreference.setSecurityLoop(true);
-			// button
-			mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
-			mBtnDone.setOnClickListener(this);
-			mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
-			/* init database */
-			SQLiteDatabase.loadLibs(this);
-			mDataBaseHandler = new DataBaseHandler(this);
-
-			UserDataBase user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
-			mMasterPW = user.getUserPassword();
-			Log.e("masterpw", "master pw " + mMasterPW);
-
-			bindService(new Intent(EnterOldPasswordActivity.this, SecurityService.class), mConection,
-					Context.BIND_AUTO_CREATE);
-
+		Bundle b = getIntent().getExtras();
+		mode = b.getInt(KEY_MODE);
+		setContentView(R.layout.master_password);
+		if (mode == FROM_SETTING) {
+			((TextView) findViewById(R.id.enter_old_pass))
+					.setText(getResources().getString(
+							R.string.title_master_pass));
+		} else if (mode == FROM_ENTER_OLD_PASS) {
+			((TextView) findViewById(R.id.enter_old_pass))
+					.setText(getResources().getString(
+							R.string.title_current_pass));
 		}
+		mIdManagerPreference = IdManagerPreference.getInstance(this);
+		mIdManagerPreference.setSecurityLoop(true);
+		// button
+		mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
+		mBtnDone.setOnClickListener(this);
+		mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
+		/* init database */
+		SQLiteDatabase.loadLibs(this);
+		mDataBaseHandler = new DataBaseHandler(this);
+
+		UserDataBase user = mDataBaseHandler
+				.getUser(Contants.MASTER_PASSWORD_ID);
+		mMasterPW = user.getUserPassword();
+
 	}
 
 	public void confirmMaster(View v) {
 
-	}
-
-	private void showToast(String string) {
-		Toast.makeText(EnterOldPasswordActivity.this, string, Toast.LENGTH_SHORT).show();
 	}
 
 	public void onReturn(View v) {
@@ -103,7 +87,7 @@ public class EnterOldPasswordActivity extends Activity implements OnClickListene
 	public void onClick(View v) {
 		if (v == mBtnDone) {
 			if ("".equals(mEditTextMasterPW.getText().toString())) {
-				showToast("Please enter your master password");
+
 			} else {
 				/* check remove data values */
 				checkRemoveDataValues();
@@ -130,26 +114,21 @@ public class EnterOldPasswordActivity extends Activity implements OnClickListene
 				}
 			}
 		} else {
-			/* check security service */
-			mSecurityValues = mIdManagerPreference.getSecurityMode();
-			int securityValues = 0;
-			Log.e("security", "security " + mSecurityValues);
-			if (mSecurityValues == 0)
-				securityValues = 0;
-			else if (mSecurityValues == 1)
-				securityValues = 1;
-			else if (mSecurityValues == 2)
-				securityValues = 3;
-			else if (mSecurityValues == 4)
-				securityValues = 5;
-			else if (mSecurityValues == 5)
-				securityValues = 10;
-			long time = 60 * securityValues * 1000;
-			mSecurityService.startCountDownTimer(time);
 
 			/* go to HomeScreen activity */
-			Intent intent = new Intent(EnterOldPasswordActivity.this, HomeScreeenActivity.class);
-			startActivity(intent);
+			if (mode == FROM_SETTING) {
+				Intent intent = new Intent(EnterOldPasswordActivity.this,
+						EnterOldPasswordActivity.class);
+				intent.putExtra(KEY_MODE, FROM_ENTER_OLD_PASS);
+				startActivity(intent);
+				finish();
+			} else {
+				Intent intent = new Intent(EnterOldPasswordActivity.this,
+						MasterPasswordChangeActivity.class);
+				intent.putExtra(Contants.IS_CHANGE_PASSWORD, true);
+				startActivity(intent);
+				finish();
+			}
 		}
 	}
 
@@ -177,32 +156,19 @@ public class EnterOldPasswordActivity extends Activity implements OnClickListene
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getUserPassword();
+		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
+				.getUserPassword();
 		mNumberAtemppt = 0;
 	}
 
 	/**
 	 * connection to service to add security mode
 	 */
-	private ServiceConnection mConection = new ServiceConnection() {
-		@Override
-		public void onServiceDisconnected(ComponentName arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName arg0, IBinder service) {
-			mSecurityService = ((SecurityService.LocalService) service).getService();
-		}
-	};
 
 	protected void onDestroy() {
 		super.onDestroy();
-		if (mSecurityService != null)
-			unbindService(mConection);
-		mIdManagerPreference.setSecurityLoop(false);
-	};
+
+	}
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -228,15 +194,17 @@ public class EnterOldPasswordActivity extends Activity implements OnClickListene
 		switch (id) {
 		case Contants.DIALOG_LOGIN_WRONG_PASS:
 			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setMessage(getResources().getString(R.string.limit_login_msg, 2));
-			// builder.setMessage("Type the name of new folder:");
+			builder.setMessage(getResources().getString(
+					R.string.limit_login_msg, 2));
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							return;
 						}
 
@@ -244,15 +212,17 @@ public class EnterOldPasswordActivity extends Activity implements OnClickListene
 			return builder.create();
 		case Contants.DIALOG_WRONG_PASS_NO_SECURE:
 			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setMessage(getResources().getString(R.string.wrong_pw_login));
-			// builder.setMessage("Type the name of new folder:");
+			builder.setMessage(getResources()
+					.getString(R.string.wrong_pw_login));
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							return;
 						}
 
@@ -260,15 +230,17 @@ public class EnterOldPasswordActivity extends Activity implements OnClickListene
 			return builder.create();
 		case Contants.DIALOG_REMOVED_DATA:
 			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setMessage(getResources().getString(R.string.data_erased_msg));
-			// builder.setMessage("Type the name of new folder:");
+			builder.setMessage(getResources().getString(
+					R.string.data_erased_msg));
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* remove data */
 							removeData();
 							return;

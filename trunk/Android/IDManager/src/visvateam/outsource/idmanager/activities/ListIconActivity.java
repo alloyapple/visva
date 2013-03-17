@@ -2,29 +2,24 @@ package visvateam.outsource.idmanager.activities;
 
 import java.util.ArrayList;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 
 public class ListIconActivity extends Activity {
 	public static final int DIALOG_DELETE = 0;
@@ -191,6 +186,7 @@ public class ListIconActivity extends Activity {
 			adview.setVisibility(View.VISIBLE);
 		}
 	}
+	@SuppressWarnings("deprecation")
 	public void initListIcon() {
 
 		for (int i = 0; i < mCatalogueName.length; i++) {
@@ -283,6 +279,7 @@ public class ListIconActivity extends Activity {
 		finish();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onDeleteImage(View v) {
 		showDialog(DIALOG_DELETE);
 	}

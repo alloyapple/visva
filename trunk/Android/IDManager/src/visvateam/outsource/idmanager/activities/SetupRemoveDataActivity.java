@@ -37,6 +37,7 @@ public class SetupRemoveDataActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.remove_data);
+		choice[0]=getResources().getString(R.string.text_off);
 		mWheelViewRemoveData = (WheelView) findViewById(R.id.id_wheelview_remove_data);
 		mWheelViewRemoveData.setVisibility(View.VISIBLE);
 		mWheelViewRemoveData.setViewAdapter(new RemoveDataAdapter(this, choice,
@@ -79,9 +80,11 @@ public class SetupRemoveDataActivity extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onReturn(View v) {
 		int position = mWheelViewRemoveData.getCurrentItem();
 		if (position != mChoied) {
+			setValuesRemoveData();
 			showDialog(SETTING_CHANGE);
 		} else {
 			finish();
@@ -108,7 +111,7 @@ public class SetupRemoveDataActivity extends Activity {
 
 		case SETTING_CHANGE:
 			alert.setTitle(R.string.setting_title)
-					.setMessage(R.string.message_setting_chage)
+					.setMessage(R.string.message_change_remove_data)
 					.setPositiveButton(
 							getResources().getString(R.string.confirm_ok),
 							new OnClickListener() {
@@ -117,19 +120,8 @@ public class SetupRemoveDataActivity extends Activity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									// TODO Auto-generated method stub
-									setValuesRemoveData();
-									finish();
-								}
-							})
-					.setNegativeButton(
-							getResources().getString(R.string.confirm_cancel),
-							new OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// TODO Auto-generated method stub
-finish();
+									finish();
 								}
 							});
 			return alert.create();

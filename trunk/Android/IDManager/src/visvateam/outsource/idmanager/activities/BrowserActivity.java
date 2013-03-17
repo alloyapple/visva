@@ -84,6 +84,7 @@ public class BrowserActivity extends Activity {
 		webView.goBack();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onNext(View v) {
 		try {
 			KeyEvent shiftPressEvent = new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,

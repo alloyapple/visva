@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -218,6 +217,9 @@ public class BrowserJogdialActivity extends Activity {
 	}
 
 	public void onNote(View v) {
+		if (note == null || note.equals("")) {
+			return;
+		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getResources().getString(R.string.hint_note));
 		builder.setIcon(R.drawable.icon);
@@ -236,13 +238,14 @@ public class BrowserJogdialActivity extends Activity {
 	}
 
 	public void onKeyBoard(View v) {
+		webView.setFocusableInTouchMode(true);
 		webView.setFocusable(true);
 		runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				isJogdial=false;
+				isJogdial = false;
 				webView.loadUrl("javascript:");
 				InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				mgr.showSoftInput(webView, InputMethodManager.SHOW_IMPLICIT);
@@ -258,7 +261,7 @@ public class BrowserJogdialActivity extends Activity {
 
 			if (currentField < pasteItem.length)
 				valuePaste = pasteItem[currentField];
-			else{
+			else {
 				valuePaste = "";
 				return;
 			}
@@ -291,7 +294,7 @@ public class BrowserJogdialActivity extends Activity {
 						+ currentField + ";nodes[k].value=\'\';");
 			}
 			currentField--;
-			if (currentField <0)
+			if (currentField < 0)
 				return;
 
 		}
