@@ -565,106 +565,107 @@ containing a value of this type.
     public static final class id {
         public static final int action_bar=0x7f050009;
         public static final int bottomToTop=0x7f050001;
-        public static final int btn_add_new_folder=0x7f050049;
-        public static final int btn_agree=0x7f050058;
-        public static final int btn_close=0x7f050044;
-        public static final int btn_confirm_master_pw=0x7f050023;
-        public static final int btn_disagree=0x7f050059;
-        public static final int btn_edit=0x7f050024;
+        public static final int btn_add_new_folder=0x7f05004a;
+        public static final int btn_agree=0x7f050059;
+        public static final int btn_close=0x7f050045;
+        public static final int btn_confirm_master_pw=0x7f050024;
+        public static final int btn_disagree=0x7f05005a;
+        public static final int btn_edit=0x7f050025;
         public static final int btn_id_item_delete=0x7f05001a;
         public static final int btn_id_item_edit=0x7f05001d;
         public static final int btn_img_memo=0x7f050013;
-        public static final int btn_link_to_dropbox=0x7f050031;
-        public static final int btn_link_to_gg_drive=0x7f050039;
-        public static final int btn_main_info=0x7f05004f;
-        public static final int btn_plus=0x7f050045;
-        public static final int btn_search=0x7f050042;
-        public static final int btn_setting=0x7f050050;
-        public static final int btn_start_sync=0x7f050037;
-        public static final int btn_start_sync_gg=0x7f050038;
-        public static final int btn_sync=0x7f050051;
+        public static final int btn_link_to_dropbox=0x7f050032;
+        public static final int btn_link_to_gg_drive=0x7f05003a;
+        public static final int btn_main_info=0x7f050050;
+        public static final int btn_plus=0x7f050046;
+        public static final int btn_search=0x7f050043;
+        public static final int btn_setting=0x7f050051;
+        public static final int btn_start_sync=0x7f050038;
+        public static final int btn_start_sync_gg=0x7f050039;
+        public static final int btn_sync=0x7f050052;
         public static final int button_img_memo=0x7f050012;
-        public static final int check_box_choice_img=0x7f050054;
-        public static final int cloud_type=0x7f050056;
+        public static final int check_box_choice_img=0x7f050055;
+        public static final int cloud_type=0x7f050057;
         public static final int content=0x7f05000e;
         public static final int drawer=0x7f05000d;
         public static final int editText_master_pw=0x7f050022;
         public static final int edit_text_new_pw=0x7f050007;
         public static final int edit_text_note=0x7f050011;
         public static final int edit_text_old_pw=0x7f050005;
-        public static final int edit_text_search=0x7f050043;
+        public static final int edit_text_search=0x7f050044;
         public static final int edit_text_url=0x7f050010;
+        public static final int enter_old_pass=0x7f050023;
         public static final int handle=0x7f05000f;
-        public static final int id_bound_edit_icon=0x7f050035;
+        public static final int id_bound_edit_icon=0x7f050036;
         public static final int id_btn_generator=0x7f050018;
-        public static final int id_checkbox_capital=0x7f05005e;
-        public static final int id_checkbox_duplicate=0x7f050061;
-        public static final int id_checkbox_edit_icon=0x7f050036;
-        public static final int id_checkbox_get_icon_internet=0x7f05003b;
-        public static final int id_checkbox_lower_case=0x7f05005f;
-        public static final int id_checkbox_number=0x7f05005d;
-        public static final int id_checkbox_sign=0x7f050060;
-        public static final int id_editText_jogdial=0x7f050028;
-        public static final int id_edit_browser=0x7f050025;
-        public static final int id_edit_url=0x7f05003a;
-        public static final int id_fr_jogdial=0x7f05002a;
-        public static final int id_fr_wheel=0x7f05002f;
-        public static final int id_frame_bound=0x7f050040;
-        public static final int id_frame_jogdial=0x7f05002e;
-        public static final int id_frame_webview=0x7f05003c;
-        public static final int id_img_bound=0x7f050041;
+        public static final int id_checkbox_capital=0x7f05005f;
+        public static final int id_checkbox_duplicate=0x7f050062;
+        public static final int id_checkbox_edit_icon=0x7f050037;
+        public static final int id_checkbox_get_icon_internet=0x7f05003c;
+        public static final int id_checkbox_lower_case=0x7f050060;
+        public static final int id_checkbox_number=0x7f05005e;
+        public static final int id_checkbox_sign=0x7f050061;
+        public static final int id_editText_jogdial=0x7f050029;
+        public static final int id_edit_browser=0x7f050026;
+        public static final int id_edit_url=0x7f05003b;
+        public static final int id_fr_jogdial=0x7f05002b;
+        public static final int id_fr_wheel=0x7f050030;
+        public static final int id_frame_bound=0x7f050041;
+        public static final int id_frame_jogdial=0x7f05002f;
+        public static final int id_frame_webview=0x7f05003d;
+        public static final int id_img_bound=0x7f050042;
         public static final int id_img_icon=0x7f050015;
-        public static final int id_img_need_edit=0x7f050034;
-        public static final int id_img_wheel=0x7f05002b;
-        public static final int id_jogdial=0x7f050026;
+        public static final int id_img_need_edit=0x7f050035;
+        public static final int id_img_wheel=0x7f05002c;
+        public static final int id_jogdial=0x7f050027;
         public static final int id_like=0x7f05000c;
-        public static final int id_linear_bottom_browser=0x7f05002d;
-        public static final int id_linear_copy_item=0x7f050030;
-        public static final int id_linear_list_icon=0x7f050052;
-        public static final int id_linear_webview=0x7f05003d;
-        public static final int id_list_item_copy=0x7f05002c;
-        public static final int id_listview_item_add=0x7f050063;
+        public static final int id_linear_bottom_browser=0x7f05002e;
+        public static final int id_linear_copy_item=0x7f050031;
+        public static final int id_linear_list_icon=0x7f050053;
+        public static final int id_linear_webview=0x7f05003e;
+        public static final int id_list_item_copy=0x7f05002d;
+        public static final int id_listview_item_add=0x7f050064;
         public static final int id_name_id_pass=0x7f05000b;
-        public static final int id_relative_background=0x7f050033;
-        public static final int id_scroll=0x7f05003e;
-        public static final int id_text_num_chracter=0x7f050062;
-        public static final int id_text_result_generator=0x7f05005c;
+        public static final int id_relative_background=0x7f050034;
+        public static final int id_scroll=0x7f05003f;
+        public static final int id_text_num_chracter=0x7f050063;
+        public static final int id_text_result_generator=0x7f05005d;
         public static final int id_txt_detailItem=0x7f050017;
         public static final int id_txt_nameItem=0x7f050016;
-        public static final int id_webview_get_icon=0x7f05003f;
-        public static final int id_webview_url_setup=0x7f05005b;
-        public static final int id_wheelview_remove_data=0x7f050064;
-        public static final int id_wheelview_security_mode=0x7f050065;
+        public static final int id_webview_get_icon=0x7f050040;
+        public static final int id_webview_url_setup=0x7f05005c;
+        public static final int id_wheelview_remove_data=0x7f050065;
+        public static final int id_wheelview_security_mode=0x7f050066;
         public static final int imageView1=0x7f050019;
         public static final int img_avatar=0x7f05000a;
         public static final int img_folder_item_delete=0x7f050021;
         public static final int img_folder_item_edit=0x7f050020;
         public static final int img_folder_item_icon=0x7f05001f;
-        public static final int img_memo=0x7f050055;
-        public static final int last_time_sync=0x7f050057;
-        public static final int layoutDrag=0x7f05004b;
-        public static final int layout_bottom=0x7f05004e;
-        public static final int layout_listview=0x7f050046;
-        public static final int layout_listview_folder=0x7f050047;
+        public static final int img_memo=0x7f050056;
+        public static final int last_time_sync=0x7f050058;
+        public static final int layoutDrag=0x7f05004c;
+        public static final int layout_bottom=0x7f05004f;
+        public static final int layout_listview=0x7f050047;
+        public static final int layout_listview_folder=0x7f050048;
         public static final int leftToRight=0x7f050002;
-        public static final int list_view_folder=0x7f050048;
-        public static final int list_view_item=0x7f05004a;
-        public static final int list_view_new_id=0x7f050053;
+        public static final int list_view_folder=0x7f050049;
+        public static final int list_view_item=0x7f05004b;
+        public static final int list_view_new_id=0x7f050054;
         public static final int main_adView=0x7f050014;
         public static final int rightToLeft=0x7f050000;
         public static final int topToBottom=0x7f050003;
         public static final int txt_change_master_pw=0x7f050008;
-        public static final int txt_dropbox_tut=0x7f050032;
+        public static final int txt_dropbox_tut=0x7f050033;
         public static final int txt_folder_item_name=0x7f05001e;
         public static final int txt_id_item_name=0x7f05001b;
         public static final int txt_id_item_url=0x7f05001c;
-        public static final int txt_id_name=0x7f05004c;
-        public static final int txt_id_url=0x7f05004d;
+        public static final int txt_id_name=0x7f05004d;
+        public static final int txt_id_url=0x7f05004e;
         public static final int txt_new_pw=0x7f050006;
         public static final int txt_old_pw=0x7f050004;
-        public static final int txt_term_of_use_content=0x7f05005a;
-        public static final int web_view=0x7f050027;
-        public static final int webview_jogdial=0x7f050029;
+        public static final int txt_term_of_use_content=0x7f05005b;
+        public static final int web_view=0x7f050028;
+        public static final int webview_jogdial=0x7f05002a;
     }
     public static final class layout {
         public static final int change_master_password=0x7f030000;
@@ -709,20 +710,16 @@ containing a value of this type.
         public static final int jogwheel=0x7f040001;
     }
     public static final class string {
-        public static final int add_data_function=0x7f080053;
+        public static final int add_data_function=0x7f080055;
         public static final int app_name=0x7f080000;
-        public static final int btn_agree=0x7f080005;
-        public static final int btn_cancel=0x7f080008;
-        /**  page terms of use 
- page terms of use 
- page terms of use 
- page terms of use 
+        /**  dialog create new master password 
+ dialog create new master password 
          */
-        public static final int btn_continue=0x7f080007;
-        public static final int btn_disagree=0x7f080006;
-        public static final int btn_paste_browse=0x7f080016;
-        public static final int button_generate=0x7f080028;
-        public static final int charge_option_service=0x7f08004d;
+        public static final int btn_agree=0x7f080003;
+        public static final int btn_disagree=0x7f080004;
+        public static final int btn_paste_browse=0x7f080018;
+        public static final int button_generate=0x7f08002a;
+        public static final int charge_option_service=0x7f08004f;
         /**  cloud and text data 
  cloud and text data 
  cloud and data 
@@ -731,26 +728,20 @@ containing a value of this type.
  cloud and text data 
  cloud and text data 
          */
-        public static final int cloud_service_name=0x7f08003a;
-        public static final int confirm_app_purchase=0x7f08004f;
-        public static final int confirm_cancel=0x7f080032;
-        public static final int confirm_delete=0x7f08001a;
-        public static final int confirm_ok=0x7f080031;
-        public static final int confirm_pass=0x7f080026;
-        public static final int copy_title=0x7f080003;
-        /**  dialog create new master password 
- dialog create new master password 
- dialog create new master password 
- dialog create new master password 
-         */
-        public static final int create_new_password_msg=0x7f080004;
-        public static final int csv_plain_text_export=0x7f080051;
-        public static final int data_cloud_newer=0x7f08005a;
-        public static final int data_erased_msg=0x7f080060;
-        public static final int data_not_change_format=0x7f08004b;
-        public static final int data_rewritten=0x7f08004a;
-        public static final int dropbox_already_use=0x7f080041;
-        public static final int dropbox_reset_sync=0x7f080040;
+        public static final int cloud_service_name=0x7f08003c;
+        public static final int confirm_app_purchase=0x7f080051;
+        public static final int confirm_cancel=0x7f080034;
+        public static final int confirm_delete=0x7f08001c;
+        public static final int confirm_ok=0x7f080033;
+        public static final int confirm_pass=0x7f080028;
+        public static final int copy_title=0x7f080002;
+        public static final int csv_plain_text_export=0x7f080053;
+        public static final int data_cloud_newer=0x7f08005c;
+        public static final int data_erased_msg=0x7f080062;
+        public static final int data_not_change_format=0x7f08004d;
+        public static final int data_rewritten=0x7f08004c;
+        public static final int dropbox_already_use=0x7f080043;
+        public static final int dropbox_reset_sync=0x7f080042;
         /** 
     <string name="item_sync">Sincronización</string>
     <string name="item_dropbox">Dropbox sincronización</string>
@@ -777,92 +768,96 @@ containing a value of this type.
     <string name="item_cloud">加載文本數據</string>
     
          */
-        public static final int dropbox_start_to_use=0x7f08003f;
-        public static final int dropbox_use_instead=0x7f080042;
-        public static final int eliminate_item_purchase=0x7f080050;
-        public static final int gg_drive_already_use=0x7f080045;
-        public static final int gg_drive_use_instead=0x7f080046;
-        public static final int hint_no_image=0x7f080014;
-        public static final int hint_note=0x7f080015;
-        public static final int hint_search=0x7f08000d;
-        public static final int internet_not_use=0x7f080047;
-        public static final int item_capital=0x7f08002a;
-        public static final int item_change_master_apss=0x7f08001e;
-        public static final int item_cloud=0x7f08003e;
-        public static final int item_dropbox=0x7f08003d;
-        public static final int item_duplicate=0x7f08002d;
-        public static final int item_export_data=0x7f080024;
-        public static final int item_google=0x7f080043;
-        public static final int item_limit=0x7f080052;
-        public static final int item_lower_case=0x7f08002b;
-        public static final int item_mode_security=0x7f08001f;
-        public static final int item_no_admod=0x7f080023;
-        public static final int item_number=0x7f080029;
-        public static final int item_number_character=0x7f08002e;
-        public static final int item_payment=0x7f080021;
-        public static final int item_remove_data=0x7f080020;
-        public static final int item_restrict_cancel=0x7f08004e;
-        public static final int item_sign=0x7f08002c;
-        public static final int item_sync=0x7f08003c;
-        public static final int item_unlimited_item=0x7f080022;
-        public static final int last_sync=0x7f080055;
-        public static final int limit_login_msg=0x7f08005b;
-        public static final int list_airline=0x7f080038;
-        public static final int list_carrier_title=0x7f080033;
-        public static final int list_e_commerce=0x7f080034;
-        public static final int list_finance=0x7f080035;
-        public static final int list_general=0x7f080037;
-        public static final int list_icon_title=0x7f08002f;
-        public static final int list_isp=0x7f080039;
-        public static final int list_webservice=0x7f080036;
-        public static final int memo_title=0x7f080002;
-        public static final int message_add_item=0x7f080017;
-        public static final int message_setting_chage=0x7f08000f;
-        public static final int new_pass=0x7f080025;
-        public static final int no_cloud_serivce_set_up=0x7f080056;
-        public static final int no_cloud_set_up=0x7f080048;
-        public static final int no_data_on_cloud=0x7f080049;
-        public static final int old_pass=0x7f080001;
-        public static final int password_generator_title=0x7f080027;
-        public static final int remove_data_title=0x7f08001d;
-        public static final int search=0x7f08000e;
-        public static final int security_mode_title=0x7f08001c;
-        public static final int setting_title=0x7f080030;
-        public static final int success=0x7f08004c;
-        public static final int sync_data_duplicate_msg=0x7f08005c;
-        public static final int sync_failed=0x7f080058;
-        public static final int sync_finish=0x7f080059;
-        public static final int sync_interrupt=0x7f080057;
-        public static final int sync_to_cloud_data_device_newer=0x7f08005d;
-        public static final int sync_to_device_data_cloud_newer=0x7f08005e;
+        public static final int dropbox_start_to_use=0x7f080041;
+        public static final int dropbox_use_instead=0x7f080044;
+        public static final int eliminate_item_purchase=0x7f080052;
+        public static final int gg_drive_already_use=0x7f080047;
+        public static final int gg_drive_use_instead=0x7f080048;
+        public static final int hint_no_image=0x7f080016;
+        public static final int hint_note=0x7f080017;
+        public static final int hint_search=0x7f080010;
+        public static final int internet_not_use=0x7f080049;
+        public static final int item_capital=0x7f08002c;
+        public static final int item_change_master_apss=0x7f080020;
+        public static final int item_cloud=0x7f080040;
+        public static final int item_dropbox=0x7f08003f;
+        public static final int item_duplicate=0x7f08002f;
+        public static final int item_export_data=0x7f080026;
+        public static final int item_google=0x7f080045;
+        public static final int item_limit=0x7f080054;
+        public static final int item_lower_case=0x7f08002d;
+        public static final int item_mode_security=0x7f080021;
+        public static final int item_no_admod=0x7f080025;
+        public static final int item_number=0x7f08002b;
+        public static final int item_number_character=0x7f080030;
+        public static final int item_payment=0x7f080023;
+        public static final int item_remove_data=0x7f080022;
+        public static final int item_restrict_cancel=0x7f080050;
+        public static final int item_sign=0x7f08002e;
+        public static final int item_sync=0x7f08003e;
+        public static final int item_unlimited_item=0x7f080024;
+        public static final int last_sync=0x7f080057;
+        public static final int limit_login_msg=0x7f08005d;
+        public static final int list_airline=0x7f08003a;
+        public static final int list_carrier_title=0x7f080035;
+        public static final int list_e_commerce=0x7f080036;
+        public static final int list_finance=0x7f080037;
+        public static final int list_general=0x7f080039;
+        public static final int list_icon_title=0x7f080031;
+        public static final int list_isp=0x7f08003b;
+        public static final int list_webservice=0x7f080038;
+        public static final int memo_title=0x7f080001;
+        public static final int message_add_item=0x7f080019;
+        public static final int message_change_remove_data=0x7f080008;
+        public static final int message_coppied_clipboard=0x7f08000a;
+        public static final int message_no_match_pass=0x7f080009;
+        public static final int message_pay_mto_export=0x7f080063;
+        public static final int message_pay_to_export=0x7f08000d;
+        public static final int message_pay_to_no_ad=0x7f08000c;
+        public static final int message_pay_to_unlimit_item=0x7f08000b;
+        public static final int new_pass=0x7f080027;
+        public static final int no_cloud_serivce_set_up=0x7f080058;
+        public static final int no_cloud_set_up=0x7f08004a;
+        public static final int no_data_on_cloud=0x7f08004b;
+        public static final int password_generator_title=0x7f080029;
+        public static final int remove_data_title=0x7f08001f;
+        public static final int search=0x7f080011;
+        public static final int security_mode_title=0x7f08001e;
+        public static final int setting_title=0x7f080032;
+        public static final int success=0x7f08004e;
+        public static final int sync_data_duplicate_msg=0x7f08005e;
+        public static final int sync_failed=0x7f08005a;
+        public static final int sync_finish=0x7f08005b;
+        public static final int sync_interrupt=0x7f080059;
+        public static final int sync_to_cloud_data_device_newer=0x7f08005f;
+        public static final int sync_to_device_data_cloud_newer=0x7f080060;
         /**  list icon 
  list icon 
- list icon 
- list icon 
          */
-        public static final int term_of_use=0x7f080009;
-        public static final int term_of_use_content=0x7f08000a;
-        public static final int text_min=0x7f080013;
-        public static final int title_add_folder=0x7f080018;
-        public static final int title_add_items=0x7f080011;
-        public static final int title_change_folder=0x7f080019;
-        public static final int title_creat_item=0x7f080012;
-        public static final int title_create_pass=0x7f08000b;
-        public static final int title_delete=0x7f08001b;
-        public static final int title_delete_items=0x7f080010;
-        public static final int title_master_pass=0x7f08000c;
+        public static final int term_of_use=0x7f080005;
+        public static final int term_of_use_content=0x7f080006;
+        public static final int text_change_remove_data=0x7f080007;
+        public static final int text_min=0x7f080014;
+        public static final int text_off=0x7f080015;
+        public static final int title_add_folder=0x7f08001a;
+        public static final int title_add_items=0x7f080013;
+        public static final int title_change_folder=0x7f08001b;
+        public static final int title_current_pass=0x7f08000f;
+        public static final int title_delete=0x7f08001d;
+        public static final int title_delete_items=0x7f080012;
+        public static final int title_master_pass=0x7f08000e;
         /**  cloud and text data 
  cloud and text data 
          */
-        public static final int txt_dropbox_tut=0x7f08003b;
+        public static final int txt_dropbox_tut=0x7f08003d;
         /**  <string name="item_google">GoogleDrive sincronización</string> 
  <string name="item_google">GoogleDriveと同期する</string> 
  <string name="item_google">GoogleDrive의 동기화</string> 
  <string name="item_google">与GoogleDrive同步</string> 
  <string name="item_google">與GoogleDrive同步</string> 
          */
-        public static final int txt_gg_drive_tut=0x7f080044;
-        public static final int unify_newer_data=0x7f080054;
+        public static final int txt_gg_drive_tut=0x7f080046;
+        public static final int unify_newer_data=0x7f080056;
         /**  others 
  others 
  others 
@@ -873,7 +868,7 @@ containing a value of this type.
  others 
  others 
          */
-        public static final int wrong_pw_login=0x7f08005f;
+        public static final int wrong_pw_login=0x7f080061;
     }
     public static final class style {
         public static final int Animations=0x7f09000e;

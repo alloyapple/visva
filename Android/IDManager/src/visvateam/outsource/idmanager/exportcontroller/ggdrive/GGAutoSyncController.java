@@ -19,8 +19,6 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.FileContent;
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.drive.Drive;
@@ -29,7 +27,7 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
-public class GGUploadController extends AsyncTask<Void, Long, Integer> {
+public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 	private Context mContext;
 	private final ProgressDialog mDialog;
 	private Drive mService;
@@ -41,7 +39,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 	private long mLastTimeSync;
 	private boolean isCheckedTime;
 
-	public GGUploadController(Activity context, Drive service, java.io.File fileDb,
+	public GGAutoSyncController(Activity context, Drive service, java.io.File fileDb,
 			Handler mHandler, String acountName, boolean isCheckedTime) {
 		this.mContext = context;
 		this.mService = service;
