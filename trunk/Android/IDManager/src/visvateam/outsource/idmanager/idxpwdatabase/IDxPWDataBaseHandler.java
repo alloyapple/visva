@@ -592,6 +592,12 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		db.close();
 	}
 
+	// Deleting elements from folder id
+	public void deleteElementIdInFolderId(int folderId) {
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
+		db.delete(TABLE_ELEMENT_ID, KEY_E_GROUP_ID + " = ?", new String[] { String.valueOf(folderId) });
+		db.close();
+	}
 	// Getting folders count
 	public int getElementsCount() {
 		int count;

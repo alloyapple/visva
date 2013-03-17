@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import android.content.Context;
@@ -46,7 +47,7 @@ public class ItemAdapter extends BaseAdapter {
 	private static final int DIALOG_EDIT_ID = 4;
 
 	private Context context;
-	private ArrayList<OneItem> idItemList;
+	private ArrayList<ElementID> idItemList;
 	private ListViewDragDrop idListView;
 
 	private boolean isModeEdit;
@@ -54,8 +55,8 @@ public class ItemAdapter extends BaseAdapter {
 	private int currentFolderItem;
 	private int currentFolderId;
 
-	public ItemAdapter(Context context, ArrayList<OneItem> idItemList, boolean isModeEdit,
-			Handler mHandler, ListViewDragDrop idListView, int currentFolderItem,int currentFoldeId) {
+	public ItemAdapter(Context context, ArrayList<ElementID> idItemList, boolean isModeEdit,
+			Handler mHandler, ListViewDragDrop idListView, int currentFolderItem, int currentFoldeId) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
@@ -72,7 +73,7 @@ public class ItemAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public OneItem getItem(int arg0) {
+	public ElementID getItem(int arg0) {
 		// TODO Auto-generated method stub
 		return this.idItemList.get(arg0);
 	}
@@ -93,15 +94,15 @@ public class ItemAdapter extends BaseAdapter {
 
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(idItemList.get(position).getIconId()));
-		iv.setContentDescription(this.idItemList.get(position).getName());
+		// iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(idItemList.get(position).getIconId()));
+		iv.setContentDescription(this.idItemList.get(position).geteTitle());
 
 		/* text name vs text url */
 		TextView txtIdName = (TextView) convertView.findViewById(R.id.txt_id_item_name);
-		txtIdName.setText(this.idItemList.get(position).getName());
+		txtIdName.setText(this.idItemList.get(position).geteTitle());
 		txtIdName.setSelected(true);
 		TextView txtIdUrl = (TextView) convertView.findViewById(R.id.txt_id_item_url);
-		txtIdUrl.setText(this.idItemList.get(position).getUrl());
+		txtIdUrl.setText(this.idItemList.get(position).geteUrl());
 		txtIdUrl.setSelected(true);
 
 		/* btn edit */
@@ -157,16 +158,17 @@ public class ItemAdapter extends BaseAdapter {
 			Intent intent = new Intent(context, EditIdPasswordActivity.class);
 			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, false);
 			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
-			intent.putExtra(Contants.CURRENT_PASSWORD_ID, idItemList.get(position).getPasswordId());
+			intent.putExtra(Contants.CURRENT_PASSWORD_ID, idItemList.get(position).geteId());
 			context.startActivity(intent);
 		}
 	};
 
-	public ArrayList<OneItem> getIdItemList() {
+	public ArrayList<ElementID> getIdItemList() {
 		return idItemList;
 	}
 
-	public void setIdItemList(ArrayList<OneItem> idItemList, int currentFolderItem,int currentFolderId) {
+	public void setIdItemList(ArrayList<ElementID> idItemList, int currentFolderItem,
+			int currentFolderId) {
 		this.currentFolderItem = currentFolderItem;
 		this.currentFolderId = currentFolderId;
 		this.idItemList = idItemList;
