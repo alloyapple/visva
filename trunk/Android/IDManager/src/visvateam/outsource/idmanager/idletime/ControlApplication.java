@@ -20,7 +20,7 @@ public class ControlApplication extends Application {
 		mPref = IdManagerPreference.getInstance(this);
 		Log.d(TAG, "Starting application" + this.toString());
 		if (mPref.getSecurityMode() == 0) {
-			waiter = new Waiter(Integer.MAX_VALUE * 60 * 1000, this);
+			waiter = new Waiter(Long.MAX_VALUE, this);
 		} else {
 			waiter = new Waiter(mPref.getSecurityMode() * 60 * 1000, this);
 		} // 15 mins

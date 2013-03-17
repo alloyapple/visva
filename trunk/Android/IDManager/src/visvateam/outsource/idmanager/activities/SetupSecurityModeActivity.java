@@ -45,7 +45,6 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		if (mChoied != position) {
 			// showDialog(SETTING_CHANGE);
-
 			setSecurityMode();
 			finish();
 		} else {
@@ -59,8 +58,8 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		mIdManagerPreference.setSecurityMode(position);
 		if (position == 0) {
-			getApp().setPeriod(Integer.MAX_VALUE * 60 * 1000);
-		}else{
+			getApp().setPeriod(Long.MAX_VALUE);
+		} else {
 			getApp().setPeriod(position * 60 * 1000);
 		}
 		Toast.makeText(
@@ -135,5 +134,5 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
 }
