@@ -34,9 +34,6 @@ public class EditIconActivity extends Activity {
 	private Uri fileUri = null;
 	public static Drawable mDrawableIconEdit;
 	private CheckBox mCheckBox;
-	// private boolean isCreatNewId;
-	private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
-
 	// These matrices will be used to scale points of the image
 
 	// The 3 states (events) which the user is trying to perform
@@ -53,8 +50,10 @@ public class EditIconActivity extends Activity {
 	int l, t, w, h;
 	private ImageView imgBound;
 	private RelativeLayout mRelativeLayout;
+	@SuppressWarnings("unused")
 	private int width, height;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -75,12 +74,6 @@ public class EditIconActivity extends Activity {
 				if (isChecked) {
 					EditIdPasswordActivity.updateIcon((Drawable) new BitmapDrawable(
 							snapScreen()));
-//					if (fileUri != null)
-//						EditIdPasswordActivity.updateIcon(imageView
-//								.getDrawable());
-//					else {
-//						EditIdPasswordActivity.updateIcon(mDrawableIconEdit);
-//					}
 					finish();
 				}
 			}
@@ -143,6 +136,7 @@ public class EditIconActivity extends Activity {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttachedToWindow() {
 		// TODO Auto-generated method stub
@@ -322,11 +316,6 @@ public class EditIconActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 				Log.e("data", "dataat " + data);
 				fileUri = data.getData();
-				// InputStream imageStream =
-				// getContentResolver().openInputStream(selectedImage);
-				// Bitmap yourSelectedImage =
-				// BitmapFactory.decodeStream(imageStream);
-
 				imageView.requestLayout();
 				imageView.setImageBitmap(null);
 				imageView.setImageURI(fileUri);

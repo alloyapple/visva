@@ -18,11 +18,11 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
@@ -30,7 +30,6 @@ import visvateam.outsource.idmanager.database.IDDataBase;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.sercurity.CipherUtil;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,6 +61,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 public class EditIdPasswordActivity extends Activity implements
 		OnItemClickListener, android.content.DialogInterface.OnClickListener {
 	// =========================Control Define ==================
@@ -71,8 +73,6 @@ public class EditIdPasswordActivity extends Activity implements
 	private EditText mEditTextUrlId; 
 	private EditText mEditTextNameId;
 	private EditText mEditTextNote;
-
-	private Button mBtnImageMemo;
 	// =========================Class Define ====================
 	private DataBaseHandler mDataBaseHandler;
 	private ArrayList<Item> mItems;
@@ -348,9 +348,9 @@ public class EditIdPasswordActivity extends Activity implements
 
 	}
 
-	@SuppressWarnings("deprecation")
 	public void onReturn(View v) {
-		showDialog(Contants.DIALOG_CREATE_ID);
+		createOrUpdateId();
+//		showDialog(Contants.DIALOG_CREATE_ID);
 	}
 
 	public void onInfo(View v) {
@@ -493,7 +493,6 @@ public class EditIdPasswordActivity extends Activity implements
 	}
 
 	public void onAvatarClick(View v) {
-		Log.e("avatar", "avatar");
 	}
 
 	@Override
@@ -515,47 +514,13 @@ public class EditIdPasswordActivity extends Activity implements
 	}
 
 	private Dialog createDialog(int id) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case Contants.DIALOG_CREATE_ID:
-			if (isCreateNewId) {
-				builder.setTitle(getResources().getString(
-						R.string.title_creat_item));
-				builder.setMessage("Do you want to create new Id?");
-			} else {
-				builder.setTitle("Edit Id Password ");
-				builder.setMessage("Are you sure to save ?");
-			}
-			builder.setIcon(R.drawable.icon);
-
-			builder.setPositiveButton(
-					getResources().getString(R.string.confirm_ok),
-					new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							// if (isCreateNewId)
-							// createNewId();
-							// else
-							// updateId();
-							createOrUpdateId();
-						}
-					});
-			builder.setNegativeButton(
-					getResources().getString(R.string.confirm_cancel),
-					new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							finish();
-						}
-					});
-			return builder.create();
+			break;
 		default:
 			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -563,21 +528,21 @@ public class EditIdPasswordActivity extends Activity implements
 	 */
 	private void createOrUpdateId() {
 		// TODO Auto-generated method stub
-		if ("".equals(mEditTextNameId.getText().toString()))
-			showToast("Type the name of this Id before creating");
-		else if ("".equals(mEditTextUrlId.getText().toString()))
-			showToast("Type the link url of this Id before creating");
-		else if (!checkValidataUrl(mEditTextUrlId.getText().toString()))
-			showToast("Your url is not validate");
-		else {
+//		if ("".equals(mEditTextNameId.getText().toString()))
+//			showToast("Type the name of this Id before creating");
+//		else if ("".equals(mEditTextUrlId.getText().toString()))
+//			showToast("Type the link url of this Id before creating");
+//		else if (!checkValidataUrl(mEditTextUrlId.getText().toString()))
+//			showToast("Your url is not validate");
+//		else {
 			/* start create new Id */
 
 			addNewIdValuesToDataBase();
-		}
+//		}
 
 	}
 
-	@SuppressWarnings("resource")
+
 	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
 		String namString = String.valueOf(System.currentTimeMillis());
 		String path = null;
@@ -638,6 +603,7 @@ public class EditIdPasswordActivity extends Activity implements
 		return null;
 	}
 
+	@SuppressWarnings("unused")
 	private static boolean checkValidataUrl(String pUrl) {
 		URL u = null;
 		try {
@@ -664,8 +630,7 @@ public class EditIdPasswordActivity extends Activity implements
 		titleRecord = mEditTextNameId.getText().toString();
 		if (isUpdateIcon) {
 			icon = encyptAndSaveIcon(mDrawableIcon, icon);
-			if (icon != null)
-				Log.i("<-------------Success-------->", icon);
+
 		}
 		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();

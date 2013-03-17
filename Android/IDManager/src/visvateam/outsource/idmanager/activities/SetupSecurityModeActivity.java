@@ -1,15 +1,12 @@
 package visvateam.outsource.idmanager.activities;
 
-import visvateam.outsource.idmanager.database.IdManagerPreference;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,13 +14,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SetupSecurityModeActivity extends Activity {
 	private final static int SETTING_CHANGE = 0;
 	private WheelView mWheelViewModeSecurity;
 	private IdManagerPreference mIdManagerPreference;
-	private String modes[] = { "Off", "1 ", "3 ", "5 ",
-			"10 " };
+	private String modes[] = { "Off", "1 ", "3 ", "5 ", "10 " };
 	private int mChoied;
 
 	@Override
@@ -32,8 +29,9 @@ public class SetupSecurityModeActivity extends Activity {
 		setContentView(R.layout.sercurity_mode);
 		mWheelViewModeSecurity = (WheelView) findViewById(R.id.id_wheelview_security_mode);
 		mWheelViewModeSecurity.setVisibility(View.VISIBLE);
-		for(int i=1;i<modes.length;i++){
-			modes[i]=modes[i]+getResources().getString(R.string.text_min);
+		modes[0] = getResources().getString(R.string.text_off);
+		for (int i = 1; i < modes.length; i++) {
+			modes[i] = modes[i] + getResources().getString(R.string.text_min);
 		}
 		mWheelViewModeSecurity.setViewAdapter(new SecurityModeAdapter(this,
 				modes, 0));
@@ -46,7 +44,10 @@ public class SetupSecurityModeActivity extends Activity {
 	public void onReturn(View v) {
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		if (mChoied != position) {
-			showDialog(SETTING_CHANGE);
+			// showDialog(SETTING_CHANGE);
+
+			setSecurityMode();
+			finish();
 		} else {
 			finish();
 		}
@@ -57,6 +58,10 @@ public class SetupSecurityModeActivity extends Activity {
 		// TODO Auto-generated method stub
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		mIdManagerPreference.setSecurityMode(position);
+		Toast.makeText(
+				this,
+				getResources().getString(R.string.item_mode_security) + " "
+						+ modes[position], Toast.LENGTH_SHORT).show();
 		Log.e("position " + position, "values " + modes[position]);
 	}
 
@@ -103,36 +108,9 @@ public class SetupSecurityModeActivity extends Activity {
 	@Deprecated
 	protected Dialog onCreateDialog(int id) {
 		// TODO Auto-generated method stub
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		switch (id) {
-
 		case SETTING_CHANGE:
-			alert.setTitle(R.string.setting_title)
-					.setMessage(R.string.message_setting_chage)
-					.setPositiveButton(
-							getResources().getString(R.string.confirm_ok),
-							new OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// TODO Auto-generated method stub
-									setSecurityMode();
-									finish();
-								}
-							})
-					.setNegativeButton(
-							getResources().getString(R.string.confirm_cancel),
-							new OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// TODO Auto-generated method stub
-									finish();
-								}
-							});
-			return alert.create();
+			break;
 
 		default:
 			break;

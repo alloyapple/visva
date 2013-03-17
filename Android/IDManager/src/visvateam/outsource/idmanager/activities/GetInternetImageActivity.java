@@ -1,8 +1,5 @@
 package visvateam.outsource.idmanager.activities;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,14 +9,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.view.View.OnTouchListener;
-
 import android.view.inputmethod.EditorInfo;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -30,9 +24,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 
 public class GetInternetImageActivity extends Activity {
 	private WebView webView;
@@ -40,26 +35,12 @@ public class GetInternetImageActivity extends Activity {
 	private FrameLayout mFrameWebView;
 	private ImageView imgBound;
 	private EditText editText;
-	private double x_offset;
-	private double y_offset;
-
-	private ScrollView mScrollView;
-	private RelativeLayout mRelativeLayout;
-//	private LinearLayout mLinearLayout;
-
-	private static final String TAG = "Touch";
 	@SuppressWarnings("unused")
 	private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
-
-	// These matrices will be used to scale points of the image
-
-	// The 3 states (events) which the user is trying to perform
 	static final int NONE = 0;
 	static final int DRAG = 1;
 	static final int ZOOM = 2;
 	int mode = NONE;
-
-	// these PointF objects are used to record the point(s) the user is touching
 	PointF start = new PointF();
 	PointF mid = new PointF();
 	float oldDist = 1f;
@@ -73,100 +54,28 @@ public class GetInternetImageActivity extends Activity {
 		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_get_icon_internet);
 		mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
-//					mRelativeLayout.setVisibility(View.VISIBLE);
-//					mScrollView.setOnTouchListener(new OnTouchListener() {
-//
-//						@Override
-//						public boolean onTouch(View v, MotionEvent event) {
-//
-//							return true;
-//						}
-//					});
+
 					EditIconActivity.mDrawableIconEdit = (Drawable) new BitmapDrawable(
 							snapScreen());
 					finish();
 					
 
 				} else {
-//					mRelativeLayout.setVisibility(View.GONE);
-//					mScrollView.setOnTouchListener(new OnTouchListener() {
-//
-//						@Override
-//						public boolean onTouch(View v, MotionEvent event) {
-//
-//							return false;
-//						}
-//					});
 				}
 			}
 		});
-
-		// mFrameWebView = (FrameLayout) findViewById(R.id.id_frame_webview);
 		mFrameWebView = (FrameLayout) findViewById(R.id.id_linear_webview);
-		mRelativeLayout = (RelativeLayout) findViewById(R.id.id_frame_bound);
-//		mRelativeLayout.setVisibility(View.GONE);
-//
-//		mRelativeLayout.setOnTouchListener(new OnTouchListener() {
-//			float scale;
-//
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				// TODO Auto-generated method stub
-//				switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//				case MotionEvent.ACTION_DOWN:
-//					w = getParam().width;
-//					h = getParam().height;
-//					start.set(event.getX(), event.getY());
-//					Log.d(TAG, "mode=DRAG"); // write to LogCat
-//					mode = DRAG;
-//
-//					break;
-//				case MotionEvent.ACTION_POINTER_DOWN:
-//					oldDist = spacing(event);
-//					l = getParam().leftMargin;
-//					t = getParam().topMargin;
-//					Log.d(TAG, "oldDist=" + oldDist);
-//					if (oldDist > 5f) {
-//						midPoint(mid, event);
-//						mode = ZOOM;
-//						Log.d(TAG, "mode=ZOOM");
-//					}
-//					break;
-//				case MotionEvent.ACTION_UP:
-//					break;
-//				case MotionEvent.ACTION_POINTER_UP:
-//					mode = NONE;
-//					Log.d(TAG, "mode=NONE");
-//					break;
-//
-//				case MotionEvent.ACTION_MOVE:
-//					if (mode == DRAG) {
-//						x_offset = event.getX() - start.x;
-//						y_offset = event.getY() - start.y;
-//						translateBound(x_offset, y_offset);
-//						start.set(event.getX(), event.getY());
-//					} else if (mode == ZOOM) {
-//						float newDist = spacing(event);
-//						scale = newDist / oldDist;
-//						resiseBound(scale);
-//					}
-//					break;
-//				default:
-//					break;
-//				}
-//				return true;
-//			}
-//		});
-		mScrollView = (ScrollView) findViewById(R.id.id_scroll);
 		imgBound = (ImageView) findViewById(R.id.id_img_bound);
 		initControl();
 		initAdmod();
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttachedToWindow() {
 		// TODO Auto-generated method stub
@@ -199,12 +108,14 @@ public class GetInternetImageActivity extends Activity {
 		imgBound.requestLayout();
 	}
 
+	@SuppressWarnings("unused")
 	private float spacing(MotionEvent event) {
 		float x = event.getX(0) - event.getX(1);
 		float y = event.getY(0) - event.getY(1);
 		return FloatMath.sqrt(x * x + y * y);
 	}
 
+	@SuppressWarnings("unused")
 	private void midPoint(PointF point, MotionEvent event) {
 		float x = event.getX(0) + event.getX(1);
 		float y = event.getY(0) + event.getY(1);

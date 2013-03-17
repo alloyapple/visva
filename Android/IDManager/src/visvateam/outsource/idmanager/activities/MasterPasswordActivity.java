@@ -1,14 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import net.sqlcipher.database.SQLiteDatabase;
 
+import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.activities.securityservice.SecurityService;
 import visvateam.outsource.idmanager.contants.Contants;
@@ -25,7 +19,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;

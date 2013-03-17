@@ -1,8 +1,5 @@
 package visvateam.outsource.idmanager.activities;
 
-import java.util.ArrayList;
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
@@ -10,8 +7,6 @@ import visvateam.outsource.idmanager.database.IDDataBase;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-//import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,7 +19,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-//import android.content.DialogInterface.OnClickListener;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("NewApi")
@@ -35,7 +32,6 @@ public class CopyItemActivity extends Activity {
 	public static int MAX_ID = 12;
 	private IDDataBase id;
 	private String nameCopy;
-	private ArrayList<Item> items = new ArrayList<Item>();
 	private DataBaseHandler mDataBaseHandler;
 	private LinearLayout mLinear;
 	public int indexSelect;
@@ -98,7 +94,6 @@ public class CopyItemActivity extends Activity {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	public void onCopy(String nameCopy, String contentCopy) {
 		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 		clipboard.setText(contentCopy);
