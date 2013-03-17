@@ -1,13 +1,11 @@
 package visvateam.outsource.idmanager.activities.securityservice;
 
-import visvateam.outsource.idmanager.activities.MasterPasswordActivity;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
 public class SecurityService extends Service {
