@@ -40,12 +40,27 @@
             android:button="@android:color/transparent" />
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/img_memo"
+    <RelativeLayout android:id="@+id/id_relative_bound"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
-    </ImageView>
+
+        <ImageView
+            android:id="@+id/img_memo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/img_bound_memo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/bound_icon" >
+        </ImageView>
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/action_bar"
