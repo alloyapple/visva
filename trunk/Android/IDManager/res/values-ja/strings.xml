@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="title_create_pass">Create Master Password</string>
+<string name="text_change_remove_data">指定回数マスターパスワードを間違って入力するとデータが消去されます。</string>
+    <string name="message_change_remove_data">データ破壊設定が変更されました。</string>
+    <string name="message_no_match_pass">確認パスワードの文字が符合しませんでした。再入力してください。</string>
+    <string name="message_coppied_clipboard">以下の項目がクリップボードにコピーされました。</string>
+    <string name="message_pay_to_unlimit_item">ID、パスワードの項目制限を無くします。85円課金されますがよろしいですか？</string>
+    <string name="message_pay_to_no_ad">このアプリ内での広告の表示を無くします。450円課金されますがよろしいですか？</string>
+    <string name="message_pay_to_export">CSV形式での書出し機能を追加します。1,000円課金されますがよろしいですか？</string>
+    <string name="title_current_pass">現在のマスターパスワード</string>
+    <string name="text_off">即時</string>
     <string name="title_master_pass">マスターパスワード</string>
     <string name="title_delete_items">削除</string>
     <string name="title_add_items">新規</string>
-    <string name="title_creat_item">Creat item</string>
     <string name="text_min">分</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
@@ -87,10 +93,10 @@
     <string name="sync_finish">同期が終了しました。</string>
     <string name="data_cloud_newer">Dropbox(GoogleDrive)上のデータの方が新しいですが、本当に上書きしてよろしいですか？</string>
     <string name="limit_login_msg">安全のための破壊設定がされています。あと%d回間違えるとIDxPasswordのデータが失われます。</string>
+
     <string name="sync_data_duplicate_msg">Dropbox(GoogleDrive)上のデータより、このAndroidのデータの方が新しいですが本当によろしいですか？.</string>
     <string name="sync_to_cloud_data_device_newer">Dropbox(GoogleDrive)上のデータにこのiPhoneのデータを上書きしますがよろしいですか？</string>
 	<string name="sync_to_device_data_cloud_newer">Dropbox(GoogleDrive)上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
-    
     <!-- others -->
     <string name="wrong_pw_login">確認パスワードの文字が符合しませんでした。再入力してください。</string>
     <string name="data_erased_msg">指定回数マスターパスワードを間違って入力するとデータが消去されます。</string>

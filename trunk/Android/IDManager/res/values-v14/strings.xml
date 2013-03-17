@@ -2,28 +2,22 @@
 <resources>
 
     <string name="app_name">IDManager</string>
-    <string name="old_pass">Old:</string>
     <string name="memo_title">Memo Image</string>
     <string name="copy_title">Copy</string>
     <!-- dialog create new master password -->
-    <string name="create_new_password_msg">Create new master password?</string>
     <string name="btn_agree">Agree</string>
     <string name="btn_disagree">Disagree</string>
-    <!-- page terms of use -->
-    <string name="btn_continue">Continue</string>
-    <string name="btn_cancel">Cancel</string>
     <!-- list icon -->
     <string name="term_of_use">Term Of Use Agreement</string>
     <string name="term_of_use_content">\nYou agree to the terms and conditions outlined in this Terms of Use Agreement (“Agreement”) with respect to our App (the “App”).\nThis Agreement constitutes the entire and only agreement between us and you, and supersedes all prior or contemporaneous agreements, representations, warranties and understandings with respect to the App, the content, products or services provided by or through the App, and the subject matter of this Agreement.\nThis Agreement may be amended at any time by us from time to time without specific notice to you. \nThe latest Agreement will be posted on the App, and you should review this Agreement prior to using the App.</string>
-    <string name="title_create_pass">Create Master Password</string>
     <string name="title_master_pass">Master Password</string>
+    <string name="title_current_pass">Current Master Password</string>
     <string name="hint_search">Search</string>
     <string name="search">Search</string>
-    <string name="message_setting_chage">Do you really want to change?</string>
     <string name="title_delete_items">Delete</string>
     <string name="title_add_items">New</string>
-    <string name="title_creat_item">Creat item</string>
     <string name="text_min">min</string>
+    <string name="text_off">Immediately</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
     <string name="btn_paste_browse">Open the web page</string>
@@ -98,6 +92,7 @@
     <string name="sync_finish">The synchronization was finished</string>
     <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
     <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
+    <string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
 
     <!-- others -->
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
