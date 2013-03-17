@@ -7,7 +7,7 @@ public class ElementID {
 	private int eGroupId;
 	private String eTitle;
 	private String eIcon;
-	private Double eTimeStamp;
+	private long eTimeStamp;
 	private int eFavourite;
 	private int eFlag;
 	private String eUrl;
@@ -16,7 +16,7 @@ public class ElementID {
 	private int eOrder;
 
 	// constructor
-	public ElementID(int eId, int eGroupId, String eTitle, String eIcon, Double eTimeStamp,
+	public ElementID(int eId, int eGroupId, String eTitle, String eIcon, long eTimeStamp,
 			int eFavourite, int eFlag, String eUrl, String eNote, String eImage, int eOrder) {
 		super();
 		this.eId = eId;
@@ -69,11 +69,11 @@ public class ElementID {
 		this.eIcon = eIcon;
 	}
 
-	public Double geteTimeStamp() {
+	public long geteTimeStamp() {
 		return eTimeStamp;
 	}
 
-	public void seteTimeStamp(Double eTimeStamp) {
+	public void seteTimeStamp(long eTimeStamp) {
 		this.eTimeStamp = eTimeStamp;
 	}
 

@@ -77,7 +77,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		/* create element id table db */
 		String CREATE_ELEMENT_ID_TABLE = "CREATE TABLE " + TABLE_ELEMENT_ID + "(" + KEY_E_ID
 				+ " INTEGER PRIMARY KEY," + KEY_E_GROUP_ID + " INTEGER," + KEY_E_TITLE + " TEXT,"
-				+ KEY_E_ICON + " TEXT," + KEY_E_TIME_STAMP + " DOUBLE," + KEY_E_FAVOURITE
+				+ KEY_E_ICON + " TEXT," + KEY_E_TIME_STAMP + " LONG," + KEY_E_FAVOURITE
 				+ " INTEGER," + KEY_E_FLAG + " INTEGER," + KEY_E_URL + " TEXT," + KEY_E_NOTE
 				+ " TEXT," + KEY_E_IMAGE + " TEXT," + KEY_E_ORDER + " INTEGER" + ")";
 		db.execSQL(CREATE_ELEMENT_ID_TABLE);
@@ -484,7 +484,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 
 		ElementID elementID = new ElementID(Integer.parseInt(cursor.getString(0)),
 				Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3),
-				Double.parseDouble(cursor.getString(4)), Integer.parseInt(cursor.getString(5)),
+				Long.parseLong(cursor.getString(4)), Integer.parseInt(cursor.getString(5)),
 				Integer.parseInt(cursor.getString(6)), cursor.getString(7), cursor.getString(8),
 				cursor.getString(9), Integer.parseInt(cursor.getString(10)));
 		db.close();
@@ -509,7 +509,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				elementID.seteGroupId(Integer.parseInt(cursor.getString(1)));
 				elementID.seteTitle(cursor.getString(2));
 				elementID.seteIcon(cursor.getString(3));
-				elementID.seteTimeStamp(Double.parseDouble(cursor.getString(4)));
+				elementID.seteTimeStamp(Long.parseLong(cursor.getString(4)));
 				elementID.seteFavourite(Integer.parseInt(cursor.getString(5)));
 				elementID.seteFlag(Integer.parseInt(cursor.getString(6)));
 				elementID.seteUrl(cursor.getString(7));
@@ -544,7 +544,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				elementID.seteGroupId(Integer.parseInt(cursor.getString(1)));
 				elementID.seteTitle(cursor.getString(2));
 				elementID.seteIcon(cursor.getString(3));
-				elementID.seteTimeStamp(Double.parseDouble(cursor.getString(4)));
+				elementID.seteTimeStamp(Long.parseLong(cursor.getString(4)));
 				elementID.seteFavourite(Integer.parseInt(cursor.getString(5)));
 				elementID.seteFlag(Integer.parseInt(cursor.getString(6)));
 				elementID.seteUrl(cursor.getString(7));
