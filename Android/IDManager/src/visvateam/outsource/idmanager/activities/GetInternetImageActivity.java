@@ -29,7 +29,7 @@ import android.widget.RelativeLayout;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
-public class GetInternetImageActivity extends Activity {
+public class GetInternetImageActivity extends BaseActivity {
 	private WebView webView;
 	private CheckBox mCheckBox;
 	private FrameLayout mFrameWebView;

@@ -19,7 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class BrowserActivity extends Activity {
+public class BrowserActivity extends BaseActivity {
 
 	private WebView webView;
 	private String url;
@@ -136,4 +136,5 @@ public class BrowserActivity extends Activity {
 		Intent i = new Intent(activity, BrowserActivity.class);
 		activity.startActivity(i);
 	}
+	
 }

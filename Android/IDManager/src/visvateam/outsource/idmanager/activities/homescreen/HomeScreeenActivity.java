@@ -8,6 +8,7 @@ import com.google.ads.AdView;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import visvateam.outsource.idmanager.activities.BaseActivity;
 import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
@@ -55,7 +56,7 @@ import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
-public class HomeScreeenActivity extends Activity implements OnClickListener {
+public class HomeScreeenActivity extends BaseActivity implements OnClickListener {
 	private final static int MAX_ITEMS = 12;
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;

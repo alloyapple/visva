@@ -64,7 +64,7 @@ import android.widget.Toast;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
-public class EditIdPasswordActivity extends Activity implements
+public class EditIdPasswordActivity extends BaseActivity implements
 		OnItemClickListener, android.content.DialogInterface.OnClickListener {
 	// =========================Control Define ==================
 	private ListView mListView;
@@ -753,4 +753,5 @@ public class EditIdPasswordActivity extends Activity implements
 
 		return bitmap;
 	}
+	
 }

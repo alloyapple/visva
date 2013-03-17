@@ -9,7 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class SettingURLActivity extends Activity {
+public class SettingURLActivity extends BaseActivity {
 	private WebView webView;
 
 	@Override

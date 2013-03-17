@@ -29,7 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class EditIconActivity extends Activity {
+public class EditIconActivity extends BaseActivity {
 	ImageView imageView; 
 	private Uri fileUri = null;
 	public static Drawable mDrawableIconEdit;
@@ -325,4 +325,5 @@ public class EditIconActivity extends Activity {
 			return;
 		}
 	}
+	
 }

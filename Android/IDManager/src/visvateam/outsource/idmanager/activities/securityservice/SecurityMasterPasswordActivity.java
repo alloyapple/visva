@@ -1,24 +1,21 @@
 package visvateam.outsource.idmanager.activities.securityservice;
 
 import java.io.File;
+
 import net.sqlcipher.database.SQLiteDatabase;
-import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
-import visvateam.outsource.idmanager.activities.securityservice.SecurityService;
+import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.database.UserDataBase;
+import visvateam.outsource.idmanager.idletime.ControlApplication;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,9 +24,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import visvateam.outsource.idmanager.activities.R;
 
-public class SecurityMasterPasswordActivity extends Activity implements OnClickListener {
+public class SecurityMasterPasswordActivity extends Activity implements
+		OnClickListener {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
@@ -37,7 +34,7 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
 	private DataBaseHandler mDataBaseHandler;
-	private SecurityService mSecurityService;
+
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
 	private int mNumberAtemppt = 0;
@@ -50,35 +47,22 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 		super.onCreate(savedInstanceState);
 		// init idmanager preference
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
-		if (mIdManagerPreference.getSecurityMode() == Contants.KEY_OFF
-				|| !mIdManagerPreference.isApplicationFirstTimeInstalled()) {
-			/* go to HomeScreen activity */
-			Intent intent = new Intent(SecurityMasterPasswordActivity.this,
-					HomeScreeenActivity.class);
-			startActivity(intent);
-			finish();
-		} else {
-			setContentView(R.layout.page_security_masterpw);
 
-			// button
-			mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
-			mBtnDone.setOnClickListener(this);
-			mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
+		setContentView(R.layout.page_security_masterpw);
+		// button
+		mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
+		mBtnDone.setOnClickListener(this);
+		mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
 
-			/* init database */
-			SQLiteDatabase.loadLibs(this);
-			mDataBaseHandler = new DataBaseHandler(this);
+		/* init database */
+		SQLiteDatabase.loadLibs(this);
+		mDataBaseHandler = new DataBaseHandler(this);
+		UserDataBase user = mDataBaseHandler
+				.getUser(Contants.MASTER_PASSWORD_ID);
+		mMasterPW = user.getUserPassword();
 
-			UserDataBase user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
-			mMasterPW = user.getUserPassword();
-			Log.e("masterpw", "master pw " + mMasterPW);
+		/* init service */
 
-			/* init service */
-			if (mSecurityService == null) {
-				bindService(new Intent(SecurityMasterPasswordActivity.this, SecurityService.class),
-						mConection, Context.BIND_AUTO_CREATE);
-			}
-		}
 	}
 
 	public void confirmMaster(View v) {
@@ -86,7 +70,8 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 	}
 
 	private void showToast(String string) {
-		Toast.makeText(SecurityMasterPasswordActivity.this, string, Toast.LENGTH_SHORT).show();
+		Toast.makeText(SecurityMasterPasswordActivity.this, string,
+				Toast.LENGTH_SHORT).show();
 	}
 
 	public void onReturn(View v) {
@@ -129,24 +114,7 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 				}
 			}
 		} else {
-			/* check security service */
-			mSecurityValues = mIdManagerPreference.getSecurityMode();
-			int securityValues = 0;
-			Log.e("security", "security " + mSecurityValues);
-			if (mSecurityValues == 0)
-				securityValues = 0;
-			else if (mSecurityValues == 1)
-				securityValues = 1;
-			else if (mSecurityValues == 2)
-				securityValues = 3;
-			else if (mSecurityValues == 4)
-				securityValues = 5;
-			else if (mSecurityValues == 5)
-				securityValues = 10;
-			long time = 60 * securityValues * 1000;
-			mSecurityService.startCountDownTimer(time);
-
-			/* finish */
+			getApp().setIdle(0);
 			finish();
 		}
 	}
@@ -154,10 +122,12 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 	@SuppressLint("InlinedApi")
 	public void onClickChangerKeyBoard(View v) {
 		if (isKeyBoardNumber) {
-			mEditTextMasterPW.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+			mEditTextMasterPW
+					.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 			isKeyBoardNumber = false;
 		} else {
-			mEditTextMasterPW.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+			mEditTextMasterPW
+					.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
 			isKeyBoardNumber = true;
 		}
 	}
@@ -176,9 +146,7 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 		mIdManagerPreference.setMasterPW("");
 		mIdManagerPreference.setSecurityMode(Contants.KEY_OFF);
 		mIdManagerPreference.setValuesremoveData(Contants.KEY_OFF);
-
-		// finish activity
-		finish();
+		System.exit(0);
 	}
 
 	@Override
@@ -186,29 +154,10 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getUserPassword();
+		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
+				.getUserPassword();
 		mNumberAtemppt = 0;
 	}
-
-	private ServiceConnection mConection = new ServiceConnection() {
-
-		@Override
-		public void onServiceDisconnected(ComponentName arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName arg0, IBinder service) {
-			mSecurityService = ((SecurityService.LocalService) service).getService();
-		}
-	};
-
-	protected void onDestroy() {
-		super.onDestroy();
-		if (mSecurityService != null)
-			unbindService(mConection);
-	};
 
 	@Override
 	public void onBackPressed() {
@@ -254,15 +203,18 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 		switch (id) {
 		case Contants.DIALOG_LOGIN_WRONG_PASS:
 			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setMessage(getResources().getString(R.string.limit_login_msg, 2));
+			builder.setMessage(getResources().getString(
+					R.string.limit_login_msg, 2));
 			// builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							return;
 						}
 
@@ -270,15 +222,18 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 			return builder.create();
 		case Contants.DIALOG_WRONG_PASS_NO_SECURE:
 			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setMessage(getResources().getString(R.string.wrong_pw_login));
+			builder.setMessage(getResources()
+					.getString(R.string.wrong_pw_login));
 			// builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							return;
 						}
 
@@ -286,15 +241,18 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 			return builder.create();
 		case Contants.DIALOG_REMOVED_DATA:
 			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setMessage(getResources().getString(R.string.data_erased_msg));
+			builder.setMessage(getResources().getString(
+					R.string.data_erased_msg));
 			// builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* remove data */
 							removeData();
 							return;
@@ -305,5 +263,8 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 		default:
 			return null;
 		}
+	}
+	public ControlApplication getApp() {
+		return (ControlApplication) this.getApplication();
 	}
 }

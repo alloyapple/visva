@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class EnterOldPasswordActivity extends Activity implements
+public class EnterOldPasswordActivity extends BaseActivity implements
 		OnClickListener {
 
 	// =========================Control Define =====================
@@ -252,4 +252,5 @@ public class EnterOldPasswordActivity extends Activity implements
 			return null;
 		}
 	}
+	
 }
