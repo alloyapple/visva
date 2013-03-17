@@ -2,17 +2,17 @@ package visvateam.outsource.idmanager.activities.export;
 
 import java.io.File;
 
+import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGUploadController;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import visvateam.outsource.idmanager.activities.R;
+
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.json.gson.GsonFactory;
@@ -22,8 +22,6 @@ import com.google.api.services.drive.DriveScopes;
 public class ExportDataGGDriveActivity extends Activity {
 	private static final int REQUEST_ACCOUNT_PICKER = 1;
 	private static final int REQUEST_AUTHORIZATION = 2;
-	private static final int CAPTURE_IMAGE = 3;
-	private static Uri fileUri;
 	private static Drive service;
 	private GoogleAccountCredential credential;
 	private Button mBtnLinkToGG;
