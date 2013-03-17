@@ -94,7 +94,8 @@ public class ItemAdapter extends BaseAdapter {
 
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		// iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(idItemList.get(position).getIconId()));
+		iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(idItemList.get(position)
+				.geteIcon()));
 		iv.setContentDescription(this.idItemList.get(position).geteTitle());
 
 		/* text name vs text url */

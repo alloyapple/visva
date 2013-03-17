@@ -1,8 +1,6 @@
 package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
-
-import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
@@ -86,37 +84,41 @@ public class FolderListViewAdapter extends BaseAdapter {
 		convertView.setBackgroundResource(R.drawable.folder_common);
 		// imgFolderIcon.setBackgroundResource(folderList.get(position).());
 		txtFodlerName.setText("" + folderList.get(position).getgName());
-		// if (folderList.get(position).getImgFolderType() ==
-		// Contants.TYPE_FOLDER_NON_NORMAL) {
-		// if (position == currentFolderItem)
-		// convertView.setBackgroundResource(R.drawable.folder_s_select);
-		// if (isSearchMode && position == 0) {
-		// convertView.setBackgroundResource(R.drawable.folder_select);
-		// isSearchMode = false;
-		// Message msg = mHandler.obtainMessage();
-		// msg.arg1 = Contants.IS_SEARCH_MODE;
-		// msg.arg2 = 0;
-		// mHandler.sendMessage(msg);
-		// }
-		// imgFolderDelete.setVisibility(View.GONE);
-		// imgFolderEdit.setVisibility(View.GONE);
-		// txtFodlerName.setVisibility(View.GONE);
-		// imgFolderIcon.setVisibility(View.VISIBLE);
-		//
-		// } else {
-		if (position == currentFolderItem)
+		if (folderList.get(position).getgId() < 0) {
+			if (position == currentFolderItem)
+				convertView.setBackgroundResource(R.drawable.folder_s_select);
+			if (isSearchMode && position == 0) {
+				convertView.setBackgroundResource(R.drawable.folder_select);
+				isSearchMode = false;
+				Message msg = mHandler.obtainMessage();
+				msg.arg1 = Contants.IS_SEARCH_MODE;
+				msg.arg2 = 0;
+				mHandler.sendMessage(msg);
+			}
 			convertView.setBackgroundResource(R.drawable.folder_select);
-		imgFolderIcon.setVisibility(View.GONE);
-		if (isEdit == true) {
-			imgFolderDelete.setVisibility(View.VISIBLE);
-			imgFolderEdit.setVisibility(View.VISIBLE);
-			txtFodlerName.setVisibility(View.GONE);
-		} else {
 			imgFolderDelete.setVisibility(View.GONE);
 			imgFolderEdit.setVisibility(View.GONE);
-			txtFodlerName.setVisibility(View.VISIBLE);
+			txtFodlerName.setVisibility(View.GONE);
+			imgFolderIcon.setVisibility(View.VISIBLE);
+			if (folderList.get(position).getgOrder() == -1) {
+				imgFolderIcon.setBackgroundResource(R.drawable.favorite);
+			} else if (folderList.get(position).getgOrder() == -2)
+				imgFolderIcon.setBackgroundResource(R.drawable.history);
+
+		} else {
+			if (position == currentFolderItem)
+				convertView.setBackgroundResource(R.drawable.folder_s_select);
+			imgFolderIcon.setVisibility(View.GONE);
+			if (isEdit == true) {
+				imgFolderDelete.setVisibility(View.VISIBLE);
+				imgFolderEdit.setVisibility(View.VISIBLE);
+				txtFodlerName.setVisibility(View.GONE);
+			} else {
+				imgFolderDelete.setVisibility(View.GONE);
+				imgFolderEdit.setVisibility(View.GONE);
+				txtFodlerName.setVisibility(View.VISIBLE);
+			}
 		}
-		// }
 
 		return convertView;
 	}
