@@ -4,6 +4,9 @@ import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.UserDataBase;
+import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +24,8 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	private TextView txtPW;
 	private TextView txtVerifyVPW;
 	// ==============================Class Define================
-	private DataBaseHandler mDataBaseHandler;
+//	private DataBaseHandler mDataBaseHandler;
+	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	// =======================Variables Define ==================
 	private boolean isChangePW;
 	private String mMasterPassword;
@@ -44,9 +48,9 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	private void initDataBase() {
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-		mDataBaseHandler.getUserCount();
-
+//		mDataBaseHandler = new DataBaseHandler(this);
+//		mDataBaseHandler.getUserCount();
+		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
 	}
 
 	private void initControl() {
@@ -85,11 +89,17 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 				/* set master pw */
 				mMasterPassword = editTextPW.getText().toString();
 				/* delete old user */
-				mDataBaseHandler.deleteFolder(Contants.MASTER_PASSWORD_ID);
-				/* add user to db */
-				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
-						"test");
-				mDataBaseHandler.addNewUser(user);
+//				mDataBaseHandler.deleteFolder(Contants.MASTER_PASSWORD_ID);
+				mIDxPWDataBaseHandler.deleteUser(Contants.MASTER_PASSWORD_ID);
+
+//				mDataBaseHandler.addNewUser(user);
+				
+				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword);
+				mIDxPWDataBaseHandler.addNewUser(userDB);
+				
+				//add general folder 
+				GroupFolder generalFolder = new GroupFolder(0, getString(R.string.list_general), 0, Contants.MASTER_PASSWORD_ID, 0);
+				mIDxPWDataBaseHandler.addNewFolder(generalFolder);
 
 				/* return Term of service */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this,
@@ -112,10 +122,12 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 			else {
 				mMasterPassword = editTextVerifyPW.getText().toString();
 				/* update this password to db */
-				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
-						"test");
-				mDataBaseHandler.updateUser(user);
-
+//				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
+//						"test");
+//				mDataBaseHandler.updateUser(user);
+				
+				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword);
+				mIDxPWDataBaseHandler.updateUser(userDB);
 				/* return setting activity */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
 				startActivity(intent);

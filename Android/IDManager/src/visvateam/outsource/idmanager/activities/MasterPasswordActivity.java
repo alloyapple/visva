@@ -31,7 +31,7 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 	// private EditText mEditText
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
-	private DataBaseHandler mDataBaseHandler;
+//	private DataBaseHandler mDataBaseHandler;
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
@@ -61,14 +61,14 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 			mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
 			/* init database */
 			SQLiteDatabase.loadLibs(this);
-			mDataBaseHandler = new DataBaseHandler(this);
+//			mDataBaseHandler = new DataBaseHandler(this);
 			mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
 			
 			UserDB userTemp = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
 			mMasterPW = userTemp.getPassword();
-			UserDataBase user = mDataBaseHandler
-					.getUser(Contants.MASTER_PASSWORD_ID);
-			String masterPWm= user.getUserPassword();
+//			UserDataBase user = mDataBaseHandler
+//					.getUser(Contants.MASTER_PASSWORD_ID);
+//			String masterPWm= user.getUserPassword();
 			Log.e("masterpw", "master pw " + mMasterPW);
 		}
 	}
@@ -153,8 +153,9 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
-				.getUserPassword();
+//		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
+//				.getUserPassword();
+		mMasterPW = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getPassword();
 		mNumberAtemppt = 0;
 	}
 

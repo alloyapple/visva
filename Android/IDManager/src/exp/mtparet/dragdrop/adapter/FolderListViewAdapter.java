@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import exp.mtparet.dragdrop.data.FolderItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -25,14 +26,14 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private boolean isEdit;
 	private boolean isSearchMode;
 	private Context context;
-	private ArrayList<FolderItem> folderList = new ArrayList<FolderItem>();
+	private ArrayList<GroupFolder> folderList = new ArrayList<GroupFolder>();
 	private Handler mHandler;
 	private ListViewDragDrop folderListView;
 	private int currentFolderItem;
 
-	public FolderListViewAdapter(Context context, ArrayList<FolderItem> folderList, boolean isEdit,
-			Handler mHandler, ListViewDragDrop folderListView, int currentFolderItem,
-			boolean isSearchMode) {
+	public FolderListViewAdapter(Context context, ArrayList<GroupFolder> folderList,
+			boolean isEdit, Handler mHandler, ListViewDragDrop folderListView,
+			int currentFolderItem, boolean isSearchMode) {
 		this.context = context;
 		this.isEdit = isEdit;
 		this.mHandler = mHandler;
@@ -49,7 +50,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public FolderItem getItem(int position) {
+	public GroupFolder getItem(int position) {
 		// TODO Auto-generated method stub
 		return this.folderList.get(position);
 	}
@@ -59,7 +60,6 @@ public class FolderListViewAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup arg2) {
@@ -83,40 +83,41 @@ public class FolderListViewAdapter extends BaseAdapter {
 		imgFolderDelete.setOnClickListener(mOnDeleteClickListener);
 		imgFolderEdit.setOnClickListener(mOnEditClickListener);
 
-		convertView.setBackgroundResource(folderList.get(position).getFolderImgid());
-		imgFolderIcon.setBackgroundResource(folderList.get(position).getFolderIconId());
-		txtFodlerName.setText("" + folderList.get(position).getTextFolderName());
-		if (folderList.get(position).getImgFolderType() == Contants.TYPE_FOLDER_NON_NORMAL) {
-			if (position == currentFolderItem)
-				convertView.setBackgroundResource(R.drawable.folder_s_select);
-			if (isSearchMode && position == 0){
-				convertView.setBackgroundResource(R.drawable.folder_select);
-				isSearchMode = false;
-				Message msg = mHandler.obtainMessage();
-				msg.arg1 = Contants.IS_SEARCH_MODE;
-				msg.arg2 = 0;
-				mHandler.sendMessage(msg);
-			}
+		convertView.setBackgroundResource(R.drawable.folder_common);
+		// imgFolderIcon.setBackgroundResource(folderList.get(position).());
+		txtFodlerName.setText("" + folderList.get(position).getgName());
+		// if (folderList.get(position).getImgFolderType() ==
+		// Contants.TYPE_FOLDER_NON_NORMAL) {
+		// if (position == currentFolderItem)
+		// convertView.setBackgroundResource(R.drawable.folder_s_select);
+		// if (isSearchMode && position == 0) {
+		// convertView.setBackgroundResource(R.drawable.folder_select);
+		// isSearchMode = false;
+		// Message msg = mHandler.obtainMessage();
+		// msg.arg1 = Contants.IS_SEARCH_MODE;
+		// msg.arg2 = 0;
+		// mHandler.sendMessage(msg);
+		// }
+		// imgFolderDelete.setVisibility(View.GONE);
+		// imgFolderEdit.setVisibility(View.GONE);
+		// txtFodlerName.setVisibility(View.GONE);
+		// imgFolderIcon.setVisibility(View.VISIBLE);
+		//
+		// } else {
+		if (position == currentFolderItem)
+			convertView.setBackgroundResource(R.drawable.folder_select);
+		imgFolderIcon.setVisibility(View.GONE);
+		if (isEdit == true) {
+			imgFolderDelete.setVisibility(View.VISIBLE);
+			imgFolderEdit.setVisibility(View.VISIBLE);
+			txtFodlerName.setVisibility(View.GONE);
+		} else {
 			imgFolderDelete.setVisibility(View.GONE);
 			imgFolderEdit.setVisibility(View.GONE);
-			txtFodlerName.setVisibility(View.GONE);
-			imgFolderIcon.setVisibility(View.VISIBLE);
-
-		} else {
-			if (position == currentFolderItem)
-				convertView.setBackgroundResource(R.drawable.folder_select);
-			imgFolderIcon.setVisibility(View.GONE);
-			if (isEdit == true) {
-				imgFolderDelete.setVisibility(View.VISIBLE);
-				imgFolderEdit.setVisibility(View.VISIBLE);
-				txtFodlerName.setVisibility(View.GONE);
-			} else {
-				imgFolderDelete.setVisibility(View.GONE);
-				imgFolderEdit.setVisibility(View.GONE);
-				txtFodlerName.setVisibility(View.VISIBLE);
-			}
+			txtFodlerName.setVisibility(View.VISIBLE);
 		}
-		
+		// }
+
 		return convertView;
 	}
 
@@ -135,17 +136,17 @@ public class FolderListViewAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void addNewFolder(FolderItem folder) {
+	public void addNewFolder(GroupFolder folder) {
 		folderList.add(folder);
 		notifyDataSetChanged();
 	}
 
 	public void updateSearchMode(boolean isSearchMode) {
-		this.isSearchMode =isSearchMode;
+		this.isSearchMode = isSearchMode;
 		notifyDataSetChanged();
 	}
 
-	public void updateFolderList(ArrayList<FolderItem> folderItems) {
+	public void updateFolderList(ArrayList<GroupFolder> folderItems) {
 		this.folderList = folderItems;
 		notifyDataSetChanged();
 	}
@@ -169,9 +170,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 			Log.e("OnclickEdit", "OnClickEdit");
 			final int position = folderListView.getPositionForView((View) v.getParent());
 			Log.e("clickc lcik ", "Title clicked, row %d" + position);
-			if (isEdit
-					&& folderList.get(position).getImgFolderType() == Contants.TYPE_FOLDER_NORMAL) {
-
+			if (isEdit) {
 				Message msg = mHandler.obtainMessage();
 				msg.arg1 = EDIT_FOLDER;
 				msg.arg2 = position;

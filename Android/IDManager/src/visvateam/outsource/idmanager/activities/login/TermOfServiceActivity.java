@@ -8,6 +8,7 @@ import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,7 +24,8 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 	private Button btnContinue;
 	// =============================Class Define ======================
 	private IdManagerPreference idManagerPreference;
-	private DataBaseHandler mDataBaseHandler;
+//	private DataBaseHandler mDataBaseHandler;
+	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	// =============================Variables Define ==================
 
 
@@ -34,9 +36,11 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-		int userCount = mDataBaseHandler.getUserCount();
-		if (userCount < 1) {
+//		mDataBaseHandler = new DataBaseHandler(this);
+		mIDxPWDataBaseHandler =new IDxPWDataBaseHandler(this);
+		int numberUser = mIDxPWDataBaseHandler.getUserCount();
+//		int userCount = mDataBaseHandler.getUserCount();
+		if (numberUser < 1) {
 			setContentView(R.layout.page_term_of_use);
 			/* check is first installed app */
 			idManagerPreference = IdManagerPreference.getInstance(this);
