@@ -49,8 +49,8 @@
     <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
-    
-    <!--cloud and text data  -->
+
+    <!-- cloud and text data -->
     <string name="cloud_service_name">使用雲計算服務</string>
     <string name="txt_dropbox_tut">Dropbox是最有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。</string>
     <!--
@@ -86,7 +86,9 @@
     <string name="sync_failed">我同步失敗。</string>
     <string name="sync_finish">我結束了同步。</string>
     <string name="data_cloud_newer">更好的數據（GoogleDrive）是新的，但Dropbox，你確定你真的要覆蓋它嗎？</string>
-	<string name="sync_data_duplicate_msg">你確定你想從（GoogleDrive）Dropbox的，誰是新的數據，本次Android上的數據嗎？.</string>
+    <string name="sync_data_duplicate_msg">你確定你想從（GoogleDrive）Dropbox的，誰是新的數據，本次Android上的數據嗎？.</string>
+    <string name="sync_to_cloud_data_device_newer">您確定您要覆蓋的數據，但在此的iPhone（GoogleDrive）Dropbox的數據嗎？</string>
+    <string name="sync_to_device_data_cloud_newer">閱讀（GoogleDrive）的Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
     
     <!-- others -->
     <string name="wrong_pw_login">您輸入的密碼不正確，請重新輸入。</string>

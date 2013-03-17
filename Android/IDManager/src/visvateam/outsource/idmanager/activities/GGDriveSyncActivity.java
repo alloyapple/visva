@@ -1,10 +1,5 @@
 package visvateam.outsource.idmanager.activities;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGUploadController;
 import android.accounts.AccountManager;
@@ -12,20 +7,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.FileContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.File;
 
 public class GGDriveSyncActivity extends Activity {
 	private static final int REQUEST_ACCOUNT_PICKER = 1;
@@ -62,7 +53,7 @@ public class GGDriveSyncActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				saveFileToDrive();
+//				saveFileToDrive();
 			}
 		});
 	}
@@ -74,6 +65,7 @@ public class GGDriveSyncActivity extends Activity {
 			if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
 				String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 				if (accountName != null) {
+					Log.e("accname", "acc Name "+accountName);
 					credential.setSelectedAccountName(accountName);
 					service = getDriveService(credential);
 				}
@@ -81,7 +73,7 @@ public class GGDriveSyncActivity extends Activity {
 			break;
 		case REQUEST_AUTHORIZATION:
 			if (resultCode == Activity.RESULT_OK) {
-				saveFileToDrive();
+//				saveFileToDrive();
 			} else {
 				startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
 			}
@@ -91,11 +83,11 @@ public class GGDriveSyncActivity extends Activity {
 		}
 	}
 
-	private void saveFileToDrive() {
-		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		GGUploadController drive = new GGUploadController(this, service, fileDb);
-		drive.execute();
-	}
+//	private void saveFileToDrive() {
+//		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
+//		GGUploadController drive = new GGUploadController(this, service, fileDb);
+//		drive.execute();
+//	}
 
 	private Drive getDriveService(GoogleAccountCredential credential) {
 		return new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(),

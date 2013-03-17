@@ -454,12 +454,12 @@ public class SettingActivity extends Activity {
 			file.delete();
 	}
 
-	private void exportDataToGGDrive() {
-		// TODO Auto-generated method stub
-		Intent intentExportData = new Intent(SettingActivity.this, ExportDataGGDriveActivity.class);
-		intentExportData.putExtra(Contants.IS_EXPORT_FILE, isExportData);
-		startActivity(intentExportData);
-	}
+//	private void exportDataToGGDrive() {
+//		// TODO Auto-generated method stub
+//		Intent intentExportData = new Intent(SettingActivity.this, ExportDataGGDriveActivity.class);
+//		intentExportData.putExtra(Contants.IS_EXPORT_FILE, isExportData);
+//		startActivity(intentExportData);
+//	}
 
 	private void generateCsvFile(String sFileName) {
 		java.util.List<FolderDatabase> folderList = mDataBaseHandler.getAllFolders();

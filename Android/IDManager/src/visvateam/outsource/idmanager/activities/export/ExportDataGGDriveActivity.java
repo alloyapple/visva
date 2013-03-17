@@ -112,12 +112,12 @@ public class ExportDataGGDriveActivity extends Activity {
 		// }
 		// });
 		// t.start();
-		java.io.File file = new File(Contants.PATH_ID_FILES + "/" + Contants.FILE_CSV_NAME);
-		if (file.exists()) {
-			GGUploadController drive = new GGUploadController(this, service, file);
-			drive.execute();
-		} else
-			showToast("File not found");
+//		java.io.File file = new File(Contants.PATH_ID_FILES + "/" + Contants.FILE_CSV_NAME);
+//		if (file.exists()) {
+//			GGUploadController drive = new GGUploadController(this, service, file);
+//			drive.execute();
+//		} else
+//			showToast("File not found");
 	}
 
 	private Drive getDriveService(GoogleAccountCredential credential) {

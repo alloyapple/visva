@@ -146,7 +146,7 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 			long time = 60 * securityValues * 1000;
 			mSecurityService.startCountDownTimer(time);
 
-			/*finish*/
+			/* finish */
 			finish();
 		}
 	}
@@ -206,7 +206,8 @@ public class SecurityMasterPasswordActivity extends Activity implements OnClickL
 
 	protected void onDestroy() {
 		super.onDestroy();
-		unbindService(mConection);
+		if (mSecurityService != null)
+			unbindService(mConection);
 	};
 
 	@Override

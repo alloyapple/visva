@@ -4,40 +4,42 @@ import java.io.IOException;
 
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
-
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.Drive.Files;
+import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.FileList;
-
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
-	private static final int REQUEST_ACCOUNT_PICKER = 1;
-	private static final int REQUEST_AUTHORIZATION = 2;
-
 	private Context mContext;
 	private final ProgressDialog mDialog;
 	private Drive mService;
 	private java.io.File mFileDb;
 	private long mFileLength;
+	private GoogleAccountCredential credential;
+	private Handler mHandler;
 
-	public GGUploadController(Context context, Drive service, java.io.File fileDb) {
+	public GGUploadController(Activity context, Drive service, java.io.File fileDb,
+			Handler mHandler, String acountName) {
 		this.mContext = context;
 		this.mService = service;
 		this.mFileDb = fileDb;
 		this.mFileLength = fileDb.length();
+		this.mHandler = mHandler;
+
+		credential = GoogleAccountCredential.usingOAuth2(mContext, DriveScopes.DRIVE);
+		credential.setSelectedAccountName(acountName);
+		mService = getDriveService(credential);
 
 		mDialog = new ProgressDialog(context);
 		mDialog.setTitle(mContext.getString(R.string.app_name));
@@ -51,22 +53,14 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 	protected Boolean doInBackground(Void... params) {
 		// TODO Auto-generated method stub
 		try {
-			// File's binary content
-			// java.io.File fileContent = new
-			// java.io.File(fileUri.getPath());
-			//
+
 			File myBody = new File();
 
-			myBody.setTitle("title");
+			myBody.setTitle("title1");
 
-			myBody.setMimeType("application/vnd.google-apps.folder ");
+			myBody.setMimeType("application/vnd.google-apps.folder");
 
-			File file2 = mService.files().insert(myBody).execute();
-			Files.List request = mService.files().list()
-					.setQ("mimeType='application/vnd.google-apps.folder' and trashed=false");
-			FileList files = request.execute();
-			request.setPageToken(files.getNextPageToken());
-			//
+			mService.files().insert(myBody).execute();
 
 			FileContent mediaContent = new FileContent("image/text", mFileDb);
 
@@ -74,15 +68,18 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 			File body = new File();
 			body.setTitle(mFileDb.getName());
 			body.setMimeType("image/text");
-			if (mService != null) {
+			if (null != mService) {
 				File file = mService.files().insert(body, mediaContent).execute();
 				if (file != null) {
 					Log.e("finish", "finish");
 					return true;
 				}
+			} else {
+				Log.e("service null", "service null");
 			}
 		} catch (UserRecoverableAuthIOException e) {
-			showToast("Sync error");
+			// showToast("Sync error");
+			Log.e("error", "error");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,10 +90,14 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		// TODO Auto-generated method stub
 		mDialog.dismiss();
+		Message msg = mHandler.obtainMessage();
 		if (result) {
-			showToast("Sync completed");
-		} else
-			showToast("You must authenticate your google account");
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
+			mHandler.sendMessage(msg);
+		} else {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_FAILED;
+			mHandler.sendMessage(msg);
+		}
 		super.onPostExecute(result);
 	}
 
@@ -112,7 +113,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Boolean> {
 				credential).build();
 	}
 
-	public void showToast(final String toast) {
-		Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
-	}
+	// public void showToast(final String toast) {
+	// Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+	// }
 }

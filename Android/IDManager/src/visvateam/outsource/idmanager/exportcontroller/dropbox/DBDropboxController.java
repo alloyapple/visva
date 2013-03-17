@@ -1,29 +1,53 @@
+/*
+ * Copyright (c) 2011 Dropbox, Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package visvateam.outsource.idmanager.exportcontroller.dropbox;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
+import com.dropbox.client2.DropboxAPI.UploadRequest;
+import com.dropbox.client2.ProgressListener;
 import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.client2.exception.DropboxFileSizeException;
 import com.dropbox.client2.exception.DropboxIOException;
 import com.dropbox.client2.exception.DropboxParseException;
 import com.dropbox.client2.exception.DropboxPartialFileException;
@@ -31,48 +55,51 @@ import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
 
 /**
- * Here we show getting metadata for a directory and downloading a file in a
- * background thread, trying to show typical exception handling and flow of
- * control for an app that downloads a file from Dropbox.
+ * Here we show uploading a file in a background thread, trying to show typical
+ * exception handling and flow of control for an app that uploads a file from
+ * Dropbox.
  */
+public class DBDropboxController extends AsyncTask<Void, Long, Integer> {
 
-public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
-
-	private Context mContext;
-	private final ProgressDialog mDialog;
 	private DropboxAPI<?> mApi;
 	private String mPath;
-	private FileOutputStream mFos;
-	private Long mFileLen;
+	private File mFile;
+
+	private long mFileLen;
+	private UploadRequest mRequest;
+	private Context mContext;
+	private final ProgressDialog mDialog;
 	private String mErrorMsg;
-	private String mDbFilePath;
+	private String mFileName;
 	private Handler mHandler;
-	private boolean isCheckedTime;
 	private IdManagerPreference mIdManagerPreference;
 	private long mLastTimeSync;
+	private boolean isCheckedTime;
 
-	public DropBoxDownloadFile(Context context, DropboxAPI<?> api, String dropboxPath,
-			String dbFilePath, Handler mHandler, boolean isCheckTime) {
+	public DBDropboxController(Context context, DropboxAPI<?> api, String dropboxPath, File file,
+			Handler mHandler, boolean isCheckedTime) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
-
-		mApi = api;
-		mPath = dropboxPath;
-		mDbFilePath = dbFilePath;
-		this.mHandler = mHandler;
-		this.isCheckedTime = isCheckTime;
-
 		mIdManagerPreference = IdManagerPreference.getInstance(mContext);
 		mLastTimeSync = mIdManagerPreference.getLastTimeSyncCloud();
+		mFileLen = file.length();
+		mApi = api;
+		mPath = dropboxPath;
+		mFile = file;
+		this.mFileName = mFile.getName();
+		this.mHandler = mHandler;
+		this.isCheckedTime = isCheckedTime;
 
 		mDialog = new ProgressDialog(context);
+		mDialog.setMax(100);
 		mDialog.setTitle(mContext.getString(R.string.app_name));
 		mDialog.setIcon(R.drawable.icon);
 		mDialog.setMessage("Loading...");
+		mDialog.setProgress(0);
 		mDialog.show();
-
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected Integer doInBackground(Void... params) {
 		try {
@@ -82,61 +109,65 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 			if (!dirent.isDir || dirent.contents == null) {
 				// It's not a directory, or there's nothing in it
 				mErrorMsg = "File or empty directory";
-				return Contants.DIALOG_NO_DATA_CLOUD;
 			}
 
-			// Make a list of everything in it that we can get a thumbnail for
-			ArrayList<Entry> thumbs = new ArrayList<Entry>();
 			for (Entry ent : dirent.contents) {
-				Log.d("file " + ent.thumbExists, "file ent " + ent.fileName());
-				if (Contants.DATA_IDMANAGER_NAME.equals(ent.fileName().toString())) {
+				Log.d("file " + mFile, "file ent " + ent.fileName());
+				if (mFileName.equals(ent.fileName().toString())) {
 					// Add it to the list of thumbs we can choose from
-					// thumbs.add(ent);
 					entry = ent;
 				}
-			}
 
-			if (entry == null) {
-				// No thumbs in that directory
-				return Contants.DIALOG_NO_DATA_CLOUD;
-			} else {
-				String path = entry.path;
-				if (!isCheckedTime) {
+			}
+			if (!isCheckedTime)
+				if (null != entry) {
 					mFileLen = entry.bytes;
 					Log.e("modify ", "modify time " + entry.modified);
 					String modify = entry.modified;
-					@SuppressWarnings("deprecation")
 					Date date = new Date(modify);
 					long modifyTime = date.getTime();
+					Log.e("time", "time " + modifyTime);
 					if (modifyTime > mLastTimeSync)
-						return Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER;
+						return Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER;
 					else
-						return Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER;
+						return Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER;
 				}
-				String cachePath = mDbFilePath + "/" + Contants.DATA_IDMANAGER_NAME;
-				Log.e("file path", "file Path " + cachePath);
-				try {
-					mFos = new FileOutputStream(cachePath);
-				} catch (FileNotFoundException e) {
-					return Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
-				}
+			// By creating a request, we get a handle to the putFile operation,
+			// so we can cancel it later if we want to
+			FileInputStream fis = new FileInputStream(mFile);
+			String path = mPath + mFile.getName();
+			mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
+					new ProgressListener() {
+						@Override
+						public long progressInterval() {
+							// Update the progress bar every half-second or so
+							return 500;
+						}
 
-				mApi.getFile(path, "test", mFos, null);
-				// mDrawable = Drawable.createFromPath(cachePath);
-				// We must have a legitimate picture
+						@Override
+						public void onProgress(long bytes, long total) {
+							publishProgress(bytes);
+						}
+					});
+
+			if (mRequest != null) {
+				mRequest.upload();
 				return Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
 			}
+
 		} catch (DropboxUnlinkedException e) {
-			// The AuthSession wasn't properly authenticated or user unlinked.
+			// This session wasn't authenticated properly or user unlinked
+			mErrorMsg = "This app wasn't authenticated properly.";
+		} catch (DropboxFileSizeException e) {
+			// File size too big to upload via the API
+			mErrorMsg = "This file is too big to upload";
 		} catch (DropboxPartialFileException e) {
 			// We canceled the operation
-			mErrorMsg = "Download canceled";
+			mErrorMsg = "Upload canceled";
 		} catch (DropboxServerException e) {
 			// Server-side exception. These are examples of what could happen,
 			// but we don't do anything special with them here.
-			if (e.error == DropboxServerException._304_NOT_MODIFIED) {
-				// won't happen since we don't pass in revision with metadata
-			} else if (e.error == DropboxServerException._401_UNAUTHORIZED) {
+			if (e.error == DropboxServerException._401_UNAUTHORIZED) {
 				// Unauthorized, so we should unlink them. You may want to
 				// automatically log the user out in this case.
 			} else if (e.error == DropboxServerException._403_FORBIDDEN) {
@@ -144,10 +175,6 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 			} else if (e.error == DropboxServerException._404_NOT_FOUND) {
 				// path not found (or if it was the thumbnail, can't be
 				// thumbnailed)
-			} else if (e.error == DropboxServerException._406_NOT_ACCEPTABLE) {
-				// too many entries to return
-			} else if (e.error == DropboxServerException._415_UNSUPPORTED_MEDIA) {
-				// can't be thumbnailed
 			} else if (e.error == DropboxServerException._507_INSUFFICIENT_STORAGE) {
 				// user is over quota
 			} else {
@@ -158,6 +185,7 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 			if (mErrorMsg == null) {
 				mErrorMsg = e.body.error;
 			}
+			return Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 		} catch (DropboxIOException e) {
 			// Happens all the time, probably want to retry automatically.
 			mErrorMsg = "Network error.  Try again.";
@@ -167,6 +195,7 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 		} catch (DropboxException e) {
 			// Unknown error
 			mErrorMsg = "Unknown error.  Try again.";
+		} catch (FileNotFoundException e) {
 		}
 		return Contants.DIALOG_MESSAGE_SYNC_FAILED;
 	}
@@ -183,7 +212,7 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 		Log.e("result", "result " + result);
 		Message msg = mHandler.obtainMessage();
 		if (result == Contants.DIALOG_MESSAGE_SYNC_SUCCESS) {
-			Date date = new Date();
+			Date date =new Date();
 			mLastTimeSync = date.getTime();
 			mIdManagerPreference.setLastTimeSyncCloud(mLastTimeSync);
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
@@ -197,13 +226,13 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 			mHandler.sendMessage(msg);
-		} else if (result == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER) {
-			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER;
+		} else if (result == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER) {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER;
 			mHandler.sendMessage(msg);
-		} else if (result == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER) {
-			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER;
+		} else if (result == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER) {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER;
 			mHandler.sendMessage(msg);
 		}
-	}
 
+	}
 }
