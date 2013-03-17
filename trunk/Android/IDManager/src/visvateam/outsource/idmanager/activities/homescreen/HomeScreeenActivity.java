@@ -218,11 +218,11 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 		/* init adapter for listview */
 		// set for search item list
-//		mIdListItems = constructList(currentFolderItem);
-//		// mIdListItems = constructSearchList();
-//		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-//		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
-//				currentFolderItem, currentFolderId);
+		mIdListItems = constructList(currentFolderItem);
+		// mIdListItems = constructSearchList();
+		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
+				currentFolderItem, currentFolderId);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -301,63 +301,22 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 
-		for (int i = Contants.NUMBER_FOLDER_DEFALT; i < sizeOfFolder; i++) {
+		for (int i = 0; i < sizeOfFolder; i++) {
 			GroupFolder folder = new GroupFolder(folderList.get(i).getgId(), folderList.get(i)
 					.getgName(), folderList.get(i).getgType(), folderList.get(i).getgUserId(),
 					folderList.get(i).getgOrder());
 			mFolderListItems.add(folder);
 		}
+		// add folder favourite and history
+		GroupFolder favouriteFolder = new GroupFolder(-1, Contants.NAME_FAVOURITE_FOLDER, 0,
+				Contants.MASTER_PASSWORD_ID, -1);
+		mFolderListItems.add(favouriteFolder);
+
+		// add folder history
+		GroupFolder historyFolder = new GroupFolder(-2, Contants.NAME_HISTORY_FOLDER, 0,
+				Contants.MASTER_PASSWORD_ID, -2);
+		mFolderListItems.add(historyFolder);
 	}
-
-	// /**
-	// * check size folder database to add folder favourite and history
-	// */
-	// private void checkSizeFolderDataBase() {
-	// List<FolderDatabase> folderList = mDataBaseHandler.getAllFolders();
-	// int sizeOfFolder = folderList.size();
-	// if (sizeOfFolder < Contants.NUMBER_FOLDER_DEFALT) {
-	//
-	// /* add search foler to display search result */
-	// FolderDatabase folderSearch = new FolderDatabase(0,
-	// Contants.MASTER_PASSWORD_ID, Contants.NAME_SEARCH_FOLDER,
-	// R.drawable.folder_s_common, R.drawable.history,
-	// Contants.TYPE_FOLDER_NON_NORMAL);
-	// mDataBaseHandler.addNewFolder(folderSearch);
-	//
-	// /* add history table to folder db */
-	// FolderDatabase folderHistory = new FolderDatabase(1,
-	// Contants.MASTER_PASSWORD_ID, Contants.NAME_HISTORY_FOLDER,
-	// R.drawable.folder_s_common, R.drawable.history,
-	// Contants.TYPE_FOLDER_NON_NORMAL);
-	// mDataBaseHandler.addNewFolder(folderHistory);
-	//
-	// /* add favourite table to folder db */
-	// FolderDatabase folderFavourite = new FolderDatabase(2,
-	// Contants.MASTER_PASSWORD_ID,
-	// Contants.NAME_FAVOURITE_FOLDER, R.drawable.folder_s_common,
-	// R.drawable.favorite, Contants.TYPE_FOLDER_NON_NORMAL);
-	// mDataBaseHandler.addNewFolder(folderFavourite);
-	//
-	// }
-
-	// add 3 folder search, favourite and history
-
-	// FolderItem folderItemSearch = new FolderItem(0,
-	// R.drawable.folder_common, R.drawable.search,
-	// Contants.NAME_SEARCH_FOLDER, Contants.TYPE_FOLDER_NON_NORMAL);
-	// mFolderListItems.add(folderItemSearch);
-	//
-	// FolderItem folderItemFavourite = new FolderItem(2,
-	// R.drawable.folder_s_common, R.drawable.favorite,
-	// Contants.NAME_FAVOURITE_FOLDER, Contants.TYPE_FOLDER_NON_NORMAL);
-	// mFolderListItems.add(folderItemFavourite);
-	//
-	// FolderItem folderItemHistory = new FolderItem(1,
-	// R.drawable.folder_s_common, R.drawable.history,
-	// Contants.NAME_HISTORY_FOLDER, Contants.TYPE_FOLDER_NON_NORMAL);
-	// mFolderListItems.add(folderItemHistory);
-
-	// }
 
 	/**
 	 * Save selected item
@@ -524,7 +483,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 					elementList.get(i).geteFlag(), elementList.get(i).geteUrl(), elementList.get(i)
 							.geteNote(), elementList.get(i).geteImage(), elementList.get(i)
 							.geteOrder());
-			al.add(item);
+			al.add(item);  
 		}
 		return al;
 	}
@@ -1061,7 +1020,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		/* refresh id list view */
 		mIdListItems = constructList(positionReturnedByHandler);
 		currentFolderId = mFolderListItems.get(positionReturnedByHandler).getgId();
-		itemAdapter.setIdItemList(mIdListItems, positionReturnedByHandler, currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, positionReturnedByHandler, 0);
 		/* refresh folder listview */
 		folderListViewAdapter.removeItem(positionReturnedByHandler);
 		Log.e("size of folder", "size of folder " + mFolderListItems.size());
@@ -1095,18 +1054,19 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 	public void onResume() {
 		super.onResume();
-//		if (null != mIDxPWDataBaseHandler)
-//			mIDxPWDataBaseHandler.close();
-//		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
-//		/* reset folder adapter */
-//		mFolderListItems.clear();
-//		// get data from folder database
-//		loadDataFromFolderDataBase();
-//
-//		/* reset adapter */
-//		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-//		mIdListItems = constructList(currentFolderId);
-//		itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
+		// if (null != mIDxPWDataBaseHandler)
+		// mIDxPWDataBaseHandler.close();
+		// mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
+		// /* reset folder adapter */
+		// mFolderListItems.clear();
+		// // get data from folder database
+		// loadDataFromFolderDataBase();
+		//
+		// /* reset adapter */
+		// currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+		// mIdListItems = constructList(currentFolderId);
+		// itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
+		// currentFolderId);
 	}
 
 	private void showToast(String string) {
