@@ -603,4 +603,17 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		count = cursor.getCount();
 		return count;
 	}
+
+	// Getting folders count
+	public int getElementsCountFromFolder(int groupFolder) {
+		int count;
+		String countQuery = "SELECT  * FROM " + TABLE_ELEMENT_ID + " WHERE " + KEY_E_GROUP_ID + "="
+				+ String.valueOf(groupFolder);
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
+		Cursor cursor = db.rawQuery(countQuery, null);
+
+		// return count
+		count = cursor.getCount();
+		return count;
+	}
 }
