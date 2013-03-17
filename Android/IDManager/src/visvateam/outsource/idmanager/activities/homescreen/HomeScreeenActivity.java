@@ -81,7 +81,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	// ===========================Class Define =====================
 	private ItemAdapter itemAdapter;
 	private FolderListViewAdapter folderListViewAdapter;
-	private OneItem oneItemSelected;
+	private ElementID oneItemSelected;
 	// private DataBaseHandler mDataBaseHandler;
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private ArrayList<GroupFolder> mFolderListItems = new ArrayList<GroupFolder>();
@@ -329,11 +329,11 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			/**
 			 * retrieve selected item from adapterview
 			 */
-			oneItemSelected = (OneItem) arg0.getItemAtPosition(arg2);
+			oneItemSelected = (ElementID) arg0.getItemAtPosition(arg2);
 			imageDrag.setImageDrawable(EditIdPasswordActivity.getIconDatabase(oneItemSelected
-					.getIconId()));
-			txtIdName.setText(oneItemSelected.getName());
-			txtIdUrl.setText(oneItemSelected.getUrl());
+					.geteIcon()));
+			txtIdName.setText(oneItemSelected.geteTitle());
+			txtIdUrl.setText(oneItemSelected.geteUrl());
 		}
 
 		@Override
@@ -374,21 +374,16 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			// TODO Auto-generated method stub
 			Log.e("aaaaaaaa", "bbbbbbbb " + position);
 			currentFolderItem = position;
+
 			currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+			Log.e("position", "positiondaf " + currentFolderId);
 			/* refresh folder list */
 			folderListViewAdapter.setFolderSelected(currentFolderItem);
 
-			/* reset adapter id */
-			if (position == 0) {
-				// folder search
-				if (!"".equals(mTextSearch))
-					mIdListItems = startSearch(mTextSearch);
-				else
-					mIdListItems.clear();
-			} else if (position == 1) {
+			if (position == mFolderListItems.size() - 1) {
 				// folder favourite
 				mIdListItems = constructFavouriteList();
-			} else if (position == 2) {
+			} else if (position == mFolderListItems.size() - 2) {
 				// folder history
 				mIdListItems = constructHistoryList();
 
@@ -404,14 +399,15 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			if (oneItemSelected != null) {
 				// receverAdapter.addPicture(oneItemSelected, arg2);
 				mCurrentFolderPosition = mCurrentFirstVisibleFolderItem + arg2;
-				mCurrentId = oneItemSelected.getPasswordId();
+				// mCurrentId = oneItemSelected.getE();
 				ElementID elementId = mIDxPWDataBaseHandler.getElementID(mCurrentId);
 
 				Log.e("mCurrentFolderPostion " + mCurrentFolderPosition, "mCurrentFirtsVisible "
 						+ mCurrentFirstVisibleFolderItem);
 				if (isEdit && mCurrentFolderPosition > 0
 						&& elementId.geteGroupId() != mCurrentFolderPosition) {
-					Log.e("item selected", "item " + oneItemSelected.getPasswordId());
+					// Log.e("item selected", "item " +
+					// oneItemSelected.getPasswordId());
 					showDialog(Contants.DIALOG_MOVE_ID_TO_FOLDER);
 
 				}
@@ -483,7 +479,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 					elementList.get(i).geteFlag(), elementList.get(i).geteUrl(), elementList.get(i)
 							.geteNote(), elementList.get(i).geteImage(), elementList.get(i)
 							.geteOrder());
-			al.add(item);  
+			al.add(item);
 		}
 		return al;
 	}
@@ -574,7 +570,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		/* add new id */
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
-			if (currentFolderItem > 2) {
+			if (currentFolderItem < mFolderListItems.size() - 2) {
 				if (mIdManagerPreference
 						.getIsPaymentUnlimit(IdManagerPreference.IS_PAYMENT_UNLIMIT)
 						&& mIdManagerPreference.getNumberItems(IdManagerPreference.NUMBER_ITEMS) >= MAX_ITEMS)
@@ -1032,22 +1028,19 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private void addNewFolderToDatabase(String folderName) {
 
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
+
 		int sizeOfFolder = folderList.size();
-		int imgFolderIconId = R.drawable.btn_edit;
-		int imgFolderId = R.drawable.folder_common;
-		// mIDxPWDataBaseHandler.addNewFolder(new GroupFolder(sizeOfFolder, 1,
-		// folderName, imgFolderId, imgFolderIconId,
-		// Contants.TYPE_FOLDER_NORMAL));
-		mIDxPWDataBaseHandler.addNewFolder(new GroupFolder(sizeOfFolder, folderName, 0,
-				Contants.MASTER_PASSWORD_ID, 0));
+		Log.e("folderList", "folderList " + sizeOfFolder);
+		GroupFolder folder = new GroupFolder(sizeOfFolder, folderName, 0,
+				Contants.MASTER_PASSWORD_ID, 0);
+		mIDxPWDataBaseHandler.addNewFolder(folder);
 
 		// /* refresh listview folder */
 		// FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId,
 		// imgFolderIconId, folderName, Contants.TYPE_FOLDER_NORMAL);
 		// folderListViewAdapter.addNewFolder(folder);
-		GroupFolder folder = new GroupFolder(sizeOfFolder, folderName, 0,
-				Contants.MASTER_PASSWORD_ID, 0);
-		folderListViewAdapter.addNewFolder(folder);
+
+		folderListViewAdapter.addNewFolder(folder, folder.getgOrder());
 		Log.e("size of folder", "size of folder " + mFolderListItems.size());
 		folderListView.invalidate();
 	}
