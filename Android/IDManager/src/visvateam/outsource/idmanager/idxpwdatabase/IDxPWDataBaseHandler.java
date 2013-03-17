@@ -167,8 +167,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// Deleting single user
 	public void deleteUser(int userId) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
-		db.delete(TABLE_USERS, KEY_USER_ID + " = ?",
-				new String[] { String.valueOf(userId) });
+		db.delete(TABLE_USERS, KEY_USER_ID + " = ?", new String[] { String.valueOf(userId) });
 		db.close();
 	}
 
@@ -234,6 +233,32 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				GroupFolder folder = new GroupFolder();
+				folder.setgId(Integer.parseInt(cursor.getString(0)));
+				folder.setgName(cursor.getString(1));
+				folder.setgType(Integer.parseInt(cursor.getString(2)));
+				folder.setgUserId(Integer.parseInt(cursor.getString(3)));
+				folder.setgOrder(Integer.parseInt(cursor.getString(4)));
+				// Adding folder to list
+				foldertList.add(folder);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		db.close();
+		// return folder list
+		return foldertList;
+	}
+
+	// get all folder id from user id
+	public List<GroupFolder> getAllFolderByUserId(int userId) {
+		List<GroupFolder> foldertList = new ArrayList<GroupFolder>();
+		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
+		Cursor cursor = db.query(TABLE_GROUP_FOLDER, new String[] { KEY_GROUP_ID, KEY_GROUP_NAME,
+				KEY_GROUP_TYPE, KEY_GROUP_USER_ID, KEY_GROUP_ORDER }, KEY_GROUP_USER_ID + "=?",
+				new String[] { String.valueOf(userId) }, null, null, null, null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
@@ -355,6 +380,33 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		return passwordList;
 	}
 
+	// get all password in an element id
+	public List<Password> getAllPasswordByElementId(int elementId) {
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
+		List<Password> passwordList = new ArrayList<Password>();
+		Cursor cursor = db.query(TABLE_PASSWORD, new String[] { KEY_PASSWORD_ID, KEY_ELEMENT_ID,
+				KEY_TITLE_NAME_ID, KEY_PASSWORD, }, KEY_ELEMENT_ID + "=?",
+				new String[] { String.valueOf(elementId) }, null, null, null, null);
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Password password = new Password();
+				password.setPasswordId(Integer.parseInt(cursor.getString(0)));
+				password.seteId(Integer.parseInt(cursor.getString(1)));
+				password.setTitleNameId(cursor.getString(2));
+				password.setPassword(cursor.getString(3));
+
+				Log.e("adsifhdkf", "adjfhdkh " + Integer.parseInt(cursor.getString(5)));
+				// Adding folder to list
+				passwordList.add(password);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		db.close();
+		// return folder list
+		return passwordList;
+	}
+
 	// Updating single folder
 	public int updatePassword(Password password) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
@@ -449,6 +501,41 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				ElementID elementID = new ElementID();
+				elementID.seteId(Integer.parseInt(cursor.getString(0)));
+				elementID.seteGroupId(Integer.parseInt(cursor.getString(1)));
+				elementID.seteTitle(cursor.getString(2));
+				elementID.seteIcon(cursor.getString(3));
+				elementID.seteTimeStamp(Double.parseDouble(cursor.getString(4)));
+				elementID.seteFavourite(Integer.parseInt(cursor.getString(5)));
+				elementID.seteFlag(Integer.parseInt(cursor.getString(6)));
+				elementID.seteUrl(cursor.getString(7));
+				elementID.seteNote(cursor.getString(8));
+				elementID.seteImage(cursor.getString(9));
+				elementID.seteOrder(Integer.parseInt(cursor.getString(10)));
+
+				// Adding folder to list
+				elementIdList.add(elementID);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		db.close();
+		// return folder list
+		return elementIdList;
+	}
+
+	// get all element id from group folder id
+	public List<ElementID> getAllElementIdByGroupFolderId(int groupFolderId) {
+		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
+		List<ElementID> elementIdList = new ArrayList<ElementID>();
+
+		Cursor cursor = db.query(TABLE_ELEMENT_ID, new String[] { KEY_E_ID, KEY_E_GROUP_ID,
+				KEY_E_TITLE, KEY_E_ICON, KEY_E_TIME_STAMP, KEY_E_FAVOURITE, KEY_E_FLAG, KEY_E_URL,
+				KEY_E_NOTE, KEY_E_IMAGE, KEY_E_ORDER }, KEY_E_GROUP_ID + "=?",
+				new String[] { String.valueOf(groupFolderId) }, null, null, null, null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
