@@ -2,8 +2,6 @@ package visvateam.outsource.idmanager.activities;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
-import visvateam.outsource.idmanager.database.UserDataBase;
 import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.UserDB;

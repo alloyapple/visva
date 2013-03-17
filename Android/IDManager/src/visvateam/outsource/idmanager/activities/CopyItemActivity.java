@@ -1,9 +1,14 @@
 package visvateam.outsource.idmanager.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sqlcipher.database.SQLiteDatabase;
+
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
-import visvateam.outsource.idmanager.database.IDDataBase;
+import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,7 +18,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.ClipboardManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,26 +30,24 @@ import com.google.ads.AdView;
 @SuppressWarnings("deprecation")
 @SuppressLint("NewApi")
 public class CopyItemActivity extends BaseActivity {
-	private int currentPasswordId;
+	public static final String KEY_LIST_ITEM = "listItem";
+	public static final String KEY_URL = "keyUrl";
+	public static final String KEY_NOTE= "keyNote";
+	private int currentElementId;
 	public final static int COPY_ID = 0;
 	public final static int COPY_PASS = 1;
 	public static int MAX_ID = 12;
-	private IDDataBase id;
-	private String nameCopy;
-	private DataBaseHandler mDataBaseHandler;
+	private ElementID element;
+	private IDxPWDataBaseHandler mDataBaseHandler;
 	private LinearLayout mLinear;
 	public int indexSelect;
-
-	class Item {
-		String name;
-		String content;
-	}
+	private ArrayList<Item> itemList = new ArrayList<Item>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		currentPasswordId = getIntent().getExtras().getInt(
+		currentElementId = getIntent().getExtras().getInt(
 				Contants.CURRENT_PASSWORD_ID);
 		setContentView(R.layout.page_choice_id_pass_item);
 		mLinear = (LinearLayout) findViewById(R.id.id_linear_copy_item);
@@ -53,6 +55,7 @@ public class CopyItemActivity extends BaseActivity {
 		initAdmod();
 
 	}
+
 	public void initAdmod() {
 		AdView adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -61,13 +64,22 @@ public class CopyItemActivity extends BaseActivity {
 			adview.setVisibility(View.VISIBLE);
 		}
 	}
+
 	private void initDataBase() {
 		// TODO Auto-generated method stub
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-		id = mDataBaseHandler.getId(currentPasswordId);
-		for (int i = 0; i < MAX_ID; i++) {
-			if (!id.getDataId(i + 1).equals("")) {
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+		element = mDataBaseHandler.getElementID(currentElementId);
+		List<Password> listPass = mDataBaseHandler
+				.getAllPasswordByElementId(currentElementId);
+		for (int i = 0; i < listPass.size(); i++) {
+			Item item = new Item();
+			item.mNameItem = listPass.get(i).getTitleNameId();
+			item.mContentItem = listPass.get(i).getPassword();
+			itemList.add(item);
+		}
+		for (int i = 0; i < itemList.size(); i++) {
+			if (!itemList.get(i).mContentItem.equals("")) {
 				indexSelect = i;
 				Button btnItem = new Button(this);
 				btnItem.setLayoutParams(new LinearLayout.LayoutParams(
@@ -77,15 +89,14 @@ public class CopyItemActivity extends BaseActivity {
 				btnItem.setBackgroundResource(R.drawable.btn_copy_item);
 				btnItem.setTextColor(Color.WHITE);
 				btnItem.setGravity(Gravity.CENTER);
-				btnItem.setText(id.getTitleId(i + 1));
+				btnItem.setText(itemList.get(i).mNameItem);
 				btnItem.setOnClickListener(new OnClickListener() {
 					int index = indexSelect;
 
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						onCopy(id.getTitleId(index + 1),
-								id.getDataId(index + 1));
+						onCopy(itemList.get(index).mContentItem);
 					}
 				});
 				mLinear.addView(btnItem);
@@ -94,11 +105,10 @@ public class CopyItemActivity extends BaseActivity {
 
 	}
 
-	public void onCopy(String nameCopy, String contentCopy) {
+	public void onCopy(String contentCopy) {
 		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 		clipboard.setText(contentCopy);
-		this.nameCopy = nameCopy;
-		Log.i("<------name------->", this.nameCopy);
+		element.seteTimeStamp(System.currentTimeMillis());
 		showDialogCopy();
 	}
 
@@ -115,15 +125,19 @@ public class CopyItemActivity extends BaseActivity {
 	public void onPasteBrowse(View v) {
 		Intent intentBrowser = new Intent(CopyItemActivity.this,
 				BrowserJogdialActivity.class);
-		intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.PASTE_TO);
-		intentBrowser.putExtra(Contants.CURRENT_PASSWORD_ID, currentPasswordId);
+		intentBrowser.putExtra(KEY_LIST_ITEM, itemList);
+		intentBrowser.putExtra(KEY_URL, element.geteUrl());
+		intentBrowser.putExtra(KEY_NOTE, element.geteNote());
 		startActivity(intentBrowser);
 	}
+
 	public void showDialogCopy() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
 		alert.setTitle(R.string.copy_title)
-				.setMessage(nameCopy + " is coppied")
+				.setMessage(
+						getResources().getString(
+								R.string.message_coppied_clipboard))
 				.setPositiveButton(
 						getResources().getString(R.string.confirm_ok),
 						new DialogInterface.OnClickListener() {
@@ -132,10 +146,10 @@ public class CopyItemActivity extends BaseActivity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-
+								element.seteFlag(EditIdPasswordActivity.ELEMENT_FLAG_TRUE);
 							}
 						});
 		alert.create().show();
 	}
-	
+
 }

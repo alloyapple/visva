@@ -279,16 +279,7 @@ public class EditIconActivity extends BaseActivity {
 	public void onReturn(View v) {
 		ListIconActivity.startActivity(this);
 		finish();
-		// if (!mCheckBox.isChecked()) {
-		// finish();
-		// } else {
-		// if (fileUri != null)
-		// EditIdPasswordActivity.updateIcon(imageView.getDrawable());
-		// else {
-		// EditIdPasswordActivity.updateIcon(mDrawableIconEdit);
-		// }
-		// finish();
-		// }
+
 	}
 
 	public void onLibrary(View v) {

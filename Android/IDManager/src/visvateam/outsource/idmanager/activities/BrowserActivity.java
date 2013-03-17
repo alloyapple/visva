@@ -5,8 +5,8 @@ import com.google.ads.AdView;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
-import visvateam.outsource.idmanager.database.IDDataBase;
+import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,8 +24,8 @@ public class BrowserActivity extends BaseActivity {
 	private WebView webView;
 	private String url;
 	private int mode;
-	private int currentPasswordId;
-	private DataBaseHandler mDataBaseHandler;
+	private int currentElementId;
+	private IDxPWDataBaseHandler mDataBaseHandler;
 	private EditText editText;
 
 	@Override
@@ -35,7 +35,7 @@ public class BrowserActivity extends BaseActivity {
 		Bundle b = getIntent().getExtras();
 		mode = b.getInt(Contants.KEY_TO_BROWSER);
 		setContentView(R.layout.page_browser);
-		currentPasswordId = getIntent().getExtras().getInt(
+		currentElementId = getIntent().getExtras().getInt(
 				Contants.CURRENT_PASSWORD_ID);
 
 		if (mode == Contants.INFO_TO) {
@@ -60,15 +60,15 @@ public class BrowserActivity extends BaseActivity {
 	}
 	public void initData() {
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-		IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
-		url = id.getUrl();
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+		ElementID element = mDataBaseHandler.getElementID(currentElementId);
+		url = element.geteUrl();
 	}
 
 	public void onJogdial(View v) {
 		Intent i = new Intent(BrowserActivity.this,
 				BrowserJogdialActivity.class);
-		i.putExtra(Contants.CURRENT_PASSWORD_ID, currentPasswordId);
+		i.putExtra(Contants.CURRENT_PASSWORD_ID, currentElementId);
 		startActivity(i);
 	}
 

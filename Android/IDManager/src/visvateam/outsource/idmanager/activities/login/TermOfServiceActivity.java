@@ -6,7 +6,7 @@ import visvateam.outsource.idmanager.activities.MasterPasswordChangeActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
+
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import android.app.Activity;
@@ -26,8 +26,7 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 	private IdManagerPreference idManagerPreference;
 //	private DataBaseHandler mDataBaseHandler;
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
-	// =============================Variables Define ==================
-
+	// =============================Variables Define =================
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 			setContentView(R.layout.page_term_of_use);
 			/* check is first installed app */
 			idManagerPreference = IdManagerPreference.getInstance(this);
-			
 			/* init control */
 			initControl();
 		} else {

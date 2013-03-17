@@ -1,8 +1,6 @@
 package visvateam.outsource.idmanager.activities;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -10,12 +8,10 @@ import visvateam.outsource.idmanager.activities.export.ExportDataGGDriveActivity
 import visvateam.outsource.idmanager.activities.synccloud.DropboxSettingActivity;
 import visvateam.outsource.idmanager.activities.synccloud.GGDriveSettingActivity;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
-import visvateam.outsource.idmanager.database.FolderDatabase;
-import visvateam.outsource.idmanager.database.IDDataBase;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.ReadFileViaDropBox;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -46,7 +42,7 @@ public class SettingActivity extends BaseActivity {
 	private CharSequence[] mListDataChoice;
 	private CharSequence mSelectedFile = "";
 	private CharSequence[] mListDataChoiceTemp;
-	private DataBaseHandler mDataBaseHandler;
+	private IDxPWDataBaseHandler mDataBaseHandler;
 	private boolean isExportData;
 
 	// /////////////////////////////////////////////////////////////////////////
@@ -63,10 +59,6 @@ public class SettingActivity extends BaseActivity {
 	// If you'd like to change the access type to the full Dropbox instead of
 	// an app folder, change this value.
 	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
-
-	// /////////////////////////////////////////////////////////////////////////
-	// End app-specific settings. //
-	// /////////////////////////////////////////////////////////////////////////
 
 	// You don't need to change these, leave them alone.
 	final static private String ACCOUNT_PREFS_NAME = "prefs";
@@ -87,7 +79,7 @@ public class SettingActivity extends BaseActivity {
 		setContentView(R.layout.setting);
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
 		mPref=IdManagerPreference.getInstance(this);
 		initAdmod();
 
@@ -533,175 +525,175 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	private void generateCsvFile(String sFileName) {
-		java.util.List<FolderDatabase> folderList = mDataBaseHandler
-				.getAllFolders();
-		java.util.List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
-		try {
-			FileWriter writer = new FileWriter(sFileName);
-			writer.append("");
-			writer.append(",");
-			writer.append("Folder Tables");
-			writer.append("\n");
-			writer.append("Folder Name");
-			writer.append("\n");
-			for (int i = 0; i < folderList.size(); i++) {
-				writer.append("" + folderList.get(i).getFolderName());
-				writer.append("\n");
-			}
-			writer.append("\n");
-			writer.append("");
-			writer.append(",");
-			writer.append("IDxPassword tables");
-			writer.append("\n");
-			writer.append("Name");
-			writer.append(",");
-			writer.append("Url");
-			writer.append(",");
-			writer.append("Note");
-			writer.append(",");
-			writer.append("Image memo");
-			writer.append(",");
-
-			writer.append("ID1");
-			writer.append(",");
-			writer.append("Pass1");
-			writer.append(",");
-
-			writer.append("ID2");
-			writer.append(",");
-			writer.append("Pass2");
-			writer.append(",");
-
-			writer.append("ID3");
-			writer.append(",");
-			writer.append("Pass3");
-			writer.append(",");
-
-			writer.append("ID4");
-			writer.append(",");
-			writer.append("Pass4");
-			writer.append(",");
-
-			writer.append("ID5");
-			writer.append(",");
-			writer.append("Pass5");
-			writer.append(",");
-
-			writer.append("ID6");
-			writer.append(",");
-			writer.append("Pass6");
-			writer.append(",");
-
-			writer.append("ID7");
-			writer.append(",");
-			writer.append("Pass7");
-			writer.append(",");
-
-			writer.append("ID8");
-			writer.append(",");
-			writer.append("Pass8");
-			writer.append(",");
-
-			writer.append("ID9");
-			writer.append(",");
-			writer.append("Pass9");
-			writer.append(",");
-
-			writer.append("ID10");
-			writer.append(",");
-			writer.append("Pass10");
-			writer.append(",");
-
-			writer.append("ID11");
-			writer.append(",");
-			writer.append("Pass11");
-			writer.append(",");
-
-			writer.append("ID12");
-			writer.append(",");
-			writer.append("Pass12");
-			writer.append("\n");
-
-			for (int i = 0; i < idList.size(); i++) {
-
-				writer.append("" + idList.get(i).getTitleRecord());
-				writer.append(",");
-				writer.append("" + idList.get(i).getUrl());
-				writer.append(",");
-				writer.append("" + idList.get(i).getNote());
-				writer.append(",");
-				writer.append("" + idList.get(i).getImageMemo());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId1());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId1());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId2());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId2());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId3());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId3());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId4());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId4());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId5());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId5());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId6());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId6());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId7());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId7());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId8());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId8());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId9());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId9());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId10());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId10());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId11());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId11());
-				writer.append(",");
-
-				writer.append("" + idList.get(i).getTitleId12());
-				writer.append(",");
-				writer.append("" + idList.get(i).getDataId12());
-				writer.append("\n");
-
-			}
-
-			// generate whatever data you want
-
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		java.util.List<FolderDatabase> folderList = mDataBaseHandler
+//				.getAllFolders();
+//		java.util.List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
+//		try {
+//			FileWriter writer = new FileWriter(sFileName);
+//			writer.append("");
+//			writer.append(",");
+//			writer.append("Folder Tables");
+//			writer.append("\n");
+//			writer.append("Folder Name");
+//			writer.append("\n");
+//			for (int i = 0; i < folderList.size(); i++) {
+//				writer.append("" + folderList.get(i).getFolderName());
+//				writer.append("\n");
+//			}
+//			writer.append("\n");
+//			writer.append("");
+//			writer.append(",");
+//			writer.append("IDxPassword tables");
+//			writer.append("\n");
+//			writer.append("Name");
+//			writer.append(",");
+//			writer.append("Url");
+//			writer.append(",");
+//			writer.append("Note");
+//			writer.append(",");
+//			writer.append("Image memo");
+//			writer.append(",");
+//
+//			writer.append("ID1");
+//			writer.append(",");
+//			writer.append("Pass1");
+//			writer.append(",");
+//
+//			writer.append("ID2");
+//			writer.append(",");
+//			writer.append("Pass2");
+//			writer.append(",");
+//
+//			writer.append("ID3");
+//			writer.append(",");
+//			writer.append("Pass3");
+//			writer.append(",");
+//
+//			writer.append("ID4");
+//			writer.append(",");
+//			writer.append("Pass4");
+//			writer.append(",");
+//
+//			writer.append("ID5");
+//			writer.append(",");
+//			writer.append("Pass5");
+//			writer.append(",");
+//
+//			writer.append("ID6");
+//			writer.append(",");
+//			writer.append("Pass6");
+//			writer.append(",");
+//
+//			writer.append("ID7");
+//			writer.append(",");
+//			writer.append("Pass7");
+//			writer.append(",");
+//
+//			writer.append("ID8");
+//			writer.append(",");
+//			writer.append("Pass8");
+//			writer.append(",");
+//
+//			writer.append("ID9");
+//			writer.append(",");
+//			writer.append("Pass9");
+//			writer.append(",");
+//
+//			writer.append("ID10");
+//			writer.append(",");
+//			writer.append("Pass10");
+//			writer.append(",");
+//
+//			writer.append("ID11");
+//			writer.append(",");
+//			writer.append("Pass11");
+//			writer.append(",");
+//
+//			writer.append("ID12");
+//			writer.append(",");
+//			writer.append("Pass12");
+//			writer.append("\n");
+//
+//			for (int i = 0; i < idList.size(); i++) {
+//
+//				writer.append("" + idList.get(i).getTitleRecord());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getUrl());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getNote());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getImageMemo());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId1());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId1());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId2());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId2());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId3());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId3());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId4());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId4());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId5());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId5());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId6());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId6());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId7());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId7());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId8());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId8());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId9());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId9());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId10());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId10());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId11());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId11());
+//				writer.append(",");
+//
+//				writer.append("" + idList.get(i).getTitleId12());
+//				writer.append(",");
+//				writer.append("" + idList.get(i).getDataId12());
+//				writer.append("\n");
+//
+//			}
+//
+//			// generate whatever data you want
+//
+//			writer.flush();
+//			writer.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private AndroidAuthSession buildSession() {

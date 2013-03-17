@@ -25,9 +25,10 @@ import javax.crypto.NoSuchPaddingException;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
-import visvateam.outsource.idmanager.database.IDDataBase;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
+import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import visvateam.outsource.idmanager.sercurity.CipherUtil;
 import android.app.Activity;
 import android.app.Dialog;
@@ -44,7 +45,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,41 +66,33 @@ import com.google.ads.AdView;
 
 public class EditIdPasswordActivity extends BaseActivity implements
 		OnItemClickListener, android.content.DialogInterface.OnClickListener {
+	public static final int ELEMENT_FLAG_TRUE = 1;
+	public static final int ELEMENT_FLAG_FALSE = 0;
 	// =========================Control Define ==================
 	private ListView mListView;
 	private CheckBox mCheckBoxLike;
 
-	private EditText mEditTextUrlId; 
+	private EditText mEditTextUrlId;
 	private EditText mEditTextNameId;
 	private EditText mEditTextNote;
 	// =========================Class Define ====================
-	private DataBaseHandler mDataBaseHandler;
+	private IDxPWDataBaseHandler mDataBaseHandler;
 	private ArrayList<Item> mItems;
 	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
 
-	public static String nameItem[] = { "", "", "", "", "",
-			"Pass3", "ID4", "Pass4", "ID5", "Pass5", "ID6", "Pass6", "ID7",
-			"Pass7", "ID8", "Pass8", "ID9", "Pass9", "ID10", "Pass10", "ID11",
-			"Pass11", "ID12", "Pass12" };
+	public static String DEFAULT_NAME_ITEM[] = { "", "", "", "", "" };
 	private boolean isCreateNewId;
 
 	// id password info
 	private int currentFolderId;
-	private int currentPasswordId;
-
-	private boolean isLike;
-	private int numberOfId;
+	private int currentElementId;
+	private int isLike;
 	private String titleRecord;
 	private String icon;
-	private String favouriteGroup;
 	private String url;
 	private String note;
 	private String imageMemo;
-	private String flag;
-	private String timeStamp;
-	private boolean isEncrypted;
-	private int userId;
 	private static Drawable mDrawableIcon;
 	private static boolean isUpdateIcon;
 	public static String mUrlItem;
@@ -108,6 +100,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public ArrayList<ViewHolder> viewHolder = new ArrayList<EditIdPasswordActivity.ViewHolder>();
 	public int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
+	private static final String DEFAULT_URL = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,10 +114,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		currentFolderId = getIntent().getExtras().getInt(
 				Contants.CURRENT_FOLDER_ID);
 		if (!isCreateNewId)
-			currentPasswordId = getIntent().getExtras().getInt(
+			currentElementId = getIntent().getExtras().getInt(
 					Contants.CURRENT_PASSWORD_ID);
 		else
-			currentPasswordId = -1;
+			currentElementId = -1;
 
 		/* initialize database */
 		initDataBase();
@@ -222,9 +215,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-		List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
-		numberOfId = idList.size();
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+
 	}
 
 	/**
@@ -243,10 +235,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked)
-					isLike = true;
+					isLike = 1;
 				else
-					isLike = false;
-				Log.e("isChecked", "isCheck " + isChecked);
+					isLike = 0;
 			}
 		});
 
@@ -255,11 +246,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		/* load data for list item id */
 		mItems = loadDataForListItem();
 		mListView.setAdapter(new ItemAddAdapter(this, mItems));
-
 		mSlidingDrawer = (MultiDirectionSlidingDrawer) findViewById(R.id.drawer);
-		// if (isCreateNewId)
-		// mSlidingDrawer.close();
-		// else
 		mSlidingDrawer.open();
 	}
 
@@ -269,33 +256,30 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	 * @return
 	 */
 	private ArrayList<Item> loadDataForListItem() {
-		ArrayList<Item> itemList = new ArrayList<EditIdPasswordActivity.Item>();
+		ArrayList<Item> itemList = new ArrayList<Item>();
 
 		/* is create new id */
 		if (isCreateNewId) {
-			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID * 2; i++) {
+			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
 				Item item = new Item();
-				item.mNameItem = nameItem[i];
+				item.mNameItem = DEFAULT_NAME_ITEM[i];
 				item.mContentItem = "";
 				itemList.add(item);
+
 			}
-			mUrlItem = "http://google.com";
+			mUrlItem = DEFAULT_URL;
 			((ImageButton) findViewById(R.id.btn_img_memo))
 					.setVisibility(View.GONE);
-			/* is edit id */
 		} else {
-			if (currentPasswordId == -1) {
-				showToast("Edit Id error");
+			if (currentElementId == -1)
 				finish();
-			}
-			IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
 
-			/* set values for item of edit idpw activity */
-			mEditTextNameId.setText(id.getTitleRecord());
-			mEditTextNote.setText(id.getNote());
-			mUrlItem = id.getUrl();
-			imageMemo = id.getImageMemo();
+			ElementID element = mDataBaseHandler.getElementID(currentElementId);
 
+			mEditTextNameId.setText(element.geteTitle());
+			mEditTextNote.setText(element.geteNote());
+			mUrlItem = element.geteUrl();
+			imageMemo = element.geteImage();
 			if (imageMemo != null) {
 				Uri fileUri = Uri.parse(imageMemo);
 				((ImageButton) findViewById(R.id.btn_img_memo))
@@ -306,28 +290,22 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				((ImageButton) findViewById(R.id.btn_img_memo))
 						.setVisibility(View.GONE);
 			}
-			mEditTextUrlId.setText(id.getUrl());
-			if (id.getLike() == 0)
+			mEditTextUrlId.setText(element.geteUrl());
+			icon = element.geteIcon();
+			if (element.geteFavourite() == 0)
 				mCheckBoxLike.setChecked(false);
-			else if (id.getLike() == 1)
+			else if (element.geteFavourite() == 1)
 				mCheckBoxLike.setChecked(true);
-
-			// load info from database
-			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID * 2; i++) {
+			List<Password> listPass = mDataBaseHandler
+					.getAllPasswordByElementId(currentElementId);
+			for (int i = 0; i < listPass.size(); i++) {
 				Item item = new Item();
-				item.mNameItem = nameItem[i];
-				int temp;
-				if (i % 2 == 0) {
-					temp = (i + 2) / 2;
-					item.mContentItem = id.getTitleId(temp);
-				} else {
-					temp = (i + 1) / 2;
-					item.mContentItem = id.getDataId(temp);
-				}
+				item.mNameItem = listPass.get(i).getTitleNameId();
+				item.mContentItem = listPass.get(i).getPassword();
 				itemList.add(item);
 			}
 			// set icon for image icon
-			icon = id.getIcon();
+
 		}
 		return itemList;
 	}
@@ -350,7 +328,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 	public void onReturn(View v) {
 		createOrUpdateId();
-//		showDialog(Contants.DIALOG_CREATE_ID);
+		// showDialog(Contants.DIALOG_CREATE_ID);
 	}
 
 	public void onInfo(View v) {
@@ -472,10 +450,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 						}
 					});
 			viewHolder.add(holder);
-			// convertView.setTag(holder);
-			// } else {
-			// holder = (ViewHolder) convertView.getTag();
-			// }
+
 			return convertView;
 		}
 
@@ -485,11 +460,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		EditText nameItem;
 		EditText contentItem;
 
-	}
-
-	private class Item {
-		public String mNameItem;
-		public String mContentItem;
 	}
 
 	public void onAvatarClick(View v) {
@@ -527,21 +497,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	 * create new id password
 	 */
 	private void createOrUpdateId() {
-		// TODO Auto-generated method stub
-//		if ("".equals(mEditTextNameId.getText().toString()))
-//			showToast("Type the name of this Id before creating");
-//		else if ("".equals(mEditTextUrlId.getText().toString()))
-//			showToast("Type the link url of this Id before creating");
-//		else if (!checkValidataUrl(mEditTextUrlId.getText().toString()))
-//			showToast("Your url is not validate");
-//		else {
-			/* start create new Id */
-
-			addNewIdValuesToDataBase();
-//		}
-
+		addNewIdValuesToDataBase();
 	}
-
 
 	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
 		String namString = String.valueOf(System.currentTimeMillis());
@@ -623,58 +580,34 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	 * add new id password to database
 	 */
 	private void addNewIdValuesToDataBase() {
-		/* set values for id database */
-
-		numberOfId++;
-		Log.e("numer of id", "number of id " + numberOfId);
 		titleRecord = mEditTextNameId.getText().toString();
 		if (isUpdateIcon) {
 			icon = encyptAndSaveIcon(mDrawableIcon, icon);
-
 		}
 		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();
-		int passWordId = -1;
-		long currentTime = System.currentTimeMillis();
-		timeStamp = String.valueOf(currentTime);
+		int elementId = -1;
+
 		if (isCreateNewId)
-			passWordId = numberOfId;
+			elementId = mDataBaseHandler.getElementsCount();
 		else
-			passWordId = currentPasswordId;
+			elementId = currentElementId;
 
-		/* add new id */
-		IDDataBase id = new IDDataBase(passWordId, currentFolderId,
-				titleRecord, icon, favouriteGroup, mItems.get(0).mContentItem,
-				mItems.get(1).mContentItem, mItems.get(2).mContentItem,
-				mItems.get(3).mContentItem, mItems.get(4).mContentItem,
-				mItems.get(5).mContentItem, mItems.get(6).mContentItem,
-				mItems.get(7).mContentItem, mItems.get(8).mContentItem,
-				mItems.get(9).mContentItem, mItems.get(10).mContentItem,
-				mItems.get(11).mContentItem, mItems.get(12).mContentItem,
-				mItems.get(13).mContentItem, mItems.get(14).mContentItem,
-				mItems.get(15).mContentItem, mItems.get(16).mContentItem,
-				mItems.get(17).mContentItem, mItems.get(18).mContentItem,
-				mItems.get(19).mContentItem, mItems.get(20).mContentItem,
-				mItems.get(21).mContentItem, mItems.get(22).mContentItem,
-				mItems.get(23).mContentItem, url, note, imageMemo, flag,
-				timeStamp, isEncrypted, userId, 0);
-
-		/* if user click like, add id to folder history */
-		if (isLike) {
-			id.setLike(Contants.IS_FAVOURITE);
-		} else
-			id.setLike(Contants.NOT_FAVORITE);
+		ElementID newElement = new ElementID(elementId, currentFolderId,
+				titleRecord, icon, System.currentTimeMillis(), isLike,
+				ELEMENT_FLAG_FALSE, url, note, imageMemo,
+				mDataBaseHandler.getElementsCountFromFolder(currentFolderId));
 
 		// create id int normal folder
 		if (isCreateNewId) {
-			mDataBaseHandler.addNewID(id);
+			mDataBaseHandler.addNewElementId(newElement);
 			mIdManagerPreference
 					.setNumberItem(
 							IdManagerPreference.NUMBER_ITEMS,
 							mIdManagerPreference
 									.getNumberItems(IdManagerPreference.NUMBER_ITEMS) + 1);
 		} else
-			mDataBaseHandler.updateId(id);
+			mDataBaseHandler.updateElementId(newElement);
 
 		/* return home */
 		finish();
@@ -753,5 +686,5 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 		return bitmap;
 	}
-	
+
 }
