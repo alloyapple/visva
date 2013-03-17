@@ -27,6 +27,7 @@ import com.dropbox.client2.session.Session.AccessType;
 import com.dropbox.client2.session.TokenPair;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 
 public class DropboxSettingActivity extends Activity {
 	private static final String TAG = "Dropbox";
@@ -61,15 +62,22 @@ public class DropboxSettingActivity extends Activity {
 	// Android widgets
 	private Button btnLinkToDropbox;
 
+	private IdManagerPreference mIdManagerPreference;
+	private String mGGAccountName;
+	private boolean isCheckAuthen;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		/* share preference */
+		mIdManagerPreference = IdManagerPreference.getInstance(this);
+		mGGAccountName = mIdManagerPreference.getGoogleAccNameSession();
 		/* create file if not exist */
 		File file = new File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
-		
+
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
@@ -88,15 +96,21 @@ public class DropboxSettingActivity extends Activity {
 					logOut();
 				} else {
 					// Start the remote authentication
+					mIdManagerPreference.setGoogleAccNameSession("");
 					mApi.getSession().startAuthentication(DropboxSettingActivity.this);
 				}
 			}
 		});
 
-	
-		// Display the proper UI state if logged in or not
-		setLoggedIn(mApi.getSession().isLinked());
-
+		Log.e("mGGAccName", "Name " + mGGAccountName);
+		if ("".equals(mGGAccountName)) {
+			// Display the proper UI state if logged in or not
+			isCheckAuthen = true;
+			setLoggedIn(mApi.getSession().isLinked());
+		} else {
+			isCheckAuthen = false;
+			logOut();
+		}
 	}
 
 	@Override
@@ -104,32 +118,34 @@ public class DropboxSettingActivity extends Activity {
 		super.onSaveInstanceState(outState);
 	}
 
-
 	@Override
 	protected void onResume() {
 		super.onResume();
-		AndroidAuthSession session = mApi.getSession();
+		if ("".equals(mIdManagerPreference.getGoogleAccNameSession())) {
+			AndroidAuthSession session = mApi.getSession();
 
-		// The next part must be inserted in the onResume() method of the
-		// activity from which session.startAuthentication() was called, so
-		// that Dropbox authentication completes properly.
-		if (session.authenticationSuccessful()) {
-			try {
-				// Mandatory call to complete the auth
-				session.finishAuthentication();
-
-				// Store it locally in our app for later use
-				TokenPair tokens = session.getAccessTokenPair();
-				storeKeys(tokens.key, tokens.secret);
-				setLoggedIn(true);
-			} catch (IllegalStateException e) {
-				showToast("Couldn't authenticate with Dropbox:" + e.getLocalizedMessage());
-				Log.i(TAG, "Error authenticating", e);
+			// The next part must be inserted in the onResume() method of the
+			// activity from which session.startAuthentication() was called, so
+			// that Dropbox authentication completes properly.
+			if (null != session && session.authenticationSuccessful()) {
+				try {
+					// Mandatory call to complete the auth
+					session.finishAuthentication();
+					// Store it locally in our app for later use
+					TokenPair tokens = session.getAccessTokenPair();
+					storeKeys(tokens.key, tokens.secret);
+					setLoggedIn(true);
+				} catch (IllegalStateException e) {
+					showToast("Couldn't authenticate with Dropbox:" + e.getLocalizedMessage());
+					Log.i(TAG, "Error authenticating", e);
+				}
 			}
-		}
+		}else
+			logOut();
 	}
 
 	private void logOut() {
+		Log.e("log out", "log out");
 		// Remove credentials from the session
 		mApi.getSession().unlink();
 
@@ -143,11 +159,13 @@ public class DropboxSettingActivity extends Activity {
 	 * Convenience function to change UI state based on being logged in
 	 */
 	private void setLoggedIn(boolean loggedIn) {
+		Log.e("login", "login " + loggedIn);
 		mLoggedIn = loggedIn;
 		if (loggedIn) {
-			btnLinkToDropbox.setText("Unlink from Dropbox");
+			btnLinkToDropbox.setText(getString(R.string.dropbox_already_use));
+			mIdManagerPreference.setGoogleAccNameSession("");
 		} else {
-			btnLinkToDropbox.setText("Link with Dropbox");
+			btnLinkToDropbox.setText(getString(R.string.dropbox_start_to_use));
 		}
 	}
 
@@ -261,41 +279,4 @@ public class DropboxSettingActivity extends Activity {
 		return false;
 	}
 
-	/**
-	 * Called to create a dialog to be shown.
-	 */
-	@Override
-	protected Dialog onCreateDialog(int id) {
-
-		switch (id) {
-		case Contants.DIALOG_NO_NET_WORK:
-			return createExampleDialog(Contants.DIALOG_NO_NET_WORK);
-		default:
-			return null;
-		}
-	}
-
-	/**
-	 * Create and return an example alert dialog with an edit text box.
-	 */
-	private Dialog createExampleDialog(int id) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-		switch (id) {
-		case Contants.DIALOG_NO_NET_WORK:
-			builder.setTitle("Id Manager");
-			builder.setMessage("Network is unvailable");
-			builder.setIcon(R.drawable.icon);
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int whichButton) {
-					/* add new folder to database */
-					return;
-				}
-			});
-			return builder.create();
-		default:
-			return null;
-		}
-	}
 }

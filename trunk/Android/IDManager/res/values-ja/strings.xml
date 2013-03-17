@@ -49,9 +49,8 @@
     <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
-    
-        
-    <!--cloud and text data  -->
+
+    <!-- cloud and text data -->
     <string name="cloud_service_name">利用クラウドサービス:</string>
     <string name="txt_dropbox_tut">Dropboxとは最も人気の高いクラウドサービスの一つです。このサービスを利用するには、予めアカウントの取得（無料）が必要です。</string>
     <!--
@@ -88,7 +87,9 @@
     <string name="sync_finish">同期が終了しました。</string>
     <string name="data_cloud_newer">Dropbox(GoogleDrive)上のデータの方が新しいですが、本当に上書きしてよろしいですか？</string>
     <string name="limit_login_msg">安全のための破壊設定がされています。あと%d回間違えるとIDxPasswordのデータが失われます。</string>
-	<string name="sync_data_duplicate_msg">Dropbox(GoogleDrive)上のデータより、このAndroidのデータの方が新しいですが本当によろしいですか？.</string>
+    <string name="sync_data_duplicate_msg">Dropbox(GoogleDrive)上のデータより、このAndroidのデータの方が新しいですが本当によろしいですか？.</string>
+    <string name="sync_to_cloud_data_device_newer">Dropbox(GoogleDrive)上のデータにこのiPhoneのデータを上書きしますがよろしいですか？</string>
+	<string name="sync_to_device_data_cloud_newer">Dropbox(GoogleDrive)上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
     
     <!-- others -->
     <string name="wrong_pw_login">確認パスワードの文字が符合しませんでした。再入力してください。</string>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="visvateam.outsource.idmanager.activities"
+    android:installLocation="preferExternal"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -21,6 +22,7 @@
     <uses-permission android:name="android.permission.STORAGE" />
 
     <application
+        android:name="visvateam.outsource.idmanager.idletime.ControlApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -61,7 +63,8 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.CopyItemActivity"
@@ -154,6 +157,13 @@
         <activity
             android:name="com.box.androidlib.activities.BoxAuthentication"
             android:configChanges="orientation|keyboardHidden" />
+        <activity
+            android:name="visvateam.outsource.idmanager.activities.securityservice.SecurityMasterPasswordActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service android:name="visvateam.outsource.idmanager.activities.securityservice.SecurityService" >
+        </service>
     </application>
 
 </manifest>

@@ -42,6 +42,16 @@
             android:layout_width="280dp"
             android:layout_height="46dp"
             android:layout_marginTop="15dp"
+            android:background="@drawable/btn_sync_auto"
+            android:gravity="center"
+            android:onClick="onSyncAuto"
+            android:text="@string/unify_newer_data" >
+        </Button>
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/btn_sync_to_cloud"
             android:gravity="center"
             android:onClick="onSyncToCloud" >

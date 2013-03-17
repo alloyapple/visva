@@ -99,6 +99,8 @@
     <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
     <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
     <string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
+    <string name="sync_to_cloud_data_device_newer">The data on Dropbox(GoogleDrive) will be overwritten by this Android\'s data. Are you sure?</string>
+    <string name="sync_to_device_data_cloud_newer">This Android\'s data will be overwritten by the newer data on Dropbox(GoogleDrive).</string>
 
     <!-- others -->
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>

@@ -40,6 +40,10 @@ public class Contants {
 	public static final int DIALOG_MESSAGE_CHOICE_DATA_READ = 24;
 	public static final int DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD = 25;
 	public static final int DIALOG_MESSAGE_READ_DATA_SUCCESSED= 26;
+	public static final int DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER = 27;
+	public static final int DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER = 28;
+	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER = 29;
+	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER = 30;
 
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
@@ -67,7 +71,7 @@ public class Contants {
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment.getExternalStorageDirectory().getPath()
 			+ "/IDManager/Files/";
-	public static final String FOLDER_ON_DROPBOX_DB = "/Android/DataBase/";
+	public static final String FOLDER_ON_DROPBOX_DB = "/DataBase/";
 	public static final String FOLDER_ON_DROPBOX_CSV = "/IDxPassword/";
 
 	public static final String IS_CHANGE_PASSWORD = "isChangePW";

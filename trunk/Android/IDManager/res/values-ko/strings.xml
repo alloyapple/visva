@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="title_create_pass">Create Master Password</string>
     <string name="title_master_pass">마스터 비밀 번호</string>
     <string name="title_delete_items">삭제</string>
     <string name="title_add_items">신규</string>
     <string name="title_creat_item">Creat item</string>
-    
     <string name="text_min">분</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
@@ -13,12 +13,10 @@
     <string name="message_add_item">무료 버전으로 등록하실 ID 번호는 12개입니다. 더 이용하실 분은 기능 제한 해제를 위한 키 코드 (#,000원)을 구입하십시오.</string>
     <string name="title_add_folder">폴더 추가</string>
     <string name="title_change_folder">폴더명 바꾸기</string>
-    
     <string name="confirm_delete">삭제</string>
     <string name="title_delete">폴더 삭제</string>
     <string name="security_mode_title">보안 모드</string>
     <string name="remove_data_title">데이터 파괴 설정</string>
-    
     <string name="item_change_master_apss">마스터 비밀 번호 변경</string>
     <string name="item_mode_security">보안 모드</string>
     <string name="item_remove_data">데이터 파괴 설정</string>
@@ -30,10 +28,8 @@
     <string name="item_unlimited_item">항목 수 제한 해제</string>
     <string name="item_no_admod">광고 해제</string>
     <string name="item_export_data">CSV 텍스트 형식으로 출력</string>
-    
     <string name="new_pass">신규:</string>
     <string name="confirm_pass">확인:</string>
-    
     <string name="password_generator_title">비밀번호 자동 생성</string>
     <string name="button_generate">생성</string>
     <string name="item_number">숫자</string>
@@ -42,12 +38,10 @@
     <string name="item_sign">기호</string>
     <string name="item_duplicate">중복 방지</string>
     <string name="item_number_character">문자수</string>
-    
     <string name="list_icon_title">로고 / 아이콘</string>
     <string name="setting_title">설정</string>
     <string name="confirm_ok">승인</string>
     <string name="confirm_cancel">취소</string>
-    
     <string name="list_carrier_title">통신 · 인터넷</string>
     <string name="list_e_commerce">쇼핑</string>
     <string name="list_finance">금융</string>
@@ -56,12 +50,14 @@
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 
-    <!--cloud and text data  -->
+    <!-- cloud and text data -->
     <string name="cloud_service_name">이용 클라우드 서비스</string>
     <string name="txt_dropbox_tut">Dropbox는 가장 인기있는 클라우드 서비스의 하나입니다. 이 서비스를 이용하려면 회원가입(무료)이 필요합니다.</string>
-    <!-- <string name="item_sync">동기화 실행</string>
+    <!--
+    <string name="item_sync">동기화 실행</string>
     <string name="item_dropbox">Dropbox의 동기화</string>
-    <string name="item_cloud">텍스트 데이터 읽기</string> -->
+    <string name="item_cloud">텍스트 데이터 읽기</string>
+    -->
     <string name="dropbox_start_to_use">이용 절차 시작</string>
     <string name="dropbox_reset_sync">동기화 해제</string>
     <string name="dropbox_already_use">IDxPassword는 이미 Dropbox를 사용할 수 있습니다.</string>
@@ -92,7 +88,11 @@
     <string name="data_cloud_newer">Dropbox (GoogleDrive)의 데이터가 더 새롭습니다. 정말 덮어 쓰시겠습니까?</string>
     <string name="limit_login_msg">안전을 위해 파괴 설정이 되어 있습니다. %d번 잘못 입력 하면 IDxPassword의 데이타가 손실됩니다.</string>
     <string name="sync_data_duplicate_msg">Dropbox (GoogleDrive)의 데이터보다 이 Android의 데이터가 더 새롭습니다. 동의삽니까?.</string>
-     <!--others  -->
+    <string name="sync_to_cloud_data_device_newer">Dropbox (GoogleDrive)의 데이터에 이 iPhone의 데이터를 덮어 쓰지만 하시겠습니까?</string>
+    <string name="sync_to_device_data_cloud_newer">Dropbox (GoogleDrive)의 데이터를 가져옵니다. 현재의 데이터가 손실되지만 동의 하십나까?</string>
+
+    <!-- others -->
     <string name="wrong_pw_login">확인 비밀 번호가 맞지 않았습니다. 다시 입력하십시오.</string>
     <string name="data_erased_msg">지정 횟수 마스터 비밀 번호를 잘못 입력하면 데이터를 삭제합니다.</string>
+
 </resources>
