@@ -81,6 +81,7 @@ public class SyncCloudActivity extends Activity {
 	private static Drive service;
 	private GoogleAccountCredential credential;
 	private long mLastTimeSync;
+	private String accountName;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -171,7 +172,7 @@ public class SyncCloudActivity extends Activity {
 	 */
 	private void startAutoSyncData(int mCloudType) {
 		if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
-
+			startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
 		} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 			boolean isCheckedTime = false;
 			startAutoSyncByDropbox(isCheckedTime);
@@ -183,8 +184,9 @@ public class SyncCloudActivity extends Activity {
 	 */
 	private void startAutoSyncByDropbox(boolean isCheckedTime) {
 		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		DBDropboxAutoSyncController autoSync = new DBDropboxAutoSyncController(SyncCloudActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX_DB, dbFile, mHandler, isCheckedTime);
+		DBDropboxAutoSyncController autoSync = new DBDropboxAutoSyncController(
+				SyncCloudActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_DB, dbFile, mHandler,
+				isCheckedTime);
 		autoSync.execute();
 	}
 
@@ -217,7 +219,7 @@ public class SyncCloudActivity extends Activity {
 			if (mCloudType == NO_CLOUD_LOGIN) {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			} else if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
-
+				startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
 			} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 				boolean isCheckTime = false;
 				startSyncToDeviceByDropBox(isCheckTime);
@@ -423,7 +425,9 @@ public class SyncCloudActivity extends Activity {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								syncToCloudByDropbox(true);
-							return;
+							else if (mCloudType == GG_DRIVE_LOGIN_SESSION)
+								saveFileToDrive(accountName, true);
+								return;
 						}
 					});
 			builder.setNegativeButton(getString(R.string.confirm_cancel),
@@ -451,6 +455,8 @@ public class SyncCloudActivity extends Activity {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								syncToCloudByDropbox(true);
+							else if(mCloudType == GG_DRIVE_LOGIN_SESSION)
+								saveFileToDrive(accountName, true);
 							return;
 						}
 					});
@@ -600,12 +606,13 @@ public class SyncCloudActivity extends Activity {
 		switch (requestCode) {
 		case REQUEST_ACCOUNT_PICKER:
 			if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
-				String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+				accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 				if (accountName != null) {
 					Log.e("accname", "acc Name " + accountName);
 					credential.setSelectedAccountName(accountName);
 					service = getDriveService(credential);
-					saveFileToDrive(accountName);
+					boolean isCheckedTime = false;
+					saveFileToDrive(accountName, isCheckedTime);
 				}
 			}
 			break;
@@ -622,10 +629,10 @@ public class SyncCloudActivity extends Activity {
 		}
 	}
 
-	private void saveFileToDrive(String accountName) {
+	private void saveFileToDrive(String accountName, boolean isCheckedTime) {
 		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
 		GGUploadController drive = new GGUploadController(this, service, fileDb, mHandler,
-				accountName);
+				accountName, isCheckedTime);
 		drive.execute();
 	}
 
