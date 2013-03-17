@@ -8,6 +8,8 @@ import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.database.UserDataBase;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -30,6 +32,7 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
 	private DataBaseHandler mDataBaseHandler;
+	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
 	private int mNumberAtemppt = 0;
@@ -59,10 +62,13 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 			/* init database */
 			SQLiteDatabase.loadLibs(this);
 			mDataBaseHandler = new DataBaseHandler(this);
-
+			mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
+			
+			UserDB userTemp = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+			mMasterPW = userTemp.getPassword();
 			UserDataBase user = mDataBaseHandler
 					.getUser(Contants.MASTER_PASSWORD_ID);
-			mMasterPW = user.getUserPassword();
+			String masterPWm= user.getUserPassword();
 			Log.e("masterpw", "master pw " + mMasterPW);
 		}
 	}
