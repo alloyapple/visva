@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class BrowserJogdialActivity extends BaseActivity {
+	private static int deltaX = 20;
+	private static int deltaY = 20;
 	private WebView webView;
 	private String url;
 	private ArrayList<Item> itemList = new ArrayList<Item>();
@@ -47,6 +50,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 	int currentField = 0;
 	String note;
 	String valueGet;
+	PointF startPoint = new PointF();
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -77,12 +81,18 @@ public class BrowserJogdialActivity extends BaseActivity {
 					startAngle = getAngle(event.getX(), event.getY());
 					countClockwise = 0;
 					countUnclockwise = 0;
+					startPoint.set(event.getX(), event.getY());
 					break;
 				case MotionEvent.ACTION_UP:
-					if (countClockwise > countUnclockwise) {
-						pasteJogdial(true);
-					} else if (countClockwise < countUnclockwise) {
-						pasteJogdial(false);
+					if (checkPoint(startPoint)
+							&& checkPoint(new PointF(event.getX(), event.getY()))) {
+						nextInput();
+					} else {
+						if (countClockwise > countUnclockwise) {
+							pasteJogdial(true);
+						} else if (countClockwise < countUnclockwise) {
+							pasteJogdial(false);
+						}
 					}
 					break;
 				case MotionEvent.ACTION_MOVE:
@@ -102,6 +112,15 @@ public class BrowserJogdialActivity extends BaseActivity {
 		initControl();
 	}
 
+	public boolean checkPoint(PointF p) {
+		if (dialer.getWidth() / 2 - deltaX < p.x
+				&& dialer.getWidth() / 2 + deltaX > p.x
+				&& dialer.getHeight() / 2 - deltaY < p.y
+				&& dialer.getHeight() / 2 - deltaY > p.y)
+			return true;
+		return false;
+	}
+
 	public void onJogdial(View v) {
 		isJogdial = !isJogdial;
 		if (isJogdial) {
@@ -115,6 +134,9 @@ public class BrowserJogdialActivity extends BaseActivity {
 			mLinearBottom.setVisibility(View.VISIBLE);
 			mBtnJogdial.setBackgroundResource(R.drawable.btn_wheel);
 		}
+	}
+
+	public void nextInput() {
 	}
 
 	private void playSoundEffect(int _idSound) {

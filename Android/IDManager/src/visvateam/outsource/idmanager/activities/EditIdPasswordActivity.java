@@ -30,6 +30,7 @@ import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import visvateam.outsource.idmanager.sercurity.CipherUtil;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -94,13 +95,15 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private String note;
 	private String imageMemo;
 	private static Drawable mDrawableIcon;
+	public static Drawable mDrawableMemo;
 	private static boolean isUpdateIcon;
+	private static boolean isUpdateMemo;
 	public static String mUrlItem;
 	public static String mStringOfSelectItem = "";
 	public ArrayList<ViewHolder> viewHolder = new ArrayList<EditIdPasswordActivity.ViewHolder>();
 	public int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
-	private static final String DEFAULT_URL = "";
+	private static final String DEFAULT_URL = "http://google.com";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,12 +129,20 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		initControl();
 		if (!isCreateNewId) {
 			isUpdateIcon = false;
+			isUpdateMemo = false;
 			mDrawableIcon = getIconDatabase(icon);
+			if (!imageMemo.equals(""))
+				mDrawableMemo = getIconDatabase(imageMemo);
+			else {
+				mDrawableMemo = null;
+			}
 			// mDrawableIcon =
 			// getResources().getDrawable(R.drawable.default_icon);
 		} else {
 			isUpdateIcon = true;
+			isUpdateIcon = false;
 			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
+			mDrawableMemo = null;
 		}
 		initAdmod();
 	}
@@ -268,6 +279,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 			}
 			mUrlItem = DEFAULT_URL;
+			mEditTextUrlId.setText(mUrlItem);
 			((ImageButton) findViewById(R.id.btn_img_memo))
 					.setVisibility(View.GONE);
 		} else {
@@ -290,7 +302,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				((ImageButton) findViewById(R.id.btn_img_memo))
 						.setVisibility(View.GONE);
 			}
-			mEditTextUrlId.setText(element.geteUrl());
+			mEditTextUrlId.setText(mUrlItem);
 			icon = element.geteIcon();
 			if (element.geteFavourite() == 0)
 				mCheckBoxLike.setChecked(false);
@@ -584,6 +596,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		if (isUpdateIcon) {
 			icon = encyptAndSaveIcon(mDrawableIcon, icon);
 		}
+		if (isUpdateMemo) {
+			imageMemo = encyptAndSaveIcon(mDrawableMemo, imageMemo);
+		}
 		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();
 		int elementId = -1;
@@ -629,26 +644,24 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		});
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {
 		switch (requestCode) {
 		case Contants.INTENT_IMG_MEMO:
 			if (resultCode == Activity.RESULT_OK) {
-				String uriString = data.getExtras().getString(
-						Contants.FIlE_PATH_IMG_MEMO);
-				Uri fileUri = Uri.parse(uriString);
-				imageMemo = uriString;
-				if (fileUri != null) {
+
+				if (mDrawableMemo != null) {
 					((ImageButton) findViewById(R.id.btn_img_memo))
-							.setImageURI(fileUri);
+							.setBackgroundDrawable(mDrawableMemo);
 					((ImageButton) findViewById(R.id.btn_img_memo))
 							.setVisibility(View.VISIBLE);
 					((Button) findViewById(R.id.button_img_memo))
 							.setVisibility(View.GONE);
 				} else {
 					((ImageButton) findViewById(R.id.btn_img_memo))
-							.setImageURI(null);
+							.setBackgroundDrawable(mDrawableMemo);
 					((ImageButton) findViewById(R.id.btn_img_memo))
 							.setVisibility(View.GONE);
 					((Button) findViewById(R.id.button_img_memo))
@@ -663,6 +676,11 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public static void updateIcon(Drawable pDrawable) {
 		mDrawableIcon = pDrawable;
 		isUpdateIcon = true;
+	}
+
+	public static void updateMemo(Drawable pDrawable) {
+		mDrawableMemo = pDrawable;
+		isUpdateMemo = true;
 	}
 
 	public static Drawable getIcon() {

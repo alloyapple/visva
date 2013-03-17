@@ -7,7 +7,10 @@ import java.util.Locale;
 import visvateam.outsource.idmanager.contants.Contants;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,10 +20,12 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -46,6 +51,7 @@ public class ImageMemoActivity extends BaseActivity {
 	private ImageView imgBound;
 	private RelativeLayout mRelativeLayout;
 	private int width, height;
+	private FrameLayout mFrameMemo;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -55,6 +61,7 @@ public class ImageMemoActivity extends BaseActivity {
 		setContentView(R.layout.page_memo);
 		imageView = (ImageView) findViewById(R.id.img_memo);
 		mRelativeLayout = (RelativeLayout) findViewById(R.id.id_relative_bound);
+		mFrameMemo= (FrameLayout) findViewById(R.id.id_memo_frame);
 		mCheckBoxChoiceImgMemo = (CheckBox) findViewById(R.id.check_box_choice_img);
 		mCheckBoxChoiceImgMemo
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -65,9 +72,11 @@ public class ImageMemoActivity extends BaseActivity {
 						// TODO Auto-generated method stub
 						if (fileUri != null
 								&& mCheckBoxChoiceImgMemo.isChecked()) {
+							EditIdPasswordActivity.updateMemo((Drawable) new BitmapDrawable(
+									snapScreen()));
 							Intent resultIntent = new Intent();
-							resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
-									fileUri.toString());
+//							resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
+//									fileUri.toString());
 							setResult(Activity.RESULT_OK, resultIntent);
 							finish();
 						} else {
@@ -75,13 +84,16 @@ public class ImageMemoActivity extends BaseActivity {
 						}
 					}
 				});
-		imgBound = (ImageView) findViewById(R.id.id_img_bound);
+		imgBound = (ImageView) findViewById(R.id.img_bound_memo);
+		imgBound.setVisibility(View.GONE);
 		mRelativeLayout.setOnTouchListener(new OnTouchListener() {
 			float scale;
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
+				if (imgBound.getVisibility() != View.VISIBLE)
+					return true;
 				switch (event.getAction() & MotionEvent.ACTION_MASK) {
 				case MotionEvent.ACTION_DOWN:
 					w = getParam().width;
@@ -115,14 +127,14 @@ public class ImageMemoActivity extends BaseActivity {
 						translateBound(x_offset, y_offset);
 						start.set(event.getX(), event.getY());
 					} else if (mode == ZOOM) {
-//						float newDist = spacing(event);
-						// scale = newDist / oldDist;
-						float scaleX = 0, scaleY = 0;
-						scaleX = Math.abs(event.getX(0) - event.getX(1))
-								/ oldDist;
-						scaleY = Math.abs(event.getY(0) - event.getY(1))
-								/ oldDist;
-						resiseBound(scaleX, scaleY);
+						float newDist = spacing(event);
+						scale = newDist / oldDist;
+						// float scaleX = 0, scaleY = 0;
+						// scaleX = Math.abs(event.getX(0) - event.getX(1))
+						// / oldDist;
+						// scaleY = Math.abs(event.getY(0) - event.getY(1))
+						// / oldDist;
+						resiseBound(scale, scale);
 					}
 					break;
 				default:
@@ -197,6 +209,19 @@ public class ImageMemoActivity extends BaseActivity {
 		Intent i = new Intent(activity, ImageMemoActivity.class);
 		activity.startActivity(i);
 	}
+	public Bitmap snapScreen() {
+		mFrameMemo.setDrawingCacheEnabled(true);
+		mFrameMemo.measure(
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+		mFrameMemo.buildDrawingCache(true);
+		Bitmap bm = Bitmap.createBitmap(mFrameMemo.getDrawingCache());
+		Bitmap bm2 = Bitmap
+				.createBitmap(bm, getParam().leftMargin, getParam().topMargin,
+						imgBound.getWidth(), imgBound.getHeight());
+		mFrameMemo.setDrawingCacheEnabled(false); //
+		return bm2;
+	}
 
 	public void onReturn(View v) {
 		finish();
@@ -212,6 +237,7 @@ public class ImageMemoActivity extends BaseActivity {
 
 	public void onTrash(View v) {
 		imageView.setImageBitmap(null);
+		imgBound.setVisibility(View.GONE);
 		fileUri = null;
 	}
 
@@ -241,6 +267,11 @@ public class ImageMemoActivity extends BaseActivity {
 		switch (requestCode) {
 		case Contants.CAPTURE_IMAGE:
 			if (resultCode == Activity.RESULT_OK) {
+				if (fileUri == null) {
+					imgBound.setVisibility(View.GONE);
+				} else {
+					imgBound.setVisibility(View.VISIBLE);
+				}
 				imageView.setImageURI(fileUri);
 			}
 			break;
@@ -248,6 +279,11 @@ public class ImageMemoActivity extends BaseActivity {
 			if (resultCode == RESULT_OK) {
 				Log.e("data", "dataat " + data);
 				fileUri = data.getData();
+				if (fileUri == null) {
+					imgBound.setVisibility(View.GONE);
+				} else {
+					imgBound.setVisibility(View.VISIBLE);
+				}
 				imageView.setImageBitmap(null);
 				imageView.setImageURI(fileUri);
 			}
