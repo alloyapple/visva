@@ -112,7 +112,7 @@ public class ItemAdapter extends BaseAdapter {
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-		if (isModeEdit && currentFolderItem > 2) {
+		if (isModeEdit && (currentFolderItem < idItemList.size() - 2)) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
 		} else {

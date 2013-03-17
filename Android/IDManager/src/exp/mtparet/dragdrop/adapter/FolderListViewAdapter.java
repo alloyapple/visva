@@ -138,8 +138,8 @@ public class FolderListViewAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void addNewFolder(GroupFolder folder) {
-		folderList.add(folder);
+	public void addNewFolder(GroupFolder folder,int gOrder) {
+		folderList.add(gOrder,folder);
 		notifyDataSetChanged();
 	}
 
