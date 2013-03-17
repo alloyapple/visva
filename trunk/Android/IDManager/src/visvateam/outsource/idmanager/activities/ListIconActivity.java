@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
-public class ListIconActivity extends Activity {
+public class ListIconActivity extends BaseActivity {
 	public static final int DIALOG_DELETE = 0;
 	private LinearLayout mLinearListIcon;
 	private int mCatalogueName[] = { R.string.list_carrier_title,

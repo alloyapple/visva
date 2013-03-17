@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MasterPasswordChangeActivity extends Activity {
+public class MasterPasswordChangeActivity extends BaseActivity {
 	// =======================Control Define ====================
 
 	private EditText editTextVerifyPW;
@@ -61,11 +61,11 @@ public class MasterPasswordChangeActivity extends Activity {
 
 		/* check is change pw or create new pw */
 		if (isChangePW) {
-			txtChangePW.setText(getResources().getString(R.string.title_current_pass));
+			txtChangePW.setText(getResources().getString(R.string.title_master_pass));
 			txtVerifyVPW.setText(getResources().getString(R.string.confirm_pass));
 			txtPW.setText(getResources().getString(R.string.new_pass));
 		} else {
-			txtChangePW.setText(getResources().getString(R.string.title_current_pass));
+			txtChangePW.setText(getResources().getString(R.string.title_master_pass));
 			txtVerifyVPW.setText(getResources().getString(R.string.confirm_pass));
 			txtPW.setText(getResources().getString(R.string.new_pass));
 		}

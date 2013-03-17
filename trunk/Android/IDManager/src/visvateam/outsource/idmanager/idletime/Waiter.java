@@ -2,64 +2,63 @@ package visvateam.outsource.idmanager.idletime;
 
 import android.util.Log;
 
-public class Waiter extends Thread{
-	private static final String TAG=Waiter.class.getName();
-    private long lastUsed;
-    private long period;
-    private boolean stop;
+public class Waiter extends Thread {
+	private static final String TAG = Waiter.class.getName();
+	private long lastUsed;
+	private long period;
+	private boolean stop;
+	private ControlApplication app;
+	private long idle = 0;
+	private boolean check=true;
 
-    public Waiter(long period)
-    {
-        this.period=period;
-        stop=false;
-    }
+	public Waiter(long period, ControlApplication app) {
+		this.period = period;
+		stop = false;
+		this.app = app;
+	}
 
-    public void run()
-    {
-        long idle=0;
-        this.touch();
-        do
-        {
-            idle=System.currentTimeMillis()-lastUsed;
+	public void run() {
+		idle = 0;
+		this.touch();
+		do {
+			idle = System.currentTimeMillis() - lastUsed;
 			Log.d(TAG, "Application is idle for " + idle + " ms");
-            try
-            {
-                Thread.sleep(5000); //check every 5 seconds
-            }
-            catch (InterruptedException e)
-            {
-                Log.d(TAG, "Waiter interrupted!");
-            }
-            if(idle > period)
-            {
-                idle=0;
-                //do something here - e.g. call popup or so
-            }
-        }
-        while(!stop);
-        Log.d(TAG, "Finishing Waiter thread");
-    }
+			try {
+				Thread.sleep(5000); // check every 5 seconds
+			} catch (InterruptedException e) {
+				Log.d(TAG, "Waiter interrupted!");
+			}
+			if (check&&idle > period) {
+				check=false;
+				app.startMasterPass();
+				// do something here - e.g. call popup or so
+			}
+		} while (!stop);
+		Log.d(TAG, "Finishing Waiter thread");
+	}
 
-    public synchronized void touch()
-    {
-        lastUsed=System.currentTimeMillis();
-    }
+	public synchronized void touch() {
+		lastUsed = System.currentTimeMillis();
+	}
 
-    public synchronized void forceInterrupt()
-    {
-        this.interrupt();
-    }
+	public synchronized void forceInterrupt() {
+		this.interrupt();
+	}
 
-    //soft stopping of thread
-    public synchronized void stop(boolean b)
-    {
-    	super.stop();
-        stop=true;
-    }
+	// soft stopping of thread
+	public synchronized void stop(boolean b) {
+		super.stop();
+		stop = true;
+	}
 
-    public synchronized void setPeriod(long period)
-    {
-        this.period=period;
-    }
+	public synchronized void setPeriod(long period) {
+		this.period = period;
+	}
 
+	public synchronized void setIdle(long idle) {
+		this.idle = idle;
+	}
+	public synchronized void setCheck(boolean b){
+		check=b;
+	}
 }

@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class PasswordGeneratorActivity extends Activity {
+public class PasswordGeneratorActivity extends BaseActivity {
 	private int number = 6;
 	private boolean isNumber = true;
 	private boolean isCapital = true;

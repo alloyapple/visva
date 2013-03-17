@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SetupSecurityModeActivity extends Activity {
+public class SetupSecurityModeActivity extends BaseActivity {
 	private final static int SETTING_CHANGE = 0;
 	private WheelView mWheelViewModeSecurity;
 	private IdManagerPreference mIdManagerPreference;
@@ -58,6 +58,11 @@ public class SetupSecurityModeActivity extends Activity {
 		// TODO Auto-generated method stub
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		mIdManagerPreference.setSecurityMode(position);
+		if (position == 0) {
+			getApp().setPeriod(Integer.MAX_VALUE * 60 * 1000);
+		}else{
+			getApp().setPeriod(position * 60 * 1000);
+		}
 		Toast.makeText(
 				this,
 				getResources().getString(R.string.item_mode_security) + " "
@@ -130,4 +135,5 @@ public class SetupSecurityModeActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	
 }

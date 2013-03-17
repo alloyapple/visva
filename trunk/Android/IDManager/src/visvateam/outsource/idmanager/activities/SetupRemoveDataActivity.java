@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SetupRemoveDataActivity extends Activity {
+public class SetupRemoveDataActivity extends BaseActivity {
 	private final static int SETTING_CHANGE = 0;
 	private String choice[] = { "Off", "1", "2", "3", "4", "5", "6", "7", "8",
 			"9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",

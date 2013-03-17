@@ -18,7 +18,6 @@ import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.ReadFileViaDropBox;
 import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -42,7 +41,7 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
 @SuppressLint("HandlerLeak")
-public class SettingActivity extends Activity {
+public class SettingActivity extends BaseActivity {
 
 	private CharSequence[] mListDataChoice;
 	private CharSequence mSelectedFile = "";
@@ -157,6 +156,7 @@ public class SettingActivity extends Activity {
 				getResources().getString(R.string.confirm_ok),
 				new OnClickListener() {
 
+					@SuppressWarnings("deprecation")
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub

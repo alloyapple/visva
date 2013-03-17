@@ -7,7 +7,6 @@ import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IDDataBase;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class BrowserJogdialActivity extends Activity {
+public class BrowserJogdialActivity extends BaseActivity {
 	WebView webView;
 	String url;
 	FrameLayout mFrameWheel;
@@ -363,4 +362,5 @@ public class BrowserJogdialActivity extends Activity {
 			valueGet = v;
 		}
 	}
+	
 }

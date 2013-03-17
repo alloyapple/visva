@@ -25,7 +25,7 @@ import com.google.ads.AdView;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("NewApi")
-public class CopyItemActivity extends Activity {
+public class CopyItemActivity extends BaseActivity {
 	private int currentPasswordId;
 	public final static int COPY_ID = 0;
 	public final static int COPY_PASS = 1;
@@ -137,4 +137,5 @@ public class CopyItemActivity extends Activity {
 						});
 		alert.create().show();
 	}
+	
 }

@@ -19,7 +19,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ImageMemoActivity extends Activity {
+public class ImageMemoActivity extends BaseActivity {
 
 	private ImageView imageView;
 	private Uri fileUri;
@@ -133,4 +133,5 @@ public class ImageMemoActivity extends Activity {
 			}
 		});
 	}
+	
 }
