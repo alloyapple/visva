@@ -179,9 +179,10 @@
 
                     <ImageButton
                         android:id="@+id/btn_img_memo"
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="onMemoImage"
+                        android:layout_gravity="center|center"
                         android:textColor="@color/gray" >
                     </ImageButton>
                 </FrameLayout>
