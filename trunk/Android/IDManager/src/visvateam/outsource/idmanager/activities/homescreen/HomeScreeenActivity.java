@@ -342,7 +342,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		}
 
 	};
-
+ 
 	/**
 	 * on item click listener
 	 */
