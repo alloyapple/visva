@@ -1,18 +1,18 @@
 package visvateam.outsource.idmanager.idxpwdatabase;
 
-public class User {
+public class UserDB {
 	// all variables
 	private int userId;
 	private String password;
 
-	public User(int userId, String password) {
+	public UserDB(int userId, String password) {
 		super();
 		this.userId = userId;
 		this.password = password;
 	}
 
 	// empty constructor
-	public User() {
+	public UserDB() {
 		super();
 	}
 

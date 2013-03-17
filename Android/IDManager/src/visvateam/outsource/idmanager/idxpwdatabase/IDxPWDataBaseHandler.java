@@ -2,9 +2,6 @@ package visvateam.outsource.idmanager.idxpwdatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.android.gms.internal.p;
-
 import visvateam.outsource.idmanager.contants.Contants;
 import android.content.ContentValues;
 import android.content.Context;
@@ -99,7 +96,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	 */
 
 	// Adding new user
-	public void addNewUser(User user) {
+	public void addNewUser(UserDB user) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
@@ -113,7 +110,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Getting single user
-	public User getUser(int userId) {
+	public UserDB getUser(int userId) {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
 		Cursor cursor = db
@@ -122,7 +119,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		User user = new User(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
+		UserDB user = new UserDB(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
 		cursor.close();
 		db.close();
 		// return folder
@@ -130,8 +127,8 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Getting All users
-	public List<User> getAllUsers() {
-		List<User> userList = new ArrayList<User>();
+	public List<UserDB> getAllUsers() {
+		List<UserDB> userList = new ArrayList<UserDB>();
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_USERS;
 
@@ -141,7 +138,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
-				User user = new User();
+				UserDB user = new UserDB();
 				user.setUserId(Integer.parseInt(cursor.getString(0)));
 				user.setPassword(cursor.getString(1));
 
@@ -155,7 +152,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Updating single user
-	public int updateUser(User user) {
+	public int updateUser(UserDB user) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
@@ -168,10 +165,10 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Deleting single user
-	public void deleteUser(User user) {
+	public void deleteUser(int userId) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 		db.delete(TABLE_USERS, KEY_USER_ID + " = ?",
-				new String[] { String.valueOf(user.getUserId()) });
+				new String[] { String.valueOf(userId) });
 		db.close();
 	}
 
@@ -359,7 +356,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Updating single folder
-	public int updateFolder(Password password) {
+	public int updatePassword(Password password) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
@@ -479,7 +476,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Updating single folder
-	public int updateFolder(ElementID elementID) {
+	public int updateElementId(ElementID elementID) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
