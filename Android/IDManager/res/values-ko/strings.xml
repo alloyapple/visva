@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_create_pass">Create Master Password</string>
+    <string name="text_change_remove_data">지정 횟수 마스터 비밀 번호를 잘못 입력하면 데이터를 삭제합니다.</string>
+    <string name="message_change_remove_data">데이터 파괴 설정이 변경되었습니다.</string>
+    <string name="message_no_match_pass">확인 비밀 번호가 맞지 않았습니다. 다시 입력하십시오.</string>
+    <string name="message_coppied_clipboard">다음 항목을 클립 보드에 복사되었습니다.</string>
+    <string name="message_pay_to_unlimit_item">ID, 비밀번호 항목 제한을 없애고 있습니다. 1,000원 부과됩니다 괜찮습니까?</string>
+    <string name="message_pay_to_no_ad">이 응용 프로그램에서 광고 표시를 없애고 있습니다. 6000 원 부과됩니다 괜찮습니까?</string>
+    <string name="message_pay_mto_export">CSV 형식으로 내보내기 기능을 추가합니다. 1,000 원 부과됩니다 괜찮습니까?</string>
+    <string name="title_current_pass">현재 마스터 비밀 번호</string>
+    <string name="text_off">즉시</string>
+
     <string name="title_master_pass">마스터 비밀 번호</string>
     <string name="title_delete_items">삭제</string>
     <string name="title_add_items">신규</string>
-    <string name="title_creat_item">Creat item</string>
     <string name="text_min">분</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>

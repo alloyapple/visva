@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="title_create_pass">Create Master Password</string>
+    <string name="text_change_remove_data">Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione.</string>
+    <string name="message_change_remove_data">El modo de datos de demolición ha sido cambiado.</string>
+    <string name="message_no_match_pass">La contraseña no coincide. Por favor, hazlo de nuevo.</string>
+    <string name="message_coppied_clipboard">El siguiente punto se ha copiado en el portapapeles.</string>
+    <string name="message_pay_to_unlimit_item">Para eliminar el límite en el número de artículo IDxPassword, se cobra ***.</string>
+    <string name="message_pay_to_no_ad">Para eliminar la publicidad, se le cobrará $4.99.</string>
+    <string name="message_pay_to_export">Para agregar la función de la exportación de datos en formato CSV. Se cobra $9.99.</string>
     <string name="title_master_pass">Contraseña Maestra</string>
+    <string name="title_current_pass">Contraseña maestra actual</string>
     <string name="title_delete_items">Borrar</string>
     <string name="title_add_items">Nuevo</string>
-    <string name="title_creat_item">Creat item</string>
     <string name="text_min">min</string>
+    <string name="text_off">Inmediatamente</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Nota</string>
     <string name="btn_paste_browse">Abra la página web</string>

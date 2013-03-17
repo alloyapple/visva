@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="title_create_pass">Create Master Password</string>
+ <string name="text_change_remove_data">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
+    <string name="message_change_remove_data">成功變更數據刪除設置。</string>
+    <string name="message_no_match_pass">您輸入的密碼不正確，請重新輸入。</string>
+    <string name="message_coppied_clipboard">The following item has been copied to the clipboard.</string>
+    <string name="message_pay_to_unlimit_item">您要解除帳戶、密碼個數限制，您將支付*台币</string>
+    <string name="message_pay_to_no_ad">您要刪除廣告，您將支付*台币。</string>
+    <string name="message_pay_to_export">您要通過CSV形式輸出數據，您將支付*台币。</string>
+    <string name="title_current_pass">當前密碼</string>
+    <string name="text_off">立即</string>
     <string name="title_master_pass">密碼</string>
     <string name="title_delete_items">刪除</string>
     <string name="title_add_items">新</string>
-    <string name="title_creat_item">Creat item</string>
+    
     <string name="text_min">分</string>
     <string name="hint_no_image">預定日期</string>
     <string name="hint_note">Note</string>
