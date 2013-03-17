@@ -5,9 +5,7 @@ import java.io.File;
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
-import visvateam.outsource.idmanager.database.UserDataBase;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.app.Activity;
@@ -37,7 +35,6 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 	private int mRemoveDataTimes;
 	private int mNumberAtemppt = 0;
 	private String mMasterPW;
-	private int mSecurityValues;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +60,6 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 			SQLiteDatabase.loadLibs(this);
 //			mDataBaseHandler = new DataBaseHandler(this);
 			mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
-			
 			UserDB userTemp = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
 			mMasterPW = userTemp.getPassword();
 //			UserDataBase user = mDataBaseHandler

@@ -4,9 +4,9 @@ import java.io.File;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
-import visvateam.outsource.idmanager.database.UserDataBase;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,7 +28,7 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 	// private EditText mEditText
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
-	private DataBaseHandler mDataBaseHandler;
+	private IDxPWDataBaseHandler mDataBaseHandler;
 
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
@@ -62,11 +62,9 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-
-		UserDataBase user = mDataBaseHandler
-				.getUser(Contants.MASTER_PASSWORD_ID);
-		mMasterPW = user.getUserPassword();
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+		UserDB user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+		mMasterPW = user.getPassword();
 
 	}
 
@@ -157,7 +155,7 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
 		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
-				.getUserPassword();
+				.getPassword();
 		mNumberAtemppt = 0;
 	}
 
@@ -252,5 +250,5 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 			return null;
 		}
 	}
-	
+
 }

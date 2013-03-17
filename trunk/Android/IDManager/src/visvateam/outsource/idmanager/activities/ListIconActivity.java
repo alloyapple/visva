@@ -139,30 +139,30 @@ public class ListIconActivity extends BaseActivity {
 			R.drawable.finance_126, R.drawable.finance_127,
 			R.drawable.finance_128, R.drawable.finance_129,
 			R.drawable.finance_130, R.drawable.finance_131, };
-	public static int idGeneral[] = { R.drawable.general_1, R.drawable.general_2,
-			R.drawable.general_3, R.drawable.general_4, R.drawable.general_5,
-			R.drawable.general_6, R.drawable.general_7, R.drawable.general_8,
-			R.drawable.general_9, R.drawable.general_10, R.drawable.general_11,
-			R.drawable.general_12, R.drawable.general_13,
-			R.drawable.general_14, R.drawable.general_15,
-			R.drawable.general_16, R.drawable.general_17,
-			R.drawable.general_18, R.drawable.general_19,
-			R.drawable.general_20, R.drawable.general_21,
-			R.drawable.general_22, R.drawable.general_23,
-			R.drawable.general_24, R.drawable.general_25,
-			R.drawable.general_26, R.drawable.general_27,
-			R.drawable.general_28, R.drawable.general_29,
-			R.drawable.general_31, R.drawable.general_32,
-			R.drawable.general_33, R.drawable.general_34,
-			R.drawable.general_35, R.drawable.general_36,
-			R.drawable.general_37, R.drawable.general_38,
-			R.drawable.general_39, R.drawable.general_40,
-			R.drawable.general_41, R.drawable.general_42,
-			R.drawable.general_43, R.drawable.general_44,
-			R.drawable.general_45, R.drawable.general_46,
-			R.drawable.general_47, R.drawable.general_48,
-			R.drawable.general_49, R.drawable.general_50, R.drawable.general_51 };
-
+	public static int idGeneral[] = { R.drawable.general_1,
+			R.drawable.general_2, R.drawable.general_3, R.drawable.general_4,
+			R.drawable.general_5, R.drawable.general_6, R.drawable.general_7,
+			R.drawable.general_8, R.drawable.general_9, R.drawable.general_10,
+			R.drawable.general_11, R.drawable.general_12,
+			R.drawable.general_13, R.drawable.general_14,
+			R.drawable.general_15, R.drawable.general_16,
+			R.drawable.general_17, R.drawable.general_18,
+			R.drawable.general_19, R.drawable.general_20,
+			R.drawable.general_21, R.drawable.general_22,
+			R.drawable.general_23, R.drawable.general_24,
+			R.drawable.general_25, R.drawable.general_26,
+			R.drawable.general_27, R.drawable.general_28,
+			R.drawable.general_29, R.drawable.general_31,
+			R.drawable.general_32, R.drawable.general_33,
+			R.drawable.general_34, R.drawable.general_35,
+			R.drawable.general_36, R.drawable.general_37,
+			R.drawable.general_38, R.drawable.general_39,
+			R.drawable.general_40, R.drawable.general_41,
+			R.drawable.general_42, R.drawable.general_43,
+			R.drawable.general_44, R.drawable.general_45,
+			R.drawable.general_46, R.drawable.general_47,
+			R.drawable.general_48, R.drawable.general_49,
+			R.drawable.general_50, R.drawable.general_51 };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +178,7 @@ public class ListIconActivity extends BaseActivity {
 		initListIcon();
 		initAdmod();
 	}
+
 	public void initAdmod() {
 		AdView adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -186,6 +187,7 @@ public class ListIconActivity extends BaseActivity {
 			adview.setVisibility(View.VISIBLE);
 		}
 	}
+
 	@SuppressWarnings("deprecation")
 	public void initListIcon() {
 
@@ -291,10 +293,10 @@ public class ListIconActivity extends BaseActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_DELETE:
-			builder.setTitle("Delete")
-					.setMessage("Are you sure?")
+			builder.setTitle(getResources().getString(R.string.confirm_delete))
+
 					.setPositiveButton(
-							"Agree",
+							getResources().getString(R.string.confirm_ok),
 							new android.content.DialogInterface.OnClickListener() {
 
 								@Override
@@ -309,7 +311,7 @@ public class ListIconActivity extends BaseActivity {
 								}
 							})
 					.setNegativeButton(
-							"Cancel",
+							getResources().getString(R.string.confirm_cancel),
 							new android.content.DialogInterface.OnClickListener() {
 
 								@Override
@@ -325,11 +327,11 @@ public class ListIconActivity extends BaseActivity {
 		}
 		return null;
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
 
 }

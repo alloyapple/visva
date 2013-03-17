@@ -3,9 +3,6 @@ package visvateam.outsource.idmanager.activities;
 import java.util.ArrayList;
 
 import net.sqlcipher.database.SQLiteDatabase;
-import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
-import visvateam.outsource.idmanager.database.IDDataBase;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -31,15 +28,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class BrowserJogdialActivity extends BaseActivity {
-	WebView webView;
-	String url;
-	FrameLayout mFrameWheel;
-	ArrayList<String> listId = new ArrayList<String>();
-	ArrayList<String> listPass = new ArrayList<String>();
-	ArrayList<String> items = new ArrayList<String>();
-	String[] pasteItem;
-	private int currentPasswordId;
-	private DataBaseHandler mDataBaseHandler;
+	private WebView webView;
+	private String url;
+	private ArrayList<Item> itemList = new ArrayList<Item>();
+	private ArrayList<String> items = new ArrayList<String>();
+	private String[] pasteItem;
 	private LinearLayout mLinear;
 	public String[] idInputWeb;
 	private ImageView dialer;
@@ -49,20 +42,22 @@ public class BrowserJogdialActivity extends BaseActivity {
 	private LinearLayout mLinearBottom;
 	private FrameLayout mFrameJogdial;
 	private boolean isJogdial = false;
-	String valuePaste = "khaidt.hut@gmail";
+	private String valuePaste = "khaidt.hut@gmail";
 	int count;
 	int currentField = 0;
 	String note;
 	String valueGet;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		currentPasswordId = getIntent().getExtras().getInt(
-				Contants.CURRENT_PASSWORD_ID);
+		itemList = (ArrayList<Item>) getIntent().getExtras().getParcelable(
+				CopyItemActivity.KEY_LIST_ITEM);
+		url = getIntent().getExtras().getString(CopyItemActivity.KEY_URL);
+		note = getIntent().getExtras().getString(CopyItemActivity.KEY_NOTE);
 		setContentView(R.layout.page_browser_jogdial);
-		mFrameWheel = (FrameLayout) findViewById(R.id.id_fr_wheel);
 		mLinear = (LinearLayout) findViewById(R.id.id_list_item_copy);
 		dialer = (ImageView) findViewById(R.id.id_img_wheel);
 		mBtnJogdial = (Button) findViewById(R.id.id_jogdial);
@@ -169,12 +164,9 @@ public class BrowserJogdialActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	public void initData() {
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-		IDDataBase id = mDataBaseHandler.getId(currentPasswordId);
-		url = id.getUrl();
 		Drawable d = getResources().getDrawable(R.drawable.jog_upperswitch);
-		for (int i = 0; i < CopyItemActivity.MAX_ID; i++) {
-			if (!id.getDataId(i + 1).equals("")) {
+		for (int i = 0; i < itemList.size(); i++) {
+			if (!itemList.get(i).mContentItem.equals("")) {
 				LinearLayout mLinearItem = new LinearLayout(this);
 				mLinearItem.setLayoutParams(new LinearLayout.LayoutParams(d
 						.getIntrinsicWidth(),
@@ -188,7 +180,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 							LinearLayout.LayoutParams.FILL_PARENT, 0, 0.5f));
 					textName.setTextColor(Color.BLACK);
 					textName.setGravity(Gravity.CENTER);
-					textName.setText(id.getTitleId(i + 1));
+					textName.setText(itemList.get(i).mNameItem);
 					mLinearItem.addView(textName);
 
 					TextView textContent = new TextView(this);
@@ -196,8 +188,8 @@ public class BrowserJogdialActivity extends BaseActivity {
 							LinearLayout.LayoutParams.FILL_PARENT, 0, 0.5f));
 					textContent.setTextColor(Color.BLACK);
 					textContent.setGravity(Gravity.CENTER);
-					items.add(id.getDataId(i + 1));
-					textContent.setText(id.getDataId(i + 1));
+					items.add(itemList.get(i).mContentItem);
+					textContent.setText(itemList.get(i).mContentItem);
 					mLinearItem.addView(textContent);
 				}
 				mLinear.addView(mLinearItem);
@@ -207,7 +199,6 @@ public class BrowserJogdialActivity extends BaseActivity {
 		for (int i = 0; i < items.size(); i++) {
 			pasteItem[i] = items.get(i);
 		}
-		note = id.getNote();
 	}
 
 	public void onReload(View v) {
@@ -362,5 +353,5 @@ public class BrowserJogdialActivity extends BaseActivity {
 			valueGet = v;
 		}
 	}
-	
+
 }

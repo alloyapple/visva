@@ -5,10 +5,10 @@ import java.io.File;
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.DataBaseHandler;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
-import visvateam.outsource.idmanager.database.UserDataBase;
 import visvateam.outsource.idmanager.idletime.ControlApplication;
+import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,7 +33,7 @@ public class SecurityMasterPasswordActivity extends Activity implements
 	private EditText mEditTextMasterPW;
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
-	private DataBaseHandler mDataBaseHandler;
+	private IDxPWDataBaseHandler mDataBaseHandler;
 
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
@@ -56,10 +56,10 @@ public class SecurityMasterPasswordActivity extends Activity implements
 
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new DataBaseHandler(this);
-		UserDataBase user = mDataBaseHandler
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+		UserDB user = mDataBaseHandler
 				.getUser(Contants.MASTER_PASSWORD_ID);
-		mMasterPW = user.getUserPassword();
+		mMasterPW = user.getPassword();
 
 		/* init service */
 
@@ -154,8 +154,7 @@ public class SecurityMasterPasswordActivity extends Activity implements
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
-				.getUserPassword();
+		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getPassword();
 		mNumberAtemppt = 0;
 	}
 
