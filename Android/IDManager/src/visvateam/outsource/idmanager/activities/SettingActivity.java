@@ -1,6 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -528,92 +530,92 @@ public class SettingActivity extends BaseActivity {
 //		java.util.List<FolderDatabase> folderList = mDataBaseHandler
 //				.getAllFolders();
 //		java.util.List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
-//		try {
-//			FileWriter writer = new FileWriter(sFileName);
-//			writer.append("");
-//			writer.append(",");
-//			writer.append("Folder Tables");
-//			writer.append("\n");
-//			writer.append("Folder Name");
-//			writer.append("\n");
+		try {
+			FileWriter writer = new FileWriter(sFileName);
+			writer.append("");
+			writer.append(",");
+			writer.append("Folder Tables");
+			writer.append("\n");
+			writer.append("Folder Name");
+			writer.append("\n");
 //			for (int i = 0; i < folderList.size(); i++) {
 //				writer.append("" + folderList.get(i).getFolderName());
 //				writer.append("\n");
 //			}
-//			writer.append("\n");
-//			writer.append("");
-//			writer.append(",");
-//			writer.append("IDxPassword tables");
-//			writer.append("\n");
-//			writer.append("Name");
-//			writer.append(",");
-//			writer.append("Url");
-//			writer.append(",");
-//			writer.append("Note");
-//			writer.append(",");
-//			writer.append("Image memo");
-//			writer.append(",");
-//
-//			writer.append("ID1");
-//			writer.append(",");
-//			writer.append("Pass1");
-//			writer.append(",");
-//
-//			writer.append("ID2");
-//			writer.append(",");
-//			writer.append("Pass2");
-//			writer.append(",");
-//
-//			writer.append("ID3");
-//			writer.append(",");
-//			writer.append("Pass3");
-//			writer.append(",");
-//
-//			writer.append("ID4");
-//			writer.append(",");
-//			writer.append("Pass4");
-//			writer.append(",");
-//
-//			writer.append("ID5");
-//			writer.append(",");
-//			writer.append("Pass5");
-//			writer.append(",");
-//
-//			writer.append("ID6");
-//			writer.append(",");
-//			writer.append("Pass6");
-//			writer.append(",");
-//
-//			writer.append("ID7");
-//			writer.append(",");
-//			writer.append("Pass7");
-//			writer.append(",");
-//
-//			writer.append("ID8");
-//			writer.append(",");
-//			writer.append("Pass8");
-//			writer.append(",");
-//
-//			writer.append("ID9");
-//			writer.append(",");
-//			writer.append("Pass9");
-//			writer.append(",");
-//
-//			writer.append("ID10");
-//			writer.append(",");
-//			writer.append("Pass10");
-//			writer.append(",");
-//
-//			writer.append("ID11");
-//			writer.append(",");
-//			writer.append("Pass11");
-//			writer.append(",");
-//
-//			writer.append("ID12");
-//			writer.append(",");
-//			writer.append("Pass12");
-//			writer.append("\n");
-//
+			writer.append("\n");
+			writer.append("");
+			writer.append(",");
+			writer.append("IDxPassword tables");
+			writer.append("\n");
+			writer.append("Name");
+			writer.append(",");
+			writer.append("Url");
+			writer.append(",");
+			writer.append("Note");
+			writer.append(",");
+			writer.append("Image memo");
+			writer.append(",");
+
+			writer.append("ID1");
+			writer.append(",");
+			writer.append("Pass1");
+			writer.append(",");
+
+			writer.append("ID2");
+			writer.append(",");
+			writer.append("Pass2");
+			writer.append(",");
+
+			writer.append("ID3");
+			writer.append(",");
+			writer.append("Pass3");
+			writer.append(",");
+
+			writer.append("ID4");
+			writer.append(",");
+			writer.append("Pass4");
+			writer.append(",");
+
+			writer.append("ID5");
+			writer.append(",");
+			writer.append("Pass5");
+			writer.append(",");
+
+			writer.append("ID6");
+			writer.append(",");
+			writer.append("Pass6");
+			writer.append(",");
+
+			writer.append("ID7");
+			writer.append(",");
+			writer.append("Pass7");
+			writer.append(",");
+
+			writer.append("ID8");
+			writer.append(",");
+			writer.append("Pass8");
+			writer.append(",");
+
+			writer.append("ID9");
+			writer.append(",");
+			writer.append("Pass9");
+			writer.append(",");
+
+			writer.append("ID10");
+			writer.append(",");
+			writer.append("Pass10");
+			writer.append(",");
+
+			writer.append("ID11");
+			writer.append(",");
+			writer.append("Pass11");
+			writer.append(",");
+
+			writer.append("ID12");
+			writer.append(",");
+			writer.append("Pass12");
+			writer.append("\n");
+
 //			for (int i = 0; i < idList.size(); i++) {
 //
 //				writer.append("" + idList.get(i).getTitleRecord());
@@ -684,16 +686,16 @@ public class SettingActivity extends BaseActivity {
 //				writer.append(",");
 //				writer.append("" + idList.get(i).getDataId12());
 //				writer.append("\n");
-//
+
 //			}
-//
-//			// generate whatever data you want
-//
-//			writer.flush();
-//			writer.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+
+			// generate whatever data you want
+
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private AndroidAuthSession buildSession() {
