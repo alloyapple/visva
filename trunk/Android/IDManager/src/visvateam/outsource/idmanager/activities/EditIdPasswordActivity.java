@@ -602,8 +602,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		note = mEditTextNote.getText().toString();
 		int elementId = -1;
 
-		if (isCreateNewId)
+		if (isCreateNewId){
 			elementId = mDataBaseHandler.getElementsCount();
+			elementId++;
+		}
 		else
 			elementId = currentElementId;
 

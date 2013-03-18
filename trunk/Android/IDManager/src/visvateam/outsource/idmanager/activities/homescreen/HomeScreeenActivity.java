@@ -217,10 +217,11 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
 
 		/* init adapter for listview */
-		// set for search item list
-		mIdListItems = constructList(currentFolderItem);
+		
 		// mIdListItems = constructSearchList();
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+		// set for search item list
+				mIdListItems = constructList(currentFolderId);
 		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
 				currentFolderItem, currentFolderId);
 		idListView.setAdapter(itemAdapter);
@@ -300,8 +301,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private void loadDataFromFolderDataBase() {
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
-
-		for (int i = 0; i < sizeOfFolder; i++) {
+		for (int i = (sizeOfFolder - 1); i >=0; i--) {
 			GroupFolder folder = new GroupFolder(folderList.get(i).getgId(), folderList.get(i)
 					.getgName(), folderList.get(i).getgType(), folderList.get(i).getgUserId(),
 					folderList.get(i).getgOrder());
@@ -387,7 +387,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 				// folder favourite
 				mIdListItems = constructFavouriteList();
 
-			} else
+			}  else
 				mIdListItems = constructList(currentFolderId);
 			itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
 		}
@@ -500,11 +500,11 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			Log.e("sdfasd " + i, "adfdf " + elementList.get(i).geteFavourite());
 			if (elementList.get(i).geteFavourite() == Contants.IS_FAVOURITE) {
 				ElementID item = new ElementID(elementList.get(i).geteId(), elementList.get(i)
-						.geteGroupId(), elementList.get(i).geteTitle(), elementList.get(i).geteIcon(),
-						elementList.get(i).geteTimeStamp(), elementList.get(i).geteFavourite(),
-						elementList.get(i).geteFlag(), elementList.get(i).geteUrl(), elementList.get(i)
-								.geteNote(), elementList.get(i).geteImage(), elementList.get(i)
-								.geteOrder());
+						.geteGroupId(), elementList.get(i).geteTitle(), elementList.get(i)
+						.geteIcon(), elementList.get(i).geteTimeStamp(), elementList.get(i)
+						.geteFavourite(), elementList.get(i).geteFlag(), elementList.get(i)
+						.geteUrl(), elementList.get(i).geteNote(), elementList.get(i).geteImage(),
+						elementList.get(i).geteOrder());
 				al.add(item);
 			}
 		}
@@ -628,14 +628,19 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 				mIdListItems = startSearch(mTextSearch);
 				/* reset id adapter */
+				Log.e("currentFolderItem " + currentFolderId, "currentFodlerItem "
+						+ currentFolderItem);
+				Log.e("size size", "size side " + mIdListItems.size());
 				currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
 				itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
 				btnClearTextSearch.setVisibility(View.GONE);
 
 				/* reset folder adapter */
 				isSearchMode = true;
+				GroupFolder folder = new GroupFolder(1000, "", 0, Contants.MASTER_PASSWORD_ID, 0);
 				folderListViewAdapter.updateSearchMode(isSearchMode);
 				folderListView.setSelection(0);
+				mFolderListItems.add(folder);
 			}
 		} else if (v == btnClearTextSearch) {
 			mEditTextSearch.setText("");
@@ -649,29 +654,29 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	 * @param textSearch
 	 */
 	private ArrayList<ElementID> startSearch(String textSearch) {
-		// if (!"".equals(textSearch)) {
-		// List<ElementID> idListDb = mIDxPWDataBaseHandler.getAllElmentIds();
-		// ArrayList<ElementID> searchItems = new ArrayList<ElementID>();
-		// int size = idListDb.size();
-		// for (int i = 0; i < size; i++) {
-		// String idName = idListDb.get(i).geteTitle().toString().toUpperCase();
-		// String idNote = idListDb.get(i).geteNote().toString().toUpperCase();
-		// boolean isFoundId = idName.indexOf(textSearch.toUpperCase()) != -1;
-		// boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
-		//
-		// if (isFoundId || isFoundNote) {
-		// OneItem item = new OneItem(idListDb.get(i).getPassWordId(),
-		// idListDb.get(i)
-		// .getIcon(), idListDb.get(i).getTitleRecord(),
-		// idListDb.get(i).getUrl());
-		// searchItems.add(item);
-		// }
-		// }
-		// Log.e("textSearch " + mTextSearch, "size " + searchItems.size());
-		// return searchItems;
-		// } else
-		// return null;
-		return null;
+		if (!"".equals(textSearch)) {
+			List<ElementID> elementList = mIDxPWDataBaseHandler.getAllElmentIds();
+			ArrayList<ElementID> searchItems = new ArrayList<ElementID>();
+			int size = elementList.size();
+			for (int i = 0; i < size; i++) {
+				String idName = elementList.get(i).geteTitle().toString().toUpperCase();
+				String idNote = elementList.get(i).geteNote().toString().toUpperCase();
+				boolean isFoundId = idName.indexOf(textSearch.toUpperCase()) != -1;
+				boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
+
+				if (isFoundId || isFoundNote) {
+					ElementID item = new ElementID(elementList.get(i).geteId(), elementList.get(i)
+							.geteGroupId(), elementList.get(i).geteTitle(), elementList.get(i)
+							.geteIcon(), elementList.get(i).geteTimeStamp(), elementList.get(i)
+							.geteFavourite(), elementList.get(i).geteFlag(), elementList.get(i)
+							.geteUrl(), elementList.get(i).geteNote(), elementList.get(i)
+							.geteImage(), elementList.get(i).geteOrder());
+					searchItems.add(item);
+				}
+			}
+			return searchItems;
+		} else
+			return null;
 	}
 
 	/**
@@ -1013,8 +1018,15 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		/* delete folder in database */
 		mIDxPWDataBaseHandler
 				.deleteFolder(mFolderListItems.get(positionReturnedByHandler).getgId());
+		
+		List<ElementID> elementIdList = mIDxPWDataBaseHandler.getAllElementIdByGroupFolderId(mFolderListItems.get(positionReturnedByHandler).getgId());
+		
 		/* delete all ids in this folder */
-		mIDxPWDataBaseHandler.deleteElementId(positionReturnedByHandler);
+		mIDxPWDataBaseHandler.deleteElementId(mFolderListItems.get(positionReturnedByHandler).getgId());
+		for( ElementID elementId:elementIdList){
+			/*delete all password also*/
+			mIDxPWDataBaseHandler.deletePasswordByElementId(elementId.geteId());
+		}
 		/* refresh id list view */
 		mIdListItems = constructList(positionReturnedByHandler);
 		currentFolderId = mFolderListItems.get(positionReturnedByHandler).getgId();
