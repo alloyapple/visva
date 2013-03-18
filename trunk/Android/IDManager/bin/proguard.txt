@@ -1,0 +1,268 @@
+# view AndroidManifest.xml #generated:161
+-keep class com.box.androidlib.activities.BoxAuthentication { <init>(...); }
+
+# view AndroidManifest.xml #generated:143
+-keep class com.dropbox.client2.android.AuthActivity { <init>(...); }
+
+# view res/layout/edit_id_pass.xml #generated:198
+# view res/layout/page_browser.xml #generated:115
+# view res/layout/page_browser_detail.xml #generated:147
+# view res/layout/page_browser_jogdial.xml #generated:189
+# view res/layout/page_choice_id_pass_item.xml #generated:87
+# view res/layout/page_edit_icon.xml #generated:91
+# view res/layout/page_get_icon_of_internet.xml #generated:149
+# view res/layout/page_home_screen.xml #generated:210
+# view res/layout/page_list_icon.xml #generated:77
+# view res/layout/setting.xml #generated:326
+-keep class com.google.ads.AdView { <init>(...); }
+
+# view res/layout/page_home_screen.xml #generated:101
+# view res/layout/page_home_screen.xml #generated:86
+-keep class exp.mtparet.dragdrop.view.ListViewDragDrop { <init>(...); }
+
+# view res/layout/edit_id_pass.xml #generated:82
+-keep class it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer { <init>(...); }
+
+# view res/layout/remove_data.xml #generated:47
+# view res/layout/sercurity_mode.xml #generated:47
+-keep class kankan.wheel.widget.WheelView { <init>(...); }
+
+# view AndroidManifest.xml #generated:158
+-keep class visvateam.outsource.idmanager.activities.AuthenticationActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:107
+-keep class visvateam.outsource.idmanager.activities.BrowserActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:111
+-keep class visvateam.outsource.idmanager.activities.BrowserJogdialActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:73
+-keep class visvateam.outsource.idmanager.activities.CopyItemActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:131
+-keep class visvateam.outsource.idmanager.activities.EditIconActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:77
+-keep class visvateam.outsource.idmanager.activities.EditIdPasswordActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:40
+-keep class visvateam.outsource.idmanager.activities.EnterOldPasswordActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:102
+-keep class visvateam.outsource.idmanager.activities.GGDriveSyncActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:119
+-keep class visvateam.outsource.idmanager.activities.GetInternetImageActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:115
+-keep class visvateam.outsource.idmanager.activities.ImageMemoActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:123
+-keep class visvateam.outsource.idmanager.activities.ListIconActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:44
+-keep class visvateam.outsource.idmanager.activities.MasterPasswordActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:52
+-keep class visvateam.outsource.idmanager.activities.MasterPasswordChangeActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:48
+-keep class visvateam.outsource.idmanager.activities.PasswordGeneratorActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:64
+-keep class visvateam.outsource.idmanager.activities.SettingActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:127
+-keep class visvateam.outsource.idmanager.activities.SettingURLActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:56
+-keep class visvateam.outsource.idmanager.activities.SetupRemoveDataActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:60
+-keep class visvateam.outsource.idmanager.activities.SetupSecurityModeActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:135
+-keep class visvateam.outsource.idmanager.activities.export.ExportDataDropBoxActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:139
+-keep class visvateam.outsource.idmanager.activities.export.ExportDataGGDriveActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:82
+-keep class visvateam.outsource.idmanager.activities.homescreen.DragAndDropListViewDemo { <init>(...); }
+
+# view AndroidManifest.xml #generated:68
+-keep class visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:30
+-keep class visvateam.outsource.idmanager.activities.login.TermOfServiceActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:164
+-keep class visvateam.outsource.idmanager.activities.securityservice.SecurityMasterPasswordActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:169
+-keep class visvateam.outsource.idmanager.activities.securityservice.SecurityService { <init>(...); }
+
+# view AndroidManifest.xml #generated:86
+-keep class visvateam.outsource.idmanager.activities.synccloud.DropBoxSyncActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:94
+-keep class visvateam.outsource.idmanager.activities.synccloud.DropboxSettingActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:98
+-keep class visvateam.outsource.idmanager.activities.synccloud.GGDriveSettingActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:90
+-keep class visvateam.outsource.idmanager.activities.synccloud.SyncCloudActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:24
+-keep class visvateam.outsource.idmanager.idletime.ControlApplication { <init>(...); }
+
+# onClick res/layout/page_sync.xml #generated:60
+-keepclassmembers class * { *** OnSyncToDevice(...); }
+
+# onClick res/layout/change_master_password.xml #generated:111
+# onClick res/layout/master_password.xml #generated:54
+# onClick res/layout/page_security_masterpw.xml #generated:50
+-keepclassmembers class * { *** confirmMaster(...); }
+
+# onClick res/layout/page_browser.xml #generated:90
+# onClick res/layout/page_browser_jogdial.xml #generated:96
+-keepclassmembers class * { *** onBack(...); }
+
+# onClick res/layout/page_get_icon_of_internet.xml #generated:116
+# onClick res/layout/page_url_setup.xml #generated:36
+-keepclassmembers class * { *** onBroutherBack(...); }
+
+# onClick res/layout/page_get_icon_of_internet.xml #generated:124
+# onClick res/layout/page_url_setup.xml #generated:44
+-keepclassmembers class * { *** onBroutherNext(...); }
+
+# onClick res/layout/page_home_screen.xml #generated:162
+-keepclassmembers class * { *** onBtnClickEdit(...); }
+
+# onClick res/layout/page_memo.xml #generated:78
+-keepclassmembers class * { *** onCamera(...); }
+
+# onClick res/layout/setting.xml #generated:51
+-keepclassmembers class * { *** onChangeMasterPass(...); }
+
+# onClick res/layout/page_list_icon.xml #generated:62
+-keepclassmembers class * { *** onDeleteImage(...); }
+
+# onClick res/layout/setting.xml #generated:186
+-keepclassmembers class * { *** onDropbox(...); }
+
+# onClick res/layout/page_list_icon.xml #generated:54
+-keepclassmembers class * { *** onEditImage(...); }
+
+# onClick res/layout/setting.xml #generated:301
+-keepclassmembers class * { *** onExportData(...); }
+
+# onClick res/layout/password_generator.xml #generated:53
+-keepclassmembers class * { *** onGenerate(...); }
+
+# onClick res/layout/setting.xml #generated:149
+-keepclassmembers class * { *** onGoogle(...); }
+
+# onClick res/layout/edit_id_pass.xml #generated:140
+-keepclassmembers class * { *** onGoogleHome(...); }
+
+# onClick res/layout/edit_id_pass.xml #generated:39
+-keepclassmembers class * { *** onImgAvatar(...); }
+
+# onClick res/layout/edit_id_pass.xml #generated:23
+-keepclassmembers class * { *** onInfo(...); }
+
+# onClick res/layout/page_edit_icon.xml #generated:67
+-keepclassmembers class * { *** onInternet(...); }
+
+# onClick res/layout/page_browser.xml #generated:54
+# onClick res/layout/page_browser_jogdial.xml #generated:54
+-keepclassmembers class * { *** onJogdial(...); }
+
+# onClick res/layout/page_browser_detail.xml #generated:129
+# onClick res/layout/page_browser_jogdial.xml #generated:171
+-keepclassmembers class * { *** onKeyBoard(...); }
+
+# onClick res/layout/page_edit_icon.xml #generated:59
+# onClick res/layout/page_memo.xml #generated:86
+-keepclassmembers class * { *** onLibrary(...); }
+
+# onClick res/layout/edit_id_pass.xml #generated:170
+# onClick res/layout/edit_id_pass.xml #generated:180
+-keepclassmembers class * { *** onMemoImage(...); }
+
+# onClick res/layout/page_browser.xml #generated:99
+# onClick res/layout/page_browser_jogdial.xml #generated:105
+-keepclassmembers class * { *** onNext(...); }
+
+# onClick res/layout/setting.xml #generated:284
+-keepclassmembers class * { *** onNoAdmod(...); }
+
+# onClick res/layout/page_browser_detail.xml #generated:119
+# onClick res/layout/page_browser_jogdial.xml #generated:161
+-keepclassmembers class * { *** onNote(...); }
+
+# onClick res/layout/password_generator.xml #generated:217
+-keepclassmembers class * { *** onNumberCharacter(...); }
+
+# onClick res/layout/page_choice_id_pass_item.xml #generated:61
+-keepclassmembers class * { *** onPasteBrowse(...); }
+
+# onClick res/layout/setting.xml #generated:223
+-keepclassmembers class * { *** onReadFileviaCloud(...); }
+
+# onClick res/layout/page_url_setup.xml #generated:28
+-keepclassmembers class * { *** onRefresh(...); }
+
+# onClick res/layout/page_browser.xml #generated:44
+# onClick res/layout/page_browser_detail.xml #generated:43
+# onClick res/layout/page_browser_jogdial.xml #generated:44
+# onClick res/layout/page_get_icon_of_internet.xml #generated:43
+-keepclassmembers class * { *** onReload(...); }
+
+# onClick res/layout/setting.xml #generated:103
+-keepclassmembers class * { *** onRemoveData(...); }
+
+# onClick res/layout/change_master_password.xml #generated:92
+# onClick res/layout/edit_id_pass.xml #generated:15
+# onClick res/layout/master_password.xml #generated:36
+# onClick res/layout/page_browser.xml #generated:15
+# onClick res/layout/page_browser_detail.xml #generated:15
+# onClick res/layout/page_browser_jogdial.xml #generated:15
+# onClick res/layout/page_choice_id_pass_item.xml #generated:15
+# onClick res/layout/page_edit_icon.xml #generated:14
+# onClick res/layout/page_get_icon_of_internet.xml #generated:14
+# onClick res/layout/page_list_icon.xml #generated:16
+# onClick res/layout/page_memo.xml #generated:15
+# onClick res/layout/page_security_masterpw.xml #generated:35
+# onClick res/layout/page_security_masterpw.xml #generated:41
+# onClick res/layout/page_sync.xml #generated:15
+# onClick res/layout/page_url_setup.xml #generated:14
+# onClick res/layout/password_generator.xml #generated:14
+# onClick res/layout/remove_data.xml #generated:14
+# onClick res/layout/sercurity_mode.xml #generated:14
+# onClick res/layout/setting.xml #generated:14
+-keepclassmembers class * { *** onReturn(...); }
+
+# onClick res/layout/setting.xml #generated:77
+-keepclassmembers class * { *** onSecurityMode(...); }
+
+# onClick res/layout/page_sync.xml #generated:41
+-keepclassmembers class * { *** onSyncAuto(...); }
+
+# onClick res/layout/page_sync.xml #generated:51
+-keepclassmembers class * { *** onSyncToCloud(...); }
+
+# onClick res/layout/list_new_id_row.xml #generated:41
+-keepclassmembers class * { *** onToGeneratorID(...); }
+
+# onClick res/layout/item_id_pass_add.xml #generated:46
+-keepclassmembers class * { *** onToGeneratorPass(...); }
+
+# onClick res/layout/page_memo.xml #generated:94
+-keepclassmembers class * { *** onTrash(...); }
+
+# onClick res/layout/setting.xml #generated:268
+-keepclassmembers class * { *** onUnlimitedItems(...); }
+

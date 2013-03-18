@@ -105,14 +105,14 @@ public class ItemAdapter extends BaseAdapter {
 		TextView txtIdUrl = (TextView) convertView.findViewById(R.id.txt_id_item_url);
 		txtIdUrl.setText(this.idItemList.get(position).geteUrl());
 		txtIdUrl.setSelected(true);
-
+ 
 		/* btn edit */
 		Button btnEdit = (Button) convertView.findViewById(R.id.btn_id_item_edit);
 		btnEdit.setOnClickListener(mOnEditClickListener);
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-		if (isModeEdit && (currentFolderItem < idItemList.size() - 2)) {
+		if (isModeEdit && (idItemList.get(position).geteOrder() > 0)) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
 		} else {

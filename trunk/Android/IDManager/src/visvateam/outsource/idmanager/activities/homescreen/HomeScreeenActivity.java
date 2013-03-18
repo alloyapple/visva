@@ -386,7 +386,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			} else if (position == mFolderListItems.size() - 2) {
 				// folder favourite
 				mIdListItems = constructFavouriteList();
- 
+
 			} else
 				mIdListItems = constructList(currentFolderId);
 			itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
@@ -492,19 +492,22 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	 */
 	private ArrayList<ElementID> constructFavouriteList() {
 
-		List<ElementID> idList = mIDxPWDataBaseHandler.getAllElmentIds();
+		List<ElementID> elementList = mIDxPWDataBaseHandler.getAllElmentIds();
 		ArrayList<ElementID> al = new ArrayList<ElementID>();
-		// int idListSize = idList.size();
-		// Log.e("idSize ", "id size" + idListSize);
-		// for (int i = 0; i < idListSize; i++) {
-		// Log.e("sdfasd " + i, "adfdf " + idList.get(i).getLike());
-		// if (idList.get(i).getLike() == Contants.IS_FAVOURITE) {
-		// OneItem item = new OneItem(idList.get(i).getPassWordId(),
-		// idList.get(i).getIcon(),
-		// idList.get(i).getTitleRecord(), idList.get(i).getUrl());
-		// al.add(item);
-		// }
-		// }
+		int idListSize = elementList.size();
+		Log.e("idSize ", "id size" + idListSize);
+		for (int i = 0; i < idListSize; i++) {
+			Log.e("sdfasd " + i, "adfdf " + elementList.get(i).geteFavourite());
+			if (elementList.get(i).geteFavourite() == Contants.IS_FAVOURITE) {
+				ElementID item = new ElementID(elementList.get(i).geteId(), elementList.get(i)
+						.geteGroupId(), elementList.get(i).geteTitle(), elementList.get(i).geteIcon(),
+						elementList.get(i).geteTimeStamp(), elementList.get(i).geteFavourite(),
+						elementList.get(i).geteFlag(), elementList.get(i).geteUrl(), elementList.get(i)
+								.geteNote(), elementList.get(i).geteImage(), elementList.get(i)
+								.geteOrder());
+				al.add(item);
+			}
+		}
 		return al;
 	}
 
@@ -619,7 +622,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			if ("".equals(mEditTextSearch.getText().toString())) {
 				showToast("Type to edit text to search");
 			} else {
-				showToast("Start search");
 				mTextSearch = mEditTextSearch.getText().toString();
 				/* clear text */
 				mEditTextSearch.setText("");
