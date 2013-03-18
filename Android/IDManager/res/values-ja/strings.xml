@@ -13,6 +13,7 @@
     <string name="title_delete_items">削除</string>
     <string name="title_add_items">新規</string>
     <string name="text_min">分</string>
+    <string name="list_general">一般</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
     <string name="btn_paste_browse">ウェブページを開く</string>
@@ -52,7 +53,6 @@
     <string name="list_e_commerce">ショッピング</string>
     <string name="list_finance">金融</string>
     <string name="list_webservice">Web</string>
-    <string name="list_general">一般</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 
