@@ -342,7 +342,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		}
 
 	};
- 
+
 	/**
 	 * on item click listener
 	 */
@@ -381,12 +381,12 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			folderListViewAdapter.setFolderSelected(currentFolderItem);
 
 			if (position == mFolderListItems.size() - 1) {
-				// folder favourite
-				mIdListItems = constructFavouriteList();
-			} else if (position == mFolderListItems.size() - 2) {
 				// folder history
 				mIdListItems = constructHistoryList();
-
+			} else if (position == mFolderListItems.size() - 2) {
+				// folder favourite
+				mIdListItems = constructFavouriteList();
+ 
 			} else
 				mIdListItems = constructList(currentFolderId);
 			itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
@@ -1047,19 +1047,18 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 	public void onResume() {
 		super.onResume();
-		// if (null != mIDxPWDataBaseHandler)
-		// mIDxPWDataBaseHandler.close();
-		// mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
-		// /* reset folder adapter */
-		// mFolderListItems.clear();
-		// // get data from folder database
-		// loadDataFromFolderDataBase();
+		if (null != mIDxPWDataBaseHandler)
+			mIDxPWDataBaseHandler.close();
+		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
+		/* reset folder adapter */
+		mFolderListItems.clear();
+		// get data from folder database
+		loadDataFromFolderDataBase();
 		//
-		// /* reset adapter */
-		// currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		// mIdListItems = constructList(currentFolderId);
-		// itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
-		// currentFolderId);
+		/* reset adapter */
+		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+		mIdListItems = constructList(currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
 	}
 
 	private void showToast(String string) {

@@ -10,7 +10,7 @@
     <string name="message_pay_mto_export">CSV 형식으로 내보내기 기능을 추가합니다. 1,000 원 부과됩니다 괜찮습니까?</string>
     <string name="title_current_pass">현재 마스터 비밀 번호</string>
     <string name="text_off">즉시</string>
-
+    <string name="list_general">일반</string>
     <string name="title_master_pass">마스터 비밀 번호</string>
     <string name="title_delete_items">삭제</string>
     <string name="title_add_items">신규</string>
@@ -54,7 +54,6 @@
     <string name="list_e_commerce">쇼핑</string>
     <string name="list_finance">금융</string>
     <string name="list_webservice">Web</string>
-    <string name="list_general">일반</string>
     <string name="list_airline">Airline</string>
     <string name="list_isp">ISP</string>
 
