@@ -30,7 +30,6 @@ import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import visvateam.outsource.idmanager.sercurity.CipherUtil;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -93,7 +92,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private String icon;
 	private String url;
 	private String note;
-	private String imageMemo;
+	private String imageMemo="";
 	private static Drawable mDrawableIcon;
 	public static Drawable mDrawableMemo;
 	private static boolean isUpdateIcon;
@@ -140,7 +139,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			// getResources().getDrawable(R.drawable.default_icon);
 		} else {
 			isUpdateIcon = true;
-			isUpdateIcon = false;
+			isUpdateMemo = false;
 			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
 			mDrawableMemo = null;
 		}
