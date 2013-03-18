@@ -82,20 +82,21 @@ public class FolderListViewAdapter extends BaseAdapter {
 		imgFolderEdit.setOnClickListener(mOnEditClickListener);
 
 		convertView.setBackgroundResource(R.drawable.folder_common);
-		// imgFolderIcon.setBackgroundResource(folderList.get(position).());
 		txtFodlerName.setText("" + folderList.get(position).getgName());
-		if (folderList.get(position).getgId() < 0) {
+		
+		if (folderList.get(position).getgOrder() < 0) {
 			if (position == currentFolderItem)
 				convertView.setBackgroundResource(R.drawable.folder_s_select);
+			else
+				convertView.setBackgroundResource(R.drawable.folder_s_common);
 			if (isSearchMode && position == 0) {
-				convertView.setBackgroundResource(R.drawable.folder_select);
+				convertView.setBackgroundResource(R.drawable.folder_s_select);
 				isSearchMode = false;
 				Message msg = mHandler.obtainMessage();
 				msg.arg1 = Contants.IS_SEARCH_MODE;
 				msg.arg2 = 0;
 				mHandler.sendMessage(msg);
 			}
-			convertView.setBackgroundResource(R.drawable.folder_select);
 			imgFolderDelete.setVisibility(View.GONE);
 			imgFolderEdit.setVisibility(View.GONE);
 			txtFodlerName.setVisibility(View.GONE);
@@ -107,7 +108,9 @@ public class FolderListViewAdapter extends BaseAdapter {
 
 		} else {
 			if (position == currentFolderItem)
-				convertView.setBackgroundResource(R.drawable.folder_s_select);
+				convertView.setBackgroundResource(R.drawable.folder_select);
+			else
+				convertView.setBackgroundResource(R.drawable.folder_common);
 			imgFolderIcon.setVisibility(View.GONE);
 			if (isEdit == true) {
 				imgFolderDelete.setVisibility(View.VISIBLE);
@@ -138,8 +141,8 @@ public class FolderListViewAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void addNewFolder(GroupFolder folder,int gOrder) {
-		folderList.add(gOrder,folder);
+	public void addNewFolder(GroupFolder folder, int gOrder) {
+		folderList.add(gOrder, folder);
 		notifyDataSetChanged();
 	}
 
