@@ -57,8 +57,9 @@ public class BrowserJogdialActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		itemList = (ArrayList<Item>) getIntent().getExtras().getParcelable(
-				CopyItemActivity.KEY_LIST_ITEM);
+//		itemList = (ArrayList<Item>) getIntent().getExtras().getParcelable(
+//				CopyItemActivity.KEY_LIST_ITEM);
+		itemList=CopyItemActivity.itemList;
 		url = getIntent().getExtras().getString(CopyItemActivity.KEY_URL);
 		note = getIntent().getExtras().getString(CopyItemActivity.KEY_NOTE);
 		setContentView(R.layout.page_browser_jogdial);
