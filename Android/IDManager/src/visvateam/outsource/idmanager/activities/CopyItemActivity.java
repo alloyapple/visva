@@ -41,7 +41,7 @@ public class CopyItemActivity extends BaseActivity {
 	private IDxPWDataBaseHandler mDataBaseHandler;
 	private LinearLayout mLinear;
 	public int indexSelect;
-	private ArrayList<Item> itemList = new ArrayList<Item>();
+	public static ArrayList<Item> itemList = new ArrayList<Item>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +125,7 @@ public class CopyItemActivity extends BaseActivity {
 	public void onPasteBrowse(View v) {
 		Intent intentBrowser = new Intent(CopyItemActivity.this,
 				BrowserJogdialActivity.class);
-		intentBrowser.putExtra(KEY_LIST_ITEM, itemList);
+//		intentBrowser.putExtra(KEY_LIST_ITEM, itemList);
 		intentBrowser.putExtra(KEY_URL, element.geteUrl());
 		intentBrowser.putExtra(KEY_NOTE, element.geteNote());
 		startActivity(intentBrowser);

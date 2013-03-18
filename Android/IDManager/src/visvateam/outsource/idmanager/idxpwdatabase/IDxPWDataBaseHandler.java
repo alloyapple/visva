@@ -369,7 +369,6 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				password.setTitleNameId(cursor.getString(2));
 				password.setPassword(cursor.getString(3));
 
-				Log.e("adsifhdkf", "adjfhdkh " + Integer.parseInt(cursor.getString(5)));
 				// Adding folder to list
 				passwordList.add(password);
 			} while (cursor.moveToNext());
@@ -395,8 +394,6 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				password.seteId(Integer.parseInt(cursor.getString(1)));
 				password.setTitleNameId(cursor.getString(2));
 				password.setPassword(cursor.getString(3));
-
-				Log.e("adsifhdkf", "adjfhdkh " + Integer.parseInt(cursor.getString(5)));
 				// Adding folder to list
 				passwordList.add(password);
 			} while (cursor.moveToNext());

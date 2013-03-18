@@ -92,7 +92,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private String icon;
 	private String url;
 	private String note;
-	private String imageMemo="";
+	private String imageMemo = "";
 	private static Drawable mDrawableIcon;
 	public static Drawable mDrawableMemo;
 	private static boolean isUpdateIcon;
@@ -611,7 +611,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				titleRecord, icon, System.currentTimeMillis(), isLike,
 				ELEMENT_FLAG_FALSE, url, note, imageMemo,
 				mDataBaseHandler.getElementsCountFromFolder(currentFolderId));
-
+		
 		// create id int normal folder
 		if (isCreateNewId) {
 			mDataBaseHandler.addNewElementId(newElement);
@@ -622,7 +622,18 @@ public class EditIdPasswordActivity extends BaseActivity implements
 									.getNumberItems(IdManagerPreference.NUMBER_ITEMS) + 1);
 		} else
 			mDataBaseHandler.updateElementId(newElement);
-
+		int count=mDataBaseHandler.getPasswordsCount();
+		for (int i = 0; i < mItems.size(); i++) {
+			Password newPass = new Password(
+					count, elementId,
+					mItems.get(i).mNameItem, mItems.get(i).mContentItem);
+			if (!isCreateNewId) {
+				mDataBaseHandler.updatePassword(newPass);
+			}else{
+				mDataBaseHandler.addNewPassword(newPass);
+			}
+			count++;
+		}
 		/* return home */
 		finish();
 	}
