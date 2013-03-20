@@ -492,6 +492,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				Long.parseLong(cursor.getString(4)), Integer.parseInt(cursor.getString(5)),
 				Integer.parseInt(cursor.getString(6)), cursor.getString(7), cursor.getString(8),
 				cursor.getString(9), Integer.parseInt(cursor.getString(10)));
+		cursor.close();
 		db.close();
 		// return folder
 		return elementID;
@@ -614,6 +615,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 
 		// return count
 		count = cursor.getCount();
+		cursor.close();
 		return count;
 	}
 
@@ -627,6 +629,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 
 		// return count
 		count = cursor.getCount();
+		cursor.close();
 		return count;
 	}
 }
