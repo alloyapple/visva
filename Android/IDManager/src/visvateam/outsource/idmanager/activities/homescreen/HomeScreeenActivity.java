@@ -2,12 +2,9 @@ package visvateam.outsource.idmanager.activities.homescreen;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-
 import net.sqlcipher.database.SQLiteDatabase;
-
 import visvateam.outsource.idmanager.activities.BaseActivity;
 import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
@@ -50,7 +47,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
-import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
@@ -217,13 +213,14 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
 
 		/* init adapter for listview */
-		
+
 		// mIdListItems = constructSearchList();
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+		int currentFolderOrder = mFolderListItems.get(currentFolderItem).getgOrder();
 		// set for search item list
-				mIdListItems = constructList(currentFolderId);
+		mIdListItems = constructList(currentFolderId);
 		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
-				currentFolderItem, currentFolderId);
+				currentFolderId, currentFolderOrder);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -301,7 +298,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private void loadDataFromFolderDataBase() {
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
-		for (int i = (sizeOfFolder - 1); i >=0; i--) {
+		for (int i = (sizeOfFolder - 1); i >= 0; i--) {
 			GroupFolder folder = new GroupFolder(folderList.get(i).getgId(), folderList.get(i)
 					.getgName(), folderList.get(i).getgType(), folderList.get(i).getgUserId(),
 					folderList.get(i).getgOrder());
@@ -387,7 +384,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 				// folder favourite
 				mIdListItems = constructFavouriteList();
 
-			}  else
+			} else
 				mIdListItems = constructList(currentFolderId);
 			itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
 		}
@@ -1018,13 +1015,16 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		/* delete folder in database */
 		mIDxPWDataBaseHandler
 				.deleteFolder(mFolderListItems.get(positionReturnedByHandler).getgId());
-		
-		List<ElementID> elementIdList = mIDxPWDataBaseHandler.getAllElementIdByGroupFolderId(mFolderListItems.get(positionReturnedByHandler).getgId());
-		
+
+		List<ElementID> elementIdList = mIDxPWDataBaseHandler
+				.getAllElementIdByGroupFolderId(mFolderListItems.get(positionReturnedByHandler)
+						.getgId());
+
 		/* delete all ids in this folder */
-		mIDxPWDataBaseHandler.deleteElementId(mFolderListItems.get(positionReturnedByHandler).getgId());
-		for( ElementID elementId:elementIdList){
-			/*delete all password also*/
+		mIDxPWDataBaseHandler.deleteElementId(mFolderListItems.get(positionReturnedByHandler)
+				.getgId());
+		for (ElementID elementId : elementIdList) {
+			/* delete all password also */
 			mIDxPWDataBaseHandler.deletePasswordByElementId(elementId.geteId());
 		}
 		/* refresh id list view */
@@ -1044,15 +1044,21 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
 
 		int sizeOfFolder = folderList.size();
+		int sizeTemp = 0;
+		for (int i = 0; i < sizeOfFolder; i++) {
+			if (sizeTemp < folderList.get(i).getgId())
+				sizeTemp = folderList.get(i).getgId();
+		}
+		int folderId = sizeOfFolder;
+		if (sizeOfFolder > sizeTemp)
+			folderId = sizeOfFolder;
+		else
+			folderId = sizeTemp;
+		folderId++;
 		Log.e("folderList", "folderList " + sizeOfFolder);
-		GroupFolder folder = new GroupFolder(sizeOfFolder, folderName, 0,
-				Contants.MASTER_PASSWORD_ID, 0);
+		GroupFolder folder = new GroupFolder(folderId, folderName, 0, Contants.MASTER_PASSWORD_ID,
+				0);
 		mIDxPWDataBaseHandler.addNewFolder(folder);
-
-		// /* refresh listview folder */
-		// FolderItem folder = new FolderItem(sizeOfFolder, imgFolderId,
-		// imgFolderIconId, folderName, Contants.TYPE_FOLDER_NORMAL);
-		// folderListViewAdapter.addNewFolder(folder);
 
 		folderListViewAdapter.addNewFolder(folder, folder.getgOrder());
 		Log.e("size of folder", "size of folder " + mFolderListItems.size());
@@ -1071,6 +1077,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		//
 		/* reset adapter */
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+		Log.e("currengFolder Item " + currentFolderItem, "currentFolderId " + currentFolderId);
 		mIdListItems = constructList(currentFolderId);
 		itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
 	}

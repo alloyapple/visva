@@ -52,17 +52,17 @@ public class ItemAdapter extends BaseAdapter {
 
 	private boolean isModeEdit;
 	private Handler mHandler;
-	private int currentFolderItem;
+	private int currentFolderOrder;
 	private int currentFolderId;
 
 	public ItemAdapter(Context context, ArrayList<ElementID> idItemList, boolean isModeEdit,
-			Handler mHandler, ListViewDragDrop idListView, int currentFolderItem, int currentFoldeId) {
+			Handler mHandler, ListViewDragDrop idListView, int currentFoldeId,int currentFolderOrder) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
 		this.mHandler = mHandler;
 		this.idListView = idListView;
-		this.currentFolderItem = currentFolderItem;
+		this.currentFolderOrder = currentFolderOrder;
 		this.currentFolderId = currentFoldeId;
 	}
 
@@ -112,7 +112,7 @@ public class ItemAdapter extends BaseAdapter {
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-		if (isModeEdit && (idItemList.get(position).geteOrder() >= 0)) {
+		if (isModeEdit && (currentFolderOrder >= 0)) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
 		} else {
@@ -170,7 +170,6 @@ public class ItemAdapter extends BaseAdapter {
 
 	public void setIdItemList(ArrayList<ElementID> idItemList, int currentFolderItem,
 			int currentFolderId) {
-		this.currentFolderItem = currentFolderItem;
 		this.currentFolderId = currentFolderId;
 		this.idItemList = idItemList;
 		notifyDataSetChanged();
