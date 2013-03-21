@@ -78,7 +78,7 @@ public class CipherUtil {
 
 		cipher.init(Cipher.ENCRYPT_MODE, secret);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		bMap.compress(Bitmap.CompressFormat.JPEG, 60, outStream);
+		bMap.compress(Bitmap.CompressFormat.PNG, 60, outStream);
 		byte[] convertToByte = outStream.toByteArray();
 		byte[] encryptedBytes = cipher.doFinal(convertToByte);
 
