@@ -57,9 +57,9 @@ public class BrowserJogdialActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-//		itemList = (ArrayList<Item>) getIntent().getExtras().getParcelable(
-//				CopyItemActivity.KEY_LIST_ITEM);
-		itemList=CopyItemActivity.itemList;
+		// itemList = (ArrayList<Item>) getIntent().getExtras().getParcelable(
+		// CopyItemActivity.KEY_LIST_ITEM);
+		itemList = CopyItemActivity.itemList;
 		url = getIntent().getExtras().getString(CopyItemActivity.KEY_URL);
 		note = getIntent().getExtras().getString(CopyItemActivity.KEY_NOTE);
 		setContentView(R.layout.page_browser_jogdial);
@@ -281,31 +281,29 @@ public class BrowserJogdialActivity extends BaseActivity {
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
-			if (valueGet == null) {
-				webView.loadUrl("javascript:"
-						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-						+ currentField + ";nodes[k].value=\"" + valuePaste
-						+ "\";");
-			}
+
+			webView.loadUrl("javascript:"
+					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
+
 			currentField++;
 			if (currentField >= pasteItem.length)
 				return;
 
 		} else {
 			if (currentField >= 0 && currentField < pasteItem.length)
-				valuePaste = pasteItem[currentField];
-			else {
 				valuePaste = "";
+			else {
 				return;
 			}
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
-			if (valueGet != null) {
-				webView.loadUrl("javascript:"
-						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-						+ currentField + ";nodes[k].value=\'\';");
-			}
+
+			webView.loadUrl("javascript:"
+					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
+
 			currentField--;
 			if (currentField < 0)
 				return;
@@ -360,10 +358,6 @@ public class BrowserJogdialActivity extends BaseActivity {
 		/** Instantiate the interface and set the context */
 		JavaScriptInterface(Context c) {
 			mContext = c;
-		}
-
-		public String[] readData() {
-			return pasteItem;
 		}
 
 		public void count(int c) {

@@ -68,6 +68,7 @@ public class CopyItemActivity extends BaseActivity {
 	private void initDataBase() {
 		// TODO Auto-generated method stub
 		SQLiteDatabase.loadLibs(this);
+		itemList.clear();
 		mDataBaseHandler = new IDxPWDataBaseHandler(this);
 		element = mDataBaseHandler.getElementID(currentElementId);
 		List<Password> listPass = mDataBaseHandler
