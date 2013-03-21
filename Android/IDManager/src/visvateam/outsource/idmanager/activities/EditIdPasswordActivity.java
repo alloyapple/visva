@@ -30,6 +30,7 @@ import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import visvateam.outsource.idmanager.sercurity.CipherUtil;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -37,6 +38,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -130,8 +132,11 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			isUpdateIcon = false;
 			isUpdateMemo = false;
 			mDrawableIcon = getIconDatabase(icon);
-			if (!imageMemo.equals(""))
+			if (!imageMemo.equals("")) {
 				mDrawableMemo = getIconDatabase(imageMemo);
+				mDrawableMemo.setFilterBitmap(true);
+			}
+
 			else {
 				mDrawableMemo = null;
 			}
@@ -155,12 +160,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 	}
 
+	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static Drawable getIconDatabase(String icon) {
-		File inputFile = new File(
-				Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-						+ File.separator + icon);
+		File inputFile = new  File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),icon);
 
 		byte[] cipherBytes = new byte[(int) inputFile.length()];
 		FileInputStream fis = null;
@@ -199,6 +202,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 		Bitmap bmp = BitmapFactory.decodeByteArray(decryptBytes, 0,
 				decryptBytes.length);
+		bmp.setHasAlpha(true);
+		// Bitmap bmp2 = bmp.copy(Config.ARGB_8888, true);
 		return (Drawable) new BitmapDrawable(bmp);
 	}
 
@@ -210,7 +215,16 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		((ImageButton) findViewById(R.id.img_avatar))
 				.setBackgroundDrawable(mDrawableIcon);
 		((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+		if (mDrawableMemo != null) {
 
+			((ImageButton) findViewById(R.id.btn_img_memo))
+					.setBackgroundDrawable(mDrawableMemo);
+			((Button) findViewById(R.id.button_img_memo))
+					.setVisibility(View.GONE);
+		} else {
+			((ImageButton) findViewById(R.id.btn_img_memo))
+					.setVisibility(View.GONE);
+		}
 		if (itemSelect >= 0) {
 			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
 			mListView.setAdapter(new ItemAddAdapter(this, mItems));
@@ -284,23 +298,12 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		} else {
 			if (currentElementId == -1)
 				finish();
-
 			ElementID element = mDataBaseHandler.getElementID(currentElementId);
-
 			mEditTextNameId.setText(element.geteTitle());
 			mEditTextNote.setText(element.geteNote());
 			mUrlItem = element.geteUrl();
 			imageMemo = element.geteImage();
-			if (imageMemo != null) {
-				Uri fileUri = Uri.parse(imageMemo);
-				((ImageButton) findViewById(R.id.btn_img_memo))
-						.setImageURI(fileUri);
-				((Button) findViewById(R.id.button_img_memo))
-						.setVisibility(View.GONE);
-			} else {
-				((ImageButton) findViewById(R.id.btn_img_memo))
-						.setVisibility(View.GONE);
-			}
+
 			mEditTextUrlId.setText(mUrlItem);
 			icon = element.geteIcon();
 			if (element.geteFavourite() == 0)
@@ -513,11 +516,11 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
 		String namString = String.valueOf(System.currentTimeMillis());
-		String path = null;
+		String name = null;
 		if (isCreateNewId)
-			path = namString + ".dat";
+			name = namString + ".dat";
 		else
-			path = icon;
+			name = icon;
 		byte[] resultEncrypt = null;
 		try {
 			resultEncrypt = CipherUtil.encrypt(drawableToBitmap(pDrawable));
@@ -553,13 +556,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			return null;
 		}
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(
-					Environment
-							.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-							+ File.separator + path);
+			FileOutputStream fileOutputStream = new FileOutputStream(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),name));
 			try {
 				fileOutputStream.write(resultEncrypt, 0, resultEncrypt.length);
-				return path;
+				return name;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -602,18 +602,17 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		note = mEditTextNote.getText().toString();
 		int elementId = -1;
 
-		if (isCreateNewId){
+		if (isCreateNewId) {
 			elementId = mDataBaseHandler.getElementsCount();
 			elementId++;
-		}
-		else
+		} else
 			elementId = currentElementId;
 
 		ElementID newElement = new ElementID(elementId, currentFolderId,
 				titleRecord, icon, System.currentTimeMillis(), isLike,
 				ELEMENT_FLAG_FALSE, url, note, imageMemo,
 				mDataBaseHandler.getElementsCountFromFolder(currentFolderId));
-		
+
 		// create id int normal folder
 		if (isCreateNewId) {
 			mDataBaseHandler.addNewElementId(newElement);
@@ -624,14 +623,13 @@ public class EditIdPasswordActivity extends BaseActivity implements
 									.getNumberItems(IdManagerPreference.NUMBER_ITEMS) + 1);
 		} else
 			mDataBaseHandler.updateElementId(newElement);
-		int count=mDataBaseHandler.getPasswordsCount();
+		int count = mDataBaseHandler.getPasswordsCount();
 		for (int i = 0; i < mItems.size(); i++) {
-			Password newPass = new Password(
-					count, elementId,
+			Password newPass = new Password(count, elementId,
 					mItems.get(i).mNameItem, mItems.get(i).mContentItem);
 			if (!isCreateNewId) {
 				mDataBaseHandler.updatePassword(newPass);
-			}else{
+			} else {
 				mDataBaseHandler.addNewPassword(newPass);
 			}
 			count++;
