@@ -40,7 +40,7 @@ public class BrowserActivity extends BaseActivity {
 
 		if (mode == Contants.INFO_TO) {
 			((Button) findViewById(R.id.id_jogdial)).setVisibility(View.GONE);
-			url = "http://www.google.com";
+			url = "http://www.japanappstudio.com/home.html";
 		} else {
 			((Button) findViewById(R.id.id_jogdial))
 					.setVisibility(View.VISIBLE);

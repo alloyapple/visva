@@ -51,6 +51,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 	String note;
 	String valueGet;
 	PointF startPoint = new PointF();
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -117,7 +118,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 		if (dialer.getWidth() / 2 - deltaX < p.x
 				&& dialer.getWidth() / 2 + deltaX > p.x
 				&& dialer.getHeight() / 2 - deltaY < p.y
-				&& dialer.getHeight() / 2 - deltaY > p.y)
+				&& dialer.getHeight() / 2 + deltaY > p.y)
 			return true;
 		return false;
 	}
@@ -137,7 +138,26 @@ public class BrowserJogdialActivity extends BaseActivity {
 		}
 	}
 
+	public void onBack(View v) {
+		webView.goBack();
+		currentField = 0;
+	}
+
+	public void onNext(View v) {
+		webView.goForward();
+		currentField = 0;
+	}
+
 	public void nextInput() {
+		if (currentField < count - 1)
+			currentField++;
+		webView.loadUrl("javascript:"
+				+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
+				+ currentField + ";Android.getValueField(nodes[k].value);");
+		webView.loadUrl("javascript:"
+				+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+				+ currentField + ";nodes[k].focus;");
+
 	}
 
 	private void playSoundEffect(int _idSound) {
@@ -253,6 +273,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 	public void onKeyBoard(View v) {
 		webView.setFocusableInTouchMode(true);
 		webView.setFocusable(true);
+		webView.requestFocus(View.FOCUS_DOWN);
 		runOnUiThread(new Runnable() {
 
 			@Override
@@ -272,23 +293,22 @@ public class BrowserJogdialActivity extends BaseActivity {
 		playSoundEffect(R.raw.jogwheel);
 		if (clockwise) {
 
-			if (currentField < pasteItem.length)
+			if (currentField < pasteItem.length && currentField >= 0)
 				valuePaste = pasteItem[currentField];
 			else {
 				valuePaste = "";
 				return;
 			}
 			webView.loadUrl("javascript:"
-					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+					+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
 
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
 
-			currentField++;
-			if (currentField >= pasteItem.length)
-				return;
+			if (currentField < pasteItem.length - 1)
+				currentField++;
 
 		} else {
 			if (currentField >= 0 && currentField < pasteItem.length)
@@ -297,16 +317,15 @@ public class BrowserJogdialActivity extends BaseActivity {
 				return;
 			}
 			webView.loadUrl("javascript:"
-					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+					+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
 
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
 
-			currentField--;
-			if (currentField < 0)
-				return;
+			if (currentField > 0)
+				currentField--;
 
 		}
 	}
@@ -344,6 +363,8 @@ public class BrowserJogdialActivity extends BaseActivity {
 						.setText(webView.getUrl());
 				webView.addJavascriptInterface(new JavaScriptInterface(
 						BrowserJogdialActivity.this), "Android");
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\");Android.count(nodes.length);");
 				webView.loadUrl("javascript:"
 						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");Android.count(nodes.length);");
 
