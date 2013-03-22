@@ -373,6 +373,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			currentFolderItem = position;
 
 			currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+			int curentFolderOrder = mFolderListItems.get(currentFolderItem).getgOrder();
 			Log.e("position", "positiondaf " + currentFolderId);
 			/* refresh folder list */
 			folderListViewAdapter.setFolderSelected(currentFolderItem);
@@ -386,7 +387,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 			} else
 				mIdListItems = constructList(currentFolderId);
-			itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
+			itemAdapter.setIdItemList(mIdListItems, curentFolderOrder, currentFolderId);
 		}
 	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {

@@ -168,9 +168,10 @@ public class ItemAdapter extends BaseAdapter {
 		return idItemList;
 	}
 
-	public void setIdItemList(ArrayList<ElementID> idItemList, int currentFolderItem,
+	public void setIdItemList(ArrayList<ElementID> idItemList, int currentFolderOrder,
 			int currentFolderId) {
 		this.currentFolderId = currentFolderId;
+		this.currentFolderOrder = currentFolderOrder;
 		this.idItemList = idItemList;
 		notifyDataSetChanged();
 	}
