@@ -63,6 +63,7 @@ public class ImageMemoActivity extends BaseActivity {
 	private int countClockwise1, countUnclockwise1;
 	private int countClockwise2, countUnclockwise2;
 	private boolean isClockwise1, isClockwise2;
+	Bitmap bmp;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -203,12 +204,22 @@ public class ImageMemoActivity extends BaseActivity {
 	}
 
 	public void rote(int angle) {
-		Matrix m = imageView.getImageMatrix();
-		m.postRotate(90);
-		imageView.setScaleType(ScaleType.MATRIX);
-		imageView.setImageMatrix(m);
-//		imageView.setScaleType(ScaleType.FIT_CENTER);
 
+		imageView.setImageBitmap(rotate(bmp, 90));
+		// imageView.setScaleType(ScaleType.FIT_CENTER);
+
+	}
+
+	public Bitmap rotate(Bitmap src, float degree) {
+		// create new matrix
+		Matrix matrix = new Matrix();
+		// setup rotation degree
+		matrix.postRotate(degree);
+
+		// return new bitmap rotated using matrix
+		bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(),
+				matrix, true);
+		return bmp;
 	}
 
 	int widthT, heightT;
@@ -366,8 +377,9 @@ public class ImageMemoActivity extends BaseActivity {
 					if (file.exists()) {
 						fileUri = Uri.fromFile(file);
 						int orientation = checkOrientation(fileUri);
-						imageView.setImageBitmap(decodeSampledBitmapFromFile(
-								imagePath, 400, 300, orientation));
+						bmp = decodeSampledBitmapFromFile(imagePath, 400, 300,
+								orientation);
+						imageView.setImageBitmap(bmp);
 						imgBound.setVisibility(View.VISIBLE);
 					} else {
 						Log.e("test", "file don't exist !");
@@ -392,8 +404,9 @@ public class ImageMemoActivity extends BaseActivity {
 				if (file.exists()) {
 					fileUri = Uri.fromFile(file);
 					int orientation = checkOrientation(fileUri);
-					imageView.setImageBitmap(decodeSampledBitmapFromFile(
-							imagePath, 400, 300, orientation));
+					bmp = decodeSampledBitmapFromFile(imagePath, 400, 300,
+							orientation);
+					imageView.setImageBitmap(bmp);
 				} else {
 					Log.e("test", "file don't exist !");
 				}
