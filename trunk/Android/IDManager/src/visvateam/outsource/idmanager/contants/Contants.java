@@ -66,7 +66,7 @@ public class Contants {
 	public static final int MAX_ITEM_PASS_ID = 5;
 	public static final String DATA_IDMANAGER_NAME = "idmanager.db";
 	public static final int DATA_VERSION = 1;
-	public static final String KEY_DATA_PW = "key_data_id_manager";
+	public static final String KEY_DATA_PW = "idxpass_@1234#!";
 	public static final int KEY_OFF = 0;
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment.getExternalStorageDirectory().getPath()
@@ -86,5 +86,9 @@ public class Contants {
 	public static final int FOLDER_SEARCH = 0;
 	public static final int FOLDER_FAVOURITE = 1;
 	public static final int FOLDER_HISTORY = 2;
+	
+	public static final int SEARCH_FOLDER_ID = -3;
+	public static final int FAVOURITE_FOLDER_ID = -1;
+	public static final int HISTORY_FOLDER_ID = -2;
 
 }
