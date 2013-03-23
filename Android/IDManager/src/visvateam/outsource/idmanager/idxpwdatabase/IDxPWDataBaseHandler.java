@@ -16,6 +16,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// User Table Columns names
 	private static final String KEY_USER_ID = "userId";
 	private static final String KEY_USER_PASSWORD = "password";
+	private static final String KEY_USER_EMAIL = "sEmail";
 
 	// folders table name
 	private static final String TABLE_GROUP_FOLDER = "GroupFolder";
@@ -58,7 +59,8 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USERS + "(" + KEY_USER_ID
-				+ " INTEGER PRIMARY KEY," + KEY_USER_PASSWORD + " TEXT" + ")";
+				+ " INTEGER PRIMARY KEY," + KEY_USER_PASSWORD + " TEXT," + KEY_USER_EMAIL + " TEXT"
+				+ ")";
 		db.execSQL(CREATE_USER_TABLE);
 
 		/* create group folder db */
@@ -102,6 +104,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_USER_ID, user.getUserId()); // user id
 		values.put(KEY_USER_PASSWORD, user.getPassword()); // user pw\
+		values.put(KEY_USER_EMAIL, user.getsEmail());
 
 		// Inserting Row
 		db.insert(TABLE_USERS, null, values);
@@ -113,13 +116,14 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	public UserDB getUser(int userId) {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
-		Cursor cursor = db
-				.query(TABLE_USERS, new String[] { KEY_USER_ID, KEY_USER_PASSWORD }, KEY_USER_ID
-						+ "=?", new String[] { String.valueOf(userId) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_USER_ID, KEY_USER_PASSWORD,
+				KEY_USER_EMAIL }, KEY_USER_ID + "=?", new String[] { String.valueOf(userId) },
+				null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		UserDB user = new UserDB(Integer.parseInt(cursor.getString(0)), cursor.getString(1));
+		UserDB user = new UserDB(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
+				cursor.getString(2));
 		cursor.close();
 		db.close();
 		// return folder
@@ -141,6 +145,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				UserDB user = new UserDB();
 				user.setUserId(Integer.parseInt(cursor.getString(0)));
 				user.setPassword(cursor.getString(1));
+				user.setsEmail(cursor.getString(2));
 
 				// Adding user to list
 				userList.add(user);
@@ -158,6 +163,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_USER_ID, user.getUserId());
 		values.put(KEY_USER_PASSWORD, user.getPassword());
+		values.put(KEY_USER_EMAIL, user.getsEmail());
 
 		// updating row
 		return db.update(TABLE_USERS, values, KEY_USER_ID + " = ?",

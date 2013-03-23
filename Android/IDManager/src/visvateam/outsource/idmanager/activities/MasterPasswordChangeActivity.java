@@ -92,7 +92,7 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 
 //				mDataBaseHandler.addNewUser(user);
 				
-				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword);
+				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword,"");
 				mIDxPWDataBaseHandler.addNewUser(userDB);
 				
 				//add general folder 
@@ -124,7 +124,7 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 //						"test");
 //				mDataBaseHandler.updateUser(user);
 				
-				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword);
+				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword,"");
 				mIDxPWDataBaseHandler.updateUser(userDB);
 				/* return setting activity */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
