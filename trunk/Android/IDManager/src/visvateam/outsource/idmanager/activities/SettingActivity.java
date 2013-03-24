@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.export.ExportDataGGDriveActivity;
@@ -13,7 +14,10 @@ import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxController;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.ReadFileViaDropBox;
+import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
+import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -82,7 +86,7 @@ public class SettingActivity extends BaseActivity {
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new IDxPWDataBaseHandler(this);
-		mPref=IdManagerPreference.getInstance(this);
+		mPref = IdManagerPreference.getInstance(this);
 		initAdmod();
 
 	}
@@ -101,8 +105,7 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	public void onChangeMasterPass(View v) {
-		Intent intentChangePW = new Intent(SettingActivity.this,
-				EnterOldPasswordActivity.class);
+		Intent intentChangePW = new Intent(SettingActivity.this, EnterOldPasswordActivity.class);
 		intentChangePW.putExtra(EnterOldPasswordActivity.KEY_MODE,
 				EnterOldPasswordActivity.FROM_SETTING);
 		startActivity(intentChangePW);
@@ -118,27 +121,23 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	public void onGoogle(View v) {
-		Intent intentDropbox = new Intent(SettingActivity.this,
-				GGDriveSettingActivity.class);
+		Intent intentDropbox = new Intent(SettingActivity.this, GGDriveSettingActivity.class);
 		startActivity(intentDropbox);
 	}
 
 	public void onDropbox(View v) {
-		Intent intentDropbox = new Intent(SettingActivity.this,
-				DropboxSettingActivity.class);
+		Intent intentDropbox = new Intent(SettingActivity.this, DropboxSettingActivity.class);
 		startActivity(intentDropbox);
 	}
 
 	public void onUnlimitedItems(View v) {
 		modePayment = PAYMENT_TO_UNLIMIT_ITEMS;
-		showDialogRequestPayment(getResources().getString(
-				R.string.message_pay_to_unlimit_item));
+		showDialogRequestPayment(getResources().getString(R.string.message_pay_to_unlimit_item));
 	}
 
 	public void onNoAdmod(View v) {
 		modePayment = PAYMENT_TO_NO_AD;
-		showDialogRequestPayment(getResources().getString(
-				R.string.message_pay_to_no_ad));
+		showDialogRequestPayment(getResources().getString(R.string.message_pay_to_no_ad));
 	}
 
 	public void showDialogRequestPayment(String message) {
@@ -146,8 +145,7 @@ public class SettingActivity extends BaseActivity {
 		builder.setIcon(R.drawable.icon);
 		builder.setTitle(getResources().getString(R.string.item_payment));
 		builder.setMessage(message);
-		builder.setPositiveButton(
-				getResources().getString(R.string.confirm_ok),
+		builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
 				new OnClickListener() {
 
 					@SuppressWarnings("deprecation")
@@ -167,8 +165,7 @@ public class SettingActivity extends BaseActivity {
 						}
 					}
 				});
-		builder.setNegativeButton(
-				getResources().getString(R.string.confirm_cancel),
+		builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
 				new OnClickListener() {
 
 					@Override
@@ -207,9 +204,8 @@ public class SettingActivity extends BaseActivity {
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
-			showDialogRequestPayment(getResources().getString(
-					R.string.message_pay_to_export));
-			
+			showDialogRequestPayment(getResources().getString(R.string.message_pay_to_export));
+
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
 	}
@@ -220,8 +216,7 @@ public class SettingActivity extends BaseActivity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Toast.makeText(SettingActivity.this, string, Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(SettingActivity.this, string, Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -298,8 +293,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -312,8 +306,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -327,8 +320,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -343,8 +335,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -359,8 +350,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -375,8 +365,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							startReadFileViaCloud(mSelectedFile, true);
 							return;
@@ -400,8 +389,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							startSyncToCloud(fileExportName, false);
 							return;
@@ -426,8 +414,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -442,28 +429,24 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							return;
 						}
 					});
 			return builder.create();
 		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
 			AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-			alertBuilder.setTitle(getResources().getString(R.string.item_sync) + "  "
-					+ mListDataChoice.length);
+			alertBuilder.setTitle(getResources().getString(R.string.item_sync));
 			alertBuilder.setIcon(R.drawable.icon);
-			alertBuilder.setItems(mListDataChoice,
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int item) {
-							Toast.makeText(getApplicationContext(),
-									mListDataChoice[item], Toast.LENGTH_SHORT)
-									.show();
-							mSelectedFile = mListDataChoice[item];
-							startReadFileViaCloud(mSelectedFile, false);
-						}
-					});
+			alertBuilder.setItems(mListDataChoice, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int item) {
+					Toast.makeText(getApplicationContext(), mListDataChoice[item],
+							Toast.LENGTH_SHORT).show();
+					mSelectedFile = mListDataChoice[item];
+					startReadFileViaCloud(mSelectedFile, false);
+				}
+			});
 			return alertBuilder.create();
 		case Contants.DIALOG_EXPORT_DATA:
 			builder.setTitle(getResources().getString(R.string.item_sync));
@@ -476,16 +459,13 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+						public void onClick(DialogInterface dialog, int whichButton) {
 							/* add new folder to database */
-							fileExportName = input.getText().toString()
-									+ ".csv";
+							fileExportName = input.getText().toString() + ".csv";
 							/* start export file */
 							if (!"".equals(fileExportName)) {
 								/* gen file csv */
-								generateCsvFile(Contants.PATH_ID_FILES + "/"
-										+ fileExportName);
+								generateCsvFile(Contants.PATH_ID_FILES + "/" + fileExportName);
 								startSyncToCloud(fileExportName, true);
 							} else
 								return;
@@ -520,177 +500,94 @@ public class SettingActivity extends BaseActivity {
 	@SuppressWarnings("unused")
 	private void exportDataToGGDrive() {
 		// TODO Auto-generated method stub
-		Intent intentExportData = new Intent(SettingActivity.this,
-				ExportDataGGDriveActivity.class);
+		Intent intentExportData = new Intent(SettingActivity.this, ExportDataGGDriveActivity.class);
 		intentExportData.putExtra(Contants.IS_EXPORT_FILE, isExportData);
 		startActivity(intentExportData);
 	}
 
 	private void generateCsvFile(String sFileName) {
-//		java.util.List<FolderDatabase> folderList = mDataBaseHandler
-//				.getAllFolders();
-//		java.util.List<IDDataBase> idList = mDataBaseHandler.getAllIDs();
+		List<GroupFolder> groupList = mDataBaseHandler.getAllFolders();
+		List<ElementID> elementList = mDataBaseHandler.getAllElmentIds();
+
+		int sizeOfElementList = elementList.size();
+		int sizeOfgroupList = groupList.size();
 		try {
 			FileWriter writer = new FileWriter(sFileName);
-			writer.append("");
+			writer.append("group");
 			writer.append(",");
-			writer.append("Folder Tables");
+			writer.append("title");
+			writer.append(",");
+			writer.append("icon");
+			writer.append(",");
+			writer.append("fav");
+			writer.append(",");
+			writer.append("url");
+			writer.append(",");
+			writer.append("note");
+			writer.append(",");
+			writer.append("image");
+			writer.append(",");
+
+			writer.append("id1");
+			writer.append(",");
+			writer.append("pa1");
+			writer.append(",");
+
+			writer.append("id2");
+			writer.append(",");
+			writer.append("pa2");
+			writer.append(",");
+
+			writer.append("id3");
+			writer.append(",");
+			writer.append("pa3");
+			writer.append(",");
+
+			writer.append("id4");
+			writer.append(",");
+			writer.append("pa4");
+			writer.append(",");
+
+			writer.append("id5");
+			writer.append(",");
+			writer.append("pa5");
+			writer.append(",");
+
 			writer.append("\n");
-			writer.append("Folder Name");
-			writer.append("\n");
-//			for (int i = 0; i < folderList.size(); i++) {
-//				writer.append("" + folderList.get(i).getFolderName());
-//				writer.append("\n");
-//			}
-			writer.append("\n");
-			writer.append("");
-			writer.append(",");
-			writer.append("IDxPassword tables");
-			writer.append("\n");
-			writer.append("Name");
-			writer.append(",");
-			writer.append("Url");
-			writer.append(",");
-			writer.append("Note");
-			writer.append(",");
-			writer.append("Image memo");
-			writer.append(",");
-
-			writer.append("ID1");
-			writer.append(",");
-			writer.append("Pass1");
-			writer.append(",");
-
-			writer.append("ID2");
-			writer.append(",");
-			writer.append("Pass2");
-			writer.append(",");
-
-			writer.append("ID3");
-			writer.append(",");
-			writer.append("Pass3");
-			writer.append(",");
-
-			writer.append("ID4");
-			writer.append(",");
-			writer.append("Pass4");
-			writer.append(",");
-
-			writer.append("ID5");
-			writer.append(",");
-			writer.append("Pass5");
-			writer.append(",");
-
-			writer.append("ID6");
-			writer.append(",");
-			writer.append("Pass6");
-			writer.append(",");
-
-			writer.append("ID7");
-			writer.append(",");
-			writer.append("Pass7");
-			writer.append(",");
-
-			writer.append("ID8");
-			writer.append(",");
-			writer.append("Pass8");
-			writer.append(",");
-
-			writer.append("ID9");
-			writer.append(",");
-			writer.append("Pass9");
-			writer.append(",");
-
-			writer.append("ID10");
-			writer.append(",");
-			writer.append("Pass10");
-			writer.append(",");
-
-			writer.append("ID11");
-			writer.append(",");
-			writer.append("Pass11");
-			writer.append(",");
-
-			writer.append("ID12");
-			writer.append(",");
-			writer.append("Pass12");
-			writer.append("\n");
-
-//			for (int i = 0; i < idList.size(); i++) {
-//
-//				writer.append("" + idList.get(i).getTitleRecord());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getUrl());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getNote());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getImageMemo());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId1());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId1());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId2());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId2());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId3());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId3());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId4());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId4());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId5());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId5());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId6());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId6());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId7());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId7());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId8());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId8());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId9());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId9());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId10());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId10());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId11());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId11());
-//				writer.append(",");
-//
-//				writer.append("" + idList.get(i).getTitleId12());
-//				writer.append(",");
-//				writer.append("" + idList.get(i).getDataId12());
-//				writer.append("\n");
-
-//			}
-
 			// generate whatever data you want
+			for (int i = 0; i < sizeOfElementList; i++) {
+				GroupFolder groupFolder = null;
+				int groupFolderId = elementList.get(i).geteGroupId();
+				for (int j = 0; j < sizeOfgroupList; j++)
+					if (groupFolderId == groupList.get(j).getgId())
+						groupFolder = groupList.get(j);
+				writer.append("" + groupFolder.getgName());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteTitle());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteIcon());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteFavourite());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteUrl());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteNote());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteImage());
+				writer.append(",");
 
+				List<Password> passwordList = mDataBaseHandler
+						.getAllPasswordByElementId(elementList.get(i).geteId());
+				int sizeOfPassWordList = passwordList.size();
+				for (int k = 0; k < sizeOfPassWordList; k++) {
+					writer.append(""+passwordList.get(k).getTitleNameId());
+					writer.append(",");
+					writer.append(""+passwordList.get(k).getPassword());
+					writer.append(",");
+				}
+
+				writer.append("\n");
+			}
 			writer.flush();
 			writer.close();
 		} catch (IOException e) {
@@ -704,10 +601,8 @@ public class SettingActivity extends BaseActivity {
 
 		String[] stored = getKeys();
 		if (stored != null) {
-			AccessTokenPair accessToken = new AccessTokenPair(stored[0],
-					stored[1]);
-			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE,
-					accessToken);
+			AccessTokenPair accessToken = new AccessTokenPair(stored[0], stored[1]);
+			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE, accessToken);
 		} else {
 			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
 		}
@@ -746,15 +641,12 @@ public class SettingActivity extends BaseActivity {
 
 	}
 
-	private void startSyncToCloud(String fileExportName,
-			boolean isCheckDuplicated) {
+	private void startSyncToCloud(String fileExportName, boolean isCheckDuplicated) {
 		// TODO Auto-generated method stub
-		File fileExport = new File(Contants.PATH_ID_FILES + "/"
-				+ fileExportName);
+		File fileExport = new File(Contants.PATH_ID_FILES + "/" + fileExportName);
 		if (fileExport.exists()) {
-			DropBoxController newFile = new DropBoxController(
-					SettingActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_CSV,
-					fileExport, mHandler, isCheckDuplicated);
+			DropBoxController newFile = new DropBoxController(SettingActivity.this, mApi,
+					Contants.FOLDER_ON_DROPBOX_CSV, fileExport, mHandler, isCheckDuplicated);
 			newFile.execute();
 		} else {
 			Message msg = mHandler.obtainMessage();
@@ -767,20 +659,14 @@ public class SettingActivity extends BaseActivity {
 	/**
 	 * start read file via cloud
 	 */
-	private void startReadFileViaCloud(CharSequence fileName,
-			boolean isCheckFile) {
-		// DropBoxDownloadFile download = new
-		// DropBoxDownloadFile(DropBoxSyncActivity.this, mApi,
-		// Contants.FOLDER_ON_DROPBOX_DB, dbFilePath);
-		// download.execute();
+	private void startReadFileViaCloud(CharSequence fileName, boolean isCheckFile) {
 		Log.e("isCheckFile", "isCheckFile " + isCheckFile);
 		File file = new File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
 		String mFilePath = file.getAbsolutePath();
-		ReadFileViaDropBox readFile = new ReadFileViaDropBox(
-				SettingActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_CSV,
-				mFilePath, mHandler, fileName, isCheckFile);
+		ReadFileViaDropBox readFile = new ReadFileViaDropBox(SettingActivity.this, mApi,
+				Contants.FOLDER_ON_DROPBOX_CSV, mFilePath, mHandler, fileName, isCheckFile);
 		readFile.execute();
 	}
 
@@ -799,7 +685,7 @@ public class SettingActivity extends BaseActivity {
 				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_LIST_DATA) {
 				Object object = msg.obj;
-				Log.e("adfadf", "adsfas ");
+
 				ArrayList<String> mFileList = (ArrayList<String>) object;
 				mListDataChoice = new String[mFileList.size()];
 				mListDataChoiceTemp = new String[mFileList.size()];
