@@ -67,7 +67,7 @@ public class ReadFileViaDropBox extends AsyncTask<Void, Long, Integer> {
 		mDialog.setMax(100);
 		mDialog.setTitle(mContext.getString(R.string.app_name));
 		mDialog.setIcon(R.drawable.icon);
-		mDialog.setMessage("Downloading... ");
+		mDialog.setMessage("Loading... ");
 		mDialog.setProgress(0);
 		mDialog.show();
 	}
