@@ -555,10 +555,10 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		}
 		Log.e("size ", "size2 " + idList.size());
 		int numberToView = 0;
-		if (size < 10)
+		if (size < Contants.NUMBER_ELEMENT_SHOW_IN_HISTORY)
 			numberToView = size;
 		else
-			numberToView = 10;
+			numberToView = Contants.NUMBER_ELEMENT_SHOW_IN_HISTORY;
 		for (int i = 0; i < numberToView; i++) {
 			ElementID item = new ElementID(idList.get(i).geteId(), idList.get(i).geteGroupId(),
 					idList.get(i).geteTitle(), idList.get(i).geteIcon(), idList.get(i)

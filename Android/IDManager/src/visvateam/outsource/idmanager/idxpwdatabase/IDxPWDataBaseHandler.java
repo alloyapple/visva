@@ -166,8 +166,10 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_USER_EMAIL, user.getsEmail());
 
 		// updating row
-		return db.update(TABLE_USERS, values, KEY_USER_ID + " = ?",
+		db.update(TABLE_USERS, values, KEY_USER_ID + " = ?",
 				new String[] { String.valueOf(user.getUserId()) });
+		db.close();
+		return 1;
 	}
 
 	// Deleting single user
@@ -295,8 +297,10 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_GROUP_USER_ID, folder.getgUserId());
 		values.put(KEY_GROUP_ORDER, folder.getgOrder());
 		// updating row
-		return db.update(TABLE_GROUP_FOLDER, values, KEY_GROUP_ID + " = ?",
+		db.update(TABLE_GROUP_FOLDER, values, KEY_GROUP_ID + " = ?",
 				new String[] { String.valueOf(folder.getgId()) });
+		db.close();
+		return 1;
 	}
 
 	// Deleting single folder
@@ -420,8 +424,10 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_TITLE_NAME_ID, password.getTitleNameId());
 		values.put(KEY_PASSWORD, password.getPassword());
 		// updating row
-		return db.update(TABLE_PASSWORD, values, KEY_PASSWORD_ID + " = ?",
+		db.update(TABLE_PASSWORD, values, KEY_PASSWORD_ID + " = ?",
 				new String[] { String.valueOf(password.getPasswordId()) });
+		db.close();
+		return 1;
 	}
 
 	// Deleting single folder
@@ -593,8 +599,10 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_E_IMAGE, elementID.geteImage());
 		values.put(KEY_E_ORDER, elementID.geteOrder());
 		// updating row
-		return db.update(TABLE_ELEMENT_ID, values, KEY_E_ID + " = ?",
+		db.update(TABLE_ELEMENT_ID, values, KEY_E_ID + " = ?",
 				new String[] { String.valueOf(elementID.geteId()) });
+		db.close();
+		return 1;
 	}
 
 	// Deleting single folder

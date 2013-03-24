@@ -13,6 +13,7 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -299,6 +300,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 				valuePaste = "";
 				return;
 			}
+			Log.e("currentFilet "+currentField, "values paste "+valuePaste);
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
