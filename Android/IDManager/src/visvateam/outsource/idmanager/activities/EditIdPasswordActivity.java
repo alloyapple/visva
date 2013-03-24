@@ -161,8 +161,12 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public static Drawable getIconDatabase(String icon) {
+
 		File inputFile = new File(
-				Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), icon);
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				icon);
+
 
 		byte[] cipherBytes = new byte[(int) inputFile.length()];
 		FileInputStream fis = null;
@@ -536,9 +540,12 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 			return null;
 		}
 		try {
-			fileOutputStream = new FileOutputStream(new File(
-					Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-					name));
+			FileOutputStream fileOutputStream = new FileOutputStream(
+					new File(
+							Environment
+									.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+							name));
+
 			try {
 				fileOutputStream.write(resultEncrypt, 0, resultEncrypt.length);
 				return name;
@@ -595,9 +602,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 					elementIdTemp = elementList.get(i).geteId();
 			}
 			elementId = mDataBaseHandler.getElementsCount();
-			if (elementId < elementIdTemp)
-				elementId = elementIdTemp;
-			elementId++;
+
 		} else
 			elementId = currentElementId;
 
@@ -612,7 +617,12 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 					mIdManagerPreference.getNumberItems(IdManagerPreference.NUMBER_ITEMS) + 1);
 		} else
 			mDataBaseHandler.updateElementId(newElement);
-		int count = mDataBaseHandler.getPasswordsCount();
+		int count=0;
+		if (isCreateNewId)
+			count = mDataBaseHandler.getPasswordsCount();
+		else {
+			count = elementId * 5;
+		}
 		for (int i = 0; i < mItems.size(); i++) {
 			Password newPass = new Password(count, elementId, mItems.get(i).mNameItem,
 					mItems.get(i).mContentItem);
@@ -620,6 +630,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 				mDataBaseHandler.updatePassword(newPass);
 			} else {
 				mDataBaseHandler.addNewPassword(newPass);
+
 			}
 			count++;
 		}
