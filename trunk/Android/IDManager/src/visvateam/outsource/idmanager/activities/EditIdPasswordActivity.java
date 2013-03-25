@@ -163,10 +163,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 	public static Drawable getIconDatabase(String icon) {
 
 		File inputFile = new File(
-				Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-				icon);
-
+				Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), icon);
 
 		byte[] cipherBytes = new byte[(int) inputFile.length()];
 		FileInputStream fis = null;
@@ -307,10 +304,15 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 			else if (element.geteFavourite() == 1)
 				mCheckBoxLike.setChecked(true);
 			List<Password> listPass = mDataBaseHandler.getAllPasswordByElementId(currentElementId);
-			for (int i = 0; i < listPass.size(); i++) {
+			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
 				Item item = new Item();
-				item.mNameItem = listPass.get(i).getTitleNameId();
-				item.mContentItem = listPass.get(i).getPassword();
+				if (i < listPass.size()) {
+					item.mNameItem = listPass.get(i).getTitleNameId();
+					item.mContentItem = listPass.get(i).getPassword();
+				} else {
+					item.mNameItem = DEFAULT_NAME_ITEM[i];
+					item.mContentItem = "";
+				}
 				itemList.add(item);
 			}
 			// set icon for image icon
@@ -501,10 +503,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
 		String namString = String.valueOf(System.currentTimeMillis());
 		String name = null;
-		if (isCreateNewId)
-			name = namString + ".dat";
-		else
-			name = icon;
+		name = namString + ".dat";
 		byte[] resultEncrypt = null;
 		try {
 			resultEncrypt = CipherUtil.encrypt(drawableToBitmap(pDrawable));
@@ -540,11 +539,9 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 			return null;
 		}
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(
-					new File(
-							Environment
-									.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-							name));
+			FileOutputStream fileOutputStream = new FileOutputStream(new File(
+					Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+					name));
 
 			try {
 				fileOutputStream.write(resultEncrypt, 0, resultEncrypt.length);
@@ -593,16 +590,14 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 
 		if (isCreateNewId) {
 
-			// int elementIdTemp = mDataBaseHandler.getElementsCount();
 			List<ElementID> elementList = mDataBaseHandler.getAllElmentIds();
 			int sizeOfElementId = elementList.size();
-			int elementIdTemp = 0;
+			elementId = sizeOfElementId;
 			for (int i = 0; i < sizeOfElementId; i++) {
-				if (elementIdTemp < elementList.get(i).geteId())
-					elementIdTemp = elementList.get(i).geteId();
+				if (elementId < elementList.get(i).geteId())
+					elementId = elementList.get(i).geteId();
 			}
-			elementId = mDataBaseHandler.getElementsCount();
-
+			elementId++;
 		} else
 			elementId = currentElementId;
 
@@ -617,7 +612,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 					mIdManagerPreference.getNumberItems(IdManagerPreference.NUMBER_ITEMS) + 1);
 		} else
 			mDataBaseHandler.updateElementId(newElement);
-		int count=0;
+		int count = 0;
 		if (isCreateNewId)
 			count = mDataBaseHandler.getPasswordsCount();
 		else {

@@ -415,6 +415,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			if (oneItemSelected != null) {
 				// receverAdapter.addPicture(oneItemSelected, arg2);
 				mCurrentFolderPosition = mCurrentFirstVisibleFolderItem + arg2;
+				
 				// mCurrentId = oneItemSelected.getE();
 				ElementID elementId = mIDxPWDataBaseHandler.getElementID(mCurrentId);
 
@@ -594,9 +595,9 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
 			if (currentFolderItem < mFolderListItems.size() - 2) {
-				if (mIdManagerPreference
-						.getIsPaymentUnlimit(IdManagerPreference.IS_PAYMENT_UNLIMIT)
-						&& mIdManagerPreference.getNumberItems(IdManagerPreference.NUMBER_ITEMS) >= MAX_ITEMS)
+				List<ElementID> elementList = mIDxPWDataBaseHandler.getAllElementIdByGroupFolderId(currentFolderId);
+				Log.e("elementsize ", "size "+elementList.size());
+				if(elementList.size() >= MAX_ITEMS)
 					showDialog(Contants.DIALOG_CREATE_ID);
 				else {
 					if (isSearchMode) {
@@ -910,7 +911,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
-							startIntentCreateNewIds();
 							return;
 						}
 					});

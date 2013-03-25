@@ -1,9 +1,13 @@
 package visvateam.outsource.idmanager.activities;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -22,11 +26,13 @@ import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -41,6 +47,7 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.google.android.gms.internal.e;
 
 @SuppressLint("HandlerLeak")
 public class SettingActivity extends BaseActivity {
@@ -78,17 +85,36 @@ public class SettingActivity extends BaseActivity {
 	private static final int PAYMENT_TO_EXPORT = 2;
 	public int modePayment;
 	public IdManagerPreference mPref;
+	private List<GroupFolder> mGList;
+	private List<ElementID> mEList;
+	private List<Password> mPList;
+	private int sizeOfGList;
+	private int sizeOfEList;
+	private int sizeOfPList;
+	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.setting);
 		/* init database */
-		SQLiteDatabase.loadLibs(this);
-		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+		initDatabase();
+
 		mPref = IdManagerPreference.getInstance(this);
 		initAdmod();
 
+	}
+
+	private void initDatabase() {
+		// TODO Auto-generated method stub
+		SQLiteDatabase.loadLibs(this);
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+		mGList = mDataBaseHandler.getAllFolders();
+		mEList = mDataBaseHandler.getAllElmentIds();
+		mPList = mDataBaseHandler.getAllPasswords();
+		sizeOfGList = mGList.size();
+		sizeOfEList = mEList.size();
+		sizeOfPList = mPList.size();
 	}
 
 	public void initAdmod() {
@@ -430,6 +456,8 @@ public class SettingActivity extends BaseActivity {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
+							String file = mSelectedFile.toString();
+							importFileCSVToDatabase(file);
 							return;
 						}
 					});
@@ -484,6 +512,173 @@ public class SettingActivity extends BaseActivity {
 			return builder.create();
 		default:
 			return null;
+		}
+	}
+
+	protected void importFileCSVToDatabase(String mSelectedFile) {
+		// TODO Auto-generated method stub
+		File sdcard = Environment.getExternalStorageDirectory();
+		File file = new File(Contants.PATH_ID_FILES + mSelectedFile);
+		ArrayList<PasswordItem> mItems = new ArrayList<SettingActivity.PasswordItem>();
+		String group = null, title = null, icon = null, url = null, note = null, image = null;
+		String[] id = new String[Contants.MAX_ITEM_PASS_ID];
+		String[] password = new String[Contants.MASTER_PASSWORD_ID];
+		int fav = 0;
+		if (file.exists()) {
+			BufferedReader in;
+			try {
+				in = new BufferedReader(new FileReader(file));
+				String reader = "";
+				int row = 0;
+				try {
+					while ((reader = in.readLine()) != null) {
+						if (row > 0) {
+							Log.e("xem chay may kan", "xem chay may kab " + row);
+							String[] rowData = reader.split(",");
+							ArrayList<String> rowDataList = new ArrayList<String>();
+							// for(int )
+
+							for (int i = 0; i < rowData.length; i++) {
+								rowDataList.add(rowData[i]);
+							}
+
+							int size = rowDataList.size();
+							if (size < 17)
+								for (int i = size; i < 17; i++) {
+									rowDataList.add("");
+								}
+
+							for (int i = 0; i < rowDataList.size(); i++) {
+								Log.e("adjhfkshdf", "adsfkjh " + rowDataList.get(i));
+								group = rowDataList.get(0);
+								title = rowDataList.get(1);
+								icon = rowDataList.get(2);
+								fav = Integer.parseInt(rowDataList.get(3));
+								url = rowDataList.get(4);
+								note = rowDataList.get(5);
+								image = rowDataList.get(6);
+								
+								id[0] =  rowDataList.get(7);
+								password[0] =  rowDataList.get(8);
+								id[1] =  rowDataList.get(9);
+								password[1] =  rowDataList.get(10);
+								id[2] =  rowDataList.get(11);
+								password[2] =  rowDataList.get(12);
+								id[3] =  rowDataList.get(13);
+								password[3] =  rowDataList.get(14);
+								id[4] =  rowDataList.get(15);
+								password[4] =  rowDataList.get(16);
+							}
+
+							/* update to database */
+							boolean isGExist = false;
+							boolean isEExist = false;
+							/* insert folder */
+							if (sizeOfGList > 0)
+								for (int i = 0; i < sizeOfGList; i++) {
+									if (!group.equals(mGList.get(i).getgName()))
+										isGExist = false;
+									else
+										isGExist = true;
+									if (i == (sizeOfGList - 1) && !isGExist) {
+										int gId = 0;
+										for (int j = 0; j < sizeOfGList; j++)
+											if (gId < mGList.get(j).getgId())
+												gId = mGList.get(j).getgId();
+										gId++;
+										GroupFolder folder = new GroupFolder(gId, group, 0,
+												Contants.MASTER_PASSWORD_ID, 0);
+										mDataBaseHandler.addNewFolder(folder);
+										mGList.add(folder);
+										sizeOfGList++;
+									}
+								}
+							else if (!isGExist) {
+								isGExist = true;
+								int gId = 0;
+								for (int j = 0; j < sizeOfGList; j++)
+									if (gId < mGList.get(j).getgId())
+										gId = mGList.get(j).getgId();
+								gId++;
+								GroupFolder folder = new GroupFolder(gId, group, 0,
+										Contants.MASTER_PASSWORD_ID, 0);
+								mDataBaseHandler.addNewFolder(folder);
+								mGList.add(folder);
+								sizeOfGList++;
+							}
+
+							/* insert element */
+							for (int i = 0; i < sizeOfGList; i++) {
+								List<ElementID> elementList = mDataBaseHandler
+										.getAllElementIdByGroupFolderId(mGList.get(i).getgId());
+								if (elementList.size() > 0)
+									for (int j = 0; j < elementList.size(); j++) {
+										if (title.equals(elementList.get(j).geteTitle()))
+											isEExist = true;
+
+										if (j == sizeOfEList - 1 && !isEExist) {
+											int eId = sizeOfEList;
+											long timeStamp = System.currentTimeMillis();
+											for (int k = 0; k < mEList.size(); k++)
+												if (eId < mEList.get(k).geteId())
+													eId = mEList.get(k).geteId();
+											eId++;
+											ElementID element = new ElementID(eId, mGList.get(i)
+													.getgId(), title, icon, timeStamp, fav, 0, url,
+													note, image, 0);
+											mDataBaseHandler.addNewElementId(element);
+
+											mEList.add(element);
+											sizeOfEList++;
+										}
+									}
+								else if (!isEExist) {
+									isEExist = true;
+									int eId = sizeOfEList;
+									long timeStamp = System.currentTimeMillis();
+									eId++;
+									ElementID element = new ElementID(eId, mGList.get(i).getgId(),
+											title, icon, timeStamp, fav, 0, url, note, image, 0);
+									mDataBaseHandler.addNewElementId(element);
+									mEList.add(element);
+									sizeOfEList++;
+								}
+
+							}
+
+							/* insert to password */
+							int elementId = 0;
+							for (int i = 0; i < sizeOfEList; i++) {
+								if (title.equals(mEList.get(i).geteTitle()))
+									elementId = mEList.get(i).geteId();
+							}
+							mDataBaseHandler.deletePasswordByElementId(elementId);
+							Log.e("item", "item.size " + mItems.size());
+							for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
+								if (!"".equals(id[i]) || !"".equals(password[i])) {
+									int pwId = sizeOfPList;
+									for (int k = 0; k < sizeOfPList; k++)
+										if (pwId < mPList.get(k).getPasswordId())
+											pwId = mPList.get(k).getPasswordId();
+									Password passWord = new Password(pwId, elementId, id[i],
+											password[i]);
+									mDataBaseHandler.addNewPassword(passWord);
+									mPList.add(passWord);
+									sizeOfPList++;
+								}
+							}
+						}
+						row++;
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	}
 
@@ -580,9 +775,9 @@ public class SettingActivity extends BaseActivity {
 						.getAllPasswordByElementId(elementList.get(i).geteId());
 				int sizeOfPassWordList = passwordList.size();
 				for (int k = 0; k < sizeOfPassWordList; k++) {
-					writer.append(""+passwordList.get(k).getTitleNameId());
+					writer.append("" + passwordList.get(k).getTitleNameId());
 					writer.append(",");
-					writer.append(""+passwordList.get(k).getPassword());
+					writer.append("" + passwordList.get(k).getPassword());
 					writer.append(",");
 				}
 
@@ -703,4 +898,8 @@ public class SettingActivity extends BaseActivity {
 		};
 	};
 
+	class PasswordItem {
+		String titleId;
+		String password;
+	}
 }
