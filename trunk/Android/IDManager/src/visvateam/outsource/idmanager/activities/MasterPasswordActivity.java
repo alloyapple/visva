@@ -189,7 +189,7 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 		case Contants.DIALOG_LOGIN_WRONG_PASS:
 			builder.setTitle(getResources().getString(R.string.app_name));
 			builder.setMessage(getResources().getString(
-					R.string.limit_login_msg, 2));
+					R.string.limit_login_msg, mNumberAtemppt));
 			// builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
 

@@ -1,14 +1,18 @@
 package visvateam.outsource.idmanager.activities.login;
 
+import com.google.api.services.drive.model.User;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.MasterPasswordActivity;
 import visvateam.outsource.idmanager.activities.MasterPasswordChangeActivity;
 import visvateam.outsource.idmanager.activities.R;
+import visvateam.outsource.idmanager.activities.RegisterEmailActivity;
 import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.contants.Contants;
 
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,8 +28,9 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 	private Button btnContinue;
 	// =============================Class Define ======================
 	private IdManagerPreference idManagerPreference;
-//	private DataBaseHandler mDataBaseHandler;
+	// private DataBaseHandler mDataBaseHandler;
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
+
 	// =============================Variables Define =================
 
 	@Override
@@ -35,10 +40,11 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
-//		mDataBaseHandler = new DataBaseHandler(this);
-		mIDxPWDataBaseHandler =new IDxPWDataBaseHandler(this);
+		// mDataBaseHandler = new DataBaseHandler(this);
+		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
 		int numberUser = mIDxPWDataBaseHandler.getUserCount();
-//		int userCount = mDataBaseHandler.getUserCount();
+
+		// int userCount = mDataBaseHandler.getUserCount();
 		if (numberUser < 1) {
 			setContentView(R.layout.page_term_of_use);
 			/* check is first installed app */
@@ -46,7 +52,14 @@ public class TermOfServiceActivity extends Activity implements OnClickListener {
 			/* init control */
 			initControl();
 		} else {
-			Intent intentPW = new Intent(TermOfServiceActivity.this, MasterPasswordActivity.class);
+			UserDB user = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+			Intent intentPW = null;
+			if ("".equals(user.getsEmail())){
+				intentPW = new Intent(TermOfServiceActivity.this, RegisterEmailActivity.class);
+				intentPW.putExtra(Contants.CREATE_NEW_EMAIL, true);
+			}
+			else
+				intentPW = new Intent(TermOfServiceActivity.this, MasterPasswordActivity.class);
 			startActivity(intentPW);
 			finish();
 		}

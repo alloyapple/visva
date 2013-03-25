@@ -133,6 +133,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="visvateam.outsource.idmanager.activities.RegisterEmailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="visvateam.outsource.idmanager.activities.export.ExportDataDropBoxActivity"
             android:screenOrientation="portrait" >
         </activity>

@@ -22,7 +22,7 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	private TextView txtPW;
 	private TextView txtVerifyVPW;
 	// ==============================Class Define================
-//	private DataBaseHandler mDataBaseHandler;
+	// private DataBaseHandler mDataBaseHandler;
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	// =======================Variables Define ==================
 	private boolean isChangePW;
@@ -46,8 +46,8 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	private void initDataBase() {
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
-//		mDataBaseHandler = new DataBaseHandler(this);
-//		mDataBaseHandler.getUserCount();
+		// mDataBaseHandler = new DataBaseHandler(this);
+		// mDataBaseHandler.getUserCount();
 		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
 	}
 
@@ -87,21 +87,29 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 				/* set master pw */
 				mMasterPassword = editTextPW.getText().toString();
 				/* delete old user */
-//				mDataBaseHandler.deleteFolder(Contants.MASTER_PASSWORD_ID);
+				// mDataBaseHandler.deleteFolder(Contants.MASTER_PASSWORD_ID);
 				mIDxPWDataBaseHandler.deleteUser(Contants.MASTER_PASSWORD_ID);
 
-//				mDataBaseHandler.addNewUser(user);
-				
-				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword,"");
+				// mDataBaseHandler.addNewUser(user);
+
+				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword, "");
 				mIDxPWDataBaseHandler.addNewUser(userDB);
-				
-				//add general folder 
-				GroupFolder generalFolder = new GroupFolder(0, getString(R.string.list_general), 0, Contants.MASTER_PASSWORD_ID, 0);
+
+				// add general folder
+				GroupFolder generalFolder = new GroupFolder(0, getString(R.string.list_general), 0,
+						Contants.MASTER_PASSWORD_ID, 0);
 				mIDxPWDataBaseHandler.addNewFolder(generalFolder);
 
 				/* return Term of service */
-				Intent intent = new Intent(MasterPasswordChangeActivity.this,
-						MasterPasswordActivity.class);
+				Intent intent = null;
+				if ("".equals(userDB.getsEmail())){
+					intent = new Intent(MasterPasswordChangeActivity.this,
+							RegisterEmailActivity.class);
+					intent.putExtra(Contants.CREATE_NEW_EMAIL, true);
+				}
+				else
+					intent = new Intent(MasterPasswordChangeActivity.this,
+							MasterPasswordActivity.class);
 				startActivity(intent);
 				finish();
 			}
@@ -110,7 +118,6 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 		/* change master pw */
 		else {
 
-	
 			if (!editTextVerifyPW.getText().toString().trim()
 					.equals(editTextPW.getText().toString().trim())) {
 				showToast(getResources().getString(R.string.message_no_match_pass));
@@ -120,11 +127,12 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 			else {
 				mMasterPassword = editTextVerifyPW.getText().toString();
 				/* update this password to db */
-//				UserDataBase user = new UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
-//						"test");
-//				mDataBaseHandler.updateUser(user);
-				
-				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword,"");
+				// UserDataBase user = new
+				// UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
+				// "test");
+				// mDataBaseHandler.updateUser(user);
+
+				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword, "");
 				mIDxPWDataBaseHandler.updateUser(userDB);
 				/* return setting activity */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);

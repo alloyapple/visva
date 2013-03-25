@@ -7,6 +7,8 @@ import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -96,14 +98,17 @@ public class GGDriveSettingActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+				if (mApi.getSession().isLinked())
+					showChoiceDialog();
+				else
+					startActivityForResult(credential.newChooseAccountIntent(),
+							REQUEST_ACCOUNT_PICKER);
 			}
 		});
 
-		if (!"".equals(mAccountName)){
+		if (!"".equals(mAccountName)) {
 			mBtnLinkToGGDrive.setText(getString(R.string.gg_drive_already_use));
-		}
-		else{
+		} else {
 			mBtnLinkToGGDrive.setText(getString(R.string.dropbox_start_to_use));
 		}
 	}
@@ -114,9 +119,9 @@ public class GGDriveSettingActivity extends Activity {
 		case REQUEST_ACCOUNT_PICKER:
 			if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
 				String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-				
+
 				if (accountName != null) {
-					Log.e("run here	", "run  "+accountName);
+					Log.e("run here	", "run  " + accountName);
 					credential.setSelectedAccountName(accountName);
 					service = getDriveService(credential);
 					mBtnLinkToGGDrive.setText(getString(R.string.gg_drive_already_use));
@@ -260,4 +265,28 @@ public class GGDriveSettingActivity extends Activity {
 		}
 	}
 
+	private void showChoiceDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setIcon(R.drawable.icon);
+		builder.setMessage(R.string.gg_drive_use_instead);
+		builder.setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				startActivityForResult(credential.newChooseAccountIntent(),
+						REQUEST_ACCOUNT_PICKER);
+				return;
+			}
+		});
+		builder.setNegativeButton(R.string.confirm_cancel, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				return;
+			}
+		});
+		builder.show();
+	}
 }
