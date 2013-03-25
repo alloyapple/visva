@@ -337,7 +337,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_ELEMENT_ID, password.geteId()); // user id
 		values.put(KEY_TITLE_NAME_ID, password.getTitleNameId()); // folder name
 		values.put(KEY_PASSWORD, password.getPassword()); // folder name
-		// Inserting Row
+		// Inserting RowS
 		db.insert(TABLE_PASSWORD, null, values);
 
 		// close db after use

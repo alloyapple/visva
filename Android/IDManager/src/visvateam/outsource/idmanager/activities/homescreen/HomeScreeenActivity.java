@@ -78,7 +78,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private ItemAdapter itemAdapter;
 	private FolderListViewAdapter folderListViewAdapter;
 	private ElementID oneItemSelected;
-	// private DataBaseHandler mDataBaseHandler;
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private ArrayList<GroupFolder> mFolderListItems = new ArrayList<GroupFolder>();
 	private ArrayList<ElementID> mIdListItems = new ArrayList<ElementID>();
@@ -415,16 +414,21 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			if (oneItemSelected != null) {
 				// receverAdapter.addPicture(oneItemSelected, arg2);
 				mCurrentFolderPosition = mCurrentFirstVisibleFolderItem + arg2;
-				
-				// mCurrentId = oneItemSelected.getE();
+				int currentFolderId =mFolderListItems.get(mCurrentFolderPosition).getgId();
+				Log.e("current position", "currentpostin " + mCurrentFolderPosition);
+				mCurrentId = oneItemSelected.geteId();
 				ElementID elementId = mIDxPWDataBaseHandler.getElementID(mCurrentId);
 
 				Log.e("mCurrentFolderPostion " + mCurrentFolderPosition, "mCurrentFirtsVisible "
 						+ mCurrentFirstVisibleFolderItem);
-				if (isEdit && mCurrentFolderPosition > 0
-						&& elementId.geteGroupId() != mCurrentFolderPosition) {
+				int sizeFolder = mIDxPWDataBaseHandler.getFoldersCount();
+				Log.e("size of folder", "size of folder " + sizeFolder + "  isEdit " + isEdit
+						+ " groupId " + (elementId.geteGroupId() != mCurrentFolderPosition));
+				if (isEdit && mCurrentFolderPosition < sizeFolder 
+						&& elementId.geteGroupId() != currentFolderId) {
 					// Log.e("item selected", "item " +
 					// oneItemSelected.getPasswordId());
+					Log.e("rin here", "run here");
 					showDialog(Contants.DIALOG_MOVE_ID_TO_FOLDER);
 
 				}
@@ -595,9 +599,10 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
 			if (currentFolderItem < mFolderListItems.size() - 2) {
-				List<ElementID> elementList = mIDxPWDataBaseHandler.getAllElementIdByGroupFolderId(currentFolderId);
-				Log.e("elementsize ", "size "+elementList.size());
-				if(elementList.size() >= MAX_ITEMS)
+				List<ElementID> elementList = mIDxPWDataBaseHandler
+						.getAllElementIdByGroupFolderId(currentFolderId);
+				Log.e("elementsize ", "size " + elementList.size());
+				if (elementList.size() >= MAX_ITEMS)
 					showDialog(Contants.DIALOG_CREATE_ID);
 				else {
 					if (isSearchMode) {
@@ -1046,7 +1051,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private void deleteFolder(int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
 		/* delete folder in database */
-		Log.e("delete folder", "delete folder position "+positionReturnedByHandler);
+		Log.e("delete folder", "delete folder position " + positionReturnedByHandler);
 		mIDxPWDataBaseHandler
 				.deleteFolder(mFolderListItems.get(positionReturnedByHandler).getgId());
 
@@ -1055,14 +1060,14 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 						.getgId());
 
 		/* delete all ids in this folder */
-		mIDxPWDataBaseHandler.deleteElementIdInFolderId(mFolderListItems.get(positionReturnedByHandler)
-				.getgId());
-		
+		mIDxPWDataBaseHandler.deleteElementIdInFolderId(mFolderListItems.get(
+				positionReturnedByHandler).getgId());
+
 		for (ElementID element : elementIdList) {
 			/* delete all password also */
 			mIDxPWDataBaseHandler.deletePasswordByElementId(element.geteId());
 		}
-		
+
 		/* refresh id list view */
 		mIdListItems = constructList(positionReturnedByHandler);
 		currentFolderId = mFolderListItems.get(positionReturnedByHandler).getgId();
