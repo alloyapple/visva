@@ -50,7 +50,7 @@ import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
-public class HomeScreeenActivity extends BaseActivity implements OnClickListener {
+public class HomeScreeenActivity extends BaseActivity implements OnClickListener{
 	private final static int MAX_ITEMS = 12;
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
@@ -120,7 +120,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
-
+		
 		/* init database */
 		initDataBase();
 

@@ -11,9 +11,11 @@ import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +23,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MasterPasswordActivity extends BaseActivity implements OnClickListener {
+public class MasterPasswordActivity extends BaseActivity implements
+		OnClickListener {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
@@ -29,7 +32,7 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 	// private EditText mEditText
 	// ========================Class Define =======================
 	private IdManagerPreference mIdManagerPreference;
-//	private DataBaseHandler mDataBaseHandler;
+	// private DataBaseHandler mDataBaseHandler;
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
@@ -58,13 +61,14 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 			mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
 			/* init database */
 			SQLiteDatabase.loadLibs(this);
-//			mDataBaseHandler = new DataBaseHandler(this);
+			// mDataBaseHandler = new DataBaseHandler(this);
 			mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
-			UserDB userTemp = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+			UserDB userTemp = mIDxPWDataBaseHandler
+					.getUser(Contants.MASTER_PASSWORD_ID);
 			mMasterPW = userTemp.getPassword();
-//			UserDataBase user = mDataBaseHandler
-//					.getUser(Contants.MASTER_PASSWORD_ID);
-//			String masterPWm= user.getUserPassword();
+			// UserDataBase user = mDataBaseHandler
+			// .getUser(Contants.MASTER_PASSWORD_ID);
+			// String masterPWm= user.getUserPassword();
 			Log.e("masterpw", "master pw " + mMasterPW);
 		}
 	}
@@ -139,7 +143,8 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 		mIdManagerPreference.setMasterPW("");
 		mIdManagerPreference.setSecurityMode(Contants.KEY_OFF);
 		mIdManagerPreference.setValuesremoveData(Contants.KEY_OFF);
-
+		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+		clipboard.setText("");
 		// finish activity
 		finish();
 	}
@@ -149,9 +154,10 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 		// TODO Auto-generated method stub
 		super.onResume();
 		mRemoveDataTimes = mIdManagerPreference.getValuesRemoveData();
-//		mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
-//				.getUserPassword();
-		mMasterPW = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID).getPassword();
+		// mMasterPW = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
+		// .getUserPassword();
+		mMasterPW = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID)
+				.getPassword();
 		mNumberAtemppt = 0;
 	}
 
@@ -249,5 +255,5 @@ public class MasterPasswordActivity extends BaseActivity implements OnClickListe
 			return null;
 		}
 	}
-	
+
 }
