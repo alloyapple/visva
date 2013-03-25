@@ -75,29 +75,34 @@ public class ImageMemoActivity extends BaseActivity {
 		mRelativeLayout = (RelativeLayout) findViewById(R.id.id_relative_bound);
 		mFrameMemo = (FrameLayout) findViewById(R.id.id_memo_frame);
 		mCheckBoxChoiceImgMemo = (CheckBox) findViewById(R.id.check_box_choice_img);
-		mCheckBoxChoiceImgMemo.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		mCheckBoxChoiceImgMemo
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
-				if (fileUri != null && mCheckBoxChoiceImgMemo.isChecked()) {
-					// String imagePth = fileUri.getPath();
-					// // int orientation = checkOrientation(fileUri);
-					// EditIdPasswordActivity.updateMemo((Drawable) new
-					// BitmapDrawable(
-					// decodeSampledBitmapFromFile(imagePth, 200, 100,
-					// orientation)));
-					EditIdPasswordActivity.updateMemo((Drawable) new BitmapDrawable(snapScreen()));
-					Intent resultIntent = new Intent();
-					// resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
-					// fileUri.toString());
-					setResult(Activity.RESULT_OK, resultIntent);
-					finish();
-				} else {
-					mCheckBoxChoiceImgMemo.setChecked(false);
-				}
-			}
-		});
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						// TODO Auto-generated method stub
+						if (fileUri != null
+								&& mCheckBoxChoiceImgMemo.isChecked()) {
+							// String imagePth = fileUri.getPath();
+							// // int orientation = checkOrientation(fileUri);
+							// EditIdPasswordActivity.updateMemo((Drawable) new
+							// BitmapDrawable(
+							// decodeSampledBitmapFromFile(imagePth, 200, 100,
+							// orientation)));
+							EditIdPasswordActivity
+									.updateMemo((Drawable) new BitmapDrawable(
+											snapScreen()));
+							Intent resultIntent = new Intent();
+							// resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
+							// fileUri.toString());
+							setResult(Activity.RESULT_OK, resultIntent);
+							finish();
+						} else {
+							mCheckBoxChoiceImgMemo.setChecked(false);
+						}
+					}
+				});
 		imgBound = (ImageView) findViewById(R.id.img_bound_memo);
 		imgBound.setVisibility(View.GONE);
 		mRelativeLayout.setOnTouchListener(new OnTouchListener() {
@@ -135,14 +140,14 @@ public class ImageMemoActivity extends BaseActivity {
 					break;
 				case MotionEvent.ACTION_POINTER_UP:
 					mode = NONE;
-					if (countClockwise1 > countUnclockwise1) {
+					if (countClockwise1 - countUnclockwise1 > 5) {
 						isClockwise1 = true;
-					} else if (countClockwise1 < countUnclockwise1) {
+					} else if (countClockwise1 - countUnclockwise1 < -5) {
 						isClockwise1 = false;
 					}
-					if (countClockwise2 > countUnclockwise2) {
+					if (countClockwise2 - countUnclockwise2 > 5) {
 						isClockwise2 = true;
-					} else if (countClockwise2 < countUnclockwise2) {
+					} else if (countClockwise2 - countUnclockwise2 < -5) {
 						isClockwise2 = false;
 					}
 					if (isClockwise1 && isClockwise2) {
@@ -167,14 +172,16 @@ public class ImageMemoActivity extends BaseActivity {
 						resiseBound(scale, scale);
 					}
 					if (mode == ZOOM) {
-						double currentAngle1 = getAngle(event.getX(0), event.getY(0));
+						double currentAngle1 = getAngle(event.getX(0),
+								event.getY(0));
 						if (((float) (angle1 - currentAngle1)) >= 0) {
 							countClockwise1++;
 						} else {
 							countUnclockwise1++;
 						}
 						angle1 = currentAngle1;
-						double currentAngle2 = getAngle(event.getX(1), event.getY(1));
+						double currentAngle2 = getAngle(event.getX(1),
+								event.getY(1));
 						if (((float) (angle2 - currentAngle2)) >= 0) {
 							countClockwise2++;
 						} else {
@@ -210,7 +217,8 @@ public class ImageMemoActivity extends BaseActivity {
 		matrix.postRotate(degree);
 
 		// return new bitmap rotated using matrix
-		bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+		bmp = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(),
+				matrix, true);
 		return bmp;
 	}
 
@@ -244,14 +252,16 @@ public class ImageMemoActivity extends BaseActivity {
 	}
 
 	public void resiseBound(float scaleX, float scaleY) {
-		int left = (getParam().leftMargin + getParam().width / 2) - (int) ((w * scaleX) / 2);
-		int top = (getParam().topMargin + getParam().height / 2) - (int) ((h * scaleY) / 2);
-		if (left < 0 || left > mRelativeLayout.getWidth() - (w * scaleX) || top < 0
-				|| top > mRelativeLayout.getHeight() - (h * scaleY)) {
+		int left = (getParam().leftMargin + getParam().width / 2)
+				- (int) ((w * scaleX) / 2);
+		int top = (getParam().topMargin + getParam().height / 2)
+				- (int) ((h * scaleY) / 2);
+		if (left < 0 || left > mRelativeLayout.getWidth() - (w * scaleX)
+				|| top < 0 || top > mRelativeLayout.getHeight() - (h * scaleY)) {
 			return;
 		}
-		imgBound.setLayoutParams(new RelativeLayout.LayoutParams((int) (w * scaleX),
-				(int) (h * scaleY)));
+		imgBound.setLayoutParams(new RelativeLayout.LayoutParams(
+				(int) (w * scaleX), (int) (h * scaleY)));
 		getParam().leftMargin = left;
 		getParam().topMargin = top;
 		imgBound.requestLayout();
@@ -291,7 +301,8 @@ public class ImageMemoActivity extends BaseActivity {
 		} else {
 			t = getParam().topMargin + (int) y;
 		}
-		getParam().setMargins(l, t, getParam().rightMargin, getParam().bottomMargin);
+		getParam().setMargins(l, t, getParam().rightMargin,
+				getParam().bottomMargin);
 		imgBound.requestLayout();
 	}
 
@@ -302,12 +313,14 @@ public class ImageMemoActivity extends BaseActivity {
 
 	public Bitmap snapScreen() {
 		mFrameMemo.setDrawingCacheEnabled(true);
-		mFrameMemo.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+		mFrameMemo.measure(
+				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 		mFrameMemo.buildDrawingCache(true);
 		Bitmap bm = Bitmap.createBitmap(mFrameMemo.getDrawingCache());
-		Bitmap bm2 = Bitmap.createBitmap(bm, getParam().leftMargin, getParam().topMargin,
-				imgBound.getWidth(), imgBound.getHeight());
+		Bitmap bm2 = Bitmap
+				.createBitmap(bm, getParam().leftMargin, getParam().topMargin,
+						imgBound.getWidth(), imgBound.getHeight());
 		mFrameMemo.setDrawingCacheEnabled(false); //
 		return bm2;
 	}
@@ -334,9 +347,10 @@ public class ImageMemoActivity extends BaseActivity {
 		String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
 				Environment.DIRECTORY_PICTURES).getPath();
 		@SuppressWarnings("unused")
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir + java.io.File.separator + "IMG_"
-				+ "test" + ".jpg"));
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+				.format(new Date());
+		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir
+				+ java.io.File.separator + "IMG_" + "test" + ".jpg"));
 
 		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -350,7 +364,8 @@ public class ImageMemoActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	protected void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
 		switch (requestCode) {
 		case Contants.CAPTURE_IMAGE:
 			if (resultCode == Activity.RESULT_OK) {
@@ -362,7 +377,8 @@ public class ImageMemoActivity extends BaseActivity {
 					if (file.exists()) {
 						fileUri = Uri.fromFile(file);
 						int orientation = checkOrientation(fileUri);
-						bmp = decodeSampledBitmapFromFile(imagePath, 400, 300, orientation);
+						bmp = decodeSampledBitmapFromFile(imagePath, 400, 300,
+								orientation);
 						imageView.setImageBitmap(bmp);
 						imgBound.setVisibility(View.VISIBLE);
 					} else {
@@ -376,7 +392,8 @@ public class ImageMemoActivity extends BaseActivity {
 				Log.e("data", "dataat " + data);
 				Uri uri = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-				Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+				Cursor cursor = getContentResolver().query(uri, filePathColumn,
+						null, null, null);
 				cursor.moveToFirst();
 				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 				String imagePath = cursor.getString(columnIndex);
@@ -387,7 +404,8 @@ public class ImageMemoActivity extends BaseActivity {
 				if (file.exists()) {
 					fileUri = Uri.fromFile(file);
 					int orientation = checkOrientation(fileUri);
-					bmp = decodeSampledBitmapFromFile(imagePath, 400, 300, orientation);
+					bmp = decodeSampledBitmapFromFile(imagePath, 400, 300,
+							orientation);
 					imageView.setImageBitmap(bmp);
 				} else {
 					Log.e("test", "file don't exist !");
@@ -410,13 +428,14 @@ public class ImageMemoActivity extends BaseActivity {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), toast,
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
 
-	private Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth, int reqHeight,
-			int orientation) {
+	private Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth,
+			int reqHeight, int orientation) {
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
@@ -426,7 +445,8 @@ public class ImageMemoActivity extends BaseActivity {
 		BitmapFactory.decodeFile(filePath, options);
 
 		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+		options.inSampleSize = calculateInSampleSize(options, reqWidth,
+				reqHeight);
 		int width = options.outWidth;
 		int height = options.outHeight;
 		Log.e("width " + height, "width " + width);
@@ -438,7 +458,8 @@ public class ImageMemoActivity extends BaseActivity {
 		// options), 0, 0, reqHeight,
 		// reqWidth, mtx, true);
 
-		return decodeBitmap(BitmapFactory.decodeFile(filePath, options), orientation);
+		return decodeBitmap(BitmapFactory.decodeFile(filePath, options),
+				orientation);
 
 	}
 
@@ -450,8 +471,8 @@ public class ImageMemoActivity extends BaseActivity {
 		return Bitmap.createBitmap(bitmap, 0, 0, width, height, mtx, true);
 	}
 
-	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
-			int reqHeight) {
+	public static int calculateInSampleSize(BitmapFactory.Options options,
+			int reqWidth, int reqHeight) {
 		// Raw height and width of image
 		final int height = options.outHeight;
 		final int width = options.outWidth;
@@ -461,7 +482,8 @@ public class ImageMemoActivity extends BaseActivity {
 
 			// Calculate ratios of height and width to requested height and
 			// width
-			final int heightRatio = Math.round((float) height / (float) reqHeight);
+			final int heightRatio = Math.round((float) height
+					/ (float) reqHeight);
 			final int widthRatio = Math.round((float) width / (float) reqWidth);
 
 			// Choose the smallest ratio as inSampleSize value, this will
