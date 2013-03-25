@@ -70,7 +70,7 @@ public class RegisterEmailActivity extends Activity {
 		});
 
 		UserDB user = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
-		if ("".equals(user.getsEmail().toString()))
+		if (!"".equals(user.getsEmail().toString()))
 			showEmailDialog();
 	}
 

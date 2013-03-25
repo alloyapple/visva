@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name="visvateam.outsource.idmanager.idletime.ControlApplication"
@@ -37,6 +38,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="BillingService" />
+        <receiver android:name=".BillingReceiver" >
+            <intent-filter>
+                <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
+                <action android:name="com.android.vending.billing.RESPONSE_CODE" />
+                <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="visvateam.outsource.idmanager.activities.EnterOldPasswordActivity"
             android:screenOrientation="portrait" >
@@ -166,11 +177,11 @@
             android:name="com.box.androidlib.activities.BoxAuthentication"
             android:configChanges="orientation|keyboardHidden" />
         <activity
-            android:name="visvateam.outsource.idmanager.activities.securityservice.SecurityMasterPasswordActivity"
+            android:name=".securityservice.SecurityMasterPasswordActivity"
             android:screenOrientation="portrait" >
         </activity>
 
-        <service android:name="visvateam.outsource.idmanager.activities.securityservice.SecurityService" >
+        <service android:name=".securityservice.SecurityService" >
         </service>
     </application>
 
