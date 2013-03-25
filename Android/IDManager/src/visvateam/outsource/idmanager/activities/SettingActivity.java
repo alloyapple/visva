@@ -151,6 +151,11 @@ public class SettingActivity extends BaseActivity {
 		startActivity(intentDropbox);
 	}
 
+	public void onRegisterEmailAddress(View v){
+		Intent intentRegisterEmail = new Intent(SettingActivity.this, RegisterEmailActivity.class);
+		intentRegisterEmail.putExtra(Contants.CREATE_NEW_EMAIL, false);
+		startActivity(intentRegisterEmail);
+	}
 	public void onDropbox(View v) {
 		Intent intentDropbox = new Intent(SettingActivity.this, DropboxSettingActivity.class);
 		startActivity(intentDropbox);

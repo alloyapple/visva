@@ -224,8 +224,6 @@ public class SyncCloudActivity extends Activity {
 				boolean isCheckTime = false;
 				startSyncToDeviceByDropBox(isCheckTime);
 			}
-
-			// showDialog(Contants.DIALOG_CHOICE_CLOUD_TYPE);
 		} else {
 			showDialog(Contants.DIALOG_NO_NET_WORK);
 		}

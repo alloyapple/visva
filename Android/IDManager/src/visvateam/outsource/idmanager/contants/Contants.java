@@ -91,5 +91,6 @@ public class Contants {
 	public static final int FAVOURITE_FOLDER_ID = -1;
 	public static final int HISTORY_FOLDER_ID = -2;
 	public static final int NUMBER_ELEMENT_SHOW_IN_HISTORY = 20;
+	public static final String CREATE_NEW_EMAIL = "CREATE_NEW_EMAIL";
 
 }

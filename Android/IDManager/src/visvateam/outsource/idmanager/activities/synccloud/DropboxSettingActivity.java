@@ -1,9 +1,11 @@
 package visvateam.outsource.idmanager.activities.synccloud;
 
 import java.io.File;
+import java.nio.channels.AlreadyConnectedException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -96,8 +98,11 @@ public class DropboxSettingActivity extends Activity {
 					logOut();
 				} else {
 					// Start the remote authentication
-					mIdManagerPreference.setGoogleAccNameSession("");
-					mApi.getSession().startAuthentication(DropboxSettingActivity.this);
+//					mIdManagerPreference.setGoogleAccNameSession("");
+					if (!"".equals(mIdManagerPreference.getGoogleAccNameSession()))
+						showChoiceDialog();
+					else
+						mApi.getSession().startAuthentication(DropboxSettingActivity.this);
 				}
 			}
 		});
@@ -140,7 +145,7 @@ public class DropboxSettingActivity extends Activity {
 					Log.i(TAG, "Error authenticating", e);
 				}
 			}
-		}else
+		} else
 			logOut();
 	}
 
@@ -279,4 +284,28 @@ public class DropboxSettingActivity extends Activity {
 		return false;
 	}
 
+	private void showChoiceDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setIcon(R.drawable.icon);
+		builder.setMessage(R.string.dropbox_use_instead);
+		builder.setPositiveButton(R.string.confirm_ok, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				mIdManagerPreference.setGoogleAccNameSession("");
+				mApi.getSession().startAuthentication(DropboxSettingActivity.this);
+				return;
+			}
+		});
+		builder.setNegativeButton(R.string.confirm_cancel, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				return;
+			}
+		});
+		builder.show();
+	}
 }

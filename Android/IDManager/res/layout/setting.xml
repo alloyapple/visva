@@ -250,7 +250,37 @@
                         android:src="@drawable/icon_item_shift" >
                     </ImageView>
                 </FrameLayout>
+      <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20px"
+                    android:background="@drawable/all_corner_button"
+                    android:onClick="onRegisterEmailAddress" >
 
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="20dp" >
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="Register Email Address"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
+                    </ImageView>
+                </FrameLayout>
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="40dp" >
