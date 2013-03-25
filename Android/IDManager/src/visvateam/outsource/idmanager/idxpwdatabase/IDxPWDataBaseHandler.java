@@ -456,6 +456,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		// return count
 		count = cursor.getCount();
 		cursor.close();
+		db.close();
 		return count;
 	}
 
