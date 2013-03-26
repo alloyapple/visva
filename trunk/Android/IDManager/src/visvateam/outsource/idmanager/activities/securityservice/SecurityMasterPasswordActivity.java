@@ -127,7 +127,7 @@ public class SecurityMasterPasswordActivity extends Activity implements
 			isKeyBoardNumber = false;
 		} else {
 			mEditTextMasterPW
-					.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+					.setInputType(InputType.TYPE_CLASS_NUMBER);
 			isKeyBoardNumber = true;
 		}
 	}
