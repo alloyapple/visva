@@ -10,6 +10,8 @@
         android:id="@+id/id_listview_item_add"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:cacheColorHint="#404040"
+        android:background="#404040"
         android:divider="@color/transparent" >
     </ListView>
 
