@@ -201,7 +201,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 			e.printStackTrace();
 		}
 		Bitmap bmp = BitmapFactory.decodeByteArray(decryptBytes, 0, decryptBytes.length);
-		bmp.setHasAlpha(true);
+//		bmp.setHasAlpha(true);
 		// Bitmap bmp2 = bmp.copy(Config.ARGB_8888, true);
 		return (Drawable) new BitmapDrawable(bmp);
 	}
@@ -597,7 +597,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 				if (elementId < elementList.get(i).geteId())
 					elementId = elementList.get(i).geteId();
 			}
-			elementId++;
+//			elementId++;
 		} else
 			elementId = currentElementId;
 

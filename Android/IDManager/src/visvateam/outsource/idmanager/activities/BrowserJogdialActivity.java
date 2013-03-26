@@ -13,7 +13,6 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,12 +48,11 @@ public class BrowserJogdialActivity extends BaseActivity {
 	private String valuePaste = "khaidt.hut@gmail";
 	int count;
 	int currentField = 0;
+	int currentData = 0;
 	String note;
 	String valueGet;
 	PointF startPoint = new PointF();
 	
-
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -157,7 +155,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 				+ currentField + ";Android.getValueField(nodes[k].value);");
 		webView.loadUrl("javascript:"
 				+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-				+ currentField + ";nodes[k].focus;");
+				+ currentField + ";nodes[k].focus();nodes[k].scrollIntoView()");
 
 	}
 
@@ -294,13 +292,16 @@ public class BrowserJogdialActivity extends BaseActivity {
 		playSoundEffect(R.raw.jogwheel);
 		if (clockwise) {
 
-			if (currentField < pasteItem.length && currentField >= 0)
-				valuePaste = pasteItem[currentField];
-			else {
-				valuePaste = "";
+			if (currentField >= count || currentField < 0)
 				return;
-			}
-			Log.e("currentFilet "+currentField, "values paste "+valuePaste);
+//				valuePaste = pasteItem[currentField];
+			if(currentData>=pasteItem.length||currentData<0)
+				return;
+			valuePaste = pasteItem[currentData];
+//			else {
+//				valuePaste = "";
+//				return;
+//			}
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
@@ -309,15 +310,19 @@ public class BrowserJogdialActivity extends BaseActivity {
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
 
-			if (currentField < pasteItem.length - 1)
+			if (currentField < count - 1){
 				currentField++;
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+						+ currentField + ";nodes[k].focus();nodes[k].scrollIntoView()");			
+			}
+			if(currentData<pasteItem.length-1)
+				currentData++;
 
 		} else {
-			if (currentField >= 0 && currentField < pasteItem.length)
-				valuePaste = "";
-			else {
+			if (currentField >= count || currentField < 0)
 				return;
-			}
+			valuePaste="";
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
@@ -326,8 +331,14 @@ public class BrowserJogdialActivity extends BaseActivity {
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
 
-			if (currentField > 0)
+			if (currentField > 0){
 				currentField--;
+				webView.loadUrl("javascript:"
+						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
+						+ currentField + ";nodes[k].focus();nodes[k].scrollIntoView()");	
+			}
+			if(currentData>0)
+				currentData--;
 
 		}
 	}
@@ -369,7 +380,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 						+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\");Android.count(nodes.length);");
 				webView.loadUrl("javascript:"
 						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");Android.count(nodes.length);");
-
+				currentField=0;
 			}
 
 		});

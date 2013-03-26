@@ -208,6 +208,9 @@ public class SettingActivity extends BaseActivity {
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 						if (modePayment == PAYMENT_TO_UNLIMIT_ITEMS) {
+							BillingHelper.requestPurchase(
+									SettingActivity.this,
+									"android.test.purchased");
 						} else if (modePayment == PAYMENT_TO_NO_AD) {
 							// mPref.setIsPaymentUnlimit(IdManagerPreference.IS_PAYMENT_UNLIMIT,
 							// true);
@@ -226,6 +229,9 @@ public class SettingActivity extends BaseActivity {
 
 						} else if (modePayment == PAYMENT_TO_EXPORT) {
 							if (mApi.getSession().isLinked()) {
+								BillingHelper.requestPurchase(
+										SettingActivity.this,
+										"android.test.purchased");
 								isExportData = true;
 								showDialog(Contants.DIALOG_EXPORT_DATA);
 							} else {
