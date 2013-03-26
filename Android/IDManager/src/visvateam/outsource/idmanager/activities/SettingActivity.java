@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -26,7 +25,6 @@ import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -47,7 +45,8 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.google.android.gms.internal.e;
+import com.idmanager.BillingHelper;
+import com.idmanager.BillingService;
 
 @SuppressLint("HandlerLeak")
 public class SettingActivity extends BaseActivity {
@@ -91,7 +90,22 @@ public class SettingActivity extends BaseActivity {
 	private int sizeOfGList;
 	private int sizeOfEList;
 	private int sizeOfPList;
-	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
+//	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
+	private static final String TAG = "BillingService";
+	public Handler mTransactionHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Log.i(TAG, "Transaction complete");
+			Log.i(TAG, "Transaction status: "
+					+ BillingHelper.latestPurchase.purchaseState);
+			Log.i(TAG, "Item purchased is: "
+					+ BillingHelper.latestPurchase.productId);
+
+			if (BillingHelper.latestPurchase.isPurchased()) {
+
+			}
+		};
+
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +116,8 @@ public class SettingActivity extends BaseActivity {
 
 		mPref = IdManagerPreference.getInstance(this);
 		initAdmod();
+		startService(new Intent(this, BillingService.class));
+		BillingHelper.setCompletedHandler(mTransactionHandler);
 
 	}
 
@@ -131,7 +147,8 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	public void onChangeMasterPass(View v) {
-		Intent intentChangePW = new Intent(SettingActivity.this, EnterOldPasswordActivity.class);
+		Intent intentChangePW = new Intent(SettingActivity.this,
+				EnterOldPasswordActivity.class);
 		intentChangePW.putExtra(EnterOldPasswordActivity.KEY_MODE,
 				EnterOldPasswordActivity.FROM_SETTING);
 		startActivity(intentChangePW);
@@ -147,28 +164,34 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	public void onGoogle(View v) {
-		Intent intentDropbox = new Intent(SettingActivity.this, GGDriveSettingActivity.class);
+		Intent intentDropbox = new Intent(SettingActivity.this,
+				GGDriveSettingActivity.class);
 		startActivity(intentDropbox);
 	}
 
-	public void onRegisterEmailAddress(View v){
-		Intent intentRegisterEmail = new Intent(SettingActivity.this, RegisterEmailActivity.class);
+	public void onRegisterEmailAddress(View v) {
+		Intent intentRegisterEmail = new Intent(SettingActivity.this,
+				RegisterEmailActivity.class);
 		intentRegisterEmail.putExtra(Contants.CREATE_NEW_EMAIL, false);
 		startActivity(intentRegisterEmail);
 	}
+
 	public void onDropbox(View v) {
-		Intent intentDropbox = new Intent(SettingActivity.this, DropboxSettingActivity.class);
+		Intent intentDropbox = new Intent(SettingActivity.this,
+				DropboxSettingActivity.class);
 		startActivity(intentDropbox);
 	}
 
 	public void onUnlimitedItems(View v) {
 		modePayment = PAYMENT_TO_UNLIMIT_ITEMS;
-		showDialogRequestPayment(getResources().getString(R.string.message_pay_to_unlimit_item));
+		showDialogRequestPayment(getResources().getString(
+				R.string.message_pay_to_unlimit_item));
 	}
 
 	public void onNoAdmod(View v) {
 		modePayment = PAYMENT_TO_NO_AD;
-		showDialogRequestPayment(getResources().getString(R.string.message_pay_to_no_ad));
+		showDialogRequestPayment(getResources().getString(
+				R.string.message_pay_to_no_ad));
 	}
 
 	public void showDialogRequestPayment(String message) {
@@ -176,7 +199,8 @@ public class SettingActivity extends BaseActivity {
 		builder.setIcon(R.drawable.icon);
 		builder.setTitle(getResources().getString(R.string.item_payment));
 		builder.setMessage(message);
-		builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+		builder.setPositiveButton(
+				getResources().getString(R.string.confirm_ok),
 				new OnClickListener() {
 
 					@SuppressWarnings("deprecation")
@@ -185,7 +209,21 @@ public class SettingActivity extends BaseActivity {
 						// TODO Auto-generated method stub
 						if (modePayment == PAYMENT_TO_UNLIMIT_ITEMS) {
 						} else if (modePayment == PAYMENT_TO_NO_AD) {
-							mPref.setIsPaymentUnlimit(IdManagerPreference.IS_PAYMENT_UNLIMIT, true);
+							// mPref.setIsPaymentUnlimit(IdManagerPreference.IS_PAYMENT_UNLIMIT,
+							// true);
+							if (BillingHelper.isBillingSupported()) {
+								BillingHelper.requestPurchase(
+										SettingActivity.this,
+										"android.test.purchased");
+								// android.test.purchased or
+								// android.test.canceled or
+								// android.test.refunded or
+								// com.blundell.item.passport
+							} else {
+								Log.i(TAG, "Can't purchase on this device");
+
+							}
+
 						} else if (modePayment == PAYMENT_TO_EXPORT) {
 							if (mApi.getSession().isLinked()) {
 								isExportData = true;
@@ -196,7 +234,8 @@ public class SettingActivity extends BaseActivity {
 						}
 					}
 				});
-		builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
+		builder.setNegativeButton(
+				getResources().getString(R.string.confirm_cancel),
 				new OnClickListener() {
 
 					@Override
@@ -235,7 +274,8 @@ public class SettingActivity extends BaseActivity {
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
-			showDialogRequestPayment(getResources().getString(R.string.message_pay_to_export));
+			showDialogRequestPayment(getResources().getString(
+					R.string.message_pay_to_export));
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
@@ -247,7 +287,8 @@ public class SettingActivity extends BaseActivity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Toast.makeText(SettingActivity.this, string, Toast.LENGTH_LONG).show();
+				Toast.makeText(SettingActivity.this, string, Toast.LENGTH_LONG)
+						.show();
 			}
 		});
 	}
@@ -324,7 +365,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -337,7 +379,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -351,7 +394,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -366,7 +410,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -381,7 +426,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -396,7 +442,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							startReadFileViaCloud(mSelectedFile, true);
 							return;
@@ -420,7 +467,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							startSyncToCloud(fileExportName, false);
 							return;
@@ -445,7 +493,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							deleteFileAfterUpload();
 							return;
@@ -460,7 +509,8 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							String file = mSelectedFile.toString();
 							importFileCSVToDatabase(file);
 							return;
@@ -471,15 +521,17 @@ public class SettingActivity extends BaseActivity {
 			AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 			alertBuilder.setTitle(getResources().getString(R.string.item_sync));
 			alertBuilder.setIcon(R.drawable.icon);
-			alertBuilder.setItems(mListDataChoice, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int item) {
-					Toast.makeText(getApplicationContext(), mListDataChoice[item],
-							Toast.LENGTH_SHORT).show();
-					mSelectedFile = mListDataChoice[item];
-					startReadFileViaCloud(mSelectedFile, false);
-				}
-			});
+			alertBuilder.setItems(mListDataChoice,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int item) {
+							Toast.makeText(getApplicationContext(),
+									mListDataChoice[item], Toast.LENGTH_SHORT)
+									.show();
+							mSelectedFile = mListDataChoice[item];
+							startReadFileViaCloud(mSelectedFile, false);
+						}
+					});
 			return alertBuilder.create();
 		case Contants.DIALOG_EXPORT_DATA:
 			builder.setTitle(getResources().getString(R.string.item_sync));
@@ -492,13 +544,16 @@ public class SettingActivity extends BaseActivity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
-							fileExportName = input.getText().toString() + ".csv";
+							fileExportName = input.getText().toString()
+									+ ".csv";
 							/* start export file */
 							if (!"".equals(fileExportName)) {
 								/* gen file csv */
-								generateCsvFile(Contants.PATH_ID_FILES + "/" + fileExportName);
+								generateCsvFile(Contants.PATH_ID_FILES + "/"
+										+ fileExportName);
 								startSyncToCloud(fileExportName, true);
 							} else
 								return;
@@ -554,7 +609,8 @@ public class SettingActivity extends BaseActivity {
 								}
 
 							for (int i = 0; i < rowDataList.size(); i++) {
-								Log.e("adjhfkshdf", "adsfkjh " + rowDataList.get(i));
+								Log.e("adjhfkshdf",
+										"adsfkjh " + rowDataList.get(i));
 								group = rowDataList.get(0);
 								title = rowDataList.get(1);
 								icon = rowDataList.get(2);
@@ -562,17 +618,17 @@ public class SettingActivity extends BaseActivity {
 								url = rowDataList.get(4);
 								note = rowDataList.get(5);
 								image = rowDataList.get(6);
-								
-								id[0] =  rowDataList.get(7);
-								password[0] =  rowDataList.get(8);
-								id[1] =  rowDataList.get(9);
-								password[1] =  rowDataList.get(10);
-								id[2] =  rowDataList.get(11);
-								password[2] =  rowDataList.get(12);
-								id[3] =  rowDataList.get(13);
-								password[3] =  rowDataList.get(14);
-								id[4] =  rowDataList.get(15);
-								password[4] =  rowDataList.get(16);
+
+								id[0] = rowDataList.get(7);
+								password[0] = rowDataList.get(8);
+								id[1] = rowDataList.get(9);
+								password[1] = rowDataList.get(10);
+								id[2] = rowDataList.get(11);
+								password[2] = rowDataList.get(12);
+								id[3] = rowDataList.get(13);
+								password[3] = rowDataList.get(14);
+								id[4] = rowDataList.get(15);
+								password[4] = rowDataList.get(16);
 							}
 
 							/* update to database */
@@ -591,7 +647,8 @@ public class SettingActivity extends BaseActivity {
 											if (gId < mGList.get(j).getgId())
 												gId = mGList.get(j).getgId();
 										gId++;
-										GroupFolder folder = new GroupFolder(gId, group, 0,
+										GroupFolder folder = new GroupFolder(
+												gId, group, 0,
 												Contants.MASTER_PASSWORD_ID, 0);
 										mDataBaseHandler.addNewFolder(folder);
 										mGList.add(folder);
@@ -605,8 +662,9 @@ public class SettingActivity extends BaseActivity {
 									if (gId < mGList.get(j).getgId())
 										gId = mGList.get(j).getgId();
 								gId++;
-								GroupFolder folder = new GroupFolder(gId, group, 0,
-										Contants.MASTER_PASSWORD_ID, 0);
+								GroupFolder folder = new GroupFolder(gId,
+										group, 0, Contants.MASTER_PASSWORD_ID,
+										0);
 								mDataBaseHandler.addNewFolder(folder);
 								mGList.add(folder);
 								sizeOfGList++;
@@ -615,23 +673,31 @@ public class SettingActivity extends BaseActivity {
 							/* insert element */
 							for (int i = 0; i < sizeOfGList; i++) {
 								List<ElementID> elementList = mDataBaseHandler
-										.getAllElementIdByGroupFolderId(mGList.get(i).getgId());
+										.getAllElementIdByGroupFolderId(mGList
+												.get(i).getgId());
 								if (elementList.size() > 0)
 									for (int j = 0; j < elementList.size(); j++) {
-										if (title.equals(elementList.get(j).geteTitle()))
+										if (title.equals(elementList.get(j)
+												.geteTitle()))
 											isEExist = true;
 
 										if (j == sizeOfEList - 1 && !isEExist) {
 											int eId = sizeOfEList;
-											long timeStamp = System.currentTimeMillis();
+											long timeStamp = System
+													.currentTimeMillis();
 											for (int k = 0; k < mEList.size(); k++)
-												if (eId < mEList.get(k).geteId())
-													eId = mEList.get(k).geteId();
+												if (eId < mEList.get(k)
+														.geteId())
+													eId = mEList.get(k)
+															.geteId();
 											eId++;
-											ElementID element = new ElementID(eId, mGList.get(i)
-													.getgId(), title, icon, timeStamp, fav, 0, url,
-													note, image, 0);
-											mDataBaseHandler.addNewElementId(element);
+											ElementID element = new ElementID(
+													eId,
+													mGList.get(i).getgId(),
+													title, icon, timeStamp,
+													fav, 0, url, note, image, 0);
+											mDataBaseHandler
+													.addNewElementId(element);
 
 											mEList.add(element);
 											sizeOfEList++;
@@ -642,8 +708,10 @@ public class SettingActivity extends BaseActivity {
 									int eId = sizeOfEList;
 									long timeStamp = System.currentTimeMillis();
 									eId++;
-									ElementID element = new ElementID(eId, mGList.get(i).getgId(),
-											title, icon, timeStamp, fav, 0, url, note, image, 0);
+									ElementID element = new ElementID(eId,
+											mGList.get(i).getgId(), title,
+											icon, timeStamp, fav, 0, url, note,
+											image, 0);
 									mDataBaseHandler.addNewElementId(element);
 									mEList.add(element);
 									sizeOfEList++;
@@ -657,16 +725,20 @@ public class SettingActivity extends BaseActivity {
 								if (title.equals(mEList.get(i).geteTitle()))
 									elementId = mEList.get(i).geteId();
 							}
-							mDataBaseHandler.deletePasswordByElementId(elementId);
+							mDataBaseHandler
+									.deletePasswordByElementId(elementId);
 							Log.e("item", "item.size " + mItems.size());
 							for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
-								if (!"".equals(id[i]) || !"".equals(password[i])) {
+								if (!"".equals(id[i])
+										|| !"".equals(password[i])) {
 									int pwId = sizeOfPList;
 									for (int k = 0; k < sizeOfPList; k++)
-										if (pwId < mPList.get(k).getPasswordId())
-											pwId = mPList.get(k).getPasswordId();
-									Password passWord = new Password(pwId, elementId, id[i],
-											password[i]);
+										if (pwId < mPList.get(k)
+												.getPasswordId())
+											pwId = mPList.get(k)
+													.getPasswordId();
+									Password passWord = new Password(pwId,
+											elementId, id[i], password[i]);
 									mDataBaseHandler.addNewPassword(passWord);
 									mPList.add(passWord);
 									sizeOfPList++;
@@ -700,7 +772,8 @@ public class SettingActivity extends BaseActivity {
 	@SuppressWarnings("unused")
 	private void exportDataToGGDrive() {
 		// TODO Auto-generated method stub
-		Intent intentExportData = new Intent(SettingActivity.this, ExportDataGGDriveActivity.class);
+		Intent intentExportData = new Intent(SettingActivity.this,
+				ExportDataGGDriveActivity.class);
 		intentExportData.putExtra(Contants.IS_EXPORT_FILE, isExportData);
 		startActivity(intentExportData);
 	}
@@ -801,8 +874,10 @@ public class SettingActivity extends BaseActivity {
 
 		String[] stored = getKeys();
 		if (stored != null) {
-			AccessTokenPair accessToken = new AccessTokenPair(stored[0], stored[1]);
-			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE, accessToken);
+			AccessTokenPair accessToken = new AccessTokenPair(stored[0],
+					stored[1]);
+			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE,
+					accessToken);
 		} else {
 			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
 		}
@@ -841,12 +916,15 @@ public class SettingActivity extends BaseActivity {
 
 	}
 
-	private void startSyncToCloud(String fileExportName, boolean isCheckDuplicated) {
+	private void startSyncToCloud(String fileExportName,
+			boolean isCheckDuplicated) {
 		// TODO Auto-generated method stub
-		File fileExport = new File(Contants.PATH_ID_FILES + "/" + fileExportName);
+		File fileExport = new File(Contants.PATH_ID_FILES + "/"
+				+ fileExportName);
 		if (fileExport.exists()) {
-			DropBoxController newFile = new DropBoxController(SettingActivity.this, mApi,
-					Contants.FOLDER_ON_DROPBOX_CSV, fileExport, mHandler, isCheckDuplicated);
+			DropBoxController newFile = new DropBoxController(
+					SettingActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_CSV,
+					fileExport, mHandler, isCheckDuplicated);
 			newFile.execute();
 		} else {
 			Message msg = mHandler.obtainMessage();
@@ -859,14 +937,16 @@ public class SettingActivity extends BaseActivity {
 	/**
 	 * start read file via cloud
 	 */
-	private void startReadFileViaCloud(CharSequence fileName, boolean isCheckFile) {
+	private void startReadFileViaCloud(CharSequence fileName,
+			boolean isCheckFile) {
 		Log.e("isCheckFile", "isCheckFile " + isCheckFile);
 		File file = new File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
 		String mFilePath = file.getAbsolutePath();
-		ReadFileViaDropBox readFile = new ReadFileViaDropBox(SettingActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX_CSV, mFilePath, mHandler, fileName, isCheckFile);
+		ReadFileViaDropBox readFile = new ReadFileViaDropBox(
+				SettingActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_CSV,
+				mFilePath, mHandler, fileName, isCheckFile);
 		readFile.execute();
 	}
 
@@ -907,4 +987,10 @@ public class SettingActivity extends BaseActivity {
 		String titleId;
 		String password;
 	}
+	@Override
+	protected void onDestroy() {
+		BillingHelper.stopService();
+		super.onDestroy();
+	}
+
 }
