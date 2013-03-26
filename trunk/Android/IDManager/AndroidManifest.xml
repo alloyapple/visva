@@ -39,8 +39,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name="BillingService" />
-        <receiver android:name=".BillingReceiver" >
+        <service android:name="com.idmanager.BillingService" />
+        <receiver android:name="com.idmanager.BillingReceiver" >
             <intent-filter>
                 <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
                 <action android:name="com.android.vending.billing.RESPONSE_CODE" />
