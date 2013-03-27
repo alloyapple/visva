@@ -11,6 +11,7 @@
         android:layout_centerInParent="true"
         android:ellipsize="marquee"
         android:gravity="center"
+        android:focusable="false"
         android:marqueeRepeatLimit="marquee_forever"
         android:textColor="@color/white"
         android:textStyle="bold"

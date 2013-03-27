@@ -40,8 +40,7 @@
             android:layout_height="250dp"
             android:background="@color/white"
             android:scrollbars="vertical"
-            android:gravity="center"
-            android:text="@string/term_of_use_content"
+            android:text="@string/term_of_use_condition"
             android:textColor="@color/black" />
     </ScrollView>
 

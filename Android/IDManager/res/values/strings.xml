@@ -97,13 +97,41 @@
     <string name="sync_finish">The synchronization was finished</string>
     <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
     <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
-
     <string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
     <string name="sync_to_cloud_data_device_newer">The data on Dropbox(GoogleDrive) will be overwritten by this Android\'s data. Are you sure?</string>
-	<string name="sync_to_device_data_cloud_newer">This Android\'s data will be overwritten by the newer data on Dropbox(GoogleDrive).</string>
+    <string name="sync_to_device_data_cloud_newer">This Android\'s data will be overwritten by the newer data on Dropbox(GoogleDrive).</string>
     <!-- others -->
 
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
+    <string name="term_of_use_condition">Terms and Conditions\n
+\nThis is an agreement between you and Japan App Studio, Inc. (hereinafter stated as “Provider” or “we”). Please read these Japan App Studio Terms of Use before using our application. In order to utilize our application and our cloud cooperate system, you need to agree to be bound by the terms of this agreement. 
+\n
+\n1. Purpose
+\nThis agreement applies to all services rendered including our free and paid application. 
+\n
+\n2. Specification Change
+\nThe Provider shall make specification changes stipulated in this agreement, such as services rendered and payments, without obtaining the customer’s consent in regards to the work involved in further specification changes. 
+\n
+\n3. Service
+\nThe service includes customer’s identifications, passwords, storage software for digital files, backup systems for former data, and all the services that accompany the Providers application.  
+\n
+\n4. Delivery of Information 
+\nThe Provider will utilize customer e-mail addresses to notify customers of relevant information concerning their accounts. The Provider shall not be responsible for losses caused by failure to mail and unsent notifications. 
+\n
+\n5. Application Procedure
+\nThe customer shall apply to obtain the use of the Service by pressing the Agree button. Moreover, the customer agrees to the Provider’s protocol upon acceptance of the provisions of this Agreement.
+\n
+\n6. Payments
+\nCustomer shall pay to the Provider through Apple, Inc. Payments Service. The Provider shall depend on Apple Inc. Payments Service for purchase verification and shall not issue their own receipts.  
+\n
+\n7. Limitations of Liability
+\nThe Provider and service subcontractor shall not be responsible for any direct, indirect, special, or consequential loss, in connection with the use of the service, disuse of the service, or systematic change of Apple, Inc. 
+\n
+\n8. Governing Law and Jurisdiction
+\nAll disputes, controversies, or differences which may arise between the providers hereto, out of or in relation to or in connection with this agreement shall be finally settled by arbitration in the exclusive jurisdiction of the first trial that the Providers designates (regardless of outside of Japan). 
+\n
+\n9. Effective Date
+\nThis Agreement shall take effect on 1st of April, 2013. </string>
 
 </resources>
