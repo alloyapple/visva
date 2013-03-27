@@ -635,7 +635,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				if (elementId < elementList.get(i).geteId())
 					elementId = elementList.get(i).geteId();
 			}
-			// elementId++;
+			 elementId++;
 		} else
 			elementId = currentElementId;
 
