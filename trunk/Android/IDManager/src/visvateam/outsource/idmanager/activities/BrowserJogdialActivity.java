@@ -140,11 +140,13 @@ public class BrowserJogdialActivity extends BaseActivity {
 	public void onBack(View v) {
 		webView.goBack();
 		currentField = 0;
+		currentData=0;
 	}
 
 	public void onNext(View v) {
 		webView.goForward();
 		currentField = 0;
+		currentData=0;
 	}
 
 	public void nextInput() {
@@ -381,6 +383,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 				webView.loadUrl("javascript:"
 						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");Android.count(nodes.length);");
 				currentField=0;
+				currentData=0;
 			}
 
 		});
