@@ -101,7 +101,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private boolean isDnd = false;
 
 	private Handler mMainHandler = new Handler() {
-		@SuppressWarnings("deprecation")
 		public void handleMessage(android.os.Message msg) {
 			Log.e("get msg", "get mass " + msg.arg1);
 			if (msg.arg1 == Contants.DIALOG_DELETE_FOLDER) {
@@ -308,8 +307,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		SQLiteDatabase.loadLibs(this);
 		// mDataBaseHandler = new DataBaseHandler(this);
 		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
-		// check size of folder database
-		// checkSizeFolderDataBase();
 		// get data from folder database
 		loadDataFromFolderDataBase();
 	}
@@ -419,7 +416,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
 
-		@SuppressWarnings("deprecation")
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 			if (oneItemSelected != null) {
 				// receverAdapter.addPicture(oneItemSelected, arg2);
@@ -540,9 +536,9 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 				if (to < mFolderListItems.size() - 2 && from < mFolderListItems.size() - 2) {
 					GroupFolder groupFolder = mFolderListItems.remove(from);
 					folderListViewAdapter.add(to, groupFolder);
-					isDnd = false;
 					folderListView.checkfordrop(to);
 				}
+				isDnd = false;
 			}
 		}
 	};
@@ -625,7 +621,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		idList.set(j, idTemp);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		/* add new folder */
@@ -696,7 +691,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			startActivity(intentBrowser);
 		} else if (v == btnSearch) {
 			if ("".equals(mEditTextSearch.getText().toString())) {
-				showToast("Type to edit text to search");
+				// showToast("Type to edit text to search");
 			} else {
 				mTextSearch = mEditTextSearch.getText().toString();
 				/* clear text */
@@ -819,7 +814,6 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	/**
 	 * add new folder to group
 	 */
-	@SuppressWarnings("deprecation")
 	private void addNewFolder() {
 		showDialog(Contants.DIALOG_ADD_NEW_FOLDER);
 	}
@@ -1095,7 +1089,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		/* reset folder list */
 		mFolderListItems.get(positionReturnedByHandler).setgName(folderName);
 		folderListViewAdapter.updateFolderList(mFolderListItems);
-		showToast("Folder " + folderName + " is updated");
+		// showToast("Folder " + folderName + " is updated");
 	}
 
 	/**
@@ -1192,11 +1186,10 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
 	}
 
-	private void showToast(String string) {
-		Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
-	}
+	// private void showToast(String string) {
+	// Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+	// }
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub

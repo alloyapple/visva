@@ -816,7 +816,7 @@ containing a value of this type.
         public static final int message_change_remove_data=0x7f080008;
         public static final int message_coppied_clipboard=0x7f08000a;
         public static final int message_no_match_pass=0x7f080009;
-        public static final int message_pay_mto_export=0x7f080063;
+        public static final int message_pay_mto_export=0x7f080064;
         public static final int message_pay_to_export=0x7f08000d;
         public static final int message_pay_to_no_ad=0x7f08000c;
         public static final int message_pay_to_unlimit_item=0x7f08000b;
@@ -840,6 +840,7 @@ containing a value of this type.
  list icon 
          */
         public static final int term_of_use=0x7f080005;
+        public static final int term_of_use_condition=0x7f080063;
         public static final int term_of_use_content=0x7f080006;
         public static final int text_change_remove_data=0x7f080007;
         public static final int text_min=0x7f080014;
