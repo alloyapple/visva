@@ -76,7 +76,7 @@ public class DndListViewFolder extends ListView {
 				int y = (int) ev.getY();
 				Log.e("this.getWidth " + this.getWidth(), "afd");
 
-				if (x > this.getWidth() - 60) {
+				if (x > this.getWidth() - 75) {
 					return false;
 				}
 
@@ -171,7 +171,7 @@ public class DndListViewFolder extends ListView {
 				int x = (int) ev.getX();
 				y = (int) ev.getY();
 
-				if (x > this.getWidth() - 60) {
+				if (x > this.getWidth() - 75) {
 					return false;
 				}
 
@@ -347,6 +347,7 @@ public class DndListViewFolder extends ListView {
 	}
 
 	private void stopDragging() {
+		Log.e("stop draging", "stop draging");
 		if (mDragView != null) {
 			WindowManager wm = (WindowManager) mContext.getSystemService("window");
 			wm.removeView(mDragView);
@@ -497,9 +498,7 @@ public class DndListViewFolder extends ListView {
 					}
 					return true;
 				}
-
 			}
-
 		}
 		return false;
 	}
