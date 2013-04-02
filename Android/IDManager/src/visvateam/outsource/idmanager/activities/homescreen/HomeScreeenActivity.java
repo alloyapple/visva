@@ -54,7 +54,8 @@ import exp.mtparet.dragdrop.view.DndListViewFolder;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
-public class HomeScreeenActivity extends BaseActivity implements OnClickListener {
+public class HomeScreeenActivity extends BaseActivity implements
+		OnClickListener {
 	private final static int MAX_ITEMS = 12;
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
@@ -99,6 +100,7 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private int mCurrentId;
 	private String mTextSearch = "";
 	private boolean isDnd = false;
+	AdView adview;
 
 	private Handler mMainHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -141,16 +143,19 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	 * initialize variable
 	 */
 	private void initializeVariable() {
-		new GroupFolder(Contants.SEARCH_FOLDER_ID, "", 0, Contants.MASTER_PASSWORD_ID,
-				Contants.SEARCH_FOLDER_ID);
+		new GroupFolder(Contants.SEARCH_FOLDER_ID, "", 0,
+				Contants.MASTER_PASSWORD_ID, Contants.SEARCH_FOLDER_ID);
 	}
 
 	public void initAdmod() {
-		AdView adview = (AdView) findViewById(R.id.main_adView);
+		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
 		if (adview != null) {
 			adview.loadAd(re);
-			adview.setVisibility(View.VISIBLE);
+			if (!mIdManagerPreference.getIsPaymentNoAd())
+				adview.setVisibility(View.VISIBLE);
+			else
+				adview.setVisibility(View.GONE);
 		}
 	}
 
@@ -172,7 +177,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		initListViewId();
 
 		/* init button */
-		btnAddNewFolder = (Button) mainRelativeLayout.findViewById(R.id.btn_add_new_folder);
+		btnAddNewFolder = (Button) mainRelativeLayout
+				.findViewById(R.id.btn_add_new_folder);
 		btnAddNewFolder.setOnClickListener(this);
 
 		btnAddNewId = (Button) mainRelativeLayout.findViewById(R.id.btn_plus);
@@ -193,22 +199,26 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		btnSearch = (Button) mainRelativeLayout.findViewById(R.id.btn_search);
 		btnSearch.setOnClickListener(this);
 
-		btnClearTextSearch = (Button) mainRelativeLayout.findViewById(R.id.btn_close);
+		btnClearTextSearch = (Button) mainRelativeLayout
+				.findViewById(R.id.btn_close);
 		btnClearTextSearch.setOnClickListener(this);
 		btnClearTextSearch.setVisibility(View.GONE);
 
 		/* init editText */
-		mEditTextSearch = (EditText) mainRelativeLayout.findViewById(R.id.edit_text_search);
+		mEditTextSearch = (EditText) mainRelativeLayout
+				.findViewById(R.id.edit_text_search);
 		mEditTextSearch.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 				// TODO Auto-generated method stub
 				btnClearTextSearch.setVisibility(View.VISIBLE);
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 				// TODO Auto-generated method stub
 
 			}
@@ -226,17 +236,19 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 	private void initListViewId() {
 		/* init listview */
-		idListView = (ListViewDragDrop) mainRelativeLayout.findViewById(R.id.list_view_item);
+		idListView = (ListViewDragDrop) mainRelativeLayout
+				.findViewById(R.id.list_view_item);
 
 		/* init adapter for listview */
 
 		// mIdListItems = constructSearchList();
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		int currentFolderOrder = mFolderListItems.get(currentFolderItem).getgOrder();
+		int currentFolderOrder = mFolderListItems.get(currentFolderItem)
+				.getgOrder();
 		// set for search item list
 		mIdListItems = constructList(currentFolderId);
-		itemAdapter = new ItemAdapter(context, mIdListItems, false, mMainHandler, idListView,
-				currentFolderId, currentFolderOrder);
+		itemAdapter = new ItemAdapter(context, mIdListItems, false,
+				mMainHandler, idListView, currentFolderId, currentFolderOrder);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -263,9 +275,11 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 	private void initListViewFolder() {
 		// TODO Auto-generated method stub
-		folderListView = (DndListViewFolder) mainRelativeLayout.findViewById(R.id.list_view_folder);
-		folderListViewAdapter = new FolderListViewAdapter(this, mFolderListItems, false,
-				mMainHandler, folderListView, currentFolderItem, isSearchMode);
+		folderListView = (DndListViewFolder) mainRelativeLayout
+				.findViewById(R.id.list_view_folder);
+		folderListViewAdapter = new FolderListViewAdapter(this,
+				mFolderListItems, false, mMainHandler, folderListView,
+				currentFolderItem, isSearchMode);
 		folderListView.setAdapter(folderListViewAdapter);
 
 		/**
@@ -292,9 +306,12 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 	private void initLayoutDrag() {
 		/* init layout drag */
-		layoutDrag = (RelativeLayout) mainRelativeLayout.findViewById(R.id.layoutDrag);
-		imageDrag = (ImageView) mainRelativeLayout.findViewById(R.id.imageView1);
-		txtIdName = (TextView) mainRelativeLayout.findViewById(R.id.txt_id_name);
+		layoutDrag = (RelativeLayout) mainRelativeLayout
+				.findViewById(R.id.layoutDrag);
+		imageDrag = (ImageView) mainRelativeLayout
+				.findViewById(R.id.imageView1);
+		txtIdName = (TextView) mainRelativeLayout
+				.findViewById(R.id.txt_id_name);
 		txtIdUrl = (TextView) mainRelativeLayout.findViewById(R.id.txt_id_url);
 	}
 
@@ -318,19 +335,22 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
 		int sizeOfFolder = folderList.size();
 		for (int i = (sizeOfFolder - 1); i >= 0; i--) {
-			GroupFolder folder = new GroupFolder(folderList.get(i).getgId(), folderList.get(i)
-					.getgName(), folderList.get(i).getgType(), folderList.get(i).getgUserId(),
-					folderList.get(i).getgOrder());
+			GroupFolder folder = new GroupFolder(folderList.get(i).getgId(),
+					folderList.get(i).getgName(), folderList.get(i).getgType(),
+					folderList.get(i).getgUserId(), folderList.get(i)
+							.getgOrder());
 			mFolderListItems.add(folder);
 		}
 		// add folder favourite and history
-		GroupFolder favouriteFolder = new GroupFolder(Contants.FAVOURITE_FOLDER_ID,
-				Contants.NAME_FAVOURITE_FOLDER, 0, Contants.MASTER_PASSWORD_ID, -1);
+		GroupFolder favouriteFolder = new GroupFolder(
+				Contants.FAVOURITE_FOLDER_ID, Contants.NAME_FAVOURITE_FOLDER,
+				0, Contants.MASTER_PASSWORD_ID, -1);
 		mFolderListItems.add(favouriteFolder);
 
 		// add folder history
 		GroupFolder historyFolder = new GroupFolder(Contants.HISTORY_FOLDER_ID,
-				Contants.NAME_HISTORY_FOLDER, 0, Contants.MASTER_PASSWORD_ID, -2);
+				Contants.NAME_HISTORY_FOLDER, 0, Contants.MASTER_PASSWORD_ID,
+				-2);
 		mFolderListItems.add(historyFolder);
 	}
 
@@ -340,14 +360,15 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private AdapterView.OnItemSelectedListener mOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
 
 		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 
 			/**
 			 * retrieve selected item from adapterview
 			 */
 			oneItemSelected = (ElementID) arg0.getItemAtPosition(arg2);
-			imageDrag.setImageDrawable(EditIdPasswordActivity.getIconDatabase(oneItemSelected
-					.geteIcon()));
+			imageDrag.setImageDrawable(EditIdPasswordActivity
+					.getIconDatabase(oneItemSelected.geteIcon()));
 			txtIdName.setText(oneItemSelected.geteTitle());
 			txtIdUrl.setText(oneItemSelected.geteUrl());
 		}
@@ -365,11 +386,12 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private OnItemClickListener mOnIdListItemClickListener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 			// TODO Auto-generated method stub
 			if (!isEdit)
-				CopyItemActivity.startActivity(HomeScreeenActivity.this, mIdListItems.get(arg2)
-						.geteId());
+				CopyItemActivity.startActivity(HomeScreeenActivity.this,
+						mIdListItems.get(arg2).geteId());
 		}
 	};
 	private OnTouchListener mOnItemUpOutListener = new OnTouchListener() {
@@ -386,13 +408,15 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	 */
 	private OnItemClickListener listenerClickFolderItem = new OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
 			// TODO Auto-generated method stub
 			Log.e("aaaaaaaa", "position " + position);
 			currentFolderItem = position;
 
 			currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-			int curentFolderOrder = mFolderListItems.get(currentFolderItem).getgOrder();
+			int curentFolderOrder = mFolderListItems.get(currentFolderItem)
+					.getgOrder();
 			Log.e("position", "currentFolderId " + currentFolderId);
 			/* refresh folder list */
 			folderListViewAdapter.setFolderSelected(currentFolderItem);
@@ -409,27 +433,39 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			if (isSearchMode && position != 0) {
 				isSearchMode = false;
 				Log.e("click folder", "click folder " + position);
-				folderListViewAdapter.updateSearchMode(isSearchMode, currentFolderItem);
+				folderListViewAdapter.updateSearchMode(isSearchMode,
+						currentFolderItem);
 			}
-			itemAdapter.setIdItemList(mIdListItems, curentFolderOrder, currentFolderId);
+			itemAdapter.setIdItemList(mIdListItems, curentFolderOrder,
+					currentFolderId);
 		}
 	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
 
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 			if (oneItemSelected != null) {
 				// receverAdapter.addPicture(oneItemSelected, arg2);
 				mCurrentFolderPosition = mCurrentFirstVisibleFolderItem + arg2;
-				int currentFolderId = mFolderListItems.get(mCurrentFolderPosition).getgId();
-				Log.e("current position", "currentpostin " + mCurrentFolderPosition);
+				int currentFolderId = mFolderListItems.get(
+						mCurrentFolderPosition).getgId();
+				Log.e("current position", "currentpostin "
+						+ mCurrentFolderPosition);
 				mCurrentId = oneItemSelected.geteId();
-				ElementID elementId = mIDxPWDataBaseHandler.getElementID(mCurrentId);
+				ElementID elementId = mIDxPWDataBaseHandler
+						.getElementID(mCurrentId);
 
-				Log.e("mCurrentFolderPostion " + mCurrentFolderPosition, "mCurrentFirtsVisible "
-						+ mCurrentFirstVisibleFolderItem);
+				Log.e("mCurrentFolderPostion " + mCurrentFolderPosition,
+						"mCurrentFirtsVisible "
+								+ mCurrentFirstVisibleFolderItem);
 				int sizeFolder = mIDxPWDataBaseHandler.getFoldersCount();
-				Log.e("size of folder", "size of folder " + sizeFolder + "  isEdit " + isEdit
-						+ " groupId " + (elementId.geteGroupId() != mCurrentFolderPosition));
+				Log.e("size of folder",
+						"size of folder "
+								+ sizeFolder
+								+ "  isEdit "
+								+ isEdit
+								+ " groupId "
+								+ (elementId.geteGroupId() != mCurrentFolderPosition));
 				if (isEdit && mCurrentFolderPosition < sizeFolder
 						&& elementId.geteGroupId() != currentFolderId) {
 					// Log.e("item selected", "item " +
@@ -452,8 +488,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		}
 
 		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-				int totalItemCount) {
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
 			// TODO Auto-generated method stub
 			mCurrentFirstVisibleFolderItem = firstVisibleItem;
 
@@ -477,7 +513,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 			if (event.getAction() == MotionEvent.ACTION_MOVE) {
 				layout.leftMargin = (int) event.getX();
-				layout.topMargin = (int) event.getY() - layoutDrag.getHeight() / 2;
+				layout.topMargin = (int) event.getY() - layoutDrag.getHeight()
+						/ 2;
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -500,12 +537,14 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		int idListSize = elementList.size();
 		for (int i = 0; i < idListSize; i++) {
 			Log.e("name", "name " + elementList.get(i).geteTitle());
-			ElementID item = new ElementID(elementList.get(i).geteId(), elementList.get(i)
-					.geteGroupId(), elementList.get(i).geteTitle(), elementList.get(i).geteIcon(),
-					elementList.get(i).geteTimeStamp(), elementList.get(i).geteFavourite(),
-					elementList.get(i).geteFlag(), elementList.get(i).geteUrl(), elementList.get(i)
-							.geteNote(), elementList.get(i).geteImage(), elementList.get(i)
-							.geteOrder());
+			ElementID item = new ElementID(elementList.get(i).geteId(),
+					elementList.get(i).geteGroupId(), elementList.get(i)
+							.geteTitle(), elementList.get(i).geteIcon(),
+					elementList.get(i).geteTimeStamp(), elementList.get(i)
+							.geteFavourite(), elementList.get(i).geteFlag(),
+					elementList.get(i).geteUrl(),
+					elementList.get(i).geteNote(), elementList.get(i)
+							.geteImage(), elementList.get(i).geteOrder());
 			al.add(item);
 		}
 		return al;
@@ -533,7 +572,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 				if (from == to)
 					return;
 				// String item = list2.remove(from);
-				if (to < mFolderListItems.size() - 2 && from < mFolderListItems.size() - 2) {
+				if (to < mFolderListItems.size() - 2
+						&& from < mFolderListItems.size() - 2) {
 					GroupFolder groupFolder = mFolderListItems.remove(from);
 					folderListViewAdapter.add(to, groupFolder);
 					folderListView.checkfordrop(to);
@@ -558,12 +598,15 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		for (int i = 0; i < idListSize; i++) {
 			Log.e("sdfasd " + i, "adfdf " + elementList.get(i).geteFavourite());
 			if (elementList.get(i).geteFavourite() == Contants.IS_FAVOURITE) {
-				ElementID item = new ElementID(elementList.get(i).geteId(), elementList.get(i)
-						.geteGroupId(), elementList.get(i).geteTitle(), elementList.get(i)
-						.geteIcon(), elementList.get(i).geteTimeStamp(), elementList.get(i)
-						.geteFavourite(), elementList.get(i).geteFlag(), elementList.get(i)
-						.geteUrl(), elementList.get(i).geteNote(), elementList.get(i).geteImage(),
-						elementList.get(i).geteOrder());
+				ElementID item = new ElementID(elementList.get(i).geteId(),
+						elementList.get(i).geteGroupId(), elementList.get(i)
+								.geteTitle(), elementList.get(i).geteIcon(),
+						elementList.get(i).geteTimeStamp(), elementList.get(i)
+								.geteFavourite(),
+						elementList.get(i).geteFlag(), elementList.get(i)
+								.geteUrl(), elementList.get(i).geteNote(),
+						elementList.get(i).geteImage(), elementList.get(i)
+								.geteOrder());
 				al.add(item);
 			}
 		}
@@ -603,11 +646,12 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		else
 			numberToView = Contants.NUMBER_ELEMENT_SHOW_IN_HISTORY;
 		for (int i = 0; i < numberToView; i++) {
-			ElementID item = new ElementID(idList.get(i).geteId(), idList.get(i).geteGroupId(),
-					idList.get(i).geteTitle(), idList.get(i).geteIcon(), idList.get(i)
-							.geteTimeStamp(), idList.get(i).geteFavourite(), idList.get(i)
-							.geteFlag(), idList.get(i).geteUrl(), idList.get(i).geteNote(), idList
-							.get(i).geteImage(), idList.get(i).geteOrder());
+			ElementID item = new ElementID(idList.get(i).geteId(), idList
+					.get(i).geteGroupId(), idList.get(i).geteTitle(), idList
+					.get(i).geteIcon(), idList.get(i).geteTimeStamp(), idList
+					.get(i).geteFavourite(), idList.get(i).geteFlag(), idList
+					.get(i).geteUrl(), idList.get(i).geteNote(), idList.get(i)
+					.geteImage(), idList.get(i).geteOrder());
 			allItem.add(item);
 		}
 		return allItem;
@@ -674,19 +718,22 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 		/* setting */
 		else if (v == btnSetting) {
-			Intent intentSeting = new Intent(HomeScreeenActivity.this, SettingActivity.class);
+			Intent intentSeting = new Intent(HomeScreeenActivity.this,
+					SettingActivity.class);
 			startActivity(intentSeting);
 		}
 
 		/* sync data to cloud */
 		else if (v == btnSync) {
-			Intent intentSync = new Intent(HomeScreeenActivity.this, SyncCloudActivity.class);
+			Intent intentSync = new Intent(HomeScreeenActivity.this,
+					SyncCloudActivity.class);
 			startActivity(intentSync);
 		}
 
 		/* go to a browser */
 		else if (v == btnInfo) {
-			Intent intentBrowser = new Intent(HomeScreeenActivity.this, BrowserActivity.class);
+			Intent intentBrowser = new Intent(HomeScreeenActivity.this,
+					BrowserActivity.class);
 			intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.INFO_TO);
 			startActivity(intentBrowser);
 		} else if (v == btnSearch) {
@@ -699,18 +746,21 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 				mIdListItems = startSearch(mTextSearch);
 				/* reset id adapter */
-				Log.e("currentFolderItem " + currentFolderId, "currentFodlerItem "
-						+ currentFolderItem);
+				Log.e("currentFolderItem " + currentFolderId,
+						"currentFodlerItem " + currentFolderItem);
 				Log.e("size size", "size side " + mIdListItems.size());
-				currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-				itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
+				currentFolderId = mFolderListItems.get(currentFolderItem)
+						.getgId();
+				itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
+						currentFolderId);
 				btnClearTextSearch.setVisibility(View.GONE);
 
 				/* reset folder adapter */
 				isSearchMode = true;
 				// GroupFolder folder = new GroupFolder(1000, "", 0,
 				// Contants.MASTER_PASSWORD_ID, 0);
-				folderListViewAdapter.updateSearchMode(isSearchMode, currentFolderItem);
+				folderListViewAdapter.updateSearchMode(isSearchMode,
+						currentFolderItem);
 				// folderListView.setSelection(0);
 				// if (!mFolderListItems.contains(searchFolder))
 				// mFolderListItems.add(searchFolder);
@@ -728,22 +778,29 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	 */
 	private ArrayList<ElementID> startSearch(String textSearch) {
 		if (!"".equals(textSearch)) {
-			List<ElementID> elementList = mIDxPWDataBaseHandler.getAllElmentIds();
+			List<ElementID> elementList = mIDxPWDataBaseHandler
+					.getAllElmentIds();
 			ArrayList<ElementID> searchItems = new ArrayList<ElementID>();
 			int size = elementList.size();
 			for (int i = 0; i < size; i++) {
-				String idName = elementList.get(i).geteTitle().toString().toUpperCase();
-				String idNote = elementList.get(i).geteNote().toString().toUpperCase();
+				String idName = elementList.get(i).geteTitle().toString()
+						.toUpperCase();
+				String idNote = elementList.get(i).geteNote().toString()
+						.toUpperCase();
 				boolean isFoundId = idName.indexOf(textSearch.toUpperCase()) != -1;
 				boolean isFoundNote = idNote.indexOf(textSearch.toUpperCase()) != -1;
 
 				if (isFoundId || isFoundNote) {
-					ElementID item = new ElementID(elementList.get(i).geteId(), elementList.get(i)
-							.geteGroupId(), elementList.get(i).geteTitle(), elementList.get(i)
-							.geteIcon(), elementList.get(i).geteTimeStamp(), elementList.get(i)
-							.geteFavourite(), elementList.get(i).geteFlag(), elementList.get(i)
-							.geteUrl(), elementList.get(i).geteNote(), elementList.get(i)
-							.geteImage(), elementList.get(i).geteOrder());
+					ElementID item = new ElementID(elementList.get(i).geteId(),
+							elementList.get(i).geteGroupId(), elementList
+									.get(i).geteTitle(), elementList.get(i)
+									.geteIcon(), elementList.get(i)
+									.geteTimeStamp(), elementList.get(i)
+									.geteFavourite(), elementList.get(i)
+									.geteFlag(), elementList.get(i).geteUrl(),
+							elementList.get(i).geteNote(), elementList.get(i)
+									.geteImage(), elementList.get(i)
+									.geteOrder());
 					searchItems.add(item);
 				}
 			}
@@ -806,7 +863,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			break;
 		case Contants.DIALOG_MOVE_ID_TO_FOLDER:
 			((AlertDialog) dialog).setMessage("Do you want to move this id to "
-					+ mFolderListItems.get(mCurrentFolderPosition).getgName() + "?");
+					+ mFolderListItems.get(mCurrentFolderPosition).getgName()
+					+ "?");
 			break;
 		}
 	}
@@ -826,7 +884,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 		switch (id) {
 		case Contants.DIALOG_ADD_NEW_FOLDER:
-			builder.setTitle(getResources().getString(R.string.title_add_folder));
+			builder.setTitle(getResources()
+					.getString(R.string.title_add_folder));
 			// builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
 			// Use an EditText view to get user input.
@@ -835,11 +894,13 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			input.setText("");
 			builder.setView(input);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							String folderName = input.getText().toString();
 							/* add new folder to database */
 							addNewFolderToDatabase(folderName);
@@ -848,7 +909,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 					});
 
-			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
+			builder.setNegativeButton(
+					getResources().getString(R.string.confirm_cancel),
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -863,18 +925,21 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			// builder.setMessage("Do you want to delete this folder?");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							deleteFolder(positionReturnedByHandler);
 							return;
 						}
 
 					});
 
-			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
+			builder.setNegativeButton(
+					getResources().getString(R.string.confirm_cancel),
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -885,7 +950,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 			return builder.create();
 		case Contants.DIALOG_EDIT_FOLDER:
-			builder.setTitle(getResources().getString(R.string.title_change_folder));
+			builder.setTitle(getResources().getString(
+					R.string.title_change_folder));
 			// builder.setMessage("Type the name of folder to edit :");
 			builder.setIcon(R.drawable.icon);
 
@@ -894,20 +960,24 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			inputEdit.setId(Contants.TEXT_ID);
 			builder.setView(inputEdit);
 			inputEdit.setText("");
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							String folderName = inputEdit.getText().toString();
 							/* edit folder to database */
-							editFolderToDatabase(folderName, positionReturnedByHandler);
+							editFolderToDatabase(folderName,
+									positionReturnedByHandler);
 							return;
 						}
 
 					});
 
-			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
+			builder.setNegativeButton(
+					getResources().getString(R.string.confirm_cancel),
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -918,21 +988,25 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			return builder.create();
 
 		case Contants.DIALOG_DELETE_ID:
-			builder.setTitle(getResources().getString(R.string.title_delete_items));
+			builder.setTitle(getResources().getString(
+					R.string.title_delete_items));
 			// builder.setMessage("Do you want to delete this ID?");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_delete),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_delete),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							deleteID(positionReturnedByHandler);
 							return;
 						}
 					});
 
-			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
+			builder.setNegativeButton(
+					getResources().getString(R.string.confirm_cancel),
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -944,14 +1018,17 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			return builder.create();
 		case Contants.DIALOG_CREATE_ID:
 			builder.setTitle(getResources().getString(R.string.title_add_items));
-			builder.setMessage(getResources().getString(R.string.message_add_item));
+			builder.setMessage(getResources().getString(
+					R.string.message_add_item));
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							return;
 						}
 					});
@@ -962,17 +1039,20 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			builder.setMessage("Are you sure to want to exit?");
 			builder.setIcon(R.drawable.icon);
 
-			builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							finish();
 							return;
 						}
 					});
 
-			builder.setNegativeButton(getResources().getString(R.string.confirm_cancel),
+			builder.setNegativeButton(
+					getResources().getString(R.string.confirm_cancel),
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -985,25 +1065,30 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			AlertDialog.Builder builderMoveId = new AlertDialog.Builder(this);
 			builderMoveId.setTitle("IDManager");
 			builderMoveId.setMessage("Are you sure to want to move this id to "
-					+ mFolderListItems.get(mCurrentFolderPosition).getgName() + " folder?");
+					+ mFolderListItems.get(mCurrentFolderPosition).getgName()
+					+ " folder?");
 			builderMoveId.setIcon(R.drawable.icon);
-			builderMoveId.setPositiveButton(getResources().getString(R.string.confirm_ok),
+			builderMoveId.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							int passwordId = mCurrentId;
 							// passwordId = m
-							Log.e("currentElement " + passwordId, "currentFOlderId "
-									+ mCurrentFolderPosition);
-							int folderId = mFolderListItems.get(mCurrentFolderPosition).getgId();
+							Log.e("currentElement " + passwordId,
+									"currentFOlderId " + mCurrentFolderPosition);
+							int folderId = mFolderListItems.get(
+									mCurrentFolderPosition).getgId();
 							mCurrentFirstVisibleFolderItem = 0;
 							moveIdToFolder(passwordId, folderId);
 							return;
 						}
 					});
 
-			builderMoveId.setNegativeButton(getResources().getString(R.string.confirm_cancel),
+			builderMoveId.setNegativeButton(
+					getResources().getString(R.string.confirm_cancel),
 					new DialogInterface.OnClickListener() {
 
 						@Override
@@ -1032,14 +1117,16 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		ElementID item = mIdListItems.get(passwordId);
 		mIdListItems.remove(item);
 		currentFolderId = mFolderListItems.get(currentFolderId).getgId();
-		itemAdapter.setIdItemList(mIdListItems, currentFolderId, currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderId,
+				currentFolderId);
 	}
 
 	private void startIntentCreateNewIds() {
-		Log.e("mIdListItem position " + currentFolderItem,
-				"folder Id" + mFolderListItems.get(currentFolderItem).getgId());
+		Log.e("mIdListItem position " + currentFolderItem, "folder Id"
+				+ mFolderListItems.get(currentFolderItem).getgId());
 		int currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		Intent newIdIntent = new Intent(HomeScreeenActivity.this, EditIdPasswordActivity.class);
+		Intent newIdIntent = new Intent(HomeScreeenActivity.this,
+				EditIdPasswordActivity.class);
 		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
 		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 		startActivity(newIdIntent);
@@ -1057,19 +1144,25 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		// .getPasswordId());
 		String icon = mIdListItems.get(positionReturnedByHandler).geteIcon();
 		File fileIcon = new File(
-				Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), icon);
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				icon);
 		if (fileIcon != null && fileIcon.exists())
 			fileIcon.delete();
 		String memo = mIdListItems.get(positionReturnedByHandler).geteImage();
 		File fileMemo = new File(
-				Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), memo);
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				memo);
 		if (fileMemo != null && fileMemo.exists())
 			fileMemo.delete();
-		mIDxPWDataBaseHandler.deleteElementId(mIdListItems.get(positionReturnedByHandler).geteId());
+		mIDxPWDataBaseHandler.deleteElementId(mIdListItems.get(
+				positionReturnedByHandler).geteId());
 		/* reset id list view */
 		mIdListItems.remove(positionReturnedByHandler);
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
+				currentFolderId);
 	}
 
 	/**
@@ -1079,11 +1172,14 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	 * @param positionReturnedByHandler
 	 */
 
-	private void editFolderToDatabase(String folderName, int positionReturnedByHandler) {
+	private void editFolderToDatabase(String folderName,
+			int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
-		GroupFolder folderItem = mFolderListItems.get(positionReturnedByHandler);
+		GroupFolder folderItem = mFolderListItems
+				.get(positionReturnedByHandler);
 		GroupFolder folder = new GroupFolder(folderItem.getgId(), folderName,
-				folderItem.getgType(), folderItem.getgUserId(), folderItem.getgOrder());
+				folderItem.getgType(), folderItem.getgUserId(),
+				folderItem.getgOrder());
 		mIDxPWDataBaseHandler.updateFolder(folder);
 
 		/* reset folder list */
@@ -1100,13 +1196,14 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 	private void deleteFolder(int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
 		/* delete folder in database */
-		Log.e("delete folder", "delete folder position " + positionReturnedByHandler);
-		mIDxPWDataBaseHandler
-				.deleteFolder(mFolderListItems.get(positionReturnedByHandler).getgId());
+		Log.e("delete folder", "delete folder position "
+				+ positionReturnedByHandler);
+		mIDxPWDataBaseHandler.deleteFolder(mFolderListItems.get(
+				positionReturnedByHandler).getgId());
 
 		List<ElementID> elementIdList = mIDxPWDataBaseHandler
-				.getAllElementIdByGroupFolderId(mFolderListItems.get(positionReturnedByHandler)
-						.getgId());
+				.getAllElementIdByGroupFolderId(mFolderListItems.get(
+						positionReturnedByHandler).getgId());
 
 		/* delete all ids in this folder */
 		mIDxPWDataBaseHandler.deleteElementIdInFolderId(mFolderListItems.get(
@@ -1119,7 +1216,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 		/* refresh id list view */
 		mIdListItems = constructList(positionReturnedByHandler);
-		currentFolderId = mFolderListItems.get(positionReturnedByHandler).getgId();
+		currentFolderId = mFolderListItems.get(positionReturnedByHandler)
+				.getgId();
 		itemAdapter.setIdItemList(mIdListItems, positionReturnedByHandler, 0);
 		/* refresh folder listview */
 		folderListViewAdapter.removeItem(positionReturnedByHandler);
@@ -1146,8 +1244,8 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 			folderId = sizeTemp;
 		folderId++;
 		Log.e("folderList", "folderList " + sizeOfFolder);
-		GroupFolder folder = new GroupFolder(folderId, folderName, 0, Contants.MASTER_PASSWORD_ID,
-				0);
+		GroupFolder folder = new GroupFolder(folderId, folderName, 0,
+				Contants.MASTER_PASSWORD_ID, 0);
 		mIDxPWDataBaseHandler.addNewFolder(folder);
 
 		folderListViewAdapter.addNewFolder(folder, folder.getgOrder());
@@ -1159,7 +1257,10 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 
 	public void onResume() {
 		super.onResume();
-
+		if (!mIdManagerPreference.getIsPaymentNoAd())
+			adview.setVisibility(View.VISIBLE);
+		else
+			adview.setVisibility(View.GONE);
 		/* refresh 2 list view */
 		refreshListView();
 	}
@@ -1181,9 +1282,11 @@ public class HomeScreeenActivity extends BaseActivity implements OnClickListener
 		/* reset adapter */
 		folderListViewAdapter.updateFolderList(mFolderListItems);
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		Log.e("currengFolder Item " + currentFolderItem, "currentFolderId " + currentFolderId);
+		Log.e("currengFolder Item " + currentFolderItem, "currentFolderId "
+				+ currentFolderId);
 		mIdListItems = constructList(currentFolderId);
-		itemAdapter.setIdItemList(mIdListItems, currentFolderItem, currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
+				currentFolderId);
 	}
 
 	// private void showToast(String string) {
