@@ -51,8 +51,6 @@ public class CipherUtil {
 
 		byte[] saltBytes = salt.getBytes("UTF-8");
 
-		byte[] ivBytes = initializationVector.getBytes("UTF-8");
-
 		// Derive the key, given password and salt.
 
 		SecretKeyFactory factory = SecretKeyFactory
