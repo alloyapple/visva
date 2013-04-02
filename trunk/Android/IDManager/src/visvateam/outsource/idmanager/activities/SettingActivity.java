@@ -30,7 +30,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -50,7 +49,9 @@ import com.idmanager.BillingService;
 
 @SuppressLint("HandlerLeak")
 public class SettingActivity extends BaseActivity {
-
+	private static final String ID_ITEMS_PAYMENT_TO_UN_LIMIT = "0000000000000001";
+	private static final String ID_ITEMS_PAYMENT_TO_NO_AD = "0000000000000002";
+	private static final String ID_ITEMS_PAYMENT_TO_EXPORT = "0000000000000003";
 	private CharSequence[] mListDataChoice;
 	private CharSequence mSelectedFile = "";
 	private CharSequence[] mListDataChoiceTemp;
@@ -90,7 +91,7 @@ public class SettingActivity extends BaseActivity {
 	private int sizeOfGList;
 	private int sizeOfEList;
 	private int sizeOfPList;
-//	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
+	// private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private static final String TAG = "BillingService";
 	public Handler mTransactionHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -101,7 +102,13 @@ public class SettingActivity extends BaseActivity {
 					+ BillingHelper.latestPurchase.productId);
 
 			if (BillingHelper.latestPurchase.isPurchased()) {
-
+				if (modePayment == PAYMENT_TO_UNLIMIT_ITEMS) {
+					mPref.setIsPaymentUnlimit(true);
+				} else if (modePayment == PAYMENT_TO_NO_AD) {
+					mPref.setIsPaymentNoAd(true);
+				} else if (modePayment == PAYMENT_TO_EXPORT) {
+					mPref.setIsPaymentExport(true);
+				}
 			}
 		};
 
@@ -184,14 +191,16 @@ public class SettingActivity extends BaseActivity {
 
 	public void onUnlimitedItems(View v) {
 		modePayment = PAYMENT_TO_UNLIMIT_ITEMS;
-		showDialogRequestPayment(getResources().getString(
-				R.string.message_pay_to_unlimit_item));
+		if (!mPref.getIsPaymentUnlimit())
+			showDialogRequestPayment(getResources().getString(
+					R.string.message_pay_to_unlimit_item));
 	}
 
 	public void onNoAdmod(View v) {
 		modePayment = PAYMENT_TO_NO_AD;
-		showDialogRequestPayment(getResources().getString(
-				R.string.message_pay_to_no_ad));
+		if (!mPref.getIsPaymentNoAd())
+			showDialogRequestPayment(getResources().getString(
+					R.string.message_pay_to_no_ad));
 	}
 
 	public void showDialogRequestPayment(String message) {
@@ -203,40 +212,27 @@ public class SettingActivity extends BaseActivity {
 				getResources().getString(R.string.confirm_ok),
 				new OnClickListener() {
 
-					@SuppressWarnings("deprecation")
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 						if (modePayment == PAYMENT_TO_UNLIMIT_ITEMS) {
-							BillingHelper.requestPurchase(
-									SettingActivity.this,
-									"android.test.purchased");
+							BillingHelper.requestPurchase(SettingActivity.this,
+									ID_ITEMS_PAYMENT_TO_UN_LIMIT);
 						} else if (modePayment == PAYMENT_TO_NO_AD) {
 							// mPref.setIsPaymentUnlimit(IdManagerPreference.IS_PAYMENT_UNLIMIT,
 							// true);
 							if (BillingHelper.isBillingSupported()) {
 								BillingHelper.requestPurchase(
 										SettingActivity.this,
-										"android.test.purchased");
-								// android.test.purchased or
-								// android.test.canceled or
-								// android.test.refunded or
-								// com.blundell.item.passport
+										ID_ITEMS_PAYMENT_TO_NO_AD);
 							} else {
 								Log.i(TAG, "Can't purchase on this device");
 
 							}
 
 						} else if (modePayment == PAYMENT_TO_EXPORT) {
-							if (mApi.getSession().isLinked()) {
-								BillingHelper.requestPurchase(
-										SettingActivity.this,
-										"android.test.purchased");
-								isExportData = true;
-								showDialog(Contants.DIALOG_EXPORT_DATA);
-							} else {
-								showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
-							}
+							BillingHelper.requestPurchase(SettingActivity.this,
+									ID_ITEMS_PAYMENT_TO_EXPORT);
 						}
 					}
 				});
@@ -258,7 +254,7 @@ public class SettingActivity extends BaseActivity {
 	 * 
 	 * @param v
 	 */
-	@SuppressWarnings("deprecation")
+
 	public void onReadFileviaCloud(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mApi.getSession().isLinked()) {
@@ -276,12 +272,20 @@ public class SettingActivity extends BaseActivity {
 	 * 
 	 * @param v
 	 */
-	@SuppressWarnings("deprecation")
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
-			showDialogRequestPayment(getResources().getString(
-					R.string.message_pay_to_export));
+			if (!mPref.getIsPaymentExport())
+				showDialogRequestPayment(getResources().getString(
+						R.string.message_pay_to_export));
+			else {
+				if (mApi.getSession().isLinked()) {
+					isExportData = true;
+					showDialog(Contants.DIALOG_EXPORT_DATA);
+				} else {
+					showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+				}
+			}
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
@@ -583,7 +587,7 @@ public class SettingActivity extends BaseActivity {
 
 	protected void importFileCSVToDatabase(String mSelectedFile) {
 		// TODO Auto-generated method stub
-		File sdcard = Environment.getExternalStorageDirectory();
+		// File sdcard = Environment.getExternalStorageDirectory();
 		File file = new File(Contants.PATH_ID_FILES + mSelectedFile);
 		ArrayList<PasswordItem> mItems = new ArrayList<SettingActivity.PasswordItem>();
 		String group = null, title = null, icon = null, url = null, note = null, image = null;
@@ -957,7 +961,7 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	private Handler mHandler = new Handler() {
-		@SuppressWarnings({ "deprecation", "unchecked" })
+		@SuppressWarnings("unchecked")
 		public void handleMessage(android.os.Message msg) {
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
@@ -993,6 +997,7 @@ public class SettingActivity extends BaseActivity {
 		String titleId;
 		String password;
 	}
+
 	@Override
 	protected void onDestroy() {
 		BillingHelper.stopService();
