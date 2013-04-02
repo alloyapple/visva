@@ -40,6 +40,7 @@
         </activity>
 
         <service android:name="com.idmanager.BillingService" />
+
         <receiver android:name="com.idmanager.BillingReceiver" >
             <intent-filter>
                 <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
@@ -48,6 +49,18 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation" />
+        <meta-data
+            android:name="AD_REQUEST"
+            android:value="true" />
+        <meta-data
+            android:name="TEST_MODE"
+            android:value="false" />
+        <meta-data
+            android:name="ADMOB_PUBLISHER_ID"
+            android:value="a14eeec558d5094" />
         <activity
             android:name="visvateam.outsource.idmanager.activities.EnterOldPasswordActivity"
             android:screenOrientation="portrait" >
