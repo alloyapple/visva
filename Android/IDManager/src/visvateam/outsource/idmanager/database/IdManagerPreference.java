@@ -43,6 +43,8 @@ public class IdManagerPreference {
 	public static final String SECURITY_MODE = "SECURITY_MODE";
 	public static final String NUMBER_ITEMS = "NUMBER_ITEMS";
 	public static final String IS_PAYMENT_UNLIMIT = "IS_PAYMENT_UNLIMIT";
+	public static final String IS_PAYMENT_NO_AD = "IS_PAYMENT_NO_AD";
+	public static final String IS_PAYMENT_EXPORT = "IS_PAYMENT_EXPORT";
 	public static final String IS_SECURITY_LOOP = "IS_SECURITY_LOOP";
 	public static final String LAST_TIME_SYNC_CLOUD = "LAST_TIME_SYNC_CLOUD";
 	public static final String GOOGLE_ACCOUNT_NAME_SESSION = "GOOGLE_ACCOUNT_NAME_SESSION";
@@ -198,12 +200,60 @@ public class IdManagerPreference {
 		editor.putBoolean(key, b);
 		editor.commit();
 	}
-
+	public void setIsPaymentUnlimit(boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(IS_PAYMENT_UNLIMIT, b);
+		editor.commit();
+	}
+	public void setIsPaymentNoAd(String key, boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(key, b);
+		editor.commit();
+	}
+	public void setIsPaymentNoAd(boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(IS_PAYMENT_NO_AD, b);
+		editor.commit();
+	}
+	public void setIsPaymentExport(String key, boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(key, b);
+		editor.commit();
+	}
+	public void setIsPaymentExport(boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(IS_PAYMENT_EXPORT, b);
+		editor.commit();
+	}
 	public boolean getIsPaymentUnlimit(String key) {
 		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, false);
 	}
-
+	public boolean getIsPaymentUnlimit() {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(IS_PAYMENT_UNLIMIT, false);
+	}
+	public boolean getIsPaymentNoAd(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(key, false);
+	}
+	public boolean getIsPaymentNoAd() {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(IS_PAYMENT_NO_AD, false);
+	}
+	public boolean getIsPaymentExport(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(key, false);
+	}
+	public boolean getIsPaymentExport() {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(IS_PAYMENT_EXPORT, false);
+	}
 	public void setLastTimeSyncCloud(long b) {
 		setLastTimeSyncCloud(LAST_TIME_SYNC_CLOUD, b);
 	}
