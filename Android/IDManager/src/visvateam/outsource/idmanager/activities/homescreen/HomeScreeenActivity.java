@@ -3,7 +3,6 @@ package visvateam.outsource.idmanager.activities.homescreen;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import net.sqlcipher.database.SQLiteDatabase;
@@ -47,7 +46,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.view.DndListViewFolder;
@@ -56,7 +54,7 @@ import exp.mtparet.dragdrop.view.ListViewDragDrop;
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
 public class HomeScreeenActivity extends BaseActivity implements
 		OnClickListener {
-	private final static int MAX_ITEMS = 12; 
+	private final static int MAX_ITEMS = 12;
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop idListView;
@@ -100,7 +98,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private int mCurrentId;
 	private String mTextSearch = "";
 	private boolean isDnd = false;
-	AdView adview;
+	private boolean isDndElement = false;
+	private AdView adview;
 
 	private Handler mMainHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -271,6 +270,11 @@ public class HomeScreeenActivity extends BaseActivity implements
 		 * Listener to know if the item is droped out of this origin ListView
 		 */
 		idListView.setOnItemUpOutListener(mOnItemUpOutListener);
+		/**
+		 * listener for folder to move item folder
+		 */
+		idListView.setDragListener(mOnDragElementListener);
+		idListView.setDropListener(mOnDropElementListener);
 	}
 
 	private void initListViewFolder() {
@@ -579,6 +583,42 @@ public class HomeScreeenActivity extends BaseActivity implements
 					folderListView.checkfordrop(to);
 				}
 				isDnd = false;
+			}
+		}
+	};
+
+	private ListViewDragDrop.DragListener mOnDragElementListener = new ListViewDragDrop.DragListener() {
+
+		@Override
+		public void drag(int from, int to) {
+			// TODO Auto-generated method stub
+			if (!isDndElement) {
+				isDndElement = true;
+				Log.i("Drag and Drop : drag", "from : " + from + ", to : " + to);
+			}
+		}
+	};
+
+	private ListViewDragDrop.DropListener mOnDropElementListener = new ListViewDragDrop.DropListener() {
+
+		@Override
+		public void drop(int from, int to) {
+			// TODO Auto-generated method stub
+			if (isDndElement) {
+				Log.i("Drag and Drop : drop", "from : " + from + ", to : " + to);
+				if (from == to)
+					return;
+				// // String item = list2.remove(from);
+				// if (to < mFolderListItems.size() - 2
+				// && from < mFolderListItems.size() - 2) {
+				// GroupFolder groupFolder = mFolderListItems.remove(from);
+				// folderListViewAdapter.add(to, groupFolder);
+				// folderListView.checkfordrop(to);
+				// }
+				ElementID element = mIdListItems.remove(from);
+				itemAdapter.add(to, element);
+				idListView.checkfordrop(to);
+				isDndElement = false;
 			}
 		}
 	};
