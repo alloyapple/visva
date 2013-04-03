@@ -175,4 +175,9 @@ public class ItemAdapter extends BaseAdapter {
 		this.idItemList = idItemList;
 		notifyDataSetChanged();
 	}
+
+	public void add(int to, ElementID element) {
+		idItemList.add(to, element);
+		notifyDataSetChanged();
+	}
 }

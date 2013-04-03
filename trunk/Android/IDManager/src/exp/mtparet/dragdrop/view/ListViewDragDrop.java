@@ -32,6 +32,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -78,18 +79,21 @@ public class ListViewDragDrop extends ListView {
 
 	public ListViewDragDrop(Context context) {
 		super(context);
+		this.mContext = context;
 		mTouchSlop = ViewConfiguration.get(context).getScaledWindowTouchSlop();// etScaledTouchSlop();
 		totalchilds = getChildCount();
 	}
 
 	public ListViewDragDrop(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		this.mContext = context;
 		mTouchSlop = ViewConfiguration.get(context).getScaledWindowTouchSlop();// etScaledTouchSlop();
 		totalchilds = getChildCount();
 	}
 
 	public ListViewDragDrop(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		this.mContext = context;
 		mTouchSlop = ViewConfiguration.get(context).getScaledWindowTouchSlop();// etScaledTouchSlop();
 		totalchilds = getChildCount();
 	}
@@ -127,111 +131,86 @@ public class ListViewDragDrop extends ListView {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		boolean handled = false;
+		float xPos = ev.getX();
+		float yPos = ev.getY();
+		Log.e("xPos", "xPis " + xPos);
+		if (xPos < this.getWidth() - 100) {
+			if (mOnItemMoveListener != null && !handled)
+				handled = onMove(ev);
+			if (!handled)
+				return super.onTouchEvent(ev);
+		} else {
+			if ((mDragListener != null || mDropListener != null)
+					&& mDragView != null) {
+				int action = ev.getAction();
+				switch (action) {
+				case MotionEvent.ACTION_UP:
+				case MotionEvent.ACTION_CANCEL:
+					Rect r = mTempRect;
+					mDragView.getDrawingRect(r);
+					stopDragging();
+					int y = (int) ev.getY();
+					int speed = 0;
+					if (mDropListener != null && mDragPos >= 0
+							&& mDragPos < getCount()) {
+						mDropListener.drop(mFirstDragPos, mDragPos);
 
-		if (mOnItemMoveListener != null && !handled)
-			handled = onMove(ev);
-
-		if (!handled)
-			return super.onTouchEvent(ev);
-
-		return handled;
-	}
-
-	/**
-	 * 
-	 * @param e
-	 * @return
-	 */
-	public boolean onUpReceive(MotionEvent e) {
-
-		if (e.getAction() == MotionEvent.ACTION_UP) {
-
-			int x = (int) e.getX();
-			int y = (int) e.getY();
-
-			for (int i = 0; i < getChildCount(); i++) {
-				Rect viewRect = new Rect();
-				View child = getChildAt(i);
-				int left = child.getLeft() + this.getLeft() - 100;/* edit here */
-				int right = child.getRight() + this.getRight();
-				int top = child.getTop() + this.getTop();
-				int bottom = child.getTop() + child.getHeight() + this.getTop();
-				viewRect.set(left, top, right, bottom);
-				Log.e("left " + left + " top " + top, "bottom " + bottom
-						+ "  right " + right + "x	" + x + "y	" + y);
-				if (viewRect.contains(x, y)) {
-					if (getOnItemSelectedListener() != null) {
-						getOnItemSelectedListener().onItemSelected(
-								ListViewDragDrop.this, child, i,
-								getItemIdAtPosition(i));
+						if (mDragPos < (totalchilds - 1))
+							setSelectionFromTop(0, 0);
 					}
-					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this,
-								child, i, getItemIdAtPosition(i));
+					unExpandViews(false);
+					break;
+
+				case MotionEvent.ACTION_DOWN:
+				case MotionEvent.ACTION_MOVE:
+					int x = (int) ev.getX();
+					y = (int) ev.getY();
+
+					if (x < this.getWidth() - 100) {
+						return false;
 					}
-					return true;
-				}
 
-				Rect viewRect2 = new Rect();
-				left = child.getLeft() + this.getLeft();
-				right = child.getRight() + this.getLeft();
-				top = child.getTop() + child.getHeight() / 2 + this.getTop();
-				bottom = child.getBottom() + this.getTop();
-				viewRect2.set(left, top, right, bottom);
+					dragView(x, y);
+					int itemnum = getItemForPosition(y);
+					if (itemnum >= 0) {
+						if (action == MotionEvent.ACTION_DOWN
+								|| itemnum != mDragPos) {
+							if (mDragListener != null) {
+								mDragListener.drag(mDragPos, itemnum);
+							}
+							mDragPos = itemnum;
+							doExpansion();
+						}
+						speed = 0;
+						adjustScrollBounds(y);
+						if (y > mLowerBound) {
 
-				if (viewRect2.contains(x, y)) {
-					if (getOnItemSelectedListener() != null) {
-						getOnItemSelectedListener().onItemSelected(
-								ListViewDragDrop.this, child, i,
-								getItemIdAtPosition(i));
-					}
-					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this,
-								child, i + 1, getItemIdAtPosition(i));
-					}
-					return true;
-				}
+							speed = y > (mHeight + mLowerBound) / 2 ? 16 : 4;
+						} else if (y < mUpperBound) {
 
-			}
-
-			int left = this.getLeft();
-			int right = this.getRight();
-			int top = this.getTop();
-			int bottom = this.getBottom();
-			Rect rect = new Rect(left, top, right, bottom);
-
-			if (rect.contains(x, y)) {
-
-				if (this.getChildCount() > 0) {
-					int minY = this.getChildAt(this.getChildCount() - 1)
-							.getBottom();
-					int maxY = this.getChildAt(0).getTop();
-
-					if (y < minY) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this,
-								null, 0, 0);
-					} else {
-						if (y > maxY) {
-							mOnItemReceiver.onItemClick(ListViewDragDrop.this,
-									null, this.getChildCount(), 0);
+							speed = y < mUpperBound / 2 ? -16 : -4;
+						}
+						if (speed != 0) {
+							int ref = pointToPosition(0, mHeight / 2);
+							if (ref == AdapterView.INVALID_POSITION) {
+								// we hit a divider or an invisible view, check
+								// somewhere else
+								ref = pointToPosition(0, mHeight / 2
+										+ getDividerHeight() + 64);
+							}
+							View v = getChildAt(ref - getFirstVisiblePosition());
+							if (v != null) {
+								int pos = v.getTop();
+								setSelectionFromTop(ref, pos - speed);
+							}
 						}
 					}
-
-					return true;
-
-				} else {
-
-					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(ListViewDragDrop.this,
-								null, 0, 0);
-					}
-					return true;
+					break;
 				}
-
+				return true;
 			}
-
 		}
-		return false;
+		return handled;
 	}
 
 	public boolean onMove(MotionEvent event) {
@@ -328,7 +307,7 @@ public class ListViewDragDrop extends ListView {
 				int y = (int) ev.getY();
 				Log.e("this.getWidth " + this.getWidth(), "afd");
 
-				if (x > this.getWidth() - 75) {
+				if (x < this.getWidth() - 100) {
 					return false;
 				}
 
@@ -347,7 +326,6 @@ public class ListViewDragDrop extends ListView {
 				if (dragger == null)
 					dragger = item;
 				Rect r = mTempRect;
-				Log.e("r.right", "r.right " + r.right);
 				dragger.getDrawingRect(r);
 				if (x < r.right * 2) {
 					item.setDrawingCacheEnabled(true);
@@ -368,12 +346,128 @@ public class ListViewDragDrop extends ListView {
 		return super.onInterceptTouchEvent(ev);
 	}
 
+	public void redraw(int pos) {
+		for (int i = 0; i < getChildCount(); i++) {
+			View v = getChildAt(i);
+			if (i == pos)
+				v.setBackgroundColor(Color.parseColor("#E0E0E0"));
+			else
+				v.setBackgroundColor(Color.WHITE);
+
+		}
+	}
+
+	public void refresh() {
+		long time = Long.parseLong(("" + System.nanoTime()).substring(0, 7));
+		MotionEvent me = MotionEvent.obtain(time, time,
+				MotionEvent.ACTION_DOWN, getWidth() - 10, 300, 0);
+		onInterceptTouchEvent(me);
+		stopDragging();
+	}
+
+	private int getItemForPosition(int y) {
+		int adjustedy = y - mDragPoint - 32;
+		int pos = myPointToPosition(0, adjustedy);
+		if (pos >= 0) {
+			if (pos <= mFirstDragPos) {
+				pos += 1;
+			}
+		} else if (adjustedy < 0) {
+			pos = 0;
+		}
+		return pos;
+	}
+
+	private int myPointToPosition(int x, int y) {
+		Rect frame = mTempRect;
+		final int count = getChildCount();
+		for (int i = count - 1; i >= 0; i--) {
+			final View child = getChildAt(i);
+			child.getHitRect(frame);
+			if (frame.contains(x, y)) {
+				return getFirstVisiblePosition() + i;
+			}
+		}
+		return INVALID_POSITION;
+	}
+
+	private void adjustScrollBounds(int y) {
+		if (y >= mHeight / 3) {
+			mUpperBound = mHeight / 3;
+		}
+		if (y <= mHeight * 2 / 3) {
+			mLowerBound = mHeight * 2 / 3;
+		}
+	}
+
+	private void doExpansion() {
+		int childnum = mDragPos - getFirstVisiblePosition();
+		if (mDragPos > mFirstDragPos) {
+			childnum++;
+		}
+
+		View first = getChildAt(mFirstDragPos - getFirstVisiblePosition());
+		for (int i = 0;; i++) {
+			View vv = getChildAt(i);
+			if (vv == null) {
+				break;
+			}
+			int height = mItemHeightNormal;
+			int visibility = View.VISIBLE;
+			if (vv.equals(first)) {
+
+				if (mDragPos == mFirstDragPos) {
+					visibility = View.INVISIBLE;
+				} else {
+					height = 1;
+				}
+			} else if (i == childnum) {
+				System.out.print("I :" + i);
+				if (mDragPos < getCount() - 1) {
+					height = mItemHeightExpanded;
+				}
+			}
+			ViewGroup.LayoutParams params = vv.getLayoutParams();
+			params.height = height;
+			vv.setLayoutParams(params);
+			vv.setVisibility(visibility);
+		}
+	}
+
+	private void unExpandViews(boolean deletion) {
+		for (int i = 0;; i++) {
+			View v = getChildAt(i);
+			if (v == null) {
+				if (deletion) {
+					int position = getFirstVisiblePosition();
+					int y = getChildAt(0).getTop();
+					setAdapter(getAdapter());
+					setSelectionFromTop(position, y);
+				}
+				layoutChildren();
+				v = getChildAt(i);
+				if (v == null) {
+					break;
+				}
+			}
+			ViewGroup.LayoutParams params = v.getLayoutParams();
+			params.height = mItemHeightNormal;
+			v.setLayoutParams(params);
+			v.setVisibility(View.VISIBLE);
+		}
+	}
+
+	public void checkfordrop(int dragPos) {
+		if (dragPos < totalchilds - 1)
+			setSelectionFromTop(0, 0);
+	}
+
 	private void startDragging(Bitmap bm, int y) {
 		stopDragging();
 
 		mWindowParams = new WindowManager.LayoutParams();
 		mWindowParams.gravity = Gravity.TOP;
-		mWindowParams.x = -150;
+		mWindowParams.x = 100;
 		Log.e("dragx", "dragx " + dragImageX);
 		mWindowParams.y = y - mDragPoint + mCoordOffset;
 
@@ -401,11 +495,12 @@ public class ListViewDragDrop extends ListView {
 		mWindowParams.y = y - mDragPoint + mCoordOffset;
 		mWindowManager.updateViewLayout(mDragView, mWindowParams);
 	}
-	
+
 	private void stopDragging() {
 		Log.e("stop draging", "stop draging");
 		if (mDragView != null) {
-			WindowManager wm = (WindowManager) mContext.getSystemService("window");
+			WindowManager wm = (WindowManager) mContext
+					.getSystemService("window");
 			wm.removeView(mDragView);
 			mDragView.setImageDrawable(null);
 			mDragView = null;
@@ -414,5 +509,29 @@ public class ListViewDragDrop extends ListView {
 			mDragBitmap.recycle();
 			mDragBitmap = null;
 		}
+	}
+
+	public void setDragListener(DragListener l) {
+		mDragListener = l;
+	}
+
+	public void setDropListener(DropListener l) {
+		mDropListener = l;
+	}
+
+	public void setDndView(int id) {
+		dndViewId = id;
+	}
+
+	public void setDragImageX(int x) {
+		dragImageX = x;
+	}
+
+	public interface DragListener {
+		void drag(int from, int to);
+	}
+
+	public interface DropListener {
+		void drop(int from, int to);
 	}
 }
