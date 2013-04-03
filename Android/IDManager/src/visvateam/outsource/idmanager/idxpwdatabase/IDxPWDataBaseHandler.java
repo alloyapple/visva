@@ -150,6 +150,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				userList.add(user);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		db.close();
 		// return user list
 		return userList;

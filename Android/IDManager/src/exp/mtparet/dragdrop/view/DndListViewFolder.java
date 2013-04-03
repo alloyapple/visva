@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class DndListViewFolder extends ListView {
 	private Context mContext;
@@ -44,9 +42,7 @@ public class DndListViewFolder extends ListView {
 
 	// on move and receiver item
 	private OnTouchListener mOnItemOutUpListener;
-	private OnTouchListener mOnItemMoveListener; // It is an hacked touchLister,
-													// in fact it is
-													// OnMoveListener
+	private OnTouchListener mOnItemMoveListener;
 	private OnItemClickListener mOnItemReceiver;
 	private boolean isMove = false;
 	private View childSelected;
@@ -64,8 +60,6 @@ public class DndListViewFolder extends ListView {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		// Logger.debugE("DndListView Intercept :" + ev.getAction());
-
 		if (getChildCount() > 0)
 			totalchilds = getChildCount();
 
@@ -139,6 +133,7 @@ public class DndListViewFolder extends ListView {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
+		Log.e("second", "run here");
 		boolean handled = false;
 		if (mOnItemMoveListener != null && !handled) {
 			handled = onMove(ev);
@@ -428,13 +423,14 @@ public class DndListViewFolder extends ListView {
 			for (int i = 0; i < getChildCount(); i++) {
 				Rect viewRect = new Rect();
 				View child = getChildAt(i);
-				int left = child.getLeft() + this.getLeft() - 100;
-				int right = child.getRight() + this.getLeft();
+				int left = child.getLeft() + this.getLeft() - 150;
+				int right = child.getRight() + this.getLeft() - 150;
 				int top = child.getTop() + this.getTop();
 				int bottom = child.getTop() + child.getHeight() / 2 + this.getTop();
 				viewRect.set(left, top, right, bottom);
 
 				if (viewRect.contains(x, y)) {
+					Log.e("first", "thoa main");
 					if (getOnItemSelectedListener() != null) {
 						getOnItemSelectedListener().onItemSelected(DndListViewFolder.this, child, i,
 								getItemIdAtPosition(i));
@@ -454,6 +450,7 @@ public class DndListViewFolder extends ListView {
 				viewRect2.set(left, top, right, bottom);
 
 				if (viewRect2.contains(x, y)) {
+					Log.e("second", "thoa main");
 					if (getOnItemSelectedListener() != null) {
 						getOnItemSelectedListener().onItemSelected(DndListViewFolder.this, child, i,
 								getItemIdAtPosition(i));
@@ -474,7 +471,7 @@ public class DndListViewFolder extends ListView {
 			Rect rect = new Rect(left, top, right, bottom);
 
 			if (rect.contains(x, y)) {
-
+				Log.e("third", "thoa main");
 				if (this.getChildCount() > 0) {
 					int minY = this.getChildAt(this.getChildCount() - 1).getBottom();
 					int maxY = this.getChildAt(0).getTop();
