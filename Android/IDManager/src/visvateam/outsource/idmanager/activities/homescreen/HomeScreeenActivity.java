@@ -56,7 +56,7 @@ import exp.mtparet.dragdrop.view.ListViewDragDrop;
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
 public class HomeScreeenActivity extends BaseActivity implements
 		OnClickListener {
-	private final static int MAX_ITEMS = 12;
+	private final static int MAX_ITEMS = 12; 
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop idListView;
@@ -1114,8 +1114,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (mIdListItems.get(i).geteId() == passwordId)
 				mIdListItems.remove(i);
 		}
-		ElementID item = mIdListItems.get(passwordId);
-		mIdListItems.remove(item);
 		currentFolderId = mFolderListItems.get(currentFolderId).getgId();
 		itemAdapter.setIdItemList(mIdListItems, currentFolderId,
 				currentFolderId);
