@@ -84,9 +84,11 @@
         
         float fCustomerUnit = _tfCustomerUnit.text.floatValue;
         if (fCustomerUnit != 0) {
-            float value = (_tfShiftPerDay.text.floatValue * _tfOperationPerShift.text.floatValue);
-            value = value - _tfBreakPerShift.text.floatValue;
-            value = value/fCustomerUnit;
+            float shiftPerDay = _tfShiftPerDay.text.floatValue;
+            float operationPerShift = _tfOperationPerShift.text.floatValue;
+            float breakPerShift = _tfBreakPerShift.text.floatValue;
+            float value = ((shiftPerDay * operationPerShift) - breakPerShift)/fCustomerUnit;
+            
             _lbTatkTime.text = [NSString stringWithFormat:@"Tatk time = %.1f", value];
         }else{
             [self showAlert:TDLocalizedStringOne(@"CustomerUnitIsZero")];
