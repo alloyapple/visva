@@ -354,7 +354,7 @@ public class EditIdPasswordActivity extends BaseActivity implements OnItemClickL
 
 	public void onMemoImage(View v) {
 		// ImageMemoActivity.startActivity(this);
-		Intent intentMemo = new Intent(EditIdPasswordActivity.this, ImageMemoActivity.class);
+		Intent intentMemo = new Intent(EditIdPasswordActivity.this, ImageMemoActivity2.class);
 		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
 	}
 
