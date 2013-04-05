@@ -3,7 +3,6 @@ package exp.mtparet.dragdrop.adapter;
 import java.util.ArrayList;
 
 import exp.mtparet.dragdrop.view.DndListViewFolder;
-import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import android.content.Context;

@@ -697,18 +697,19 @@ containing a value of this type.
         public static final int page_list_icon=0x7f030016;
         public static final int page_list_view_new_id=0x7f030017;
         public static final int page_memo=0x7f030018;
-        public static final int page_security_masterpw=0x7f030019;
-        public static final int page_sync=0x7f03001a;
-        public static final int page_sync_dropbox=0x7f03001b;
-        public static final int page_sync_gg_drive=0x7f03001c;
-        public static final int page_term_of_use=0x7f03001d;
-        public static final int page_url_setup=0x7f03001e;
-        public static final int password_generator=0x7f03001f;
-        public static final int pen_content=0x7f030020;
-        public static final int receive_list=0x7f030021;
-        public static final int remove_data=0x7f030022;
-        public static final int sercurity_mode=0x7f030023;
-        public static final int setting=0x7f030024;
+        public static final int page_memo_2=0x7f030019;
+        public static final int page_security_masterpw=0x7f03001a;
+        public static final int page_sync=0x7f03001b;
+        public static final int page_sync_dropbox=0x7f03001c;
+        public static final int page_sync_gg_drive=0x7f03001d;
+        public static final int page_term_of_use=0x7f03001e;
+        public static final int page_url_setup=0x7f03001f;
+        public static final int password_generator=0x7f030020;
+        public static final int pen_content=0x7f030021;
+        public static final int receive_list=0x7f030022;
+        public static final int remove_data=0x7f030023;
+        public static final int sercurity_mode=0x7f030024;
+        public static final int setting=0x7f030025;
     }
     public static final class raw {
         public static final int chakin2=0x7f040000;

@@ -21,6 +21,7 @@ package exp.mtparet.dragdrop.view;
 
 import exp.mtparet.dragdrop.view.DndListViewFolder.DragListener;
 import exp.mtparet.dragdrop.view.DndListViewFolder.DropListener;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -44,6 +45,7 @@ import android.widget.ListView;
  * @author Matthieu Paret
  * 
  */
+@SuppressLint("Recycle")
 public class ListViewDragDrop extends ListView {
 	private Context mContext;
 	private ImageView mDragView;
@@ -132,8 +134,8 @@ public class ListViewDragDrop extends ListView {
 	public boolean onTouchEvent(MotionEvent ev) {
 		boolean handled = false;
 		float xPos = ev.getX();
-		float yPos = ev.getY();
 		Log.e("xPos", "xPis " + xPos);
+		float yPos = ev.getY();
 		if (xPos < this.getWidth() - 100) {
 			if (mOnItemMoveListener != null && !handled)
 				handled = onMove(ev);
@@ -144,6 +146,7 @@ public class ListViewDragDrop extends ListView {
 					&& mDragView != null) {
 				int action = ev.getAction();
 				switch (action) {
+
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
 					Rect r = mTempRect;
@@ -169,42 +172,50 @@ public class ListViewDragDrop extends ListView {
 					if (x < this.getWidth() - 100) {
 						return false;
 					}
-
-					dragView(x, y);
-					int itemnum = getItemForPosition(y);
-					if (itemnum >= 0) {
-						if (action == MotionEvent.ACTION_DOWN
-								|| itemnum != mDragPos) {
-							if (mDragListener != null) {
-								mDragListener.drag(mDragPos, itemnum);
+					if (x == xPos ) {
+						dragView(x, y);
+						int itemnum = getItemForPosition(y);
+						if (itemnum >= 0) {
+							if (action == MotionEvent.ACTION_MOVE
+									|| itemnum != mDragPos) {
+								if (mDragListener != null) {
+									mDragListener.drag(mDragPos, itemnum);
+								}
+								mDragPos = itemnum;
+								doExpansion();
 							}
-							mDragPos = itemnum;
-							doExpansion();
-						}
-						speed = 0;
-						adjustScrollBounds(y);
-						if (y > mLowerBound) {
+							speed = 0;
+							adjustScrollBounds(y);
+							if (y > mLowerBound) {
 
-							speed = y > (mHeight + mLowerBound) / 2 ? 16 : 4;
-						} else if (y < mUpperBound) {
+								speed = y > (mHeight + mLowerBound) / 2 ? 16
+										: 4;
+							} else if (y < mUpperBound) {
 
-							speed = y < mUpperBound / 2 ? -16 : -4;
-						}
-						if (speed != 0) {
-							int ref = pointToPosition(0, mHeight / 2);
-							if (ref == AdapterView.INVALID_POSITION) {
-								// we hit a divider or an invisible view, check
-								// somewhere else
-								ref = pointToPosition(0, mHeight / 2
-										+ getDividerHeight() + 64);
+								speed = y < mUpperBound / 2 ? -16 : -4;
 							}
-							View v = getChildAt(ref - getFirstVisiblePosition());
-							if (v != null) {
-								int pos = v.getTop();
-								setSelectionFromTop(ref, pos - speed);
+							if (speed != 0) {
+								int ref = pointToPosition(0, mHeight / 2);
+								if (ref == AdapterView.INVALID_POSITION) {
+									// we hit a divider or an invisible view,
+									// check
+									// somewhere else
+									ref = pointToPosition(0, mHeight / 2
+											+ getDividerHeight() + 64);
+								}
+								View v = getChildAt(ref
+										- getFirstVisiblePosition());
+								if (v != null) {
+									int pos = v.getTop();
+									setSelectionFromTop(ref, pos - speed);
+								}
 							}
 						}
-					}
+					}else
+						stopDragging();
+					break;
+				default:
+					stopDragging();
 					break;
 				}
 				return true;
@@ -241,9 +252,7 @@ public class ListViewDragDrop extends ListView {
 
 					this.xInit = xInit1;
 					this.yInit = yInit1;
-
 					childSelected = child;
-
 				}
 			}
 		}
@@ -327,7 +336,7 @@ public class ListViewDragDrop extends ListView {
 					dragger = item;
 				Rect r = mTempRect;
 				dragger.getDrawingRect(r);
-				if (x < r.right * 2) {
+				if (y < r.bottom * 2) {
 					item.setDrawingCacheEnabled(true);
 					Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
 					startDragging(bitmap, y);
