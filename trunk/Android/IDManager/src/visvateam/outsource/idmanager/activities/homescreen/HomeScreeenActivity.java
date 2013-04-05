@@ -559,7 +559,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		@Override
 		public void drag(int from, int to) {
 			// TODO Auto-generated method stub
-			if (!isDnd) {
+			if (!isDnd && !isEdit) {
 				isDnd = true;
 				Log.i("Drag and Drop : drag", "from : " + from + ", to : " + to);
 			}
