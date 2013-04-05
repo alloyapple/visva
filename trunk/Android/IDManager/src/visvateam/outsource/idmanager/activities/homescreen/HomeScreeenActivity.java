@@ -451,32 +451,22 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (oneItemSelected != null) {
 				// receverAdapter.addPicture(oneItemSelected, arg2);
 				mCurrentFolderPosition = mCurrentFirstVisibleFolderItem + arg2;
-				int currentFolderId = mFolderListItems.get(
-						mCurrentFolderPosition).getgId();
-				Log.e("current position", "currentpostin "
-						+ mCurrentFolderPosition);
-				mCurrentId = oneItemSelected.geteId();
-				ElementID elementId = mIDxPWDataBaseHandler
-						.getElementID(mCurrentId);
+				int currentFolderId = 0;
+				if (mCurrentFolderPosition < mFolderListItems.size()) {
+					currentFolderId = mFolderListItems.get(
+							mCurrentFolderPosition).getgId();
+					mCurrentId = oneItemSelected.geteId();
+					ElementID elementId = mIDxPWDataBaseHandler
+							.getElementID(mCurrentId);
 
-				Log.e("mCurrentFolderPostion " + mCurrentFolderPosition,
-						"mCurrentFirtsVisible "
-								+ mCurrentFirstVisibleFolderItem);
-				int sizeFolder = mIDxPWDataBaseHandler.getFoldersCount();
-				Log.e("size of folder",
-						"size of folder "
-								+ sizeFolder
-								+ "  isEdit "
-								+ isEdit
-								+ " groupId "
-								+ (elementId.geteGroupId() != mCurrentFolderPosition));
-				if (isEdit && mCurrentFolderPosition < sizeFolder
-						&& elementId.geteGroupId() != currentFolderId) {
-					// Log.e("item selected", "item " +
-					// oneItemSelected.getPasswordId());
-					Log.e("rin here", "run here");
-					showDialog(Contants.DIALOG_MOVE_ID_TO_FOLDER);
-
+					Log.e("mCurrentFolderPostion " + mCurrentFolderPosition,
+							"mCurrentFirtsVisible "
+									+ mCurrentFirstVisibleFolderItem);
+					int sizeFolder = mIDxPWDataBaseHandler.getFoldersCount();
+					if (isEdit && mCurrentFolderPosition < sizeFolder
+							&& elementId.geteGroupId() != currentFolderId) {
+						showDialog(Contants.DIALOG_MOVE_ID_TO_FOLDER);
+					}
 				}
 			}
 		}
@@ -592,7 +582,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		@Override
 		public void drag(int from, int to) {
 			// TODO Auto-generated method stub
-			if (!isDndElement) {
+			if (!isDndElement && !isEdit) {
 				isDndElement = true;
 				Log.i("Drag and Drop : drag", "from : " + from + ", to : " + to);
 			}
@@ -1314,6 +1304,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
 		/* reset folder adapter */
 		mFolderListItems.clear();
+		mIdListItems.clear();
 		// get data from folder database
 		loadDataFromFolderDataBase();
 		//

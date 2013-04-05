@@ -18,11 +18,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -59,7 +57,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
@@ -79,7 +76,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private ArrayList<Item> mItems;
 	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
-
 	public static String DEFAULT_NAME_ITEM[] = { "", "", "", "", "" };
 	private boolean isCreateNewId;
 
@@ -102,7 +98,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
 	private static final String DEFAULT_URL = "http://google.com";
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -516,6 +511,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		addNewIdValuesToDataBase();
 	}
 
+	@SuppressWarnings("resource")
 	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
 		String namString = String.valueOf(System.currentTimeMillis());
 		String name = null;
@@ -578,7 +574,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 					e.printStackTrace();
 				}
 		}
-		return null;
+		return "";
 	}
 
 	@SuppressWarnings("unused")

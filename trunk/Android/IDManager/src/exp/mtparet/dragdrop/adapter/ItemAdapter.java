@@ -20,17 +20,16 @@
 package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
-
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
-import exp.mtparet.dragdrop.data.OneItem;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,11 +44,9 @@ public class ItemAdapter extends BaseAdapter {
 
 	private static final int DIALOG_DELETE_ID = 3;
 	private static final int DIALOG_EDIT_ID = 4;
-
 	private Context context;
 	private ArrayList<ElementID> idItemList;
 	private ListViewDragDrop idListView;
-
 	private boolean isModeEdit;
 	private Handler mHandler;
 	private int currentFolderOrder;
@@ -84,6 +81,14 @@ public class ItemAdapter extends BaseAdapter {
 		return 0;
 	}
 
+	class ViewHolder{
+		TextView txtIdName;
+		TextView txtIdUrl;
+		ImageView iv;
+		Button btnEdit;
+		Button btnDelete;
+		
+	}
 	@Override
 	public View getView(int position, View convertView, ViewGroup arg2) {
 
@@ -91,7 +96,7 @@ public class ItemAdapter extends BaseAdapter {
 			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_id_row,
 					null);
 		}
-
+		Log.i("width "+convertView.getWidth(), "heightView "+convertView.getHeight());
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
 		iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(idItemList.get(position)
@@ -119,7 +124,7 @@ public class ItemAdapter extends BaseAdapter {
 			btnEdit.setVisibility(View.GONE);
 			btnDelete.setVisibility(View.GONE);
 		}
-
+		
 		return convertView;
 	}
 
