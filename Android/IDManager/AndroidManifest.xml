@@ -141,6 +141,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="visvateam.outsource.idmanager.activities.ImageMemoActivity2"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="visvateam.outsource.idmanager.activities.GetInternetImageActivity"
             android:screenOrientation="portrait" >
         </activity>
