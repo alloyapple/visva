@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
@@ -26,10 +27,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -46,7 +47,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 	static final int DRAG = 1;
 	static final int ZOOM = 2;
 	int mode = NONE;
-
+	private int deltaBound = 10;
 	// these PointF objects are used to record the point(s) the user is touching
 	PointF start = new PointF();
 	PointF start2 = new PointF();
@@ -55,7 +56,10 @@ public class ImageMemoActivity2 extends BaseActivity {
 	int leftB, topB, widthB, heightB;
 	private FrameLayout mFrameMemo;
 	Bitmap bmp;
+	private Rect rectBmp = new Rect();
+	private Rect rectDst = new Rect();
 	boolean isBound;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -73,7 +77,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 							boolean isChecked) {
 						// TODO Auto-generated method stub
 						if (fileUri != null
-								&& mCheckBoxChoiceImgMemo.isChecked()) {
+								&& mCheckBoxChoiceImgMemo.isChecked()&&bmp!=null) {
 							EditIdPasswordActivity
 									.updateMemo((Drawable) new BitmapDrawable(
 											snapScreen(leftB, topB, widthB,
@@ -94,14 +98,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 	}
 
 	public Bitmap snapScreen(int l, int t, int w, int h) {
-		mFrameMemo.setDrawingCacheEnabled(true);
-		mFrameMemo.measure(
-				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-		mFrameMemo.buildDrawingCache(true);
-		Bitmap bm = Bitmap.createBitmap(mFrameMemo.getDrawingCache());
-		Bitmap bm2 = Bitmap.createBitmap(bm, l, t, w, h);
-		mFrameMemo.setDrawingCacheEnabled(false); //
+		Bitmap bm2 = Bitmap.createBitmap(bmp, l, t, w, h);
 		return bm2;
 	}
 
@@ -118,7 +115,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 	}
 
 	public void onTrash(View v) {
-		imageView.setImageBitmap(null);
+		bmp=null;
 		isBound = false;
 		fileUri = null;
 	}
@@ -157,11 +154,21 @@ public class ImageMemoActivity2 extends BaseActivity {
 					if (file.exists()) {
 						fileUri = Uri.fromFile(file);
 						int orientation = checkOrientation(fileUri);
-						bmp = decodeSampledBitmapFromFile(imagePath, 400, 300,
+						bmp = decodeSampledBitmapFromFile(imagePath,
+								mFrameMemo.getWidth(), mFrameMemo.getHeight(),
 								orientation);
-						isBound = true;
+						leftB = topB = 0;
+						widthB = mFrameMemo.getWidth();
+						heightB = mFrameMemo.getHeight();
+						rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
+						rectDst.set(0, 0, widthB, heightB);
 					} else {
 						Log.e("test", "file don't exist !");
+					}
+					if (fileUri == null) {
+						isBound = false;
+					} else {
+						isBound = true;
 					}
 				}
 			}
@@ -183,8 +190,14 @@ public class ImageMemoActivity2 extends BaseActivity {
 				if (file.exists()) {
 					fileUri = Uri.fromFile(file);
 					int orientation = checkOrientation(fileUri);
-					bmp = decodeSampledBitmapFromFile(imagePath, 400, 300,
+					bmp = decodeSampledBitmapFromFile(imagePath,
+							mFrameMemo.getWidth(), mFrameMemo.getHeight(),
 							orientation);
+					leftB = topB = 0;
+					widthB = mFrameMemo.getWidth();
+					heightB = mFrameMemo.getHeight();
+					rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
+					rectDst.set(0, 0, widthB, heightB);
 				} else {
 					Log.e("test", "file don't exist !");
 				}
@@ -300,10 +313,93 @@ public class ImageMemoActivity2 extends BaseActivity {
 
 	class MySurface extends SurfaceView implements SurfaceHolder.Callback {
 		public MyThread thread;
+		float xTouch, yTouch;
+		final int L = 0, T = 1, R = 2, B = 3;
+		int mode = -1;
+		float deltaTouch = 25;
+
 		public MySurface(Context context) {
 			super(context);
 			getHolder().addCallback(this);
+			this.setOnTouchListener(new OnTouchListener() {
 
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					if (!isBound)
+						return true;
+					switch (event.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						xTouch = event.getX();
+						yTouch = event.getY();
+						if (yTouch >= topB - deltaTouch
+								&& yTouch <= topB + deltaBound + deltaTouch) {
+							mode = T;
+						} else if (xTouch >= leftB - deltaTouch
+								&& xTouch <= leftB + deltaBound + deltaTouch) {
+							mode = L;
+
+						} else if (yTouch <= topB + heightB + deltaTouch
+								&& yTouch >= topB + heightB - deltaBound
+										- deltaTouch) {
+							mode = B;
+						} else if (xTouch <= leftB + widthB + deltaTouch
+								&& xTouch >= leftB + widthB - deltaBound
+										- deltaTouch) {
+							mode = R;
+						}
+						break;
+					case MotionEvent.ACTION_MOVE:
+						switch (mode) {
+						case L:
+							if (leftB + (event.getX() - xTouch) > 0
+									&& leftB + (event.getX() - xTouch) <= leftB
+											+ widthB - deltaBound) {
+								leftB += (event.getX() - xTouch);
+								widthB -= (event.getX() - xTouch);
+								xTouch = event.getX();
+							}
+							break;
+						case T:
+							if (topB + (event.getY() - yTouch) > 0
+									&& topB + (event.getY() - yTouch) <= topB
+											+ heightB - deltaBound) {
+								topB += (event.getY() - yTouch);
+								heightB -= (event.getY() - yTouch);
+								yTouch = event.getY();
+							}
+							break;
+						case R:
+							if (leftB + widthB + (event.getX() - xTouch) >= leftB
+									+ deltaBound
+									&& leftB + widthB + (event.getX() - xTouch) <= bmp
+											.getWidth()) {
+								widthB += (event.getX() - xTouch);
+								xTouch = event.getX();
+							}
+							break;
+						case B:
+							if (topB + heightB + (event.getY() - yTouch) >= topB
+									+ deltaBound
+									&& topB + heightB + (event.getY() - yTouch) <= bmp
+											.getHeight()) {
+								heightB += (event.getY() - yTouch);
+								yTouch = event.getY();
+							}
+							break;
+						default:
+							break;
+						}
+						break;
+					case MotionEvent.ACTION_UP:
+						mode = -1;
+						break;
+					default:
+						break;
+					}
+					return true;
+				}
+			});
 			// TODO Auto-generated constructor stub
 		}
 
@@ -312,9 +408,29 @@ public class ImageMemoActivity2 extends BaseActivity {
 			// TODO Auto-generated method stub
 			Paint g = new Paint();
 			g.setColor(Color.WHITE);
-			canvas.drawRect(0, 0,mFrameMemo.getWidth(), mFrameMemo.getHeight(), g);
-			if(isBound&&bmp!=null)
-				canvas.drawBitmap(bmp, (mFrameMemo.getWidth()-bmp.getWidth())/2, 0, g);
+
+			if (canvas != null) {
+				canvas.drawRect(0, 0, mFrameMemo.getWidth(),
+						mFrameMemo.getHeight(), g);
+				if (isBound && bmp != null) {
+					canvas.drawBitmap(bmp, rectBmp, rectDst, g);
+					g.setColor(0x80FF0000);
+					canvas.drawRect(leftB, topB, leftB + widthB,
+							topB + heightB, g);
+					drawBound(g, canvas);
+
+				}
+			}
+		}
+
+		public void drawBound(Paint g, Canvas cv) {
+			g.setColor(0xAAFF0000);
+			cv.drawRect(leftB, topB, leftB + widthB, topB + deltaBound, g);
+			cv.drawRect(leftB, topB, leftB + deltaBound, topB + heightB, g);
+			cv.drawRect(leftB + widthB - deltaBound, topB, leftB + widthB, topB
+					+ heightB, g);
+			cv.drawRect(leftB, topB + heightB - deltaBound, leftB + widthB,
+					topB + heightB, g);
 		}
 
 		@Override
