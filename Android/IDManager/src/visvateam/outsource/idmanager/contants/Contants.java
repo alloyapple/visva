@@ -44,6 +44,7 @@ public class Contants {
 	public static final int DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER = 28;
 	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER = 29;
 	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER = 30;
+	public static final int DIALOG_MESSAGE_AUTHEN_GG_FAILED = 31;
 
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
