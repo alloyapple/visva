@@ -33,11 +33,8 @@ import java.util.Date;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -99,7 +96,6 @@ public class DBDropboxController extends AsyncTask<Void, Long, Integer> {
 		mDialog.show();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected Integer doInBackground(Void... params) {
 		try {
@@ -108,7 +104,7 @@ public class DBDropboxController extends AsyncTask<Void, Long, Integer> {
 			Entry entry = null;
 			if (!dirent.isDir || dirent.contents == null) {
 				// It's not a directory, or there's nothing in it
-				mErrorMsg = "File or empty directory";
+				Log.e("test","File or empty directory");
 			}
 
 			for (Entry ent : dirent.contents) {

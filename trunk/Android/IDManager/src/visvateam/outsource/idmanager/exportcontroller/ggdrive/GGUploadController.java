@@ -1,9 +1,7 @@
 package visvateam.outsource.idmanager.exportcontroller.ggdrive;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
-
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -40,6 +38,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 	private IdManagerPreference mIdManagerPreference;
 	private long mLastTimeSync;
 	private boolean isCheckedTime;
+	private UserRecoverableAuthIOException event;
 
 	public GGUploadController(Activity context, Drive service, java.io.File fileDb,
 			Handler mHandler, String acountName, boolean isCheckedTime) {
@@ -52,9 +51,9 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 		mIdManagerPreference = IdManagerPreference.getInstance(mContext);
 		mLastTimeSync = mIdManagerPreference.getLastTimeSyncCloud();
 
-		credential = GoogleAccountCredential.usingOAuth2(mContext, DriveScopes.DRIVE);
-		credential.setSelectedAccountName(acountName);
-		mService = getDriveService(credential);
+//		credential = GoogleAccountCredential.usingOAuth2(mContext, DriveScopes.DRIVE);
+//		credential.setSelectedAccountName(acountName);
+//		mService = getDriveService(credential);
 
 		mDialog = new ProgressDialog(context);
 		mDialog.setTitle(mContext.getString(R.string.app_name));
@@ -138,7 +137,8 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 		} catch (UserRecoverableAuthIOException e) {
 			// showToast("Sync error");
 			Log.e("error", "error");
-			return Contants.DIALOG_MESSAGE_SYNC_FAILED;
+			event = e;
+			return Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Contants.DIALOG_MESSAGE_SYNC_FAILED;
@@ -173,6 +173,10 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER;
 			mHandler.sendMessage(msg);
+		}else if(result == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED){
+			msg.arg1 = Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
+			msg.obj = event;
+			mHandler.sendMessage(msg);
 		}
 		super.onPostExecute(result);
 	}
@@ -188,8 +192,4 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 		return new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(),
 				credential).build();
 	}
-
-	// public void showToast(final String toast) {
-	// Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
-	// }
 }

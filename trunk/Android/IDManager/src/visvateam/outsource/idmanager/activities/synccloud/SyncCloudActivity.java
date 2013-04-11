@@ -10,6 +10,7 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
@@ -40,8 +41,6 @@ import android.widget.TextView;
 public class SyncCloudActivity extends Activity {
 	private TextView mTextViewCloudType;
 	private TextView mTextViewLastTimeSync;
-	private boolean isSyncToCloud = true;
-
 	private static final int NO_CLOUD_LOGIN = 0;
 	private static final int GG_DRIVE_LOGIN_SESSION = 1;
 	private static final int DROPBOX_LOGIN_SESSION = 2;
@@ -83,7 +82,8 @@ public class SyncCloudActivity extends Activity {
 	private long mLastTimeSync;
 	private String accountName;
 
-	@SuppressWarnings("deprecation")
+	static final int REQUEST_AUTHORIZATION = 2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -95,7 +95,8 @@ public class SyncCloudActivity extends Activity {
 		mGGAccountName = mIdManagerPreference.getGoogleAccNameSession();
 		mLastTimeSync = mIdManagerPreference.getLastTimeSyncCloud();
 		/* gg drive api */
-		credential = GoogleAccountCredential.usingOAuth2(this, DriveScopes.DRIVE);
+		credential = GoogleAccountCredential.usingOAuth2(this,
+				DriveScopes.DRIVE);
 
 		/* init control */
 		mTextViewCloudType = (TextView) findViewById(R.id.cloud_type);
@@ -104,7 +105,8 @@ public class SyncCloudActivity extends Activity {
 		Date date = new Date(mLastTimeSync);
 		String mLastDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
 		if (mLastTimeSync > 0)
-			mTextViewLastTimeSync.setText(getString(R.string.last_sync) + mLastDate);
+			mTextViewLastTimeSync.setText(getString(R.string.last_sync)
+					+ mLastDate);
 
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
@@ -121,10 +123,12 @@ public class SyncCloudActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (mApi.getSession().isLinked()) {
-			mTextViewCloudType.setText(getString(R.string.cloud_service_name) + " Dropbox");
+			mTextViewCloudType.setText(getString(R.string.cloud_service_name)
+					+ " Dropbox");
 			mCloudType = DROPBOX_LOGIN_SESSION;
 		} else if (!"".equals(mGGAccountName)) {
-			mTextViewCloudType.setText(getString(R.string.cloud_service_name) + " Google Drive");
+			mTextViewCloudType.setText(getString(R.string.cloud_service_name)
+					+ " Google Drive");
 			mCloudType = GG_DRIVE_LOGIN_SESSION;
 		} else {
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name));
@@ -137,7 +141,6 @@ public class SyncCloudActivity extends Activity {
 	 * 
 	 * @param v
 	 */
-	@SuppressWarnings("deprecation")
 	public void onSyncAuto(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mCloudType == NO_CLOUD_LOGIN) {
@@ -150,14 +153,11 @@ public class SyncCloudActivity extends Activity {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void onSyncToCloud(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mCloudType == NO_CLOUD_LOGIN) {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			} else {
-				isSyncToCloud = true;
-				// showDialog(Contants.DIALOG_CHOICE_CLOUD_TYPE);
 				startSyncToCloud(mCloudType);
 			}
 		} else {
@@ -172,7 +172,8 @@ public class SyncCloudActivity extends Activity {
 	 */
 	private void startAutoSyncData(int mCloudType) {
 		if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
-			startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+			startActivityForResult(credential.newChooseAccountIntent(),
+					REQUEST_ACCOUNT_PICKER);
 		} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 			boolean isCheckedTime = false;
 			startAutoSyncByDropbox(isCheckedTime);
@@ -185,8 +186,8 @@ public class SyncCloudActivity extends Activity {
 	private void startAutoSyncByDropbox(boolean isCheckedTime) {
 		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
 		DBDropboxAutoSyncController autoSync = new DBDropboxAutoSyncController(
-				SyncCloudActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_DB, dbFile, mHandler,
-				isCheckedTime);
+				SyncCloudActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_DB,
+				dbFile, mHandler, isCheckedTime);
 		autoSync.execute();
 	}
 
@@ -197,7 +198,8 @@ public class SyncCloudActivity extends Activity {
 	 */
 	private void startSyncToCloud(int mCloudType) {
 		if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
-			startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+			startActivityForResult(credential.newChooseAccountIntent(),
+					REQUEST_ACCOUNT_PICKER);
 		} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 			boolean isCheckedTime = false;
 			syncToCloudByDropbox(isCheckedTime);
@@ -207,19 +209,19 @@ public class SyncCloudActivity extends Activity {
 	private void syncToCloudByDropbox(boolean isCheckedTime) {
 		// TODO Auto-generated method stub
 		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		DBDropboxController newFile = new DBDropboxController(SyncCloudActivity.this, mApi,
-				Contants.FOLDER_ON_DROPBOX_DB, dbFile, mHandler, isCheckedTime);
+		DBDropboxController newFile = new DBDropboxController(
+				SyncCloudActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_DB,
+				dbFile, mHandler, isCheckedTime);
 		newFile.execute();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void OnSyncToDevice(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
-			isSyncToCloud = false;
 			if (mCloudType == NO_CLOUD_LOGIN) {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			} else if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
-				startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
+				startActivityForResult(credential.newChooseAccountIntent(),
+						REQUEST_ACCOUNT_PICKER);
 			} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 				boolean isCheckTime = false;
 				startSyncToDeviceByDropBox(isCheckTime);
@@ -233,7 +235,8 @@ public class SyncCloudActivity extends Activity {
 		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
 		String dbFilePath = dbFile.getParent();
 		DropBoxDownloadFile downloadFile = new DropBoxDownloadFile(this, mApi,
-				Contants.FOLDER_ON_DROPBOX_DB, dbFilePath, mHandler, isCheckedTime);
+				Contants.FOLDER_ON_DROPBOX_DB, dbFilePath, mHandler,
+				isCheckedTime);
 		downloadFile.execute();
 	}
 
@@ -297,7 +300,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -312,7 +316,8 @@ public class SyncCloudActivity extends Activity {
 			builderNoData.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -325,7 +330,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -339,13 +345,18 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
-							mLastTimeSync = mIdManagerPreference.getLastTimeSyncCloud();
+							mLastTimeSync = mIdManagerPreference
+									.getLastTimeSyncCloud();
 							Date date = new Date(mLastTimeSync);
-							String mLastDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-							mTextViewLastTimeSync.setText(SyncCloudActivity.this
-									.getString(R.string.last_sync) + mLastDate);
+							String mLastDate = new SimpleDateFormat(
+									"yyyy-MM-dd").format(date);
+							mTextViewLastTimeSync
+									.setText(SyncCloudActivity.this
+											.getString(R.string.last_sync)
+											+ mLastDate);
 							return;
 						}
 					});
@@ -358,7 +369,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -373,7 +385,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -396,7 +409,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -419,13 +433,14 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								syncToCloudByDropbox(true);
 							else if (mCloudType == GG_DRIVE_LOGIN_SESSION)
 								saveFileToDrive(accountName, true);
-								return;
+							return;
 						}
 					});
 			builder.setNegativeButton(getString(R.string.confirm_cancel),
@@ -449,11 +464,12 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								syncToCloudByDropbox(true);
-							else if(mCloudType == GG_DRIVE_LOGIN_SESSION)
+							else if (mCloudType == GG_DRIVE_LOGIN_SESSION)
 								saveFileToDrive(accountName, true);
 							return;
 						}
@@ -479,7 +495,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								startSyncToDeviceByDropBox(true);
@@ -507,7 +524,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								startSyncToDeviceByDropBox(true);
@@ -535,7 +553,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							/* add new folder to database */
 							return;
 						}
@@ -549,7 +568,8 @@ public class SyncCloudActivity extends Activity {
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
 							return;
 						}
 					});
@@ -566,8 +586,10 @@ public class SyncCloudActivity extends Activity {
 
 		String[] stored = getKeys();
 		if (stored != null) {
-			AccessTokenPair accessToken = new AccessTokenPair(stored[0], stored[1]);
-			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE, accessToken);
+			AccessTokenPair accessToken = new AccessTokenPair(stored[0],
+					stored[1]);
+			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE,
+					accessToken);
 		} else {
 			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
 		}
@@ -600,11 +622,14 @@ public class SyncCloudActivity extends Activity {
 	 * activity on result get data to sync to gg drive
 	 */
 	@Override
-	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	protected void onActivityResult(final int requestCode,
+			final int resultCode, final Intent data) {
 		switch (requestCode) {
 		case REQUEST_ACCOUNT_PICKER:
-			if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
-				accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+			if (resultCode == RESULT_OK && data != null
+					&& data.getExtras() != null) {
+				accountName = data
+						.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 				if (accountName != null) {
 					Log.e("accname", "acc Name " + accountName);
 					credential.setSelectedAccountName(accountName);
@@ -614,14 +639,22 @@ public class SyncCloudActivity extends Activity {
 				}
 			}
 			break;
-		// case REQUEST_AUTHORIZATION:
-		// if (resultCode == Activity.RESULT_OK) {
-		// saveFileToDrive();
-		// } else {
-		// startActivityForResult(credential.newChooseAccountIntent(),
-		// REQUEST_ACCOUNT_PICKER);
-		// }
-		// break;
+		case REQUEST_AUTHORIZATION:
+			if (resultCode == Activity.RESULT_OK) {
+				accountName = data
+						.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+				if (accountName != null) {
+					Log.e("accname", "acc Name " + accountName);
+					credential.setSelectedAccountName(accountName);
+					service = getDriveService(credential);
+					boolean isCheckedTime = false;
+					saveFileToDrive(accountName, isCheckedTime);
+				}
+			} else {
+				startActivityForResult(credential.newChooseAccountIntent(),
+						REQUEST_ACCOUNT_PICKER);
+			}
+			break;
 		default:
 			break;
 		}
@@ -629,18 +662,18 @@ public class SyncCloudActivity extends Activity {
 
 	private void saveFileToDrive(String accountName, boolean isCheckedTime) {
 		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		GGUploadController drive = new GGUploadController(this, service, fileDb, mHandler,
-				accountName, isCheckedTime);
+		GGUploadController drive = new GGUploadController(this, service,
+				fileDb, mHandler, accountName, isCheckedTime);
 		drive.execute();
 	}
 
 	private Drive getDriveService(GoogleAccountCredential credential) {
-		return new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-				credential).build();
+		return new Drive.Builder(AndroidHttp.newCompatibleTransport(),
+				new GsonFactory(), credential).build();
 	}
 
 	private Handler mHandler = new Handler() {
-		@SuppressWarnings({ "deprecation" })
+		@SuppressWarnings({})
 		public void handleMessage(android.os.Message msg) {
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
@@ -664,6 +697,11 @@ public class SyncCloudActivity extends Activity {
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
+				Log.e("adjfhkldhf", "adfkjhkd ");
+				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
+				startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
+			}
 		};
 	};
 
