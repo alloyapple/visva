@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.ViewPager.LayoutParams;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;

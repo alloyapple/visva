@@ -144,10 +144,11 @@ public class DndListViewFolder extends ListView {
 
 		if ((mDragListener != null || mDropListener != null) && mDragView != null) {
 			int action = ev.getAction();
+			Rect r;
 			switch (action) {
 			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_CANCEL:
-				Rect r = mTempRect;
+				r = mTempRect;
 				mDragView.getDrawingRect(r);
 				stopDragging();
 				int y = (int) ev.getY();
@@ -167,6 +168,16 @@ public class DndListViewFolder extends ListView {
 				y = (int) ev.getY();
 
 				if (x > this.getWidth() - 75) {
+					r = mTempRect;
+					if (mDragView != null)
+						mDragView.getDrawingRect(r);
+					stopDragging();
+					if (mDropListener != null && mDragPos >= 0 && mDragPos < getCount()) {
+						mDropListener.drop(mFirstDragPos, mDragPos);
+						if (mDragPos < (totalchilds - 1))
+							setSelectionFromTop(0, 0);
+					}
+					unExpandViews(false);
 					return false;
 				}
 
