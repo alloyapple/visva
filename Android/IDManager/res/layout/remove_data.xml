@@ -18,7 +18,8 @@
             android:layout_marginLeft="4dp"
             android:background="@drawable/return_button"
             android:onClick="onReturn" />
-        <TextView
+
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center|center"
@@ -51,6 +52,21 @@
             android:layout_marginRight="10dp"
             android:layout_weight="0.32" >
         </kankan.wheel.widget.WheelView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical" >
+
+        <com.google.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+            android:id="@+id/main_adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="a14f59e5c442767" />
     </LinearLayout>
 
 </FrameLayout>
