@@ -39,17 +39,15 @@ public class BrowserActivity extends BaseActivity {
 				Contants.CURRENT_PASSWORD_ID);
 
 		if (mode == Contants.INFO_TO) {
-			((Button) findViewById(R.id.id_jogdial)).setVisibility(View.GONE);
 			url = "http://www.japanappstudio.com/home.html";
 		} else {
-			((Button) findViewById(R.id.id_jogdial))
-					.setVisibility(View.VISIBLE);
 			initData();
 		}
 		editText = (EditText) findViewById(R.id.id_edit_browser);
 		initControl();
 		initAdmod();
 	}
+
 	public void initAdmod() {
 		AdView adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -58,6 +56,7 @@ public class BrowserActivity extends BaseActivity {
 			adview.setVisibility(View.VISIBLE);
 		}
 	}
+
 	public void initData() {
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new IDxPWDataBaseHandler(this);
@@ -136,5 +135,5 @@ public class BrowserActivity extends BaseActivity {
 		Intent i = new Intent(activity, BrowserActivity.class);
 		activity.startActivity(i);
 	}
-	
+
 }

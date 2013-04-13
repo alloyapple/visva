@@ -153,6 +153,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public static Drawable getIconDatabase(String icon) {
 
@@ -195,11 +196,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 		Bitmap bmp = BitmapFactory.decodeByteArray(decryptBytes, 0,
 				decryptBytes.length);
-		// bmp.setHasAlpha(true);
-		// Bitmap bmp2 = bmp.copy(Config.ARGB_8888, true);
 		return (Drawable) new BitmapDrawable(bmp);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -511,7 +511,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		addNewIdValuesToDataBase();
 	}
 
-	@SuppressWarnings("resource")
 	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
 		String namString = String.valueOf(System.currentTimeMillis());
 		String name = null;
@@ -679,6 +678,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		});
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {

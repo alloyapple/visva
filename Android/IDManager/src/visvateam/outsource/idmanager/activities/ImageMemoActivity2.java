@@ -19,6 +19,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
@@ -56,8 +57,9 @@ public class ImageMemoActivity2 extends BaseActivity {
 	int leftB, topB, widthB, heightB;
 	private FrameLayout mFrameMemo;
 	Bitmap bmp;
+	Bitmap bmpDraw;
 	private Rect rectBmp = new Rect();
-	private Rect rectDst = new Rect();
+	private RectF rectDst = new RectF();
 	boolean isBound;
 
 	@Override
@@ -77,7 +79,8 @@ public class ImageMemoActivity2 extends BaseActivity {
 							boolean isChecked) {
 						// TODO Auto-generated method stub
 						if (fileUri != null
-								&& mCheckBoxChoiceImgMemo.isChecked()&&bmp!=null) {
+								&& mCheckBoxChoiceImgMemo.isChecked()
+								&& bmp != null) {
 							EditIdPasswordActivity
 									.updateMemo((Drawable) new BitmapDrawable(
 											snapScreen(leftB, topB, widthB,
@@ -98,7 +101,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 	}
 
 	public Bitmap snapScreen(int l, int t, int w, int h) {
-		Bitmap bm2 = Bitmap.createBitmap(bmp, l, t, w, h);
+		Bitmap bm2 = Bitmap.createBitmap(bmpDraw, l, t, w, h);
 		return bm2;
 	}
 
@@ -115,7 +118,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 	}
 
 	public void onTrash(View v) {
-		bmp=null;
+		bmp = null;
 		isBound = false;
 		fileUri = null;
 	}
@@ -154,6 +157,11 @@ public class ImageMemoActivity2 extends BaseActivity {
 					if (file.exists()) {
 						fileUri = Uri.fromFile(file);
 						int orientation = checkOrientation(fileUri);
+
+						bmpDraw = Bitmap
+								.createBitmap(mFrameMemo.getWidth(),
+										mFrameMemo.getHeight(),
+										Bitmap.Config.ARGB_8888);
 						bmp = decodeSampledBitmapFromFile(imagePath,
 								mFrameMemo.getWidth(), mFrameMemo.getHeight(),
 								orientation);
@@ -161,7 +169,23 @@ public class ImageMemoActivity2 extends BaseActivity {
 						widthB = mFrameMemo.getWidth();
 						heightB = mFrameMemo.getHeight();
 						rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
-						rectDst.set(0, 0, widthB, heightB);
+						float ratioH = (float) bmp.getHeight()
+								/ bmpDraw.getHeight();
+						float ratioW = (float) bmp.getWidth()
+								/ bmpDraw.getWidth();
+						if (ratioH > ratioW) {
+							float w = bmp.getWidth() / ratioH;
+							rectDst.set((bmpDraw.getWidth() - w) / 2, 0,
+									(bmpDraw.getWidth() - w) / 2 + w,
+									bmpDraw.getHeight());
+						} else {
+							float h = bmp.getHeight() / ratioW;
+							rectDst.set(0, (bmpDraw.getHeight() - h) / 2,
+									bmpDraw.getWidth(),
+									(bmpDraw.getHeight() - h) / 2 + h);
+						}
+						drawOnBitmap();
+
 					} else {
 						Log.e("test", "file don't exist !");
 					}
@@ -190,6 +214,8 @@ public class ImageMemoActivity2 extends BaseActivity {
 				if (file.exists()) {
 					fileUri = Uri.fromFile(file);
 					int orientation = checkOrientation(fileUri);
+					bmpDraw = Bitmap.createBitmap(mFrameMemo.getWidth(),
+							mFrameMemo.getHeight(), Bitmap.Config.ARGB_8888);
 					bmp = decodeSampledBitmapFromFile(imagePath,
 							mFrameMemo.getWidth(), mFrameMemo.getHeight(),
 							orientation);
@@ -197,7 +223,21 @@ public class ImageMemoActivity2 extends BaseActivity {
 					widthB = mFrameMemo.getWidth();
 					heightB = mFrameMemo.getHeight();
 					rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
-					rectDst.set(0, 0, widthB, heightB);
+					float ratioH = (float) bmp.getHeight()
+							/ bmpDraw.getHeight();
+					float ratioW = (float) bmp.getWidth() / bmpDraw.getWidth();
+					if (ratioH > ratioW) {
+						float w = bmp.getWidth() / ratioH;
+						rectDst.set((bmpDraw.getWidth() - w) / 2, 0,
+								(bmpDraw.getWidth() - w) / 2 + w,
+								bmpDraw.getHeight());
+					} else {
+						float h = bmp.getHeight() / ratioW;
+						rectDst.set(0, (bmpDraw.getHeight() - h) / 2,
+								bmpDraw.getWidth(), (bmpDraw.getHeight() - h)
+										/ 2 + h);
+					}
+					drawOnBitmap();
 				} else {
 					Log.e("test", "file don't exist !");
 				}
@@ -211,6 +251,12 @@ public class ImageMemoActivity2 extends BaseActivity {
 		default:
 			return;
 		}
+	}
+
+	public void drawOnBitmap() {
+		Canvas cv = new Canvas(bmpDraw);
+		Paint g = new Paint();
+		cv.drawBitmap(bmp, rectBmp, rectDst, g);
 	}
 
 	public void showToast(final String toast) {
@@ -372,8 +418,8 @@ public class ImageMemoActivity2 extends BaseActivity {
 						case R:
 							if (leftB + widthB + (event.getX() - xTouch) >= leftB
 									+ deltaBound
-									&& leftB + widthB + (event.getX() - xTouch) <= bmp
-											.getWidth()) {
+									&& leftB + widthB + (event.getX() - xTouch) <= mFrameMemo.getWidth()
+											) {
 								widthB += (event.getX() - xTouch);
 								xTouch = event.getX();
 							}
@@ -381,8 +427,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 						case B:
 							if (topB + heightB + (event.getY() - yTouch) >= topB
 									+ deltaBound
-									&& topB + heightB + (event.getY() - yTouch) <= bmp
-											.getHeight()) {
+									&& topB + heightB + (event.getY() - yTouch) <= mFrameMemo.getHeight()) {
 								heightB += (event.getY() - yTouch);
 								yTouch = event.getY();
 							}
@@ -413,7 +458,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 				canvas.drawRect(0, 0, mFrameMemo.getWidth(),
 						mFrameMemo.getHeight(), g);
 				if (isBound && bmp != null) {
-					canvas.drawBitmap(bmp, rectBmp, rectDst, g);
+					canvas.drawBitmap(bmpDraw, 0, 0, g);
 					g.setColor(0x80FF0000);
 					canvas.drawRect(leftB, topB, leftB + widthB,
 							topB + heightB, g);
