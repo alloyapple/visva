@@ -70,6 +70,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private Button btnAddNewFolder;
 	private Button btnAddNewId;
 	private Button btnEdit;
+	private Button btnReturn;
 	private Button btnSync;
 	private Button btnInfo;
 	private Button btnSearch;
@@ -185,7 +186,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		btnEdit = (Button) mainRelativeLayout.findViewById(R.id.btn_edit);
 		btnEdit.setOnClickListener(this);
-
+		btnReturn = (Button) mainRelativeLayout.findViewById(R.id.btn_return);
+		btnReturn.setOnClickListener(this);
 		btnSetting = (Button) mainRelativeLayout.findViewById(R.id.btn_setting);
 		btnSetting.setOnClickListener(this);
 
@@ -731,18 +733,30 @@ public class HomeScreeenActivity extends BaseActivity implements
 				isSearchMode = false;
 				refreshListView();
 			}
-			if (isEdit) {
-				btnEdit.setBackgroundResource(R.drawable.edit);
-				btnSync.setVisibility(View.VISIBLE);
-				isEdit = false;
-
-			} else {
+//			if (isEdit) {
+//				btnEdit.setBackgroundResource(R.drawable.edit);
+//				btnSync.setVisibility(View.VISIBLE);
+//				isEdit = false;
+//
+//			} else {
 				btnSync.setVisibility(View.GONE);
-				btnEdit.setBackgroundResource(R.drawable.return_back);
+//				btnEdit.setBackgroundResource(R.drawable.return_back);
+				btnEdit.setVisibility(View.GONE);
+				btnReturn.setVisibility(View.VISIBLE);
 				isEdit = true;
-			}
+//			}
 
 			/* set folder and id listview in edit mode */
+			setEditModeForFolderAndIdListView(isEdit);
+		} else if (v == btnReturn) {
+			if (isSearchMode) {
+				isSearchMode = false;
+				refreshListView();
+			}
+			btnSync.setVisibility(View.GONE);
+			btnEdit.setVisibility(View.VISIBLE);
+			btnReturn.setVisibility(View.GONE);
+			isEdit = false;
 			setEditModeForFolderAndIdListView(isEdit);
 		}
 
