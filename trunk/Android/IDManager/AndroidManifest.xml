@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="visvateam.outsource.idmanager.idletime.ControlApplication"
@@ -58,10 +59,10 @@
             android:value="true" />
         <meta-data
             android:name="TEST_MODE"
-            android:value="false" />
+            android:value="true" />
         <meta-data
             android:name="ADMOB_PUBLISHER_ID"
-            android:value="a14eeec558d5094" />
+            android:value="a14f59e5c442767" />
         <activity
             android:name="visvateam.outsource.idmanager.activities.EnterOldPasswordActivity"
             android:screenOrientation="portrait" >
