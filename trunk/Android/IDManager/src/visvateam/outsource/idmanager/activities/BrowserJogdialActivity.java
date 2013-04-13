@@ -2,6 +2,11 @@ package visvateam.outsource.idmanager.activities;
 
 import java.util.ArrayList;
 
+import visvateam.outsource.idmanager.database.IdManagerPreference;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -52,7 +57,8 @@ public class BrowserJogdialActivity extends BaseActivity {
 	String note;
 	String valueGet;
 	PointF startPoint = new PointF();
-	
+	private AdView adview;
+	private IdManagerPreference mIdManagerPreference;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -109,10 +115,22 @@ public class BrowserJogdialActivity extends BaseActivity {
 				return true;
 			}
 		});
+		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		initData();
 		initControl();
+		initAdmod();
 	}
-
+	public void initAdmod() {
+		adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			if (!mIdManagerPreference.getIsPaymentNoAd())
+				adview.setVisibility(View.VISIBLE);
+			else
+				adview.setVisibility(View.GONE);
+		}
+	}
 	public boolean checkPoint(PointF p) {
 		if (dialer.getWidth() / 2 - deltaX < p.x
 				&& dialer.getWidth() / 2 + deltaX > p.x

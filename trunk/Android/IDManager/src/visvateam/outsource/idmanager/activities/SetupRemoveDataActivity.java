@@ -1,5 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
@@ -32,7 +35,7 @@ public class SetupRemoveDataActivity extends BaseActivity {
 	private int mChoied;
 	private WheelView mWheelViewRemoveData;
 	private IdManagerPreference mIdManagerPreference;
-
+	private AdView adview;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,8 +50,19 @@ public class SetupRemoveDataActivity extends BaseActivity {
 		mWheelViewRemoveData.setCurrentItem(mIdManagerPreference
 				.getValuesRemoveData());
 		mChoied = mIdManagerPreference.getValuesRemoveData();
+		initAdmod();
 	}
-
+	public void initAdmod() {
+		adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			if (!mIdManagerPreference.getIsPaymentNoAd())
+				adview.setVisibility(View.VISIBLE);
+			else
+				adview.setVisibility(View.GONE);
+		}
+	}
 	private class RemoveDataAdapter extends ArrayWheelAdapter<String> {
 		// Index of current item
 		int currentItem;

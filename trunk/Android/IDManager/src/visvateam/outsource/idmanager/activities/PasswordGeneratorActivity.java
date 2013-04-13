@@ -5,7 +5,11 @@ import java.util.Random;
 
 import org.apache.poi.hssf.record.PageBreakRecord.Break;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -52,15 +56,28 @@ public class PasswordGeneratorActivity extends BaseActivity {
 			'>', '<', '~', '!', '^', '`', '\'', '\"', ':', '=', '_' };
 	private StringBuffer resultGenarator = new StringBuffer();
 	private Random random = new Random();
-
+	private AdView adview;
+	private IdManagerPreference mIdManagerPreference;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.password_generator);
 		((TextView) findViewById(R.id.id_text_num_chracter)).setText("" + 6);
+		mIdManagerPreference = IdManagerPreference.getInstance(this);
+		initAdmod();
 
 	}
-
+	public void initAdmod() {
+		adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			if (!mIdManagerPreference.getIsPaymentNoAd())
+				adview.setVisibility(View.VISIBLE);
+			else
+				adview.setVisibility(View.GONE);
+		}
+	}
 	public void onReturn(View v) {
 		if (resultGenarator.toString() != "")
 			EditIdPasswordActivity.mStringOfSelectItem = resultGenarator

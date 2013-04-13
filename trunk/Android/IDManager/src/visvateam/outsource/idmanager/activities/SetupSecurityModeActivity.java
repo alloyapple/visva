@@ -1,5 +1,8 @@
 package visvateam.outsource.idmanager.activities;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -22,7 +25,7 @@ public class SetupSecurityModeActivity extends BaseActivity {
 	private IdManagerPreference mIdManagerPreference;
 	private String modes[] = { "Off", "1 ", "3 ", "5 ", "10 " };
 	private int mChoied;
-
+	private AdView adview;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,8 +42,19 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		mWheelViewModeSecurity.setCurrentItem(mIdManagerPreference
 				.getSecurityMode());
 		mChoied = mIdManagerPreference.getSecurityMode();
+		initAdmod();
 	}
-
+	public void initAdmod() {
+		adview = (AdView) findViewById(R.id.main_adView);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			if (!mIdManagerPreference.getIsPaymentNoAd())
+				adview.setVisibility(View.VISIBLE);
+			else
+				adview.setVisibility(View.GONE);
+		}
+	}
 	public void onReturn(View v) {
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		if (mChoied != position) {
