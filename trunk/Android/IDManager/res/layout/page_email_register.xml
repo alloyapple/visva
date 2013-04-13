@@ -133,7 +133,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             ads:adSize="BANNER"
-            ads:adUnitId="a15000d2c279fed" />
+            ads:adUnitId="a14f59e5c442767" />
     </LinearLayout>
 
 </LinearLayout>

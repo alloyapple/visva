@@ -20,16 +20,16 @@
 
     <Button
         android:id="@+id/img_folder_item_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center|center"
         android:background="@drawable/favorite" />
 
     <Button
         android:id="@+id/img_folder_item_edit"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
@@ -38,8 +38,8 @@
 
     <Button
         android:id="@+id/img_folder_item_delete"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
