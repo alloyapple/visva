@@ -19,8 +19,6 @@
 
 package exp.mtparet.dragdrop.view;
 
-import exp.mtparet.dragdrop.view.DndListViewFolder.DragListener;
-import exp.mtparet.dragdrop.view.DndListViewFolder.DropListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -71,9 +69,6 @@ public class ListViewDragDrop extends ListView {
 
 	private OnTouchListener mOnItemOutUpListener;
 	private OnTouchListener mOnItemMoveListener; // It is an hacked touchLister,
-													// in fact it is
-													// OnMoveListener
-	private OnItemClickListener mOnItemReceiver;
 	private boolean isMove = false;
 	private View childSelected;
 	private float xInit;
@@ -127,7 +122,6 @@ public class ListViewDragDrop extends ListView {
 	 */
 	public void setOnItemReceiverListener(
 			AdapterView.OnItemClickListener listener) {
-		this.mOnItemReceiver = listener;
 	}
 
 	@Override
@@ -135,8 +129,19 @@ public class ListViewDragDrop extends ListView {
 		boolean handled = false;
 		float xPos = ev.getX();
 		Log.e("xPos", "xPis " + xPos);
-		float yPos = ev.getY();
+
 		if (xPos < this.getWidth() - 100) {
+			Log.e("ACTION UP", "ACTION UP");
+			Rect r = mTempRect;
+			if (mDragView != null)
+				mDragView.getDrawingRect(r);
+			stopDragging();
+			if (mDropListener != null && mDragPos >= 0 && mDragPos < getCount()) {
+				mDropListener.drop(mFirstDragPos, mDragPos);
+				if (mDragPos < (totalchilds - 1))
+					setSelectionFromTop(0, 0);
+			}
+			unExpandViews(false);
 			if (mOnItemMoveListener != null && !handled)
 				handled = onMove(ev);
 			if (!handled)
@@ -149,6 +154,7 @@ public class ListViewDragDrop extends ListView {
 
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
+					Log.e("ACTION UP", "ACTION UP");
 					Rect r = mTempRect;
 					mDragView.getDrawingRect(r);
 					stopDragging();
@@ -172,7 +178,7 @@ public class ListViewDragDrop extends ListView {
 					if (x < this.getWidth() - 100) {
 						return false;
 					}
-					if (x == xPos ) {
+					if (x == xPos) {
 						dragView(x, y);
 						int itemnum = getItemForPosition(y);
 						if (itemnum >= 0) {
@@ -211,7 +217,7 @@ public class ListViewDragDrop extends ListView {
 								}
 							}
 						}
-					}else
+					} else
 						stopDragging();
 					break;
 				default:
