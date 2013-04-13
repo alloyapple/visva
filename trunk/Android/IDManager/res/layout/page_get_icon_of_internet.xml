@@ -12,8 +12,8 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
@@ -23,7 +23,7 @@
             android:layout_width="0dip"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:background="@drawable/all_corner"
             android:orientation="horizontal" >
@@ -41,10 +41,10 @@
             </EditText>
 
             <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/refresh"
                 android:onClick="onReload" />
@@ -53,9 +53,9 @@
         <CheckBox
             android:id="@+id/id_checkbox_get_icon_internet"
             android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="4dp"
             android:background="@drawable/checkbox_mark"
             android:button="@android:color/transparent" >
@@ -114,16 +114,16 @@
             android:orientation="horizontal" >
 
             <Button
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/brouther_back"
                 android:onClick="onBroutherBack" />
 
             <Button
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/brouther_next"

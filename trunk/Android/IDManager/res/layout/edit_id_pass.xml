@@ -13,16 +13,16 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
             android:onClick="onReturn" />
 
         <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="16dp"
+            android:layout_height="28dp"
             android:layout_gravity="right|center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -69,8 +69,8 @@
 
             <CheckBox
                 android:id="@+id/id_like"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/checkbox_like"
@@ -155,7 +155,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/all_corner"
-                    android:hint="Note"
+                    android:gravity="center"
+                    android:hint="@string/hint_note"
                     android:textColor="#000000" >
                 </EditText>
 
@@ -174,15 +175,16 @@
                         android:background="@drawable/all_corner_button"
                         android:onClick="onMemoImage"
                         android:text="@string/hint_no_image"
-                        android:textColor="@color/gray" >
+                        android:textColor="@color/gray"
+                        android:textStyle="bold" >
                     </Button>
 
                     <ImageButton
                         android:id="@+id/btn_img_memo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="onMemoImage"
                         android:layout_gravity="center|center"
+                        android:onClick="onMemoImage"
                         android:textColor="@color/gray" >
                     </ImageButton>
                 </FrameLayout>

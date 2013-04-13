@@ -14,8 +14,8 @@
 
         <Button
             android:id="@+id/btn_edit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
@@ -25,7 +25,7 @@
             android:layout_width="0dip"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/all_corner"
@@ -42,8 +42,8 @@
             </EditText>
 
             <Button 
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
@@ -53,10 +53,10 @@
 
         <Button
             android:id="@+id/id_jogdial"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/btn_wheel"
             android:onClick="onJogdial" />
@@ -94,8 +94,8 @@
                 android:orientation="horizontal" >
 
                 <Button
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="19dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
@@ -103,8 +103,8 @@
                     android:onClick="onBack" />
 
                 <Button
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="19dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
@@ -159,8 +159,8 @@
                 </LinearLayout>
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="35dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="left|bottom"
                     android:layout_marginBottom="4dp"
                     android:layout_marginLeft="4dp"
@@ -169,8 +169,8 @@
                 </Button>
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="70dp"
+                    android:layout_height="31dp"
                     android:layout_gravity="right|bottom"
                     android:layout_marginBottom="4dp"
                     android:layout_marginRight="4dp"

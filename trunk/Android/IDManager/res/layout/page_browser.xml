@@ -14,8 +14,8 @@
 
         <Button
             android:id="@+id/btn_edit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
@@ -42,24 +42,14 @@
             </EditText>
 
             <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/refresh"
                 android:onClick="onReload" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/id_jogdial"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/btn_save"
-            android:onClick="onJogdial" />
     </LinearLayout>
 
     <LinearLayout
@@ -88,8 +78,8 @@
             android:orientation="horizontal" >
 
             <Button
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="19dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -97,8 +87,8 @@
                 android:onClick="onBack" />
 
             <Button
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="19dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"

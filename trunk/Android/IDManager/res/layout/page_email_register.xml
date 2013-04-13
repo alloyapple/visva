@@ -14,9 +14,10 @@
 
         <Button
             android:id="@+id/btn_edit"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_marginLeft="10dp"
+            android:layout_gravity="left|center"
             android:background="@drawable/bt_return"
             android:onClick="onReturn" />
 
@@ -85,8 +86,8 @@
 
                     <Button
                         android:id="@+id/btn_close"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
