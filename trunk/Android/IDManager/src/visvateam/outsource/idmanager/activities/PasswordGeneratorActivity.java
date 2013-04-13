@@ -8,13 +8,23 @@ import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import visvateam.outsource.idmanager.contants.Contants;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.InputFilter.LengthFilter;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,16 +36,20 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	private boolean isSign = true;
 	private boolean isDuplicate = true;
 	private ArrayList<Character> mTotalArrayChars = new ArrayList<Character>();
-	private CharSequence[] mNumberChoiceArr = { "4","5","6", "7", "8", "9", "10", "11", "12", "13", "14",
-			"15", "16", "17", "18", "19", "20", "21" };
-	private Character mNuberChars[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-	private Character mCapitalChars[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
-			'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-	private Character mLowerCaseChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-			'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
-	private Character mSignChars[] = { '@', '#', '$', '%', '&', '*', '(', ')', '{', '}', ',', ';',
-			'?', '|', '.', '/', '\\', '[', ']', '+', '-', '>', '<', '~', '!', '^', '`', '\'', '\"',
-			':', '=', '_' };
+	private CharSequence[] mNumberChoiceArr = { "4", "5", "6", "7", "8", "9",
+			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+			"21" };
+	private Character mNuberChars[] = { '0', '1', '2', '3', '4', '5', '6', '7',
+			'8', '9' };
+	private Character mCapitalChars[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+			'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+			'U', 'V', 'W', 'X', 'Y', 'Z' };
+	private Character mLowerCaseChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+			'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+			'u', 'v', 'w', 'x', 'y', 'z' };
+	private Character mSignChars[] = { '@', '#', '$', '%', '&', '*', '(', ')',
+			'{', '}', ',', ';', '?', '|', '.', '/', '\\', '[', ']', '+', '-',
+			'>', '<', '~', '!', '^', '`', '\'', '\"', ':', '=', '_' };
 	private StringBuffer resultGenarator = new StringBuffer();
 	private Random random = new Random();
 
@@ -49,7 +63,8 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
 	public void onReturn(View v) {
 		if (resultGenarator.toString() != "")
-			EditIdPasswordActivity.mStringOfSelectItem = resultGenarator.toString();
+			EditIdPasswordActivity.mStringOfSelectItem = resultGenarator
+					.toString();
 		finish();
 	}
 
@@ -67,31 +82,31 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	}
 
 	public void showInputNumberCharacter() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getResources().getString(R.string.item_number_character));
-
-		builder.setIcon(R.drawable.icon);
-
-		builder.setSingleChoiceItems(mNumberChoiceArr, 0, new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int item) {
-				// TODO Auto-generated method stub
-				int number = item + 4;
-				if (number > 21)
-					number = 21;
-				setTextNumberCharacter(number);
-				dialog.dismiss();
-				return;
-			}
-		});
-		builder.create().show();
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		builder.setIcon(R.drawable.icon);
+//		builder.setSingleChoiceItems(mNumberChoiceArr, 0,
+//				new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int item) {
+//						// TODO Auto-generated method stub
+//						int number = item + 4;
+//						if (number > 21)
+//							number = 21;
+//						setTextNumberCharacter(number);
+//						dialog.dismiss();
+//						return;
+//					}
+//				});
+//		builder.create().show();
+		 showSetBetDialog();
 	}
 
 	public void setTextNumberCharacter(int number) {
 		if (number <= 0)
 			return;
-		((TextView) findViewById(R.id.id_text_num_chracter)).setText("" + number);
+		((TextView) findViewById(R.id.id_text_num_chracter)).setText(""
+				+ number);
 		this.number = number;
 	}
 
@@ -100,21 +115,24 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		if (number <= 0)
 			return;
 		mTotalArrayChars.clear();
-		isNumber = ((CheckBox) findViewById(R.id.id_checkbox_number)).isChecked();
+		isNumber = ((CheckBox) findViewById(R.id.id_checkbox_number))
+				.isChecked();
 		if (isNumber) {
 			for (int i = 0; i < mNuberChars.length; i++) {
 				mTotalArrayChars.add(mNuberChars[i]);
 			}
 		}
 
-		isCapital = ((CheckBox) findViewById(R.id.id_checkbox_capital)).isChecked();
+		isCapital = ((CheckBox) findViewById(R.id.id_checkbox_capital))
+				.isChecked();
 		if (isCapital) {
 			for (int i = 0; i < mCapitalChars.length; i++) {
 				mTotalArrayChars.add(mCapitalChars[i]);
 			}
 		}
 
-		isLowerCase = ((CheckBox) findViewById(R.id.id_checkbox_lower_case)).isChecked();
+		isLowerCase = ((CheckBox) findViewById(R.id.id_checkbox_lower_case))
+				.isChecked();
 		if (isLowerCase) {
 			for (int i = 0; i < mLowerCaseChars.length; i++) {
 				mTotalArrayChars.add(mLowerCaseChars[i]);
@@ -128,14 +146,15 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		}
 		if (mTotalArrayChars.size() == 0)
 			return;
-		isDuplicate = ((CheckBox) findViewById(R.id.id_checkbox_duplicate)).isChecked();
+		isDuplicate = ((CheckBox) findViewById(R.id.id_checkbox_duplicate))
+				.isChecked();
 		if (!isDuplicate) {
 			for (int i = 0; i < number; i++) {
 				int ranChar = random.nextInt(mTotalArrayChars.size());
 				resultGenarator.append(mTotalArrayChars.get(ranChar));
 			}
-			((TextView) findViewById(R.id.id_text_result_generator)).setText(resultGenarator
-					.toString());
+			((TextView) findViewById(R.id.id_text_result_generator))
+					.setText(resultGenarator.toString());
 		} else {
 			for (int i = 0; i < number; i++) {
 				int ranChar = random.nextInt(mTotalArrayChars.size());
@@ -144,9 +163,75 @@ public class PasswordGeneratorActivity extends BaseActivity {
 				if (mTotalArrayChars.size() <= 0)
 					break;
 			}
-			((TextView) findViewById(R.id.id_text_result_generator)).setText(resultGenarator
-					.toString());
+			((TextView) findViewById(R.id.id_text_result_generator))
+					.setText(resultGenarator.toString());
 		}
 	}
 
+	public void showSetBetDialog() {
+		AlertDialog.Builder builder = new Builder(this);
+		LayoutInflater infalInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		FrameLayout layout = (FrameLayout) infalInflater.inflate(R.layout.bet,
+				null);
+
+		final AutoCompleteTextView input = (AutoCompleteTextView) layout
+				.findViewById(R.id.tv_bet_input);
+		input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+		LengthFilter filter = new LengthFilter(5);
+		input.setFilters(new InputFilter[] { filter });
+		input.setSelectAllOnFocus(true);
+		input.setText("" + this.number);
+
+		String[] betSuggestion = getResources().getStringArray(
+				R.array.bet_suggestion);
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				R.layout.item_list_s, betSuggestion);
+		adapter.setNotifyOnChange(true);
+		input.setAdapter(adapter);
+		input.setThreshold(1);
+		input.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (input.isFocused()) {
+					input.showDropDown();
+				}
+			}
+		});
+
+		input.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (input.isFocused()) {
+					input.showDropDown();
+				}
+			}
+		});
+
+		builder.setView(layout);
+		builder.setPositiveButton(
+				getResources().getString(R.string.confirm_ok),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						int number = PasswordGeneratorActivity.this.number;
+						try {
+							number = Integer.parseInt(input.getText()
+									.toString());
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+						if (number < 4)
+							number = 4;
+						else if (number > 21)
+							number = 21;
+						setTextNumberCharacter(number);
+					}
+				});
+		builder.setNegativeButton(
+				getResources().getString(R.string.confirm_cancel), null);
+		builder.setIcon(R.drawable.ic_launcher);
+		builder.create().show();
+	}
 }
