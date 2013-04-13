@@ -12,8 +12,8 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
@@ -57,16 +57,16 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="32dp"
+            android:layout_width="39dp"
+            android:layout_height="27dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/library_icon"
             android:onClick="onLibrary" />
 
         <Button
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/icon_internet"
@@ -74,8 +74,8 @@
 
         <CheckBox
             android:id="@+id/id_checkbox_edit_icon"
-            android:layout_width="42dp"
-            android:layout_height="36dp"
+            android:layout_width="30dp"
+            android:layout_height="24dp"
             android:layout_gravity="right|center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

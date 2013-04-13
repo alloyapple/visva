@@ -13,8 +13,8 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
@@ -28,7 +28,6 @@
             android:gravity="center"
             android:text="@string/item_sync"
             android:textColor="@color/white"
-            android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
@@ -39,19 +38,19 @@
         android:orientation="vertical" >
 
         <Button
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="276dp"
+            android:layout_height="42dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_sync_auto"
             android:gravity="center"
             android:onClick="onSyncAuto"
-            android:textStyle="bold"
-            android:text="@string/unify_newer_data" >
+            android:text="@string/unify_newer_data"
+            android:textStyle="bold" >
         </Button>
 
         <Button
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="276dp"
+            android:layout_height="42dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_sync_to_cloud"
             android:gravity="center"
@@ -59,8 +58,8 @@
         </Button>
 
         <Button
-            android:layout_width="280dp"
-            android:layout_height="46dp"
+            android:layout_width="276dp"
+            android:layout_height="42dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_sync_to_device"
             android:gravity="center"

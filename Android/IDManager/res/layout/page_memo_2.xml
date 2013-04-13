@@ -13,8 +13,8 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="33dp"
+            android:layout_height="31dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
@@ -31,8 +31,8 @@
 
         <CheckBox
             android:id="@+id/check_box_choice_img"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="30dp"
+            android:layout_height="24dp"
             android:layout_gravity="right|center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -45,6 +45,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
+
         <FrameLayout
             android:id="@+id/id_memo_frame"
             android:layout_width="fill_parent"
@@ -60,24 +61,24 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="27dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/camera"
             android:onClick="onCamera" />
 
         <Button
-            android:layout_width="48dp"
-            android:layout_height="32dp"
+            android:layout_width="39dp"
+            android:layout_height="27dp"
             android:layout_gravity="center|center"
             android:layout_marginLeft="10dp"
             android:background="@drawable/library_icon"
             android:onClick="onLibrary" />
 
         <Button
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
             android:layout_gravity="right|center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
