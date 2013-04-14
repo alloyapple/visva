@@ -1,9 +1,7 @@
 package visvateam.outsource.idmanager.exportcontroller.ggdrive;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
-
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -14,16 +12,11 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.FileContent;
-import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
-import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
@@ -33,14 +26,16 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 	private Drive mService;
 	private java.io.File mFileDb;
 	private long mFileLength;
-	private GoogleAccountCredential credential;
 	private Handler mHandler;
 	private IdManagerPreference mIdManagerPreference;
 	private long mLastTimeSync;
 	private boolean isCheckedTime;
+	private UserRecoverableAuthIOException event;
+	private boolean isExistFolder = false;
 
-	public GGAutoSyncController(Activity context, Drive service, java.io.File fileDb,
-			Handler mHandler, String acountName, boolean isCheckedTime) {
+	public GGAutoSyncController(Activity context, Drive service,
+			java.io.File fileDb, Handler mHandler, String acountName,
+			boolean isCheckedTime) {
 		this.mContext = context;
 		this.mService = service;
 		this.mFileDb = fileDb;
@@ -50,10 +45,6 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 		mIdManagerPreference = IdManagerPreference.getInstance(mContext);
 		mLastTimeSync = mIdManagerPreference.getLastTimeSyncCloud();
 
-		credential = GoogleAccountCredential.usingOAuth2(mContext, DriveScopes.DRIVE);
-		credential.setSelectedAccountName(acountName);
-		mService = getDriveService(credential);
-
 		mDialog = new ProgressDialog(context);
 		mDialog.setTitle(mContext.getString(R.string.app_name));
 		mDialog.setIcon(R.drawable.icon);
@@ -62,59 +53,50 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 		mDialog.show();
 	}
 
-
 	@Override
 	protected Integer doInBackground(Void... params) {
 		// TODO Auto-generated method stub
+		File myBody = null;
 		try {
-
-			File myBody = new File();
-
-			myBody.setTitle("IDxPassword");
-
-			myBody.setMimeType("application/vnd.google-apps.folder");
-
-			mService.files().insert(myBody).execute();
-
 			Files.List request = null;
 			File gDriveFile = null;
 			request = mService.files().list();
 			FileList files = request.execute();
 			Log.e("file.size", "file.size " + files.size());
 			for (File file : files.getItems()) {
-				if (Contants.DATA_IDMANAGER_NAME.endsWith(file.getTitle())) {
+				if (Contants.DATA_IDMANAGER_NAME.equals(file.getTitle())) {
 					gDriveFile = file;
+				}
+				if (Contants.DATA_IDMANAGER_FOLDER_CLOUD
+						.equals(file.getTitle())) {
+					isExistFolder = true;
 				}
 				String fieldId = file.getId();
 				String title = file.getTitle();
-				DateTime timeModify = file.getModifiedDate();
-				long time = timeModify.getValue();
-				Log.e("MS", "MSV::  Title-->" + title + "  FieldID-->" + fieldId
-						+ " DownloadURL-->" + file.getDownloadUrl());
-				// if (file.getDownloadUrl() != null &&
-				// file.getDownloadUrl().length() > 0) {
-				// GenericUrl url = new GenericUrl(file.getDownloadUrl());
-				// HttpResponse resp =
-				// mService.getRequestFactory().buildGetRequest(url).execute();
-				// InputStream isd = resp.getContent();
-				// // Log.e("MS",
-				// //
-				// "MSV:: FileOutPutStream--->"+getFilesDir().getAbsolutePath()+"/downloaded.txt");
-				//
-				// } else {
-				// Log.e("MS", "MSV:: downloadURL for this file is null");
-				// }
+				Log.e("MS", "MSV::  Title-->" + title + "  FieldID-->"
+						+ fieldId + " DownloadURL-->" + file.getDownloadUrl());
 			}
-			if (!isCheckedTime)
+
+			if (!isExistFolder) {
+				myBody = new File();
+				myBody.setTitle(Contants.DATA_IDMANAGER_FOLDER_CLOUD);
+				myBody.setMimeType("application/vnd.google-apps.folder");
+				mService.files().insert(myBody).execute();
+			}
+
+			if (!isCheckedTime) {
 				if (null != gDriveFile) {
 					DateTime dateModify = gDriveFile.getModifiedDate();
 					long timeModify = dateModify.getValue();
 					if (timeModify > mLastTimeSync)
-						return Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER;
+						return Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER;
 					else
 						return Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER;
 				}
-
+			} else {
+				/*delete file on gg drive*/
+				deleteFile(mService, gDriveFile.getId());
+			}
 			request.setPageToken(files.getNextPageToken());
 
 			FileContent mediaContent = new FileContent("image/text", mFileDb);
@@ -125,18 +107,21 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 			body.setMimeType("image/text");
 
 			if (null != mService) {
-				File file = mService.files().insert(body, mediaContent).execute();
+				File file = mService.files().insert(body, mediaContent)
+						.execute();
 				if (file != null) {
 					Log.e("finish", "finish");
+//					insertFileIntoFolder(mService, myBody.getId(),
+//							gDriveFile.getId());
 					return Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
 				}
 			} else {
 				return Contants.DIALOG_MESSAGE_SYNC_FAILED;
 			}
 		} catch (UserRecoverableAuthIOException e) {
-			// showToast("Sync error");
 			Log.e("error", "error");
-			return Contants.DIALOG_MESSAGE_SYNC_FAILED;
+			event = e;
+			return Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Contants.DIALOG_MESSAGE_SYNC_FAILED;
@@ -146,12 +131,11 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 
 	@Override
 	protected void onPostExecute(Integer result) {
-		// TODO Auto-generated method stub
 		mDialog.dismiss();
 		Log.e("result", "result " + result);
 		Message msg = mHandler.obtainMessage();
 		if (result == Contants.DIALOG_MESSAGE_SYNC_SUCCESS) {
-			Date date = new Date();
+			Date date =new Date();
 			mLastTimeSync = date.getTime();
 			mIdManagerPreference.setLastTimeSyncCloud(mLastTimeSync);
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
@@ -165,8 +149,8 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 			mHandler.sendMessage(msg);
-		} else if (result == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER) {
-			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER;
+		} else if (result == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER) {
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER;
 			mHandler.sendMessage(msg);
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER;
@@ -182,12 +166,19 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 		mDialog.setProgress(percent);
 	}
 
-	private Drive getDriveService(GoogleAccountCredential credential) {
-		return new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-				credential).build();
+	/**
+	 * Permanently delete a file, skipping the trash.
+	 * 
+	 * @param service
+	 *            Drive API service instance.
+	 * @param fileId
+	 *            ID of the file to delete.
+	 */
+	private static void deleteFile(Drive service, String fileId) {
+		try {
+			service.files().delete(fileId).execute();
+		} catch (IOException e) {
+			System.out.println("An error occurred: " + e);
+		}
 	}
-
-	// public void showToast(final String toast) {
-	// Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
-	// }
 }

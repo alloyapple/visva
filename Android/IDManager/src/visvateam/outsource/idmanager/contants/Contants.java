@@ -39,7 +39,7 @@ public class Contants {
 	public static final int DIALOG_MESSAGE_READ_LIST_DATA = 23;
 	public static final int DIALOG_MESSAGE_CHOICE_DATA_READ = 24;
 	public static final int DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD = 25;
-	public static final int DIALOG_MESSAGE_READ_DATA_SUCCESSED= 26;
+	public static final int DIALOG_MESSAGE_READ_DATA_SUCCESSED = 26;
 	public static final int DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER = 27;
 	public static final int DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER = 28;
 	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER = 29;
@@ -66,12 +66,13 @@ public class Contants {
 
 	public static final int MAX_ITEM_PASS_ID = 5;
 	public static final String DATA_IDMANAGER_NAME = "idmanager.db";
+	public static final String DATA_IDMANAGER_FOLDER_CLOUD = "IDxPassword";
 	public static final int DATA_VERSION = 1;
 	public static final String KEY_DATA_PW = "idxpass_@1234#!";
 	public static final int KEY_OFF = 0;
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
-	public static final String PATH_ID_FILES = Environment.getExternalStorageDirectory().getPath()
-			+ "/IDManager/Files/";
+	public static final String PATH_ID_FILES = Environment
+			.getExternalStorageDirectory().getPath() + "/IDManager/Files/";
 	public static final String FOLDER_ON_DROPBOX_DB = "/DataBase/";
 	public static final String FOLDER_ON_DROPBOX_CSV = "/IDxPassword/";
 
@@ -87,11 +88,15 @@ public class Contants {
 	public static final int FOLDER_SEARCH = 0;
 	public static final int FOLDER_FAVOURITE = 1;
 	public static final int FOLDER_HISTORY = 2;
-	
+
 	public static final int SEARCH_FOLDER_ID = -3;
 	public static final int FAVOURITE_FOLDER_ID = -1;
 	public static final int HISTORY_FOLDER_ID = -2;
 	public static final int NUMBER_ELEMENT_SHOW_IN_HISTORY = 20;
 	public static final String CREATE_NEW_EMAIL = "CREATE_NEW_EMAIL";
+
+	public static final int MODE_SYNC_TO_CLOUD = 0;
+	public static final int MODE_SYNC_TO_DEVICE = 1;
+	public static final int MODE_SYNC_AUTO = 2;
 
 }

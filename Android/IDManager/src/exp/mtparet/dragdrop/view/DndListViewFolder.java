@@ -70,7 +70,18 @@ public class DndListViewFolder extends ListView {
 				int y = (int) ev.getY();
 				Log.e("this.getWidth " + this.getWidth(), "afd");
 
-				if (x > this.getWidth() - 75) {
+				if (x > this.getWidth() - 70) {
+					Rect r = mTempRect;
+					if (mDragView != null)
+						mDragView.getDrawingRect(r);
+					stopDragging();
+					if (mDropListener != null && mDragPos >= 0
+							&& mDragPos < getCount()) {
+						mDropListener.drop(mFirstDragPos, mDragPos);
+						if (mDragPos < (totalchilds - 1))
+							setSelectionFromTop(0, 0);
+					}
+					unExpandViews(false);
 					return false;
 				}
 
@@ -79,7 +90,8 @@ public class DndListViewFolder extends ListView {
 				if (itemnum == AdapterView.INVALID_POSITION) {
 					break;
 				}
-				View item = (View) getChildAt(itemnum - getFirstVisiblePosition());
+				View item = (View) getChildAt(itemnum
+						- getFirstVisiblePosition());
 				// item.setBackgroundColor(Color.RED);
 				mItemHeightNormal = item.getHeight();
 				mItemHeightExpanded = mItemHeightNormal * 2;
@@ -91,19 +103,30 @@ public class DndListViewFolder extends ListView {
 				Rect r = mTempRect;
 				Log.e("r.right", "r.right " + r.right);
 				dragger.getDrawingRect(r);
-				if (x < r.right * 2) {
+				if (x < 70) {
 					item.setDrawingCacheEnabled(true);
 					Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
 					startDragging(bitmap, y);
 					mDragPos = itemnum;
 					mFirstDragPos = mDragPos;
 					mHeight = getHeight();
-					Log.e("bitmap.width " + bitmap.getWidth(),
-							"bitmap.height " + bitmap.getHeight());
+					Log.e("bitmap.width " + bitmap.getWidth(), "bitmap.height "
+							+ bitmap.getHeight());
 					int touchSlop = mTouchSlop;
 					mUpperBound = Math.min(y - touchSlop, mHeight / 3);
 					mLowerBound = Math.max(y + touchSlop, mHeight * 2 / 3);
 					return false;
+				} else {
+					if (mDragView != null)
+						mDragView.getDrawingRect(r);
+					stopDragging();
+					if (mDropListener != null && mDragPos >= 0
+							&& mDragPos < getCount()) {
+						mDropListener.drop(mFirstDragPos, mDragPos);
+						if (mDragPos < (totalchilds - 1))
+							setSelectionFromTop(0, 0);
+					}
+					unExpandViews(false);
 				}
 				mDragView = null;
 				break;
@@ -125,8 +148,8 @@ public class DndListViewFolder extends ListView {
 
 	public void refresh() {
 		long time = Long.parseLong(("" + System.nanoTime()).substring(0, 7));
-		MotionEvent me = MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, getWidth() - 10,
-				300, 0);
+		MotionEvent me = MotionEvent.obtain(time, time,
+				MotionEvent.ACTION_DOWN, getWidth() - 10, 300, 0);
 		onInterceptTouchEvent(me);
 		stopDragging();
 	}
@@ -142,7 +165,8 @@ public class DndListViewFolder extends ListView {
 		if (getChildCount() > 0)
 			totalchilds = getChildCount();
 
-		if ((mDragListener != null || mDropListener != null) && mDragView != null) {
+		if ((mDragListener != null || mDropListener != null)
+				&& mDragView != null) {
 			int action = ev.getAction();
 			Rect r;
 			switch (action) {
@@ -153,7 +177,8 @@ public class DndListViewFolder extends ListView {
 				stopDragging();
 				int y = (int) ev.getY();
 				int speed = 0;
-				if (mDropListener != null && mDragPos >= 0 && mDragPos < getCount()) {
+				if (mDropListener != null && mDragPos >= 0
+						&& mDragPos < getCount()) {
 					mDropListener.drop(mFirstDragPos, mDragPos);
 
 					if (mDragPos < (totalchilds - 1))
@@ -167,12 +192,13 @@ public class DndListViewFolder extends ListView {
 				int x = (int) ev.getX();
 				y = (int) ev.getY();
 
-				if (x > this.getWidth() - 75) {
+				if (x > this.getWidth() - 70) {
 					r = mTempRect;
 					if (mDragView != null)
 						mDragView.getDrawingRect(r);
 					stopDragging();
-					if (mDropListener != null && mDragPos >= 0 && mDragPos < getCount()) {
+					if (mDropListener != null && mDragPos >= 0
+							&& mDragPos < getCount()) {
 						mDropListener.drop(mFirstDragPos, mDragPos);
 						if (mDragPos < (totalchilds - 1))
 							setSelectionFromTop(0, 0);
@@ -184,7 +210,8 @@ public class DndListViewFolder extends ListView {
 				dragView(x, y);
 				int itemnum = getItemForPosition(y);
 				if (itemnum >= 0) {
-					if (action == MotionEvent.ACTION_DOWN || itemnum != mDragPos) {
+					if (action == MotionEvent.ACTION_DOWN
+							|| itemnum != mDragPos) {
 						if (mDragListener != null) {
 							mDragListener.drag(mDragPos, itemnum);
 						}
@@ -205,7 +232,8 @@ public class DndListViewFolder extends ListView {
 						if (ref == AdapterView.INVALID_POSITION) {
 							// we hit a divider or an invisible view, check
 							// somewhere else
-							ref = pointToPosition(0, mHeight / 2 + getDividerHeight() + 64);
+							ref = pointToPosition(0, mHeight / 2
+									+ getDividerHeight() + 64);
 						}
 						View v = getChildAt(ref - getFirstVisiblePosition());
 						if (v != null) {
@@ -355,7 +383,8 @@ public class DndListViewFolder extends ListView {
 	private void stopDragging() {
 		Log.e("stop draging", "stop draging");
 		if (mDragView != null) {
-			WindowManager wm = (WindowManager) mContext.getSystemService("window");
+			WindowManager wm = (WindowManager) mContext
+					.getSystemService("window");
 			wm.removeView(mDragView);
 			mDragView.setImageDrawable(null);
 			mDragView = null;
@@ -415,7 +444,8 @@ public class DndListViewFolder extends ListView {
 	 * 
 	 * @param listener
 	 */
-	public void setOnItemReceiverListener(AdapterView.OnItemClickListener listener) {
+	public void setOnItemReceiverListener(
+			AdapterView.OnItemClickListener listener) {
 		this.mOnItemReceiver = listener;
 	}
 
@@ -437,18 +467,20 @@ public class DndListViewFolder extends ListView {
 				int left = child.getLeft() + this.getLeft() - 150;
 				int right = child.getRight() + this.getLeft() - 150;
 				int top = child.getTop() + this.getTop();
-				int bottom = child.getTop() + child.getHeight() / 2 + this.getTop();
+				int bottom = child.getTop() + child.getHeight() / 2
+						+ this.getTop();
 				viewRect.set(left, top, right, bottom);
 
 				if (viewRect.contains(x, y)) {
 					Log.e("first", "thoa main");
 					if (getOnItemSelectedListener() != null) {
-						getOnItemSelectedListener().onItemSelected(DndListViewFolder.this, child, i,
+						getOnItemSelectedListener().onItemSelected(
+								DndListViewFolder.this, child, i,
 								getItemIdAtPosition(i));
 					}
 					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(DndListViewFolder.this, child, i,
-								getItemIdAtPosition(i));
+						mOnItemReceiver.onItemClick(DndListViewFolder.this,
+								child, i, getItemIdAtPosition(i));
 					}
 					return true;
 				}
@@ -463,12 +495,13 @@ public class DndListViewFolder extends ListView {
 				if (viewRect2.contains(x, y)) {
 					Log.e("second", "thoa main");
 					if (getOnItemSelectedListener() != null) {
-						getOnItemSelectedListener().onItemSelected(DndListViewFolder.this, child, i,
+						getOnItemSelectedListener().onItemSelected(
+								DndListViewFolder.this, child, i,
 								getItemIdAtPosition(i));
 					}
 					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(DndListViewFolder.this, child, i + 1,
-								getItemIdAtPosition(i));
+						mOnItemReceiver.onItemClick(DndListViewFolder.this,
+								child, i + 1, getItemIdAtPosition(i));
 					}
 					return true;
 				}
@@ -484,15 +517,17 @@ public class DndListViewFolder extends ListView {
 			if (rect.contains(x, y)) {
 				Log.e("third", "thoa main");
 				if (this.getChildCount() > 0) {
-					int minY = this.getChildAt(this.getChildCount() - 1).getBottom();
+					int minY = this.getChildAt(this.getChildCount() - 1)
+							.getBottom();
 					int maxY = this.getChildAt(0).getTop();
 
 					if (y < minY) {
-						mOnItemReceiver.onItemClick(DndListViewFolder.this, null, 0, 0);
+						mOnItemReceiver.onItemClick(DndListViewFolder.this,
+								null, 0, 0);
 					} else {
 						if (y > maxY) {
-							mOnItemReceiver.onItemClick(DndListViewFolder.this, null,
-									this.getChildCount(), 0);
+							mOnItemReceiver.onItemClick(DndListViewFolder.this,
+									null, this.getChildCount(), 0);
 						}
 
 					}
@@ -502,7 +537,8 @@ public class DndListViewFolder extends ListView {
 				} else {
 
 					if (mOnItemReceiver != null) {
-						mOnItemReceiver.onItemClick(DndListViewFolder.this, null, 0, 0);
+						mOnItemReceiver.onItemClick(DndListViewFolder.this,
+								null, 0, 0);
 					}
 					return true;
 				}
@@ -532,7 +568,8 @@ public class DndListViewFolder extends ListView {
 				if (viewRect.contains((int) xInit1, (int) yInit1)) {
 
 					if (getOnItemSelectedListener() != null) {
-						getOnItemSelectedListener().onItemSelected(DndListViewFolder.this, child, i,
+						getOnItemSelectedListener().onItemSelected(
+								DndListViewFolder.this, child, i,
 								getItemIdAtPosition(i));
 					}
 
@@ -552,7 +589,8 @@ public class DndListViewFolder extends ListView {
 				if (Math.abs(xNow - xInit) > 0 && Math.abs(yNow - yInit) < 4) {
 
 					if (mOnItemMoveListener != null) {
-						mOnItemMoveListener.onTouch(DndListViewFolder.this, event);
+						mOnItemMoveListener.onTouch(DndListViewFolder.this,
+								event);
 					}
 
 					isMove = true;

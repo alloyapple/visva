@@ -103,6 +103,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private AdView adview;
 
 	private Handler mMainHandler = new Handler() {
+		@SuppressWarnings("deprecation")
 		public void handleMessage(android.os.Message msg) {
 			Log.e("get msg", "get mass " + msg.arg1);
 			if (msg.arg1 == Contants.DIALOG_DELETE_FOLDER) {
@@ -448,6 +449,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
 
+		@SuppressWarnings("deprecation")
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			if (oneItemSelected != null) {
@@ -586,7 +588,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 			// TODO Auto-generated method stub
 			if (!isDndElement && !isEdit) {
 				isDndElement = true;
-				Log.i("Drag and Drop : drag", "from : " + from + ", to : " + to);
 			}
 		}
 	};
@@ -600,13 +601,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 				Log.i("Drag and Drop : drop", "from : " + from + ", to : " + to);
 				if (from == to)
 					return;
-				// // String item = list2.remove(from);
-				// if (to < mFolderListItems.size() - 2
-				// && from < mFolderListItems.size() - 2) {
-				// GroupFolder groupFolder = mFolderListItems.remove(from);
-				// folderListViewAdapter.add(to, groupFolder);
-				// folderListView.checkfordrop(to);
-				// }
 				ElementID element = mIdListItems.remove(from);
 				itemAdapter.add(to, element);
 				idListView.checkfordrop(to);
@@ -697,6 +691,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		idList.set(j, idTemp);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		/* add new folder */
@@ -916,6 +911,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	/**
 	 * add new folder to group
 	 */
+	@SuppressWarnings("deprecation")
 	private void addNewFolder() {
 		showDialog(Contants.DIALOG_ADD_NEW_FOLDER);
 	}
@@ -1336,6 +1332,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	// Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
 	// }
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub

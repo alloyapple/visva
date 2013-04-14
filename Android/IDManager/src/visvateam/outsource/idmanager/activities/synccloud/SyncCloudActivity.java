@@ -20,6 +20,8 @@ import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DBDropboxAutoSyncController;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DBDropboxController;
 import visvateam.outsource.idmanager.exportcontroller.dropbox.DropBoxDownloadFile;
+import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGAutoSyncController;
+import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGDownloadController;
 import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGUploadController;
 import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.accounts.AccountManager;
@@ -82,8 +84,11 @@ public class SyncCloudActivity extends Activity {
 	private long mLastTimeSync;
 	private String accountName;
 
+	private int modeSyncData = Contants.MODE_SYNC_TO_CLOUD;
+
 	static final int REQUEST_AUTHORIZATION = 2;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -141,11 +146,13 @@ public class SyncCloudActivity extends Activity {
 	 * 
 	 * @param v
 	 */
+	@SuppressWarnings("deprecation")
 	public void onSyncAuto(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mCloudType == NO_CLOUD_LOGIN) {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			} else {
+				modeSyncData = Contants.MODE_SYNC_AUTO;
 				startAutoSyncData(mCloudType);
 			}
 		} else {
@@ -153,11 +160,13 @@ public class SyncCloudActivity extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onSyncToCloud(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mCloudType == NO_CLOUD_LOGIN) {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			} else {
+				modeSyncData = Contants.MODE_SYNC_TO_CLOUD;
 				startSyncToCloud(mCloudType);
 			}
 		} else {
@@ -215,11 +224,13 @@ public class SyncCloudActivity extends Activity {
 		newFile.execute();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void OnSyncToDevice(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mCloudType == NO_CLOUD_LOGIN) {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			} else if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
+				modeSyncData = Contants.MODE_SYNC_TO_DEVICE;
 				startActivityForResult(credential.newChooseAccountIntent(),
 						REQUEST_ACCOUNT_PICKER);
 			} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
@@ -500,6 +511,8 @@ public class SyncCloudActivity extends Activity {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								startSyncToDeviceByDropBox(true);
+							else
+								saveFileToDevice(accountName, true);
 							return;
 						}
 					});
@@ -529,6 +542,8 @@ public class SyncCloudActivity extends Activity {
 							/* add new folder to database */
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								startSyncToDeviceByDropBox(true);
+							else
+								saveFileToDevice(accountName, true);
 							return;
 						}
 					});
@@ -635,7 +650,12 @@ public class SyncCloudActivity extends Activity {
 					credential.setSelectedAccountName(accountName);
 					service = getDriveService(credential);
 					boolean isCheckedTime = false;
-					saveFileToDrive(accountName, isCheckedTime);
+					if (modeSyncData == Contants.MODE_SYNC_TO_CLOUD)
+						saveFileToDrive(accountName, isCheckedTime);
+					else if(modeSyncData == Contants.MODE_SYNC_TO_DEVICE)
+						saveFileToDevice(accountName, isCheckedTime);
+					else 
+						saveFileAutoSync(accountName,isCheckedTime);
 				}
 			}
 			break;
@@ -648,7 +668,10 @@ public class SyncCloudActivity extends Activity {
 					credential.setSelectedAccountName(accountName);
 					service = getDriveService(credential);
 					boolean isCheckedTime = false;
-					saveFileToDrive(accountName, isCheckedTime);
+					if (modeSyncData == Contants.MODE_SYNC_TO_CLOUD)
+						saveFileToDrive(accountName, isCheckedTime);
+					else
+						saveFileToDevice(accountName, isCheckedTime);
 				}
 			} else {
 				startActivityForResult(credential.newChooseAccountIntent(),
@@ -667,13 +690,26 @@ public class SyncCloudActivity extends Activity {
 		drive.execute();
 	}
 
+	private void saveFileToDevice(String accountName, boolean isCheckedTime) {
+		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
+		GGDownloadController drive = new GGDownloadController(this, service,
+				fileDb, mHandler, accountName, isCheckedTime);
+		drive.execute();
+	}
+	
+	private void saveFileAutoSync(String accountName, boolean isCheckedTime) {
+		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
+		GGAutoSyncController drive = new GGAutoSyncController(this, service,
+				fileDb, mHandler, accountName, isCheckedTime);
+		drive.execute();
+	}
 	private Drive getDriveService(GoogleAccountCredential credential) {
 		return new Drive.Builder(AndroidHttp.newCompatibleTransport(),
 				new GsonFactory(), credential).build();
 	}
 
 	private Handler mHandler = new Handler() {
-		@SuppressWarnings({})
+		@SuppressWarnings({ "deprecation" })
 		public void handleMessage(android.os.Message msg) {
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
