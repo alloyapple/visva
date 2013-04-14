@@ -121,7 +121,7 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 					return Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 				}
 
-				mApi.getFile(path, "test", mFos, null);
+				mApi.getFile(path, "idmanager", mFos, null);
 				// mDrawable = Drawable.createFromPath(cachePath);
 				// We must have a legitimate picture
 				return Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
