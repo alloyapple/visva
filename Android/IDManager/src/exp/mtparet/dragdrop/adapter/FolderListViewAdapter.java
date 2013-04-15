@@ -93,14 +93,6 @@ public class FolderListViewAdapter extends BaseAdapter {
 				convertView.setBackgroundResource(R.drawable.folder_s_select);
 			else
 				convertView.setBackgroundResource(R.drawable.folder_s_common);
-			// if (isSearchMode && position == 0) {
-			// convertView.setBackgroundResource(R.drawable.folder_s_select);
-			// isSearchMode = false;
-			// Message msg = mHandler.obtainMessage();
-			// msg.arg1 = Contants.IS_SEARCH_MODE;
-			// msg.arg2 = 0;
-			// mHandler.sendMessage(msg);
-			// }
 			imgFolderDelete.setVisibility(View.GONE);
 			imgFolderEdit.setVisibility(View.GONE);
 			txtFodlerName.setVisibility(View.GONE);

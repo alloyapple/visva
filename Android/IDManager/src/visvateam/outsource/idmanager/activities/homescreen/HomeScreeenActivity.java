@@ -555,7 +555,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 			// TODO Auto-generated method stub
 			if (!isDnd && !isEdit) {
 				isDnd = true;
-				Log.i("Drag and Drop : drag", "from : " + from + ", to : " + to);
 			}
 		}
 	};
@@ -728,19 +727,13 @@ public class HomeScreeenActivity extends BaseActivity implements
 				isSearchMode = false;
 				refreshListView();
 			}
-//			if (isEdit) {
-//				btnEdit.setBackgroundResource(R.drawable.edit);
-//				btnSync.setVisibility(View.VISIBLE);
-//				isEdit = false;
-//
-//			} else {
-				btnSync.setVisibility(View.GONE);
-//				btnEdit.setBackgroundResource(R.drawable.return_back);
-				btnEdit.setVisibility(View.GONE);
-				btnReturn.setVisibility(View.VISIBLE);
-				isEdit = true;
-//			}
 
+			btnSync.setVisibility(View.GONE);
+			// btnEdit.setBackgroundResource(R.drawable.return_back);
+			btnEdit.setVisibility(View.GONE);
+			btnReturn.setVisibility(View.VISIBLE);
+			isEdit = true;
+			mIdManagerPreference.setEditMode(true);
 			/* set folder and id listview in edit mode */
 			setEditModeForFolderAndIdListView(isEdit);
 		} else if (v == btnReturn) {
@@ -753,6 +746,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 			btnReturn.setVisibility(View.GONE);
 			isEdit = false;
 			setEditModeForFolderAndIdListView(isEdit);
+			mIdManagerPreference.setEditMode(false);
 		}
 
 		/* setting */
