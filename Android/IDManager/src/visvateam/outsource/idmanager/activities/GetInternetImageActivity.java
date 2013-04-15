@@ -30,6 +30,7 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
 public class GetInternetImageActivity extends BaseActivity {
+	private String URL_SEARCH = "https://www.google.com.vn/#hl=en&output=search&q=$k+e+y+w+o+r+d$";
 	private WebView webView;
 	private CheckBox mCheckBox;
 	private FrameLayout mFrameWebView;
@@ -64,7 +65,6 @@ public class GetInternetImageActivity extends BaseActivity {
 					EditIconActivity.mDrawableIconEdit = (Drawable) new BitmapDrawable(
 							snapScreen());
 					finish();
-					
 
 				} else {
 				}
@@ -75,18 +75,30 @@ public class GetInternetImageActivity extends BaseActivity {
 		initControl();
 		initAdmod();
 	}
+
+	public void onGoogleSearch(View v) {
+		String keyword = ((EditText) findViewById(R.id.id_edit_google_search))
+				.getText().toString();
+		if (keyword != null && keyword.length() > 0) {
+			webView.loadUrl(URL_SEARCH.replace("$k+e+y+w+o+r+d$", keyword));
+			editText.setText(URL_SEARCH.replace("$k+e+y+w+o+r+d$", keyword));
+			((EditText) findViewById(R.id.id_edit_google_search)).setText("");
+		}
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttachedToWindow() {
 		// TODO Auto-generated method stub
 		super.onAttachedToWindow();
 		Display d = getWindowManager().getDefaultDisplay();
-		getParam().width = d.getWidth()-20;
-		getParam().height = (int) ((d.getWidth()-20) * 0.75f);
+		getParam().width = d.getWidth() - 20;
+		getParam().height = (int) ((d.getWidth() - 20) * 0.75f);
 		getParam().leftMargin = 10;
 		getParam().topMargin = 60;
 		imgBound.requestLayout();
 	}
+
 	public void initAdmod() {
 		AdView adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -95,10 +107,14 @@ public class GetInternetImageActivity extends BaseActivity {
 			adview.setVisibility(View.VISIBLE);
 		}
 	}
+
 	public void resiseBound(float scale) {
-		int left = (getParam().leftMargin + getParam().width / 2) - (int) ((w * scale) / 2);
-		int top = (getParam().topMargin + getParam().height / 2) - (int) ((h * scale) / 2);
-		if(left<0||left>mFrameWebView.getWidth()-(w * scale)||top<0||top>mFrameWebView.getHeight()-(h * scale)){
+		int left = (getParam().leftMargin + getParam().width / 2)
+				- (int) ((w * scale) / 2);
+		int top = (getParam().topMargin + getParam().height / 2)
+				- (int) ((h * scale) / 2);
+		if (left < 0 || left > mFrameWebView.getWidth() - (w * scale)
+				|| top < 0 || top > mFrameWebView.getHeight() - (h * scale)) {
 			return;
 		}
 		imgBound.setLayoutParams(new RelativeLayout.LayoutParams(
@@ -199,9 +215,9 @@ public class GetInternetImageActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		
-			finish();
-		
+
+		finish();
+
 	}
 
 	public void onBroutherBack(View v) {
