@@ -130,15 +130,33 @@
                 android:onClick="onBroutherNext" />
         </LinearLayout>
 
-        <EditText
+        <LinearLayout
             android:layout_width="150dp"
             android:layout_height="36dp"
             android:layout_gravity="right|center"
             android:layout_marginRight="10dp"
             android:background="@drawable/all_corner"
-            android:hint="Google"
-            android:textColor="#000000" >
-        </EditText>
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/id_edit_google_search"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:hint="Google"
+                android:textColor="#000000" >
+            </EditText>
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/search"
+                android:onClick="onGoogleSearch" />
+        </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
