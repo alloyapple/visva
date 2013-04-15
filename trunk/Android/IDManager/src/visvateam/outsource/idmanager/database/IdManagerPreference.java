@@ -48,6 +48,7 @@ public class IdManagerPreference {
 	public static final String IS_SECURITY_LOOP = "IS_SECURITY_LOOP";
 	public static final String LAST_TIME_SYNC_CLOUD = "LAST_TIME_SYNC_CLOUD";
 	public static final String GOOGLE_ACCOUNT_NAME_SESSION = "GOOGLE_ACCOUNT_NAME_SESSION";
+	public static final String IS_EDIT_MODE = "IS_EDIT_MODE";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -284,6 +285,28 @@ public class IdManagerPreference {
 	public String getGoogleAccNameSession() {
 		String b;
 		b = getGoogleAccNameSession(GOOGLE_ACCOUNT_NAME_SESSION);
+		return b;
+	}
+	/* set vs get edit mode */
+	public void setEditMode(String key, boolean  b) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(key, b);
+		editor.commit();
+	}
+
+	public boolean isEditMode(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(key, false);
+	}
+
+	public void setEditMode(boolean b) {
+		setEditMode(IS_EDIT_MODE, b);
+	}
+
+	public boolean isEditMode() {
+		boolean b;
+		b = isEditMode(IS_EDIT_MODE);
 		return b;
 	}
 }

@@ -76,7 +76,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private ArrayList<Item> mItems;
 	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
-	public static String DEFAULT_NAME_ITEM[] = { "ID", "Pass", "", "", "" };
+	public static String DEFAULT_NAME_ITEM[] = { "ID", "Password", "", "", "" };
 	private boolean isCreateNewId;
 
 	// id password info

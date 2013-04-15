@@ -1,5 +1,6 @@
 package exp.mtparet.dragdrop.view;
 
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -49,6 +51,8 @@ public class DndListViewFolder extends ListView {
 	private float xInit;
 	private float yInit;
 
+	private IdManagerPreference mIdManagerPreference;
+
 	public DndListViewFolder(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
@@ -56,6 +60,7 @@ public class DndListViewFolder extends ListView {
 		totalchilds = getChildCount();
 		Log.e("mTouchSlop ", "mTouchSlop " + mTouchSlop);
 		Log.e("totalChilds " + totalchilds, "totalChild " + totalchilds);
+		mIdManagerPreference = IdManagerPreference.getInstance(context);
 	}
 
 	@Override
@@ -106,7 +111,8 @@ public class DndListViewFolder extends ListView {
 				if (x < 70) {
 					item.setDrawingCacheEnabled(true);
 					Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
-					startDragging(bitmap, y);
+					if (!mIdManagerPreference.isEditMode())
+						startDragging(bitmap, y);
 					mDragPos = itemnum;
 					mFirstDragPos = mDragPos;
 					mHeight = getHeight();
@@ -129,6 +135,8 @@ public class DndListViewFolder extends ListView {
 					unExpandViews(false);
 				}
 				mDragView = null;
+				break;
+			case MotionEvent.ACTION_UP:
 				break;
 			}
 		}
@@ -158,10 +166,10 @@ public class DndListViewFolder extends ListView {
 	public boolean onTouchEvent(MotionEvent ev) {
 		Log.e("second", "run here");
 		boolean handled = false;
-		if (mOnItemMoveListener != null && !handled) {
-			handled = onMove(ev);
-			return handled;
-		}
+		// if (mOnItemMoveListener != null && !handled) {
+		// handled = onMove(ev);
+		// return handled;
+		// }
 		if (getChildCount() > 0)
 			totalchilds = getChildCount();
 
@@ -172,6 +180,7 @@ public class DndListViewFolder extends ListView {
 			switch (action) {
 			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_CANCEL:
+				Log.e("onKeyUp", "onKeyUp");
 				r = mTempRect;
 				mDragView.getDrawingRect(r);
 				stopDragging();
@@ -192,7 +201,7 @@ public class DndListViewFolder extends ListView {
 				int x = (int) ev.getX();
 				y = (int) ev.getY();
 
-				if (x > this.getWidth() - 70) {
+				if (x > 70) {
 					r = mTempRect;
 					if (mDragView != null)
 						mDragView.getDrawingRect(r);
@@ -351,7 +360,7 @@ public class DndListViewFolder extends ListView {
 
 		mWindowParams = new WindowManager.LayoutParams();
 		mWindowParams.gravity = Gravity.TOP;
-		mWindowParams.x = -150;
+		mWindowParams.x = -160;
 		Log.e("dragx", "dragx " + dragImageX);
 		mWindowParams.y = y - mDragPoint + mCoordOffset;
 
