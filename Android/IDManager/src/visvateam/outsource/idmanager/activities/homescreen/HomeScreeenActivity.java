@@ -748,7 +748,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 				isSearchMode = false;
 				refreshListView();
 			}
-			btnSync.setVisibility(View.GONE);
+			btnSync.setVisibility(View.VISIBLE);
 			btnEdit.setVisibility(View.VISIBLE);
 			btnReturn.setVisibility(View.GONE);
 			isEdit = false;
