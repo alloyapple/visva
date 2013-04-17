@@ -30,12 +30,15 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -209,6 +212,52 @@ public class HomeScreeenActivity extends BaseActivity implements
 		/* init editText */
 		mEditTextSearch = (EditText) mainRelativeLayout
 				.findViewById(R.id.edit_text_search);
+		mEditTextSearch
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+							InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+							mgr.hideSoftInputFromWindow(
+									mEditTextSearch.getWindowToken(), 0);
+							if ("".equals(mEditTextSearch.getText().toString())) {
+								// showToast("Type to edit text to search");
+							} else {
+								mTextSearch = mEditTextSearch.getText()
+										.toString();
+								/* clear text */
+								mEditTextSearch.setText("");
+
+								mIdListItems = startSearch(mTextSearch);
+								/* reset id adapter */
+								Log.e("currentFolderItem " + currentFolderId,
+										"currentFodlerItem "
+												+ currentFolderItem);
+								Log.e("size size",
+										"size side " + mIdListItems.size());
+								currentFolderId = mFolderListItems.get(
+										currentFolderItem).getgId();
+								itemAdapter.setIdItemList(mIdListItems,
+										currentFolderItem, currentFolderId);
+								btnClearTextSearch.setVisibility(View.GONE);
+
+								/* reset folder adapter */
+								isSearchMode = true;
+								// GroupFolder folder = new GroupFolder(1000,
+								// "", 0,
+								// Contants.MASTER_PASSWORD_ID, 0);
+								folderListViewAdapter.updateSearchMode(
+										isSearchMode, currentFolderItem);
+								// folderListView.setSelection(0);
+								// if (!mFolderListItems.contains(searchFolder))
+								// mFolderListItems.add(searchFolder);
+							}
+							return true;
+						}
+						return false;
+					}
+				});
 		mEditTextSearch.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -709,7 +758,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 				List<ElementID> elementList = mIDxPWDataBaseHandler
 						.getAllElementIdByGroupFolderId(currentFolderId);
 				Log.e("elementsize ", "size " + elementList.size());
-				if (elementList.size() >= MAX_ITEMS)
+				int number_items = mIdManagerPreference
+						.getNumberItems(IdManagerPreference.NUMBER_ITEMS);
+				if (number_items >= MAX_ITEMS)
 					showDialog(Contants.DIALOG_CREATE_ID);
 				else {
 					if (isSearchMode) {
@@ -1195,6 +1246,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
 		itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
 				currentFolderId);
+		mIdManagerPreference.setNumberItem(IdManagerPreference.NUMBER_ITEMS,
+				mIdManagerPreference
+						.getNumberItems(IdManagerPreference.NUMBER_ITEMS) - 1);
 	}
 
 	/**
