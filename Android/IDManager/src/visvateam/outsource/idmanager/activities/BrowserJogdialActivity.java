@@ -22,6 +22,8 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -59,12 +61,13 @@ public class BrowserJogdialActivity extends BaseActivity {
 	PointF startPoint = new PointF();
 	private AdView adview;
 	private IdManagerPreference mIdManagerPreference;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		// itemList = (ArrayList<Item>) getIntent().getExtras().getParcelable(
-		// CopyItemActivity.KEY_LIST_ITEM);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		itemList = CopyItemActivity.itemList;
 		url = getIntent().getExtras().getString(CopyItemActivity.KEY_URL);
 		note = getIntent().getExtras().getString(CopyItemActivity.KEY_NOTE);
@@ -75,6 +78,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 		mFrameJogdial = (FrameLayout) findViewById(R.id.id_frame_jogdial);
 		mLinearBottom = (LinearLayout) findViewById(R.id.id_linear_bottom_browser);
 		mFrameJogdial.setVisibility(View.GONE);
+
 		dialer.setOnTouchListener(new OnTouchListener() {
 			private double startAngle;
 			private int countClockwise = 0;
@@ -120,6 +124,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 		initControl();
 		initAdmod();
 	}
+
 	public void initAdmod() {
 		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -131,6 +136,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 				adview.setVisibility(View.GONE);
 		}
 	}
+
 	public boolean checkPoint(PointF p) {
 		if (dialer.getWidth() / 2 - deltaX < p.x
 				&& dialer.getWidth() / 2 + deltaX > p.x
@@ -158,13 +164,13 @@ public class BrowserJogdialActivity extends BaseActivity {
 	public void onBack(View v) {
 		webView.goBack();
 		currentField = 0;
-		currentData=0;
+		currentData = 0;
 	}
 
 	public void onNext(View v) {
 		webView.goForward();
 		currentField = 0;
-		currentData=0;
+		currentData = 0;
 	}
 
 	public void nextInput() {
@@ -314,14 +320,14 @@ public class BrowserJogdialActivity extends BaseActivity {
 
 			if (currentField >= count || currentField < 0)
 				return;
-//				valuePaste = pasteItem[currentField];
-			if(currentData>=pasteItem.length||currentData<0)
+			// valuePaste = pasteItem[currentField];
+			if (currentData >= pasteItem.length || currentData < 0)
 				return;
 			valuePaste = pasteItem[currentData];
-//			else {
-//				valuePaste = "";
-//				return;
-//			}
+			// else {
+			// valuePaste = "";
+			// return;
+			// }
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
@@ -330,19 +336,20 @@ public class BrowserJogdialActivity extends BaseActivity {
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
 
-			if (currentField < count - 1){
+			if (currentField < count - 1) {
 				currentField++;
 				webView.loadUrl("javascript:"
 						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-						+ currentField + ";nodes[k].focus();nodes[k].scrollIntoView()");			
+						+ currentField
+						+ ";nodes[k].focus();nodes[k].scrollIntoView()");
 			}
-			if(currentData<pasteItem.length-1)
+			if (currentData < pasteItem.length - 1)
 				currentData++;
 
 		} else {
 			if (currentField >= count || currentField < 0)
 				return;
-			valuePaste="";
+			valuePaste = "";
 			webView.loadUrl("javascript:"
 					+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";Android.getValueField(nodes[k].value);");
@@ -351,13 +358,14 @@ public class BrowserJogdialActivity extends BaseActivity {
 					+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
 					+ currentField + ";nodes[k].value=\"" + valuePaste + "\";");
 
-			if (currentField > 0){
+			if (currentField > 0) {
 				currentField--;
 				webView.loadUrl("javascript:"
 						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\"); var k="
-						+ currentField + ";nodes[k].focus();nodes[k].scrollIntoView()");	
+						+ currentField
+						+ ";nodes[k].focus();nodes[k].scrollIntoView()");
 			}
-			if(currentData>0)
+			if (currentData > 0)
 				currentData--;
 
 		}
@@ -400,8 +408,8 @@ public class BrowserJogdialActivity extends BaseActivity {
 						+ "var nodes=document.querySelectorAll(\"input[type=\"text\"],input[type=email],input[type=password]\");Android.count(nodes.length);");
 				webView.loadUrl("javascript:"
 						+ "var nodes=document.querySelectorAll(\"input[type=text],input[type=email],input[type=password]\");Android.count(nodes.length);");
-				currentField=0;
-				currentData=0;
+				currentField = 0;
+				currentData = 0;
 			}
 
 		});

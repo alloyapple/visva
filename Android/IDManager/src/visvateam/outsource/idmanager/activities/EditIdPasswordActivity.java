@@ -98,6 +98,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
 	private static final String DEFAULT_URL = "http://google.com";
+	private boolean isButtonPress=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -338,6 +339,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 
 	public void onReturn(View v) {
+		if(isButtonPress)
+			return;
+		isButtonPress=true;
 		createOrUpdateId();
 		// showDialog(Contants.DIALOG_CREATE_ID);
 	}
