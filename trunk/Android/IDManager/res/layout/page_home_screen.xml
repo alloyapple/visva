@@ -57,6 +57,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:hint="Search"
+                android:imeOptions="actionSearch"
                 android:singleLine="true" >
             </EditText>
 
@@ -115,8 +116,8 @@
             android:id="@+id/list_view_item"
             android:layout_width="wrap_content"
             android:layout_height="400dp"
-            android:divider="@color/transparent"
-            android:layout_toRightOf="@id/layout_listview_folder" />
+            android:layout_toRightOf="@id/layout_listview_folder"
+            android:divider="@color/transparent" />
 
         <RelativeLayout
             android:id="@+id/layoutDrag"
