@@ -146,6 +146,8 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:hint="Google"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
                 android:textColor="#000000" >
             </EditText>
 
