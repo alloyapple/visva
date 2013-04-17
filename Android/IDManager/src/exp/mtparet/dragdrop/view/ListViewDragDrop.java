@@ -147,7 +147,7 @@ public class ListViewDragDrop extends ListView {
 				if (mDragPos < (totalchilds - 1))
 					setSelectionFromTop(0, 0);
 			}
-			unExpandViews(false);
+//			unExpandViews(false);
 			if (mOnItemMoveListener != null && !handled)
 				handled = onMove(ev);
 			if (!handled)
@@ -183,7 +183,7 @@ public class ListViewDragDrop extends ListView {
 
 					if (x < this.getWidth() - 100) {
 						return false;
-					}
+					}else
 					if (x == xPos) {
 						if (!mIdManagerPreference.isEditMode()) {
 							dragView(x, y);
