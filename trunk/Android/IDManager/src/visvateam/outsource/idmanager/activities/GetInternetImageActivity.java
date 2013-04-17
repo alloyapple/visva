@@ -2,6 +2,7 @@ package visvateam.outsource.idmanager.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
@@ -9,12 +10,15 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,6 +29,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
@@ -36,6 +41,7 @@ public class GetInternetImageActivity extends BaseActivity {
 	private FrameLayout mFrameWebView;
 	private ImageView imgBound;
 	private EditText editText;
+	private EditText editGoogle;
 	@SuppressWarnings("unused")
 	private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
 	static final int NONE = 0;
@@ -52,6 +58,8 @@ public class GetInternetImageActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_get_icon_of_internet);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_get_icon_internet);
 		mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -70,6 +78,29 @@ public class GetInternetImageActivity extends BaseActivity {
 				}
 			}
 		});
+		editGoogle = ((EditText) findViewById(R.id.id_edit_google_search));
+		editGoogle
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+							InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+							mgr.hideSoftInputFromWindow(
+									editGoogle.getWindowToken(), 0);
+							String keyword = editGoogle.getText().toString();
+							if (keyword != null && keyword.length() > 0) {
+								webView.loadUrl(URL_SEARCH.replace(
+										"$k+e+y+w+o+r+d$", keyword));
+								editText.setText(URL_SEARCH.replace(
+										"$k+e+y+w+o+r+d$", keyword));
+								editGoogle.setText("");
+							}
+							return true;
+						}
+						return false;
+					}
+				});
 		mFrameWebView = (FrameLayout) findViewById(R.id.id_linear_webview);
 		imgBound = (ImageView) findViewById(R.id.id_img_bound);
 		initControl();
