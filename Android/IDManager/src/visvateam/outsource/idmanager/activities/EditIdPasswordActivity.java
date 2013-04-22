@@ -98,7 +98,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
 	private static final String DEFAULT_URL = "http://google.com";
-	private boolean isButtonPress=false;
+	private boolean isButtonPress = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -157,8 +157,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public static Drawable getIconDatabase(String icon) {
-
-		File inputFile = new File(Contants.PATH_ID_FILES, icon);
+		File dir = new File(Contants.PATH_ID_FILES);
+		if (!dir.exists())
+			dir.mkdirs();
+		File inputFile = new File(dir, icon);
 
 		byte[] cipherBytes = new byte[(int) inputFile.length()];
 		FileInputStream fis = null;
@@ -339,9 +341,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 
 	public void onReturn(View v) {
-		if(isButtonPress)
+		if (isButtonPress)
 			return;
-		isButtonPress=true;
+		isButtonPress = true;
 		createOrUpdateId();
 		// showDialog(Contants.DIALOG_CREATE_ID);
 	}
@@ -554,9 +556,12 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			return null;
 		}
 		FileOutputStream fileOutputStream = null;
+		File dir = new File(Contants.PATH_ID_FILES);
+		if (!dir.exists())
+			dir.mkdirs();
+
 		try {
-			fileOutputStream = new FileOutputStream(new File(
-					Contants.PATH_ID_FILES, name));
+			fileOutputStream = new FileOutputStream(new File(dir, name));
 
 			try {
 				fileOutputStream.write(resultEncrypt, 0, resultEncrypt.length);
