@@ -8,7 +8,6 @@ import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -168,9 +167,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Log.e("onClickDelete", "onClickDelete");
 			final int position = folderListView.getPositionForView((View) v.getParent());
-			Log.e("clickc lcik ", "Title clicked, row %d" + position);
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DELETE_FOLDER;
 			msg.arg2 = position;
@@ -181,9 +178,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private OnClickListener mOnEditClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Log.e("OnclickEdit", "OnClickEdit");
 			final int position = folderListView.getPositionForView((View) v.getParent());
-			Log.e("clickc lcik ", "Title clicked, row %d" + position);
 			if (isEdit) {
 				Message msg = mHandler.obtainMessage();
 				msg.arg1 = EDIT_FOLDER;

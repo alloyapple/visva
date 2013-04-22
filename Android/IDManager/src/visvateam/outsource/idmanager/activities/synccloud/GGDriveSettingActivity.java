@@ -53,8 +53,8 @@ public class GGDriveSettingActivity extends Activity {
 	// Note that this is a really insecure way to do this, and you shouldn't
 	// ship code which contains your key & secret in such an obvious way.
 	// Obfuscation is good.
-	final static private String APP_KEY = "fxh7pnxcqbg3qwy";
-	final static private String APP_SECRET = "fjk6z73ot28n1t3";
+//	final static private String APP_KEY = "fxh7pnxcqbg3qwy";
+//	final static private String APP_SECRET = "fjk6z73ot28n1t3";
 
 	// If you'd like to change the access type to the full Dropbox instead of
 	// an app folder, change this value.
@@ -204,7 +204,7 @@ public class GGDriveSettingActivity extends Activity {
 	}
 
 	private AndroidAuthSession buildSession() {
-		AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
+		AppKeyPair appKeyPair = new AppKeyPair(Contants.APP_KEY, Contants.APP_SECRET);
 		AndroidAuthSession session;
 
 		String[] stored = getKeys();

@@ -30,7 +30,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -78,7 +77,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private Button btnInfo;
 	private Button btnSearch;
 	private Button btnClearTextSearch;
-
 	private EditText mEditTextSearch;
 
 	// ===========================Class Define =====================
@@ -1199,9 +1197,11 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (mIdListItems.get(i).geteId() == passwordId)
 				mIdListItems.remove(i);
 		}
-		currentFolderId = mFolderListItems.get(currentFolderId).getgId();
-		itemAdapter.setIdItemList(mIdListItems, currentFolderId,
+//		this.currentFolderId = mFolderListItems.get(currentFolderId).getgId();
+		Log.e("curengFolderId", "currentFolderId "+currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems,currentFolderId,
 				currentFolderId);
+		itemAdapter.updateModeForListView(true);
 	}
 
 	private void startIntentCreateNewIds() {
@@ -1331,7 +1331,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		folderId++;
 		Log.e("folderList", "folderList " + sizeOfFolder);
 		GroupFolder folder = new GroupFolder(folderId, folderName, 0,
-				Contants.MASTER_PASSWORD_ID, 0);
+				Contants.MASTER_PASSWORD_ID, 1);
 		mIDxPWDataBaseHandler.addNewFolder(folder);
 
 		folderListViewAdapter.addNewFolder(folder, folder.getgOrder());

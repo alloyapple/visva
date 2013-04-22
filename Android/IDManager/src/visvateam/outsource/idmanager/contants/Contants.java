@@ -99,4 +99,8 @@ public class Contants {
 	public static final int MODE_SYNC_TO_DEVICE = 1;
 	public static final int MODE_SYNC_AUTO = 2;
 
+	/* key app dropbox */
+	public static final String APP_KEY = "667sgm6m2mdu384";
+	public static final String APP_SECRET = "0ozy2rvw6ktyrnt";
+
 }

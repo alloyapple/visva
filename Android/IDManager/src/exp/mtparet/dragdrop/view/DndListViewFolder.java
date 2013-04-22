@@ -7,9 +7,7 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -58,8 +56,6 @@ public class DndListViewFolder extends ListView {
 		mContext = context;
 		mTouchSlop = ViewConfiguration.get(context).getScaledWindowTouchSlop();// etScaledTouchSlop();
 		totalchilds = getChildCount();
-		Log.e("mTouchSlop ", "mTouchSlop " + mTouchSlop);
-		Log.e("totalChilds " + totalchilds, "totalChild " + totalchilds);
 		mIdManagerPreference = IdManagerPreference.getInstance(context);
 	}
 
@@ -73,7 +69,6 @@ public class DndListViewFolder extends ListView {
 			case MotionEvent.ACTION_DOWN:
 				int x = (int) ev.getX();
 				int y = (int) ev.getY();
-				Log.e("this.getWidth " + this.getWidth(), "afd");
 
 				if (x > this.getWidth() - 70) {
 					Rect r = mTempRect;
@@ -106,7 +101,6 @@ public class DndListViewFolder extends ListView {
 				if (dragger == null)
 					dragger = item;
 				Rect r = mTempRect;
-				Log.e("r.right", "r.right " + r.right);
 				dragger.getDrawingRect(r);
 				if (x < 70) {
 					item.setDrawingCacheEnabled(true);
@@ -116,8 +110,6 @@ public class DndListViewFolder extends ListView {
 					mDragPos = itemnum;
 					mFirstDragPos = mDragPos;
 					mHeight = getHeight();
-					Log.e("bitmap.width " + bitmap.getWidth(), "bitmap.height "
-							+ bitmap.getHeight());
 					int touchSlop = mTouchSlop;
 					mUpperBound = Math.min(y - touchSlop, mHeight / 3);
 					mLowerBound = Math.max(y + touchSlop, mHeight * 2 / 3);
@@ -164,12 +156,7 @@ public class DndListViewFolder extends ListView {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		Log.e("second", "run here");
 		boolean handled = false;
-		// if (mOnItemMoveListener != null && !handled) {
-		// handled = onMove(ev);
-		// return handled;
-		// }
 		if (getChildCount() > 0)
 			totalchilds = getChildCount();
 
@@ -180,7 +167,6 @@ public class DndListViewFolder extends ListView {
 			switch (action) {
 			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_CANCEL:
-				Log.e("onKeyUp", "onKeyUp");
 				r = mTempRect;
 				mDragView.getDrawingRect(r);
 				stopDragging();
@@ -361,7 +347,6 @@ public class DndListViewFolder extends ListView {
 		mWindowParams = new WindowManager.LayoutParams();
 		mWindowParams.gravity = Gravity.TOP;
 		mWindowParams.x = -160;
-		Log.e("dragx", "dragx " + dragImageX);
 		mWindowParams.y = y - mDragPoint + mCoordOffset;
 
 		mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -390,7 +375,6 @@ public class DndListViewFolder extends ListView {
 	}
 
 	private void stopDragging() {
-		Log.e("stop draging", "stop draging");
 		if (mDragView != null) {
 			WindowManager wm = (WindowManager) mContext
 					.getSystemService("window");
@@ -481,7 +465,6 @@ public class DndListViewFolder extends ListView {
 				viewRect.set(left, top, right, bottom);
 
 				if (viewRect.contains(x, y)) {
-					Log.e("first", "thoa main");
 					if (getOnItemSelectedListener() != null) {
 						getOnItemSelectedListener().onItemSelected(
 								DndListViewFolder.this, child, i,
@@ -502,7 +485,6 @@ public class DndListViewFolder extends ListView {
 				viewRect2.set(left, top, right, bottom);
 
 				if (viewRect2.contains(x, y)) {
-					Log.e("second", "thoa main");
 					if (getOnItemSelectedListener() != null) {
 						getOnItemSelectedListener().onItemSelected(
 								DndListViewFolder.this, child, i,
@@ -524,7 +506,6 @@ public class DndListViewFolder extends ListView {
 			Rect rect = new Rect(left, top, right, bottom);
 
 			if (rect.contains(x, y)) {
-				Log.e("third", "thoa main");
 				if (this.getChildCount() > 0) {
 					int minY = this.getChildAt(this.getChildCount() - 1)
 							.getBottom();

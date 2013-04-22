@@ -24,7 +24,6 @@ import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGAutoSyncControll
 import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGDownloadController;
 import visvateam.outsource.idmanager.exportcontroller.ggdrive.GGUploadController;
 import visvateam.outsource.idmanager.util.NetworkUtility;
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -58,8 +57,8 @@ public class SyncCloudActivity extends Activity {
 	// Note that this is a really insecure way to do this, and you shouldn't
 	// ship code which contains your key & secret in such an obvious way.
 	// Obfuscation is good.
-	final static private String APP_KEY = "fxh7pnxcqbg3qwy";
-	final static private String APP_SECRET = "fjk6z73ot28n1t3";
+	// final static private String APP_KEY = "667sgm6m2mdu384";
+	// final static private String APP_SECRET = "0ozy2rvw6ktyrnt";
 
 	// If you'd like to change the access type to the full Dropbox instead of
 	// an app folder, change this value.
@@ -82,7 +81,6 @@ public class SyncCloudActivity extends Activity {
 	private static Drive service;
 	private GoogleAccountCredential credential;
 	private long mLastTimeSync;
-	private String accountName;
 
 	private int modeSyncData = Contants.MODE_SYNC_TO_CLOUD;
 
@@ -133,7 +131,7 @@ public class SyncCloudActivity extends Activity {
 			mCloudType = DROPBOX_LOGIN_SESSION;
 		} else if (!"".equals(mGGAccountName)) {
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name)
-					+ " Google Drive");
+					+ " Google Drive" + "\n Account: " + mGGAccountName);
 			mCloudType = GG_DRIVE_LOGIN_SESSION;
 		} else {
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name));
@@ -181,8 +179,12 @@ public class SyncCloudActivity extends Activity {
 	 */
 	private void startAutoSyncData(int mCloudType) {
 		if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
-			startActivityForResult(credential.newChooseAccountIntent(),
-					REQUEST_ACCOUNT_PICKER);
+			if (mGGAccountName != null) {
+				credential.setSelectedAccountName(mGGAccountName);
+				service = getDriveService(credential);
+				boolean isCheckedTime = false;
+				saveFileAutoSync(mGGAccountName, isCheckedTime);
+			}
 		} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 			boolean isCheckedTime = false;
 			startAutoSyncByDropbox(isCheckedTime);
@@ -207,8 +209,12 @@ public class SyncCloudActivity extends Activity {
 	 */
 	private void startSyncToCloud(int mCloudType) {
 		if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
-			startActivityForResult(credential.newChooseAccountIntent(),
-					REQUEST_ACCOUNT_PICKER);
+			// startActivityForResult(credential.newChooseAccountIntent(),
+			// REQUEST_ACCOUNT_PICKER);
+			boolean isCheckedTime = false;
+			credential.setSelectedAccountName(mGGAccountName);
+			service = getDriveService(credential);
+			saveFileToDrive(mGGAccountName, isCheckedTime);
 		} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 			boolean isCheckedTime = false;
 			syncToCloudByDropbox(isCheckedTime);
@@ -231,8 +237,12 @@ public class SyncCloudActivity extends Activity {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			} else if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
 				modeSyncData = Contants.MODE_SYNC_TO_DEVICE;
-				startActivityForResult(credential.newChooseAccountIntent(),
-						REQUEST_ACCOUNT_PICKER);
+				if (mGGAccountName != null) {
+					credential.setSelectedAccountName(mGGAccountName);
+					service = getDriveService(credential);
+					boolean isCheckedTime = false;
+					saveFileToDevice(mGGAccountName, isCheckedTime);
+				}
 			} else if (mCloudType == DROPBOX_LOGIN_SESSION) {
 				boolean isCheckTime = false;
 				startSyncToDeviceByDropBox(isCheckTime);
@@ -450,7 +460,7 @@ public class SyncCloudActivity extends Activity {
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								syncToCloudByDropbox(true);
 							else if (mCloudType == GG_DRIVE_LOGIN_SESSION)
-								saveFileToDrive(accountName, true);
+								saveFileToDrive(mGGAccountName, true);
 							return;
 						}
 					});
@@ -481,7 +491,7 @@ public class SyncCloudActivity extends Activity {
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								syncToCloudByDropbox(true);
 							else if (mCloudType == GG_DRIVE_LOGIN_SESSION)
-								saveFileToDrive(accountName, true);
+								saveFileToDrive(mGGAccountName, true);
 							return;
 						}
 					});
@@ -512,7 +522,7 @@ public class SyncCloudActivity extends Activity {
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								startSyncToDeviceByDropBox(true);
 							else
-								saveFileToDevice(accountName, true);
+								saveFileToDevice(mGGAccountName, true);
 							return;
 						}
 					});
@@ -543,7 +553,7 @@ public class SyncCloudActivity extends Activity {
 							if (mCloudType == DROPBOX_LOGIN_SESSION)
 								startSyncToDeviceByDropBox(true);
 							else
-								saveFileToDevice(accountName, true);
+								saveFileToDevice(mGGAccountName, true);
 							return;
 						}
 					});
@@ -596,7 +606,8 @@ public class SyncCloudActivity extends Activity {
 	}
 
 	private AndroidAuthSession buildSession() {
-		AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
+		AppKeyPair appKeyPair = new AppKeyPair(Contants.APP_KEY,
+				Contants.APP_SECRET);
 		AndroidAuthSession session;
 
 		String[] stored = getKeys();
@@ -640,38 +651,16 @@ public class SyncCloudActivity extends Activity {
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {
 		switch (requestCode) {
-		case REQUEST_ACCOUNT_PICKER:
-			if (resultCode == RESULT_OK && data != null
-					&& data.getExtras() != null) {
-				accountName = data
-						.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-				if (accountName != null) {
-					Log.e("accname", "acc Name " + accountName);
-					credential.setSelectedAccountName(accountName);
-					service = getDriveService(credential);
-					boolean isCheckedTime = false;
-					if (modeSyncData == Contants.MODE_SYNC_TO_CLOUD)
-						saveFileToDrive(accountName, isCheckedTime);
-					else if(modeSyncData == Contants.MODE_SYNC_TO_DEVICE)
-						saveFileToDevice(accountName, isCheckedTime);
-					else 
-						saveFileAutoSync(accountName,isCheckedTime);
-				}
-			}
-			break;
 		case REQUEST_AUTHORIZATION:
 			if (resultCode == Activity.RESULT_OK) {
-				accountName = data
-						.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-				if (accountName != null) {
-					Log.e("accname", "acc Name " + accountName);
-					credential.setSelectedAccountName(accountName);
+				if (mGGAccountName != null) {
+					credential.setSelectedAccountName(mGGAccountName);
 					service = getDriveService(credential);
 					boolean isCheckedTime = false;
 					if (modeSyncData == Contants.MODE_SYNC_TO_CLOUD)
-						saveFileToDrive(accountName, isCheckedTime);
+						saveFileToDrive(mGGAccountName, isCheckedTime);
 					else
-						saveFileToDevice(accountName, isCheckedTime);
+						saveFileToDevice(mGGAccountName, isCheckedTime);
 				}
 			} else {
 				startActivityForResult(credential.newChooseAccountIntent(),
@@ -696,13 +685,14 @@ public class SyncCloudActivity extends Activity {
 				fileDb, mHandler, accountName, isCheckedTime);
 		drive.execute();
 	}
-	
+
 	private void saveFileAutoSync(String accountName, boolean isCheckedTime) {
 		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
 		GGAutoSyncController drive = new GGAutoSyncController(this, service,
 				fileDb, mHandler, accountName, isCheckedTime);
 		drive.execute();
 	}
+
 	private Drive getDriveService(GoogleAccountCredential credential) {
 		return new Drive.Builder(AndroidHttp.newCompatibleTransport(),
 				new GsonFactory(), credential).build();

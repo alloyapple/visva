@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -95,7 +94,6 @@ public class ItemAdapter extends BaseAdapter {
 			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_id_row,
 					null);
 		}
-		Log.i("width "+convertView.getWidth(), "heightView "+convertView.getHeight());
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
 		iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(idItemList.get(position)
@@ -116,7 +114,7 @@ public class ItemAdapter extends BaseAdapter {
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-		if (isModeEdit && (currentFolderOrder >= 0)) {
+		if (isModeEdit && (currentFolderOrder >= 1)) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
 		} else {
@@ -140,9 +138,7 @@ public class ItemAdapter extends BaseAdapter {
 	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Log.e("onClickDelete", "onClickDelete");
 			final int position = idListView.getPositionForView((View) v.getParent());
-			Log.e("clickc lcik ", "Title clicked, row %d" + position);
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DIALOG_DELETE_ID;
 			msg.arg2 = position;
@@ -153,9 +149,7 @@ public class ItemAdapter extends BaseAdapter {
 	private OnClickListener mOnEditClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Log.e("OnclickEdit", "OnClickEdit");
 			final int position = idListView.getPositionForView((View) v.getParent());
-			Log.e("clickc lcik ", "Title clicked, row %d" + position);
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DIALOG_EDIT_ID;
 			msg.arg2 = position;

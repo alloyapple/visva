@@ -43,6 +43,7 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxFileSizeException;
 import com.dropbox.client2.exception.DropboxIOException;
@@ -58,7 +59,7 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
  */
 public class DropBoxController extends AsyncTask<Void, Long, Integer> {
 
-	private DropboxAPI<?> mApi;
+	private DropboxAPI<AndroidAuthSession> mApi;
 	private String mPath;
 	private File mFile;
 
@@ -72,7 +73,7 @@ public class DropBoxController extends AsyncTask<Void, Long, Integer> {
 	private boolean isCheckDuplicated;
 
 	@SuppressWarnings("deprecation")
-	public DropBoxController(Context context, DropboxAPI<?> api, String dropboxPath, File file,
+	public DropBoxController(Context context, DropboxAPI<AndroidAuthSession> api, String dropboxPath, File file,
 			Handler mHandler, boolean isCheckDuplicated) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();

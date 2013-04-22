@@ -1,5 +1,5 @@
 /*
- *Copyright 2011 Matthieu Paret
+ *Copyright 2011 Visvateam
  *
  *This file is part of DragAndDrop.
  *
