@@ -23,12 +23,14 @@ import java.util.ArrayList;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
+import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -49,6 +51,7 @@ public class ItemAdapter extends BaseAdapter {
 	private Handler mHandler;
 	private int currentFolderOrder;
 	private int currentFolderId;
+	private IdManagerPreference mIdManagerPreference;
 
 	public ItemAdapter(Context context, ArrayList<ElementID> idItemList, boolean isModeEdit,
 			Handler mHandler, ListViewDragDrop idListView, int currentFoldeId,int currentFolderOrder) {
@@ -59,6 +62,7 @@ public class ItemAdapter extends BaseAdapter {
 		this.idListView = idListView;
 		this.currentFolderOrder = currentFolderOrder;
 		this.currentFolderId = currentFoldeId;
+		this.mIdManagerPreference = IdManagerPreference.getInstance(context);
 	}
 
 	@Override
@@ -130,8 +134,11 @@ public class ItemAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void updateModeForListView(boolean isEdit) {
+	public void updateModeForListView(boolean isEdit,int currentFolderOrder) {
 		this.isModeEdit = isEdit;
+		this.currentFolderOrder = currentFolderOrder;
+		Log.e("run here", "run here edu "+isModeEdit);
+//		this.isModeEdit = mIdManagerPreference.isEditMode();
 		notifyDataSetChanged();
 	}
 

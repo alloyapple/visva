@@ -899,7 +899,10 @@ public class HomeScreeenActivity extends BaseActivity implements
 		folderListViewAdapter.updateModeForListView(isEdit);
 
 		/* set mode edit for id */
-		itemAdapter.updateModeForListView(isEdit);
+		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+		int currentFolderOrder = mFolderListItems.get(currentFolderItem)
+				.getgOrder();
+		itemAdapter.updateModeForListView(isEdit,currentFolderOrder);
 	}
 
 	/**
@@ -1201,7 +1204,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		Log.e("curengFolderId", "currentFolderId "+currentFolderId);
 		itemAdapter.setIdItemList(mIdListItems,currentFolderId,
 				currentFolderId);
-		itemAdapter.updateModeForListView(true);
+		itemAdapter.updateModeForListView(true,currentFolderId);
 	}
 
 	private void startIntentCreateNewIds() {
