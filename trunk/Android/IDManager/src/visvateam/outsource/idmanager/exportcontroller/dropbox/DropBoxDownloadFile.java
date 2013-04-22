@@ -23,6 +23,7 @@ import android.util.Log;
 import android.widget.Toast;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxIOException;
 import com.dropbox.client2.exception.DropboxParseException;
@@ -40,7 +41,7 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 
 	private Context mContext;
 	private final ProgressDialog mDialog;
-	private DropboxAPI<?> mApi;
+	private DropboxAPI<AndroidAuthSession> mApi;
 	private String mPath;
 	private FileOutputStream mFos;
 	private Long mFileLen;
@@ -51,7 +52,7 @@ public class DropBoxDownloadFile extends AsyncTask<Void, Long, Integer> {
 	private IdManagerPreference mIdManagerPreference;
 	private long mLastTimeSync;
 
-	public DropBoxDownloadFile(Context context, DropboxAPI<?> api, String dropboxPath,
+	public DropBoxDownloadFile(Context context, DropboxAPI<AndroidAuthSession> api, String dropboxPath,
 			String dbFilePath, Handler mHandler, boolean isCheckTime) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();

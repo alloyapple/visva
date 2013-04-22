@@ -42,8 +42,8 @@ public class DropboxSettingActivity extends Activity {
 	// Note that this is a really insecure way to do this, and you shouldn't
 	// ship code which contains your key & secret in such an obvious way.
 	// Obfuscation is good.
-	final static private String APP_KEY = "fxh7pnxcqbg3qwy";
-	final static private String APP_SECRET = "fjk6z73ot28n1t3";
+//	final static private String APP_KEY = "fxh7pnxcqbg3qwy";
+//	final static private String APP_SECRET = "fjk6z73ot28n1t3";
 
 	// If you'd like to change the access type to the full Dropbox instead of
 	// an app folder, change this value.
@@ -176,7 +176,7 @@ public class DropboxSettingActivity extends Activity {
 
 	private void checkAppKeySetup() {
 		// Check to make sure that we have a valid app key
-		if (APP_KEY.startsWith("CHANGE") || APP_SECRET.startsWith("CHANGE")) {
+		if (Contants.APP_KEY.startsWith("CHANGE") || Contants.APP_SECRET.startsWith("CHANGE")) {
 			showToast("You must apply for an app key and secret from developers.dropbox.com, and add them to the DBRoulette ap before trying it.");
 			finish();
 			return;
@@ -184,7 +184,7 @@ public class DropboxSettingActivity extends Activity {
 
 		// Check if the app has set up its manifest properly.
 		Intent testIntent = new Intent(Intent.ACTION_VIEW);
-		String scheme = "db-" + APP_KEY;
+		String scheme = "db-" + Contants.APP_KEY;
 		String uri = scheme + "://" + AuthActivity.AUTH_VERSION + "/test";
 		testIntent.setData(Uri.parse(uri));
 		PackageManager pm = getPackageManager();
@@ -244,7 +244,7 @@ public class DropboxSettingActivity extends Activity {
 	}
 
 	private AndroidAuthSession buildSession() {
-		AppKeyPair appKeyPair = new AppKeyPair(APP_KEY, APP_SECRET);
+		AppKeyPair appKeyPair = new AppKeyPair(Contants.APP_KEY, Contants.APP_SECRET);
 		AndroidAuthSession session;
 
 		String[] stored = getKeys();

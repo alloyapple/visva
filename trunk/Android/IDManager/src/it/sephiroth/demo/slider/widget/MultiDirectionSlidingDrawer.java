@@ -27,7 +27,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.VelocityTracker;
@@ -296,7 +295,6 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
 		int handleWidth = handle.getMeasuredWidth();
 		int handleHeight = handle.getMeasuredHeight();
 		
-		Log.d( LOG_TAG, "handleHeight: " + handleHeight );
 		
 		int handleLeft;
 		int handleTop;
@@ -306,7 +304,6 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
 		if ( mVertical ) {
 			handleLeft = ( width - handleWidth ) / 2;
 			if ( mInvert ) {
-				Log.d( LOG_TAG, "content.layout(1)" );
 				handleTop = mExpanded ? height - mBottomOffset - handleHeight : mTopOffset;
 				content.layout( 0, mTopOffset, content.getMeasuredWidth(), mTopOffset + content.getMeasuredHeight() );
 			} else {
@@ -442,8 +439,6 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
 							c4 = ( !mExpanded && handleLeft > mBottomOffset + getRight() - getLeft() - mHandleWidth - mTapThreshold );
 						}
 						
-						Log.d( LOG_TAG, "ACTION_UP: " + "c1: " + c1 + ", c2: " + c2 + ", c3: " + c3 + ", c4: " + c4 );
-						
 						if ( vertical ? c1 || c2 : c3 || c4 ) {
 							
 							if ( mAllowSingleTap ) {
@@ -497,11 +492,9 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
 			int bottom = mVertical ? getBottom() : getRight();
 			int handleHeight = mVertical ? mHandleHeight : mHandleWidth;
 			
-			Log.d( LOG_TAG, "position: " + position + ", velocity: " + velocity + ", mMaximumMajorVelocity: " + mMaximumMajorVelocity );
 			c1 = mInvert ? velocity < mMaximumMajorVelocity : velocity > mMaximumMajorVelocity;
 			c2 = mInvert ? ( bottom - (position + handleHeight) ) + mBottomOffset > handleHeight : position > mTopOffset + ( mVertical ? mHandleHeight : mHandleWidth );
 			c3 = mInvert ? velocity < -mMaximumMajorVelocity : velocity > -mMaximumMajorVelocity;
-			Log.d( LOG_TAG, "EXPANDED. c1: " + c1 + ", c2: " + c2 + ", c3: " + c3 );
 			if ( always || ( c1 || ( c2 && c3 ) ) ) {
 				// We are expanded, So animate to CLOSE!
 				mAnimatedAcceleration = mMaximumAcceleration;
@@ -537,9 +530,6 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
 			c1 = mInvert ? velocity < mMaximumMajorVelocity : velocity > mMaximumMajorVelocity;
 			c2 = mInvert ? ( position < ( mVertical ? getHeight() : getWidth() ) / 2 ) : ( position > ( mVertical ? getHeight() : getWidth() ) / 2 );
 			c3 = mInvert ? velocity < -mMaximumMajorVelocity : velocity > -mMaximumMajorVelocity;
-			
-			Log.d( LOG_TAG, "COLLAPSED. position: " + position + ", velocity: " + velocity + ", mMaximumMajorVelocity: " + mMaximumMajorVelocity );
-			Log.d( LOG_TAG, "COLLAPSED. always: " + always + ", c1: " + c1 + ", c2: " + c2 + ", c3: " + c3 );
 			
 			if ( !always && ( c1 || ( c2 && c3 ) ) ) {
 				mAnimatedAcceleration = mMaximumAcceleration;
@@ -697,9 +687,6 @@ public class MultiDirectionSlidingDrawer extends ViewGroup {
 				final int handleHeight = mHandleHeight;
 				int height = getBottom() - getTop() - handleHeight - mTopOffset;
 				content.measure( MeasureSpec.makeMeasureSpec( getRight() - getLeft(), MeasureSpec.EXACTLY ), MeasureSpec.makeMeasureSpec( height, MeasureSpec.EXACTLY ) );
-				
-				Log.d( LOG_TAG, "content.layout(2)" );
-				
 				if ( mInvert ) 
 					content.layout( 0, mTopOffset, content.getMeasuredWidth(), mTopOffset + content.getMeasuredHeight() );
 				else 

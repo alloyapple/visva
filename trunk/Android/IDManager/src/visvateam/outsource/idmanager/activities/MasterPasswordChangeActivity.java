@@ -97,7 +97,7 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 
 				// add general folder
 				GroupFolder generalFolder = new GroupFolder(0, getString(R.string.list_general), 0,
-						Contants.MASTER_PASSWORD_ID, 0);
+						Contants.MASTER_PASSWORD_ID, 1);
 				mIDxPWDataBaseHandler.addNewFolder(generalFolder);
 
 				/* return Term of service */

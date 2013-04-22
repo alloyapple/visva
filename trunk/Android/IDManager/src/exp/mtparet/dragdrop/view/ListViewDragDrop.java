@@ -1,5 +1,5 @@
 /*
- *Copyright 2011 Matthieu Paret
+ *Copyright 2011 Visva team
  *
  *This file is part of DragAndDrop.
  *
@@ -27,7 +27,6 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -134,10 +133,8 @@ public class ListViewDragDrop extends ListView {
 	public boolean onTouchEvent(MotionEvent ev) {
 		boolean handled = false;
 		float xPos = ev.getX();
-		Log.e("xPos", "xPis " + xPos);
 
-		if (xPos < this.getWidth() - 100) {
-			Log.e("ACTION UP", "ACTION UP");
+		if (xPos > this.getWidth() - 10) {
 			Rect r = mTempRect;
 			if (mDragView != null)
 				mDragView.getDrawingRect(r);
@@ -147,7 +144,7 @@ public class ListViewDragDrop extends ListView {
 				if (mDragPos < (totalchilds - 1))
 					setSelectionFromTop(0, 0);
 			}
-//			unExpandViews(false);
+			// unExpandViews(false);
 			if (mOnItemMoveListener != null && !handled)
 				handled = onMove(ev);
 			if (!handled)
@@ -160,7 +157,6 @@ public class ListViewDragDrop extends ListView {
 
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
-					Log.e("ACTION UP", "ACTION UP");
 					Rect r = mTempRect;
 					mDragView.getDrawingRect(r);
 					stopDragging();
@@ -181,10 +177,9 @@ public class ListViewDragDrop extends ListView {
 					int x = (int) ev.getX();
 					y = (int) ev.getY();
 
-					if (x < this.getWidth() - 100) {
+					if (x > this.getWidth() - 10) {
 						return false;
-					}else
-					if (x == xPos) {
+					} else if (x == xPos) {
 						if (!mIdManagerPreference.isEditMode()) {
 							dragView(x, y);
 							int itemnum = getItemForPosition(y);
@@ -320,7 +315,6 @@ public class ListViewDragDrop extends ListView {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		Log.e("first", "run here");
 		if (getChildCount() > 0)
 			totalchilds = getChildCount();
 
@@ -329,9 +323,8 @@ public class ListViewDragDrop extends ListView {
 			case MotionEvent.ACTION_DOWN:
 				int x = (int) ev.getX();
 				int y = (int) ev.getY();
-				Log.e("this.getWidth " + this.getWidth(), "afd");
 
-				if (x < this.getWidth() - 100) {
+				if (x > this.getWidth() - 10) {
 					return false;
 				}
 
@@ -495,7 +488,6 @@ public class ListViewDragDrop extends ListView {
 		mWindowParams = new WindowManager.LayoutParams();
 		mWindowParams.gravity = Gravity.TOP;
 		mWindowParams.x = 100;
-		Log.e("dragx", "dragx " + dragImageX);
 		mWindowParams.y = y - mDragPoint + mCoordOffset;
 
 		mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -524,7 +516,6 @@ public class ListViewDragDrop extends ListView {
 	}
 
 	private void stopDragging() {
-		Log.e("stop draging", "stop draging");
 		if (mDragView != null) {
 			WindowManager wm = (WindowManager) mContext
 					.getSystemService("window");

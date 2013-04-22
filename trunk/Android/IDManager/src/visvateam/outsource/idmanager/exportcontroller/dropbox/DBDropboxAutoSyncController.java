@@ -46,6 +46,7 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxFileSizeException;
 import com.dropbox.client2.exception.DropboxIOException;
@@ -61,7 +62,7 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
  */
 public class DBDropboxAutoSyncController extends AsyncTask<Void, Long, Integer> {
 
-	private DropboxAPI<?> mApi;
+	DropboxAPI<AndroidAuthSession> mApi;
 	private String mPath;
 	private File mFile;
 
@@ -76,7 +77,8 @@ public class DBDropboxAutoSyncController extends AsyncTask<Void, Long, Integer> 
 	private long mLastTimeSync;
 	private boolean isCheckedTime;
 
-	public DBDropboxAutoSyncController(Context context, DropboxAPI<?> api, String dropboxPath, File file,
+	public DBDropboxAutoSyncController(Context context,
+			DropboxAPI<AndroidAuthSession> api, String dropboxPath, File file,
 			Handler mHandler, boolean isCheckedTime) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
@@ -212,7 +214,7 @@ public class DBDropboxAutoSyncController extends AsyncTask<Void, Long, Integer> 
 		Log.e("result", "result " + result);
 		Message msg = mHandler.obtainMessage();
 		if (result == Contants.DIALOG_MESSAGE_SYNC_SUCCESS) {
-			Date date =new Date();
+			Date date = new Date();
 			mLastTimeSync = date.getTime();
 			mIdManagerPreference.setLastTimeSyncCloud(mLastTimeSync);
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;

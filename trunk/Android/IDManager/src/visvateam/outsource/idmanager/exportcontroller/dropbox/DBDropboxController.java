@@ -43,6 +43,7 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.DropboxAPI.UploadRequest;
 import com.dropbox.client2.ProgressListener;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.exception.DropboxFileSizeException;
 import com.dropbox.client2.exception.DropboxIOException;
@@ -58,7 +59,7 @@ import com.dropbox.client2.exception.DropboxUnlinkedException;
  */
 public class DBDropboxController extends AsyncTask<Void, Long, Integer> {
 
-	private DropboxAPI<?> mApi;
+	DropboxAPI<AndroidAuthSession> mApi;
 	private String mPath;
 	private File mFile;
 
@@ -73,7 +74,7 @@ public class DBDropboxController extends AsyncTask<Void, Long, Integer> {
 	private long mLastTimeSync;
 	private boolean isCheckedTime;
 
-	public DBDropboxController(Context context, DropboxAPI<?> api, String dropboxPath, File file,
+	public DBDropboxController(Context context, DropboxAPI<AndroidAuthSession> api, String dropboxPath, File file,
 			Handler mHandler, boolean isCheckedTime) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
@@ -181,7 +182,7 @@ public class DBDropboxController extends AsyncTask<Void, Long, Integer> {
 			if (mErrorMsg == null) {
 				mErrorMsg = e.body.error;
 			}
-			return Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
+//			return Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 		} catch (DropboxIOException e) {
 			// Happens all the time, probably want to retry automatically.
 			mErrorMsg = "Network error.  Try again.";

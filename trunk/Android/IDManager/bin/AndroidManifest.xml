@@ -54,6 +54,7 @@
         <activity
             android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />
+
         <meta-data
             android:name="AD_REQUEST"
             android:value="true" />
@@ -63,6 +64,7 @@
         <meta-data
             android:name="ADMOB_PUBLISHER_ID"
             android:value="a14f59e5c442767" />
+
         <activity
             android:name="visvateam.outsource.idmanager.activities.EnterOldPasswordActivity"
             android:screenOrientation="portrait" >
@@ -181,7 +183,7 @@
             <intent-filter>
 
                 <!-- Change this to be db- followed by your app key -->
-                <data android:scheme="db-fxh7pnxcqbg3qwy" />
+                <data android:scheme="db-667sgm6m2mdu384" />
 
                 <action android:name="android.intent.action.VIEW" />
 
