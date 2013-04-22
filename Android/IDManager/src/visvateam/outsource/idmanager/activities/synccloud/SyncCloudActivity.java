@@ -3,17 +3,7 @@ package visvateam.outsource.idmanager.activities.synccloud;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.Session.AccessType;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.DriveScopes;
+
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -31,12 +21,28 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.android.AuthActivity;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 
 @SuppressLint({ "HandlerLeak", "SimpleDateFormat" })
 public class SyncCloudActivity extends Activity {
@@ -114,6 +120,7 @@ public class SyncCloudActivity extends Activity {
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
+		checkAppKeySetup();
 
 		/* check netword */
 		if (!NetworkUtility.getInstance(this).isNetworkAvailable())
@@ -223,10 +230,15 @@ public class SyncCloudActivity extends Activity {
 
 	private void syncToCloudByDropbox(boolean isCheckedTime) {
 		// TODO Auto-generated method stub
+		Log.e("adsfasdf", "adfdsf");
 		File dbFile = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		DBDropboxController newFile = new DBDropboxController(
-				SyncCloudActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_DB,
-				dbFile, mHandler, isCheckedTime);
+		// DBDropboxController newFile = new DBDropboxController(
+		// SyncCloudActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_DB,
+		// dbFile, mHandler, isCheckedTime);
+//		String dbFilePath = dbFile.getAbsolutePath();
+		DBDropboxController newFile = new DBDropboxController(this, mApi,
+				Contants.FOLDER_ON_DROPBOX_DB, dbFile, mHandler,
+				isCheckedTime);
 		newFile.execute();
 	}
 
@@ -731,4 +743,32 @@ public class SyncCloudActivity extends Activity {
 		};
 	};
 
+	private void checkAppKeySetup() {
+		// Check to make sure that we have a valid app key
+		if (Contants.APP_KEY.startsWith("CHANGE")
+				|| Contants.APP_SECRET.startsWith("CHANGE")) {
+			showToast("You must apply for an app key and secret from developers.dropbox.com, and add them to the DBRoulette ap before trying it.");
+			finish();
+			return;
+		}
+
+		// Check if the app has set up its manifest properly.
+		Intent testIntent = new Intent(Intent.ACTION_VIEW);
+		String scheme = "db-" + Contants.APP_KEY;
+		String uri = scheme + "://" + AuthActivity.AUTH_VERSION + "/test";
+		testIntent.setData(Uri.parse(uri));
+		PackageManager pm = getPackageManager();
+		if (0 == pm.queryIntentActivities(testIntent, 0).size()) {
+			showToast("URL scheme in your app's "
+					+ "manifest is not set up correctly. You should have a "
+					+ "com.dropbox.client2.android.AuthActivity with the "
+					+ "scheme: " + scheme);
+			finish();
+		}
+	}
+
+	private void showToast(String msg) {
+		Toast error = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+		error.show();
+	}
 }
