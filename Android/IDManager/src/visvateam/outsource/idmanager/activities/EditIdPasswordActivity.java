@@ -99,6 +99,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private IdManagerPreference mIdManagerPreference;
 	private static final String DEFAULT_URL = "http://google.com";
 	private boolean isButtonPress = false;
+	private boolean isSetUrl = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +210,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		super.onResume();
 		((ImageButton) findViewById(R.id.img_avatar))
 				.setBackgroundDrawable(mDrawableIcon);
-		((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+		if (isSetUrl)
+			((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+		isSetUrl = false;
 		if (mDrawableMemo != null) {
 
 			((ImageButton) findViewById(R.id.btn_img_memo))
@@ -287,18 +290,17 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 			}
 			mUrlItem = DEFAULT_URL;
-			mEditTextUrlId.setText(mUrlItem);
+			// mEditTextUrlId.setText(mUrlItem);
 			((ImageButton) findViewById(R.id.btn_img_memo))
 					.setVisibility(View.GONE);
 		} else {
 			if (currentElementId == -1)
 				finish();
 			ElementID element = mDataBaseHandler.getElementID(currentElementId);
-			mEditTextNameId.setText(element.geteTitle());
 			mEditTextNote.setText(element.geteNote());
 			mUrlItem = element.geteUrl();
 			imageMemo = element.geteImage();
-
+			mEditTextNameId.setText(element.geteTitle());
 			mEditTextUrlId.setText(mUrlItem);
 			icon = element.geteIcon();
 			if (element.geteFavourite() == 0)
@@ -356,6 +358,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 
 	public void onGoogleHome(View v) {
+		isSetUrl = true;
 		SettingURLActivity.startActivity(this);
 	}
 
@@ -515,6 +518,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	 */
 	private void createOrUpdateId() {
 		addNewIdValuesToDataBase();
+		finish();
 	}
 
 	public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
@@ -606,6 +610,16 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	 */
 	private void addNewIdValuesToDataBase() {
 		titleRecord = mEditTextNameId.getText().toString();
+		url = mEditTextUrlId.getText().toString();
+		boolean b = false;
+		for (int i = 0; i < mItems.size(); i++) {
+			if (!mItems.get(i).mContentItem.equals("")) {
+				b = true;
+				break;
+			}
+		}
+		if (!b || titleRecord.equals("") || url.equals(""))
+			return;
 		if (isUpdateIcon) {
 			File fileIcon = new File(Contants.PATH_ID_FILES, icon);
 			if (fileIcon != null && fileIcon.exists())
@@ -618,7 +632,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				fileMemo.delete();
 			imageMemo = encyptAndSaveIcon(mDrawableMemo, imageMemo);
 		}
-		url = mEditTextUrlId.getText().toString();
 		note = mEditTextNote.getText().toString();
 		int elementId = -1;
 
@@ -668,7 +681,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			passId++;
 		}
 		/* return home */
-		finish();
+
 	}
 
 	@Override
