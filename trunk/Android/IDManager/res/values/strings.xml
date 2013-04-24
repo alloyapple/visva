@@ -22,6 +22,7 @@
         <item>21</item>
     </string-array>
 
+    <string name="hint_link">http://google.com</string>
     <string name="app_name">IDManager</string>
     <string name="memo_title">Memo Image</string>
     <string name="copy_title">Copy</string>
