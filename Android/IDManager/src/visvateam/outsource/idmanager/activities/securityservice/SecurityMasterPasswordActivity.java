@@ -75,7 +75,6 @@ public class SecurityMasterPasswordActivity extends Activity implements
 	}
 
 	public void onReturn(View v) {
-		finish();
 	}
 
 	public static void startActivity(Activity activity) {
