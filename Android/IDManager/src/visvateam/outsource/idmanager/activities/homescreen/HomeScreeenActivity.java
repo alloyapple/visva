@@ -10,6 +10,7 @@ import visvateam.outsource.idmanager.activities.BaseActivity;
 import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
+import visvateam.outsource.idmanager.activities.EditIdPasswordActivity2;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.activities.synccloud.SyncCloudActivity;
@@ -421,7 +422,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 			 * retrieve selected item from adapterview
 			 */
 			oneItemSelected = (ElementID) arg0.getItemAtPosition(arg2);
-			imageDrag.setImageDrawable(EditIdPasswordActivity
+			imageDrag.setImageDrawable(EditIdPasswordActivity2
 					.getIconDatabase(oneItemSelected.geteIcon()));
 			txtIdName.setText(oneItemSelected.geteTitle());
 			txtIdUrl.setText(oneItemSelected.geteUrl());
@@ -902,7 +903,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
 		int currentFolderOrder = mFolderListItems.get(currentFolderItem)
 				.getgOrder();
-		itemAdapter.updateModeForListView(isEdit,currentFolderOrder);
+		itemAdapter.updateModeForListView(isEdit, currentFolderOrder);
 	}
 
 	/**
@@ -1200,11 +1201,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (mIdListItems.get(i).geteId() == passwordId)
 				mIdListItems.remove(i);
 		}
-//		this.currentFolderId = mFolderListItems.get(currentFolderId).getgId();
-		Log.e("curengFolderId", "currentFolderId "+currentFolderId);
-		itemAdapter.setIdItemList(mIdListItems,currentFolderId,
+		// this.currentFolderId =
+		// mFolderListItems.get(currentFolderId).getgId();
+		Log.e("curengFolderId", "currentFolderId " + currentFolderId);
+		itemAdapter.setIdItemList(mIdListItems, currentFolderId,
 				currentFolderId);
-		itemAdapter.updateModeForListView(true,currentFolderId);
+		itemAdapter.updateModeForListView(true, currentFolderId);
 	}
 
 	private void startIntentCreateNewIds() {
@@ -1212,8 +1214,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 				+ mFolderListItems.get(currentFolderItem).getgId());
 		int currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
 		Intent newIdIntent = new Intent(HomeScreeenActivity.this,
-				EditIdPasswordActivity.class);
-		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, true);
+				EditIdPasswordActivity2.class);
+		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 1);
 		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 		startActivity(newIdIntent);
 	}
@@ -1317,9 +1319,13 @@ public class HomeScreeenActivity extends BaseActivity implements
 	 * add new folder to database
 	 */
 	private void addNewFolderToDatabase(String folderName) {
-
+		if (folderName == null || folderName.equals(""))
+			return;
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
-
+		for (int i = 0; i < folderList.size(); i++) {
+			if (folderName.equals(folderList.get(i).getgName()))
+				return;
+		}
 		int sizeOfFolder = folderList.size();
 		int sizeTemp = 0;
 		for (int i = 0; i < sizeOfFolder; i++) {

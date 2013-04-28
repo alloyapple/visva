@@ -21,6 +21,7 @@ package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
+import visvateam.outsource.idmanager.activities.EditIdPasswordActivity2;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -100,7 +101,7 @@ public class ItemAdapter extends BaseAdapter {
 		}
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(EditIdPasswordActivity.getIconDatabase(idItemList.get(position)
+		iv.setImageDrawable(EditIdPasswordActivity2.getIconDatabase(idItemList.get(position)
 				.geteIcon()));
 		iv.setContentDescription(this.idItemList.get(position).geteTitle());
 
@@ -161,8 +162,8 @@ public class ItemAdapter extends BaseAdapter {
 			msg.arg1 = DIALOG_EDIT_ID;
 			msg.arg2 = position;
 			mHandler.sendMessage(msg);
-			Intent intent = new Intent(context, EditIdPasswordActivity.class);
-			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, false);
+			Intent intent = new Intent(context, EditIdPasswordActivity2.class);
+			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 0);
 			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 			intent.putExtra(Contants.CURRENT_PASSWORD_ID, idItemList.get(position).geteId());
 			context.startActivity(intent);

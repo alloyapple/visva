@@ -26,7 +26,8 @@ public class SettingURLActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity.mUrlItem=webView.getUrl();
+		EditIdPasswordActivity2.mUrlItem=webView.getUrl();
+		EditIdPasswordActivity2.startActivity(this, 2);
 		finish();
 	}
 

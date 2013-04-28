@@ -40,9 +40,9 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	private boolean isSign = true;
 	private boolean isDuplicate = true;
 	private ArrayList<Character> mTotalArrayChars = new ArrayList<Character>();
-	private CharSequence[] mNumberChoiceArr = { "4", "5", "6", "7", "8", "9",
-			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-			"21" };
+	// private CharSequence[] mNumberChoiceArr = { "4", "5", "6", "7", "8", "9",
+	// "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+	// "21" };
 	private Character mNuberChars[] = { '0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9' };
 	private Character mCapitalChars[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
@@ -58,6 +58,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	private Random random = new Random();
 	private AdView adview;
 	private IdManagerPreference mIdManagerPreference;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,6 +68,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		initAdmod();
 
 	}
+
 	public void initAdmod() {
 		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -78,10 +80,14 @@ public class PasswordGeneratorActivity extends BaseActivity {
 				adview.setVisibility(View.GONE);
 		}
 	}
+
 	public void onReturn(View v) {
 		if (resultGenarator.toString() != "")
-			EditIdPasswordActivity.mStringOfSelectItem = resultGenarator
+			EditIdPasswordActivity2.mStringOfSelectItem = resultGenarator
 					.toString();
+		else
+			EditIdPasswordActivity2.itemSelect = -1;
+		EditIdPasswordActivity2.startActivity(this, 2);
 		finish();
 	}
 
@@ -99,24 +105,24 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	}
 
 	public void showInputNumberCharacter() {
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		builder.setIcon(R.drawable.icon);
-//		builder.setSingleChoiceItems(mNumberChoiceArr, 0,
-//				new DialogInterface.OnClickListener() {
-//
-//					@Override
-//					public void onClick(DialogInterface dialog, int item) {
-//						// TODO Auto-generated method stub
-//						int number = item + 4;
-//						if (number > 21)
-//							number = 21;
-//						setTextNumberCharacter(number);
-//						dialog.dismiss();
-//						return;
-//					}
-//				});
-//		builder.create().show();
-		 showSetBetDialog();
+		// AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		// builder.setIcon(R.drawable.icon);
+		// builder.setSingleChoiceItems(mNumberChoiceArr, 0,
+		// new DialogInterface.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(DialogInterface dialog, int item) {
+		// // TODO Auto-generated method stub
+		// int number = item + 4;
+		// if (number > 21)
+		// number = 21;
+		// setTextNumberCharacter(number);
+		// dialog.dismiss();
+		// return;
+		// }
+		// });
+		// builder.create().show();
+		showSetBetDialog();
 	}
 
 	public void setTextNumberCharacter(int number) {

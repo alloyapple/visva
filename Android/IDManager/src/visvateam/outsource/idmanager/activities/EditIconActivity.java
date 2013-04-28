@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class EditIconActivity extends BaseActivity {
-	ImageView imageView; 
+	ImageView imageView;
 	private Uri fileUri = null;
 	public static Drawable mDrawableIconEdit;
 	private CheckBox mCheckBox;
@@ -52,12 +52,14 @@ public class EditIconActivity extends BaseActivity {
 	private RelativeLayout mRelativeLayout;
 	@SuppressWarnings("unused")
 	private int width, height;
+	private int modeBundle;
 
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		modeBundle = getIntent().getExtras().getInt("modeBundleEditIcon");
 		Display d = getWindowManager().getDefaultDisplay();
 		width = d.getWidth();
 		height = d.getHeight();
@@ -72,8 +74,11 @@ public class EditIconActivity extends BaseActivity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
-					EditIdPasswordActivity.updateIcon((Drawable) new BitmapDrawable(
-							snapScreen()));
+					EditIdPasswordActivity2
+							.updateIcon((Drawable) new BitmapDrawable(
+									snapScreen()));
+					EditIdPasswordActivity2.startActivity(
+							EditIconActivity.this, 2);
 					finish();
 				}
 			}
@@ -131,7 +136,8 @@ public class EditIconActivity extends BaseActivity {
 				return true;
 			}
 		});
-		mDrawableIconEdit = EditIdPasswordActivity.getIcon();
+		if (modeBundle == 1)
+			mDrawableIconEdit = EditIdPasswordActivity2.getIcon();
 		initAdmod();
 
 	}
@@ -202,6 +208,7 @@ public class EditIconActivity extends BaseActivity {
 	public FrameLayout.LayoutParams getParamBound() {
 		return (FrameLayout.LayoutParams) imgBound.getLayoutParams();
 	}
+
 	public Bitmap snapScreen() {
 		mRelativeLayout.setDrawingCacheEnabled(true);
 		mRelativeLayout.measure(
@@ -209,12 +216,13 @@ public class EditIconActivity extends BaseActivity {
 				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 		mRelativeLayout.buildDrawingCache(true);
 		Bitmap bm = Bitmap.createBitmap(mRelativeLayout.getDrawingCache());
-		Bitmap bm2 = Bitmap
-				.createBitmap(bm, getParamBound().leftMargin, getParamBound().topMargin,
-						imgBound.getWidth(), imgBound.getHeight());
+		Bitmap bm2 = Bitmap.createBitmap(bm, getParamBound().leftMargin,
+				getParamBound().topMargin, imgBound.getWidth(),
+				imgBound.getHeight());
 		mRelativeLayout.setDrawingCacheEnabled(false); //
 		return bm2;
 	}
+
 	public void translateBound(double x, double y) {
 		int l, t, r, b;
 		if (getParam().leftMargin + (int) x < -imageView.getWidth()) {
@@ -271,8 +279,9 @@ public class EditIconActivity extends BaseActivity {
 			imageView.setBackgroundColor(Color.TRANSPARENT);
 	}
 
-	public static void startActivity(Activity activity) {
+	public static void startActivity(Activity activity,int value) {
 		Intent i = new Intent(activity, EditIconActivity.class);
+		i.putExtra("modeBundleEditIcon", value);
 		activity.startActivity(i);
 	}
 
@@ -288,6 +297,7 @@ public class EditIconActivity extends BaseActivity {
 
 	public void onInternet(View v) {
 		GetInternetImageActivity.startActivity(this);
+		finish();
 	}
 
 	private void startGalleryIntent() {
@@ -316,5 +326,5 @@ public class EditIconActivity extends BaseActivity {
 			return;
 		}
 	}
-	
+
 }

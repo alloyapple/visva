@@ -73,6 +73,8 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 	}
 
 	public void onReturn(View v) {
+		if (mode == FROM_SETTING || mode == FROM_ENTER_OLD_PASS)
+			SettingActivity.startActivity(this, 2);
 		finish();
 	}
 

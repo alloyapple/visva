@@ -61,7 +61,7 @@ import android.widget.Toast;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
-public class EditIdPasswordActivity extends BaseActivity implements
+public class EditIdPasswordActivity2 extends BaseActivity implements
 		OnItemClickListener, android.content.DialogInterface.OnClickListener {
 	public static final int ELEMENT_FLAG_TRUE = 1;
 	public static final int ELEMENT_FLAG_FALSE = 0;
@@ -74,57 +74,63 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private EditText mEditTextNote;
 	// =========================Class Define ====================
 	private IDxPWDataBaseHandler mDataBaseHandler;
-	private ArrayList<Item> mItems;
+	private static ArrayList<Item> mItems;
 	private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
 	public static String DEFAULT_NAME_ITEM[] = { "ID", "Password", "", "", "" };
-	private boolean isCreateNewId;
+	private int modeBundle;
 
 	// id password info
-	private int currentFolderId;
-	private int currentElementId;
-	private int isLike;
-	private String titleRecord;
-	private String icon = "";
-	private String url;
-	private String note;
-	private String imageMemo = "";
+	private static int currentFolderId;
+	private static boolean isCreatNew;
+	private static int currentElementId;
+	private static int isLike;
+	private static String titleRecord;
+	private static String icon;
+	private static String url;
+	private static String note;
+	private static String imageMemo;
 	private static Drawable mDrawableIcon;
 	public static Drawable mDrawableMemo;
 	private static boolean isUpdateIcon;
 	private static boolean isUpdateMemo;
 	public static String mUrlItem;
-	public static String mStringOfSelectItem = "";
-	public ArrayList<ViewHolder> viewHolder = new ArrayList<EditIdPasswordActivity.ViewHolder>();
-	public int itemSelect = -1;
+	public static String mStringOfSelectItem;
+	public ArrayList<ViewHolder> viewHolder = new ArrayList<EditIdPasswordActivity2.ViewHolder>();
+	public static int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
 	private static final String DEFAULT_URL = "http://google.com";
 	private boolean isButtonPress = false;
-	private boolean isSetUrl = false;
+	private static boolean isSetUrl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_id_pass);
-		Log.i("OnCreat", "OnCreat");
-		isCreateNewId = getIntent().getExtras().getBoolean(
+		modeBundle = getIntent().getExtras().getInt(
 				Contants.IS_INTENT_CREATE_NEW_ID);
 
 		currentFolderId = getIntent().getExtras().getInt(
 				Contants.CURRENT_FOLDER_ID);
-		if (!isCreateNewId)
+		if (modeBundle == 0) {
 			currentElementId = getIntent().getExtras().getInt(
 					Contants.CURRENT_PASSWORD_ID);
-		else
+			icon = "";
+			imageMemo = "";
+		} else if (modeBundle == 1) {
 			currentElementId = -1;
+			icon = "";
+			imageMemo = "";
+		}
 
 		/* initialize database */
 		initDataBase();
 
 		/* initialize control */
 		initControl();
-		if (!isCreateNewId) {
+		if (modeBundle == 0) {
+			isCreatNew = false;
 			isUpdateIcon = false;
 			isUpdateMemo = false;
 			mDrawableIcon = getIconDatabase(icon);
@@ -136,13 +142,16 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			else {
 				mDrawableMemo = null;
 			}
-			// mDrawableIcon =
-			// getResources().getDrawable(R.drawable.default_icon);
-		} else {
+		} else if (modeBundle == 1) {
+			isCreatNew = true;
 			isUpdateIcon = true;
 			isUpdateMemo = false;
 			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
 			mDrawableMemo = null;
+		} else {
+			mEditTextNameId.setText(titleRecord);
+			mEditTextNote.setText(note);
+			mEditTextUrlId.setText(mUrlItem);
 		}
 		initAdmod();
 	}
@@ -204,15 +213,16 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		return (Drawable) new BitmapDrawable(bmp);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(mDrawableIcon!=null)
+		if (mDrawableIcon != null)
 			Log.i("abc", " mDrawableIcon != null");
 		((ImageButton) findViewById(R.id.img_avatar))
 				.setBackgroundDrawable(mDrawableIcon);
-		Log.i("isSetUrl", ""+itemSelect);
+		Log.i("isSetUrl", "" + itemSelect);
 		if (isSetUrl)
 			((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
 		isSetUrl = false;
@@ -225,11 +235,26 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			((ImageButton) findViewById(R.id.btn_img_memo))
 					.setVisibility(View.GONE);
 		}
-		Log.i("itemSelect", ""+itemSelect);
+		Log.i("itemSelect", "" + itemSelect);
 		if (itemSelect >= 0) {
 			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
 			mListView.setAdapter(new ItemAddAdapter(this, mItems));
 			itemSelect = -1;
+		}
+		if (mDrawableMemo != null) {
+			((ImageButton) findViewById(R.id.btn_img_memo))
+					.setBackgroundDrawable(mDrawableMemo);
+			((ImageButton) findViewById(R.id.btn_img_memo))
+					.setVisibility(View.VISIBLE);
+			((Button) findViewById(R.id.button_img_memo))
+					.setVisibility(View.GONE);
+		} else {
+			((ImageButton) findViewById(R.id.btn_img_memo))
+					.setBackgroundDrawable(mDrawableMemo);
+			((ImageButton) findViewById(R.id.btn_img_memo))
+					.setVisibility(View.GONE);
+			((Button) findViewById(R.id.button_img_memo))
+					.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -265,11 +290,11 @@ public class EditIdPasswordActivity extends BaseActivity implements
 					isLike = 0;
 			}
 		});
-
-		// mBtnImageMemo = (Button) findViewById(R.id.btn_img_memo);
 		mListView = (ListView) findViewById(R.id.id_listview_item_add);
 		/* load data for list item id */
-		mItems = loadDataForListItem();
+		if (modeBundle <= 1) {
+			mItems = loadDataForListItem();
+		}
 		mListView.setAdapter(new ItemAddAdapter(this, mItems));
 		mSlidingDrawer = (MultiDirectionSlidingDrawer) findViewById(R.id.drawer);
 		mSlidingDrawer.open();
@@ -284,7 +309,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		ArrayList<Item> itemList = new ArrayList<Item>();
 
 		/* is create new id */
-		if (isCreateNewId) {
+		if (modeBundle == 1) {
 			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
 				Item item = new Item();
 				item.mNameItem = DEFAULT_NAME_ITEM[i];
@@ -293,10 +318,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 			}
 			mUrlItem = DEFAULT_URL;
-			// mEditTextUrlId.setText(mUrlItem);
 			((ImageButton) findViewById(R.id.btn_img_memo))
 					.setVisibility(View.GONE);
-		} else {
+		} else if (modeBundle == 0) {
 			if (currentElementId == -1)
 				finish();
 			ElementID element = mDataBaseHandler.getElementID(currentElementId);
@@ -329,20 +353,31 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		return itemList;
 	}
 
-	public static void startActivity(Activity activity) {
-		Intent i = new Intent(activity, EditIdPasswordActivity.class);
+	public static void startActivity(Activity activity, int valueExtra) {
+		Intent i = new Intent(activity, EditIdPasswordActivity2.class);
+		i.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, valueExtra);
 		activity.startActivity(i);
 	}
 
 	public void onImgAvatar(View v) {
 		ListIconActivity.startActivity(this);
+		saveInput();
+		finish();
 
 	}
 
 	public void onToGenerator(int i) {
 		itemSelect = i;
+		saveInput();
 		PasswordGeneratorActivity.startActivity(this);
+		finish();
 
+	}
+
+	public void saveInput() {
+		titleRecord = mEditTextNameId.getText().toString();
+		mUrlItem = mEditTextUrlId.getText().toString();
+		note = mEditTextNote.getText().toString();
 	}
 
 	public void onReturn(View v) {
@@ -350,26 +385,31 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			return;
 		isButtonPress = true;
 		createOrUpdateId();
-		// showDialog(Contants.DIALOG_CREATE_ID);
 	}
 
 	public void onInfo(View v) {
-		Intent intentBrowser = new Intent(EditIdPasswordActivity.this,
+		saveInput();
+		Intent intentBrowser = new Intent(EditIdPasswordActivity2.this,
 				BrowserActivity.class);
-		intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.INFO_TO);
+		intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.EDIT_TO);
 		startActivity(intentBrowser);
+		finish();
 	}
 
 	public void onGoogleHome(View v) {
 		isSetUrl = true;
+		saveInput();
 		SettingURLActivity.startActivity(this);
+		finish();
 	}
 
 	public void onMemoImage(View v) {
 		// ImageMemoActivity.startActivity(this);
-		Intent intentMemo = new Intent(EditIdPasswordActivity.this,
+		Intent intentMemo = new Intent(EditIdPasswordActivity2.this,
 				ImageMemoActivity2.class);
+		intentMemo.putExtra("modeBundleMemo", 1);
 		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
+		finish();
 	}
 
 	class ItemAddAdapter extends BaseAdapter {
@@ -433,7 +473,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				@Override
 				public void afterTextChanged(Editable s) {
 					// TODO Auto-generated method stub
-					EditIdPasswordActivity.this.mItems.get(position).mNameItem = s
+					EditIdPasswordActivity2.mItems.get(position).mNameItem = s
 							.toString();
 				}
 			});
@@ -459,7 +499,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				@Override
 				public void afterTextChanged(Editable s) {
 					// TODO Auto-generated method stub
-					EditIdPasswordActivity.this.mItems.get(position).mContentItem = s
+					EditIdPasswordActivity2.mItems.get(position).mContentItem = s
 							.toString();
 				}
 			});
@@ -624,12 +664,14 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		if (!b || titleRecord.equals("") || url.equals(""))
 			return;
 		if (isUpdateIcon) {
+			isUpdateIcon=false;
 			File fileIcon = new File(Contants.PATH_ID_FILES, icon);
 			if (fileIcon != null && fileIcon.exists())
 				fileIcon.delete();
 			icon = encyptAndSaveIcon(mDrawableIcon, icon);
 		}
 		if (isUpdateMemo) {
+			isUpdateMemo=false;
 			File fileMemo = new File(Contants.PATH_ID_FILES, imageMemo);
 			if (fileMemo != null && fileMemo.exists())
 				fileMemo.delete();
@@ -638,7 +680,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		note = mEditTextNote.getText().toString();
 		int elementId = -1;
 
-		if (isCreateNewId) {
+		if (isCreatNew) {
 			List<ElementID> elementList = mDataBaseHandler.getAllElmentIds();
 			int sizeOfElementId = elementList.size();
 			elementId = sizeOfElementId;
@@ -656,7 +698,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 				mDataBaseHandler.getElementsCountFromFolder(currentFolderId));
 
 		// create id int normal folder
-		if (isCreateNewId) {
+		if (isCreatNew) {
 			mDataBaseHandler.addNewElementId(newElement);
 			mIdManagerPreference
 					.setNumberItem(
@@ -703,39 +745,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		});
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	protected void onActivityResult(final int requestCode,
-			final int resultCode, final Intent data) {
-		switch (requestCode) {
-		case Contants.INTENT_IMG_MEMO:
-			if (resultCode == Activity.RESULT_OK) {
-
-				if (mDrawableMemo != null) {
-					((ImageButton) findViewById(R.id.btn_img_memo))
-							.setBackgroundDrawable(mDrawableMemo);
-					((ImageButton) findViewById(R.id.btn_img_memo))
-							.setVisibility(View.VISIBLE);
-					((Button) findViewById(R.id.button_img_memo))
-							.setVisibility(View.GONE);
-				} else {
-					((ImageButton) findViewById(R.id.btn_img_memo))
-							.setBackgroundDrawable(mDrawableMemo);
-					((ImageButton) findViewById(R.id.btn_img_memo))
-							.setVisibility(View.GONE);
-					((Button) findViewById(R.id.button_img_memo))
-							.setVisibility(View.VISIBLE);
-				}
-			}
-		default:
-			return;
-		}
-	}
-
 	public static void updateIcon(Drawable pDrawable) {
-		
+
 		mDrawableIcon = pDrawable;
-		if(pDrawable!=null)
+		if (pDrawable != null)
 			Log.i("abc", "null");
 		isUpdateIcon = true;
 	}

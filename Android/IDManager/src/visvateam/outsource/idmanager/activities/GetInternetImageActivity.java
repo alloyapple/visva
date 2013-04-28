@@ -72,6 +72,8 @@ public class GetInternetImageActivity extends BaseActivity {
 
 					EditIconActivity.mDrawableIconEdit = (Drawable) new BitmapDrawable(
 							snapScreen());
+					EditIconActivity.startActivity(
+							GetInternetImageActivity.this, 2);
 					finish();
 
 				} else {
@@ -246,7 +248,7 @@ public class GetInternetImageActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-
+		EditIconActivity.startActivity(this, 2);
 		finish();
 
 	}

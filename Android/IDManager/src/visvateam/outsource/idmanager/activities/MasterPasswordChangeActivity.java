@@ -144,6 +144,8 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
+		if(isChangePW)
+			SettingActivity.startActivity(this, 2);
 		finish();
 	}
 

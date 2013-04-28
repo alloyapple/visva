@@ -23,10 +23,9 @@ import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import visvateam.outsource.idmanager.util.NetworkUtility;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -34,17 +33,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.InputFilter;
-import android.text.InputFilter.LengthFilter;
-import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -171,7 +162,11 @@ public class SettingActivity extends BaseActivity {
 		startActivity(intentChangePW);
 		finish();
 	}
-
+	public static void startActivity(Activity activity, int valueExtra) {
+		Intent i = new Intent(activity, SettingActivity.class);
+		i.putExtra("modeBundleSetting", valueExtra);
+		activity.startActivity(i);
+	}
 	public void onSecurityMode(View v) {
 		SetupSecurityModeActivity.startActivity(this);
 	}
