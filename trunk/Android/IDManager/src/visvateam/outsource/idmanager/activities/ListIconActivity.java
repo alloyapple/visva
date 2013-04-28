@@ -261,8 +261,9 @@ public class ListIconActivity extends BaseActivity {
 	}
 
 	public void selectIcon(int cataloge, int index) {
-		EditIdPasswordActivity.updateIcon(getResources().getDrawable(
+		EditIdPasswordActivity2.updateIcon(getResources().getDrawable(
 				mIdIcon.get(cataloge)[index]));
+		EditIdPasswordActivity2.startActivity(ListIconActivity.this,2);
 		finish();
 	}
 
@@ -272,11 +273,14 @@ public class ListIconActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
+		EditIdPasswordActivity2.startActivity(ListIconActivity.this,2);
 		finish();
+		
 	}
 
 	public void onEditImage(View v) {
 		Intent i = new Intent(this, EditIconActivity.class);
+		i.putExtra("modeBundleEditIcon", 1);
 		startActivity(i);
 		finish();
 	}
@@ -303,10 +307,11 @@ public class ListIconActivity extends BaseActivity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									// TODO Auto-generated method stub
-									EditIdPasswordActivity
+									EditIdPasswordActivity2
 											.updateIcon(getResources()
 													.getDrawable(
 															R.drawable.default_icon));
+									EditIdPasswordActivity2.startActivity(ListIconActivity.this,2);
 									ListIconActivity.this.finish();
 								}
 							})

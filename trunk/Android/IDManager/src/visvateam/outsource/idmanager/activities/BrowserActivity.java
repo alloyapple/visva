@@ -38,7 +38,7 @@ public class BrowserActivity extends BaseActivity {
 		currentElementId = getIntent().getExtras().getInt(
 				Contants.CURRENT_PASSWORD_ID);
 
-		if (mode == Contants.INFO_TO) {
+		if (mode == Contants.INFO_TO || mode == Contants.EDIT_TO) {
 			url = "http://www.japanappstudio.com/home.html";
 		} else {
 			initData();
@@ -72,6 +72,8 @@ public class BrowserActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
+		if (mode == Contants.EDIT_TO)
+			EditIdPasswordActivity2.startActivity(this, 2);
 		finish();
 	}
 

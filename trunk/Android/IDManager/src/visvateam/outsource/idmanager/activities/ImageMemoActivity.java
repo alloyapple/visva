@@ -84,18 +84,11 @@ public class ImageMemoActivity extends BaseActivity {
 						// TODO Auto-generated method stub
 						if (fileUri != null
 								&& mCheckBoxChoiceImgMemo.isChecked()) {
-							// String imagePth = fileUri.getPath();
-							// // int orientation = checkOrientation(fileUri);
-							// EditIdPasswordActivity.updateMemo((Drawable) new
-							// BitmapDrawable(
-							// decodeSampledBitmapFromFile(imagePth, 200, 100,
-							// orientation)));
 							EditIdPasswordActivity
 									.updateMemo((Drawable) new BitmapDrawable(
 											snapScreen()));
 							Intent resultIntent = new Intent();
-							// resultIntent.putExtra(Contants.FIlE_PATH_IMG_MEMO,
-							// fileUri.toString());
+							resultIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 2);
 							setResult(Activity.RESULT_OK, resultIntent);
 							finish();
 						} else {
