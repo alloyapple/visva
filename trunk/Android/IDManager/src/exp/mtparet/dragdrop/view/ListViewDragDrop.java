@@ -152,7 +152,6 @@ public class ListViewDragDrop extends ListView {
 				return super.onTouchEvent(ev);
 		} else {
 			/*remove on move element to folder*/
-			Log.e("onActionUp", "onActionUp "+isMove);
 			int left = this.getLeft();
 			int right = this.getRight();
 			int top = this.getTop();
