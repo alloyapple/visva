@@ -119,12 +119,21 @@ public class ItemAdapter extends BaseAdapter {
 		/* button delete */
 		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-		if (isModeEdit && (currentFolderOrder >= 1)) {
+	
+		if (isModeEdit && (currentFolderOrder >= 0)) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
+			btnDelete.setFocusable(true);
+			btnEdit.setFocusable(true);
+			txtIdUrl.setSelected(true);
+			txtIdName.setSelected(true);
 		} else {
 			btnEdit.setVisibility(View.GONE);
 			btnDelete.setVisibility(View.GONE);
+			btnDelete.setFocusable(false);
+			btnEdit.setFocusable(false);
+			txtIdUrl.setSelected(false);
+			txtIdName.setSelected(false);
 		}
 		
 		return convertView;
@@ -146,6 +155,7 @@ public class ItemAdapter extends BaseAdapter {
 	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			Log.e("click edit", "click edit");
 			final int position = idListView.getPositionForView((View) v.getParent());
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DIALOG_DELETE_ID;

@@ -9,7 +9,6 @@ import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.BaseActivity;
 import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
-import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity2;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
@@ -601,7 +600,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		@Override
 		public void drag(int from, int to) {
 			// TODO Auto-generated method stub
-			if (!isDnd && !isEdit) {
+			if (!isDnd && isEdit) {
 				isDnd = true;
 			}
 		}
@@ -633,7 +632,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		@Override
 		public void drag(int from, int to) {
 			// TODO Auto-generated method stub
-			if (!isDndElement && !isEdit) {
+			if (!isDndElement && isEdit) {
 				isDndElement = true;
 			}
 		}
@@ -1417,4 +1416,10 @@ public class HomeScreeenActivity extends BaseActivity implements
 		Log.d("onUserInteraction", "User interaction to " + this.toString());
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		mIdManagerPreference.setEditMode(false);
+	}
 }

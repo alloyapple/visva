@@ -27,6 +27,7 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -133,8 +134,8 @@ public class ListViewDragDrop extends ListView {
 	public boolean onTouchEvent(MotionEvent ev) {
 		boolean handled = false;
 		float xPos = ev.getX();
-
-		if (xPos < this.getWidth() - 100) {
+		float yPos = ev.getY();
+		if (xPos < 150) {
 			Rect r = mTempRect;
 			if (mDragView != null)
 				mDragView.getDrawingRect(r);
@@ -150,8 +151,28 @@ public class ListViewDragDrop extends ListView {
 			if (!handled)
 				return super.onTouchEvent(ev);
 		} else {
+			/*remove on move element to folder*/
+			Log.e("onActionUp", "onActionUp "+isMove);
+			int left = this.getLeft();
+			int right = this.getRight();
+			int top = this.getTop();
+			int bottom = this.getBottom();
+			Rect rect = new Rect(left, top, right, bottom);
+
+			if (mOnItemMoveListener != null) {
+				mOnItemMoveListener.onTouch(ListViewDragDrop.this, ev);
+			}
+
+			if (!rect.contains((int) xPos, (int) yPos)) {
+
+				if (mOnItemOutUpListener != null) {
+					mOnItemOutUpListener.onTouch(this.childSelected, ev);
+				}
+			}
+			isMove = false;
+			
 			if ((mDragListener != null || mDropListener != null)
-					&& mDragView != null) {
+					&& mDragView != null && mIdManagerPreference.isEditMode()) {
 				int action = ev.getAction();
 				switch (action) {
 
@@ -177,10 +198,10 @@ public class ListViewDragDrop extends ListView {
 					int x = (int) ev.getX();
 					y = (int) ev.getY();
 
-					if (x < this.getWidth() - 100) {
+					if (x < 150) {
 						return false;
-					} else if (x == xPos) {
-						if (!mIdManagerPreference.isEditMode()) {
+					} else {
+						if (mIdManagerPreference.isEditMode()) {
 							dragView(x, y);
 							int itemnum = getItemForPosition(y);
 							if (itemnum >= 0) {
@@ -221,8 +242,7 @@ public class ListViewDragDrop extends ListView {
 								}
 							}
 						}
-					} else
-						stopDragging();
+					}
 					break;
 				default:
 					stopDragging();
@@ -284,12 +304,12 @@ public class ListViewDragDrop extends ListView {
 
 			} else {
 				mOnItemMoveListener.onTouch(ListViewDragDrop.this, event);
-
 				return true;
 			}
 		}
 
 		if (event.getAction() == MotionEvent.ACTION_UP && isMove) {
+			Log.e("onActionUp", "onActionUp "+isMove);
 			int left = this.getLeft();
 			int right = this.getRight();
 			int top = this.getTop();
@@ -318,13 +338,14 @@ public class ListViewDragDrop extends ListView {
 		if (getChildCount() > 0)
 			totalchilds = getChildCount();
 
-		if (mDragListener != null || mDropListener != null) {
-			switch (ev.getAction()) {
-			case MotionEvent.ACTION_DOWN:
+		switch (ev.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			if (mDragListener != null || mDropListener != null
+					&& mIdManagerPreference.isEditMode()) {
 				int x = (int) ev.getX();
 				int y = (int) ev.getY();
 
-				if (x < this.getWidth() - 100) {
+				if (x < 150) {
 					return false;
 				}
 
@@ -345,7 +366,7 @@ public class ListViewDragDrop extends ListView {
 				Rect r = mTempRect;
 				dragger.getDrawingRect(r);
 				if (y < r.bottom * 2) {
-					if (!mIdManagerPreference.isEditMode()) {
+					if (mIdManagerPreference.isEditMode()) {
 						item.setDrawingCacheEnabled(true);
 						Bitmap bitmap = Bitmap.createBitmap(item
 								.getDrawingCache());
@@ -362,6 +383,34 @@ public class ListViewDragDrop extends ListView {
 					break;
 				}
 			}
+			break;
+		case MotionEvent.ACTION_UP:
+			
+			if (mDragListener != null || mDropListener != null
+					&& mIdManagerPreference.isEditMode()) {
+				Rect r = mTempRect;
+				r = mTempRect;
+				if (mDragView != null)
+					mDragView.getDrawingRect(r);
+				stopDragging();
+				if (mDropListener != null && mDragPos >= 0
+						&& mDragPos < getCount()) {
+					mDropListener.drop(mFirstDragPos, mDragPos);
+
+					if (mDragPos < (totalchilds - 1))
+						setSelectionFromTop(0, 0);
+				}
+				unExpandViews(false);
+			} else {
+				boolean handled = false;
+				if (mOnItemMoveListener != null && !handled)
+					handled = onMove(ev);
+				if (!handled)
+					return super.onTouchEvent(ev);
+				break;
+			}
+		default:
+			break;
 		}
 		return super.onInterceptTouchEvent(ev);
 	}
@@ -373,7 +422,6 @@ public class ListViewDragDrop extends ListView {
 				v.setBackgroundColor(Color.parseColor("#E0E0E0"));
 			else
 				v.setBackgroundColor(Color.WHITE);
-
 		}
 	}
 

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -105,7 +106,7 @@ public class DndListViewFolder extends ListView {
 				if (x < 70) {
 					item.setDrawingCacheEnabled(true);
 					Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
-					if (!mIdManagerPreference.isEditMode())
+					if (mIdManagerPreference.isEditMode())
 						startDragging(bitmap, y);
 					mDragPos = itemnum;
 					mFirstDragPos = mDragPos;
@@ -129,6 +130,18 @@ public class DndListViewFolder extends ListView {
 				mDragView = null;
 				break;
 			case MotionEvent.ACTION_UP:
+				r = mTempRect;
+				if (mDragView != null)
+					mDragView.getDrawingRect(r);
+				stopDragging();
+				if (mDropListener != null && mDragPos >= 0
+						&& mDragPos < getCount()) {
+					mDropListener.drop(mFirstDragPos, mDragPos);
+
+					if (mDragPos < (totalchilds - 1))
+						setSelectionFromTop(0, 0);
+				}
+				unExpandViews(false);
 				break;
 			}
 		}
@@ -241,6 +254,7 @@ public class DndListViewFolder extends ListView {
 			}
 			return true;
 		}
+
 		return super.onTouchEvent(ev);
 	}
 
