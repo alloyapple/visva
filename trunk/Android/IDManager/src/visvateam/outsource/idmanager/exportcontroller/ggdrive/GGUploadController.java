@@ -116,7 +116,8 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 					return Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
 				}
 			} else {
-				return Contants.DIALOG_MESSAGE_SYNC_FAILED;
+				Log.e("adjfhkldhf", "mService null roi : "+mService);
+				return Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
 			}
 		} catch (UserRecoverableAuthIOException e) {
 			Log.e("error", "error");
@@ -142,7 +143,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
 			mHandler.sendMessage(msg);
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_FAILED) {
-			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_FAILED;
+			msg.arg1 = Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
 			mHandler.sendMessage(msg);
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE;
