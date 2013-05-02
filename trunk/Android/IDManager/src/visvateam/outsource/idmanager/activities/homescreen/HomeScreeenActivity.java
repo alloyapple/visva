@@ -1339,7 +1339,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		folderId++;
 		Log.e("folderList", "folderList " + sizeOfFolder);
 		GroupFolder folder = new GroupFolder(folderId, folderName, 0,
-				Contants.MASTER_PASSWORD_ID, 1);
+				Contants.MASTER_PASSWORD_ID, 0);
 		mIDxPWDataBaseHandler.addNewFolder(folder);
 
 		folderListViewAdapter.addNewFolder(folder, folder.getgOrder());
