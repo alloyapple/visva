@@ -736,9 +736,8 @@ public class SyncCloudActivity extends Activity {
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
-				Log.e("adjfhkldhf", "adfkjhkd ");
 				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
-				startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
+				startActivityForResult(credential.newChooseAccountIntent(), REQUEST_AUTHORIZATION);
 			}
 		};
 	};
