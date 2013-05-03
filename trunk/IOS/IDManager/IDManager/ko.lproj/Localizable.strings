@@ -49,7 +49,7 @@
 "InAppCSV999" = "CSV 형식으로 출력 기능을 추가합니다. ##,000원 부과됩니다 도의합니까?";
 "Note" = "Note";
 "NoImage" = "NO IMAGE";
-"DestructionTurnOnWarn" = "안전을 위해 파괴 설정이 되어 있습니다. #번 잘못 입력 하면 IDxPassword의 데이타가 손실됩니다.";
+"DestructionTurnOnWarn1s" = "안전을 위해 파괴 설정이 되어 있습니다. %@ 번 잘못 입력 하면 IDxPassword의 데이타가 손실됩니다.";
 "ClipboardCopied" = "다음 항목이 클립 보드에 복사되었습니다.";
 "OpenWeb" = "웹 페이지 열기";
 "PassGenerator" = "비밀번호 자동 생성";
@@ -87,3 +87,7 @@
 "Web" = "Web";
 "ECommerce" = "쇼핑";
 "Carrier" = "통신 · 인터넷";
+
+//new
+//new
+"urlInfo"="http://www.japanappstudio.com/app/IDxPassword/kr/index.html";
