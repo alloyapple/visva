@@ -153,11 +153,12 @@ NSString *diOrder = @"gOrder";
 //                       dgrDeleted, diOrder, dgroupId];
     
     NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET \
-                       %@ =?, %@=? ,%@=?, %@=?,\
-                       %@=?, %@=?  WHERE %@=?",
+                       %@ =?, %@=? ,%@=?, %@=?\
+                       WHERE %@=?",
                        dgroupTable,
-                       dgroupName, dgroupType,dgrUserId, diOrder, dgroupId];
-    
+                       dgroupName, dgroupType,dgrUserId, diOrder,
+                       dgroupId];
+    TDLOG(@"Query = %@", query);
     sqlite3_stmt *stmt;
     if (sqlite3_prepare_v2(db, [query UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
         return NO;
@@ -209,7 +210,8 @@ NSString *diOrder = @"gOrder";
 }
 
 -(BOOL)deleteFromDb:(TDSqlManager*)manager{
-    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dgroupName, dgroupId, _iGroupId];
+    NSString *query = [NSString stringWithFormat:@"DELETE From %@ WHERE %@=%d", dgroupTable, dgroupId, _iGroupId];
+    TDLOG(@"Query delete table = %@", query);
     BOOL returnValue = [manager executeQuery:query];
     if (!returnValue) {
         return returnValue;
