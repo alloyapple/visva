@@ -8,6 +8,7 @@
 
 #import "VATermViewController.h"
 #import "VAGlobal.h"
+#import "VAConstan.h"
 @interface VATermViewController ()
 - (IBAction)btAccept:(id)sender;
 
@@ -27,7 +28,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    NSString *term = S_TERM_EN;
+    NSString *lang = [[NSLocale preferredLanguages] objectAtIndex:0];
+    if ([lang isEqualToString:@"ja"]) {
+        term = S_TERM_JA;
+    }
+    _lbTerm.text = term;
 }
 
 - (void)didReceiveMemoryWarning
@@ -38,5 +44,17 @@
 
 - (IBAction)btAccept:(id)sender {
     [self dismissModalViewControllerAnimated:YES];
+}
+- (IBAction)btCancel:(id)sender {
+    exit(0);
+}
+
+- (void)dealloc {
+    [_lbTerm release];
+    [super dealloc];
+}
+- (void)viewDidUnload {
+    [self setLbTerm:nil];
+    [super viewDidUnload];
 }
 @end

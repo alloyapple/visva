@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#define kMaxId 13
+#define kMaxId 5
 #define kMaxNumElementID 12
 @class VAGroup;
 @class TDSqlManager;
 @interface VAUser : NSObject
 @property(nonatomic, assign)int iUserId;
 //@property(nonatomic, retain)NSString *sUserName;
+@property(nonatomic, retain)NSString *sEmail;
 @property(nonatomic, retain)NSString *sUserPassword;
 @property(nonatomic, retain)NSMutableArray *aUserFolder;
 @property(nonatomic, retain)VAGroup *favoriteGroup;

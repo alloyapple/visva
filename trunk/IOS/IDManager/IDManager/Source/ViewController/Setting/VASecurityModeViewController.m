@@ -30,6 +30,7 @@
 {
     [super viewDidLoad];
     [TDSoundManager playShortEffectWithFile:@"chakin2.caf"];
+    [_pkmode selectRow:_currentRow inComponent:0 animated:NO];
     // Do any additional setup after loading the view from its nib.
 }
 

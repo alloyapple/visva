@@ -39,7 +39,7 @@
             NSAssert(0, @"Fail to open data base");
         }
         const char* key = [pass UTF8String];
-        //sqlite3_key(database, key, pass.length);
+        sqlite3_key(database, key, pass.length);
         
     }
     return self;

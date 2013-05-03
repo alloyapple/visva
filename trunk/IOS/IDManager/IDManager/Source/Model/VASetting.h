@@ -10,6 +10,7 @@
 
 @interface VASetting : NSObject
 @property(nonatomic, assign)BOOL isFirstUse;
+@property(nonatomic, assign)BOOL isCreatePassword;
 @property(nonatomic, assign)BOOL isSecurityOn;
 @property(nonatomic, assign)float fSecurityDuration;
 @property(nonatomic, assign)int numBeforeDestroyData;

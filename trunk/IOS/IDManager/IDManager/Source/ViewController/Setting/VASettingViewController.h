@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "VASecurityModeViewController.h"
 #import "VALoginController.h"
+#import "VASyncSettingViewController.h"
 
 @interface VASettingViewController : UIViewController<UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, VAPickerSideDelegate, VALoginDelegate>
 

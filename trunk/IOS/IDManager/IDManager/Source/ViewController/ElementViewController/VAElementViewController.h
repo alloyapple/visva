@@ -11,6 +11,7 @@
 #import "TDWebViewController.h"
 #import "VAChooseIconViewController.h"
 #import "VAEditImageViewController.h"
+#import "VAEditMemoImageViewController.h"
 
 @class VAPasswordIDView;
 @class VAPassword;
@@ -19,9 +20,10 @@
 -(void)genTextFor:(VAPasswordIDView*)view;
 @end
 @interface VAPasswordIDView : UITableViewCell<UITextFieldDelegate>
-@property(nonatomic, retain)IBOutlet UITextField *vPassword;
+
 @property(nonatomic, retain)IBOutlet UITextField *vId;
 @property(nonatomic, retain)UITextField *selectedField;
+@property(nonatomic, retain)IBOutlet UITextField *vPassword;
 @property(nonatomic, retain)IBOutlet VAPassword *currentPwId;
 @property(nonatomic, assign)IBOutlet id<VAPasswordIDViewDelegate> delegate;
 
@@ -33,7 +35,8 @@
 @protocol VAElementViewDelegate;
 @interface VAElementViewController : UIViewController<TDWebViewDelegate, UITextFieldDelegate, VAChooseIconDelegate, VAPasswordIDViewDelegate,
     UITableViewDataSource, UITableViewDelegate, UITextViewDelegate,
-    VAEditImageDelegate>{
+    VAEditImageDelegate, UIGestureRecognizerDelegate,
+    VAEditMemoImageDelegate>{
     BOOL _isFirstKeyboardShown;
 }
 @property(nonatomic, assign)IBOutlet id<VAElementViewDelegate> elementDelegate;

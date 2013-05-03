@@ -12,6 +12,7 @@
 #import "VAPassword.h"
 #import <UIKit/UIGestureRecognizerSubclass.h>
 #import "CGPointUtils.h"
+#import "TDAlert.h"
 
 @interface UIView(TDText)
 -(NSMutableArray*)getListTextField;
@@ -44,7 +45,7 @@
 @implementation TDRotateGesture
 -(id)initWithTarget:(id)target action:(SEL)action{
     if (self = [super initWithTarget:target action:action]) {
-        _angleStep = 80;
+        _angleStep = 60;
         _minRadiusFactor = 0.1;
         _maxRadiusFactor = 0.9;
         _centerPoint = (CGPoint){0.5, 0.5};
@@ -67,8 +68,9 @@
     
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self.view];
+    _isValidTouch = YES;
     if (![self isValidPos:point]) {
-        self.state = UIGestureRecognizerStateFailed;
+        _isValidTouch = NO;
         return;
     }
     _beginPoint = point;
@@ -80,14 +82,14 @@
     UITouch *touch = [touches anyObject];
     CGPoint currentPoint = [touch locationInView:self.view];
     if (![self isValidPos:currentPoint]) {
-        
+        _isValidTouch = NO;
         self.state = UIGestureRecognizerStateFailed;
         return;
     }
     
     float rotate = angleSignBetweenLines(_centerPoint, _beginPoint,
                                      _centerPoint, currentPoint);
-    //TDLOG(@"rotate = %f", rotate);
+    TDLOG(@"rotate = %f, pos = (%f,%f),cen = (%f,%f)", rotate, currentPoint.x, currentPoint.y,_centerPoint.x, _centerPoint.y);
     
     if (fabs(rotate)> _angleStep) {
         if (rotate>0) {
@@ -110,6 +112,16 @@
         self.state = UIGestureRecognizerStateChanged;
     }*/
     
+}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    if (self.state == UIGestureRecognizerStateBegan || !_isValidTouch) {
+        self.state = UIGestureRecognizerStateFailed;
+    }
+}
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
+    if (self.state == UIGestureRecognizerStateBegan || !_isValidTouch) {
+        self.state = UIGestureRecognizerStateFailed;
+    }
 }
 @end
 
@@ -143,6 +155,7 @@
 @property (retain, nonatomic) IBOutlet UIButton *btJogNote;
 @property (retain, nonatomic) IBOutlet UIButton *btJogKeyBoard;
 @property (retain, nonatomic) IBOutlet UIScrollView *svScrollView;
+@property (retain, nonatomic) IBOutlet UIView *vJogCircle;
 
 @property (retain, nonatomic) IBOutlet UIView *vScrollViewContent;
 
@@ -181,14 +194,41 @@
         _vIconChoose.hidden = YES;
     }
     
+    
     TDRotateGesture *gesture = [[[TDRotateGesture alloc] initWithTarget:self action:@selector(touchPan:)] autorelease];
+    gesture.delegate = self;
     gesture.rect = CGRectMake(0, 0,
-                                 _vJogDial.frame.size.width,
-                                 _vJogDial.frame.size.height);
-    gesture.centerFactor = (CGPoint){0.5,303.0f/523.0f};
-    gesture.minRadiusFactor = 6.0f/303.0f;
-    gesture.maxRadiusFactor = 193.0f/303.0f;
-    [_vJogDial addGestureRecognizer:gesture];
+                                 _vJogCircle.frame.size.width,
+                                 _vJogCircle.frame.size.height);
+    gesture.centerFactor = (CGPoint){0.5,0.5};
+    //gesture.minRadiusFactor = 6.0f/303.0f;
+    gesture.minRadiusFactor = 36.0f/186.0f;
+    gesture.maxRadiusFactor = 1.2;
+    //gesture.maxRadiusFactor = 193.0f/303.0f;
+    [_vJogCircle addGestureRecognizer:gesture];
+    _vJogDial.hidden = NO;
+    
+    if (_bIsUseJogDial) {
+        _btScreenShot.hidden = NO;
+        [_btScreenShot setImage:[UIImage imageNamed:@"wheel-icon.png"] forState:UIControlStateNormal];
+        [_btScreenShot setImage:[UIImage imageNamed:@"wheel-icon_push.png"] forState:UIControlStateSelected];
+        [_btScreenShot setImage:nil forState:UIControlStateHighlighted];
+        
+    }
+    
+}
+
+
+-(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    if (gestureRecognizer.view == _vJogDial) {
+        CGPoint pos = [gestureRecognizer locationInView:gestureRecognizer.view];
+        CGRect frame = _btJogCenter.frame;
+        if (CGRectContainsPoint(frame, pos)) {
+            return NO;
+        }
+        return YES;
+    }
+    return YES;
 }
 -(void)panView:(UIPanGestureRecognizer*)gesture{
     if (gesture.state == UIGestureRecognizerStateChanged) {
@@ -214,8 +254,8 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    _vJogDial.hidden = NO;
-    [self registerKeyboard];
+    
+    //[self registerKeyboard];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -235,7 +275,14 @@
 }
 
 - (void)dealloc {
+    TDLOGFUNCS();
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [_sNote release];
+    [_listPWID release];
+    [_screenShot release];
+    [_sUrlStart release];
+    [_sUrl release];
+    
     [_wvContent release];
     [_vBottom release];
     [_vTop release];
@@ -244,8 +291,7 @@
     [_btForward release];
     [_tfUrl release];
     
-    [_sUrlStart release];
-    [_sUrl release];
+    
     [_btScreenShot release];
     [_btReload release];
     [_vJogDial release];
@@ -255,6 +301,7 @@
     [_svScrollView release];
     [_vScrollViewContent release];
     [_vIconChoose release];
+    [_vJogCircle release];
     [super dealloc];
 }
 - (void)viewDidUnload {
@@ -274,12 +321,23 @@
     [self setSvScrollView:nil];
     [self setVScrollViewContent:nil];
     [self setVIconChoose:nil];
+    [self setVJogCircle:nil];
     [super viewDidUnload];
 }
 - (IBAction)btScreenShotPress:(id)sender {
-    CGRect rect = [_wvContent convertRect:_vIconChoose.frame fromView:_vIconChoose.superview];
-    self.screenShot = [MPAnimation renderImageFromView:_wvContent withRect:rect];
-    [_webDelegate browserBack:self];
+    if (_bIsTakeScreenShot) {
+        CGRect rect = [_wvContent convertRect:_vIconChoose.frame fromView:_vIconChoose.superview];
+        self.screenShot = [MPAnimation renderImageFromView:_wvContent withRect:rect];
+        [_webDelegate browserBack:self];
+    }else if (_bIsUseJogDial){
+        [_btScreenShot setSelected:!_btScreenShot.isSelected];
+        if (_btScreenShot.isSelected) {
+            [self showJogDial];
+        }else{
+            [self hideJogDial];
+        }
+    }
+    
 }
 
 - (IBAction)btReloadPressed:(id)sender {
@@ -332,7 +390,7 @@
     self.sUrl = [NSString stringWithFormat:@"%@", webView.request.URL];
     self.tfUrl.text = _sUrl;
     [self checkAvailable];
-    [self showJogDial];
+    //[self showJogDial];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSString *mess = [NSString stringWithFormat:@"%@", error];
@@ -348,24 +406,26 @@
         _vJogDial.frame.size.width, _vJogDial.frame.size.height};
 }
 -(NSString *)focusField:(int)index{
-    NSString *format = @"tdkmFields=document.querySelectorAll(\"input[type=text],input[type=email]\");tdkmFields.item(%d).focus();";
+    NSString *format = @"tdkmFields=document.querySelectorAll(\"input[type=text],input[type=email],input[type='password']\");tdit=tdkmFields.item(%d);tdit.focus();tdit.scrollIntoView();";
     NSString *script = [NSString stringWithFormat:format, index];
     NSString *str = [self.wvContent stringByEvaluatingJavaScriptFromString:script];
     return str;
 }
+/*
 -(NSString *)focusPass:(int)index{
     NSString *format = @"tdkmPass=document.querySelectorAll(\"input[type='password']\");tdkmPass.length;tdkmPass.item(%d).focus();";
     NSString *script = [NSString stringWithFormat:format, index];
     NSString *str = [self.wvContent stringByEvaluatingJavaScriptFromString:script];
     return str;
-}
+}*/
 -(NSString *)setField:(NSString *)value index:(int)i{
-    NSString *format = @"tdkmFields=document.querySelectorAll(\"input[type=text],input[type=email]\");tdkmFields.item(%d).value=\"%@\";";
+    NSString *format = @"tdkmFields=document.querySelectorAll(\"input[type=text],input[type=email],input[type='password']\");tdkmFields.item(%d).value=\"%@\";";
     NSString *script = [NSString stringWithFormat:format, i, value];
     TDLOG(@"script=%@",script);
     NSString *str = [self.wvContent stringByEvaluatingJavaScriptFromString:script];
     return str;
 }
+/*
 -(NSString *)setPass:(NSString *)value index:(int)i{
     NSString *format = @"tdkmPass=document.querySelectorAll(\"input[type='password']\");tdkmPass.length;tdkmPass.item(%d).value=\"%@\";";
     NSString *script = [NSString stringWithFormat:format, i, value];
@@ -373,7 +433,12 @@
     NSString *str = [self.wvContent stringByEvaluatingJavaScriptFromString:script];
     return str;
 }
+*/
 
+-(void)hideJogDial{
+    _vJogDial.hidden = YES;
+    [_btScreenShot setSelected:NO];
+}
 -(void)showJogDial
 {
     if (!_bIsUseJogDial) {
@@ -382,10 +447,10 @@
     if (_wvContent.isLoading) {
         return;
     }
-    
+    _vJogDial.hidden = NO;
     //create js strings
     NSString *getFields =
-    @"tdkmFields=document.querySelectorAll(\"input[type=text],input[type=email]\");tdkmFields.length;";
+    @"tdkmFields=document.querySelectorAll(\"input[type=text],input[type=email],input[type='password']\");tdkmFields.length;";
     
     NSString *str = [self.wvContent stringByEvaluatingJavaScriptFromString:getFields];
     if (str != nil) {
@@ -394,23 +459,9 @@
         _numField = 0;
     }
     
-    NSString *getPasss =
-    @"tdkmPass=document.querySelectorAll(\"input[type='password']\");tdkmPass.length;";
-    
-    str = [self.wvContent stringByEvaluatingJavaScriptFromString:getPasss];
-    if (str != nil) {
-        _numPass = [str intValue];
-    }else{
-        _numPass = 0;
-    }
-    
     if (_numField >0) {
         [self focusField:0];
-    }else if(_numPass >0){
-        [self focusPass:0];
     }
-
-
     
     [[_wvContent mostParentView] addSubview:_vJogDial ];
     
@@ -420,19 +471,41 @@
     for (UIView *v in arr) {
         [v removeFromSuperview];
     }
-    float width = 60, height = _vScrollViewContent.frame.size.height/2;
+    
+    float width = 120, height = _vScrollViewContent.frame.size.height/2;
     float mul = 1;
+    
+    UIImage *bgImage = [UIImage imageNamed:@"jog_upperswitch.png"];
     for (int i=0; i<_listPWID.count*mul; i++){
         VAPassword *pass = [_listPWID objectAtIndex:i/mul];
-        UIButton *btID = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [btID setTitle:pass.sTitleNameId forState:UIControlStateNormal];
-        btID.frame = (CGRect){i*width, 0, width, height};
+        UILabel *btID = [[[UILabel alloc] init] autorelease];
+        [btID setText:pass.sTitleNameId];
+        btID.backgroundColor = [UIColor clearColor];
+        btID.textAlignment = NSTextAlignmentCenter;
+        //[btID setTitle:pass.sTitleNameId forState:UIControlStateNormal];
+        //btID.frame = (CGRect){i*width, 0, width, height};
+        btID.frame = (CGRect){0, 0, width-10, height};
         
-        UIButton *btPassword = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [btPassword setTitle:pass.sPassword forState:UIControlStateNormal];
-        btPassword.frame = (CGRect){i*width, height, width, height};
-        [_vScrollViewContent addSubview:btID];
-        [_vScrollViewContent addSubview:btPassword];
+        UILabel *btPassword = [[[UILabel alloc] init] autorelease];
+        btPassword.text = pass.sPassword;
+        //[btPassword setTitle:pass.sPassword forState:UIControlStateNormal];
+        //btPassword.frame = (CGRect){i*width, height, width, height};
+        btPassword.frame = (CGRect){0, height, width-10, height};
+        btPassword.backgroundColor = [UIColor clearColor];
+        btPassword.textAlignment = NSTextAlignmentCenter;
+        
+        CGRect frame = (CGRect){i*width, 0, width-10, height*2};
+        UIButton *v = [[[UIButton alloc] initWithFrame:frame] autorelease];
+        [v setBackgroundImage:bgImage forState:UIControlStateNormal];
+        [_vScrollViewContent addSubview:v];
+        [v addSubview:btID];
+        [v addSubview:btPassword];
+        
+        [v addSubview:btID];
+        [v addSubview:btPassword];
+        
+        //[_vScrollViewContent addSubview:btID];
+        //[_vScrollViewContent addSubview:btPassword];
     }
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0,0.0, 0.0,
                                                  _listPWID.count * width *mul);
@@ -486,38 +559,65 @@
     if (gesture.state == UIGestureRecognizerStateEnded) {
         TDLOG(@"JogActive %f, %f", pos.x, pos.y);
         if (gesture.isClockWise) {
-            if (_currentField >= MIN(_listPWID.count, _numField)) {
-                return;
+            if (_currentField < _listPWID.count) {
+                [self setField:[[_listPWID objectAtIndex:_currentField] sPassword] index:_currentField];
             }
-        }else{
-            if (_currentField<0) {
-                return;
-            }
-        }
-        [self setField:[[_listPWID objectAtIndex:_currentField] sTitleNameId] index:_currentField];
-        [self setPass:[[_listPWID objectAtIndex:_currentField] sPassword]
-                index:_currentField];
-        [TDSoundManager playShortEffectWithFile:@"jogwheel.caf"];
-        
-        if (gesture.isClockWise) {
-            if (_currentField+1 >= MIN(_listPWID.count, _numField)) {
-                return;
-            }
-            _currentField++;
             
+            [self gotoNexField:YES circle:NO];
         }else{
-            if (_currentField-1 <0) {
-                return;
-            }
-            _currentField--;
+            [self setField:@"" index:_currentField];
+            [self gotoNexField:NO circle:NO];
         }
+        [TDSoundManager playShortEffectWithFile:@"jogwheel.caf"];
         [self focusField:_currentField];
     }else{
         //TDLOG(@"Change %f, %f", pos.x, pos.y);
     }
-    
 }
-
+-(void)gotoNexField:(BOOL)isNext circle:(BOOL)isCircle
+{
+    int next;
+    if (isNext) {
+        next = _currentField +1;
+    }else{
+        next = _currentField - 1;
+    }
+    if (!isCircle) {
+        if (next < 0 || next >= _numField || next >= [_listPWID count]) {
+            return;
+        }
+    }
+    if (next >= _numField && next >= [_listPWID count]) {
+        _currentField = 0;
+    }else if (next <0){
+        _currentField = MIN(_numField-1, [_listPWID count]-1);
+    }else{
+        _currentField = next;
+    }
+    [self focusField:_currentField];
+}
+- (IBAction)btCenterPressed:(id)sender {
+    [self gotoNexField:YES circle:YES];
+    
+//    int next = _currentField+1;
+//    if (next < _numField && next < [_listPWID count]) {
+//        _currentField = next;
+//    }else{
+//        _currentField = 0;
+//    }
+//    for (int i=0; i<_vScrollViewContent.subviews.count; i++) {
+//        UIButton *v = [_vScrollViewContent.subviews objectAtIndex:i];
+//        if (i==_currentField) {
+//            [v setSelected:YES];
+//        }else{
+//            [v setSelected:NO];
+//        }
+//    }
+//    [self focusField:_currentField];
+}
+- (IBAction)btNotePressed:(id)sender {
+    [TDAlert showMessageWithTitle:@"Note" message:_sNote delegate:self];
+}
 #pragma mark - keyboard
 
 -(void)registerKeyboard{
@@ -578,8 +678,8 @@
 }
 
 - (void)keyboardWillShown:(NSNotification*)aNotification{
-    UIView *v = [[[UIApplication sharedApplication] windows] lastObject];
-    [v addSubview:_vJogDial];
+//    UIView *v = [[[UIApplication sharedApplication] windows] lastObject];
+//    [v addSubview:_vJogDial];
 
 }
 @end

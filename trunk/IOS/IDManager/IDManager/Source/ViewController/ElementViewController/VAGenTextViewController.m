@@ -196,7 +196,7 @@ typedef enum {
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 5) {
-        [TDPickerNumber showPickerFrom:1 to:100 delegate:self];
+        [TDPickerNumber showPickerFrom:4 to:22 delegate:self];
     }
 }
 

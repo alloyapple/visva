@@ -15,6 +15,7 @@
 #import "TDSyn.h"
 #import "TDString.h"
 #import "VASyncChooseFile.h"
+#import "TDAppDelegate.h"
 
 @interface VASettingViewController ()<TDSyncDelegate>
 @property (retain, nonatomic) IBOutlet UILabel *lbSettingTitle;
@@ -94,7 +95,7 @@
             cell.detailTextLabel.text = [setting stringDisplaySecurityTime];
         }
     }else if (section == 1){
-        cell.textLabel.text = TDLocStrOne(@"DestroyData");
+        cell.textLabel.text = TDLocStrOne(@"ConfigurationFail");
         cell.detailTextLabel.text = [setting stringDisplayNumBeforeDestroy];
     }else if (section == 2){
         if (row == 0) {
@@ -104,17 +105,19 @@
             cell.imageView.image = [UIImage imageNamed:@"GoogleDriveLogo.png"];
             cell.textLabel.text = TDLocStrOne(@"GoogleDrive");
         }else{
-            NSString *cellLabel = TDLocStrOne(@"NoSync");
-            if (setting.isUseDropboxSync) {
-                cellLabel = TDLocStrOne(@"DropboxSyned");
-            }else{
-                cellLabel = TDLocStrOne(@"GDriverSyned");
-            }
-            cell.textLabel.text = cellLabel;
-            [cell setAccessoryType:UITableViewCellAccessoryNone];
+//            NSString *cellLabel = TDLocStrOne(@"NoSync");
+//            if (setting.isUseDropboxSync) {
+//                cellLabel = TDLocStrOne(@"DropboxSyned");
+//            }else{
+//                cellLabel = TDLocStrOne(@"GDriverSyned");
+//            }
+//            cell.textLabel.text = cellLabel;
+//            [cell setAccessoryType:UITableViewCellAccessoryNone];
+            
+            cell.textLabel.text = TDLocStrOne(@"LoadTextData");
         }
     }else if (section == 3){
-        cell.textLabel.text = TDLocStrOne(@"LoadTextData");
+        cell.textLabel.text = TDLocStrOne(@"Email");
     }else if (section == 4){
         if (row==0) {
             cell.textLabel.text = TDLocStrOne(@"UnlimitedID");
@@ -150,6 +153,7 @@
 }
 #define kTagPickerSecurityTime 123
 #define kTagPickerSecurityCount 124
+#define kValueDefaultDestroyDataOff -1
 #define kFileExport @"idpass.csv"
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     int section = indexPath.section;
@@ -169,34 +173,77 @@
         }else if (row == 1){
             [self openSyncView:kTypeCloudGDrive];
         }else{
-            
+            [self chooseImportCSV];
         }
     }else if (section == 3){
-        [self chooseImportCSV];
+        [self changeEmail];
     }else if (section == 4){
-        if (row == 2) {
+        if (row == 0) {
+            [self unlimitedID];
+        }else if (row == 1){
+            [self cancelAd];
+        } else if (row == 2) {
             [self chooseExportCsv];
-        }else{
-            
         }
     }
 }
-
--(void)openSyncView:(kTypeCloud)type{
-    VADropboxViewController *vc = [[VADropboxViewController alloc] initWithNibName:@"VADropboxViewController" bundle:nil];
-    vc.typeCloud = type;
-    [self.navigationController pushViewController:vc animated:YES];
-    [vc release];
+-(void)changeEmail{
+    VAEmailViewController *vc = [[[VAEmailViewController alloc] initWithNibName:@"VAEmailViewController" bundle:nil] autorelease];
+    vc.type = kTypeEmailVCChange;
+    [self presentModalViewController:vc animated:YES];
 }
-#pragma mark - importCSV
+#pragma mark - tag
+
 #define kTagUnlockCSVExport 402
 #define kTagEnterExportFileName 403
 #define kTagSyncExportCsv 410
 
+#define kDefaultExportFileName @"idpx.idp"
+#define kTagUnlockUnlimitedId 420
+#define kTagUnlockAds 421
+
+-(void)unlimitedID
+{
+    if ([VAGlobal share].appSetting.isUnlockLimitId) {
+        return;
+    }
+    [TDAlert showMessageWithTitle:TDLocStrOne(@"ConfirmInApp")
+                          message:TDLocStrOne(@"InApp99")
+                         delegate:self
+                     cancelButton:TDLocStrOne(@"Approval")
+                            other:TDLocStrOne(@"Cancel")
+                              tag:kTagUnlockUnlimitedId];
+    
+}
+
+-(void)cancelAd
+{
+    if ([VAGlobal share].appSetting.isUnlockHideIad) {
+        return;
+    }
+    [TDAlert showMessageWithTitle:TDLocStrOne(@"ConfirmInApp")
+                          message:TDLocStrOne(@"InApp499")
+                         delegate:self
+                     cancelButton:TDLocStrOne(@"Approval")
+                            other:TDLocStrOne(@"Cancel")
+                              tag:kTagUnlockAds];
+}
+
+-(void)openSyncView:(kTypeCloud)type{
+    VASyncSettingViewController *vc = [[VASyncSettingViewController alloc] initWithNibName:@"VASyncSettingViewController" bundle:nil];
+    vc.typeCloud = type;
+    [self.navigationController pushViewController:vc animated:YES];
+    [vc release];
+}
+
+
 -(void)chooseImportCSV{
     VASetting *setting = [VAGlobal share].appSetting;
-    if (!(setting.isUseDropboxSync || setting.isUseGoogleDriveSync)) {
-        [TDAlert showMessageWithTitle:TDLocStrOne(@"CloudNotUsed") message:nil delegate:self];
+    if (!((setting.isUseDropboxSync &&
+                [VASyncSettingViewController isLinkWithCloud:kTypeCloudDropbox])
+           ||(setting.isUseGoogleDriveSync &&
+                [VASyncSettingViewController isLinkWithCloud:kTypeCloudGDrive]))) {
+        [TDAlert showMessageWithTitle:TDLocStrOne(@"NoCloudSetup") message:nil delegate:self];
         return;
     }
     VASyncChooseFile *vc = [[[VASyncChooseFile alloc] initWithNibName:@"VASyncChooseFile" bundle:nil] autorelease];
@@ -210,8 +257,6 @@
 
 #pragma mark -  exportCSV
 
-
-#define kDefaultExportFileName @"idpx.idp"
 -(void)chooseExportCsv{
     VASetting *setting = [VAGlobal share].appSetting;
     if (setting.isUnlockCSVExport) {
@@ -242,7 +287,7 @@
 -(void)syncExportFileToCloud:(NSString*)fileName{
     self.loadingAlert = [TDAlert showLoadingMessageWithTitle:TDLocStrOne(@"Loading") delegate:self];
     VASetting *setting = [VAGlobal share].appSetting;
-    int option = TDSyncOptionReplaceIfCloudExits|TDSyncOptionCopyIfCloudEmpty;
+    int option = TDSyncMethodToCloud;
     TDSync *sync = nil;
     if (setting.isUseDropboxSync) {
         sync = [[TDSynsDropbox alloc] initWithFile:kFileExport option:option];
@@ -250,7 +295,7 @@
         sync = [[TDSynsGDrive alloc] initWithFile:kFileExport option:option];
     }
     sync.syncDelegate = self;
-    sync.cloudFileName = fileName;
+    sync.cloudFileName = [fileName stringByAppendingString:@".csv"];
     sync.tagSync = kTagSyncExportCsv;
     [sync startSync];
 }
@@ -268,12 +313,29 @@
     [self deleteExportFile];
     [TDAlert showMessageWithTitle:TDLocStrOne(@"SyncFinish") message:nil delegate:self];
     [self.loadingAlert dismissWithClickedButtonIndex:0 animated:YES];
+    [[TDAppDelegate share].viewController reLoadData];
 }
 
 -(void)showSettingTimeSecurity{
     VASecurityModeViewController *controller = [[[VASecurityModeViewController alloc] initWithNibName:@"VASecurityModeViewController" bundle:nil] autorelease];
     controller.sideDelegate = self;
     controller.listSelection = [NSArray arrayWithObjects:@"Off", @"1", @"3", @"5", @"10",nil];
+    
+    int selection = 0;
+    VASetting *appSetting = [VAGlobal share].appSetting;
+    if (appSetting.isSecurityOn) {
+        float time = appSetting.fSecurityDuration;
+        if (time == 1) {
+            selection = 1;
+        }else if (time == 3){
+            selection = 2;
+        }else if (time == 5){
+            selection = 3;
+        }else{
+            selection = 4;
+        }
+    }
+    controller.currentRow = selection;
     controller.iTag = kTagPickerSecurityTime;
    
     [self presentModalViewController:controller animated:YES];
@@ -289,6 +351,13 @@
     controller.listSelection = array;
     controller.iTag = kTagPickerSecurityCount;
     
+    int selection = 0;
+    VASetting *appSetting = [VAGlobal share].appSetting;
+    if (appSetting.numBeforeDestroyData >0) {
+        selection = appSetting.numBeforeDestroyData;
+    }
+    controller.currentRow = selection;
+    
     [self presentModalViewController:controller animated:YES];
     controller.lbTitle.text = TDLocStrOne(@"SecurityMode");
 }
@@ -297,14 +366,13 @@
     VALoginController *login = [[[VALoginController alloc] initWithNibName:@"VALoginController" bundle:nil] autorelease];
     
     login.loginDelegate = self;
-    login.typeMasterPass = kTypeMasterPasswordChangePass;
+    login.typeMasterPass = kTypeMasterPasswordChangePassCheck1;
     [self presentModalViewController:login animated:YES];
 }
 #pragma mark - unlock function
+
 -(void)unlockCSVExport{
-    VASetting *appSetting = [VAGlobal share].appSetting;
-    appSetting.isUnlockCSVExport = YES;
-    [appSetting saveSetting];
+    [[TDAppDelegate share].viewController purchaseWithProductID:kID_CSV_EXPORT];
 }
 #pragma mark - alert
 
@@ -333,6 +401,14 @@
         }else{
             [self deleteExportFile];
         }
+    }else if (alertView.tag == kTagUnlockUnlimitedId){
+        if (buttonIndex == 0 && ![VAGlobal share].appSetting.isUnlockLimitId) {
+            [[TDAppDelegate share].viewController purchaseWithProductID:kUnlimitedId];
+        }
+    }else if (alertView.tag == kTagUnlockAds){
+        if (buttonIndex == 0 && ![VAGlobal share].appSetting.isUnlockHideIad) {
+            [[TDAppDelegate share].viewController purchaseWithProductID:kAdRemoveID];
+        }
     }
 }
 #pragma mark - login delegate
@@ -340,15 +416,22 @@
     [[VAGlobal share].appSetting updateSecurityTime];
     [vc  dismissModalViewControllerAnimated:YES];
 }
-
+-(void)loginViewDidCancel:(VALoginController *)vc{
+    [vc  dismissModalViewControllerAnimated:YES];
+}
 -(void)pickerDidDissmiss:(VASecurityModeViewController *)vc{
     VASetting *appSetting = [VAGlobal share].appSetting;
     if (vc.iTag == kTagPickerSecurityTime) {
         int selection = vc.currentRow;
-        if (selection == 0 && appSetting.isSecurityOn) {
-            [self showAlert:TDLocStrOne(@"SettingChange")];
-            appSetting.isSecurityOn = NO;
-            [appSetting updateSecurityTime];
+        if (selection == 0) {
+            if ( appSetting.isSecurityOn) {
+                [self showAlert:TDLocStrOne(@"SettingChange")];
+                appSetting.isSecurityOn = NO;
+                [appSetting updateSecurityTime];
+            }else{
+                //do nothing
+            }
+            
         }else{
             float val = [[vc.listSelection objectAtIndex:selection] floatValue];
             if (appSetting.isSecurityOn && val == appSetting.fSecurityDuration) {
@@ -360,9 +443,9 @@
             [appSetting updateSecurityTime];
         }
         [_tbSetting reloadData];
-    }else{
+    }else{ //data protect
         int selection = vc.currentRow;
-        int value = -1;
+        int value = kValueDefaultDestroyDataOff;
         if (selection != 0) {
             value = [[vc.listSelection objectAtIndex:selection] intValue];
         }

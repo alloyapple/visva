@@ -18,13 +18,13 @@
 
 @implementation VAPasswordIDView
 - (IBAction)btGenTextId:(id)sender {
-    self.selectedField = self.vId;
-    [self.delegate genTextFor:self];
-}
-- (IBAction)btGenTextPassword:(id)sender {
     self.selectedField = self.vPassword;
     [self.delegate genTextFor:self];
 }
+//- (IBAction)btGenTextPassword:(id)sender {
+//    self.selectedField = self.vPassword;
+//    [self.delegate genTextFor:self];
+//}
 - (void)updatePWIDFromView{
     _currentPwId.sTitleNameId = _vId.text;
     _currentPwId.sPassword = _vPassword.text;
@@ -119,6 +119,12 @@
         if (_currentElement.aPasswords.count > i) {
             VAPassword *oldPass = [_currentElement.aPasswords objectAtIndex:i];
             [pass copyFrom:oldPass];
+        }else{
+            if (i==0) {
+                pass.sTitleNameId = @"ID";
+            }else if (i==1){
+                pass.sTitleNameId = @"Password";
+            }
         }
         [_listPwId addObject:pass];
     }
@@ -127,9 +133,25 @@
     [self registerKeyboard];
     
     UIPanGestureRecognizer *panGesture = [[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panView:)] autorelease];
+    panGesture.delegate = self;
     [_vListID addGestureRecognizer:panGesture];
 }
 #pragma mark gesture
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.view == _vListID) {
+        CGPoint pos = [gestureRecognizer locationInView:_imFlick];
+        CGRect frame = _imFlick.frame;
+        float fy = 15   ;
+        frame.origin = CGPointMake(0, -fy);
+        frame.size.height = frame.size.height + fy*2;
+        if (CGRectContainsPoint(frame, pos)) {
+            return YES;
+        }
+        return NO;
+    }
+    return YES;
+}
 #define kMaxHeightListID 250
 -(void)panView:(UIPanGestureRecognizer*)gesture{
     if (gesture.state == UIGestureRecognizerStateChanged) {
@@ -212,10 +234,12 @@
 
 #define kTagChooseImage 1022
 - (IBAction)btImagePressed:(id)sender {
-    VAEditImageViewController *vc = [[VAEditImageViewController alloc] initWithNibName:@"VAEditImageViewController" bundle:nil];
+//    VAEditImageViewController *vc = [[VAEditImageViewController alloc] initWithNibName:@"VAEditImageViewController" bundle:nil];
+    
+    VAEditMemoImageViewController *vc = [[VAEditMemoImageViewController alloc] initWithNibName:@"VAEditMemoImageViewController" bundle:nil];
     vc.delegate = self;
     vc.sCurrentImagePath = self.sImagePath;
-    vc.type = kTypeChooseMemoImage;
+    //vc.type = kTypeChooseMemoImage;
     
     [self.navigationController pushViewController:vc animated:YES];
     
@@ -240,6 +264,27 @@
     [vc.navigationController popViewControllerAnimated :YES];
 }
 -(void)editImageCancel:(VAEditImageViewController *)vc{
+    [vc.navigationController popViewControllerAnimated :YES];
+}
+
+-(void)editMemoDidSave:(VAEditMemoImageViewController *)vc
+{
+    if (vc.sCurrentImagePath == nil) {
+        if (self.sImagePath) {
+            [TDImageEncrypt deleteImage:self.sImagePath];
+            self.sImagePath = nil;
+        }
+    }else{
+        if (self.sImagePath) {
+            [TDImageEncrypt deleteImage:self.sImagePath];
+        }
+        self.sImagePath = vc.sCurrentImagePath;
+    }
+    [self updateButtonImage];
+    [vc.navigationController popViewControllerAnimated :YES];
+}
+-(void)editMemoDidCancel:(VAEditMemoImageViewController *)vc
+{
     [vc.navigationController popViewControllerAnimated :YES];
 }
 
@@ -273,7 +318,7 @@
 }
 - (IBAction)btInfoPressed:(id)sender {
     TDWebViewController *web = [[[TDWebViewController alloc] initWithNibName:@"TDWebViewController" bundle:nil]autorelease];
-    web.sUrlStart = @"https://google.com";
+    web.sUrlStart = TDLocStrOne(@"urlInfo");
     web.webDelegate = self;
     web.iTag = kTagInfo;
     [self presentModalViewController:web animated:YES];
@@ -307,9 +352,10 @@
                 [listRemove addObject:pass];
             }
         }
-        for (VAPassword *pass in _listPwId) {
+        for (VAPassword *pass in listRemove) {
             if (pass.elementId ) { //pass is in database -> remove it
                 [pass deleteFromDb:[VAGlobal share].dbManager];
+                pass.isInDatabase = NO;
             }
         }
         

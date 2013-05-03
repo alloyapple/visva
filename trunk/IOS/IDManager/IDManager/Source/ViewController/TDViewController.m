@@ -25,6 +25,10 @@
 #import "TDImageEncrypt.h"
 #import "TDAlert.h"
 #import "TDPreference.h"
+#import "VADropboxViewController.h"
+#import "ASPurchaseView.h"
+#import "VAElementOptionController.h"
+
 
 @interface TDViewController ()
 @property (nonatomic, assign) int iSelectedGroup;
@@ -42,6 +46,9 @@
 @property (retain, nonatomic) IBOutlet UITableView *tbGroup;
 @property (retain, nonatomic) IBOutlet UITableView *tbId;
 @property (retain, nonatomic) IBOutlet UISearchBar *sbSearchBar;
+
+@property(nonatomic, retain)ASPurchaseView *purchaseView;
+@property(nonatomic, assign)BOOL isShowLoginWindow;
 
 
 - (IBAction)btInfoPressed:(id)sender;
@@ -64,21 +71,25 @@
     _iSelectedGroup = 0;
     self.searchGroup = [[[VAGroup alloc] init] autorelease];
     [self pushLogin];
-    
+    [self initInappPurchase];
     
 }
 
 -(void)pushLogin{
     VALoginController *login = [[[VALoginController alloc] initWithNibName:@"VALoginController" bundle:nil] autorelease];
     [self.navigationController pushViewController:login animated:NO];
+    self.isShowLoginWindow = YES;
     login.loginDelegate = self;
     VASetting *setting = [VAGlobal share].appSetting;
     if (setting.isFirstUse) {
         VATermViewController *vc = [[[VATermViewController alloc] initWithNibName:@"VATermViewController" bundle:nil] autorelease];
         login.typeMasterPass = kTypeMasterPasswordFirst;
         [login presentModalViewController:vc animated:NO];
-    }else{
+        
+    }else if(setting.isCreatePassword){
         login.typeMasterPass = kTypeMasterPasswordLogin;
+    }else{
+        login.typeMasterPass = kTypeMasterPasswordFirst;
     }
 }
 
@@ -90,8 +101,16 @@
         vc.typeMasterPass == kTypeMasterPasswordLogin) {
         [vc.navigationController popViewControllerAnimated:YES];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(idleTimeRaise:) name:TDIdleNotification object:nil];
+        [VAGlobal share].appSetting.isCreatePassword = YES;
+        [[VAGlobal share].appSetting saveSetting];
         [[VAGlobal share].appSetting updateSecurityTime];
         
+        if (vc.typeMasterPass == kTypeMasterPasswordFirst) {
+            VAEmailViewController *vc = [[[VAEmailViewController alloc] initWithNibName:@"VAEmailViewController" bundle:nil] autorelease];
+            vc.type = kTypeEmailVCRegister;
+            [self presentModalViewController:vc animated:YES];
+        }
+        self.isShowLoginWindow = NO;
     }else if (vc.typeMasterPass == kTypeMasterPasswordReLogin){
         [vc dismissModalViewControllerAnimated:YES];
         [[VAGlobal share].appSetting updateSecurityTime];
@@ -100,11 +119,16 @@
         if ([str isNotEmpty]) {
             [[UIPasteboard generalPasteboard] setString:str];
         }
+        self.isShowLoginWindow = NO;
     }
     
 }
 -(void)showReloginWindow{
     if ([VAGlobal share].appSetting.isSecurityOn) {
+        if (self.isShowLoginWindow) {
+            return;
+        }
+        self.isShowLoginWindow = YES;
         VALoginController *login = [[[VALoginController alloc] initWithNibName:@"VALoginController" bundle:nil] autorelease];
         
         login.loginDelegate = self;
@@ -129,11 +153,13 @@
     [_tbGroup reloadData];
     [self updateSelectedGroup];
 }
+#define kTagDestroyData 3980
 -(void)destroyData{
     UIAlertView *al = [[UIAlertView alloc] initWithTitle:TDLocStrOne(@"Destroying...") message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
     [al show];
     
     [[VAGlobal share] destroyData];
+    
     self.user = nil;
     [_tbGroup reloadData];
     _iSelectedGroup = 0;
@@ -146,7 +172,8 @@
     [self pushLogin];
     
     [al dismissWithClickedButtonIndex:0 animated:YES];
-    [self showAlert:TDLocStrOne(@"DataDestroyed")];
+    [TDAlert showMessageWithTitle:TDLocStrOne(@"DataDestroyed") message:nil delegate:self otherButton:nil tag:kTagDestroyData];
+    
 }
 -(void)selectGroup:(NSIndexPath*)indexPath{
     int row = indexPath.row;
@@ -174,12 +201,30 @@
 -(void)updateSelectedGroup{
     if (_iSelectedGroup < _user.aUserFolder.count) {
         self.selectedGroup = [_user.aUserFolder objectAtIndex:_iSelectedGroup];
-    }else if (_iSelectedGroup == _user.aUserFolder.count){
-        self.selectedGroup = self.searchGroup;
-    }else if (_iSelectedGroup == _user.aUserFolder.count+1){
-        self.selectedGroup = _user.favoriteGroup;
-    }else{
-        self.selectedGroup = _user.recentGroup;
+        if (_isSearching) {
+            _isSearching = NO;
+            [self reLoadData];
+        }
+    }
+    else if (_isSearching){
+        if (_iSelectedGroup == _user.aUserFolder.count){
+            self.selectedGroup = self.searchGroup;
+        }else if (_iSelectedGroup == _user.aUserFolder.count+1){
+            self.selectedGroup = _user.favoriteGroup;
+            _isSearching = NO;
+            [self reLoadData];
+        }else{
+            self.selectedGroup = _user.recentGroup;
+            _isSearching = NO;
+            [self reLoadData];
+        }
+    }else
+    {
+        if (_iSelectedGroup == _user.aUserFolder.count){
+            self.selectedGroup = _user.favoriteGroup;
+        }else{
+            self.selectedGroup = _user.recentGroup;
+        }
     }
     [_tbId reloadData];
 }
@@ -247,14 +292,17 @@
         
     }else if (alertView.tag == kTagAlertAddID){
         [self addElementID];
+    }else if (alertView.tag == kTagDestroyData){
+        exit(0);
     }
     
 }
 
 #pragma mark - button action
+#define kUrlHome @"http://www.japanappstudio.com/home.html"
 - (IBAction)btInfoPressed:(id)sender {
     TDWebViewController *web  = [[[TDWebViewController alloc] initWithNibName:@"TDWebViewController" bundle:nil] autorelease];
-    web.sUrlStart = @"http://google.com";
+    web.sUrlStart = kUrlHome;
     web.webDelegate = self;
     [self.navigationController pushViewController:web animated:YES];
 }
@@ -262,6 +310,23 @@
 - (IBAction)btSettingPressed:(id)sender {
     VASettingViewController *setting = [[VASettingViewController alloc] initWithNibName:@"VASettingViewController" bundle:nil];
     [self.navigationController pushViewController:setting animated:YES];
+}
+- (IBAction)btSyncPressed:(id)sender {
+    VASetting *appSetting = [VAGlobal share].appSetting;
+    if (appSetting.isUseDropboxSync && [VASyncSettingViewController isLinkWithCloud:kTypeCloudDropbox]) {
+        VADropboxViewController *vc = [[VADropboxViewController alloc] initWithNibName:@"VADropboxViewController" bundle:nil];
+        vc.typeCloud = kTypeCloudDropbox;
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    if (appSetting.isUseGoogleDriveSync && [VASyncSettingViewController isLinkWithCloud:kTypeCloudGDrive]) {
+        VADropboxViewController *vc = [[VADropboxViewController alloc] initWithNibName:@"VADropboxViewController" bundle:nil];
+        vc.typeCloud = kTypeCloudGDrive;
+        [self.navigationController pushViewController:vc animated:YES];
+        return;
+    }
+    
+    [TDAlert showMessageWithTitle:TDLocStrOne(@"NoCloudSetup") message:nil delegate:self];
 }
 
 
@@ -279,9 +344,15 @@
     [_tbId setEditing:_isEditting animated:YES];
     
     [sender setSelected:_isEditting];
-    if (_isEditting) {
+    if (!_isEditting) {
+        CGRect f = sender.frame;
+        f.size = CGSizeMake(17, 28);
+        sender.frame = f;
         [_user updateGroupOrder:[VAGlobal share].dbManager];
     }else{
+        CGRect f = sender.frame;
+        f.size = CGSizeMake(25, 24);
+        sender.frame = f;
     }
 }
 -(void)addElementID{
@@ -308,7 +379,8 @@
         total += g.aElements.count;
     }
     if (total < kMaxNumElementID) {
-        [TDAlert showMessageWithTitle:TDLocStrOne(@"InAppLimitWarn") message:nil delegate:self otherButton:nil tag:kTagAlertAddID];
+        [self addElementID];
+        //[TDAlert showMessageWithTitle:TDLocStrOne(@"InAppLimitWarn") message:nil delegate:self otherButton:nil tag:kTagAlertAddID];
     }else{
         [TDAlert showMessageWithTitle:TDLocStrOne(@"InAppLimitWarn") message:nil delegate:self otherButton:nil tag:kTagAlertAddIDLimitReach];
     }
@@ -384,6 +456,7 @@
 -(void)changeCurrentGroupName:(NSString*)name{
     if ([name isNotEmpty]) {
         _selectedGroup.sGroupName = name;
+        [_selectedGroup updateToDb:[VAGlobal share].dbManager];
         [_tbGroup reloadData];
     }else{
         [self showAlert:TDLocStrOne(@"NameGrError") tag:0];
@@ -397,7 +470,12 @@
     
     if (_user.bIsLoadFullData) {
         if (tableView == _tbGroup) {
-            return _user.aUserFolder.count + 3;
+            if (_isSearching) {
+                return _user.aUserFolder.count + 3;
+            }else{
+                return _user.aUserFolder.count + 2;
+            }
+            
         }else{
             return _selectedGroup.aElements.count;
         }
@@ -408,7 +486,7 @@
 
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
 // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-#define kHeightOfListElementCell 80
+#define kHeightOfListElementCell 83
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPat{
     int row = indexPat.row;
     if (tableView == _tbGroup) {
@@ -439,14 +517,25 @@
             if (cell == nil) {
                 cell = [[[NSBundle mainBundle] loadNibNamed:specialCellGroup owner:self options:nil]objectAtIndex:0];
             }
-            if (row == _user.aUserFolder.count) {
-                ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"sync.png"];
-            }else if (row == _user.aUserFolder.count+1){
-                ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"Favorite.png"];
+            
+            if (_isSearching) {
+                if (row == _user.aUserFolder.count) {
+                    ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"sync.png"];
+                }else if (row == _user.aUserFolder.count+1){
+                    ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"Favorite.png"];
+                }
+                else{
+                    ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"history.png"];
+                }
+            }else{
+                if (row == _user.aUserFolder.count){
+                    ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"Favorite.png"];
+                }
+                else{
+                    ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"history.png"];
+                }
             }
-            else{
-                ((VAImageCell*)cell).imForceground.image = [UIImage imageNamed:@"history.png"];
-            }
+            
             
         }
         [self setGroupSelected:cell row:row];
@@ -463,10 +552,12 @@
         if (!_isEditting) {
             return NO;
         }
-        UIView *cell = (UIView*)gesture.view;
+        UITableViewCell *cell = (UITableViewCell*)gesture.view;
         CGPoint pos = [gesture locationInView:cell];
         CGSize size = cell.frame.size;
-        CGRect haftFrame = CGRectMake(size.width *0.5f, 0, size.width*0.5f, size.height);
+        
+        CGRect haftFrame = CGRectMake(size.width *0.5f, size.height *0.2,
+                                      size.width* 0.4f, size.height*0.6);
         if (CGRectContainsPoint(haftFrame, pos)) {
             return YES;
         }else{
@@ -482,6 +573,7 @@
         int tag = cell.tag;
         if (tag < _user.aUserFolder.count) {
             [self selectGroup:[NSIndexPath indexPathForRow:tag inSection:0]];
+            
             [self showTextFileAlert:TDLocStrOne(@"ChangeFolderName") tag:kTagAlertChangeGroupName];
         }
     }
@@ -569,8 +661,11 @@
     cell.textLabel.text = element.sTitle;
     cell.detailTextLabel.text = element.sUrl;
     
-    float offset = 5;
+    float offset = 16;
     float height = kHeightOfListElementCell - offset *2;
+    
+    float offsetX = 10;
+    float width = height *4/3;
     
     UIImageView *imgView= nil;
     for (UIView *v  in cell.contentView.subviews) {
@@ -580,7 +675,7 @@
         }
     }
     if (imgView == nil) {
-        imgView=[[UIImageView alloc] initWithFrame:CGRectMake(offset, offset, height, height)];
+        imgView=[[UIImageView alloc] initWithFrame:CGRectMake(offsetX, offset, width, height)];
         imgView.backgroundColor=[UIColor clearColor];
         imgView.tag = kTagImageView;
         [cell.contentView addSubview:imgView];
@@ -609,7 +704,8 @@
         }else{
             [self selectGroup:indexPath];
         }
-    }else{ //_tb id
+    }else{
+        //_tb id
         [self showActionSheetForElement:[_selectedGroup.aElements objectAtIndex:indexPath.row]];
     }
 }
@@ -725,6 +821,13 @@
 }
 -(void)showActionSheetForElement:(VAElementId*)element{
     self.selectedElement = element;
+    VAElementOptionController *vc = [[[VAElementOptionController alloc] initWithNibName:@"VAElementOptionController" bundle:nil] autorelease];
+    vc.selectedElement = element;
+    vc.elementDelegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    return;
+    
     UIActionSheet *acSh = [[UIActionSheet alloc]initWithTitle:nil
                                                      delegate:self
                                             cancelButtonTitle:
@@ -767,6 +870,7 @@
         web.sUrlStart = _selectedElement.sUrl;
         web.bIsUseJogDial = YES;
         web.listPWID = _selectedElement.aPasswords;
+        web.sNote = _selectedElement.sNote;
         web.webDelegate = self;
         web.iTag = 0;
         [self.navigationController pushViewController:web animated:YES];
@@ -830,6 +934,9 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     [searchBar setShowsCancelButton:YES animated:YES];
     _isSearching = YES;
+    _iSelectedGroup = _user.aUserFolder.count;
+    [self reLoadData];
+    
 }// called when text starts editing
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
     return YES;
@@ -838,7 +945,7 @@
     NSString *str = searchBar.text;
     [self doSearch:str];
     [searchBar setShowsCancelButton:NO animated:YES];
-    _isSearching = NO;
+    //_isSearching = NO;
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self doSearch:searchText];
@@ -851,4 +958,66 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
 }
+
+#pragma mark - inapp purchase
+-(void)initInappPurchase{
+    //Đoạn code dưới khởi tạo object ASPurchaseView
+    //Các tham số trong NSDictionary truyền vào params là các tham số cần gửi lên server ở bước xác thực mua item
+    //Trong đó tham số ID của user là bắt buộc phải có để định danh user, hoặc định danh device
+    //Các tham số khác là optional
+    
+    NSMutableDictionary *paramsDic = [[NSMutableDictionary alloc] init];
+    [paramsDic setObject:@"d9ba61da72582d3ff0288b937763d53c" forKey:@"user_id"];
+    [paramsDic setObject:@"ios" forKey:@"platform"];
+    [paramsDic setObject:@"vn" forKey:@"location"];
+    [paramsDic setObject:@"true" forKey:@"sandbox"];
+    
+    //Link đến server để gửi request xác thực mua item
+    NSString *urlString = nil;
+    
+    //Parent param ở đây mặc định phải là kiểu UIViewController, nếu là kiểu UIView thì lại phải sửa lại 1 chỗ addSubview trong ASPurchaseView.m
+    //language param có thể là "en", "jp", "vn". Nếu ko thuộc các kiểu trên thì mặc định là "en"
+    self.purchaseView = [[[ASPurchaseView alloc] initWithParent:self
+                                              purchaseServerURL:urlString
+                                                         params:paramsDic
+                                                       language:@"en"] autorelease];
+    self.purchaseView.isVerifyByServer = NO;
+}
+
+-(void)purchaseWithProductID:(NSString*)productId {
+    [[UIApplication sharedApplication].keyWindow addSubview:_purchaseView];
+    [_purchaseView purchaseWithProductID:productId];
+    
+}
+
+//Add hàm này vào với đúng tên hàm.
+-(void) receivePurchaseError:(NSNotification*)notification {
+    TDLOG(@"receivePurchaseError");
+
+}
+//Add hàm này vào với đúng tên hàm.
+-(void) receivePurchaseFinish:(NSNotification*)notification {
+    TDLOG(@"receivePurchaseFinish");
+    NSMutableDictionary *responseDic = (NSMutableDictionary*)[notification object];
+    TDLOG(@"%@",responseDic);
+    NSString *product_id = [responseDic objectForKey:@"product_id"];
+    if (!product_id) {
+        return;
+    }
+    VASetting *appSetting = [VAGlobal share].appSetting;
+    
+    if ([product_id isEqualToString:kUnlimitedId]) {
+        appSetting.isUnlockLimitId = YES;
+    }else if ([product_id isEqualToString:kID_CSV_EXPORT]){
+        appSetting.isUnlockCSVExport = YES;
+    }else if ([product_id isEqualToString:kAdRemoveID]){
+        appSetting.isUnlockHideIad = YES;
+    }else{
+        TDLOGERROR(@"Invalid id = %@", product_id);
+    }
+    
+    [appSetting saveSetting];
+    
+}
+
 @end

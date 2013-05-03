@@ -13,9 +13,9 @@
 
 typedef enum {
     TDSyncOptionNone = 0,
-    TDSyncOptionStopIfCloudEmpty = 1,
-    TDSyncOptionCopyIfCloudEmpty = 1<<1,
-    TDSyncOptionReplaceIfCloudExits = 1<<2,
+    TDSyncOptionToCloud = 1,
+    TDSyncOptionFromCloud = 1<<1,
+    TDSyncOptionChooseNewest = 1<<2,
     TDSyncOptionOnlyLoadListFile = 1<<3
 }TDSyncOption;
 

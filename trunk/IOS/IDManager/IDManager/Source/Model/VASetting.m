@@ -20,6 +20,7 @@
     return self;
 }
 #define kisFirstUse @"isFirstUse"
+#define kIsCreatePassword @"isCreatePassword"
 #define kSecureOn @"isSecureOn"
 #define kSecureDura @"secureDura"
 #define kNumDestroyData @"numDestroy"
@@ -47,6 +48,7 @@
         self.dropboxLastSync = [TDPreference getValue:kDropboxLastSync];
         self.isUnlockHideIad = [[TDPreference getValue:kIsUnlockHideIad] boolValue];
         self.isUnlockLimitId = [[TDPreference getValue:kIsUnlockLimitID] boolValue];
+        self.isCreatePassword = [[TDPreference getValue:kIsCreatePassword] boolValue];
     }else{
         [self makeDefault];
     }
@@ -55,20 +57,23 @@
 }
 -(void)makeDefault{
     self.isFirstUse = YES;
+    self.isCreatePassword = NO;
     self.isSecurityOn = YES;
     self.fSecurityDuration = 1;
-    self.isUnlockCSVExport = YES;
+    
     self.numBeforeDestroyData = -1;
     self.isUseDropboxSync = NO;
     self.isUseGoogleDriveSync = NO;
     self.googleDriveLastSync = nil;
     self.dropboxLastSync = nil;
+    self.isUnlockCSVExport = NO;
     self.isUnlockHideIad = NO;
     self.isUnlockLimitId = NO;
     
 }
 -(void)saveSetting{
     [TDPreference set:[NSNumber numberWithBool:_isFirstUse] forkey:kisFirstUse];
+    [TDPreference set:[NSNumber numberWithBool:_isCreatePassword] forkey:kIsCreatePassword];
     [TDPreference set:[NSNumber numberWithBool:_isSecurityOn] forkey:kSecureOn];
     [TDPreference set:[NSNumber numberWithFloat:_fSecurityDuration] forkey:kSecureDura];
     [TDPreference set:[NSNumber numberWithInt:_numBeforeDestroyData] forkey:kNumDestroyData];
