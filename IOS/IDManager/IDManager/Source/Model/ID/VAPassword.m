@@ -133,12 +133,12 @@ NSString *dpasswordCollumn = @"password";
     }
 }
 -(BOOL)deleteFromDb:(TDSqlManager*)manager{
-    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dpasswordTable, dpasswordId, _iPasswordId];
+    NSString *query = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=%d", dpasswordTable, dpasswordId, _iPasswordId];
     return [manager executeQuery:query];
 }
 
 +(BOOL)didDeleteFromDb:(TDSqlManager*)manager elementId:(VAElementId*)ele{
-    NSString *query = [NSString stringWithFormat:@"DELETE %@ WHERE %@=%d", dpasswordTable, dpassElementId, ele.iId];
+    NSString *query = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=%d", dpasswordTable, dpassElementId, ele.iId];
     return [manager executeQuery:query];
 }
 -(void)copyFrom:(VAPassword *)pass{

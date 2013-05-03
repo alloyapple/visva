@@ -71,7 +71,7 @@ NSString *deOrder = @"eOrder";
     return str;
 }
 +(NSString*)getDestroyQuery{
-    return [NSString stringWithFormat: @"DELETE %@ WHERE 1;", delementIdTable];
+    return [NSString stringWithFormat: @"DELETE From %@ WHERE 1;", delementIdTable];
 }
 
 +(NSMutableArray*)getListElement:(TDSqlManager *)manager group:(VAGroup *)group{
