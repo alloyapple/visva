@@ -41,7 +41,7 @@
 }
 - (void)setCellGroupSelected:(BOOL)selected{
     if (selected) {
-        _imBackgroud.image = [UIImage imageNamed:@"folder-s-common.png"];
+        _imBackgroud.image = [UIImage imageNamed:@"folder-select.png"];
     }else{
         _imBackgroud.image = [UIImage imageNamed:@"folder-common.png"];
     }

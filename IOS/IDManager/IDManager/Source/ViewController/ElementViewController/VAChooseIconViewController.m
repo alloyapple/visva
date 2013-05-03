@@ -169,6 +169,7 @@ typedef struct {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, kHeaderSectionHeight)];
     VAIconsCatalogy *cat = [_listIcons objectAtIndex:section];
     label.text =  TDLocStrOne(cat.catName);
+    label.backgroundColor = [UIColor clearColor];
     return label;
 }
 
@@ -186,7 +187,11 @@ typedef struct {
     CGRect f = CGRectMake(offsetx, offsetx,kWidthRow - offsetx*2 , kHeighRow-offsety*2);
     cell.iconImage.frame = f;
     cell.selectedImage.frame = f;
-    cell.iconImage.image = [TDImageEncrypt imageWithName:fileName];
+    UIImage *im = [TDImageEncrypt imageWithName:fileName];
+    if (!im) {
+        TDLOG(@"Error im icon empty %@", fileName);
+    }
+    cell.iconImage.image = im;
     BOOL isSelect = (_selectedIcon.isSelect && _selectedIcon.section == section
                      && _selectedIcon.index == index);
     [self selectCell:cell isSelect:isSelect];
@@ -281,6 +286,7 @@ typedef struct {
 }
 #pragma mark - EditImage delegate
 -(void)updateListIcon{
+    return;
     if (_bIsEditListIcon) {
         _bIsEditListIcon = NO;
         [TDImageEncrypt saveListIcon:[VAIconsCatalogy arrayFromListCat:_listIcons]
@@ -298,8 +304,8 @@ typedef struct {
 -(void)editImageAccept:(VAEditImageViewController *)vc{
     self.currentIconPath = vc.sCurrentImagePath;
     if (vc.isAddNewImage) {
-        VAIconsCatalogy *cat = [_listIcons lastObject];
-        [cat.listIcons addObject:_currentIconPath];
+        //VAIconsCatalogy *cat = [_listIcons lastObject];
+        //[cat.listIcons addObject:_currentIconPath];
         _bIsEditListIcon = YES;
     }
     
@@ -309,6 +315,7 @@ typedef struct {
     [_chooseIcDelegate chooseIconSave:self];
     
 }
+
 - (void)dealloc {
     [_gvListIcon release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];

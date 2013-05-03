@@ -81,15 +81,25 @@
     _imView.image = image;
     
     
-    UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
+    UITapGestureRecognizer *doubleTapRecognizer = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)] autorelease];
     doubleTapRecognizer.numberOfTapsRequired = 2;
     doubleTapRecognizer.numberOfTouchesRequired = 1;
     [self.svImage addGestureRecognizer:doubleTapRecognizer];
     
-    UITapGestureRecognizer *twoFingerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTwoFingerTapped:)];
+    UITapGestureRecognizer *twoFingerTapRecognizer = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTwoFingerTapped:)] autorelease];
     twoFingerTapRecognizer.numberOfTapsRequired = 1;
     twoFingerTapRecognizer.numberOfTouchesRequired = 2;
     [self.svImage addGestureRecognizer:twoFingerTapRecognizer];
+    
+    
+//    UIRotationGestureRecognizer *rotateGesture = [[[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(onRotate:)] autorelease];
+//    rotateGesture.delegate = self;
+//    [self.svImage addGestureRecognizer:rotateGesture];
+//    
+//    UIPinchGestureRecognizer *pinchGesture = [[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(onPinch:)] autorelease];
+//    [self.svImage addGestureRecognizer:pinchGesture];
+//    pinchGesture.delegate = self;
+    
     [self setUpZoomScale];
     
     if (self.type == kTypeChooseIcon) {
@@ -113,10 +123,12 @@
     [_rectView drawRect];
 }
 -(void)setUpZoomScale{
+    CGRect imageFrame = (CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=_imView.image.size};
+    self.imView.frame = imageFrame;
+    _svImage.zoomScale = 1;
     _svImage.contentSize = _imView.image.size;
     _svImage.contentInset = (UIEdgeInsets){0,0,0,0};
     
-    self.imView.frame = (CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=_imView.image.size};
     
     // Set up the minimum & maximum zoom scales
     CGRect scrollViewFrame = self.svImage.frame;
@@ -139,6 +151,23 @@
     [super viewDidAppear:animated];
     //[self setUpZoomScale];
 }
+- (void)onRotate:(UIRotationGestureRecognizer *)recognizer {
+    _imView.transform = CGAffineTransformRotate(_imView.transform, recognizer.rotation);
+    recognizer.rotation = 0;
+    return;
+    recognizer.view.transform = CGAffineTransformRotate(recognizer.view.transform, recognizer.rotation);
+    
+}
+- (void)onPinch:(UIPinchGestureRecognizer *)recognizer {
+    
+    _imView.transform = CGAffineTransformScale(_imView.transform, recognizer.scale, recognizer.scale);
+    recognizer.scale = 1;
+    
+}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
 
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer*)recognizer {
     // Get the location within the image view where we tapped
@@ -167,8 +196,9 @@
     newZoomScale = MAX(newZoomScale, self.svImage.minimumZoomScale);
     [self.svImage  setZoomScale:newZoomScale animated:YES];
 }
+
 - (void)centerScrollViewContents {
-    CGSize boundsSize = self.svImage.bounds.size;
+    CGSize boundsSize = self.svImage.bounds.size;//self.svImage.bounds.size;
     CGRect contentsFrame = self.imView.frame;
     
     if (contentsFrame.size.width < boundsSize.width) {
@@ -222,10 +252,12 @@
 #pragma mark - scrollView delegate
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     // Return the view that we want to zoom
+    //return nil;
     return self.imView;
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    //return;
     // The scroll view has zoomed, so we need to re-center the contents
     [self centerScrollViewContents];
 }
@@ -244,9 +276,15 @@
 -(void)setNewCurrentImage:(UIImage*)image{
     if (image) {
         self.currentImage = image;
-        self.imView.image = self.currentImage;
-        _isAddNewImage = YES;
-        [self setUpZoomScale];
+        UIImageView *newView = self.imView;
+        //self.imView.image = self.currentImage;
+        self.imView = [[[UIImageView alloc] initWithImage:image] autorelease];
+        [UIView transitionFromView:newView toView:self.imView duration:0.2 options:UIViewAnimationOptionCurveEaseInOut completion:^(BOOL finished) {
+           
+            _isAddNewImage = YES;
+            [self setUpZoomScale];
+        }];
+        
     }
 }
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -300,7 +338,7 @@
         cropImage = [self normalImage];
     }
     [TDImageEncrypt saveImage:cropImage fileName:fileName];
-    [TDImageEncrypt saveImageNoPass:cropImage fileName:[fileName stringByAppendingString:@".png"]];
+    //[TDImageEncrypt saveImageNoPass:cropImage fileName:[fileName stringByAppendingString:@".png"]];
     
     self.sCurrentImagePath = fileName;
     _isAddNewImage = YES;

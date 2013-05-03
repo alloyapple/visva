@@ -63,7 +63,10 @@ static TDGDrive *instance;
 {
     if (error != nil)
     {
-        [self showAlert:@"Authentication Error" message:error.localizedDescription];
+        if ([error code] != kGTMOAuth2ErrorWindowClosed) {
+            [self showAlert:@"Authentication Error" message:error.localizedDescription];
+        }
+        
         self.serviceDrive.authorizer = nil;
     }
     else
@@ -79,7 +82,15 @@ static TDGDrive *instance;
     [al show];
 }
 -(void)authorizedFrom:(UIViewController *)vc{
-    [vc presentModalViewController:[self createAuthController] animated:YES];
+    UIViewController *gvc = [self createAuthController];
+    if (vc.navigationController) {
+        [vc.navigationController pushViewController:gvc animated:YES];
+        vc.navigationController.navigationBarHidden = NO;
+    }else{
+        [vc presentModalViewController:gvc animated:YES];
+    }
+    
+    
 }
 -(void)unlinkAll{
     [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];

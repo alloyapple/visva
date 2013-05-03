@@ -60,29 +60,55 @@
 -(void)cloudLoadedModifyDate:(NSDate*)date{
     TDLOG(@"Cloud modify date: %@", date);
     if (!_isFileCloudExits || date == nil) { //file not exist in cloud
-        if (_syncOption & TDSyncOptionStopIfCloudEmpty) {
+        if (_syncOption & TDSyncOptionFromCloud) {
             [_syncDelegate syncError:self errorCode:TDSyncErrorFileNotExist];
         }
-        if (_syncOption & TDSyncOptionCopyIfCloudEmpty) {
+        if ((_syncOption & TDSyncOptionToCloud)||
+            (_syncOption & TDSyncOptionChooseNewest)) {
             [self copyToCloud];
+            
+        }
+        [_syncDelegate syncFinish:self method:TDSyncMethodNone];
+        return;
+    }
+    
+    NSDate *deviceDate = [self deviceModifyDate];
+    TDLOG(@"Device modify date: %@", deviceDate);
+    double length = [deviceDate timeIntervalSinceDate:date];
+    if (_syncOption&TDSyncOptionChooseNewest) {
+        if (length>0) { //write to cloud
+            [TDAlert showMessageWithTitle:TDLocStrOne(@"ReadCloudDataWarn") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertDeviceToCloud];
+        }else if (length<0){ //read from cloud
+            [TDAlert showMessageWithTitle:TDLocStrOne(@"WriteCloudDataWarn") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertCloudToDevice];
+        }else{
+            [_syncDelegate syncFinish:self method:TDSyncMethodNone];
         }
         return;
     }
-    if (_syncOption & TDSyncOptionReplaceIfCloudExits) {
-        [TDAlert showMessageWithTitle:TDLocStrOne(@"WriteCloudDataSure") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertReplaceExitsFile];
+    if (_syncOption & TDSyncOptionToCloud) {
+        if (length>0) {
+            //write new data from device to cloud
+            [TDAlert showMessageWithTitle:TDLocStrOne(@"ReadCloudDataWarn") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertDeviceToCloud];
+        }else if (length<0){
+            [TDAlert showMessageWithTitle:TDLocStrOne(@"ReadCloudDataSure") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertDeviceToCloud];
+        }else{
+            [_syncDelegate syncFinish:self method:TDSyncMethodNone];
+        }
         return;
     }
-    NSDate *deviceDate = [self deviceModifyDate];
-    double length = [deviceDate timeIntervalSinceDate:date];
-    if (length>0) { //device modified
-        [TDAlert showMessageWithTitle:TDLocStrOne(@"WriteCloudDataSure") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertDeviceToCloud];
-    }else if (length<0){
-        [TDAlert showMessageWithTitle:TDLocStrOne(@"ReadCloudDataSure") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertCloudToDevice];
-    }else{
-        //they are the same
-        [_syncDelegate syncFinish:self method:TDSyncMethodNone];
-        //[TDAlert showMessageWithTitle:TDLocStrOne(@"FileAreSame") message:nil delegate:self];
+    if (_syncOption & TDSyncOptionFromCloud) {
+        if (length>0) {
+            //write old data from cloud to device
+            [TDAlert showMessageWithTitle:TDLocStrOne(@"WriteCloudDataSure") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertCloudToDevice];
+        }else if (length<0){
+            //write new data from cloud to device
+            [TDAlert showMessageWithTitle:TDLocStrOne(@"WriteCloudDataWarn") message:@"" delegate:self otherButton:TDLocStrOne(@"Cancel") tag:kTagAlertCloudToDevice];
+        }else{
+            [_syncDelegate syncFinish:self method:TDSyncMethodNone];
+        }
+        return;
     }
+    
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (alertView.tag) {

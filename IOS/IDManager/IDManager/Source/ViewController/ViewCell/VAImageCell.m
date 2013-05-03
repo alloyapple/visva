@@ -35,7 +35,7 @@
     if (selected) {
         self.imBackground.image = [UIImage imageNamed:@"folder-s-select.png"];
     }else{
-        self.imBackground.image = [UIImage imageNamed:@"folder-select.png"];
+        self.imBackground.image = [UIImage imageNamed:@"folder-s-common.png"];
     }
 }
 - (void)dealloc {

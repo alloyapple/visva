@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface VATermViewController : UIViewController
+@property (retain, nonatomic) IBOutlet UITextView *lbTerm;
 
 @end

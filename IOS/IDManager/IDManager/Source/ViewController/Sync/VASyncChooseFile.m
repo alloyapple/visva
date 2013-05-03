@@ -101,7 +101,7 @@
     
     [TDDatabase deleteFile:[TDDatabase pathInDocument:_fileNameImport]];
     [self.loadingAlertView dismiss];
-   
+    [[TDAppDelegate share].viewController reLoadData];
 }
 
 
@@ -143,7 +143,7 @@
     if (_listFile.count == 0) {
         return;
     }
-    int option = TDSyncOptionStopIfCloudEmpty;
+    int option = TDSyncMethodFromCloud;
     self.fileNameImport = kLoadFileTemp;
     self.loadingAlertView = [TDAlert showLoadingMessageWithTitle:TDLocStrOne(@"Loading") delegate:self];
     [TDDatabase createFile:[TDDatabase pathInDocument:self.fileNameImport]];

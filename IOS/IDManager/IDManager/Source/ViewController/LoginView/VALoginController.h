@@ -12,7 +12,9 @@ typedef enum {
     kTypeMasterPasswordFirst,
     kTypeMasterPasswordLogin,
     kTypeMasterPasswordReLogin,
-    kTypeMasterPasswordChangePass
+    kTypeMasterPasswordChangePass,
+    kTypeMasterPasswordChangePassCheck1,
+    kTypeMasterPasswordChangePassCheck2,
 }kTypeMasterPassword;
 
 @protocol VALoginDelegate;
@@ -20,10 +22,11 @@ typedef enum {
     
 }
 @property(nonatomic, assign)kTypeMasterPassword typeMasterPass;
-@property(nonatomic, assign)id<VALoginDelegate> loginDelegate;
+@property(nonatomic, assign)UIViewController<VALoginDelegate> *loginDelegate;
 @end
 
 @protocol VALoginDelegate <NSObject>
 -(void)loginViewDidLogin:(VALoginController*)vc;
-
+@optional
+-(void)loginViewDidCancel:(VALoginController*)vc;
 @end

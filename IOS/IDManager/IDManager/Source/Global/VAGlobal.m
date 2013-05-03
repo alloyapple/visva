@@ -13,6 +13,7 @@
 #import "VAElementId.h"
 #import "VAPassword.h"
 #import "TDAppDelegate.h"
+#import "TDSyn.h"
 
 @interface VAGlobal()
 -(void)openDatabase;
@@ -21,10 +22,12 @@
 
 static VAGlobal* instance = nil;
 #define kFileName @"idpxData.sqlite"
-#define kPassSqlite @"19912012DUCK@#"
+#define kPassSqlite @"idxpass_@1234#!"
 
 
 @implementation VAGlobal
+
+#pragma mark - init - dealoc
 -(id)init{
     if ((self = [super init])) {
         instance = self;
@@ -40,20 +43,6 @@ static VAGlobal* instance = nil;
     }
     return self;
 }
--(void)createUser{
-    
-    NSMutableArray *listUser = [VAUser getListUser:_dbManager];
-    if (listUser.count > 0) {
-        self.user = [listUser objectAtIndex:0];
-    }else{
-        TDLOGERROR(@"NO user ");
-        self.user = [[[VAUser alloc] init] autorelease];
-    }
-}
--(void)reloadUserData{
-    [self createUser];
-    [_user loadFullData:_dbManager];
-}
 -(void)dealloc{
     instance = nil;
     [_appSetting release];
@@ -65,7 +54,7 @@ static VAGlobal* instance = nil;
 +(VAGlobal*)share{
     if (instance != nil) {
         return instance;
-       
+        
     }
     instance = [[VAGlobal alloc] init];
     return instance;
@@ -75,28 +64,54 @@ static VAGlobal* instance = nil;
     instance = nil;
 }
 
+-(void)createUser{
+    
+    NSMutableArray *listUser = [VAUser getListUser:_dbManager];
+    if (listUser.count > 0) {
+        self.user = [listUser objectAtIndex:0];
+    }else{
+        TDLOGERROR(@"NO user ");
+        self.user = [[[VAUser alloc] init] autorelease];
+    }
+}
+-(void)reloadUserData{
+    [self openDatabase];
+    [self createUser];
+    [_user loadFullData:_dbManager];
+}
+
+
 #pragma mark - database
 -(void)createTable{
     [_dbManager executeQuery:[VAUser getCreateTableQuery]];
     [_dbManager executeQuery:[VAGroup getCreateTableQuery]];
     [_dbManager executeQuery:[VAElementId getCreateTableQuery]];
     [_dbManager executeQuery:[VAPassword getCreateTableQuery]];
+    
 }
 
 -(void)initFirstDatabase{
     [TDDatabase copyFromBundleToDocument:@"Thumb"];
     [self openDatabase];
+    [self destroyData];
     [self createTable];
 }
 -(void)openDatabase{
     NSString *path = [TDDatabase pathInDocument:_dbFileName];
+    TDLOG(@"Open %@", path);
+    if (_dbManager) {
+        [self.dbManager closeDatabase];
+    }
     self.dbManager = [[[TDSqlManager alloc] initWithPath:path pass:kPassSqlite] autorelease];
 }
 -(void)destroyData{
-    //[_dbManager executeQuery:[VAUser getDestroyQuery]];
+    [_dbManager executeQuery:[VAUser getDestroyQuery]];
     [_dbManager executeQuery:[VAGroup getDestroyQuery]];
     [_dbManager executeQuery:[VAElementId getDestroyQuery]];
     [_dbManager executeQuery:[VAPassword getDestroyQuery]];
+    [[TDGDrive shareInstance] unlinkAll];
+    [[DBSession sharedSession] unlinkAll];
+    
     [_appSetting makeDefault];
     [_appSetting saveSetting];
 }
@@ -108,7 +123,8 @@ static VAGlobal* instance = nil;
     if (_dbManager == nil) {
         return NO;
     }
-    return [self.user insertToDb:_dbManager];
+    BOOL v = [self.user insertToDb:_dbManager];
+    return v;
 }
 
 

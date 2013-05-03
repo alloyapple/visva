@@ -15,7 +15,8 @@ typedef enum {
 }kTypeChoosen;
 @protocol VAEditImageDelegate;
 @interface VAEditImageViewController : UIViewController<UIImagePickerControllerDelegate, UIScrollViewDelegate,
-    TDWebViewDelegate>
+    TDWebViewDelegate, UIGestureRecognizerDelegate>
+
 @property(nonatomic, retain)NSString *sCurrentImagePath;
 @property(nonatomic, readonly)BOOL isAddNewImage;
 @property(nonatomic, assign)int tag;
