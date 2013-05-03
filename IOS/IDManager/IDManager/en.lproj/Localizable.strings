@@ -56,7 +56,9 @@
 
 "Note" = "Note";
 "NoImage" = "NO IMAGE";
-"DestructionTurnOnWarn" = "Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW ## times.";
+
+//thay %@ bằng số lần còn lại.
+"DestructionTurnOnWarn1s" = "Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %@ times.";
 "ClipboardCopied" = "The following item has been copied to the clipboard.";
 "OpenWeb" = "Open the web page";
 "PassGenerator" = "Password Generator";
@@ -81,15 +83,19 @@
 
 "InternetError" = "Internet can not be used. Try again after check the connection.";
 "NoCloudSetup" = "No cloud service has not set up. You need set it up through Sync menu on the setting page.";
+
+//write data from iphone to cloud
 "ReadCloudDataWarn" = "The data on Dropbox(GoogleDrive) will be overwritten by this iPhone's data. Are you sure?";
+//write data from cloud to iphone
 "WriteCloudDataWarn" = "This iPhone's data will be overwritten by the newer data on Dropbox(GoogleDrive).";
+
 "SyncInterupted" = "The synchronization was interrupted.";
 "SyncFail" = "The synchronization was failed.";
 "SyncFinish" = "The synchronization was finished.";
 
-
 "ReadCloudDataInfo" = "The data on Dropbox(GoogleDrive) will be overwritten by this iPhone's data.";
 "ReadCloudDataSure" = "Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?";
+
 "WriteCloudDataSure" = "This iPhone's data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?";
 "WriteCloudDataInfo" = "This iPhone's data will be overwritten by the newer data on Dropbox(GoogleDrive).";
 
@@ -99,3 +105,11 @@
 "Web" = "Web";
 "ECommerce" = "E-commerce";
 "Carrier" = "Carrier";
+
+"EmailWarning" = "Replace current email?";
+"EmailSetted" = "Email has changed";
+"urlInfo"="http://www.japanappstudio.com/app/IDxPassword/en/index.html";
+
+//term
+"TermOfUse"="";
+

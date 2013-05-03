@@ -49,7 +49,7 @@
 "InAppCSV999" = "CSV形式での書出し機能を追加します。1,000円課金されますがよろしいですか？";
 "Note" = "Note";
 "NoImage" = "NO IMAGE";
-"DestructionTurnOnWarn" = "安全のための破壊設定がされています。あと##回間違えるとIDxPasswordのデータが失われます。";
+"DestructionTurnOnWarn1s" = "安全のための破壊設定がされています。あと %@ 回間違えるとIDxPasswordのデータが失われます。";
 "ClipboardCopied" = "以下の項目がクリップボードにコピーされました。";
 "OpenWeb" = "ウェブページを開く";
 "PassGenerator" = "パスワードの自動生成";
@@ -87,3 +87,9 @@
 "Web" = "Web";
 "ECommerce" = "ショッピング";
 "Carrier" = "通信・ネット";
+
+//new
+"urlInfo"="http://www.japanappstudio.com/app/IDxPassword/jp/index.html";
+"EmailWarning"="メールアドレスIDは既に登録されています。新しいメールアドレスを登録しますか？";
+"EmailSetted"="入力されたメールアドレスへ確認のEメールを送信しました。メールを読み認証手続きを1時間以内に完了させてください。";
+

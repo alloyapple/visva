@@ -49,7 +49,7 @@
 "InAppCSV999" = "Para agregar la función de la exportación de datos en formato CSV. Se cobra $9.99.";
 "Note" = "Nota";
 "NoImage" = "NO IMAGE";
-"DestructionTurnOnWarn" = "El modo de destrucción está encendido. Usted perderá datos IDxPassword después de entrar en # # PW mal momento.";
+"DestructionTurnOnWarn" = "El modo de destrucción está encendido. Usted perderá datos IDxPassword después de entrar en %@ PW mal momento.";
 "ClipboardCopied" = "El siguiente punto se ha copiado en el portapapeles.";
 "OpenWeb" = "Abra la página web";
 "PassGenerator" = "Password Generator";
@@ -73,7 +73,7 @@
 "InternetError" = "Internet no se puede utilizar. Vuelva a intentarlo después de comprobar la conexión.";
 "NoCloudSetup" = "No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.";
 "ReadCloudDataWarn" = "Los datos de Dropbox (GoogleDrive) se sobrescribirán con los datos de este iPhone. Estás seguro?";
-"WriteCloudDataWarn" = "Datos de este iPhone se sobrescribirán con los datos más recientes sobre Dropbox (GoogleDrive).";
+"WriteCloudDataWarn1s" = "Datos de este iPhone se sobrescribirán con los datos más recientes sobre Dropbox (GoogleDrive).";
 "SyncInterupted" = "La sincronización se interrumpe.";
 "SyncFail" = "La sincronización se ha fallado.";
 "SyncFinish" = "La sincronización se terminó.";
@@ -87,3 +87,7 @@
 "Web" = "Web";
 "ECommerce" = "E-commerce";
 "Carrier" = "Carrior";
+
+//new
+"urlInfo"="http://www.japanappstudio.com/app/IDxPassword/sp/index.html";
+
