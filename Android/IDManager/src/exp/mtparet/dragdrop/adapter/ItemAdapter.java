@@ -20,7 +20,7 @@
 package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
-import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
+
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity2;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;

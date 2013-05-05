@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -178,7 +179,18 @@ public class ListIconActivity extends BaseActivity {
 		initListIcon();
 		initAdmod();
 	}
-
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			onReturn(null);
+			break;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 	public void initAdmod() {
 		AdView adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();

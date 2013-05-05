@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -98,7 +99,19 @@ public class ImageMemoActivity2 extends BaseActivity {
 					}
 				});
 	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			onReturn(null);
+			return false;
 
+		default:
+			return super.onKeyDown(keyCode, event);
+		}
+
+	}
 	public static void startActivity(Activity activity, int value) {
 		Intent i = new Intent(activity, ImageMemoActivity2.class);
 		i.putExtra("modeBundleMemo", value);
@@ -111,6 +124,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
+		EditIdPasswordActivity2.startActivity(this,2);
 		finish();
 	}
 

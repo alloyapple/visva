@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -141,7 +142,18 @@ public class EditIconActivity extends BaseActivity {
 		initAdmod();
 
 	}
-
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			onReturn(null);
+			break;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttachedToWindow() {

@@ -203,6 +203,7 @@ public class GetInternetImageActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
+			onReturn(null);
 			return false;
 
 		default:
@@ -265,11 +266,11 @@ public class GetInternetImageActivity extends BaseActivity {
 	private void initControl() {
 		// TODO Auto-generated method stub
 		editText = ((EditText) findViewById(R.id.id_edit_url));
-		editText.setText(EditIdPasswordActivity.mUrlItem);
+		editText.setText(EditIdPasswordActivity2.mUrlItem);
 
 		webView = (WebView) findViewById(R.id.id_webview_get_icon);
 
-		webView.loadUrl(EditIdPasswordActivity.mUrlItem);
+		webView.loadUrl(EditIdPasswordActivity2.mUrlItem);
 
 		webView.setContentDescription("application/pdf");
 		WebSettings webSettings = webView.getSettings();
