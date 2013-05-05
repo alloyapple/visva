@@ -23,7 +23,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/all_corner"
                 android:gravity="center"
-                android:inputType="textPassword" />
+                android:inputType="numberPassword" />
         </FrameLayout>
     </LinearLayout>
 
