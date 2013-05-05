@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.InputFilter.LengthFilter;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -68,7 +69,20 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		initAdmod();
 
 	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			EditIdPasswordActivity2.startActivity(this,2);
+			finish();
+			return false;
 
+		default:
+			return super.onKeyDown(keyCode, event);
+		}
+
+	}
 	public void initAdmod() {
 		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();

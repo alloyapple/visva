@@ -70,7 +70,19 @@ public class BrowserActivity extends BaseActivity {
 		i.putExtra(Contants.CURRENT_PASSWORD_ID, currentElementId);
 		startActivity(i);
 	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			onReturn(null);
+			return false;
 
+		default:
+			return super.onKeyDown(keyCode, event);
+		}
+
+	}
 	public void onReturn(View v) {
 		if (mode == Contants.EDIT_TO)
 			EditIdPasswordActivity2.startActivity(this, 2);

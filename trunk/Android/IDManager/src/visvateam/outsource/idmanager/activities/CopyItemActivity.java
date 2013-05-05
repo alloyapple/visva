@@ -147,7 +147,7 @@ public class CopyItemActivity extends BaseActivity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								element.seteFlag(EditIdPasswordActivity.ELEMENT_FLAG_TRUE);
+								element.seteFlag(EditIdPasswordActivity2.ELEMENT_FLAG_TRUE);
 							}
 						});
 		alert.create().show();

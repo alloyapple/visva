@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -19,7 +20,20 @@ public class SettingURLActivity extends BaseActivity {
 		setContentView(R.layout.page_url_setup);
 		initControl();
 	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			EditIdPasswordActivity2.startActivity(this,2);
+			finish();
+			return false;
 
+		default:
+			return super.onKeyDown(keyCode, event);
+		}
+
+	}
 	public static void startActivity(Activity activity) {
 		Intent i = new Intent(activity, SettingURLActivity.class);
 		activity.startActivity(i);

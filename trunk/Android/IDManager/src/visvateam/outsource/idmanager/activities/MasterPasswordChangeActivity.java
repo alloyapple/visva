@@ -8,6 +8,7 @@ import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,7 +40,18 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 		/* init control */
 		initControl();
 	}
-
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			onReturn(null);
+			break;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 	/**
 	 * intialize database
 	 */

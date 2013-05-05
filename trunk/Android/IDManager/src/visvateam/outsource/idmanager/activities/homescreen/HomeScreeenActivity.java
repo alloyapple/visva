@@ -25,6 +25,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -282,8 +283,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		setContentView(mainRelativeLayout);
 
 	}
-
-	private void initListViewId() {
+		private void initListViewId() {
 		/* init listview */
 		idListView = (ListViewDragDrop) mainRelativeLayout
 				.findViewById(R.id.list_view_item);
@@ -1264,6 +1264,13 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 	private void editFolderToDatabase(String folderName,
 			int positionReturnedByHandler) {
+		if (folderName == null || folderName.equals(""))
+			return;
+		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
+		for (int i = 0; i < folderList.size(); i++) {
+			if (folderName.equals(folderList.get(i).getgName()))
+				return;
+		}
 		// TODO Auto-generated method stub
 		GroupFolder folderItem = mFolderListItems
 				.get(positionReturnedByHandler);
@@ -1419,6 +1426,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+		getApp().stop();
 		super.onDestroy();
 		mIdManagerPreference.setEditMode(false);
 	}

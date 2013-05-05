@@ -13,10 +13,13 @@ public class ControlApplication extends Application {
 	private IdManagerPreference mPref;
 	private Activity activity;
 
+	// private boolean isTimerDown;
+
 	// only lazy initializations here!
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		// setTimerDown(true);
 		mPref = IdManagerPreference.getInstance(this);
 		Log.d(TAG, "Starting application" + this.toString());
 		if (mPref.getSecurityMode() == 0) {
@@ -38,15 +41,30 @@ public class ControlApplication extends Application {
 	public void setIdle(long idle) {
 		waiter.setIdle(idle);
 		waiter.setCheck(true);
+		waiter.setLastUsed();
+	}
+
+	public void stop() {
+		waiter.stop(true);
 	}
 
 	public void startMasterPass() {
+
 		Intent i = new Intent(activity, SecurityMasterPasswordActivity.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(i);
+
 	}
 
 	public void setActivity(Activity activity) {
 		this.activity = activity;
 	}
+
+	// public void setTimerDown(boolean isTimerDown) {
+	// this.isTimerDown = isTimerDown;
+	// }
+	//
+	// public boolean isTimerDown() {
+	// return isTimerDown;
+	// }
 }
