@@ -16,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.ClipboardManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -66,10 +65,6 @@ public class MasterPasswordActivity extends BaseActivity implements
 			UserDB userTemp = mIDxPWDataBaseHandler
 					.getUser(Contants.MASTER_PASSWORD_ID);
 			mMasterPW = userTemp.getPassword();
-			// UserDataBase user = mDataBaseHandler
-			// .getUser(Contants.MASTER_PASSWORD_ID);
-			// String masterPWm= user.getUserPassword();
-			Log.e("masterpw", "master pw " + mMasterPW);
 		}
 	}
 

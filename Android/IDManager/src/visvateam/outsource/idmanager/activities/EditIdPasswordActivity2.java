@@ -110,9 +110,10 @@ public class EditIdPasswordActivity2 extends BaseActivity implements
 		setContentView(R.layout.edit_id_pass);
 		modeBundle = getIntent().getExtras().getInt(
 				Contants.IS_INTENT_CREATE_NEW_ID);
-
-		currentFolderId = getIntent().getExtras().getInt(
-				Contants.CURRENT_FOLDER_ID);
+		
+		mIdManagerPreference = IdManagerPreference.getInstance(this);
+		currentFolderId =mIdManagerPreference.getCurrentFolderId();
+		Log.e("current FOlder id", "current Folder id "+currentFolderId);
 		if (modeBundle == 0) {
 			currentElementId = getIntent().getExtras().getInt(
 					Contants.CURRENT_PASSWORD_ID);
@@ -262,8 +263,6 @@ public class EditIdPasswordActivity2 extends BaseActivity implements
 	 * initialize database
 	 */
 	private void initDataBase() {
-		// TODO Auto-generated method stub
-		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new IDxPWDataBaseHandler(this);
 
@@ -700,6 +699,7 @@ public class EditIdPasswordActivity2 extends BaseActivity implements
 		// create id int normal folder
 		if (isCreatNew) {
 			mDataBaseHandler.addNewElementId(newElement);
+			Log.e("element groupd", "groiup id" +newElement.geteGroupId());
 			mIdManagerPreference
 					.setNumberItem(
 							IdManagerPreference.NUMBER_ITEMS,

@@ -54,8 +54,9 @@ public class ItemAdapter extends BaseAdapter {
 	private int currentFolderId;
 	private IdManagerPreference mIdManagerPreference;
 
-	public ItemAdapter(Context context, ArrayList<ElementID> idItemList, boolean isModeEdit,
-			Handler mHandler, ListViewDragDrop idListView, int currentFoldeId,int currentFolderOrder) {
+	public ItemAdapter(Context context, ArrayList<ElementID> idItemList,
+			boolean isModeEdit, Handler mHandler, ListViewDragDrop idListView,
+			int currentFoldeId, int currentFolderOrder) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
@@ -84,42 +85,47 @@ public class ItemAdapter extends BaseAdapter {
 		return 0;
 	}
 
-	class ViewHolder{
+	class ViewHolder {
 		TextView txtIdName;
 		TextView txtIdUrl;
 		ImageView iv;
 		Button btnEdit;
 		Button btnDelete;
-		
+
 	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup arg2) {
 
 		if (convertView == null) {
-			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_id_row,
-					null);
+			convertView = (RelativeLayout) RelativeLayout.inflate(context,
+					R.layout.list_id_row, null);
 		}
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(EditIdPasswordActivity2.getIconDatabase(idItemList.get(position)
-				.geteIcon()));
+		iv.setImageDrawable(EditIdPasswordActivity2.getIconDatabase(idItemList
+				.get(position).geteIcon()));
 		iv.setContentDescription(this.idItemList.get(position).geteTitle());
 
 		/* text name vs text url */
-		TextView txtIdName = (TextView) convertView.findViewById(R.id.txt_id_item_name);
+		TextView txtIdName = (TextView) convertView
+				.findViewById(R.id.txt_id_item_name);
 		txtIdName.setText(this.idItemList.get(position).geteTitle());
 		txtIdName.setSelected(true);
-		TextView txtIdUrl = (TextView) convertView.findViewById(R.id.txt_id_item_url);
+		TextView txtIdUrl = (TextView) convertView
+				.findViewById(R.id.txt_id_item_url);
 		txtIdUrl.setText(this.idItemList.get(position).geteUrl());
 		txtIdUrl.setSelected(true);
- 
+
 		/* btn edit */
-		Button btnEdit = (Button) convertView.findViewById(R.id.btn_id_item_edit);
+		Button btnEdit = (Button) convertView
+				.findViewById(R.id.btn_id_item_edit);
 		btnEdit.setOnClickListener(mOnEditClickListener);
 		/* button delete */
-		Button btnDelete = (Button) convertView.findViewById(R.id.btn_id_item_delete);
+		Button btnDelete = (Button) convertView
+				.findViewById(R.id.btn_id_item_delete);
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
-	
+
 		if (isModeEdit && (currentFolderOrder >= 0)) {
 			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
@@ -135,7 +141,7 @@ public class ItemAdapter extends BaseAdapter {
 			txtIdUrl.setSelected(false);
 			txtIdName.setSelected(false);
 		}
-		
+
 		return convertView;
 	}
 
@@ -144,11 +150,11 @@ public class ItemAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void updateModeForListView(boolean isEdit,int currentFolderOrder) {
+	public void updateModeForListView(boolean isEdit, int currentFolderOrder) {
 		this.isModeEdit = isEdit;
 		this.currentFolderOrder = currentFolderOrder;
-		Log.e("run here", "run here edu "+isModeEdit);
-//		this.isModeEdit = mIdManagerPreference.isEditMode();
+		Log.e("run here", "run here edu " + isModeEdit);
+		// this.isModeEdit = mIdManagerPreference.isEditMode();
 		notifyDataSetChanged();
 	}
 
@@ -156,7 +162,8 @@ public class ItemAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View v) {
 			Log.e("click edit", "click edit");
-			final int position = idListView.getPositionForView((View) v.getParent());
+			final int position = idListView.getPositionForView((View) v
+					.getParent());
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DIALOG_DELETE_ID;
 			msg.arg2 = position;
@@ -167,7 +174,8 @@ public class ItemAdapter extends BaseAdapter {
 	private OnClickListener mOnEditClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			final int position = idListView.getPositionForView((View) v.getParent());
+			final int position = idListView.getPositionForView((View) v
+					.getParent());
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DIALOG_EDIT_ID;
 			msg.arg2 = position;
@@ -175,7 +183,9 @@ public class ItemAdapter extends BaseAdapter {
 			Intent intent = new Intent(context, EditIdPasswordActivity2.class);
 			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 0);
 			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
-			intent.putExtra(Contants.CURRENT_PASSWORD_ID, idItemList.get(position).geteId());
+			mIdManagerPreference.setCurrentFolderId(currentFolderId);
+			intent.putExtra(Contants.CURRENT_PASSWORD_ID,
+					idItemList.get(position).geteId());
 			context.startActivity(intent);
 		}
 	};
@@ -184,8 +194,8 @@ public class ItemAdapter extends BaseAdapter {
 		return idItemList;
 	}
 
-	public void setIdItemList(ArrayList<ElementID> idItemList, int currentFolderOrder,
-			int currentFolderId) {
+	public void setIdItemList(ArrayList<ElementID> idItemList,
+			int currentFolderOrder, int currentFolderId) {
 		this.currentFolderId = currentFolderId;
 		this.currentFolderOrder = currentFolderOrder;
 		this.idItemList = idItemList;

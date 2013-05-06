@@ -144,7 +144,8 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 				// "test");
 				// mDataBaseHandler.updateUser(user);
 
-				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword, "");
+				UserDB userDB = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+				userDB.setPassword(mMasterPassword);
 				mIDxPWDataBaseHandler.updateUser(userDB);
 				/* return setting activity */
 				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
