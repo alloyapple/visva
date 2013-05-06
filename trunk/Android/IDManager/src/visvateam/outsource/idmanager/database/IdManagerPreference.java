@@ -49,6 +49,7 @@ public class IdManagerPreference {
 	public static final String LAST_TIME_SYNC_CLOUD = "LAST_TIME_SYNC_CLOUD";
 	public static final String GOOGLE_ACCOUNT_NAME_SESSION = "GOOGLE_ACCOUNT_NAME_SESSION";
 	public static final String IS_EDIT_MODE = "IS_EDIT_MODE";
+	public static final String CURRENT_FOLDER_ID = "CURRENT_FOLDER_ID";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -307,6 +308,29 @@ public class IdManagerPreference {
 	public boolean isEditMode() {
 		boolean b;
 		b = isEditMode(IS_EDIT_MODE);
+		return b;
+	}
+	
+	/* set vs get current folder id */
+	public void setCurrentFolderId(String key, int acc) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putInt(key, acc);
+		editor.commit();
+	}
+
+	public int getCurrentFolderId(String key) {
+		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getInt(key, 0);
+	}
+
+	public void setCurrentFolderId(int b) {
+		setCurrentFolderId(CURRENT_FOLDER_ID, b);
+	}
+
+	public int getCurrentFolderId() {
+		int b;
+		b = getCurrentFolderId(CURRENT_FOLDER_ID);
 		return b;
 	}
 }
