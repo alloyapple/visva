@@ -1390,5 +1390,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 		getApp().stop();
 		super.onDestroy();
 		mIdManagerPreference.setEditMode(false);
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 }
