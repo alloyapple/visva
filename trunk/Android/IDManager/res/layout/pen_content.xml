@@ -3,15 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="bottom"
-    android:background="#404040"
+    android:background="#98999C"
     android:orientation="vertical" >
 
     <ListView
         android:id="@+id/id_listview_item_add"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="#404040"
-        android:background="#404040"
+        android:cacheColorHint="#98999C"
+        android:background="#98999C"
         android:divider="@color/transparent" >
     </ListView>
 
