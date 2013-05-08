@@ -1,0 +1,298 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_setting_message"
+    android:orientation="vertical" >
+
+    <include layout="@layout/layout_header" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                style="@style/fullwidth"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewtitle"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/send_details" />
+
+                <Button
+                    android:id="@+id/btn1"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_toLeftOf="@+id/btn2"
+                    android:background="@color/blue"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/btn2"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_toLeftOf="@+id/btn3"
+                    android:background="@color/blue"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/btn3"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/blue"
+                    android:text="3" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutInfo1"
+                style="@style/layoutfullwidth_vertical"
+                android:layout_margin="10dp" >
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/own_name" />
+
+                    <EditText
+                        android:id="@+id/txtName1"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/mail_address" />
+
+                    <EditText
+                        android:id="@+id/txtEmail1"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/tel_no" />
+
+                    <EditText
+                        android:id="@+id/txtTel1"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:inputType="phone"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/textviewfullwidth"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/message" />
+
+                <EditText
+                    android:id="@+id/txtMessage1"
+                    style="@style/fullwidth"
+                    android:gravity="top|left"
+                    android:lines="5"
+                    android:maxLength="300" >
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutInfo2"
+                style="@style/layoutfullwidth_vertical"
+                android:layout_margin="10dp"
+                android:visibility="gone" >
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/own_name" />
+
+                    <EditText
+                        android:id="@+id/txtName2"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/mail_address" />
+
+                    <EditText
+                        android:id="@+id/txtEmail2"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/tel_no" />
+
+                    <EditText
+                        android:id="@+id/txtTel2"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:inputType="phone"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/textviewfullwidth"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/message" />
+
+                <EditText
+                    android:id="@+id/txtMessage2"
+                    style="@style/fullwidth"
+                    android:gravity="top|left"
+                    android:lines="5"
+                    android:maxLength="300" >
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutInfo3"
+                style="@style/layoutfullwidth_vertical"
+                android:layout_margin="10dp"
+                android:visibility="gone" >
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/own_name" />
+
+                    <EditText
+                        android:id="@+id/txtName3"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/mail_address" />
+
+                    <EditText
+                        android:id="@+id/txtEmail3"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                    <TextView
+                        style="@style/textviewfullwidth"
+                        android:layout_weight="2"
+                        android:text="@string/tel_no" />
+
+                    <EditText
+                        android:id="@+id/txtTel3"
+                        style="@style/fullwidth"
+                        android:layout_weight="1"
+                        android:inputType="phone"
+                        android:singleLine="true" >
+                    </EditText>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/textviewfullwidth"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/message" />
+
+                <EditText
+                    android:id="@+id/txtMessage3"
+                    style="@style/fullwidth"
+                    android:lines="5"
+                    android:gravity="top|left"
+                    android:maxLength="300" >
+                </EditText>
+            </LinearLayout>
+
+            <RelativeLayout style="@style/fullwidth" >
+
+                <TextView
+                    style="@style/textviewfullwidth"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/service3" />
+
+                <com.lemon.fromangle.utility.AutoBGButton
+                    android:id="@+id/btnStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/btnStop"
+                    android:background="@drawable/btn_start" />
+
+                <com.lemon.fromangle.utility.AutoBGButton
+                    android:id="@+id/btnStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_stop" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/textviewfullwidth"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:text="@string/please_check_the_notice" />
+
+            <com.lemon.fromangle.utility.AutoBGButton
+                android:id="@+id/btnReturn"
+                android:layout_width="150px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_return" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

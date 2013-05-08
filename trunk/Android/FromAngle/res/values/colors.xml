@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!-- Tab Home Page Color -->
+    <color name="colorStart">#204269</color>
+    <color name="colorEnd">#1f2e40</color>
+    <color name="tabMedium">#2B2B2B</color>
+    <color name="tabDark">#000000</color>
+    <color name="tabTransparent">#10ffffff</color>
+    <!-- End tabhome -->
+
+    <color name="black">#595959</color>
+    <color name="gray">#8b8c8c</color>
+    <color name="gray_2">#b7b7b7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#6996c1</color>
+    <color name="transparent">#00000000</color>
+    <color name="red">#e24b15</color>
+    <color name="orange">#ff9900</color>
+    <color name="blue_sign_in">#295fa0</color>
+    <color name="yellow_light">#50d3ce28</color>
+    <color name="blue_light">#502f68ac</color>
+    <color name="blue_name_agenda">#4399d0</color>
+    <color name="blue_time_agenda">#595959</color>
+    <color name="blue_text">#6f6f6f</color>
+    <color name="blue_address_agenda">#6f6f6f</color>
+    <color name="text_hint">#c4c2c2</color>
+
+    <!-- Layout Color -->
+    <color name="blueText">#4675A3</color>
+    <color name="blueText_distance">#5a98d4</color>
+    <color name="grayText">#5A5A5A</color>
+    <color name="graybackground">#ebebeb</color>
+    <color name="graydivider">#b3b3b3</color>
+    <color name="graydivider2">#ffffff</color>
+    <color name="colorForEdittext">#2F6179</color>
+
+    <!-- Setting background color -->
+    <color name="red_setting">#ff6a59</color>
+    <color name="blue_setting">#65a1dd</color>
+    <color name="yellow_setting">#fff39d</color>
+    <color name="pink_setting">#ff99ce</color>
+    <color name="green_setting">#cddcab</color>
+
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">From Angle</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="url_home">https://google.com</string>
+
+    <!-- Button -->
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_submit">Submit</string>
+    <string name="btn_active">Active</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_filter">Filter</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_no">No</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_skip">Skip</string>
+    <string name="btn_done">Done</string>
+    <string name="btn_return">Return</string>
+
+    <!-- Setting Screen -->
+    <string name="settings">Setting</string>
+    <string name="user_settings">(1) USER SETTING</string>
+    <string name="own_name">Own Name:</string>
+    <string name="mail_address">Mail Address</string>
+    <string name="tel_no">Tel No.(Optional):</string>
+    <string name="validate_interval">(2) Validate Interval</string>
+    <string name="days_after">Days after</string>
+    <string name="safety_was_verified">Safety was verified</string>
+    <string name="alarm_setting">Alarm setting</string>
+    <string name="alarm_setting2">(3) Alarm setting</string>
+    <string name="sound">Sound</string>
+    <string name="vibrate">Vibrate</string>
+
+    <!-- Messsage setting -->
+    <string name="messsage_setting">Message Setting</string>
+    <string name="send_details">Send Details</string>
+    <string name="mail">Mail:</string>
+    <string name="address">Address:</string>
+    <string name="message">Message:</string>
+    <string name="service3">(3)Service </string>
+    <string name="mrms">Mr/Ms </string>
+    <string name="safety_validation">Safery Validation </string>
+    <string name="please_check_the_notice">*Please check the notice mail from server after start/stop</string>
+    <string name="please_reply_by_press_ok">Please reply by pressing (OK) if there\'s a problem</string>
+    <string name="please_reply_by_press_close">Please press close if the Safety Validation is NG if you\'re not the person</string>
+    <string name="final_validation">Final\nValidation</string>
+    <string name="next_validation">Next\nValidation</string>
+    <string name="message1">1.Setting</string>
+    <string name="message2">2.Message</string>
+    <string name="help">Help</string>
+    <string name="safetyvalidation3">3.Validation</string>
+    <string name="plz_input_required_field">Please input required fields to continue !</string>
+    <string name="incorrect_email_address">Incorrect email address !</string>
+    
+    
+    
+
+</resources>
