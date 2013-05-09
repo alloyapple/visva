@@ -9,6 +9,7 @@ import com.lemon.fromangle.config.GlobalValue;
 public class SplashActivity extends LemonBaseActivity {
 
 	private static int TIME_SHOW_SPLASH = 3000;
+	private boolean isTouch = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -21,13 +22,16 @@ public class SplashActivity extends LemonBaseActivity {
 
 			@Override
 			public void run() {
-				gotoActivity(self, TopScreenActivity.class);
-				finish();
+				if (!isTouch) {
+					gotoActivity(self, TopScreenActivity.class);
+					finish();
+				}
 			}
 		}, TIME_SHOW_SPLASH);
 	}
 
 	public void start(View v) {
+		isTouch = true;
 		gotoActivity(self, TopScreenActivity.class);
 		finish();
 	}
