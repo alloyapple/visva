@@ -192,6 +192,7 @@ public final class R {
         public static final int btn_skip=0x7f070012;
         public static final int btn_submit=0x7f070006;
         public static final int btn_yes=0x7f07000b;
+        public static final int change_info_sucess=0x7f070037;
         public static final int days_after=0x7f07001b;
         public static final int duplicated_email=0x7f070035;
         public static final int email_not_validate=0x7f070036;
@@ -220,10 +221,12 @@ public final class R {
         public static final int safetyvalidation3=0x7f070031;
         public static final int send_details=0x7f070022;
         public static final int service3=0x7f070026;
+        public static final int setting_user_first=0x7f070038;
         /**  Setting Screen 
          */
         public static final int settings=0x7f070015;
         public static final int sound=0x7f07001f;
+        public static final int sucess=0x7f070039;
         public static final int tel_no=0x7f070019;
         public static final int url_home=0x7f070003;
         public static final int user_settings=0x7f070016;

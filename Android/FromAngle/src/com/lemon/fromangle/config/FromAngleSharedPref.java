@@ -32,9 +32,12 @@ public class FromAngleSharedPref {
 	public static final String SETTING_EMAIL = "SETTING_EMAIL";
 	public static final String SETTING_TELEPHONE = "SETTING_TELEPHONE";
 	public static final String SETTING_USER_ID = "SETTING_USER_ID";
-	public static final String SETTING_VALIDATE_DATE="SETTING_VALIDATE_DATE";
-	public static final String SETTING_VALIDATE_TIME="SETTING_VALIDATE_TIME";
-	public static final String SETTING_VALIDATE_DAYS_AFTER="SETTING_VALIDATE_DAYS_AFTER";
+	public static final String SETTING_VALIDATE_DATE = "SETTING_VALIDATE_DATE";
+	public static final String SETTING_VALIDATE_TIME = "SETTING_VALIDATE_TIME";
+	public static final String SETTING_VALIDATE_DAYS_AFTER = "SETTING_VALIDATE_DAYS_AFTER";
+	public static final String TOP_SCREEN_FINAL_VALIDATION = "TOP_SCREEN_FINAL_VALIDATION";
+	public static final String TOP_SCREEN_NEXT_VALIDATION = "TOP_SCREEN_NEXT_VALIDATION";
+	public static final String MESSAGE_SETTING_STATUS = "MESSAGE_SETTING_STATUS";
 
 	// ================================================================
 
@@ -74,7 +77,6 @@ public class FromAngleSharedPref {
 	}
 
 	public void setFinishSetting() {
-
 		putBooleanValue(FINISH_SETTTING, true);
 	}
 
@@ -135,29 +137,54 @@ public class FromAngleSharedPref {
 		return getStringValue(SETTING_TELEPHONE);
 	}
 
-	public void setValidationDate(String date){
+	public void setValidationDate(String date) {
 		putStringValue(SETTING_VALIDATE_DATE, date);
 	}
-	
-	public String getValidationDate(){
+
+	public String getValidationDate() {
 		return getStringValue(SETTING_VALIDATE_DATE);
 	}
-	
-	public void setValidationTime(String time){
+
+	public void setValidationTime(String time) {
 		putStringValue(SETTING_VALIDATE_TIME, time);
 	}
-	
-	public String getValidationTime(){
+
+	public String getValidationTime() {
 		return getStringValue(SETTING_VALIDATE_TIME);
 	}
-	
-	public void setValidationDaysAfter(String daysAfter){
+
+	public void setValidationDaysAfter(String daysAfter) {
 		putStringValue(SETTING_VALIDATE_DAYS_AFTER, daysAfter);
 	}
-	
-	public String getValidationDaysAfter(){
+
+	public String getValidationDaysAfter() {
 		return getStringValue(SETTING_VALIDATE_DAYS_AFTER);
 	}
+
+	public void setTopScreenFinalValidation(String finalValidation) {
+		putStringValue(TOP_SCREEN_FINAL_VALIDATION, finalValidation);
+	}
+
+	public String getTopScreenFinalValidation() {
+		return getStringValue(TOP_SCREEN_FINAL_VALIDATION);
+	}
+
+	public void setTopScreenNextValidation(String nextValidation) {
+		putStringValue(TOP_SCREEN_NEXT_VALIDATION, nextValidation);
+	}
+
+	public String getTopScreenNextValidation() {
+		return getStringValue(TOP_SCREEN_NEXT_VALIDATION);
+	}
+
+	public void setMessageSettingStatus(String status) {
+		putStringValue(MESSAGE_SETTING_STATUS, status);
+	}
+
+	public String getMessageSettingStatus() {
+		return getStringValue(MESSAGE_SETTING_STATUS);
+	}
+
 	// ======================== CORE FUNCTIONS ========================
 
 	/**

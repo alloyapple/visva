@@ -32,6 +32,7 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
+import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
 import com.lemon.fromangle.utility.TimeUtility;
 
@@ -132,83 +133,83 @@ public class TopScreenActivity extends Activity {
 			}
 		});
 
-		txtFinalValidation.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					Date prevDate = new Date();
-					int preHour = 10, preMinute = 0;
-
-					if (!StringUtility.isEmpty(txtFinalValidation)) {
-						prevDate = TimeUtility.getDate("yyyy/MM/dd",
-								txtFinalValidation.getText().toString()
-										.substring(0, 10));
-						preHour = Integer.parseInt(txtFinalValidation.getText()
-								.toString().substring(11, 13));
-						preMinute = Integer.parseInt(txtFinalValidation
-								.getText().toString().substring(14, 15));
-
-					}
-
-					dateTimePicker = new DialogDateTimePicker(self, prevDate,
-							preHour, preMinute, new DateTimeDialogListerner() {
-								@Override
-								public void onSelectDateTime(Date date,
-										int hour, int minute) {
-									String strResult = TimeUtility
-											.formatDateStr("yyyy/MM/dd", date)
-											+ " "
-											+ TimeUtility.formatTimeStr(hour,
-													minute);
-									txtFinalValidation.setText(strResult);
-								}
-							});
-					dateTimePicker.show();
-				}
-				return false;
-			}
-		});
-
-		txtNextValidation.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					// TODO Auto-generated method stub
-					Date prevDate = new Date();
-					int preHour = 10, preMinute = 0;
-
-					if (!StringUtility.isEmpty(txtNextValidation)) {
-						prevDate = TimeUtility.getDate("yyyy/MM/dd",
-								txtNextValidation.getText().toString()
-										.substring(0, 10));
-						preHour = Integer.parseInt(txtNextValidation.getText()
-								.toString().substring(11, 13));
-						preMinute = Integer.parseInt(txtNextValidation
-								.getText().toString().substring(14, 15));
-
-					}
-
-					dateTimePicker = new DialogDateTimePicker(self, prevDate,
-							preHour, preMinute, new DateTimeDialogListerner() {
-								@Override
-								public void onSelectDateTime(Date date,
-										int hour, int minute) {
-									String strResult = TimeUtility
-											.formatDateStr("yyyy/MM/dd", date)
-											+ " "
-											+ TimeUtility.formatTimeStr(hour,
-													minute);
-									txtNextValidation.setText(strResult);
-								}
-							});
-					dateTimePicker.show();
-				}
-				return false;
-			}
-		});
+		// txtFinalValidation.setOnTouchListener(new OnTouchListener() {
+		//
+		// @Override
+		// public boolean onTouch(View v, MotionEvent event) {
+		// // TODO Auto-generated method stub
+		// if (event.getAction() == MotionEvent.ACTION_DOWN) {
+		// Date prevDate = new Date();
+		// int preHour = 10, preMinute = 0;
+		//
+		// if (!StringUtility.isEmpty(txtFinalValidation)) {
+		// prevDate = TimeUtility.getDate("yyyy/MM/dd",
+		// txtFinalValidation.getText().toString()
+		// .substring(0, 10));
+		// preHour = Integer.parseInt(txtFinalValidation.getText()
+		// .toString().substring(11, 13));
+		// preMinute = Integer.parseInt(txtFinalValidation
+		// .getText().toString().substring(14, 15));
+		//
+		// }
+		//
+		// dateTimePicker = new DialogDateTimePicker(self, prevDate,
+		// preHour, preMinute, new DateTimeDialogListerner() {
+		// @Override
+		// public void onSelectDateTime(Date date,
+		// int hour, int minute) {
+		// String strResult = TimeUtility
+		// .formatDateStr("yyyy/MM/dd", date)
+		// + " "
+		// + TimeUtility.formatTimeStr(hour,
+		// minute);
+		// txtFinalValidation.setText(strResult);
+		// }
+		// });
+		// dateTimePicker.show();
+		// }
+		// return false;
+		// }
+		// });
+		//
+		// txtNextValidation.setOnTouchListener(new OnTouchListener() {
+		//
+		// @Override
+		// public boolean onTouch(View v, MotionEvent event) {
+		// if (event.getAction() == MotionEvent.ACTION_DOWN) {
+		// // TODO Auto-generated method stub
+		// Date prevDate = new Date();
+		// int preHour = 10, preMinute = 0;
+		//
+		// if (!StringUtility.isEmpty(txtNextValidation)) {
+		// prevDate = TimeUtility.getDate("yyyy/MM/dd",
+		// txtNextValidation.getText().toString()
+		// .substring(0, 10));
+		// preHour = Integer.parseInt(txtNextValidation.getText()
+		// .toString().substring(11, 13));
+		// preMinute = Integer.parseInt(txtNextValidation
+		// .getText().toString().substring(14, 15));
+		//
+		// }
+		//
+		// dateTimePicker = new DialogDateTimePicker(self, prevDate,
+		// preHour, preMinute, new DateTimeDialogListerner() {
+		// @Override
+		// public void onSelectDateTime(Date date,
+		// int hour, int minute) {
+		// String strResult = TimeUtility
+		// .formatDateStr("yyyy/MM/dd", date)
+		// + " "
+		// + TimeUtility.formatTimeStr(hour,
+		// minute);
+		// txtNextValidation.setText(strResult);
+		// }
+		// });
+		// dateTimePicker.show();
+		// }
+		// return false;
+		// }
+		// });
 	}
 
 	public void gotoActivity(Context context, Class<?> cla) {
@@ -226,6 +227,21 @@ public class TopScreenActivity extends Activity {
 		// TODO Auto-generated method stub
 		if (!"".equals(mFromAngleSharedPref.getUserId())) {
 			imgMessageStatus.setImageResource(R.drawable.bar_green);
+			txtFinalValidation.setText(mFromAngleSharedPref
+					.getTopScreenFinalValidation());
+			txtNextValidation.setText(mFromAngleSharedPref
+					.getTopScreenNextValidation());
+			String statusMsg = mFromAngleSharedPref.getMessageSettingStatus();
+			if (!StringUtility.isEmpty(statusMsg)) {
+				int status = Integer.parseInt(statusMsg);
+				if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
+						|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
+					imgMessageSettingStatus
+							.setImageResource(R.drawable.bar_green);
+				else
+					imgMessageSettingStatus
+							.setImageResource(R.drawable.bar_gray);
+			}
 		} else
 			imgMessageStatus.setImageResource(R.drawable.bar_gray);
 		super.onResume();
@@ -276,6 +292,8 @@ public class TopScreenActivity extends Activity {
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
+			DialogUtility.alert(TopScreenActivity.this,
+					getString(R.string.failed_to_conect_server));
 			e.printStackTrace();
 		}
 
@@ -304,8 +322,9 @@ public class TopScreenActivity extends Activity {
 		// TODO Auto-generated method stub
 		showToast("paid not expired");
 	}
-	
-	private void showToast(String string){
-		Toast.makeText(TopScreenActivity.this, string, Toast.LENGTH_SHORT).show();
+
+	private void showToast(String string) {
+		Toast.makeText(TopScreenActivity.this, string, Toast.LENGTH_SHORT)
+				.show();
 	}
 }

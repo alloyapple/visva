@@ -3,6 +3,8 @@ package com.lemon.fromangle;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ import com.lemon.fromangle.config.WebServiceConfig;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
+import com.lemon.fromangle.network.ParserUtility;
+import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
 
 public class MessageSettingActivity extends Activity {
@@ -46,6 +50,8 @@ public class MessageSettingActivity extends Activity {
 
 	private MessageSettingActivity self;
 
+	private String userId;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -53,7 +59,31 @@ public class MessageSettingActivity extends Activity {
 		setContentView(R.layout.page_setting_detail);
 		initUI();
 		self = this;
+
+		userId = GlobalValue.prefs.getUserId();
 	}
+
+	// private void checkMessageInfoFromServer(String userId) {
+	// // TODO Auto-generated method stub
+	// List<NameValuePair> params = ParameterFactory
+	// .getMessageInfoFromServer(userId);
+	// AsyncHttpPost postRegister = new AsyncHttpPost(
+	// MessageSettingActivity.this, new AsyncHttpResponseProcess(
+	// MessageSettingActivity.this) {
+	// @Override
+	// public void processIfResponseSuccess(String response) {
+	// /* check info response from server */
+	// Log.e("message", "nesssage "+response);
+	// }
+	//
+	// @Override
+	// public void processIfResponseFail() {
+	// // TODO Auto-generated method stub
+	// Log.e("failed ", "failed");
+	// }
+	// }, params, true);
+	// postRegister.execute(WebServiceConfig.URL_MESSAGE_SETTING);
+	// }
 
 	private void initUI() {
 		btn1 = (Button) findViewById(R.id.btn1);
@@ -102,7 +132,6 @@ public class MessageSettingActivity extends Activity {
 					layoutInfo2.setVisibility(View.VISIBLE);
 					setActiveButton(2);
 				}
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -138,11 +167,15 @@ public class MessageSettingActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if (checkValidateInfo1()) {
-					Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
-					onStartSave();
+				if (checkValidateInfo3()) {
+					if (!StringUtility.isEmpty(userId)) {
+						Toast.makeText(self, "On Start", Toast.LENGTH_LONG)
+								.show();
+						onStartSave();
+					} else {
+						showToast(getString(R.string.setting_user_first));
+					}
 				}
-
 			}
 		});
 
@@ -184,26 +217,51 @@ public class MessageSettingActivity extends Activity {
 		String tel1 = txtTel1.getText().toString();
 		String tel2 = txtTel2.getText().toString();
 		String tel3 = txtTel3.getText().toString();
+		String status = "1";
 
 		List<NameValuePair> params = ParameterFactory
-				.createMessageSettingParams(GlobalValue.userId, name1, email1,
-						message1, name2, email2, message2, name3, email3,
-						message3);
-		
+				.createMessageSettingParams(userId, name1, email1, message1,
+						name2, email2, message2, name3, email3, message3,
+						status);
+
 		AsyncHttpPost get = new AsyncHttpPost(MessageSettingActivity.this,
 				new AsyncHttpResponseProcess(MessageSettingActivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-
-						Toast.makeText(MessageSettingActivity.this,
-								"Successfully", Toast.LENGTH_SHORT).show();
-						finish();
-
+						/* check response */
+						checkResponseFromServer(response);
 					}
-
-				},params, true);
+				}, params, true);
 		get.execute(WebServiceConfig.URL_MESSAGE_SETTING);
 
+	}
+
+	private void checkResponseFromServer(String response) {
+		// TODO Auto-generated method stub
+		JSONObject jsonObject = null;
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
+					showToast(getString(R.string.sucess));
+					GlobalValue.prefs.setMessageSettingStatus(errorMsg);
+				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
+					showToast(getString(R.string.change_info_sucess));
+					GlobalValue.prefs.setMessageSettingStatus(errorMsg);
+				} else
+					DialogUtility.alert(MessageSettingActivity.this,
+							getString(R.string.failed_to_conect_server));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			DialogUtility.alert(MessageSettingActivity.this,
+					getString(R.string.failed_to_conect_server));
+			e.printStackTrace();
+		}
 	}
 
 	private boolean checkValidateInfo1() {
@@ -257,5 +315,10 @@ public class MessageSettingActivity extends Activity {
 			return false;
 		} else
 			return true;
+	}
+
+	private void showToast(String string) {
+		Toast.makeText(MessageSettingActivity.this, string, Toast.LENGTH_SHORT)
+				.show();
 	}
 }
