@@ -1,4 +1,4 @@
-package com.lemon.fromangle.payment.utils;
+package com.payment.utils;
 
 // Copyright 2002, Google, Inc.
 //

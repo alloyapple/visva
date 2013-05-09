@@ -61,7 +61,7 @@ public class TopScreenActivity extends Activity {
 	private DialogDateTimePicker dateTimePicker;
 
 	private FromAngleSharedPref mFromAngleSharedPref;
-	
+
 	private String userId;
 
 	@Override
@@ -69,12 +69,12 @@ public class TopScreenActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_top_screen);
-		
+
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		initUI();
 
 		userId = mFromAngleSharedPref.getUserId();
-		
+
 		self = this;
 	}
 
@@ -247,11 +247,6 @@ public class TopScreenActivity extends Activity {
 		super.onResume();
 	}
 
-<<<<<<< .mine
-	private void showToast(String string) {
-		Toast.makeText(TopScreenActivity.this, string, Toast.LENGTH_SHORT)
-				.show();
-=======
 	private void checkPayment(String userId) {
 		List<NameValuePair> params = ParameterFactory
 				.createCheckPayment(userId);
@@ -331,6 +326,5 @@ public class TopScreenActivity extends Activity {
 	private void showToast(String string) {
 		Toast.makeText(TopScreenActivity.this, string, Toast.LENGTH_SHORT)
 				.show();
->>>>>>> .r392
 	}
 }

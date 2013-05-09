@@ -1,4 +1,4 @@
-package com.lemon.fromangle.payment;
+package com.payment;
 
 // Copyright 2010 Google Inc. All Rights Reserved.
 
@@ -21,9 +21,9 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lemon.fromangle.payment.C.PurchaseState;
-import com.lemon.fromangle.payment.utils.Base64;
-import com.lemon.fromangle.payment.utils.Base64DecoderException;
+import com.payment.C.PurchaseState;
+import com.payment.utils.Base64;
+import com.payment.utils.Base64DecoderException;
 
 /**
  * Security-related methods. For a secure implementation, all of this code
@@ -40,7 +40,7 @@ public class BillingSecurity {
 	private static final String KEY_FACTORY_ALGORITHM = "RSA";
 	private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
 	private static final SecureRandom RANDOM = new SecureRandom();
-	private static final String KEY_APP = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhWf/TSMd8CTtyNahOuw/qTB4fnr9iSz09AOd2D62w68GyR8635tBdZp+eZmsYGb6r78/9q3AH9Vbt7Ui+CiYLl8cbWFDYw52Fkfev4aElPMJWYBc9I2FCK4RbjHWNVUddRaDVrmBJdDYDWRuffg8l8WQ2lnpSrD7WwuX7kf5IvxMzcyK3yu4McArQP0atWTOYjPxGNbY6YeHVJojsZSdK9Ak03gZG2C8iOyIYPIo8n/iG/kboU8lQnB5x8CntVrCcrXkzL1LdB1aI9v2ivyPHOJxum5A20k0vSMiSuMIrkpC5SZjkwCE9lxA/h9L/XE8Kn3t1t8vXa8p1/WcOS4xBwIDAQAB";
+	private static final String KEY_APP = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAirgF0e7HIS+zZUZv8kAKtQyJezq16HhdhJEqxMRUCwJtjBq7kgQj7gbEk6tZDDq9+6WoqYirvQiKw6rRCc3YBpwgEeiBXKkzwOEwgkUGY5SMGAM9BVXB+fCFb5Dffrnae4Z9h9cqHLx6xqps1v7MmXbsF3ffcOUzbKjx33zCrHD1Dn0DbktpGfEK47CCFtj+PibOhKuKLE4x9qZsyufO+/8HVYV8bsZFBvkMl+wPEIyaMvhnIJnucXQbHW2zUL9OyvPeU32sURtocXHVD/mh9Pft1Gu9x/zBvrTq1pp9Z6w6BGiS5gJ45SVHXA8rhTjzz4i0euVV/wijfkZGBRdALwIDAQAB";
 
 	/**
 	 * This keeps track of the nonces that we generated and sent to the server.
