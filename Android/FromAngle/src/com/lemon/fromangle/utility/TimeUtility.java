@@ -163,4 +163,23 @@ public class TimeUtility {
 		return result;
 	}
 
+	public static Date formatToSimple(Date input) {
+		String dateStr = input.toString();
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date output = new Date();
+			output = df.parse(dateStr);
+			return output;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Date getCurentDate() {
+		long currentTime = System.currentTimeMillis();
+		return formatToSimple(new Date(currentTime));
+	}
+
 }

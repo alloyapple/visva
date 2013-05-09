@@ -1,6 +1,7 @@
 package com.lemon.fromangle.network;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.jar.Attributes.Name;
 
@@ -98,6 +99,14 @@ public final class ParameterFactory {
 	public static List<NameValuePair> createCheckPayment(String userId) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("user_id", userId));
+		return parameters;
+
+	}
+	public static List<NameValuePair> createUpdatePayment(String userId,Date date, int status) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("user_id", userId));
+		parameters.add(new BasicNameValuePair( "day_payment",date.toString()));
+		parameters.add(new BasicNameValuePair( "expiry",date.toString()));
 		return parameters;
 
 	}

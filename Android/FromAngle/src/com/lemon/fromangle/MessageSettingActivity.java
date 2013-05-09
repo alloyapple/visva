@@ -6,7 +6,6 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,8 +14,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
+import com.lemon.fromangle.controls.PaymentAcitivty;
+import com.lemon.fromangle.controls.PaymentService;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
@@ -24,7 +26,7 @@ import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
 
-public class MessageSettingActivity extends Activity {
+public class MessageSettingActivity extends PaymentAcitivty {
 
 	private Button btn1;
 	private Button btn2;
@@ -49,7 +51,8 @@ public class MessageSettingActivity extends Activity {
 	private com.lemon.fromangle.utility.AutoBGButton btnReturn;
 
 	private MessageSettingActivity self;
-
+	private PaymentService paymentService;
+	private FromAngleSharedPref mFromAngleSharedPref;
 	private String userId;
 
 	@Override
@@ -57,6 +60,8 @@ public class MessageSettingActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_setting_detail);
+		paymentService = new PaymentService(this);
+		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		initUI();
 		self = this;
 
@@ -167,6 +172,12 @@ public class MessageSettingActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+<<<<<<< .mine
+				if (checkValidateInfo1()) {
+					String userId = mFromAngleSharedPref.getUserId();
+					if (!StringUtility.isEmpty(userId))
+						paymentService.checkPayment(userId);
+=======
 				if (checkValidateInfo3()) {
 					if (!StringUtility.isEmpty(userId)) {
 						Toast.makeText(self, "On Start", Toast.LENGTH_LONG)
@@ -175,6 +186,7 @@ public class MessageSettingActivity extends Activity {
 					} else {
 						showToast(getString(R.string.setting_user_first));
 					}
+>>>>>>> .r392
 				}
 			}
 		});
@@ -316,9 +328,19 @@ public class MessageSettingActivity extends Activity {
 		} else
 			return true;
 	}
+<<<<<<< .mine
+
+	@Override
+	public void onPaymentSuccess() {
+		// TODO Auto-generated method stub
+		Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
+		onStartSave();
+	}
+=======
 
 	private void showToast(String string) {
 		Toast.makeText(MessageSettingActivity.this, string, Toast.LENGTH_SHORT)
 				.show();
 	}
+>>>>>>> .r392
 }
