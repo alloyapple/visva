@@ -1,5 +1,6 @@
 package com.lemon.fromangle.service;
 
+import com.lemon.fromangle.config.FromAngleSharedPref;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -7,11 +8,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.widget.Toast;
 
 public class MessageFollowService extends Service {
 	private MediaPlayer mediaPlayer;
+	private FromAngleSharedPref mPref;
 
 	@Override
 	public void onCreate() {
@@ -20,6 +26,7 @@ public class MessageFollowService extends Service {
 
 		Toast.makeText(this, "MyAlarmService.onCreate()", Toast.LENGTH_LONG)
 				.show();
+		mPref = new FromAngleSharedPref(this);
 	}
 
 	@Override
@@ -71,7 +78,12 @@ public class MessageFollowService extends Service {
 		// TODO Auto-generated method stub
 
 		super.onStart(intent, startId);
-
+		playRingTone(mPref.getRingTuneFile());
+		if(mPref.getVibrateMode()){
+			Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+			// Vibrate for 500 milliseconds
+			v.vibrate(1000);
+		}
 		Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG)
 				.show();
 	}
@@ -94,4 +106,9 @@ public class MessageFollowService extends Service {
 
 	}
 
+	public void playRingTone(String uriRingtune) {
+		Uri uri = Uri.parse(uriRingtune);
+		Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uri);
+		r.play();
+	}
 }
