@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 public class MessageFollowService extends Service {
 	private FromAngleSharedPref mPref;
+	public Ringtone ringtone;
+	private Handler mHandler = new Handler();
 
 	@Override
 	public void onCreate() {
@@ -87,6 +90,16 @@ public class MessageFollowService extends Service {
 		wl.acquire();
 		wl.release();
 		playRingTone(mPref.getRingTuneFile());
+		mHandler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				ringtone.stop();
+				ringtone = null;
+				MessageFollowService.this.onDestroy();
+			}
+		}, 5000);
 		if (mPref.getVibrateMode()) {
 			Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			// Vibrate for 500 milliseconds
@@ -116,7 +129,7 @@ public class MessageFollowService extends Service {
 
 	public void playRingTone(String uriRingtune) {
 		Uri uri = Uri.parse(uriRingtune);
-		Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uri);
-		r.play();
+		ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
+		ringtone.play();
 	}
 }

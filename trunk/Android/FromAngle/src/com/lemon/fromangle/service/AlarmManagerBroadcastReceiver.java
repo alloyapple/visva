@@ -15,6 +15,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.widget.Toast;
@@ -24,7 +25,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 	final public static String ONE_TIME = "onetime";
 	private FromAngleSharedPref mPref;
 	private Context mContext;
-
+	public Ringtone ringtone;
+	private Handler mHandler = new Handler();
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		PowerManager pm = (PowerManager) context
@@ -44,6 +46,15 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 			// Vibrate for 500 milliseconds
 			v.vibrate(1000);
 		}
+		mHandler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				ringtone.stop();
+				ringtone = null;
+			}
+		}, 5000);
 		// Release the lock
 		wl.release();
 
@@ -78,7 +89,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
 	public void playRingTone(String uriRingtune) {
 		Uri uri = Uri.parse(uriRingtune);
-		Ringtone r = RingtoneManager.getRingtone(mContext, uri);
-		r.play();
+		ringtone = RingtoneManager.getRingtone(mContext, uri);
+		ringtone.play();
 	}
 }
