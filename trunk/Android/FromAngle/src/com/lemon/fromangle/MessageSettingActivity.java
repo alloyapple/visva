@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -54,6 +56,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	private com.lemon.fromangle.utility.AutoBGButton btnStart;
 	private com.lemon.fromangle.utility.AutoBGButton btnStop;
 	private com.lemon.fromangle.utility.AutoBGButton btnReturn;
+	private com.lemon.fromangle.utility.AutoBGButton btnLeft, btnRight;
 
 	private MessageSettingActivity self;
 	private PaymentService paymentService;
@@ -176,7 +179,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 			@Override
 			public void onClick(View v) {
-
 				if (checkValidateInfo1()) {
 					if (!StringUtility.isEmpty(userId)) {
 						Toast.makeText(self, "On Start", Toast.LENGTH_LONG)
@@ -191,7 +193,24 @@ public class MessageSettingActivity extends PaymentAcitivty {
 				}
 			}
 		});
+		btnLeft = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnLeft);
+		btnLeft.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+
+				finish();
+			}
+		});
+		btnRight = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnRight);
+		btnRight.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Uri uri = Uri.parse(getString(R.string.url_home));
+				startActivity(new Intent(Intent.ACTION_VIEW, uri));
+			}
+		});
 	}
 
 	private void setActiveButton(int index) {

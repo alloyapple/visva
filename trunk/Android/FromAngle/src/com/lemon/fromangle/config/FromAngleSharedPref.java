@@ -38,6 +38,8 @@ public class FromAngleSharedPref {
 	public static final String TOP_SCREEN_FINAL_VALIDATION = "TOP_SCREEN_FINAL_VALIDATION";
 	public static final String TOP_SCREEN_NEXT_VALIDATION = "TOP_SCREEN_NEXT_VALIDATION";
 	public static final String MESSAGE_SETTING_STATUS = "MESSAGE_SETTING_STATUS";
+	public static final String VALIDATION_OK = "VALIDATION_OK";
+	public static final String VALIDATION_CLOSE = "VALIDATION_CLOSE";
 
 	// ================================================================
 
@@ -183,6 +185,14 @@ public class FromAngleSharedPref {
 
 	public String getMessageSettingStatus() {
 		return getStringValue(MESSAGE_SETTING_STATUS);
+	}
+
+	public void setValidationMode(int mode) {
+		putIntValue(VALIDATION_OK, mode);
+	}
+
+	public int getValidationMode() {
+		return getIntValue(VALIDATION_OK);
 	}
 
 	// ======================== CORE FUNCTIONS ========================

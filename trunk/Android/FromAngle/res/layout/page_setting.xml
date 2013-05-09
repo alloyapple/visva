@@ -1,184 +1,189 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_setting_message"
-    android:orientation="vertical" >
+    android:background="@drawable/bg_setting_message" >
 
-    <include layout="@layout/layout_header" />
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <include layout="@layout/layout_header" />
+
+        <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
-
-            <TextView
-                style="@style/textviewtitle"
-                android:text="@string/user_settings" />
-
-            <LinearLayout
-                style="@style/layoutfullwidth_vertical"
-                android:layout_margin="10dp" >
-
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
-
-                    <TextView
-                        style="@style/textviewfullwidth"
-                        android:layout_weight="2"
-                        android:text="@string/own_name" />
-
-                    <EditText
-                        android:id="@+id/txtName"
-                        style="@style/fullwidth"
-                        android:layout_weight="1"
-                        android:singleLine="true" >
-                    </EditText>
-                </LinearLayout>
-
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
-
-                    <TextView
-                        style="@style/textviewfullwidth"
-                        android:layout_weight="2"
-                        android:text="@string/mail_address" />
-
-                    <EditText
-                        android:id="@+id/txtEmail"
-                        style="@style/fullwidth"
-                        android:layout_weight="1"
-                        android:inputType="textEmailAddress"
-                        android:singleLine="true" >
-                    </EditText>
-                </LinearLayout>
-
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
-
-                    <TextView
-                        style="@style/textviewfullwidth"
-                        android:layout_weight="2"
-                        android:text="@string/tel_no" />
-
-                    <EditText
-                        android:id="@+id/txtTel"
-                        style="@style/fullwidth"
-                        android:layout_weight="1"
-                        android:inputType="phone"
-                        android:singleLine="true" >
-                    </EditText>
-                </LinearLayout>
-            </LinearLayout>
-
-            <TextView
-                style="@style/textviewtitle"
-                android:text="@string/validate_interval" />
-
-            <LinearLayout
-                style="@style/layoutfullwidth_horizal"
-                android:layout_gravity="center_horizontal" >
-
-                <EditText
-                    android:id="@+id/txtDateSetting"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:editable="false"
-                    android:singleLine="true" >
-                </EditText>
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="6dp"
-                    android:background="@color/white" />
-
-                <EditText
-                    android:id="@+id/txtTimeSetting"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:singleLine="true" >
-                </EditText>
-
-                <TextView
-                    style="@style/textview_wrap"
-                    android:singleLine="true"
-                    android:text="@string/sound"
-                    android:textSize="11sp" />
-
-                <EditText
-                    android:id="@+id/txtDayAfter"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:singleLine="true" >
-                </EditText>
-
-                <TextView
-                    style="@style/textview_wrap"
-                    android:layout_marginRight="2sp"
-                    android:text="@string/days_after"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-            <TextView
-                style="@style/textview_wrap"
-                android:layout_gravity="right"
-                android:layout_marginRight="20dp"
-                android:text="@string/safety_was_verified"
-                android:textSize="11sp" />
-
-            <TextView
-                style="@style/textviewtitle"
-                android:text="@string/alarm_setting2" />
-
-            <LinearLayout
-                style="@style/layoutfullwidth_horizal"
-                android:layout_marginLeft="10dp" >
-
-                <TextView
-                    style="@style/textview_wrap"
-                    android:text="@string/sound" />
-
-                <Spinner
-                    android:id="@+id/spnSelectRingTune"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp" />
-
-                <TextView
-                    style="@style/textview_wrap"
-                    android:text="@string/vibrate" />
-
-                <CheckBox
-                    android:id="@+id/chkVibrate"
-                    style="@style/textview_wrap"
-                    android:text="" />
-            </LinearLayout>
+            android:layout_height="fill_parent" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" >
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
 
-                <com.lemon.fromangle.utility.AutoBGButton
-                    android:id="@+id/btnSave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    style="@style/textviewtitle"
+                    android:text="@string/user_settings" />
+
+                <LinearLayout
+                    style="@style/layoutfullwidth_vertical"
+                    android:layout_margin="10dp" >
+
+                    <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                        <TextView
+                            style="@style/textviewfullwidth"
+                            android:layout_weight="2"
+                            android:text="@string/own_name" />
+
+                        <EditText
+                            android:id="@+id/txtName"
+                            style="@style/fullwidth"
+                            android:layout_weight="1"
+                            android:singleLine="true" >
+                        </EditText>
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                        <TextView
+                            style="@style/textviewfullwidth"
+                            android:layout_weight="2"
+                            android:text="@string/mail_address" />
+
+                        <EditText
+                            android:id="@+id/txtEmail"
+                            style="@style/fullwidth"
+                            android:layout_weight="1"
+                            android:inputType="textEmailAddress"
+                            android:singleLine="true" >
+                        </EditText>
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/layoutfullwidth_horizal" >
+
+                        <TextView
+                            style="@style/textviewfullwidth"
+                            android:layout_weight="2"
+                            android:text="@string/tel_no" />
+
+                        <EditText
+                            android:id="@+id/txtTel"
+                            style="@style/fullwidth"
+                            android:layout_weight="1"
+                            android:inputType="phone"
+                            android:singleLine="true" >
+                        </EditText>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/textviewtitle"
+                    android:text="@string/validate_interval" />
+
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_gravity="center_horizontal" >
+
+                    <EditText
+                        android:id="@+id/txtDateSetting"
+                        android:layout_width="115dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:editable="false"
+                        android:singleLine="true" >
+                    </EditText>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/white" />
+
+                    <EditText
+                        android:id="@+id/txtTimeSetting"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:singleLine="true" >
+                    </EditText>
+
+                    <TextView
+                        style="@style/textview_wrap"
+                        android:singleLine="true"
+                        android:text="@string/sound"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/txtDayAfter"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:singleLine="true" >
+                    </EditText>
+
+                    <TextView
+                        style="@style/textview_wrap"
+                        android:layout_marginRight="2sp"
+                        android:text="@string/days_after"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/textview_wrap"
+                    android:layout_gravity="right"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/btn_save" />
+                    android:text="@string/safety_was_verified"
+                    android:textSize="11sp" />
 
-                <com.lemon.fromangle.utility.AutoBGButton
-                    android:id="@+id/btnCancel"
-                    android:layout_width="wrap_content"
+                <TextView
+                    style="@style/textviewtitle"
+                    android:text="@string/alarm_setting2" />
+
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_marginLeft="10dp" >
+
+                    <TextView
+                        style="@style/textview_wrap"
+                        android:text="@string/sound" />
+
+                    <Spinner
+                        android:id="@+id/spnSelectRingTune"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp" />
+
+                    <TextView
+                        style="@style/textview_wrap"
+                        android:text="@string/vibrate" />
+
+                    <CheckBox
+                        android:id="@+id/chkVibrate"
+                        style="@style/textview_wrap"
+                        android:text="" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_return" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
 
-</LinearLayout>
+                    <com.lemon.fromangle.utility.AutoBGButton
+                        android:id="@+id/btnSave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/btn_save" />
+
+                    <com.lemon.fromangle.utility.AutoBGButton
+                        android:id="@+id/btnCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_return" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</ScrollView>
