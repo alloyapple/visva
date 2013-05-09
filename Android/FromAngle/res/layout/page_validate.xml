@@ -11,28 +11,19 @@
 
         <TextView
             android:id="@+id/lblMessage"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:text="Mr/Ms"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/lblMessage"
+            android:id="@+id/app_mode"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:text="OO"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/blue" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:text="Safety Validation"
             android:textAppearance="?android:attr/textAppearanceMedium"

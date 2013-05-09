@@ -51,8 +51,6 @@
     <string name="please_check_the_notice">*Please check the notice mail from server after start/stop</string>
     <string name="please_reply_by_press_ok">Please reply by pressing (OK) if there\'s a problem</string>
     <string name="please_reply_by_press_close">Please press close if the Safety Validation is NG if you\'re not the person</string>
-    <string name="final_validation">Final\nValidation</string>
-    <string name="next_validation">Next\nValidation</string>
     <string name="message1">1.Setting</string>
     <string name="message2">2.Message</string>
     <string name="help">Help</string>
@@ -65,5 +63,10 @@
     <string name="change_info_sucess">Change information successfully!</string>
     <string name="setting_user_first">Setting for user first</string>
     <string name="sucess">Successfully</string>
+    <string name="ok">OK!</string>
+    <string name="ng">NG!</string>
+    <string name="final_validation">Final Validation</string>
+    <string name="next_validation">Next Validation</string>
+    <string name="msg_stop_service">Since Mr/Ms %s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms A. In Addition,message may not be receiverd due to sending condition and receiver incoming rejection settings,ect.\n		ga@angelsmails.com</string>
 
 </resources>

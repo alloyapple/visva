@@ -12,9 +12,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -40,7 +42,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -48,6 +49,7 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
+import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
@@ -78,6 +80,8 @@ public class SettingActivivity extends Activity {
 	private Uri[] mListUriRingTone;
 
 	private MediaPlayer mMediaPlayer;
+	
+	private PendingIntent pendingIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -419,6 +423,9 @@ public class SettingActivivity extends Activity {
 						mFromAngleSharedPref.setUserId(userId);
 						addDataToPreference();
 						
+						/*start run alarmmanager*/
+						startRunAlarmManager();
+						
 						showToast("Sucessfully");
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
@@ -432,6 +439,26 @@ public class SettingActivivity extends Activity {
 			DialogUtility.alert(SettingActivivity.this,
 					getString(R.string.failed_to_conect_server));
 		}
+	}
+
+	private void startRunAlarmManager() {
+		// TODO Auto-generated method stub
+		Intent myIntent = new Intent(SettingActivivity.this, MessageFollowService.class);
+
+		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0, myIntent, 0);
+
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+		Calendar calendar = Calendar.getInstance();
+
+		calendar.setTimeInMillis(System.currentTimeMillis());
+
+//		calendar.add(Calendar.SECOND, delayTime);
+
+		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+				pendingIntent);
+
+		Toast.makeText(SettingActivivity.this, "Start Alarm", Toast.LENGTH_LONG).show();
 	}
 
 	private void addDataToPreference() {

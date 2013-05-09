@@ -1,30 +1,26 @@
 package com.lemon.fromangle;
 
-import java.util.Date;
 import java.util.List;
-
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.lemon.fromangle.DialogDateTimePicker.DateTimeDialogListerner;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -35,7 +31,6 @@ import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
-import com.lemon.fromangle.utility.TimeUtility;
 
 public class TopScreenActivity extends Activity {
 
@@ -57,8 +52,6 @@ public class TopScreenActivity extends Activity {
 	private ImageView imgValidateStatus;
 
 	private TopScreenActivity self;
-
-	private DialogDateTimePicker dateTimePicker;
 
 	private FromAngleSharedPref mFromAngleSharedPref;
 
@@ -234,13 +227,39 @@ public class TopScreenActivity extends Activity {
 			String statusMsg = mFromAngleSharedPref.getMessageSettingStatus();
 			if (!StringUtility.isEmpty(statusMsg)) {
 				int status = Integer.parseInt(statusMsg);
+				int modeValidation = mFromAngleSharedPref.getValidationMode();
 				if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
-						|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
+						|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 					imgMessageSettingStatus
 							.setImageResource(R.drawable.bar_green);
-				else
+					imgTopStatus.setImageResource(R.drawable.bg_working);
+					lblStatusFinalValidate.setText(getString(R.string.ok));
+					lblStatusFinalValidate.setTextColor(Color.BLACK);
+					lblStatusNextValidate.setText("---");
+					lblStatusNextValidate.setTextColor(Color.BLACK);
+				} else
 					imgMessageSettingStatus
 							.setImageResource(R.drawable.bar_gray);
+
+				if (modeValidation == 0
+						&& (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS || status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
+					imgValidateStatus.setImageResource(R.drawable.bar_green);
+				} else if (modeValidation == 1) {
+					imgValidateStatus.setImageResource(R.drawable.bar_gray);
+					imgTopStatus.setImageResource(R.drawable.bg_safety);
+					lblStatusFinalValidate.setText(getString(R.string.ng));
+					lblStatusFinalValidate.setTextColor(Color.RED);
+				} else if (modeValidation == 2) {
+					imgValidateStatus.setImageResource(R.drawable.bar_red);
+					imgTopStatus.setImageResource(R.drawable.bg_stop);
+					lblStatusFinalValidate.setText(getString(R.string.ng));
+					lblStatusFinalValidate.setTextColor(Color.RED);
+					lblStatusNextValidate.setText(getString(R.string.ng));
+					lblStatusNextValidate.setTextColor(Color.RED);
+					String userName = mFromAngleSharedPref.getUserName();
+					DialogUtility.alert(TopScreenActivity.this,
+							getString(R.string.msg_stop_service, userName));
+				}
 			}
 		} else
 			imgMessageStatus.setImageResource(R.drawable.bar_gray);
