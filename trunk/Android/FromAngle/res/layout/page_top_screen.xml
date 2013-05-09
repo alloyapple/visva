@@ -51,8 +51,8 @@
             android:id="@+id/layoutLastValidationDate"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="100dp"
             android:layout_below="@id/layoutTopStatus"
+            android:layout_marginTop="100dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -64,12 +64,14 @@
                 android:id="@+id/txtFinalValidation"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:editable="false" />
 
             <TextView
                 android:id="@+id/lblStatusFinalValidate"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:text="@string/safety_validation" />
         </LinearLayout>
 
