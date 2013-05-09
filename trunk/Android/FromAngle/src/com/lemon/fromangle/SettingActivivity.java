@@ -376,6 +376,7 @@ public class SettingActivivity extends Activity {
 				if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_SUCESS) {
 					showToast(getString(R.string.change_info_sucess));
 					addDataToPreference();
+					startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
 					showToast(getString(R.string.duplicated_email));
 				} else
@@ -442,7 +443,25 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void startRunAlarmManager() {
-		// TODO Auto-generated method stub
+		
+		Date date1 = new Date();
+		String dateStr = txtDateSetting.getText().toString();
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date1 = df.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		long timeOfDate = date1.getTime();
+		String timeStr[] = txtTimeSetting.getText().toString().split(":");
+		int hour = Integer.parseInt(timeStr[0]);
+		int minute = Integer.parseInt(timeStr[1]);
+		long timeOfClock = hour * 3600 + minute * 60;
+		long totalDelayTime = timeOfDate +timeOfClock *1000;
+		long currentTime = System.currentTimeMillis();
+		int delayTime = (int)(totalDelayTime - currentTime);
+		Log.e("delay time "+totalDelayTime +" ddfsd "+currentTime,hour+" akdfj "+minute+ " delay time "+delayTime);
 		Intent myIntent = new Intent(SettingActivivity.this, MessageFollowService.class);
 
 		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0, myIntent, 0);
@@ -453,7 +472,8 @@ public class SettingActivivity extends Activity {
 
 		calendar.setTimeInMillis(System.currentTimeMillis());
 
-//		calendar.add(Calendar.SECOND, delayTime);
+		int timeToDelay = delayTime/ 1000;
+		calendar.add(Calendar.SECOND, timeToDelay);
 
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				pendingIntent);

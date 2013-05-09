@@ -5,8 +5,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +32,7 @@ import com.lemon.fromangle.utility.TimeUtility;
 import com.payment.BillingHelper;
 import com.payment.BillingService;
 
+@SuppressLint("HandlerLeak")
 public class MessageSettingActivity extends PaymentAcitivty {
 
 	private Button btn1;
