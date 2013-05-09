@@ -73,7 +73,6 @@ public final class ParameterFactory {
 	public static List<NameValuePair> createCheckPayment(String userId) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("user_id", userId));
-
 		return parameters;
 
 	}

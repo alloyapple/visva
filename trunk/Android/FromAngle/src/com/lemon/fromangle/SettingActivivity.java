@@ -8,8 +8,6 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -49,7 +47,7 @@ import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
 
-@SuppressLint("SimpleDateFormat")
+
 public class SettingActivivity extends Activity {
 	private EditText txtName;
 	private EditText txtEmail;
