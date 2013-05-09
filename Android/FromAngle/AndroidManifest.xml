@@ -9,6 +9,16 @@
         android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -24,7 +34,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <service android:name="com.payment.BillingService" />
+
+        <service android:name="com.payment.BillingService" />
 
         <receiver android:name="com.payment.BillingReceiver" >
             <intent-filter>
@@ -33,6 +44,7 @@
                 <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name="com.lemon.fromangle.MessageSettingActivity"
             android:screenOrientation="portrait" >
@@ -49,15 +61,12 @@
             android:name="com.lemon.fromangle.ValidateScreenActivity"
             android:screenOrientation="portrait" >
         </activity>
-    </application>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.STORAGE" />
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+        <service android:name="com.lemon.fromangle.service.MessageFollowService" >
+        </service>
+
+        <receiver android:name="com.lemon.fromangle.service.AlarmManagerBroadcastReceiver" >
+        </receiver>
+    </application>
 
 </manifest>

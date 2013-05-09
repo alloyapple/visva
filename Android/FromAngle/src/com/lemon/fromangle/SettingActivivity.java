@@ -54,6 +54,7 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
+import com.lemon.fromangle.service.AlarmManagerBroadcastReceiver;
 import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
@@ -88,12 +89,16 @@ public class SettingActivivity extends Activity {
 
 	private PendingIntent pendingIntent;
 
+	private AlarmManagerBroadcastReceiver alarm;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_setting);
 
 		mEmailValidator = new EmailValidator();
+
+		alarm = new AlarmManagerBroadcastReceiver();
 
 		/* inti ui */
 		initUI();
@@ -482,25 +487,10 @@ public class SettingActivivity extends Activity {
 		int minute = Integer.parseInt(timeStr[1]);
 		long timeOfClock = hour * 3600 + minute * 60;
 		long totalDelayTime = timeOfDate + timeOfClock * 1000;
-		long currentTime = System.currentTimeMillis();
-		int delayTime = (int) (totalDelayTime - currentTime);
-		Log.e("delay time " + totalDelayTime + " ddfsd " + currentTime, hour
-				+ " akdfj " + minute + " delay time " + delayTime);
-		Intent myIntent = new Intent(SettingActivivity.this,
-				MessageFollowService.class);
+		int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
+		long delayTime = daysAfter * 3600 * 1000;
 
-		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
-				myIntent, 0);
-
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-		Calendar calendar = Calendar.getInstance();
-
-		calendar.setTimeInMillis(System.currentTimeMillis());
-
-		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-				pendingIntent);
-
+		alarm.SetAlarm(getApplicationContext(), totalDelayTime, delayTime);
 		Toast.makeText(SettingActivivity.this, "Start Alarm", Toast.LENGTH_LONG)
 				.show();
 	}
@@ -572,7 +562,7 @@ public class SettingActivivity extends Activity {
 									int hourOfDay, int minute) {
 								String hourStr = hourOfDay < 10 ? hourOfDay
 										+ "0" : hourOfDay + "";
-								String minuteStr = minute < 10 ? minute + "0"
+								String minuteStr = minute < 10 ? "0" + minute
 										: minute + "";
 								txtTimeSetting.setText(hourOfDay + ":"
 										+ minuteStr);
@@ -662,7 +652,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtEmail)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-				.isEmpty(txtDayAfter));
+					.isEmpty(txtDayAfter));
 	}
 
 	@Override
