@@ -12,11 +12,11 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.widget.Toast;
 
 public class MessageFollowService extends Service {
-	private MediaPlayer mediaPlayer;
 	private FromAngleSharedPref mPref;
 
 	@Override
@@ -72,14 +72,22 @@ public class MessageFollowService extends Service {
 		alarmManager.cancel(sender);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onStart(Intent intent, int startId) {
 
 		// TODO Auto-generated method stub
 
 		super.onStart(intent, startId);
+		PowerManager pm = (PowerManager) this
+				.getSystemService(Context.POWER_SERVICE);
+		PowerManager.WakeLock wl = pm.newWakeLock(
+				PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
+		// Acquire the lock
+		wl.acquire();
+		wl.release();
 		playRingTone(mPref.getRingTuneFile());
-		if(mPref.getVibrateMode()){
+		if (mPref.getVibrateMode()) {
 			Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			// Vibrate for 500 milliseconds
 			v.vibrate(1000);
