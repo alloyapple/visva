@@ -20,13 +20,16 @@ import android.app.PendingIntent;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -36,6 +39,8 @@ import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
@@ -80,7 +85,7 @@ public class SettingActivivity extends Activity {
 	private Uri[] mListUriRingTone;
 
 	private MediaPlayer mMediaPlayer;
-	
+
 	private PendingIntent pendingIntent;
 
 	@Override
@@ -168,6 +173,19 @@ public class SettingActivivity extends Activity {
 		txtDayAfter = (EditText) findViewById(R.id.txtDayAfter);
 		spnSelectRingTune = (Spinner) findViewById(R.id.spnSelectRingTune);
 		chkVibrate = (CheckBox) findViewById(R.id.chkVibrate);
+		chkVibrate.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				if (chkVibrate.isChecked()) {
+					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+					// Vibrate for 500 milliseconds
+					v.vibrate(1000);
+				}
+			}
+		});
 		btnSave = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnSave);
 		btnCancel = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnCancel);
 		btnLeft = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnLeft);
@@ -248,6 +266,11 @@ public class SettingActivivity extends Activity {
 						// TODO Auto-generated method stub
 						int pos = spnSelectRingTune.getSelectedItemPosition();
 						uriRingtune = mListUriRingTone[pos].toString();
+						Uri uri = Uri.parse(uriRingtune);
+						Ringtone r = RingtoneManager.getRingtone(
+								getApplicationContext(), uri);
+						r.play();
+						r.stop();
 						// Log.e("uriRIngtune " + pos, "uriRingtune "
 						// + listUri.length);
 						Toast.makeText(SettingActivivity.this, pos + "",
@@ -423,10 +446,10 @@ public class SettingActivivity extends Activity {
 						/* add to preference */
 						mFromAngleSharedPref.setUserId(userId);
 						addDataToPreference();
-						
-						/*start run alarmmanager*/
+
+						/* start run alarmmanager */
 						startRunAlarmManager();
-						
+
 						showToast("Sucessfully");
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
@@ -443,7 +466,7 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void startRunAlarmManager() {
-		
+
 		Date date1 = new Date();
 		String dateStr = txtDateSetting.getText().toString();
 		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -458,13 +481,16 @@ public class SettingActivivity extends Activity {
 		int hour = Integer.parseInt(timeStr[0]);
 		int minute = Integer.parseInt(timeStr[1]);
 		long timeOfClock = hour * 3600 + minute * 60;
-		long totalDelayTime = timeOfDate +timeOfClock *1000;
+		long totalDelayTime = timeOfDate + timeOfClock * 1000;
 		long currentTime = System.currentTimeMillis();
-		int delayTime = (int)(totalDelayTime - currentTime);
-		Log.e("delay time "+totalDelayTime +" ddfsd "+currentTime,hour+" akdfj "+minute+ " delay time "+delayTime);
-		Intent myIntent = new Intent(SettingActivivity.this, MessageFollowService.class);
+		int delayTime = (int) (totalDelayTime - currentTime);
+		Log.e("delay time " + totalDelayTime + " ddfsd " + currentTime, hour
+				+ " akdfj " + minute + " delay time " + delayTime);
+		Intent myIntent = new Intent(SettingActivivity.this,
+				MessageFollowService.class);
 
-		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0, myIntent, 0);
+		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+				myIntent, 0);
 
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -472,13 +498,11 @@ public class SettingActivivity extends Activity {
 
 		calendar.setTimeInMillis(System.currentTimeMillis());
 
-		int timeToDelay = delayTime/ 1000;
-		calendar.add(Calendar.SECOND, timeToDelay);
-
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				pendingIntent);
 
-		Toast.makeText(SettingActivivity.this, "Start Alarm", Toast.LENGTH_LONG).show();
+		Toast.makeText(SettingActivivity.this, "Start Alarm", Toast.LENGTH_LONG)
+				.show();
 	}
 
 	private void addDataToPreference() {
@@ -638,7 +662,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtEmail)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-					.isEmpty(txtDayAfter));
+				.isEmpty(txtDayAfter));
 	}
 
 	@Override
