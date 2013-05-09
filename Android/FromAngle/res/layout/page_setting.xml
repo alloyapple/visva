@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/bg_setting_message"
     android:orientation="vertical" >
 
     <include layout="@layout/layout_header" />
@@ -77,16 +78,21 @@
             <LinearLayout
                 style="@style/layoutfullwidth_horizal"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal" >
+                 >
 
                 <EditText
                     android:id="@+id/txtDateSetting"
-                    android:layout_width="100dp"
+                    android:layout_width="115dp"
                     android:layout_height="wrap_content"
                     android:editable="false"
+                    android:layout_marginLeft="12dp"
                     android:singleLine="true" >
                 </EditText>
-
+				<ImageView 
+				    android:layout_height="30dp"
+				    android:layout_width="18dp"
+				    android:layout_marginTop="6dp"
+				    android:background="@color/white"/>
                 <EditText
                     android:id="@+id/txtTimeSetting"
                     android:layout_width="70dp"
@@ -111,6 +117,7 @@
                 <TextView
                     style="@style/textview_wrap"
                     android:text="@string/days_after"
+                    android:layout_marginRight="2sp"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -136,7 +143,7 @@
                 <Spinner
                     android:id="@+id/spnSelectRingTune"
                     android:layout_width="150dp"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp" />
 
