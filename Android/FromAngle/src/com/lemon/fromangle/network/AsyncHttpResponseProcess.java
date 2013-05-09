@@ -8,6 +8,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.util.Log;
 
+import com.lemon.fromangle.R;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.LemonProgressDialog;
 
@@ -60,7 +61,8 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 			break;
 		default:
 			try {
-				DialogUtility.alert(context, "Server Error");
+				DialogUtility.alert(context,
+						context.getString(R.string.failed_to_conect_server));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				DialogUtility.alert(context.getParent(), "Server Error");

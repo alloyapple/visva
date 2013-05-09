@@ -31,6 +31,7 @@ public class FromAngleSharedPref {
 	public static final String SETTING_USER_NAME = "SETTING_USER_NAME";
 	public static final String SETTING_EMAIL = "SETTING_EMAIL";
 	public static final String SETTING_TELEPHONE = "SETTING_TELEPHONE";
+	public static final String SETTING_USER_ID = "SETTING_USER_ID";
 
 	// ================================================================
 
@@ -103,6 +104,14 @@ public class FromAngleSharedPref {
 
 	public String getUserName() {
 		return getStringValue(SETTING_USER_NAME);
+	}
+
+	public void setUserId(String userId) {
+		putStringValue(SETTING_USER_ID, userId);
+	}
+
+	public String getUserId() {
+		return getStringValue(SETTING_USER_ID);
 	}
 
 	public void setEmail(String fileName) {

@@ -59,8 +59,8 @@
     <string name="safetyvalidation3">3.Validation</string>
     <string name="plz_input_required_field">Please input required fields to continue !</string>
     <string name="incorrect_email_address">Incorrect email address !</string>
-    
-    
-    
+    <string name="failed_to_conect_server">Failure to send Setting Information to the server</string>
+    <string name="duplicated_email">Email is already used</string>
+    <string name="email_not_validate">Email is invalidate</string>
 
 </resources>
