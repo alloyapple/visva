@@ -71,7 +71,6 @@
                 android:id="@+id/lblStatusFinalValidate"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:editable="false"
                 android:text="@string/safety_validation" />
         </LinearLayout>
 
@@ -91,6 +90,7 @@
                 android:id="@+id/txtNextValidation"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 android:layout_gravity="center_vertical" />
 
             <TextView
@@ -129,7 +129,7 @@
                     android:id="@+id/imgMessageStatus"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bar_red" />
+                    android:src="@drawable/bar_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -155,7 +155,7 @@
                     android:id="@+id/imgMessageSettingStatus"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bar_green" />
+                    android:src="@drawable/bar_gray" />
             </LinearLayout>
 
             <LinearLayout

@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -50,7 +52,7 @@ import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
 
-
+@SuppressLint("SimpleDateFormat")
 public class SettingActivivity extends Activity {
 	private EditText txtName;
 	private EditText txtEmail;
@@ -74,12 +76,11 @@ public class SettingActivivity extends Activity {
 			uriRingtune;
 	private boolean isVibrate = false;
 	private Uri[] mListUriRingTone;
-	
+
 	private MediaPlayer mMediaPlayer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_setting);
 
@@ -93,8 +94,7 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void checkIsUpdateOrRegister() {
-		// TODO Auto-generated method stub
-		String filePath = null ;
+		String filePath = null;
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		userId = mFromAngleSharedPref.getUserId();
 		if (userId != null && !"".equals(userId)) {
@@ -114,15 +114,15 @@ public class SettingActivivity extends Activity {
 			txtTel.setText(tel);
 			txtTimeSetting.setText(time);
 			chkVibrate.setChecked(isVibrate);
-			
+
 			mMediaPlayer = new MediaPlayer();
-			for(int i = 0 ; i<mListUriRingTone.length;i++){
-				if(uriRingtune.equals(mListUriRingTone[i].toString())){
+			for (int i = 0; i < mListUriRingTone.length; i++) {
+				if (uriRingtune.equals(mListUriRingTone[i].toString())) {
 					spnSelectRingTune.setSelection(i);
 					filePath = convertMediaUriToPath(mListUriRingTone[i]);
 				}
 			}
-			Log.e("uriRingtone "+filePath, "uriRingtone "+uriRingtune);
+			Log.e("uriRingtone " + filePath, "uriRingtone " + uriRingtune);
 			try {
 				mMediaPlayer.setDataSource(filePath);
 			} catch (IllegalArgumentException e) {
@@ -139,20 +139,22 @@ public class SettingActivivity extends Activity {
 				e.printStackTrace();
 			}
 			mMediaPlayer.start();
-			
+
 		}
 
 	}
 
 	protected String convertMediaUriToPath(Uri uri) {
-	    String [] proj={MediaStore.Images.Media.DATA};
-	    Cursor cursor = getContentResolver().query(uri, proj,  null, null, null);
-	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-	    cursor.moveToFirst();
-	    String path = cursor.getString(column_index); 
-	    cursor.close();
-	    return path;
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		String path = cursor.getString(column_index);
+		cursor.close();
+		return path;
 	}
+
 	private void initUI() {
 		txtName = (EditText) findViewById(R.id.txtName);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
@@ -218,7 +220,7 @@ public class SettingActivivity extends Activity {
 				.getColumnIndexOrThrow(RingtoneManager.EXTRA_RINGTONE_TITLE));
 
 		/* check list uri of cursor */
-		 mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
+		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
 		String[] from = { mCursor2
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
 		// final String[] listUri = { mCursor2
@@ -333,7 +335,11 @@ public class SettingActivivity extends Activity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						/* check info response from server */
-						checkInfoReponseFromServer(response);
+						if (StringUtility
+								.isEmpty(SettingActivivity.this.userId))
+							checkInfoReponseFromServer(response);
+						else
+							checkInfoUserUpdate(response);
 					}
 
 					@Override
@@ -346,6 +352,37 @@ public class SettingActivivity extends Activity {
 			postRegister.execute(WebServiceConfig.URL_UPDATE_REGISTER_SETTING);
 		else
 			postRegister.execute(WebServiceConfig.URL_REGISTER_SETTING);
+	}
+
+	/**
+	 * check update info
+	 * 
+	 * @param response
+	 */
+	private void checkInfoUserUpdate(String response) {
+		// TODO Auto-generated method stub
+		JSONObject jsonObject = null;
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_SUCESS) {
+					showToast(getString(R.string.change_info_sucess));
+					addDataToPreference();
+				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
+					showToast(getString(R.string.duplicated_email));
+				} else
+					showToast(getString(R.string.failed_to_conect_server));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			DialogUtility.alert(SettingActivivity.this,
+					getString(R.string.failed_to_conect_server));
+		}
 	}
 
 	/**
@@ -378,21 +415,18 @@ public class SettingActivivity extends Activity {
 								GlobalValue.PARAM_USER_NAME);
 					}
 					if (userId != null) {
-						mFromAngleSharedPref.setUserName(userName);
-						mFromAngleSharedPref.setUserId(userId);
 						/* add to preference */
+						mFromAngleSharedPref.setUserId(userId);
 						addDataToPreference();
-						// resetAllField();
+						
 						showToast("Sucessfully");
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
-					DialogUtility.alert(SettingActivivity.this,
-							getString(R.string.duplicated_email));
+					showToast(getString(R.string.duplicated_email));
 				} else
 					DialogUtility.alert(SettingActivivity.this,
 							getString(R.string.failed_to_conect_server));
 			}
-			Log.e("id usser", "jsonobJect " + userId);
 		} catch (JSONException e) {
 			e.printStackTrace();
 			DialogUtility.alert(SettingActivivity.this,
@@ -415,7 +449,40 @@ public class SettingActivivity extends Activity {
 				.setValidationTime(txtTimeSetting.getText().toString());
 		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
 		GlobalValue.prefs.setRingTuneFile(uriRingtune);
-		Log.e("ringtone", "ringtone "+uriRingtune);
+		GlobalValue.prefs.setTopScreenFinalValidation(txtDateSetting.getText()
+				.toString() + " " + txtTimeSetting.getText().toString());
+
+		String dateStr = txtDateSetting.getText().toString();
+
+		// Date date1 = new Date(txtDateSetting.getText().toString());
+		Date date1 = new Date();
+		int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date1 = df.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Date nextValidationDate = addDaysToDate(date1, daysAfter);
+		Log.e("nextdate " + nextValidationDate, "nextdate "
+				+ nextValidationDate);
+		Log.e("ringtone", "ringtone " + uriRingtune);
+		String nextValidationDateStr;
+		nextValidationDateStr = df.format(nextValidationDate);
+
+		GlobalValue.prefs.setTopScreenNextValidation(nextValidationDateStr
+				+ " " + txtTimeSetting.getText().toString());
+	}
+
+	public static Date addDaysToDate(Date input, int numberDay) {
+
+		Calendar defaulCalender = Calendar.getInstance();
+		defaulCalender.setTime(input);
+		defaulCalender.add(Calendar.DATE, numberDay);
+		Date resultdate = new Date(defaulCalender.getTimeInMillis());
+		return resultdate;
 	}
 
 	OnTouchListener showTimePicker = new OnTouchListener() {
@@ -515,7 +582,6 @@ public class SettingActivivity extends Activity {
 						dateCurrent.getMonth(), dateCurrent.getDate());
 				datePicker.show();
 			}
-
 			return false;
 		}
 	};

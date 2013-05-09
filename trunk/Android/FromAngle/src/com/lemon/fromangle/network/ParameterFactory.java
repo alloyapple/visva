@@ -2,6 +2,7 @@ package com.lemon.fromangle.network;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes.Name;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -15,6 +16,13 @@ public final class ParameterFactory {
 		parameters.add(new BasicNameValuePair("email", email));
 		parameters.add(new BasicNameValuePair("password", password));
 
+		return parameters;
+	}
+
+	public static List<NameValuePair> getMessageInfoFromServer(String userId) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("user_id", userId));
+		
 		return parameters;
 	}
 
@@ -32,9 +40,10 @@ public final class ParameterFactory {
 		return parameters;
 
 	}
+
 	public static List<NameValuePair> createEditRegisterSettingParam(
 			String useName, String tel, String email, String dateStr,
-			String timeStr, String daysAfter,String userId) {
+			String timeStr, String daysAfter, String userId) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("tel", tel));
 		parameters.add(new BasicNameValuePair("mail", email));
@@ -43,10 +52,11 @@ public final class ParameterFactory {
 		parameters.add(new BasicNameValuePair("time", timeStr));
 		parameters.add(new BasicNameValuePair("days_after", daysAfter));
 		parameters.add(new BasicNameValuePair("user_id", userId));
-		
+
 		return parameters;
 
 	}
+
 	public static List<NameValuePair> createUpdateSettingParam(String userId,
 			String useName, String tel, String email, String dateStr,
 			String timeStr, String daysAfter) {
@@ -66,7 +76,7 @@ public final class ParameterFactory {
 	public static List<NameValuePair> createMessageSettingParams(String userId,
 			String receive1, String email1, String message1, String receive2,
 			String email2, String message2, String receive3, String email3,
-			String message3) {
+			String message3,String status) {
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("user_id", userId));
@@ -79,6 +89,7 @@ public final class ParameterFactory {
 		parameters.add(new BasicNameValuePair("receiver_3", receive3));
 		parameters.add(new BasicNameValuePair("mail_3", email3));
 		parameters.add(new BasicNameValuePair("message_3", message3));
+		parameters.add(new BasicNameValuePair("status", status));
 
 		return parameters;
 

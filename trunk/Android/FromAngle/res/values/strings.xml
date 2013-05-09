@@ -41,11 +41,11 @@
 
     <!-- Messsage setting -->
     <string name="messsage_setting">Message Setting</string>
-    <string name="send_details">Send Details</string>
+    <string name="send_details">(1)Send Details</string>
     <string name="mail">Mail:</string>
     <string name="address">Address:</string>
     <string name="message">Message:</string>
-    <string name="service3">(3)Service </string>
+    <string name="service3">(2)Service </string>
     <string name="mrms">Mr/Ms </string>
     <string name="safety_validation">Safery Validation </string>
     <string name="please_check_the_notice">*Please check the notice mail from server after start/stop</string>
@@ -62,5 +62,8 @@
     <string name="failed_to_conect_server">Failure to send Setting Information to the server</string>
     <string name="duplicated_email">Email is already used</string>
     <string name="email_not_validate">Email is invalidate</string>
+    <string name="change_info_sucess">Change information successfully!</string>
+    <string name="setting_user_first">Setting for user first</string>
+    <string name="sucess">Successfully</string>
 
 </resources>
