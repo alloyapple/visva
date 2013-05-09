@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lemon.fromangle.DialogDateTimePicker.DateTimeDialogListerner;
+import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.utility.StringUtility;
 import com.lemon.fromangle.utility.TimeUtility;
 
@@ -45,11 +45,14 @@ public class TopScreenActivity extends Activity {
 
 	private DialogDateTimePicker dateTimePicker;
 
+	private FromAngleSharedPref mFromAngleSharedPref;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_top_screen);
+		
+		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		initUI();
 
 		self = this;
@@ -192,5 +195,23 @@ public class TopScreenActivity extends Activity {
 	public void gotoActivity(Context context, Class<?> cla) {
 		Intent intent = new Intent(context, cla);
 		startActivity(intent);
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		mFromAngleSharedPref.setUserId("");
+		mFromAngleSharedPref.setUserName("");
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		if(!"".equals(mFromAngleSharedPref.getUserId())){
+			imgMessageStatus.setImageResource(R.drawable.bar_green);
+		}else
+			imgMessageStatus.setImageResource(R.drawable.bar_gray);
+		super.onResume();
 	}
 }

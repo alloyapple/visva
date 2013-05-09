@@ -5,12 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -35,14 +38,18 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
-import com.lemon.fromangle.network.AsyncHttpGet;
+import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
+import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
+import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
 
+@SuppressLint("SimpleDateFormat")
 public class SettingActivivity extends Activity {
 	private EditText txtName;
 	private EditText txtEmail;
@@ -60,12 +67,17 @@ public class SettingActivivity extends Activity {
 	private DatePickerDialog datePicker;
 	private String uriRingtune;
 	private ArrayList<String> listDaysAfter;
+	private FromAngleSharedPref mFromAngleSharedPref;
+	private EmailValidator mEmailValidator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_setting);
+
+		mFromAngleSharedPref = new FromAngleSharedPref(this);
+		mEmailValidator = new EmailValidator();
 		initUI();
 	}
 
@@ -106,12 +118,15 @@ public class SettingActivivity extends Activity {
 		txtTimeSetting.setOnTouchListener(showTimePicker);
 
 		txtDayAfter.setOnTouchListener(showDialogSelectDateAfter);
+		
+		txtDayAfter.setText("7");
 
 		initSpinnerDaysAfter();
 		initSpinnerRingtune();
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initSpinnerRingtune() {
 		RingtoneManager mRingtoneManager2 = new RingtoneManager(this); // adds
 		// ringtonemanager
@@ -167,7 +182,7 @@ public class SettingActivivity extends Activity {
 
 	private void initSpinnerDaysAfter() {
 		listDaysAfter = new ArrayList<String>();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 1; i < 100; i++) {
 			listDaysAfter.add(i + "");
 		}
 
@@ -185,16 +200,28 @@ public class SettingActivivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			if (checkValidateField()) {
-				onSaveClick();
+			if (!checkValidateField()) {
+				String email = txtEmail.getText().toString();
+				if (checkValidateEmail(email))
+					onSaveClick();
+				else
+					DialogUtility.alert(SettingActivivity.this,
+							getString(R.string.email_not_validate));
 			} else
 
 				Toast.makeText(SettingActivivity.this,
 						R.string.plz_input_required_field, Toast.LENGTH_LONG)
 						.show();
 		}
-
 	};
+
+	private boolean checkValidateEmail(String email) {
+		// TODO Auto-generated method stub
+		if (mEmailValidator.validate(email))
+			return true;
+		else
+			return false;
+	}
 
 	private void onSaveClick() {
 		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
@@ -213,19 +240,84 @@ public class SettingActivivity extends Activity {
 		List<NameValuePair> params = ParameterFactory
 				.createRegisterSettingParam(userName, tel, email, days, times,
 						daysAfter);
-		AsyncHttpGet get = new AsyncHttpGet(SettingActivivity.this,
+		AsyncHttpPost postRegister = new AsyncHttpPost(SettingActivivity.this,
 				new AsyncHttpResponseProcess(SettingActivivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-
-						Toast.makeText(SettingActivivity.this, "Successfully",
-								Toast.LENGTH_SHORT).show();
-						finish();
+						Log.e("string reponse", "string reponse " + response);
+						/* check info response from server */
+						checkInfoReponseFromServer(response);
 					}
 
-				},params, true);
-		get.execute(WebServiceConfig.URL_REGISTER_SETTING);
+					@Override
+					public void processIfResponseFail() {
+						// TODO Auto-generated method stub
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		postRegister.execute(WebServiceConfig.URL_REGISTER_SETTING);
+	}
 
+	/**
+	 * check validate info response from server
+	 * 
+	 * @param response
+	 */
+	private void checkInfoReponseFromServer(String response) {
+		// TODO Auto-generated method stub
+		JSONObject jsonObject = null;
+		JSONObject jsonId = null;
+		String paramData = null;
+		String userId = null;
+		String userName = null;
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_REPONSE_SUCESS) {
+					paramData = ParserUtility.getStringValue(jsonObject,
+							GlobalValue.PARAM_DATA);
+					if (paramData != null) {
+						jsonId = new JSONObject(paramData);
+						userId = ParserUtility.getStringValue(jsonId,
+								GlobalValue.PARAM_USER_ID);
+						userName = ParserUtility.getStringValue(jsonId,
+								GlobalValue.PARAM_USER_NAME);
+					}
+					if (userId != null) {
+						mFromAngleSharedPref.setUserName(userName);
+						mFromAngleSharedPref.setUserId(userId);
+						/* clear all field */
+						resetAllField();
+						showToast("Sucessfully");
+					}
+				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
+					DialogUtility.alert(SettingActivivity.this,
+							getString(R.string.duplicated_email));
+				} else
+					DialogUtility.alert(SettingActivivity.this,
+							getString(R.string.failed_to_conect_server));
+			}
+			Log.e("id usser", "jsonobJect " + userId);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			DialogUtility.alert(SettingActivivity.this,
+					getString(R.string.failed_to_conect_server));
+		}
+	}
+
+	private void resetAllField() {
+		// TODO Auto-generated method stub
+		txtDateSetting.setText("");
+		txtDayAfter.setText("");
+		txtEmail.setText("");
+		txtName.setText("");
+		txtTel.setText("");
+		txtTimeSetting.setText("");
+		chkVibrate.setChecked(false);
 	}
 
 	OnTouchListener showTimePicker = new OnTouchListener() {
@@ -235,12 +327,12 @@ public class SettingActivivity extends Activity {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				int hourStr = 10;
 				int minuteStr = 0;
-				if (!StringUtility.isEmpty(txtDateSetting)) {
-					hourStr = Integer.parseInt(txtTimeSetting.getText()
-							.toString().substring(0, 2));
-					minuteStr = Integer.parseInt(txtTimeSetting.getText()
-							.toString().substring(2, 4));
-				}
+				// if (!StringUtility.isEmpty(txtDateSetting)) {
+				// hourStr = Integer.parseInt(txtTimeSetting.getText()
+				// .toString().substring(0, 2));
+				// minuteStr = Integer.parseInt(txtTimeSetting.getText()
+				// .toString().substring(2, 4));
+				// }
 
 				timePicker = new TimePickerDialog(SettingActivivity.this,
 						new OnTimeSetListener() {
@@ -275,7 +367,7 @@ public class SettingActivivity extends Activity {
 
 	private void showDialogSelectDateAfter() {
 
-		int selectIndex = -1;
+		int selectIndex = 7;
 		if (!txtDayAfter.getText().toString().equalsIgnoreCase("")) {
 			selectIndex = listDaysAfter.indexOf(txtDayAfter.getText()
 					.toString());
@@ -294,8 +386,8 @@ public class SettingActivivity extends Activity {
 
 			int selectedPosition = ((AlertDialog) dialog).getListView()
 					.getCheckedItemPosition();
-			DialogUtility.alert(SettingActivivity.this, "Which : " + which
-					+ " : " + selectedPosition);
+//			DialogUtility.alert(SettingActivivity.this, "Which : " + which
+//					+ " : " + selectedPosition);
 			txtDayAfter.setText(listDaysAfter.get(selectedPosition));
 
 		}
@@ -303,12 +395,13 @@ public class SettingActivivity extends Activity {
 
 	OnTouchListener showDatePicker = new OnTouchListener() {
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				// TODO Auto-generated method stub
 				final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-				Date dateCurrent;
+				Date dateCurrent = new Date();
 				try {
 					dateCurrent = df.parse(txtDateSetting.toString());
 				} catch (ParseException e) {
@@ -341,5 +434,32 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
 					.isEmpty(txtDayAfter));
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		switch (id) {
+		case GlobalValue.DIALOG_FAILED_TO_CONNECT_SERVER:
+			builder.setMessage(getString(R.string.failed_to_conect_server));
+			builder.setPositiveButton(getString(R.string.btn_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							return;
+						}
+					});
+			return builder.create();
+
+		default:
+			return null;
+		}
+	}
+
+	private void showToast(String string) {
+		Toast.makeText(SettingActivivity.this, string, Toast.LENGTH_SHORT)
+				.show();
 	}
 }

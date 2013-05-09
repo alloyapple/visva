@@ -83,12 +83,14 @@
                     android:id="@+id/txtDateSetting"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:editable="false"
                     android:singleLine="true" >
                 </EditText>
 
                 <EditText
                     android:id="@+id/txtTimeSetting"
                     android:layout_width="70dp"
+                    android:editable="false"
                     android:layout_height="wrap_content"
                     android:singleLine="true" >
                 </EditText>
@@ -96,6 +98,7 @@
                 <TextView
                     style="@style/textview_wrap"
                     android:text="@string/sound"
+                    android:singleLine="true"
                     android:textSize="11sp" />
 
                 <EditText

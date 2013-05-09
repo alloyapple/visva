@@ -193,6 +193,9 @@ public final class R {
         public static final int btn_submit=0x7f070006;
         public static final int btn_yes=0x7f07000b;
         public static final int days_after=0x7f07001b;
+        public static final int duplicated_email=0x7f070035;
+        public static final int email_not_validate=0x7f070036;
+        public static final int failed_to_conect_server=0x7f070034;
         public static final int final_validation=0x7f07002c;
         public static final int hello_world=0x7f070002;
         public static final int help=0x7f070030;
