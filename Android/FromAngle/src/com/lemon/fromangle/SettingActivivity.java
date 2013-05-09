@@ -1,5 +1,6 @@
 package com.lemon.fromangle;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,9 +19,11 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,10 +66,16 @@ public class SettingActivivity extends Activity {
 
 	private TimePickerDialog timePicker;
 	private DatePickerDialog datePicker;
-	private String uriRingtune;
 	private ArrayList<String> listDaysAfter;
 	private FromAngleSharedPref mFromAngleSharedPref;
 	private EmailValidator mEmailValidator;
+
+	private String userName, userId, tel, email, date, time, daysafter,
+			uriRingtune;
+	private boolean isVibrate = false;
+	private Uri[] mListUriRingTone;
+	
+	private MediaPlayer mMediaPlayer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +83,76 @@ public class SettingActivivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_setting);
 
-		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		mEmailValidator = new EmailValidator();
+
+		/* inti ui */
 		initUI();
+
+		/* check is update or register */
+		checkIsUpdateOrRegister();
 	}
 
+	private void checkIsUpdateOrRegister() {
+		// TODO Auto-generated method stub
+		String filePath = null ;
+		mFromAngleSharedPref = new FromAngleSharedPref(this);
+		userId = mFromAngleSharedPref.getUserId();
+		if (userId != null && !"".equals(userId)) {
+			userName = mFromAngleSharedPref.getUserName();
+			email = mFromAngleSharedPref.getEmail();
+			tel = mFromAngleSharedPref.getPhone();
+			date = mFromAngleSharedPref.getValidationDate();
+			daysafter = mFromAngleSharedPref.getValidationDaysAfter();
+			time = mFromAngleSharedPref.getValidationTime();
+			uriRingtune = mFromAngleSharedPref.getRingTuneFile();
+			isVibrate = mFromAngleSharedPref.getVibrateMode();
+
+			txtDateSetting.setText(date);
+			txtDayAfter.setText(daysafter);
+			txtEmail.setText(email);
+			txtName.setText(userName);
+			txtTel.setText(tel);
+			txtTimeSetting.setText(time);
+			chkVibrate.setChecked(isVibrate);
+			
+			mMediaPlayer = new MediaPlayer();
+			for(int i = 0 ; i<mListUriRingTone.length;i++){
+				if(uriRingtune.equals(mListUriRingTone[i].toString())){
+					spnSelectRingTune.setSelection(i);
+					filePath = convertMediaUriToPath(mListUriRingTone[i]);
+				}
+			}
+			Log.e("uriRingtone "+filePath, "uriRingtone "+uriRingtune);
+			try {
+				mMediaPlayer.setDataSource(filePath);
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			mMediaPlayer.start();
+			
+		}
+
+	}
+
+	protected String convertMediaUriToPath(Uri uri) {
+	    String [] proj={MediaStore.Images.Media.DATA};
+	    Cursor cursor = getContentResolver().query(uri, proj,  null, null, null);
+	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	    cursor.moveToFirst();
+	    String path = cursor.getString(column_index); 
+	    cursor.close();
+	    return path;
+	}
 	private void initUI() {
 		txtName = (EditText) findViewById(R.id.txtName);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
@@ -116,7 +190,7 @@ public class SettingActivivity extends Activity {
 		txtTimeSetting.setOnTouchListener(showTimePicker);
 
 		txtDayAfter.setOnTouchListener(showDialogSelectDateAfter);
-		
+
 		txtDayAfter.setText("7");
 
 		initSpinnerDaysAfter();
@@ -142,12 +216,14 @@ public class SettingActivivity extends Activity {
 		// prints output for diagnostics
 		String test = mCursor2.getString(mCursor2
 				.getColumnIndexOrThrow(RingtoneManager.EXTRA_RINGTONE_TITLE));
-		Log.d(null, test, null);
 
+		/* check list uri of cursor */
+		 mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
 		String[] from = { mCursor2
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
-		final String[] listUri = { mCursor2
-				.getColumnName(RingtoneManager.URI_COLUMN_INDEX) };
+		// final String[] listUri = { mCursor2
+		// .getColumnIndex(RingtoneManager.URI_COLUMN_INDEX) };
+		Log.e("size of list", "size of list " + mListUriRingTone.length);
 
 		int[] to = { android.R.id.text1 };
 
@@ -165,7 +241,9 @@ public class SettingActivivity extends Activity {
 							int arg2, long arg3) {
 						// TODO Auto-generated method stub
 						int pos = spnSelectRingTune.getSelectedItemPosition();
-						// uriRingtune = listUri[pos];
+						uriRingtune = mListUriRingTone[pos].toString();
+						// Log.e("uriRIngtune " + pos, "uriRingtune "
+						// + listUri.length);
 						Toast.makeText(SettingActivivity.this, pos + "",
 								Toast.LENGTH_SHORT).show();
 					}
@@ -176,6 +254,19 @@ public class SettingActivivity extends Activity {
 
 					}
 				});
+	}
+
+	private Uri[] checkListUri(RingtoneManager mRingTone, Cursor mCursor2) {
+		int alarmsCount = mCursor2.getCount();
+		if (alarmsCount == 0 && !mCursor2.moveToFirst()) {
+			return null;
+		}
+		Uri[] alarms = new Uri[alarmsCount];
+		while (!mCursor2.isAfterLast() && mCursor2.moveToNext()) {
+			int currentPosition = mCursor2.getPosition();
+			alarms[currentPosition] = mRingTone.getRingtoneUri(currentPosition);
+		}
+		return alarms;
 	}
 
 	private void initSpinnerDaysAfter() {
@@ -222,11 +313,6 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void onSaveClick() {
-		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
-		GlobalValue.prefs.setRingTuneFile(uriRingtune);
-		GlobalValue.prefs.setUserName(txtName.getText().toString());
-		GlobalValue.prefs.setEmail(txtEmail.getText().toString());
-		GlobalValue.prefs.setPhone(txtTel.getText().toString());
 
 		String userName = txtName.getText().toString();
 		String tel = txtTel.getText().toString();
@@ -234,15 +320,18 @@ public class SettingActivivity extends Activity {
 		String days = txtDateSetting.getText().toString();
 		String times = txtTimeSetting.getText().toString();
 		String daysAfter = txtDayAfter.getText().toString();
-
-		List<NameValuePair> params = ParameterFactory
-				.createRegisterSettingParam(userName, tel, email, days, times,
-						daysAfter);
+		String userId = mFromAngleSharedPref.getUserId();
+		List<NameValuePair> params = null;
+		if (userId != null && !StringUtility.isEmpty(userId)) {
+			params = ParameterFactory.createUpdateSettingParam(userId,
+					userName, tel, email, days, times, daysAfter);
+		} else
+			params = ParameterFactory.createRegisterSettingParam(userName, tel,
+					email, days, times, daysAfter);
 		AsyncHttpPost postRegister = new AsyncHttpPost(SettingActivivity.this,
 				new AsyncHttpResponseProcess(SettingActivivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("string reponse", "string reponse " + response);
 						/* check info response from server */
 						checkInfoReponseFromServer(response);
 					}
@@ -253,7 +342,10 @@ public class SettingActivivity extends Activity {
 						Log.e("failed ", "failed");
 					}
 				}, params, true);
-		postRegister.execute(WebServiceConfig.URL_REGISTER_SETTING);
+		if (userId != null && !StringUtility.isEmpty(userId))
+			postRegister.execute(WebServiceConfig.URL_UPDATE_REGISTER_SETTING);
+		else
+			postRegister.execute(WebServiceConfig.URL_REGISTER_SETTING);
 	}
 
 	/**
@@ -288,8 +380,9 @@ public class SettingActivivity extends Activity {
 					if (userId != null) {
 						mFromAngleSharedPref.setUserName(userName);
 						mFromAngleSharedPref.setUserId(userId);
-						/* clear all field */
-						resetAllField();
+						/* add to preference */
+						addDataToPreference();
+						// resetAllField();
 						showToast("Sucessfully");
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
@@ -307,15 +400,22 @@ public class SettingActivivity extends Activity {
 		}
 	}
 
-	private void resetAllField() {
+	private void addDataToPreference() {
 		// TODO Auto-generated method stub
-		txtDateSetting.setText("");
-		txtDayAfter.setText("");
-		txtEmail.setText("");
-		txtName.setText("");
-		txtTel.setText("");
-		txtTimeSetting.setText("");
-		chkVibrate.setChecked(false);
+		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
+		GlobalValue.prefs.setRingTuneFile(uriRingtune);
+		GlobalValue.prefs.setUserName(txtName.getText().toString());
+		GlobalValue.prefs.setEmail(txtEmail.getText().toString());
+		GlobalValue.prefs.setPhone(txtTel.getText().toString());
+		GlobalValue.prefs
+				.setValidationDate(txtDateSetting.getText().toString());
+		GlobalValue.prefs.setValidationDaysAfter(txtDayAfter.getText()
+				.toString());
+		GlobalValue.prefs
+				.setValidationTime(txtTimeSetting.getText().toString());
+		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
+		GlobalValue.prefs.setRingTuneFile(uriRingtune);
+		Log.e("ringtone", "ringtone "+uriRingtune);
 	}
 
 	OnTouchListener showTimePicker = new OnTouchListener() {
@@ -325,12 +425,6 @@ public class SettingActivivity extends Activity {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				int hourStr = 10;
 				int minuteStr = 0;
-				// if (!StringUtility.isEmpty(txtDateSetting)) {
-				// hourStr = Integer.parseInt(txtTimeSetting.getText()
-				// .toString().substring(0, 2));
-				// minuteStr = Integer.parseInt(txtTimeSetting.getText()
-				// .toString().substring(2, 4));
-				// }
 
 				timePicker = new TimePickerDialog(SettingActivivity.this,
 						new OnTimeSetListener() {
@@ -342,7 +436,7 @@ public class SettingActivivity extends Activity {
 										+ "0" : hourOfDay + "";
 								String minuteStr = minute < 10 ? minute + "0"
 										: minute + "";
-								txtTimeSetting.setText(hourOfDay + "/"
+								txtTimeSetting.setText(hourOfDay + ":"
 										+ minuteStr);
 
 							}
@@ -365,7 +459,7 @@ public class SettingActivivity extends Activity {
 
 	private void showDialogSelectDateAfter() {
 
-		int selectIndex = 7;
+		int selectIndex = 6;
 		if (!txtDayAfter.getText().toString().equalsIgnoreCase("")) {
 			selectIndex = listDaysAfter.indexOf(txtDayAfter.getText()
 					.toString());
@@ -384,8 +478,8 @@ public class SettingActivivity extends Activity {
 
 			int selectedPosition = ((AlertDialog) dialog).getListView()
 					.getCheckedItemPosition();
-//			DialogUtility.alert(SettingActivivity.this, "Which : " + which
-//					+ " : " + selectedPosition);
+			// DialogUtility.alert(SettingActivivity.this, "Which : " + which
+			// + " : " + selectedPosition);
 			txtDayAfter.setText(listDaysAfter.get(selectedPosition));
 
 		}
@@ -398,7 +492,7 @@ public class SettingActivivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				// TODO Auto-generated method stub
-				final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+				final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				Date dateCurrent = new Date();
 				try {
 					dateCurrent = df.parse(txtDateSetting.toString());

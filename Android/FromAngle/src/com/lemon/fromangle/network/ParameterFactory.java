@@ -32,7 +32,21 @@ public final class ParameterFactory {
 		return parameters;
 
 	}
+	public static List<NameValuePair> createEditRegisterSettingParam(
+			String useName, String tel, String email, String dateStr,
+			String timeStr, String daysAfter,String userId) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("tel", tel));
+		parameters.add(new BasicNameValuePair("mail", email));
+		parameters.add(new BasicNameValuePair("user_name", useName));
+		parameters.add(new BasicNameValuePair("day", dateStr));
+		parameters.add(new BasicNameValuePair("time", timeStr));
+		parameters.add(new BasicNameValuePair("days_after", daysAfter));
+		parameters.add(new BasicNameValuePair("user_id", userId));
+		
+		return parameters;
 
+	}
 	public static List<NameValuePair> createUpdateSettingParam(String userId,
 			String useName, String tel, String email, String dateStr,
 			String timeStr, String daysAfter) {

@@ -32,6 +32,9 @@ public class FromAngleSharedPref {
 	public static final String SETTING_EMAIL = "SETTING_EMAIL";
 	public static final String SETTING_TELEPHONE = "SETTING_TELEPHONE";
 	public static final String SETTING_USER_ID = "SETTING_USER_ID";
+	public static final String SETTING_VALIDATE_DATE="SETTING_VALIDATE_DATE";
+	public static final String SETTING_VALIDATE_TIME="SETTING_VALIDATE_TIME";
+	public static final String SETTING_VALIDATE_DAYS_AFTER="SETTING_VALIDATE_DAYS_AFTER";
 
 	// ================================================================
 
@@ -132,6 +135,29 @@ public class FromAngleSharedPref {
 		return getStringValue(SETTING_TELEPHONE);
 	}
 
+	public void setValidationDate(String date){
+		putStringValue(SETTING_VALIDATE_DATE, date);
+	}
+	
+	public String getValidationDate(){
+		return getStringValue(SETTING_VALIDATE_DATE);
+	}
+	
+	public void setValidationTime(String time){
+		putStringValue(SETTING_VALIDATE_TIME, time);
+	}
+	
+	public String getValidationTime(){
+		return getStringValue(SETTING_VALIDATE_TIME);
+	}
+	
+	public void setValidationDaysAfter(String daysAfter){
+		putStringValue(SETTING_VALIDATE_DAYS_AFTER, daysAfter);
+	}
+	
+	public String getValidationDaysAfter(){
+		return getStringValue(SETTING_VALIDATE_DAYS_AFTER);
+	}
 	// ======================== CORE FUNCTIONS ========================
 
 	/**

@@ -23,4 +23,8 @@ public final class GlobalValue {
 	public static final String PARAM_USER_NAME = "user_name";
 	public static final String PARAM_ERROR = "error";
 
+	public static final int MSG_REPONSE_PAID_NOT_EXPIRED = 1;
+	public static final int MSG_REPONSE_PAID_EXPIRED = 0;
+	public static final int MSG_REPONSE_NOT_PAID = 2;
+
 }

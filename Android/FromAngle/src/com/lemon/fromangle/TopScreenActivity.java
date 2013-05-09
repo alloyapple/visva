@@ -1,12 +1,18 @@
 package com.lemon.fromangle;
 
 import java.util.Date;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,9 +22,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lemon.fromangle.DialogDateTimePicker.DateTimeDialogListerner;
 import com.lemon.fromangle.config.FromAngleSharedPref;
+import com.lemon.fromangle.config.GlobalValue;
+import com.lemon.fromangle.config.WebServiceConfig;
+import com.lemon.fromangle.network.AsyncHttpPost;
+import com.lemon.fromangle.network.AsyncHttpResponseProcess;
+import com.lemon.fromangle.network.ParameterFactory;
+import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.StringUtility;
 import com.lemon.fromangle.utility.TimeUtility;
 
@@ -46,15 +59,21 @@ public class TopScreenActivity extends Activity {
 	private DialogDateTimePicker dateTimePicker;
 
 	private FromAngleSharedPref mFromAngleSharedPref;
+
+	private String userId;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_top_screen);
-		
+
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		initUI();
 
+		userId = mFromAngleSharedPref.getUserId();
+		if (!StringUtility.isEmpty(userId))
+			checkPayment(userId);
 		self = this;
 	}
 
@@ -199,19 +218,94 @@ public class TopScreenActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		mFromAngleSharedPref.setUserId("");
-		mFromAngleSharedPref.setUserName("");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		if(!"".equals(mFromAngleSharedPref.getUserId())){
+		if (!"".equals(mFromAngleSharedPref.getUserId())) {
 			imgMessageStatus.setImageResource(R.drawable.bar_green);
-		}else
+		} else
 			imgMessageStatus.setImageResource(R.drawable.bar_gray);
 		super.onResume();
+	}
+
+	private void checkPayment(String userId) {
+		List<NameValuePair> params = ParameterFactory
+				.createCheckPayment(userId);
+		AsyncHttpPost postCheckPayMent = new AsyncHttpPost(
+				TopScreenActivity.this, new AsyncHttpResponseProcess(
+						TopScreenActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						/* check info response from server */
+						checkInfoReponseFromServer(response);
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						// TODO Auto-generated method stub
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		postCheckPayMent.execute(WebServiceConfig.URL_CHECK_PAYMENT);
+	}
+
+	private void checkInfoReponseFromServer(String response) {
+		// TODO Auto-generated method stub
+		Log.e("reponse", "reponse " + response);
+		JSONObject jsonObject = null;
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_REPONSE_PAID_NOT_EXPIRED) {
+					/* paid not expired */
+					checkPaymentPaidNotExpired();
+				} else if (error == GlobalValue.MSG_REPONSE_PAID_EXPIRED) {
+					/* paid expired */
+					checkPaymentPaidExpired();
+				} else if (error == GlobalValue.MSG_REPONSE_NOT_PAID) {
+					/* not paid */
+					checkPaymentNotPaid();
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * check payment user not paid
+	 */
+	private void checkPaymentNotPaid() {
+		// TODO Auto-generated method stub
+		showToast("user not paid");
+	}
+
+	/**
+	 * check payment user paid expired
+	 */
+	private void checkPaymentPaidExpired() {
+		// TODO Auto-generated method stub
+		showToast("paid expired");
+	}
+
+	/**
+	 * check payment user paid not expired
+	 */
+	private void checkPaymentPaidNotExpired() {
+		// TODO Auto-generated method stub
+		showToast("paid not expired");
+	}
+	
+	private void showToast(String string){
+		Toast.makeText(TopScreenActivity.this, string, Toast.LENGTH_SHORT).show();
 	}
 }
