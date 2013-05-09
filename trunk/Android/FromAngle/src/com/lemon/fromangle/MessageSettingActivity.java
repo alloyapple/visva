@@ -6,14 +6,16 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -25,6 +27,9 @@ import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
+import com.lemon.fromangle.utility.TimeUtility;
+import com.payment.BillingHelper;
+import com.payment.BillingService;
 
 public class MessageSettingActivity extends PaymentAcitivty {
 
@@ -54,6 +59,26 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	private PaymentService paymentService;
 	private FromAngleSharedPref mFromAngleSharedPref;
 	private String userId;
+	private static final String TAG = "BillingService";
+	public static final int STATUS_NOT_PAID = 2;
+	public static final int STATUS_EXPIRED = 1;
+	public static final int STATUS_NOT_EXPIRED = 0;
+	public Handler mTransactionHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Log.i(TAG, "Transaction complete");
+			Log.i(TAG, "Transaction status: "
+					+ BillingHelper.latestPurchase.purchaseState);
+			Log.i(TAG, "Item purchased is: "
+					+ BillingHelper.latestPurchase.productId);
+
+			if (BillingHelper.latestPurchase.isPurchased()) {
+				showToast("Payment success");
+				paymentService.updatePayment(mFromAngleSharedPref.getUserId(),
+						TimeUtility.getCurentDate(), STATUS_NOT_EXPIRED);
+			}
+		};
+
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,31 +89,10 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		initUI();
 		self = this;
-
 		userId = GlobalValue.prefs.getUserId();
+		startService(new Intent(this, BillingService.class));
+		BillingHelper.setCompletedHandler(mTransactionHandler);
 	}
-
-	// private void checkMessageInfoFromServer(String userId) {
-	// // TODO Auto-generated method stub
-	// List<NameValuePair> params = ParameterFactory
-	// .getMessageInfoFromServer(userId);
-	// AsyncHttpPost postRegister = new AsyncHttpPost(
-	// MessageSettingActivity.this, new AsyncHttpResponseProcess(
-	// MessageSettingActivity.this) {
-	// @Override
-	// public void processIfResponseSuccess(String response) {
-	// /* check info response from server */
-	// Log.e("message", "nesssage "+response);
-	// }
-	//
-	// @Override
-	// public void processIfResponseFail() {
-	// // TODO Auto-generated method stub
-	// Log.e("failed ", "failed");
-	// }
-	// }, params, true);
-	// postRegister.execute(WebServiceConfig.URL_MESSAGE_SETTING);
-	// }
 
 	private void initUI() {
 		btn1 = (Button) findViewById(R.id.btn1);
@@ -172,21 +176,18 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 			@Override
 			public void onClick(View v) {
-<<<<<<< .mine
+
 				if (checkValidateInfo1()) {
-					String userId = mFromAngleSharedPref.getUserId();
-					if (!StringUtility.isEmpty(userId))
-						paymentService.checkPayment(userId);
-=======
-				if (checkValidateInfo3()) {
 					if (!StringUtility.isEmpty(userId)) {
 						Toast.makeText(self, "On Start", Toast.LENGTH_LONG)
 								.show();
-						onStartSave();
+						String userId = mFromAngleSharedPref.getUserId();
+						if (!StringUtility.isEmpty(userId))
+							paymentService.checkPayment(userId);
 					} else {
 						showToast(getString(R.string.setting_user_first));
 					}
->>>>>>> .r392
+
 				}
 			}
 		});
@@ -328,7 +329,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		} else
 			return true;
 	}
-<<<<<<< .mine
 
 	@Override
 	public void onPaymentSuccess() {
@@ -336,11 +336,15 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
 		onStartSave();
 	}
-=======
 
 	private void showToast(String string) {
 		Toast.makeText(MessageSettingActivity.this, string, Toast.LENGTH_SHORT)
 				.show();
 	}
->>>>>>> .r392
+
+	@Override
+	protected void onDestroy() {
+		BillingHelper.stopService();
+		super.onDestroy();
+	}
 }

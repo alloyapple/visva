@@ -2,64 +2,46 @@ package com.lemon.fromangle.controls;
 
 import java.util.Date;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
-import com.lemon.fromangle.payment.BillingHelper;
 import com.lemon.fromangle.utility.StringUtility;
-import com.lemon.fromangle.utility.TimeUtility;
+import com.payment.BillingHelper;
 
 public class PaymentService {
 	// private String deviceId;
 	private Activity mContext;
-	private static final String TAG = "BillingService";
 	private static final String ID_SERVICE_MONTHLY_PAYMENT = "0000000000000001";
-	public static final int STATUS_NOT_PAID=2;
-	public static final int STATUS_EXPIRED=1;
-	public static final int STATUS_NOT_EXPIRED=0;
-	private FromAngleSharedPref mFromAngleSharedPref;
-	public Handler mTransactionHandler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			Log.i(TAG, "Transaction complete");
-			Log.i(TAG, "Transaction status: "
-					+ BillingHelper.latestPurchase.purchaseState);
-			Log.i(TAG, "Item purchased is: "
-					+ BillingHelper.latestPurchase.productId);
-
-			if (BillingHelper.latestPurchase.isPurchased()) {
-				showToast("Payment success");
-				updatePayment(mFromAngleSharedPref.getUserId(), TimeUtility.getCurentDate(),STATUS_NOT_EXPIRED);
-			}
-		};
-
-	};
-
 	private DialogInterface.OnClickListener listenerOkPayment = new DialogInterface.OnClickListener() {
 
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
-			BillingHelper.requestPurchase(mContext, ID_SERVICE_MONTHLY_PAYMENT);
+			Log.i("payment request", "<-------true-------->");
+			if (BillingHelper.isBillingSupported()) {
+				BillingHelper.requestPurchase(mContext, ID_SERVICE_MONTHLY_PAYMENT);
+			} else {
+				Log.i("Billing", "Can't purchase on this device");
+
+			}
+			
 		}
 	};
 
 	public PaymentService(Activity context) {
-		mContext = context;	
-		mFromAngleSharedPref = new FromAngleSharedPref(mContext);
+		mContext = context;
 	}
 
 	public void checkPayment(String userId) {

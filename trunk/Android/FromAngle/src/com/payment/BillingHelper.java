@@ -1,12 +1,8 @@
-package com.lemon.fromangle.payment;
+package com.payment;
 
 
 
 import java.util.ArrayList;
-
-import com.lemon.fromangle.payment.BillingSecurity.VerifiedPurchase;
-import com.lemon.fromangle.payment.C.ResponseCode;
-import com.lemon.fromangle.payment.android.vending.billing.IMarketBillingService;
 
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
@@ -16,6 +12,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
+
+import com.android.vending.billing.IMarketBillingService;
+import com.payment.BillingSecurity.VerifiedPurchase;
+import com.payment.C.ResponseCode;
 
 
 public class BillingHelper {

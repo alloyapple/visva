@@ -1,8 +1,8 @@
-package com.lemon.fromangle.payment;
+package com.payment;
 
 
 
-import com.lemon.fromangle.payment.android.vending.billing.IMarketBillingService;
+import com.android.vending.billing.IMarketBillingService;
 
 import android.app.Service;
 import android.content.ComponentName;
