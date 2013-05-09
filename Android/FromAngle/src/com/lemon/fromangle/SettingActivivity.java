@@ -7,17 +7,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
@@ -29,6 +30,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -47,6 +49,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -55,7 +58,6 @@ import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.service.AlarmManagerBroadcastReceiver;
-import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
@@ -90,6 +92,7 @@ public class SettingActivivity extends Activity {
 	private PendingIntent pendingIntent;
 
 	private AlarmManagerBroadcastReceiver alarm;
+	public Handler mHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -272,10 +275,18 @@ public class SettingActivivity extends Activity {
 						int pos = spnSelectRingTune.getSelectedItemPosition();
 						uriRingtune = mListUriRingTone[pos].toString();
 						Uri uri = Uri.parse(uriRingtune);
-						Ringtone r = RingtoneManager.getRingtone(
+						final Ringtone r = RingtoneManager.getRingtone(
 								getApplicationContext(), uri);
 						r.play();
-						r.stop();
+						mHandler.postDelayed(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								r.stop();
+
+							}
+						}, 3000);
 						// Log.e("uriRIngtune " + pos, "uriRingtune "
 						// + listUri.length);
 						Toast.makeText(SettingActivivity.this, pos + "",
@@ -652,7 +663,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtEmail)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-					.isEmpty(txtDayAfter));
+				.isEmpty(txtDayAfter));
 	}
 
 	@Override
