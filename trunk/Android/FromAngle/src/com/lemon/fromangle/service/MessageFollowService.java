@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -56,18 +55,17 @@ public class MessageFollowService extends Service {
 
 	}
 
-	public void SetAlarm(Context context) {
+	public void SetAlarm(Context context, long startTime, long delayTime) {
 		AlarmManager am = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-		Intent intent = new Intent(context, MessageFollowService.class);
+		Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
 		// After after 30 seconds
-		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-				1000 * 5, pi);
+		am.setRepeating(AlarmManager.RTC_WAKEUP, startTime,delayTime, pi);
 	}
 
 	public void CancelAlarm(Context context) {
-		Intent intent = new Intent(context, MessageFollowService.class);
+		Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		PendingIntent sender = PendingIntent
 				.getBroadcast(context, 0, intent, 0);
 		AlarmManager alarmManager = (AlarmManager) context
@@ -82,6 +80,12 @@ public class MessageFollowService extends Service {
 		// TODO Auto-generated method stub
 
 		super.onStart(intent, startId);
+		
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		// TODO Auto-generated method stub
 		PowerManager pm = (PowerManager) this
 				.getSystemService(Context.POWER_SERVICE);
 		PowerManager.WakeLock wl = pm.newWakeLock(
@@ -96,10 +100,10 @@ public class MessageFollowService extends Service {
 			public void run() {
 				// TODO Auto-generated method stub
 				ringtone.stop();
-				ringtone = null;
+//				ringtone = null;
 				MessageFollowService.this.onDestroy();
 			}
-		}, 5000);
+		}, 20000);
 		if (mPref.getVibrateMode()) {
 			Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			// Vibrate for 500 milliseconds
@@ -107,11 +111,6 @@ public class MessageFollowService extends Service {
 		}
 		Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG)
 				.show();
-	}
-
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		// TODO Auto-generated method stub
 		return super.onStartCommand(intent, flags, startId);
 	}
 

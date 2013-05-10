@@ -1,11 +1,6 @@
 package com.lemon.fromangle.service;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.lemon.fromangle.config.FromAngleSharedPref;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -14,11 +9,9 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.widget.Toast;
 
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
@@ -66,7 +59,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 		Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
 		// After after 30 seconds
-		am.setRepeating(AlarmManager.RTC_WAKEUP, startTime, 1000 * 50, pi);
+		am.setRepeating(AlarmManager.RTC_WAKEUP, startTime,delayTime, pi);
 	}
 
 	public void CancelAlarm(Context context) {
