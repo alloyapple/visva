@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="1.Setting"
+        android:text="@string/title_settings"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
