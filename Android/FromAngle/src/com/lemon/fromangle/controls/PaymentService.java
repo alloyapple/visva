@@ -23,7 +23,7 @@ import com.payment.BillingHelper;
 public class PaymentService {
 	// private String deviceId;
 	private Activity mContext;
-	private static final String ID_SERVICE_MONTHLY_PAYMENT = "0000000000000001";
+	private static final String ID_SERVICE_MONTHLY_PAYMENT = "0000000000000002";
 	private DialogInterface.OnClickListener listenerOkPayment = new DialogInterface.OnClickListener() {
 
 		@Override
@@ -31,7 +31,7 @@ public class PaymentService {
 			// TODO Auto-generated method stub
 			Log.i("payment request", "<-------true-------->");
 			if (BillingHelper.isBillingSupported()) {
-				BillingHelper.requestPurchase(mContext, ID_SERVICE_MONTHLY_PAYMENT);
+//				BillingHelper.requestPurchase(mContext, ID_SERVICE_MONTHLY_PAYMENT);
 			} else {
 				Log.i("Billing", "Can't purchase on this device");
 
