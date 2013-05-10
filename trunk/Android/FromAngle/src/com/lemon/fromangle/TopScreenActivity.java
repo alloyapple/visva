@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -214,7 +215,8 @@ public class TopScreenActivity extends Activity {
 			txtNextValidation.setText(mFromAngleSharedPref
 					.getTopScreenNextValidation());
 			String statusMsg = mFromAngleSharedPref.getMessageSettingStatus();
-			if (!StringUtility.isEmpty(statusMsg)) {
+			Log.e("status", "statusMsg " + statusMsg);
+			if (!StringUtility.isEmpty(statusMsg) && !"".equals(statusMsg)) {
 				int status = Integer.parseInt(statusMsg);
 				int modeValidation = mFromAngleSharedPref.getValidationMode();
 				if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
@@ -249,9 +251,14 @@ public class TopScreenActivity extends Activity {
 					DialogUtility.alert(TopScreenActivity.this,
 							getString(R.string.msg_stop_service, userName));
 				}
+			}else{
+				imgMessageSettingStatus.setImageResource(R.drawable.bar_gray);
+				imgTopStatus.setImageResource(R.drawable.bg_stop);
+				imgValidateStatus.setImageResource(R.drawable.bar_gray);
 			}
 		} else
 			imgMessageStatus.setImageResource(R.drawable.bar_gray);
+		
 		super.onResume();
 	}
 
