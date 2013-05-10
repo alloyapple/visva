@@ -8,7 +8,7 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <include layout="@layout/layout_header" />
+        <include layout="@layout/layout_header_setting" />
 
         <ScrollView
             android:layout_width="fill_parent"

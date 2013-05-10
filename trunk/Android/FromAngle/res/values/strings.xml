@@ -14,6 +14,7 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_filter">Filter</string>
     <string name="btn_ok">OK</string>
+    <string name="btn_agreed">Agreed</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_add">Add</string>
     <string name="btn_no">No</string>
@@ -26,6 +27,7 @@
     <string name="btn_return">Return</string>
 
     <!-- Setting Screen -->
+    <string name="title_settings">1.Setting</string>
     <string name="settings">Setting</string>
     <string name="user_settings">(1) USER SETTING</string>
     <string name="own_name">Own Name:</string>
@@ -40,6 +42,7 @@
     <string name="vibrate">Vibrate</string>
 
     <!-- Messsage setting -->
+    <string name="title_messsage_setting">2.Message Setting</string>
     <string name="messsage_setting">Message Setting</string>
     <string name="send_details">(1)Send Details</string>
     <string name="mail">Mail:</string>
@@ -71,5 +74,9 @@
     <string name="message_paid_expired">You payment is expired, do you want to continue to use it?</string>
     <string name="message_paid_not_paid">You will be charge to use this function. Are you sure?</string>
     <string name="term_of_use"><a href="http://google.com">I read and agreed the policy</a></string>
+    <string name="error_email">Example: john@gmail.com,...</string>
+    <string name="error_name">Example: John,...</string>
+    <string name="error_message">Example: I am going to travel at weekend</string>
+    <string name="error_phone">Example: (+84)973378373</string>
 
 </resources>

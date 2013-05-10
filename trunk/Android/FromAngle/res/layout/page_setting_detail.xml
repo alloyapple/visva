@@ -4,7 +4,7 @@
     android:background="@drawable/bg_setting_message"
     android:orientation="vertical" >
 
-    <include layout="@layout/layout_header" />
+    <include layout="@layout/layout_header_message_setting" />
 
     <ScrollView
         android:layout_width="fill_parent"
