@@ -8,9 +8,13 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -103,6 +107,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	}
 
 	private void initUI() {
+
 		btn1 = (Button) findViewById(R.id.btn1);
 		btn2 = (Button) findViewById(R.id.btn2);
 		btn3 = (Button) findViewById(R.id.btn3);
@@ -125,6 +130,25 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		btnStop = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnStop);
 		btnReturn = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnReturn);
 		btnSave = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnSave);
+		if (mFromAngleSharedPref.getSaveInputMassage()) {
+			String[] inputTab1 = mFromAngleSharedPref.getMessageSettingTab1();
+			txtName1.setText(inputTab1[0]);
+			txtEmail1.setText(inputTab1[1]);
+			txtTel1.setText(inputTab1[2]);
+			txtMessage1.setText(inputTab1[3]);
+			String[] inputTab2 = mFromAngleSharedPref.getMessageSettingTab2();
+			txtName2.setText(inputTab2[0]);
+			txtEmail2.setText(inputTab2[1]);
+			txtTel2.setText(inputTab2[2]);
+			txtMessage2.setText(inputTab2[3]);
+			String[] inputTab3 = mFromAngleSharedPref.getMessageSettingTab3();
+			txtName3.setText(inputTab3[0]);
+			txtEmail3.setText(inputTab3[1]);
+			txtTel3.setText(inputTab3[2]);
+			txtMessage3.setText(inputTab3[3]);
+
+		}
+		mFromAngleSharedPref.saveInputMessage(false);
 		setActiveButton(1);
 		// Event
 
@@ -313,12 +337,21 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		if (StringUtility.isEmpty(txtEmail1)
 				|| StringUtility.isEmpty(txtMessage1)
 				|| StringUtility.isEmpty(txtName1)) {
+			if(StringUtility.isEmpty(txtName1))
+				txtName1.setError(getSpanError(getString(R.string.error_name)));
+			if(StringUtility.isEmpty(txtEmail1))
+				txtEmail1.setError(getSpanError(getString(R.string.error_email)));
+			if(StringUtility.isEmpty(txtTel1))
+				txtTel1.setError(getSpanError(getString(R.string.error_phone)));
+			if(StringUtility.isEmpty(txtMessage1))
+				txtMessage1.setError(getSpanError(getString(R.string.error_message)));
 			Toast.makeText(self, R.string.plz_input_required_field,
 					Toast.LENGTH_LONG).show();
 			return false;
 		} else if (!StringUtility.checkEmail2(txtEmail1.getText().toString())) {
-			Toast.makeText(self, R.string.incorrect_email_address,
-					Toast.LENGTH_LONG).show();
+			txtEmail1.setError(getSpanError(getString(R.string.error_email)));
+			Toast.makeText(this, R.string.email_not_validate, Toast.LENGTH_LONG)
+					.show();
 			return false;
 		} else
 			return true;
@@ -375,11 +408,29 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	}
 
 	public void saveInputPref() {
+		mFromAngleSharedPref.setMessageSettingTab1(txtName1.getText()
+				.toString(), txtEmail1.getText().toString(), txtTel1.getText()
+				.toString(), txtMessage1.getText().toString());
+		mFromAngleSharedPref.setMessageSettingTab2(txtName2.getText()
+				.toString(), txtEmail2.getText().toString(), txtTel2.getText()
+				.toString(), txtMessage2.getText().toString());
+		mFromAngleSharedPref.setMessageSettingTab3(txtName3.getText()
+				.toString(), txtEmail3.getText().toString(), txtTel3.getText()
+				.toString(), txtMessage3.getText().toString());
+		mFromAngleSharedPref.saveInputMessage(true);
+		finish();
 	}
 
 	@Override
 	protected void onDestroy() {
 		BillingHelper.stopService();
 		super.onDestroy();
+	}
+
+	public SpannableStringBuilder getSpanError(String s) {
+		ForegroundColorSpan fgcspan = new ForegroundColorSpan(Color.BLACK);
+		SpannableStringBuilder ssbuilder = new SpannableStringBuilder(s);
+		ssbuilder.setSpan(fgcspan, 0, s.length(), 0);
+		return ssbuilder;
 	}
 }

@@ -33,6 +33,26 @@ public final class DialogUtility {
 		alertDialog.show();
 	}
 
+	public static AlertDialog creatDialog(Context mContext, String message,
+			String title) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		if (title != null)
+			builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(
+				mContext.getResources().getString(R.string.btn_ok),
+				new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+
+		return builder.create();
+	}
+
 	// }
 
 	/**

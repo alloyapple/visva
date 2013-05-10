@@ -11,8 +11,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -173,7 +171,9 @@ public class PaymentService {
 	private void checkPaymentPaidExpired() {
 		// TODO Auto-generated method stub
 		showToast("paid expired");
-		creatDialog("User not paid. Please payment to use app.", "Payment",
+		creatDialog(
+				mContext.getResources()
+						.getString(R.string.message_paid_expired), null,
 				listenerOkPayment).show();
 		Log.i("curent date", TimeUtility.getCurentDate().toString()
 				+ TimeUtility.getDateExpiry(30));
@@ -198,16 +198,9 @@ public class PaymentService {
 		if (title != null)
 			builder.setTitle(title);
 		builder.setMessage(message);
-		builder.setPositiveButton("OK", listener);
-		builder.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(
+				mContext.getResources().getString(R.string.btn_ok), listener);
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-
-					}
-				});
 		return builder.create();
 	}
 
@@ -232,17 +225,10 @@ public class PaymentService {
 				mContext.startActivity(intent);
 			}
 		});
-		builder.setPositiveButton("OK", listener);
+		builder.setPositiveButton(
+				mContext.getResources().getString(R.string.btn_agreed),
+				listener);
 		builder.setView(layoutAnyNumber);
-		builder.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-
-					}
-				});
 		return builder.create();
 	}
 }
