@@ -39,7 +39,13 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		userId = mFromAngleSharedPref.getUserId();
 		if (!StringUtility.isEmpty(userId)) {
 			userName = mFromAngleSharedPref.getUserName();
-			lblMessage.setText("Mr/Ms " + userName);
+			String labelDefaultString = getResources().getString(
+					R.string.name_validate);
+			lblMessage.setText(labelDefaultString.replace("$$$$", userName));
+		}else{
+			String labelDefaultString = getResources().getString(
+					R.string.name_validate);
+			lblMessage.setText(labelDefaultString.replace("$$$$", ""));
 		}
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
 			startRunAlarmManager();
@@ -53,7 +59,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 				.getTopScreenNextValidation());
 		String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
 		Date date1 = new Date();
-		int daysAfter = Integer.parseInt(mFromAngleSharedPref.getValidationDaysAfter().toString());
+		int daysAfter = Integer.parseInt(mFromAngleSharedPref
+				.getValidationDaysAfter().toString());
 		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			date1 = df.parse(dateStr);
