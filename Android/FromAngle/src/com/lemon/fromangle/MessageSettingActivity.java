@@ -201,6 +201,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			@Override
 			public void onClick(View v) {
 				saveInputPref();
+				finish();
 			}
 		});
 		btnStop.setOnClickListener(new OnClickListener() {
@@ -299,6 +300,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					public void processIfResponseSuccess(String response) {
 						/* check response */
 						checkResponseFromServer(response);
+						saveInputPref();
 					}
 				}, params, true);
 		get.execute(WebServiceConfig.URL_MESSAGE_SETTING);
@@ -337,14 +339,16 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		if (StringUtility.isEmpty(txtEmail1)
 				|| StringUtility.isEmpty(txtMessage1)
 				|| StringUtility.isEmpty(txtName1)) {
-			if(StringUtility.isEmpty(txtName1))
+			if (StringUtility.isEmpty(txtName1))
 				txtName1.setError(getSpanError(getString(R.string.error_name)));
-			if(StringUtility.isEmpty(txtEmail1))
-				txtEmail1.setError(getSpanError(getString(R.string.error_email)));
-			if(StringUtility.isEmpty(txtTel1))
+			if (StringUtility.isEmpty(txtEmail1))
+				txtEmail1
+						.setError(getSpanError(getString(R.string.error_email)));
+			if (StringUtility.isEmpty(txtTel1))
 				txtTel1.setError(getSpanError(getString(R.string.error_phone)));
-			if(StringUtility.isEmpty(txtMessage1))
-				txtMessage1.setError(getSpanError(getString(R.string.error_message)));
+			if (StringUtility.isEmpty(txtMessage1))
+				txtMessage1
+						.setError(getSpanError(getString(R.string.error_message)));
 			Toast.makeText(self, R.string.plz_input_required_field,
 					Toast.LENGTH_LONG).show();
 			return false;
@@ -418,7 +422,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 				.toString(), txtEmail3.getText().toString(), txtTel3.getText()
 				.toString(), txtMessage3.getText().toString());
 		mFromAngleSharedPref.saveInputMessage(true);
-		finish();
+
 	}
 
 	@Override
