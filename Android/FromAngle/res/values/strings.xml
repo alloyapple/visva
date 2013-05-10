@@ -22,6 +22,7 @@
     <string name="btn_save">Save</string>
     <string name="btn_back">Back</string>
     <string name="btn_next">Next</string>
+    <string name="btn_close">Close</string>
     <string name="btn_skip">Skip</string>
     <string name="btn_done">Done</string>
     <string name="btn_return">Return</string>
@@ -50,7 +51,7 @@
     <string name="message">Message:</string>
     <string name="service3">(2)Service </string>
     <string name="mrms">Mr/Ms </string>
-    <string name="safety_validation">Safery Validation </string>
+    <string name="safety_validation">Safety Validation </string>
     <string name="please_check_the_notice">*Please check the notice mail from server after start/stop</string>
     <string name="please_reply_by_press_ok">Please reply by pressing (OK) if there\'s a problem</string>
     <string name="please_reply_by_press_close">Please press close if the Safety Validation is NG if you\'re not the person</string>
@@ -70,17 +71,19 @@
     <string name="ng">NG!</string>
     <string name="final_validation">Final Validation</string>
     <string name="next_validation">Next Validation</string>
-    <string name="msg_stop_service">Since Mr/Ms %s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms A. In Addition,message may not be receiverd due to sending condition and receiver incoming rejection settings,ect.\n	<a href="http://google.com">ga@angelsmails.com</a></string>
+    <string name="msg_stop_service">Since Mr/Ms %s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms A.\nIn Addition,message may not be receiver due to sending condition and receiver incoming rejection settings, etc.</string>
     <string name="message_paid_expired">You payment is expired, do you want to continue to use it?</string>
     <string name="message_paid_not_paid">You will be charge to use this function. Are you sure?</string>
     <string name="term_of_use"><a href="http://google.com">I read and agreed the policy</a></string>
     <string name="error_email">Example: john@gmail.com,...</string>
     <string name="error_name">Example: John,...</string>
-    <string name="error_message">Example: I am going to travel at weekend</string>
+    <string name="error_message">Example: I am going to travel at weekend.</string>
     <string name="error_phone">Example: (+84)973378373</string>
     <string name="name_validate">Safety Validation</string>
     <string name="mr_ms_name">Mr/Ms %s</string>
-    <string name="network_unvailable">Network is unvailable</string>
+    <string name="network_unvailable">Network is unavailable</string>
+    <string name="user_email"><a href="http://google.com">ga@angelsmails.com</a></string>
+    <string name="title_reminder">Reminder Message</string>
     <string name="start_success">Start Successfully</string>
     <string name="stop_success">Stop Successfully</string>
 
