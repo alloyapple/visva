@@ -42,6 +42,13 @@ public class FromAngleSharedPref {
 	public static final String VALIDATION_CLOSE = "VALIDATION_CLOSE";
 	public static final String RUN_FROM_ACTIVITY = "RUN_FROM_ACTIVITY";
 
+	public static final String KEY_SAVE_INPUT_MESSAGE="SAVE_INPUT_MESSAGE";
+	public static final String[] KEY_MESSGE1 = { "OWN_NAME_01", "EMAIL_01",
+			"PHONE_01", "MESSAGE_01" };
+	public static final String[] KEY_MESSGE2 = { "OWN_NAME_02", "EMAIL_02",
+			"PHONE_02", "MESSAGE_02" };
+	public static final String[] KEY_MESSGE3 = { "OWN_NAME_03", "EMAIL_03",
+			"PHONE_03", "MESSAGE_03" };
 	// ================================================================
 
 	private Context context;
@@ -202,6 +209,63 @@ public class FromAngleSharedPref {
 
 	public boolean getRunFromActivity() {
 		return getBooleanValue(RUN_FROM_ACTIVITY);
+	}
+
+	public void setMessageSettingTab1(String ownname, String email,
+			String phone, String message) {
+		putStringValue(KEY_MESSGE1[0], ownname);
+		putStringValue(KEY_MESSGE1[1], email);
+		putStringValue(KEY_MESSGE1[2], phone);
+		putStringValue(KEY_MESSGE1[3], message);
+	}
+
+	public void setMessageSettingTab2(String ownname, String email,
+			String phone, String message) {
+		putStringValue(KEY_MESSGE2[0], ownname);
+		putStringValue(KEY_MESSGE2[1], email);
+		putStringValue(KEY_MESSGE2[2], phone);
+		putStringValue(KEY_MESSGE2[3], message);
+	}
+
+	public void setMessageSettingTab3(String ownname, String email,
+			String phone, String message) {
+		putStringValue(KEY_MESSGE3[0], ownname);
+		putStringValue(KEY_MESSGE3[1], email);
+		putStringValue(KEY_MESSGE3[2], phone);
+		putStringValue(KEY_MESSGE3[3], message);
+	}
+
+	public String[] getMessageSettingTab1() {
+		String result[] = new String[4];
+		result[0]=getStringValue(KEY_MESSGE1[0],"");
+		result[1]=getStringValue(KEY_MESSGE1[1],"");
+		result[2]=getStringValue(KEY_MESSGE1[2],"");
+		result[3]=getStringValue(KEY_MESSGE1[3],"");
+		return result;
+	}
+
+	public String[] getMessageSettingTab2() {
+		String result[] = new String[4];
+		result[0]=getStringValue(KEY_MESSGE2[0],"");
+		result[1]=getStringValue(KEY_MESSGE2[1],"");
+		result[2]=getStringValue(KEY_MESSGE2[2],"");
+		result[3]=getStringValue(KEY_MESSGE2[3],"");
+		return result;
+	}
+
+	public String[] getMessageSettingTab3() {
+		String result[] = new String[4];
+		result[0]=getStringValue(KEY_MESSGE3[0],"");
+		result[1]=getStringValue(KEY_MESSGE3[1],"");
+		result[2]=getStringValue(KEY_MESSGE3[2],"");
+		result[3]=getStringValue(KEY_MESSGE3[3],"");
+		return result;
+	}
+	public void saveInputMessage(boolean b){
+		putBooleanValue(KEY_SAVE_INPUT_MESSAGE, b);
+	}
+	public boolean getSaveInputMassage(){
+		return getBooleanValue(KEY_SAVE_INPUT_MESSAGE);
 	}
 
 	// ======================== CORE FUNCTIONS ========================

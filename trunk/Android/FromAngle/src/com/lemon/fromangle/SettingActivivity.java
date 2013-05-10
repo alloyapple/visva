@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -34,12 +35,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
@@ -51,6 +54,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -337,18 +341,30 @@ public class SettingActivivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			if (!checkValidateField()) {
-				String email = txtEmail.getText().toString();
-				if (checkValidateEmail(email))
-					onSaveClick();
-				else
-					DialogUtility.alert(SettingActivivity.this,
-							getString(R.string.email_not_validate));
-			} else
-
+			if (checkValidateField()) {
+				if (StringUtility.isEmpty(txtName))
+					txtName.setError(getSpanError(getString(R.string.error_name)));
+				if (StringUtility.isEmpty(txtEmail))
+					txtEmail.setError(getSpanError(getString(R.string.error_email)));
+				if (StringUtility.isEmpty(txtTel))
+					txtTel.setError(getSpanError(getString(R.string.error_phone)));
 				Toast.makeText(SettingActivivity.this,
 						R.string.plz_input_required_field, Toast.LENGTH_LONG)
 						.show();
+			} else {
+				String email = txtEmail.getText().toString();
+				if (checkValidateEmail(email))
+					onSaveClick();
+				else {
+					txtEmail.setError(getSpanError(getString(R.string.error_email)));
+					Toast.makeText(SettingActivivity.this,
+							R.string.email_not_validate, Toast.LENGTH_LONG)
+							.show();
+				}
+				// DialogUtility.creatDialog(SettingActivivity.this,
+				// getString(R.string.email_not_validate), null)
+				// .show();
+			}
 		}
 	};
 
@@ -506,27 +522,10 @@ public class SettingActivivity extends Activity {
 		long currenttime = System.currentTimeMillis();
 		int delayTime = (int) (totalDelayTime - currenttime);
 		int timeDelay = delayTime / 1000;
-<<<<<<< .mine
-		// alarm.SetAlarm(getApplicationContext(), totalDelayTime, delayTime);
-		// Toast.makeText(SettingActivivity.this, "Start Alarm",
-		// Toast.LENGTH_LONG)
-		// .show();
-=======
->>>>>>> .r408
-
-<<<<<<< .mine
-		Intent myIntent = new Intent(SettingActivivity.this,
-				MessageFollowService.class);
-
-		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
-				myIntent, 0);
-
-=======
 		Intent myIntent = new Intent(SettingActivivity.this,
 				MessageFollowService.class);
 		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
 				myIntent, 0);
->>>>>>> .r408
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
@@ -704,9 +703,10 @@ public class SettingActivivity extends Activity {
 	private boolean checkValidateField() {
 		return (StringUtility.isEmpty(txtName)
 				|| StringUtility.isEmpty(txtEmail)
+				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-					.isEmpty(txtDayAfter));
+				.isEmpty(txtDayAfter));
 	}
 
 	@Override
@@ -734,5 +734,12 @@ public class SettingActivivity extends Activity {
 	private void showToast(String string) {
 		Toast.makeText(SettingActivivity.this, string, Toast.LENGTH_SHORT)
 				.show();
+	}
+
+	public SpannableStringBuilder getSpanError(String s) {
+		ForegroundColorSpan fgcspan = new ForegroundColorSpan(Color.BLACK);
+		SpannableStringBuilder ssbuilder = new SpannableStringBuilder(s);
+		ssbuilder.setSpan(fgcspan, 0, s.length(), 0);
+		return ssbuilder;
 	}
 }
