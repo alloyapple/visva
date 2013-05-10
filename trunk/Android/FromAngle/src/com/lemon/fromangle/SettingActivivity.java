@@ -39,6 +39,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
@@ -92,6 +93,7 @@ public class SettingActivivity extends Activity {
 	private PendingIntent pendingIntent;
 
 	public Handler mHandler = new Handler();
+	public boolean checkRing = false, checkVibrate = false;
 
 	private boolean isFirstTime = false;
 
@@ -183,6 +185,7 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
+
 				if (chkVibrate.isChecked()) {
 					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					// Vibrate for 500 milliseconds
@@ -268,6 +271,10 @@ public class SettingActivivity extends Activity {
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
 						// TODO Auto-generated method stub
+						if (!checkRing) {
+							checkRing = true;
+							return;
+						}
 						int pos = spnSelectRingTune.getSelectedItemPosition();
 						uriRingtune = mListUriRingTone[pos].toString();
 						Uri uri = Uri.parse(uriRingtune);
@@ -499,11 +506,27 @@ public class SettingActivivity extends Activity {
 		long currenttime = System.currentTimeMillis();
 		int delayTime = (int) (totalDelayTime - currenttime);
 		int timeDelay = delayTime / 1000;
+<<<<<<< .mine
+		// alarm.SetAlarm(getApplicationContext(), totalDelayTime, delayTime);
+		// Toast.makeText(SettingActivivity.this, "Start Alarm",
+		// Toast.LENGTH_LONG)
+		// .show();
+=======
+>>>>>>> .r408
 
+<<<<<<< .mine
+		Intent myIntent = new Intent(SettingActivivity.this,
+				MessageFollowService.class);
+
+		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+				myIntent, 0);
+
+=======
 		Intent myIntent = new Intent(SettingActivivity.this,
 				MessageFollowService.class);
 		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
 				myIntent, 0);
+>>>>>>> .r408
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());

@@ -6,6 +6,7 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -56,6 +58,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	private com.lemon.fromangle.utility.AutoBGButton btnStart;
 	private com.lemon.fromangle.utility.AutoBGButton btnStop;
 	private com.lemon.fromangle.utility.AutoBGButton btnReturn;
+	private com.lemon.fromangle.utility.AutoBGButton btnSave;
 	private com.lemon.fromangle.utility.AutoBGButton btnLeft, btnRight;
 
 	private MessageSettingActivity self;
@@ -121,7 +124,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		btnStart = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnStart);
 		btnStop = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnStop);
 		btnReturn = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnReturn);
-
+		btnSave = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnSave);
 		setActiveButton(1);
 		// Event
 
@@ -167,6 +170,13 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			@Override
 			public void onClick(View v) {
 				finish();
+			}
+		});
+		btnSave.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				saveInputPref();
 			}
 		});
 		btnStop.setOnClickListener(new OnClickListener() {
@@ -362,6 +372,9 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	private void showToast(String string) {
 		Toast.makeText(MessageSettingActivity.this, string, Toast.LENGTH_SHORT)
 				.show();
+	}
+
+	public void saveInputPref() {
 	}
 
 	@Override
