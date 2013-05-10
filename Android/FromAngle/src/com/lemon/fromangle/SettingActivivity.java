@@ -173,6 +173,22 @@ public class SettingActivivity extends Activity {
 		return path;
 	}
 
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		checkRing = false;
+		checkVibrate = false;
+		super.onRestart();
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		checkRing = false;
+		checkVibrate = false;
+		super.onStart();
+	}
+
 	private void initUI() {
 		txtName = (EditText) findViewById(R.id.txtName);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
@@ -188,10 +204,11 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				// if (!checkVibrate) {
-				// checkVibrate = true;
-				// return;
-				// }
+				if (!checkVibrate) {
+					checkVibrate = true;
+					return;
+				}
+
 				if (chkVibrate.isChecked()) {
 					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					// Vibrate for 500 milliseconds
@@ -709,7 +726,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-					.isEmpty(txtDayAfter));
+				.isEmpty(txtDayAfter));
 	}
 
 	@Override

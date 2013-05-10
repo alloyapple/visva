@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -27,6 +29,7 @@ import com.lemon.fromangle.controls.PaymentAcitivty;
 import com.lemon.fromangle.controls.PaymentService;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
+import com.lemon.fromangle.network.NetworkUtility;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
@@ -70,6 +73,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	public static final int STATUS_NOT_PAID = 2;
 	public static final int STATUS_EXPIRED = 1;
 	public static final int STATUS_NOT_EXPIRED = 0;
+	private int currentTab = 1;
 	public Handler mTransactionHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			Log.i(TAG, "Transaction complete");
@@ -148,29 +152,18 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		mFromAngleSharedPref.saveInputMessage(false);
 		setActiveButton(1);
 		// Event
-
 		btn1.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-
-				layoutInfo1.setVisibility(View.VISIBLE);
-				layoutInfo2.setVisibility(View.GONE);
-				layoutInfo3.setVisibility(View.GONE);
-				setActiveButton(1);
+				checkChangeTab(1);
 			}
 		});
 		btn2.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (checkValidateInfo1()) {
-					layoutInfo1.setVisibility(View.GONE);
-					layoutInfo3.setVisibility(View.GONE);
-					layoutInfo2.setVisibility(View.VISIBLE);
-					setActiveButton(2);
-				}
-
+				checkChangeTab(2);
 			}
 		});
 		btn3.setOnClickListener(new OnClickListener() {
@@ -178,12 +171,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (checkValidateInfo2()) {
-					layoutInfo1.setVisibility(View.GONE);
-					layoutInfo2.setVisibility(View.GONE);
-					layoutInfo3.setVisibility(View.VISIBLE);
-					setActiveButton(3);
-				}
+				checkChangeTab(3);
 			}
 		});
 		btnReturn.setOnClickListener(new OnClickListener() {
@@ -197,8 +185,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 			@Override
 			public void onClick(View v) {
-				saveInputPref();
-				finish();
+				checkSave();
 			}
 		});
 		btnStop.setOnClickListener(new OnClickListener() {
@@ -206,29 +193,16 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (checkValidateInfo1()) {
-					if (!StringUtility.isEmpty(userId)) {
-						onPostStopToService("0");
-					}
-				}
+				checkStop();
 			}
-
 		});
 		btnStart.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (checkValidateInfo1()) {
-					if (!StringUtility.isEmpty(userId)) {
-						// onPaymentSuccess();
-						String userId = mFromAngleSharedPref.getUserId();
-						if (!StringUtility.isEmpty(userId))
-							paymentService.checkPayment(userId);
-					} else {
-						showToast(getString(R.string.setting_user_first));
-					}
 
-				}
+				checkStart();
+
 			}
 		});
 		btnLeft = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnLeft);
@@ -236,7 +210,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 			@Override
 			public void onClick(View v) {
-
 				finish();
 			}
 		});
@@ -251,63 +224,10 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		});
 	}
 
-	private void onPostStopToService(String status) {
-		String name1 = txtName1.getText().toString();
-		String name2 = txtName2.getText().toString();
-		String name3 = txtName3.getText().toString();
-		String email1 = txtEmail1.getText().toString();
-		String email2 = txtEmail2.getText().toString();
-		String email3 = txtEmail3.getText().toString();
-		String message1 = txtMessage1.getText().toString();
-		String message2 = txtMessage2.getText().toString();
-		String message3 = txtMessage3.getText().toString();
-		String tel1 = txtTel1.getText().toString();
-		String tel2 = txtTel2.getText().toString();
-		String tel3 = txtTel3.getText().toString();
-
-		List<NameValuePair> params = ParameterFactory
-				.createMessageSettingParams(userId, name1, email1, message1,
-						name2, email2, message2, name3, email3, message3,
-						status);
-
-		AsyncHttpPost get = new AsyncHttpPost(MessageSettingActivity.this,
-				new AsyncHttpResponseProcess(MessageSettingActivity.this) {
-					@Override
-					public void processIfResponseSuccess(String response) {
-						/* check response */
-						checkResponseStopFromServer(response);
-						saveInputPref();
-					}
-				}, params, true);
-		get.execute(WebServiceConfig.URL_MESSAGE_SETTING);
-	}
-
-	private void checkResponseStopFromServer(String response) {
-		JSONObject jsonObject = null;
-		String errorMsg = null;
-		try {
-			jsonObject = new JSONObject(response);
-			if (jsonObject != null && jsonObject.length() > 0) {
-				errorMsg = ParserUtility.getStringValue(jsonObject,
-						GlobalValue.PARAM_ERROR);
-				int error = Integer.parseInt(errorMsg);
-				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
-					showToast(getString(R.string.sucess));
-					GlobalValue.prefs.setMessageSettingStatus("");
-				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
-					showToast(getString(R.string.change_info_sucess));
-					GlobalValue.prefs.setMessageSettingStatus("");
-				} else
-					DialogUtility.alert(MessageSettingActivity.this,
-							getString(R.string.failed_to_conect_server));
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			DialogUtility.alert(MessageSettingActivity.this,
-					getString(R.string.failed_to_conect_server));
-			e.printStackTrace();
+	public void stop() {
+		if (!StringUtility.isEmpty(userId)) {
+			onStartSave("0");
 		}
-	
 	}
 
 	private void setActiveButton(int index) {
@@ -333,7 +253,129 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		}
 	}
 
+	public void checkChangeTab(int next) {
+		if (next == currentTab)
+			return;
+		if (next > currentTab) {
+			for (int i = 1; i < next; i++) {
+				if (!checkCorrect(i)) {
+					if (checkTabNotEnoughInfo(i))
+						displayNotInfo(i);
+					else if (checkEmailError(i))
+						displayEmailError(i);
+					if (i != currentTab)
+						changeTab(i);
+					return;
+				}
+			}
+			changeTab(next);
+		} else if (next < currentTab) {
+			changeTab(next);
+		}
+
+	}
+
+	public void checkStop() {
+		for (int i = 1; i < 4; i++) {
+			if (!checkCorrect(i)) {
+				if (i == 1) {
+					if (checkTabNotEnoughInfo(i))
+						displayNotInfo(i);
+					else if (checkEmailError(i))
+						displayEmailError(i);
+					return;
+				} else if (!checkTabNull(i)) {
+
+					if (checkTabNotEnoughInfo(i))
+						displayNotInfo(i);
+					else if (checkEmailError(i))
+						displayEmailError(i);
+					if (i != currentTab)
+						changeTab(i);
+					return;
+				}
+			}
+		}
+		stop();
+	}
+
+	public void checkStart() {
+		for (int i = 1; i < 4; i++) {
+			if (!checkCorrect(i)) {
+				if (i == 1) {
+					if (checkTabNotEnoughInfo(i))
+						displayNotInfo(i);
+					else if (checkEmailError(i))
+						displayEmailError(i);
+					return;
+				} else if (!checkTabNull(i)) {
+
+					if (checkTabNotEnoughInfo(i))
+						displayNotInfo(i);
+					else if (checkEmailError(i))
+						displayEmailError(i);
+					if (i != currentTab)
+						changeTab(i);
+					return;
+				}
+			}
+		}
+		checkPaymentToStart();
+	}
+
+	public void checkSave() {
+		for (int i = 1; i < 4; i++) {
+			if (!checkCorrect(i)) {
+				if (i == 1) {
+					if (checkTabNotEnoughInfo(i))
+						displayNotInfo(i);
+					else if (checkEmailError(i))
+						displayEmailError(i);
+					return;
+				} else if (!checkTabNull(i)) {
+
+					if (checkTabNotEnoughInfo(i))
+						displayNotInfo(i);
+					else if (checkEmailError(i))
+						displayEmailError(i);
+					if (i != currentTab)
+						changeTab(i);
+					return;
+				}
+			}
+		}
+		saveInputPref();
+		finish();
+	}
+
+	public void changeTab(int index) {
+		currentTab = index;
+		switch (index) {
+		case 1:
+			layoutInfo1.setVisibility(View.VISIBLE);
+			layoutInfo2.setVisibility(View.GONE);
+			layoutInfo3.setVisibility(View.GONE);
+			setActiveButton(1);
+			break;
+		case 2:
+			layoutInfo1.setVisibility(View.GONE);
+			layoutInfo3.setVisibility(View.GONE);
+			layoutInfo2.setVisibility(View.VISIBLE);
+			setActiveButton(2);
+			break;
+		case 3:
+			layoutInfo1.setVisibility(View.GONE);
+			layoutInfo2.setVisibility(View.GONE);
+			layoutInfo3.setVisibility(View.VISIBLE);
+			setActiveButton(3);
+			break;
+		default:
+			break;
+		}
+	}
+
 	private void onStartSave(String status) {
+
 		String name1 = txtName1.getText().toString();
 		String name2 = txtName2.getText().toString();
 		String name3 = txtName3.getText().toString();
@@ -343,9 +385,9 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		String message1 = txtMessage1.getText().toString();
 		String message2 = txtMessage2.getText().toString();
 		String message3 = txtMessage3.getText().toString();
-		String tel1 = txtTel1.getText().toString();
-		String tel2 = txtTel2.getText().toString();
-		String tel3 = txtTel3.getText().toString();
+		// String tel1 = txtTel1.getText().toString();
+		// String tel2 = txtTel2.getText().toString();
+		// String tel3 = txtTel3.getText().toString();
 
 		List<NameValuePair> params = ParameterFactory
 				.createMessageSettingParams(userId, name1, email1, message1,
@@ -365,6 +407,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	}
 
 	private void checkResponseFromServer(String response) {
+		// TODO Auto-generated method stub
 		JSONObject jsonObject = null;
 		String errorMsg = null;
 		try {
@@ -391,67 +434,190 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		}
 	}
 
-	private boolean checkValidateInfo1() {
-		if (StringUtility.isEmpty(txtEmail1)
-				|| StringUtility.isEmpty(txtMessage1)
-				|| StringUtility.isEmpty(txtName1)) {
+	public void checkPaymentToStart() {
+//		onPaymentSuccess();
+		 if (!StringUtility.isEmpty(userId)) {
+		 Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
+		 String userId = mFromAngleSharedPref.getUserId();
+		 if (!StringUtility.isEmpty(userId))
+		 paymentService.checkPayment(userId);
+		 } else {
+			showToast(getString(R.string.setting_user_first));
+		}
+
+	}
+
+	private boolean checkTabNull(int i) {
+		switch (i) {
+		case 1:
+			if (StringUtility.isEmpty(txtEmail1)
+					&& StringUtility.isEmpty(txtMessage1)
+					&& StringUtility.isEmpty(txtName1))
+				return true;
+			break;
+		case 2:
+			if (StringUtility.isEmpty(txtEmail2)
+					&& StringUtility.isEmpty(txtMessage2)
+					&& StringUtility.isEmpty(txtName2))
+				return true;
+			break;
+		case 3:
+			if (StringUtility.isEmpty(txtEmail3)
+					&& StringUtility.isEmpty(txtMessage3)
+					&& StringUtility.isEmpty(txtName3))
+				return true;
+			break;
+		default:
+			return false;
+		}
+		return false;
+	}
+
+	private boolean checkCorrect(int i) {
+		switch (i) {
+		case 1:
+			if (!StringUtility.isEmpty(txtEmail1)
+					&& !StringUtility.isEmpty(txtMessage1)
+					&& !StringUtility.isEmpty(txtName1)
+					&& StringUtility
+							.checkEmail2(txtEmail1.getText().toString()))
+				return true;
+			break;
+		case 2:
+			if (!StringUtility.isEmpty(txtEmail2)
+					&& !StringUtility.isEmpty(txtMessage2)
+					&& !StringUtility.isEmpty(txtName2)
+					&& StringUtility
+							.checkEmail2(txtEmail2.getText().toString()))
+				return true;
+			break;
+		case 3:
+			if (!StringUtility.isEmpty(txtEmail3)
+					&& !StringUtility.isEmpty(txtMessage3)
+					&& !StringUtility.isEmpty(txtName3)
+					&& StringUtility
+							.checkEmail2(txtEmail3.getText().toString()))
+				return true;
+			break;
+		default:
+			return false;
+		}
+		return false;
+	}
+
+	private boolean checkTabNotEnoughInfo(int i) {
+		switch (i) {
+		case 1:
+			if (StringUtility.isEmpty(txtEmail1)
+					|| StringUtility.isEmpty(txtMessage1)
+					|| StringUtility.isEmpty(txtName1))
+				return true;
+			break;
+		case 2:
+			if (StringUtility.isEmpty(txtEmail2)
+					|| StringUtility.isEmpty(txtMessage2)
+					|| StringUtility.isEmpty(txtName2))
+				return true;
+			break;
+		case 3:
+			if (StringUtility.isEmpty(txtEmail3)
+					|| StringUtility.isEmpty(txtMessage3)
+					|| StringUtility.isEmpty(txtName3))
+				return true;
+			break;
+		default:
+			return false;
+		}
+		return false;
+	}
+
+	private boolean checkEmailError(int i) {
+		switch (i) {
+		case 1:
+			if (!StringUtility.checkEmail2(txtEmail1.getText().toString()))
+				return true;
+			break;
+		case 2:
+			if (!StringUtility.checkEmail2(txtEmail2.getText().toString()))
+				return true;
+			break;
+		case 3:
+			if (!StringUtility.checkEmail2(txtEmail3.getText().toString()))
+				return true;
+			break;
+		default:
+			return false;
+		}
+		return false;
+	}
+
+	private void displayEmailError(int i) {
+		Toast.makeText(self, R.string.incorrect_email_address,
+				Toast.LENGTH_LONG).show();
+		switch (i) {
+		case 1:
+			txtEmail1.setError(getSpanError(getString(R.string.error_email)));
+			break;
+		case 2:
+			txtEmail2.setError(getSpanError(getString(R.string.error_email)));
+			break;
+		case 3:
+			txtEmail3.setError(getSpanError(getString(R.string.error_email)));
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void displayNotInfo(int i) {
+		Toast.makeText(self, R.string.plz_input_required_field,
+				Toast.LENGTH_LONG).show();
+		switch (i) {
+		case 1:
 			if (StringUtility.isEmpty(txtName1))
 				txtName1.setError(getSpanError(getString(R.string.error_name)));
-			if (StringUtility.isEmpty(txtEmail1))
+			if (StringUtility.isEmpty(txtEmail2))
 				txtEmail1
 						.setError(getSpanError(getString(R.string.error_email)));
-			if (StringUtility.isEmpty(txtTel1))
-				txtTel1.setError(getSpanError(getString(R.string.error_phone)));
+			// if (StringUtility.isEmpty(txtTel1))
+			// txtTel1.setError(getSpanError(getString(R.string.error_phone)));
 			if (StringUtility.isEmpty(txtMessage1))
 				txtMessage1
 						.setError(getSpanError(getString(R.string.error_message)));
-			Toast.makeText(self, R.string.plz_input_required_field,
-					Toast.LENGTH_LONG).show();
-			return false;
-		} else if (!StringUtility.checkEmail2(txtEmail1.getText().toString())) {
-			txtEmail1.setError(getSpanError(getString(R.string.error_email)));
-			Toast.makeText(this, R.string.email_not_validate, Toast.LENGTH_LONG)
-					.show();
-			return false;
-		} else
-			return true;
-
-	}
-
-	private boolean checkValidateInfo2() {
-		if (StringUtility.isEmpty(txtEmail2)
-				|| StringUtility.isEmpty(txtMessage2)
-				|| StringUtility.isEmpty(txtName2)) {
-			Toast.makeText(self, R.string.plz_input_required_field,
-					Toast.LENGTH_LONG).show();
-			return false;
-		} else if (!StringUtility.checkEmail2(txtEmail2.getText().toString())) {
-			Toast.makeText(self, R.string.incorrect_email_address,
-					Toast.LENGTH_LONG).show();
-			return false;
-		} else
-			return true;
-
-	}
-
-	private boolean checkValidateInfo3() {
-		if (StringUtility.isEmpty(txtEmail3)
-				|| StringUtility.isEmpty(txtMessage3)
-				|| StringUtility.isEmpty(txtName3)) {
-			Toast.makeText(self, R.string.plz_input_required_field,
-					Toast.LENGTH_LONG).show();
-			return false;
-		} else if (!StringUtility.checkEmail2(txtEmail3.getText().toString())) {
-			Toast.makeText(self, R.string.incorrect_email_address,
-					Toast.LENGTH_LONG).show();
-			return false;
-		} else
-			return true;
+			break;
+		case 2:
+			if (StringUtility.isEmpty(txtName2))
+				txtName2.setError(getSpanError(getString(R.string.error_name)));
+			if (StringUtility.isEmpty(txtEmail2))
+				txtEmail2
+						.setError(getSpanError(getString(R.string.error_email)));
+			// if (StringUtility.isEmpty(txtTel2))
+			// txtTel2.setError(getSpanError(getString(R.string.error_phone)));
+			if (StringUtility.isEmpty(txtMessage2))
+				txtMessage2
+						.setError(getSpanError(getString(R.string.error_message)));
+			break;
+		case 3:
+			if (StringUtility.isEmpty(txtName3))
+				txtName3.setError(getSpanError(getString(R.string.error_name)));
+			if (StringUtility.isEmpty(txtEmail3))
+				txtEmail3
+						.setError(getSpanError(getString(R.string.error_email)));
+			// if (StringUtility.isEmpty(txtTel3))
+			// txtTel3.setError(getSpanError(getString(R.string.error_phone)));
+			if (StringUtility.isEmpty(txtMessage3))
+				txtMessage3
+						.setError(getSpanError(getString(R.string.error_message)));
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public void onPaymentSuccess() {
 		// TODO Auto-generated method stub
+		Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
 		onStartSave("1");
 	}
 
