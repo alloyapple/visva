@@ -78,5 +78,6 @@
     <string name="error_name">Example: John,...</string>
     <string name="error_message">Example: I am going to travel at weekend</string>
     <string name="error_phone">Example: (+84)973378373</string>
+    <string name="name_validate">Mr/Ms $$$$ Safety Validation</string>
 
 </resources>

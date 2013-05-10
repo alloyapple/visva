@@ -87,22 +87,23 @@
                         android:id="@+id/txtDateSetting"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:editable="false"
+                        android:layout_marginLeft="8dp"
+                        android:focusable="false"
                         android:singleLine="true" >
                     </EditText>
 
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="4dp"
                         android:background="@color/white" />
 
                     <EditText
                         android:id="@+id/txtTimeSetting"
-                        android:layout_width="68dp"
+                        android:layout_width="66dp"
                         android:layout_height="wrap_content"
                         android:editable="false"
+                        android:focusable="false"
                         android:singleLine="true" >
                     </EditText>
 
@@ -114,9 +115,10 @@
 
                     <EditText
                         android:id="@+id/txtDayAfter"
-                        android:layout_width="40dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:editable="false"
+                        android:focusable="false"
                         android:singleLine="true" >
                     </EditText>
 
@@ -163,7 +165,7 @@
                         android:text="" />
                 </LinearLayout>
 
-                <LinearLayout
+                <LinearLayout android:layout_marginTop="10dp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
