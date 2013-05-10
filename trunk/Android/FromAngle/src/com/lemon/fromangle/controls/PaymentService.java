@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,22 +35,6 @@ public class PaymentService {
 	// private String deviceId;
 	private Activity mContext;
 	private static final String ID_SERVICE_MONTHLY_PAYMENT = "0000000000000002";
-	private DialogInterface.OnClickListener listenerOkPayment = new DialogInterface.OnClickListener() {
-
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
-			Log.i("payment request", "<-------true-------->");
-			if (BillingHelper.isBillingSupported()) {
-				BillingHelper.requestPurchase(mContext,
-						ID_SERVICE_MONTHLY_PAYMENT);
-			} else {
-				Log.i("Billing", "Can't purchase on this device");
-
-			}
-
-		}
-	};
 
 	public PaymentService(Activity context) {
 		mContext = context;
@@ -160,8 +145,7 @@ public class PaymentService {
 	private void checkPaymentNotPaid() {
 		// TODO Auto-generated method stub
 		showToast("user not paid");
-		creatDialog(null, null, R.layout.dialog_not_paid, listenerOkPayment)
-				.show();
+		creatDialog(null, null, R.layout.dialog_not_paid).show();
 
 	}
 
@@ -174,7 +158,7 @@ public class PaymentService {
 		creatDialog(
 				mContext.getResources()
 						.getString(R.string.message_paid_expired), null,
-				listenerOkPayment).show();
+				R.layout.dialog_not_paid).show();
 		Log.i("curent date", TimeUtility.getCurentDate().toString()
 				+ TimeUtility.getDateExpiry(30));
 	}
@@ -204,8 +188,7 @@ public class PaymentService {
 		return builder.create();
 	}
 
-	private AlertDialog creatDialog(String message, String title, int layout,
-			DialogInterface.OnClickListener listener) {
+	private AlertDialog creatDialog(String message, String title, int layout) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 		if (title != null)
 			builder.setTitle(title);
@@ -215,6 +198,8 @@ public class PaymentService {
 				(ViewGroup) mContext.findViewById(R.id.id_layout_not_paid));
 		TextView textView = (TextView) layoutAnyNumber
 				.findViewById(R.id.link_web);
+		final CheckBox checkbox = (CheckBox) layoutAnyNumber
+				.findViewById(R.id.id_checkbox_agreed);
 		textView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -227,7 +212,25 @@ public class PaymentService {
 		});
 		builder.setPositiveButton(
 				mContext.getResources().getString(R.string.btn_agreed),
-				listener);
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						Log.i("payment request", "<-------true-------->");
+						if (checkbox.isChecked()) {
+							if (BillingHelper.isBillingSupported()) {
+								BillingHelper.requestPurchase(mContext,
+										ID_SERVICE_MONTHLY_PAYMENT);
+							} else {
+								Log.i("Billing",
+										"Can't purchase on this device");
+
+							}
+						}
+
+					}
+				});
 		builder.setView(layoutAnyNumber);
 		return builder.create();
 	}

@@ -1,23 +1,27 @@
 package com.lemon.fromangle;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.util.Log;
+
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
-import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
 
 public class TopScreenActivity extends Activity {
@@ -38,7 +42,7 @@ public class TopScreenActivity extends Activity {
 	private ImageView imgMessageSettingStatus;
 	private LinearLayout layoutValidate;
 	private ImageView imgValidateStatus;
-
+	private boolean checkDialogReminder = false;
 	private TopScreenActivity self;
 
 	private FromAngleSharedPref mFromAngleSharedPref;
@@ -247,23 +251,69 @@ public class TopScreenActivity extends Activity {
 					lblStatusFinalValidate.setTextColor(Color.RED);
 					lblStatusNextValidate.setText(getString(R.string.ng));
 					lblStatusNextValidate.setTextColor(Color.RED);
-					String userName = mFromAngleSharedPref.getUserName();
-					DialogUtility.alert(TopScreenActivity.this,
-							getString(R.string.msg_stop_service, userName));
+
+					// DialogUtility.alert(TopScreenActivity.this,
+					// getString(R.string.msg_stop_service, userName));
+					if (!checkDialogReminder) {
+						creatDialogReminder(
+								null,
+								getResources().getString(
+										R.string.title_reminder),
+								R.layout.dialog_reminder, null).show();
+						checkDialogReminder = true;
+					}
 				}
-			}else{
+			} else {
 				imgMessageSettingStatus.setImageResource(R.drawable.bar_gray);
 				imgTopStatus.setImageResource(R.drawable.bg_stop);
 				imgValidateStatus.setImageResource(R.drawable.bar_gray);
 			}
 		} else
 			imgMessageStatus.setImageResource(R.drawable.bar_gray);
-		
+
 		super.onResume();
 	}
 
-	private void showToast(String string) {
-		Toast.makeText(TopScreenActivity.this, string, Toast.LENGTH_SHORT)
-				.show();
+	private AlertDialog creatDialogReminder(String message, String title,
+			int layout, DialogInterface.OnClickListener listener) {
+		final String userName = mFromAngleSharedPref.getUserName();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		if (title != null)
+			builder.setTitle(title);
+		LayoutInflater inflater2 = (LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		LinearLayout layoutParent = (LinearLayout) inflater2.inflate(layout,
+				(ViewGroup) findViewById(R.id.id_layout_reminder));
+		TextView textViewMesage = (TextView) (layoutParent
+				.findViewById(R.id.id_msg_stop_service));
+		String s = getResources().getString(R.string.msg_stop_service);
+		textViewMesage.setText(s.replace("%s", userName));
+		TextView textView = (TextView) (layoutParent
+				.findViewById(R.id.email_contact));
+		textView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent sent = new Intent(android.content.Intent.ACTION_SEND);
+				sent.setType("text/plain");
+				sent.putExtra(Intent.EXTRA_EMAIL,
+						new String[] { "ga@angelsmails.com" });
+				sent.setType("vnd.android.cursor.dir/email");
+				TopScreenActivity.this.startActivity(Intent.createChooser(sent,
+						"Select"));
+
+			}
+		});
+		builder.setPositiveButton(getResources().getString(R.string.btn_close),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						checkDialogReminder = false;
+					}
+				});
+		builder.setView(layoutParent);
+		return builder.create();
 	}
 }

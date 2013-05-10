@@ -33,7 +33,6 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_validate);
-		
 		lblMessage = (TextView) findViewById(R.id.lblMessage);
 
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
@@ -42,13 +41,14 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			userName = mFromAngleSharedPref.getUserName();
 			String labelDefaultString = getResources().getString(
 					R.string.name_validate);
-			lblMessage.setText(getString(R.string.mr_ms_name,userName));
+			lblMessage.setText(labelDefaultString.replace("$$$$", userName));
 		}else{
 			String labelDefaultString = getResources().getString(
 					R.string.name_validate);
 			lblMessage.setText(labelDefaultString.replace("$$$$", ""));
 		}
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
+			startRunAlarmManager();
 			shiftValueForValidation();
 		}
 	}
@@ -85,19 +85,17 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	public void onOKClick(View v) {
+
 		mFromAngleSharedPref.setValidationMode(0);
-		mFromAngleSharedPref.setStopAlarm(true);
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
 					TopScreenActivity.class);
-			startRunAlarmManager();
 			startActivity(intent);
 		}
 		finish();
 	}
 
 	public void onCancelClick(View v) {
-		mFromAngleSharedPref.setStopAlarm(true);
 		if (mFromAngleSharedPref.getValidationMode() < 1)
 			mFromAngleSharedPref.setValidationMode(1);
 		else
@@ -105,7 +103,6 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
 					TopScreenActivity.class);
-			startRunAlarmManager();
 			startActivity(intent);
 		}
 		finish();
