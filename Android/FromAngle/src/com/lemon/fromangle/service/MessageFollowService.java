@@ -1,5 +1,6 @@
 package com.lemon.fromangle.service;
 
+import com.lemon.fromangle.ValidateScreenActivity;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 
 import android.app.AlarmManager;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -61,7 +63,7 @@ public class MessageFollowService extends Service {
 		Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
 		// After after 30 seconds
-		am.setRepeating(AlarmManager.RTC_WAKEUP, startTime,delayTime, pi);
+		am.setRepeating(AlarmManager.RTC_WAKEUP, startTime, delayTime, pi);
 	}
 
 	public void CancelAlarm(Context context) {
@@ -80,7 +82,7 @@ public class MessageFollowService extends Service {
 		// TODO Auto-generated method stub
 
 		super.onStart(intent, startId);
-		
+
 	}
 
 	@Override
@@ -94,23 +96,35 @@ public class MessageFollowService extends Service {
 		wl.acquire();
 		wl.release();
 		playRingTone(mPref.getRingTuneFile());
-		mHandler.postDelayed(new Runnable() {
+
+		new CountDownTimer(20000, 5000) {
 
 			@Override
-			public void run() {
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				if (mPref.getVibrateMode()) {
+					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+					// Vibrate for 500 milliseconds
+					v.vibrate(1000);
+				}
+			}
+
+			@Override
+			public void onFinish() {
 				// TODO Auto-generated method stub
 				ringtone.stop();
-//				ringtone = null;
+				// ringtone = null;
 				MessageFollowService.this.onDestroy();
-			}
-		}, 20000);
-		if (mPref.getVibrateMode()) {
-			Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-			// Vibrate for 500 milliseconds
-			v.vibrate(1000);
-		}
-		Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG)
-				.show();
+			};
+		}.start();
+
+		mPref.setRunFromActivity(false);
+		Intent intentValidation = new Intent(this, ValidateScreenActivity.class);
+		intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intentValidation);
+		
+		// Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG)
+		// .show();
 		return super.onStartCommand(intent, flags, startId);
 	}
 

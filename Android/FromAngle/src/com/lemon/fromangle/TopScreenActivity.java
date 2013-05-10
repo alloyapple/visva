@@ -121,7 +121,7 @@ public class TopScreenActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				mFromAngleSharedPref.setRunFromActivity(true);
 				gotoActivity(self, ValidateScreenActivity.class);
 			}
 		});

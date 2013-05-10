@@ -3,6 +3,7 @@ package com.lemon.fromangle;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.utility.StringUtility;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,7 +30,13 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	public void onOKClick(View v) {
+
 		mFromAngleSharedPref.setValidationMode(0);
+		if (!mFromAngleSharedPref.getRunFromActivity()) {
+			Intent intent = new Intent(ValidateScreenActivity.this,
+					TopScreenActivity.class);
+			startActivity(intent);
+		}
 		finish();
 	}
 
@@ -38,6 +45,11 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			mFromAngleSharedPref.setValidationMode(1);
 		else
 			mFromAngleSharedPref.setValidationMode(2);
+		if (!mFromAngleSharedPref.getRunFromActivity()) {
+			Intent intent = new Intent(ValidateScreenActivity.this,
+					TopScreenActivity.class);
+			startActivity(intent);
+		}
 		finish();
 	}
 
