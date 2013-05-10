@@ -70,7 +70,7 @@
     <string name="ng">NG!</string>
     <string name="final_validation">Final Validation</string>
     <string name="next_validation">Next Validation</string>
-    <string name="msg_stop_service">Since Mr/Ms %s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms A. In Addition,message may not be receiverd due to sending condition and receiver incoming rejection settings,ect.\n		<a href="ga@angelsmails.com"></a></string>
+    <string name="msg_stop_service">Since Mr/Ms %s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms A. In Addition,message may not be receiverd due to sending condition and receiver incoming rejection settings,ect.\n	<a href="http://google.com">ga@angelsmails.com</a></string>
     <string name="message_paid_expired">You payment is expired, do you want to continue to use it?</string>
     <string name="message_paid_not_paid">You will be charge to use this function. Are you sure?</string>
     <string name="term_of_use"><a href="http://google.com">I read and agreed the policy</a></string>
@@ -79,5 +79,7 @@
     <string name="error_message">Example: I am going to travel at weekend</string>
     <string name="error_phone">Example: (+84)973378373</string>
     <string name="name_validate">Safety Validation</string>
+    <string name="mr_ms_name">Mr/Ms</string>
+    <string name="network_unvailable">Network is unvailable</string>
 
 </resources>
