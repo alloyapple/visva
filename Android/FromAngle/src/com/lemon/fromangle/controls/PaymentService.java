@@ -6,16 +6,22 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lemon.fromangle.R;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
 import com.lemon.fromangle.network.AsyncHttpPost;
@@ -37,12 +43,13 @@ public class PaymentService {
 			// TODO Auto-generated method stub
 			Log.i("payment request", "<-------true-------->");
 			if (BillingHelper.isBillingSupported()) {
-//				BillingHelper.requestPurchase(mContext, ID_SERVICE_MONTHLY_PAYMENT);
+				BillingHelper.requestPurchase(mContext,
+						ID_SERVICE_MONTHLY_PAYMENT);
 			} else {
 				Log.i("Billing", "Can't purchase on this device");
 
 			}
-			
+
 		}
 	};
 
@@ -155,9 +162,9 @@ public class PaymentService {
 	private void checkPaymentNotPaid() {
 		// TODO Auto-generated method stub
 		showToast("user not paid");
-		creatDialog(null,null,R.layout.expandable_list_content,
-				listenerOkPayment).show();
-		
+		creatDialog(null, null, R.layout.dialog_not_paid, listenerOkPayment)
+				.show();
+
 	}
 
 	/**
@@ -168,7 +175,8 @@ public class PaymentService {
 		showToast("paid expired");
 		creatDialog("User not paid. Please payment to use app.", "Payment",
 				listenerOkPayment).show();
-		Log.i("curent date",TimeUtility.getCurentDate().toString()+TimeUtility.getDateExpiry(30));
+		Log.i("curent date", TimeUtility.getCurentDate().toString()
+				+ TimeUtility.getDateExpiry(30));
 	}
 
 	/**
@@ -187,8 +195,8 @@ public class PaymentService {
 	private AlertDialog creatDialog(String message, String title,
 			DialogInterface.OnClickListener listener) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		if(title!=null)
-		builder.setTitle(title);
+		if (title != null)
+			builder.setTitle(title);
 		builder.setMessage(message);
 		builder.setPositiveButton("OK", listener);
 		builder.setNegativeButton("Cancel",
@@ -202,15 +210,28 @@ public class PaymentService {
 				});
 		return builder.create();
 	}
-	private AlertDialog creatDialog(String message, String title,int layout,
+
+	private AlertDialog creatDialog(String message, String title, int layout,
 			DialogInterface.OnClickListener listener) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		if(title!=null)
-		builder.setTitle(title);
+		if (title != null)
+			builder.setTitle(title);
 		LayoutInflater inflater2 = (LayoutInflater) mContext
-		.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		View layoutAnyNumber = inflater2.inflate(layout,
-				(ViewGroup) mContext.findViewById(R.id.addToDictionary));
+				(ViewGroup) mContext.findViewById(R.id.id_layout_not_paid));
+		TextView textView = (TextView) layoutAnyNumber
+				.findViewById(R.id.link_web);
+		textView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("http://google.com"));
+				mContext.startActivity(intent);
+			}
+		});
 		builder.setPositiveButton("OK", listener);
 		builder.setView(layoutAnyNumber);
 		builder.setNegativeButton("Cancel",
