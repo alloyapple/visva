@@ -208,10 +208,11 @@ public class MessageSettingActivity extends PaymentAcitivty {
 				// TODO Auto-generated method stub
 				if (checkValidateInfo1()) {
 					if (!StringUtility.isEmpty(userId)) {
-						onStartSave("0");
+						onPostStopToService("0");
 					}
-				} 
+				}
 			}
+
 		});
 		btnStart.setOnClickListener(new OnClickListener() {
 
@@ -250,6 +251,65 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		});
 	}
 
+	private void onPostStopToService(String status) {
+		String name1 = txtName1.getText().toString();
+		String name2 = txtName2.getText().toString();
+		String name3 = txtName3.getText().toString();
+		String email1 = txtEmail1.getText().toString();
+		String email2 = txtEmail2.getText().toString();
+		String email3 = txtEmail3.getText().toString();
+		String message1 = txtMessage1.getText().toString();
+		String message2 = txtMessage2.getText().toString();
+		String message3 = txtMessage3.getText().toString();
+		String tel1 = txtTel1.getText().toString();
+		String tel2 = txtTel2.getText().toString();
+		String tel3 = txtTel3.getText().toString();
+
+		List<NameValuePair> params = ParameterFactory
+				.createMessageSettingParams(userId, name1, email1, message1,
+						name2, email2, message2, name3, email3, message3,
+						status);
+
+		AsyncHttpPost get = new AsyncHttpPost(MessageSettingActivity.this,
+				new AsyncHttpResponseProcess(MessageSettingActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						/* check response */
+						checkResponseStopFromServer(response);
+						saveInputPref();
+					}
+				}, params, true);
+		get.execute(WebServiceConfig.URL_MESSAGE_SETTING);
+	}
+
+	private void checkResponseStopFromServer(String response) {
+		JSONObject jsonObject = null;
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
+					showToast(getString(R.string.sucess));
+					GlobalValue.prefs.setMessageSettingStatus("");
+				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
+					showToast(getString(R.string.change_info_sucess));
+					GlobalValue.prefs.setMessageSettingStatus("");
+				} else
+					DialogUtility.alert(MessageSettingActivity.this,
+							getString(R.string.failed_to_conect_server));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			DialogUtility.alert(MessageSettingActivity.this,
+					getString(R.string.failed_to_conect_server));
+			e.printStackTrace();
+		}
+	
+	}
+
 	private void setActiveButton(int index) {
 		btn1.setBackgroundColor(this.getResources().getColor(R.color.blue));
 		btn2.setBackgroundColor(this.getResources().getColor(R.color.blue));
@@ -272,7 +332,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			break;
 		}
 	}
-
 
 	private void onStartSave(String status) {
 		String name1 = txtName1.getText().toString();
@@ -303,11 +362,9 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					}
 				}, params, true);
 		get.execute(WebServiceConfig.URL_MESSAGE_SETTING);
-
 	}
 
 	private void checkResponseFromServer(String response) {
-		// TODO Auto-generated method stub
 		JSONObject jsonObject = null;
 		String errorMsg = null;
 		try {
@@ -365,12 +422,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		if (StringUtility.isEmpty(txtEmail2)
 				|| StringUtility.isEmpty(txtMessage2)
 				|| StringUtility.isEmpty(txtName2)) {
-			// Toast.makeText(
-			// self,
-			// txtEmail2.getText().toString() + " : "
-			// + txtMessage2.getText().toString() + " : "
-			// + txtName2.getText().toString(), Toast.LENGTH_LONG)
-			// .show();
 			Toast.makeText(self, R.string.plz_input_required_field,
 					Toast.LENGTH_LONG).show();
 			return false;
@@ -401,7 +452,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	@Override
 	public void onPaymentSuccess() {
 		// TODO Auto-generated method stub
-		Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
 		onStartSave("1");
 	}
 
