@@ -102,11 +102,11 @@ public final class ParameterFactory {
 		return parameters;
 
 	}
-	public static List<NameValuePair> createUpdatePayment(String userId,Date date, int status) {
+	public static List<NameValuePair> createUpdatePayment(String userId,String payment, String expiry) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("user_id", userId));
-		parameters.add(new BasicNameValuePair( "day_payment",date.toString()));
-		parameters.add(new BasicNameValuePair( "expiry",date.toString()));
+		parameters.add(new BasicNameValuePair( "day_payment",payment));
+		parameters.add(new BasicNameValuePair( "expiry",expiry));
 		return parameters;
 
 	}

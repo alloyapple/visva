@@ -76,8 +76,10 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 			if (BillingHelper.latestPurchase.isPurchased()) {
 				showToast("Payment success");
+				Log.i(TAG, "update payment to server");
 				paymentService.updatePayment(mFromAngleSharedPref.getUserId(),
-						TimeUtility.getCurentDate(), STATUS_NOT_EXPIRED);
+						TimeUtility.getCurentDate(),
+						TimeUtility.getDateExpiry(30));
 			}
 		};
 
@@ -183,7 +185,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					if (!StringUtility.isEmpty(userId)) {
 						Toast.makeText(self, "On Start", Toast.LENGTH_LONG)
 								.show();
-//						onPaymentSuccess();
+						// onPaymentSuccess();
 						String userId = mFromAngleSharedPref.getUserId();
 						if (!StringUtility.isEmpty(userId))
 							paymentService.checkPayment(userId);

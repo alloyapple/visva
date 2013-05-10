@@ -1,16 +1,21 @@
 package com.lemon.fromangle.controls;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
 import com.lemon.fromangle.network.AsyncHttpPost;
@@ -18,6 +23,7 @@ import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.StringUtility;
+import com.lemon.fromangle.utility.TimeUtility;
 import com.payment.BillingHelper;
 
 public class PaymentService {
@@ -64,9 +70,9 @@ public class PaymentService {
 		postCheckPayMent.execute(WebServiceConfig.URL_CHECK_PAYMENT);
 	}
 
-	public void updatePayment(String userId, Date date, int statusPayment) {
+	public void updatePayment(String userId, String paymentDay, String expiry) {
 		List<NameValuePair> params = ParameterFactory.createUpdatePayment(
-				userId, date, statusPayment);
+				userId, paymentDay, expiry);
 		AsyncHttpPost postUpdatePayment = new AsyncHttpPost(mContext,
 				new AsyncHttpResponseProcess(mContext) {
 					@Override
@@ -149,8 +155,9 @@ public class PaymentService {
 	private void checkPaymentNotPaid() {
 		// TODO Auto-generated method stub
 		showToast("user not paid");
-		creatDialog("User not paid. Please payment to use app.", "Payment",
+		creatDialog(null,null,R.layout.expandable_list_content,
 				listenerOkPayment).show();
+		
 	}
 
 	/**
@@ -161,6 +168,7 @@ public class PaymentService {
 		showToast("paid expired");
 		creatDialog("User not paid. Please payment to use app.", "Payment",
 				listenerOkPayment).show();
+		Log.i("curent date",TimeUtility.getCurentDate().toString()+TimeUtility.getDateExpiry(30));
 	}
 
 	/**
@@ -169,8 +177,6 @@ public class PaymentService {
 	private void checkPaymentPaidNotExpired() {
 		// TODO Auto-generated method stub
 		showToast("paid not expired");
-		creatDialog("User not paid. Please payment to use app.", "Payment",
-				listenerOkPayment).show();
 	}
 
 	public void showToast(String message) {
@@ -181,9 +187,32 @@ public class PaymentService {
 	private AlertDialog creatDialog(String message, String title,
 			DialogInterface.OnClickListener listener) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		if(title!=null)
 		builder.setTitle(title);
 		builder.setMessage(message);
 		builder.setPositiveButton("OK", listener);
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		return builder.create();
+	}
+	private AlertDialog creatDialog(String message, String title,int layout,
+			DialogInterface.OnClickListener listener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		if(title!=null)
+		builder.setTitle(title);
+		LayoutInflater inflater2 = (LayoutInflater) mContext
+		.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		View layoutAnyNumber = inflater2.inflate(layout,
+				(ViewGroup) mContext.findViewById(R.id.addToDictionary));
+		builder.setPositiveButton("OK", listener);
+		builder.setView(layoutAnyNumber);
 		builder.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
 
