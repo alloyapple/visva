@@ -105,7 +105,6 @@ public class SettingActivivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_setting);
-
 		mEmailValidator = new EmailValidator();
 
 		/* inti ui */
@@ -403,10 +402,12 @@ public class SettingActivivity extends Activity {
 						if (StringUtility
 								.isEmpty(SettingActivivity.this.userId)) {
 							checkInfoReponseFromServer(response);
+							mFromAngleSharedPref.setFirstTimeSetting(true);
 							isFirstTime = true;
 						} else {
 							checkInfoUserUpdate(response);
 							isFirstTime = false;
+							mFromAngleSharedPref.setFirstTimeSetting(false);
 						}
 					}
 

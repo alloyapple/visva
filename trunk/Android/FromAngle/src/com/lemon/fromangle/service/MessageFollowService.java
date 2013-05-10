@@ -12,7 +12,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
@@ -21,40 +20,21 @@ import android.widget.Toast;
 public class MessageFollowService extends Service {
 	private FromAngleSharedPref mPref;
 	public Ringtone ringtone;
-	private Handler mHandler = new Handler();
 
 	@Override
 	public void onCreate() {
-
-		// TODO Auto-generated method stub
-
-		Toast.makeText(this, "MyAlarmService.onCreate()", Toast.LENGTH_LONG)
-				.show();
 		mPref = new FromAngleSharedPref(this);
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
-
-		// TODO Auto-generated method stub
-
-		Toast.makeText(this, "MyAlarmService.onBind()", Toast.LENGTH_LONG)
-				.show();
-
 		return null;
-
 	}
 
 	@Override
 	public void onDestroy() {
-
 		// TODO Auto-generated method stub
-
 		super.onDestroy();
-
-		Toast.makeText(this, "MyAlarmService.onDestroy()", Toast.LENGTH_LONG)
-				.show();
-
 	}
 
 	public void SetAlarm(Context context, long startTime, long delayTime) {
@@ -78,9 +58,6 @@ public class MessageFollowService extends Service {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onStart(Intent intent, int startId) {
-
-		// TODO Auto-generated method stub
-
 		super.onStart(intent, startId);
 
 	}
