@@ -14,20 +14,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:gravity="center_horizontal"
-            android:text="Mr/Ms"
+            android:gravity="center" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+            android:text="@string/name_validate"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/app_mode"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center_horizontal"
-            android:text="Safety Validation"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
+        
     </LinearLayout>
 
     <LinearLayout
