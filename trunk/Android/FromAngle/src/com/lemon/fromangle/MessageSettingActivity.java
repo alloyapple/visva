@@ -27,7 +27,6 @@ import com.lemon.fromangle.controls.PaymentAcitivty;
 import com.lemon.fromangle.controls.PaymentService;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
-import com.lemon.fromangle.network.NetworkUtility;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
@@ -211,9 +210,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					if (!StringUtility.isEmpty(userId)) {
 						onStartSave("0");
 					}
-				} else
-					DialogUtility.alert(self,
-							getString(R.string.network_unvailable));
+				} 
 			}
 		});
 		btnStart.setOnClickListener(new OnClickListener() {
