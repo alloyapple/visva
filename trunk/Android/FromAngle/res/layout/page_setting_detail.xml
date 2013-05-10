@@ -109,13 +109,14 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/message" />
 
-                <EditText
-                    android:id="@+id/txtMessage1"
-                    style="@style/fullwidth"
-                    android:gravity="top|left"
-                    android:lines="5"
-                    android:maxLength="300" >
-                </EditText>
+                    <EditText
+                        android:id="@+id/txtMessage1"
+                        style="@style/fullwidth"
+                        android:gravity="top|left"
+                        android:lines="5"
+                        android:maxLines="5"
+                        android:maxLength="300" >
+                    </EditText>
             </LinearLayout>
 
             <LinearLayout

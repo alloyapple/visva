@@ -207,7 +207,7 @@ public class TopScreenActivity extends Activity {
 		if (!"".equals(mFromAngleSharedPref.getUserId())) {
 			imgMessageStatus.setImageResource(R.drawable.bar_green);
 			if (mFromAngleSharedPref.getFirstTimeSetting())
-				txtFinalValidation.setText("----------");
+				txtFinalValidation.setText("---------------");
 			else
 				txtFinalValidation.setText(mFromAngleSharedPref
 						.getTopScreenFinalValidation());
