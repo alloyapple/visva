@@ -41,6 +41,7 @@ public class FromAngleSharedPref {
 	public static final String VALIDATION_OK = "VALIDATION_OK";
 	public static final String VALIDATION_CLOSE = "VALIDATION_CLOSE";
 	public static final String RUN_FROM_ACTIVITY = "RUN_FROM_ACTIVITY";
+	public static final String FIRST_TIME_SETTING = "FIRST_TIME_SETTING";
 
 	public static final String KEY_SAVE_INPUT_MESSAGE="SAVE_INPUT_MESSAGE";
 	public static final String[] KEY_MESSGE1 = { "OWN_NAME_01", "EMAIL_01",
@@ -211,6 +212,16 @@ public class FromAngleSharedPref {
 		return getBooleanValue(RUN_FROM_ACTIVITY);
 	}
 
+
+	public void setFirstTimeSetting(boolean b) {
+		putBooleanValue(FIRST_TIME_SETTING, b);
+	}
+
+	public boolean getFirstTimeSetting() {
+		return getBooleanValue(FIRST_TIME_SETTING);
+	}
+
+
 	public void setMessageSettingTab1(String ownname, String email,
 			String phone, String message) {
 		putStringValue(KEY_MESSGE1[0], ownname);
@@ -267,6 +278,7 @@ public class FromAngleSharedPref {
 	public boolean getSaveInputMassage(){
 		return getBooleanValue(KEY_SAVE_INPUT_MESSAGE);
 	}
+
 
 	// ======================== CORE FUNCTIONS ========================
 

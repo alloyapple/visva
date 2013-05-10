@@ -48,12 +48,13 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	private void shiftValueForValidation() {
+		mFromAngleSharedPref.setFirstTimeSetting(false);
 		mFromAngleSharedPref.setTopScreenFinalValidation(mFromAngleSharedPref
 				.getTopScreenNextValidation());
 		String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
 		Date date1 = new Date();
 		int daysAfter = Integer.parseInt(mFromAngleSharedPref.getValidationDaysAfter().toString());
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			date1 = df.parse(dateStr);
 		} catch (ParseException e) {
