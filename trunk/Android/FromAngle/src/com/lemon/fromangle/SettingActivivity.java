@@ -57,7 +57,6 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
-import com.lemon.fromangle.service.AlarmManagerBroadcastReceiver;
 import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
@@ -92,8 +91,9 @@ public class SettingActivivity extends Activity {
 
 	private PendingIntent pendingIntent;
 
-	private AlarmManagerBroadcastReceiver alarm;
 	public Handler mHandler = new Handler();
+
+	private boolean isFirstTime = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +138,6 @@ public class SettingActivivity extends Activity {
 					filePath = convertMediaUriToPath(mListUriRingTone[i]);
 				}
 			}
-			Log.e("uriRingtone " + filePath, "uriRingtone " + uriRingtune);
 			try {
 				mMediaPlayer.setDataSource(filePath);
 			} catch (IllegalArgumentException e) {
@@ -155,9 +154,7 @@ public class SettingActivivity extends Activity {
 				e.printStackTrace();
 			}
 			mMediaPlayer.start();
-
 		}
-
 	}
 
 	protected String convertMediaUriToPath(Uri uri) {
@@ -378,15 +375,17 @@ public class SettingActivivity extends Activity {
 					public void processIfResponseSuccess(String response) {
 						/* check info response from server */
 						if (StringUtility
-								.isEmpty(SettingActivivity.this.userId))
+								.isEmpty(SettingActivivity.this.userId)) {
 							checkInfoReponseFromServer(response);
-						else
+							isFirstTime = true;
+						} else {
 							checkInfoUserUpdate(response);
+							isFirstTime = false;
+						}
 					}
 
 					@Override
 					public void processIfResponseFail() {
-						// TODO Auto-generated method stub
 						Log.e("failed ", "failed");
 					}
 				}, params, true);
@@ -460,6 +459,7 @@ public class SettingActivivity extends Activity {
 					if (userId != null) {
 						/* add to preference */
 						mFromAngleSharedPref.setUserId(userId);
+
 						addDataToPreference();
 
 						/* start run alarmmanager */
@@ -481,14 +481,12 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void startRunAlarmManager() {
-
 		Date date1 = new Date();
 		String dateStr = txtDateSetting.getText().toString();
 		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			date1 = df.parse(dateStr);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		long timeOfDate = date1.getTime();
@@ -499,31 +497,23 @@ public class SettingActivivity extends Activity {
 		long totalDelayTime = timeOfDate + timeOfClock * 1000;
 		int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
 		long currenttime = System.currentTimeMillis();
-		int delayTime =(int)(totalDelayTime - currenttime);
+		int delayTime = (int) (totalDelayTime - currenttime);
 		int timeDelay = delayTime / 1000;
-//		alarm.SetAlarm(getApplicationContext(), totalDelayTime, delayTime);
-//		Toast.makeText(SettingActivivity.this, "Start Alarm", Toast.LENGTH_LONG)
-//				.show();
-		
-		Intent myIntent = new Intent(SettingActivivity.this, MessageFollowService.class);
 
-		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0, myIntent, 0);
-
+		Intent myIntent = new Intent(SettingActivivity.this,
+				MessageFollowService.class);
+		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+				myIntent, 0);
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
 		Calendar calendar = Calendar.getInstance();
-
 		calendar.setTimeInMillis(System.currentTimeMillis());
-
 		calendar.add(Calendar.SECOND, timeDelay);
-
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				pendingIntent);
 
 	}
 
 	private void addDataToPreference() {
-		// TODO Auto-generated method stub
 		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
 		GlobalValue.prefs.setRingTuneFile(uriRingtune);
 		GlobalValue.prefs.setUserName(txtName.getText().toString());
@@ -537,31 +527,45 @@ public class SettingActivivity extends Activity {
 				.setValidationTime(txtTimeSetting.getText().toString());
 		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
 		GlobalValue.prefs.setRingTuneFile(uriRingtune);
-		GlobalValue.prefs.setTopScreenFinalValidation(txtDateSetting.getText()
-				.toString() + " " + txtTimeSetting.getText().toString());
-
-		String dateStr = txtDateSetting.getText().toString();
-
-		// Date date1 = new Date(txtDateSetting.getText().toString());
-		Date date1 = new Date();
-		int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		if (isFirstTime) {
+			GlobalValue.prefs.setTopScreenFinalValidation("----------");
+		}
+		String dateSetByUserStr = txtDateSetting.getText().toString() + " "
+				+ txtTimeSetting.getText().toString();
+		Date dateSetByUser = new Date();
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			date1 = df.parse(dateStr);
+			dateSetByUser = dateFormat.parse(dateSetByUserStr);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		Date nextValidationDate = addDaysToDate(date1, daysAfter);
-		Log.e("nextdate " + nextValidationDate, "nextdate "
-				+ nextValidationDate);
-		Log.e("ringtone", "ringtone " + uriRingtune);
-		String nextValidationDateStr;
-		nextValidationDateStr = df.format(nextValidationDate);
+		long timeCompare = dateSetByUser.getTime();
+		long currentTime = System.currentTimeMillis();
+		if (timeCompare - currentTime > 0) {
 
-		GlobalValue.prefs.setTopScreenNextValidation(nextValidationDateStr
-				+ " " + txtTimeSetting.getText().toString());
+		} else {
+			String dateStr = txtDateSetting.getText().toString();
+
+			// Date date1 = new Date(txtDateSetting.getText().toString());
+			Date date1 = new Date();
+			int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
+			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				date1 = df.parse(dateStr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			Date nextValidationDate = addDaysToDate(date1, daysAfter);
+			String nextValidationDateStr;
+			nextValidationDateStr = df.format(nextValidationDate);
+
+			GlobalValue.prefs.setTopScreenNextValidation(nextValidationDateStr
+					+ " " + txtTimeSetting.getText().toString());
+		}
 	}
 
 	public static Date addDaysToDate(Date input, int numberDay) {
@@ -679,7 +683,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtEmail)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-				.isEmpty(txtDayAfter));
+					.isEmpty(txtDayAfter));
 	}
 
 	@Override

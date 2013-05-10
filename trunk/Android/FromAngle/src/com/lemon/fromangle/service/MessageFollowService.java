@@ -97,7 +97,7 @@ public class MessageFollowService extends Service {
 		wl.release();
 		playRingTone(mPref.getRingTuneFile());
 
-		new CountDownTimer(20000, 5000) {
+		new CountDownTimer(30000, 4000) {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
@@ -113,7 +113,6 @@ public class MessageFollowService extends Service {
 			public void onFinish() {
 				// TODO Auto-generated method stub
 				ringtone.stop();
-				// ringtone = null;
 				MessageFollowService.this.onDestroy();
 			};
 		}.start();
@@ -123,19 +122,14 @@ public class MessageFollowService extends Service {
 		intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intentValidation);
 		
-		// Toast.makeText(this, "MyAlarmService.onStart()", Toast.LENGTH_LONG)
-		// .show();
 		return super.onStartCommand(intent, flags, startId);
 	}
 
 	@Override
 	public boolean onUnbind(Intent intent) {
 
-		// TODO Auto-generated method stub
-
 		Toast.makeText(this, "MyAlarmService.onUnbind()", Toast.LENGTH_LONG)
 				.show();
-
 		return super.onUnbind(intent);
 
 	}
