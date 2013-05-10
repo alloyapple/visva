@@ -35,7 +35,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -112,6 +111,7 @@ public class SettingActivivity extends Activity {
 
 		/* check is update or register */
 		checkIsUpdateOrRegister();
+		
 	}
 
 	private void checkIsUpdateOrRegister() {
@@ -258,9 +258,6 @@ public class SettingActivivity extends Activity {
 		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
 		String[] from = { mCursor2
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
-		// final String[] listUri = { mCursor2
-		// .getColumnIndex(RingtoneManager.URI_COLUMN_INDEX) };
-		Log.e("size of list", "size of list " + mListUriRingTone.length);
 
 		int[] to = { android.R.id.text1 };
 
@@ -296,10 +293,6 @@ public class SettingActivivity extends Activity {
 
 							}
 						}, 3000);
-						// Log.e("uriRIngtune " + pos, "uriRingtune "
-						// + listUri.length);
-						Toast.makeText(SettingActivivity.this, pos + "",
-								Toast.LENGTH_SHORT).show();
 					}
 
 					@Override
@@ -465,7 +458,6 @@ public class SettingActivivity extends Activity {
 		JSONObject jsonId = null;
 		String paramData = null;
 		String userId = null;
-		String userName = null;
 		String errorMsg = null;
 		try {
 			jsonObject = new JSONObject(response);
@@ -522,7 +514,6 @@ public class SettingActivivity extends Activity {
 		int minute = Integer.parseInt(timeStr[1]);
 		long timeOfClock = hour * 3600 + minute * 60;
 		long totalDelayTime = timeOfDate + timeOfClock * 1000;
-		int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
 		long currenttime = System.currentTimeMillis();
 		int delayTime = (int) (totalDelayTime - currenttime);
 		int timeDelay = delayTime / 1000;
@@ -608,8 +599,9 @@ public class SettingActivivity extends Activity {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				int hourStr = 10;
-				int minuteStr = 0;
+				Calendar cal=Calendar.getInstance();
+				int hour=cal.get(Calendar.HOUR_OF_DAY);
+				int min=cal.get(Calendar.MINUTE);
 
 				timePicker = new TimePickerDialog(SettingActivivity.this,
 						new OnTimeSetListener() {
@@ -625,7 +617,7 @@ public class SettingActivivity extends Activity {
 										+ minuteStr);
 
 							}
-						}, hourStr, minuteStr, true);
+						}, hour, min, true);
 				timePicker.show();
 			}
 			return false;

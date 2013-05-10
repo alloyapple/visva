@@ -99,7 +99,6 @@ public final class R {
         public static final int ic_share=0x7f02001c;
     }
     public static final class id {
-        public static final int app_mode=0x7f090039;
         public static final int btn1=0x7f090013;
         public static final int btn2=0x7f090014;
         public static final int btn3=0x7f090015;
@@ -134,6 +133,7 @@ public final class R {
         public static final int lblGuideClose=0x7f09003b;
         public static final int lblGuideOk=0x7f09003a;
         public static final int lblMessage=0x7f090038;
+        public static final int lblModeAppMessage=0x7f090039;
         public static final int lblStatusFinalValidate=0x7f09002e;
         public static final int lblStatusNextValidate=0x7f090031;
         public static final int link_web=0x7f090006;
@@ -223,6 +223,7 @@ public final class R {
         public static final int messsage_setting=0x7f070024;
         public static final int mrms=0x7f07002a;
         public static final int msg_stop_service=0x7f07003f;
+        public static final int name_validate=0x7f070047;
         public static final int next_validation=0x7f07003e;
         public static final int ng=0x7f07003c;
         public static final int ok=0x7f07003b;
