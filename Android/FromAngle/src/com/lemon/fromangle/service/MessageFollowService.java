@@ -20,6 +20,7 @@ import android.widget.Toast;
 public class MessageFollowService extends Service {
 	private FromAngleSharedPref mPref;
 	public Ringtone ringtone;
+	private Vibrator v;
 
 	@Override
 	public void onCreate() {
@@ -44,6 +45,13 @@ public class MessageFollowService extends Service {
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
 		// After after 30 seconds
 		am.setRepeating(AlarmManager.RTC_WAKEUP, startTime, delayTime, pi);
+	}
+
+	public void stopAlarm() {
+		if (ringtone != null)
+			ringtone.stop();
+		if (v != null)
+			v.cancel();
 	}
 
 	public void CancelAlarm(Context context) {
@@ -73,16 +81,22 @@ public class MessageFollowService extends Service {
 		wl.acquire();
 		wl.release();
 		playRingTone(mPref.getRingTuneFile());
+		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 		new CountDownTimer(30000, 4000) {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
 				// TODO Auto-generated method stub
-				if (mPref.getVibrateMode()) {
-					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+				if (mPref.getVibrateMode() && mPref.getStopAlarm()) {
 					// Vibrate for 500 milliseconds
 					v.vibrate(1000);
+				}
+				if (mPref.getStopAlarm()) {
+					ringtone.stop();
+					if (mPref.getVibrateMode())
+						v.cancel();
+					mPref.setStopAlarm(false);
 				}
 			}
 
@@ -98,7 +112,7 @@ public class MessageFollowService extends Service {
 		Intent intentValidation = new Intent(this, ValidateScreenActivity.class);
 		intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intentValidation);
-		
+
 		return super.onStartCommand(intent, flags, startId);
 	}
 

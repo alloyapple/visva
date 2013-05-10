@@ -242,6 +242,8 @@ public final class R {
         public static final int setting_user_first=0x7f070039;
         public static final int settings=0x7f070017;
         public static final int sound=0x7f070021;
+        public static final int start_success=0x7f07004a;
+        public static final int stop_success=0x7f07004b;
         public static final int sucess=0x7f07003a;
         public static final int tel_no=0x7f07001b;
         public static final int term_of_use=0x7f070042;

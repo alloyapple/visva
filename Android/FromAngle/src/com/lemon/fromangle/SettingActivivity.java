@@ -111,7 +111,7 @@ public class SettingActivivity extends Activity {
 
 		/* check is update or register */
 		checkIsUpdateOrRegister();
-		
+
 	}
 
 	private void checkIsUpdateOrRegister() {
@@ -188,10 +188,10 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-//				if (!checkVibrate) {
-//					checkVibrate = true;
-//					return;
-//				}
+				// if (!checkVibrate) {
+				// checkVibrate = true;
+				// return;
+				// }
 				if (chkVibrate.isChecked()) {
 					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					// Vibrate for 500 milliseconds
@@ -516,18 +516,20 @@ public class SettingActivivity extends Activity {
 		long totalDelayTime = timeOfDate + timeOfClock * 1000;
 		long currenttime = System.currentTimeMillis();
 		int delayTime = (int) (totalDelayTime - currenttime);
-		int timeDelay = delayTime / 1000;
-		Intent myIntent = new Intent(SettingActivivity.this,
-				MessageFollowService.class);
-		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
-				myIntent, 0);
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		calendar.add(Calendar.SECOND, timeDelay);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-				pendingIntent);
-
+		if (delayTime > 0) {
+			int timeDelay = delayTime / 1000;
+			Log.e("delay time", "delay time " + delayTime);
+			Intent myIntent = new Intent(SettingActivivity.this,
+					MessageFollowService.class);
+			pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+					myIntent, 0);
+			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(System.currentTimeMillis());
+			calendar.add(Calendar.SECOND, timeDelay);
+			alarmManager.set(AlarmManager.RTC_WAKEUP,
+					calendar.getTimeInMillis(), pendingIntent);
+		}
 	}
 
 	private void addDataToPreference() {
@@ -557,11 +559,16 @@ public class SettingActivivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		long timeCompare = dateSetByUser.getTime();
+		String timeClockStr[] = txtTimeSetting.getText().toString().split(":");
+		int hour = Integer.parseInt(timeClockStr[0]);
+		int minute = Integer.parseInt(timeClockStr[1]);
+		long timeClock = hour * 3600 + minute * 60;
+		long timeCompare = dateSetByUser.getTime() + timeClock * 1000;
 		long currentTime = System.currentTimeMillis();
+		Log.e("timeCompare " + timeCompare + "  currentTime " + currentTime,
+				"he heh " + (timeCompare - currentTime));
 		if (timeCompare - currentTime > 0) {
-
+			GlobalValue.prefs.setTopScreenNextValidation(dateSetByUserStr);
 		} else {
 			String dateStr = txtDateSetting.getText().toString();
 
@@ -599,9 +606,9 @@ public class SettingActivivity extends Activity {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				Calendar cal=Calendar.getInstance();
-				int hour=cal.get(Calendar.HOUR_OF_DAY);
-				int min=cal.get(Calendar.MINUTE);
+				Calendar cal = Calendar.getInstance();
+				int hour = cal.get(Calendar.HOUR_OF_DAY);
+				int min = cal.get(Calendar.MINUTE);
 
 				timePicker = new TimePickerDialog(SettingActivivity.this,
 						new OnTimeSetListener() {
@@ -702,7 +709,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-				.isEmpty(txtDayAfter));
+					.isEmpty(txtDayAfter));
 	}
 
 	@Override

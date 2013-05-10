@@ -79,7 +79,9 @@
     <string name="error_message">Example: I am going to travel at weekend</string>
     <string name="error_phone">Example: (+84)973378373</string>
     <string name="name_validate">Safety Validation</string>
-    <string name="mr_ms_name">Mr/Ms</string>
+    <string name="mr_ms_name">Mr/Ms %s</string>
     <string name="network_unvailable">Network is unvailable</string>
+    <string name="start_success">Start Successfully</string>
+    <string name="stop_success">Stop Successfully</string>
 
 </resources>
