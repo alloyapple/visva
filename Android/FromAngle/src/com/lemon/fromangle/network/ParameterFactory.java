@@ -73,6 +73,12 @@ public final class ParameterFactory {
 		return parameters;
 
 	}
+	
+	public static List<NameValuePair> postMessageStatusToServer(String status){
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("status", status));
+		return parameters;
+	}
 
 	public static List<NameValuePair> createMessageSettingParams(String userId,
 			String receive1, String email1, String message1, String receive2,

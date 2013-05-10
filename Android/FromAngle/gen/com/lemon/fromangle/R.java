@@ -221,9 +221,11 @@ public final class R {
         public static final int message_paid_expired=0x7f070040;
         public static final int message_paid_not_paid=0x7f070041;
         public static final int messsage_setting=0x7f070024;
+        public static final int mr_ms_name=0x7f070048;
         public static final int mrms=0x7f07002a;
         public static final int msg_stop_service=0x7f07003f;
         public static final int name_validate=0x7f070047;
+        public static final int network_unvailable=0x7f070049;
         public static final int next_validation=0x7f07003e;
         public static final int ng=0x7f07003c;
         public static final int ok=0x7f07003b;

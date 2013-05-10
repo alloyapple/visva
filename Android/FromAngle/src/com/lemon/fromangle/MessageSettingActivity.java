@@ -6,19 +6,16 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,6 +27,7 @@ import com.lemon.fromangle.controls.PaymentAcitivty;
 import com.lemon.fromangle.controls.PaymentService;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
+import com.lemon.fromangle.network.NetworkUtility;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
@@ -209,7 +207,13 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				finish();
+				if (checkValidateInfo1()) {
+					if (!StringUtility.isEmpty(userId)) {
+						onStartSave("0");
+					}
+				} else
+					DialogUtility.alert(self,
+							getString(R.string.network_unvailable));
 			}
 		});
 		btnStart.setOnClickListener(new OnClickListener() {
@@ -218,8 +222,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			public void onClick(View v) {
 				if (checkValidateInfo1()) {
 					if (!StringUtility.isEmpty(userId)) {
-						Toast.makeText(self, "On Start", Toast.LENGTH_LONG)
-								.show();
 						// onPaymentSuccess();
 						String userId = mFromAngleSharedPref.getUserId();
 						if (!StringUtility.isEmpty(userId))
@@ -274,7 +276,8 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		}
 	}
 
-	private void onStartSave() {
+
+	private void onStartSave(String status) {
 		String name1 = txtName1.getText().toString();
 		String name2 = txtName2.getText().toString();
 		String name3 = txtName3.getText().toString();
@@ -287,7 +290,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		String tel1 = txtTel1.getText().toString();
 		String tel2 = txtTel2.getText().toString();
 		String tel3 = txtTel3.getText().toString();
-		String status = "1";
 
 		List<NameValuePair> params = ParameterFactory
 				.createMessageSettingParams(userId, name1, email1, message1,
@@ -403,7 +405,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	public void onPaymentSuccess() {
 		// TODO Auto-generated method stub
 		Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
-		onStartSave();
+		onStartSave("1");
 	}
 
 	private void showToast(String string) {
