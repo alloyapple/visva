@@ -189,7 +189,10 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-
+//				if (!checkVibrate) {
+//					checkVibrate = true;
+//					return;
+//				}
 				if (chkVibrate.isChecked()) {
 					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					// Vibrate for 500 milliseconds
