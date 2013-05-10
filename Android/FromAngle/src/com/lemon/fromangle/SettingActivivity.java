@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -49,7 +50,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -58,6 +58,7 @@ import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.service.AlarmManagerBroadcastReceiver;
+import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
@@ -100,8 +101,6 @@ public class SettingActivivity extends Activity {
 		setContentView(R.layout.page_setting);
 
 		mEmailValidator = new EmailValidator();
-
-		alarm = new AlarmManagerBroadcastReceiver();
 
 		/* inti ui */
 		initUI();
@@ -499,11 +498,28 @@ public class SettingActivivity extends Activity {
 		long timeOfClock = hour * 3600 + minute * 60;
 		long totalDelayTime = timeOfDate + timeOfClock * 1000;
 		int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
-		long delayTime = daysAfter * 3600 * 1000;
+		long currenttime = System.currentTimeMillis();
+		int delayTime =(int)(totalDelayTime - currenttime);
+		int timeDelay = delayTime / 1000;
+//		alarm.SetAlarm(getApplicationContext(), totalDelayTime, delayTime);
+//		Toast.makeText(SettingActivivity.this, "Start Alarm", Toast.LENGTH_LONG)
+//				.show();
+		
+		Intent myIntent = new Intent(SettingActivivity.this, MessageFollowService.class);
 
-		alarm.SetAlarm(getApplicationContext(), totalDelayTime, delayTime);
-		Toast.makeText(SettingActivivity.this, "Start Alarm", Toast.LENGTH_LONG)
-				.show();
+		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0, myIntent, 0);
+
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+		Calendar calendar = Calendar.getInstance();
+
+		calendar.setTimeInMillis(System.currentTimeMillis());
+
+		calendar.add(Calendar.SECOND, timeDelay);
+
+		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+				pendingIntent);
+
 	}
 
 	private void addDataToPreference() {
