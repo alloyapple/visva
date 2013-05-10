@@ -40,6 +40,7 @@ public class FromAngleSharedPref {
 	public static final String MESSAGE_SETTING_STATUS = "MESSAGE_SETTING_STATUS";
 	public static final String VALIDATION_OK = "VALIDATION_OK";
 	public static final String VALIDATION_CLOSE = "VALIDATION_CLOSE";
+	public static final String RUN_FROM_ACTIVITY = "RUN_FROM_ACTIVITY";
 
 	// ================================================================
 
@@ -193,6 +194,14 @@ public class FromAngleSharedPref {
 
 	public int getValidationMode() {
 		return getIntValue(VALIDATION_OK);
+	}
+
+	public void setRunFromActivity(boolean b) {
+		putBooleanValue(RUN_FROM_ACTIVITY, b);
+	}
+
+	public boolean getRunFromActivity() {
+		return getBooleanValue(RUN_FROM_ACTIVITY);
 	}
 
 	// ======================== CORE FUNCTIONS ========================
