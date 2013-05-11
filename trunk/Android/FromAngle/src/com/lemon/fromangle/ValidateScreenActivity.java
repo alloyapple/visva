@@ -38,13 +38,13 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		userId = mFromAngleSharedPref.getUserId();
 		if (!StringUtility.isEmpty(userId)) {
 			userName = mFromAngleSharedPref.getUserName();
-			lblMessage.setText(getString(R.string.mr_ms_name,userName));
-		}else{
-			lblMessage.setText(getString(R.string.mr_ms_name,""));
+			lblMessage.setText(getString(R.string.mr_ms_name, userName));
+		} else {
+			lblMessage.setText(getString(R.string.mr_ms_name, ""));
 		}
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
-			startRunAlarmManager();
 			shiftValueForValidation();
+			startRunAlarmManager();
 		}
 	}
 
@@ -120,7 +120,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		long currenttime = System.currentTimeMillis();
 		int delayTime = (int) (totalDelayTime - currenttime);
 		int timeDelay = delayTime / 1000;
-		Log.e("delay time", "delay time " + delayTime);
+		Log.e("delay time " + totalDelayTime + "  currentTime " + currenttime
+				+ " compare " + (totalDelayTime - currenttime), "delaytime2 "
+				+ delayTime);
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
 				MessageFollowService.class);
 
