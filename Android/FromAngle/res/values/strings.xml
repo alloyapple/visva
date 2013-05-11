@@ -86,5 +86,7 @@
     <string name="title_reminder">Reminder Message</string>
     <string name="start_success">Start Successfully</string>
     <string name="stop_success">Stop Successfully</string>
+    <string name="hint_date">yyyy-mm-dd</string>
+    <string name="hint_time">hh:mm</string>
 
 </resources>

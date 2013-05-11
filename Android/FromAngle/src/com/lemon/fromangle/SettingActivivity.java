@@ -623,9 +623,17 @@ public class SettingActivivity extends Activity {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				Calendar cal = Calendar.getInstance();
-				int hour = cal.get(Calendar.HOUR_OF_DAY);
-				int min = cal.get(Calendar.MINUTE);
+				String timeStr = mFromAngleSharedPref.getValidationTime();
+				int hour,min;
+				if(StringUtility.isEmpty(timeStr)){
+					Calendar cal = Calendar.getInstance();
+					 hour = cal.get(Calendar.HOUR_OF_DAY);
+					 min = cal.get(Calendar.MINUTE);
+				}else{
+					String timeArrStr[] = timeStr.split(":");
+					hour = Integer.parseInt(timeArrStr[0]);
+					min = Integer.parseInt(timeArrStr[1]);
+				}
 
 				timePicker = new TimePickerDialog(SettingActivivity.this,
 						new OnTimeSetListener() {
