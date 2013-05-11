@@ -1,11 +1,16 @@
 package com.lemon.fromangle.service;
 
+import java.util.List;
+
 import com.lemon.fromangle.ValidateScreenActivity;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.ActivityManager.RunningTaskInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
@@ -76,7 +81,12 @@ public class MessageFollowService extends Service {
 		// Acquire the lock
 		wl.acquire();
 
-		Log.e("fadf", "adkjfh " + mPref.getStartService());
+		Log.e("fadf " + isApplicationSentToBackground(this),
+				"adkjfh " + mPref.getStartService());
+		if (isApplicationSentToBackground(this))
+			mPref.setRunOnBackGround(true);
+		else
+			mPref.setRunOnBackGround(false);
 		playRingTone(mPref.getRingTuneFile());
 
 		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -131,11 +141,28 @@ public class MessageFollowService extends Service {
 					.getRingtone(getApplicationContext(), uri);
 			ringtone.play();
 			mPref.setStartService(true);
-			
+
 			mPref.setRunFromActivity(false);
-			Intent intentValidation = new Intent(this, ValidateScreenActivity.class);
+			Intent intentValidation = new Intent(this,
+					ValidateScreenActivity.class);
 			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intentValidation);
 		}
+	}
+
+	/*
+	 * Check app is running (in background)
+	 */
+	private static boolean isApplicationSentToBackground(final Context context) {
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> tasks = am.getRunningTasks(1);
+		if (!tasks.isEmpty()) {
+			ComponentName topActivity = tasks.get(0).topActivity;
+			if (!topActivity.getPackageName().equals(context.getPackageName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

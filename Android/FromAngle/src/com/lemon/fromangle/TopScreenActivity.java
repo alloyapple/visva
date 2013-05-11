@@ -56,6 +56,7 @@ public class TopScreenActivity extends Activity {
 		setContentView(R.layout.page_top_screen);
 
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
+		mFromAngleSharedPref.setExistByTopScreen(false);
 		initUI();
 
 		userId = mFromAngleSharedPref.getUserId();
@@ -204,6 +205,7 @@ public class TopScreenActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		mFromAngleSharedPref.setExistByTopScreen(true);
 		super.onDestroy();
 	}
 
