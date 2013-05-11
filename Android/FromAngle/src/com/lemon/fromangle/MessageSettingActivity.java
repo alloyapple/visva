@@ -148,7 +148,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			txtMessage3.setText(inputTab3[3]);
 
 		}
-		mFromAngleSharedPref.saveInputMessage(false);
 		setActiveButton(1);
 		// Event
 		btn1.setOnClickListener(new OnClickListener() {
