@@ -38,13 +38,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		userId = mFromAngleSharedPref.getUserId();
 		if (!StringUtility.isEmpty(userId)) {
 			userName = mFromAngleSharedPref.getUserName();
-			String labelDefaultString = getResources().getString(
-					R.string.name_validate);
-			lblMessage.setText(labelDefaultString.replace("$$$$", userName));
+			lblMessage.setText(getString(R.string.mr_ms_name,userName));
 		}else{
-			String labelDefaultString = getResources().getString(
-					R.string.name_validate);
-			lblMessage.setText(labelDefaultString.replace("$$$$", ""));
+			lblMessage.setText(getString(R.string.mr_ms_name,""));
 		}
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
 			startRunAlarmManager();
