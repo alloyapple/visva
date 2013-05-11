@@ -267,12 +267,11 @@ public class SettingActivivity extends Activity {
 		// ringtonemanager
 		startManagingCursor(mCursor2); // starts the cursor query
 
-		// prints output for diagnostics
-		String test = mCursor2.getString(mCursor2
-				.getColumnIndexOrThrow(RingtoneManager.EXTRA_RINGTONE_TITLE));
+		// // prints output for diagnostics
 
 		/* check list uri of cursor */
 		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
+		uriRingtune = mListUriRingTone[0].toString();
 		String[] from = { mCursor2
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
 

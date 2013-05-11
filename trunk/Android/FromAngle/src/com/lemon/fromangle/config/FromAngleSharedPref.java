@@ -43,7 +43,9 @@ public class FromAngleSharedPref {
 	public static final String RUN_FROM_ACTIVITY = "RUN_FROM_ACTIVITY";
 	public static final String FIRST_TIME_SETTING = "FIRST_TIME_SETTING";
 	public static final String KEY_STOP_ALARM = "KEY_STOP_ALARM";
-	public static final String KEY_START_SERVICE="KEY_START_SERVICE";
+	public static final String KEY_START_SERVICE = "KEY_START_SERVICE";
+	public static final String KEY_RUN_ON_BACK_GROUND = "KEY_RUN_ON_BACK_GROUND";
+	public static final String KEY_EXIST_BY_TOP_SCREEN = "KEY_EXIST_BY_TOP_SCREEN";
 
 	public static final String KEY_SAVE_INPUT_MESSAGE = "SAVE_INPUT_MESSAGE";
 	public static final String[] KEY_MESSGE1 = { "OWN_NAME_01", "EMAIL_01",
@@ -229,13 +231,29 @@ public class FromAngleSharedPref {
 	public boolean getStopAlarm() {
 		return getBooleanValue(KEY_STOP_ALARM);
 	}
-	
-	public void setStartService(boolean b){
+
+	public void setStartService(boolean b) {
 		putBooleanValue(KEY_START_SERVICE, b);
 	}
-	
-	public boolean  getStartService(){
+
+	public boolean getStartService() {
 		return getBooleanValue(KEY_START_SERVICE);
+	}
+
+	public void setRunOnBackGround(boolean b) {
+		putBooleanValue(KEY_RUN_ON_BACK_GROUND, b);
+	}
+
+	public boolean getRunOnBackGround() {
+		return getBooleanValue(KEY_RUN_ON_BACK_GROUND);
+	}
+
+	public void setExistByTopScreen(boolean b) {
+		putBooleanValue(KEY_EXIST_BY_TOP_SCREEN, b);
+	}
+
+	public boolean getExistByTopScreen() {
+		return getBooleanValue(KEY_EXIST_BY_TOP_SCREEN);
 	}
 
 	public void setMessageSettingTab1(String ownname, String email,

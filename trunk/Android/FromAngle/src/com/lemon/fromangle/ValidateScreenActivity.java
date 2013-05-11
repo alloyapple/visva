@@ -82,7 +82,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	public void onOKClick(View v) {
 		mFromAngleSharedPref.setStopAlarm(true);
 		mFromAngleSharedPref.setValidationMode(0);
-		if (!mFromAngleSharedPref.getRunFromActivity()) {
+		if (mFromAngleSharedPref.getRunOnBackGround()
+				&& mFromAngleSharedPref.getExistByTopScreen()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
 					TopScreenActivity.class);
 			startActivity(intent);
@@ -96,7 +97,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			mFromAngleSharedPref.setValidationMode(1);
 		else
 			mFromAngleSharedPref.setValidationMode(2);
-		if (!mFromAngleSharedPref.getRunFromActivity()) {
+		if (mFromAngleSharedPref.getRunOnBackGround()
+				&& mFromAngleSharedPref.getExistByTopScreen()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
 					TopScreenActivity.class);
 			startActivity(intent);
