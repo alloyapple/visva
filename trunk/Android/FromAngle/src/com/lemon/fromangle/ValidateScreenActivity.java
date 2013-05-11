@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.lemon.fromangle.config.FromAngleSharedPref;
-import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.StringUtility;
 
@@ -72,7 +71,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		String nextValidationDateStr;
 		nextValidationDateStr = df.format(nextValidationDate);
 
-		GlobalValue.prefs.setTopScreenNextValidation(nextValidationDateStr);
+		mFromAngleSharedPref.setTopScreenNextValidation(nextValidationDateStr);
 	}
 
 	public static Date addDaysToDate(Date input, int numberDay) {
@@ -85,7 +84,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	public void onOKClick(View v) {
-
+		mFromAngleSharedPref.setStopAlarm(true);
 		mFromAngleSharedPref.setValidationMode(0);
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
@@ -96,6 +95,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	public void onCancelClick(View v) {
+		mFromAngleSharedPref.setStopAlarm(true);
 		if (mFromAngleSharedPref.getValidationMode() < 1)
 			mFromAngleSharedPref.setValidationMode(1);
 		else

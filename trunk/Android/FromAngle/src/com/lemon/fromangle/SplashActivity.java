@@ -16,8 +16,6 @@ public class SplashActivity extends LemonBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_splash);
 
-		GlobalValue.prefs = new FromAngleSharedPref(self);
-
 		new Handler().postDelayed(new Runnable() {
 
 			@Override

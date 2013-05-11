@@ -517,6 +517,7 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void startRunAlarmManager() {
+		Log.e("stgart run alarm", "start alarm");
 		Date date1 = new Date();
 		String dateStr = txtDateSetting.getText().toString();
 		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -550,21 +551,20 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void addDataToPreference() {
-		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
-		GlobalValue.prefs.setRingTuneFile(uriRingtune);
-		GlobalValue.prefs.setUserName(txtName.getText().toString());
-		GlobalValue.prefs.setEmail(txtEmail.getText().toString());
-		GlobalValue.prefs.setPhone(txtTel.getText().toString());
-		GlobalValue.prefs
+		mFromAngleSharedPref.setVibrateMode(chkVibrate.isChecked());
+		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
+		mFromAngleSharedPref.setUserName(txtName.getText().toString());
+		mFromAngleSharedPref.setEmail(txtEmail.getText().toString());
+		mFromAngleSharedPref.setPhone(txtTel.getText().toString());
+		mFromAngleSharedPref
 				.setValidationDate(txtDateSetting.getText().toString());
-		GlobalValue.prefs.setValidationDaysAfter(txtDayAfter.getText()
+		mFromAngleSharedPref.setValidationDaysAfter(txtDayAfter.getText()
 				.toString());
-		GlobalValue.prefs
+		mFromAngleSharedPref
 				.setValidationTime(txtTimeSetting.getText().toString());
-		GlobalValue.prefs.setVibrateMode(chkVibrate.isChecked());
-		GlobalValue.prefs.setRingTuneFile(uriRingtune);
+		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		if (isFirstTime) {
-			GlobalValue.prefs.setTopScreenFinalValidation("----------");
+			mFromAngleSharedPref.setTopScreenFinalValidation("----------");
 		}
 		String dateSetByUserStr = txtDateSetting.getText().toString() + " "
 				+ txtTimeSetting.getText().toString();
@@ -585,7 +585,7 @@ public class SettingActivivity extends Activity {
 		Log.e("timeCompare " + timeCompare + "  currentTime " + currentTime,
 				"he heh " + (timeCompare - currentTime));
 		if (timeCompare - currentTime > 0) {
-			GlobalValue.prefs.setTopScreenNextValidation(dateSetByUserStr);
+			mFromAngleSharedPref.setTopScreenNextValidation(dateSetByUserStr);
 		} else {
 			String dateStr = txtDateSetting.getText().toString();
 
@@ -604,7 +604,7 @@ public class SettingActivivity extends Activity {
 			String nextValidationDateStr;
 			nextValidationDateStr = df.format(nextValidationDate);
 
-			GlobalValue.prefs.setTopScreenNextValidation(nextValidationDateStr
+			mFromAngleSharedPref.setTopScreenNextValidation(nextValidationDateStr
 					+ " " + txtTimeSetting.getText().toString());
 		}
 	}

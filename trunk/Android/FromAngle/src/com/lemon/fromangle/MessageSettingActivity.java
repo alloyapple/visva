@@ -29,7 +29,6 @@ import com.lemon.fromangle.controls.PaymentAcitivty;
 import com.lemon.fromangle.controls.PaymentService;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
-import com.lemon.fromangle.network.NetworkUtility;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
@@ -102,7 +101,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		initUI();
 		self = this;
-		userId = GlobalValue.prefs.getUserId();
+		userId = mFromAngleSharedPref.getUserId();
 		startService(new Intent(this, BillingService.class));
 		BillingHelper.setCompletedHandler(mTransactionHandler);
 	}
@@ -418,10 +417,10 @@ public class MessageSettingActivity extends PaymentAcitivty {
 				int error = Integer.parseInt(errorMsg);
 				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
 					showToast(getString(R.string.sucess));
-					GlobalValue.prefs.setMessageSettingStatus(errorMsg);
+					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 					showToast(getString(R.string.change_info_sucess));
-					GlobalValue.prefs.setMessageSettingStatus(errorMsg);
+					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 				} else
 					DialogUtility.alert(MessageSettingActivity.this,
 							getString(R.string.failed_to_conect_server));
