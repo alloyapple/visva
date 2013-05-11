@@ -111,10 +111,6 @@ public class MessageFollowService extends Service {
 			};
 		}.start();
 
-		mPref.setRunFromActivity(false);
-		Intent intentValidation = new Intent(this, ValidateScreenActivity.class);
-		intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intentValidation);
 		wl.release();
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -135,6 +131,11 @@ public class MessageFollowService extends Service {
 					.getRingtone(getApplicationContext(), uri);
 			ringtone.play();
 			mPref.setStartService(true);
+			
+			mPref.setRunFromActivity(false);
+			Intent intentValidation = new Intent(this, ValidateScreenActivity.class);
+			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intentValidation);
 		}
 	}
 }
