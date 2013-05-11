@@ -217,6 +217,8 @@ public final class R {
         public static final int final_validation=0x7f07003e;
         public static final int hello_world=0x7f070002;
         public static final int help=0x7f070032;
+        public static final int hint_date=0x7f07004f;
+        public static final int hint_time=0x7f070050;
         public static final int incorrect_email_address=0x7f070035;
         public static final int mail=0x7f070027;
         public static final int mail_address=0x7f07001b;

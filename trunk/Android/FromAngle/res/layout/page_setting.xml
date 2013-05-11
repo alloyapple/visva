@@ -85,25 +85,27 @@
 
                     <EditText
                         android:id="@+id/txtDateSetting"
-                        android:layout_width="120dp"
+                        android:layout_width="125dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="3dp"
                         android:focusable="false"
+                        android:hint="@string/hint_date"
                         android:singleLine="true" >
                     </EditText>
 
                     <ImageView
-                        android:layout_width="18dp"
+                        android:layout_width="15dp"
                         android:layout_height="30dp"
                         android:layout_marginTop="4dp"
                         android:background="@color/white" />
 
                     <EditText
                         android:id="@+id/txtTimeSetting"
-                        android:layout_width="66dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:editable="false"
                         android:focusable="false"
+                        android:hint="@string/hint_time"
                         android:singleLine="true" >
                     </EditText>
 
@@ -111,11 +113,11 @@
                         style="@style/textview_wrap"
                         android:singleLine="true"
                         android:text="@string/sound"
-                        android:textSize="11sp" />
+                        android:textSize="10sp" />
 
                     <EditText
                         android:id="@+id/txtDayAfter"
-                        android:layout_width="45dp"
+                        android:layout_width="35dp"
                         android:layout_height="wrap_content"
                         android:editable="false"
                         android:focusable="false"
@@ -126,7 +128,7 @@
                         style="@style/textview_wrap"
                         android:layout_marginRight="2sp"
                         android:text="@string/days_after"
-                        android:textSize="11sp" />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <TextView
