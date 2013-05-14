@@ -23,7 +23,16 @@ public final class ParameterFactory {
 	public static List<NameValuePair> getMessageInfoFromServer(String userId) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("user_id", userId));
-		
+
+		return parameters;
+	}
+
+	public static List<NameValuePair> updateStatusForServer(String userId,
+			String status) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("user_id", userId));
+		parameters.add(new BasicNameValuePair("status", status));
+
 		return parameters;
 	}
 
@@ -73,8 +82,8 @@ public final class ParameterFactory {
 		return parameters;
 
 	}
-	
-	public static List<NameValuePair> postMessageStatusToServer(String status){
+
+	public static List<NameValuePair> postMessageStatusToServer(String status) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("status", status));
 		return parameters;
@@ -83,7 +92,7 @@ public final class ParameterFactory {
 	public static List<NameValuePair> createMessageSettingParams(String userId,
 			String receive1, String email1, String message1, String receive2,
 			String email2, String message2, String receive3, String email3,
-			String message3,String status) {
+			String message3, String status) {
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("user_id", userId));
@@ -108,11 +117,13 @@ public final class ParameterFactory {
 		return parameters;
 
 	}
-	public static List<NameValuePair> createUpdatePayment(String userId,String payment, String expiry) {
+
+	public static List<NameValuePair> createUpdatePayment(String userId,
+			String payment, String expiry) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("user_id", userId));
-		parameters.add(new BasicNameValuePair( "day_payment",payment));
-		parameters.add(new BasicNameValuePair( "expiry",expiry));
+		parameters.add(new BasicNameValuePair("day_payment", payment));
+		parameters.add(new BasicNameValuePair("expiry", expiry));
 		return parameters;
 
 	}

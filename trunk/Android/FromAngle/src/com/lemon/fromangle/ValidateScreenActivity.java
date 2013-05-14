@@ -4,8 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
 
 import com.lemon.fromangle.config.FromAngleSharedPref;
+import com.lemon.fromangle.config.WebServiceConfig;
+import com.lemon.fromangle.network.AsyncHttpPost;
+import com.lemon.fromangle.network.AsyncHttpResponseProcess;
+import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.StringUtility;
 
@@ -14,6 +21,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -87,7 +95,32 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 					TopScreenActivity.class);
 			startActivity(intent);
 		}
-		finish();
+		/* send update status to server */
+		if (!StringUtility.isEmpty(userId)) {
+			sendUpdateStatusToServer("1");
+		} else
+			finish();
+	}
+
+	private void sendUpdateStatusToServer(String status) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> params = ParameterFactory.updateStatusForServer(
+				userId, status);
+		AsyncHttpPost postUpdateStt = new AsyncHttpPost(
+				ValidateScreenActivity.this, new AsyncHttpResponseProcess(
+						ValidateScreenActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("my response", "my response " + response);
+						finish();
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		postUpdateStt.execute(WebServiceConfig.URL_MESSAGE_SETTING);
 	}
 
 	public void onCancelClick(View v) {
@@ -102,7 +135,11 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 					TopScreenActivity.class);
 			startActivity(intent);
 		}
-		finish();
+		/* send update status to server */
+		if (!StringUtility.isEmpty(userId)) {
+			sendUpdateStatusToServer("0");
+		} else
+			finish();
 	}
 
 	private void startRunAlarmManager() {
@@ -120,7 +157,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		long totalDelayTime = timeOfDate;
 		long currenttime = System.currentTimeMillis();
 		long delayTime = totalDelayTime - currenttime;
-		int timeDelay =(int) (delayTime / 1000);
+		int timeDelay = (int) (delayTime / 1000);
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
 				MessageFollowService.class);
 
