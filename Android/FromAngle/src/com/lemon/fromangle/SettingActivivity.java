@@ -159,6 +159,17 @@ public class SettingActivivity extends Activity {
 				e.printStackTrace();
 			}
 			mMediaPlayer.start();
+		} else {
+			Calendar cal = Calendar.getInstance();
+			int hour = cal.get(Calendar.HOUR_OF_DAY);
+			int min = cal.get(Calendar.MINUTE);
+			int date = cal.get(Calendar.DAY_OF_MONTH);
+			int month = cal.get(Calendar.MONTH);
+			int year = cal.get(Calendar.YEAR);
+			String dateStr = year + "-" + (month+1) + "-" + date;
+			String timeStr = hour + ":" + min;
+			txtDateSetting.setText(dateStr);
+			txtTimeSetting.setText(timeStr);
 		}
 	}
 
@@ -204,16 +215,14 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				if (!checkVibrate) {
-					checkVibrate = true;
-					return;
-				}
 
+				checkVibrate = !checkVibrate;
 				if (chkVibrate.isChecked()) {
 					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					// Vibrate for 500 milliseconds
 					v.vibrate(1000);
 				}
+				return;
 			}
 		});
 		btnSave = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnSave);
@@ -416,7 +425,6 @@ public class SettingActivivity extends Activity {
 						} else {
 							checkInfoUserUpdate(response);
 							isFirstTime = false;
-							mFromAngleSharedPref.setFirstTimeSetting(false);
 						}
 					}
 
@@ -555,12 +563,12 @@ public class SettingActivivity extends Activity {
 		mFromAngleSharedPref.setUserName(txtName.getText().toString());
 		mFromAngleSharedPref.setEmail(txtEmail.getText().toString());
 		mFromAngleSharedPref.setPhone(txtTel.getText().toString());
-		mFromAngleSharedPref
-				.setValidationDate(txtDateSetting.getText().toString());
+		mFromAngleSharedPref.setValidationDate(txtDateSetting.getText()
+				.toString());
 		mFromAngleSharedPref.setValidationDaysAfter(txtDayAfter.getText()
 				.toString());
-		mFromAngleSharedPref
-				.setValidationTime(txtTimeSetting.getText().toString());
+		mFromAngleSharedPref.setValidationTime(txtTimeSetting.getText()
+				.toString());
 		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		if (isFirstTime) {
 			mFromAngleSharedPref.setTopScreenFinalValidation("----------");
@@ -603,8 +611,9 @@ public class SettingActivivity extends Activity {
 			String nextValidationDateStr;
 			nextValidationDateStr = df.format(nextValidationDate);
 
-			mFromAngleSharedPref.setTopScreenNextValidation(nextValidationDateStr
-					+ " " + txtTimeSetting.getText().toString());
+			mFromAngleSharedPref
+					.setTopScreenNextValidation(nextValidationDateStr + " "
+							+ txtTimeSetting.getText().toString());
 		}
 	}
 
@@ -623,12 +632,12 @@ public class SettingActivivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				String timeStr = mFromAngleSharedPref.getValidationTime();
-				int hour,min;
-				if(StringUtility.isEmpty(timeStr)){
+				int hour, min;
+				if (StringUtility.isEmpty(timeStr)) {
 					Calendar cal = Calendar.getInstance();
-					 hour = cal.get(Calendar.HOUR_OF_DAY);
-					 min = cal.get(Calendar.MINUTE);
-				}else{
+					hour = cal.get(Calendar.HOUR_OF_DAY);
+					min = cal.get(Calendar.MINUTE);
+				} else {
 					String timeArrStr[] = timeStr.split(":");
 					hour = Integer.parseInt(timeArrStr[0]);
 					min = Integer.parseInt(timeArrStr[1]);
@@ -733,7 +742,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-				.isEmpty(txtDayAfter));
+					.isEmpty(txtDayAfter));
 	}
 
 	@Override
@@ -743,7 +752,7 @@ public class SettingActivivity extends Activity {
 		switch (id) {
 		case GlobalValue.DIALOG_FAILED_TO_CONNECT_SERVER:
 			builder.setMessage(getString(R.string.failed_to_conect_server));
-			builder.setPositiveButton(getString(R.string.btn_ok),
+			builder.setPositiveButton(getString(R.string.btn_close),
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog,

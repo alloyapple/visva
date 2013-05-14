@@ -85,11 +85,10 @@
 
                     <EditText
                         android:id="@+id/txtDateSetting"
-                        android:layout_width="125dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
+                        android:layout_marginLeft="10dp"
                         android:focusable="false"
-                        android:hint="@string/hint_date"
                         android:singleLine="true" >
                     </EditText>
 
@@ -101,23 +100,21 @@
 
                     <EditText
                         android:id="@+id/txtTimeSetting"
-                        android:layout_width="80dp"
+                        android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:editable="false"
                         android:focusable="false"
-                        android:hint="@string/hint_time"
                         android:singleLine="true" >
                     </EditText>
 
                     <TextView
                         style="@style/textview_wrap"
                         android:singleLine="true"
-                        android:text="@string/sound"
-                        android:textSize="10sp" />
+                        android:text="@string/txt_Of" />
 
                     <EditText
                         android:id="@+id/txtDayAfter"
-                        android:layout_width="35dp"
+                        android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:editable="false"
                         android:focusable="false"
@@ -127,16 +124,14 @@
                     <TextView
                         style="@style/textview_wrap"
                         android:layout_marginRight="2sp"
-                        android:text="@string/days_after"
-                        android:textSize="10sp" />
+                        android:text="@string/days_after" />
                 </LinearLayout>
 
                 <TextView
                     style="@style/textview_wrap"
                     android:layout_gravity="right"
                     android:layout_marginRight="20dp"
-                    android:text="@string/safety_was_verified"
-                    android:textSize="11sp" />
+                    android:text="@string/safety_was_verified" />
 
                 <TextView
                     style="@style/textviewtitle"
@@ -164,12 +159,14 @@
                     <CheckBox
                         android:id="@+id/chkVibrate"
                         style="@style/textview_wrap"
+                        android:checked="false"
                         android:text="" />
                 </LinearLayout>
 
-                <LinearLayout android:layout_marginTop="10dp"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal" >
 

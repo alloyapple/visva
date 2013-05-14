@@ -13,7 +13,7 @@
     <string name="btn_active">Active</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_filter">Filter</string>
-    <string name="btn_ok">OK</string>
+    <string name="btn_close">Close</string>
     <string name="btn_agreed">Agreed</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_add">Add</string>
@@ -22,10 +22,10 @@
     <string name="btn_save">Save</string>
     <string name="btn_back">Back</string>
     <string name="btn_next">Next</string>
-    <string name="btn_close">Close</string>
     <string name="btn_skip">Skip</string>
     <string name="btn_done">Done</string>
     <string name="btn_return">Return</string>
+    <string name="btn_ok">OK</string>
 
     <!-- Setting Screen -->
     <string name="title_settings">1.Setting</string>
@@ -88,5 +88,6 @@
     <string name="stop_success">Stop Successfully</string>
     <string name="hint_date">yyyy-mm-dd</string>
     <string name="hint_time">hh:mm</string>
+    <string name="txt_Of">の</string>
 
 </resources>

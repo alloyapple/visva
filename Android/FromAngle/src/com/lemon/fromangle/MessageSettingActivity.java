@@ -397,6 +397,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						/* check response */
+						showToast("On Start");
 						checkResponseFromServer(response);
 						saveInputPref();
 					}
@@ -615,7 +616,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	@Override
 	public void onPaymentSuccess() {
 		// TODO Auto-generated method stub
-		Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
 		onStartSave("1");
 	}
 

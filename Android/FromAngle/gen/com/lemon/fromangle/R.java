@@ -189,8 +189,8 @@ public final class R {
         public static final int btn_agreed=0x7f07000b;
         public static final int btn_back=0x7f070011;
         public static final int btn_cancel=0x7f070008;
-        public static final int btn_close=0x7f070013;
-        public static final int btn_done=0x7f070015;
+        public static final int btn_close=0x7f07000a;
+        public static final int btn_done=0x7f070014;
         public static final int btn_edit=0x7f07000f;
         public static final int btn_filter=0x7f070009;
         /**  Button 
@@ -198,11 +198,11 @@ public final class R {
         public static final int btn_login=0x7f070004;
         public static final int btn_next=0x7f070012;
         public static final int btn_no=0x7f07000e;
-        public static final int btn_ok=0x7f07000a;
+        public static final int btn_ok=0x7f070016;
         public static final int btn_register=0x7f070005;
-        public static final int btn_return=0x7f070016;
+        public static final int btn_return=0x7f070015;
         public static final int btn_save=0x7f070010;
-        public static final int btn_skip=0x7f070014;
+        public static final int btn_skip=0x7f070013;
         public static final int btn_submit=0x7f070006;
         public static final int btn_yes=0x7f07000c;
         public static final int change_info_sucess=0x7f070039;
@@ -261,6 +261,7 @@ public final class R {
         /**  Setting Screen 
          */
         public static final int title_settings=0x7f070017;
+        public static final int txt_Of=0x7f070051;
         public static final int url_home=0x7f070003;
         public static final int user_email=0x7f07004b;
         public static final int user_settings=0x7f070019;
