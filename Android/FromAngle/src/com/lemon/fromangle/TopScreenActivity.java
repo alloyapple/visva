@@ -211,7 +211,7 @@ public class TopScreenActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		Log.e("user id", "user id "+mFromAngleSharedPref.getUserId());
+		Log.e("user id", "user id " + mFromAngleSharedPref.getUserId());
 		if (!"".equals(mFromAngleSharedPref.getUserId())) {
 			imgMessageStatus.setImageResource(R.drawable.bar_green);
 			if (mFromAngleSharedPref.getFirstTimeSetting())
@@ -235,10 +235,15 @@ public class TopScreenActivity extends Activity {
 					lblStatusFinalValidate.setTextColor(Color.BLACK);
 					lblStatusNextValidate.setText("---");
 					lblStatusNextValidate.setTextColor(Color.BLACK);
-				} else
+				} else {
 					imgMessageSettingStatus
 							.setImageResource(R.drawable.bar_gray);
-
+					imgTopStatus.setImageResource(R.drawable.bg_stop);
+					lblStatusFinalValidate.setText(getString(R.string.ng));
+					lblStatusFinalValidate.setTextColor(Color.RED);
+					lblStatusNextValidate.setText("---");
+					lblStatusNextValidate.setTextColor(Color.BLACK);
+				}
 				if (modeValidation == 0
 						&& (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS || status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
 					imgValidateStatus.setImageResource(R.drawable.bar_green);
@@ -270,6 +275,8 @@ public class TopScreenActivity extends Activity {
 				imgMessageSettingStatus.setImageResource(R.drawable.bar_gray);
 				imgTopStatus.setImageResource(R.drawable.bg_stop);
 				imgValidateStatus.setImageResource(R.drawable.bar_gray);
+				lblStatusFinalValidate.setText(getString(R.string.ng));
+				lblStatusFinalValidate.setTextColor(Color.RED);
 			}
 		} else
 			imgMessageStatus.setImageResource(R.drawable.bar_gray);

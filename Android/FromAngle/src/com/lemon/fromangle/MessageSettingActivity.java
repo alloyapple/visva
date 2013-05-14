@@ -73,6 +73,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	public static final int STATUS_EXPIRED = 1;
 	public static final int STATUS_NOT_EXPIRED = 0;
 	private int currentTab = 1;
+	private boolean isStart = false;
 	public Handler mTransactionHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			Log.i(TAG, "Transaction complete");
@@ -223,6 +224,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	}
 
 	public void stop() {
+		isStart = false;
 		if (!StringUtility.isEmpty(userId)) {
 			onStartSave("0");
 		}
@@ -397,7 +399,10 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						/* check response */
-						showToast("On Start");
+						if (isStart)
+							showToast("On Start Successfully");
+						else
+							showToast("On Stop Successfully");
 						checkResponseFromServer(response);
 						saveInputPref();
 					}
@@ -416,14 +421,15 @@ public class MessageSettingActivity extends PaymentAcitivty {
 						GlobalValue.PARAM_ERROR);
 				int error = Integer.parseInt(errorMsg);
 				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
-					showToast(getString(R.string.sucess));
+					// showToast(getString(R.string.sucess));
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
-					showToast(getString(R.string.change_info_sucess));
+					// showToast(getString(R.string.change_info_sucess));
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
-				} else
-					DialogUtility.alert(MessageSettingActivity.this,
-							getString(R.string.failed_to_conect_server));
+				}
+				if (!isStart) {
+					mFromAngleSharedPref.setMessageSettingStatus("");
+				}
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -434,13 +440,13 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	}
 
 	public void checkPaymentToStart() {
-//		onPaymentSuccess();
-		 if (!StringUtility.isEmpty(userId)) {
-		 Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
-		 String userId = mFromAngleSharedPref.getUserId();
-		 if (!StringUtility.isEmpty(userId))
-		 paymentService.checkPayment(userId);
-		 } else {
+		// onPaymentSuccess();
+		if (!StringUtility.isEmpty(userId)) {
+			Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
+			String userId = mFromAngleSharedPref.getUserId();
+			if (!StringUtility.isEmpty(userId))
+				paymentService.checkPayment(userId);
+		} else {
 			showToast(getString(R.string.setting_user_first));
 		}
 
@@ -616,6 +622,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	@Override
 	public void onPaymentSuccess() {
 		// TODO Auto-generated method stub
+		isStart = true;
 		onStartSave("1");
 	}
 
