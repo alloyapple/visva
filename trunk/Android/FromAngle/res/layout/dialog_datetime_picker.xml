@@ -31,7 +31,7 @@
             android:id="@+id/btnOk"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/btn_ok" />
+            android:text="@string/btn_close" />
     </LinearLayout>
 
 </LinearLayout>

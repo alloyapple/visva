@@ -25,7 +25,7 @@ public final class DialogUtility {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 		alertDialog.setTitle(context.getString(R.string.app_name));
 		alertDialog.setMessage(message);
-		alertDialog.setPositiveButton(R.string.btn_ok,
+		alertDialog.setPositiveButton(R.string.btn_close,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface arg0, int arg1) {
 					}
@@ -40,7 +40,7 @@ public final class DialogUtility {
 			builder.setTitle(title);
 		builder.setMessage(message);
 		builder.setPositiveButton(
-				mContext.getResources().getString(R.string.btn_ok),
+				mContext.getResources().getString(R.string.btn_close),
 				new OnClickListener() {
 
 					@Override
@@ -66,7 +66,7 @@ public final class DialogUtility {
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 		alertDialog.setTitle(context.getString(R.string.app_name));
 		alertDialog.setMessage(context.getString(messageId));
-		alertDialog.setPositiveButton(R.string.btn_ok,
+		alertDialog.setPositiveButton(R.string.btn_close,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface arg0, int arg1) {
 					}
@@ -148,7 +148,7 @@ public final class DialogUtility {
 			AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 			alertDialog.setTitle(R.string.app_name);
 			alertDialog.setMessage(message);
-			alertDialog.setPositiveButton(R.string.btn_ok, onOkClick);
+			alertDialog.setPositiveButton(R.string.btn_close, onOkClick);
 			alertDialog.show();
 		}
 	}

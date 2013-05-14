@@ -20,7 +20,6 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.util.Log;
 import android.widget.Toast;
 
 @SuppressLint("Wakelock")
@@ -81,8 +80,7 @@ public class MessageFollowService extends Service {
 		// Acquire the lock
 		wl.acquire();
 
-		Log.e("fadf " + isApplicationSentToBackground(this),
-				"adkjfh " + mPref.getStartService());
+		mPref.setFirstTimeSetting(false);
 		if (isApplicationSentToBackground(this))
 			mPref.setRunOnBackGround(true);
 		else
@@ -97,7 +95,6 @@ public class MessageFollowService extends Service {
 				// TODO Auto-generated method stub
 				if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
 					// Vibrate for 500 milliseconds
-					Log.e("run vibrate", "run vibrate " + mPref.getStopAlarm());
 					mPref.setRunFromActivity(false);
 					v.vibrate(1000);
 				}

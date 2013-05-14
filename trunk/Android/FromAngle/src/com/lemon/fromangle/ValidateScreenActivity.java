@@ -14,7 +14,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -120,11 +119,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		long timeOfDate = date1.getTime();
 		long totalDelayTime = timeOfDate;
 		long currenttime = System.currentTimeMillis();
-		int delayTime = (int) (totalDelayTime - currenttime);
-		int timeDelay = delayTime / 1000;
-		Log.e("delay time " + totalDelayTime + "  currentTime " + currenttime
-				+ " compare " + (totalDelayTime - currenttime), "delaytime2 "
-				+ delayTime);
+		long delayTime = totalDelayTime - currenttime;
+		int timeDelay =(int) (delayTime / 1000);
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
 				MessageFollowService.class);
 
