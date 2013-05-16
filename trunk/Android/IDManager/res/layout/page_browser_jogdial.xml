@@ -28,7 +28,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:background="@drawable/all_corner"
+            android:background="@drawable/search_form"
             android:orientation="horizontal" >
 
             <EditText
@@ -37,6 +37,7 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 android:background="@color/transparent"
                 android:singleLine="true" >
             </EditText>

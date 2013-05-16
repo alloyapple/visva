@@ -37,7 +37,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/all_corner"
+            android:background="@drawable/search_form"
             android:orientation="horizontal" >
 
             <Button
