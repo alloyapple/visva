@@ -104,8 +104,8 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.EditIdPasswordActivity2"
-            android:screenOrientation="portrait" 
-            android:windowSoftInputMode="adjustPan">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.homescreen.DragAndDropListViewDemo"
@@ -134,7 +134,8 @@
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.BrowserActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
             android:name="visvateam.outsource.idmanager.activities.BrowserJogdialActivity"
