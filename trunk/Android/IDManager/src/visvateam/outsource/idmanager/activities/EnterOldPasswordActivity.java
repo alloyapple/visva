@@ -129,9 +129,14 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 
 			/* go to HomeScreen activity */
 			if (mode == FROM_SETTING) {
+//				Intent intent = new Intent(EnterOldPasswordActivity.this,
+//						EnterOldPasswordActivity.class);
+//				intent.putExtra(KEY_MODE, FROM_ENTER_OLD_PASS);
+//				startActivity(intent);
+//				finish();
 				Intent intent = new Intent(EnterOldPasswordActivity.this,
-						EnterOldPasswordActivity.class);
-				intent.putExtra(KEY_MODE, FROM_ENTER_OLD_PASS);
+						MasterPasswordChangeActivity.class);
+				intent.putExtra(Contants.IS_CHANGE_PASSWORD, true);
 				startActivity(intent);
 				finish();
 			} else {
