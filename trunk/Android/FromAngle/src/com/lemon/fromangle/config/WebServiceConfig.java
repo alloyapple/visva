@@ -25,7 +25,6 @@ public final class WebServiceConfig {
 	public static String PROTOCOL_HTTPS = "https:";
 
 	public static String APP_DOMAIN = "http://49.212.184.41:7576/Angle/public/";
-
 	// ===================== WEB SERVICE LINK ==================//
 
 	public static String URL_LOGIN = APP_DOMAIN + "login";
@@ -38,7 +37,7 @@ public final class WebServiceConfig {
 	public static String URL_CHECK_PAYMENT = APP_DOMAIN + "check_payment";
 	public static String URL_MESSAGE_SETTING = APP_DOMAIN
 			+ "message_setting_registration";
-
+	public static String URL_CHECK_USER_EXIT=APP_DOMAIN+"check_exist_user";
 	// ===================== PARAMETER =======================//
 
 }

@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.provider.Settings.Secure;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -99,6 +100,7 @@ public class SettingActivivity extends Activity {
 	public boolean checkRing = false, checkVibrate = false;
 
 	private boolean isFirstTime = false;
+	private String device_id = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,9 @@ public class SettingActivivity extends Activity {
 
 		/* inti ui */
 		initUI();
+		device_id = Secure.getString(
+				this.getBaseContext().getContentResolver(), Secure.ANDROID_ID);
+		Log.i("Device_id", device_id);
 
 		/* check is update or register */
 		checkIsUpdateOrRegister();
@@ -166,7 +171,7 @@ public class SettingActivivity extends Activity {
 			int date = cal.get(Calendar.DAY_OF_MONTH);
 			int month = cal.get(Calendar.MONTH);
 			int year = cal.get(Calendar.YEAR);
-			String dateStr = year + "-" + (month+1) + "-" + date;
+			String dateStr = year + "-" + (month + 1) + "-" + date;
 			String timeStr = hour + ":" + min;
 			txtDateSetting.setText(dateStr);
 			txtTimeSetting.setText(timeStr);
@@ -410,8 +415,8 @@ public class SettingActivivity extends Activity {
 			params = ParameterFactory.createUpdateSettingParam(userId,
 					userName, tel, email, days, times, daysAfter);
 		} else
-			params = ParameterFactory.createRegisterSettingParam(userName, tel,
-					email, days, times, daysAfter);
+			params = ParameterFactory.createRegisterSettingParam(userName,
+					device_id, tel, email, days, times, daysAfter);
 		AsyncHttpPost postRegister = new AsyncHttpPost(SettingActivivity.this,
 				new AsyncHttpResponseProcess(SettingActivivity.this) {
 					@Override
@@ -441,7 +446,7 @@ public class SettingActivivity extends Activity {
 
 	/**
 	 * check update info
-	 * 
+	 * o
 	 * @param response
 	 */
 	private void checkInfoUserUpdate(String response) {
@@ -742,7 +747,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-					.isEmpty(txtDayAfter));
+				.isEmpty(txtDayAfter));
 	}
 
 	@Override
