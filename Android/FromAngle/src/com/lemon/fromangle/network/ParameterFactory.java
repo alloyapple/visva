@@ -16,7 +16,6 @@ public final class ParameterFactory {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("email", email));
 		parameters.add(new BasicNameValuePair("password", password));
-
 		return parameters;
 	}
 
@@ -37,10 +36,11 @@ public final class ParameterFactory {
 	}
 
 	public static List<NameValuePair> createRegisterSettingParam(
-			String useName, String tel, String email, String dateStr,
+			String useName,String device_id, String tel, String email, String dateStr,
 			String timeStr, String daysAfter) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("tel", tel));
+		parameters.add(new BasicNameValuePair("device_id", device_id));
 		parameters.add(new BasicNameValuePair("mail", email));
 		parameters.add(new BasicNameValuePair("user_name", useName));
 		parameters.add(new BasicNameValuePair("day", dateStr));
@@ -88,7 +88,11 @@ public final class ParameterFactory {
 		parameters.add(new BasicNameValuePair("status", status));
 		return parameters;
 	}
-
+	public static List<NameValuePair> checkUserExist(String device_id) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("device_id", device_id));
+		return parameters;
+	}
 	public static List<NameValuePair> createMessageSettingParams(String userId,
 			String receive1, String email1, String message1, String receive2,
 			String email2, String message2, String receive3, String email3,

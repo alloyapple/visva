@@ -1,36 +1,246 @@
 package com.lemon.fromangle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.View;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
+import com.lemon.fromangle.config.WebServiceConfig;
+import com.lemon.fromangle.network.AsyncHttpPost;
+import com.lemon.fromangle.network.AsyncHttpResponseProcess;
+import com.lemon.fromangle.network.NetworkUtility;
+import com.lemon.fromangle.network.ParameterFactory;
+import com.lemon.fromangle.network.ParserUtility;
+import com.lemon.fromangle.service.MessageFollowService;
+import com.lemon.fromangle.utility.DialogUtility;
+import com.lemon.fromangle.utility.StringUtility;
 
 public class SplashActivity extends LemonBaseActivity {
 
 	private static int TIME_SHOW_SPLASH = 3000;
 	private boolean isTouch = false;
+	private String device_id;
+	private String userName;
+	private String user_id;
+	private String mail;
+	private String tel;
+	private String date;
+	private String time;
+	private String after_date;
+	private FromAngleSharedPref pref;
+	private PendingIntent pendingIntent;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_splash);
 
-		new Handler().postDelayed(new Runnable() {
+		device_id = Secure.getString(
+				this.getBaseContext().getContentResolver(), Secure.ANDROID_ID);
+		Log.i("Device_id", device_id);
+		pref = new FromAngleSharedPref(this);
+		if ("".equals(pref.getUserId())
+				&& NetworkUtility.getInstance(this).isNetworkAvailable())
+			checkUserExist();
+		else {
+			new Handler().postDelayed(new Runnable() {
 
-			@Override
-			public void run() {
-				if (!isTouch) {
-					gotoActivity(self, TopScreenActivity.class);
-					finish();
+				@Override
+				public void run() {
+					if (!isTouch) {
+						gotoActivity(self, TopScreenActivity.class);
+						finish();
+					}
+				}
+			}, TIME_SHOW_SPLASH);
+		}
+	}
+
+	public void checkUserExist() {
+		List<NameValuePair> params = ParameterFactory.checkUserExist(device_id);
+		AsyncHttpPost postCheckUserExist = new AsyncHttpPost(this,
+				new AsyncHttpResponseProcess(this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						/* check info response from server */
+						checkInfoReponseFromServer(response);
+						gotoActivity(self, TopScreenActivity.class);
+						finish();
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		postCheckUserExist.execute(WebServiceConfig.URL_CHECK_USER_EXIT);
+	}
+
+	public void checkInfoReponseFromServer(String response) {
+		// TODO Auto-generated method stub
+		JSONObject jsonObject = null;
+		JSONObject jsonId = null;
+		String paramData = null;
+
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_REPONSE_SUCESS) {
+					paramData = ParserUtility.getStringValue(jsonObject,
+							GlobalValue.PARAM_DATA);
+					if (paramData != null) {
+						jsonId = new JSONObject(paramData);
+						user_id = ParserUtility.getStringValue(jsonId,
+								"user_id");
+						userName = ParserUtility.getStringValue(jsonId,
+								GlobalValue.PARAM_USER_NAME);
+
+						mail = ParserUtility.getStringValue(jsonId, "mail");
+						tel = ParserUtility.getStringValue(jsonId, "tel");
+						date = ParserUtility.getStringValue(jsonId, "day");
+						time = ParserUtility.getStringValue(jsonId, "time");
+						after_date = ParserUtility.getStringValue(jsonId,
+								"days_after");
+						savePreference();
+						startRunAlarmManager();
+						
+					}
+
+				} else if (error == GlobalValue.MSG_CHECK_USER_EXIST) {
+					// showToast(getString(R.string.duplicated_email));
+					Log.i("failed", "failed");
+				} else {
+					// DialogUtility.alert(this,
+					// getString(R.string.failed_to_conect_server));
 				}
 			}
-		}, TIME_SHOW_SPLASH);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			// DialogUtility.alert(this,
+			// getString(R.string.failed_to_conect_server));
+		}
+	}
+
+	public void savePreference() {
+		String[] times = time.split(":");
+		time = times[0] + ":" + times[1];
+		Log.i("date", date);
+		Log.i("time", time);
+		Log.i("user_id", user_id);
+		pref.setUserName(userName);
+		pref.setValidationDate(date);
+		pref.setFirstTimeSetting(true);
+		pref.setUserId(user_id);
+		pref.setValidationTime(time);
+		pref.setPhone(tel);
+		pref.setValidationDaysAfter(after_date);
+		pref.setEmail(mail);
+		String dateSetByUserStr = date + " " + time;
+		Date dateSetByUser = new Date();
+		pref.setTopScreenFinalValidation("----------");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			dateSetByUser = dateFormat.parse(dateSetByUserStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String timeClockStr[] = time.split(":");
+		int hour = Integer.parseInt(timeClockStr[0]);
+		int minute = Integer.parseInt(timeClockStr[1]);
+		long timeClock = hour * 3600 + minute * 60;
+		long timeCompare = dateSetByUser.getTime() + timeClock * 1000;
+		long currentTime = System.currentTimeMillis();
+		Log.e("timeCompare " + timeCompare + "  currentTime " + currentTime,
+				"he heh " + (timeCompare - currentTime));
+		if (timeCompare - currentTime > 0) {
+			pref.setTopScreenNextValidation(dateSetByUserStr);
+		} else {
+			String dateStr = date;
+
+			// Date date1 = new
+			// Date(txtDateSetting.getText().toString());
+			Date date1 = new Date();
+			int daysAfter = Integer.parseInt(after_date);
+			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				date1 = df.parse(dateStr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			Date nextValidationDate = addDaysToDate(date1, daysAfter);
+			String nextValidationDateStr;
+			nextValidationDateStr = df.format(nextValidationDate);
+
+			pref.setTopScreenNextValidation(nextValidationDateStr + " " + time);
+		}
+	}
+
+	public static Date addDaysToDate(Date input, int numberDay) {
+
+		Calendar defaulCalender = Calendar.getInstance();
+		defaulCalender.setTime(input);
+		defaulCalender.add(Calendar.DATE, numberDay);
+		Date resultdate = new Date(defaulCalender.getTimeInMillis());
+		return resultdate;
 	}
 
 	public void start(View v) {
 		isTouch = true;
 		gotoActivity(self, TopScreenActivity.class);
 		finish();
+	}
+
+	private void startRunAlarmManager() {
+		Log.e("stgart run alarm", "start alarm");
+		Date date1 = new Date();
+		String dateStr = date;
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			date1 = df.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long timeOfDate = date1.getTime();
+		String timeStr[] = time.split(":");
+		int hour = Integer.parseInt(timeStr[0]);
+		int minute = Integer.parseInt(timeStr[1]);
+		long timeOfClock = hour * 3600 + minute * 60;
+		long totalDelayTime = timeOfDate + timeOfClock * 1000;
+		long currenttime = System.currentTimeMillis();
+		int delayTime = (int) (totalDelayTime - currenttime);
+		if (delayTime > 0) {
+			int timeDelay = delayTime / 1000;
+			Log.e("delay time", "delay time " + delayTime);
+			Intent myIntent = new Intent(this, MessageFollowService.class);
+			pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(System.currentTimeMillis());
+			calendar.add(Calendar.SECOND, timeDelay);
+			alarmManager.set(AlarmManager.RTC_WAKEUP,
+					calendar.getTimeInMillis(), pendingIntent);
+		}
 	}
 }

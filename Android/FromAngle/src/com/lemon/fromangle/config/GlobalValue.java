@@ -15,6 +15,7 @@ public final class GlobalValue {
 	public static final int DIALOG_FAILED_TO_CONNECT_SERVER = 0;
 
 	public static final int MSG_REPONSE_SUCESS = 1;
+	public static final int MSG_CHECK_USER_EXIST = 0;
 	public static final int MSG_REPONSE_FAILED = 2;
 	public static final int MSG_REPONSE_OTHER = 3;
 	public static final String PARAM_USER_ID = "id";
@@ -32,5 +33,8 @@ public final class GlobalValue {
 	public static final int MSG_RESPONSE_MSG_SETTING_SUCESS = 1;
 	public static final int MSG_RESPONSE_MSG_SETTING_FAILED = 0;
 	public static final int MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS = 2;
+	
+	public static final int MSG_RESPONSE_CHECK_USER_EXIST_SUCESS = 1;
+	public static final int MSG_RESPONSE_CHECK_USER_EXIST_FAILED = 0;
 
 }
