@@ -21,7 +21,7 @@
                 android:layout_width="200dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
-                android:background="@drawable/all_corner"
+                android:background="@drawable/text_field"
                 android:gravity="center"
                 android:inputType="numberPassword" />
         </FrameLayout>
