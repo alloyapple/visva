@@ -10,6 +10,7 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
 
+@SuppressLint("SimpleDateFormat")
 public class SplashActivity extends LemonBaseActivity {
 
 	private static int TIME_SHOW_SPLASH = 3000;
@@ -121,8 +123,7 @@ public class SplashActivity extends LemonBaseActivity {
 						after_date = ParserUtility.getStringValue(jsonId,
 								"days_after");
 						savePreference();
-						startRunAlarmManager();
-						
+//						startRunAlarmManager();
 					}
 
 				} else if (error == GlobalValue.MSG_CHECK_USER_EXIST) {
@@ -140,10 +141,10 @@ public class SplashActivity extends LemonBaseActivity {
 		}
 	}
 
-	public void savePreference() {
+	private void savePreference() {
 		String[] times = time.split(":");
 		time = times[0] + ":" + times[1];
-		Log.i("date", date);
+		Log.i("date","add "+ date);
 		Log.i("time", time);
 		Log.i("user_id", user_id);
 		pref.setUserName(userName);
@@ -155,6 +156,7 @@ public class SplashActivity extends LemonBaseActivity {
 		pref.setValidationDaysAfter(after_date);
 		pref.setEmail(mail);
 		String dateSetByUserStr = date + " " + time;
+		Log.e("date by user", "date by user "+dateSetByUserStr);
 		Date dateSetByUser = new Date();
 		pref.setTopScreenFinalValidation("----------");
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -175,15 +177,12 @@ public class SplashActivity extends LemonBaseActivity {
 		if (timeCompare - currentTime > 0) {
 			pref.setTopScreenNextValidation(dateSetByUserStr);
 		} else {
-			String dateStr = date;
-
-			// Date date1 = new
-			// Date(txtDateSetting.getText().toString());
+			Log.e("date", "dateidjf "+dateSetByUserStr);
 			Date date1 = new Date();
 			int daysAfter = Integer.parseInt(after_date);
-			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			try {
-				date1 = df.parse(dateStr);
+				date1 = df.parse(dateSetByUserStr);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -192,17 +191,21 @@ public class SplashActivity extends LemonBaseActivity {
 			Date nextValidationDate = addDaysToDate(date1, daysAfter);
 			String nextValidationDateStr;
 			nextValidationDateStr = df.format(nextValidationDate);
-
-			pref.setTopScreenNextValidation(nextValidationDateStr + " " + time);
+			pref.setTopScreenNextValidation(nextValidationDateStr);
 		}
 	}
 
 	public static Date addDaysToDate(Date input, int numberDay) {
-
+		Log.e("dateintpu", "date input "+input.toLocaleString());
 		Calendar defaulCalender = Calendar.getInstance();
 		defaulCalender.setTime(input);
-		defaulCalender.add(Calendar.DATE, numberDay);
-		Date resultdate = new Date(defaulCalender.getTimeInMillis());
+		long time1 = defaulCalender.getTimeInMillis();
+		long time2 = numberDay * 60 *1000;
+		long resultTime = time1 + time2;
+		defaulCalender.add(Calendar.YEAR, 0);
+		defaulCalender.add(Calendar.MINUTE, numberDay);
+
+		Date resultdate = new Date(resultTime);
 		return resultdate;
 	}
 

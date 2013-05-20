@@ -285,7 +285,6 @@ public class SettingActivivity extends Activity {
 
 		/* check list uri of cursor */
 		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
-		uriRingtune = mListUriRingTone[0].toString();
 		String[] from = { mCursor2
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
 
@@ -343,6 +342,7 @@ public class SettingActivivity extends Activity {
 			int currentPosition = mCursor2.getPosition();
 			alarms[currentPosition] = mRingTone.getRingtoneUri(currentPosition);
 		}
+		uriRingtune = alarms[0].toString();
 		return alarms;
 	}
 
@@ -410,43 +410,59 @@ public class SettingActivivity extends Activity {
 		String times = txtTimeSetting.getText().toString();
 		String daysAfter = txtDayAfter.getText().toString();
 		String userId = mFromAngleSharedPref.getUserId();
-		List<NameValuePair> params = null;
-		if (userId != null && !StringUtility.isEmpty(userId)) {
-			params = ParameterFactory.createUpdateSettingParam(userId,
-					userName, tel, email, days, times, daysAfter);
-		} else
-			params = ParameterFactory.createRegisterSettingParam(userName,
-					device_id, tel, email, days, times, daysAfter);
-		AsyncHttpPost postRegister = new AsyncHttpPost(SettingActivivity.this,
-				new AsyncHttpResponseProcess(SettingActivivity.this) {
-					@Override
-					public void processIfResponseSuccess(String response) {
-						/* check info response from server */
-						if (StringUtility
-								.isEmpty(SettingActivivity.this.userId)) {
-							checkInfoReponseFromServer(response);
-							mFromAngleSharedPref.setFirstTimeSetting(true);
-							isFirstTime = true;
-						} else {
-							checkInfoUserUpdate(response);
-							isFirstTime = false;
-						}
-					}
 
-					@Override
-					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
-					}
-				}, params, true);
-		if (userId != null && !StringUtility.isEmpty(userId))
-			postRegister.execute(WebServiceConfig.URL_UPDATE_REGISTER_SETTING);
-		else
-			postRegister.execute(WebServiceConfig.URL_REGISTER_SETTING);
+		String toDayStr = days + " " + times;
+		Date date1 = new Date();
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			date1 = df.parse(toDayStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long toDayTime = date1.getTime();
+		long currentTime = System.currentTimeMillis();
+		if (toDayTime > currentTime) {
+			List<NameValuePair> params = null;
+			if (userId != null && !StringUtility.isEmpty(userId)) {
+				params = ParameterFactory.createUpdateSettingParam(userId,
+						userName, tel, email, days, times, daysAfter);
+			} else
+				params = ParameterFactory.createRegisterSettingParam(userName,
+						device_id, tel, email, days, times, daysAfter);
+			AsyncHttpPost postRegister = new AsyncHttpPost(
+					SettingActivivity.this, new AsyncHttpResponseProcess(
+							SettingActivivity.this) {
+						@Override
+						public void processIfResponseSuccess(String response) {
+							/* check info response from server */
+							if (StringUtility
+									.isEmpty(SettingActivivity.this.userId)) {
+								checkInfoReponseFromServer(response);
+								mFromAngleSharedPref.setFirstTimeSetting(true);
+								isFirstTime = true;
+							} else {
+								checkInfoUserUpdate(response);
+								isFirstTime = false;
+							}
+						}
+
+						@Override
+						public void processIfResponseFail() {
+							Log.e("failed ", "failed");
+						}
+					}, params, true);
+			if (userId != null && !StringUtility.isEmpty(userId))
+				postRegister
+						.execute(WebServiceConfig.URL_UPDATE_REGISTER_SETTING);
+			else
+				postRegister.execute(WebServiceConfig.URL_REGISTER_SETTING);
+		} else
+			showToast("Time set up is less than current time.Check it again");
 	}
 
 	/**
-	 * check update info
-	 * o
+	 * check update info o
+	 * 
 	 * @param response
 	 */
 	private void checkInfoUserUpdate(String response) {
@@ -581,7 +597,7 @@ public class SettingActivivity extends Activity {
 		String dateSetByUserStr = txtDateSetting.getText().toString() + " "
 				+ txtTimeSetting.getText().toString();
 		Date dateSetByUser = new Date();
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 		try {
 			dateSetByUser = dateFormat.parse(dateSetByUserStr);
 		} catch (ParseException e) {
@@ -604,7 +620,7 @@ public class SettingActivivity extends Activity {
 			// Date date1 = new Date(txtDateSetting.getText().toString());
 			Date date1 = new Date();
 			int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
-			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			final SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 			try {
 				date1 = df.parse(dateStr);
 			} catch (ParseException e) {
@@ -612,13 +628,13 @@ public class SettingActivivity extends Activity {
 				e.printStackTrace();
 			}
 
-			Date nextValidationDate = addDaysToDate(date1, daysAfter);
+			Date nextValidationDate = addDaysToDate(date1, 0);
 			String nextValidationDateStr;
 			nextValidationDateStr = df.format(nextValidationDate);
 
 			mFromAngleSharedPref
 					.setTopScreenNextValidation(nextValidationDateStr + " "
-							+ txtTimeSetting.getText().toString());
+							+  txtTimeSetting.getText().toString());
 		}
 	}
 
@@ -630,6 +646,20 @@ public class SettingActivivity extends Activity {
 		Date resultdate = new Date(defaulCalender.getTimeInMillis());
 		return resultdate;
 	}
+
+	// public static Date addDaysToDate(Date input, int numberDay) {
+	// Log.e("dateintpu", "date input "+input.toLocaleString());
+	// Calendar defaulCalender = Calendar.getInstance();
+	// defaulCalender.setTime(input);
+	// long time1 = defaulCalender.getTimeInMillis();
+	// long time2 = numberDay * 60 *1000;
+	// long resultTime = time1 + time2;
+	//
+	// Date resultdate = new Date(resultTime);
+	// Log.e("time 1 "+time1, "tiome 2" +time2 +"   result"+resultTime +
+	// "   date "+resultdate);
+	// return resultdate;
+	// }
 
 	OnTouchListener showTimePicker = new OnTouchListener() {
 
@@ -747,7 +777,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-				.isEmpty(txtDayAfter));
+					.isEmpty(txtDayAfter));
 	}
 
 	@Override

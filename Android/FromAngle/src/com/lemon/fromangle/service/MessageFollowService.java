@@ -136,7 +136,8 @@ public class MessageFollowService extends Service {
 		if (!mPref.getStartService()) {
 			ringtone = RingtoneManager
 					.getRingtone(getApplicationContext(), uri);
-			ringtone.play();
+			if (ringtone != null)
+				ringtone.play();
 			mPref.setStartService(true);
 
 			mPref.setRunFromActivity(false);

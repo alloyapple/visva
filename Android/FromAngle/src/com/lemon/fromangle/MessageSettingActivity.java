@@ -1,5 +1,8 @@
 package com.lemon.fromangle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -199,9 +202,23 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 			@Override
 			public void onClick(View v) {
-
-				checkStart();
-
+				String dateSetByUserStr = mFromAngleSharedPref
+						.getTopScreenNextValidation();
+				Date dateSetByUser = new Date();
+				final SimpleDateFormat dateFormat = new SimpleDateFormat(
+						"yyyy-mm-dd");
+				try {
+					dateSetByUser = dateFormat.parse(dateSetByUserStr);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				long dateTimeByUser = dateSetByUser.getTime();
+				long currentTime = System.currentTimeMillis();
+				if (dateTimeByUser > currentTime)
+					checkStart();
+				else
+					showToast("Time set up is less than current time.Check it again");
 			}
 		});
 		btnLeft = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnLeft);
@@ -231,21 +248,18 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	}
 
 	private void setActiveButton(int index) {
-		btn1.setBackgroundColor(this.getResources().getColor(R.color.blue));
-		btn2.setBackgroundColor(this.getResources().getColor(R.color.blue));
-		btn3.setBackgroundColor(this.getResources().getColor(R.color.blue));
+		btn1.setBackgroundResource(R.drawable.btn_friend_deactive);
+		btn2.setBackgroundResource(R.drawable.btn_friend_deactive);
+		btn3.setBackgroundResource(R.drawable.btn_friend_deactive);
 		switch (index) {
 		case 1:
-			btn1.setBackgroundColor(this.getResources().getColor(
-					R.color.blue_light));
+			btn1.setBackgroundResource(R.drawable.btn_friend_tab_active);
 			break;
 		case 2:
-			btn2.setBackgroundColor(this.getResources().getColor(
-					R.color.blue_light));
+			btn2.setBackgroundResource(R.drawable.btn_friend_tab_active);
 			break;
 		case 3:
-			btn3.setBackgroundColor(this.getResources().getColor(
-					R.color.blue_light));
+			btn3.setBackgroundResource(R.drawable.btn_friend_tab_active);
 			break;
 
 		default:
@@ -385,9 +399,6 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		String message1 = txtMessage1.getText().toString();
 		String message2 = txtMessage2.getText().toString();
 		String message3 = txtMessage3.getText().toString();
-		// String tel1 = txtTel1.getText().toString();
-		// String tel2 = txtTel2.getText().toString();
-		// String tel3 = txtTel3.getText().toString();
 
 		List<NameValuePair> params = ParameterFactory
 				.createMessageSettingParams(userId, name1, email1, message1,
@@ -446,7 +457,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			String userId = mFromAngleSharedPref.getUserId();
 			if (!StringUtility.isEmpty(userId))
 				onPaymentSuccess();
-//				paymentService.checkPayment(userId);
+			// paymentService.checkPayment(userId);
 		} else {
 			showToast(getString(R.string.setting_user_first));
 		}
@@ -648,7 +659,8 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 	@Override
 	protected void onDestroy() {
-		BillingHelper.stopService();
+//		if(BillingHelper!= null)
+		BillingHelper.stopService(this);
 		super.onDestroy();
 	}
 
