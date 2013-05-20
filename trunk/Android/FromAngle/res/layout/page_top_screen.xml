@@ -8,18 +8,16 @@
         android:layout_width="fill_parent"
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/bg_top_nav" >
+        android:background="@drawable/bg_setting_screen" >
 
         <com.lemon.fromangle.utility.AutoBGButton
             android:id="@+id/btnHome"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/bg_action"
-            android:text="@string/help"
-            android:textColor="@color/blue"
+            android:layout_margin="5dp"
+            android:background="@drawable/btn_link_to_web"
             android:textStyle="bold" />
     </RelativeLayout>
 
@@ -32,11 +30,11 @@
 
         <LinearLayout
             android:id="@+id/layoutTopStatus"
-            android:layout_width="350dp"
+            android:layout_width="180dp"
             android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_cloud"
+            android:layout_marginTop="90dp"
             android:gravity="center_horizontal" >
 
             <ImageView
@@ -50,23 +48,29 @@
         <LinearLayout
             android:id="@+id/layoutLastValidationDate"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/layoutTopStatus"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal" >
 
             <TextView
-                android:layout_width="70dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/final_validation" />
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="@string/final_validation"
+                android:textColor="@color/white" />
 
-            <EditText
+            <TextView
                 android:id="@+id/txtFinalValidation"
-                android:layout_width="180dp"
+                android:layout_width="150dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:focusable="false" />
+                android:focusable="false"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/lblStatusFinalValidate"
@@ -76,6 +80,7 @@
                 android:enabled="false"
                 android:gravity="center"
                 android:text="---"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -83,22 +88,28 @@
         <LinearLayout
             android:id="@+id/layoutNextValidationDate"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/layoutLastValidationDate"
             android:orientation="horizontal" >
 
             <TextView
-                android:layout_width="70dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/next_validation" />
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="@string/next_validation"
+                android:textColor="@color/white" />
 
-            <EditText
+            <TextView
                 android:id="@+id/txtNextValidation"
-                android:layout_width="180dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:focusable="false" />
+                android:focusable="false"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/lblStatusNextValidate"
@@ -107,6 +118,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="---"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

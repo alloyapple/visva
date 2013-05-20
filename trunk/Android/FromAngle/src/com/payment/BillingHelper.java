@@ -260,8 +260,8 @@ public class BillingHelper {
 		}
 	}
 	
-	public static void stopService(){
-		mContext.stopService(new Intent(mContext, BillingService.class));
+	public static void stopService(Context context){
+		mContext.stopService(new Intent(context, BillingService.class));
 		mService = null;
 		mContext = null;
 		mCompletedHandler = null;

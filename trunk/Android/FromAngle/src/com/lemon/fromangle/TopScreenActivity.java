@@ -31,10 +31,10 @@ public class TopScreenActivity extends Activity {
 	private LinearLayout layoutTopStatus;
 	private ImageView imgTopStatus;
 	private LinearLayout layoutLastValidationDate;
-	private EditText txtFinalValidation;
+	private TextView txtFinalValidation;
 	private TextView lblStatusFinalValidate;
 	private LinearLayout layoutNextValidationDate;
-	private EditText txtNextValidation;
+	private TextView txtNextValidation;
 	private TextView lblStatusNextValidate;
 	private LinearLayout layoutSetting;
 	private ImageView imgMessageStatus;
@@ -70,10 +70,10 @@ public class TopScreenActivity extends Activity {
 		layoutTopStatus = (LinearLayout) findViewById(R.id.layoutTopStatus);
 		imgTopStatus = (ImageView) findViewById(R.id.imgTopStatus);
 		layoutLastValidationDate = (LinearLayout) findViewById(R.id.layoutLastValidationDate);
-		txtFinalValidation = (EditText) findViewById(R.id.txtFinalValidation);
+		txtFinalValidation = (TextView) findViewById(R.id.txtFinalValidation);
 		lblStatusFinalValidate = (TextView) findViewById(R.id.lblStatusFinalValidate);
 		layoutNextValidationDate = (LinearLayout) findViewById(R.id.layoutNextValidationDate);
-		txtNextValidation = (EditText) findViewById(R.id.txtNextValidation);
+		txtNextValidation = (TextView) findViewById(R.id.txtNextValidation);
 		lblStatusNextValidate = (TextView) findViewById(R.id.lblStatusNextValidate);
 		layoutSetting = (LinearLayout) findViewById(R.id.layoutSetting);
 		imgMessageStatus = (ImageView) findViewById(R.id.imgMessageStatus);

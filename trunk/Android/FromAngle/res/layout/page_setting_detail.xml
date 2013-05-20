@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_setting_message"
+    android:background="@drawable/bg_setting_screen"
     android:orientation="vertical" >
 
     <include layout="@layout/layout_header_message_setting" />
@@ -30,7 +30,7 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="3dp"
                     android:layout_toLeftOf="@+id/btn2"
-                    android:background="@color/blue"
+                    android:background="@drawable/btn_friend_deactive"
                     android:text="1" />
 
                 <Button
@@ -39,7 +39,7 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="3dp"
                     android:layout_toLeftOf="@+id/btn3"
-                    android:background="@color/blue"
+                    android:background="@drawable/btn_friend_deactive"
                     android:text="2" />
 
                 <Button
@@ -47,13 +47,14 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
-                    android:background="@color/blue"
+                    android:background="@drawable/btn_friend_deactive"
                     android:text="3" />
             </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/layoutInfo1"
                 style="@style/layoutfullwidth_vertical"
+                android:background="@drawable/bg_friend_text_box"
                 android:layout_margin="10dp" >
 
                 <LinearLayout style="@style/layoutfullwidth_horizal" >
@@ -128,6 +129,7 @@
                 android:id="@+id/layoutInfo2"
                 style="@style/layoutfullwidth_vertical"
                 android:layout_margin="10dp"
+                android:background="@drawable/bg_friend_text_box"
                 android:visibility="gone" >
 
                 <LinearLayout style="@style/layoutfullwidth_horizal" >
@@ -196,6 +198,7 @@
                 android:id="@+id/layoutInfo3"
                 style="@style/layoutfullwidth_vertical"
                 android:layout_margin="10dp"
+                android:background="@drawable/bg_friend_text_box"
                 android:visibility="gone" >
 
                 <LinearLayout style="@style/layoutfullwidth_horizal" >

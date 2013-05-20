@@ -51,7 +51,6 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		}
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
 			shiftValueForValidation();
-			startRunAlarmManager();
 		}
 	}
 
@@ -77,16 +76,30 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		mFromAngleSharedPref.setTopScreenNextValidation(nextValidationDateStr);
 	}
 
-	public static Date addDaysToDate(Date input, int numberDay) {
+//	public static Date addDaysToDate(Date input, int numberDay) {
+//		Log.e("date to string", "date to string "+input.toLocaleString());
+//		Calendar defaulCalender = Calendar.getInstance();
+//		defaulCalender.setTime(input);
+//		defaulCalender.add(Calendar.MINUTE, numberDay);
+//		Date resultdate = new Date(defaulCalender.getTimeInMillis());
+//		return resultdate;
+//	}
 
+	public static Date addDaysToDate(Date input, int numberDay) {
+		Log.e("dateintpu", "date input "+input.toLocaleString());
 		Calendar defaulCalender = Calendar.getInstance();
 		defaulCalender.setTime(input);
-		defaulCalender.add(Calendar.DATE, numberDay);
-		Date resultdate = new Date(defaulCalender.getTimeInMillis());
+		long time1 = defaulCalender.getTimeInMillis();
+		long time2 = numberDay * 60 *1000;
+		long resultTime = time1 + time2;
+		defaulCalender.add(Calendar.YEAR, 0);
+		defaulCalender.add(Calendar.MINUTE, numberDay);
+
+		Date resultdate = new Date(resultTime);
 		return resultdate;
 	}
-
 	public void onOKClick(View v) {
+		startRunAlarmManager();
 		mFromAngleSharedPref.setStopAlarm(true);
 		mFromAngleSharedPref.setValidationMode(0);
 		if (mFromAngleSharedPref.getRunOnBackGround()
@@ -125,8 +138,10 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 	public void onCancelClick(View v) {
 		mFromAngleSharedPref.setStopAlarm(true);
-		if (mFromAngleSharedPref.getValidationMode() < 1)
+		if (mFromAngleSharedPref.getValidationMode() < 1){
 			mFromAngleSharedPref.setValidationMode(1);
+			startRunAlarmManager();
+		}
 		else
 			mFromAngleSharedPref.setValidationMode(2);
 		if (mFromAngleSharedPref.getRunOnBackGround()
@@ -142,22 +157,44 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			finish();
 	}
 
-	private void startRunAlarmManager() {
-
-		Date date1 = new Date();
-		String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		try {
-			date1 = df.parse(dateStr);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		long timeOfDate = date1.getTime();
-		long totalDelayTime = timeOfDate;
-		long currenttime = System.currentTimeMillis();
-		long delayTime = totalDelayTime - currenttime;
-		int timeDelay = (int) (delayTime / 1000);
+//	private void startRunAlarmManager() {
+//
+//		Date date1 = new Date();
+//		String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
+//		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+//		try {
+//			date1 = df.parse(dateStr);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		long timeOfDate = date1.getTime();
+//		long totalDelayTime = timeOfDate;
+//		long currenttime = System.currentTimeMillis();
+//		long delayTime = totalDelayTime - currenttime;
+//		int timeDelay = (int) (delayTime / 1000);
+//		Intent myIntent = new Intent(ValidateScreenActivity.this,
+//				MessageFollowService.class);
+//
+//		pendingIntent = PendingIntent.getService(ValidateScreenActivity.this,
+//				0, myIntent, 0);
+//
+//		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//		Calendar calendar = Calendar.getInstance();
+//
+//		calendar.setTimeInMillis(System.currentTimeMillis());
+//
+//		calendar.add(Calendar.SECOND, timeDelay);
+//
+//		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//				pendingIntent);
+//
+//	}
+	
+	private void startRunAlarmManager(){
+		int daysAfter = Integer.parseInt(mFromAngleSharedPref.getValidationDaysAfter());
+		int delayTime = daysAfter * 60 ;
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
 				MessageFollowService.class);
 
@@ -170,10 +207,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 		calendar.setTimeInMillis(System.currentTimeMillis());
 
-		calendar.add(Calendar.SECOND, timeDelay);
+		calendar.add(Calendar.SECOND, delayTime);
 
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				pendingIntent);
-
 	}
 }
