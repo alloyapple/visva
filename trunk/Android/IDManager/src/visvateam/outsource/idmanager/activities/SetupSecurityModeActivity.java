@@ -32,7 +32,7 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		setContentView(R.layout.sercurity_mode);
 		mWheelViewModeSecurity = (WheelView) findViewById(R.id.id_wheelview_security_mode);
 		mWheelViewModeSecurity.setVisibility(View.VISIBLE);
-		modes[0] = getResources().getString(R.string.text_off);
+		modes[0] = getResources().getString(R.string.text_security_off);
 		for (int i = 1; i < modes.length; i++) {
 			modes[i] = modes[i] + getResources().getString(R.string.text_min);
 		}
