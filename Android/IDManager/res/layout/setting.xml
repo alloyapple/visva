@@ -159,10 +159,10 @@
                         android:layout_marginRight="20dp" >
 
                         <ImageView
+                            android:id="@+id/img_gg_drive_logo"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/logo_google" >
+                            android:layout_gravity="center" >
                         </ImageView>
 
                         <TextView
@@ -197,10 +197,10 @@
                         android:layout_marginRight="20dp" >
 
                         <ImageView
+                            android:id="@+id/img_dropbox_logo"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/logo_dropbox" >
+                            android:layout_gravity="center" >
                         </ImageView>
 
                         <TextView

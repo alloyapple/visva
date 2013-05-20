@@ -36,6 +36,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -67,8 +68,8 @@ public class SettingActivity extends BaseActivity {
 	// Note that this is a really insecure way to do this, and you shouldn't
 	// ship code which contains your key & secret in such an obvious way.
 	// Obfuscation is good.
-//	final static private String APP_KEY = "667sgm6m2mdu384";
-//	final static private String APP_SECRET = "0ozy2rvw6ktyrnt";
+	// final static private String APP_KEY = "667sgm6m2mdu384";
+	// final static private String APP_SECRET = "0ozy2rvw6ktyrnt";
 
 	// If you'd like to change the access type to the full Dropbox instead of
 	// an app folder, change this value.
@@ -92,6 +93,11 @@ public class SettingActivity extends BaseActivity {
 	private int sizeOfGList;
 	private int sizeOfEList;
 	private int sizeOfPList;
+	private String mGGAccountName;
+
+	private ImageView mImgGGDrive;
+	private ImageView mImgDropbox;
+
 	// private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private static final String TAG = "BillingService";
 	public Handler mTransactionHandler = new Handler() {
@@ -126,6 +132,9 @@ public class SettingActivity extends BaseActivity {
 		initAdmod();
 		startService(new Intent(this, BillingService.class));
 		BillingHelper.setCompletedHandler(mTransactionHandler);
+
+		mImgDropbox = (ImageView) findViewById(R.id.img_dropbox_logo);
+		mImgGGDrive = (ImageView) findViewById(R.id.img_gg_drive_logo);
 
 	}
 
@@ -162,11 +171,13 @@ public class SettingActivity extends BaseActivity {
 		startActivity(intentChangePW);
 		finish();
 	}
+
 	public static void startActivity(Activity activity, int valueExtra) {
 		Intent i = new Intent(activity, SettingActivity.class);
 		i.putExtra("modeBundleSetting", valueExtra);
 		activity.startActivity(i);
 	}
+
 	public void onSecurityMode(View v) {
 		SetupSecurityModeActivity.startActivity(this);
 	}
@@ -260,6 +271,7 @@ public class SettingActivity extends BaseActivity {
 	 * @param v
 	 */
 
+	@SuppressWarnings("deprecation")
 	public void onReadFileviaCloud(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			if (mApi.getSession().isLinked()) {
@@ -277,6 +289,7 @@ public class SettingActivity extends BaseActivity {
 	 * 
 	 * @param v
 	 */
+	@SuppressWarnings("deprecation")
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
@@ -884,7 +897,8 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	private AndroidAuthSession buildSession() {
-		AppKeyPair appKeyPair = new AppKeyPair(Contants.APP_KEY, Contants.APP_SECRET);
+		AppKeyPair appKeyPair = new AppKeyPair(Contants.APP_KEY,
+				Contants.APP_SECRET);
 		AndroidAuthSession session;
 
 		String[] stored = getKeys();
@@ -928,6 +942,17 @@ public class SettingActivity extends BaseActivity {
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
+		mGGAccountName = mPref.getGoogleAccNameSession();
+		if (mApi.getSession().isLinked()) {
+			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox_selected);
+			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
+		} else if (!"".equals(mGGAccountName)) {
+			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox);
+			mImgGGDrive.setBackgroundResource(R.drawable.logo_google_drive_selected);
+		} else {
+			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox);
+			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
+		}
 
 	}
 
@@ -966,7 +991,7 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	private Handler mHandler = new Handler() {
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "deprecation" })
 		public void handleMessage(android.os.Message msg) {
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
@@ -1008,6 +1033,5 @@ public class SettingActivity extends BaseActivity {
 		BillingHelper.stopService();
 		super.onDestroy();
 	}
-	
 
 }
