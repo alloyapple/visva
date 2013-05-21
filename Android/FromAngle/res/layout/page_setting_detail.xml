@@ -54,8 +54,9 @@
             <LinearLayout
                 android:id="@+id/layoutInfo1"
                 style="@style/layoutfullwidth_vertical"
-                android:background="@drawable/bg_friend_text_box"
-                android:layout_margin="10dp" >
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_message_box"
+                android:padding="5dp" >
 
                 <LinearLayout style="@style/layoutfullwidth_horizal" >
 
@@ -129,7 +130,7 @@
                 android:id="@+id/layoutInfo2"
                 style="@style/layoutfullwidth_vertical"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_friend_text_box"
+                android:background="@drawable/bg_message_box"
                 android:visibility="gone" >
 
                 <LinearLayout style="@style/layoutfullwidth_horizal" >
@@ -198,7 +199,7 @@
                 android:id="@+id/layoutInfo3"
                 style="@style/layoutfullwidth_vertical"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_friend_text_box"
+                android:background="@drawable/bg_message_box"
                 android:visibility="gone" >
 
                 <LinearLayout style="@style/layoutfullwidth_horizal" >
