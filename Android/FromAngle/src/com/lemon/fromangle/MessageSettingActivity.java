@@ -40,7 +40,7 @@ import com.lemon.fromangle.utility.TimeUtility;
 import com.payment.BillingHelper;
 import com.payment.BillingService;
 
-@SuppressLint("HandlerLeak")
+@SuppressLint({ "HandlerLeak", "SimpleDateFormat" })
 public class MessageSettingActivity extends PaymentAcitivty {
 
 	private Button btn1;
@@ -200,13 +200,15 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		});
 		btnStart.setOnClickListener(new OnClickListener() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View v) {
 				String dateSetByUserStr = mFromAngleSharedPref
 						.getTopScreenNextValidation();
+				Log.e("iahdfj", "asdf "+dateSetByUserStr);
 				Date dateSetByUser = new Date();
 				final SimpleDateFormat dateFormat = new SimpleDateFormat(
-						"yyyy-mm-dd");
+						"yyyy-MM-dd HH:mm");
 				try {
 					dateSetByUser = dateFormat.parse(dateSetByUserStr);
 					
@@ -215,7 +217,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					e.printStackTrace();
 				}
 				long dateTimeByUser = dateSetByUser.getTime();
-				Log.i("dateimeByUser", dateTimeByUser+"");
+				Log.i("dateimeByUser "+dateSetByUser.toLocaleString(), "dteadjf "+dateTimeByUser+"");
 				long currentTime = System.currentTimeMillis();
 				if (dateTimeByUser > currentTime)
 					checkStart();

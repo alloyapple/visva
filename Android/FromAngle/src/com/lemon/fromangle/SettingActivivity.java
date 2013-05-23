@@ -239,13 +239,14 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				if (chkVibrate.isChecked()&&checkVibrate) {
-					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-					// Vibrate for 500 milliseconds
-					v.vibrate(1000);
+				if (chkVibrate.isChecked() && checkVibrate) {
+					// Vibrator v = (Vibrator)
+					// getSystemService(Context.VIBRATOR_SERVICE);
+					// // Vibrate for 500 milliseconds
+					// v.vibrate(1000);
 				}
 				checkVibrate = true;
-				
+
 				return;
 			}
 		});
@@ -690,17 +691,17 @@ public class SettingActivivity extends Activity {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//				String timeStr = mFromAngleSharedPref.getValidationTime();
+				// String timeStr = mFromAngleSharedPref.getValidationTime();
 				int hour, min;
-//				if (StringUtility.isEmpty(timeStr)) {
-					Calendar cal = Calendar.getInstance();
-					hour = cal.get(Calendar.HOUR_OF_DAY);
-					min = cal.get(Calendar.MINUTE);
-//				} else {
-//					String timeArrStr[] = timeStr.split(":");
-//					hour = Integer.parseInt(timeArrStr[0]);
-//					min = Integer.parseInt(timeArrStr[1]);
-//				}
+				// if (StringUtility.isEmpty(timeStr)) {
+				Calendar cal = Calendar.getInstance();
+				hour = cal.get(Calendar.HOUR_OF_DAY);
+				min = cal.get(Calendar.MINUTE);
+				// } else {
+				// String timeArrStr[] = timeStr.split(":");
+				// hour = Integer.parseInt(timeArrStr[0]);
+				// min = Integer.parseInt(timeArrStr[1]);
+				// }
 
 				timePicker = new TimePickerDialog(SettingActivivity.this,
 						new OnTimeSetListener() {
@@ -708,8 +709,8 @@ public class SettingActivivity extends Activity {
 							@Override
 							public void onTimeSet(TimePicker view,
 									int hourOfDay, int minute) {
-								String hourStr = hourOfDay < 10 ? "0"+hourOfDay
-									 : hourOfDay + "";
+								String hourStr = hourOfDay < 10 ? "0"
+										+ hourOfDay : hourOfDay + "";
 								String minuteStr = minute < 10 ? "0" + minute
 										: minute + "";
 								txtTimeSetting.setText(hourStr + " : "
@@ -802,7 +803,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-				.isEmpty(txtDayAfter));
+					.isEmpty(txtDayAfter));
 	}
 
 	@Override

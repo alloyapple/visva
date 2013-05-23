@@ -63,6 +63,9 @@ public final class R {
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
+ Default screen margins, per the Android Design guidelines. 
+ Default screen margins, per the Android Design guidelines. 
+ Default screen margins, per the Android Design guidelines. 
          */
         public static final int activity_horizontal_margin=0x7f060000;
         public static final int activity_vertical_margin=0x7f060001;
@@ -76,35 +79,37 @@ public final class R {
         public static final int bg_black_transparent=0x7f020005;
         public static final int bg_cloud=0x7f020006;
         public static final int bg_friend_text_box=0x7f020007;
-        public static final int bg_safety=0x7f020008;
-        public static final int bg_setting_message=0x7f020009;
-        public static final int bg_setting_screen=0x7f02000a;
-        public static final int bg_splash=0x7f02000b;
-        public static final int bg_start=0x7f02000c;
-        public static final int bg_stop=0x7f02000d;
-        public static final int bg_top_nav=0x7f02000e;
-        public static final int bg_top_screen=0x7f02000f;
-        public static final int bg_validation=0x7f020010;
-        public static final int bg_working=0x7f020011;
-        public static final int btn_close=0x7f020012;
-        public static final int btn_friend_deactive=0x7f020013;
-        public static final int btn_friend_tab_active=0x7f020014;
-        public static final int btn_home=0x7f020015;
-        public static final int btn_link_to_web=0x7f020016;
-        public static final int btn_ok=0x7f020017;
-        public static final int btn_return=0x7f020018;
-        public static final int btn_save=0x7f020019;
-        public static final int btn_start=0x7f02001a;
-        public static final int btn_stop=0x7f02001b;
-        public static final int ic_back=0x7f02001c;
-        public static final int ic_home=0x7f02001d;
-        public static final int ic_home2=0x7f02001e;
-        public static final int ic_launcher=0x7f02001f;
-        public static final int ic_message=0x7f020020;
-        public static final int ic_notify=0x7f020021;
-        public static final int ic_setting=0x7f020022;
-        public static final int ic_share=0x7f020023;
-        public static final int icon=0x7f020024;
+        public static final int bg_message_box=0x7f020008;
+        public static final int bg_safety=0x7f020009;
+        public static final int bg_setting_message=0x7f02000a;
+        public static final int bg_setting_screen=0x7f02000b;
+        public static final int bg_splash=0x7f02000c;
+        public static final int bg_start=0x7f02000d;
+        public static final int bg_stop=0x7f02000e;
+        public static final int bg_top_nav=0x7f02000f;
+        public static final int bg_top_screen=0x7f020010;
+        public static final int bg_validation=0x7f020011;
+        public static final int bg_working=0x7f020012;
+        public static final int bound=0x7f020013;
+        public static final int btn_close=0x7f020014;
+        public static final int btn_friend_deactive=0x7f020015;
+        public static final int btn_friend_tab_active=0x7f020016;
+        public static final int btn_home=0x7f020017;
+        public static final int btn_link_to_web=0x7f020018;
+        public static final int btn_ok=0x7f020019;
+        public static final int btn_return=0x7f02001a;
+        public static final int btn_save=0x7f02001b;
+        public static final int btn_start=0x7f02001c;
+        public static final int btn_stop=0x7f02001d;
+        public static final int ic_back=0x7f02001e;
+        public static final int ic_home=0x7f02001f;
+        public static final int ic_home2=0x7f020020;
+        public static final int ic_launcher=0x7f020021;
+        public static final int ic_message=0x7f020022;
+        public static final int ic_notify=0x7f020023;
+        public static final int ic_setting=0x7f020024;
+        public static final int ic_share=0x7f020025;
+        public static final int icon=0x7f020026;
     }
     public static final class id {
         public static final int btn1=0x7f090016;
@@ -184,11 +189,12 @@ public final class R {
         public static final int page_setting_detail=0x7f030007;
         public static final int page_splash=0x7f030008;
         public static final int page_top_screen=0x7f030009;
-        public static final int page_validate=0x7f03000a;
+        public static final int page_top_screen_2=0x7f03000a;
+        public static final int page_validate=0x7f03000b;
     }
     public static final class string {
         public static final int action_settings=0x7f070001;
-        public static final int address=0x7f070028;
+        public static final int address=0x7f070029;
         public static final int alarm_setting=0x7f070020;
         public static final int alarm_setting2=0x7f070021;
         public static final int app_name=0x7f070000;
@@ -202,6 +208,8 @@ public final class R {
         public static final int btn_edit=0x7f07000f;
         public static final int btn_filter=0x7f070009;
         /**  Button 
+ Button 
+ Button 
          */
         public static final int btn_login=0x7f070004;
         public static final int btn_next=0x7f070012;
@@ -213,65 +221,70 @@ public final class R {
         public static final int btn_skip=0x7f070013;
         public static final int btn_submit=0x7f070006;
         public static final int btn_yes=0x7f07000c;
-        public static final int change_info_sucess=0x7f070039;
+        public static final int change_info_sucess=0x7f07003a;
         public static final int days_after=0x7f07001e;
-        public static final int duplicated_email=0x7f070037;
-        public static final int email_not_validate=0x7f070038;
-        public static final int error_email=0x7f070044;
-        public static final int error_message=0x7f070046;
-        public static final int error_name=0x7f070045;
-        public static final int error_phone=0x7f070047;
-        public static final int failed_to_conect_server=0x7f070036;
-        public static final int final_validation=0x7f07003e;
+        public static final int duplicated_email=0x7f070038;
+        public static final int email_not_validate=0x7f070039;
+        public static final int error_email=0x7f070045;
+        public static final int error_message=0x7f070047;
+        public static final int error_name=0x7f070046;
+        public static final int error_phone=0x7f070048;
+        public static final int failed_to_conect_server=0x7f070037;
+        public static final int final_validation=0x7f07003f;
         public static final int hello_world=0x7f070002;
-        public static final int help=0x7f070032;
-        public static final int hint_date=0x7f07004f;
-        public static final int hint_time=0x7f070050;
-        public static final int incorrect_email_address=0x7f070035;
-        public static final int mail=0x7f070027;
+        public static final int help=0x7f070033;
+        public static final int hint_date=0x7f070050;
+        public static final int hint_time=0x7f070051;
+        public static final int incorrect_email_address=0x7f070036;
+        public static final int mail=0x7f070028;
         public static final int mail_address=0x7f07001b;
-        public static final int message=0x7f070029;
-        public static final int message1=0x7f070030;
-        public static final int message2=0x7f070031;
-        public static final int message_paid_expired=0x7f070041;
-        public static final int message_paid_not_paid=0x7f070042;
+        public static final int message=0x7f07002a;
+        public static final int message1=0x7f070031;
+        public static final int message2=0x7f070032;
+        public static final int message_paid_expired=0x7f070042;
+        public static final int message_paid_not_paid=0x7f070043;
         public static final int messsage_setting=0x7f070025;
-        public static final int mr_ms_name=0x7f070049;
-        public static final int mrms=0x7f07002b;
-        public static final int msg_stop_service=0x7f070040;
-        public static final int name_validate=0x7f070048;
-        public static final int network_unvailable=0x7f07004a;
-        public static final int next_validation=0x7f07003f;
-        public static final int ng=0x7f07003d;
-        public static final int ok=0x7f07003c;
+        public static final int mr_ms_name=0x7f07004a;
+        public static final int mrms=0x7f07002c;
+        public static final int msg_stop_service=0x7f070041;
+        public static final int name_validate=0x7f070049;
+        public static final int network_unvailable=0x7f07004b;
+        public static final int next_validation=0x7f070040;
+        public static final int ng=0x7f07003e;
+        public static final int ok=0x7f07003d;
         public static final int own_name=0x7f07001a;
-        public static final int please_check_the_notice=0x7f07002d;
-        public static final int please_reply_by_press_close=0x7f07002f;
-        public static final int please_reply_by_press_ok=0x7f07002e;
-        public static final int plz_input_required_field=0x7f070034;
-        public static final int safety_validation=0x7f07002c;
+        public static final int own_name_message=0x7f070027;
+        public static final int please_check_the_notice=0x7f07002e;
+        public static final int please_reply_by_press_close=0x7f070030;
+        public static final int please_reply_by_press_ok=0x7f07002f;
+        public static final int plz_input_required_field=0x7f070035;
+        public static final int safety_validation=0x7f07002d;
         public static final int safety_was_verified=0x7f07001f;
-        public static final int safetyvalidation3=0x7f070033;
+        public static final int safetyvalidation3=0x7f070034;
         public static final int send_details=0x7f070026;
-        public static final int service3=0x7f07002a;
-        public static final int setting_user_first=0x7f07003a;
+        public static final int service3=0x7f07002b;
+        public static final int setting_user_first=0x7f07003b;
         public static final int settings=0x7f070018;
         public static final int sound=0x7f070022;
-        public static final int start_success=0x7f07004d;
-        public static final int stop_success=0x7f07004e;
-        public static final int sucess=0x7f07003b;
+        public static final int start_success=0x7f07004e;
+        public static final int stop_success=0x7f07004f;
+        public static final int sucess=0x7f07003c;
         public static final int tel_no=0x7f07001c;
-        public static final int term_of_use=0x7f070043;
+        public static final int term_of_use=0x7f070044;
         /**  Messsage setting 
+ Messsage setting 
+ Messsage setting 
          */
         public static final int title_messsage_setting=0x7f070024;
-        public static final int title_reminder=0x7f07004c;
+        public static final int title_reminder=0x7f07004d;
         /**  Setting Screen 
+ Setting Screen 
+ Setting Screen 
          */
         public static final int title_settings=0x7f070017;
-        public static final int txt_Of=0x7f070051;
+        public static final int txt_Of=0x7f070052;
         public static final int url_home=0x7f070003;
-        public static final int user_email=0x7f07004b;
+        public static final int user_email=0x7f07004c;
         public static final int user_settings=0x7f070019;
         public static final int validate_interval=0x7f07001d;
         public static final int vibrate=0x7f070023;
@@ -280,6 +293,9 @@ public final class R {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
+
 
 
 
@@ -295,6 +311,9 @@ public final class R {
 
 
 
+
+
+
         
          */
         public static final int AppBaseTheme=0x7f080000;
@@ -302,21 +321,26 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
-        public static final int btn_action=0x7f08000e;
-        public static final int divider=0x7f080008;
-        public static final int fullwidth=0x7f080006;
-        public static final int img_icon_top=0x7f08000f;
-        public static final int layout_action=0x7f080010;
-        public static final int layout_fill_width=0x7f08000b;
-        public static final int layoutfullwidth_horizal=0x7f080003;
+        public static final int btn_action=0x7f080013;
+        public static final int divider=0x7f08000d;
+        public static final int fullwidth=0x7f08000b;
+        public static final int img_icon_top=0x7f080014;
+        public static final int layout_action=0x7f080015;
+        public static final int layout_fill_width=0x7f080010;
+        public static final int layout_weight_top1=0x7f080003;
+        public static final int layout_weight_top2=0x7f080004;
+        public static final int layout_weight_top3=0x7f080005;
+        public static final int layout_weight_top4=0x7f080006;
+        public static final int layout_weight_top5=0x7f080007;
+        public static final int layoutfullwidth_horizal=0x7f080008;
         public static final int layoutfullwidth_vertical=0x7f080002;
-        public static final int lbl_row_title=0x7f080009;
-        public static final int lbl_row_title_header=0x7f08000c;
-        public static final int lbl_row_title_small=0x7f08000d;
-        public static final int list_view_common=0x7f080011;
-        public static final int textview_wrap=0x7f080007;
-        public static final int textviewfullwidth=0x7f080004;
-        public static final int textviewtitle=0x7f080005;
-        public static final int wrap_width_height=0x7f08000a;
+        public static final int lbl_row_title=0x7f08000e;
+        public static final int lbl_row_title_header=0x7f080011;
+        public static final int lbl_row_title_small=0x7f080012;
+        public static final int list_view_common=0x7f080016;
+        public static final int textview_wrap=0x7f08000c;
+        public static final int textviewfullwidth=0x7f080009;
+        public static final int textviewtitle=0x7f08000a;
+        public static final int wrap_width_height=0x7f08000f;
     }
 }
