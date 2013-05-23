@@ -209,11 +209,13 @@ public class MessageSettingActivity extends PaymentAcitivty {
 						"yyyy-mm-dd");
 				try {
 					dateSetByUser = dateFormat.parse(dateSetByUserStr);
+					
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				long dateTimeByUser = dateSetByUser.getTime();
+				Log.i("dateimeByUser", dateTimeByUser+"");
 				long currentTime = System.currentTimeMillis();
 				if (dateTimeByUser > currentTime)
 					checkStart();
