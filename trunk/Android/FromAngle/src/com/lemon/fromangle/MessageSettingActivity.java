@@ -205,20 +205,28 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			public void onClick(View v) {
 				String dateSetByUserStr = mFromAngleSharedPref
 						.getTopScreenNextValidation();
-				Log.e("iahdfj", "asdf "+dateSetByUserStr);
+
 				Date dateSetByUser = new Date();
 				final SimpleDateFormat dateFormat = new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm");
 				try {
 					dateSetByUser = dateFormat.parse(dateSetByUserStr);
-					
+
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				Log.e("adjhfd", "adsfkdh " + dateSetByUser.toLocaleString());
 				long dateTimeByUser = dateSetByUser.getTime();
-				Log.i("dateimeByUser "+dateSetByUser.toLocaleString(), "dteadjf "+dateTimeByUser+"");
+				Log.i("dateimeByUser " + dateSetByUser.toLocaleString(),
+						"dteadjf " + dateTimeByUser + "");
 				long currentTime = System.currentTimeMillis();
+				Log.e("date time by user " + currentTime, "date time by user "
+						+ dateSetByUser.getTime());
+				Date date2 = new Date(dateTimeByUser);
+				Date date3 = new Date(currentTime);
+				Log.e("new date " + date3.toLocaleString(),
+						"new date " + date2.toLocaleString());
 				if (dateTimeByUser > currentTime)
 					checkStart();
 				else
@@ -663,7 +671,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 	@Override
 	protected void onDestroy() {
-//		if(BillingHelper!= null)
+		// if(BillingHelper!= null)
 		BillingHelper.stopService(this);
 		super.onDestroy();
 	}

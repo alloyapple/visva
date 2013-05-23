@@ -159,7 +159,7 @@ public class SplashActivity extends LemonBaseActivity {
 		Log.e("date by user", "date by user "+dateSetByUserStr);
 		Date dateSetByUser = new Date();
 		pref.setTopScreenFinalValidation("----------");
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			dateSetByUser = dateFormat.parse(dateSetByUserStr);
 		} catch (ParseException e) {
@@ -180,7 +180,7 @@ public class SplashActivity extends LemonBaseActivity {
 			Log.e("date", "dateidjf "+dateSetByUserStr);
 			Date date1 = new Date();
 			int daysAfter = Integer.parseInt(after_date);
-			final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 			try {
 				date1 = df.parse(dateSetByUserStr);
 			} catch (ParseException e) {
@@ -219,7 +219,7 @@ public class SplashActivity extends LemonBaseActivity {
 		Log.e("stgart run alarm", "start alarm");
 		Date date1 = new Date();
 		String dateStr = date;
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			date1 = df.parse(dateStr);
 		} catch (ParseException e) {

@@ -138,8 +138,8 @@ public class SettingActivivity extends Activity {
 			txtEmail.setText(email);
 			txtName.setText(userName);
 			txtTel.setText(tel);
-			String[] split=time.split(":");
-			txtTimeSetting.setText(split[0].trim()+" : "+split[1].trim());
+			String[] split = time.split(":");
+			txtTimeSetting.setText(split[0].trim() + " : " + split[1].trim());
 			chkVibrate.setChecked(isVibrate);
 
 			mMediaPlayer = new MediaPlayer();
@@ -163,8 +163,8 @@ public class SettingActivivity extends Activity {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}catch(Exception e){
-				
+			} catch (Exception e) {
+
 			}
 			mMediaPlayer.start();
 		} else {
@@ -174,6 +174,7 @@ public class SettingActivivity extends Activity {
 			int date = cal.get(Calendar.DAY_OF_MONTH);
 			int month = cal.get(Calendar.MONTH);
 			int year = cal.get(Calendar.YEAR);
+
 			String dayStr = "", monthStr;
 			if (month < 10)
 				monthStr = "0" + (month + 1);
@@ -194,6 +195,7 @@ public class SettingActivivity extends Activity {
 			else
 				minStr = "" + min;
 			String timeStr = hourStr + " : " + minStr;
+
 			txtDateSetting.setText(dateStr);
 			txtTimeSetting.setText(timeStr);
 		}
@@ -241,11 +243,13 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
+
 				if (chkVibrate.isChecked() && checkVibrate) {
 					// Vibrator v = (Vibrator)
 					// getSystemService(Context.VIBRATOR_SERVICE);
 					// // Vibrate for 500 milliseconds
 					// v.vibrate(1000);
+
 				}
 				checkVibrate = true;
 
@@ -429,14 +433,14 @@ public class SettingActivivity extends Activity {
 		String tel = txtTel.getText().toString();
 		String email = txtEmail.getText().toString();
 		String days = txtDateSetting.getText().toString();
-		String []splits=txtTimeSetting.getText().toString().split(" : ");
-		String times = splits[0].trim()+":"+splits[1].trim();
+		String[] splits = txtTimeSetting.getText().toString().split(" : ");
+		String times = splits[0].trim() + ":" + splits[1].trim();
 		String daysAfter = txtDayAfter.getText().toString();
 		String userId = mFromAngleSharedPref.getUserId();
 
 		String toDayStr = days + " " + times;
 		Date date1 = new Date();
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 		try {
 			date1 = df.parse(toDayStr);
 		} catch (ParseException e) {
@@ -571,14 +575,14 @@ public class SettingActivivity extends Activity {
 		Log.e("stgart run alarm", "start alarm");
 		Date date1 = new Date();
 		String dateStr = txtDateSetting.getText().toString();
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			date1 = df.parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		long timeOfDate = date1.getTime();
-	
+
 		String timeStr[] = txtTimeSetting.getText().toString().split(" : ");
 		int hour = Integer.parseInt(timeStr[0]);
 		int minute = Integer.parseInt(timeStr[1]);
@@ -603,7 +607,7 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void addDataToPreference() {
-		
+
 		mFromAngleSharedPref.setVibrateMode(chkVibrate.isChecked());
 		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		mFromAngleSharedPref.setUserName(txtName.getText().toString());
@@ -619,19 +623,20 @@ public class SettingActivivity extends Activity {
 		if (isFirstTime) {
 			mFromAngleSharedPref.setTopScreenFinalValidation("----------");
 		}
-		String []splits=txtTimeSetting.getText().toString().split(" : ");
-		String timeStr = splits[0].trim()+":"+splits[1].trim();
+		String[] splits = txtTimeSetting.getText().toString().split(" : ");
+		String timeStr = splits[0].trim() + ":" + splits[1].trim();
 		String dateSetByUserStr = txtDateSetting.getText().toString() + " "
 				+ timeStr;
 		Date dateSetByUser = new Date();
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd");
 		try {
 			dateSetByUser = dateFormat.parse(dateSetByUserStr);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String timeClockStr[] = txtTimeSetting.getText().toString().split(" : ");
+		String timeClockStr[] = txtTimeSetting.getText().toString()
+				.split(" : ");
 		int hour = Integer.parseInt(timeClockStr[0].trim());
 		int minute = Integer.parseInt(timeClockStr[1]);
 		long timeClock = hour * 3600 + minute * 60;
@@ -647,7 +652,7 @@ public class SettingActivivity extends Activity {
 			// Date date1 = new Date(txtDateSetting.getText().toString());
 			Date date1 = new Date();
 			int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
-			final SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			final SimpleDateFormat df = new SimpleDateFormat("yyyy/mm/dd");
 			try {
 				date1 = df.parse(dateStr);
 			} catch (ParseException e) {
@@ -771,7 +776,7 @@ public class SettingActivivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				// TODO Auto-generated method stub
-				final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 				Date dateCurrent = new Date();
 				try {
 					dateCurrent = df.parse(txtDateSetting.toString());
