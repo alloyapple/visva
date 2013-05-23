@@ -2,11 +2,11 @@
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-   <!--   <dimen name="weight_top1">180</dimen>
+     <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--  <dimen name="weight_top1">180</dimen>
     <dimen name="weight_top2">205</dimen>
     <dimen name="weight_top3">180</dimen>
     <dimen name="weight_top4">90</dimen>
-    <dimen name="weight_top5">145</dimen>-->
+    <dimen name="weight_top5">145</dimen> -->
 
 </resources>
