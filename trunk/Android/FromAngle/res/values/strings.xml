@@ -32,7 +32,7 @@
     <string name="settings">Setting</string>
     <string name="user_settings">(1) USER SETTING</string>
     <string name="own_name">Own Name:</string>
-    <string name="mail_address">Mail Address</string>
+    <string name="mail_address">Mail Address:</string>
     <string name="tel_no">Tel No.(Optional):</string>
     <string name="validate_interval">(2) Validate Interval</string>
     <string name="days_after">Days after</string>

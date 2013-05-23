@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -22,6 +22,31 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="layout_weight_top1">
+        <item name="android:layout_weight">180</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="layout_weight_top2">
+        <item name="android:layout_weight">205</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="layout_weight_top3">
+        <item name="android:layout_weight">180</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="layout_weight_top4">
+        <item name="android:layout_weight">90</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="layout_weight_top5">
+        <item name="android:layout_weight">145</item>
+        <item name="android:layout_height">0dp</item>
     </style>
 
     <style name="layoutfullwidth_horizal">
@@ -99,10 +124,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+
     <style name="img_icon_top">
         <item name="android:layout_height">20dp</item>
         <item name="android:layout_width">20dp</item>
     </style>
+
     <style name="layout_action">
         <item name="android:layout_weight">1</item>
         <item name="android:padding">5dp</item>

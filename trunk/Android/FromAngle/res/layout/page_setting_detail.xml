@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
             <RelativeLayout
@@ -20,9 +21,12 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    style="@style/textviewtitle"
+                    style="@style/textviewfullwidth"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/send_details" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/send_details"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn1"
@@ -47,6 +51,7 @@
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/btn_friend_deactive"
                     android:text="3" />
             </RelativeLayout>
@@ -54,7 +59,9 @@
             <LinearLayout
                 android:id="@+id/layoutInfo1"
                 style="@style/layoutfullwidth_vertical"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/bg_message_box"
                 android:padding="5dp" >
 
@@ -63,6 +70,8 @@
                     <TextView
                         style="@style/textviewfullwidth"
                         android:layout_weight="2"
+                        android:gravity="right|center"
+                        android:paddingRight="5dp"
                         android:text="@string/own_name" />
 
                     <EditText
@@ -78,6 +87,8 @@
                     <TextView
                         style="@style/textviewfullwidth"
                         android:layout_weight="2"
+                        android:gravity="right|center"
+                        android:paddingRight="5dp"
                         android:text="@string/mail_address" />
 
                     <EditText
@@ -93,7 +104,10 @@
 
                     <TextView
                         style="@style/textviewfullwidth"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="2"
+                        android:gravity="left|center"
                         android:text="@string/tel_no" />
 
                     <EditText
@@ -287,10 +301,10 @@
 
             <TextView
                 style="@style/textviewfullwidth"
-                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/service3" />
+                android:text="@string/service3"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -317,8 +331,7 @@
             <TextView
                 style="@style/textviewfullwidth"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_margin="10dp"
                 android:text="@string/please_check_the_notice" />
         </LinearLayout>
     </ScrollView>
