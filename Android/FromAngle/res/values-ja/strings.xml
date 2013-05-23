@@ -31,9 +31,9 @@
     <string name="title_settings">設定 </string>
     <string name="settings">Setting</string>
     <string name="user_settings">（１）利用者設定</string>
-    <string name="own_name">自分の名前  : </string>
+    <string name="own_name">自分の名前 ：  </string>
     <string name="mail_address">Mailｱﾄﾞﾚｽ ：  </string>
-    <string name="tel_no">電話 :(任意)</string>
+    <string name="tel_no">電話:(任意)</string>
     <string name="validate_interval">（２）確認間隔 </string>
     <string name="days_after">日後</string>
     <string name="safety_was_verified">に安否確認します。</string>
@@ -46,10 +46,10 @@
     <string name="title_messsage_setting">メッセージ </string>
     <string name="messsage_setting">メッセージ</string>
     <string name="send_details">（1）配信内容</string>
-     <string name="own_name_message">相手の名前 ： </string>
-    <string name="mail">Mailｱﾄﾞﾚｽ  ： </string>
+     <string name="own_name_message">相手の名前 ：  </string>
+    <string name="mail">Mailｱﾄﾞﾚｽ ： </string>
     <string name="address">Address : </string>
-    <string name="message">メッセージ  ： </string>
+    <string name="message">メッセージ ： </string>
     <string name="service3">（2）サービス  </string>
     <string name="mrms">Mr/Ms </string>
     <string name="safety_validation">Safety Validation </string>
