@@ -53,7 +53,7 @@ public class TopScreenActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.page_top_screen);
+		setContentView(R.layout.page_top_screen_2);
 
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		mFromAngleSharedPref.setExistByTopScreen(false);

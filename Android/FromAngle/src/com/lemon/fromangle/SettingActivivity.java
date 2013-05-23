@@ -171,8 +171,26 @@ public class SettingActivivity extends Activity {
 			int date = cal.get(Calendar.DAY_OF_MONTH);
 			int month = cal.get(Calendar.MONTH);
 			int year = cal.get(Calendar.YEAR);
-			String dateStr = year + "-" + (month + 1) + "-" + date;
-			String timeStr = hour + ":" + min;
+			String dayStr = "", monthStr;
+			if (month < 10)
+				monthStr = "0" + (month + 1);
+			else
+				monthStr = "" + (month + 1);
+			if (date < 10)
+				dayStr = "0" + date;
+			else
+				dayStr = "0" + date;
+			String dateStr = year + "-" + monthStr + "-" + dayStr;
+			String hourStr = "", minStr = "";
+			if (hour < 10)
+				hourStr = "0" + hour;
+			else
+				hourStr = "" + hour;
+			if (min < 10)
+				minStr = "0" + min;
+			else
+				minStr = "" + min;
+			String timeStr = hourStr + ":" + minStr;
 			txtDateSetting.setText(dateStr);
 			txtTimeSetting.setText(timeStr);
 		}
@@ -220,13 +238,13 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-
-				checkVibrate = !checkVibrate;
-				if (chkVibrate.isChecked()) {
+				if (chkVibrate.isChecked()&&checkVibrate) {
 					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					// Vibrate for 500 milliseconds
 					v.vibrate(1000);
 				}
+				checkVibrate = true;
+				
 				return;
 			}
 		});
@@ -634,7 +652,7 @@ public class SettingActivivity extends Activity {
 
 			mFromAngleSharedPref
 					.setTopScreenNextValidation(nextValidationDateStr + " "
-							+  txtTimeSetting.getText().toString());
+							+ txtTimeSetting.getText().toString());
 		}
 	}
 
@@ -666,17 +684,17 @@ public class SettingActivivity extends Activity {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				String timeStr = mFromAngleSharedPref.getValidationTime();
+//				String timeStr = mFromAngleSharedPref.getValidationTime();
 				int hour, min;
-				if (StringUtility.isEmpty(timeStr)) {
+//				if (StringUtility.isEmpty(timeStr)) {
 					Calendar cal = Calendar.getInstance();
 					hour = cal.get(Calendar.HOUR_OF_DAY);
 					min = cal.get(Calendar.MINUTE);
-				} else {
-					String timeArrStr[] = timeStr.split(":");
-					hour = Integer.parseInt(timeArrStr[0]);
-					min = Integer.parseInt(timeArrStr[1]);
-				}
+//				} else {
+//					String timeArrStr[] = timeStr.split(":");
+//					hour = Integer.parseInt(timeArrStr[0]);
+//					min = Integer.parseInt(timeArrStr[1]);
+//				}
 
 				timePicker = new TimePickerDialog(SettingActivivity.this,
 						new OnTimeSetListener() {
@@ -684,11 +702,11 @@ public class SettingActivivity extends Activity {
 							@Override
 							public void onTimeSet(TimePicker view,
 									int hourOfDay, int minute) {
-								String hourStr = hourOfDay < 10 ? hourOfDay
-										+ "0" : hourOfDay + "";
+								String hourStr = hourOfDay < 10 ? "0"+hourOfDay
+									 : hourOfDay + "";
 								String minuteStr = minute < 10 ? "0" + minute
 										: minute + "";
-								txtTimeSetting.setText(hourOfDay + ":"
+								txtTimeSetting.setText(hourStr + ":"
 										+ minuteStr);
 
 							}
@@ -754,14 +772,15 @@ public class SettingActivivity extends Activity {
 					e.printStackTrace();
 				}
 
-				datePicker = new DatePickerDialog(SettingActivivity.this,
+				datePicker = new DatePickerDialog(
+						SettingActivivity.this,
 						new OnDateSetListener() {
 							@Override
 							public void onDateSet(DatePicker view, int year,
 									int monthOfYear, int dayOfMonth) {
 								Date d = new Date(year - 1900, monthOfYear,
 										dayOfMonth);
-								txtDateSetting.setText(df.format(d));
+								txtDateSetting.setText(df.format(d).toString());
 							}
 						}, dateCurrent.getYear() + 1900,
 						dateCurrent.getMonth(), dateCurrent.getDate());
@@ -777,7 +796,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-					.isEmpty(txtDayAfter));
+				.isEmpty(txtDayAfter));
 	}
 
 	@Override
