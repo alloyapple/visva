@@ -157,7 +157,14 @@
                     android:background="@drawable/all_corner"
                     android:gravity="center"
                     android:hint="@string/hint_note"
-                    android:textColor="#000000" >
+                    android:orientation="horizontal"
+                    android:shadowColor="#0f0f0f"
+                    android:shadowDx="1.5"
+                    android:shadowDy="3"
+                    android:shadowRadius="3"
+                    android:textColor="#000000"
+                    android:textStyle="normal"
+                    android:typeface="normal" >
                 </EditText>
 
                 <FrameLayout

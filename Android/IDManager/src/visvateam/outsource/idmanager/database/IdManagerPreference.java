@@ -50,6 +50,7 @@ public class IdManagerPreference {
 	public static final String GOOGLE_ACCOUNT_NAME_SESSION = "GOOGLE_ACCOUNT_NAME_SESSION";
 	public static final String IS_EDIT_MODE = "IS_EDIT_MODE";
 	public static final String CURRENT_FOLDER_ID = "CURRENT_FOLDER_ID";
+	public static final String DROPBOX_CHECK_LOGIN = "DROPBOX_CHECK_LOGIN";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -58,14 +59,16 @@ public class IdManagerPreference {
 
 	/* set vs get project is first time installed */
 	public void setApplicationFirstTimeInstalled(String key, boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
 	}
 
 	public boolean isApplicationFirstTimeInstalled(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, true);
 	}
 
@@ -81,14 +84,16 @@ public class IdManagerPreference {
 
 	/* set vs get master password */
 	public void setMasterPW(String key, String pw) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString(key, pw);
 		editor.commit();
 	}
 
 	public String getMasterPW(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getString(key, "");
 	}
 
@@ -104,14 +109,16 @@ public class IdManagerPreference {
 
 	/* set vs get values remove data */
 	public void setValuesremoveData(String key, int dataValues) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, dataValues);
 		editor.commit();
 	}
 
 	public int getValuesRemoveData(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, 0);
 	}
 
@@ -127,14 +134,16 @@ public class IdManagerPreference {
 
 	/* set vs get values security mode */
 	public void setSecurityMode(String key, int securityMode) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, securityMode);
 		editor.commit();
 	}
 
 	public int getSecurityMode(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, 0);
 	}
 
@@ -150,14 +159,16 @@ public class IdManagerPreference {
 
 	/* set vs get is security loop */
 	public void setSecurityLoop(String key, boolean securityMode) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, securityMode);
 		editor.commit();
 	}
 
 	public boolean isSecurityLoop(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, true);
 	}
 
@@ -173,89 +184,117 @@ public class IdManagerPreference {
 
 	/* set vs get last time sync cloud */
 	public void setLastTimeSyncCloud(String key, long lastTimeSync) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putLong(key, lastTimeSync);
 		editor.commit();
 	}
 
 	public long getLastTimeSyncCloud(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getLong(key, 0);
 	}
 
 	public void setNumberItem(String key, int number) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, number);
 		editor.commit();
 	}
 
 	public int getNumberItems(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, 0);
 	}
 
 	public void setIsPaymentUnlimit(String key, boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
 	}
+
 	public void setIsPaymentUnlimit(boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(IS_PAYMENT_UNLIMIT, b);
 		editor.commit();
 	}
+
 	public void setIsPaymentNoAd(String key, boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
 	}
+
 	public void setIsPaymentNoAd(boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(IS_PAYMENT_NO_AD, b);
 		editor.commit();
 	}
+
 	public void setIsPaymentExport(String key, boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
 	}
+
 	public void setIsPaymentExport(boolean b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(IS_PAYMENT_EXPORT, b);
 		editor.commit();
 	}
+
 	public boolean getIsPaymentUnlimit(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, false);
 	}
+
 	public boolean getIsPaymentUnlimit() {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(IS_PAYMENT_UNLIMIT, false);
 	}
+
 	public boolean getIsPaymentNoAd(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, false);
 	}
+
 	public boolean getIsPaymentNoAd() {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(IS_PAYMENT_NO_AD, false);
 	}
+
 	public boolean getIsPaymentExport(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, false);
 	}
+
 	public boolean getIsPaymentExport() {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(IS_PAYMENT_EXPORT, false);
 	}
+
 	public void setLastTimeSyncCloud(long b) {
 		setLastTimeSyncCloud(LAST_TIME_SYNC_CLOUD, b);
 	}
@@ -268,14 +307,16 @@ public class IdManagerPreference {
 
 	/* set vs get google acc name */
 	public void setGoogleAccNameSession(String key, String acc) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString(key, acc);
 		editor.commit();
 	}
 
 	public String getGoogleAccNameSession(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getString(key, "");
 	}
 
@@ -288,16 +329,19 @@ public class IdManagerPreference {
 		b = getGoogleAccNameSession(GOOGLE_ACCOUNT_NAME_SESSION);
 		return b;
 	}
+
 	/* set vs get edit mode */
-	public void setEditMode(String key, boolean  b) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+	public void setEditMode(String key, boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
 	}
 
 	public boolean isEditMode(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getBoolean(key, false);
 	}
 
@@ -310,17 +354,44 @@ public class IdManagerPreference {
 		b = isEditMode(IS_EDIT_MODE);
 		return b;
 	}
-	
+
+	public void setDropboxLogin(boolean b) {
+		setDropboxLogin(DROPBOX_CHECK_LOGIN, b);
+	}
+
+	private void setDropboxLogin(String key, boolean b) {
+		// TODO Auto-generated method stub
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(key, b);
+		editor.commit();
+	}
+
+	public boolean isDropboxLogin() {
+		boolean b;
+		b = isDropboxLogin(DROPBOX_CHECK_LOGIN);
+		return b;
+	}
+
+	private boolean isDropboxLogin(String key) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(key, false);
+	}
+
 	/* set vs get current folder id */
 	public void setCurrentFolderId(String key, int acc) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, acc);
 		editor.commit();
 	}
 
 	public int getCurrentFolderId(String key) {
-		SharedPreferences pref = context.getSharedPreferences(IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, 0);
 	}
 

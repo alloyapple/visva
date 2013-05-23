@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@drawable/bg_00"
     android:orientation="vertical" >
 
@@ -16,8 +16,8 @@
             android:id="@+id/btn_edit"
             android:layout_width="33dp"
             android:layout_height="31dp"
-            android:layout_marginLeft="10dp"
             android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/bt_return"
             android:onClick="onReturn" />
 
@@ -44,16 +44,16 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="280dp"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/btn_copy_item"
+                android:background="@drawable/bg_email"
                 android:orientation="vertical" >
 
                 <TextView
@@ -69,7 +69,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
                     android:background="@drawable/all_corner"
                     android:orientation="horizontal" >
 
@@ -78,7 +77,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="30dip"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:background="@color/transparent"
                         android:inputType="textEmailAddress"
                         android:singleLine="true" >
@@ -91,26 +89,65 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:visibility="gone"
                         android:background="@drawable/close_text"
-                        />
+                        android:visibility="gone" />
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Type your email address"
-                    android:textColor="#FFFFFF" />
-
-                <Button
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:id="@+id/check_box_sent_email_update_info"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:button="@drawable/check_box_email_update_info" />
+
+                    <TextView
+                        android:layout_marginLeft="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email_receiver_update_info"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:id="@+id/check_box_sent_email_update_impotant_infp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:button="@drawable/check_box_email_update_important_info" />
+
+                    <TextView
+                        android:layout_marginLeft="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email_receiver_important_info"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="260dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/btn_email_ok"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="8dp"
                     android:onClick="onClickRegisterEmail"
-                    android:text="@string/confirm_ok"
-                    android:textColor="#FFFFFF" >
+                    android:text="@string/email_sign_up" >
                 </Button>
             </LinearLayout>
         </LinearLayout>
