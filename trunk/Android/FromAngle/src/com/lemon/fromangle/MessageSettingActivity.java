@@ -208,7 +208,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 				Date dateSetByUser = new Date();
 				final SimpleDateFormat dateFormat = new SimpleDateFormat(
-						"yyyy-MM-dd HH:mm");
+						"yyyy/MM/dd HH:mm");
 				try {
 					dateSetByUser = dateFormat.parse(dateSetByUserStr);
 
