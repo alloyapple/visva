@@ -123,7 +123,7 @@ public class SplashActivity extends LemonBaseActivity {
 						after_date = ParserUtility.getStringValue(jsonId,
 								"days_after");
 						savePreference();
-//						startRunAlarmManager();
+						startRunAlarmManager();
 					}
 
 				} else if (error == GlobalValue.MSG_CHECK_USER_EXIST) {
