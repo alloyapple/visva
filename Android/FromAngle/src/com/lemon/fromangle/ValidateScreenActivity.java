@@ -151,9 +151,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			startActivity(intent);
 		}
 		/* send update status to server */
-		if (!StringUtility.isEmpty(userId)) {
-			sendUpdateStatusToServer("0");
-		} else
+//		if (!StringUtility.isEmpty(userId)) {
+//			sendUpdateStatusToServer("0");
+//		} else
 			finish();
 	}
 

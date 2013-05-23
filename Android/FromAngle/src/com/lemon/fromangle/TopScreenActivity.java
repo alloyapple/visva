@@ -237,7 +237,7 @@ public class TopScreenActivity extends Activity {
 					lblStatusNextValidate.setTextColor(Color.BLACK);
 				} else {
 					imgMessageSettingStatus
-							.setImageResource(R.drawable.bar_gray);
+							.setImageResource(R.drawable.bar_grey);
 					imgTopStatus.setImageResource(R.drawable.bg_stop);
 					lblStatusFinalValidate.setText(getString(R.string.ng));
 					lblStatusFinalValidate.setTextColor(Color.RED);
@@ -248,7 +248,7 @@ public class TopScreenActivity extends Activity {
 						&& (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS || status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
 					imgValidateStatus.setImageResource(R.drawable.bar_green);
 				} else if (modeValidation == 1) {
-					imgValidateStatus.setImageResource(R.drawable.bar_gray);
+					imgValidateStatus.setImageResource(R.drawable.bar_grey);
 					imgTopStatus.setImageResource(R.drawable.bg_safety);
 					lblStatusFinalValidate.setText(getString(R.string.ng));
 					lblStatusFinalValidate.setTextColor(Color.RED);
@@ -272,14 +272,14 @@ public class TopScreenActivity extends Activity {
 					}
 				}
 			} else {
-				imgMessageSettingStatus.setImageResource(R.drawable.bar_gray);
+				imgMessageSettingStatus.setImageResource(R.drawable.bar_grey);
 				imgTopStatus.setImageResource(R.drawable.bg_stop);
-				imgValidateStatus.setImageResource(R.drawable.bar_gray);
+				imgValidateStatus.setImageResource(R.drawable.bar_grey);
 				lblStatusFinalValidate.setText(getString(R.string.ng));
 				lblStatusFinalValidate.setTextColor(Color.RED);
 			}
 		} else
-			imgMessageStatus.setImageResource(R.drawable.bar_gray);
+			imgMessageStatus.setImageResource(R.drawable.bar_grey);
 
 		super.onResume();
 	}

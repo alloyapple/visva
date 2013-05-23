@@ -152,7 +152,7 @@
                     android:id="@+id/imgMessageStatus"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bar_gray" />
+                    android:src="@drawable/bar_grey" />
             </LinearLayout>
 
             <LinearLayout
@@ -178,7 +178,7 @@
                     android:id="@+id/imgMessageSettingStatus"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bar_gray" />
+                    android:src="@drawable/bar_grey" />
             </LinearLayout>
 
             <LinearLayout
@@ -204,7 +204,7 @@
                     android:id="@+id/imgValidateStatus"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bar_gray" />
+                    android:src="@drawable/bar_grey" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

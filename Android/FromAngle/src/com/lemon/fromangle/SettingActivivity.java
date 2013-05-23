@@ -679,19 +679,6 @@ public class SettingActivivity extends Activity {
 		return resultdate;
 	}
 
-	// public static Date addDaysToDate(Date input, int numberDay) {
-	// Log.e("dateintpu", "date input "+input.toLocaleString());
-	// Calendar defaulCalender = Calendar.getInstance();
-	// defaulCalender.setTime(input);
-	// long time1 = defaulCalender.getTimeInMillis();
-	// long time2 = numberDay * 60 *1000;
-	// long resultTime = time1 + time2;
-	//
-	// Date resultdate = new Date(resultTime);
-	// Log.e("time 1 "+time1, "tiome 2" +time2 +"   result"+resultTime +
-	// "   date "+resultdate);
-	// return resultdate;
-	// }
 
 	OnTouchListener showTimePicker = new OnTouchListener() {
 
