@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <string name="text_change_remove_data">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
+
+    <string name="text_change_remove_data">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
     <string name="message_change_remove_data">成功變更數據刪除設置。</string>
     <string name="message_no_match_pass">您輸入的密碼不正確，請重新輸入。</string>
     <string name="message_coppied_clipboard">The following item has been copied to the clipboard.</string>
@@ -95,8 +96,11 @@
     <string name="sync_data_duplicate_msg">你確定你想從（GoogleDrive）Dropbox的，誰是新的數據，本次Android上的數據嗎？.</string>
     <string name="sync_to_cloud_data_device_newer">您確定您要覆蓋的數據，但在此的iPhone（GoogleDrive）Dropbox的數據嗎？</string>
     <string name="sync_to_device_data_cloud_newer">閱讀（GoogleDrive）的Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
-    
+
     <!-- others -->
+    <string name="email_receiver_update_info"></string>
+    <string name="email_receiver_important_info">我將獲得的重要公告。</string>
+    <string name="email_sign_up">報名</string>
     <string name="wrong_pw_login">您輸入的密碼不正確，請重新輸入。</string>
     <string name="data_erased_msg">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
 

@@ -53,8 +53,6 @@ public class GGDriveSettingActivity extends Activity {
 	// Note that this is a really insecure way to do this, and you shouldn't
 	// ship code which contains your key & secret in such an obvious way.
 	// Obfuscation is good.
-//	final static private String APP_KEY = "fxh7pnxcqbg3qwy";
-//	final static private String APP_SECRET = "fjk6z73ot28n1t3";
 
 	// If you'd like to change the access type to the full Dropbox instead of
 	// an app folder, change this value.
@@ -71,6 +69,8 @@ public class GGDriveSettingActivity extends Activity {
 	DropboxAPI<AndroidAuthSession> mApi;
 
 	private IdManagerPreference mIdManagerPreference;
+	
+	private boolean isLogIn = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -121,13 +121,13 @@ public class GGDriveSettingActivity extends Activity {
 				String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 
 				if (accountName != null) {
-					Log.e("run here	", "run  " + accountName);
 					credential.setSelectedAccountName(accountName);
 					service = getDriveService(credential);
 					mBtnLinkToGGDrive.setText(getString(R.string.gg_drive_already_use));
 					mIdManagerPreference.setGoogleAccNameSession(accountName);
 					if (mApi.getSession().isLinked())
 						logOutDropbox();
+					finish();
 				}
 			}
 			break;

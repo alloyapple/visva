@@ -124,7 +124,11 @@
     <string name="sync_to_cloud_data_device_newer">The data on Dropbox(GoogleDrive) will be overwritten by this Android\'s data. Are you sure?</string>
     <string name="sync_to_device_data_cloud_newer">This Android\'s data will be overwritten by the newer data on Dropbox(GoogleDrive).</string>
     <!-- others -->
-
+    <string name="email_title">Email取得</string>
+    <string name="email_receiver_update_info">I will receive the information about products and news from our company. (may be monthly)</string>
+    <string name="email_receiver_important_info">I will receive the important announcement.</string>
+    <string name="email_sign_up">Sign Up</string>
+    
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
     <string name="term_of_use_condition">Terms and Conditions\n

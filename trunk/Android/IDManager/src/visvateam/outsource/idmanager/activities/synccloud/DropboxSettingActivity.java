@@ -67,6 +67,7 @@ public class DropboxSettingActivity extends Activity {
 
 	private IdManagerPreference mIdManagerPreference;
 	private String mGGAccountName;
+	private boolean isCheckLogin = false;
 
 
 	@Override
@@ -76,11 +77,11 @@ public class DropboxSettingActivity extends Activity {
 		/* share preference */
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		mGGAccountName = mIdManagerPreference.getGoogleAccNameSession();
+		mIdManagerPreference.setDropboxLogin(false);
 		/* create file if not exist */
 		File file = new File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
-
 		
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
@@ -101,6 +102,7 @@ public class DropboxSettingActivity extends Activity {
 				} else {
 					// Start the remote authentication
 					// mIdManagerPreference.setGoogleAccNameSession("");
+					mIdManagerPreference.setDropboxLogin(true);
 					if (!"".equals(mIdManagerPreference
 							.getGoogleAccNameSession()))
 						showChoiceDialog();
@@ -111,7 +113,6 @@ public class DropboxSettingActivity extends Activity {
 			}
 		});
 
-		Log.e("mGGAccName", "Name " + mGGAccountName);
 		if ("".equals(mGGAccountName)) {
 			// Display the proper UI state if logged in or not
 			setLoggedIn(mApi.getSession().isLinked());
@@ -142,10 +143,13 @@ public class DropboxSettingActivity extends Activity {
 					TokenPair tokens = session.getAccessTokenPair();
 					storeKeys(tokens.key, tokens.secret);
 					setLoggedIn(true);
+					if(mIdManagerPreference.isDropboxLogin()){
+						mIdManagerPreference.setDropboxLogin(false);
+						finish();
+					}
 				} catch (IllegalStateException e) {
 					showToast("Couldn't authenticate with Dropbox:"
 							+ e.getLocalizedMessage());
-					Log.i(TAG, "Error authenticating", e);
 				}
 			}
 		} else

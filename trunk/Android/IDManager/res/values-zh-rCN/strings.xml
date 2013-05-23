@@ -13,7 +13,6 @@
     <string name="title_master_pass">密码</string>
     <string name="title_delete_items">删除</string>
     <string name="title_add_items">新</string>
-    
     <string name="text_min">分</string>
     <string name="hint_no_image">预定日期</string>
     <string name="hint_note">Note</string>
@@ -99,6 +98,9 @@
     <string name="sync_to_device_data_cloud_newer">阅读（GoogleDrive）的Dropbox上的数据。你确定要当前数据丢失了吗？</string>
 
     <!-- others -->
+    <string name="email_receiver_update_info"></string>
+    <string name="email_receiver_important_info">我将获得的重要公告。</string>
+    <string name="email_sign_up">报名</string>
     <string name="wrong_pw_login">您输入的密码不正确，请重新输入。</string>
     <string name="data_erased_msg">达到您制定的密码错误次数时，数据将被删除。</string>
 
