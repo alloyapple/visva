@@ -138,7 +138,8 @@ public class SettingActivivity extends Activity {
 			txtEmail.setText(email);
 			txtName.setText(userName);
 			txtTel.setText(tel);
-			txtTimeSetting.setText(time);
+			String[] split=time.split(":");
+			txtTimeSetting.setText(split[0].trim()+" : "+split[1].trim());
 			chkVibrate.setChecked(isVibrate);
 
 			mMediaPlayer = new MediaPlayer();
@@ -190,7 +191,7 @@ public class SettingActivivity extends Activity {
 				minStr = "0" + min;
 			else
 				minStr = "" + min;
-			String timeStr = hourStr + ":" + minStr;
+			String timeStr = hourStr + " : " + minStr;
 			txtDateSetting.setText(dateStr);
 			txtTimeSetting.setText(timeStr);
 		}
@@ -425,7 +426,8 @@ public class SettingActivivity extends Activity {
 		String tel = txtTel.getText().toString();
 		String email = txtEmail.getText().toString();
 		String days = txtDateSetting.getText().toString();
-		String times = txtTimeSetting.getText().toString();
+		String []splits=txtTimeSetting.getText().toString().split(" : ");
+		String times = splits[0].trim()+":"+splits[1].trim();
 		String daysAfter = txtDayAfter.getText().toString();
 		String userId = mFromAngleSharedPref.getUserId();
 
@@ -573,7 +575,8 @@ public class SettingActivivity extends Activity {
 			e.printStackTrace();
 		}
 		long timeOfDate = date1.getTime();
-		String timeStr[] = txtTimeSetting.getText().toString().split(":");
+	
+		String timeStr[] = txtTimeSetting.getText().toString().split(" : ");
 		int hour = Integer.parseInt(timeStr[0]);
 		int minute = Integer.parseInt(timeStr[1]);
 		long timeOfClock = hour * 3600 + minute * 60;
@@ -597,6 +600,7 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void addDataToPreference() {
+		
 		mFromAngleSharedPref.setVibrateMode(chkVibrate.isChecked());
 		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		mFromAngleSharedPref.setUserName(txtName.getText().toString());
@@ -607,13 +611,15 @@ public class SettingActivivity extends Activity {
 		mFromAngleSharedPref.setValidationDaysAfter(txtDayAfter.getText()
 				.toString());
 		mFromAngleSharedPref.setValidationTime(txtTimeSetting.getText()
-				.toString());
+				.toString().trim());
 		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		if (isFirstTime) {
 			mFromAngleSharedPref.setTopScreenFinalValidation("----------");
 		}
+		String []splits=txtTimeSetting.getText().toString().split(" : ");
+		String timeStr = splits[0].trim()+":"+splits[1].trim();
 		String dateSetByUserStr = txtDateSetting.getText().toString() + " "
-				+ txtTimeSetting.getText().toString();
+				+ timeStr;
 		Date dateSetByUser = new Date();
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 		try {
@@ -622,8 +628,8 @@ public class SettingActivivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String timeClockStr[] = txtTimeSetting.getText().toString().split(":");
-		int hour = Integer.parseInt(timeClockStr[0]);
+		String timeClockStr[] = txtTimeSetting.getText().toString().split(" : ");
+		int hour = Integer.parseInt(timeClockStr[0].trim());
 		int minute = Integer.parseInt(timeClockStr[1]);
 		long timeClock = hour * 3600 + minute * 60;
 		long timeCompare = dateSetByUser.getTime() + timeClock * 1000;
@@ -652,7 +658,7 @@ public class SettingActivivity extends Activity {
 
 			mFromAngleSharedPref
 					.setTopScreenNextValidation(nextValidationDateStr + " "
-							+ txtTimeSetting.getText().toString());
+							+ timeStr);
 		}
 	}
 
@@ -706,7 +712,7 @@ public class SettingActivivity extends Activity {
 									 : hourOfDay + "";
 								String minuteStr = minute < 10 ? "0" + minute
 										: minute + "";
-								txtTimeSetting.setText(hourStr + ":"
+								txtTimeSetting.setText(hourStr + " : "
 										+ minuteStr);
 
 							}
