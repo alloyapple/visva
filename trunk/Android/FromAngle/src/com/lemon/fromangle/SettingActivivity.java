@@ -245,10 +245,10 @@ public class SettingActivivity extends Activity {
 				// TODO Auto-generated method stub
 
 				if (chkVibrate.isChecked() && checkVibrate) {
-					// Vibrator v = (Vibrator)
-					// getSystemService(Context.VIBRATOR_SERVICE);
-					// // Vibrate for 500 milliseconds
-					// v.vibrate(1000);
+					 Vibrator v = (Vibrator)
+					 getSystemService(Context.VIBRATOR_SERVICE);
+					 // Vibrate for 500 milliseconds
+					 v.vibrate(1000);
 
 				}
 				checkVibrate = true;
@@ -356,6 +356,14 @@ public class SettingActivivity extends Activity {
 
 					}
 				});
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		checkRing=false;
+		checkVibrate=false;
+		super.onPause();
 	}
 
 	private Uri[] checkListUri(RingtoneManager mRingTone, Cursor mCursor2) {
