@@ -87,7 +87,8 @@
 
                 <LinearLayout
                     style="@style/layoutfullwidth_horizal"
-                    android:layout_gravity="center_horizontal" >
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp" >
 
                     <EditText
                         android:id="@+id/txtDateSetting"
@@ -123,9 +124,9 @@
                         android:id="@+id/txtDayAfter"
                         android:layout_width="42dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:editable="false"
                         android:focusable="false"
+                        android:gravity="center"
                         android:singleLine="true" >
                     </EditText>
 
@@ -148,7 +149,8 @@
 
                 <LinearLayout
                     style="@style/layoutfullwidth_horizal"
-                    android:layout_marginLeft="20dp" >
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp" >
 
                     <TextView
                         style="@style/textview_wrap"
@@ -159,8 +161,8 @@
                         android:layout_width="140dp"
                         android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
-                        android:focusable="true"
-                        android:layout_marginRight="5dp" />
+                        android:layout_marginRight="5dp"
+                        android:focusable="true" />
 
                     <TextView
                         style="@style/textview_wrap"
