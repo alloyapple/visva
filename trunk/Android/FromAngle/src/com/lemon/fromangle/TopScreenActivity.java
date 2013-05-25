@@ -230,11 +230,46 @@ public class TopScreenActivity extends Activity {
 						|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 					imgMessageSettingStatus
 							.setImageResource(R.drawable.bar_green);
-					imgTopStatus.setImageResource(R.drawable.bg_working);
-					lblStatusFinalValidate.setText(getString(R.string.ok));
-					lblStatusFinalValidate.setTextColor(Color.BLACK);
-					lblStatusNextValidate.setText("---");
-					lblStatusNextValidate.setTextColor(Color.BLACK);
+
+					// ////////////////////////////////////////////////////////
+					if (modeValidation == 0) {
+						imgValidateStatus
+								.setImageResource(R.drawable.bar_green);
+						imgTopStatus.setImageResource(R.drawable.bg_working);
+						lblStatusFinalValidate.setText(getString(R.string.ok));
+						lblStatusFinalValidate.setTextColor(Color.BLACK);
+						lblStatusNextValidate.setText("---");
+						lblStatusNextValidate.setTextColor(Color.BLACK);
+					} else if (modeValidation == 1) {
+						imgValidateStatus.setImageResource(R.drawable.bar_red);
+						imgTopStatus.setImageResource(R.drawable.bg_safety);
+						lblStatusFinalValidate.setText(getString(R.string.ng));
+						lblStatusFinalValidate.setTextColor(Color.RED);
+						lblStatusNextValidate.setText("---");
+						lblStatusNextValidate.setTextColor(Color.BLACK);
+					} else if (modeValidation == 2) {
+						imgValidateStatus.setImageResource(R.drawable.bar_grey);
+						imgTopStatus.setImageResource(R.drawable.bg_stop);
+						lblStatusFinalValidate.setText(getString(R.string.ng));
+						lblStatusFinalValidate.setTextColor(Color.RED);
+						lblStatusNextValidate.setText(getString(R.string.ng));
+						lblStatusNextValidate.setTextColor(Color.RED);
+
+						if (mFromAngleSharedPref.getOpenDialogReminder()) {
+							checkDialogReminder = true;
+							mFromAngleSharedPref.setOpenDialogReminder(false);
+						} else
+							checkDialogReminder = false;
+						if (checkDialogReminder) {
+							creatDialogReminder(
+									null,
+									getResources().getString(
+											R.string.title_reminder),
+									R.layout.dialog_reminder, null).show();
+							checkDialogReminder = true;
+						}
+					}
+					// ///////////////////////////////////////
 				} else {
 					imgMessageSettingStatus
 							.setImageResource(R.drawable.bar_grey);
@@ -244,39 +279,7 @@ public class TopScreenActivity extends Activity {
 					lblStatusNextValidate.setText("---");
 					lblStatusNextValidate.setTextColor(Color.BLACK);
 				}
-				if (modeValidation == 0
-						&& (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS || status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
-					imgValidateStatus.setImageResource(R.drawable.bar_green);
-				} else if (modeValidation == 1) {
-					imgValidateStatus.setImageResource(R.drawable.bar_grey);
-					imgTopStatus.setImageResource(R.drawable.bg_safety);
-					lblStatusFinalValidate.setText(getString(R.string.ng));
-					lblStatusFinalValidate.setTextColor(Color.RED);
-				} else if (modeValidation == 2) {
-					imgValidateStatus.setImageResource(R.drawable.bar_red);
-					imgTopStatus.setImageResource(R.drawable.bg_stop);
-					lblStatusFinalValidate.setText(getString(R.string.ng));
-					lblStatusFinalValidate.setTextColor(Color.RED);
-					lblStatusNextValidate.setText(getString(R.string.ng));
-					lblStatusNextValidate.setTextColor(Color.RED);
 
-					// DialogUtility.alert(TopScreenActivity.this,
-					// getString(R.string.msg_stop_service, userName));
-					if (mFromAngleSharedPref.getOpenDialogReminder()){
-						checkDialogReminder = true;
-						mFromAngleSharedPref.setOpenDialogReminder(false);
-					}
-					else
-						checkDialogReminder = false;
-					if (checkDialogReminder) {
-						creatDialogReminder(
-								null,
-								getResources().getString(
-										R.string.title_reminder),
-								R.layout.dialog_reminder, null).show();
-						checkDialogReminder = true;
-					}
-				}
 			} else {
 				imgMessageSettingStatus.setImageResource(R.drawable.bar_grey);
 				imgTopStatus.setImageResource(R.drawable.bg_stop);
