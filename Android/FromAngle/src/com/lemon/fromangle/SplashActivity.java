@@ -119,6 +119,10 @@ public class SplashActivity extends LemonBaseActivity {
 						mail = ParserUtility.getStringValue(jsonId, "mail");
 						tel = ParserUtility.getStringValue(jsonId, "tel");
 						date = ParserUtility.getStringValue(jsonId, "day");
+						String dateSplit[] = date.split("-");
+						if(dateSplit.length > 0){
+							date = dateSplit[0]+"/"+dateSplit[1]+"/"+dateSplit[2];
+						}
 						time = ParserUtility.getStringValue(jsonId, "time");
 						after_date = ParserUtility.getStringValue(jsonId,
 								"days_after");
@@ -155,6 +159,7 @@ public class SplashActivity extends LemonBaseActivity {
 		pref.setPhone(tel);
 		pref.setValidationDaysAfter(after_date);
 		pref.setEmail(mail);
+		
 		String dateSetByUserStr = date + " " + time;
 		Log.e("date by user", "date by user "+dateSetByUserStr);
 		Date dateSetByUser = new Date();
@@ -234,6 +239,8 @@ public class SplashActivity extends LemonBaseActivity {
 		long currenttime = System.currentTimeMillis();
 		int delayTime = (int) (totalDelayTime - currenttime);
 		if (delayTime > 0) {
+			pref.setMessageSettingStatus("1");
+			pref.setValidationMode(0);
 			int timeDelay = delayTime / 1000;
 			Log.e("delay time", "delay time " + delayTime);
 			Intent myIntent = new Intent(this, MessageFollowService.class);

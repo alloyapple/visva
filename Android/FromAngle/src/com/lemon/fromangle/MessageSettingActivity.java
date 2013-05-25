@@ -446,12 +446,15 @@ public class MessageSettingActivity extends PaymentAcitivty {
 				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
 					// showToast(getString(R.string.sucess));
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
+					mFromAngleSharedPref.setValidationMode(0);
 				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 					// showToast(getString(R.string.change_info_sucess));
+					mFromAngleSharedPref.setValidationMode(0);
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 				}
 				if (!isStart) {
 					mFromAngleSharedPref.setMessageSettingStatus("");
+					mFromAngleSharedPref.setValidationMode(2);
 				}
 			}
 		} catch (JSONException e) {
