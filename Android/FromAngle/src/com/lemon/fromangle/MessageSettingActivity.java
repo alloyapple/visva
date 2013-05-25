@@ -2,6 +2,7 @@ package com.lemon.fromangle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -34,6 +37,7 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
+import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
 import com.lemon.fromangle.utility.TimeUtility;
@@ -77,6 +81,8 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	public static final int STATUS_NOT_EXPIRED = 0;
 	private int currentTab = 1;
 	private boolean isStart = false;
+	private PendingIntent pendingIntent;
+
 	public Handler mTransactionHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			Log.i(TAG, "Transaction complete");
@@ -447,14 +453,17 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					// showToast(getString(R.string.sucess));
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 					mFromAngleSharedPref.setValidationMode(0);
+					startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 					// showToast(getString(R.string.change_info_sucess));
 					mFromAngleSharedPref.setValidationMode(0);
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
+					startRunAlarmManager();
 				}
 				if (!isStart) {
-					mFromAngleSharedPref.setMessageSettingStatus("");
+					mFromAngleSharedPref.setMessageSettingStatus("0");
 					mFromAngleSharedPref.setValidationMode(2);
+					stopAlarmManager();
 				}
 			}
 		} catch (JSONException e) {
@@ -463,6 +472,22 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					getString(R.string.failed_to_conect_server));
 			e.printStackTrace();
 		}
+	}
+
+	private void stopAlarmManager() {
+		// TODO Auto-generated method stub
+		int timeDelay = -5000;
+		Log.e("delay time", "delay time " + timeDelay);
+		Intent myIntent = new Intent(MessageSettingActivity.this,
+				MessageFollowService.class);
+		pendingIntent = PendingIntent.getService(MessageSettingActivity.this,
+				0, myIntent, 0);
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		calendar.add(Calendar.SECOND, timeDelay);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+				pendingIntent);
 	}
 
 	public void checkPaymentToStart() {
@@ -684,5 +709,40 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		SpannableStringBuilder ssbuilder = new SpannableStringBuilder(s);
 		ssbuilder.setSpan(fgcspan, 0, s.length(), 0);
 		return ssbuilder;
+	}
+
+	private void startRunAlarmManager() {
+		Log.e("stgart run alarm", "start alarm");
+		Date date1 = new Date();
+		String dateStr = mFromAngleSharedPref.getValidationDate();;
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			date1 = df.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long timeOfDate = date1.getTime();
+
+		String timeStr[] = mFromAngleSharedPref.getValidationTime().split(" : ");
+		int hour = Integer.parseInt(timeStr[0]);
+		int minute = Integer.parseInt(timeStr[1]);
+		long timeOfClock = hour * 3600 + minute * 60;
+		long totalDelayTime = timeOfDate + timeOfClock * 1000;
+		long currenttime = System.currentTimeMillis();
+		int delayTime = (int) (totalDelayTime - currenttime);
+		if (delayTime > 0) {
+			int timeDelay = delayTime / 1000;
+			Log.e("delay time", "delay time " + delayTime);
+			Intent myIntent = new Intent(MessageSettingActivity.this,
+					MessageFollowService.class);
+			pendingIntent = PendingIntent.getService(
+					MessageSettingActivity.this, 0, myIntent, 0);
+			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(System.currentTimeMillis());
+			calendar.add(Calendar.SECOND, timeDelay);
+			alarmManager.set(AlarmManager.RTC_WAKEUP,
+					calendar.getTimeInMillis(), pendingIntent);
+		}
 	}
 }

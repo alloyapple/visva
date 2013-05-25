@@ -515,7 +515,7 @@ public class SettingActivivity extends Activity {
 				if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_SUCESS) {
 					showToast(getString(R.string.change_info_sucess));
 					addDataToPreference();
-					startRunAlarmManager();
+//					startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
 					showToast(getString(R.string.duplicated_email));
 				} else
@@ -564,7 +564,9 @@ public class SettingActivivity extends Activity {
 						addDataToPreference();
 
 						/* start run alarmmanager */
-						startRunAlarmManager();
+						String status = mFromAngleSharedPref.getMessageSettingStatus();
+//						if(mFromAngleSharedPref.getMessageSettingStatus())
+//						startRunAlarmManager();
 
 						showToast("Sucessfully");
 					}
@@ -581,40 +583,40 @@ public class SettingActivivity extends Activity {
 		}
 	}
 
-	private void startRunAlarmManager() {
-		Log.e("stgart run alarm", "start alarm");
-		Date date1 = new Date();
-		String dateStr = txtDateSetting.getText().toString();
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-		try {
-			date1 = df.parse(dateStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		long timeOfDate = date1.getTime();
-
-		String timeStr[] = txtTimeSetting.getText().toString().split(" : ");
-		int hour = Integer.parseInt(timeStr[0]);
-		int minute = Integer.parseInt(timeStr[1]);
-		long timeOfClock = hour * 3600 + minute * 60;
-		long totalDelayTime = timeOfDate + timeOfClock * 1000;
-		long currenttime = System.currentTimeMillis();
-		int delayTime = (int) (totalDelayTime - currenttime);
-		if (delayTime > 0) {
-			int timeDelay = delayTime / 1000;
-			Log.e("delay time", "delay time " + delayTime);
-			Intent myIntent = new Intent(SettingActivivity.this,
-					MessageFollowService.class);
-			pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
-					myIntent, 0);
-			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTimeInMillis(System.currentTimeMillis());
-			calendar.add(Calendar.SECOND, timeDelay);
-			alarmManager.set(AlarmManager.RTC_WAKEUP,
-					calendar.getTimeInMillis(), pendingIntent);
-		}
-	}
+//	private void startRunAlarmManager() {
+//		Log.e("stgart run alarm", "start alarm");
+//		Date date1 = new Date();
+//		String dateStr = txtDateSetting.getText().toString();
+//		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+//		try {
+//			date1 = df.parse(dateStr);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		long timeOfDate = date1.getTime();
+//
+//		String timeStr[] = txtTimeSetting.getText().toString().split(" : ");
+//		int hour = Integer.parseInt(timeStr[0]);
+//		int minute = Integer.parseInt(timeStr[1]);
+//		long timeOfClock = hour * 3600 + minute * 60;
+//		long totalDelayTime = timeOfDate + timeOfClock * 1000;
+//		long currenttime = System.currentTimeMillis();
+//		int delayTime = (int) (totalDelayTime - currenttime);
+//		if (delayTime > 0) {
+//			int timeDelay = delayTime / 1000;
+//			Log.e("delay time", "delay time " + delayTime);
+//			Intent myIntent = new Intent(SettingActivivity.this,
+//					MessageFollowService.class);
+//			pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+//					myIntent, 0);
+//			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//			Calendar calendar = Calendar.getInstance();
+//			calendar.setTimeInMillis(System.currentTimeMillis());
+//			calendar.add(Calendar.SECOND, timeDelay);
+//			alarmManager.set(AlarmManager.RTC_WAKEUP,
+//					calendar.getTimeInMillis(), pendingIntent);
+//		}
+//	}
 
 	private void addDataToPreference() {
 

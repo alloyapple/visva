@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 
 import com.lemon.fromangle.config.FromAngleSharedPref;
+import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
@@ -110,7 +111,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			startActivity(intent);
 		}
 		/* send update status to server */
-		if (!StringUtility.isEmpty(userId)) {
+		int status = Integer.parseInt(mFromAngleSharedPref.getMessageSettingStatus());
+		if (!StringUtility.isEmpty(userId) &&(status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
+				|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
 			sendUpdateStatusToServer("1");
 		} else
 			finish();
