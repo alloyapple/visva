@@ -262,7 +262,13 @@ public class TopScreenActivity extends Activity {
 
 					// DialogUtility.alert(TopScreenActivity.this,
 					// getString(R.string.msg_stop_service, userName));
-					if (!checkDialogReminder) {
+					if (mFromAngleSharedPref.getOpenDialogReminder()){
+						checkDialogReminder = true;
+						mFromAngleSharedPref.setOpenDialogReminder(false);
+					}
+					else
+						checkDialogReminder = false;
+					if (checkDialogReminder) {
 						creatDialogReminder(
 								null,
 								getResources().getString(
@@ -278,9 +284,12 @@ public class TopScreenActivity extends Activity {
 				lblStatusFinalValidate.setText(getString(R.string.ng));
 				lblStatusFinalValidate.setTextColor(Color.RED);
 			}
-		} else
+		} else {
 			imgMessageStatus.setImageResource(R.drawable.bar_grey);
-
+			imgMessageSettingStatus.setImageResource(R.drawable.bar_grey);
+			imgTopStatus.setImageResource(R.drawable.bg_stop);
+			imgValidateStatus.setImageResource(R.drawable.bar_grey);
+		}
 		super.onResume();
 	}
 
