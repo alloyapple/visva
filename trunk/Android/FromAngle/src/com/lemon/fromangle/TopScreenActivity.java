@@ -271,6 +271,7 @@ public class TopScreenActivity extends Activity {
 					}
 					// ///////////////////////////////////////
 				} else {
+					imgValidateStatus.setImageResource(R.drawable.bar_grey);
 					imgMessageSettingStatus
 							.setImageResource(R.drawable.bar_grey);
 					imgTopStatus.setImageResource(R.drawable.bg_stop);
@@ -288,6 +289,7 @@ public class TopScreenActivity extends Activity {
 				lblStatusFinalValidate.setTextColor(Color.RED);
 			}
 		} else {
+			imgValidateStatus.setImageResource(R.drawable.bar_grey);
 			imgMessageStatus.setImageResource(R.drawable.bar_grey);
 			imgMessageSettingStatus.setImageResource(R.drawable.bar_grey);
 			imgTopStatus.setImageResource(R.drawable.bg_stop);
