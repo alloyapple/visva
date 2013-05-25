@@ -46,6 +46,8 @@ public class FromAngleSharedPref {
 	public static final String KEY_START_SERVICE = "KEY_START_SERVICE";
 	public static final String KEY_RUN_ON_BACK_GROUND = "KEY_RUN_ON_BACK_GROUND";
 	public static final String KEY_EXIST_BY_TOP_SCREEN = "KEY_EXIST_BY_TOP_SCREEN";
+	public static final String KEY_CHECK_OPEN_DIALOG_REMINDER = "KEY_CHECK_OPEN_DIALOG_REMINDER";
+	public static final String KEY_CHECK_VIBRATE = "KEY_CHECK_VIBRATE";
 
 	public static final String KEY_SAVE_INPUT_MESSAGE = "SAVE_INPUT_MESSAGE";
 	public static final String[] KEY_MESSGE1 = { "OWN_NAME_01", "EMAIL_01",
@@ -99,6 +101,13 @@ public class FromAngleSharedPref {
 		return getBooleanValue(FINISH_SETTTING);
 	}
 
+	public void setCheckVibrate(boolean b){
+		putBooleanValue(KEY_CHECK_VIBRATE, b);
+	}
+	
+	public boolean getCheckVibrate(){
+		return getBooleanValue(KEY_CHECK_VIBRATE);
+	}
 	public void setVibrateMode(boolean value) {
 
 		putBooleanValue(PREF_SETTING_VIBRATE_MODE, value);
@@ -106,6 +115,14 @@ public class FromAngleSharedPref {
 
 	public boolean getVibrateMode() {
 		return getBooleanValue(PREF_SETTING_VIBRATE_MODE);
+	}
+
+	public void setOpenDialogReminder(boolean value) {
+		putBooleanValue(KEY_CHECK_OPEN_DIALOG_REMINDER, value);
+	}
+
+	public boolean getOpenDialogReminder() {
+		return getBooleanValue(KEY_CHECK_OPEN_DIALOG_REMINDER);
 	}
 
 	public void setRingTuneFile(String fileName) {

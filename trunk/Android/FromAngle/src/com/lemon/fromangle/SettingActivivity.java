@@ -97,7 +97,7 @@ public class SettingActivivity extends Activity {
 	private PendingIntent pendingIntent;
 
 	public Handler mHandler = new Handler();
-	public boolean checkRing = false, checkVibrate = false;
+	public boolean checkRing = false;
 
 	private boolean isFirstTime = false;
 	private String device_id = "";
@@ -216,7 +216,6 @@ public class SettingActivivity extends Activity {
 	protected void onRestart() {
 		// TODO Auto-generated method stub
 		checkRing = false;
-		checkVibrate = false;
 		super.onRestart();
 	}
 
@@ -224,7 +223,6 @@ public class SettingActivivity extends Activity {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		checkRing = false;
-		checkVibrate = false;
 		super.onStart();
 	}
 
@@ -243,16 +241,15 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-
-				if (chkVibrate.isChecked() && checkVibrate) {
+				if (chkVibrate.isChecked() && !mFromAngleSharedPref.getCheckVibrate()) {
 					 Vibrator v = (Vibrator)
 					 getSystemService(Context.VIBRATOR_SERVICE);
 					 // Vibrate for 500 milliseconds
 					 v.vibrate(1000);
-
+					 mFromAngleSharedPref.setCheckVibrate(true);
 				}
-				checkVibrate = true;
-
+				if(!chkVibrate.isChecked())
+					mFromAngleSharedPref.setCheckVibrate(false);
 				return;
 			}
 		});
@@ -362,10 +359,15 @@ public class SettingActivivity extends Activity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		checkRing=false;
-		checkVibrate=false;
 		super.onPause();
 	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		checkRing=false;
+		super.onStop();
+	}
 	private Uri[] checkListUri(RingtoneManager mRingTone, Cursor mCursor2) {
 		int alarmsCount = mCursor2.getCount();
 		if (alarmsCount == 0 && !mCursor2.moveToFirst()) {

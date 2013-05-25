@@ -64,7 +64,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 				.getValidationDaysAfter().toString());
 		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 		try {
-			date1 = df.parse(dateStr);
+			date1 = df.parse(dateStr); 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -142,8 +142,10 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			mFromAngleSharedPref.setValidationMode(1);
 			startRunAlarmManager();
 		}
-		else
+		else{
 			mFromAngleSharedPref.setValidationMode(2);
+			mFromAngleSharedPref.setOpenDialogReminder(true);
+		}
 		if (mFromAngleSharedPref.getRunOnBackGround()
 				&& mFromAngleSharedPref.getExistByTopScreen()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
