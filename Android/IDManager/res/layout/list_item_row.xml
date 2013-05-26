@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:background="@drawable/folder_s_common" >
+    android:layout_width="85dp"
+    android:layout_height="85dp" >
+
+    <ImageView
+        android:id="@+id/img_bg_folder"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="@drawable/folder_s_common"
+        android:contentDescription="@string/confirm_ok" />
 
     <TextView
         android:id="@+id/txt_folder_item_name"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:ellipsize="marquee"
-        android:gravity="center"
         android:focusable="false"
+        android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
-        android:textColor="@color/white"
-        android:textStyle="bold"
         android:singleLine="true"
-        android:textSize="18sp" />
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/img_folder_item_icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center|center"
         android:background="@drawable/favorite" />
@@ -30,8 +36,8 @@
         android:id="@+id/img_folder_item_edit"
         android:layout_width="27dp"
         android:layout_height="27dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@id/txt_folder_item_name"
         android:background="@drawable/jog_note_push" />
@@ -40,8 +46,8 @@
         android:id="@+id/img_folder_item_delete"
         android:layout_width="27dp"
         android:layout_height="27dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@id/txt_folder_item_name"
         android:background="@drawable/delete" />

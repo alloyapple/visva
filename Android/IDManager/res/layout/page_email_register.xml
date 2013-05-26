@@ -62,7 +62,7 @@
                     android:text="Email Address"
                     android:textColor="#FFFFFF" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="30dip"
                     android:layout_gravity="center"
@@ -72,26 +72,30 @@
                     android:background="@drawable/all_corner"
                     android:orientation="horizontal" >
 
+                    <Button
+                        android:id="@+id/btn_close_email"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:background="@drawable/close_text" />
+
                     <EditText
                         android:id="@+id/edit_text_email"
                         android:layout_width="fill_parent"
                         android:layout_height="30dip"
                         android:layout_gravity="center"
+                        android:layout_toLeftOf="@id/btn_close_email"
                         android:background="@color/transparent"
+                        android:gravity="center"
                         android:inputType="textEmailAddress"
                         android:singleLine="true" >
                     </EditText>
-
-                    <Button
-                        android:id="@+id/btn_close"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginRight="4dp"
-                        android:background="@drawable/close_text"
-                        android:visibility="gone" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -108,9 +112,9 @@
                         android:button="@drawable/check_box_email_update_info" />
 
                     <TextView
-                        android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
                         android:text="@string/email_receiver_update_info"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
@@ -130,9 +134,9 @@
                         android:button="@drawable/check_box_email_update_important_info" />
 
                     <TextView
-                        android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
                         android:text="@string/email_receiver_important_info"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
@@ -140,14 +144,14 @@
                 <Button
                     android:layout_width="260dp"
                     android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/btn_email_ok"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="8dp"
                     android:onClick="onClickRegisterEmail"
-                    android:text="@string/email_sign_up" >
+                    android:text="@string/email_sign_up"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" >
                 </Button>
             </LinearLayout>
         </LinearLayout>
