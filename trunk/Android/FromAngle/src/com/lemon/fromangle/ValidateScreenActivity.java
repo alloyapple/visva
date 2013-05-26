@@ -34,6 +34,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	private String userId = null, userName = null;
 
 	private PendingIntent pendingIntent;
+	private int status;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		if (!mFromAngleSharedPref.getRunFromActivity()) {
 			shiftValueForValidation();
 		}
+
+		status = Integer.parseInt(mFromAngleSharedPref
+				.getMessageSettingStatus());
 	}
 
 	private void shiftValueForValidation() {
@@ -101,7 +105,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	public void onOKClick(View v) {
-		startRunAlarmManager();
+		if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
+				|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
+			startRunAlarmManager();
 		mFromAngleSharedPref.setStopAlarm(true);
 		mFromAngleSharedPref.setValidationMode(0);
 		if (mFromAngleSharedPref.getRunOnBackGround()
@@ -111,9 +117,10 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			startActivity(intent);
 		}
 		/* send update status to server */
-		int status = Integer.parseInt(mFromAngleSharedPref.getMessageSettingStatus());
-		if (!StringUtility.isEmpty(userId) &&(status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
-				|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
+		int status = Integer.parseInt(mFromAngleSharedPref
+				.getMessageSettingStatus());
+		if (!StringUtility.isEmpty(userId)
+				&& (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS || status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
 			sendUpdateStatusToServer("1");
 		} else
 			finish();
@@ -144,6 +151,9 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		mFromAngleSharedPref.setStopAlarm(true);
 		if (mFromAngleSharedPref.getValidationMode() < 1) {
 			mFromAngleSharedPref.setValidationMode(1);
+			if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
+					|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
+				startRunAlarmManager();
 			startRunAlarmManager();
 		} else if (mFromAngleSharedPref.getValidationMode() < 2) {
 			mFromAngleSharedPref.setValidationMode(2);

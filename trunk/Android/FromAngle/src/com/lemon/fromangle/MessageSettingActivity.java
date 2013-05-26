@@ -476,18 +476,19 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 	private void stopAlarmManager() {
 		// TODO Auto-generated method stub
-		int timeDelay = -5000;
-		Log.e("delay time", "delay time " + timeDelay);
+//		int timeDelay = -5000;
+//		Log.e("delay time", "delay time " + timeDelay);
 		Intent myIntent = new Intent(MessageSettingActivity.this,
 				MessageFollowService.class);
 		pendingIntent = PendingIntent.getService(MessageSettingActivity.this,
 				0, myIntent, 0);
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		calendar.add(Calendar.SECOND, timeDelay);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-				pendingIntent);
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTimeInMillis(System.currentTimeMillis());
+//		calendar.add(Calendar.SECOND, timeDelay);
+//		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//				pendingIntent);
+		alarmManager.cancel(pendingIntent);
 	}
 
 	public void checkPaymentToStart() {

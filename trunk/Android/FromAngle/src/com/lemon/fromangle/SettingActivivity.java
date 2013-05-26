@@ -14,7 +14,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -54,7 +53,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -62,7 +60,6 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
-import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
@@ -241,15 +238,19 @@ public class SettingActivivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				// TODO Auto-generated method stub
-				if (chkVibrate.isChecked() && !mFromAngleSharedPref.getCheckVibrate()) {
-					 Vibrator v = (Vibrator)
-					 getSystemService(Context.VIBRATOR_SERVICE);
-					 // Vibrate for 500 milliseconds
-					 v.vibrate(1000);
-					 mFromAngleSharedPref.setCheckVibrate(true);
+				if (chkVibrate.isChecked()
+						&& !mFromAngleSharedPref.getCheckVibrate()) {
+					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+					// Vibrate for 500 milliseconds
+					if (!mFromAngleSharedPref.getVibrateMode())
+						v.vibrate(1000);
+					mFromAngleSharedPref.setVibrateMode(true);
+					mFromAngleSharedPref.setCheckVibrate(true);
 				}
-				if(!chkVibrate.isChecked())
+				if (!chkVibrate.isChecked()){
 					mFromAngleSharedPref.setCheckVibrate(false);
+					mFromAngleSharedPref.setVibrateMode(false);
+				}
 				return;
 			}
 		});
@@ -358,16 +359,24 @@ public class SettingActivivity extends Activity {
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
-		checkRing=false;
+		checkRing = false;
 		super.onPause();
 	}
 
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
-		checkRing=false;
+		checkRing = false;
 		super.onStop();
 	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		mFromAngleSharedPref.setCheckVibrate(false);
+		super.onDestroy();
+	}
+
 	private Uri[] checkListUri(RingtoneManager mRingTone, Cursor mCursor2) {
 		int alarmsCount = mCursor2.getCount();
 		if (alarmsCount == 0 && !mCursor2.moveToFirst()) {
@@ -515,7 +524,7 @@ public class SettingActivivity extends Activity {
 				if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_SUCESS) {
 					showToast(getString(R.string.change_info_sucess));
 					addDataToPreference();
-//					startRunAlarmManager();
+					// startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
 					showToast(getString(R.string.duplicated_email));
 				} else
@@ -564,9 +573,10 @@ public class SettingActivivity extends Activity {
 						addDataToPreference();
 
 						/* start run alarmmanager */
-						String status = mFromAngleSharedPref.getMessageSettingStatus();
-//						if(mFromAngleSharedPref.getMessageSettingStatus())
-//						startRunAlarmManager();
+						String status = mFromAngleSharedPref
+								.getMessageSettingStatus();
+						// if(mFromAngleSharedPref.getMessageSettingStatus())
+						// startRunAlarmManager();
 
 						showToast("Sucessfully");
 					}
@@ -583,40 +593,41 @@ public class SettingActivivity extends Activity {
 		}
 	}
 
-//	private void startRunAlarmManager() {
-//		Log.e("stgart run alarm", "start alarm");
-//		Date date1 = new Date();
-//		String dateStr = txtDateSetting.getText().toString();
-//		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-//		try {
-//			date1 = df.parse(dateStr);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//		long timeOfDate = date1.getTime();
-//
-//		String timeStr[] = txtTimeSetting.getText().toString().split(" : ");
-//		int hour = Integer.parseInt(timeStr[0]);
-//		int minute = Integer.parseInt(timeStr[1]);
-//		long timeOfClock = hour * 3600 + minute * 60;
-//		long totalDelayTime = timeOfDate + timeOfClock * 1000;
-//		long currenttime = System.currentTimeMillis();
-//		int delayTime = (int) (totalDelayTime - currenttime);
-//		if (delayTime > 0) {
-//			int timeDelay = delayTime / 1000;
-//			Log.e("delay time", "delay time " + delayTime);
-//			Intent myIntent = new Intent(SettingActivivity.this,
-//					MessageFollowService.class);
-//			pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
-//					myIntent, 0);
-//			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//			Calendar calendar = Calendar.getInstance();
-//			calendar.setTimeInMillis(System.currentTimeMillis());
-//			calendar.add(Calendar.SECOND, timeDelay);
-//			alarmManager.set(AlarmManager.RTC_WAKEUP,
-//					calendar.getTimeInMillis(), pendingIntent);
-//		}
-//	}
+	// private void startRunAlarmManager() {
+	// Log.e("stgart run alarm", "start alarm");
+	// Date date1 = new Date();
+	// String dateStr = txtDateSetting.getText().toString();
+	// final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+	// try {
+	// date1 = df.parse(dateStr);
+	// } catch (ParseException e) {
+	// e.printStackTrace();
+	// }
+	// long timeOfDate = date1.getTime();
+	//
+	// String timeStr[] = txtTimeSetting.getText().toString().split(" : ");
+	// int hour = Integer.parseInt(timeStr[0]);
+	// int minute = Integer.parseInt(timeStr[1]);
+	// long timeOfClock = hour * 3600 + minute * 60;
+	// long totalDelayTime = timeOfDate + timeOfClock * 1000;
+	// long currenttime = System.currentTimeMillis();
+	// int delayTime = (int) (totalDelayTime - currenttime);
+	// if (delayTime > 0) {
+	// int timeDelay = delayTime / 1000;
+	// Log.e("delay time", "delay time " + delayTime);
+	// Intent myIntent = new Intent(SettingActivivity.this,
+	// MessageFollowService.class);
+	// pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+	// myIntent, 0);
+	// AlarmManager alarmManager = (AlarmManager)
+	// getSystemService(ALARM_SERVICE);
+	// Calendar calendar = Calendar.getInstance();
+	// calendar.setTimeInMillis(System.currentTimeMillis());
+	// calendar.add(Calendar.SECOND, timeDelay);
+	// alarmManager.set(AlarmManager.RTC_WAKEUP,
+	// calendar.getTimeInMillis(), pendingIntent);
+	// }
+	// }
 
 	private void addDataToPreference() {
 
@@ -690,7 +701,6 @@ public class SettingActivivity extends Activity {
 		Date resultdate = new Date(defaulCalender.getTimeInMillis());
 		return resultdate;
 	}
-
 
 	OnTouchListener showTimePicker = new OnTouchListener() {
 
@@ -775,10 +785,11 @@ public class SettingActivivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				// TODO Auto-generated method stub
+				Log.e("txtDAte", "date " + txtDateSetting.toString());
 				final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 				Date dateCurrent = new Date();
 				try {
-					dateCurrent = df.parse(txtDateSetting.toString());
+					dateCurrent = df.parse(txtDateSetting.getText().toString());
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					dateCurrent = new Date();
