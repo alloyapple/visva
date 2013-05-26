@@ -103,6 +103,25 @@ public class CopyItemActivity extends BaseActivity {
 				mLinear.addView(btnItem);
 			}
 		}
+		Button btnCopy = new Button(this);
+		btnCopy .setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				70));
+		((LinearLayout.LayoutParams) btnCopy .getLayoutParams()).topMargin = 10;
+		btnCopy .setBackgroundResource(R.drawable.btn_copy_item);
+		btnCopy .setTextColor(Color.WHITE);
+		btnCopy .setGravity(Gravity.CENTER);
+		btnCopy .setText(getResources().getString(R.string.btn_paste_browse));
+		btnCopy .setOnClickListener(new OnClickListener() {
+			int index = indexSelect;
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				onPasteBrowse(null);
+			}
+		});
+		mLinear.addView(btnCopy);
 
 	}
 
