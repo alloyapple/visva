@@ -724,9 +724,9 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		}
 		long timeOfDate = date1.getTime();
 
-		String timeStr[] = mFromAngleSharedPref.getValidationTime().split(" : ");
-		int hour = Integer.parseInt(timeStr[0]);
-		int minute = Integer.parseInt(timeStr[1]);
+		String timeStr[] = mFromAngleSharedPref.getValidationTime().split(":");
+		int hour = Integer.parseInt(timeStr[0].trim());
+		int minute = Integer.parseInt(timeStr[1].trim());
 		long timeOfClock = hour * 3600 + minute * 60;
 		long totalDelayTime = timeOfDate + timeOfClock * 1000;
 		long currenttime = System.currentTimeMillis();

@@ -94,13 +94,13 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 			// }
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				DialogUtility.alert(context, "Server error");
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				DialogUtility.alert(context.getParent(), "Server error");
-				e1.printStackTrace();
-			}
+			// try {
+			// DialogUtility.alert(context, "Server error");
+			// } catch (Exception e1) {
+			// // TODO Auto-generated catch block
+			// DialogUtility.alert(context.getParent(), "Server error");
+			// e1.printStackTrace();
+			// }
 
 		}
 	}
