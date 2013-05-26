@@ -158,6 +158,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		} else if (mFromAngleSharedPref.getValidationMode() < 2) {
 			mFromAngleSharedPref.setValidationMode(2);
 			mFromAngleSharedPref.setOpenDialogReminder(true);
+			stopAlarmManager();
 		} else
 			mFromAngleSharedPref.setValidationMode(3);
 		if (mFromAngleSharedPref.getRunOnBackGround()
@@ -173,6 +174,22 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		finish();
 	}
 
+	private void stopAlarmManager() {
+		// TODO Auto-generated method stub
+//		int timeDelay = -5000;
+//		Log.e("delay time", "delay time " + timeDelay);
+		Intent myIntent = new Intent(ValidateScreenActivity.this,
+				MessageFollowService.class);
+		pendingIntent = PendingIntent.getService(ValidateScreenActivity.this,
+				0, myIntent, 0);
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.setTimeInMillis(System.currentTimeMillis());
+//		calendar.add(Calendar.SECOND, timeDelay);
+//		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//				pendingIntent);
+		alarmManager.cancel(pendingIntent);
+	}
 	// private void startRunAlarmManager() {
 	//
 	// Date date1 = new Date();
