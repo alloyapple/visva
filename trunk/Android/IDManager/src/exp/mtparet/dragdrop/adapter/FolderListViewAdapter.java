@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import visvateam.outsource.idmanager.activities.R;
@@ -30,8 +31,9 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private int currentFolderItem;
 	private GroupFolder searchFolder;
 
-	public FolderListViewAdapter(Context context, ArrayList<GroupFolder> folderList,
-			boolean isEdit, Handler mHandler, DndListViewFolder folderListView,
+	public FolderListViewAdapter(Context context,
+			ArrayList<GroupFolder> folderList, boolean isEdit,
+			Handler mHandler, DndListViewFolder folderListView,
 			int currentFolderItem, boolean isSearchMode) {
 		this.context = context;
 		this.isEdit = isEdit;
@@ -67,31 +69,38 @@ public class FolderListViewAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 
 		if (convertView == null) {
-			convertView = (RelativeLayout) RelativeLayout.inflate(context, R.layout.list_item_row,
-					null);
+			convertView = (RelativeLayout) RelativeLayout.inflate(context,
+					R.layout.list_item_row, null);
 		}
 
-		Button imgFolderDelete = (Button) convertView.findViewById(R.id.img_folder_item_delete);
-		Button imgFolderEdit = (Button) convertView.findViewById(R.id.img_folder_item_edit);
-		TextView txtFodlerName = (TextView) convertView.findViewById(R.id.txt_folder_item_name);
-		Button imgFolderIcon = (Button) convertView.findViewById(R.id.img_folder_item_icon);
+		Button imgFolderDelete = (Button) convertView
+				.findViewById(R.id.img_folder_item_delete);
+		Button imgFolderEdit = (Button) convertView
+				.findViewById(R.id.img_folder_item_edit);
+		TextView txtFodlerName = (TextView) convertView
+				.findViewById(R.id.txt_folder_item_name);
+		Button imgFolderIcon = (Button) convertView
+				.findViewById(R.id.img_folder_item_icon);
+		ImageView imgBgFolder = (ImageView) convertView
+				.findViewById(R.id.img_bg_folder);
 		imgFolderIcon.setFocusable(false);
 		txtFodlerName.setSelected(true);
 		imgFolderDelete.setFocusable(false);
 		imgFolderEdit.setFocusable(false);
 		txtFodlerName.setFocusable(false);
+		imgBgFolder.setFocusable(false);
 
 		/* set action for button */
 		imgFolderDelete.setOnClickListener(mOnDeleteClickListener);
 		imgFolderEdit.setOnClickListener(mOnEditClickListener);
 
-		convertView.setBackgroundResource(R.drawable.folder_common);
+		imgBgFolder.setBackgroundResource(R.drawable.folder_common);
 
 		if (folderList.get(position).getgOrder() < 0) {
 			if (position == currentFolderItem)
-				convertView.setBackgroundResource(R.drawable.folder_s_select);
+				imgBgFolder.setBackgroundResource(R.drawable.folder_s_select);
 			else
-				convertView.setBackgroundResource(R.drawable.folder_s_common);
+				imgBgFolder.setBackgroundResource(R.drawable.folder_s_common);
 			imgFolderDelete.setVisibility(View.GONE);
 			imgFolderEdit.setVisibility(View.GONE);
 			txtFodlerName.setVisibility(View.GONE);
@@ -102,10 +111,11 @@ public class FolderListViewAdapter extends BaseAdapter {
 				imgFolderIcon.setBackgroundResource(R.drawable.history);
 
 		} else {
-			if (position == currentFolderItem || (isSearchMode && position == 0))
-				convertView.setBackgroundResource(R.drawable.folder_select);
+			if (position == currentFolderItem
+					|| (isSearchMode && position == 0))
+				imgBgFolder.setBackgroundResource(R.drawable.folder_select);
 			else
-				convertView.setBackgroundResource(R.drawable.folder_common);
+				imgBgFolder.setBackgroundResource(R.drawable.folder_common);
 			imgFolderIcon.setVisibility(View.GONE);
 			if (isEdit == true) {
 				imgFolderDelete.setVisibility(View.VISIBLE);
@@ -167,7 +177,8 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			final int position = folderListView.getPositionForView((View) v.getParent());
+			final int position = folderListView.getPositionForView((View) v
+					.getParent());
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = DELETE_FOLDER;
 			msg.arg2 = position;
@@ -178,7 +189,8 @@ public class FolderListViewAdapter extends BaseAdapter {
 	private OnClickListener mOnEditClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			final int position = folderListView.getPositionForView((View) v.getParent());
+			final int position = folderListView.getPositionForView((View) v
+					.getParent());
 			if (isEdit) {
 				Message msg = mHandler.obtainMessage();
 				msg.arg1 = EDIT_FOLDER;

@@ -88,41 +88,34 @@
         android:layout_weight="1"
         android:orientation="horizontal" >
 
-        <LinearLayout
-            android:id="@+id/layout_listview_folder"
-            android:layout_width="100dp"
+        <Button
+            android:id="@+id/btn_add_new_folder"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/folder"
+            android:gravity="bottom" />
+
+        <exp.mtparet.dragdrop.view.DndListViewFolder
+            android:id="@+id/list_view_folder"
+            android:layout_width="85dp"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
-
-            <exp.mtparet.dragdrop.view.DndListViewFolder
-                android:id="@+id/list_view_folder"
-                android:layout_width="100dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:divider="@color/transparent" />
-
-            <Button
-                android:id="@+id/btn_add_new_folder"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center"
-                android:background="@drawable/folder"
-                android:gravity="center" />
-        </LinearLayout>
+            android:layout_above="@id/btn_add_new_folder"
+            android:background="@color/transparent"
+            android:divider="@color/transparent" />
 
         <exp.mtparet.dragdrop.view.ListViewDragDrop
             android:id="@+id/list_view_item"
             android:layout_width="wrap_content"
             android:layout_height="400dp"
-            android:layout_toRightOf="@id/layout_listview_folder"
+            android:layout_toRightOf="@id/list_view_folder"
             android:divider="@color/transparent" />
 
         <RelativeLayout
             android:id="@+id/layoutDrag"
             android:layout_width="250dp"
             android:layout_height="80dp"
-            android:layout_toRightOf="@id/layout_listview_folder"
+            android:layout_toRightOf="@id/list_view_folder"
             android:background="@drawable/item_bar"
             android:visibility="gone" >
 

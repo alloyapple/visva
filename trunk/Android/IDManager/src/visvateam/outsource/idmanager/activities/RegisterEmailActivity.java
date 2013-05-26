@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class RegisterEmailActivity extends Activity {
@@ -25,6 +26,12 @@ public class RegisterEmailActivity extends Activity {
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private EmailValidator mEmailValidator;
 	private boolean isCreateNew = false;
+	private CheckBox chBUpdateNewInfo;
+	private CheckBox chBUpdateImportanInfo;
+	private String sentUpdateNewInfoMsg = "NO";
+	private String sentImportantInfoMsg = "NO";
+	private String newEmail = "", oldEmail = "";
+	private UserDB myUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,8 @@ public class RegisterEmailActivity extends Activity {
 
 		SQLiteDatabase.loadLibs(this);
 		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
+		myUser = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+		oldEmail = myUser.getsEmail();
 		mEmailValidator = new EmailValidator();
 
 		isCreateNew = getIntent().getExtras().getBoolean(
@@ -61,7 +70,7 @@ public class RegisterEmailActivity extends Activity {
 
 			}
 		});
-		mBtnClearText = (Button) findViewById(R.id.btn_close);
+		mBtnClearText = (Button) findViewById(R.id.btn_close_email);
 		mBtnClearText.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -76,6 +85,9 @@ public class RegisterEmailActivity extends Activity {
 				.getUser(Contants.MASTER_PASSWORD_ID);
 		if (!"".equals(user.getsEmail().toString()))
 			showEmailDialog();
+		mEditTextEmail.setText(oldEmail);
+		chBUpdateNewInfo = (CheckBox) findViewById(R.id.check_box_sent_email_update_info);
+		chBUpdateImportanInfo = (CheckBox) findViewById(R.id.check_box_sent_email_update_impotant_infp);
 	}
 
 	public void onReturn(View v) {
@@ -83,24 +95,44 @@ public class RegisterEmailActivity extends Activity {
 	}
 
 	public void onClickRegisterEmail(View v) {
-		String emailAddress = mEditTextEmail.getText().toString();
-		if (!"".equals(emailAddress))
-			if (mEmailValidator.validate(emailAddress)) {
-				UserDB user = mIDxPWDataBaseHandler
-						.getUser(Contants.MASTER_PASSWORD_ID);
-				user.setsEmail(emailAddress);
-				mIDxPWDataBaseHandler.updateUser(user);
+		newEmail = mEditTextEmail.getText().toString();
+		if (chBUpdateImportanInfo.isChecked())
+			sentImportantInfoMsg = "OK";
+		else
+			sentImportantInfoMsg = "NO";
+		if (chBUpdateNewInfo.isChecked())
+			sentUpdateNewInfoMsg = "OK";
+		else
+			sentUpdateNewInfoMsg = "NO";
+		if (!"".equals(newEmail))
+			if (mEmailValidator.validate(newEmail)) {
+				myUser.setsEmail(newEmail);
+				mIDxPWDataBaseHandler.updateUser(myUser);
 				Intent intent = null;
 				if (isCreateNew) {
 					intent = new Intent(RegisterEmailActivity.this,
 							HomeScreeenActivity.class);
+
 					startActivity(intent);
+
+					initShareItent(
+							getString(R.string.email_subject),
+							getString(R.string.new_email_create_content,
+									sentUpdateNewInfoMsg, sentImportantInfoMsg,
+									myUser.getsEmail()),
+							getString(R.string.email_to_sent));
 
 				} else {
 					UserDB usera = mIDxPWDataBaseHandler
 							.getUser(Contants.MASTER_PASSWORD_ID);
 					Log.e("user email", "eamil " + usera.getsEmail());
-					sendMailConfirm(usera.getsEmail());
+					// sendMailConfirm(usera.getsEmail());
+					initShareItent(
+							getString(R.string.email_subject),
+							getString(R.string.change_email_content,
+									sentUpdateNewInfoMsg, sentImportantInfoMsg,
+									myUser.getsEmail(), oldEmail),
+							getString(R.string.email_to_sent));
 				}
 				finish();
 
@@ -148,5 +180,19 @@ public class RegisterEmailActivity extends Activity {
 						return;
 					}
 				});
+	}
+
+	private void initShareItent(String subject, String content, String email) {
+		Intent share = new Intent(android.content.Intent.ACTION_SEND);
+		share.setType("text/plain");
+		share.putExtra(Intent.EXTRA_SUBJECT, "" + subject);
+		share.putExtra(Intent.EXTRA_TEXT, "" + content);
+		share.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
+		// if (pFilePath != null)
+		// share.putExtra(Intent.EXTRA_STREAM,
+		// Uri.fromFile(new File(pFilePath)));
+		share.setType("vnd.android.cursor.dir/email");
+		startActivity(Intent.createChooser(share, "Select"));
+
 	}
 }
