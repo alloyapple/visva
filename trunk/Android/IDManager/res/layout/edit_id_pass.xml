@@ -95,7 +95,7 @@
         <ImageView
             android:id="@id/handle"
             android:layout_width="wrap_content"
-            android:layout_height="40px"
+            android:layout_height="40dp"
             android:src="@drawable/sliding_drawer_handle_bottom" />
     </it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer>
 
@@ -150,7 +150,8 @@
                 <EditText
                     android:id="@+id/edit_text_note"
                     android:layout_width="fill_parent"
-                    android:layout_height="64dp"
+                    android:layout_height="wrap_content"
+                    android:minLines="3"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="8dp"
@@ -158,10 +159,6 @@
                     android:gravity="center"
                     android:hint="@string/hint_note"
                     android:orientation="horizontal"
-                    android:shadowColor="#0f0f0f"
-                    android:shadowDx="1.5"
-                    android:shadowDy="3"
-                    android:shadowRadius="3"
                     android:textColor="#000000"
                     android:textStyle="normal"
                     android:typeface="normal" >
