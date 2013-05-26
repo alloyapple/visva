@@ -88,6 +88,22 @@
         android:layout_weight="1"
         android:orientation="horizontal" >
 
+<<<<<<< .mine
+        <LinearLayout
+            android:id="@+id/layout_listview_folder"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <exp.mtparet.dragdrop.view.DndListViewFolder
+                android:id="@+id/list_view_folder"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@color/transparent" />
+=======
         <Button
             android:id="@+id/btn_add_new_folder"
             android:layout_width="85dp"
@@ -95,6 +111,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/folder"
             android:gravity="bottom" />
+>>>>>>> .r465
 
         <exp.mtparet.dragdrop.view.DndListViewFolder
             android:id="@+id/list_view_folder"
