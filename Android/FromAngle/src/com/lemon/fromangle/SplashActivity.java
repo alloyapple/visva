@@ -28,8 +28,6 @@ import com.lemon.fromangle.network.NetworkUtility;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.service.MessageFollowService;
-import com.lemon.fromangle.utility.DialogUtility;
-import com.lemon.fromangle.utility.StringUtility;
 
 @SuppressLint("SimpleDateFormat")
 public class SplashActivity extends LemonBaseActivity {
@@ -46,6 +44,10 @@ public class SplashActivity extends LemonBaseActivity {
 	private String after_date;
 	private FromAngleSharedPref pref;
 	private PendingIntent pendingIntent;
+	private String txtUserName1 = "", txtUserName2 = "", txtUserName3 = "",
+			txtEmail1 = "", txtEmail2 = "", txtEmail3 = "", txtTel1 = "",
+			txtTel2 = "", txtTel3 = "", txtMessage1 = "", txtMessage2 = "",
+			txtMessage3 = "", message = "", status = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class SplashActivity extends LemonBaseActivity {
 		JSONObject jsonObject = null;
 		JSONObject jsonId = null;
 		String paramData = null;
+		JSONObject jsonObjectMessageSetting = null;
 
 		String errorMsg = null;
 		try {
@@ -105,6 +108,7 @@ public class SplashActivity extends LemonBaseActivity {
 			if (jsonObject != null && jsonObject.length() > 0) {
 				errorMsg = ParserUtility.getStringValue(jsonObject,
 						GlobalValue.PARAM_ERROR);
+
 				int error = Integer.parseInt(errorMsg);
 				if (error == GlobalValue.MSG_REPONSE_SUCESS) {
 					paramData = ParserUtility.getStringValue(jsonObject,
@@ -120,12 +124,14 @@ public class SplashActivity extends LemonBaseActivity {
 						tel = ParserUtility.getStringValue(jsonId, "tel");
 						date = ParserUtility.getStringValue(jsonId, "day");
 						String dateSplit[] = date.split("-");
-						if(dateSplit.length > 0){
-							date = dateSplit[0]+"/"+dateSplit[1]+"/"+dateSplit[2];
+						if (dateSplit.length > 0) {
+							date = dateSplit[0] + "/" + dateSplit[1] + "/"
+									+ dateSplit[2];
 						}
 						time = ParserUtility.getStringValue(jsonId, "time");
 						after_date = ParserUtility.getStringValue(jsonId,
 								"days_after");
+
 						savePreference();
 						startRunAlarmManager();
 					}
@@ -136,6 +142,48 @@ public class SplashActivity extends LemonBaseActivity {
 				} else {
 					// DialogUtility.alert(this,
 					// getString(R.string.failed_to_conect_server));
+				}
+
+				/* parse in message setting */
+				message = ParserUtility.getStringValue(jsonObject, "message");
+
+				Log.e("mesage", "mesage" + message);
+				if (!"false".equalsIgnoreCase(message)) {
+					jsonObjectMessageSetting = new JSONObject(message);
+					if (jsonObjectMessageSetting != null
+							&& jsonObjectMessageSetting.length() > 0) {
+						txtUserName1 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "receiver_1");
+						txtEmail1 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "mail_1");
+						txtMessage1 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "message_1");
+
+						txtUserName2 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "receiver_2");
+						txtEmail2 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "mail_2");
+						txtMessage2 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "message_2");
+
+						txtUserName3 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "receiver_3");
+						txtEmail3 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "mail_3");
+						txtMessage3 = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "message_3");
+
+						saveInputPref();
+						status = ParserUtility.getStringValue(
+								jsonObjectMessageSetting, "status");
+						int statusMode = Integer.parseInt(status);
+						if (statusMode == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
+								|| statusMode == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
+							startRunAlarmManager();
+						} else
+							stopAlarmManager();
+						Log.e("user " + status, "user " + txtUserName1);
+					}
 				}
 			}
 		} catch (JSONException e) {
@@ -148,7 +196,7 @@ public class SplashActivity extends LemonBaseActivity {
 	private void savePreference() {
 		String[] times = time.split(":");
 		time = times[0] + ":" + times[1];
-		Log.i("date","add "+ date);
+		Log.i("date", "add " + date);
 		Log.i("time", time);
 		Log.i("user_id", user_id);
 		pref.setUserName(userName);
@@ -159,9 +207,9 @@ public class SplashActivity extends LemonBaseActivity {
 		pref.setPhone(tel);
 		pref.setValidationDaysAfter(after_date);
 		pref.setEmail(mail);
-		
+
 		String dateSetByUserStr = date + " " + time;
-		Log.e("date by user", "date by user "+dateSetByUserStr);
+		Log.e("date by user", "date by user " + dateSetByUserStr);
 		Date dateSetByUser = new Date();
 		pref.setTopScreenFinalValidation("----------");
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -182,7 +230,7 @@ public class SplashActivity extends LemonBaseActivity {
 		if (timeCompare - currentTime > 0) {
 			pref.setTopScreenNextValidation(dateSetByUserStr);
 		} else {
-			Log.e("date", "dateidjf "+dateSetByUserStr);
+			Log.e("date", "dateidjf " + dateSetByUserStr);
 			Date date1 = new Date();
 			int daysAfter = Integer.parseInt(after_date);
 			final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -201,11 +249,11 @@ public class SplashActivity extends LemonBaseActivity {
 	}
 
 	public static Date addDaysToDate(Date input, int numberDay) {
-		Log.e("dateintpu", "date input "+input.toLocaleString());
+		Log.e("dateintpu", "date input " + input.toLocaleString());
 		Calendar defaulCalender = Calendar.getInstance();
 		defaulCalender.setTime(input);
 		long time1 = defaulCalender.getTimeInMillis();
-		long time2 = numberDay * 60 *1000;
+		long time2 = numberDay * 60 * 1000;
 		long resultTime = time1 + time2;
 		defaulCalender.add(Calendar.YEAR, 0);
 		defaulCalender.add(Calendar.MINUTE, numberDay);
@@ -253,4 +301,72 @@ public class SplashActivity extends LemonBaseActivity {
 					calendar.getTimeInMillis(), pendingIntent);
 		}
 	}
+
+	private void saveInputPref() {
+		pref.setMessageSettingTab1(txtUserName1.toString(),
+				txtEmail1.toString(), txtTel1.toString(),
+				txtMessage1.toString());
+		pref.setMessageSettingTab2(txtUserName2.toString(),
+				txtEmail2.toString(), txtTel2.toString(),
+				txtMessage2.toString());
+		pref.setMessageSettingTab3(txtUserName3.toString(),
+				txtEmail3.toString(), txtTel3.toString(),
+				txtMessage3.toString());
+		pref.saveInputMessage(true);
+
+		pref.setMessageSettingStatus(status);
+	}
+
+	private void stopAlarmManager() {
+		// TODO Auto-generated method stub
+		// int timeDelay = -5000;
+		// Log.e("delay time", "delay time " + timeDelay);
+		Intent myIntent = new Intent(SplashActivity.this,
+				MessageFollowService.class);
+		pendingIntent = PendingIntent.getService(SplashActivity.this, 0,
+				myIntent, 0);
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		// Calendar calendar = Calendar.getInstance();
+		// calendar.setTimeInMillis(System.currentTimeMillis());
+		// calendar.add(Calendar.SECOND, timeDelay);
+		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		// pendingIntent);
+		alarmManager.cancel(pendingIntent);
+	}
+	// private void startRunAlarmManager() {
+	//
+	// Date date1 = new Date();
+	// String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
+	// final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	// try {
+	// date1 = df.parse(dateStr);
+	// } catch (ParseException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// long timeOfDate = date1.getTime();
+	// long totalDelayTime = timeOfDate;
+	// long currenttime = System.currentTimeMillis();
+	// long delayTime = totalDelayTime - currenttime;
+	// int timeDelay = (int) (delayTime / 1000);
+	// Intent myIntent = new Intent(ValidateScreenActivity.this,
+	// MessageFollowService.class);
+	//
+	// pendingIntent = PendingIntent.getService(ValidateScreenActivity.this,
+	// 0, myIntent, 0);
+	//
+	// AlarmManager alarmManager = (AlarmManager)
+	// getSystemService(ALARM_SERVICE);
+	//
+	// Calendar calendar = Calendar.getInstance();
+	//
+	// calendar.setTimeInMillis(System.currentTimeMillis());
+	//
+	// calendar.add(Calendar.SECOND, timeDelay);
+	//
+	// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+	// pendingIntent);
+	//
+	// }
+
 }

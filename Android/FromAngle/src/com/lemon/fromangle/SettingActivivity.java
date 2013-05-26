@@ -180,8 +180,8 @@ public class SettingActivivity extends Activity {
 			if (date < 10)
 				dayStr = "0" + date;
 			else
-				dayStr = "0" + date;
-			String dateStr = year + "-" + monthStr + "-" + dayStr;
+				dayStr = "" + date;
+			String dateStr = year + "/" + monthStr + "/" + dayStr;
 			String hourStr = "", minStr = "";
 			if (hour < 10)
 				hourStr = "0" + hour;
