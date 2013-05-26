@@ -32,7 +32,7 @@ import com.google.ads.AdView;
 public class CopyItemActivity extends BaseActivity {
 	public static final String KEY_LIST_ITEM = "listItem";
 	public static final String KEY_URL = "keyUrl";
-	public static final String KEY_NOTE= "keyNote";
+	public static final String KEY_NOTE = "keyNote";
 	private int currentElementId;
 	public final static int COPY_ID = 0;
 	public final static int COPY_PASS = 1;
@@ -84,8 +84,7 @@ public class CopyItemActivity extends BaseActivity {
 				indexSelect = i;
 				Button btnItem = new Button(this);
 				btnItem.setLayoutParams(new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.FILL_PARENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT));
+						LinearLayout.LayoutParams.FILL_PARENT, 60));
 				((LinearLayout.LayoutParams) btnItem.getLayoutParams()).topMargin = 10;
 				btnItem.setBackgroundResource(R.drawable.btn_copy_item);
 				btnItem.setTextColor(Color.WHITE);
@@ -104,15 +103,14 @@ public class CopyItemActivity extends BaseActivity {
 			}
 		}
 		Button btnCopy = new Button(this);
-		btnCopy .setLayoutParams(new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				70));
-		((LinearLayout.LayoutParams) btnCopy .getLayoutParams()).topMargin = 10;
-		btnCopy .setBackgroundResource(R.drawable.btn_copy_item);
-		btnCopy .setTextColor(Color.WHITE);
-		btnCopy .setGravity(Gravity.CENTER);
-		btnCopy .setText(getResources().getString(R.string.btn_paste_browse));
-		btnCopy .setOnClickListener(new OnClickListener() {
+		btnCopy.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT, 60));
+		((LinearLayout.LayoutParams) btnCopy.getLayoutParams()).topMargin = 10;
+		btnCopy.setBackgroundResource(R.drawable.btn_paste);
+		btnCopy.setTextColor(Color.WHITE);
+		btnCopy.setGravity(Gravity.CENTER);
+		btnCopy.setText(getResources().getString(R.string.btn_paste_browse));
+		btnCopy.setOnClickListener(new OnClickListener() {
 			int index = indexSelect;
 
 			@Override
@@ -145,7 +143,7 @@ public class CopyItemActivity extends BaseActivity {
 	public void onPasteBrowse(View v) {
 		Intent intentBrowser = new Intent(CopyItemActivity.this,
 				BrowserJogdialActivity.class);
-//		intentBrowser.putExtra(KEY_LIST_ITEM, itemList);
+		// intentBrowser.putExtra(KEY_LIST_ITEM, itemList);
 		intentBrowser.putExtra(KEY_URL, element.geteUrl());
 		intentBrowser.putExtra(KEY_NOTE, element.geteNote());
 		startActivity(intentBrowser);
