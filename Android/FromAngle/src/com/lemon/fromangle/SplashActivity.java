@@ -133,7 +133,7 @@ public class SplashActivity extends LemonBaseActivity {
 								"days_after");
 
 						savePreference();
-						startRunAlarmManager();
+						// startRunAlarmManager();
 					}
 
 				} else if (error == GlobalValue.MSG_CHECK_USER_EXIST) {
@@ -173,16 +173,15 @@ public class SplashActivity extends LemonBaseActivity {
 						txtMessage3 = ParserUtility.getStringValue(
 								jsonObjectMessageSetting, "message_3");
 
-						saveInputPref();
 						status = ParserUtility.getStringValue(
 								jsonObjectMessageSetting, "status");
 						int statusMode = Integer.parseInt(status);
-						if (statusMode == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
-								|| statusMode == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
+						if (statusMode == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 							startRunAlarmManager();
 						} else
 							stopAlarmManager();
 						Log.e("user " + status, "user " + txtUserName1);
+						saveInputPref();
 					}
 				}
 			}
@@ -314,7 +313,7 @@ public class SplashActivity extends LemonBaseActivity {
 				txtMessage3.toString());
 		pref.saveInputMessage(true);
 
-		pref.setMessageSettingStatus(status);
+		pref.putAppStatus(status);
 	}
 
 	private void stopAlarmManager() {

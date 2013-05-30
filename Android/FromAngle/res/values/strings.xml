@@ -46,7 +46,7 @@
     <string name="title_messsage_setting">メッセージ </string>
     <string name="messsage_setting">メッセージ</string>
     <string name="send_details">（1）配信内容</string>
-     <string name="own_name_message">相手の名前 ： </string>
+    <string name="own_name_message">相手の名前 ： </string>
     <string name="mail">Mailｱﾄﾞﾚｽ  ： </string>
     <string name="address">Address : </string>
     <string name="message">メッセージ  ： </string>
@@ -72,7 +72,7 @@
     <string name="ng">NG!</string>
     <string name="final_validation">最終確認</string>
     <string name="next_validation">次回確認</string>
-    <string name="msg_stop_service">Since Mr/Ms %s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms A.\nIn Addition,message may not be receiver due to sending condition and receiver incoming rejection settings, etc.</string>
+    <string name="msg_stop_service">Since Mr/Ms %1$s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms %2$s.\nIn Addition,message may not be receiver due to sending condition and receiver incoming rejection settings, etc.</string>
     <string name="message_paid_expired">You payment is expired, do you want to continue to use it?</string>
     <string name="message_paid_not_paid">You will be charge to use this function. Are you sure?</string>
     <string name="term_of_use"><a href="http://google.com">I read and agreed the policy</a></string>

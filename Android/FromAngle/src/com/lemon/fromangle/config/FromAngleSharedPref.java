@@ -49,6 +49,7 @@ public class FromAngleSharedPref {
 	public static final String KEY_CHECK_OPEN_DIALOG_REMINDER = "KEY_CHECK_OPEN_DIALOG_REMINDER";
 	public static final String KEY_CHECK_VIBRATE = "KEY_CHECK_VIBRATE";
 	public static final String KEY_CHECK_RINGTONE = "KEY_CHECK_RINGTONE";
+	public static final String KEY_APP_STATUS = "KEY_APP_STATUS";
 
 	public static final String KEY_SAVE_INPUT_MESSAGE = "SAVE_INPUT_MESSAGE";
 	public static final String[] KEY_MESSGE1 = { "OWN_NAME_01", "EMAIL_01",
@@ -142,6 +143,14 @@ public class FromAngleSharedPref {
 
 	public String getRingTuneFile() {
 		return getStringValue(PREF_SETTING_RING_TUNE_URL);
+	}
+
+	public void putAppStatus(String status) {
+		putStringValue(KEY_APP_STATUS, status);
+	}
+
+	public String getAppStatus() {
+		return getStringValue(KEY_APP_STATUS);
 	}
 
 	public void setUserName(String fileName) {
