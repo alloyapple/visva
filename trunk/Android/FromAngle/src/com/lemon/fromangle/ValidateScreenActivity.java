@@ -51,12 +51,13 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		} else {
 			lblMessage.setText(getString(R.string.mr_ms_name, ""));
 		}
-		if (!mFromAngleSharedPref.getRunFromActivity()) {
-			shiftValueForValidation();
-		}
-
-		status = Integer.parseInt(mFromAngleSharedPref
-				.getMessageSettingStatus());
+		// if (!mFromAngleSharedPref.getRunFromActivity()) {
+		shiftValueForValidation();
+		// }
+		String statusMsg = mFromAngleSharedPref.getMessageSettingStatus();
+		if (!StringUtility.isEmpty(statusMsg))
+			status = Integer.parseInt(mFromAngleSharedPref
+					.getMessageSettingStatus());
 	}
 
 	private void shiftValueForValidation() {
@@ -117,8 +118,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			startActivity(intent);
 		}
 		/* send update status to server */
-		int status = Integer.parseInt(mFromAngleSharedPref
-				.getMessageSettingStatus());
+		// int status = Integer.parseInt(mFromAngleSharedPref
+		// .getMessageSettingStatus());
 		if (!StringUtility.isEmpty(userId)
 				&& (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS || status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)) {
 			sendUpdateStatusToServer("1");
@@ -158,6 +159,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		} else if (mFromAngleSharedPref.getValidationMode() < 2) {
 			mFromAngleSharedPref.setValidationMode(2);
 			mFromAngleSharedPref.setOpenDialogReminder(true);
+			mFromAngleSharedPref.putAppStatus("0");
 			stopAlarmManager();
 		} else
 			mFromAngleSharedPref.setValidationMode(3);
@@ -176,20 +178,21 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 	private void stopAlarmManager() {
 		// TODO Auto-generated method stub
-//		int timeDelay = -5000;
-//		Log.e("delay time", "delay time " + timeDelay);
+		// int timeDelay = -5000;
+		// Log.e("delay time", "delay time " + timeDelay);
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
 				MessageFollowService.class);
 		pendingIntent = PendingIntent.getService(ValidateScreenActivity.this,
 				0, myIntent, 0);
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTimeInMillis(System.currentTimeMillis());
-//		calendar.add(Calendar.SECOND, timeDelay);
-//		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-//				pendingIntent);
+		// Calendar calendar = Calendar.getInstance();
+		// calendar.setTimeInMillis(System.currentTimeMillis());
+		// calendar.add(Calendar.SECOND, timeDelay);
+		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		// pendingIntent);
 		alarmManager.cancel(pendingIntent);
 	}
+
 	// private void startRunAlarmManager() {
 	//
 	// Date date1 = new Date();
@@ -246,5 +249,36 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				pendingIntent);
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if (!mFromAngleSharedPref.getStopAlarm()) {
+			mFromAngleSharedPref.setStopAlarm(true);
+			if (mFromAngleSharedPref.getValidationMode() < 1) {
+				mFromAngleSharedPref.setValidationMode(1);
+				if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
+						|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
+					startRunAlarmManager();
+				startRunAlarmManager();
+			} else if (mFromAngleSharedPref.getValidationMode() < 2) {
+				mFromAngleSharedPref.setValidationMode(2);
+				mFromAngleSharedPref.setOpenDialogReminder(true);
+				stopAlarmManager();
+			} else
+				mFromAngleSharedPref.setValidationMode(3);
+			if (mFromAngleSharedPref.getRunOnBackGround()
+					&& mFromAngleSharedPref.getExistByTopScreen()) {
+				Intent intent = new Intent(ValidateScreenActivity.this,
+						TopScreenActivity.class);
+				startActivity(intent);
+			}
+			/* send update status to server */
+			// if (!StringUtility.isEmpty(userId)) {
+			// sendUpdateStatusToServer("0");
+			// } else
+		}
+		super.onBackPressed();
 	}
 }

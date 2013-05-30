@@ -1,5 +1,7 @@
 package com.lemon.fromangle;
 
+import java.security.spec.MGF1ParameterSpec;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -301,6 +303,32 @@ public class TopScreenActivity extends Activity {
 	private AlertDialog creatDialogReminder(String message, String title,
 			int layout, DialogInterface.OnClickListener listener) {
 		final String userName = mFromAngleSharedPref.getUserName();
+		final String[] msgSettingTab1 = mFromAngleSharedPref
+				.getMessageSettingTab1();
+		final String[] msgSettingTab2 = mFromAngleSharedPref
+				.getMessageSettingTab2();
+		final String[] msgSettingTab3 = mFromAngleSharedPref
+				.getMessageSettingTab3();
+		String receivers = "", receiver1 = msgSettingTab1[0], receiver2 = msgSettingTab2[0], receiver3 = msgSettingTab3[0];
+		if (StringUtility.isEmpty(msgSettingTab1[0])) {
+			receiver1 = "";
+		} else {
+			receiver1 = msgSettingTab1[0];
+			receivers += receiver1;
+			if (StringUtility.isEmpty(msgSettingTab2[0])) {
+				receiver2 = "";
+			} else {
+				receiver2 = "," + msgSettingTab2[0];
+				receivers += receiver2;
+				if (StringUtility.isEmpty(msgSettingTab3[0])) {
+					receiver3 = "";
+				} else {
+					receiver3 = "," + msgSettingTab3[0];
+					receivers += receiver3;
+				}
+			}
+		}
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		if (title != null)
 			builder.setTitle(title);
@@ -309,8 +337,12 @@ public class TopScreenActivity extends Activity {
 				(ViewGroup) findViewById(R.id.id_layout_reminder));
 		TextView textViewMesage = (TextView) (layoutParent
 				.findViewById(R.id.id_msg_stop_service));
-		String s = getResources().getString(R.string.msg_stop_service);
-		textViewMesage.setText(s.replace("%s", userName));
+		String s = getResources().getString(R.string.msg_stop_service,userName,receivers);
+//		s.replace("%1$s", userName);
+//		s.replace("%2$s", receivers);
+//		textViewMesage.setText(getString(R.string.msg_stop_service));
+		textViewMesage.setText(s);
+		Log.e("receiver", "receiver " + receivers);
 		TextView textView = (TextView) (layoutParent
 				.findViewById(R.id.email_contact));
 		textView.setOnClickListener(new OnClickListener() {

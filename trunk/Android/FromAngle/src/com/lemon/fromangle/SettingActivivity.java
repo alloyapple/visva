@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -60,6 +61,7 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
+import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.EmailValidator;
 import com.lemon.fromangle.utility.StringUtility;
@@ -205,7 +207,6 @@ public class SettingActivivity extends Activity {
 				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 		cursor.moveToFirst();
 		String path = cursor.getString(column_index);
-		cursor.close();
 		return path;
 	}
 
@@ -247,7 +248,7 @@ public class SettingActivivity extends Activity {
 					mFromAngleSharedPref.setVibrateMode(true);
 					mFromAngleSharedPref.setCheckVibrate(true);
 				}
-				if (!chkVibrate.isChecked()){
+				if (!chkVibrate.isChecked()) {
 					mFromAngleSharedPref.setCheckVibrate(false);
 					mFromAngleSharedPref.setVibrateMode(false);
 				}
@@ -311,7 +312,7 @@ public class SettingActivivity extends Activity {
 		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
 		String[] from = { mCursor2
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
-
+		uriRingtune = mListUriRingTone[0].toString();
 		int[] to = { android.R.id.text1 };
 
 		// create simple cursor adapter
@@ -354,6 +355,7 @@ public class SettingActivivity extends Activity {
 
 					}
 				});
+		// mCursor2.close();
 	}
 
 	@Override
@@ -524,7 +526,7 @@ public class SettingActivivity extends Activity {
 				if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_SUCESS) {
 					showToast(getString(R.string.change_info_sucess));
 					addDataToPreference();
-					// startRunAlarmManager();
+					startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
 					showToast(getString(R.string.duplicated_email));
 				} else
@@ -576,7 +578,7 @@ public class SettingActivivity extends Activity {
 						String status = mFromAngleSharedPref
 								.getMessageSettingStatus();
 						// if(mFromAngleSharedPref.getMessageSettingStatus())
-						// startRunAlarmManager();
+						startRunAlarmManager();
 
 						showToast("Sucessfully");
 					}
@@ -856,4 +858,60 @@ public class SettingActivivity extends Activity {
 		ssbuilder.setSpan(fgcspan, 0, s.length(), 0);
 		return ssbuilder;
 	}
+
+	private void startRunAlarmManager() {
+		// stopAlarmManager();
+		Log.e("stgart run alarm", "start alarm");
+		Date date1 = new Date();
+		String dateStr = mFromAngleSharedPref.getValidationDate();
+
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			date1 = df.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		long timeOfDate = date1.getTime();
+
+		String timeStr[] = mFromAngleSharedPref.getValidationTime().split(":");
+		int hour = Integer.parseInt(timeStr[0].trim());
+		int minute = Integer.parseInt(timeStr[1].trim());
+		long timeOfClock = hour * 3600 + minute * 60;
+		long totalDelayTime = timeOfDate + timeOfClock * 1000;
+		long currenttime = System.currentTimeMillis();
+		int delayTime = (int) (totalDelayTime - currenttime);
+		if (delayTime > 0) {
+			int timeDelay = delayTime / 1000;
+			Log.e("delay time", "delay time " + delayTime);
+			Intent myIntent = new Intent(SettingActivivity.this,
+					MessageFollowService.class);
+			pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+					myIntent, 0);
+			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(System.currentTimeMillis());
+			calendar.add(Calendar.SECOND, timeDelay);
+			alarmManager.set(AlarmManager.RTC_WAKEUP,
+					calendar.getTimeInMillis(), pendingIntent);
+		}
+	}
+
+	private void stopAlarmManager() {
+		// TODO Auto-generated method stub
+		// int timeDelay = -5000;
+		// Log.e("delay time", "delay time " + timeDelay);
+		Intent myIntent = new Intent(SettingActivivity.this,
+				MessageFollowService.class);
+		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
+				myIntent, 0);
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		// Calendar calendar = Calendar.getInstance();
+		// calendar.setTimeInMillis(System.currentTimeMillis());
+		// calendar.add(Calendar.SECOND, timeDelay);
+		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		// pendingIntent);
+		alarmManager.cancel(pendingIntent);
+	}
+	
+	
 }

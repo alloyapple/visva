@@ -82,6 +82,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	private int currentTab = 1;
 	private boolean isStart = false;
 	private PendingIntent pendingIntent;
+	private String statusMsg = "";
 
 	public Handler mTransactionHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -112,8 +113,34 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		initUI();
 		self = this;
 		userId = mFromAngleSharedPref.getUserId();
+		// statusMsg = mFromAngleSharedPref.getAppStatus();
+		Log.e("sttMsg", "statusMsg " + statusMsg);
 		startService(new Intent(this, BillingService.class));
 		BillingHelper.setCompletedHandler(mTransactionHandler);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		statusMsg = mFromAngleSharedPref.getAppStatus();
+		if (!StringUtility.isEmpty(statusMsg)) {
+			int status = Integer.parseInt(statusMsg);
+			if (status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
+				btnStart.setEnabled(false);
+				btnStop.setEnabled(true);
+				btnStop.setBackgroundResource(R.drawable.btn_stop);
+			} else {
+				btnStart.setEnabled(true);
+				btnStop.setEnabled(false);
+				btnStart.setBackgroundResource(R.drawable.btn_start);
+			}
+		} else {
+			btnStart.setEnabled(false);
+			btnStop.setEnabled(true);
+			btnStop.setBackgroundResource(R.drawable.btn_stop);
+		}
+		Log.e("onmResunsd", "nsdfj ");
+		super.onResume();
 	}
 
 	private void initUI() {
@@ -453,15 +480,24 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					// showToast(getString(R.string.sucess));
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 					mFromAngleSharedPref.setValidationMode(0);
-					startRunAlarmManager();
+//					startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 					// showToast(getString(R.string.change_info_sucess));
 					mFromAngleSharedPref.setValidationMode(0);
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
-					startRunAlarmManager();
+//					startRunAlarmManager();
 				}
+				Log.e("asdfdf", "sdfsdf");
+				mFromAngleSharedPref.putAppStatus("1");
+				btnStart.setEnabled(false);
+				btnStop.setEnabled(true);
+				btnStop.setBackgroundResource(R.drawable.btn_stop);
 				if (!isStart) {
 					mFromAngleSharedPref.setMessageSettingStatus("0");
+					mFromAngleSharedPref.putAppStatus("0");
+					btnStop.setEnabled(false);
+					btnStart.setEnabled(true);
+					btnStart.setBackgroundResource(R.drawable.btn_start);
 					mFromAngleSharedPref.setValidationMode(2);
 					stopAlarmManager();
 				}
@@ -476,18 +512,18 @@ public class MessageSettingActivity extends PaymentAcitivty {
 
 	private void stopAlarmManager() {
 		// TODO Auto-generated method stub
-//		int timeDelay = -5000;
-//		Log.e("delay time", "delay time " + timeDelay);
+		// int timeDelay = -5000;
+		// Log.e("delay time", "delay time " + timeDelay);
 		Intent myIntent = new Intent(MessageSettingActivity.this,
 				MessageFollowService.class);
 		pendingIntent = PendingIntent.getService(MessageSettingActivity.this,
 				0, myIntent, 0);
 		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTimeInMillis(System.currentTimeMillis());
-//		calendar.add(Calendar.SECOND, timeDelay);
-//		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-//				pendingIntent);
+		// Calendar calendar = Calendar.getInstance();
+		// calendar.setTimeInMillis(System.currentTimeMillis());
+		// calendar.add(Calendar.SECOND, timeDelay);
+		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		// pendingIntent);
 		alarmManager.cancel(pendingIntent);
 	}
 
@@ -712,38 +748,39 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		return ssbuilder;
 	}
 
-	private void startRunAlarmManager() {
-		Log.e("stgart run alarm", "start alarm");
-		Date date1 = new Date();
-		String dateStr = mFromAngleSharedPref.getValidationDate();;
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-		try {
-			date1 = df.parse(dateStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		long timeOfDate = date1.getTime();
-
-		String timeStr[] = mFromAngleSharedPref.getValidationTime().split(":");
-		int hour = Integer.parseInt(timeStr[0].trim());
-		int minute = Integer.parseInt(timeStr[1].trim());
-		long timeOfClock = hour * 3600 + minute * 60;
-		long totalDelayTime = timeOfDate + timeOfClock * 1000;
-		long currenttime = System.currentTimeMillis();
-		int delayTime = (int) (totalDelayTime - currenttime);
-		if (delayTime > 0) {
-			int timeDelay = delayTime / 1000;
-			Log.e("delay time", "delay time " + delayTime);
-			Intent myIntent = new Intent(MessageSettingActivity.this,
-					MessageFollowService.class);
-			pendingIntent = PendingIntent.getService(
-					MessageSettingActivity.this, 0, myIntent, 0);
-			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTimeInMillis(System.currentTimeMillis());
-			calendar.add(Calendar.SECOND, timeDelay);
-			alarmManager.set(AlarmManager.RTC_WAKEUP,
-					calendar.getTimeInMillis(), pendingIntent);
-		}
-	}
+//	private void startRunAlarmManager() {
+//		Log.e("stgart run alarm", "start alarm");
+//		Date date1 = new Date();
+//		String dateStr = mFromAngleSharedPref.getValidationDate();
+//		;
+//		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+//		try {
+//			date1 = df.parse(dateStr);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		long timeOfDate = date1.getTime();
+//
+//		String timeStr[] = mFromAngleSharedPref.getValidationTime().split(":");
+//		int hour = Integer.parseInt(timeStr[0].trim());
+//		int minute = Integer.parseInt(timeStr[1].trim());
+//		long timeOfClock = hour * 3600 + minute * 60;
+//		long totalDelayTime = timeOfDate + timeOfClock * 1000;
+//		long currenttime = System.currentTimeMillis();
+//		int delayTime = (int) (totalDelayTime - currenttime);
+//		if (delayTime > 0) {
+//			int timeDelay = delayTime / 1000;
+//			Log.e("delay time", "delay time " + delayTime);
+//			Intent myIntent = new Intent(MessageSettingActivity.this,
+//					MessageFollowService.class);
+//			pendingIntent = PendingIntent.getService(
+//					MessageSettingActivity.this, 0, myIntent, 0);
+//			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//			Calendar calendar = Calendar.getInstance();
+//			calendar.setTimeInMillis(System.currentTimeMillis());
+//			calendar.add(Calendar.SECOND, timeDelay);
+//			alarmManager.set(AlarmManager.RTC_WAKEUP,
+//					calendar.getTimeInMillis(), pendingIntent);
+//		}
+//	}
 }
