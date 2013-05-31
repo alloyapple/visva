@@ -117,7 +117,11 @@ public class TopScreenActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mFromAngleSharedPref.setRunFromActivity(true);
-				gotoActivity(self, ValidateScreenActivity.class);
+				Intent intent = new Intent(TopScreenActivity.this,
+						ValidateScreenActivity.class);
+				intent.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, true);
+				startActivity(intent);
+
 			}
 		});
 
@@ -337,10 +341,11 @@ public class TopScreenActivity extends Activity {
 				(ViewGroup) findViewById(R.id.id_layout_reminder));
 		TextView textViewMesage = (TextView) (layoutParent
 				.findViewById(R.id.id_msg_stop_service));
-		String s = getResources().getString(R.string.msg_stop_service,userName,receivers);
-//		s.replace("%1$s", userName);
-//		s.replace("%2$s", receivers);
-//		textViewMesage.setText(getString(R.string.msg_stop_service));
+		String s = getResources().getString(R.string.msg_stop_service,
+				userName, receivers);
+		// s.replace("%1$s", userName);
+		// s.replace("%2$s", receivers);
+		// textViewMesage.setText(getString(R.string.msg_stop_service));
 		textViewMesage.setText(s);
 		Log.e("receiver", "receiver " + receivers);
 		TextView textView = (TextView) (layoutParent

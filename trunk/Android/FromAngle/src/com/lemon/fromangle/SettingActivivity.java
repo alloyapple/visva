@@ -312,7 +312,6 @@ public class SettingActivivity extends Activity {
 		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
 		String[] from = { mCursor2
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
-		uriRingtune = mListUriRingTone[0].toString();
 		int[] to = { android.R.id.text1 };
 
 		// create simple cursor adapter
@@ -344,7 +343,6 @@ public class SettingActivivity extends Activity {
 							public void run() {
 								// TODO Auto-generated method stub
 								r.stop();
-
 							}
 						}, 3000);
 					}
@@ -355,6 +353,7 @@ public class SettingActivivity extends Activity {
 
 					}
 				});
+		uriRingtune = mListUriRingTone[0].toString();
 		// mCursor2.close();
 	}
 
@@ -632,7 +631,13 @@ public class SettingActivivity extends Activity {
 	// }
 
 	private void addDataToPreference() {
-
+		boolean isExist = false;
+		for (int i = 0; i < mListUriRingTone.length; i++) {
+			if (uriRingtune.equalsIgnoreCase(mListUriRingTone[i].toString()))
+				isExist = true;
+		}
+		if (!isExist)
+			uriRingtune = mListUriRingTone[0].toString();
 		mFromAngleSharedPref.setVibrateMode(chkVibrate.isChecked());
 		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		mFromAngleSharedPref.setUserName(txtName.getText().toString());
@@ -644,7 +649,6 @@ public class SettingActivivity extends Activity {
 				.toString());
 		mFromAngleSharedPref.setValidationTime(txtTimeSetting.getText()
 				.toString().trim());
-		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		if (isFirstTime) {
 			mFromAngleSharedPref.setTopScreenFinalValidation("----------");
 		}
@@ -912,6 +916,5 @@ public class SettingActivivity extends Activity {
 		// pendingIntent);
 		alarmManager.cancel(pendingIntent);
 	}
-	
-	
+
 }

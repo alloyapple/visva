@@ -180,7 +180,7 @@ public class SplashActivity extends LemonBaseActivity {
 							startRunAlarmManager();
 						} else
 							stopAlarmManager();
-						Log.e("user " + status, "user " + txtUserName1);
+						Log.e("user " + status, "useraaa " + txtUserName1);
 						saveInputPref();
 					}
 				}
