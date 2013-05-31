@@ -6,7 +6,6 @@ import com.lemon.fromangle.ValidateScreenActivity;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.utility.StringUtility;
-
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -97,7 +96,7 @@ public class MessageFollowService extends Service {
 			Log.e("rin " + mPref.getVibrateMode(),
 					"run here " + mPref.getStopAlarm());
 			playRingTone(mPref.getRingTuneFile());
-			new CountDownTimer(30000, 2000) {
+			new CountDownTimer(30000, 1500) {
 				@Override
 				public void onTick(long millisUntilFinished) {
 					// TODO Auto-generated method stub
@@ -110,9 +109,6 @@ public class MessageFollowService extends Service {
 						if (ringtone != null)
 							ringtone.stop();
 						v.cancel();
-						mPref.setStartService(false);
-						mPref.setStopAlarm(false);
-						mPref.setRunFromActivity(true);
 					}
 				}
 
@@ -157,6 +153,7 @@ public class MessageFollowService extends Service {
 			Intent intentValidation = new Intent(this,
 					ValidateScreenActivity.class);
 			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
 			startActivity(intentValidation);
 		} else {
 			mPref.setStartService(false);

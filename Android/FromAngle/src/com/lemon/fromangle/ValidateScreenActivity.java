@@ -35,6 +35,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 	private PendingIntent pendingIntent;
 	private int status;
+	private boolean isRunFromActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_validate);
 		lblMessage = (TextView) findViewById(R.id.lblMessage);
-
+		isRunFromActivity = getIntent().getExtras().getBoolean(
+				GlobalValue.IS_RUN_FROM_ACTIVITY);
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		userId = mFromAngleSharedPref.getUserId();
 		if (!StringUtility.isEmpty(userId)) {
@@ -52,7 +54,10 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			lblMessage.setText(getString(R.string.mr_ms_name, ""));
 		}
 		// if (!mFromAngleSharedPref.getRunFromActivity()) {
-		shiftValueForValidation();
+		if (!isRunFromActivity) {
+			shiftValueForValidation();
+			startRunAlarmManager();
+		}
 		// }
 		String statusMsg = mFromAngleSharedPref.getMessageSettingStatus();
 		if (!StringUtility.isEmpty(statusMsg))
@@ -106,9 +111,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	public void onOKClick(View v) {
-		if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
-				|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
-			startRunAlarmManager();
+
 		mFromAngleSharedPref.setStopAlarm(true);
 		mFromAngleSharedPref.setValidationMode(0);
 		if (mFromAngleSharedPref.getRunOnBackGround()
@@ -125,6 +128,13 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			sendUpdateStatusToServer("1");
 		} else
 			finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		mFromAngleSharedPref.setStopAlarm(true);
+		super.onDestroy();
 	}
 
 	private void sendUpdateStatusToServer(String status) {
@@ -152,10 +162,6 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		mFromAngleSharedPref.setStopAlarm(true);
 		if (mFromAngleSharedPref.getValidationMode() < 1) {
 			mFromAngleSharedPref.setValidationMode(1);
-			if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
-					|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
-				startRunAlarmManager();
-			startRunAlarmManager();
 		} else if (mFromAngleSharedPref.getValidationMode() < 2) {
 			mFromAngleSharedPref.setValidationMode(2);
 			mFromAngleSharedPref.setOpenDialogReminder(true);
@@ -163,6 +169,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			stopAlarmManager();
 		} else
 			mFromAngleSharedPref.setValidationMode(3);
+		Log.e("dkdo " + mFromAngleSharedPref.getRunOnBackGround(), "fdf "
+				+ mFromAngleSharedPref.getExistByTopScreen());
 		if (mFromAngleSharedPref.getRunOnBackGround()
 				&& mFromAngleSharedPref.getExistByTopScreen()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
@@ -258,10 +266,6 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			mFromAngleSharedPref.setStopAlarm(true);
 			if (mFromAngleSharedPref.getValidationMode() < 1) {
 				mFromAngleSharedPref.setValidationMode(1);
-				if (status == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS
-						|| status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS)
-					startRunAlarmManager();
-				startRunAlarmManager();
 			} else if (mFromAngleSharedPref.getValidationMode() < 2) {
 				mFromAngleSharedPref.setValidationMode(2);
 				mFromAngleSharedPref.setOpenDialogReminder(true);
