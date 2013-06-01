@@ -639,6 +639,7 @@ public class SettingActivivity extends Activity {
 		if (!isExist)
 			uriRingtune = mListUriRingTone[0].toString();
 		mFromAngleSharedPref.setVibrateMode(chkVibrate.isChecked());
+		mFromAngleSharedPref.setStopAlarm(false);
 		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		mFromAngleSharedPref.setUserName(txtName.getText().toString());
 		mFromAngleSharedPref.setEmail(txtEmail.getText().toString());
