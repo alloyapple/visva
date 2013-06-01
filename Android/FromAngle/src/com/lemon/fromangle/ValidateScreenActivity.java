@@ -238,9 +238,11 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	// }
 
 	private void startRunAlarmManager() {
+		
 		int daysAfter = Integer.parseInt(mFromAngleSharedPref
 				.getValidationDaysAfter());
 		int delayTime = daysAfter * 60;
+		Log.e("run here "+delayTime, "start run alarm "+daysAfter);
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
 				MessageFollowService.class);
 

@@ -1,5 +1,6 @@
 package com.lemon.fromangle.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.lemon.fromangle.ValidateScreenActivity;
@@ -15,6 +16,8 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -30,6 +33,7 @@ public class MessageFollowService extends Service {
 	private FromAngleSharedPref mPref;
 	private Ringtone ringtone;
 	private Vibrator v;
+	private MediaPlayer mMediaPlayer;
 
 	@Override
 	public void onCreate() {
@@ -82,7 +86,7 @@ public class MessageFollowService extends Service {
 				PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
 		// Acquire the lock
 		wl.acquire();
-
+		mMediaPlayer = new MediaPlayer();
 		mPref.setFirstTimeSetting(false);
 		if (isApplicationSentToBackground(this))
 			mPref.setRunOnBackGround(true);
@@ -95,28 +99,35 @@ public class MessageFollowService extends Service {
 		if (!StringUtility.isEmpty(mPref.getUserId())) {
 			Log.e("rin " + mPref.getVibrateMode(),
 					"run here " + mPref.getStopAlarm());
+			Intent intentValidation = new Intent(this,
+					ValidateScreenActivity.class);
+			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
+			startActivity(intentValidation);
 			playRingTone(mPref.getRingTuneFile());
-			new CountDownTimer(30000, 1500) {
+
+			new CountDownTimer(30000, 1000) {
 				@Override
 				public void onTick(long millisUntilFinished) {
 					// TODO Auto-generated method stub
 					if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
 						// Vibrate for 500 milliseconds
 						mPref.setRunFromActivity(false);
-						v.vibrate(1000);
+						v.vibrate(1500);
 					}
 					if (mPref.getStopAlarm()) {
-						if (ringtone != null)
-							ringtone.stop();
 						v.cancel();
+						if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
+							mMediaPlayer.stop();
+						MessageFollowService.this.onDestroy();
 					}
 				}
 
 				@Override
 				public void onFinish() {
-					// TODO Auto-generated method stub
-					if (ringtone != null)
-						ringtone.stop();
+
+					if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
+						mMediaPlayer.stop();
 					v.cancel();
 					mPref.setStartService(false);
 					mPref.setStopAlarm(false);
@@ -139,22 +150,39 @@ public class MessageFollowService extends Service {
 	}
 
 	public void playRingTone(String uriRingtune) {
+		Log.e("uriRingtone", "uriRingtone "+uriRingtune);
 		Uri uri = Uri.parse(uriRingtune);
 		if (!mPref.getStartService()) {
-			Log.e("run service", "run servuce "+uriRingtune);
-			ringtone = RingtoneManager.getRingtone(MessageFollowService.this,
-					uri);
-			if (ringtone != null)
-				ringtone.play();
-			Log.e("rin tom", "runsdoijff " + ringtone);
-			mPref.setStartService(true);
-
-			mPref.setRunFromActivity(false);
-			Intent intentValidation = new Intent(this,
-					ValidateScreenActivity.class);
-			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
-			startActivity(intentValidation);
+			// ringtone = RingtoneManager.getRingtone(MessageFollowService.this,
+			// uri);
+			// if (ringtone != null)
+			// ringtone.play();
+			mMediaPlayer = new MediaPlayer();
+			try {
+				mMediaPlayer.setDataSource(this, uri);
+				final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+				if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+					mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+					mMediaPlayer.setLooping(true);
+					mMediaPlayer.prepare();
+					mMediaPlayer.start();
+					mPref.setStartService(true);
+					mPref.setRunFromActivity(false);
+				}
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		} else {
 			mPref.setStartService(false);
 		}
@@ -163,7 +191,7 @@ public class MessageFollowService extends Service {
 	/*
 	 * Check app is running (in background)
 	 */
-	private static boolean isApplicationSentToBackground(final Context context) {
+	private boolean isApplicationSentToBackground(final Context context) {
 		ActivityManager am = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> tasks = am.getRunningTasks(1);
