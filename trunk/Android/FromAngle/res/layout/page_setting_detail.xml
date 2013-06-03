@@ -73,8 +73,6 @@
                     <TextView
                         style="@style/textviewfullwidth"
                         android:layout_weight="2"
-                        android:gravity="right|center"
-                        android:paddingRight="5dp"
                         android:text="@string/own_name_message" />
 
                     <EditText
@@ -93,8 +91,6 @@
                     <TextView
                         style="@style/textviewfullwidth"
                         android:layout_weight="2"
-                        android:gravity="right|center"
-                        android:paddingRight="5dp"
                         android:text="@string/mail_address" />
 
                     <EditText
@@ -113,10 +109,7 @@
 
                     <TextView
                         style="@style/textviewfullwidth"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="2"
-                        android:gravity="left|center"
                         android:text="@string/tel_no" />
 
                     <EditText
@@ -139,13 +132,13 @@
                     android:id="@+id/txtMessage1"
                     style="@style/fullwidth"
                     android:autoLink="all"
+                    android:background="@drawable/bg_message_box"
                     android:clickable="true"
                     android:cursorVisible="true"
                     android:gravity="top|left"
                     android:inputType="textMultiLine"
                     android:lines="5"
                     android:maxLength="300"
-                    android:background="@drawable/bg_message_box"
                     android:maxLines="5"
                     android:scrollbars="vertical" >
                 </EditText>
@@ -154,26 +147,35 @@
             <LinearLayout
                 android:id="@+id/layoutInfo2"
                 style="@style/layoutfullwidth_vertical"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/bg_message_box"
+                android:padding="5dp"
                 android:visibility="gone" >
 
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp" >
 
                     <TextView
                         style="@style/textviewfullwidth"
                         android:layout_weight="2"
-                        android:text="@string/own_name" />
+                        android:text="@string/own_name_message" />
 
                     <EditText
                         android:id="@+id/txtName2"
                         style="@style/fullwidth"
                         android:layout_weight="1"
+                        android:background="@drawable/bg_message_box"
                         android:singleLine="true" >
                     </EditText>
                 </LinearLayout>
 
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_marginBottom="5dp" >
 
                     <TextView
                         style="@style/textviewfullwidth"
@@ -184,12 +186,15 @@
                         android:id="@+id/txtEmail2"
                         style="@style/fullwidth"
                         android:layout_weight="1"
+                        android:background="@drawable/bg_message_box"
                         android:inputType="textEmailAddress"
                         android:singleLine="true" >
                     </EditText>
                 </LinearLayout>
 
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_marginBottom="5dp" >
 
                     <TextView
                         style="@style/textviewfullwidth"
@@ -200,6 +205,7 @@
                         android:id="@+id/txtTel2"
                         style="@style/fullwidth"
                         android:layout_weight="1"
+                        android:background="@drawable/bg_message_box"
                         android:inputType="phone"
                         android:singleLine="true" >
                     </EditText>
@@ -214,35 +220,51 @@
                 <EditText
                     android:id="@+id/txtMessage2"
                     style="@style/fullwidth"
+                    android:autoLink="all"
+                    android:background="@drawable/bg_message_box"
+                    android:clickable="true"
+                    android:cursorVisible="true"
                     android:gravity="top|left"
+                    android:inputType="textMultiLine"
                     android:lines="5"
-                    android:maxLength="300" >
+                    android:maxLength="300"
+                    android:maxLines="5"
+                    android:scrollbars="vertical" >
                 </EditText>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layoutInfo3"
                 style="@style/layoutfullwidth_vertical"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/bg_message_box"
+                android:padding="5dp"
                 android:visibility="gone" >
 
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp" >
 
                     <TextView
                         style="@style/textviewfullwidth"
                         android:layout_weight="2"
-                        android:text="@string/own_name" />
+                        android:text="@string/own_name_message" />
 
                     <EditText
                         android:id="@+id/txtName3"
                         style="@style/fullwidth"
                         android:layout_weight="1"
+                        android:background="@drawable/bg_message_box"
                         android:singleLine="true" >
                     </EditText>
                 </LinearLayout>
 
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_marginBottom="5dp" >
 
                     <TextView
                         style="@style/textviewfullwidth"
@@ -253,12 +275,15 @@
                         android:id="@+id/txtEmail3"
                         style="@style/fullwidth"
                         android:layout_weight="1"
+                        android:background="@drawable/bg_message_box"
                         android:inputType="textEmailAddress"
                         android:singleLine="true" >
                     </EditText>
                 </LinearLayout>
 
-                <LinearLayout style="@style/layoutfullwidth_horizal" >
+                <LinearLayout
+                    style="@style/layoutfullwidth_horizal"
+                    android:layout_marginBottom="5dp" >
 
                     <TextView
                         style="@style/textviewfullwidth"
@@ -269,6 +294,7 @@
                         android:id="@+id/txtTel3"
                         style="@style/fullwidth"
                         android:layout_weight="1"
+                        android:background="@drawable/bg_message_box"
                         android:inputType="phone"
                         android:singleLine="true" >
                     </EditText>
@@ -283,9 +309,16 @@
                 <EditText
                     android:id="@+id/txtMessage3"
                     style="@style/fullwidth"
+                    android:autoLink="all"
+                    android:background="@drawable/bg_message_box"
+                    android:clickable="true"
+                    android:cursorVisible="true"
                     android:gravity="top|left"
+                    android:inputType="textMultiLine"
                     android:lines="5"
-                    android:maxLength="300" >
+                    android:maxLength="300"
+                    android:maxLines="5"
+                    android:scrollbars="vertical" >
                 </EditText>
             </LinearLayout>
 
