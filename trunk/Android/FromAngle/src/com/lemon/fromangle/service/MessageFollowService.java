@@ -51,24 +51,6 @@ public class MessageFollowService extends Service {
 		super.onDestroy();
 	}
 
-	public void SetAlarm(Context context, long startTime, long delayTime) {
-		AlarmManager am = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-		PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-		// After after 30 seconds
-		am.setRepeating(AlarmManager.RTC_WAKEUP, startTime, delayTime, pi);
-	}
-
-	public void CancelAlarm(Context context) {
-		Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-		PendingIntent sender = PendingIntent
-				.getBroadcast(context, 0, intent, 0);
-		AlarmManager alarmManager = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(sender);
-	}
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onStart(Intent intent, int startId) {
@@ -96,46 +78,48 @@ public class MessageFollowService extends Service {
 		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		Log.e("rin2 " + mPref.getUserId(),
 				"run here2" + mPref.getValidationMode());
-		if (!StringUtility.isEmpty(mPref.getUserId())) {
-			Log.e("rin " + mPref.getVibrateMode(),
-					"run here " + mPref.getStopAlarm());
-			Intent intentValidation = new Intent(this,
-					ValidateScreenActivity.class);
-			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
-			startActivity(intentValidation);
-			playRingTone(mPref.getRingTuneFile());
+		// if (!StringUtility.isEmpty(mPref.getUserId())) {
+		Log.e("rin " + mPref.getVibrateMode(),
+				"run here " + mPref.getStopAlarm());
+		Intent intentValidation = new Intent(this, ValidateScreenActivity.class);
+		intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
+		startActivity(intentValidation);
+		playRingTone(mPref.getRingTuneFile());
 
-			new CountDownTimer(30000, 1000) {
-				@Override
-				public void onTick(long millisUntilFinished) {
-					// TODO Auto-generated method stub
-					if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
-						// Vibrate for 500 milliseconds
-						mPref.setRunFromActivity(false);
+		new CountDownTimer(30000, 1000) {
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
+					// Vibrate for 500 milliseconds
+					mPref.setRunFromActivity(false);
+					if (v != null)
 						v.vibrate(1500);
-					}
-					if (mPref.getStopAlarm()) {
-						v.cancel();
-						if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
-							mMediaPlayer.stop();
-						MessageFollowService.this.onDestroy();
-					}
 				}
-
-				@Override
-				public void onFinish() {
-
+				if (mPref.getStopAlarm()) {
+					if (v != null)
+						v.cancel();
+					v = null;
 					if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
 						mMediaPlayer.stop();
-					v.cancel();
-					mPref.setStartService(false);
-					mPref.setStopAlarm(false);
-					mPref.setRunFromActivity(true);
-					MessageFollowService.this.onDestroy();
-				};
-			}.start();
-		}
+					onFinish();
+					// MessageFollowService.this.onDestroy();
+				}
+			}
+
+			@Override
+			public void onFinish() {
+
+				if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
+					mMediaPlayer.stop();
+				mPref.setStartService(false);
+				mPref.setStopAlarm(false);
+				mPref.setRunFromActivity(true);
+				MessageFollowService.this.onDestroy();
+			};
+		}.start();
+
 		wl.release();
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -150,7 +134,7 @@ public class MessageFollowService extends Service {
 	}
 
 	public void playRingTone(String uriRingtune) {
-		Log.e("uriRingtone", "uriRingtone "+uriRingtune);
+		Log.e("uriRingtone", "uriRingtone " + uriRingtune);
 		Uri uri = Uri.parse(uriRingtune);
 		if (!mPref.getStartService()) {
 			// ringtone = RingtoneManager.getRingtone(MessageFollowService.this,
@@ -182,7 +166,7 @@ public class MessageFollowService extends Service {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		} else {
 			mPref.setStartService(false);
 		}
