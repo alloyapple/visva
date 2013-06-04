@@ -2,7 +2,6 @@ package com.lemon.fromangle;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -65,10 +63,10 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	private EditText txtEmail3;
 	private EditText txtTel3;
 	private EditText txtMessage3;
-	private com.lemon.fromangle.utility.AutoBGButton btnStart;
-	private com.lemon.fromangle.utility.AutoBGButton btnStop;
-	private com.lemon.fromangle.utility.AutoBGButton btnReturn;
-	private com.lemon.fromangle.utility.AutoBGButton btnSave;
+	private Button btnStart;
+	private Button btnStop;
+	private Button btnReturn;
+	private Button btnSave;
 	private com.lemon.fromangle.utility.AutoBGButton btnLeft, btnRight;
 
 	private MessageSettingActivity self;
@@ -124,22 +122,23 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		// TODO Auto-generated method stub
 		statusMsg = mFromAngleSharedPref.getAppStatus();
 		if (!StringUtility.isEmpty(statusMsg)) {
-			int status = Integer.parseInt(statusMsg);
-			if (status == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
+			if (statusMsg.equalsIgnoreCase(GlobalValue.APP_STATUS_OK)) {
 				btnStart.setEnabled(false);
 				btnStop.setEnabled(true);
-				btnStop.setBackgroundResource(R.drawable.btn_stop);
+				btnStart.setBackgroundResource(R.drawable.btn_save_pressed);
+				btnStop.setBackgroundResource(R.drawable.stop_btn);
 			} else {
 				btnStart.setEnabled(true);
 				btnStop.setEnabled(false);
-				btnStart.setBackgroundResource(R.drawable.btn_start);
+				btnStart.setBackgroundResource(R.drawable.start_btn);
+				btnStop.setBackgroundResource(R.drawable.btn_stop_pressed);
 			}
 		} else {
-			btnStart.setEnabled(false);
-			btnStop.setEnabled(true);
-			btnStop.setBackgroundResource(R.drawable.btn_stop);
+			btnStart.setEnabled(true);
+			btnStop.setEnabled(false);
+			btnStop.setBackgroundResource(R.drawable.btn_stop_pressed);
+			btnStart.setBackgroundResource(R.drawable.start_btn);
 		}
-		Log.e("onmResunsd", "nsdfj ");
 		super.onResume();
 	}
 
@@ -163,10 +162,10 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		txtEmail3 = (EditText) findViewById(R.id.txtEmail3);
 		txtTel3 = (EditText) findViewById(R.id.txtTel3);
 		txtMessage3 = (EditText) findViewById(R.id.txtMessage3);
-		btnStart = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnStart);
-		btnStop = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnStop);
-		btnReturn = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnReturn);
-		btnSave = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnSave);
+		btnStart = (Button) findViewById(R.id.btnStart);
+		btnStop = (Button) findViewById(R.id.btnStop);
+		btnReturn = (Button) findViewById(R.id.btnReturn);
+		btnSave = (Button) findViewById(R.id.btnSave);
 		if (mFromAngleSharedPref.getSaveInputMassage()) {
 			String[] inputTab1 = mFromAngleSharedPref.getMessageSettingTab1();
 			txtName1.setText(inputTab1[0]);
@@ -477,29 +476,30 @@ public class MessageSettingActivity extends PaymentAcitivty {
 						GlobalValue.PARAM_ERROR);
 				int error = Integer.parseInt(errorMsg);
 				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
-					// showToast(getString(R.string.sucess));
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 					mFromAngleSharedPref.setValidationMode(0);
 //					startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
-					// showToast(getString(R.string.change_info_sucess));
 					mFromAngleSharedPref.setValidationMode(0);
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 //					startRunAlarmManager();
 				}
-				Log.e("asdfdf", "sdfsdf");
-				mFromAngleSharedPref.putAppStatus("1");
-				btnStart.setEnabled(false);
-				btnStop.setEnabled(true);
-				btnStop.setBackgroundResource(R.drawable.btn_stop);
+				Log.e("start or stop", "start or stop "+isStart);
 				if (!isStart) {
 					mFromAngleSharedPref.setMessageSettingStatus("0");
 					mFromAngleSharedPref.putAppStatus("0");
 					btnStop.setEnabled(false);
 					btnStart.setEnabled(true);
-					btnStart.setBackgroundResource(R.drawable.btn_start);
+					btnStop.setBackgroundResource(R.drawable.btn_stop_pressed);
+					btnStart.setBackgroundResource(R.drawable.start_btn);
 					mFromAngleSharedPref.setValidationMode(2);
 					stopAlarmManager();
+				}else{
+					mFromAngleSharedPref.putAppStatus("1");
+					btnStart.setEnabled(false);
+					btnStop.setEnabled(true);
+					btnStart.setBackgroundResource(R.drawable.btn_start_pressed);
+					btnStop.setBackgroundResource(R.drawable.stop_btn);
 				}
 			}
 		} catch (JSONException e) {

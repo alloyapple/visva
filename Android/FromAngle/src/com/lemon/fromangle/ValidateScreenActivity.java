@@ -36,6 +36,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	private PendingIntent pendingIntent;
 	private int status;
 	private boolean isRunFromActivity;
+	private long currentTime;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +55,10 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 			lblMessage.setText(getString(R.string.mr_ms_name, ""));
 		}
 		// if (!mFromAngleSharedPref.getRunFromActivity()) {
-		if (!isRunFromActivity) {
-			shiftValueForValidation();
-			startRunAlarmManager();
-		}
+		// if (!isRunFromActivity) {
+		shiftValueForValidation();
+		startRunAlarmManager();
+		// }
 		// }
 		String statusMsg = mFromAngleSharedPref.getMessageSettingStatus();
 		if (!StringUtility.isEmpty(statusMsg))
@@ -67,15 +68,18 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 	private void shiftValueForValidation() {
 		mFromAngleSharedPref.setFirstTimeSetting(false);
-		mFromAngleSharedPref.setTopScreenFinalValidation(mFromAngleSharedPref
-				.getTopScreenNextValidation());
-		String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
+		currentTime = System.currentTimeMillis();
+		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		Date newDate = new Date(currentTime);
+		String newDateStr = df.format(newDate);
+		Log.e("kjsahdf", "new date " + newDateStr);
+		mFromAngleSharedPref.setTopScreenFinalValidation(newDateStr);
+		// String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
 		Date date1 = new Date();
 		int daysAfter = Integer.parseInt(mFromAngleSharedPref
 				.getValidationDaysAfter().toString());
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 		try {
-			date1 = df.parse(dateStr);
+			date1 = df.parse(newDateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -137,6 +141,14 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		super.onDestroy();
 	}
 
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		shiftValueForValidation();
+		startRunAlarmManager();
+		super.onPause();
+	}
+
 	private void sendUpdateStatusToServer(String status) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> params = ParameterFactory.updateStatusForServer(
@@ -147,6 +159,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						Log.e("my response", "my response " + response);
+						mFromAngleSharedPref.putAppStatus("1");
 						finish();
 					}
 
@@ -160,17 +173,19 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 	public void onCancelClick(View v) {
 		mFromAngleSharedPref.setStopAlarm(true);
-		if (mFromAngleSharedPref.getValidationMode() < 1) {
-			mFromAngleSharedPref.setValidationMode(1);
-		} else if (mFromAngleSharedPref.getValidationMode() < 2) {
-			mFromAngleSharedPref.setValidationMode(2);
-			mFromAngleSharedPref.setOpenDialogReminder(true);
-			mFromAngleSharedPref.putAppStatus("0");
-			stopAlarmManager();
-		} else
-			mFromAngleSharedPref.setValidationMode(3);
-		Log.e("dkdo " + mFromAngleSharedPref.getRunOnBackGround(), "fdf "
-				+ mFromAngleSharedPref.getExistByTopScreen());
+		String appStatus = mFromAngleSharedPref.getAppStatus();
+		if (!appStatus.equalsIgnoreCase(GlobalValue.APP_STATUS_STOP)
+				&& (mFromAngleSharedPref.getValidationMode() < 2))
+			if (mFromAngleSharedPref.getValidationMode() < 1) {
+				mFromAngleSharedPref.setValidationMode(1);
+			} else if (mFromAngleSharedPref.getValidationMode() < 2) {
+				mFromAngleSharedPref.setValidationMode(2);
+				mFromAngleSharedPref.setOpenDialogReminder(true);
+				mFromAngleSharedPref.putAppStatus("0");
+				stopAlarmManager();
+			} else
+				mFromAngleSharedPref.setValidationMode(3);
+
 		if (mFromAngleSharedPref.getRunOnBackGround()
 				&& mFromAngleSharedPref.getExistByTopScreen()) {
 			Intent intent = new Intent(ValidateScreenActivity.this,
@@ -238,11 +253,11 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	// }
 
 	private void startRunAlarmManager() {
-		
+
 		int daysAfter = Integer.parseInt(mFromAngleSharedPref
 				.getValidationDaysAfter());
 		int delayTime = daysAfter * 60;
-		Log.e("run here "+delayTime, "start run alarm "+daysAfter);
+		Log.e("run here " + delayTime, "start run alarm " + daysAfter);
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
 				MessageFollowService.class);
 
@@ -253,7 +268,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 		Calendar calendar = Calendar.getInstance();
 
-		calendar.setTimeInMillis(System.currentTimeMillis());
+		calendar.setTimeInMillis(currentTime);
 
 		calendar.add(Calendar.SECOND, delayTime);
 
@@ -263,28 +278,33 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		if (!mFromAngleSharedPref.getStopAlarm()) {
-			mFromAngleSharedPref.setStopAlarm(true);
+
+		mFromAngleSharedPref.setStopAlarm(true);
+		String appStatus = mFromAngleSharedPref.getAppStatus();
+		if (!appStatus.equalsIgnoreCase(GlobalValue.APP_STATUS_STOP)
+				&& (mFromAngleSharedPref.getValidationMode() < 2)
+				&& !isRunFromActivity)
 			if (mFromAngleSharedPref.getValidationMode() < 1) {
 				mFromAngleSharedPref.setValidationMode(1);
 			} else if (mFromAngleSharedPref.getValidationMode() < 2) {
 				mFromAngleSharedPref.setValidationMode(2);
 				mFromAngleSharedPref.setOpenDialogReminder(true);
+				mFromAngleSharedPref.putAppStatus("0");
 				stopAlarmManager();
 			} else
 				mFromAngleSharedPref.setValidationMode(3);
-			if (mFromAngleSharedPref.getRunOnBackGround()
-					&& mFromAngleSharedPref.getExistByTopScreen()) {
-				Intent intent = new Intent(ValidateScreenActivity.this,
-						TopScreenActivity.class);
-				startActivity(intent);
-			}
-			/* send update status to server */
-			// if (!StringUtility.isEmpty(userId)) {
-			// sendUpdateStatusToServer("0");
-			// } else
+
+		if (mFromAngleSharedPref.getRunOnBackGround()
+				&& mFromAngleSharedPref.getExistByTopScreen()) {
+			Intent intent = new Intent(ValidateScreenActivity.this,
+					TopScreenActivity.class);
+			startActivity(intent);
 		}
+		/* send update status to server */
+		// if (!StringUtility.isEmpty(userId)) {
+		// sendUpdateStatusToServer("0");
+		// } else
+
 		super.onBackPressed();
 	}
 }

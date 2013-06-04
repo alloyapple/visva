@@ -328,19 +328,19 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal" >
 
-                <com.lemon.fromangle.utility.AutoBGButton
+                <Button
                     android:id="@+id/btnSave"
                     android:layout_width="150px"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/btn_save" />
 
-                <com.lemon.fromangle.utility.AutoBGButton
+                <Button
                     android:id="@+id/btnReturn"
                     android:layout_width="150px"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/btn_return" />
+                    android:background="@drawable/return_btn" />
             </LinearLayout>
 
             <TextView
@@ -357,19 +357,19 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal" >
 
-                <com.lemon.fromangle.utility.AutoBGButton
+                <Button
                     android:id="@+id/btnStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/btn_start" />
+                    android:background="@drawable/start_btn" />
 
-                <com.lemon.fromangle.utility.AutoBGButton
+                <Button
                     android:id="@+id/btnStop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/btn_stop" />
+                    android:background="@drawable/stop_btn" />
             </LinearLayout>
 
             <TextView

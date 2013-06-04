@@ -9,7 +9,7 @@ public final class GlobalValue {
 
 	public static boolean DEBUG_MODE = true;
 	public static final String FROM_ANGLE_PREFERENCES = "FROM_ANGLE_PREFERENCES";
-	public static final String IS_RUN_FROM_ACTIVITY="isRunFromActivity";
+	public static final String IS_RUN_FROM_ACTIVITY = "isRunFromActivity";
 	public static String userId = "12";
 	public static String userEmail = "";
 
@@ -34,8 +34,11 @@ public final class GlobalValue {
 	public static final int MSG_RESPONSE_MSG_SETTING_SUCESS = 1;
 	public static final int MSG_RESPONSE_MSG_SETTING_FAILED = 0;
 	public static final int MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS = 2;
-	
+
 	public static final int MSG_RESPONSE_CHECK_USER_EXIST_SUCESS = 1;
 	public static final int MSG_RESPONSE_CHECK_USER_EXIST_FAILED = 0;
 
+	public static final String APP_STATUS_OK = "1";
+	public static final String APP_STATUS_NG = "ng!";
+	public static final String APP_STATUS_STOP = "0";
 }
