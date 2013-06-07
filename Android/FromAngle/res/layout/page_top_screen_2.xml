@@ -164,6 +164,7 @@
                             android:src="@drawable/ic_setting" />
 
                         <TextView
+                            android:textSize="12sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/message1" />
@@ -194,6 +195,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:lines="1"
+                            android:textSize="12sp"
                             android:text="@string/message2" />
                     </LinearLayout>
 
@@ -221,6 +223,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="12sp"
                             android:lines="1"
                             android:text="@string/safetyvalidation3" />
                     </LinearLayout>
