@@ -76,8 +76,14 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		mFromAngleSharedPref.setTopScreenFinalValidation(newDateStr);
 		// String dateStr = mFromAngleSharedPref.getTopScreenNextValidation();
 		Date date1 = new Date();
-		int daysAfter = Integer.parseInt(mFromAngleSharedPref
-				.getValidationDaysAfter().toString());
+		int daysAfter = 0;
+		try {
+			daysAfter = Integer.parseInt(mFromAngleSharedPref
+					.getValidationDaysAfter().toString());
+		} catch (Exception e) {
+			daysAfter = 0;
+			return;
+		}
 		try {
 			date1 = df.parse(newDateStr);
 		} catch (ParseException e) {
@@ -253,9 +259,13 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	// }
 
 	private void startRunAlarmManager() {
-
-		int daysAfter = Integer.parseInt(mFromAngleSharedPref
-				.getValidationDaysAfter());
+		int daysAfter = 0;
+		try {
+			daysAfter = Integer.parseInt(mFromAngleSharedPref
+					.getValidationDaysAfter());
+		} catch (Exception e) {
+			return;
+		}
 		int delayTime = daysAfter * 60;
 		Log.e("run here " + delayTime, "start run alarm " + daysAfter);
 		Intent myIntent = new Intent(ValidateScreenActivity.this,
