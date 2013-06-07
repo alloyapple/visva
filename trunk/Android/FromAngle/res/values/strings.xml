@@ -28,7 +28,7 @@
     <string name="btn_ok">OK</string>
 
     <!-- Setting Screen -->
-    <string name="title_settings">設定 </string>
+    <string name="title_settings">アラーム </string>
     <string name="settings">Setting</string>
     <string name="user_settings">（１）利用者設定</string>
     <string name="own_name">自分の名前  : </string>
@@ -56,7 +56,7 @@
     <string name="please_check_the_notice">*開始/停止後、サーバからの通知メールを確認してください</string>
     <string name="please_reply_by_press_ok">Please reply by pressing (OK) if there\'s a problem</string>
     <string name="please_reply_by_press_close">Please press close if the Safety Validation is NG if you\'re not the person</string>
-    <string name="message1">設定</string>
+    <string name="message1">アラーム</string>
     <string name="message2">メッセージ</string>
     <string name="help">Help</string>
     <string name="safetyvalidation3">安否確認</string>
