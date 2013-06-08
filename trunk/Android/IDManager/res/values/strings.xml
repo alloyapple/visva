@@ -140,6 +140,7 @@
     <string name="email_subject">IDxPW_Email _INF_New</string>
     <string name="new_email_create_content">MonthlyMag: %1$s\nImportantINF:%2$s \nemail:%3$s</string>
     <string name="change_email_content">MonthlyMag: %1$s\nImportantINF:%2$s \nemail:%3$s \nold email: %4$s</string>
+    <string name="title_edit">Edit</string>
     <string name="term_of_use_condition">Terms and Conditions\n
 \nThis is an agreement between you and Japan App Studio, Inc. (hereinafter stated as “Provider” or “we”). Please read these Japan App Studio Terms of Use before using our application. In order to utilize our application and our cloud cooperate system, you need to agree to be bound by the terms of this agreement. 
 \n

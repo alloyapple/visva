@@ -107,5 +107,6 @@
     <string name="email_receiver_update_info">Voy a recibir la información sobre los productos y novedades de nuestra empresa. (puede ser mensual)</string>
     <string name="email_receiver_important_info">Voy a recibir el anuncio importante.</string>
     <string name="email_sign_up">contratar</string>
+    <string name="title_edit">Editar</string>
 
 </resources>

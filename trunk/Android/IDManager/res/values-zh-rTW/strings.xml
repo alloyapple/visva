@@ -104,5 +104,6 @@
     <string name="email_sign_up">報名</string>
     <string name="wrong_pw_login">您輸入的密碼不正確，請重新輸入。</string>
     <string name="data_erased_msg">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
+    <string name="title_edit">編輯</string>
 
 </resources>

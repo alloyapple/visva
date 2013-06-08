@@ -97,5 +97,6 @@
     <!-- others -->
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
+    <string name="title_edit">Edit</string>
 
 </resources>
