@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
+import net.sqlcipher.database.SQLiteStatement;
 
 public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// User table name
@@ -50,37 +51,41 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_E_ORDER = "eOrder";
 
 	public IDxPWDataBaseHandler(Context context) {
-		super(context, Contants.DATA_IDMANAGER_NAME, null, Contants.DATA_VERSION);
+		super(context, Contants.DATA_IDMANAGER_NAME, null,
+				Contants.DATA_VERSION);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USERS + "(" + KEY_USER_ID
-				+ " INTEGER PRIMARY KEY," + KEY_USER_PASSWORD + " TEXT," + KEY_USER_EMAIL + " TEXT"
-				+ ")";
+		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USERS + "("
+				+ KEY_USER_ID + " INTEGER PRIMARY KEY," + KEY_USER_PASSWORD
+				+ " TEXT," + KEY_USER_EMAIL + " TEXT" + ")";
 		db.execSQL(CREATE_USER_TABLE);
 
 		/* create group folder db */
-		String CREATE_GROUP_FOLDER_TABLE = "CREATE TABLE " + TABLE_GROUP_FOLDER + "("
-				+ KEY_GROUP_ID + " INTEGER PRIMARY KEY," + KEY_GROUP_NAME + " TEXT,"
-				+ KEY_GROUP_TYPE + " INTEGER," + KEY_GROUP_USER_ID + " INTEGER," + KEY_GROUP_ORDER
-				+ " INTEGER" + ")";
+		String CREATE_GROUP_FOLDER_TABLE = "CREATE TABLE " + TABLE_GROUP_FOLDER
+				+ "(" + KEY_GROUP_ID + " INTEGER PRIMARY KEY," + KEY_GROUP_NAME
+				+ " TEXT," + KEY_GROUP_TYPE + " INTEGER," + KEY_GROUP_USER_ID
+				+ " INTEGER," + KEY_GROUP_ORDER + " INTEGER" + ")";
 		db.execSQL(CREATE_GROUP_FOLDER_TABLE);
 
 		/* create password table db */
-		String CREATE_PASSWORD_TABLE = "CREATE TABLE " + TABLE_PASSWORD + "(" + KEY_PASSWORD_ID
-				+ " INTEGER PRIMARY KEY," + KEY_ELEMENT_ID + " INTEGER," + KEY_TITLE_NAME_ID
-				+ " TEXT," + KEY_PASSWORD + " TEXT" + ")";
+		String CREATE_PASSWORD_TABLE = "CREATE TABLE " + TABLE_PASSWORD + "("
+				+ KEY_PASSWORD_ID + " INTEGER PRIMARY KEY," + KEY_ELEMENT_ID
+				+ " INTEGER," + KEY_TITLE_NAME_ID + " TEXT," + KEY_PASSWORD
+				+ " TEXT" + ")";
 		db.execSQL(CREATE_PASSWORD_TABLE);
 
 		/* create element id table db */
-		String CREATE_ELEMENT_ID_TABLE = "CREATE TABLE " + TABLE_ELEMENT_ID + "(" + KEY_E_ID
-				+ " INTEGER PRIMARY KEY," + KEY_E_GROUP_ID + " INTEGER," + KEY_E_TITLE + " TEXT,"
-				+ KEY_E_ICON + " TEXT," + KEY_E_TIME_STAMP + " LONG," + KEY_E_FAVOURITE
-				+ " INTEGER," + KEY_E_FLAG + " INTEGER," + KEY_E_URL + " TEXT," + KEY_E_NOTE
-				+ " TEXT," + KEY_E_IMAGE + " TEXT," + KEY_E_ORDER + " INTEGER" + ")";
+		String CREATE_ELEMENT_ID_TABLE = "CREATE TABLE " + TABLE_ELEMENT_ID
+				+ "(" + KEY_E_ID + " INTEGER PRIMARY KEY," + KEY_E_GROUP_ID
+				+ " INTEGER," + KEY_E_TITLE + " TEXT," + KEY_E_ICON + " BLOB,"
+				+ KEY_E_TIME_STAMP + " LONG," + KEY_E_FAVOURITE + " INTEGER,"
+				+ KEY_E_FLAG + " INTEGER," + KEY_E_URL + " TEXT," + KEY_E_NOTE
+				+ " TEXT," + KEY_E_IMAGE + " BLOB," + KEY_E_ORDER + " INTEGER"
+				+ ")";
 		db.execSQL(CREATE_ELEMENT_ID_TABLE);
 	}
 
@@ -115,14 +120,17 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	public UserDB getUser(int userId) {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
-		Cursor cursor = db.query(TABLE_USERS, new String[] { KEY_USER_ID, KEY_USER_PASSWORD,
-				KEY_USER_EMAIL }, KEY_USER_ID + "=?", new String[] { String.valueOf(userId) },
-				null, null, null, null);
+		Cursor cursor = db
+				.query(TABLE_USERS, new String[] { KEY_USER_ID,
+						KEY_USER_PASSWORD, KEY_USER_EMAIL },
+						KEY_USER_ID + "=?",
+						new String[] { String.valueOf(userId) }, null, null,
+						null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		UserDB user = new UserDB(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
-				cursor.getString(2));
+		UserDB user = new UserDB(Integer.parseInt(cursor.getString(0)),
+				cursor.getString(1), cursor.getString(2));
 		cursor.close();
 		db.close();
 		// return folder
@@ -175,7 +183,8 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// Deleting single user
 	public void deleteUser(int userId) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
-		db.delete(TABLE_USERS, KEY_USER_ID + " = ?", new String[] { String.valueOf(userId) });
+		db.delete(TABLE_USERS, KEY_USER_ID + " = ?",
+				new String[] { String.valueOf(userId) });
 		db.close();
 	}
 
@@ -218,15 +227,18 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	public GroupFolder getFolder(int folderId) {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
-		Cursor cursor = db.query(TABLE_GROUP_FOLDER, new String[] { KEY_GROUP_ID, KEY_GROUP_NAME,
-				KEY_GROUP_TYPE, KEY_GROUP_USER_ID, KEY_GROUP_ORDER }, KEY_GROUP_ID + "=?",
-				new String[] { String.valueOf(folderId) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_GROUP_FOLDER, new String[] {
+				KEY_GROUP_ID, KEY_GROUP_NAME, KEY_GROUP_TYPE,
+				KEY_GROUP_USER_ID, KEY_GROUP_ORDER }, KEY_GROUP_ID + "=?",
+				new String[] { String.valueOf(folderId) }, null, null, null,
+				null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		GroupFolder folder = new GroupFolder(Integer.parseInt(cursor.getString(0)),
-				cursor.getString(1), Integer.parseInt(cursor.getString(2)), Integer.parseInt(cursor
-						.getString(3)), Integer.parseInt(cursor.getString(4)));
+		GroupFolder folder = new GroupFolder(Integer.parseInt(cursor
+				.getString(0)), cursor.getString(1), Integer.parseInt(cursor
+				.getString(2)), Integer.parseInt(cursor.getString(3)),
+				Integer.parseInt(cursor.getString(4)));
 		db.close();
 		// return folder
 		return folder;
@@ -264,9 +276,12 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	public List<GroupFolder> getAllFolderByUserId(int userId) {
 		List<GroupFolder> foldertList = new ArrayList<GroupFolder>();
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
-		Cursor cursor = db.query(TABLE_GROUP_FOLDER, new String[] { KEY_GROUP_ID, KEY_GROUP_NAME,
-				KEY_GROUP_TYPE, KEY_GROUP_USER_ID, KEY_GROUP_ORDER }, KEY_GROUP_USER_ID + "=?",
-				new String[] { String.valueOf(userId) }, null, null, null, null);
+		Cursor cursor = db
+				.query(TABLE_GROUP_FOLDER, new String[] { KEY_GROUP_ID,
+						KEY_GROUP_NAME, KEY_GROUP_TYPE, KEY_GROUP_USER_ID,
+						KEY_GROUP_ORDER }, KEY_GROUP_USER_ID + "=?",
+						new String[] { String.valueOf(userId) }, null, null,
+						null, null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
@@ -348,14 +363,17 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	public Password getPassword(int passwordId) {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
-		Cursor cursor = db.query(TABLE_PASSWORD, new String[] { KEY_PASSWORD_ID, KEY_ELEMENT_ID,
-				KEY_TITLE_NAME_ID, KEY_PASSWORD, }, KEY_PASSWORD_ID + "=?",
-				new String[] { String.valueOf(passwordId) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_PASSWORD, new String[] {
+				KEY_PASSWORD_ID, KEY_ELEMENT_ID, KEY_TITLE_NAME_ID,
+				KEY_PASSWORD, }, KEY_PASSWORD_ID + "=?",
+				new String[] { String.valueOf(passwordId) }, null, null, null,
+				null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
 		Password password = new Password(Integer.parseInt(cursor.getString(0)),
-				Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3));
+				Integer.parseInt(cursor.getString(1)), cursor.getString(2),
+				cursor.getString(3));
 		db.close();
 		// return folder
 		return password;
@@ -393,9 +411,11 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	public List<Password> getAllPasswordByElementId(int elementId) {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 		List<Password> passwordList = new ArrayList<Password>();
-		Cursor cursor = db.query(TABLE_PASSWORD, new String[] { KEY_PASSWORD_ID, KEY_ELEMENT_ID,
-				KEY_TITLE_NAME_ID, KEY_PASSWORD, }, KEY_ELEMENT_ID + "=?",
-				new String[] { String.valueOf(elementId) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_PASSWORD, new String[] {
+				KEY_PASSWORD_ID, KEY_ELEMENT_ID, KEY_TITLE_NAME_ID,
+				KEY_PASSWORD, }, KEY_ELEMENT_ID + "=?",
+				new String[] { String.valueOf(elementId) }, null, null, null,
+				null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
@@ -464,15 +484,38 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	 * All CRUD(Create, Read, Update, Delete) Operations
 	 */
 
-	// Adding new ELEMENT ID
-	public void addNewElementId(ElementID elementID) {
+//	// Adding new ELEMENT ID
+//	public void addNewElementId(ElementID elementID) {
+//		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
+//
+//		ContentValues values = new ContentValues();
+//		values.put(KEY_E_ID, elementID.geteId()); // folder id
+//		values.put(KEY_E_GROUP_ID, elementID.geteGroupId()); // user id
+//		values.put(KEY_E_TITLE, elementID.geteTitle()); // folder name
+//		values.put(KEY_E_ICON, elementID.geteIcon()); // folder name
+//		// image folder icon id
+//		values.put(KEY_E_TIME_STAMP, elementID.geteTimeStamp());
+//		// image folder icon edit
+//		values.put(KEY_E_FAVOURITE, elementID.geteFavourite());
+//		values.put(KEY_E_FLAG, elementID.geteFlag());
+//		values.put(KEY_E_URL, elementID.geteUrl());
+//		values.put(KEY_E_NOTE, elementID.geteNote());
+//		values.put(KEY_E_IMAGE, elementID.geteImage());
+//		values.put(KEY_E_ORDER, elementID.geteOrder());
+//		// Inserting Row
+//		db.insert(TABLE_ELEMENT_ID, null, values);
+//
+//		// close db after use
+//		db.close(); // Closing database connection
+//	}
+	public void addElement(ElementID elementID) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_E_ID, elementID.geteId()); // folder id
 		values.put(KEY_E_GROUP_ID, elementID.geteGroupId()); // user id
 		values.put(KEY_E_TITLE, elementID.geteTitle()); // folder name
-		values.put(KEY_E_ICON, elementID.geteIcon()); // folder name
+		values.put(KEY_E_ICON, elementID.geteIconData()); // folder name
 		// image folder icon id
 		values.put(KEY_E_TIME_STAMP, elementID.geteTimeStamp());
 		// image folder icon edit
@@ -480,7 +523,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_E_FLAG, elementID.geteFlag());
 		values.put(KEY_E_URL, elementID.geteUrl());
 		values.put(KEY_E_NOTE, elementID.geteNote());
-		values.put(KEY_E_IMAGE, elementID.geteImage());
+		values.put(KEY_E_IMAGE, elementID.geteMemoData());
 		values.put(KEY_E_ORDER, elementID.geteOrder());
 		// Inserting Row
 		db.insert(TABLE_ELEMENT_ID, null, values);
@@ -489,22 +532,27 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 	}
 
+
 	// Getting single folder
 	public ElementID getElementID(int elementId) {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 
-		Cursor cursor = db.query(TABLE_ELEMENT_ID, new String[] { KEY_E_ID, KEY_E_GROUP_ID,
-				KEY_E_TITLE, KEY_E_ICON, KEY_E_TIME_STAMP, KEY_E_FAVOURITE, KEY_E_FLAG, KEY_E_URL,
-				KEY_E_NOTE, KEY_E_IMAGE, KEY_E_ORDER }, KEY_E_ID + "=?",
-				new String[] { String.valueOf(elementId) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_ELEMENT_ID, new String[] { KEY_E_ID,
+				KEY_E_GROUP_ID, KEY_E_TITLE, KEY_E_ICON, KEY_E_TIME_STAMP,
+				KEY_E_FAVOURITE, KEY_E_FLAG, KEY_E_URL, KEY_E_NOTE,
+				KEY_E_IMAGE, KEY_E_ORDER }, KEY_E_ID + "=?",
+				new String[] { String.valueOf(elementId) }, null, null, null,
+				null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
-		ElementID elementID = new ElementID(Integer.parseInt(cursor.getString(0)),
-				Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3),
-				Long.parseLong(cursor.getString(4)), Integer.parseInt(cursor.getString(5)),
-				Integer.parseInt(cursor.getString(6)), cursor.getString(7), cursor.getString(8),
-				cursor.getString(9), Integer.parseInt(cursor.getString(10)));
+		ElementID elementID = new ElementID(Integer.parseInt(cursor
+				.getString(0)), Integer.parseInt(cursor.getString(1)),
+				cursor.getString(2), cursor.getBlob(3), Long.parseLong(cursor
+						.getString(4)), Integer.parseInt(cursor.getString(5)),
+				Integer.parseInt(cursor.getString(6)), cursor.getString(7),
+				cursor.getString(8), cursor.getBlob(9),
+				Integer.parseInt(cursor.getString(10)));
 		cursor.close();
 		db.close();
 		// return folder
@@ -527,13 +575,13 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				elementID.seteId(Integer.parseInt(cursor.getString(0)));
 				elementID.seteGroupId(Integer.parseInt(cursor.getString(1)));
 				elementID.seteTitle(cursor.getString(2));
-				elementID.seteIcon(cursor.getString(3));
+				elementID.seteIconData(cursor.getBlob(3));
 				elementID.seteTimeStamp(Long.parseLong(cursor.getString(4)));
 				elementID.seteFavourite(Integer.parseInt(cursor.getString(5)));
 				elementID.seteFlag(Integer.parseInt(cursor.getString(6)));
 				elementID.seteUrl(cursor.getString(7));
 				elementID.seteNote(cursor.getString(8));
-				elementID.seteImage(cursor.getString(9));
+				elementID.seteMemoData(cursor.getBlob(9));
 				elementID.seteOrder(Integer.parseInt(cursor.getString(10)));
 
 				// Adding folder to list
@@ -551,10 +599,12 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 		List<ElementID> elementIdList = new ArrayList<ElementID>();
 
-		Cursor cursor = db.query(TABLE_ELEMENT_ID, new String[] { KEY_E_ID, KEY_E_GROUP_ID,
-				KEY_E_TITLE, KEY_E_ICON, KEY_E_TIME_STAMP, KEY_E_FAVOURITE, KEY_E_FLAG, KEY_E_URL,
-				KEY_E_NOTE, KEY_E_IMAGE, KEY_E_ORDER }, KEY_E_GROUP_ID + "=?",
-				new String[] { String.valueOf(groupFolderId) }, null, null, null, null);
+		Cursor cursor = db.query(TABLE_ELEMENT_ID, new String[] { KEY_E_ID,
+				KEY_E_GROUP_ID, KEY_E_TITLE, KEY_E_ICON, KEY_E_TIME_STAMP,
+				KEY_E_FAVOURITE, KEY_E_FLAG, KEY_E_URL, KEY_E_NOTE,
+				KEY_E_IMAGE, KEY_E_ORDER }, KEY_E_GROUP_ID + "=?",
+				new String[] { String.valueOf(groupFolderId) }, null, null,
+				null, null);
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
@@ -562,13 +612,13 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 				elementID.seteId(Integer.parseInt(cursor.getString(0)));
 				elementID.seteGroupId(Integer.parseInt(cursor.getString(1)));
 				elementID.seteTitle(cursor.getString(2));
-				elementID.seteIcon(cursor.getString(3));
+				elementID.seteIconData(cursor.getBlob(3));
 				elementID.seteTimeStamp(Long.parseLong(cursor.getString(4)));
 				elementID.seteFavourite(Integer.parseInt(cursor.getString(5)));
 				elementID.seteFlag(Integer.parseInt(cursor.getString(6)));
 				elementID.seteUrl(cursor.getString(7));
 				elementID.seteNote(cursor.getString(8));
-				elementID.seteImage(cursor.getString(9));
+				elementID.seteMemoData(cursor.getBlob(9));
 				elementID.seteOrder(Integer.parseInt(cursor.getString(10)));
 
 				// Adding folder to list
@@ -582,14 +632,14 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Updating single folder
-	public int updateElementId(ElementID elementID) {
+	public int updateElement(ElementID elementID) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_E_ID, elementID.geteId()); // folder id
 		values.put(KEY_E_GROUP_ID, elementID.geteGroupId()); // user id
 		values.put(KEY_E_TITLE, elementID.geteTitle()); // folder name
-		values.put(KEY_E_ICON, elementID.geteIcon()); // folder name
+		values.put(KEY_E_ICON, elementID.geteIconData()); // folder name
 		// image folder icon id
 		values.put(KEY_E_TIME_STAMP, elementID.geteTimeStamp());
 		// image folder icon edit
@@ -597,7 +647,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_E_FLAG, elementID.geteFlag());
 		values.put(KEY_E_URL, elementID.geteUrl());
 		values.put(KEY_E_NOTE, elementID.geteNote());
-		values.put(KEY_E_IMAGE, elementID.geteImage());
+		values.put(KEY_E_IMAGE, elementID.geteMemoData());
 		values.put(KEY_E_ORDER, elementID.geteOrder());
 		// updating row
 		db.update(TABLE_ELEMENT_ID, values, KEY_E_ID + " = ?",
@@ -609,7 +659,8 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// Deleting single folder
 	public void deleteElementId(int elementId) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
-		db.delete(TABLE_ELEMENT_ID, KEY_E_ID + " = ?", new String[] { String.valueOf(elementId) });
+		db.delete(TABLE_ELEMENT_ID, KEY_E_ID + " = ?",
+				new String[] { String.valueOf(elementId) });
 		db.close();
 	}
 
@@ -637,8 +688,8 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// Getting folders count
 	public int getElementsCountFromFolder(int groupFolder) {
 		int count;
-		String countQuery = "SELECT  * FROM " + TABLE_ELEMENT_ID + " WHERE " + KEY_E_GROUP_ID + "="
-				+ String.valueOf(groupFolder);
+		String countQuery = "SELECT  * FROM " + TABLE_ELEMENT_ID + " WHERE "
+				+ KEY_E_GROUP_ID + "=" + String.valueOf(groupFolder);
 		SQLiteDatabase db = this.getReadableDatabase(Contants.KEY_DATA_PW);
 		Cursor cursor = db.rawQuery(countQuery, null);
 
