@@ -183,8 +183,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 	public Drawable getImageDataBase(byte[] data) {
 		if (data == null || data.length == 0) {
-			if (data != null)
-				return getResources().getDrawable(R.drawable.default_icon);
+			return getResources().getDrawable(R.drawable.default_icon);
 		}
 
 		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
