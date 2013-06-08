@@ -30,9 +30,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 
-import javax.crypto.NoSuchPaddingException;
 
-import visvateam.outsource.idmanager.activities.EditIdPasswordActivity2;
+import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
+import javax.crypto.NoSuchPaddingException;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -121,7 +121,8 @@ public class ItemAdapter extends BaseAdapter {
 		}
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(getIconDatabase(idItemList.get(position).geteIcon()));
+		iv.setImageDrawable(EditIdPasswordActivity.getImageDataBase(idItemList
+				.get(position).geteIconData()));
 		iv.setContentDescription(this.idItemList.get(position).geteTitle());
 
 		/* text name vs text url */
@@ -197,7 +198,7 @@ public class ItemAdapter extends BaseAdapter {
 			msg.arg1 = DIALOG_EDIT_ID;
 			msg.arg2 = position;
 			mHandler.sendMessage(msg);
-			Intent intent = new Intent(context, EditIdPasswordActivity2.class);
+			Intent intent = new Intent(context, EditIdPasswordActivity.class);
 			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 0);
 			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
 			mIdManagerPreference.setCurrentFolderId(currentFolderId);
