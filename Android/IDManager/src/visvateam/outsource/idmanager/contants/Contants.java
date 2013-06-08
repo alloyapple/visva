@@ -103,5 +103,7 @@ public class Contants {
 	/* key app dropbox */
 	public static final String APP_KEY = "fxh7pnxcqbg3qwy";
 	public static final String APP_SECRET = "fjk6z73ot28n1t3";
+	
+	public static final String KEY_CHOICE_CSV_FILE="KEY_CHOICE_CSV_FILE";
 
 }

@@ -98,6 +98,7 @@
     <string name="sync_to_device_data_cloud_newer">閱讀（GoogleDrive）的Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
 
     <!-- others -->
+    <string name="select_text_format">選擇文本數據格式</string>
     <string name="email_receiver_update_info"></string>
     <string name="email_receiver_important_info">我將獲得的重要公告。</string>
     <string name="email_sign_up">報名</string>

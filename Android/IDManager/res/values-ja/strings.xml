@@ -98,7 +98,7 @@
     <string name="sync_to_cloud_data_device_newer">Dropbox(GoogleDrive)上のデータにこのiPhoneのデータを上書きしますがよろしいですか？</string>
     <string name="sync_to_device_data_cloud_newer">Dropbox(GoogleDrive)上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
     <!-- others -->
-
+    <string name="select_text_format">フォーマット選択</string>
     <string name="email_receiver_update_info">当社からの新製品などのお知らせメールを受け取る。（月一度程度）</string>
     <string name="email_receiver_important_info">重要通知を受け取る。</string>
     <string name="email_sign_up">登録</string>
