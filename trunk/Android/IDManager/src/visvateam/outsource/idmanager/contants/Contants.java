@@ -66,14 +66,14 @@ public class Contants {
 	public static final String CURRENT_PASSWORD_ID = "CURRENT_PASSWORD_ID";
 
 	public static final int MAX_ITEM_PASS_ID = 5;
-	public static final String DATA_IDMANAGER_NAME = "idmanager.db";
+	public static final String DATA_IDMANAGER_NAME = "idxpassword.db";
 	public static final String DATA_IDMANAGER_FOLDER_CLOUD = "IDxPassword";
 	public static final int DATA_VERSION = 1;
 	public static final String KEY_DATA_PW = "idxpass_@1234#!";
 	public static final int KEY_OFF = 0;
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment
-			.getExternalStorageDirectory().getPath() + "/IDManager/Files/";
+			.getExternalStorageDirectory().getPath() + "/IDxPassword/Files/";
 	public static final String FOLDER_ON_DROPBOX_DB = "/DataBase/";
 	public static final String FOLDER_ON_DROPBOX_CSV = "/IDxPassword/";
 
@@ -81,7 +81,7 @@ public class Contants {
 	public static int MASTER_PASSWORD_ID = 101;
 	public static final String IS_SYNC_TO_CLOUD = "IS_SYNC_TO_CLOUD";
 	public static final String FILE_CSV_NAME = "idxp.idp";
-	public static final String FIlE_CSV_EXPORT = "idmanger.csv";
+	public static final String FIlE_CSV_EXPORT = "idxpassword.csv";
 	public static final String IS_EXPORT_FILE = "IS_EXPORT_FILE";
 
 	public static final int IS_FAVOURITE = 1;

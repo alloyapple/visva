@@ -168,8 +168,9 @@ public class EditIdPasswordActivity2 extends BaseActivity implements
 
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
-	public static Drawable getIconDatabase(String icon) {
+	private Drawable getIconDatabase(String icon) {
 		Log.e("icon icon", "icon123 "+icon);
+		if(null != icon && !"".equals(icon)){
 		File dir = new File(Contants.PATH_ID_FILES);
 		if (!dir.exists())
 			dir.mkdirs();
@@ -213,6 +214,10 @@ public class EditIdPasswordActivity2 extends BaseActivity implements
 		Bitmap bmp = BitmapFactory.decodeByteArray(decryptBytes, 0,
 				decryptBytes.length);
 		return (Drawable) new BitmapDrawable(bmp);
+		}else{
+			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
+			return mDrawableIcon;
+		}
 	}
 
 	@SuppressWarnings("deprecation")
