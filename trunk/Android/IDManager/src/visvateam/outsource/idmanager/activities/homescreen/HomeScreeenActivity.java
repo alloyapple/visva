@@ -20,7 +20,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.BaseActivity;
 import visvateam.outsource.idmanager.activities.BrowserActivity;
 import visvateam.outsource.idmanager.activities.CopyItemActivity;
-import visvateam.outsource.idmanager.activities.EditIdPasswordActivity2;
+import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.activities.SettingActivity;
 import visvateam.outsource.idmanager.activities.synccloud.SyncCloudActivity;
@@ -432,6 +432,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 			 * retrieve selected item from adapterview
 			 */
 			oneItemSelected = (ElementID) arg0.getItemAtPosition(arg2);
+
 			imageDrag.setImageDrawable(getIconDatabase(oneItemSelected
 					.geteIcon()));
 			txtIdName.setText(oneItemSelected.geteTitle());
@@ -587,12 +588,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 		for (int i = 0; i < idListSize; i++) {
 			ElementID item = new ElementID(elementList.get(i).geteId(),
 					elementList.get(i).geteGroupId(), elementList.get(i)
-							.geteTitle(), elementList.get(i).geteIcon(),
+							.geteTitle(), elementList.get(i).geteIconData(),
 					elementList.get(i).geteTimeStamp(), elementList.get(i)
 							.geteFavourite(), elementList.get(i).geteFlag(),
 					elementList.get(i).geteUrl(),
 					elementList.get(i).geteNote(), elementList.get(i)
-							.geteImage(), elementList.get(i).geteOrder());
+							.geteMemoData(), elementList.get(i).geteOrder());
 			al.add(item);
 		}
 		return al;
@@ -671,12 +672,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (elementList.get(i).geteFavourite() == Contants.IS_FAVOURITE) {
 				ElementID item = new ElementID(elementList.get(i).geteId(),
 						elementList.get(i).geteGroupId(), elementList.get(i)
-								.geteTitle(), elementList.get(i).geteIcon(),
+								.geteTitle(), elementList.get(i).geteIconData(),
 						elementList.get(i).geteTimeStamp(), elementList.get(i)
 								.geteFavourite(),
 						elementList.get(i).geteFlag(), elementList.get(i)
 								.geteUrl(), elementList.get(i).geteNote(),
-						elementList.get(i).geteImage(), elementList.get(i)
+						elementList.get(i).geteMemoData(), elementList.get(i)
 								.geteOrder());
 				al.add(item);
 			}
@@ -717,10 +718,10 @@ public class HomeScreeenActivity extends BaseActivity implements
 		for (int i = 0; i < numberToView; i++) {
 			ElementID item = new ElementID(idList.get(i).geteId(), idList
 					.get(i).geteGroupId(), idList.get(i).geteTitle(), idList
-					.get(i).geteIcon(), idList.get(i).geteTimeStamp(), idList
+					.get(i).geteIconData(), idList.get(i).geteTimeStamp(), idList
 					.get(i).geteFavourite(), idList.get(i).geteFlag(), idList
 					.get(i).geteUrl(), idList.get(i).geteNote(), idList.get(i)
-					.geteImage(), idList.get(i).geteOrder());
+					.geteMemoData(), idList.get(i).geteOrder());
 			allItem.add(item);
 		}
 		return allItem;
@@ -869,12 +870,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 					ElementID item = new ElementID(elementList.get(i).geteId(),
 							elementList.get(i).geteGroupId(), elementList
 									.get(i).geteTitle(), elementList.get(i)
-									.geteIcon(), elementList.get(i)
+									.geteIconData(), elementList.get(i)
 									.geteTimeStamp(), elementList.get(i)
 									.geteFavourite(), elementList.get(i)
 									.geteFlag(), elementList.get(i).geteUrl(),
 							elementList.get(i).geteNote(), elementList.get(i)
-									.geteImage(), elementList.get(i)
+									.geteMemoData(), elementList.get(i)
 									.geteOrder());
 					searchItems.add(item);
 				}
@@ -1184,7 +1185,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		/* update to database */
 		ElementID elment = mIDxPWDataBaseHandler.getElementID(passwordId);
 		elment.seteGroupId(currentFolderId);
-		mIDxPWDataBaseHandler.updateElementId(elment);
+		mIDxPWDataBaseHandler.updateElement(elment);
 		/* refresh id listview */
 		for (int i = 0; i < mIdListItems.size(); i++) {
 			if (mIdListItems.get(i).geteId() == passwordId)
@@ -1200,7 +1201,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private void startIntentCreateNewIds() {
 		int currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
 		Intent newIdIntent = new Intent(HomeScreeenActivity.this,
-				EditIdPasswordActivity2.class);
+				EditIdPasswordActivity.class);
 		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 1);
 		mIdManagerPreference.setCurrentFolderId(currentFolderId);
 		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
