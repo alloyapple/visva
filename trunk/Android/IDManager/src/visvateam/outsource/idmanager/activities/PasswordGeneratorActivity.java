@@ -16,6 +16,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -74,7 +75,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			EditIdPasswordActivity2.startActivity(this,2);
+			EditIdPasswordActivity.startActivity(this,2);
 			finish();
 			return false;
 
@@ -97,11 +98,11 @@ public class PasswordGeneratorActivity extends BaseActivity {
 
 	public void onReturn(View v) {
 		if (resultGenarator.toString() != "")
-			EditIdPasswordActivity2.mStringOfSelectItem = resultGenarator
+			EditIdPasswordActivity.mStringOfSelectItem = resultGenarator
 					.toString();
 		else
-			EditIdPasswordActivity2.itemSelect = -1;
-		EditIdPasswordActivity2.startActivity(this, 2);
+			EditIdPasswordActivity.itemSelect = -1;
+		EditIdPasswordActivity.startActivity(this, 2);
 		finish();
 	}
 
@@ -218,6 +219,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		LengthFilter filter = new LengthFilter(5);
 		input.setFilters(new InputFilter[] { filter });
 		input.setSelectAllOnFocus(true);
+		input.setTextColor(Color.BLACK);
 		input.setText("" + this.number);
 
 		String[] betSuggestion = getResources().getStringArray(

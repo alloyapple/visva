@@ -85,7 +85,7 @@ public class BrowserActivity extends BaseActivity {
 	}
 	public void onReturn(View v) {
 		if (mode == Contants.EDIT_TO)
-			EditIdPasswordActivity2.startActivity(this, 2);
+			EditIdPasswordActivity.startActivity(this, 2);
 		finish();
 	}
 

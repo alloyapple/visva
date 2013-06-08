@@ -25,7 +25,7 @@ public class SettingURLActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			EditIdPasswordActivity2.startActivity(this,2);
+			EditIdPasswordActivity.startActivity(this,2);
 			finish();
 			return false;
 
@@ -40,8 +40,8 @@ public class SettingURLActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity2.mUrlItem=webView.getUrl();
-		EditIdPasswordActivity2.startActivity(this, 2);
+		EditIdPasswordActivity.mUrlItem=webView.getUrl();
+		EditIdPasswordActivity.startActivity(this, 2);
 		finish();
 	}
 

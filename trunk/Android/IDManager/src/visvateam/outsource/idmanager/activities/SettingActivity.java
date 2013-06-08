@@ -726,7 +726,7 @@ public class SettingActivity extends BaseActivity {
 													title, icon, timeStamp,
 													fav, 0, url, note, image, 0);
 											mDataBaseHandler
-													.addNewElementId(element);
+													.addElement(element);
 
 											mEList.add(element);
 											sizeOfEList++;
@@ -741,7 +741,7 @@ public class SettingActivity extends BaseActivity {
 											mGList.get(i).getgId(), title,
 											icon, timeStamp, fav, 0, url, note,
 											image, 0);
-									mDataBaseHandler.addNewElementId(element);
+									mDataBaseHandler.addElement(element);
 									mEList.add(element);
 									sizeOfEList++;
 								}

@@ -75,10 +75,10 @@ public class EditIconActivity extends BaseActivity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
-					EditIdPasswordActivity2
+					EditIdPasswordActivity
 							.updateIcon((Drawable) new BitmapDrawable(
 									snapScreen()));
-					EditIdPasswordActivity2.startActivity(
+					EditIdPasswordActivity.startActivity(
 							EditIconActivity.this, 2);
 					finish();
 				}
@@ -138,7 +138,7 @@ public class EditIconActivity extends BaseActivity {
 			}
 		});
 		if (modeBundle == 1)
-			mDrawableIconEdit = EditIdPasswordActivity2.getIcon();
+			mDrawableIconEdit = EditIdPasswordActivity.getIcon();
 		initAdmod();
 
 	}
