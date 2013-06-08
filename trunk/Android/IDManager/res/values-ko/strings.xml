@@ -99,6 +99,7 @@
     <string name="sync_to_device_data_cloud_newer">Dropbox (GoogleDrive)의 데이터를 가져옵니다. 현재의 데이터가 손실되지만 동의 하십나까?</string>
 
     <!-- others -->
+    <string name="select_text_format">형식 선택</string>
     <string name="email_receiver_update_info">당사의 신제품 등의 알림 메일을받겠습니다. (월 한 번 정도)</string>
     <string name="email_receiver_important_info">중요한 소식을 받는다.</string>
     <string name="email_sign_up">등록</string>

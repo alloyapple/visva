@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">IDManager</string>
+    <string name="app_name">IDxPassword</string>
     <string name="memo_title">Memo Image</string>
     <string name="copy_title">Copy</string>
     <string name="btn_agree">Agree</string>
@@ -95,6 +95,7 @@
     <string name="sync_to_device_data_cloud_newer">This Android\'s data will be overwritten by the newer data on Dropbox(GoogleDrive).</string>
 
     <!-- others -->
+    <string name="select_text_format">Select Text Format</string>
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
     <string name="email_title">Email取得</string>

@@ -86,6 +86,7 @@ public class SettingActivity extends BaseActivity {
 	private static final int PAYMENT_TO_NO_AD = 1;
 	private static final int PAYMENT_TO_EXPORT = 2;
 	public int modePayment;
+	
 	public IdManagerPreference mPref;
 	private List<GroupFolder> mGList;
 	private List<ElementID> mEList;
@@ -293,17 +294,17 @@ public class SettingActivity extends BaseActivity {
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
-//			if (!mPref.getIsPaymentExport())
-//				showDialogRequestPayment(getResources().getString(
-//						R.string.message_pay_to_export));
-//			else {
-				if (mApi.getSession().isLinked()) {
-					isExportData = true;
-					showDialog(Contants.DIALOG_EXPORT_DATA);
-				} else {
-					showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
-				}
-//			}
+			// if (!mPref.getIsPaymentExport())
+			// showDialogRequestPayment(getResources().getString(
+			// R.string.message_pay_to_export));
+			// else {
+			if (mApi.getSession().isLinked()) {
+				isExportData = true;
+				showDialog(Contants.DIALOG_EXPORT_DATA);
+			} else {
+				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+			}
+			// }
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
@@ -332,7 +333,7 @@ public class SettingActivity extends BaseActivity {
 
 		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
 
-			if (mListDataChoiceTemp.length > 0) {
+			if (mListDataChoiceTemp != null && mListDataChoiceTemp.length > 0) {
 				mListDataChoice = new String[mListDataChoiceTemp.length];
 				mListDataChoice = mListDataChoiceTemp;
 
@@ -866,7 +867,7 @@ public class SettingActivity extends BaseActivity {
 				writer.append(",");
 				writer.append("" + elementList.get(i).geteTitle());
 				writer.append(",");
-				writer.append("" + elementList.get(i).geteIcon());
+				writer.append("");
 				writer.append(",");
 				writer.append("" + elementList.get(i).geteFavourite());
 				writer.append(",");
@@ -874,7 +875,7 @@ public class SettingActivity extends BaseActivity {
 				writer.append(",");
 				writer.append("" + elementList.get(i).geteNote());
 				writer.append(",");
-				writer.append("" + elementList.get(i).geteImage());
+				writer.append("");
 				writer.append(",");
 
 				List<Password> passwordList = mDataBaseHandler
@@ -948,7 +949,8 @@ public class SettingActivity extends BaseActivity {
 			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
 		} else if (!"".equals(mGGAccountName)) {
 			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox);
-			mImgGGDrive.setBackgroundResource(R.drawable.logo_google_drive_selected);
+			mImgGGDrive
+					.setBackgroundResource(R.drawable.logo_google_drive_selected);
 		} else {
 			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox);
 			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
@@ -1018,7 +1020,10 @@ public class SettingActivity extends BaseActivity {
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
 				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
-				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
+				Intent intent = new Intent(SettingActivity.this, ChoiceCSVImportType.class);
+				intent.putExtra(Contants.KEY_CHOICE_CSV_FILE, mSelectedFile);
+				startActivity(intent);
+//				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
 			}
 		};
 	};

@@ -122,7 +122,7 @@ public class SyncCloudActivity extends Activity {
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
 		checkAppKeySetup();
 
-		/* check netword */
+		/* check network */
 		if (!NetworkUtility.getInstance(this).isNetworkAvailable())
 			showDialog(Contants.DIALOG_NO_NET_WORK);
 

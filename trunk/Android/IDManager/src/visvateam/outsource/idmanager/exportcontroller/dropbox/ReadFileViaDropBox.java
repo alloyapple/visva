@@ -102,8 +102,8 @@ public class ReadFileViaDropBox extends AsyncTask<Void, Long, Integer> {
 				String modify = entry.modified;
 				Date date = new Date(modify);
 				long modifyTime = date.getTime();
-				Log.e("time", "time " + modifyTime);
-				String cachePath = Contants.PATH_ID_FILES + "/" + entry.fileName();
+				Log.e("time "+entry.fileName(), "time " + modifyTime);
+				String cachePath = Contants.PATH_ID_FILES  + entry.fileName();
 				Log.e("file path", "file Path " + cachePath);
 				File file = new File(cachePath);
 				if (!isCheckedFile)
@@ -115,7 +115,7 @@ public class ReadFileViaDropBox extends AsyncTask<Void, Long, Integer> {
 				} catch (FileNotFoundException e) {
 					return Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 				}
-				mApi.getFile(path, "test", mFos, null);
+				mApi.getFile(path, null, mFos, null);
 				//
 				// String cachePath = mDbFilePath + "/" +
 				// Contants.DATA_IDMANAGER_NAME;

@@ -169,6 +169,7 @@ public class EditIdPasswordActivity2 extends BaseActivity implements
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public static Drawable getIconDatabase(String icon) {
+		Log.e("icon icon", "icon123 "+icon);
 		File dir = new File(Contants.PATH_ID_FILES);
 		if (!dir.exists())
 			dir.mkdirs();

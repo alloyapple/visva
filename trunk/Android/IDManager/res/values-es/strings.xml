@@ -100,6 +100,7 @@
     <string name="sync_to_device_data_cloud_newer">Datos de este Android se sobrescribirán con los datos más recientes sobre Dropbox (GoogleDrive).</string>
 
     <!-- others -->
+    <string name="select_text_format">Seleccione Texto Formato</string>
     <string name="wrong_pw_login">La contraseña no coincide. Por favor, hazlo de nuevo.</string>
     <string name="data_erased_msg">Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione..</string>
     <string name="email_title">Email</string>

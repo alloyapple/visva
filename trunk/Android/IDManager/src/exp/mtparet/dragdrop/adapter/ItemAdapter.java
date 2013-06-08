@@ -19,16 +19,33 @@
 
 package exp.mtparet.dragdrop.adapter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+
+import javax.crypto.NoSuchPaddingException;
 
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity2;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
+import visvateam.outsource.idmanager.sercurity.CipherUtil;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -53,6 +70,7 @@ public class ItemAdapter extends BaseAdapter {
 	private int currentFolderOrder;
 	private int currentFolderId;
 	private IdManagerPreference mIdManagerPreference;
+	private Drawable mDrawableIcon;
 
 	public ItemAdapter(Context context, ArrayList<ElementID> idItemList,
 			boolean isModeEdit, Handler mHandler, ListViewDragDrop idListView,
@@ -103,8 +121,7 @@ public class ItemAdapter extends BaseAdapter {
 		}
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(EditIdPasswordActivity2.getIconDatabase(idItemList
-				.get(position).geteIcon()));
+		iv.setImageDrawable(getIconDatabase(idItemList.get(position).geteIcon()));
 		iv.setContentDescription(this.idItemList.get(position).geteTitle());
 
 		/* text name vs text url */
@@ -206,4 +223,59 @@ public class ItemAdapter extends BaseAdapter {
 		idItemList.add(to, element);
 		notifyDataSetChanged();
 	}
+
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
+	private Drawable getIconDatabase(String icon) {
+		Log.e("icon icon", "icon123 " + icon);
+		if (null != icon && !"".equals(icon)) {
+			File dir = new File(Contants.PATH_ID_FILES);
+			if (!dir.exists())
+				dir.mkdirs();
+			File inputFile = new File(dir, icon);
+
+			byte[] cipherBytes = new byte[(int) inputFile.length()];
+			FileInputStream fis = null;
+			try {
+				fis = new FileInputStream(inputFile);
+				fis.read(cipherBytes, 0, cipherBytes.length);
+				fis.close();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			byte[] decryptBytes = null;
+			try {
+				decryptBytes = CipherUtil.decrypt(cipherBytes);
+			} catch (InvalidKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidKeySpecException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchPaddingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidAlgorithmParameterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Bitmap bmp = BitmapFactory.decodeByteArray(decryptBytes, 0,
+					decryptBytes.length);
+			return (Drawable) new BitmapDrawable(bmp);
+		} else {
+			mDrawableIcon =context.getResources().getDrawable(R.drawable.default_icon);
+			return mDrawableIcon;
+		}
+	}
+
 }
