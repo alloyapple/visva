@@ -14,6 +14,8 @@ public class ElementID {
 	private String eNote;
 	private String eImage;
 	private int eOrder;
+	private byte[] eIconData;
+	private byte[] eMemoData;
 
 	// constructor
 	public ElementID(int eId, int eGroupId, String eTitle, String eIcon, long eTimeStamp,
@@ -31,7 +33,21 @@ public class ElementID {
 		this.eImage = eImage;
 		this.eOrder = eOrder;
 	}
-
+	public ElementID(int eId, int eGroupId, String eTitle, byte[] eIcon, long eTimeStamp,
+			int eFavourite, int eFlag, String eUrl, String eNote, byte[] eMemo, int eOrder) {
+		super();
+		this.eId = eId;
+		this.eGroupId = eGroupId;
+		this.eTitle = eTitle;
+		this.seteIconData(eIcon);
+		this.eTimeStamp = eTimeStamp;
+		this.eFavourite = eFavourite;
+		this.eFlag = eFlag;
+		this.eUrl = eUrl;
+		this.eNote = eNote;
+		this.seteMemoData(eMemo);
+		this.eOrder = eOrder;
+	}
 	// empty constructor
 	public ElementID() {
 
@@ -123,5 +139,17 @@ public class ElementID {
 
 	public void seteOrder(int eOrder) {
 		this.eOrder = eOrder;
+	}
+	public void seteIconData(byte[] eIconData) {
+		this.eIconData = eIconData;
+	}
+	public byte[] geteIconData() {
+		return eIconData;
+	}
+	public void seteMemoData(byte[] eMemoData) {
+		this.eMemoData = eMemoData;
+	}
+	public byte[] geteMemoData() {
+		return eMemoData;
 	}
 }
