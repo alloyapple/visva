@@ -282,7 +282,7 @@ public class ItemAdapter extends BaseAdapter {
 	public Drawable getImageDataBase(byte[] data) {
 		if (data == null || data.length == 0) {
 			if (data != null)
-				context.getResources().getDrawable(R.drawable.default_icon);
+				return context.getResources().getDrawable(R.drawable.default_icon);
 		}
 
 		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
