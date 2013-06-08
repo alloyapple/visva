@@ -86,7 +86,7 @@ public class SettingActivity extends BaseActivity {
 	private static final int PAYMENT_TO_NO_AD = 1;
 	private static final int PAYMENT_TO_EXPORT = 2;
 	public int modePayment;
-	
+
 	public IdManagerPreference mPref;
 	private List<GroupFolder> mGList;
 	private List<ElementID> mEList;
@@ -294,17 +294,17 @@ public class SettingActivity extends BaseActivity {
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
-			// if (!mPref.getIsPaymentExport())
-			// showDialogRequestPayment(getResources().getString(
-			// R.string.message_pay_to_export));
-			// else {
-			if (mApi.getSession().isLinked()) {
-				isExportData = true;
-				showDialog(Contants.DIALOG_EXPORT_DATA);
-			} else {
-				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+			if (!mPref.getIsPaymentExport())
+				showDialogRequestPayment(getResources().getString(
+						R.string.message_pay_to_export));
+			else {
+				if (mApi.getSession().isLinked()) {
+					isExportData = true;
+					showDialog(Contants.DIALOG_EXPORT_DATA);
+				} else {
+					showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+				}
 			}
-			// }
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
@@ -1020,10 +1020,11 @@ public class SettingActivity extends BaseActivity {
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
 				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
-				Intent intent = new Intent(SettingActivity.this, ChoiceCSVImportType.class);
+				Intent intent = new Intent(SettingActivity.this,
+						ChoiceCSVImportType.class);
 				intent.putExtra(Contants.KEY_CHOICE_CSV_FILE, mSelectedFile);
 				startActivity(intent);
-//				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
+				// showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
 			}
 		};
 	};

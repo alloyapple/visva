@@ -115,8 +115,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		setContentView(R.layout.edit_id_pass);
 		modeBundle = getIntent().getExtras().getInt(
 				Contants.IS_INTENT_CREATE_NEW_ID);
-		modeFrom = getIntent().getExtras().getInt(
-				Contants.IS_SRC_ACTIVITY);
+		modeFrom = getIntent().getExtras().getInt(Contants.IS_SRC_ACTIVITY);
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		currentFolderId = mIdManagerPreference.getCurrentFolderId();
 		Log.e("current FOlder id", "current Folder id " + currentFolderId);
@@ -156,13 +155,14 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 		initAdmod();
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if(modeFrom==1){
-				
+			if (modeFrom == 1) {
+
 			}
 			finish();
 			break;
@@ -171,6 +171,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 	public void initAdmod() {
 		AdView adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -180,11 +181,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 	}
 
-	public static Drawable getImageDataBase(byte[] data) {
+	public Drawable getImageDataBase(byte[] data) {
 		if (data == null || data.length == 0) {
 			if (data != null)
-				Log.i("<------------>", data.length + "");
-			return null;
+				getResources().getDrawable(R.drawable.default_icon);
 		}
 
 		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);

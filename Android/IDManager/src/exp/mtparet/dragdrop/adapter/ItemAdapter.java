@@ -30,7 +30,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 
-
 import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import javax.crypto.NoSuchPaddingException;
 import visvateam.outsource.idmanager.activities.R;
@@ -121,8 +120,8 @@ public class ItemAdapter extends BaseAdapter {
 		}
 		/* image logo */
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
-		iv.setImageDrawable(EditIdPasswordActivity.getImageDataBase(idItemList
-				.get(position).geteIconData()));
+		iv.setImageDrawable(getImageDataBase(idItemList.get(position)
+				.geteIconData()));
 		iv.setContentDescription(this.idItemList.get(position).geteTitle());
 
 		/* text name vs text url */
@@ -274,9 +273,20 @@ public class ItemAdapter extends BaseAdapter {
 					decryptBytes.length);
 			return (Drawable) new BitmapDrawable(bmp);
 		} else {
-			mDrawableIcon =context.getResources().getDrawable(R.drawable.default_icon);
+			mDrawableIcon = context.getResources().getDrawable(
+					R.drawable.default_icon);
 			return mDrawableIcon;
 		}
 	}
 
+	public Drawable getImageDataBase(byte[] data) {
+		if (data == null || data.length == 0) {
+			if (data != null)
+				context.getResources().getDrawable(R.drawable.default_icon);
+		}
+
+		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+		BitmapDrawable result = new BitmapDrawable(bMap);
+		return result;
+	}
 }

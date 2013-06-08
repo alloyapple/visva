@@ -276,7 +276,7 @@ public class ListIconActivity extends BaseActivity {
 				
 					final Button mBtnControl = new Button(this);
 					mBtnControl.setLayoutParams(new LinearLayout.LayoutParams(
-							46, 46));
+							30, 30));
 					((LinearLayout.LayoutParams) mBtnControl.getLayoutParams()).leftMargin = 10;
 					((LinearLayout.LayoutParams) mBtnControl.getLayoutParams()).gravity = Gravity.CENTER;
 					mBtnControl.setBackgroundDrawable(getResources()
@@ -305,6 +305,7 @@ public class ListIconActivity extends BaseActivity {
 						final int catalogue = i*mCountryName.length+m;;
 						LinearLayout mLinearCountryTitle = new LinearLayout(
 								this);
+//						mLinearCountryTitle.setAlpha(0.5f);
 						mLinearCountryTitle
 								.setLayoutParams(new LinearLayout.LayoutParams(
 										LinearLayout.LayoutParams.FILL_PARENT,
@@ -312,17 +313,17 @@ public class ListIconActivity extends BaseActivity {
 						mLinearCountryTitle
 								.setBackgroundDrawable(getResources()
 										.getDrawable(R.drawable.list_bar));
-						((LinearLayout.LayoutParams) mLinearCountryTitle
-								.getLayoutParams()).leftMargin = 10;
+//						((LinearLayout.LayoutParams) mLinearCountryTitle
+//								.getLayoutParams()).leftMargin = 10;
 						mLinearCountryTitle
 								.setOrientation(LinearLayout.HORIZONTAL);
 						
 							final Button mBtnControlCountry = new Button(this);
 							mBtnControlCountry
 									.setLayoutParams(new LinearLayout.LayoutParams(
-											46, 46));
+											30, 30));
 							((LinearLayout.LayoutParams) mBtnControlCountry
-									.getLayoutParams()).leftMargin = 10;
+									.getLayoutParams()).leftMargin = 40;
 							((LinearLayout.LayoutParams) mBtnControlCountry
 									.getLayoutParams()).gravity = Gravity.CENTER;
 							mBtnControlCountry
