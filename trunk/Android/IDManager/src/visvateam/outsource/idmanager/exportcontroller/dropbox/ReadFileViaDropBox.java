@@ -45,8 +45,9 @@ public class ReadFileViaDropBox extends AsyncTask<Void, Long, Integer> {
 	private CharSequence fileName;
 	private boolean isCheckedFile;
 
-	public ReadFileViaDropBox(Context context, DropboxAPI<?> api, String dropboxPath,
-			String dbFilePath, Handler mHandler, CharSequence fileName, boolean isCheckedFile) {
+	public ReadFileViaDropBox(Context context, DropboxAPI<?> api,
+			String dropboxPath, String dbFilePath, Handler mHandler,
+			CharSequence fileName, boolean isCheckedFile) {
 		// We set the context this way so we don't accidentally leak activities
 		mContext = context.getApplicationContext();
 
@@ -83,7 +84,9 @@ public class ReadFileViaDropBox extends AsyncTask<Void, Long, Integer> {
 			// Make a list of everything in it that we can get a thumbnail for
 			for (Entry ent : dirent.contents) {
 				Log.d("file " + ent.thumbExists, "file ent " + ent.fileName());
-				mFileListOnCloud.add(ent.fileName());
+				if (ent.fileName().endsWith(".csv")
+						|| ent.fileName().endsWith(".CSV"))
+					mFileListOnCloud.add(ent.fileName());
 				if (fileName.equals(ent.fileName().toString())) {
 					// Add it to the list of thumbs we can choose from
 					entry = ent;
@@ -102,8 +105,8 @@ public class ReadFileViaDropBox extends AsyncTask<Void, Long, Integer> {
 				String modify = entry.modified;
 				Date date = new Date(modify);
 				long modifyTime = date.getTime();
-				Log.e("time "+entry.fileName(), "time " + modifyTime);
-				String cachePath = Contants.PATH_ID_FILES  + entry.fileName();
+				Log.e("time " + entry.fileName(), "time " + modifyTime);
+				String cachePath = Contants.PATH_ID_FILES + entry.fileName();
 				Log.e("file path", "file Path " + cachePath);
 				File file = new File(cachePath);
 				if (!isCheckedFile)
@@ -199,7 +202,7 @@ public class ReadFileViaDropBox extends AsyncTask<Void, Long, Integer> {
 		} else if (result == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD;
 			mHandler.sendMessage(msg);
-		}else if(result == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED){
+		} else if (result == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED;
 			mHandler.sendMessage(msg);
 		}
