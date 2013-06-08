@@ -74,9 +74,10 @@ public class Contants {
 	public static final int KEY_OFF = 0;
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment
-			.getExternalStorageDirectory().getPath() + "/IDManager/Files/";
-	public static final String FOLDER_ON_DROPBOX_DB = "/DataBase/";
-	public static final String FOLDER_ON_DROPBOX_CSV = "/IDxPassword/";
+
+	.getExternalStorageDirectory().getPath() + "/IDxPassword/";
+	public static final String FOLDER_ON_DROPBOX_DB = "/";
+	public static final String FOLDER_ON_DROPBOX_CSV = "/";
 
 	public static final String IS_CHANGE_PASSWORD = "isChangePW";
 	public static int MASTER_PASSWORD_ID = 101;
@@ -104,7 +105,7 @@ public class Contants {
 	/* key app dropbox */
 	public static final String APP_KEY = "fxh7pnxcqbg3qwy";
 	public static final String APP_SECRET = "fjk6z73ot28n1t3";
-	
-	public static final String KEY_CHOICE_CSV_FILE="KEY_CHOICE_CSV_FILE";
+
+	public static final String KEY_CHOICE_CSV_FILE = "KEY_CHOICE_CSV_FILE";
 
 }
