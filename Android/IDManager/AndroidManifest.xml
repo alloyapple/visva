@@ -7,7 +7,7 @@
 
     <uses-sdk
         android:maxSdkVersion="17"
-        android:minSdkVersion="9"
+        android:minSdkVersion="8"
         android:targetSdkVersion="14" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -103,7 +103,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="visvateam.outsource.idmanager.activities.EditIdPasswordActivity2"
+            android:name="visvateam.outsource.idmanager.activities.EditIdPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
@@ -151,7 +151,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="visvateam.outsource.idmanager.activities.ImageMemoActivity2"
+            android:name="visvateam.outsource.idmanager.activities.ImageMemoActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
