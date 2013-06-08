@@ -104,6 +104,7 @@
     <string name="email_sign_up">登録</string>
     <string name="wrong_pw_login">確認パスワードの文字が符合しませんでした。再入力してください。</string>
     <string name="data_erased_msg">指定回数マスターパスワードを間違って入力するとデータが消去されます。</string>
+      <string name="title_edit">編集</string>
     <string name="term_of_use_condition">【日本語のとき】\n
 \nJapan App Studio, inc.（以下「プロバイダー」といいます）は、プロバイダーが提供するアプリとクラウド連携システムをご利用いただくにあたり、 利用者のみなさまに以下のサービス規約を定めます。
 \n

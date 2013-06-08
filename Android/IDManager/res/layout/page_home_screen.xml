@@ -100,6 +100,7 @@
             android:id="@+id/list_view_folder"
             android:layout_width="85dp"
             android:layout_height="fill_parent"
+            android:cacheColorHint="@color/transparent"
             android:layout_above="@id/btn_add_new_folder"
             android:background="@color/transparent"
             android:divider="@color/transparent" />
@@ -107,6 +108,7 @@
         <exp.mtparet.dragdrop.view.ListViewDragDrop
             android:id="@+id/list_view_item"
             android:layout_width="wrap_content"
+            android:cacheColorHint="@color/transparent"
             android:layout_height="400dp"
             android:layout_toRightOf="@id/list_view_folder"
             android:divider="@color/transparent" />

@@ -104,5 +104,6 @@
     <string name="email_sign_up">报名</string>
     <string name="wrong_pw_login">您输入的密码不正确，请重新输入。</string>
     <string name="data_erased_msg">达到您制定的密码错误次数时，数据将被删除。</string>
+    <string name="title_edit">編輯</string>
 
 </resources>
