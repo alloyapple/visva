@@ -40,7 +40,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ImageMemoActivity2 extends BaseActivity {
+public class ImageMemoActivity extends BaseActivity {
 	private Uri fileUri;
 	private CheckBox mCheckBoxChoiceImgMemo;
 	static final int NONE = 0;
@@ -82,7 +82,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 						if (fileUri != null
 								&& mCheckBoxChoiceImgMemo.isChecked()
 								&& bmp != null) {
-							EditIdPasswordActivity2
+							EditIdPasswordActivity
 									.updateMemo((Drawable) new BitmapDrawable(
 											snapScreen(leftB, topB, widthB,
 													heightB)));
@@ -90,8 +90,8 @@ public class ImageMemoActivity2 extends BaseActivity {
 							// resultIntent.putExtra(
 							// Contants.IS_INTENT_CREATE_NEW_ID, 2);
 							// setResult(Activity.RESULT_OK, resultIntent);
-							EditIdPasswordActivity2.startActivity(
-									ImageMemoActivity2.this, 2);
+							EditIdPasswordActivity.startActivity(
+									ImageMemoActivity.this, 2);
 							finish();
 						} else {
 							mCheckBoxChoiceImgMemo.setChecked(false);
@@ -113,7 +113,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 
 	}
 	public static void startActivity(Activity activity, int value) {
-		Intent i = new Intent(activity, ImageMemoActivity2.class);
+		Intent i = new Intent(activity, ImageMemoActivity.class);
 		i.putExtra("modeBundleMemo", value);
 		activity.startActivity(i);
 	}
@@ -124,7 +124,7 @@ public class ImageMemoActivity2 extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity2.startActivity(this,2);
+		EditIdPasswordActivity.startActivity(this,2);
 		finish();
 	}
 

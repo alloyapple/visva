@@ -106,12 +106,11 @@ public class CopyItemActivity extends BaseActivity {
 		btnCopy.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT, 60));
 		((LinearLayout.LayoutParams) btnCopy.getLayoutParams()).topMargin = 10;
-		btnCopy.setBackgroundResource(R.drawable.btn_paste);
+		btnCopy.setBackgroundResource(R.drawable.btn_copy_item);
 		btnCopy.setTextColor(Color.WHITE);
 		btnCopy.setGravity(Gravity.CENTER);
 		btnCopy.setText(getResources().getString(R.string.btn_paste_browse));
 		btnCopy.setOnClickListener(new OnClickListener() {
-			int index = indexSelect;
 
 			@Override
 			public void onClick(View v) {
@@ -120,6 +119,23 @@ public class CopyItemActivity extends BaseActivity {
 			}
 		});
 		mLinear.addView(btnCopy);
+		Button btnEdit = new Button(this);
+		btnEdit.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT, 60));
+		((LinearLayout.LayoutParams) btnEdit.getLayoutParams()).topMargin = 10;
+		btnEdit.setBackgroundResource(R.drawable.btn_edit_item);
+		btnEdit.setTextColor(Color.WHITE);
+		btnEdit.setGravity(Gravity.CENTER);
+		btnEdit.setText(getResources().getString(R.string.title_edit));
+		btnEdit.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				onEdit();
+			}
+		});
+		mLinear.addView(btnEdit);
 
 	}
 
@@ -148,6 +164,15 @@ public class CopyItemActivity extends BaseActivity {
 		intentBrowser.putExtra(KEY_NOTE, element.geteNote());
 		startActivity(intentBrowser);
 	}
+	public void onEdit() {
+		Intent intent = new Intent(this, EditIdPasswordActivity.class);
+		intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 1);
+		intent.putExtra(Contants.IS_SRC_ACTIVITY, 1);
+		intent.putExtra(Contants.CURRENT_PASSWORD_ID,
+				currentElementId);
+		startActivity(intent);
+		finish();
+	}
 
 	public void showDialogCopy() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -164,7 +189,7 @@ public class CopyItemActivity extends BaseActivity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								element.seteFlag(EditIdPasswordActivity2.ELEMENT_FLAG_TRUE);
+								element.seteFlag(EditIdPasswordActivity.ELEMENT_FLAG_TRUE);
 							}
 						});
 		alert.create().show();

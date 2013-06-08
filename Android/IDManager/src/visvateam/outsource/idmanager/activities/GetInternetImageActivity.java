@@ -266,11 +266,11 @@ public class GetInternetImageActivity extends BaseActivity {
 	private void initControl() {
 		// TODO Auto-generated method stub
 		editText = ((EditText) findViewById(R.id.id_edit_url));
-		editText.setText(EditIdPasswordActivity2.mUrlItem);
+		editText.setText(EditIdPasswordActivity.mUrlItem);
 
 		webView = (WebView) findViewById(R.id.id_webview_get_icon);
 
-		webView.loadUrl(EditIdPasswordActivity2.mUrlItem);
+		webView.loadUrl(EditIdPasswordActivity.mUrlItem);
 
 		webView.setContentDescription("application/pdf");
 		WebSettings webSettings = webView.getSettings();
