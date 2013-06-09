@@ -166,7 +166,7 @@ public class CopyItemActivity extends BaseActivity {
 	}
 	public void onEdit() {
 		Intent intent = new Intent(this, EditIdPasswordActivity.class);
-		intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 1);
+		intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 0);
 		intent.putExtra(Contants.IS_SRC_ACTIVITY, 1);
 		intent.putExtra(Contants.CURRENT_PASSWORD_ID,
 				currentElementId);

@@ -3,33 +3,18 @@ package visvateam.outsource.idmanager.activities;
 import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
 import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.Password;
-import visvateam.outsource.idmanager.sercurity.CipherUtil;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -60,6 +45,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
@@ -161,9 +147,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (modeFrom == 1) {
-
-			}
+			if (modeFrom == 1)
+				CopyItemActivity.startActivity(this, currentElementId);
 			finish();
 			break;
 		default:
@@ -187,6 +172,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 
 		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+		@SuppressWarnings("deprecation")
 		BitmapDrawable result = new BitmapDrawable(bMap);
 		return result;
 	}
@@ -199,7 +185,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		if (mDrawableIcon != null)
 			((ImageButton) findViewById(R.id.img_avatar))
 					.setBackgroundDrawable(mDrawableIcon);
-		Log.i("isSetUrl", "" + itemSelect);
 		if (isSetUrl)
 			((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
 		isSetUrl = false;
@@ -212,7 +197,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			((ImageButton) findViewById(R.id.btn_img_memo))
 					.setVisibility(View.GONE);
 		}
-		Log.i("itemSelect", "" + itemSelect);
 		if (itemSelect >= 0) {
 			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
 			mListView.setAdapter(new ItemAddAdapter(this, mItems));
@@ -533,76 +517,11 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	 */
 	private void createOrUpdateId() {
 		addNewIdValuesToDataBase();
+		if (modeFrom == 1)
+			CopyItemActivity.startActivity(this, currentElementId);
 		finish();
 	}
 
-	// public String encyptAndSaveIcon(Drawable pDrawable, String icon) {
-	// String namString = String.valueOf(System.currentTimeMillis());
-	// String name = null;
-	// name = namString + ".dat";
-	// byte[] resultEncrypt = null;
-	// try {
-	// resultEncrypt = CipherUtil.encrypt(drawableToBitmap(pDrawable));
-	// } catch (InvalidKeyException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (NoSuchAlgorithmException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (InvalidKeySpecException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (NoSuchPaddingException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (InvalidParameterSpecException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (IllegalBlockSizeException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (BadPaddingException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (UnsupportedEncodingException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (InvalidAlgorithmParameterException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// }
-	// if (resultEncrypt == null) {
-	// return null;
-	// }
-	// FileOutputStream fileOutputStream = null;
-	// File dir = new File(Contants.PATH_ID_FILES);
-	// if (!dir.exists())
-	// dir.mkdirs();
-	//
-	// try {
-	// fileOutputStream = new FileOutputStream(new File(dir, name));
-	//
-	// try {
-	// fileOutputStream.write(resultEncrypt, 0, resultEncrypt.length);
-	// return name;
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// } catch (FileNotFoundException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } finally {
-	// if (fileOutputStream != null)
-	// try {
-	// fileOutputStream.close();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-	// return "";
-	// }
 	public byte[] getImageData(Drawable pDrawable) {
 		if (pDrawable == null)
 			return new byte[] {};

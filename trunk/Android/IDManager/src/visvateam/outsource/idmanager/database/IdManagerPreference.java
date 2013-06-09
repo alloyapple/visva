@@ -210,7 +210,11 @@ public class IdManagerPreference {
 				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, 0);
 	}
-
+	public int getNumberItems() {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getInt(NUMBER_ITEMS, 0);
+	}
 	public void setIsPaymentUnlimit(String key, boolean b) {
 		SharedPreferences pref = context.getSharedPreferences(
 				IDMANAGER_SHARE_PREFERENCE, 0);

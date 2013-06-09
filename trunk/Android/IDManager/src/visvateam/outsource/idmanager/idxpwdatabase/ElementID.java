@@ -6,35 +6,19 @@ public class ElementID {
 	private int eId;
 	private int eGroupId;
 	private String eTitle;
-	private String eIcon;
+
 	private long eTimeStamp;
 	private int eFavourite;
 	private int eFlag;
 	private String eUrl;
 	private String eNote;
-	private String eImage;
 	private int eOrder;
 	private byte[] eIconData;
 	private byte[] eMemoData;
 
-	// constructor
-	public ElementID(int eId, int eGroupId, String eTitle, String eIcon, long eTimeStamp,
-			int eFavourite, int eFlag, String eUrl, String eNote, String eImage, int eOrder) {
-		super();
-		this.eId = eId;
-		this.eGroupId = eGroupId;
-		this.eTitle = eTitle;
-		this.eIcon = eIcon;
-		this.eTimeStamp = eTimeStamp;
-		this.eFavourite = eFavourite;
-		this.eFlag = eFlag;
-		this.eUrl = eUrl;
-		this.eNote = eNote;
-		this.eImage = eImage;
-		this.eOrder = eOrder;
-	}
-	public ElementID(int eId, int eGroupId, String eTitle, byte[] eIcon, long eTimeStamp,
-			int eFavourite, int eFlag, String eUrl, String eNote, byte[] eMemo, int eOrder) {
+	public ElementID(int eId, int eGroupId, String eTitle, byte[] eIcon,
+			long eTimeStamp, int eFavourite, int eFlag, String eUrl,
+			String eNote, byte[] eMemo, int eOrder) {
 		super();
 		this.eId = eId;
 		this.eGroupId = eGroupId;
@@ -48,6 +32,7 @@ public class ElementID {
 		this.seteMemoData(eMemo);
 		this.eOrder = eOrder;
 	}
+
 	// empty constructor
 	public ElementID() {
 
@@ -75,14 +60,6 @@ public class ElementID {
 
 	public void seteTitle(String eTitle) {
 		this.eTitle = eTitle;
-	}
-
-	public String geteIcon() {
-		return eIcon;
-	}
-
-	public void seteIcon(String eIcon) {
-		this.eIcon = eIcon;
 	}
 
 	public long geteTimeStamp() {
@@ -125,14 +102,6 @@ public class ElementID {
 		this.eNote = eNote;
 	}
 
-	public String geteImage() {
-		return eImage;
-	}
-
-	public void seteImage(String eImage) {
-		this.eImage = eImage;
-	}
-
 	public int geteOrder() {
 		return eOrder;
 	}
@@ -140,15 +109,19 @@ public class ElementID {
 	public void seteOrder(int eOrder) {
 		this.eOrder = eOrder;
 	}
+
 	public void seteIconData(byte[] eIconData) {
 		this.eIconData = eIconData;
 	}
+
 	public byte[] geteIconData() {
 		return eIconData;
 	}
+
 	public void seteMemoData(byte[] eMemoData) {
 		this.eMemoData = eMemoData;
 	}
+
 	public byte[] geteMemoData() {
 		return eMemoData;
 	}

@@ -484,30 +484,7 @@ public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	 * All CRUD(Create, Read, Update, Delete) Operations
 	 */
 
-//	// Adding new ELEMENT ID
-//	public void addNewElementId(ElementID elementID) {
-//		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
-//
-//		ContentValues values = new ContentValues();
-//		values.put(KEY_E_ID, elementID.geteId()); // folder id
-//		values.put(KEY_E_GROUP_ID, elementID.geteGroupId()); // user id
-//		values.put(KEY_E_TITLE, elementID.geteTitle()); // folder name
-//		values.put(KEY_E_ICON, elementID.geteIcon()); // folder name
-//		// image folder icon id
-//		values.put(KEY_E_TIME_STAMP, elementID.geteTimeStamp());
-//		// image folder icon edit
-//		values.put(KEY_E_FAVOURITE, elementID.geteFavourite());
-//		values.put(KEY_E_FLAG, elementID.geteFlag());
-//		values.put(KEY_E_URL, elementID.geteUrl());
-//		values.put(KEY_E_NOTE, elementID.geteNote());
-//		values.put(KEY_E_IMAGE, elementID.geteImage());
-//		values.put(KEY_E_ORDER, elementID.geteOrder());
-//		// Inserting Row
-//		db.insert(TABLE_ELEMENT_ID, null, values);
-//
-//		// close db after use
-//		db.close(); // Closing database connection
-//	}
+
 	public void addElement(ElementID elementID) {
 		SQLiteDatabase db = this.getWritableDatabase(Contants.KEY_DATA_PW);
 
