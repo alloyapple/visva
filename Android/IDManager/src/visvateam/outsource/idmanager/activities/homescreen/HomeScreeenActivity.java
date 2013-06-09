@@ -1,21 +1,8 @@
 package visvateam.outsource.idmanager.activities.homescreen;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.NoSuchPaddingException;
-
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.BaseActivity;
 import visvateam.outsource.idmanager.activities.BrowserActivity;
@@ -30,7 +17,6 @@ import visvateam.outsource.idmanager.idletime.ControlApplication;
 import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
-import visvateam.outsource.idmanager.sercurity.CipherUtil;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -42,11 +28,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,16 +38,20 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.view.DndListViewFolder;
@@ -72,7 +60,7 @@ import exp.mtparet.dragdrop.view.ListViewDragDrop;
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
 public class HomeScreeenActivity extends BaseActivity implements
 		OnClickListener {
-	private final static int MAX_ITEMS = 12;
+	
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop idListView;
@@ -118,7 +106,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private boolean isDnd = false;
 	private boolean isDndElement = false;
 	private AdView adview;
-	private Drawable mDrawableIcon;
+//	private Drawable mDrawableIcon;
 
 	private Handler mMainHandler = new Handler() {
 		@SuppressWarnings("deprecation")
@@ -433,8 +421,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 			 */
 			oneItemSelected = (ElementID) arg0.getItemAtPosition(arg2);
 
-			imageDrag.setImageDrawable(getIconDatabase(oneItemSelected
-					.geteIcon()));
+			imageDrag.setImageDrawable(getImageDataBase(oneItemSelected.geteIconData()));
 			txtIdName.setText(oneItemSelected.geteTitle());
 			txtIdUrl.setText(oneItemSelected.geteUrl());
 		}
@@ -751,11 +738,11 @@ public class HomeScreeenActivity extends BaseActivity implements
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
 			if (currentFolderItem < mFolderListItems.size() - 2) {
-				List<ElementID> elementList = mIDxPWDataBaseHandler
-						.getAllElementIdByGroupFolderId(currentFolderId);
+//				List<ElementID> elementList = mIDxPWDataBaseHandler
+//						.getAllElementIdByGroupFolderId(currentFolderId);
 				int number_items = mIdManagerPreference
 						.getNumberItems(IdManagerPreference.NUMBER_ITEMS);
-				if (number_items >= MAX_ITEMS)
+				if (number_items >=Contants.MAX_ELEMENT)
 					showDialog(Contants.DIALOG_CREATE_ID);
 				else {
 					if (isSearchMode) {
@@ -1216,22 +1203,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private void deleteID(int positionReturnedByHandler) {
 		// TODO Auto-generated method stub
 		/* delete in database */
-		// mIDxPWDataBaseHandler.deleteIDPassword(mIdListItems.get(positionReturnedByHandler)
-		// .getPasswordId());
-		String icon = mIdListItems.get(positionReturnedByHandler).geteIcon();
-		File fileIcon = new File(
-				Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-				icon);
-		if (fileIcon != null && fileIcon.exists())
-			fileIcon.delete();
-		String memo = mIdListItems.get(positionReturnedByHandler).geteImage();
-		File fileMemo = new File(
-				Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-				memo);
-		if (fileMemo != null && fileMemo.exists())
-			fileMemo.delete();
 		mIDxPWDataBaseHandler.deleteElementId(mIdListItems.get(
 				positionReturnedByHandler).geteId());
 		/* reset id list view */
@@ -1413,58 +1384,14 @@ public class HomeScreeenActivity extends BaseActivity implements
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
-	@SuppressWarnings("deprecation")
-	@SuppressLint("NewApi")
-	private Drawable getIconDatabase(String icon) {
-		Log.e("icon icon", "icon123 " + icon);
-		if (null != icon && !"".equals(icon)) {
-			File dir = new File(Contants.PATH_ID_FILES);
-			if (!dir.exists())
-				dir.mkdirs();
-			File inputFile = new File(dir, icon);
-
-			byte[] cipherBytes = new byte[(int) inputFile.length()];
-			FileInputStream fis = null;
-			try {
-				fis = new FileInputStream(inputFile);
-				fis.read(cipherBytes, 0, cipherBytes.length);
-				fis.close();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			byte[] decryptBytes = null;
-			try {
-				decryptBytes = CipherUtil.decrypt(cipherBytes);
-			} catch (InvalidKeyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidKeySpecException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchPaddingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidAlgorithmParameterException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Bitmap bmp = BitmapFactory.decodeByteArray(decryptBytes, 0,
-					decryptBytes.length);
-			return (Drawable) new BitmapDrawable(bmp);
-		} else {
-			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
-			return mDrawableIcon;
+	public Drawable getImageDataBase(byte[] data) {
+		if (data == null || data.length == 0) {
+			return getResources().getDrawable(R.drawable.default_icon);
 		}
 
+		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+		@SuppressWarnings("deprecation")
+		BitmapDrawable result = new BitmapDrawable(bMap);
+		return result;
 	}
 }

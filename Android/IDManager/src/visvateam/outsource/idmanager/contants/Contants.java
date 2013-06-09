@@ -67,6 +67,7 @@ public class Contants {
 	public static final String CURRENT_PASSWORD_ID = "CURRENT_PASSWORD_ID";
 
 	public static final int MAX_ITEM_PASS_ID = 5;
+	public final static int MAX_ELEMENT = 12;
 	public static final String DATA_IDMANAGER_NAME = "idmanager.db";
 	public static final String DATA_IDMANAGER_FOLDER_CLOUD = "IDxPassword";
 	public static final int DATA_VERSION = 1;
