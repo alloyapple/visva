@@ -9,7 +9,7 @@
     <string name="message_pay_to_no_ad">このアプリ内での広告の表示を無くします。450円課金されますがよろしいですか？</string>
     <string name="message_pay_to_export">CSV形式での書出し機能を追加します。1,000円課金されますがよろしいですか？</string>
     <string name="title_current_pass">現在のマスターパスワード</string>
-    <string name="text_off">即時</string>
+    <string name="text_off">なし</string>
     <string name="title_master_pass">マスターパスワード</string>
     <string name="title_delete_items">削除</string>
     <string name="title_add_items">新規</string>

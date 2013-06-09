@@ -9,7 +9,7 @@
     <string name="message_pay_to_no_ad">您要刪除廣告，您將支付*台币。</string>
     <string name="message_pay_to_export">您要通過CSV形式輸出數據，您將支付*台币。</string>
     <string name="title_current_pass">當前密碼</string>
-    <string name="text_off">立即</string>
+    <string name="text_off">不是自毀</string>
     <string name="title_master_pass">密碼</string>
     <string name="title_delete_items">刪除</string>
     <string name="title_add_items">新</string>

@@ -9,7 +9,7 @@
     <string name="message_pay_to_no_ad">이 응용 프로그램에서 광고 표시를 없애고 있습니다. 6000 원 부과됩니다 괜찮습니까?</string>
     <string name="message_pay_mto_export">CSV 형식으로 내보내기 기능을 추가합니다. 1,000 원 부과됩니다 괜찮습니까?</string>
     <string name="title_current_pass">현재 마스터 비밀 번호</string>
-    <string name="text_off">즉시</string>
+    <string name="text_off">없음</string>
     <string name="list_general">일반</string>
     <string name="title_master_pass">마스터 비밀 번호</string>
     <string name="title_delete_items">삭제</string>

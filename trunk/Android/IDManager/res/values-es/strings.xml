@@ -13,7 +13,7 @@
     <string name="title_delete_items">Borrar</string>
     <string name="title_add_items">Nuevo</string>
     <string name="text_min">min</string>
-    <string name="text_off">Inmediatamente</string>
+    <string name="text_off">No Destruct</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Nota</string>
     <string name="btn_paste_browse">Abra la página web</string>
