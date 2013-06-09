@@ -15,7 +15,7 @@
     <string name="title_delete_items">Delete</string>
     <string name="title_add_items">New</string>
     <string name="text_min">min</string>
-    <string name="text_off">Immediately</string>
+    <string name="text_off">Not Destruct</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
     <string name="btn_paste_browse">Open the web page</string>
