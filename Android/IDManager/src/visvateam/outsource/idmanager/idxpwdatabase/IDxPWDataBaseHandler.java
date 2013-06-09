@@ -2,13 +2,13 @@ package visvateam.outsource.idmanager.idxpwdatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 import visvateam.outsource.idmanager.contants.Contants;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SQLiteOpenHelper;
-import net.sqlcipher.database.SQLiteStatement;
 
 public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// User table name

@@ -1,6 +1,7 @@
 package visvateam.outsource.idmanager.activities;
 
 import java.io.File;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.homescreen.HomeScreeenActivity;
 import visvateam.outsource.idmanager.contants.Contants;
@@ -21,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-@SuppressWarnings("deprecation")
 public class MasterPasswordActivity extends BaseActivity implements
 		OnClickListener {
 
@@ -48,7 +48,6 @@ public class MasterPasswordActivity extends BaseActivity implements
 			/* go to HomeScreen activity */
 			Intent intent = new Intent(MasterPasswordActivity.this,
 					HomeScreeenActivity.class);
-			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 			startActivity(intent);
 			finish();
 		} else {
@@ -101,6 +100,7 @@ public class MasterPasswordActivity extends BaseActivity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void checkRemoveDataValues() {
 		// TODO Auto-generated method stub
 		if (!mMasterPW.equals(mEditTextMasterPW.getText().toString())) {
@@ -120,8 +120,8 @@ public class MasterPasswordActivity extends BaseActivity implements
 			/* check security service */
 			Intent intent = new Intent(MasterPasswordActivity.this,
 					HomeScreeenActivity.class);
-			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 			startActivity(intent);
+			finish();
 		}
 	}
 

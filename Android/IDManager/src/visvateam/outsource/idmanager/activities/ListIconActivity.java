@@ -63,10 +63,7 @@ public class ListIconActivity extends BaseActivity {
 	public static int idIsp_CHINA[] = { R.drawable.isp_4, R.drawable.isp_5 };
 	public static int idIsp_EURO[] = { R.drawable.isp_6, R.drawable.isp_7 };
 	public static int idIsp_OTHER[] = { R.drawable.isp_8, R.drawable.isp_9 };
-//	public static int idIsp[] = { R.drawable.isp_0, R.drawable.isp_1,
-//			R.drawable.isp_2, R.drawable.isp_3, R.drawable.isp_4,
-//			R.drawable.isp_5, R.drawable.isp_6, R.drawable.isp_7,
-//			R.drawable.isp_8, R.drawable.isp_9 };
+
 	public static int idCarrier_USA[] = { R.drawable.carrier_0,
 			R.drawable.carrier_1 };
 	public static int idCarrier_JAPAN[] = { R.drawable.carrier_2,
@@ -77,11 +74,6 @@ public class ListIconActivity extends BaseActivity {
 			R.drawable.carrier_7, R.drawable.carrier_8 };
 	public static int idCarrier_OTHER[] = { R.drawable.carrier_9,
 			R.drawable.carrier_10, R.drawable.carrier_11 };
-//	public static int idCarrier[] = { R.drawable.carrier_0,
-//			R.drawable.carrier_1, R.drawable.carrier_2, R.drawable.carrier_3,
-//			R.drawable.carrier_4, R.drawable.carrier_5, R.drawable.carrier_6,
-//			R.drawable.carrier_7, R.drawable.carrier_8, R.drawable.carrier_9,
-//			R.drawable.carrier_10, R.drawable.carrier_11 };
 	public static int idWebservice_USA[] = { R.drawable.webservice_0,
 			R.drawable.webservice_1, R.drawable.webservice_2,
 			R.drawable.webservice_3, R.drawable.webservice_4,
@@ -305,7 +297,7 @@ public class ListIconActivity extends BaseActivity {
 						final int catalogue = i*mCountryName.length+m;;
 						LinearLayout mLinearCountryTitle = new LinearLayout(
 								this);
-//						mLinearCountryTitle.setAlpha(0.5f);
+						mLinearCountryTitle.setAlpha(128);
 						mLinearCountryTitle
 								.setLayoutParams(new LinearLayout.LayoutParams(
 										LinearLayout.LayoutParams.FILL_PARENT,
