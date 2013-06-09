@@ -7,41 +7,22 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sqlcipher.database.SQLiteDatabase;
-
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.Session.AccessType;
-
 import visvateam.outsource.idmanager.activities.SettingActivity.PasswordItem;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
-import visvateam.outsource.idmanager.exportcontroller.dropbox.ReadFileViaDropBox;
 import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
 import visvateam.outsource.idmanager.idxpwdatabase.Password;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class ChoiceCSVImportType extends Activity implements OnClickListener {
-
-	// You don't need to change these, leave them alone.
-	final static private String ACCOUNT_PREFS_NAME = "prefs";
-	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
-	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
-	// If you'd like to change the access type to the full Dropbox instead of
-	// an app folder, change this value.
-	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
 
 	private Button btnIDxPassword;
 	private Button btnLastPass;
@@ -60,7 +41,6 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 	private int sizeOfEList;
 	private int sizeOfPList;
 
-	private DropboxAPI<AndroidAuthSession> mApi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +50,6 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 
 		fileCSVToImport = getIntent().getExtras().getString(
 				Contants.KEY_CHOICE_CSV_FILE);
-		// We create a new AuthSession so that we can use the Dropbox API.
-		AndroidAuthSession session = buildSession();
-		mApi = new DropboxAPI<AndroidAuthSession>(session);
 
 		initDatabase();
 		initControl();
@@ -91,44 +68,6 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 		sizeOfPList = mPList.size();
 	}
 
-	private AndroidAuthSession buildSession() {
-		AppKeyPair appKeyPair = new AppKeyPair(Contants.APP_KEY,
-				Contants.APP_SECRET);
-		AndroidAuthSession session;
-
-		String[] stored = getKeys();
-		if (stored != null) {
-			AccessTokenPair accessToken = new AccessTokenPair(stored[0],
-					stored[1]);
-			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE,
-					accessToken);
-		} else {
-			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
-		}
-
-		return session;
-	}
-
-	/**
-	 * Shows keeping the access keys returned from Trusted Authenticator in a
-	 * local store, rather than storing user name & password, and
-	 * re-authenticating each time (which is not to be done, ever).
-	 * 
-	 * @return Array of [access_key, access_secret], or null if none stored
-	 */
-	private String[] getKeys() {
-		SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
-		String key = prefs.getString(ACCESS_KEY_NAME, null);
-		String secret = prefs.getString(ACCESS_SECRET_NAME, null);
-		if (key != null && secret != null) {
-			String[] ret = new String[2];
-			ret[0] = key;
-			ret[1] = secret;
-			return ret;
-		} else {
-			return null;
-		}
-	}
 
 	private void initControl() {
 		// TODO Auto-generated method stub
@@ -161,27 +100,6 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 		}
 	}
 
-	private Handler mHandler = new Handler() {
-		@SuppressWarnings({ "unchecked", "deprecation" })
-		public void handleMessage(android.os.Message msg) {
-			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_SUCCESS)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED);
-			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD)
-				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
-				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
-			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
-				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
-			}
-		};
-	};
-
 	protected void importFileCSVToDatabaseFormatIDPassword(String mSelectedFile) {
 		// TODO Auto-generated method stub
 		// File sdcard = Environment.getExternalStorageDirectory();
@@ -200,10 +118,8 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 				try {
 					while ((reader = in.readLine()) != null) {
 						if (row > 0) {
-							Log.e("xem chay may kan", "xem chay may kab " + row);
 							String[] rowData = reader.split(",");
 							ArrayList<String> rowDataList = new ArrayList<String>();
-							// for(int )
 
 							for (int i = 0; i < rowData.length; i++) {
 								rowDataList.add(rowData[i]);
@@ -214,6 +130,7 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 								for (int i = size; i < 17; i++) {
 									rowDataList.add("");
 								}
+
 
 							// for (int i = 0; i < rowDataList.size(); i++) {
 							group = rowDataList.get(0);

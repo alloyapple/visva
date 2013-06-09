@@ -1,9 +1,6 @@
 package visvateam.outsource.idmanager.activities;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,9 +88,6 @@ public class SettingActivity extends BaseActivity {
 	private List<GroupFolder> mGList;
 	private List<ElementID> mEList;
 	private List<Password> mPList;
-	private int sizeOfGList;
-	private int sizeOfEList;
-	private int sizeOfPList;
 	private String mGGAccountName;
 
 	private ImageView mImgGGDrive;
@@ -146,9 +140,6 @@ public class SettingActivity extends BaseActivity {
 		mGList = mDataBaseHandler.getAllFolders();
 		mEList = mDataBaseHandler.getAllElmentIds();
 		mPList = mDataBaseHandler.getAllPasswords();
-		sizeOfGList = mGList.size();
-		sizeOfEList = mEList.size();
-		sizeOfPList = mPList.size();
 	}
 
 	public void initAdmod() {
@@ -294,6 +285,7 @@ public class SettingActivity extends BaseActivity {
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
+
 			// if (!mPref.getIsPaymentExport())
 			// showDialogRequestPayment(getResources().getString(
 			// R.string.message_pay_to_export));
@@ -304,7 +296,6 @@ public class SettingActivity extends BaseActivity {
 			} else {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			}
-			// }
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
@@ -541,7 +532,7 @@ public class SettingActivity extends BaseActivity {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
 							String file = mSelectedFile.toString();
-							importFileCSVToDatabase(file);
+							// importFileCSVToDatabase(file);
 							return;
 						}
 					});
@@ -601,191 +592,6 @@ public class SettingActivity extends BaseActivity {
 			return builder.create();
 		default:
 			return null;
-		}
-	}
-
-	protected void importFileCSVToDatabase(String mSelectedFile) {
-		// TODO Auto-generated method stub
-		// File sdcard = Environment.getExternalStorageDirectory();
-		File file = new File(Contants.PATH_ID_FILES + mSelectedFile);
-		ArrayList<PasswordItem> mItems = new ArrayList<SettingActivity.PasswordItem>();
-		String group = null, title = null, icon = null, url = null, note = null, image = null;
-		String[] id = new String[Contants.MAX_ITEM_PASS_ID];
-		String[] password = new String[Contants.MASTER_PASSWORD_ID];
-		int fav = 0;
-		if (file.exists()) {
-			BufferedReader in;
-			try {
-				in = new BufferedReader(new FileReader(file));
-				String reader = "";
-				int row = 0;
-				try {
-					while ((reader = in.readLine()) != null) {
-						if (row > 0) {
-							Log.e("xem chay may kan", "xem chay may kab " + row);
-							String[] rowData = reader.split(",");
-							ArrayList<String> rowDataList = new ArrayList<String>();
-							// for(int )
-
-							for (int i = 0; i < rowData.length; i++) {
-								rowDataList.add(rowData[i]);
-							}
-
-							int size = rowDataList.size();
-							if (size < 17)
-								for (int i = size; i < 17; i++) {
-									rowDataList.add("");
-								}
-
-							for (int i = 0; i < rowDataList.size(); i++) {
-								Log.e("adjhfkshdf",
-										"adsfkjh " + rowDataList.get(i));
-								group = rowDataList.get(0);
-								title = rowDataList.get(1);
-								icon = rowDataList.get(2);
-								fav = Integer.parseInt(rowDataList.get(3));
-								url = rowDataList.get(4);
-								note = rowDataList.get(5);
-								image = rowDataList.get(6);
-
-								id[0] = rowDataList.get(7);
-								password[0] = rowDataList.get(8);
-								id[1] = rowDataList.get(9);
-								password[1] = rowDataList.get(10);
-								id[2] = rowDataList.get(11);
-								password[2] = rowDataList.get(12);
-								id[3] = rowDataList.get(13);
-								password[3] = rowDataList.get(14);
-								id[4] = rowDataList.get(15);
-								password[4] = rowDataList.get(16);
-							}
-
-							/* update to database */
-							boolean isGExist = false;
-							boolean isEExist = false;
-							/* insert folder */
-							if (sizeOfGList > 0)
-								for (int i = 0; i < sizeOfGList; i++) {
-									if (!group.equals(mGList.get(i).getgName()))
-										isGExist = false;
-									else
-										isGExist = true;
-									if (i == (sizeOfGList - 1) && !isGExist) {
-										int gId = 0;
-										for (int j = 0; j < sizeOfGList; j++)
-											if (gId < mGList.get(j).getgId())
-												gId = mGList.get(j).getgId();
-										gId++;
-										GroupFolder folder = new GroupFolder(
-												gId, group, 0,
-												Contants.MASTER_PASSWORD_ID, 0);
-										mDataBaseHandler.addNewFolder(folder);
-										mGList.add(folder);
-										sizeOfGList++;
-									}
-								}
-							else if (!isGExist) {
-								isGExist = true;
-								int gId = 0;
-								for (int j = 0; j < sizeOfGList; j++)
-									if (gId < mGList.get(j).getgId())
-										gId = mGList.get(j).getgId();
-								gId++;
-								GroupFolder folder = new GroupFolder(gId,
-										group, 0, Contants.MASTER_PASSWORD_ID,
-										0);
-								mDataBaseHandler.addNewFolder(folder);
-								mGList.add(folder);
-								sizeOfGList++;
-							}
-
-							/* insert element */
-							for (int i = 0; i < sizeOfGList; i++) {
-								List<ElementID> elementList = mDataBaseHandler
-										.getAllElementIdByGroupFolderId(mGList
-												.get(i).getgId());
-								if (elementList.size() > 0)
-									for (int j = 0; j < elementList.size(); j++) {
-										if (title.equals(elementList.get(j)
-												.geteTitle()))
-											isEExist = true;
-
-										if (j == sizeOfEList - 1 && !isEExist) {
-											int eId = sizeOfEList;
-											long timeStamp = System
-													.currentTimeMillis();
-											for (int k = 0; k < mEList.size(); k++)
-												if (eId < mEList.get(k)
-														.geteId())
-													eId = mEList.get(k)
-															.geteId();
-											eId++;
-											ElementID element = new ElementID(
-													eId,
-													mGList.get(i).getgId(),
-													title, new byte[] {},
-													timeStamp, fav, 0, url,
-													note, new byte[] {}, 0);
-											mDataBaseHandler
-													.addElement(element);
-
-											mEList.add(element);
-											sizeOfEList++;
-										}
-									}
-								else if (!isEExist) {
-									isEExist = true;
-									int eId = sizeOfEList;
-									long timeStamp = System.currentTimeMillis();
-									eId++;
-									ElementID element = new ElementID(eId,
-											mGList.get(i).getgId(), title,
-											new byte[] {}, timeStamp, fav, 0,
-											url, note, new byte[] {}, 0);
-									mDataBaseHandler.addElement(element);
-									mEList.add(element);
-									sizeOfEList++;
-								}
-
-							}
-
-							/* insert to password */
-							int elementId = 0;
-							for (int i = 0; i < sizeOfEList; i++) {
-								if (title.equals(mEList.get(i).geteTitle()))
-									elementId = mEList.get(i).geteId();
-							}
-							mDataBaseHandler
-									.deletePasswordByElementId(elementId);
-							Log.e("item", "item.size " + mItems.size());
-							for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
-								if (!"".equals(id[i])
-										|| !"".equals(password[i])) {
-									int pwId = sizeOfPList;
-									for (int k = 0; k < sizeOfPList; k++)
-										if (pwId < mPList.get(k)
-												.getPasswordId())
-											pwId = mPList.get(k)
-													.getPasswordId();
-									Password passWord = new Password(pwId,
-											elementId, id[i], password[i]);
-									mDataBaseHandler.addNewPassword(passWord);
-									mPList.add(passWord);
-									sizeOfPList++;
-								}
-							}
-						}
-						row++;
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 		}
 	}
 
@@ -965,10 +771,15 @@ public class SettingActivity extends BaseActivity {
 		File fileExport = new File(Contants.PATH_ID_FILES + "/"
 				+ fileExportName);
 		if (fileExport.exists()) {
-			DropBoxController newFile = new DropBoxController(
-					SettingActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_CSV,
-					fileExport, mHandler, isCheckDuplicated);
-			newFile.execute();
+			if (mApi.getSession().isLinked()) {
+				DropBoxController newFile = new DropBoxController(
+						SettingActivity.this, mApi,
+						Contants.FOLDER_ON_DROPBOX_CSV, fileExport, mHandler,
+						isCheckDuplicated);
+				newFile.execute();
+			} else {
+
+			}
 		} else {
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;

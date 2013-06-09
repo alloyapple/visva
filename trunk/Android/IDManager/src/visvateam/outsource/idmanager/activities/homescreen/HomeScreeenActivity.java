@@ -1,8 +1,11 @@
 package visvateam.outsource.idmanager.activities.homescreen;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.activities.BaseActivity;
 import visvateam.outsource.idmanager.activities.BrowserActivity;
@@ -17,6 +20,7 @@ import visvateam.outsource.idmanager.idletime.ControlApplication;
 import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
 import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import visvateam.outsource.idmanager.idxpwdatabase.IDxPWDataBaseHandler;
+import visvateam.outsource.idmanager.idxpwdatabase.UserDB;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -143,6 +147,34 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		/* initialize variable */
 		initializeVariable();
+		
+		/*create file log*/
+		createFileLog();
+	}
+
+	private void createFileLog() {
+		// TODO Auto-generated method stub
+		String fileLogPath = Contants.PATH_ID_FILES+"log.txt";
+		File file = new File(fileLogPath);
+		long currentTime = System.currentTimeMillis();
+		Date date = new Date(currentTime);
+		UserDB user= mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
+		if(!file.exists())
+			file.mkdirs();
+		FileWriter writer;
+		try {
+			writer = new FileWriter(fileLogPath);
+			writer.append(""+user.getsEmail());
+			writer.append(",");
+			writer.append(""+date);
+			writer.append("\n");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
