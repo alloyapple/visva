@@ -46,6 +46,7 @@ public class Contants {
 	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER = 29;
 	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER = 30;
 	public static final int DIALOG_MESSAGE_AUTHEN_GG_FAILED = 31;
+	public static final int DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD = 32;
 
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
@@ -67,16 +68,16 @@ public class Contants {
 	public static final String CURRENT_PASSWORD_ID = "CURRENT_PASSWORD_ID";
 
 	public static final int MAX_ITEM_PASS_ID = 5;
+	public static final String DATA_IDMANAGER_NAME = "idxpassword.db";
 	public final static int MAX_ELEMENT = 12;
-	public static final String DATA_IDMANAGER_NAME = "idmanager.db";
+
 	public static final String DATA_IDMANAGER_FOLDER_CLOUD = "IDxPassword";
 	public static final int DATA_VERSION = 1;
 	public static final String KEY_DATA_PW = "idxpass_@1234#!";
 	public static final int KEY_OFF = 0;
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment
-
-	.getExternalStorageDirectory().getPath() + "/IDxPassword/";
+			.getExternalStorageDirectory().getPath() + "/IDxPassword/";
 	public static final String FOLDER_ON_DROPBOX_DB = "/";
 	public static final String FOLDER_ON_DROPBOX_CSV = "/";
 

@@ -342,6 +342,7 @@ public class SyncCloudActivity extends Activity {
 			return builder.create();
 
 		case Contants.DIALOG_NO_DATA_CLOUD:
+			Log.e("adg", "ertr");
 			AlertDialog.Builder builderNoData = new AlertDialog.Builder(this);
 			builderNoData.setTitle(R.string.app_name);
 			builderNoData.setMessage(R.string.no_data_on_cloud);
@@ -355,7 +356,7 @@ public class SyncCloudActivity extends Activity {
 							return;
 						}
 					});
-			return builder.create();
+			return builderNoData.create();
 		case Contants.DIALOG_NO_CLOUD_SETUP:
 			builder.setTitle(getString(R.string.app_name));
 			builder.setMessage(getString(R.string.no_cloud_serivce_set_up));
@@ -721,8 +722,10 @@ public class SyncCloudActivity extends Activity {
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED);
-			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD)
+			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD){
+				Log.e("run here", "run here ");
 				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
+			}
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
 				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
@@ -738,6 +741,8 @@ public class SyncCloudActivity extends Activity {
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
 				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
 				startActivityForResult(credential.newChooseAccountIntent(), REQUEST_AUTHORIZATION);
+			}else if(msg.arg1 == Contants.DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD){
+				saveFileToDrive(mGGAccountName, false);
 			}
 		};
 	};

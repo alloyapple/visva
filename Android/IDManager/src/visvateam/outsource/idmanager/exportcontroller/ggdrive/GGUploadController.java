@@ -1,6 +1,7 @@
 package visvateam.outsource.idmanager.exportcontroller.ggdrive;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import visvateam.outsource.idmanager.activities.R;
 import visvateam.outsource.idmanager.contants.Contants;
@@ -19,6 +20,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.ParentReference;
 
 public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 	private Context mContext;
@@ -57,12 +59,12 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 	protected Integer doInBackground(Void... params) {
 		// TODO Auto-generated method stub
 		File myBody = null;
+		File idpwFolder = null;
 		try {
 			Files.List request = null;
 			File gDriveFile = null;
 			request = mService.files().list();
 			FileList files = request.execute();
-			Log.e("file.size", "file.size " + files.size());
 			for (File file : files.getItems()) {
 				if (Contants.DATA_IDMANAGER_NAME.equals(file.getTitle())) {
 					gDriveFile = file;
@@ -70,6 +72,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 				if (Contants.DATA_IDMANAGER_FOLDER_CLOUD
 						.equals(file.getTitle())) {
 					isExistFolder = true;
+					idpwFolder = file;
 				}
 				String fieldId = file.getId();
 				String title = file.getTitle();
@@ -82,6 +85,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 				myBody.setTitle(Contants.DATA_IDMANAGER_FOLDER_CLOUD);
 				myBody.setMimeType("application/vnd.google-apps.folder");
 				mService.files().insert(myBody).execute();
+				return Contants.DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD;
 			}
 
 			if (!isCheckedTime) {
@@ -105,6 +109,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 			File body = new File();
 			body.setTitle(mFileDb.getName());
 			body.setMimeType("image/text");
+			body.setParents(Arrays.asList(new ParentReference().setId(idpwFolder.getId())));
 
 			if (null != mService) {
 				File file = mService.files().insert(body, mediaContent)
@@ -161,6 +166,9 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 			msg.arg1 = Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
 			msg.obj = event;
 			mHandler.sendMessage(msg);
+		}else if(result ==Contants.DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD){
+			msg.arg1 =Contants.DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD;
+			mHandler.sendMessage(msg);
 		}
 		super.onPostExecute(result);
 	}
@@ -187,4 +195,25 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 			System.out.println("An error occurred: " + e);
 		}
 	}
+	
+	 /**
+	   * Insert a file into a folder.
+	   *
+	   * @param service Drive API service instance.
+	   * @param folderId ID of the folder to insert the file into
+	   * @param fileId ID of the file to insert.
+	   * @return The inserted parent if successful, {@code null} otherwise.
+	   */
+	  private static ParentReference insertFileIntoFolder(Drive service, String folderId,
+	      String fileId) {
+	    ParentReference newParent = new ParentReference();
+	    newParent.setId(folderId);
+	    try {
+	      return service.parents().insert(fileId, newParent).execute();
+	    } catch (IOException e) {
+	      System.out.println("An error occurred: " + e);
+	    }
+	    return null;
+	  }
+
 }

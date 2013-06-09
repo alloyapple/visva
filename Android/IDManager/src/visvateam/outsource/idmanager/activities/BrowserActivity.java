@@ -39,7 +39,7 @@ public class BrowserActivity extends BaseActivity {
 				Contants.CURRENT_PASSWORD_ID);
 
 		if (mode == Contants.INFO_TO || mode == Contants.EDIT_TO) {
-			url = "http://www.japanappstudio.com/home.html";
+			url = "http://www.google.com.vn/";
 		} else {
 			initData();
 		}
