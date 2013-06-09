@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import visvateam.outsource.idmanager.contants.Contants;
 import visvateam.outsource.idmanager.database.IdManagerPreference;
@@ -48,6 +49,7 @@ import android.widget.Toast;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 
+@SuppressWarnings("unused")
 public class EditIdPasswordActivity extends BaseActivity implements
 		OnItemClickListener, android.content.DialogInterface.OnClickListener {
 	public static final int ELEMENT_FLAG_TRUE = 1;
@@ -124,8 +126,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			isCreatNew = false;
 			isUpdateIcon = false;
 			isUpdateMemo = false;
-			mDrawableIcon = getImageDataBase(icon);
-			mDrawableMemo = getImageDataBase(imageMemo);
+			mDrawableIcon = getIconDataBase(icon);
+			mDrawableMemo = getMemoDataBase(imageMemo);
 
 		} else if (modeBundle == 1) {
 			isCreatNew = true;
@@ -165,7 +167,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 	}
 
-	public Drawable getImageDataBase(byte[] data) {
+	public Drawable getIconDataBase(byte[] data) {
 		if (data == null || data.length == 0) {
 			return getResources().getDrawable(R.drawable.default_icon);
 		}
@@ -175,7 +177,16 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		BitmapDrawable result = new BitmapDrawable(bMap);
 		return result;
 	}
+	public Drawable getMemoDataBase(byte[] data) {
+		if (data == null || data.length == 0) {
+			return getResources().getDrawable(R.drawable.default_icon);
+		}
 
+		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+		@SuppressWarnings("deprecation")
+		BitmapDrawable result = new BitmapDrawable(bMap);
+		return result;
+	}
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
@@ -562,20 +573,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 		if (!b || titleRecord.equals("") || url.equals(""))
 			return;
-		// if (isUpdateIcon) {
-		// isUpdateIcon=false;
-		// File fileIcon = new File(Contants.PATH_ID_FILES, icon);
-		// if (fileIcon != null && fileIcon.exists())
-		// fileIcon.delete();
-		// icon = encyptAndSaveIcon(mDrawableIcon, icon);
-		// }
-		// if (isUpdateMemo) {
-		// isUpdateMemo=false;
-		// File fileMemo = new File(Contants.PATH_ID_FILES, imageMemo);
-		// if (fileMemo != null && fileMemo.exists())
-		// fileMemo.delete();
-		// imageMemo = encyptAndSaveIcon(mDrawableMemo, imageMemo);
-		// }
 		note = mEditTextNote.getText().toString();
 		int elementId = -1;
 
