@@ -184,16 +184,16 @@
 
                     <com.lemon.fromangle.utility.AutoBGButton
                         android:id="@+id/btnSave"
-                        android:layout_width="136dp"
-                        android:layout_height="48dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:background="@drawable/btn_save" />
+                        android:background="@drawable/start_btn" />
 
                     <com.lemon.fromangle.utility.AutoBGButton
                         android:id="@+id/btnCancel"
-                        android:layout_width="136dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/btn_return" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/stop_btn" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
