@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
-import visvateam.outsource.idmanager.activities.export.ExportDataGGDriveActivity;
 import visvateam.outsource.idmanager.activities.synccloud.DropboxSettingActivity;
 import visvateam.outsource.idmanager.activities.synccloud.GGDriveSettingActivity;
 import visvateam.outsource.idmanager.contants.Contants;
@@ -797,15 +796,6 @@ public class SettingActivity extends BaseActivity {
 		File file = new File(Contants.PATH_ID_FILES + "/" + fileExportName);
 		if (file.exists())
 			file.delete();
-	}
-
-	@SuppressWarnings("unused")
-	private void exportDataToGGDrive() {
-		// TODO Auto-generated method stub
-		Intent intentExportData = new Intent(SettingActivity.this,
-				ExportDataGGDriveActivity.class);
-		intentExportData.putExtra(Contants.IS_EXPORT_FILE, isExportData);
-		startActivity(intentExportData);
 	}
 
 	private void generateCsvFile(String sFileName) {
