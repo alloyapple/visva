@@ -23,7 +23,7 @@
     </string-array>
 
     <string name="hint_link">http://google.com</string>
-    <string name="app_name">IDxPassword</string>
+    <string name="app_name">ID&amp;Password</string>
     <string name="memo_title">Memo Image</string>
     <string name="copy_title">Copy</string>
     <string name="btn_agree">Approval</string>
