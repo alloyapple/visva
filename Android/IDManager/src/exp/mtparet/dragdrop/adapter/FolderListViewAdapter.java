@@ -2,9 +2,10 @@ package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
 
+import com.japanappstudio.IDxPassword.contants.Contants;
+import com.japanappstudio.IDxPassword.idxpwdatabase.GroupFolder;
+
 import exp.mtparet.dragdrop.view.DndListViewFolder;
-import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.idxpwdatabase.GroupFolder;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import visvateam.outsource.idmanager.activities.R;
+import com.japanappstudio.IDxPassword.activities.R;
 
 public class FolderListViewAdapter extends BaseAdapter {
 

@@ -17,7 +17,7 @@
  */
 
 package it.sephiroth.demo.slider.widget;
-import visvateam.outsource.idmanager.activities.R;
+import com.japanappstudio.IDxPassword.activities.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;

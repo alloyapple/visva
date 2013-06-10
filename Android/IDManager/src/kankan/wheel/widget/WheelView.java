@@ -22,7 +22,7 @@ package kankan.wheel.widget;
 import java.util.LinkedList;
 import java.util.List;
 
-import visvateam.outsource.idmanager.activities.R;
+import com.japanappstudio.IDxPassword.activities.R;
 
 import kankan.wheel.widget.adapters.WheelViewAdapter;
 import android.content.Context;

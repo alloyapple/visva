@@ -19,7 +19,8 @@
 
 package exp.mtparet.dragdrop.view;
 
-import visvateam.outsource.idmanager.database.IdManagerPreference;
+import com.japanappstudio.IDxPassword.database.IdManagerPreference;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;

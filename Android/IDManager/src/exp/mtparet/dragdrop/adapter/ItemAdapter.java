@@ -30,13 +30,15 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 
-import visvateam.outsource.idmanager.activities.EditIdPasswordActivity;
 import javax.crypto.NoSuchPaddingException;
-import visvateam.outsource.idmanager.activities.R;
-import visvateam.outsource.idmanager.contants.Contants;
-import visvateam.outsource.idmanager.database.IdManagerPreference;
-import visvateam.outsource.idmanager.idxpwdatabase.ElementID;
-import visvateam.outsource.idmanager.sercurity.CipherUtil;
+
+import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
+import com.japanappstudio.IDxPassword.contants.Contants;
+import com.japanappstudio.IDxPassword.database.IdManagerPreference;
+import com.japanappstudio.IDxPassword.idxpwdatabase.ElementID;
+import com.japanappstudio.IDxPassword.sercurity.CipherUtil;
+
+import com.japanappstudio.IDxPassword.activities.R;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import android.annotation.SuppressLint;
 import android.content.Context;
