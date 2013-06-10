@@ -5,8 +5,8 @@
     <string name="memo_title">Memo Image</string>
     <string name="copy_title">Copy</string>
     <!-- dialog create new master password -->
-    <string name="btn_agree">Agree</string>
-    <string name="btn_disagree">Disagree</string>
+    <string name="btn_agree">Approval</string>
+    <string name="btn_disagree">Not Approval</string>
     <!-- list icon -->
     <string name="term_of_use">Term Of Use Agreement</string>
     <string name="term_of_use_content">\nYou agree to the terms and conditions outlined in this Terms of Use Agreement (“Agreement”) with respect to our App (the “App”).\nThis Agreement constitutes the entire and only agreement between us and you, and supersedes all prior or contemporaneous agreements, representations, warranties and understandings with respect to the App, the content, products or services provided by or through the App, and the subject matter of this Agreement.\nThis Agreement may be amended at any time by us from time to time without specific notice to you. \nThe latest Agreement will be posted on the App, and you should review this Agreement prior to using the App.</string>
@@ -93,9 +93,12 @@
     <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
     <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
     <string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
-
+    <string name="term_of_use_condition">[Terms of Agreement\n\n
+Japan App Studio, Inc. will not be held liable for any user\'s damage caused by deficiencies in its programs, stoppage of its services, change of its management system, or other reason.\n\n
+By signing in to use its service and tapping the \"Approval\" button below, you thereby agree to abide by these Terms of Agreement.</string>
     <!-- others -->
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
-<string name="title_edit">Edit</string>
+    <string name="title_edit">Edit</string>
+
 </resources>

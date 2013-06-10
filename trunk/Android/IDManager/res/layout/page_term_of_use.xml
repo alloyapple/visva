@@ -38,6 +38,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="250dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/white"
             android:scrollbars="vertical"
             android:text="@string/term_of_use_condition"

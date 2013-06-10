@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="btn_agree">동의</string>
+    <string name="btn_disagree">거절</string>
     <string name="text_change_remove_data">지정 횟수 마스터 비밀 번호를 잘못 입력하면 데이터를 삭제합니다.</string>
     <string name="message_change_remove_data">데이터 파괴 설정이 변경되었습니다.</string>
     <string name="message_no_match_pass">확인 비밀 번호가 맞지 않았습니다. 다시 입력하십시오.</string>
@@ -106,5 +107,8 @@
     <string name="wrong_pw_login">확인 비밀 번호가 맞지 않았습니다. 다시 입력하십시오.</string>
     <string name="data_erased_msg">지정 횟수 마스터 비밀 번호를 잘못 입력하면 데이터를 삭제합니다.</string>
     <string name="title_edit">편집</string>
-
+<string name="term_of_use_condition">[고지]\n\n
+Japan App Studio, inc.는 본 서비스의 중지 및 프로그램의 미비, 제삼자가 제공하는 관리 시스템의 변경 등으로 이용자에게 발생한 손해에 대해 책임을 지지않습니다.\n\n
+이용자가 설치된 \"동의\"버튼을 클릭하여 본 약관에 동의하여 서비스 이용을 신청 한 것으로 간주됩니다.</string>
+    
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="btn_agree">Aprobación</string>
+    <string name="btn_disagree">No Aprobación</string>
     <string name="text_change_remove_data">Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione.</string>
     <string name="message_change_remove_data">El modo de datos de demolición ha sido cambiado.</string>
     <string name="message_no_match_pass">La contraseña no coincide. Por favor, hazlo de nuevo.</string>
@@ -108,5 +110,8 @@
     <string name="email_receiver_important_info">Voy a recibir el anuncio importante.</string>
     <string name="email_sign_up">contratar</string>
     <string name="title_edit">Editar</string>
+    <string name="term_of_use_condition">[Términos de Acuerdo]\n\n
+Japón App Studio, Inc. no se hace responsable de los daños de cualquier usuario causado por deficiencias en sus programas, interrupción de sus servicios, el cambio de su sistema de gestión, o por otra razón.\n\n
+Al firmar para utilizar su servicio y pulsar el botón \"aprobación\" abajo, con ello se compromete a respetar las Condiciones de Contrato.</string>
 
 </resources>
