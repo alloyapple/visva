@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="btn_agree">同意</string>
+    <string name="btn_disagree">拒绝</string>
     <string name="text_change_remove_data">达到您制定的密码错误次数时，数据将被删除。</string>
     <string name="message_change_remove_data">成功变更数据删除设置。</string>
     <string name="message_no_match_pass">您输入的密码不正确，请重新输入。</string>
@@ -105,5 +107,9 @@
     <string name="wrong_pw_login">您输入的密码不正确，请重新输入。</string>
     <string name="data_erased_msg">达到您制定的密码错误次数时，数据将被删除。</string>
     <string name="title_edit">編輯</string>
+    <string name="term_of_use_condition">[免责声明]\n\n
+由第三方提供的软件对该软件的变更以及本管理系统的服务不足，所造成的一切后果，其责任与Japan App Studio, inc.无关。\n\n
+[审批]\n
+利用者点击\"同意\"开始利用本管理系统的服务，都将被视作是对本声明全部内容的无意义的认可。</string>
 
 </resources>
