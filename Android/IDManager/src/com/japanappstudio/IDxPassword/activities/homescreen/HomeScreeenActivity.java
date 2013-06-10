@@ -46,7 +46,7 @@ import com.japanappstudio.IDxPassword.activities.BrowserActivity;
 import com.japanappstudio.IDxPassword.activities.CopyItemActivity;
 import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
 import com.japanappstudio.IDxPassword.activities.SettingActivity;
-import com.japanappstudio.IDxPassword.activities.synccloud.SyncCloudActivity;
+import com.japanappstudio.IDxPassword.activities.SyncCloudActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.idletime.ControlApplication;

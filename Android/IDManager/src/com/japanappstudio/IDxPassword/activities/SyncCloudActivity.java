@@ -1,4 +1,4 @@
-package com.japanappstudio.IDxPassword.activities.synccloud;
+package com.japanappstudio.IDxPassword.activities;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
