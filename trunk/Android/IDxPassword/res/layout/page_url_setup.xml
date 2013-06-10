@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/action_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="33dp"
+            android:layout_height="31dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bt_return"
+            android:onClick="onReturn" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/brouther_refresh"
+                android:onClick="onRefresh" />
+
+            <Button
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/brouther_back"
+                android:onClick="onBroutherBack" />
+
+            <Button
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/brouther_next"
+                android:onClick="onBroutherNext" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" android:layout_weight="1">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" >
+
+            <WebView
+                android:id="@+id/id_webview_url_setup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </WebView>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.google.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+            android:id="@+id/main_adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="a14f59e5c442767" />
+    </LinearLayout>
+
+</LinearLayout>
