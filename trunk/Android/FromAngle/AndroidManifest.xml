@@ -69,6 +69,8 @@
 
         <service android:name="com.lemon.fromangle.service.MessageFollowService" >
         </service>
+        <service android:name="com.lemon.fromangle.service.AlarmFCService" >
+        </service>
 
         <receiver android:name="com.lemon.fromangle.service.AlarmManagerBroadcastReceiver" >
         </receiver>

@@ -41,4 +41,10 @@ public final class GlobalValue {
 	public static final String APP_STATUS_OK = "1";
 	public static final String APP_STATUS_NG = "ng!";
 	public static final String APP_STATUS_STOP = "0";
+
+	public static final int KEY_DESTROYED_SERVICE_BY_CANCEL = 1;
+	public static final int KEY_DESTROYED_SERVICE_BY_OK = 2;
+	public static final int KEY_DESTROYED_SERVICE_BY_BACK = 3;
+	public static final int KEY_DESTROYED_SERVICE_BY_ON_FINISH = 4;
+	public static final int KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE = 5;
 }

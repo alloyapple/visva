@@ -182,14 +182,14 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal" >
 
-                    <com.lemon.fromangle.utility.AutoBGButton
+                    <Button
                         android:id="@+id/btnSave"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/start_btn" />
 
-                    <com.lemon.fromangle.utility.AutoBGButton
+                    <Button
                         android:id="@+id/btnCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

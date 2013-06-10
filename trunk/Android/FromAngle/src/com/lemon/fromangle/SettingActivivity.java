@@ -45,6 +45,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -54,6 +55,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -76,9 +78,9 @@ public class SettingActivivity extends Activity {
 	private EditText txtDayAfter;
 	private Spinner spnSelectRingTune;
 	private CheckBox chkVibrate;
-	private com.lemon.fromangle.utility.AutoBGButton btnSave, btnLeft,
+	private com.lemon.fromangle.utility.AutoBGButton  btnLeft,
 			btnRight;
-	private com.lemon.fromangle.utility.AutoBGButton btnCancel;
+	private Button btnCancel,btnSave;
 
 	private TimePickerDialog timePicker;
 	private DatePickerDialog datePicker;
@@ -100,6 +102,7 @@ public class SettingActivivity extends Activity {
 
 	private boolean isFirstTime = false;
 	private String device_id = "";
+	private Cursor mCursor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +227,27 @@ public class SettingActivivity extends Activity {
 		super.onStart();
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		if(mCursor == null){
+			RingtoneManager mRingtoneManager2 = new RingtoneManager(this); // adds
+			// ringtonemanager
+			mRingtoneManager2.setType(RingtoneManager.TYPE_RINGTONE); // sets the
+			// type to
+			// ringtones
+			mRingtoneManager2.setIncludeDrm(true); // get list of ringtones to
+			// include DRM
+
+			mCursor = mRingtoneManager2.getCursor(); // appends my cursor to
+			// the
+			// ringtonemanager
+			startManagingCursor(mCursor); // starts the cursor query
+		}
+		super.onResume();
+		
+	}
 	private void initUI() {
 		txtName = (EditText) findViewById(R.id.txtName);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
@@ -255,8 +279,8 @@ public class SettingActivivity extends Activity {
 				return;
 			}
 		});
-		btnSave = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnSave);
-		btnCancel = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnCancel);
+		btnSave = (Button) findViewById(R.id.btnSave);
+		btnCancel = (Button) findViewById(R.id.btnCancel);
 		btnLeft = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnLeft);
 		btnLeft.setOnClickListener(new OnClickListener() {
 
@@ -301,22 +325,22 @@ public class SettingActivivity extends Activity {
 		mRingtoneManager2.setIncludeDrm(true); // get list of ringtones to
 		// include DRM
 
-		Cursor mCursor2 = mRingtoneManager2.getCursor(); // appends my cursor to
+		mCursor = mRingtoneManager2.getCursor(); // appends my cursor to
 		// the
 		// ringtonemanager
-		startManagingCursor(mCursor2); // starts the cursor query
+		startManagingCursor(mCursor); // starts the cursor query
 
 		// // prints output for diagnostics
 
 		/* check list uri of cursor */
-		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor2);
-		String[] from = { mCursor2
+		mListUriRingTone = checkListUri(mRingtoneManager2, mCursor);
+		String[] from = { mCursor
 				.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX) };
 		int[] to = { android.R.id.text1 };
 
 		// create simple cursor adapter
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-				android.R.layout.simple_spinner_item, mCursor2, from, to);
+				android.R.layout.simple_spinner_item, mCursor, from, to);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// get reference to our spinner
 		spnSelectRingTune.setAdapter(adapter);
@@ -354,7 +378,6 @@ public class SettingActivivity extends Activity {
 					}
 				});
 		uriRingtune = mListUriRingTone[0].toString();
-		// mCursor2.close();
 	}
 
 	@Override
@@ -404,6 +427,8 @@ public class SettingActivivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
+			stopAlarmManager();
+			mFromAngleSharedPref.setKeyRunAlarm(false);
 			finish();
 
 		}
@@ -485,12 +510,12 @@ public class SettingActivivity extends Activity {
 							if (StringUtility
 									.isEmpty(SettingActivivity.this.userId)) {
 								checkInfoReponseFromServer(response);
-								mFromAngleSharedPref.setFirstTimeSetting(true);
 								isFirstTime = true;
 							} else {
 								checkInfoUserUpdate(response);
 								isFirstTime = false;
 							}
+							mFromAngleSharedPref.setFirstTimeSetting(true);
 						}
 
 						@Override
@@ -570,11 +595,10 @@ public class SettingActivivity extends Activity {
 					if (userId != null) {
 						/* add to preference */
 						mFromAngleSharedPref.setUserId(userId);
-
+						mFromAngleSharedPref.setKeyRunAlarm(true);
 						addDataToPreference();
 
-						/* start run alarmmanager */
-						String status = mFromAngleSharedPref
+						mFromAngleSharedPref
 								.getMessageSettingStatus();
 						// if(mFromAngleSharedPref.getMessageSettingStatus())
 						startRunAlarmManager();
@@ -640,6 +664,7 @@ public class SettingActivivity extends Activity {
 			uriRingtune = mListUriRingTone[0].toString();
 		mFromAngleSharedPref.setVibrateMode(chkVibrate.isChecked());
 		mFromAngleSharedPref.setStopAlarm(false);
+		mFromAngleSharedPref.setKeyRunAlarm(true);
 		mFromAngleSharedPref.setRingTuneFile(uriRingtune);
 		mFromAngleSharedPref.setUserName(txtName.getText().toString());
 		mFromAngleSharedPref.setEmail(txtEmail.getText().toString());
