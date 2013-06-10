@@ -125,7 +125,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			if (statusMsg.equalsIgnoreCase(GlobalValue.APP_STATUS_OK)) {
 				btnStart.setEnabled(false);
 				btnStop.setEnabled(true);
-				btnStart.setBackgroundResource(R.drawable.btn_save_pressed);
+				btnStart.setBackgroundResource(R.drawable.btn_start_pressed);
 				btnStop.setBackgroundResource(R.drawable.stop_btn);
 			} else {
 				btnStart.setEnabled(true);
@@ -493,7 +493,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					btnStop.setBackgroundResource(R.drawable.btn_stop_pressed);
 					btnStart.setBackgroundResource(R.drawable.start_btn);
 					mFromAngleSharedPref.setValidationMode(2);
-					stopAlarmManager();
+//					stopAlarmManager();
 				}else{
 					mFromAngleSharedPref.putAppStatus("1");
 					btnStart.setEnabled(false);
@@ -510,22 +510,22 @@ public class MessageSettingActivity extends PaymentAcitivty {
 		}
 	}
 
-	private void stopAlarmManager() {
-		// TODO Auto-generated method stub
-		// int timeDelay = -5000;
-		// Log.e("delay time", "delay time " + timeDelay);
-		Intent myIntent = new Intent(MessageSettingActivity.this,
-				MessageFollowService.class);
-		pendingIntent = PendingIntent.getService(MessageSettingActivity.this,
-				0, myIntent, 0);
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		// Calendar calendar = Calendar.getInstance();
-		// calendar.setTimeInMillis(System.currentTimeMillis());
-		// calendar.add(Calendar.SECOND, timeDelay);
-		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-		// pendingIntent);
-		alarmManager.cancel(pendingIntent);
-	}
+//	private void stopAlarmManager() {
+//		// TODO Auto-generated method stub
+//		// int timeDelay = -5000;
+//		// Log.e("delay time", "delay time " + timeDelay);
+//		Intent myIntent = new Intent(MessageSettingActivity.this,
+//				MessageFollowService.class);
+//		pendingIntent = PendingIntent.getService(MessageSettingActivity.this,
+//				0, myIntent, 0);
+//		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//		// Calendar calendar = Calendar.getInstance();
+//		// calendar.setTimeInMillis(System.currentTimeMillis());
+//		// calendar.add(Calendar.SECOND, timeDelay);
+//		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//		// pendingIntent);
+//		alarmManager.cancel(pendingIntent);
+//	}
 
 	public void checkPaymentToStart() {
 		// onPaymentSuccess();

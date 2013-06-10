@@ -1,7 +1,5 @@
 package com.lemon.fromangle;
 
-import java.security.spec.MGF1ParameterSpec;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,16 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.util.Log;
-
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.utility.StringUtility;
@@ -217,8 +212,22 @@ public class TopScreenActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		Log.e("user id", "user id " + mFromAngleSharedPref.getUserId());
-		if (!"".equals(mFromAngleSharedPref.getUserId())) {
+		Log.e("user id " + mFromAngleSharedPref.getKeyRunAlarm(), "user id "
+				+ mFromAngleSharedPref.getUserId());
+		Log.e("onDestroyedrr",
+				"onDestroyedme me "
+						+ mFromAngleSharedPref.getModeDestroyedService());
+		if (mFromAngleSharedPref.getModeDestroyedService() == GlobalValue.KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE) {
+			mFromAngleSharedPref.setKeyRunAlarm(false);
+			mFromAngleSharedPref.setMessageSettingStatus("");
+			mFromAngleSharedPref.setValidationMode(0);
+			mFromAngleSharedPref.putAppStatus(""
+					+ GlobalValue.MSG_RESPONSE_MSG_SETTING_FAILED);
+			mFromAngleSharedPref.putModeDestroyedService(0);
+		} else {
+			mFromAngleSharedPref.putModeDestroyedService(0);
+		}
+		if (mFromAngleSharedPref.getKeyRunAlarm()) {
 			imgMessageStatus.setImageResource(R.drawable.bar_green);
 			if (mFromAngleSharedPref.getFirstTimeSetting())
 				txtFinalValidation.setText("------------------");
@@ -256,6 +265,8 @@ public class TopScreenActivity extends Activity {
 					} else if (modeValidation == 2) {
 						imgValidateStatus.setImageResource(R.drawable.bar_grey);
 						imgTopStatus.setImageResource(R.drawable.bg_stop);
+						imgMessageSettingStatus
+								.setImageResource(R.drawable.bar_grey);
 						lblStatusFinalValidate.setText(getString(R.string.ng));
 						lblStatusFinalValidate.setTextColor(Color.RED);
 						lblStatusNextValidate.setText(getString(R.string.ng));
@@ -281,8 +292,8 @@ public class TopScreenActivity extends Activity {
 					imgMessageSettingStatus
 							.setImageResource(R.drawable.bar_grey);
 					imgTopStatus.setImageResource(R.drawable.bg_stop);
-					lblStatusFinalValidate.setText(getString(R.string.ng));
-					lblStatusFinalValidate.setTextColor(Color.RED);
+					lblStatusFinalValidate.setText("---");
+					lblStatusFinalValidate.setTextColor(Color.BLACK);
 					lblStatusNextValidate.setText("---");
 					lblStatusNextValidate.setTextColor(Color.BLACK);
 				}
@@ -291,8 +302,10 @@ public class TopScreenActivity extends Activity {
 				imgMessageSettingStatus.setImageResource(R.drawable.bar_grey);
 				imgTopStatus.setImageResource(R.drawable.bg_stop);
 				imgValidateStatus.setImageResource(R.drawable.bar_grey);
-				lblStatusFinalValidate.setText(getString(R.string.ng));
-				lblStatusFinalValidate.setTextColor(Color.RED);
+				lblStatusFinalValidate.setText("---");
+				lblStatusFinalValidate.setTextColor(Color.BLACK);
+				lblStatusNextValidate.setText("---");
+				lblStatusNextValidate.setTextColor(Color.BLACK);
 			}
 		} else {
 			imgValidateStatus.setImageResource(R.drawable.bar_grey);
@@ -300,6 +313,10 @@ public class TopScreenActivity extends Activity {
 			imgMessageSettingStatus.setImageResource(R.drawable.bar_grey);
 			imgTopStatus.setImageResource(R.drawable.bg_stop);
 			imgValidateStatus.setImageResource(R.drawable.bar_grey);
+			lblStatusFinalValidate.setText("---");
+			lblStatusFinalValidate.setTextColor(Color.BLACK);
+			lblStatusNextValidate.setText("---");
+			lblStatusNextValidate.setTextColor(Color.BLACK);
 		}
 		super.onResume();
 	}

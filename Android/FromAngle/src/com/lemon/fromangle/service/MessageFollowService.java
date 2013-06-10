@@ -2,15 +2,11 @@ package com.lemon.fromangle.service;
 
 import java.io.IOException;
 import java.util.List;
-
 import com.lemon.fromangle.ValidateScreenActivity;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
-import com.lemon.fromangle.utility.StringUtility;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
@@ -18,8 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.IBinder;
@@ -31,7 +25,6 @@ import android.widget.Toast;
 @SuppressLint("Wakelock")
 public class MessageFollowService extends Service {
 	private FromAngleSharedPref mPref;
-	private Ringtone ringtone;
 	private Vibrator v;
 	private MediaPlayer mMediaPlayer;
 
@@ -45,9 +38,18 @@ public class MessageFollowService extends Service {
 		return null;
 	}
 
+	
+//	@Override
+//	public void onTaskRemoved(Intent rootIntent) {
+//		// TODO Auto-generated method stub
+//		Log.e("onTaskRemoved", "onTaskRemoved");
+//		super.onTaskRemoved(rootIntent);
+//	}
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
+		
 		super.onDestroy();
 	}
 
@@ -70,14 +72,14 @@ public class MessageFollowService extends Service {
 		wl.acquire();
 		mMediaPlayer = new MediaPlayer();
 		mPref.setFirstTimeSetting(false);
+		mPref.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE);
 		if (isApplicationSentToBackground(this))
 			mPref.setRunOnBackGround(true);
 		else
 			mPref.setRunOnBackGround(false);
 
 		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		Log.e("rin2 " + mPref.getUserId(),
-				"run here2" + mPref.getValidationMode());
+
 		// if (!StringUtility.isEmpty(mPref.getUserId())) {
 		Log.e("rin " + mPref.getVibrateMode(),
 				"run here " + mPref.getStopAlarm());
@@ -91,6 +93,7 @@ public class MessageFollowService extends Service {
 			@Override
 			public void onTick(long millisUntilFinished) {
 				// TODO Auto-generated method stub
+				Log.e("onFinish serrverce", "on finish service1");
 				if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
 					// Vibrate for 500 milliseconds
 					mPref.setRunFromActivity(false);
@@ -110,12 +113,13 @@ public class MessageFollowService extends Service {
 
 			@Override
 			public void onFinish() {
-
+				Log.e("onFinish serrverce", "on finish service");
 				if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
 					mMediaPlayer.stop();
 				mPref.setStartService(false);
 				mPref.setStopAlarm(false);
 				mPref.setRunFromActivity(true);
+				mPref.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_ON_FINISH);
 				MessageFollowService.this.onDestroy();
 			};
 		}.start();

@@ -50,6 +50,8 @@ public class FromAngleSharedPref {
 	public static final String KEY_CHECK_VIBRATE = "KEY_CHECK_VIBRATE";
 	public static final String KEY_CHECK_RINGTONE = "KEY_CHECK_RINGTONE";
 	public static final String KEY_APP_STATUS = "KEY_APP_STATUS";
+	public static final String KEY_RUN_ALARM = "KEY_RUN_ALARM";
+	public static final String KEY_MODE_SERVICE_DESTROYED = "KEY_MODE_SERVICE_DESTROYED";
 
 	public static final String KEY_SAVE_INPUT_MESSAGE = "SAVE_INPUT_MESSAGE";
 	public static final String[] KEY_MESSGE1 = { "OWN_NAME_01", "EMAIL_01",
@@ -118,6 +120,14 @@ public class FromAngleSharedPref {
 
 	public boolean getVibrateMode() {
 		return getBooleanValue(PREF_SETTING_VIBRATE_MODE);
+	}
+
+	public void setKeyRunAlarm(boolean b) {
+		putBooleanValue(KEY_RUN_ALARM, b);
+	}
+
+	public boolean getKeyRunAlarm() {
+		return getBooleanValue(KEY_RUN_ALARM);
 	}
 
 	public void setCheckRingTone(boolean value) {
@@ -349,6 +359,14 @@ public class FromAngleSharedPref {
 
 	public boolean getSaveInputMassage() {
 		return getBooleanValue(KEY_SAVE_INPUT_MESSAGE);
+	}
+
+	public void putModeDestroyedService(int mode) {
+		putIntValue(KEY_MODE_SERVICE_DESTROYED, mode);
+	}
+
+	public int getModeDestroyedService() {
+		return getIntValue(KEY_MODE_SERVICE_DESTROYED);
 	}
 
 	// ======================== CORE FUNCTIONS ========================

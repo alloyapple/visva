@@ -148,7 +148,7 @@ public class SplashActivity extends LemonBaseActivity {
 				message = ParserUtility.getStringValue(jsonObject, "message");
 
 				Log.e("mesage", "mesage" + message);
-				if (!"false".equalsIgnoreCase(message)) {
+				if (!"false".equalsIgnoreCase(message) && !"[]".equals(message)) {
 					jsonObjectMessageSetting = new JSONObject(message);
 					if (jsonObjectMessageSetting != null
 							&& jsonObjectMessageSetting.length() > 0) {
@@ -178,8 +178,11 @@ public class SplashActivity extends LemonBaseActivity {
 						int statusMode = Integer.parseInt(status);
 						if (statusMode == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 							startRunAlarmManager();
-						} else
+							pref.setKeyRunAlarm(true);
+						} else{
 							stopAlarmManager();
+							pref.setKeyRunAlarm(false);
+						}
 						Log.e("user " + status, "useraaa " + txtUserName1);
 						saveInputPref();
 					}
@@ -198,6 +201,7 @@ public class SplashActivity extends LemonBaseActivity {
 		Log.i("date", "add " + date);
 		Log.i("time", time);
 		Log.i("user_id", user_id);
+		
 		pref.setUserName(userName);
 		pref.setValidationDate(date);
 		pref.setFirstTimeSetting(true);
