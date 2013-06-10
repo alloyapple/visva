@@ -37,8 +37,6 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.idmanager.BillingHelper;
 import com.idmanager.BillingService;
-import com.japanappstudio.IDxPassword.activities.synccloud.DropboxSettingActivity;
-import com.japanappstudio.IDxPassword.activities.synccloud.GGDriveSettingActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.exportcontroller.dropbox.DropBoxController;

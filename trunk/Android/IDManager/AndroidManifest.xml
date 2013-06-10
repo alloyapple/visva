@@ -116,15 +116,15 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.japanappstudio.IDxPassword.activities.synccloud.SyncCloudActivity"
+            android:name="com.japanappstudio.IDxPassword.activities.SyncCloudActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.japanappstudio.IDxPassword.activities.synccloud.DropboxSettingActivity"
+            android:name="com.japanappstudio.IDxPassword.activities.DropboxSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.japanappstudio.IDxPassword.activities.synccloud.GGDriveSettingActivity"
+            android:name="com.japanappstudio.IDxPassword.activities.GGDriveSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
