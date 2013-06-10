@@ -317,4 +317,5 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 
 		super.onBackPressed();
 	}
+	
 }

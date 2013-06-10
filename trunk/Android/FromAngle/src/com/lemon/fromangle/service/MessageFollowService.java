@@ -145,13 +145,29 @@ public class MessageFollowService extends Service {
 			try {
 				mMediaPlayer.setDataSource(this, uri);
 				final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+				
 				if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
 					mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+					switch (audioManager.getRingerMode()) {
+					case AudioManager.RINGER_MODE_SILENT:
+						Log.i("silent", "ok");
+						mMediaPlayer.setVolume(0, 0);
+						break;
+					case AudioManager.RINGER_MODE_VIBRATE:
+						Log.i("vibrate", "ok");
+						mMediaPlayer.setVolume(0, 0);
+						break;
+					case AudioManager.RINGER_MODE_NORMAL:
+						Log.i("normal", "ok");
+						mMediaPlayer.setVolume(100,100);
+						break;
+					}
 					mMediaPlayer.setLooping(true);
 					mMediaPlayer.prepare();
 					mMediaPlayer.start();
 					mPref.setStartService(true);
 					mPref.setRunFromActivity(false);
+					Log.i("play", "ok");
 				}
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
