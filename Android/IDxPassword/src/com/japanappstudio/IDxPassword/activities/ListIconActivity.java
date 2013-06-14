@@ -299,7 +299,6 @@ public class ListIconActivity extends BaseActivity {
 						final int catalogue = i*mCountryName.length+m;;
 						LinearLayout mLinearCountryTitle = new LinearLayout(
 								this);
-						mLinearCountryTitle.setAlpha(128);
 						mLinearCountryTitle
 								.setLayoutParams(new LinearLayout.LayoutParams(
 										LinearLayout.LayoutParams.FILL_PARENT,

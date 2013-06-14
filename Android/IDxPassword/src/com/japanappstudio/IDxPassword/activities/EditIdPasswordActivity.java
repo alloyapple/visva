@@ -180,7 +180,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 	public Drawable getMemoDataBase(byte[] data) {
 		if (data == null || data.length == 0) {
-			return getResources().getDrawable(R.drawable.default_icon);
+			return null;
 		}
 
 		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
