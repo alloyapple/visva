@@ -10,6 +10,7 @@ import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import com.japanappstudio.IDxPassword.activities.R;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -149,11 +150,11 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == btnIDmanager) {
-			importFileCSVToDatabaseFormatIDManager(fileCSVToImport);
+			importFileCSVToDatabaseFormatIDManager2(fileCSVToImport);
 		} else if (v == btnIDxPassword) {
 			importFileCSVToDatabaseFormatIDPassword(fileCSVToImport);
 		} else if (v == btnKeyPass) {
-			importFileCSVToDatabaseFormatKeePass2(fileCSVToImport);
+			importFileCSVToDatabaseFormatKeePass(fileCSVToImport);
 		} else if (v == btnLastPass) {
 			importFileCSVToDatabaseFormatLastPass(fileCSVToImport);
 		} else if (v == btnPasswordManager) {
@@ -161,6 +162,7 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 		}
 	}
 
+	@SuppressLint("HandlerLeak")
 	@SuppressWarnings({ "deprecation", "unused" })
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -559,12 +561,12 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 		}
 
 	}
-
-	protected void importFileCSVToDatabaseFormatKeePass2(String mSelectedFile) {
+	protected int importFileCSVToDatabaseFormatIDManager2(String mSelectedFile) {
 		// TODO Auto-generated method stub
 		// File sdcard = Environment.getExternalStorageDirectory();
+		int records = 0;
 		if (mPref.getNumberItems() >= Contants.MAX_ELEMENT)
-			return;
+			return records;
 		File file = new File(Contants.PATH_ID_FILES + mSelectedFile);
 		String group = null, title = null, icon = null, url = null, note = null, image = null;
 		String[] titleItem = new String[Contants.MAX_ITEM_PASS_ID];
@@ -580,8 +582,254 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 				try {
 					while (true) {
 						reader = in.readLine();
-//						 Log.i("account", row+"");
-//						 Log.i("Keypass", reader);
+						 Log.i("account", row+"");
+						if(reader!=null)
+						 Log.i("Keypass", reader);
+						String[] tmpData = new String[] {};
+						if (reader != null) {
+							tmpData = reader.split(",");
+							for (int i = 0; i < tmpData.length; i++) {
+								if (tmpData[i].startsWith("\"")
+										&& tmpData[i].endsWith("\"")) {
+									String tmp = tmpData[i].substring(1,
+											tmpData[i].length() - 1);
+									tmpData[i] = tmp.toString();
+									tmpData[i] = new String(
+											tmpData[i].getBytes(), "Shift-JIS");
+								}
+							}
+						}
+
+						if (row == 0) {
+							if (!tmpData[0].equals("Folder or Item")) {
+								showDialogInvalidFomat();
+								return records;
+							}
+						}
+						if (tmpData.length > 0 && tmpData.length < 15) {
+							buffer += "\n" + reader;
+							row++;
+							continue;
+						}
+						String[] rowData = new String[] {};
+						if (buffer != null && row > 1) {
+							records++;
+							rowData = buffer.split(",");
+							for (int i = 0; i < rowData.length; i++) {
+								if (rowData[i].startsWith("\"")
+										&& rowData[i].endsWith("\"")) {
+									String tmp = rowData[i].substring(1,
+											rowData[i].length() - 1);
+									rowData[i] = tmp.toString();
+									rowData[i] = new String(
+											rowData[i].getBytes(), "Shift-JIS");
+								}
+							}
+
+							if (row > 0) {
+
+								ArrayList<String> rowDataList = new ArrayList<String>();
+								// for(int )
+
+								for (int i = 0; i < rowData.length; i++) {
+									rowDataList.add(rowData[i]);
+								}
+
+								int size = rowDataList.size();
+								if (size < 17)
+									for (int i = size; i < 17; i++) {
+										rowDataList.add("");
+									}
+
+								group = rowDataList.get(0);
+								title = rowDataList.get(1);
+								titleItem[0] = rowDataList.get(2);
+								contentItem[0] = rowDataList.get(3);
+								titleItem[1] = rowDataList.get(4);
+								contentItem[1] = rowDataList.get(5);
+								titleItem[2] = rowDataList.get(6);
+								contentItem[2] = rowDataList.get(7);
+								titleItem[3] = rowDataList.get(8);
+								contentItem[3] = rowDataList.get(9);
+								titleItem[4] = "";
+								contentItem[4] = "";
+
+								url = rowDataList.get(10);
+								note = rowDataList.get(13);
+								fav = 0;
+
+								/* update to database */
+								boolean isGExist = false;
+								boolean isEExist = false;
+								int groupID = 0;
+								int elementId = 0;
+								/* insert folder */
+								if (sizeOfGList > 0)
+									for (int i = 0; i < sizeOfGList; i++) {
+										if (!group.equals(mGList.get(i)
+												.getgName()))
+											isGExist = false;
+										else {
+											isGExist = true;
+											groupID = mGList.get(i).getgId();
+											break;
+										}
+										if (i == (sizeOfGList - 1) && !isGExist) {
+											int gId = 0;
+											for (int j = 0; j < sizeOfGList; j++)
+												if (gId < mGList.get(j)
+														.getgId())
+													gId = mGList.get(j)
+															.getgId();
+											gId++;
+											GroupFolder folder = new GroupFolder(
+													gId,
+													group,
+													0,
+													Contants.MASTER_PASSWORD_ID,
+													0);
+											mDataBaseHandler
+													.addNewFolder(folder);
+											mGList.add(folder);
+											sizeOfGList++;
+											groupID = gId;
+										}
+									}
+								else if (!isGExist) {
+									isGExist = true;
+									int gId = 0;
+									for (int j = 0; j < sizeOfGList; j++)
+										if (gId < mGList.get(j).getgId())
+											gId = mGList.get(j).getgId();
+									gId++;
+									groupID = gId;
+									GroupFolder folder = new GroupFolder(gId,
+											group, 0,
+											Contants.MASTER_PASSWORD_ID, 0);
+									mDataBaseHandler.addNewFolder(folder);
+									mGList.add(folder);
+									sizeOfGList++;
+								}
+
+								/* insert element */
+
+								List<ElementID> elementList = mDataBaseHandler
+										.getAllElementIdByGroupFolderId(groupID);
+								if (elementList.size() > 0)
+									for (int j = 0; j < elementList.size(); j++) {
+										if (title.equals(elementList.get(j)
+												.geteTitle())) {
+											isEExist = true;
+											elementId = elementList.get(j)
+													.geteId();
+											break;
+										}
+
+										if (j == sizeOfEList - 1 && !isEExist) {
+											int eId = sizeOfEList;
+											long timeStamp = System
+													.currentTimeMillis();
+											for (int k = 0; k < mEList.size(); k++)
+												if (eId < mEList.get(k)
+														.geteId())
+													eId = mEList.get(k)
+															.geteId();
+											eId++;
+											elementId = eId;
+											ElementID element = new ElementID(
+													eId, groupID, title,
+													new byte[] {}, timeStamp,
+													fav, 0, url, note,
+													new byte[] {}, 0);
+											mDataBaseHandler
+													.addElement(element);
+											mEList.add(element);
+											sizeOfEList++;
+										}
+									}
+								else if (!isEExist) {
+									isEExist = true;
+									int eId = sizeOfEList;
+									long timeStamp = System.currentTimeMillis();
+									eId++;
+									elementId = eId;
+									ElementID element = new ElementID(eId,
+											groupID, title, new byte[] {},
+											timeStamp, fav, 0, url, note,
+											new byte[] {}, 0);
+									mDataBaseHandler.addElement(element);
+									mEList.add(element);
+									sizeOfEList++;
+								}
+								/* insert to password */
+								mDataBaseHandler
+										.deletePasswordByElementId(elementId);
+								for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
+									int pwId = sizeOfPList;
+									for (int k = 0; k < sizeOfPList; k++)
+										if (pwId < mPList.get(k)
+												.getPasswordId())
+											pwId = mPList.get(k)
+													.getPasswordId();
+									pwId++;
+									Password passWord = new Password(pwId,
+											elementId, titleItem[i],
+											contentItem[i]);
+									mDataBaseHandler.addNewPassword(passWord);
+									mPList.add(passWord);
+									sizeOfPList++;
+								}
+							}
+							records++;
+						}
+						if (tmpData.length == 15) {
+							buffer = reader;
+						}
+						if (reader == null)
+							break;
+						row++;
+					}
+					finish();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO: handle exception
+					showDialogInvalidFomat();
+				}
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return records;
+
+	}
+	protected int importFileCSVToDatabaseFormatKeePass(String mSelectedFile) {
+		// TODO Auto-generated method stub
+		// File sdcard = Environment.getExternalStorageDirectory();
+		int records = 0;
+		if (mPref.getNumberItems() >= Contants.MAX_ELEMENT)
+			return records;
+		File file = new File(Contants.PATH_ID_FILES + mSelectedFile);
+		String group = null, title = null, icon = null, url = null, note = null, image = null;
+		String[] titleItem = new String[Contants.MAX_ITEM_PASS_ID];
+		String[] contentItem = new String[Contants.MAX_ITEM_PASS_ID];
+		String buffer = null;
+		int fav = 0;
+		if (file.exists()) {
+			BufferedReader in;
+			try {
+				in = new BufferedReader(new FileReader(file));
+				String reader = "";
+				int row = 0;
+				try {
+					while (true) {
+						reader = in.readLine();
+						// Log.i("account", row+"");
+						// Log.i("Keypass", reader);
 						String[] tmpData = new String[] {};
 						if (reader != null) {
 							tmpData = reader.split(",");
@@ -600,16 +848,17 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 						if (row == 0) {
 							if (!tmpData[0].equals("Account")) {
 								showDialogInvalidFomat();
-								return;
+								return records;
 							}
 						}
-						if (tmpData.length>0&&tmpData.length < 5) {
+						if (tmpData.length > 0 && tmpData.length < 5) {
 							buffer += "\n" + reader;
 							row++;
 							continue;
 						}
 						String[] rowData = new String[] {};
-						if (buffer != null) {
+						if (buffer != null && row > 1) {
+							records++;
 							rowData = buffer.split(",");
 							for (int i = 0; i < rowData.length; i++) {
 								if (rowData[i].startsWith("\"")
@@ -776,6 +1025,7 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 									sizeOfPList++;
 								}
 							}
+							records++;
 						}
 						if (tmpData.length == 5) {
 							buffer = reader;
@@ -799,205 +1049,9 @@ public class ChoiceCSVImportType extends Activity implements OnClickListener {
 			}
 
 		}
+		return records;
 
 	}
-
-	protected void importFileCSVToDatabaseFormatKeePass(String mSelectedFile) {
-		// TODO Auto-generated method stub
-		// File sdcard = Environment.getExternalStorageDirectory();
-		if (mPref.getNumberItems() >= Contants.MAX_ELEMENT)
-			return;
-		File file = new File(Contants.PATH_ID_FILES + mSelectedFile);
-		String group = null, title = null, icon = null, url = null, note = null, image = null;
-		String[] titleItem = new String[Contants.MAX_ITEM_PASS_ID];
-		String[] contentItem = new String[Contants.MAX_ITEM_PASS_ID];
-		int fav = 0;
-		if (file.exists()) {
-			BufferedReader in;
-			try {
-				in = new BufferedReader(new FileReader(file));
-				String reader = "";
-				int row = 0;
-				try {
-					while ((reader = in.readLine()) != null) {
-						// Log.i("account", row+"");
-						// Log.i("Keypass", reader);
-						String[] rowData = reader.split(",");
-						for (int i = 0; i < rowData.length; i++) {
-							if (rowData[i].startsWith("\"")
-									&& rowData[i].endsWith("\"")) {
-								String tmp = rowData[i].substring(1,
-										rowData[i].length() - 1);
-								rowData[i] = tmp.toString();
-								rowData[i] = new String(rowData[i].getBytes(),
-										"UTF8");
-							}
-						}
-						if (row == 0) {
-
-							if (!rowData[0].equals("Account")) {
-								showDialogInvalidFomat();
-								return;
-							}
-						}
-						if (row > 0) {
-
-							ArrayList<String> rowDataList = new ArrayList<String>();
-							// for(int )
-
-							for (int i = 0; i < rowData.length; i++) {
-								rowDataList.add(rowData[i]);
-							}
-
-							int size = rowDataList.size();
-							if (size < 17)
-								for (int i = size; i < 17; i++) {
-									rowDataList.add("");
-								}
-
-							group = "KeyPass";
-							title = rowDataList.get(0);
-							titleItem[0] = "ID";
-							contentItem[0] = rowDataList.get(1);
-							titleItem[1] = "Password";
-							contentItem[1] = rowDataList.get(2);
-							titleItem[2] = "";
-							contentItem[2] = "";
-							titleItem[3] = "";
-							contentItem[3] = "";
-							titleItem[4] = "";
-							contentItem[4] = "";
-
-							url = rowDataList.get(3);
-							note = rowDataList.get(4);
-							fav = 0;
-
-							/* update to database */
-							boolean isGExist = false;
-							boolean isEExist = false;
-							int groupID = 0;
-							int elementId = 0;
-							/* insert folder */
-							if (sizeOfGList > 0)
-								for (int i = 0; i < sizeOfGList; i++) {
-									if (!group.equals(mGList.get(i).getgName()))
-										isGExist = false;
-									else {
-										isGExist = true;
-										groupID = mGList.get(i).getgId();
-										break;
-									}
-									if (i == (sizeOfGList - 1) && !isGExist) {
-										int gId = 0;
-										for (int j = 0; j < sizeOfGList; j++)
-											if (gId < mGList.get(j).getgId())
-												gId = mGList.get(j).getgId();
-										gId++;
-										GroupFolder folder = new GroupFolder(
-												gId, group, 0,
-												Contants.MASTER_PASSWORD_ID, 0);
-										mDataBaseHandler.addNewFolder(folder);
-										mGList.add(folder);
-										sizeOfGList++;
-										groupID = gId;
-									}
-								}
-							else if (!isGExist) {
-								isGExist = true;
-								int gId = 0;
-								for (int j = 0; j < sizeOfGList; j++)
-									if (gId < mGList.get(j).getgId())
-										gId = mGList.get(j).getgId();
-								gId++;
-								groupID = gId;
-								GroupFolder folder = new GroupFolder(gId,
-										group, 0, Contants.MASTER_PASSWORD_ID,
-										0);
-								mDataBaseHandler.addNewFolder(folder);
-								mGList.add(folder);
-								sizeOfGList++;
-							}
-
-							/* insert element */
-
-							List<ElementID> elementList = mDataBaseHandler
-									.getAllElementIdByGroupFolderId(groupID);
-							if (elementList.size() > 0)
-								for (int j = 0; j < elementList.size(); j++) {
-									if (title.equals(elementList.get(j)
-											.geteTitle())) {
-										isEExist = true;
-										elementId = elementList.get(j).geteId();
-										break;
-									}
-
-									if (j == sizeOfEList - 1 && !isEExist) {
-										int eId = sizeOfEList;
-										long timeStamp = System
-												.currentTimeMillis();
-										for (int k = 0; k < mEList.size(); k++)
-											if (eId < mEList.get(k).geteId())
-												eId = mEList.get(k).geteId();
-										eId++;
-										elementId = eId;
-										ElementID element = new ElementID(eId,
-												groupID, title, new byte[] {},
-												timeStamp, fav, 0, url, note,
-												new byte[] {}, 0);
-										mDataBaseHandler.addElement(element);
-										mEList.add(element);
-										sizeOfEList++;
-									}
-								}
-							else if (!isEExist) {
-								isEExist = true;
-								int eId = sizeOfEList;
-								long timeStamp = System.currentTimeMillis();
-								eId++;
-								elementId = eId;
-								ElementID element = new ElementID(eId, groupID,
-										title, new byte[] {}, timeStamp, fav,
-										0, url, note, new byte[] {}, 0);
-								mDataBaseHandler.addElement(element);
-								mEList.add(element);
-								sizeOfEList++;
-							}
-							/* insert to password */
-							mDataBaseHandler
-									.deletePasswordByElementId(elementId);
-							for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
-								int pwId = sizeOfPList;
-								for (int k = 0; k < sizeOfPList; k++)
-									if (pwId < mPList.get(k).getPasswordId())
-										pwId = mPList.get(k).getPasswordId();
-								pwId++;
-								Password passWord = new Password(pwId,
-										elementId, titleItem[i], contentItem[i]);
-								mDataBaseHandler.addNewPassword(passWord);
-								mPList.add(passWord);
-								sizeOfPList++;
-							}
-						}
-						row++;
-					}
-					finish();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO: handle exception
-					showDialogInvalidFomat();
-				}
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
-	}
-
 	protected void importFileCSVToDatabaseFormatLastPass(String mSelectedFile) {
 		// TODO Auto-generated method stub
 		// File sdcard = Environment.getExternalStorageDirectory();
