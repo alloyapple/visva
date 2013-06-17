@@ -11,6 +11,9 @@ import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import com.japanappstudio.IDxPassword.activities.R;
+import com.japanappstudio.IDxPassword.activities.syncloud.DropboxSettingActivity;
+import com.japanappstudio.IDxPassword.activities.syncloud.GGDriveSettingActivity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
