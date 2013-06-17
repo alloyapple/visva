@@ -147,10 +147,12 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 			mIdManagerPreference.setLastTimeSyncCloud(mLastTimeSync);
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
 			mHandler.sendMessage(msg);
-		} else if (result == Contants.DIALOG_MESSAGE_SYNC_FAILED) {
-			msg.arg1 = Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
+		}else if(result == Contants.DIALOG_MESSAGE_SYNC_FAILED){
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_FAILED;
 			mHandler.sendMessage(msg);
-		} else if (result == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE) {
+		}
+		
+		else if (result == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE;
 			mHandler.sendMessage(msg);
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED) {

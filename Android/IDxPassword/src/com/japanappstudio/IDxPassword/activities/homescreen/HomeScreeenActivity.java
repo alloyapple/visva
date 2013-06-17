@@ -46,7 +46,6 @@ import com.japanappstudio.IDxPassword.activities.BrowserActivity;
 import com.japanappstudio.IDxPassword.activities.CopyItemActivity;
 import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
 import com.japanappstudio.IDxPassword.activities.SettingActivity;
-import com.japanappstudio.IDxPassword.activities.SyncCloudActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.idletime.ControlApplication;
@@ -60,6 +59,7 @@ import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.view.DndListViewFolder;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import com.japanappstudio.IDxPassword.activities.R;
+import com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
 public class HomeScreeenActivity extends BaseActivity implements
@@ -147,33 +147,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		/* initialize variable */
 		initializeVariable();
-		
-		/*create file log*/
-		createFileLog();
-	}
-
-	private void createFileLog() {
-		// TODO Auto-generated method stub
-		String fileLogPath = Contants.PATH_ID_FILES+"log.txt";
-		File file = new File(fileLogPath);
-		long currentTime = System.currentTimeMillis();
-		Date date = new Date(currentTime);
-		UserDB user= mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
-		if(!file.exists())
-			file.mkdirs();
-		FileWriter writer;
-		try {
-			writer = new FileWriter(fileLogPath);
-			writer.append(""+user.getsEmail());
-			writer.append(",");
-			writer.append(""+date);
-			writer.append("\n");
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 

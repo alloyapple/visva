@@ -51,6 +51,7 @@ public class IdManagerPreference {
 	public static final String IS_EDIT_MODE = "IS_EDIT_MODE";
 	public static final String CURRENT_FOLDER_ID = "CURRENT_FOLDER_ID";
 	public static final String DROPBOX_CHECK_LOGIN = "DROPBOX_CHECK_LOGIN";
+	public static final String KEY_AUTHEN_GG_DRIVE="KEY_AUTHEN_GG_DRIVE";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -406,6 +407,31 @@ public class IdManagerPreference {
 	public int getCurrentFolderId() {
 		int b;
 		b = getCurrentFolderId(CURRENT_FOLDER_ID);
+		return b;
+	}
+	
+	/* set vs get key authen gg */
+	public void setKeyAuthenGGDrive(String key, String pw) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putString(key, pw);
+		editor.commit();
+	}
+
+	public String getKeyAuthenGGDrive(String key) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getString(key, "");
+	}
+
+	public void setKeyAuthenGGDrive(String b) {
+		setKeyAuthenGGDrive(KEY_AUTHEN_GG_DRIVE, b);
+	}
+
+	public String getKeyAuthenGGDrive() {
+		String b;
+		b = getMasterPW(KEY_AUTHEN_GG_DRIVE);
 		return b;
 	}
 }

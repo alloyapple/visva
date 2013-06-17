@@ -116,15 +116,15 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.japanappstudio.IDxPassword.activities.SyncCloudActivity"
+            android:name="com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.japanappstudio.IDxPassword.activities.DropboxSettingActivity"
+            android:name="com.japanappstudio.IDxPassword.activities.syncloud.DropboxSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.japanappstudio.IDxPassword.activities.GGDriveSettingActivity"
+            android:name="com.japanappstudio.IDxPassword.activities.syncloud.GGDriveSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -144,10 +144,6 @@
         </activity>
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.BrowserJogdialActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.japanappstudio.IDxPassword.activities.ImageMemoActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -189,7 +185,7 @@
             <intent-filter>
 
                 <!-- Change this to be db- followed by your app key -->
-                <data android:scheme="db-fxh7pnxcqbg3qwy" />
+                <data android:scheme="db-hbfo459odvewxh6" />
 
                 <action android:name="android.intent.action.VIEW" />
 
