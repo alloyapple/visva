@@ -9,18 +9,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lemon.fromangle.config.GlobalValue;
-import com.lemon.fromangle.utility.AutoBGButton;
-import com.lemon.fromangle.utility.DebugLog;
 import com.lemon.fromangle.utility.LemonProgressDialog;
 
 public class LemonBaseActivity extends Activity {
@@ -30,6 +21,7 @@ public class LemonBaseActivity extends Activity {
 
 	protected LemonBaseActivity self;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		self = this;

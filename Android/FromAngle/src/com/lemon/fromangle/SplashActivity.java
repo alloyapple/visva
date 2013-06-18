@@ -252,7 +252,6 @@ public class SplashActivity extends LemonBaseActivity {
 	}
 
 	public static Date addDaysToDate(Date input, int numberDay) {
-		Log.e("dateintpu", "date input " + input.toLocaleString());
 		Calendar defaulCalender = Calendar.getInstance();
 		defaulCalender.setTime(input);
 		long time1 = defaulCalender.getTimeInMillis();

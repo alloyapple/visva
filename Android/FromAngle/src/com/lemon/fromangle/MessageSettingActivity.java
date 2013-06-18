@@ -10,8 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -26,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
@@ -35,7 +34,6 @@ import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
 import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
-import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
 import com.lemon.fromangle.utility.TimeUtility;
@@ -79,7 +77,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 	public static final int STATUS_NOT_EXPIRED = 0;
 	private int currentTab = 1;
 	private boolean isStart = false;
-	private PendingIntent pendingIntent;
+//	private PendingIntent pendingIntent;
 	private String statusMsg = "";
 
 	public Handler mTransactionHandler = new Handler() {
@@ -262,7 +260,7 @@ public class MessageSettingActivity extends PaymentAcitivty {
 				if (dateTimeByUser > currentTime)
 					checkStart();
 				else
-					showToast("Time set up is less than current time.Check it again");
+					showToast(getResources().getString(R.string.time_less_current));
 			}
 		});
 		btnLeft = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnLeft);
@@ -455,9 +453,9 @@ public class MessageSettingActivity extends PaymentAcitivty {
 					public void processIfResponseSuccess(String response) {
 						/* check response */
 						if (isStart)
-							showToast("On Start Successfully");
+							showToast(getResources().getString(R.string.start_success));
 						else
-							showToast("On Stop Successfully");
+							showToast(getResources().getString(R.string.stop_success));
 						checkResponseFromServer(response);
 						saveInputPref();
 					}
@@ -533,8 +531,8 @@ public class MessageSettingActivity extends PaymentAcitivty {
 			Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
 			String userId = mFromAngleSharedPref.getUserId();
 			if (!StringUtility.isEmpty(userId))
-				onPaymentSuccess();
-			// paymentService.checkPayment(userId);
+				// onPaymentSuccess();
+			 paymentService.checkPayment(userId);
 		} else {
 			showToast(getString(R.string.setting_user_first));
 		}

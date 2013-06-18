@@ -78,9 +78,8 @@ public class SettingActivivity extends Activity {
 	private EditText txtDayAfter;
 	private Spinner spnSelectRingTune;
 	private CheckBox chkVibrate;
-	private com.lemon.fromangle.utility.AutoBGButton  btnLeft,
-			btnRight;
-	private Button btnCancel,btnSave;
+	private com.lemon.fromangle.utility.AutoBGButton btnLeft, btnRight;
+	private Button btnCancel, btnSave;
 
 	private TimePickerDialog timePicker;
 	private DatePickerDialog datePicker;
@@ -231,10 +230,11 @@ public class SettingActivivity extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		if(mCursor == null){
+		if (mCursor == null) {
 			RingtoneManager mRingtoneManager2 = new RingtoneManager(this); // adds
 			// ringtonemanager
-			mRingtoneManager2.setType(RingtoneManager.TYPE_RINGTONE); // sets the
+			mRingtoneManager2.setType(RingtoneManager.TYPE_RINGTONE); // sets
+																		// the
 			// type to
 			// ringtones
 			mRingtoneManager2.setIncludeDrm(true); // get list of ringtones to
@@ -246,8 +246,9 @@ public class SettingActivivity extends Activity {
 			startManagingCursor(mCursor); // starts the cursor query
 		}
 		super.onResume();
-		
+
 	}
+
 	private void initUI() {
 		txtName = (EditText) findViewById(R.id.txtName);
 		txtEmail = (EditText) findViewById(R.id.txtEmail);
@@ -442,8 +443,6 @@ public class SettingActivivity extends Activity {
 					txtName.setError(getSpanError(getString(R.string.error_name)));
 				if (StringUtility.isEmpty(txtEmail))
 					txtEmail.setError(getSpanError(getString(R.string.error_email)));
-				if (StringUtility.isEmpty(txtTel))
-					txtTel.setError(getSpanError(getString(R.string.error_phone)));
 				Toast.makeText(SettingActivivity.this,
 						R.string.plz_input_required_field, Toast.LENGTH_LONG)
 						.show();
@@ -457,9 +456,6 @@ public class SettingActivivity extends Activity {
 							R.string.email_not_validate, Toast.LENGTH_LONG)
 							.show();
 				}
-				// DialogUtility.creatDialog(SettingActivivity.this,
-				// getString(R.string.email_not_validate), null)
-				// .show();
 			}
 		}
 	};
@@ -529,7 +525,8 @@ public class SettingActivivity extends Activity {
 			else
 				postRegister.execute(WebServiceConfig.URL_REGISTER_SETTING);
 		} else
-			showToast("Time set up is less than current time.Check it again");
+			showToast(getResources().getString(
+					R.string.cant_save_time_less_current));
 	}
 
 	/**
@@ -598,12 +595,11 @@ public class SettingActivivity extends Activity {
 						mFromAngleSharedPref.setKeyRunAlarm(true);
 						addDataToPreference();
 
-						mFromAngleSharedPref
-								.getMessageSettingStatus();
+						mFromAngleSharedPref.getMessageSettingStatus();
 						// if(mFromAngleSharedPref.getMessageSettingStatus())
 						startRunAlarmManager();
 
-						showToast("Sucessfully");
+						showToast(getResources().getString(R.string.sucess));
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
 					showToast(getString(R.string.duplicated_email));
@@ -617,42 +613,6 @@ public class SettingActivivity extends Activity {
 					getString(R.string.failed_to_conect_server));
 		}
 	}
-
-	// private void startRunAlarmManager() {
-	// Log.e("stgart run alarm", "start alarm");
-	// Date date1 = new Date();
-	// String dateStr = txtDateSetting.getText().toString();
-	// final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-	// try {
-	// date1 = df.parse(dateStr);
-	// } catch (ParseException e) {
-	// e.printStackTrace();
-	// }
-	// long timeOfDate = date1.getTime();
-	//
-	// String timeStr[] = txtTimeSetting.getText().toString().split(" : ");
-	// int hour = Integer.parseInt(timeStr[0]);
-	// int minute = Integer.parseInt(timeStr[1]);
-	// long timeOfClock = hour * 3600 + minute * 60;
-	// long totalDelayTime = timeOfDate + timeOfClock * 1000;
-	// long currenttime = System.currentTimeMillis();
-	// int delayTime = (int) (totalDelayTime - currenttime);
-	// if (delayTime > 0) {
-	// int timeDelay = delayTime / 1000;
-	// Log.e("delay time", "delay time " + delayTime);
-	// Intent myIntent = new Intent(SettingActivivity.this,
-	// MessageFollowService.class);
-	// pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
-	// myIntent, 0);
-	// AlarmManager alarmManager = (AlarmManager)
-	// getSystemService(ALARM_SERVICE);
-	// Calendar calendar = Calendar.getInstance();
-	// calendar.setTimeInMillis(System.currentTimeMillis());
-	// calendar.add(Calendar.SECOND, timeDelay);
-	// alarmManager.set(AlarmManager.RTC_WAKEUP,
-	// calendar.getTimeInMillis(), pendingIntent);
-	// }
-	// }
 
 	private void addDataToPreference() {
 		boolean isExist = false;
@@ -706,7 +666,7 @@ public class SettingActivivity extends Activity {
 
 			// Date date1 = new Date(txtDateSetting.getText().toString());
 			Date date1 = new Date();
-			int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
+//			int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
 			final SimpleDateFormat df = new SimpleDateFormat("yyyy/mm/dd");
 			try {
 				date1 = df.parse(dateStr);
@@ -849,10 +809,9 @@ public class SettingActivivity extends Activity {
 	private boolean checkValidateField() {
 		return (StringUtility.isEmpty(txtName)
 				|| StringUtility.isEmpty(txtEmail)
-				|| StringUtility.isEmpty(txtTel)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-					.isEmpty(txtDayAfter));
+				.isEmpty(txtDayAfter));
 	}
 
 	@Override
