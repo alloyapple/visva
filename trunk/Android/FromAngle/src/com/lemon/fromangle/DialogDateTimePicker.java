@@ -14,7 +14,7 @@ public class DialogDateTimePicker extends Dialog {
 
 	private int minutes, hours;
 	private Date date;
-	private Context context;
+//	private Context context;
 	DateTimeDialogListerner listener;
 
 	private TimePicker timePicker1;
@@ -40,7 +40,7 @@ public class DialogDateTimePicker extends Dialog {
 		this.date = date;
 		this.minutes = minute;
 		this.hours = hour;
-		this.context = context;
+//		this.context = context;
 
 	}
 
@@ -53,6 +53,7 @@ public class DialogDateTimePicker extends Dialog {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initUI() {
 		timePicker1 = (TimePicker) findViewById(R.id.timePicker1);
 		datePicker1 = (DatePicker) findViewById(R.id.datePicker1);

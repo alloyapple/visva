@@ -8,29 +8,29 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.utility.StringUtility;
 
 public class TopScreenActivity extends Activity {
 
-	private RelativeLayout layoutHeader;
+//	private RelativeLayout layoutHeader;
 	private com.lemon.fromangle.utility.AutoBGButton btnHome;
-	private LinearLayout layoutTopStatus;
+//	private LinearLayout layoutTopStatus;
 	private ImageView imgTopStatus;
-	private LinearLayout layoutLastValidationDate;
+//	private LinearLayout layoutLastValidationDate;
 	private TextView txtFinalValidation;
 	private TextView lblStatusFinalValidate;
-	private LinearLayout layoutNextValidationDate;
+//	private LinearLayout layoutNextValidationDate;
 	private TextView txtNextValidation;
 	private TextView lblStatusNextValidate;
 	private LinearLayout layoutSetting;
@@ -44,7 +44,7 @@ public class TopScreenActivity extends Activity {
 
 	private FromAngleSharedPref mFromAngleSharedPref;
 
-	private String userId;
+//	private String userId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,20 +56,20 @@ public class TopScreenActivity extends Activity {
 		mFromAngleSharedPref.setExistByTopScreen(false);
 		initUI();
 
-		userId = mFromAngleSharedPref.getUserId();
+//		userId = mFromAngleSharedPref.getUserId();
 
 		self = this;
 	}
 
 	private void initUI() {
-		layoutHeader = (RelativeLayout) findViewById(R.id.layoutHeader);
+//		layoutHeader = (RelativeLayout) findViewById(R.id.layoutHeader);
 		btnHome = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnHome);
-		layoutTopStatus = (LinearLayout) findViewById(R.id.layoutTopStatus);
+		//layoutTopStatus = (LinearLayout) findViewById(R.id.layoutTopStatus);
 		imgTopStatus = (ImageView) findViewById(R.id.imgTopStatus);
-		layoutLastValidationDate = (LinearLayout) findViewById(R.id.layoutLastValidationDate);
+//		layoutLastValidationDate = (LinearLayout) findViewById(R.id.layoutLastValidationDate);
 		txtFinalValidation = (TextView) findViewById(R.id.txtFinalValidation);
 		lblStatusFinalValidate = (TextView) findViewById(R.id.lblStatusFinalValidate);
-		layoutNextValidationDate = (LinearLayout) findViewById(R.id.layoutNextValidationDate);
+//		layoutNextValidationDate = (LinearLayout) findViewById(R.id.layoutNextValidationDate);
 		txtNextValidation = (TextView) findViewById(R.id.txtNextValidation);
 		lblStatusNextValidate = (TextView) findViewById(R.id.lblStatusNextValidate);
 		layoutSetting = (LinearLayout) findViewById(R.id.layoutSetting);
@@ -252,9 +252,9 @@ public class TopScreenActivity extends Activity {
 								.setImageResource(R.drawable.bar_green);
 						imgTopStatus.setImageResource(R.drawable.bg_working);
 						lblStatusFinalValidate.setText(getString(R.string.ok));
-						lblStatusFinalValidate.setTextColor(Color.BLACK);
+						lblStatusFinalValidate.setTextColor(Color.WHITE);
 						lblStatusNextValidate.setText("---");
-						lblStatusNextValidate.setTextColor(Color.BLACK);
+						lblStatusNextValidate.setTextColor(Color.WHITE);
 					} else if (modeValidation == 1) {
 						imgValidateStatus.setImageResource(R.drawable.bar_red);
 						imgTopStatus.setImageResource(R.drawable.bg_safety);
