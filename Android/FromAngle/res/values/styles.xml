@@ -127,13 +127,13 @@
 
     <style name="img_icon_top">
         <item name="android:layout_height">20dp</item>
-        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_width">22dp</item>
     </style>
 
     <style name="layout_action">
         <item name="android:layout_weight">1</item>
         <item name="android:padding">5dp</item>
-        <item name="android:paddingBottom">7dp</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:background">@drawable/bg_action</item>
         <item name="android:orientation">vertical</item>
         <item name="android:layout_height">wrap_content</item>
