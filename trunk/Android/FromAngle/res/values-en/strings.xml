@@ -2,42 +2,24 @@
 <resources>
 
     <string name="app_name">From Angel</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="url_home">https://google.com</string>
 
     <!-- Button -->
-    <string name="btn_login">Login</string>
-    <string name="btn_register">Register</string>
-    <string name="btn_submit">Submit</string>
-    <string name="btn_active">Active</string>
     <string name="btn_cancel">Cancel</string>
-    <string name="btn_filter">Filter</string>
-    <string name="btn_close">Close</string>
     <string name="btn_agreed">Agreed</string>
-    <string name="btn_yes">Yes</string>
-    <string name="btn_add">Add</string>
-    <string name="btn_no">No</string>
-    <string name="btn_edit">Edit</string>
-    <string name="btn_save">Save</string>
-    <string name="btn_back">Back</string>
-    <string name="btn_next">Next</string>
-    <string name="btn_skip">Skip</string>
-    <string name="btn_done">Done</string>
-    <string name="btn_return">Return</string>
+    <string name="btn_close">Close</string>
     <string name="btn_ok">OK</string>
 
     <!-- Setting Screen -->
     <string name="title_settings">アラーム </string>
-    <string name="settings">Setting</string>
+
     <string name="user_settings">（１）利用者設定</string>
     <string name="own_name">自分の名前  : </string>
     <string name="mail_address">Mailｱﾄﾞﾚｽ ：  </string>
     <string name="tel_no">電話 :(任意)</string>
     <string name="validate_interval">（２）確認間隔 </string>
     <string name="days_after">日後</string>
-    <string name="safety_was_verified">に安否確認します。</string>
-    <string name="alarm_setting">Alarm setting</string>
+    <string name="safety_was_verified">に確認します。</string>
     <string name="alarm_setting2">（３）アラーム設定</string>
     <string name="sound">アラーム音</string>
     <string name="vibrate">バイブ</string>
@@ -46,49 +28,50 @@
     <string name="title_messsage_setting">メッセージ </string>
     <string name="messsage_setting">メッセージ</string>
     <string name="send_details">（1）配信内容</string>
-     <string name="own_name_message">相手の名前 ： </string>
+    <string name="own_name_message">相手の名前 ： </string>
     <string name="mail">Mailｱﾄﾞﾚｽ  ： </string>
-    <string name="address">Address : </string>
     <string name="message">メッセージ  ： </string>
     <string name="service3">（2）サービス  </string>
-    <string name="mrms">Mr/Ms </string>
+    <string name="mrms">○○さん </string>
     <string name="safety_validation">Safety Validation </string>
-    <string name="please_check_the_notice">*開始/停止後、サーバからの通知メールを確認してください</string>
-    <string name="please_reply_by_press_ok">Please reply by pressing (OK) if there\'s a problem</string>
-    <string name="please_reply_by_press_close">Please press close if the Safety Validation is NG if you\'re not the person</string>
+    <string name="please_check_the_notice">＊ＳＴＡＲＴ／ＳＴＯＰ後、サーバからの通知メールを確認してください</string>
+    <string name="please_reply_by_press_ok">ＦｒｏｍＡＮＧＥＬから確認です。問題なければＯＫを押してください。</string>
+    <string name="please_reply_by_press_close">ＮＧの場合はＣＬＯＳＥを押してください。</string>
     <string name="message1">アラーム</string>
     <string name="message2">メッセージ</string>
-    <string name="help">Help</string>
-    <string name="safetyvalidation3">安否確認</string>
-    <string name="plz_input_required_field">Please input required fields to continue !</string>
-    <string name="incorrect_email_address">Incorrect email address !</string>
-    <string name="failed_to_conect_server">Failure to send Setting Information to the server</string>
+
+    <string name="safetyvalidation3">確認</string>
+    <string name="plz_input_required_field">入力が不足しています！</string>
+    <string name="incorrect_email_address">Eメールアドレスの入力に誤りがあります</string>
+    <string name="failed_to_conect_server">サーバーにメッセージを送信できませんでした。</string>
     <string name="duplicated_email">Email is already used</string>
     <string name="email_not_validate">Email is invalidate</string>
-    <string name="change_info_sucess">Change information successfully!</string>
+    <string name="change_info_sucess">更新に成功しました！</string>
     <string name="setting_user_first">Setting for user first</string>
     <string name="sucess">Successfully</string>
     <string name="ok">OK!</string>
     <string name="ng">NG!</string>
     <string name="final_validation">最終確認</string>
     <string name="next_validation">次回確認</string>
-    <string name="msg_stop_service">Since Mr/Ms %1$s has not taken 2 consecutive Safety Validation, a message will be sent to Mr/Ms %2$s.\nIn Addition,message may not be receiver due to sending condition and receiver incoming rejection settings, etc.</string>
-    <string name="message_paid_expired">You payment is expired, do you want to continue to use it?</string>
-    <string name="message_paid_not_paid">You will be charge to use this function. Are you sure?</string>
-    <string name="term_of_use"><a href="http://google.com">I read and agreed the policy</a></string>
-    <string name="error_email">Example: john@gmail.com,...</string>
-    <string name="error_name">Example: John,...</string>
-    <string name="error_message">Example: I am going to travel at weekend.</string>
-    <string name="error_phone">Example: (+84)973378373</string>
+    <string name="msg_stop_service">○○さん %1$s の確認が２回連続で取れませんでしたので、Aさん %2$s 達にメッセージが送信されます。
+※尚、通信状況や送信先の着信拒否設定等により届かない場合があります。</string>
+    <string name="message_paid_expired">アプリの有効期限が終了します。ご使用を継続されますか？</string>
+    <string name="message_paid_not_paid">課金が開始されます。よろしいでしょうか？</string>
+    <string name="term_of_use"><a href="http://google.com">利用規約（プライバシーポリシー）に同意します。</a></string>
+    <string name="error_email">例.　sin-kim@gmail.com</string>
+    <string name="error_name">例.　木村シンジ</string>
+    <string name="error_message">例.　ミカへ　オレはミカに出逢えて本当によかった。もしバイト先で...</string>
     <string name="name_validate">Safety Validation</string>
-    <string name="mr_ms_name">Mr/Ms %s</string>
-    <string name="network_unvailable">Network is unavailable</string>
+    <string name="mr_ms_name">○○さん %s</string>
+    <string name="network_unvailable">ネットワークへの接続ができません</string>
     <string name="user_email"><a href="http://google.com">ga@angelsmails.com</a></string>
     <string name="title_reminder">Reminder Message</string>
-    <string name="start_success">Start Successfully</string>
-    <string name="stop_success">Stop Successfully</string>
+    <string name="start_success">サーバーがスタートしました！</string>
+    <string name="stop_success">サーバーがストップしました。</string>
     <string name="hint_date">yyyy-mm-dd</string>
     <string name="hint_time">hh:mm</string>
     <string name="txt_Of">の</string>
+    <string name="time_less_current">アラーム設定を先にスタートさせてください。</string>
+    <string name="cant_save_time_less_current">過去の時間は設定できません。未来を設定してください。</string>
 
 </resources>
