@@ -528,7 +528,6 @@ public class MessageSettingActivity extends PaymentActivity {
 	public void checkPaymentToStart() {
 		// onPaymentSuccess();
 		if (!StringUtility.isEmpty(userId)) {
-			Toast.makeText(self, "On Start", Toast.LENGTH_LONG).show();
 			String userId = mFromAngleSharedPref.getUserId();
 			if (!StringUtility.isEmpty(userId))
 				// onPaymentSuccess();

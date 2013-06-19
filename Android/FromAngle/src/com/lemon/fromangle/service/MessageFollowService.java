@@ -27,6 +27,7 @@ public class MessageFollowService extends Service {
 	private FromAngleSharedPref mPref;
 	private Vibrator v;
 	private MediaPlayer mMediaPlayer;
+	private int countTimer = 0;
 
 	@Override
 	public void onCreate() {
@@ -38,18 +39,17 @@ public class MessageFollowService extends Service {
 		return null;
 	}
 
-	
-//	@Override
-//	public void onTaskRemoved(Intent rootIntent) {
-//		// TODO Auto-generated method stub
-//		Log.e("onTaskRemoved", "onTaskRemoved");
-//		super.onTaskRemoved(rootIntent);
-//	}
+	// @Override
+	// public void onTaskRemoved(Intent rootIntent) {
+	// // TODO Auto-generated method stub
+	// Log.e("onTaskRemoved", "onTaskRemoved");
+	// super.onTaskRemoved(rootIntent);
+	// }
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
-		
+
 		super.onDestroy();
 	}
 
@@ -72,6 +72,7 @@ public class MessageFollowService extends Service {
 		wl.acquire();
 		mMediaPlayer = new MediaPlayer();
 		mPref.setFirstTimeSetting(false);
+		mPref.setStopAlarm(false);
 		mPref.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE);
 		if (isApplicationSentToBackground(this))
 			mPref.setRunOnBackGround(true);
@@ -94,10 +95,11 @@ public class MessageFollowService extends Service {
 			public void onTick(long millisUntilFinished) {
 				// TODO Auto-generated method stub
 				Log.e("onFinish serrverce", "on finish service1");
+				countTimer++;
 				if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
 					// Vibrate for 500 milliseconds
 					mPref.setRunFromActivity(false);
-					if (v != null)
+					if (v != null && countTimer % 3 == 0)
 						v.vibrate(1500);
 				}
 				if (mPref.getStopAlarm()) {
@@ -114,6 +116,7 @@ public class MessageFollowService extends Service {
 			@Override
 			public void onFinish() {
 				Log.e("onFinish serrverce", "on finish service");
+				countTimer = 0;
 				if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
 					mMediaPlayer.stop();
 				mPref.setStartService(false);
@@ -149,7 +152,7 @@ public class MessageFollowService extends Service {
 			try {
 				mMediaPlayer.setDataSource(this, uri);
 				final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-				
+
 				if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
 					mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
 					switch (audioManager.getRingerMode()) {
@@ -163,7 +166,7 @@ public class MessageFollowService extends Service {
 						break;
 					case AudioManager.RINGER_MODE_NORMAL:
 						Log.i("normal", "ok");
-						mMediaPlayer.setVolume(100,100);
+						mMediaPlayer.setVolume(100, 100);
 						break;
 					}
 					mMediaPlayer.setLooping(true);
