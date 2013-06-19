@@ -28,7 +28,6 @@
             android:layout_centerInParent="true"
             android:text="@string/select_text_format"
             android:textColor="#ffffff"
-            android:textSize="22sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
