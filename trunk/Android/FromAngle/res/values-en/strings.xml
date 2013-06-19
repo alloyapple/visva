@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">From Angel</string>
-    <string name="url_home">https://google.com</string>
+    <string name="url_home">http://fromangel.net/main/</string>
 
     <!-- Button -->
     <string name="btn_cancel">Cancel</string>
@@ -45,7 +45,7 @@
     <string name="incorrect_email_address">Eメールアドレスの入力に誤りがあります</string>
     <string name="failed_to_conect_server">サーバーにメッセージを送信できませんでした。</string>
     <string name="duplicated_email">Email is already used</string>
-    <string name="email_not_validate">Email is invalidate</string>
+    <string name="email_not_validate">Eメールアドレスの入力に誤りがあります</string>
     <string name="change_info_sucess">更新に成功しました！</string>
     <string name="setting_user_first">Setting for user first</string>
     <string name="sucess">Successfully</string>
