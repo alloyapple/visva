@@ -28,7 +28,7 @@ import android.widget.Toast;
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.config.WebServiceConfig;
-import com.lemon.fromangle.controls.PaymentAcitivty;
+import com.lemon.fromangle.controls.PaymentActivity;
 import com.lemon.fromangle.controls.PaymentService;
 import com.lemon.fromangle.network.AsyncHttpPost;
 import com.lemon.fromangle.network.AsyncHttpResponseProcess;
@@ -41,7 +41,7 @@ import com.payment.BillingHelper;
 import com.payment.BillingService;
 
 @SuppressLint({ "HandlerLeak", "SimpleDateFormat" })
-public class MessageSettingActivity extends PaymentAcitivty {
+public class MessageSettingActivity extends PaymentActivity {
 
 	private Button btn1;
 	private Button btn2;
