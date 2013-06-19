@@ -219,14 +219,15 @@ public class PaymentService {
 						// TODO Auto-generated method stub
 						Log.i("payment request", "<-------true-------->");
 						if (checkbox.isChecked()) {
-							if (BillingHelper.isBillingSupported()) {
-								BillingHelper.requestPurchase(mContext,
-										ID_SERVICE_MONTHLY_PAYMENT);
-							} else {
-								Log.i("Billing",
-										"Can't purchase on this device");
-
-							}
+//							if (BillingHelper.isBillingSupported()) {
+//								BillingHelper.requestPurchase(mContext,
+//										ID_SERVICE_MONTHLY_PAYMENT);
+//							} else {
+//								Log.i("Billing",
+//										"Can't purchase on this device");
+//
+//							}
+							mContext.onPaymentSuccess();
 						}
 
 					}
