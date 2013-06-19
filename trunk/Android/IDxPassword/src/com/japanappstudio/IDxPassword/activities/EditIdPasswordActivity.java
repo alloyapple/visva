@@ -38,6 +38,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -86,6 +87,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private static boolean isUpdateMemo;
 	public static String mUrlItem;
 	public static String mStringOfSelectItem;
+	private Button btn_memo;
+	private ImageButton img_memo;
 	public ArrayList<ViewHolder> viewHolder = new ArrayList<EditIdPasswordActivity.ViewHolder>();
 	public static int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
@@ -95,12 +98,16 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	// private int
 	public static final String IS_INTENT_CREATE_NEW_ID = "IS_INTENT_CREATE_NEW_ID";
 	private int modeFrom = 0;
+	private static int widthMemo;
+	private static float ratioMemo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_id_pass);
+		btn_memo = (Button) findViewById(R.id.button_img_memo);
+		img_memo = (ImageButton) findViewById(R.id.btn_img_memo);
 		modeBundle = getIntent().getExtras().getInt(
 				Contants.IS_INTENT_CREATE_NEW_ID);
 		modeFrom = getIntent().getExtras().getInt(Contants.IS_SRC_ACTIVITY);
@@ -178,6 +185,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		BitmapDrawable result = new BitmapDrawable(bMap);
 		return result;
 	}
+
 	public Drawable getMemoDataBase(byte[] data) {
 		if (data == null || data.length == 0) {
 			return null;
@@ -188,6 +196,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		BitmapDrawable result = new BitmapDrawable(bMap);
 		return result;
 	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
@@ -200,13 +209,14 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
 		isSetUrl = false;
 		if (mDrawableMemo != null) {
-			((ImageButton) findViewById(R.id.btn_img_memo))
-					.setBackgroundDrawable(mDrawableMemo);
-			((Button) findViewById(R.id.button_img_memo))
-					.setVisibility(View.GONE);
+
+			img_memo.setLayoutParams(new FrameLayout.LayoutParams(widthMemo,
+					(int) (widthMemo * ratioMemo)));
+			img_memo.requestLayout();
+			img_memo.setBackgroundDrawable(mDrawableMemo);
+			btn_memo.setVisibility(View.GONE);
 		} else {
-			((ImageButton) findViewById(R.id.btn_img_memo))
-					.setVisibility(View.GONE);
+			img_memo.setVisibility(View.GONE);
 		}
 		if (itemSelect >= 0) {
 			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
@@ -214,20 +224,18 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			itemSelect = -1;
 		}
 		if (mDrawableMemo != null) {
-			((ImageButton) findViewById(R.id.btn_img_memo))
-					.setBackgroundDrawable(mDrawableMemo);
-			((ImageButton) findViewById(R.id.btn_img_memo))
-					.setVisibility(View.VISIBLE);
-			((Button) findViewById(R.id.button_img_memo))
-					.setVisibility(View.GONE);
+			img_memo.setBackgroundDrawable(mDrawableMemo);
+			img_memo.setVisibility(View.VISIBLE);
+			btn_memo.setVisibility(View.GONE);
 		} else {
-			((ImageButton) findViewById(R.id.btn_img_memo))
-					.setBackgroundDrawable(mDrawableMemo);
-			((ImageButton) findViewById(R.id.btn_img_memo))
-					.setVisibility(View.GONE);
-			((Button) findViewById(R.id.button_img_memo))
-					.setVisibility(View.VISIBLE);
+			img_memo.setBackgroundDrawable(mDrawableMemo);
+			img_memo.setVisibility(View.GONE);
+			btn_memo.setVisibility(View.VISIBLE);
 		}
+	}
+
+	public static void setRatioMemo(float k) {
+		ratioMemo = k;
 	}
 
 	/**
@@ -372,6 +380,10 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 
 	public void onMemoImage(View v) {
+		if (btn_memo.getVisibility() == View.VISIBLE)
+			widthMemo = btn_memo.getWidth();
+		else
+			widthMemo = img_memo.getWidth();
 		Intent intentMemo = new Intent(EditIdPasswordActivity.this,
 				ImageMemoActivity.class);
 		intentMemo.putExtra("modeBundleMemo", 1);
@@ -543,7 +555,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		return convertToByte;
 	}
 
-	@SuppressWarnings("unused")
 	private static boolean checkValidataUrl(String pUrl) {
 		URL u = null;
 		try {
