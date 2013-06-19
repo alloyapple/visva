@@ -77,7 +77,7 @@ public class MessageSettingActivity extends PaymentActivity {
 	public static final int STATUS_NOT_EXPIRED = 0;
 	private int currentTab = 1;
 	private boolean isStart = false;
-//	private PendingIntent pendingIntent;
+	// private PendingIntent pendingIntent;
 	private String statusMsg = "";
 
 	public Handler mTransactionHandler = new Handler() {
@@ -260,7 +260,8 @@ public class MessageSettingActivity extends PaymentActivity {
 				if (dateTimeByUser > currentTime)
 					checkStart();
 				else
-					showToast(getResources().getString(R.string.time_less_current));
+					showToast(getResources().getString(
+							R.string.time_less_current));
 			}
 		});
 		btnLeft = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnLeft);
@@ -453,9 +454,11 @@ public class MessageSettingActivity extends PaymentActivity {
 					public void processIfResponseSuccess(String response) {
 						/* check response */
 						if (isStart)
-							showToast(getResources().getString(R.string.start_success));
+							showToast(getResources().getString(
+									R.string.start_success));
 						else
-							showToast(getResources().getString(R.string.stop_success));
+							showToast(getResources().getString(
+									R.string.stop_success));
 						checkResponseFromServer(response);
 						saveInputPref();
 					}
@@ -476,13 +479,13 @@ public class MessageSettingActivity extends PaymentActivity {
 				if (error == GlobalValue.MSG_RESPONSE_MSG_SETING_CHANGE_SUCESS) {
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
 					mFromAngleSharedPref.setValidationMode(0);
-//					startRunAlarmManager();
+					// startRunAlarmManager();
 				} else if (error == GlobalValue.MSG_RESPONSE_MSG_SETTING_SUCESS) {
 					mFromAngleSharedPref.setValidationMode(0);
 					mFromAngleSharedPref.setMessageSettingStatus(errorMsg);
-//					startRunAlarmManager();
+					// startRunAlarmManager();
 				}
-				Log.e("start or stop", "start or stop "+isStart);
+				Log.e("start or stop", "start or stop " + isStart);
 				if (!isStart) {
 					mFromAngleSharedPref.setMessageSettingStatus("0");
 					mFromAngleSharedPref.putAppStatus("0");
@@ -491,8 +494,8 @@ public class MessageSettingActivity extends PaymentActivity {
 					btnStop.setBackgroundResource(R.drawable.btn_stop_pressed);
 					btnStart.setBackgroundResource(R.drawable.start_btn);
 					mFromAngleSharedPref.setValidationMode(2);
-//					stopAlarmManager();
-				}else{
+					// stopAlarmManager();
+				} else {
 					mFromAngleSharedPref.putAppStatus("1");
 					btnStart.setEnabled(false);
 					btnStop.setEnabled(true);
@@ -508,30 +511,32 @@ public class MessageSettingActivity extends PaymentActivity {
 		}
 	}
 
-//	private void stopAlarmManager() {
-//		// TODO Auto-generated method stub
-//		// int timeDelay = -5000;
-//		// Log.e("delay time", "delay time " + timeDelay);
-//		Intent myIntent = new Intent(MessageSettingActivity.this,
-//				MessageFollowService.class);
-//		pendingIntent = PendingIntent.getService(MessageSettingActivity.this,
-//				0, myIntent, 0);
-//		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//		// Calendar calendar = Calendar.getInstance();
-//		// calendar.setTimeInMillis(System.currentTimeMillis());
-//		// calendar.add(Calendar.SECOND, timeDelay);
-//		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-//		// pendingIntent);
-//		alarmManager.cancel(pendingIntent);
-//	}
+	// private void stopAlarmManager() {
+	// // TODO Auto-generated method stub
+	// // int timeDelay = -5000;
+	// // Log.e("delay time", "delay time " + timeDelay);
+	// Intent myIntent = new Intent(MessageSettingActivity.this,
+	// MessageFollowService.class);
+	// pendingIntent = PendingIntent.getService(MessageSettingActivity.this,
+	// 0, myIntent, 0);
+	// AlarmManager alarmManager = (AlarmManager)
+	// getSystemService(ALARM_SERVICE);
+	// // Calendar calendar = Calendar.getInstance();
+	// // calendar.setTimeInMillis(System.currentTimeMillis());
+	// // calendar.add(Calendar.SECOND, timeDelay);
+	// // alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+	// // pendingIntent);
+	// alarmManager.cancel(pendingIntent);
+	// }
 
 	public void checkPaymentToStart() {
 		// onPaymentSuccess();
-		if (!StringUtility.isEmpty(userId)) {
+		if (!StringUtility.isEmpty(userId)
+				&& mFromAngleSharedPref.getKeyRunAlarm()) {
 			String userId = mFromAngleSharedPref.getUserId();
 			if (!StringUtility.isEmpty(userId))
 				// onPaymentSuccess();
-			 paymentService.checkPayment(userId);
+				paymentService.checkPayment(userId);
 		} else {
 			showToast(getString(R.string.setting_user_first));
 		}
@@ -745,39 +750,40 @@ public class MessageSettingActivity extends PaymentActivity {
 		return ssbuilder;
 	}
 
-//	private void startRunAlarmManager() {
-//		Log.e("stgart run alarm", "start alarm");
-//		Date date1 = new Date();
-//		String dateStr = mFromAngleSharedPref.getValidationDate();
-//		;
-//		final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-//		try {
-//			date1 = df.parse(dateStr);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//		long timeOfDate = date1.getTime();
-//
-//		String timeStr[] = mFromAngleSharedPref.getValidationTime().split(":");
-//		int hour = Integer.parseInt(timeStr[0].trim());
-//		int minute = Integer.parseInt(timeStr[1].trim());
-//		long timeOfClock = hour * 3600 + minute * 60;
-//		long totalDelayTime = timeOfDate + timeOfClock * 1000;
-//		long currenttime = System.currentTimeMillis();
-//		int delayTime = (int) (totalDelayTime - currenttime);
-//		if (delayTime > 0) {
-//			int timeDelay = delayTime / 1000;
-//			Log.e("delay time", "delay time " + delayTime);
-//			Intent myIntent = new Intent(MessageSettingActivity.this,
-//					MessageFollowService.class);
-//			pendingIntent = PendingIntent.getService(
-//					MessageSettingActivity.this, 0, myIntent, 0);
-//			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//			Calendar calendar = Calendar.getInstance();
-//			calendar.setTimeInMillis(System.currentTimeMillis());
-//			calendar.add(Calendar.SECOND, timeDelay);
-//			alarmManager.set(AlarmManager.RTC_WAKEUP,
-//					calendar.getTimeInMillis(), pendingIntent);
-//		}
-//	}
+	// private void startRunAlarmManager() {
+	// Log.e("stgart run alarm", "start alarm");
+	// Date date1 = new Date();
+	// String dateStr = mFromAngleSharedPref.getValidationDate();
+	// ;
+	// final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+	// try {
+	// date1 = df.parse(dateStr);
+	// } catch (ParseException e) {
+	// e.printStackTrace();
+	// }
+	// long timeOfDate = date1.getTime();
+	//
+	// String timeStr[] = mFromAngleSharedPref.getValidationTime().split(":");
+	// int hour = Integer.parseInt(timeStr[0].trim());
+	// int minute = Integer.parseInt(timeStr[1].trim());
+	// long timeOfClock = hour * 3600 + minute * 60;
+	// long totalDelayTime = timeOfDate + timeOfClock * 1000;
+	// long currenttime = System.currentTimeMillis();
+	// int delayTime = (int) (totalDelayTime - currenttime);
+	// if (delayTime > 0) {
+	// int timeDelay = delayTime / 1000;
+	// Log.e("delay time", "delay time " + delayTime);
+	// Intent myIntent = new Intent(MessageSettingActivity.this,
+	// MessageFollowService.class);
+	// pendingIntent = PendingIntent.getService(
+	// MessageSettingActivity.this, 0, myIntent, 0);
+	// AlarmManager alarmManager = (AlarmManager)
+	// getSystemService(ALARM_SERVICE);
+	// Calendar calendar = Calendar.getInstance();
+	// calendar.setTimeInMillis(System.currentTimeMillis());
+	// calendar.add(Calendar.SECOND, timeDelay);
+	// alarmManager.set(AlarmManager.RTC_WAKEUP,
+	// calendar.getTimeInMillis(), pendingIntent);
+	// }
+	// }
 }

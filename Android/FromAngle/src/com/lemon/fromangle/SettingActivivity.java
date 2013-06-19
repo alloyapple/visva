@@ -778,10 +778,14 @@ public class SettingActivivity extends Activity {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				// TODO Auto-generated method stub
 				Log.e("txtDAte", "date " + txtDateSetting.toString());
+				long currentTime = System.currentTimeMillis();
+				Date myDate = new Date(currentTime);
+				String myDateStr = "";
 				final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 				Date dateCurrent = new Date();
 				try {
-					dateCurrent = df.parse(txtDateSetting.getText().toString());
+					myDateStr = df.format(myDate);
+					dateCurrent = df.parse(myDateStr);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					dateCurrent = new Date();
