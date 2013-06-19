@@ -71,12 +71,13 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		initAdmod();
 
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			EditIdPasswordActivity.startActivity(this,2);
+			EditIdPasswordActivity.startActivity(this, 2);
 			finish();
 			return false;
 
@@ -85,6 +86,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		}
 
 	}
+
 	public void initAdmod() {
 		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();

@@ -77,7 +77,7 @@ public class Contants {
 	public static final int KEY_OFF = 0;
 	public static final int MIN_KEY_TO_REMOVE_DATA = 1;
 	public static final String PATH_ID_FILES = Environment
-			.getExternalStorageDirectory().getPath() + "/ID&Password/";
+			.getExternalStorageDirectory().getPath() + "/IDxPassword";
 	public static final String FOLDER_ON_DROPBOX_DB = "/";
 	public static final String FOLDER_ON_DROPBOX_CSV = "/";
 

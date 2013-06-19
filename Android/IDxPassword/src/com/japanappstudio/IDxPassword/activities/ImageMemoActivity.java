@@ -6,9 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.japanappstudio.IDxPassword.contants.Contants;
-
-import com.japanappstudio.IDxPassword.activities.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,8 +35,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.japanappstudio.IDxPassword.contants.Contants;
 
 public class ImageMemoActivity extends BaseActivity {
 	private Uri fileUri;
@@ -63,35 +60,52 @@ public class ImageMemoActivity extends BaseActivity {
 	private Rect rectBmp = new Rect();
 	private RectF rectDst = new RectF();
 	boolean isBound;
-	private int modeBundle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		modeBundle = getIntent().getExtras().getInt("modeBundleMemo");
 		setContentView(R.layout.page_memo_2);
+		bmpDraw = null;
+		if (EditIdPasswordActivity.mDrawableMemo != null) {
+			bmpDraw = Bitmap.createBitmap(widthB, heightB,
+					Bitmap.Config.ARGB_8888);
+			bmp = EditIdPasswordActivity
+					.drawableToBitmap(EditIdPasswordActivity.mDrawableMemo);
+			leftB = topB = 0;
+			rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
+			float ratioH = (float) bmp.getHeight() / bmpDraw.getHeight();
+			float ratioW = (float) bmp.getWidth() / bmpDraw.getWidth();
+			if (ratioH > ratioW) {
+				float w = bmp.getWidth() / ratioH;
+				rectDst.set((bmpDraw.getWidth() - w) / 2, 0,
+						(bmpDraw.getWidth() - w) / 2 + w, bmpDraw.getHeight());
+			} else {
+				float h = bmp.getHeight() / ratioW;
+				rectDst.set(0, (bmpDraw.getHeight() - h) / 2,
+						bmpDraw.getWidth(), (bmpDraw.getHeight() - h) / 2 + h);
+			}
+			drawOnBitmap();
+			isBound = true;
+		}
 		mFrameMemo = (FrameLayout) findViewById(R.id.id_memo_frame);
 		mFrameMemo.addView(new MySurface(this));
 		mCheckBoxChoiceImgMemo = (CheckBox) findViewById(R.id.check_box_choice_img);
 		mCheckBoxChoiceImgMemo
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
+					@SuppressWarnings("deprecation")
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						// TODO Auto-generated method stub
-						if (fileUri != null
-								&& mCheckBoxChoiceImgMemo.isChecked()
-								&& bmp != null) {
+						if (mCheckBoxChoiceImgMemo.isChecked() && bmp != null) {
 							EditIdPasswordActivity
 									.updateMemo((Drawable) new BitmapDrawable(
 											snapScreen(leftB, topB, widthB,
 													heightB)));
-							// Intent resultIntent = new Intent();
-							// resultIntent.putExtra(
-							// Contants.IS_INTENT_CREATE_NEW_ID, 2);
-							// setResult(Activity.RESULT_OK, resultIntent);
+							EditIdPasswordActivity.setRatioMemo(heightB
+									/ (float) widthB);
 							EditIdPasswordActivity.startActivity(
 									ImageMemoActivity.this, 2);
 							finish();
@@ -101,6 +115,7 @@ public class ImageMemoActivity extends BaseActivity {
 					}
 				});
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -114,6 +129,7 @@ public class ImageMemoActivity extends BaseActivity {
 		}
 
 	}
+
 	public static void startActivity(Activity activity, int value) {
 		Intent i = new Intent(activity, ImageMemoActivity.class);
 		i.putExtra("modeBundleMemo", value);
@@ -126,7 +142,7 @@ public class ImageMemoActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity.startActivity(this,2);
+		EditIdPasswordActivity.startActivity(this, 2);
 		finish();
 	}
 
@@ -153,14 +169,19 @@ public class ImageMemoActivity extends BaseActivity {
 	}
 
 	private void startCameraIntent() {
-		String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_PICTURES).getPath();
+		// String mediaStorageDir =
+		// Environment.getExternalStoragePublicDirectory(
+		// Environment.DIRECTORY_PICTURES).getPath();
+		String appStorageDir = Contants.PATH_ID_FILES;
+		File appDir = new File(appStorageDir);
+		if (!appDir.exists())
+			appDir.mkdirs();
+		Log.i("Uri", appStorageDir.toString());
 		@SuppressWarnings("unused")
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
 				.format(new Date());
-		fileUri = Uri.fromFile(new java.io.File(mediaStorageDir
+		fileUri = Uri.fromFile(new java.io.File(appStorageDir
 				+ java.io.File.separator + "IMG_" + "test" + ".jpg"));
-
 		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 		startActivityForResult(cameraIntent, Contants.CAPTURE_IMAGE);
