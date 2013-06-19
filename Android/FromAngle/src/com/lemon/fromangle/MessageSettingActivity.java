@@ -333,26 +333,26 @@ public class MessageSettingActivity extends PaymentActivity {
 	}
 
 	public void checkStop() {
-		for (int i = 1; i < 4; i++) {
-			if (!checkCorrect(i)) {
-				if (i == 1) {
-					if (checkTabNotEnoughInfo(i))
-						displayNotInfo(i);
-					else if (checkEmailError(i))
-						displayEmailError(i);
-					return;
-				} else if (!checkTabNull(i)) {
-
-					if (checkTabNotEnoughInfo(i))
-						displayNotInfo(i);
-					else if (checkEmailError(i))
-						displayEmailError(i);
-					if (i != currentTab)
-						changeTab(i);
-					return;
-				}
-			}
-		}
+		// for (int i = 1; i < 4; i++) {
+		// if (!checkCorrect(i)) {
+		// if (i == 1) {
+		// if (checkTabNotEnoughInfo(i))
+		// displayNotInfo(i);
+		// else if (checkEmailError(i))
+		// displayEmailError(i);
+		// return;
+		// } else if (!checkTabNull(i)) {
+		//
+		// if (checkTabNotEnoughInfo(i))
+		// displayNotInfo(i);
+		// else if (checkEmailError(i))
+		// displayEmailError(i);
+		// if (i != currentTab)
+		// changeTab(i);
+		// return;
+		// }
+		// }
+		// }
 		stop();
 	}
 
