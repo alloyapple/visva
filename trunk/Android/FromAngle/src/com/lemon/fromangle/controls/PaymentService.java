@@ -144,7 +144,7 @@ public class PaymentService {
 	 */
 	private void checkPaymentNotPaid() {
 		// TODO Auto-generated method stub
-		showToast("user not paid");
+//		showToast("user not paid");
 		creatDialog(null, null, R.layout.dialog_not_paid).show();
 
 	}
@@ -154,7 +154,7 @@ public class PaymentService {
 	 */
 	private void checkPaymentPaidExpired() {
 		// TODO Auto-generated method stub
-		showToast("paid expired");
+//		showToast("paid expired");
 		creatDialog(
 				mContext.getResources()
 						.getString(R.string.message_paid_expired), null,
@@ -168,7 +168,6 @@ public class PaymentService {
 	 */
 	private void checkPaymentPaidNotExpired() {
 		// TODO Auto-generated method stub
-		showToast("paid not expired");
 		mContext.onPaymentSuccess();
 	}
 
@@ -177,17 +176,17 @@ public class PaymentService {
 
 	}
 
-	private AlertDialog creatDialog(String message, String title,
-			DialogInterface.OnClickListener listener) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		if (title != null)
-			builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(
-				mContext.getResources().getString(R.string.btn_ok), listener);
-
-		return builder.create();
-	}
+//	private AlertDialog creatDialog(String message, String title,
+//			DialogInterface.OnClickListener listener) {
+//		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+//		if (title != null)
+//			builder.setTitle(title);
+//		builder.setMessage(message);
+//		builder.setPositiveButton(
+//				mContext.getResources().getString(R.string.btn_ok), listener);
+//
+//		return builder.create();
+//	}
 
 	private AlertDialog creatDialog(String message, String title, int layout) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
