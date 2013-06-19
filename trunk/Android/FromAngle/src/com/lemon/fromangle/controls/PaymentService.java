@@ -33,10 +33,10 @@ import com.payment.BillingHelper;
 
 public class PaymentService {
 	// private String deviceId;
-	private Activity mContext;
+	private PaymentActivity mContext;
 	private static final String ID_SERVICE_MONTHLY_PAYMENT = "0000000000000002";
 
-	public PaymentService(Activity context) {
+	public PaymentService(PaymentActivity context) {
 		mContext = context;
 	}
 
@@ -169,6 +169,7 @@ public class PaymentService {
 	private void checkPaymentPaidNotExpired() {
 		// TODO Auto-generated method stub
 		showToast("paid not expired");
+		mContext.onPaymentSuccess();
 	}
 
 	public void showToast(String message) {
