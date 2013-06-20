@@ -36,7 +36,6 @@ import com.lemon.fromangle.network.ParameterFactory;
 import com.lemon.fromangle.network.ParserUtility;
 import com.lemon.fromangle.utility.DialogUtility;
 import com.lemon.fromangle.utility.StringUtility;
-import com.lemon.fromangle.utility.TimeUtility;
 import com.payment.BillingHelper;
 import com.payment.BillingService;
 
@@ -285,6 +284,7 @@ public class MessageSettingActivity extends PaymentActivity {
 		isStart = false;
 		if (!StringUtility.isEmpty(userId)) {
 			sendUpdateStatusToServer("0");
+//			onStartSave("0");
 		}
 	}
 
@@ -796,8 +796,15 @@ public class MessageSettingActivity extends PaymentActivity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						Log.e("my response", "my response " + response);
-						mFromAngleSharedPref.putAppStatus("1");
-						finish();
+						mFromAngleSharedPref.setMessageSettingStatus("0");
+						mFromAngleSharedPref.putAppStatus("0");
+						btnStop.setEnabled(false);
+						btnStart.setEnabled(true);
+						btnStop.setBackgroundResource(R.drawable.btn_stop_pressed);
+						btnStart.setBackgroundResource(R.drawable.start_btn);
+						mFromAngleSharedPref.setValidationMode(2);
+						showToast(getResources().getString(
+								R.string.stop_success));
 					}
 
 					@Override
