@@ -6,6 +6,7 @@
     android:padding="10dp" >
 
     <LinearLayout
+        android:id="@+id/text_name"
         style="@style/layoutfullwidth_vertical"
         android:layout_alignParentTop="true" >
 
@@ -21,7 +22,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
 
-        <TextView
+        <!--
+             <TextView
             android:id="@+id/lblModeAppMessage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -32,12 +34,14 @@
             android:text="@string/name_validate"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black" />
+        -->
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/text_name"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
