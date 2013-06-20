@@ -117,6 +117,14 @@ public class SettingActivivity extends Activity {
 
 		/* check is update or register */
 		checkIsUpdateOrRegister();
+		
+		if(mFromAngleSharedPref.getKeyRunAlarm()){
+			btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
+			btnCancel.setBackgroundResource(R.drawable.stop_btn);
+		}else{
+			btnSave.setBackgroundResource(R.drawable.start_btn);
+			btnCancel.setBackgroundResource(R.drawable.btn_stop_pressed);
+		}
 
 	}
 
@@ -430,6 +438,8 @@ public class SettingActivivity extends Activity {
 		public void onClick(View v) {
 			stopAlarmManager();
 			mFromAngleSharedPref.setKeyRunAlarm(false);
+			btnSave.setBackgroundResource(R.drawable.start_btn);
+			btnCancel.setBackgroundResource(R.drawable.btn_stop_pressed);
 			finish();
 
 		}
@@ -548,6 +558,9 @@ public class SettingActivivity extends Activity {
 					showToast(getString(R.string.change_info_sucess));
 					addDataToPreference();
 					startRunAlarmManager();
+					
+					btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
+					btnCancel.setBackgroundResource(R.drawable.stop_btn);
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
 					showToast(getString(R.string.duplicated_email));
 				} else
@@ -600,6 +613,9 @@ public class SettingActivivity extends Activity {
 						startRunAlarmManager();
 
 						showToast(getResources().getString(R.string.sucess));
+						
+						btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
+						btnCancel.setBackgroundResource(R.drawable.stop_btn);
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
 					showToast(getString(R.string.duplicated_email));
