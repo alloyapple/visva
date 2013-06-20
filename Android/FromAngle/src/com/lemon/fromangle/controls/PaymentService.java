@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,6 +83,27 @@ public class PaymentService {
 			postUpdatePayment.execute(WebServiceConfig.URL_CHECK_PAYMENT);
 	}
 
+	public void updatePayment(String userId) {
+		List<NameValuePair> params = ParameterFactory
+				.createUpdatePayment(userId);
+		AsyncHttpPost postUpdatePayment = new AsyncHttpPost(mContext,
+				new AsyncHttpResponseProcess(mContext) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						/* check info response from server */
+						checkInfoReponseAfterUpdate(response);
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						// TODO Auto-generated method stub
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		if (userId != null && !StringUtility.isEmpty(userId))
+			postUpdatePayment.execute(WebServiceConfig.URL_CHECK_PAYMENT);
+	}
+
 	private void checkInfoReponseAfterUpdate(String response) {
 		// TODO Auto-generated method stub
 		Log.e("reponse", "reponse " + response);
@@ -94,7 +117,7 @@ public class PaymentService {
 				int error = Integer.parseInt(errorMsg);
 				if (error == GlobalValue.MSG_REPONSE_PAID_NOT_EXPIRED) {
 					/* paid not expired */
-
+					mContext.onStartSuccess();
 				} else if (error == GlobalValue.MSG_REPONSE_PAID_EXPIRED) {
 					/* paid expired */
 
@@ -144,9 +167,13 @@ public class PaymentService {
 	 */
 	private void checkPaymentNotPaid() {
 		// TODO Auto-generated method stub
-//		showToast("user not paid");
-		creatDialog(null, null, R.layout.dialog_not_paid).show();
 
+		AlertDialog dialog = creatDialog(
+				mContext.getResources().getString(
+						R.string.message_paid_not_paid), null,
+				R.layout.dialog_not_paid);
+		dialog.show();
+		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 	}
 
 	/**
@@ -154,13 +181,18 @@ public class PaymentService {
 	 */
 	private void checkPaymentPaidExpired() {
 		// TODO Auto-generated method stub
-//		showToast("paid expired");
 		creatDialog(
-				mContext.getResources()
-						.getString(R.string.message_paid_expired), null,
-				R.layout.dialog_not_paid).show();
-		Log.i("curent date", TimeUtility.getCurentDate().toString()
-				+ TimeUtility.getDateExpiry(30));
+				null,
+				mContext.getResources().getString(
+						R.string.message_paid_not_paid),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						mContext.onPaymentSuccess();
+					}
+				}).show();
 	}
 
 	/**
@@ -176,17 +208,26 @@ public class PaymentService {
 
 	}
 
-//	private AlertDialog creatDialog(String message, String title,
-//			DialogInterface.OnClickListener listener) {
-//		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-//		if (title != null)
-//			builder.setTitle(title);
-//		builder.setMessage(message);
-//		builder.setPositiveButton(
-//				mContext.getResources().getString(R.string.btn_ok), listener);
-//
-//		return builder.create();
-//	}
+	private AlertDialog creatDialog(String message, String title,
+			DialogInterface.OnClickListener listener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		if (title != null)
+			builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(
+				mContext.getResources().getString(R.string.btn_ok), listener);
+		builder.setNegativeButton(
+				mContext.getResources().getString(R.string.btn_cancel),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		return builder.create();
+	}
 
 	private AlertDialog creatDialog(String message, String title, int layout) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -200,6 +241,7 @@ public class PaymentService {
 				.findViewById(R.id.link_web);
 		final CheckBox checkbox = (CheckBox) layoutAnyNumber
 				.findViewById(R.id.id_checkbox_agreed);
+
 		textView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -219,20 +261,46 @@ public class PaymentService {
 						// TODO Auto-generated method stub
 						Log.i("payment request", "<-------true-------->");
 						if (checkbox.isChecked()) {
-//							if (BillingHelper.isBillingSupported()) {
-//								BillingHelper.requestPurchase(mContext,
-//										ID_SERVICE_MONTHLY_PAYMENT);
-//							} else {
-//								Log.i("Billing",
-//										"Can't purchase on this device");
-//
-//							}
+							// if (BillingHelper.isBillingSupported()) {
+							// BillingHelper.requestPurchase(mContext,
+							// ID_SERVICE_MONTHLY_PAYMENT);
+							// } else {
+							// Log.i("Billing",
+							// "Can't purchase on this device");
+							//
+							// }
 							mContext.onPaymentSuccess();
 						}
 
 					}
 				});
+		builder.setNegativeButton(
+				mContext.getResources().getString(R.string.btn_cancel),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 		builder.setView(layoutAnyNumber);
-		return builder.create();
+		final AlertDialog dialog = builder.create();
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				if (isChecked) {
+					dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
+							true);
+				} else {
+					dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
+							false);
+				}
+			}
+		});
+		return dialog;
 	}
 }

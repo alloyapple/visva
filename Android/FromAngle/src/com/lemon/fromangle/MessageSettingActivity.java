@@ -91,9 +91,7 @@ public class MessageSettingActivity extends PaymentActivity {
 			if (BillingHelper.latestPurchase.isPurchased()) {
 				showToast("Payment success");
 				Log.i(TAG, "update payment to server");
-				paymentService.updatePayment(mFromAngleSharedPref.getUserId(),
-						TimeUtility.getCurentDate(),
-						TimeUtility.getDateExpiry(30));
+				paymentService.updatePayment(mFromAngleSharedPref.getUserId());
 			}
 		};
 
@@ -713,8 +711,9 @@ public class MessageSettingActivity extends PaymentActivity {
 	@Override
 	public void onPaymentSuccess() {
 		// TODO Auto-generated method stub
-		isStart = true;
-		onStartSave("1");
+//		isStart = true;
+//		onStartSave("1");
+		paymentService.updatePayment(mFromAngleSharedPref.getUserId());
 	}
 
 	private void showToast(String string) {
@@ -807,5 +806,12 @@ public class MessageSettingActivity extends PaymentActivity {
 					}
 				}, params, true);
 		postUpdateStt.execute(WebServiceConfig.URL_MESSAGE_SETTING);
+	}
+
+	@Override
+	public void onStartSuccess() {
+		// TODO Auto-generated method stub
+		isStart = true;
+		onStartSave("1");
 	}
 }
