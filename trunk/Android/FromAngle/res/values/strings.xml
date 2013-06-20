@@ -31,7 +31,7 @@
     <string name="mail">Mailｱﾄﾞﾚｽ  ： </string>
     <string name="message">メッセージ  ： </string>
     <string name="service3">（2）サービス  </string>
-    <string name="mrms">○○さん </string>
+    <string name="mrms">さん </string>
     <string name="safety_validation">Safety Validation </string>
     <string name="please_check_the_notice">＊ＳＴＡＲＴ／ＳＴＯＰ後、サーバからの通知メールを確認してください</string>
     <string name="please_reply_by_press_ok">ＦｒｏｍＡＮＧＥＬから確認です。問題なければＯＫを押してください。</string>
@@ -51,7 +51,7 @@
     <string name="ng">NG!</string>
     <string name="final_validation">最終確認</string>
     <string name="next_validation">次回確認</string>
-    <string name="msg_stop_service">○○さん %1$s の確認が２回連続で取れませんでしたので、Aさん %2$s 達にメッセージが送信されます。
+    <string name="msg_stop_service">%1$s さん  の確認が２回連続で取れませんでしたので、%2$s さん  達にメッセージが送信されます。
 ※尚、通信状況や送信先の着信拒否設定等により届かない場合があります。</string>
     <string name="message_paid_expired">アプリの有効期限が終了します。ご使用を継続されますか？</string>
     <string name="message_paid_not_paid">課金が開始されます。よろしいでしょうか？</string>
@@ -60,7 +60,7 @@
     <string name="error_name">例.　木村シンジ</string>
     <string name="error_message">例.　ミカへ　オレはミカに出逢えて本当によかった。もしバイト先で...</string>
     <string name="name_validate">Safety Validation</string>
-    <string name="mr_ms_name">○○さん %s</string>
+    <string name="mr_ms_name">%s さん </string>
     <string name="network_unvailable">ネットワークへの接続ができません</string>
     <string name="user_email"><a href="http://google.com">ga@angelsmails.com</a></string>
     <string name="title_reminder">Reminder Message</string>
