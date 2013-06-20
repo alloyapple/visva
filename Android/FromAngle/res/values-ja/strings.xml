@@ -5,8 +5,8 @@
     <string name="url_home">http://fromangel.net/main/</string>
 
     <!-- Button -->
-    <string name="btn_cancel">Cancel</string>
-    <string name="btn_agreed">Agreed</string>
+    <string name="btn_cancel">キャンセル</string>
+    <string name="btn_agreed">同意します</string>
     <string name="btn_close">Close</string>
     <string name="btn_ok">OK</string>
 
@@ -32,9 +32,8 @@
     <string name="message">メッセージ ： </string>
     <string name="service3">（2）サービス  </string>
     <string name="mrms">さん </string>
-    <string name="safety_validation">Safety Validation </string>
     <string name="please_check_the_notice">＊ＳＴＡＲＴ／ＳＴＯＰ後、サーバからの通知メールを確認してください</string>
-    <string name="please_reply_by_press_ok">ＦｒｏｍＡＮＧＥＬから確認です。問題なければＯＫを押してください。</string>
+    <string name="please_reply_by_press_ok">ＦｒｏｍＡＮＧＥＬから確認です。\n問題なければＯＫを押してください。</string>
     <string name="please_reply_by_press_close">ＮＧの場合はＣＬＯＳＥを押してください。</string>
     <string name="message1">アラーム</string>
     <string name="message2">メッセージ</string>
@@ -43,28 +42,28 @@
     <string name="plz_input_required_field">入力が不足しています！</string>
     <string name="incorrect_email_address">Eメールアドレスの入力に誤りがあります</string>
     <string name="failed_to_conect_server">サーバーにメッセージを送信できませんでした。</string>
-    <string name="duplicated_email">Email is already used</string>
+    <string name="duplicated_email">このメールは既に使用されています</string>
     <string name="email_not_validate">Eメールアドレスの入力に誤りがあります</string>
     <string name="change_info_sucess">更新に成功しました！</string>
-    <string name="setting_user_first">Setting for user first</string>
-    <string name="sucess">Successfully</string>
+    <string name="setting_user_first">最初に情報を入力してください</string>
+    <string name="sucess">できました</string>
     <string name="ok">OK!</string>
     <string name="ng">NG!</string>
     <string name="final_validation">最終確認</string>
     <string name="next_validation">次回確認</string>
     <string name="msg_stop_service">%1$s さん  の確認が２回連続で取れませんでしたので、%2$s さん  達にメッセージが送信されます。
 ※尚、通信状況や送信先の着信拒否設定等により届かない場合があります。</string>
-    <string name="message_paid_expired">アプリの有効期限が終了します。ご使用を継続されますか？</string>
+    <string name="message_paid_expired">アプリの有効期限が終了します。ご使用を継続されますか...</string>
     <string name="message_paid_not_paid">課金が開始されます。よろしいでしょうか？</string>
     <string name="term_of_use"><a href="http://google.com">利用規約（プライバシーポリシー）に同意します。</a></string>
     <string name="error_email">例.　sin-kim@gmail.com</string>
     <string name="error_name">例.　木村シンジ</string>
     <string name="error_message">例.　ミカへ　オレはミカに出逢えて本当によかった。もしバイト先で...</string>
-    <string name="name_validate">Safety Validation</string>
+<!--     <string name="name_validate">Safety Validation</string> -->
     <string name="mr_ms_name"> %s さん</string>
     <string name="network_unvailable">ネットワークへの接続ができません</string>
     <string name="user_email"><a href="http://google.com">ga@angelsmails.com</a></string>
-    <string name="title_reminder">Reminder Message</string>
+    <string name="title_reminder">通報メッセージ</string>
     <string name="start_success">サーバーがスタートしました！</string>
     <string name="stop_success">サーバーがストップしました。</string>
     <string name="hint_date">yyyy-mm-dd</string>
