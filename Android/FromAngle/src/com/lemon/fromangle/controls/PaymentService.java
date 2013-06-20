@@ -101,7 +101,7 @@ public class PaymentService {
 					}
 				}, params, true);
 		if (userId != null && !StringUtility.isEmpty(userId))
-			postUpdatePayment.execute(WebServiceConfig.URL_CHECK_PAYMENT);
+			postUpdatePayment.execute(WebServiceConfig.URL_UPDATE_PAYMENT);
 	}
 
 	private void checkInfoReponseAfterUpdate(String response) {
@@ -117,13 +117,15 @@ public class PaymentService {
 				int error = Integer.parseInt(errorMsg);
 				if (error == GlobalValue.MSG_REPONSE_PAID_NOT_EXPIRED) {
 					/* paid not expired */
-					mContext.onStartSuccess();
+					
 				} else if (error == GlobalValue.MSG_REPONSE_PAID_EXPIRED) {
 					/* paid expired */
 
 				} else if (error == GlobalValue.MSG_REPONSE_NOT_PAID) {
 					/* not paid */
 
+				} else if (error == GlobalValue.MSG_REPONSE_PAID_SUCCESS) {
+					mContext.onStartSuccess();
 				}
 			}
 		} catch (JSONException e) {
@@ -183,8 +185,8 @@ public class PaymentService {
 		// TODO Auto-generated method stub
 		creatDialog(
 				null,
-				mContext.getResources().getString(
-						R.string.message_paid_not_paid),
+				mContext.getResources()
+						.getString(R.string.message_paid_expired),
 				new DialogInterface.OnClickListener() {
 
 					@Override
@@ -200,7 +202,7 @@ public class PaymentService {
 	 */
 	private void checkPaymentPaidNotExpired() {
 		// TODO Auto-generated method stub
-		mContext.onPaymentSuccess();
+		mContext.onStartSuccess();
 	}
 
 	public void showToast(String message) {

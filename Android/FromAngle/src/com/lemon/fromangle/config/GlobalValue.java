@@ -27,6 +27,7 @@ public final class GlobalValue {
 	public static final int MSG_REPONSE_PAID_NOT_EXPIRED = 1;
 	public static final int MSG_REPONSE_PAID_EXPIRED = 0;
 	public static final int MSG_REPONSE_NOT_PAID = 2;
+	public static final int MSG_REPONSE_PAID_SUCCESS = 3;
 
 	public static final int MSG_RESPONSE_UPDATE_INFO_SUCESS = 1;
 	public static final int MSG_RESPONSE_UPDATE_INFO_FAILED = 2;

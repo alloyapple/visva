@@ -35,6 +35,7 @@ public final class WebServiceConfig {
 	public static String URL_UPDATE_REGISTER_SETTING = APP_DOMAIN
 			+ "edit_setting_registration";
 	public static String URL_CHECK_PAYMENT = APP_DOMAIN + "check_payment";
+	public static String URL_UPDATE_PAYMENT = APP_DOMAIN + "update_payment";
 	public static String URL_MESSAGE_SETTING = APP_DOMAIN
 			+ "message_setting_registration";
 	public static String URL_CHECK_USER_EXIT=APP_DOMAIN+"check_exist_user";
