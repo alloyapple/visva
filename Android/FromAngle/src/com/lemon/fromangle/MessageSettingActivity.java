@@ -286,7 +286,7 @@ public class MessageSettingActivity extends PaymentActivity {
 	public void stop() {
 		isStart = false;
 		if (!StringUtility.isEmpty(userId)) {
-			onStartSave("0");
+			sendUpdateStatusToServer("0");
 		}
 	}
 
@@ -786,4 +786,26 @@ public class MessageSettingActivity extends PaymentActivity {
 	// calendar.getTimeInMillis(), pendingIntent);
 	// }
 	// }
+	
+	private void sendUpdateStatusToServer(String status) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> params = ParameterFactory.updateStatusForServer(
+				userId, status);
+		AsyncHttpPost postUpdateStt = new AsyncHttpPost(
+				MessageSettingActivity.this, new AsyncHttpResponseProcess(
+						MessageSettingActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("my response", "my response " + response);
+						mFromAngleSharedPref.putAppStatus("1");
+						finish();
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		postUpdateStt.execute(WebServiceConfig.URL_MESSAGE_SETTING);
+	}
 }
