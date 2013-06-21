@@ -40,7 +40,7 @@ public class BillingSecurity {
 	private static final String KEY_FACTORY_ALGORITHM = "RSA";
 	private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
 	private static final SecureRandom RANDOM = new SecureRandom();
-	private static final String KEY_APP = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhWf/TSMd8CTtyNahOuw/qTB4fnr9iSz09AOd2D62w68GyR8635tBdZp+eZmsYGb6r78/9q3AH9Vbt7Ui+CiYLl8cbWFDYw52Fkfev4aElPMJWYBc9I2FCK4RbjHWNVUddRaDVrmBJdDYDWRuffg8l8WQ2lnpSrD7WwuX7kf5IvxMzcyK3yu4McArQP0atWTOYjPxGNbY6YeHVJojsZSdK9Ak03gZG2C8iOyIYPIo8n/iG/kboU8lQnB5x8CntVrCcrXkzL1LdB1aI9v2ivyPHOJxum5A20k0vSMiSuMIrkpC5SZjkwCE9lxA/h9L/XE8Kn3t1t8vXa8p1/WcOS4xBwIDAQAB";
+	private static final String KEY_APP = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjF7hLr9Fk27WKj+BufLxJQsdJwm8+SjYKzILK8ixmidc5zPAjHBIpsDPc6A7/GBYoPxP4E/vCbiiZyaX0xBOWL8xF4DM02wu3tj3D3DzJ0Icvp4rIpzVQ7Eac0ZljHUoL9gZWmMSSEYRmPWB+KSnx8pJ8OsskxYQYyxuRoOXZEjgqpA9ZsDAXW0saoupX+PgTd6/M/opdKyqPx0i9bWaVoeQV90xMagq2ieyCRyEUm5x525Cm1X7MoWDmOHgK20cwVSrevEe9VQENxmohnZBROUDbTBmgG3iXLkS+03BOgRB6ei2ImDonU6tN29r8vo2n7k+/h7Ss/e8WhFjfptGDwIDAQAB";
 
 	/**
 	 * This keeps track of the nonces that we generated and sent to the server.
