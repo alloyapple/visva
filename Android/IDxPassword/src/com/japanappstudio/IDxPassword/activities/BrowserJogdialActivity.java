@@ -2,12 +2,6 @@ package com.japanappstudio.IDxPassword.activities;
 
 import java.util.ArrayList;
 
-import com.japanappstudio.IDxPassword.activities.R;
-
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-import com.japanappstudio.IDxPassword.database.IdManagerPreference;
-
 import net.sqlcipher.database.SQLiteDatabase;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -24,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -35,6 +28,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 
 public class BrowserJogdialActivity extends BaseActivity {
 	private static int deltaX = 20;
@@ -51,6 +48,7 @@ public class BrowserJogdialActivity extends BaseActivity {
 	private MediaPlayer effect_sound;
 	private Button mBtnJogdial;
 	private LinearLayout mLinearBottom;
+	private LinearLayout mLinearWebview;
 	private FrameLayout mFrameJogdial;
 	private boolean isJogdial = false;
 	private String valuePaste = "khaidt.hut@gmail";
@@ -78,6 +76,9 @@ public class BrowserJogdialActivity extends BaseActivity {
 		mBtnJogdial = (Button) findViewById(R.id.id_jogdial);
 		mFrameJogdial = (FrameLayout) findViewById(R.id.id_frame_jogdial);
 		mLinearBottom = (LinearLayout) findViewById(R.id.id_linear_bottom_browser);
+		mLinearWebview = (LinearLayout) findViewById(R.id.id_ln_webView);
+		mLinearWebview.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT, 0, 1));
 		mFrameJogdial.setVisibility(View.GONE);
 
 		dialer.setOnTouchListener(new OnTouchListener() {
@@ -126,6 +127,12 @@ public class BrowserJogdialActivity extends BaseActivity {
 		initAdmod();
 	}
 
+	private int dpToPx(int dp) {
+		float density = getApplicationContext().getResources()
+				.getDisplayMetrics().density;
+		return Math.round((float) dp * density);
+	}
+
 	public void initAdmod() {
 		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -151,12 +158,16 @@ public class BrowserJogdialActivity extends BaseActivity {
 		isJogdial = !isJogdial;
 		if (isJogdial) {
 			mFrameJogdial.setVisibility(View.VISIBLE);
+			mLinearWebview.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, 0.48f));
 			mLinearBottom.setVisibility(View.GONE);
 			mBtnJogdial.setBackgroundResource(R.drawable.btn_wheel_false);
 			InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			mgr.hideSoftInputFromWindow(webView.getWindowToken(), 0);
 		} else {
 			mFrameJogdial.setVisibility(View.GONE);
+			mLinearWebview.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, 1));
 			mLinearBottom.setVisibility(View.VISIBLE);
 			mBtnJogdial.setBackgroundResource(R.drawable.btn_wheel);
 		}
@@ -233,13 +244,14 @@ public class BrowserJogdialActivity extends BaseActivity {
 	@SuppressWarnings("deprecation")
 	public void initData() {
 		SQLiteDatabase.loadLibs(this);
-		Drawable d = getResources().getDrawable(R.drawable.jog_upperswitch);
+		// Drawable d = getResources().getDrawable(R.drawable.jog_upperswitch);
+		int width = dpToPx((int) (50 * 158 / 92));
 		for (int i = 0; i < itemList.size(); i++) {
 			if (!itemList.get(i).mContentItem.equals("")) {
 				LinearLayout mLinearItem = new LinearLayout(this);
-				mLinearItem.setLayoutParams(new LinearLayout.LayoutParams(d
-						.getIntrinsicWidth(),
-						LinearLayout.LayoutParams.FILL_PARENT));
+
+				mLinearItem.setLayoutParams(new LinearLayout.LayoutParams(
+						width, LinearLayout.LayoutParams.FILL_PARENT));
 				((LinearLayout.LayoutParams) mLinearItem.getLayoutParams()).leftMargin = 6;
 				mLinearItem.setBackgroundResource(R.drawable.jog_upperswitch);
 				mLinearItem.setOrientation(LinearLayout.VERTICAL);
@@ -310,6 +322,8 @@ public class BrowserJogdialActivity extends BaseActivity {
 				InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				mgr.showSoftInput(webView, InputMethodManager.SHOW_IMPLICIT);
 				mFrameJogdial.setVisibility(View.GONE);
+				mLinearWebview.setLayoutParams(new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.FILL_PARENT, 0, 1));
 				mBtnJogdial.setBackgroundResource(R.drawable.btn_wheel);
 			}
 		});

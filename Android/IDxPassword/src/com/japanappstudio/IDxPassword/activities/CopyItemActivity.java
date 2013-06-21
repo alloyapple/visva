@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
@@ -97,7 +98,8 @@ public class CopyItemActivity extends BaseActivity {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						onCopy(itemList.get(index).mContentItem);
+						onCopy(itemList.get(index).mContentItem,
+								itemList.get(index).mNameItem);
 					}
 				});
 				mLinear.addView(btnItem);
@@ -140,11 +142,15 @@ public class CopyItemActivity extends BaseActivity {
 
 	}
 
-	public void onCopy(String contentCopy) {
+	public void onCopy(String contentCopy, String titleCopy) {
 		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 		clipboard.setText(contentCopy);
 		element.seteTimeStamp(System.currentTimeMillis());
-		showDialogCopy();
+		AlertDialog dialog = showDialogCopy(titleCopy);
+		dialog.show();
+		TextView messageText = (TextView) dialog
+				.findViewById(android.R.id.message);
+		messageText.setGravity(Gravity.CENTER);
 	}
 
 	public static void startActivity(Activity activity, int dataTranfer) {
@@ -165,35 +171,30 @@ public class CopyItemActivity extends BaseActivity {
 		intentBrowser.putExtra(KEY_NOTE, element.geteNote());
 		startActivity(intentBrowser);
 	}
+
 	public void onEdit() {
 		Intent intent = new Intent(this, EditIdPasswordActivity.class);
 		intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 0);
 		intent.putExtra(Contants.IS_SRC_ACTIVITY, 1);
-		intent.putExtra(Contants.CURRENT_PASSWORD_ID,
-				currentElementId);
+		intent.putExtra(Contants.CURRENT_PASSWORD_ID, currentElementId);
 		startActivity(intent);
 		finish();
 	}
 
-	public void showDialogCopy() {
+	public AlertDialog showDialogCopy(String titleCopy) {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setMessage(
+				getResources().getString(R.string.message_coppied_clipboard)
+						+ "\n" + titleCopy).setPositiveButton(
+				getResources().getString(R.string.confirm_ok),
+				new DialogInterface.OnClickListener() {
 
-		alert.setTitle(R.string.copy_title)
-				.setMessage(
-						getResources().getString(
-								R.string.message_coppied_clipboard))
-				.setPositiveButton(
-						getResources().getString(R.string.confirm_ok),
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// TODO Auto-generated method stub
-								element.seteFlag(EditIdPasswordActivity.ELEMENT_FLAG_TRUE);
-							}
-						});
-		alert.create().show();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						element.seteFlag(EditIdPasswordActivity.ELEMENT_FLAG_TRUE);
+					}
+				});
+		return alert.create();
 	}
-
 }
