@@ -106,7 +106,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private static boolean isSetUrl;
 	// private int
 	public static final String IS_INTENT_CREATE_NEW_ID = "IS_INTENT_CREATE_NEW_ID";
-	private int modeFrom = 0;
+	private static int modeFrom;
 	private static int widthMemo;
 	private static float ratioMemo;
 
@@ -121,7 +121,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		setContentView(R.layout.edit_id_pass2);
 		modeBundle = getIntent().getExtras().getInt(
 				Contants.IS_INTENT_CREATE_NEW_ID);
-		modeFrom = getIntent().getExtras().getInt(Contants.IS_SRC_ACTIVITY);
+		if (modeBundle != 2)
+			modeFrom = getIntent().getExtras().getInt(Contants.IS_SRC_ACTIVITY);
 		initSlideView();
 		initViewItem();
 		btn_memo = (Button) findViewById(R.id.button_img_memo);
@@ -302,8 +303,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			weight1 = weight1 + detalWeight;
 			if (weight1 < weightMin)
 				weight1 = weightMin;
-			else if(weight1>weightMax)
-				weight1=weightMax;
+			else if (weight1 > weightMax)
+				weight1 = weightMax;
 			view1.setLayoutParams(new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.FILL_PARENT, 0, weight1));
 			view2.setLayoutParams(new LinearLayout.LayoutParams(
