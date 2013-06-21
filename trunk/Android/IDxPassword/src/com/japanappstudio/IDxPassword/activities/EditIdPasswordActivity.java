@@ -27,8 +27,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,6 +42,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -57,18 +61,23 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public static final int ELEMENT_FLAG_TRUE = 1;
 	public static final int ELEMENT_FLAG_FALSE = 0;
 	// =========================Control Define ==================
-	private ListView mListView;
+	// private ListView mListView;
 	private CheckBox mCheckBoxLike;
 
 	private EditText mEditTextUrlId;
 	private EditText mEditTextNameId;
+	private EditText[] mEditTitle;
+	private EditText[] mEditContent;
+	private ImageButton[] btnGenerator;
+	private LinearLayout lnRowItem;
 	private EditText mEditTextNote;
 	// =========================Class Define ====================
 	private IDxPWDataBaseHandler mDataBaseHandler;
 	private static ArrayList<Item> mItems;
-	private MultiDirectionSlidingDrawer mSlidingDrawer;
+	// private MultiDirectionSlidingDrawer mSlidingDrawer;
 	// =========================Variable Define =================
 	public static String DEFAULT_NAME_ITEM[] = { "ID", "Password", "", "", "" };
+	public static int MAX_ITEM = 5;
 	private int modeBundle;
 
 	// id password info
@@ -89,7 +98,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public static String mStringOfSelectItem;
 	private Button btn_memo;
 	private ImageButton img_memo;
-	public ArrayList<ViewHolder> viewHolder = new ArrayList<EditIdPasswordActivity.ViewHolder>();
+
 	public static int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
 	private static final String DEFAULT_URL = "http://google.com";
@@ -101,19 +110,24 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private static int widthMemo;
 	private static float ratioMemo;
 
+	private ImageView controlView;
+	private LinearLayout view1, view2;
+	private LinearLayout lnParent;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.edit_id_pass);
-		btn_memo = (Button) findViewById(R.id.button_img_memo);
-		img_memo = (ImageButton) findViewById(R.id.btn_img_memo);
+		setContentView(R.layout.edit_id_pass2);
 		modeBundle = getIntent().getExtras().getInt(
 				Contants.IS_INTENT_CREATE_NEW_ID);
 		modeFrom = getIntent().getExtras().getInt(Contants.IS_SRC_ACTIVITY);
+		initSlideView();
+		initViewItem();
+		btn_memo = (Button) findViewById(R.id.button_img_memo);
+		img_memo = (ImageButton) findViewById(R.id.btn_img_memo);
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		currentFolderId = mIdManagerPreference.getCurrentFolderId();
-		Log.e("current FOlder id", "current Folder id " + currentFolderId);
 		if (modeBundle == 0) {
 			currentElementId = getIntent().getExtras().getInt(
 					Contants.CURRENT_PASSWORD_ID);
@@ -149,6 +163,154 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			mEditTextUrlId.setText(mUrlItem);
 		}
 		initAdmod();
+	}
+
+	public void initSlideView() {
+		controlView = (ImageView) findViewById(R.id.img);
+		view1 = (LinearLayout) findViewById(R.id.ln_1);
+		view2 = (LinearLayout) findViewById(R.id.ln_2);
+		lnParent = (LinearLayout) findViewById(R.id.id_parent);
+		controlView.setOnTouchListener(new OnTouchListener() {
+			float yFirst, yMove;
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					yMove = yFirst = event.getRawY();
+					break;
+				case MotionEvent.ACTION_UP:
+					break;
+				case MotionEvent.ACTION_MOVE:
+					yFirst = yMove;
+					yMove = event.getRawY();
+					move(yMove - yFirst);
+					break;
+				default:
+					break;
+				}
+				return true;
+			}
+		});
+	}
+
+	public void initViewItem() {
+		lnRowItem = (LinearLayout) findViewById(R.id.id_ln_rowItem);
+		mEditTitle = new EditText[MAX_ITEM];
+		mEditTitle[0] = (EditText) findViewById(R.id.id_txt_nameItem1);
+		mEditTitle[1] = (EditText) findViewById(R.id.id_txt_nameItem2);
+		mEditTitle[2] = (EditText) findViewById(R.id.id_txt_nameItem3);
+		mEditTitle[3] = (EditText) findViewById(R.id.id_txt_nameItem4);
+		mEditTitle[4] = (EditText) findViewById(R.id.id_txt_nameItem5);
+		for (int i = 0; i < mEditTitle.length; i++) {
+			final int pos = i;
+			mEditTitle[i].addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					mItems.get(pos).mNameItem = s.toString();
+				}
+			});
+		}
+		mEditContent = new EditText[MAX_ITEM];
+		mEditContent[0] = (EditText) findViewById(R.id.id_txt_detailItem1);
+		mEditContent[1] = (EditText) findViewById(R.id.id_txt_detailItem2);
+		mEditContent[2] = (EditText) findViewById(R.id.id_txt_detailItem3);
+		mEditContent[3] = (EditText) findViewById(R.id.id_txt_detailItem4);
+		mEditContent[4] = (EditText) findViewById(R.id.id_txt_detailItem5);
+		for (int i = 0; i < mEditTitle.length; i++) {
+			final int pos = i;
+			mEditContent[i].addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					mItems.get(pos).mContentItem = s.toString();
+				}
+			});
+		}
+		btnGenerator = new ImageButton[MAX_ITEM];
+		btnGenerator[0] = (ImageButton) findViewById(R.id.id_btn_generator1);
+		btnGenerator[1] = (ImageButton) findViewById(R.id.id_btn_generator2);
+		btnGenerator[2] = (ImageButton) findViewById(R.id.id_btn_generator3);
+		btnGenerator[3] = (ImageButton) findViewById(R.id.id_btn_generator4);
+		btnGenerator[4] = (ImageButton) findViewById(R.id.id_btn_generator5);
+		for (int i = 0; i < btnGenerator.length; i++) {
+			final int pos = i;
+			btnGenerator[i].setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					onToGenerator(pos);
+				}
+			});
+		}
+	}
+
+	public void updateItems(ArrayList<Item> mItems) {
+		if (mItems == null || mItems.size() < MAX_ITEM)
+			return;
+		for (int i = 0; i < MAX_ITEM; i++) {
+			mEditTitle[i].setText(mItems.get(i).mNameItem);
+			mEditContent[i].setText(mItems.get(i).mContentItem);
+		}
+	}
+
+	public void move(float delta) {
+		int hRow = lnRowItem.getHeight();
+		int h3 = controlView.getHeight();
+		int h = lnParent.getHeight();
+		float weightMin = (2.1f * hRow) / (float) (h - h3);
+		float weightMax = (5.1f * hRow) / (float) (h - h3);
+		float detalWeight = delta / (h - h3);
+		if (delta == 0)
+			return;
+		else {
+			float weight1 = ((LinearLayout.LayoutParams) view1
+					.getLayoutParams()).weight;
+			weight1 = weight1 + detalWeight;
+			if (weight1 < weightMin)
+				weight1 = weightMin;
+			else if(weight1>weightMax)
+				weight1=weightMax;
+			view1.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, weight1));
+			view2.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, 1 - weight1));
+			lnParent.invalidate();
+
+		}
 	}
 
 	@Override
@@ -220,7 +382,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 		if (itemSelect >= 0) {
 			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
-			mListView.setAdapter(new ItemAddAdapter(this, mItems));
+			updateItems(mItems);
 			itemSelect = -1;
 		}
 		if (mDrawableMemo != null) {
@@ -268,14 +430,15 @@ public class EditIdPasswordActivity extends BaseActivity implements
 					isLike = 0;
 			}
 		});
-		mListView = (ListView) findViewById(R.id.id_listview_item_add);
+		// mListView = (ListView) findViewById(R.id.id_listview_item_add);
 		/* load data for list item id */
 		if (modeBundle <= 1) {
 			mItems = loadDataForListItem();
 		}
-		mListView.setAdapter(new ItemAddAdapter(this, mItems));
-		mSlidingDrawer = (MultiDirectionSlidingDrawer) findViewById(R.id.drawer);
-		mSlidingDrawer.open();
+		updateItems(mItems);
+		// mSlidingDrawer = (MultiDirectionSlidingDrawer)
+		// findViewById(R.id.drawer);
+		// mSlidingDrawer.open();
 	}
 
 	/**
@@ -389,119 +552,6 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		intentMemo.putExtra("modeBundleMemo", 1);
 		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
 		finish();
-	}
-
-	class ItemAddAdapter extends BaseAdapter {
-		Activity mActivity;
-		ArrayList<Item> mItems;
-
-		public ItemAddAdapter(Activity pActivity, ArrayList<Item> pItems) {
-			super();
-			mActivity = pActivity;
-			mItems = pItems;
-			viewHolder.clear();
-		}
-
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return mItems.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return mItems.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
-
-		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			// TODO Auto-generated method stub
-			ViewHolder holder;
-			final int pos = position;
-			LayoutInflater inflater = mActivity.getLayoutInflater();
-			// if (convertView == null) {
-			convertView = inflater.inflate(R.layout.item_id_pass_add, null);
-			holder = new ViewHolder();
-			holder.nameItem = (EditText) convertView
-					.findViewById(R.id.id_txt_nameItem);
-			holder.nameItem.setText(mItems.get(position).mNameItem);
-			holder.nameItem.addTextChangedListener(new TextWatcher() {
-
-				@Override
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub
-					EditIdPasswordActivity.mItems.get(position).mNameItem = s
-							.toString();
-				}
-			});
-			holder.contentItem = (EditText) convertView
-					.findViewById(R.id.id_txt_detailItem);
-			holder.contentItem.setText(mItems.get(position).mContentItem);
-			holder.contentItem.addTextChangedListener(new TextWatcher() {
-
-				@Override
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub
-					EditIdPasswordActivity.mItems.get(position).mContentItem = s
-							.toString();
-				}
-			});
-			((ImageButton) convertView.findViewById(R.id.id_btn_generator))
-					.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							// TODO Auto-generated method stub
-							onToGenerator(pos);
-						}
-					});
-			viewHolder.add(holder);
-
-			return convertView;
-		}
-
-	}
-
-	private class ViewHolder {
-		EditText nameItem;
-		EditText contentItem;
-
 	}
 
 	public void onAvatarClick(View v) {
