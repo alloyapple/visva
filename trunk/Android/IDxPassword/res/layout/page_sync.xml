@@ -44,6 +44,8 @@
             android:background="@drawable/btn_sync_auto"
             android:gravity="center"
             android:onClick="onSyncAuto"
+            android:textSize="17sp"
+            android:textColor="@color/d_gray"
             android:text="@string/unify_newer_data"
             android:textStyle="bold" >
         </Button>
