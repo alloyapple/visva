@@ -95,6 +95,7 @@
     <string name="sync_to_device_data_cloud_newer">This Android\'s data will be overwritten by the newer data on Dropbox(GoogleDrive).</string>
 
     <!-- others -->
+    <string name="title_agreement">[Terms of Agreement]</string>
     <string name="select_text_format">Select Text Format</string>
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
@@ -103,8 +104,6 @@
     <string name="email_receiver_important_info">I will receive the important announcement.</string>
     <string name="email_sign_up">Sign Up</string>
     <string name="title_edit">Edit</string>
-    <string name="term_of_use_condition">[Terms of Agreement]\n\n
-Japan App Studio, Inc. will not be held liable for any user\'s damage caused by deficiencies in its programs, stoppage of its services, change of its management system, or other reason.\n\n
-By signing in to use its service and tapping the \"Approval\" button below, you thereby agree to abide by these Terms of Agreement.</string>
+    <string name="term_of_use_condition">[Terms of Agreement]\nJapan App Studio, Inc. will not be held liable for any user\'s damage caused by deficiencies in its programs, stoppage of its services, change of its management system, or other reason.\nBy signing in to use its service and tapping the \"Approval\" button below, you thereby agree to abide by these Terms of Agreement.</string>
 
 </resources>

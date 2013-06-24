@@ -100,6 +100,7 @@
     <string name="sync_to_device_data_cloud_newer">閱讀（GoogleDrive）的Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
 
     <!-- others -->
+     <string name="title_agreement">[免責聲明]</string>
     <string name="select_text_format">選擇文本數據格式</string>
     <string name="email_receiver_update_info"></string>
     <string name="email_receiver_important_info">我將獲得的重要公告。</string>
@@ -107,8 +108,8 @@
     <string name="wrong_pw_login">您輸入的密碼不正確，請重新輸入。</string>
     <string name="data_erased_msg">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
     <string name="title_edit">編輯</string>
-    <string name="term_of_use_condition">[免責聲明]\n\n
-由第三方提供的軟件對該軟件的變更以及本管理系統的服務不足，所造成的壹切後果，其責任與Japan App Studio, inc.無關。\n\n
+    <string name="term_of_use_condition">[免責聲明]\n
+由第三方提供的軟件對該軟件的變更以及本管理系統的服務不足，所造成的壹切後果，其責任與Japan App Studio, inc.無關。\n
 [審批]\n
 利用者點擊\"同意\"開始利用本管理系統的服務，都將被視作是對本聲明全部內容的無意義的認可。</string>
 

@@ -295,17 +295,17 @@ public class SettingActivity extends BaseActivity {
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
-			// if (!mPref.getIsPaymentExport())
-			// showDialogRequestPayment(getResources().getString(
-			// R.string.message_pay_to_export));
-			// else {
+			 if (!mPref.getIsPaymentExport())
+			 showDialogRequestPayment(getResources().getString(
+			 R.string.message_pay_to_export));
+			 else {
 			if (mApi.getSession().isLinked()) {
 				isExportData = true;
 				showDialog(Contants.DIALOG_EXPORT_DATA);
 			} else {
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 			}
-			// }
+			 }
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);

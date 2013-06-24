@@ -1,6 +1,5 @@
 package com.japanappstudio.IDxPassword.activities.login;
 
-import com.google.api.services.drive.model.User;
 import com.japanappstudio.IDxPassword.activities.MasterPasswordActivity;
 import com.japanappstudio.IDxPassword.activities.MasterPasswordChangeActivity;
 import com.japanappstudio.IDxPassword.activities.RegisterEmailActivity;
@@ -18,7 +17,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
