@@ -27,11 +27,32 @@ import com.google.ads.AdView;
 public class ListIconActivity extends BaseActivity {
 	public static final int DIALOG_DELETE = 0;
 	private LinearLayout mLinearListIcon;
-	private int mCatalogueName[] = { R.string.list_carrier_title,
-			R.string.list_e_commerce, R.string.list_webservice,
-			R.string.list_finance, R.string.list_general };
+	private int mCatalogueName[] = { R.string.list_airline,
+			R.string.list_carrier_title, R.string.list_e_commerce,
+			R.string.list_finance, R.string.list_general,
+			R.string.list_webservice, };
 	private String mCountryName[] = { "USA", "JAPAN", "CHINA", "EURO", "OTHER" };
 	private ArrayList<int[]> mIdIcon = new ArrayList<int[]>();
+
+	public static int idAir_USA[] = {};
+	public static int idAir_JAPAN[] = {};
+	public static int idAir_CHINA[] = { R.drawable.air_china_01,
+			R.drawable.air_china_02, R.drawable.air_china_03 };
+	public static int idAir_EURO[] = {};
+	public static int idAir_OTHER[] = { R.drawable.air_other_01,
+			R.drawable.air_other_02, R.drawable.air_other_03,
+			R.drawable.air_other_04, R.drawable.air_other_05,
+			R.drawable.air_other_06, R.drawable.air_other_07,
+			R.drawable.air_other_08, R.drawable.air_other_09,
+			R.drawable.air_other_10, R.drawable.air_other_11,
+			R.drawable.air_other_12, R.drawable.air_other_13,
+			R.drawable.air_other_14, R.drawable.air_other_15,
+			R.drawable.air_other_16, R.drawable.air_other_17,
+			R.drawable.air_other_18, R.drawable.air_other_19,
+			R.drawable.air_other_20, R.drawable.air_other_21,
+			R.drawable.air_other_22, R.drawable.air_other_23,
+			R.drawable.air_other_24, R.drawable.air_other_25,
+			R.drawable.air_other_26 };
 
 	public static int idEcomerce_USA[] = { R.drawable.commerce_usa_01,
 			R.drawable.commerce_usa_02, R.drawable.commerce_usa_03 };
@@ -154,23 +175,9 @@ public class ListIconActivity extends BaseActivity {
 
 	public static int idGeneral_USA[] = {};
 	public static int idGeneral_JAPAN[] = {};
-	public static int idGeneral_CHINA[] = { R.drawable.air_china_01,
-			R.drawable.air_china_02, R.drawable.air_china_03 };
+	public static int idGeneral_CHINA[] = {};
 	public static int idGeneral_EURO[] = { R.drawable.air_euro_01 };
-	public static int idGeneral_OTHER[] = { R.drawable.air_other_01,
-			R.drawable.air_other_02, R.drawable.air_other_03,
-			R.drawable.air_other_04, R.drawable.air_other_05,
-			R.drawable.air_other_06, R.drawable.air_other_07,
-			R.drawable.air_other_08, R.drawable.air_other_09,
-			R.drawable.air_other_10, R.drawable.air_other_11,
-			R.drawable.air_other_12, R.drawable.air_other_13,
-			R.drawable.air_other_14, R.drawable.air_other_15,
-			R.drawable.air_other_16, R.drawable.air_other_17,
-			R.drawable.air_other_18, R.drawable.air_other_19,
-			R.drawable.air_other_20, R.drawable.air_other_21,
-			R.drawable.air_other_22, R.drawable.air_other_23,
-			R.drawable.air_other_24, R.drawable.air_other_25,
-			R.drawable.air_other_26, R.drawable.general_other_01,
+	public static int idGeneral_OTHER[] = { R.drawable.general_other_01,
 			R.drawable.general_other_02, R.drawable.general_other_03,
 			R.drawable.general_other_04, R.drawable.general_other_05,
 			R.drawable.general_other_06, R.drawable.general_other_07,
@@ -202,35 +209,41 @@ public class ListIconActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_list_icon);
+		mIdIcon.add(idAir_USA);
+		mIdIcon.add(idAir_JAPAN);
+		mIdIcon.add(idAir_CHINA);
+		mIdIcon.add(idAir_EURO);
+		mIdIcon.add(idAir_OTHER);
+
 		mIdIcon.add(idCarrier_USA);
 		mIdIcon.add(idCarrier_JAPAN);
 		mIdIcon.add(idCarrier_CHINA);
 		mIdIcon.add(idCarrier_EURO);
 		mIdIcon.add(idCarrier_OTHER);
-		
+
 		mIdIcon.add(idEcomerce_USA);
 		mIdIcon.add(idEcomerce_JAPAN);
 		mIdIcon.add(idEcomerce_CHINA);
 		mIdIcon.add(idEcomerce_EURO);
 		mIdIcon.add(idEcomerce_OTHER);
-		
-		mIdIcon.add(idWebservice_USA);
-		mIdIcon.add(idWebservice_JAPAN);
-		mIdIcon.add(idWebservice_CHINA);
-		mIdIcon.add(idWebservice_EURO);
-		mIdIcon.add(idWebservice_OTHER);
-		
+
 		mIdIcon.add(idFinance_USA);
 		mIdIcon.add(idFinance_JAPAN);
 		mIdIcon.add(idFinance_CHINA);
 		mIdIcon.add(idFinance_EURO);
 		mIdIcon.add(idFinance_OTHER);
-		
+
 		mIdIcon.add(idGeneral_USA);
 		mIdIcon.add(idGeneral_JAPAN);
 		mIdIcon.add(idGeneral_CHINA);
 		mIdIcon.add(idGeneral_EURO);
 		mIdIcon.add(idGeneral_OTHER);
+
+		mIdIcon.add(idWebservice_USA);
+		mIdIcon.add(idWebservice_JAPAN);
+		mIdIcon.add(idWebservice_CHINA);
+		mIdIcon.add(idWebservice_EURO);
+		mIdIcon.add(idWebservice_OTHER);
 		mLinearListIcon = (LinearLayout) findViewById(R.id.id_linear_list_icon);
 		initListIcon();
 		initAdmod();
@@ -302,7 +315,7 @@ public class ListIconActivity extends BaseActivity {
 				{
 					for (int m = 0; m < mCountryName.length; m++) {
 						final int catalogue = i * mCountryName.length + m;
-						if(mIdIcon.get(catalogue).length==0)
+						if (mIdIcon.get(catalogue).length == 0)
 							continue;
 						LinearLayout mLinearCountryTitle = new LinearLayout(
 								this);
