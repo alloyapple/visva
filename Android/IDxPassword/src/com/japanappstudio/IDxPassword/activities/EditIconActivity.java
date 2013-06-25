@@ -1,23 +1,16 @@
 package com.japanappstudio.IDxPassword.activities;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-import com.japanappstudio.IDxPassword.contants.Contants;
-
-import com.japanappstudio.IDxPassword.activities.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
-//import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -30,6 +23,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.contants.Contants;
 
 public class EditIconActivity extends BaseActivity {
 	ImageView imageView;
@@ -55,6 +52,9 @@ public class EditIconActivity extends BaseActivity {
 	@SuppressWarnings("unused")
 	private int width, height;
 	private int modeBundle;
+	private boolean checkFirstChangeWindow = true;
+	private AdView adview;
+	private Thread mThreadAd;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -79,8 +79,8 @@ public class EditIconActivity extends BaseActivity {
 					EditIdPasswordActivity
 							.updateIcon((Drawable) new BitmapDrawable(
 									snapScreen()));
-					EditIdPasswordActivity.startActivity(
-							EditIconActivity.this, 2);
+					EditIdPasswordActivity.startActivity(EditIconActivity.this,
+							2);
 					finish();
 				}
 			}
@@ -143,6 +143,7 @@ public class EditIconActivity extends BaseActivity {
 		initAdmod();
 
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -155,21 +156,32 @@ public class EditIconActivity extends BaseActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttachedToWindow() {
 		// TODO Auto-generated method stub
 		super.onAttachedToWindow();
-		Display d = getWindowManager().getDefaultDisplay();
 
-		getParamBound().width = d.getWidth();
-		getParamBound().height = (int) (d.getWidth() * 0.75f);
-		imgBound.requestLayout();
+	}
 
-		getParam().width = d.getWidth();
-		getParam().height = (int) (d.getWidth() * 0.75f);
-		getParam().leftMargin = 0;
-		imageView.requestLayout();
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (checkFirstChangeWindow) {
+			Display d = getWindowManager().getDefaultDisplay();
+			int heightP = mRelativeLayout.getHeight();
+			getParamBound().width = d.getWidth() * 3 / 4;
+			getParamBound().height = (int) (d.getWidth() * 3 / 4 * 0.75f);
+			imgBound.requestLayout();
+
+			getParam().width = d.getWidth() * 3 / 4;
+			getParam().height = (int) (d.getWidth() * 3 / 4 * 0.75f);
+			getParam().leftMargin = (int) (d.getWidth() - getParamBound().width) / 2;
+			getParam().topMargin = (int) (heightP - getParamBound().height) / 2;
+			imageView.requestLayout();
+			checkFirstChangeWindow = false;
+		}
+		
 	}
 
 	public void resiseBound(float scale) {
@@ -270,12 +282,42 @@ public class EditIconActivity extends BaseActivity {
 	}
 
 	public void initAdmod() {
-		AdView adview = (AdView) findViewById(R.id.main_adView);
+		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
 		if (adview != null) {
 			adview.loadAd(re);
 			adview.setVisibility(View.VISIBLE);
+			mThreadAd= new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					while (true) {
+						
+						if(adview.getHeight()>0){
+							runOnUiThread(new Runnable() {
+								
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									getParam().topMargin -= adview.getHeight() / 2;
+									imageView.requestLayout();
+								}
+							});
+							break;
+						}
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+			mThreadAd.start();
 		}
+
 	}
 
 	public void initDataItem() {
@@ -292,7 +334,7 @@ public class EditIconActivity extends BaseActivity {
 			imageView.setBackgroundColor(Color.TRANSPARENT);
 	}
 
-	public static void startActivity(Activity activity,int value) {
+	public static void startActivity(Activity activity, int value) {
 		Intent i = new Intent(activity, EditIconActivity.class);
 		i.putExtra("modeBundleEditIcon", value);
 		activity.startActivity(i);
@@ -328,7 +370,6 @@ public class EditIconActivity extends BaseActivity {
 
 		case Contants.SELECT_PHOTO:
 			if (resultCode == RESULT_OK) {
-				Log.e("data", "dataat " + data);
 				fileUri = data.getData();
 				imageView.requestLayout();
 				imageView.setImageBitmap(null);

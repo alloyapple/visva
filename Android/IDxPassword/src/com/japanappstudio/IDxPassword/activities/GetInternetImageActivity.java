@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -47,11 +48,13 @@ public class GetInternetImageActivity extends BaseActivity {
 	static final int DRAG = 1;
 	static final int ZOOM = 2;
 	int mode = NONE;
+	private double x_offset;
+	private double y_offset;
 	PointF start = new PointF();
 	PointF mid = new PointF();
 	float oldDist = 1f;
 	int l, t, w, h;
-
+	private boolean checkFirstChangeWindow = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -104,10 +107,78 @@ public class GetInternetImageActivity extends BaseActivity {
 				});
 		mFrameWebView = (FrameLayout) findViewById(R.id.id_linear_webview);
 		imgBound = (ImageView) findViewById(R.id.id_img_bound);
+		imgBound.setOnTouchListener(new OnTouchListener() {
+			float scale;
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+				case MotionEvent.ACTION_DOWN:
+					w = getParam().width;
+					h = getParam().height;
+					start.set(event.getRawX(), event.getRawY());
+
+					mode = DRAG;
+
+					break;
+				case MotionEvent.ACTION_POINTER_DOWN:
+					oldDist = spacing(event);
+					l = getParam().leftMargin;
+					t = getParam().topMargin;
+
+					if (oldDist > 5f) {
+						midPoint(mid, event);
+						mode = ZOOM;
+
+					}
+					break;
+				case MotionEvent.ACTION_UP:
+					break;
+				case MotionEvent.ACTION_POINTER_UP:
+					mode = NONE;
+
+					break;
+
+				case MotionEvent.ACTION_MOVE:
+					if (mode == DRAG) {
+						x_offset = event.getRawX() - start.x;
+						y_offset = event.getRawY() - start.y;
+						translateBound(x_offset, y_offset);
+						start.set(event.getRawX(), event.getRawY());
+					} else if (mode == ZOOM) {
+						float newDist = spacing(event);
+						scale = newDist / oldDist;
+						resiseBound(scale);
+					}
+					break;
+				default:
+					break;
+				}
+				return true;
+			}
+		});
 		initControl();
 		initAdmod();
 	}
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (checkFirstChangeWindow) {
+			Display d = getWindowManager().getDefaultDisplay();
+			int heightP = mFrameWebView.getHeight();
+			
 
+			getParam().width = d.getWidth() * 3 / 4;
+			getParam().height = (int) (d.getWidth() * 3 / 4 * 0.75f);
+			getParam().leftMargin = (int) (d.getWidth() - getParam().width) / 2;
+			getParam().topMargin = (int) (heightP - getParam().height) / 2;
+			imgBound.requestLayout();
+			checkFirstChangeWindow = false;
+		}
+		
+	}
 	public void onGoogleSearch(View v) {
 		String keyword = ((EditText) findViewById(R.id.id_edit_google_search))
 				.getText().toString();
@@ -118,17 +189,10 @@ public class GetInternetImageActivity extends BaseActivity {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onAttachedToWindow() {
 		// TODO Auto-generated method stub
 		super.onAttachedToWindow();
-		Display d = getWindowManager().getDefaultDisplay();
-		getParam().width = d.getWidth() - 20;
-		getParam().height = (int) ((d.getWidth() - 20) * 0.75f);
-		getParam().leftMargin = 10;
-		getParam().topMargin = 60;
-		imgBound.requestLayout();
 	}
 
 	public void initAdmod() {
