@@ -12,15 +12,7 @@
         android:background="@drawable/black_bar"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/btn_edit"
-            android:layout_width="33dp"
-            android:layout_height="31dp"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/bt_return"
-            android:onClick="onReturn" />
+        
 
         <TextView
             android:layout_width="wrap_content"

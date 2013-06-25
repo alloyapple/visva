@@ -11,13 +11,7 @@
         android:background="@drawable/black_bar"
         android:orientation="horizontal" >
 
-        <Button
-            android:layout_width="33dp"
-            android:layout_height="31dp"
-            android:layout_gravity="left|center"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/bt_return"
-            android:onClick="onReturn" />
+        
 
         <LinearLayout
             android:layout_width="0dip"
