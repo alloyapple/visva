@@ -55,6 +55,7 @@ public class GetInternetImageActivity extends BaseActivity {
 	float oldDist = 1f;
 	int l, t, w, h;
 	private boolean checkFirstChangeWindow = true;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -161,6 +162,7 @@ public class GetInternetImageActivity extends BaseActivity {
 		initControl();
 		initAdmod();
 	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
@@ -168,7 +170,6 @@ public class GetInternetImageActivity extends BaseActivity {
 		if (checkFirstChangeWindow) {
 			Display d = getWindowManager().getDefaultDisplay();
 			int heightP = mFrameWebView.getHeight();
-			
 
 			getParam().width = d.getWidth() * 3 / 4;
 			getParam().height = (int) (d.getWidth() * 3 / 4 * 0.75f);
@@ -177,8 +178,9 @@ public class GetInternetImageActivity extends BaseActivity {
 			imgBound.requestLayout();
 			checkFirstChangeWindow = false;
 		}
-		
+
 	}
+
 	public void onGoogleSearch(View v) {
 		String keyword = ((EditText) findViewById(R.id.id_edit_google_search))
 				.getText().toString();
@@ -220,14 +222,13 @@ public class GetInternetImageActivity extends BaseActivity {
 		imgBound.requestLayout();
 	}
 
-	@SuppressWarnings("unused")
 	private float spacing(MotionEvent event) {
 		float x = event.getX(0) - event.getX(1);
 		float y = event.getY(0) - event.getY(1);
 		return FloatMath.sqrt(x * x + y * y);
 	}
 
-	@SuppressWarnings("unused")
+
 	private void midPoint(PointF point, MotionEvent event) {
 		float x = event.getX(0) + event.getX(1);
 		float y = event.getY(0) + event.getY(1);
@@ -332,9 +333,11 @@ public class GetInternetImageActivity extends BaseActivity {
 		editText.setText(EditIdPasswordActivity.mUrlItem);
 
 		webView = (WebView) findViewById(R.id.id_webview_get_icon);
-
-		webView.loadUrl(EditIdPasswordActivity.mUrlItem);
-
+		if (EditIdPasswordActivity.mUrlItem != null
+				&& !EditIdPasswordActivity.mUrlItem.equals(""))
+			webView.loadUrl(EditIdPasswordActivity.mUrlItem);
+		else 
+			webView.loadUrl("https://www.google.com");
 		webView.setContentDescription("application/pdf");
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);

@@ -97,7 +97,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	public static String mUrlItem;
 	public static String mStringOfSelectItem;
 	private Button btn_memo;
-	private ImageButton img_memo;
+	private ImageButton img_memo, img_avata;
 
 	public static int itemSelect = -1;
 	private IdManagerPreference mIdManagerPreference;
@@ -127,6 +127,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		initViewItem();
 		btn_memo = (Button) findViewById(R.id.button_img_memo);
 		img_memo = (ImageButton) findViewById(R.id.btn_img_memo);
+		img_avata = ((ImageButton) findViewById(R.id.img_avatar));
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		currentFolderId = mIdManagerPreference.getCurrentFolderId();
 		if (modeBundle == 0) {
@@ -156,7 +157,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			isCreatNew = true;
 			isUpdateIcon = true;
 			isUpdateMemo = false;
-			mDrawableIcon = getResources().getDrawable(R.drawable.default_icon);
+			mDrawableIcon = null;
 			mDrawableMemo = null;
 		} else {
 			mEditTextNameId.setText(titleRecord);
@@ -288,6 +289,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void move(float delta) {
 		int hRow = lnRowItem.getHeight();
 		int h3 = controlView.getHeight();
@@ -340,7 +342,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 	public Drawable getIconDataBase(byte[] data) {
 		if (data == null || data.length == 0) {
-			return getResources().getDrawable(R.drawable.default_icon);
+			return null;
 		}
 
 		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
@@ -366,10 +368,12 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (mDrawableIcon != null)
-			((ImageButton) findViewById(R.id.img_avatar))
-					.setBackgroundDrawable(mDrawableIcon);
-		if (isSetUrl)
-			((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+			img_avata.setBackgroundDrawable(mDrawableIcon);
+		else {
+			img_avata.setBackgroundDrawable(getResources().getDrawable(R.drawable.default_icon));
+			if (isSetUrl)
+				((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+		}
 		isSetUrl = false;
 		if (mDrawableMemo != null) {
 

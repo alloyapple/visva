@@ -67,6 +67,7 @@ public class EditIconActivity extends BaseActivity {
 		height = d.getHeight();
 		setContentView(R.layout.page_edit_icon);
 		imageView = (ImageView) findViewById(R.id.id_img_need_edit);
+
 		imgBound = (ImageView) findViewById(R.id.id_bound_edit_icon);
 		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_edit_icon);
 		mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -76,6 +77,10 @@ public class EditIconActivity extends BaseActivity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
+					if (mDrawableIconEdit == null) {
+						mCheckBox.setChecked(false);
+						return;
+					}
 					EditIdPasswordActivity
 							.updateIcon((Drawable) new BitmapDrawable(
 									snapScreen()));
@@ -156,6 +161,7 @@ public class EditIconActivity extends BaseActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 	@Override
 	public void onAttachedToWindow() {
 		// TODO Auto-generated method stub
@@ -181,7 +187,7 @@ public class EditIconActivity extends BaseActivity {
 			imageView.requestLayout();
 			checkFirstChangeWindow = false;
 		}
-		
+
 	}
 
 	public void resiseBound(float scale) {
@@ -240,9 +246,10 @@ public class EditIconActivity extends BaseActivity {
 				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 				MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 		mRelativeLayout.buildDrawingCache(true);
+		int left = (int) (mRelativeLayout.getWidth() - getParamBound().width) / 2;
+		int top = (int) (mRelativeLayout.getHeight() - getParamBound().height) / 2;
 		Bitmap bm = Bitmap.createBitmap(mRelativeLayout.getDrawingCache());
-		Bitmap bm2 = Bitmap.createBitmap(bm, getParamBound().leftMargin,
-				getParamBound().topMargin, imgBound.getWidth(),
+		Bitmap bm2 = Bitmap.createBitmap(bm, left, top, imgBound.getWidth(),
 				imgBound.getHeight());
 		mRelativeLayout.setDrawingCacheEnabled(false); //
 		return bm2;
@@ -287,16 +294,16 @@ public class EditIconActivity extends BaseActivity {
 		if (adview != null) {
 			adview.loadAd(re);
 			adview.setVisibility(View.VISIBLE);
-			mThreadAd= new Thread(new Runnable() {
-				
+			mThreadAd = new Thread(new Runnable() {
+
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					while (true) {
-						
-						if(adview.getHeight()>0){
+
+						if (adview.getHeight() > 0) {
 							runOnUiThread(new Runnable() {
-								
+
 								@Override
 								public void run() {
 									// TODO Auto-generated method stub
@@ -330,6 +337,8 @@ public class EditIconActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		imageView.setBackgroundDrawable(mDrawableIconEdit);
+		if (mDrawableIconEdit == null)
+			imgBound.setVisibility(View.GONE);
 		if (fileUri != null)
 			imageView.setBackgroundColor(Color.TRANSPARENT);
 	}
