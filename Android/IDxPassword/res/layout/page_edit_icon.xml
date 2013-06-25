@@ -44,9 +44,8 @@
             android:id="@+id/id_bound_edit_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-             android:layout_marginTop="80dip"
-            android:background="@drawable/bound_icon" >
+            android:layout_gravity="center|center"
+            android:background="@drawable/edi_square" >
         </ImageView>
     </FrameLayout>
 
@@ -61,7 +60,7 @@
             android:layout_height="27dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/library_icon"
+            android:background="@drawable/btn_library"
             android:onClick="onLibrary" />
 
         <Button
@@ -69,7 +68,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center|center"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/icon_internet"
+            android:background="@drawable/btn_net"
             android:onClick="onInternet" />
 
         <CheckBox
@@ -87,7 +86,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
         <com.google.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
             android:id="@+id/main_adView"

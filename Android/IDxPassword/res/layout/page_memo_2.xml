@@ -73,7 +73,7 @@
             android:layout_height="27dp"
             android:layout_gravity="center|center"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/library_icon"
+            android:background="@drawable/btn_library"
             android:onClick="onLibrary" />
 
         <Button
