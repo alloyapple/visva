@@ -35,13 +35,8 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
@@ -756,17 +751,9 @@ public class SyncCloudActivity extends Activity {
 		drive.execute();
 	}
 
-	@SuppressWarnings("deprecation")
 	private Drive getDriveService(GoogleAccountCredential credential) {
-		final HttpTransport transport = AndroidHttp.newCompatibleTransport();
-		final JsonFactory jsonFactory = new GsonFactory();
-		GoogleCredential credential1 = new GoogleCredential();
-		credential1.setAccessToken(authToken);
-		Drive drive = new Drive.Builder(transport, jsonFactory, credential1)
-				.setApplicationName(getString(R.string.app_name))
-				.setGoogleClientRequestInitializer(
-						new GoogleKeyInitializer(CLIENT_ID)).build();
-		return drive;
+		return new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(),
+				credential).build();
 
 	}
 
