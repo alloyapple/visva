@@ -9,6 +9,7 @@ import exp.mtparet.dragdrop.view.DndListViewFolder;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -44,7 +45,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 		this.folderList = folderList;
 		this.isSearchMode = isSearchMode;
 		searchFolder = new GroupFolder(Contants.SEARCH_FOLDER_ID, "", 0,
-				Contants.MASTER_PASSWORD_ID, 0);
+				Contants.MASTER_PASSWORD_ID, Contants.SEARCH_FOLDER_ID);
 	}
 
 	@Override
@@ -110,6 +111,12 @@ public class FolderListViewAdapter extends BaseAdapter {
 				imgFolderIcon.setBackgroundResource(R.drawable.favorite);
 			} else if (folderList.get(position).getgOrder() == Contants.HISTORY_FOLDER_ID)
 				imgFolderIcon.setBackgroundResource(R.drawable.history);
+			else if (folderList.get(position).getgOrder() == Contants.SEARCH_FOLDER_ID) {
+				imgFolderIcon.setBackgroundResource(R.drawable.ic_search);
+				imgBgFolder.setBackgroundResource(R.drawable.folder_select);
+				imgFolderIcon.setVisibility(View.VISIBLE);
+				txtFodlerName.setVisibility(View.GONE);
+			}
 
 		} else {
 			if (position == currentFolderItem
@@ -123,9 +130,18 @@ public class FolderListViewAdapter extends BaseAdapter {
 				imgFolderEdit.setVisibility(View.VISIBLE);
 				txtFodlerName.setVisibility(View.GONE);
 			} else {
-				imgFolderDelete.setVisibility(View.GONE);
-				imgFolderEdit.setVisibility(View.GONE);
-				txtFodlerName.setVisibility(View.VISIBLE);
+				if (folderList.get(position).getgOrder() == Contants.SEARCH_FOLDER_ID) {
+					Log.e("adkfjhdfkj", "adsufhd ");
+					imgFolderIcon.setBackgroundResource(R.drawable.search);
+					imgFolderIcon.setVisibility(View.VISIBLE);
+					txtFodlerName.setVisibility(View.GONE);
+				} else {
+					Log.e("adkfjhdfkj", "adsufhd1 ");
+					imgFolderDelete.setVisibility(View.GONE);
+					imgFolderEdit.setVisibility(View.GONE);
+					txtFodlerName.setVisibility(View.VISIBLE);
+					imgFolderIcon.setVisibility(View.GONE);
+				}
 			}
 		}
 

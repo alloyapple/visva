@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -17,16 +18,20 @@ public class SettingURLActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		Log.e("adfdshf", "adfjhf ");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_url_setup);
 		initControl();
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			EditIdPasswordActivity.startActivity(this,2);
+			Log.e("url	", "web url "+webView.getUrl());
+			EditIdPasswordActivity.mUrlItem = webView.getUrl();
+			EditIdPasswordActivity.startActivity(this, 2);
 			finish();
 			return false;
 
@@ -35,13 +40,14 @@ public class SettingURLActivity extends BaseActivity {
 		}
 
 	}
+
 	public static void startActivity(Activity activity) {
 		Intent i = new Intent(activity, SettingURLActivity.class);
 		activity.startActivity(i);
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity.mUrlItem=webView.getUrl();
+		EditIdPasswordActivity.mUrlItem = webView.getUrl();
 		EditIdPasswordActivity.startActivity(this, 2);
 		finish();
 	}
