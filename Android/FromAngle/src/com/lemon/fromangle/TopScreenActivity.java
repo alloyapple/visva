@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +20,22 @@ import android.widget.TextView;
 
 import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
+import com.lemon.fromangle.controls.PaymentActivity;
+import com.lemon.fromangle.controls.PaymentService;
 import com.lemon.fromangle.utility.StringUtility;
+import com.payment.BillingHelper;
+import com.payment.BillingService;
 
-public class TopScreenActivity extends Activity {
+public class TopScreenActivity extends PaymentActivity {
 
-//	private RelativeLayout layoutHeader;
+	// private RelativeLayout layoutHeader;
 	private com.lemon.fromangle.utility.AutoBGButton btnHome;
-//	private LinearLayout layoutTopStatus;
+	// private LinearLayout layoutTopStatus;
 	private ImageView imgTopStatus;
-//	private LinearLayout layoutLastValidationDate;
+	// private LinearLayout layoutLastValidationDate;
 	private TextView txtFinalValidation;
 	private TextView lblStatusFinalValidate;
-//	private LinearLayout layoutNextValidationDate;
+	// private LinearLayout layoutNextValidationDate;
 	private TextView txtNextValidation;
 	private TextView lblStatusNextValidate;
 	private LinearLayout layoutSetting;
@@ -41,10 +46,19 @@ public class TopScreenActivity extends Activity {
 	private ImageView imgValidateStatus;
 	private boolean checkDialogReminder = false;
 	private TopScreenActivity self;
+	private PaymentService paymentService;
 
 	private FromAngleSharedPref mFromAngleSharedPref;
+	public Handler mTransactionHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if (BillingHelper.latestPurchase.isPurchased()) {
+				paymentService.updatePayment(mFromAngleSharedPref.getUserId());
+			}
+		};
 
-//	private String userId;
+	};
+
+	// private String userId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,21 +69,29 @@ public class TopScreenActivity extends Activity {
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		mFromAngleSharedPref.setExistByTopScreen(false);
 		initUI();
-
-//		userId = mFromAngleSharedPref.getUserId();
+		startService(new Intent(this, BillingService.class));
+		BillingHelper.setCompletedHandler(mTransactionHandler);
+		paymentService = new PaymentService(this);
+		String userId = mFromAngleSharedPref.getUserId();
+		if (!StringUtility.isEmpty(userId))
+			// onPaymentSuccess();
+			paymentService.checkPaymentTopScreeen(userId);
+		// userId = mFromAngleSharedPref.getUserId();
 
 		self = this;
 	}
 
 	private void initUI() {
-//		layoutHeader = (RelativeLayout) findViewById(R.id.layoutHeader);
+		// layoutHeader = (RelativeLayout) findViewById(R.id.layoutHeader);
 		btnHome = (com.lemon.fromangle.utility.AutoBGButton) findViewById(R.id.btnHome);
-		//layoutTopStatus = (LinearLayout) findViewById(R.id.layoutTopStatus);
+		// layoutTopStatus = (LinearLayout) findViewById(R.id.layoutTopStatus);
 		imgTopStatus = (ImageView) findViewById(R.id.imgTopStatus);
-//		layoutLastValidationDate = (LinearLayout) findViewById(R.id.layoutLastValidationDate);
+		// layoutLastValidationDate = (LinearLayout)
+		// findViewById(R.id.layoutLastValidationDate);
 		txtFinalValidation = (TextView) findViewById(R.id.txtFinalValidation);
 		lblStatusFinalValidate = (TextView) findViewById(R.id.lblStatusFinalValidate);
-//		layoutNextValidationDate = (LinearLayout) findViewById(R.id.layoutNextValidationDate);
+		// layoutNextValidationDate = (LinearLayout)
+		// findViewById(R.id.layoutNextValidationDate);
 		txtNextValidation = (TextView) findViewById(R.id.txtNextValidation);
 		lblStatusNextValidate = (TextView) findViewById(R.id.lblStatusNextValidate);
 		layoutSetting = (LinearLayout) findViewById(R.id.layoutSetting);
@@ -206,6 +228,7 @@ public class TopScreenActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		BillingHelper.stopService(this);
 		mFromAngleSharedPref.setExistByTopScreen(true);
 		super.onDestroy();
 	}
@@ -393,5 +416,46 @@ public class TopScreenActivity extends Activity {
 				});
 		builder.setView(layoutParent);
 		return builder.create();
+	}
+
+	@Override
+	public void onPaymentSuccess() {
+		// TODO Auto-generated method stub
+		paymentService.updatePayment(mFromAngleSharedPref.getUserId());
+	}
+
+	@Override
+	public void onStartSuccess() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTrialCase() {
+		// TODO Auto-generated method stub
+		creatDialog(null, getResources().getString(R.string.message_trial_case)).show();
+	}
+
+	private AlertDialog creatDialog(String message, String title) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		if (title != null)
+			builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(getResources().getString(R.string.btn_ok),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		return builder.create();
+	}
+
+	@Override
+	public void onDeniedPayment() {
+		// TODO Auto-generated method stub
+		
 	}
 }

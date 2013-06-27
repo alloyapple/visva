@@ -10,6 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -23,7 +25,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.lemon.fromangle.config.FromAngleSharedPref;
@@ -285,7 +286,7 @@ public class MessageSettingActivity extends PaymentActivity {
 		isStart = false;
 		if (!StringUtility.isEmpty(userId)) {
 			sendUpdateStatusToServer("0");
-//			onStartSave("0");
+			// onStartSave("0");
 		}
 	}
 
@@ -712,8 +713,8 @@ public class MessageSettingActivity extends PaymentActivity {
 	@Override
 	public void onPaymentSuccess() {
 		// TODO Auto-generated method stub
-//		isStart = true;
-//		onStartSave("1");
+		// isStart = true;
+		// onStartSave("1");
 		paymentService.updatePayment(mFromAngleSharedPref.getUserId());
 	}
 
@@ -786,7 +787,7 @@ public class MessageSettingActivity extends PaymentActivity {
 	// calendar.getTimeInMillis(), pendingIntent);
 	// }
 	// }
-	
+
 	private void sendUpdateStatusToServer(String status) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> params = ParameterFactory.updateStatusForServer(
@@ -821,5 +822,34 @@ public class MessageSettingActivity extends PaymentActivity {
 		// TODO Auto-generated method stub
 		isStart = true;
 		onStartSave("1");
+	}
+
+	@Override
+	public void onTrialCase() {
+		// TODO Auto-generated method stub
+		creatDialog(null, getResources().getString(R.string.message_trial_case)).show();
+	}
+
+	private AlertDialog creatDialog(String message, String title) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		if (title != null)
+			builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(getResources().getString(R.string.btn_ok),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						onStartSuccess();
+					}
+				});
+		return builder.create();
+	}
+
+	@Override
+	public void onDeniedPayment() {
+		// TODO Auto-generated method stub
+		stop();
 	}
 }

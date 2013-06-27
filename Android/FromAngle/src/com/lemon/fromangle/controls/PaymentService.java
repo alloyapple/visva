@@ -62,6 +62,26 @@ public class PaymentService {
 		postCheckPayMent.execute(WebServiceConfig.URL_CHECK_PAYMENT);
 	}
 
+	public void checkPaymentTopScreeen(String userId) {
+		List<NameValuePair> params = ParameterFactory
+				.createCheckPayment(userId);
+		AsyncHttpPost postCheckPayMent = new AsyncHttpPost(mContext,
+				new AsyncHttpResponseProcess(mContext) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						/* check info response from server */
+						checkInfoReponseFromServerTopScreen(response);
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						// TODO Auto-generated method stub
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		postCheckPayMent.execute(WebServiceConfig.URL_CHECK_PAYMENT);
+	}
+
 	public void updatePayment(String userId, String paymentDay, String expiry) {
 		List<NameValuePair> params = ParameterFactory.createUpdatePayment(
 				userId, paymentDay, expiry);
@@ -104,6 +124,27 @@ public class PaymentService {
 			postUpdatePayment.execute(WebServiceConfig.URL_UPDATE_PAYMENT);
 	}
 
+	public void updatePaymentTopScreen(String userId) {
+		List<NameValuePair> params = ParameterFactory
+				.createUpdatePayment(userId);
+		AsyncHttpPost postUpdatePayment = new AsyncHttpPost(mContext,
+				new AsyncHttpResponseProcess(mContext) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						/* check info response from server */
+						checkInfoReponseAfterUpdateTopScreen(response);
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						// TODO Auto-generated method stub
+						Log.e("failed ", "failed");
+					}
+				}, params, true);
+		if (userId != null && !StringUtility.isEmpty(userId))
+			postUpdatePayment.execute(WebServiceConfig.URL_UPDATE_PAYMENT);
+	}
+
 	private void checkInfoReponseAfterUpdate(String response) {
 		// TODO Auto-generated method stub
 		Log.e("reponse", "reponse " + response);
@@ -117,7 +158,7 @@ public class PaymentService {
 				int error = Integer.parseInt(errorMsg);
 				if (error == GlobalValue.MSG_REPONSE_PAID_NOT_EXPIRED) {
 					/* paid not expired */
-					
+
 				} else if (error == GlobalValue.MSG_REPONSE_PAID_EXPIRED) {
 					/* paid expired */
 
@@ -126,6 +167,66 @@ public class PaymentService {
 
 				} else if (error == GlobalValue.MSG_REPONSE_PAID_SUCCESS) {
 					mContext.onStartSuccess();
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void checkInfoReponseAfterUpdateTopScreen(String response) {
+		// TODO Auto-generated method stub
+		Log.e("reponse", "reponse " + response);
+		JSONObject jsonObject = null;
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_REPONSE_PAID_NOT_EXPIRED) {
+					/* paid not expired */
+
+				} else if (error == GlobalValue.MSG_REPONSE_PAID_EXPIRED) {
+					/* paid expired */
+
+				} else if (error == GlobalValue.MSG_REPONSE_NOT_PAID) {
+					/* not paid */
+
+				} else if (error == GlobalValue.MSG_REPONSE_PAID_SUCCESS) {
+					// mContext.onStartSuccess();
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void checkInfoReponseFromServerTopScreen(String response) {
+		// TODO Auto-generated method stub
+		Log.e("reponse", "reponse " + response);
+		JSONObject jsonObject = null;
+		String errorMsg = null;
+		try {
+			jsonObject = new JSONObject(response);
+			if (jsonObject != null && jsonObject.length() > 0) {
+				errorMsg = ParserUtility.getStringValue(jsonObject,
+						GlobalValue.PARAM_ERROR);
+				int error = Integer.parseInt(errorMsg);
+				if (error == GlobalValue.MSG_REPONSE_PAID_NOT_EXPIRED) {
+					/* paid not expired */
+				} else if (error == GlobalValue.MSG_REPONSE_PAID_EXPIRED) {
+					/* paid expired */
+					checkPaymentPaidExpired();
+				} else if (error == GlobalValue.MSG_REPONSE_NOT_PAID) {
+					/* not paid */
+//					checkPaymentNotPaid();
+					mContext.onTrialCase();
 				}
 			}
 		} catch (JSONException e) {
@@ -154,7 +255,8 @@ public class PaymentService {
 					checkPaymentPaidExpired();
 				} else if (error == GlobalValue.MSG_REPONSE_NOT_PAID) {
 					/* not paid */
-					checkPaymentNotPaid();
+					mContext.onTrialCase();
+					// checkPaymentNotPaid();
 				}
 			}
 		} catch (JSONException e) {
@@ -183,18 +285,24 @@ public class PaymentService {
 	 */
 	private void checkPaymentPaidExpired() {
 		// TODO Auto-generated method stub
-		creatDialog(
-				null,
-				mContext.getResources()
-						.getString(R.string.message_paid_expired),
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						mContext.onPaymentSuccess();
-					}
-				}).show();
+//		creatDialog(
+//				null,
+//				mContext.getResources()
+//						.getString(R.string.message_finish_trial),
+//				new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						// TODO Auto-generated method stub
+//						mContext.onPaymentSuccess();
+//					}
+//				}).show();
+		AlertDialog dialog = creatDialog(
+				mContext.getResources().getString(
+						R.string.message_finish_trial), null,
+				R.layout.dialog_not_paid);
+		dialog.show();
+		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 	}
 
 	/**
@@ -250,7 +358,7 @@ public class PaymentService {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("http://google.com"));
+				intent.setData(Uri.parse("http://fromangel.net/main/?page_id=254"));
 				mContext.startActivity(intent);
 			}
 		});
@@ -283,7 +391,7 @@ public class PaymentService {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-
+						mContext.onDeniedPayment();
 					}
 				});
 		builder.setView(layoutAnyNumber);
