@@ -1,14 +1,11 @@
 package exp.mtparet.dragdrop.view;
 
-import com.japanappstudio.IDxPassword.database.IdManagerPreference;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +15,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 
 public class DndListViewFolder extends ListView {
 	private Context mContext;

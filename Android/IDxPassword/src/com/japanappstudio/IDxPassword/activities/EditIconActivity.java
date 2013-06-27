@@ -1,16 +1,25 @@
 package com.japanappstudio.IDxPassword.activities;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -55,6 +64,8 @@ public class EditIconActivity extends BaseActivity {
 	private boolean checkFirstChangeWindow = true;
 	private AdView adview;
 	private Thread mThreadAd;
+	private Bitmap bmp;
+	static int widthB, heightB;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -67,7 +78,6 @@ public class EditIconActivity extends BaseActivity {
 		height = d.getHeight();
 		setContentView(R.layout.page_edit_icon);
 		imageView = (ImageView) findViewById(R.id.id_img_need_edit);
-
 		imgBound = (ImageView) findViewById(R.id.id_bound_edit_icon);
 		mCheckBox = (CheckBox) findViewById(R.id.id_checkbox_edit_icon);
 		mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -337,8 +347,8 @@ public class EditIconActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		imageView.setBackgroundDrawable(mDrawableIconEdit);
-		if (mDrawableIconEdit == null)
-			imgBound.setVisibility(View.GONE);
+		// if (mDrawableIconEdit == null)
+		// imgBound.setVisibility(View.GONE);
 		if (fileUri != null)
 			imageView.setBackgroundColor(Color.TRANSPARENT);
 	}
@@ -356,6 +366,8 @@ public class EditIconActivity extends BaseActivity {
 	}
 
 	public void onLibrary(View v) {
+		widthB = imgBound.getWidth();
+		heightB = imgBound.getHeight();
 		startGalleryIntent();
 	}
 
@@ -379,15 +391,142 @@ public class EditIconActivity extends BaseActivity {
 
 		case Contants.SELECT_PHOTO:
 			if (resultCode == RESULT_OK) {
-				fileUri = data.getData();
-				imageView.requestLayout();
-				imageView.setImageBitmap(null);
-				imageView.setImageURI(fileUri);
+				// fileUri = data.getData();
+				// imageView.requestLayout();
+				// imageView.setImageBitmap(null);
+				// imageView.setImageURI(fileUri);
+				Uri uri = data.getData();
+				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+				Cursor cursor = getContentResolver().query(uri, filePathColumn,
+						null, null, null);
+				cursor.moveToFirst();
+				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+				String imagePath = cursor.getString(columnIndex);
+				cursor.close();
+
+				File file = new File(imagePath);
+				if (file.exists()) {
+					fileUri = Uri.fromFile(file);
+					int orientation = checkOrientation(fileUri);
+					bmp = decodeSampledBitmapFromFile(imagePath, widthB,
+							heightB, orientation);
+					float ratioH = (float) bmp.getHeight() / heightB;
+					float ratioW = (float) bmp.getWidth() / widthB;
+					float w, h;
+					if (ratioH > ratioW) {
+						w = bmp.getWidth() / ratioH;
+						h = imageView.getHeight();
+						
+					} else {
+						w = imageView.getWidth();
+						h = bmp.getHeight() / ratioW;
+					}
+					Display d = getWindowManager().getDefaultDisplay();
+					int heightP = mRelativeLayout.getHeight();
+					getParam().width = (int)w;
+					getParam().height = (int)h;
+					getParam().leftMargin = (int) (d.getWidth() - getParam().width) / 2;
+					getParam().topMargin = (int) (heightP - getParam().height) / 2;
+					imageView.setImageBitmap(bmp);
+					imageView.requestLayout();
+
+				} else {
+					Log.e("test", "file don't exist !");
+				}
+
 			}
 			break;
 		default:
 			return;
 		}
+	}
+
+	private Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth,
+			int reqHeight, int orientation) {
+		// First decode with inJustDecodeBounds=true to check dimensions
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		Matrix mtx = new Matrix();
+		mtx.postRotate(orientation);
+		// BitmapFactory.decodeResource(res, resId, options);
+		BitmapFactory.decodeFile(filePath, options);
+
+		// Calculate inSampleSize
+		options.inSampleSize = calculateInSampleSize(options, reqWidth,
+				reqHeight);
+		int width = options.outWidth;
+		int height = options.outHeight;
+		Log.e("width " + height, "width " + width);
+
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		Log.e("orientation ", "orientation " + orientation);
+		// return Bitmap.createBitmap(BitmapFactory.decodeFile(filePath,
+		// options), 0, 0, reqHeight,
+		// reqWidth, mtx, true);
+
+		return decodeBitmap(BitmapFactory.decodeFile(filePath, options),
+				orientation);
+
+	}
+
+	private Bitmap decodeBitmap(Bitmap bitmap, int orientation) {
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		Matrix mtx = new Matrix();
+		mtx.postRotate(orientation);
+		return Bitmap.createBitmap(bitmap, 0, 0, width, height, mtx, true);
+	}
+
+	public static int calculateInSampleSize(BitmapFactory.Options options,
+			int reqWidth, int reqHeight) {
+		// Raw height and width of image
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+
+			// Calculate ratios of height and width to requested height and
+			// width
+			final int heightRatio = Math.round((float) height
+					/ (float) reqHeight);
+			final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+			// Choose the smallest ratio as inSampleSize value, this will
+			// guarantee
+			// a final image with both dimensions larger than or equal to the
+			// requested height and width.
+			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+		}
+
+		return inSampleSize;
+	}
+
+	private int checkOrientation(Uri fileUri) {
+		int rotate = 0;
+		String imagePath = fileUri.getPath();
+		ExifInterface exif = null;
+		try {
+			exif = new ExifInterface(imagePath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Since API Level 5
+		int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+				ExifInterface.ORIENTATION_NORMAL);
+		switch (orientation) {
+		case ExifInterface.ORIENTATION_ROTATE_270:
+			rotate = 270;
+			break;
+		case ExifInterface.ORIENTATION_ROTATE_180:
+			rotate = 180;
+			break;
+		case ExifInterface.ORIENTATION_ROTATE_90:
+			rotate = 90;
+			break;
+		}
+		return rotate;
 	}
 
 }

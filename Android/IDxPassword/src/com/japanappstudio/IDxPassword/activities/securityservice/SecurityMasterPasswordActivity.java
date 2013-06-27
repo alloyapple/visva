@@ -17,7 +17,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -54,6 +56,30 @@ public class SecurityMasterPasswordActivity extends Activity implements
 		mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
 		mBtnDone.setOnClickListener(this);
 		mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
+		mEditTextMasterPW.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if (mMasterPW.equals(mEditTextMasterPW.getText().toString())) {
+					getApp().setIdle(0);
+					finish();
+				}
+			}
+		});
 
 		/* init database */
 		SQLiteDatabase.loadLibs(this);

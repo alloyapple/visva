@@ -113,6 +113,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private ImageView controlView;
 	private LinearLayout view1, view2;
 	private LinearLayout lnParent;
+	private float weightItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +144,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 		/* initialize database */
 		initDataBase();
-
+		weightItem = mIdManagerPreference.getWeightSlideItem();
 		/* initialize control */
 		initControl();
 		if (modeBundle == 0) {
@@ -165,6 +166,20 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			mEditTextUrlId.setText(mUrlItem);
 		}
 		initAdmod();
+	}
+
+	@Override
+	public void onAttachedToWindow() {
+		// TODO Auto-generated method stub
+		super.onAttachedToWindow();
+		if (weightItem > 0) {
+			view1.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, weightItem));
+			view2.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, 1 - weightItem));
+			lnParent.invalidate();
+		}
+
 	}
 
 	public void initSlideView() {
@@ -370,7 +385,8 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		if (mDrawableIcon != null)
 			img_avata.setBackgroundDrawable(mDrawableIcon);
 		else {
-			img_avata.setBackgroundDrawable(getResources().getDrawable(R.drawable.default_icon));
+			img_avata.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.default_icon));
 			if (isSetUrl)
 				((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
 		}
@@ -512,6 +528,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 	public void onToGenerator(int i) {
 		itemSelect = i;
+		mStringOfSelectItem=mItems.get(itemSelect).mContentItem;
 		saveInput();
 		PasswordGeneratorActivity.startActivity(this);
 		finish();
@@ -525,6 +542,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 
 	public void onReturn(View v) {
+		float weight1 = ((LinearLayout.LayoutParams) view1
+				.getLayoutParams()).weight;
+		mIdManagerPreference.setWeightSlideItem(weight1);
 		if (isButtonPress)
 			return;
 		isButtonPress = true;
@@ -631,14 +651,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	private void addNewIdValuesToDataBase() {
 		titleRecord = mEditTextNameId.getText().toString();
 		url = mEditTextUrlId.getText().toString();
-		boolean b = false;
-		for (int i = 0; i < mItems.size(); i++) {
-			if (!mItems.get(i).mContentItem.equals("")) {
-				b = true;
-				break;
-			}
-		}
-		if (!b || titleRecord.equals("") || url.equals(""))
+		if (titleRecord.equals(""))
 			return;
 		note = mEditTextNote.getText().toString();
 		int elementId = -1;
