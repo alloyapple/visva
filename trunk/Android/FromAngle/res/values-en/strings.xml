@@ -56,6 +56,8 @@
 ※尚、通信状況や送信先の着信拒否設定等により届かない場合があります。</string>
     <string name="message_paid_expired">アプリの有効期限が終了します。ご使用を継続されますか...</string>
     <string name="message_paid_not_paid">課金が開始されます。よろしいでしょうか？</string>
+    <string name="message_finish_trial">サーバーを利用してる無料時間は切れました。引き続き利用するには、課金してください</string>
+    <string name="message_trial_case">こ の機能は３０日間で無料で使えます</string>
     <string name="term_of_use"><a href="http://google.com">利用規約（プライバシーポリシー）に同意します。</a></string>
     <string name="error_email">例.　sin-kim@gmail.com</string>
     <string name="error_name">例.　木村シンジ</string>
