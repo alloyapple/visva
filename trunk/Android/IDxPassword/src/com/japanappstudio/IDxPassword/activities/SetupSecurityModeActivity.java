@@ -142,7 +142,7 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			// setSecurityMode();
+			onReturn(null);
 			break;
 		default:
 			break;

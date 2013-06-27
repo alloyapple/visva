@@ -64,6 +64,7 @@ public class DropboxSettingActivity extends Activity {
 	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
 	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 	DropboxAPI<AndroidAuthSession> mApi;
+	boolean isCreat = false;
 
 	private boolean mLoggedIn;
 
@@ -73,7 +74,6 @@ public class DropboxSettingActivity extends Activity {
 	private IdManagerPreference mIdManagerPreference;
 	private String mGGAccountName;
 	private boolean isCheckLogin = false;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +87,14 @@ public class DropboxSettingActivity extends Activity {
 		File file = new File(Contants.PATH_ID_FILES);
 		if (!file.exists())
 			file.mkdirs();
-		
+
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
 
 		// Basic Android widgets
 		setContentView(R.layout.page_dropbox_setting);
-		
+
 		checkAppKeySetup();
 
 		btnLinkToDropbox = (Button) findViewById(R.id.btn_link_to_dropbox);
@@ -126,6 +126,24 @@ public class DropboxSettingActivity extends Activity {
 		}
 	}
 
+	private AlertDialog creatDialog(String message, String title) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		if (title != null)
+			builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(
+				getResources().getString(R.string.confirm_ok),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		return builder.create();
+	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -148,7 +166,7 @@ public class DropboxSettingActivity extends Activity {
 					TokenPair tokens = session.getAccessTokenPair();
 					storeKeys(tokens.key, tokens.secret);
 					setLoggedIn(true);
-					if(mIdManagerPreference.isDropboxLogin()){
+					if (mIdManagerPreference.isDropboxLogin()) {
 						mIdManagerPreference.setDropboxLogin(false);
 						finish();
 					}
@@ -179,7 +197,13 @@ public class DropboxSettingActivity extends Activity {
 		Log.e("login", "login " + loggedIn);
 		mLoggedIn = loggedIn;
 		if (loggedIn) {
-			btnLinkToDropbox.setText(getString(R.string.dropbox_already_use));
+			if (!isCreat) {
+				creatDialog(null, getString(R.string.dropbox_already_use))
+						.show();
+
+				isCreat = true;
+			}
+			btnLinkToDropbox.setText(getString(R.string.dropbox_reset_sync));
 			mIdManagerPreference.setGoogleAccNameSession("");
 		} else {
 			btnLinkToDropbox.setText(getString(R.string.dropbox_start_to_use));
@@ -328,11 +352,11 @@ public class DropboxSettingActivity extends Activity {
 				});
 		builder.show();
 	}
-	
+
 	private Handler mHandler = new Handler() {
 		@SuppressWarnings("deprecation")
 		public void handleMessage(android.os.Message msg) {
-			Log.e("result", "result "+msg.arg1);
+			Log.e("result", "result " + msg.arg1);
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_SUCCESS)
@@ -358,7 +382,7 @@ public class DropboxSettingActivity extends Activity {
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
 				Log.e("adjfhkldhf", "adfkjhkd ");
 				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
-//				startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
+				// startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
 			}
 		};
 	};

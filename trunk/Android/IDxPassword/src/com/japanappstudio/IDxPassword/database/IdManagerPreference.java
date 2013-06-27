@@ -1,5 +1,7 @@
 package com.japanappstudio.IDxPassword.database;
 
+import com.japanappstudio.IDxPassword.activities.EditIconActivity;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -40,6 +42,7 @@ public class IdManagerPreference {
 	public static final String APPLICATION_INSTALL_FIRST_TIME = "APPLICATION_INSTALL_FIRST_TIME";
 	public static final String MASTER_PASSWORD = "MASTER_PASSWORD";
 	public static final String REMOVE_DATA = "REMOVE_DATA";
+	public static final String WEIGHT_SLIDE_ITEM = "WEIGHT_SLIDE_ITEM";
 	public static final String SECURITY_MODE = "SECURITY_MODE";
 	public static final String NUMBER_ITEMS = "NUMBER_ITEMS";
 	public static final String IS_PAYMENT_UNLIMIT = "IS_PAYMENT_UNLIMIT";
@@ -51,7 +54,7 @@ public class IdManagerPreference {
 	public static final String IS_EDIT_MODE = "IS_EDIT_MODE";
 	public static final String CURRENT_FOLDER_ID = "CURRENT_FOLDER_ID";
 	public static final String DROPBOX_CHECK_LOGIN = "DROPBOX_CHECK_LOGIN";
-	public static final String KEY_AUTHEN_GG_DRIVE="KEY_AUTHEN_GG_DRIVE";
+	public static final String KEY_AUTHEN_GG_DRIVE = "KEY_AUTHEN_GG_DRIVE";
 
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
@@ -211,11 +214,13 @@ public class IdManagerPreference {
 				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getInt(key, 0);
 	}
+
 	public int getNumberItems() {
 		SharedPreferences pref = context.getSharedPreferences(
 				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getInt(NUMBER_ITEMS, 0);
 	}
+
 	public void setIsPaymentUnlimit(String key, boolean b) {
 		SharedPreferences pref = context.getSharedPreferences(
 				IDMANAGER_SHARE_PREFERENCE, 0);
@@ -409,7 +414,7 @@ public class IdManagerPreference {
 		b = getCurrentFolderId(CURRENT_FOLDER_ID);
 		return b;
 	}
-	
+
 	/* set vs get key authen gg */
 	public void setKeyAuthenGGDrive(String key, String pw) {
 		SharedPreferences pref = context.getSharedPreferences(
@@ -423,6 +428,20 @@ public class IdManagerPreference {
 		SharedPreferences pref = context.getSharedPreferences(
 				IDMANAGER_SHARE_PREFERENCE, 0);
 		return pref.getString(key, "");
+	}
+
+	public float getWeightSlideItem() {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getFloat(WEIGHT_SLIDE_ITEM, -1);
+	}
+
+	public void setWeightSlideItem(float w) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putFloat(WEIGHT_SLIDE_ITEM, w);
+		editor.commit();
 	}
 
 	public void setKeyAuthenGGDrive(String b) {

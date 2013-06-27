@@ -124,12 +124,28 @@ public class GGDriveSettingActivity extends Activity {
 		});
 
 		if (!"".equals(mAccountName)) {
-			mBtnLinkToGGDrive.setText(getString(R.string.gg_drive_already_use));
+			creatDialog(null, getString(R.string.gg_drive_already_use)).show();
+			mBtnLinkToGGDrive.setText(getString(R.string.dropbox_reset_sync));
 		} else {
 			mBtnLinkToGGDrive.setText(getString(R.string.dropbox_start_to_use));
 		}
 	}
+	private AlertDialog creatDialog(String message, String title) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		if (title != null)
+			builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
+				new DialogInterface.OnClickListener() {
 
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		return builder.create();
+	}
 	@Override
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {

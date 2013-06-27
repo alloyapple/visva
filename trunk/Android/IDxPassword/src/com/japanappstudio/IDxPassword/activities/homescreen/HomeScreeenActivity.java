@@ -1,11 +1,8 @@
 package com.japanappstudio.IDxPassword.activities.homescreen;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -45,21 +42,20 @@ import com.japanappstudio.IDxPassword.activities.BaseActivity;
 import com.japanappstudio.IDxPassword.activities.BrowserActivity;
 import com.japanappstudio.IDxPassword.activities.CopyItemActivity;
 import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
+import com.japanappstudio.IDxPassword.activities.R;
 import com.japanappstudio.IDxPassword.activities.SettingActivity;
+import com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.idletime.ControlApplication;
 import com.japanappstudio.IDxPassword.idxpwdatabase.ElementID;
 import com.japanappstudio.IDxPassword.idxpwdatabase.GroupFolder;
 import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
-import com.japanappstudio.IDxPassword.idxpwdatabase.UserDB;
 
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
 import exp.mtparet.dragdrop.view.DndListViewFolder;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
-import com.japanappstudio.IDxPassword.activities.R;
-import com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
 public class HomeScreeenActivity extends BaseActivity implements

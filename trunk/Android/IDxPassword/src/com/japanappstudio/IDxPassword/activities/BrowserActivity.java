@@ -1,13 +1,6 @@
 package com.japanappstudio.IDxPassword.activities;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-import com.japanappstudio.IDxPassword.contants.Contants;
-import com.japanappstudio.IDxPassword.idxpwdatabase.ElementID;
-import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
-
 import net.sqlcipher.database.SQLiteDatabase;
-import com.japanappstudio.IDxPassword.activities.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -17,8 +10,13 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.contants.Contants;
+import com.japanappstudio.IDxPassword.idxpwdatabase.ElementID;
+import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
 
 public class BrowserActivity extends BaseActivity {
 

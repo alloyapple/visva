@@ -51,7 +51,7 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		if (mode == FROM_SETTING) {
 			((TextView) findViewById(R.id.enter_old_pass))
 					.setText(getResources().getString(
-							R.string.title_master_pass));
+							R.string.title_current_pass));
 		} else if (mode == FROM_ENTER_OLD_PASS) {
 			((TextView) findViewById(R.id.enter_old_pass))
 					.setText(getResources().getString(

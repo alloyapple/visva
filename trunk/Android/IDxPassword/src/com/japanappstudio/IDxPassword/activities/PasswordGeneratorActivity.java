@@ -3,14 +3,6 @@ package com.japanappstudio.IDxPassword.activities;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.apache.poi.hssf.record.PageBreakRecord.Break;
-
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
-import com.japanappstudio.IDxPassword.contants.Contants;
-import com.japanappstudio.IDxPassword.database.IdManagerPreference;
-
-import com.japanappstudio.IDxPassword.activities.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -20,8 +12,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.InputType;
 import android.text.InputFilter.LengthFilter;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +21,16 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.database.IdManagerPreference;
+
 
 public class PasswordGeneratorActivity extends BaseActivity {
-	private int number = 6;
+	private int number = 8;
 	private boolean isNumber = true;
 	private boolean isCapital = true;
 	private boolean isLowerCase = true;
@@ -66,7 +60,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.password_generator);
-		((TextView) findViewById(R.id.id_text_num_chracter)).setText("" + 6);
+		((TextView) findViewById(R.id.id_text_num_chracter)).setText("" + 8);
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
 		initAdmod();
 
@@ -77,8 +71,7 @@ public class PasswordGeneratorActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			EditIdPasswordActivity.startActivity(this, 2);
-			finish();
+			onReturn(null);
 			return false;
 
 		default:
@@ -110,7 +103,11 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	}
 
 	public void onGenerate(View v) {
-		generator();
+		if (EditIdPasswordActivity.mStringOfSelectItem != null
+				&& !EditIdPasswordActivity.mStringOfSelectItem.equals(""))
+			creatConfirmGenerate().show();
+		else
+			generator();
 	}
 
 	public void onNumberCharacter(View v) {
@@ -120,6 +117,34 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	public static void startActivity(Activity activity) {
 		Intent i = new Intent(activity, PasswordGeneratorActivity.class);
 		activity.startActivity(i);
+	}
+
+	private AlertDialog creatConfirmGenerate() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		builder.setMessage(getResources().getString(
+				R.string.message_change_pass));
+		builder.setPositiveButton(
+				getResources().getString(R.string.confirm_ok),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						generator();
+					}
+				});
+		builder.setNegativeButton(
+				getResources().getString(R.string.confirm_cancel),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		return builder.create();
 	}
 
 	public void showInputNumberCharacter() {
