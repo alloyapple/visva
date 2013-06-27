@@ -261,6 +261,7 @@ public class BillingHelper {
 	}
 	
 	public static void stopService(Context context){
+
 		mContext.stopService(new Intent(context, BillingService.class));
 		mService = null;
 		mContext = null;
