@@ -53,20 +53,19 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="40dp"
+            android:layout_width="39dp"
             android:layout_height="27dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/camera"
-            android:onClick="onCamera" />
-
-        <Button
-            android:layout_width="39dp"
-            android:layout_height="27dp"
-            android:layout_gravity="center|center"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/btn_library"
             android:onClick="onLibrary" />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="27dp"
+            android:layout_gravity="center"
+            android:background="@drawable/camera"
+            android:onClick="onCamera" />
 
         <Button
             android:layout_width="25dp"

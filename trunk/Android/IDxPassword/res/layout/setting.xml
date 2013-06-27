@@ -147,45 +147,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="1px"
                     android:background="@drawable/top_corner_button"
-                    android:onClick="onGoogle" >
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginRight="20dp" >
-
-                        <ImageView
-                            android:id="@+id/img_gg_drive_logo"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center" >
-                        </ImageView>
-
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_marginLeft="4dp"
-                            android:gravity="left|center"
-                            android:text="@string/item_google"
-                            android:textColor="#000000" >
-                        </TextView>
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/icon_item_shift" >
-                    </ImageView>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:background="@drawable/no_corner_button"
                     android:onClick="onDropbox" >
 
                     <LinearLayout
@@ -206,6 +167,45 @@
                             android:layout_marginLeft="4dp"
                             android:gravity="left|center"
                             android:text="@string/item_dropbox"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/icon_item_shift" >
+                    </ImageView>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1px"
+                    android:background="@drawable/no_corner_button"
+                    android:onClick="onGoogle" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="20dp" >
+
+                        <ImageView
+                            android:id="@+id/img_gg_drive_logo"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center" >
+                        </ImageView>
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="@string/item_google"
                             android:textColor="#000000" >
                         </TextView>
                     </LinearLayout>
@@ -337,8 +337,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="1px"
                     android:background="@drawable/bottom_corner_button"
                     android:onClick="onExportData" >

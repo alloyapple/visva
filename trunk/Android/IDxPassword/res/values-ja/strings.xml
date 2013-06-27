@@ -19,13 +19,13 @@
     <string name="list_general">一般</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
-    <string name="btn_paste_browse">ウェブページを開く</string>
+    <string name="btn_paste_browse">ウェブページ</string>
     <string name="message_add_item">フリー版でご登録いただけるIDパスワードは12個までです。より多くご利用になる方は機能制限解除のためのキーコード(85円)をご購入下さい。</string>
     <string name="title_add_folder">フォルダの追加</string>
     <string name="title_change_folder">フォルダ名の変更</string>
     <string name="confirm_delete">削除</string>
     <string name="title_delete">フォルダの削除</string>
-    <string name="security_mode_title">セキュリティモード</string>
+    <string name="security_mode_title">自動ログオフ</string>
     <string name="remove_data_title">データ破壊設定</string>
     <string name="item_change_master_apss">マスターパスワードの変更</string>
     <string name="item_mode_security">セキュリティモード</string>
@@ -96,12 +96,18 @@
     <string name="sync_finish">同期が終了しました。</string>
     <string name="data_cloud_newer">Dropbox(GoogleDrive)上のデータの方が新しいですが、本当に上書きしてよろしいですか？</string>
     <string name="limit_login_msg">安全のための破壊設定がされています。あと%d回間違えるとIDxPasswordのデータが失われます。</string>
-    <string name="sync_data_duplicate_msg">Dropbox(GoogleDrive)上のデータより、このAndroidのデータの方が新しいですが本当によろしいですか？.</string>
-    <string name="sync_to_cloud_data_device_newer">Dropbox(GoogleDrive)上のデータにこのiPhoneのデータを上書きしますがよろしいですか？</string>
-    <string name="sync_to_device_data_cloud_newer">Dropbox(GoogleDrive)上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
+    <string name="sync_data_duplicate_msg_drop">Dropbox上のデータより、このAndroidのデータの方が新しいですが本当によろしいですか？.</string>
+    <string name="sync_data_duplicate_msg_google">GoogleDrive上のデータより、このAndroidのデータの方が新しいですが本当によろしいですか？.</string>
+    <string name="sync_to_cloud_data_device_newer_drop">Dropbox 上のデータにこのiPhoneのデータを上書きしますがよろしいですか？</string>
+    <string name="sync_to_device_data_cloud_newer_drop">Dropbox 上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
+    <string name="sync_to_cloud_data_device_newer_google">GoogleDrive 上のデータにこのiPhoneのデータを上書きしますがよろしいですか？</string>
+    <string name="sync_to_device_data_cloud_newer_google">GoogleDrive 上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
+
     <!-- others -->
     <string name="title_agreement">[免責]</string>
     <string name="select_text_format">フォーマット選択</string>
+    <string name="email_title_register">Email の登録</string>
+    <string name="email_address_title">Email Address</string>
     <string name="email_receiver_update_info">当社からの新製品などのお知らせメールを受け取る。（月一度程度）</string>
     <string name="email_receiver_important_info">重要通知を受け取る。</string>
     <string name="email_sign_up">登録</string>
@@ -111,5 +117,6 @@
     <string name="term_of_use_condition">[免責]\n
 Japan App Studio, inc.は、本サービスの停止やプログラムの不備、第三者の提供する管理システムの変更、その他により、利用者に対して発生した損害につき一切の責任を負わないものとします。\n
 利用者が設置された「同意」ボタンをタップすることで本規約に同意し、サービスの利用を申し込んだとみなされます。</string>
+    <string name="message_change_pass">パスワードをかきかえますか？</string>
 
 </resources>

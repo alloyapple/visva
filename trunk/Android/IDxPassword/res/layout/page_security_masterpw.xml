@@ -23,7 +23,8 @@
                 android:layout_gravity="center"
                 android:background="@drawable/text_field"
                 android:gravity="center"
-                android:inputType="numberPassword" />
+                android:inputType="numberPassword"
+                android:password="true" />
         </FrameLayout>
     </LinearLayout>
 
@@ -39,7 +40,7 @@
             android:layout_gravity="center|center"
             android:gravity="center"
             android:onClick="onReturn"
-            android:text="Type Your Master Password"
+            android:text="@string/title_master_pass"
             android:textColor="@color/white" />
     </FrameLayout>
 
