@@ -99,6 +99,7 @@ public class SettingActivity extends BaseActivity {
 
 	private ImageView mImgGGDrive;
 	private ImageView mImgDropbox;
+	public static String sercurity_mode;
 
 	// private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private static final String TAG = "BillingService";
@@ -137,6 +138,8 @@ public class SettingActivity extends BaseActivity {
 
 		mImgDropbox = (ImageView) findViewById(R.id.img_dropbox_logo);
 		mImgGGDrive = (ImageView) findViewById(R.id.img_gg_drive_logo);
+		if(sercurity_mode==null)
+			sercurity_mode=getResources().getString(R.string.text_security_off);
 
 	}
 
