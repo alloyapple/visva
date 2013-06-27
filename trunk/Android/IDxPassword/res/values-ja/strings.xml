@@ -12,6 +12,8 @@
     <string name="message_pay_to_export">CSV形式での書出し機能を追加します。1,000円課金されますがよろしいですか？</string>
     <string name="title_current_pass">現在のマスターパスワード</string>
     <string name="text_off">なし</string>
+     <string name="text_security_off">無し</string>
+    <string name="text_security_immediately">即時</string>
     <string name="title_master_pass">マスターパスワード</string>
     <string name="title_delete_items">削除</string>
     <string name="title_add_items">新規</string>
@@ -28,7 +30,7 @@
     <string name="security_mode_title">自動ログオフ</string>
     <string name="remove_data_title">データ破壊設定</string>
     <string name="item_change_master_apss">マスターパスワードの変更</string>
-    <string name="item_mode_security">セキュリティモード</string>
+    <string name="item_mode_security">自動ログオフ</string>
     <string name="item_remove_data">データ破壊設定</string>
     <string name="item_sync">同期の実行</string>
     <string name="item_google">GoogleDriveと同期する</string>

@@ -17,7 +17,9 @@
     <string name="title_delete_items">Delete</string>
     <string name="title_add_items">New</string>
     <string name="text_min">min</string>
-    <string name="text_off">Immediately</string>
+    <string name="text_off">Not Destruct</string>
+     <string name="text_security_off">Off</string>
+    <string name="text_security_immediately">Immediately</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
     <string name="btn_paste_browse">WEB</string>
@@ -26,7 +28,7 @@
     <string name="title_change_folder">Change folder name</string>
     <string name="confirm_delete">Delete</string>
     <string name="title_delete">Delete Folder</string>
-    <string name="security_mode_title">Security mode</string>
+    <string name="security_mode_title">Auto Sign Off</string>
     <string name="remove_data_title">Configuration data corruption</string>
     <string name="item_change_master_apss">Reset Master Password</string>
     <string name="item_mode_security">Auto Sign Off</string>

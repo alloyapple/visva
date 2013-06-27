@@ -12,6 +12,8 @@
     <string name="message_pay_to_export">您要通过CSV形式输出数据，您将支付*人民币元。</string>
     <string name="title_current_pass">当前密码</string>
     <string name="text_off">不是自毁</string>
+    <string name="text_security_off">没有</string>
+    <string name="text_security_immediately">立即</string>
     <string name="title_master_pass">密码</string>
     <string name="title_delete_items">删除</string>
     <string name="title_add_items">新</string>
@@ -27,7 +29,7 @@
     <string name="security_mode_title">自动注销</string>
     <string name="remove_data_title">配置数据损坏</string>
     <string name="item_change_master_apss">修改密码</string>
-    <string name="item_mode_security">安全模式</string>
+    <string name="item_mode_security">自动注销</string>
     <string name="item_remove_data">配置数据损坏</string>
     <string name="item_sync">同步运行</string>
     <string name="item_google">与GoogleDrive同步</string>
