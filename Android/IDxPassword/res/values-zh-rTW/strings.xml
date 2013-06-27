@@ -19,13 +19,13 @@
     <string name="text_min">分</string>
     <string name="hint_no_image">預定日期</string>
     <string name="hint_note">Note</string>
-    <string name="btn_paste_browse">關閉應用程序。</string>
+    <string name="btn_paste_browse">WEB</string>
     <string name="message_add_item">多達12個ID密碼免費註冊一個免費的版本。如果你想使用更多的功能限制（¥85），請購買的解鎖鍵碼。</string>
     <string name="title_add_folder">“添加文件夾”</string>
     <string name="title_change_folder">重命名文件夾</string>
     <string name="confirm_delete">刪除</string>
     <string name="title_delete">刪除文件夾</string>
-    <string name="security_mode_title">安全模式</string>
+    <string name="security_mode_title">自動註銷</string>
     <string name="remove_data_title">配置數據損壞</string>
     <string name="item_change_master_apss">修改密碼</string>
     <string name="item_mode_security">安全模式</string>
@@ -95,9 +95,13 @@
     <string name="sync_failed">我同步失敗。</string>
     <string name="sync_finish">我結束了同步。</string>
     <string name="data_cloud_newer">更好的數據（GoogleDrive）是新的，但Dropbox，你確定你真的要覆蓋它嗎？</string>
-    <string name="sync_data_duplicate_msg">你確定你想從（GoogleDrive）Dropbox的，誰是新的數據，本次Android上的數據嗎？.</string>
-    <string name="sync_to_cloud_data_device_newer">您確定您要覆蓋的數據，但在此的iPhone（GoogleDrive）Dropbox的數據嗎？</string>
-    <string name="sync_to_device_data_cloud_newer">閱讀（GoogleDrive）的Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
+    <string name="sync_data_duplicate_msg_drop">你確定你想從Dropbox的，誰是新的數據，本次Android上的數據嗎？.</string>
+    <string name="sync_data_duplicate_msg_google">你確定你想從GoogleDrive的，誰是新的數據，本次Android上的數據嗎？.</string>
+    
+    <string name="sync_to_cloud_data_device_newer_drop">您確定您要覆蓋的數據，但在此的iPhone Dropbox的數據嗎？</string>
+    <string name="sync_to_device_data_cloud_newer_drop">閱讀Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
+    <string name="sync_to_cloud_data_device_newer_google">您確定您要覆蓋的數據，但在此的iPhone GoogleDrive的數據嗎？</string>
+    <string name="sync_to_device_data_cloud_newer_google">閱讀GoogleDrive上的數據。你確定要當前數據丟失了嗎？</string>
 
     <!-- others -->
      <string name="title_agreement">[免責聲明]</string>
@@ -105,6 +109,8 @@
     <string name="email_receiver_update_info"></string>
     <string name="email_receiver_important_info">我將獲得的重要公告。</string>
     <string name="email_sign_up">報名</string>
+    <string name="email_title_register">注冊電子郵件</string>
+    <string name="email_address_title">Email Address</string>
     <string name="wrong_pw_login">您輸入的密碼不正確，請重新輸入。</string>
     <string name="data_erased_msg">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
     <string name="title_edit">編輯</string>
@@ -112,5 +118,5 @@
 由第三方提供的軟件對該軟件的變更以及本管理系統的服務不足，所造成的壹切後果，其責任與Japan App Studio, inc.無關。\n
 [審批]\n
 利用者點擊\"同意\"開始利用本管理系統的服務，都將被視作是對本聲明全部內容的無意義的認可。</string>
-
+<string name="message_change_pass">您要替換當前的密碼嗎？</string>
 </resources>

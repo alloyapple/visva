@@ -44,11 +44,11 @@
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="39dp"
+            android:layout_height="27dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/album_icon"
+            android:background="@drawable/btn_library"
             android:onClick="onEditImage" />
 
         <Button

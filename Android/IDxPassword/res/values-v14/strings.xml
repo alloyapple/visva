@@ -20,7 +20,7 @@
     <string name="text_off">Immediately</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
-    <string name="btn_paste_browse">Open the web page</string>
+    <string name="btn_paste_browse">WEB</string>
     <string name="message_add_item">Just 12 items can be registered with this app. You can pay ￠99 for key-code to remove the item limit.</string>
     <string name="title_add_folder">Add folder</string>
     <string name="title_change_folder">Change folder name</string>
@@ -29,7 +29,7 @@
     <string name="security_mode_title">Security mode</string>
     <string name="remove_data_title">Configuration data corruption</string>
     <string name="item_change_master_apss">Reset Master Password</string>
-    <string name="item_mode_security">Security mode</string>
+    <string name="item_mode_security">Auto Sign Off</string>
     <string name="item_remove_data">Configuration data corruption</string>
     <string name="item_payment">Charged Option Services</string>
     <string name="item_unlimited_item">Items Restrictions Cancellation</string>
@@ -92,7 +92,9 @@
     <string name="sync_finish">The synchronization was finished</string>
     <string name="data_cloud_newer">Although the data on Dropbox(GoogleDrive) is newer, are you sure to overwrite it?</string>
     <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
-    <string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
+    <string name="sync_data_duplicate_msg_drop">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox?.</string>
+    <string name="sync_data_duplicate_msg_google">This Android\'s data is newer. Are you sure to overwite by the older one on GoogleDrive?.</string>
+
     <string name="term_of_use_condition">[Terms of Agreement\n\n
 Japan App Studio, Inc. will not be held liable for any user\'s damage caused by deficiencies in its programs, stoppage of its services, change of its management system, or other reason.\n\n
 By signing in to use its service and tapping the \"Approval\" button below, you thereby agree to abide by these Terms of Agreement.</string>
@@ -100,5 +102,8 @@ By signing in to use its service and tapping the \"Approval\" button below, you 
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
     <string name="title_edit">Edit</string>
+    <string name="email_title_register">Email Register</string>
+    <string name="email_address_title">Email Address</string>
+    <string name="message_change_pass">Are you sure to change password?</string>
 
 </resources>
