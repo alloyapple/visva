@@ -24,9 +24,10 @@ public class SetupSecurityModeActivity extends BaseActivity {
 	private final static int SETTING_CHANGE = 0;
 	private WheelView mWheelViewModeSecurity;
 	private IdManagerPreference mIdManagerPreference;
-	private String modes[] = { "Off", "1 ", "3 ", "5 ", "10 " };
+	private String modes[] = { "Off", "","1 ", "3 ", "5 ", "10 " };
 	private int mChoied;
 	private AdView adview;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +35,8 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		mWheelViewModeSecurity = (WheelView) findViewById(R.id.id_wheelview_security_mode);
 		mWheelViewModeSecurity.setVisibility(View.VISIBLE);
 		modes[0] = getResources().getString(R.string.text_security_off);
-		for (int i = 1; i < modes.length; i++) {
+		modes[1] = getResources().getString(R.string.text_security_immediately);
+		for (int i = 2; i < modes.length; i++) {
 			modes[i] = modes[i] + getResources().getString(R.string.text_min);
 		}
 		mWheelViewModeSecurity.setViewAdapter(new SecurityModeAdapter(this,
@@ -45,6 +47,7 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		mChoied = mIdManagerPreference.getSecurityMode();
 		initAdmod();
 	}
+
 	public void initAdmod() {
 		adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
@@ -56,6 +59,7 @@ public class SetupSecurityModeActivity extends BaseActivity {
 				adview.setVisibility(View.GONE);
 		}
 	}
+
 	public void onReturn(View v) {
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		if (mChoied != position) {
@@ -72,10 +76,18 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		mIdManagerPreference.setSecurityMode(position);
+		SettingActivity.sercurity_mode=modes[position];
 		if (position == 0) {
 			getApp().setPeriod(Long.MAX_VALUE);
-		} else {
-			getApp().setPeriod(position * 60 * 1000);
+		} else if (position == 1) {
+		} else if (position == 2) {
+			getApp().setPeriod(1 * 60 * 1000);
+		} else if (position == 3) {
+			getApp().setPeriod(3 * 60 * 1000);
+		} else if (position == 4) {
+			getApp().setPeriod(5 * 60 * 1000);
+		} else if (position == 5) {
+			getApp().setPeriod(10 * 60 * 1000);
 		}
 		Toast.makeText(
 				this,

@@ -46,20 +46,22 @@ public class ImageMemoActivity extends BaseActivity {
 	static final int DRAG = 1;
 	static final int ZOOM = 2;
 	int mode = NONE;
-	private int deltaBound = 10;
+	private int deltaBound = 7;
 	// these PointF objects are used to record the point(s) the user is touching
 	PointF start = new PointF();
 	PointF start2 = new PointF();
 	PointF mid = new PointF();
 	float oldDist = 1f;
-	int leftB, topB;
-	static int widthB, heightB;
+	private static int leftB, topB;
+	private static int widthF, heightF;
+	private static int widthB, heightB;
 	private FrameLayout mFrameMemo;
 	Bitmap bmp;
 	static Bitmap bmpDraw;
 	private Rect rectBmp = new Rect();
 	private RectF rectDst = new RectF();
 	boolean isBound;
+	private boolean checkFirstChangeWindow = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +70,10 @@ public class ImageMemoActivity extends BaseActivity {
 		setContentView(R.layout.page_memo_2);
 		bmpDraw = null;
 		if (EditIdPasswordActivity.mDrawableMemo != null) {
-			bmpDraw = Bitmap.createBitmap(widthB, heightB,
+			bmpDraw = Bitmap.createBitmap(widthF, heightF,
 					Bitmap.Config.ARGB_8888);
 			bmp = EditIdPasswordActivity
 					.drawableToBitmap(EditIdPasswordActivity.mDrawableMemo);
-			leftB = topB = 0;
 			rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
 			float ratioH = (float) bmp.getHeight() / bmpDraw.getHeight();
 			float ratioW = (float) bmp.getWidth() / bmpDraw.getWidth();
@@ -87,6 +88,10 @@ public class ImageMemoActivity extends BaseActivity {
 			}
 			drawOnBitmap();
 			isBound = true;
+		} else {
+			leftB = topB = 0;
+			widthB = widthF;
+			heightB = heightF;
 		}
 		mFrameMemo = (FrameLayout) findViewById(R.id.id_memo_frame);
 		mFrameMemo.addView(new MySurface(this));
@@ -114,6 +119,17 @@ public class ImageMemoActivity extends BaseActivity {
 						}
 					}
 				});
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (checkFirstChangeWindow && widthF == 0 && heightF == 0) {
+			widthF = widthB = mFrameMemo.getWidth();
+			heightF = heightB = mFrameMemo.getHeight();
+			checkFirstChangeWindow = false;
+		}
+
 	}
 
 	@Override
@@ -147,18 +163,18 @@ public class ImageMemoActivity extends BaseActivity {
 	}
 
 	public void onCamera(View v) {
-		if (bmpDraw == null) {
-			widthB = mFrameMemo.getWidth();
-			heightB = mFrameMemo.getHeight();
-		}
+		// if (bmpDraw == null) {
+		// widthF = mFrameMemo.getWidth();
+		// heightF = mFrameMemo.getHeight();
+		// }
 		startCameraIntent();
 	}
 
 	public void onLibrary(View v) {
-		if (bmpDraw == null) {
-			widthB = mFrameMemo.getWidth();
-			heightB = mFrameMemo.getHeight();
-		}
+		// if (bmpDraw == null) {
+		// widthF = mFrameMemo.getWidth();
+		// heightF = mFrameMemo.getHeight();
+		// }
 		startGalleryIntent();
 	}
 
@@ -206,31 +222,25 @@ public class ImageMemoActivity extends BaseActivity {
 					if (file.exists()) {
 						fileUri = Uri.fromFile(file);
 						int orientation = checkOrientation(fileUri);
-						bmp = decodeSampledBitmapFromFile(imagePath, widthB,
-								heightB, orientation);
-						bmpDraw = Bitmap.createBitmap(widthB, heightB,
+						bmp = decodeSampledBitmapFromFile(imagePath, widthF,
+								heightF, orientation);
+						bmpDraw = Bitmap.createBitmap(widthF, heightF,
 								Bitmap.Config.ARGB_8888);
-						leftB = topB = 0;
 						rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
-						float ratioH = (float) bmp.getHeight()
-								/ bmpDraw.getHeight();
-						float ratioW = (float) bmp.getWidth()
-								/ bmpDraw.getWidth();
+						float ratioH = (float) bmp.getHeight() / heightF;
+						float ratioW = (float) bmp.getWidth() / widthF;
 						if (ratioH > ratioW) {
 							float w = bmp.getWidth() / ratioH;
-							rectDst.set((bmpDraw.getWidth() - w) / 2, 0,
-									(bmpDraw.getWidth() - w) / 2 + w,
-									bmpDraw.getHeight());
+							rectDst.set((widthF - w) / 2, 0, (widthF - w) / 2
+									+ w, heightF);
 						} else {
 							float h = bmp.getHeight() / ratioW;
-							rectDst.set(0, (bmpDraw.getHeight() - h) / 2,
-									bmpDraw.getWidth(),
-									(bmpDraw.getHeight() - h) / 2 + h);
+							rectDst.set(0, (heightF - h) / 2, widthF,
+									(heightF - h) / 2 + h);
 						}
 						drawOnBitmap();
 
 					} else {
-						Log.e("test", "file don't exist !");
 					}
 					if (fileUri == null) {
 						isBound = false;
@@ -257,25 +267,21 @@ public class ImageMemoActivity extends BaseActivity {
 				if (file.exists()) {
 					fileUri = Uri.fromFile(file);
 					int orientation = checkOrientation(fileUri);
-					bmpDraw = Bitmap.createBitmap(widthB, heightB,
+					bmpDraw = Bitmap.createBitmap(widthF, heightF,
 							Bitmap.Config.ARGB_8888);
-					bmp = decodeSampledBitmapFromFile(imagePath, widthB,
-							heightB, orientation);
-					leftB = topB = 0;
+					bmp = decodeSampledBitmapFromFile(imagePath, widthF,
+							heightF, orientation);
 					rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
-					float ratioH = (float) bmp.getHeight()
-							/ bmpDraw.getHeight();
-					float ratioW = (float) bmp.getWidth() / bmpDraw.getWidth();
+					float ratioH = (float) bmp.getHeight() / heightF;
+					float ratioW = (float) bmp.getWidth() / widthF;
 					if (ratioH > ratioW) {
 						float w = bmp.getWidth() / ratioH;
-						rectDst.set((bmpDraw.getWidth() - w) / 2, 0,
-								(bmpDraw.getWidth() - w) / 2 + w,
-								bmpDraw.getHeight());
+						rectDst.set((widthF - w) / 2, 0, (widthF - w) / 2 + w,
+								heightF);
 					} else {
 						float h = bmp.getHeight() / ratioW;
-						rectDst.set(0, (bmpDraw.getHeight() - h) / 2,
-								bmpDraw.getWidth(), (bmpDraw.getHeight() - h)
-										/ 2 + h);
+						rectDst.set(0, (heightF - h) / 2, widthF, (heightF - h)
+								/ 2 + h);
 					}
 					drawOnBitmap();
 				} else {
@@ -296,6 +302,8 @@ public class ImageMemoActivity extends BaseActivity {
 	public void drawOnBitmap() {
 		Canvas cv = new Canvas(bmpDraw);
 		Paint g = new Paint();
+		g.setColor(Color.WHITE);
+		cv.drawRect(0, 0, bmpDraw.getWidth(), bmpDraw.getHeight(), g);
 		cv.drawBitmap(bmp, rectBmp, rectDst, g);
 	}
 
@@ -412,8 +420,8 @@ public class ImageMemoActivity extends BaseActivity {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					// TODO Auto-generated method stub
-					if (!isBound)
-						return true;
+					// if (!isBound)
+					// return true;
 					switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 						xTouch = event.getX();
@@ -436,40 +444,61 @@ public class ImageMemoActivity extends BaseActivity {
 						}
 						break;
 					case MotionEvent.ACTION_MOVE:
+						float deltaX = event.getX() - xTouch;
+						float deltaY = event.getY() - yTouch;
 						switch (mode) {
 						case L:
-							if (leftB + (event.getX() - xTouch) > 0
-									&& leftB + (event.getX() - xTouch) <= leftB
-											+ widthB - deltaBound) {
-								leftB += (event.getX() - xTouch);
-								widthB -= (event.getX() - xTouch);
+							if (leftB + deltaX > 0) {
+								if (leftB + deltaBound + deltaX <= leftB
+										+ widthB) {
+									leftB += deltaX;
+									widthB -= deltaX;
+
+								} else {
+									mode = R;
+									leftB = leftB + widthB - deltaBound;
+									widthB = (int) (deltaX + 2 * deltaBound - widthB);
+								}
 								xTouch = event.getX();
 							}
 							break;
 						case T:
-							if (topB + (event.getY() - yTouch) > 0
-									&& topB + (event.getY() - yTouch) <= topB
-											+ heightB - deltaBound) {
-								topB += (event.getY() - yTouch);
-								heightB -= (event.getY() - yTouch);
+							if (topB + deltaY > 0) {
+								if (topB + +deltaBound + deltaY <= topB
+										+ heightB) {
+									topB += deltaY;
+									heightB -= deltaY;
+								} else {
+									mode = B;
+									topB = topB + heightB - deltaBound;
+									heightB -= (int) (deltaY + 2 * deltaBound - heightB);
+								}
 								yTouch = event.getY();
 							}
 							break;
 						case R:
-							if (leftB + widthB + (event.getX() - xTouch) >= leftB
-									+ deltaBound
-									&& leftB + widthB + (event.getX() - xTouch) <= mFrameMemo
-											.getWidth()) {
-								widthB += (event.getX() - xTouch);
+							if (leftB + widthB + deltaX <= mFrameMemo
+									.getWidth()) {
+								if (leftB + widthB + deltaX-deltaBound>= leftB) {
+									widthB += deltaX;
+								} else {
+									mode = L;
+									leftB = (int) (leftB + widthB + deltaX - deltaBound);
+									widthB = (int) (2 * deltaBound - widthB - deltaX);
+								}
 								xTouch = event.getX();
 							}
 							break;
 						case B:
-							if (topB + heightB + (event.getY() - yTouch) >= topB
-									+ deltaBound
-									&& topB + heightB + (event.getY() - yTouch) <= mFrameMemo
-											.getHeight()) {
-								heightB += (event.getY() - yTouch);
+							if (topB + heightB + deltaY <= mFrameMemo
+									.getHeight()) {
+								if (topB + heightB + deltaY -deltaBound>= topB) {
+									heightB += deltaY;
+								} else {
+									mode=T;
+									topB = (int) (topB + heightB + deltaY - deltaBound);
+									heightB = (int) (2 * deltaBound - heightB - deltaY);
+								}
 								yTouch = event.getY();
 							}
 							break;
@@ -500,21 +529,21 @@ public class ImageMemoActivity extends BaseActivity {
 						mFrameMemo.getHeight(), g);
 				if (isBound && bmp != null) {
 					canvas.drawBitmap(bmpDraw, 0, 0, g);
-					g.setColor(0x80FF0000);
+					g.setColor(0x80FFFFFF);
 					canvas.drawRect(leftB, topB, leftB + widthB,
 							topB + heightB, g);
-					drawBound(g, canvas);
-
 				}
+				drawBound(g, canvas);
 			}
 		}
 
 		public void drawBound(Paint g, Canvas cv) {
-			g.setColor(0xAAFF0000);
+			g.setColor(0x4000FF00);
 			cv.drawRect(leftB, topB, leftB + widthB, topB + deltaBound, g);
-			cv.drawRect(leftB, topB, leftB + deltaBound, topB + heightB, g);
-			cv.drawRect(leftB + widthB - deltaBound, topB, leftB + widthB, topB
-					+ heightB, g);
+			cv.drawRect(leftB, topB + deltaBound, leftB + deltaBound, topB
+					+ heightB - deltaBound, g);
+			cv.drawRect(leftB + widthB - deltaBound, topB + deltaBound, leftB
+					+ widthB, topB + heightB - deltaBound, g);
 			cv.drawRect(leftB, topB + heightB - deltaBound, leftB + widthB,
 					topB + heightB, g);
 		}
