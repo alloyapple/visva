@@ -10,7 +10,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="@string/message_paid_not_paid"
+        android:text="@string/message_finish_trial"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
