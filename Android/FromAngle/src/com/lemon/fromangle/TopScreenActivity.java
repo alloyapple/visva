@@ -69,8 +69,8 @@ public class TopScreenActivity extends PaymentActivity {
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		mFromAngleSharedPref.setExistByTopScreen(false);
 		initUI();
-		startService(new Intent(this, BillingService.class));
-		BillingHelper.setCompletedHandler(mTransactionHandler);
+//		startService(new Intent(this, BillingService.class));
+		
 		paymentService = new PaymentService(this);
 		String userId = mFromAngleSharedPref.getUserId();
 		if (!StringUtility.isEmpty(userId))
@@ -228,13 +228,28 @@ public class TopScreenActivity extends PaymentActivity {
 
 	@Override
 	protected void onDestroy() {
-		BillingHelper.stopService(this);
+		
 		mFromAngleSharedPref.setExistByTopScreen(true);
 		super.onDestroy();
 	}
 
 	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		BillingHelper.stopService(this);
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+
+	@Override
 	protected void onResume() {
+		startService(new Intent(this, BillingService.class));
+		BillingHelper.setCompletedHandler(mTransactionHandler);
 		Log.e("user id " + mFromAngleSharedPref.getKeyRunAlarm(), "user id "
 				+ mFromAngleSharedPref.getUserId());
 		Log.e("onDestroyedrr",

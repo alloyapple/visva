@@ -110,13 +110,15 @@ public class MessageSettingActivity extends PaymentActivity {
 		userId = mFromAngleSharedPref.getUserId();
 		// statusMsg = mFromAngleSharedPref.getAppStatus();
 		Log.e("sttMsg", "statusMsg " + statusMsg);
-		startService(new Intent(this, BillingService.class));
-		BillingHelper.setCompletedHandler(mTransactionHandler);
+//		startService(new Intent(this, BillingService.class));
+//		BillingHelper.setCompletedHandler(mTransactionHandler);
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		startService(new Intent(this, BillingService.class));
+		BillingHelper.setCompletedHandler(mTransactionHandler);
 		statusMsg = mFromAngleSharedPref.getAppStatus();
 		if (!StringUtility.isEmpty(statusMsg)) {
 			if (statusMsg.equalsIgnoreCase(GlobalValue.APP_STATUS_OK)) {
@@ -280,6 +282,13 @@ public class MessageSettingActivity extends PaymentActivity {
 				startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			}
 		});
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		BillingHelper.stopService(this);
+		super.onPause();
 	}
 
 	public void stop() {
@@ -740,7 +749,7 @@ public class MessageSettingActivity extends PaymentActivity {
 	@Override
 	protected void onDestroy() {
 		// if(BillingHelper!= null)
-		BillingHelper.stopService(this);
+//		BillingHelper.stopService(this);
 		super.onDestroy();
 	}
 
