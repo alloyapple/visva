@@ -35,8 +35,13 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.googleapis.services.GoogleKeyInitializer;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
@@ -128,9 +133,10 @@ public class SyncCloudActivity extends Activity {
 
 		Date date = new Date(mLastTimeSync);
 		String mLastDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+		String[] split = mLastDate.split("-");
 		if (mLastTimeSync > 0)
 			mTextViewLastTimeSync.setText(getString(R.string.last_sync)
-					+ mLastDate);
+					+ split[0] + "/" + split[1] + "/" + split[2]);
 
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
@@ -432,10 +438,16 @@ public class SyncCloudActivity extends Activity {
 							Date date = new Date(mLastTimeSync);
 							String mLastDate = new SimpleDateFormat(
 									"yyyy-MM-dd").format(date);
+
+							String[] split = mLastDate.split("-");
 							mTextViewLastTimeSync
 									.setText(SyncCloudActivity.this
 											.getString(R.string.last_sync)
-											+ mLastDate);
+											+ split[0]
+											+ "/"
+											+ split[1]
+											+ "/"
+											+ split[2]);
 							return;
 						}
 					});
@@ -537,7 +549,10 @@ public class SyncCloudActivity extends Activity {
 			return builder.create();
 		case Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER:
 			builder.setTitle(getString(R.string.app_name));
-			builder.setMessage(getString(R.string.sync_to_cloud_data_device_newer));
+			if (mCloudType == DROPBOX_LOGIN_SESSION)
+				builder.setMessage(getString(R.string.sync_to_cloud_data_device_newer_drop));
+			else if (mCloudType == GG_DRIVE_LOGIN_SESSION)
+				builder.setMessage(getString(R.string.sync_to_cloud_data_device_newer_google));
 			builder.setIcon(R.drawable.icon);
 			builder.setCancelable(false);
 			builder.setPositiveButton(getString(R.string.confirm_ok),
@@ -568,7 +583,10 @@ public class SyncCloudActivity extends Activity {
 			return builder.create();
 		case Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER:
 			builder.setTitle(getString(R.string.app_name));
-			builder.setMessage(getString(R.string.sync_to_device_data_cloud_newer));
+			if (mCloudType == DROPBOX_LOGIN_SESSION)
+				builder.setMessage(getString(R.string.sync_to_device_data_cloud_newer_drop));
+			else
+				builder.setMessage(getString(R.string.sync_to_device_data_cloud_newer_google));
 			builder.setIcon(R.drawable.icon);
 			builder.setCancelable(false);
 			builder.setPositiveButton(getString(R.string.confirm_ok),
@@ -751,9 +769,17 @@ public class SyncCloudActivity extends Activity {
 		drive.execute();
 	}
 
+	@SuppressWarnings("deprecation")
 	private Drive getDriveService(GoogleAccountCredential credential) {
-		return new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-				credential).build();
+		final HttpTransport transport = AndroidHttp.newCompatibleTransport();
+		final JsonFactory jsonFactory = new GsonFactory();
+		GoogleCredential credential1 = new GoogleCredential();
+		credential1.setAccessToken(authToken);
+		Drive drive = new Drive.Builder(transport, jsonFactory, credential1)
+				.setApplicationName(getString(R.string.app_name))
+				.setGoogleClientRequestInitializer(
+						new GoogleKeyInitializer(CLIENT_ID)).build();
+		return drive;
 
 	}
 
