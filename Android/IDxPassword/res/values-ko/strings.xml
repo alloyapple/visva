@@ -12,6 +12,8 @@
     <string name="message_pay_mto_export">CSV 형식으로 내보내기 기능을 추가합니다. 1,000 원 부과됩니다 괜찮습니까?</string>
     <string name="title_current_pass">현재 마스터 비밀 번호</string>
     <string name="text_off">없음</string>
+     <string name="text_security_off">없음</string>
+    <string name="text_security_immediately">즉시</string>
     <string name="list_general">일반</string>
     <string name="title_master_pass">마스터 비밀 번호</string>
     <string name="title_delete_items">삭제</string>
@@ -28,7 +30,7 @@
     <string name="security_mode_title">자동 로그 오프</string>
     <string name="remove_data_title">데이터 파괴 설정</string>
     <string name="item_change_master_apss">마스터 비밀 번호 변경</string>
-    <string name="item_mode_security">보안 모드</string>
+    <string name="item_mode_security">자동 로그 오프</string>
     <string name="item_remove_data">데이터 파괴 설정</string>
     <string name="item_sync">동기화 실행</string>
     <string name="item_google">GoogleDrive의 동기화</string>

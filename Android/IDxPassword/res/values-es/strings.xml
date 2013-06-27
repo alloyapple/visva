@@ -15,9 +15,12 @@
     <string name="title_delete_items">Borrar</string>
     <string name="title_add_items">Nuevo</string>
     <string name="text_min">min</string>
+     <string name="text_security_off">Apagado</string>
+    <string name="text_security_immediately">Inmediatamente</string>
     <string name="text_off">No Destruct</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Nota</string>
+    
     <string name="btn_paste_browse">WEB</string>
     <string name="message_add_item">A sólo 12 elementos pueden ser registrado en esta aplicación. Usted puede pagar ¢ 99 para llave de código para eliminar el límite de elementos.</string>
     <string name="title_add_folder">Añadir carpeta</string>
@@ -27,7 +30,7 @@
     <string name="security_mode_title">Auto sesión Cerrar</string>
     <string name="remove_data_title">Daños en los datos de configuración</string>
     <string name="item_change_master_apss">Cambiar contraseña maestra</string>
-    <string name="item_mode_security">Modo de Seguridad</string>
+    <string name="item_mode_security">Auto sesión Cerrar</string>
     <string name="item_remove_data">Daños en los datos de configuración</string>
     <string name="item_sync">Sincronización</string>
     <string name="item_google">GoogleDrive sincronización</string>
