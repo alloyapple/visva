@@ -60,7 +60,7 @@ import exp.mtparet.dragdrop.view.ListViewDragDrop;
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
 public class HomeScreeenActivity extends BaseActivity implements
 		OnClickListener {
-	
+
 	// ==========================Control define ====================
 	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop idListView;
@@ -106,7 +106,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private boolean isDnd = false;
 	private boolean isDndElement = false;
 	private AdView adview;
-//	private Drawable mDrawableIcon;
+	// private Drawable mDrawableIcon;
 
 	private Handler mMainHandler = new Handler() {
 		@SuppressWarnings("deprecation")
@@ -143,7 +143,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		/* initialize variable */
 		initializeVariable();
-		
+
 	}
 
 	/**
@@ -422,7 +422,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 			 */
 			oneItemSelected = (ElementID) arg0.getItemAtPosition(arg2);
 
-			imageDrag.setImageDrawable(getImageDataBase(oneItemSelected.geteIconData()));
+			imageDrag.setImageDrawable(getImageDataBase(oneItemSelected
+					.geteIconData()));
 			txtIdName.setText(oneItemSelected.geteTitle());
 			txtIdUrl.setText(oneItemSelected.geteUrl());
 		}
@@ -660,8 +661,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (elementList.get(i).geteFavourite() == Contants.IS_FAVOURITE) {
 				ElementID item = new ElementID(elementList.get(i).geteId(),
 						elementList.get(i).geteGroupId(), elementList.get(i)
-								.geteTitle(), elementList.get(i).geteIconData(),
-						elementList.get(i).geteTimeStamp(), elementList.get(i)
+								.geteTitle(),
+						elementList.get(i).geteIconData(), elementList.get(i)
+								.geteTimeStamp(), elementList.get(i)
 								.geteFavourite(),
 						elementList.get(i).geteFlag(), elementList.get(i)
 								.geteUrl(), elementList.get(i).geteNote(),
@@ -706,10 +708,10 @@ public class HomeScreeenActivity extends BaseActivity implements
 		for (int i = 0; i < numberToView; i++) {
 			ElementID item = new ElementID(idList.get(i).geteId(), idList
 					.get(i).geteGroupId(), idList.get(i).geteTitle(), idList
-					.get(i).geteIconData(), idList.get(i).geteTimeStamp(), idList
-					.get(i).geteFavourite(), idList.get(i).geteFlag(), idList
-					.get(i).geteUrl(), idList.get(i).geteNote(), idList.get(i)
-					.geteMemoData(), idList.get(i).geteOrder());
+					.get(i).geteIconData(), idList.get(i).geteTimeStamp(),
+					idList.get(i).geteFavourite(), idList.get(i).geteFlag(),
+					idList.get(i).geteUrl(), idList.get(i).geteNote(), idList
+							.get(i).geteMemoData(), idList.get(i).geteOrder());
 			allItem.add(item);
 		}
 		return allItem;
@@ -739,11 +741,11 @@ public class HomeScreeenActivity extends BaseActivity implements
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
 			if (currentFolderItem < mFolderListItems.size() - 2) {
-//				List<ElementID> elementList = mIDxPWDataBaseHandler
-//						.getAllElementIdByGroupFolderId(currentFolderId);
+				// List<ElementID> elementList = mIDxPWDataBaseHandler
+				// .getAllElementIdByGroupFolderId(currentFolderId);
 				int number_items = mIdManagerPreference
 						.getNumberItems(IdManagerPreference.NUMBER_ITEMS);
-				if (number_items >=Contants.MAX_ELEMENT)
+				if (number_items >= Contants.MAX_ELEMENT)
 					showDialog(Contants.DIALOG_CREATE_ID);
 				else {
 					if (isSearchMode) {

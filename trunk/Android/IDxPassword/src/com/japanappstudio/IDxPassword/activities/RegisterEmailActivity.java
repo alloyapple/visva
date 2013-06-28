@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class RegisterEmailActivity extends Activity {
 	private EditText mEditTextEmail;
@@ -49,6 +50,8 @@ public class RegisterEmailActivity extends Activity {
 
 		isCreateNew = getIntent().getExtras().getBoolean(
 				Contants.CREATE_NEW_EMAIL);
+		if(!isCreateNew)
+			((TextView) findViewById(R.id.title_register_mail)).setText(getResources().getString(R.string.re_register_email_title));
 		mEditTextEmail = (EditText) findViewById(R.id.edit_text_email);
 		mEditTextEmail.addTextChangedListener(new TextWatcher() {
 
