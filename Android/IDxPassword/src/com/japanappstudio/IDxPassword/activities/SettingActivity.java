@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
-import com.japanappstudio.IDxPassword.activities.R;
-import com.japanappstudio.IDxPassword.activities.syncloud.DropboxSettingActivity;
-import com.japanappstudio.IDxPassword.activities.syncloud.GGDriveSettingActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
@@ -40,6 +37,8 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.idmanager.BillingHelper;
 import com.idmanager.BillingService;
+import com.japanappstudio.IDxPassword.activities.syncloud.DropboxSettingActivity;
+import com.japanappstudio.IDxPassword.activities.syncloud.GGDriveSettingActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.exportcontroller.dropbox.DropBoxController;
@@ -100,6 +99,7 @@ public class SettingActivity extends BaseActivity {
 	private ImageView mImgGGDrive;
 	private ImageView mImgDropbox;
 	public static String sercurity_mode;
+	private TextView textModeSercurity;
 
 	// private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private static final String TAG = "BillingService";
@@ -130,7 +130,7 @@ public class SettingActivity extends BaseActivity {
 		setContentView(R.layout.setting);
 		/* init database */
 		initDatabase();
-
+		textModeSercurity = (TextView) findViewById(R.id.id_text_mode);
 		mPref = IdManagerPreference.getInstance(this);
 		initAdmod();
 		startService(new Intent(this, BillingService.class));
@@ -138,8 +138,9 @@ public class SettingActivity extends BaseActivity {
 
 		mImgDropbox = (ImageView) findViewById(R.id.img_dropbox_logo);
 		mImgGGDrive = (ImageView) findViewById(R.id.img_gg_drive_logo);
-		if(sercurity_mode==null)
-			sercurity_mode=getResources().getString(R.string.text_security_off);
+		if (sercurity_mode == null)
+			sercurity_mode = getResources().getString(
+					R.string.text_security_off);
 
 	}
 
@@ -298,17 +299,17 @@ public class SettingActivity extends BaseActivity {
 	public void onExportData(View v) {
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			modePayment = PAYMENT_TO_EXPORT;
-			 if (!mPref.getIsPaymentExport())
-			 showDialogRequestPayment(getResources().getString(
-			 R.string.message_pay_to_export));
-			 else {
-			if (mApi.getSession().isLinked()) {
-				isExportData = true;
-				showDialog(Contants.DIALOG_EXPORT_DATA);
-			} else {
-				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+			if (!mPref.getIsPaymentExport())
+				showDialogRequestPayment(getResources().getString(
+						R.string.message_pay_to_export));
+			else {
+				if (mApi.getSession().isLinked()) {
+					isExportData = true;
+					showDialog(Contants.DIALOG_EXPORT_DATA);
+				} else {
+					showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+				}
 			}
-			 }
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
@@ -951,6 +952,7 @@ public class SettingActivity extends BaseActivity {
 			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox);
 			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
 		}
+		textModeSercurity.setText(sercurity_mode);
 
 	}
 
