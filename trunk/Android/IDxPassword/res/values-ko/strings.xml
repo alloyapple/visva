@@ -28,6 +28,7 @@
     <string name="confirm_delete">삭제</string>
     <string name="title_delete">폴더 삭제</string>
     <string name="security_mode_title">자동 로그 오프</string>
+    <string name="re_register_email_title">E-mail 주소 재 등록</string>
     <string name="remove_data_title">데이터 파괴 설정</string>
     <string name="item_change_master_apss">마스터 비밀 번호 변경</string>
     <string name="item_mode_security">자동 로그 오프</string>
