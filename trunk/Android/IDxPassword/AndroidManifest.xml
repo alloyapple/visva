@@ -160,7 +160,8 @@
         </activity>
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.SettingURLActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.EditIconActivity"
@@ -201,7 +202,8 @@
             android:configChanges="orientation|keyboardHidden" />
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.securityservice.SecurityMasterPasswordActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
 
         <service android:name="com.japanappstudio.IDxPassword.activities.securityservice.SecurityService" >
