@@ -29,6 +29,7 @@
     <string name="confirm_delete">Delete</string>
     <string name="title_delete">Delete Folder</string>
     <string name="security_mode_title">Auto Sign Off</string>
+    <string name="re_register_email_title">E-mail Address Re-register</string>
     <string name="remove_data_title">Configuration data corruption</string>
     <string name="item_change_master_apss">Reset Master Password</string>
     <string name="item_mode_security">Auto Sign Off</string>

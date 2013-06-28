@@ -27,6 +27,7 @@
     <string name="confirm_delete">删除</string>
     <string name="title_delete">删除文件夹</string>
     <string name="security_mode_title">自动注销</string>
+    <string name="re_register_email_title">重新登录电子邮箱地址</string>
     <string name="remove_data_title">配置数据损坏</string>
     <string name="item_change_master_apss">修改密码</string>
     <string name="item_mode_security">自动注销</string>

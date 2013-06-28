@@ -28,6 +28,7 @@
     <string name="confirm_delete">刪除</string>
     <string name="title_delete">刪除文件夾</string>
     <string name="security_mode_title">自動註銷</string>
+    <string name="re_register_email_title">重新登錄電子郵箱地址</string>
     <string name="remove_data_title">配置數據損壞</string>
     <string name="item_change_master_apss">修改密碼</string>
     <string name="item_mode_security">自動註銷</string>

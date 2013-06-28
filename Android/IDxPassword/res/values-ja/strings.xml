@@ -28,6 +28,7 @@
     <string name="confirm_delete">削除</string>
     <string name="title_delete">フォルダの削除</string>
     <string name="security_mode_title">自動ログオフ</string>
+    <string name="re_register_email_title">メールアドレス再登録</string>
     <string name="remove_data_title">データ破壊設定</string>
     <string name="item_change_master_apss">マスターパスワードの変更</string>
     <string name="item_mode_security">自動ログオフ</string>
