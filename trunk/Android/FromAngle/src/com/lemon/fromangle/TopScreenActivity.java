@@ -250,17 +250,14 @@ public class TopScreenActivity extends PaymentActivity {
 	protected void onResume() {
 		startService(new Intent(this, BillingService.class));
 		BillingHelper.setCompletedHandler(mTransactionHandler);
-		Log.e("user id " + mFromAngleSharedPref.getKeyRunAlarm(), "user id "
-				+ mFromAngleSharedPref.getUserId());
-		Log.e("onDestroyedrr",
-				"onDestroyedme me "
-						+ mFromAngleSharedPref.getModeDestroyedService());
+		Log.e("user id " + mFromAngleSharedPref.getKeyRunAlarm(), "mode validation " 
+				+ mFromAngleSharedPref.getValidationMode());
 		if (mFromAngleSharedPref.getModeDestroyedService() == GlobalValue.KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE) {
-			mFromAngleSharedPref.setKeyRunAlarm(false);
-			mFromAngleSharedPref.setMessageSettingStatus("");
-			mFromAngleSharedPref.setValidationMode(0);
-			mFromAngleSharedPref.putAppStatus(""
-					+ GlobalValue.MSG_RESPONSE_MSG_SETTING_FAILED);
+			//mFromAngleSharedPref.setKeyRunAlarm(false);
+			//mFromAngleSharedPref.setMessageSettingStatus("");
+//			mFromAngleSharedPref.setValidationMode(0);
+//			mFromAngleSharedPref.putAppStatus(""
+//					+ GlobalValue.MSG_RESPONSE_MSG_SETTING_FAILED);
 			mFromAngleSharedPref.putModeDestroyedService(0);
 		} else {
 			mFromAngleSharedPref.putModeDestroyedService(0);
@@ -292,7 +289,7 @@ public class TopScreenActivity extends PaymentActivity {
 						lblStatusFinalValidate.setText(getString(R.string.ok));
 						lblStatusFinalValidate.setTextColor(Color.WHITE);
 						lblStatusNextValidate.setText("---");
-						lblStatusNextValidate.setTextColor(Color.WHITE);
+						lblStatusNextValidate.setTextColor(Color.BLACK);
 					} else if (modeValidation == 1) {
 						imgValidateStatus.setImageResource(R.drawable.bar_red);
 						imgTopStatus.setImageResource(R.drawable.bg_safety);

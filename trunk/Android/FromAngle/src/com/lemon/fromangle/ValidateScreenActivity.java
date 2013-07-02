@@ -58,6 +58,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 		// if (!isRunFromActivity) {
 		if (mFromAngleSharedPref.getValidationMode() < 2) {
 			shiftValueForValidation();
+			stopAlarmManager();
 			startRunAlarmManager();
 		}
 		// }
@@ -162,6 +163,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		shiftValueForValidation();
+		stopAlarmManager();
 		startRunAlarmManager();
 		super.onPause();
 	}
@@ -189,12 +191,14 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 	}
 
 	public void onCancelClick(View v) {
+
 		mFromAngleSharedPref.setStopAlarm(true);
 		mFromAngleSharedPref
 				.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_CANCEL);
 		String appStatus = mFromAngleSharedPref.getAppStatus();
-		if (!appStatus.equalsIgnoreCase(GlobalValue.APP_STATUS_STOP)
-				&& (mFromAngleSharedPref.getValidationMode() < 2))
+		Log.e("on cancel click1 " + appStatus, "on cancel click1 "
+				+ mFromAngleSharedPref.getValidationMode());
+		if (!appStatus.equalsIgnoreCase(GlobalValue.APP_STATUS_STOP))
 			if (mFromAngleSharedPref.getValidationMode() < 1) {
 				mFromAngleSharedPref.setValidationMode(1);
 			} else if (mFromAngleSharedPref.getValidationMode() < 2) {
@@ -203,7 +207,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 				mFromAngleSharedPref.putAppStatus("0");
 				stopAlarmManager();
 			} else {
-				mFromAngleSharedPref.setValidationMode(3);
+				mFromAngleSharedPref.setValidationMode(2);
 				stopAlarmManager();
 			}
 
@@ -213,6 +217,8 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 					TopScreenActivity.class);
 			startActivity(intent);
 		}
+		Log.e("on cancel click",
+				"on cancel click " + mFromAngleSharedPref.getValidationMode());
 		/* send update status to server */
 		// if (!StringUtility.isEmpty(userId)) {
 		// sendUpdateStatusToServer("0");
