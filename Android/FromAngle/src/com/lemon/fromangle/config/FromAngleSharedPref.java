@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
  */
 public class FromAngleSharedPref {
 
-	private String TAG = getClass().getSimpleName();
 
 	public static final String APPLICATION_INSTALL_FIRST_TIME = "APPLICATION_INSTALL_FIRST_TIME";
 
@@ -70,41 +69,6 @@ public class FromAngleSharedPref {
 
 	// ======================== UTILITY FUNCTIONS ========================
 
-	public void setFirstIntall() {
-
-		putBooleanValue(APPLICATION_INSTALL_FIRST_TIME, true);
-	}
-
-	public boolean getFirstIntall() {
-		return getBooleanValue(APPLICATION_INSTALL_FIRST_TIME);
-	}
-
-	public void setFinishValidate() {
-
-		putBooleanValue(FINISH_VALIDATE, true);
-	}
-
-	public boolean getFinishValidate() {
-		return getBooleanValue(FINISH_VALIDATE);
-	}
-
-	public void setFinishSettingMessage() {
-
-		putBooleanValue(FINISH_SETTTING_MESSAGE, true);
-	}
-
-	public boolean getFinishSettingMessage() {
-		return getBooleanValue(FINISH_SETTTING_MESSAGE);
-	}
-
-	public void setFinishSetting() {
-		putBooleanValue(FINISH_SETTTING, true);
-	}
-
-	public boolean getFinishSetting() {
-		return getBooleanValue(FINISH_SETTTING);
-	}
-
 	public void setCheckVibrate(boolean b) {
 		putBooleanValue(KEY_CHECK_VIBRATE, b);
 	}
@@ -128,14 +92,6 @@ public class FromAngleSharedPref {
 
 	public boolean getKeyRunAlarm() {
 		return getBooleanValue(KEY_RUN_ALARM);
-	}
-
-	public void setCheckRingTone(boolean value) {
-		putBooleanValue(KEY_CHECK_RINGTONE, value);
-	}
-
-	public boolean getCheckRingTone() {
-		return getBooleanValue(KEY_CHECK_RINGTONE);
 	}
 
 	public void setOpenDialogReminder(boolean value) {

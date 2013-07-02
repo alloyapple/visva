@@ -95,6 +95,7 @@ public class SettingActivivity extends Activity {
 	private MediaPlayer mMediaPlayer;
 
 	private PendingIntent pendingIntent;
+	private AlarmManager alarmManager;
 
 	public Handler mHandler = new Handler();
 	public boolean checkRing = false;
@@ -557,6 +558,7 @@ public class SettingActivivity extends Activity {
 				if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_SUCESS) {
 					showToast(getString(R.string.change_info_sucess));
 					addDataToPreference();
+					stopAlarmManager();
 					startRunAlarmManager();
 					
 					btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
@@ -610,6 +612,7 @@ public class SettingActivivity extends Activity {
 
 						mFromAngleSharedPref.getMessageSettingStatus();
 						// if(mFromAngleSharedPref.getMessageSettingStatus())
+						stopAlarmManager();
 						startRunAlarmManager();
 
 						showToast(getResources().getString(R.string.sucess));
@@ -896,7 +899,7 @@ public class SettingActivivity extends Activity {
 					MessageFollowService.class);
 			pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
 					myIntent, 0);
-			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+			alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(System.currentTimeMillis());
 			calendar.add(Calendar.SECOND, timeDelay);
@@ -913,7 +916,7 @@ public class SettingActivivity extends Activity {
 				MessageFollowService.class);
 		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
 				myIntent, 0);
-		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 		// Calendar calendar = Calendar.getInstance();
 		// calendar.setTimeInMillis(System.currentTimeMillis());
 		// calendar.add(Calendar.SECOND, timeDelay);

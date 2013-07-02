@@ -7,6 +7,8 @@ import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.app.Service;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
@@ -18,6 +20,7 @@ import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
@@ -60,16 +63,17 @@ public class MessageFollowService extends Service {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		mPref = new FromAngleSharedPref(this);
-		PowerManager pm = (PowerManager) this
-				.getSystemService(Context.POWER_SERVICE);
-		PowerManager.WakeLock wl = pm.newWakeLock(
-				PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
-		// Acquire the lock
-		wl.acquire();
+		PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+        wakeLock.acquire();
+        KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
+        KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
+        keyguardLock.disableKeyguard();
 		mMediaPlayer = new MediaPlayer();
 		mPref.setFirstTimeSetting(false);
 		mPref.setStopAlarm(false);
@@ -84,17 +88,22 @@ public class MessageFollowService extends Service {
 		// if (!StringUtility.isEmpty(mPref.getUserId())) {
 		Log.e("rin " + mPref.getVibrateMode(),
 				"run here " + mPref.getStopAlarm());
-		Intent intentValidation = new Intent(this, ValidateScreenActivity.class);
-		intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
-		startActivity(intentValidation);
+		
+		if (!mPref.getStartService()) {
+			Intent intentValidation = new Intent(MessageFollowService.this,
+					ValidateScreenActivity.class);
+			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
+			startActivity(intentValidation);
+		}
+		
 		playRingTone(mPref.getRingTuneFile());
-
 		new CountDownTimer(30000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
 				// TODO Auto-generated method stub
-				Log.e("onFinish serrverce", "on finish service1");
+				Log.e("onFinish serrverce",
+						"on finish service1 " + mPref.getStopAlarm());
 				countTimer++;
 				if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
 					// Vibrate for 500 milliseconds
@@ -127,7 +136,7 @@ public class MessageFollowService extends Service {
 			};
 		}.start();
 
-		wl.release();
+		wakeLock.release();
 		return super.onStartCommand(intent, flags, startId);
 	}
 
