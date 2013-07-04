@@ -1,7 +1,5 @@
 package com.japanappstudio.IDxPassword.database;
 
-import com.japanappstudio.IDxPassword.activities.EditIconActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -55,7 +53,7 @@ public class IdManagerPreference {
 	public static final String CURRENT_FOLDER_ID = "CURRENT_FOLDER_ID";
 	public static final String DROPBOX_CHECK_LOGIN = "DROPBOX_CHECK_LOGIN";
 	public static final String KEY_AUTHEN_GG_DRIVE = "KEY_AUTHEN_GG_DRIVE";
-
+	public static final String KEY_PAUSE_APP="PAUSE_APP";
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
 	 * 
@@ -452,5 +450,17 @@ public class IdManagerPreference {
 		String b;
 		b = getMasterPW(KEY_AUTHEN_GG_DRIVE);
 		return b;
+	}
+	public boolean getIsPauseApp() {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(KEY_PAUSE_APP,false);
+	}
+	public void setPauseApp(boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(KEY_PAUSE_APP, b);
+		editor.commit();
 	}
 }

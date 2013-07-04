@@ -80,6 +80,7 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		if (position == 0) {
 			getApp().setPeriod(Long.MAX_VALUE);
 		} else if (position == 1) {
+			getApp().setPeriod(Long.MAX_VALUE);
 		} else if (position == 2) {
 			getApp().setPeriod(1 * 60 * 1000);
 		} else if (position == 3) {
