@@ -85,7 +85,8 @@
                         android:layout_gravity="center"
                         android:layout_toLeftOf="@id/btn_close_email"
                         android:background="@color/transparent"
-                        android:gravity="center"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:inputType="textEmailAddress"
                         android:singleLine="true" >
                     </EditText>
