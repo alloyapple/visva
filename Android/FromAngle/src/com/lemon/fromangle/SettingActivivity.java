@@ -909,19 +909,11 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void stopAlarmManager() {
-		// TODO Auto-generated method stub
-		// int timeDelay = -5000;
-		// Log.e("delay time", "delay time " + timeDelay);
 		Intent myIntent = new Intent(SettingActivivity.this,
 				MessageFollowService.class);
 		pendingIntent = PendingIntent.getService(SettingActivivity.this, 0,
 				myIntent, 0);
 		alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		// Calendar calendar = Calendar.getInstance();
-		// calendar.setTimeInMillis(System.currentTimeMillis());
-		// calendar.add(Calendar.SECOND, timeDelay);
-		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-		// pendingIntent);
 		alarmManager.cancel(pendingIntent);
 	}
 
