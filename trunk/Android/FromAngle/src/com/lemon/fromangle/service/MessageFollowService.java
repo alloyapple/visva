@@ -25,6 +25,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
 
+@SuppressWarnings("deprecation")
 @SuppressLint("Wakelock")
 public class MessageFollowService extends Service {
 	private FromAngleSharedPref mPref;
@@ -56,87 +57,92 @@ public class MessageFollowService extends Service {
 		super.onDestroy();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		mPref = new FromAngleSharedPref(this);
-		PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
-        WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-        wakeLock.acquire();
-        KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
-        KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
-        keyguardLock.disableKeyguard();
-		mMediaPlayer = new MediaPlayer();
-		mPref.setFirstTimeSetting(false);
-		mPref.setStopAlarm(false);
-		mPref.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE);
-		if (isApplicationSentToBackground(this))
-			mPref.setRunOnBackGround(true);
-		else
-			mPref.setRunOnBackGround(false);
+		Log.e("key run alarm", "key run alarm "+mPref.getKeyRunAlarm());
+		if (mPref.getKeyRunAlarm()) {
+			PowerManager pm = (PowerManager) getApplicationContext()
+					.getSystemService(Context.POWER_SERVICE);
+			WakeLock wakeLock = pm
+					.newWakeLock(
+							(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+									| PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),
+							"TAG");
+			wakeLock.acquire();
+			KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
+					.getSystemService(Context.KEYGUARD_SERVICE);
+			KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
+			keyguardLock.disableKeyguard();
+			mMediaPlayer = new MediaPlayer();
+			mPref.setFirstTimeSetting(false);
+			mPref.setStopAlarm(false);
+			mPref.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE);
+			if (isApplicationSentToBackground(this))
+				mPref.setRunOnBackGround(true);
+			else
+				mPref.setRunOnBackGround(false);
 
-		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-		// if (!StringUtility.isEmpty(mPref.getUserId())) {
-		Log.e("rin " + mPref.getVibrateMode(),
-				"run here " + mPref.getStopAlarm());
-		
-		if (!mPref.getStartService()) {
-			Intent intentValidation = new Intent(MessageFollowService.this,
-					ValidateScreenActivity.class);
-			intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY, false);
-			startActivity(intentValidation);
-		}
-		
-		playRingTone(mPref.getRingTuneFile());
-		new CountDownTimer(30000, 1000) {
-			@Override
-			public void onTick(long millisUntilFinished) {
-				// TODO Auto-generated method stub
-				Log.e("onFinish serrverce",
-						"on finish service1 " + mPref.getStopAlarm());
-				countTimer++;
-				if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
-					// Vibrate for 500 milliseconds
-					mPref.setRunFromActivity(false);
-					if (v != null && countTimer % 3 == 0)
-						v.vibrate(1500);
-				}
-				if (mPref.getStopAlarm()) {
-					if (v != null)
-						v.cancel();
-					v = null;
-					if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
-						mMediaPlayer.stop();
-					onFinish();
-					// MessageFollowService.this.onDestroy();
-				}
+			v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+			mPref.setStopAlarm(false);
+			mPref.setStartService(false);
+			if (!mPref.getStartService()) {
+				Intent intentValidation = new Intent(MessageFollowService.this,
+						ValidateScreenActivity.class);
+				intentValidation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intentValidation.putExtra(GlobalValue.IS_RUN_FROM_ACTIVITY,
+						false);
+				startActivity(intentValidation);
 			}
 
-			@Override
-			public void onFinish() {
-				Log.e("onFinish serrverce", "on finish service");
-				countTimer = 0;
-				if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
-					mMediaPlayer.stop();
-				mPref.setStartService(false);
-				mPref.setStopAlarm(false);
-				mPref.setRunFromActivity(true);
-				mPref.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_ON_FINISH);
-				MessageFollowService.this.onDestroy();
-			};
-		}.start();
+			playRingTone(mPref.getRingTuneFile());
+			new CountDownTimer(30000, 1000) {
+				@Override
+				public void onTick(long millisUntilFinished) {
+					// TODO Auto-generated method stub
+					Log.e("onFinish countdown", "on countdown : "+mPref.getStopAlarm());
+					countTimer++;
+					if (mPref.getVibrateMode() && !mPref.getStopAlarm()) {
+						// Vibrate for 500 milliseconds
+						mPref.setRunFromActivity(false);
+						if (v != null && countTimer % 3 == 0)
+							v.vibrate(1500);
+					}
+					while(!mPref.getStopAlarm() && !mMediaPlayer.isPlaying())
+						playRingTone(mPref.getRingTuneFile());
+					if (mPref.getStopAlarm()) {
+						if (v != null)
+							v.cancel();
+						v = null;
+						if (mMediaPlayer.isLooping()
+								&& mMediaPlayer.isPlaying())
+							mMediaPlayer.stop();
+						onFinish();
+					}
+				}
 
-		wakeLock.release();
+				@Override
+				public void onFinish() {
+					Log.e("onFinish serrverce", "on finish service");
+					countTimer = 0;
+					if (mMediaPlayer.isLooping() && mMediaPlayer.isPlaying())
+						mMediaPlayer.stop();
+					// mPref.setStartService(false);
+					//mPref.setStopAlarm(false);
+					mPref.setRunFromActivity(true);
+					mPref.putModeDestroyedService(GlobalValue.KEY_DESTROYED_SERVICE_BY_ON_FINISH);
+					MessageFollowService.this.onDestroy();
+				};
+			}.start();
+			wakeLock.release();
+		}
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -150,58 +156,57 @@ public class MessageFollowService extends Service {
 	}
 
 	public void playRingTone(String uriRingtune) {
-		Log.e("uriRingtone", "uriRingtone " + uriRingtune);
+		mPref.setStartService(true);
+		// Log.e("uriRingtone "+!mPref.getStartService(), "uriRingtone " +
+		// uriRingtune);
 		Uri uri = Uri.parse(uriRingtune);
-		if (!mPref.getStartService()) {
-			// ringtone = RingtoneManager.getRingtone(MessageFollowService.this,
-			// uri);
-			// if (ringtone != null)
-			// ringtone.play();
-			mMediaPlayer = new MediaPlayer();
-			try {
-				mMediaPlayer.setDataSource(this, uri);
-				final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		mMediaPlayer = new MediaPlayer();
+		try {
+			mMediaPlayer.setDataSource(this, uri);
+			final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-				if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-					mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-					switch (audioManager.getRingerMode()) {
-					case AudioManager.RINGER_MODE_SILENT:
-						Log.i("silent", "ok");
-						mMediaPlayer.setVolume(0, 0);
-						break;
-					case AudioManager.RINGER_MODE_VIBRATE:
-						Log.i("vibrate", "ok");
-						mMediaPlayer.setVolume(0, 0);
-						break;
-					case AudioManager.RINGER_MODE_NORMAL:
-						Log.i("normal", "ok");
-						mMediaPlayer.setVolume(100, 100);
-						break;
-					}
-					mMediaPlayer.setLooping(true);
-					mMediaPlayer.prepare();
-					mMediaPlayer.start();
-					mPref.setStartService(true);
-					mPref.setRunFromActivity(false);
-					Log.i("play", "ok");
+			if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+				mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+				switch (audioManager.getRingerMode()) {
+				case AudioManager.RINGER_MODE_SILENT:
+					Log.i("silent", "ok");
+					mMediaPlayer.setVolume(0, 0);
+					break;
+				case AudioManager.RINGER_MODE_VIBRATE:
+					Log.i("vibrate", "ok");
+					mMediaPlayer.setVolume(0, 0);
+					break;
+				case AudioManager.RINGER_MODE_NORMAL:
+					Log.i("normal", "ok");
+					mMediaPlayer.setVolume(100, 100);
+					break;
 				}
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				mMediaPlayer.setLooping(true);
+				mMediaPlayer.prepare();
+				mMediaPlayer.start();
+				// mPref.setStartService(true);
+				mPref.setRunFromActivity(false);
+				Log.i("play", "ok");
 			}
-
-		} else {
-			mPref.setStartService(false);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		while (!mMediaPlayer.isPlaying())
+			playRingTone(uriRingtune);
+		// } else {
+		// mPref.setStartService(false);
+		// }
 	}
 
 	/*
