@@ -1,6 +1,5 @@
 package com.lemon.fromangle;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,11 +26,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -92,17 +91,19 @@ public class SettingActivivity extends Activity {
 	private boolean isVibrate = false;
 	private Uri[] mListUriRingTone;
 
-	private MediaPlayer mMediaPlayer;
+	// private MediaPlayer mMediaPlayer;
 
 	private PendingIntent pendingIntent;
 	private AlarmManager alarmManager;
 
 	public Handler mHandler = new Handler();
-	public boolean checkRing = false;
+	private boolean checkRing = false;
 
 	private boolean isFirstTime = false;
 	private String device_id = "";
 	private Cursor mCursor;
+
+	private Ringtone r;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,11 +119,11 @@ public class SettingActivivity extends Activity {
 
 		/* check is update or register */
 		checkIsUpdateOrRegister();
-		
-		if(mFromAngleSharedPref.getKeyRunAlarm()){
+
+		if (mFromAngleSharedPref.getKeyRunAlarm()) {
 			btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 			btnCancel.setBackgroundResource(R.drawable.stop_btn);
-		}else{
+		} else {
 			btnSave.setBackgroundResource(R.drawable.start_btn);
 			btnCancel.setBackgroundResource(R.drawable.btn_stop_pressed);
 		}
@@ -130,7 +131,6 @@ public class SettingActivivity extends Activity {
 	}
 
 	private void checkIsUpdateOrRegister() {
-		String filePath = null;
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		userId = mFromAngleSharedPref.getUserId();
 		if (userId != null && !"".equals(userId)) {
@@ -152,31 +152,30 @@ public class SettingActivivity extends Activity {
 			txtTimeSetting.setText(split[0].trim() + " : " + split[1].trim());
 			chkVibrate.setChecked(isVibrate);
 
-			mMediaPlayer = new MediaPlayer();
+			// mMediaPlayer = new MediaPlayer();
 			for (int i = 0; i < mListUriRingTone.length; i++) {
 				if (uriRingtune.equals(mListUriRingTone[i].toString())) {
 					spnSelectRingTune.setSelection(i);
-					filePath = convertMediaUriToPath(mListUriRingTone[i]);
 				}
 			}
-			try {
-				mMediaPlayer.setDataSource(filePath);
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-
-			}
-			mMediaPlayer.start();
+			// try {
+			// mMediaPlayer.setDataSource(filePath);
+			// } catch (IllegalArgumentException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// } catch (SecurityException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// } catch (IllegalStateException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// } catch (Exception e) {
+			//
+			// }
+			// mMediaPlayer.start();
 		} else {
 			Calendar cal = Calendar.getInstance();
 			int hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -239,6 +238,7 @@ public class SettingActivivity extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		checkRing = false;
 		if (mCursor == null) {
 			RingtoneManager mRingtoneManager2 = new RingtoneManager(this); // adds
 			// ringtonemanager
@@ -254,6 +254,22 @@ public class SettingActivivity extends Activity {
 			// ringtonemanager
 			startManagingCursor(mCursor); // starts the cursor query
 		}
+		
+		new CountDownTimer(2000,100) {
+			
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				checkRing = false;
+			}
+			
+			@Override
+			public void onFinish() {
+				// TODO Auto-generated method stub
+				checkRing = true;
+			}
+		}.start();
+		
 		super.onResume();
 
 	}
@@ -361,31 +377,34 @@ public class SettingActivivity extends Activity {
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
 						// TODO Auto-generated method stub
-						if (!checkRing) {
-							checkRing = true;
-							return;
-						}
-						int pos = spnSelectRingTune.getSelectedItemPosition();
-						uriRingtune = mListUriRingTone[pos].toString();
-						Uri uri = Uri.parse(uriRingtune);
-						final Ringtone r = RingtoneManager.getRingtone(
-								getApplicationContext(), uri);
-						r.play();
-						mHandler.postDelayed(new Runnable() {
+						Log.e("adsfsd " + arg2, "ksdhf " + checkRing);
+						if (arg0 == spnSelectRingTune) {
+							if (checkRing) {
+								
+								int pos = spnSelectRingTune
+										.getSelectedItemPosition();
+								uriRingtune = mListUriRingTone[pos].toString();
+								Uri uri = Uri.parse(uriRingtune);
+								r = RingtoneManager.getRingtone(
+										getApplicationContext(), uri);
+								r.play();
+								mHandler.postDelayed(new Runnable() {
 
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								r.stop();
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										r.stop();
+									}
+								}, 3000);
 							}
-						}, 3000);
+						}
 					}
 
 					@Override
 					public void onNothingSelected(AdapterView<?> arg0) {
 						// TODO Auto-generated method stub
-
 					}
+					
 				});
 		uriRingtune = mListUriRingTone[0].toString();
 	}
@@ -560,7 +579,7 @@ public class SettingActivivity extends Activity {
 					addDataToPreference();
 					stopAlarmManager();
 					startRunAlarmManager();
-					
+
 					btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 					btnCancel.setBackgroundResource(R.drawable.stop_btn);
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
@@ -616,7 +635,7 @@ public class SettingActivivity extends Activity {
 						startRunAlarmManager();
 
 						showToast(getResources().getString(R.string.sucess));
-						
+
 						btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 						btnCancel.setBackgroundResource(R.drawable.stop_btn);
 					}
@@ -685,7 +704,8 @@ public class SettingActivivity extends Activity {
 
 			// Date date1 = new Date(txtDateSetting.getText().toString());
 			Date date1 = new Date();
-//			int daysAfter = Integer.parseInt(txtDayAfter.getText().toString());
+			// int daysAfter =
+			// Integer.parseInt(txtDayAfter.getText().toString());
 			final SimpleDateFormat df = new SimpleDateFormat("yyyy/mm/dd");
 			try {
 				date1 = df.parse(dateStr);
@@ -834,7 +854,7 @@ public class SettingActivivity extends Activity {
 				|| StringUtility.isEmpty(txtEmail)
 				|| StringUtility.isEmpty(txtDateSetting)
 				|| StringUtility.isEmpty(txtTimeSetting) || StringUtility
-				.isEmpty(txtDayAfter));
+					.isEmpty(txtDayAfter));
 	}
 
 	@Override
