@@ -336,6 +336,9 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
+			float weight1 = ((LinearLayout.LayoutParams) view1
+					.getLayoutParams()).weight;
+			mIdManagerPreference.setWeightSlideItem(weight1);
 			if (modeFrom == 1)
 				CopyItemActivity.startActivity(this, currentElementId);
 			finish();
