@@ -46,7 +46,7 @@ public class ImageMemoActivity extends BaseActivity {
 	static final int DRAG = 1;
 	static final int ZOOM = 2;
 	int mode = NONE;
-	private int deltaBound = 7;
+	private int deltaBound = 5;
 	// these PointF objects are used to record the point(s) the user is touching
 	PointF start = new PointF();
 	PointF start2 = new PointF();
@@ -410,7 +410,7 @@ public class ImageMemoActivity extends BaseActivity {
 		float xTouch, yTouch;
 		final int L = 0, T = 1, R = 2, B = 3;
 		int mode = -1;
-		float deltaTouch = 25;
+		float deltaTouch = 40;
 
 		public MySurface(Context context) {
 			super(context);
