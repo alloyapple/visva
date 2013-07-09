@@ -49,10 +49,10 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 		switch (statusCode) {
 		case AsyncHttpBase.NETWORK_STATUS_OFF:
 			try {
-				DialogUtility.alert(context, "Network is unavaiable");
+				DialogUtility.alert(context, context.getString(R.string.network_unvailable));
 			} catch (Exception e) {
 				DialogUtility.alert(context.getParent(),
-						"Network is unavaiable");
+						 context.getString(R.string.network_unvailable));
 				e.printStackTrace();
 			}
 			break;

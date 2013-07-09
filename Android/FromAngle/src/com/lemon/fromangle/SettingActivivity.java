@@ -123,9 +123,13 @@ public class SettingActivivity extends Activity {
 		if (mFromAngleSharedPref.getKeyRunAlarm()) {
 			btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 			btnCancel.setBackgroundResource(R.drawable.stop_btn);
+			btnSave.setEnabled(false);
+			btnCancel.setEnabled(true);
 		} else {
 			btnSave.setBackgroundResource(R.drawable.start_btn);
 			btnCancel.setBackgroundResource(R.drawable.btn_stop_pressed);
+			btnSave.setEnabled(true);
+			btnCancel.setEnabled(false);
 		}
 
 	}
@@ -460,10 +464,38 @@ public class SettingActivivity extends Activity {
 			mFromAngleSharedPref.setKeyRunAlarm(false);
 			btnSave.setBackgroundResource(R.drawable.start_btn);
 			btnCancel.setBackgroundResource(R.drawable.btn_stop_pressed);
-			finish();
-
+			btnSave.setEnabled(true);
+			btnCancel.setEnabled(false);
+			sendUpdateStatusToServer("0");
+			
 		}
 	};
+	
+	private void sendUpdateStatusToServer(String status) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> params = ParameterFactory.updateStatusForServer(
+				userId, status);
+		AsyncHttpPost postUpdateStt = new AsyncHttpPost(
+				SettingActivivity.this, new AsyncHttpResponseProcess(
+						SettingActivivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						mFromAngleSharedPref.setMessageSettingStatus("0");
+						mFromAngleSharedPref.putAppStatus("0");
+						mFromAngleSharedPref.setValidationMode(2);
+						showToast(getResources().getString(
+								R.string.stop_success));
+						finish();
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, params, true);
+		postUpdateStt.execute(WebServiceConfig.URL_MESSAGE_SETTING);
+	}
 	OnClickListener onSaveClick = new OnClickListener() {
 
 		@Override
@@ -582,6 +614,8 @@ public class SettingActivivity extends Activity {
 
 					btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 					btnCancel.setBackgroundResource(R.drawable.stop_btn);
+					btnSave.setEnabled(false);
+					btnCancel.setEnabled(true);
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
 					showToast(getString(R.string.duplicated_email));
 				} else
@@ -638,6 +672,8 @@ public class SettingActivivity extends Activity {
 
 						btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 						btnCancel.setBackgroundResource(R.drawable.stop_btn);
+						btnSave.setEnabled(false);
+						btnCancel.setEnabled(true);
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
 					showToast(getString(R.string.duplicated_email));
