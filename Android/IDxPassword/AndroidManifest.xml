@@ -67,11 +67,13 @@
 
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.EnterOldPasswordActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.MasterPasswordActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.PasswordGeneratorActivity"
