@@ -1,391 +1,403 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_setting"
-    android:orientation="vertical" >
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="46dp"
-        android:layout_gravity="center|top"
-        android:background="@drawable/top_bar" >
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center|center"
-            android:layout_marginLeft="4dp"
-            android:gravity="center"
-            android:text="@string/setting_title"
-            android:textColor="#000000"
-            android:textStyle="bold" >
-        </TextView>
-    </FrameLayout>
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="fill_parent"
+        android:background="@drawable/bg_setting"
         android:orientation="vertical" >
 
-        <ScrollView
+        <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="46dp"
+            android:layout_gravity="center|top"
+            android:background="@drawable/top_bar" >
 
-            <LinearLayout
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginRight="10dp"
-                android:orientation="vertical" >
+                android:layout_gravity="center|center"
+                android:layout_marginLeft="4dp"
+                android:gravity="center"
+                android:text="@string/setting_title"
+                android:textColor="#000000"
+                android:textStyle="bold" >
+            </TextView>
+        </FrameLayout>
 
-                <FrameLayout
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <com.japanappstudio.IDxPassword.activities.MyScrollView android:id="@+id/setting_scrollView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/top_corner_button"
-                    android:onClick="onChangeMasterPass" >
+                    android:layout_height="fill_parent"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical" >
 
-                    <TextView
+                    <FrameLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="left|center"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_change_master_apss"
-                        android:textColor="#000000" >
-                    </TextView>
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/icon_item_shift" >
-                    </ImageView>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:background="@drawable/bottom_corner_button"
-                    android:onClick="onSecurityMode" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_mode_security"
-                        android:textColor="#000000" >
-                    </TextView>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:orientation="horizontal" >
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/top_corner_button"
+                        android:onClick="onChangeMasterPass" >
 
                         <TextView
-                            android:id="@+id/id_text_mode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="4dp"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="4dp"
                             android:gravity="left|center"
-                            android:textColor="#000000"
-                            android:textStyle="bold" >
+                            android:text="@string/item_change_master_apss"
+                            android:textColor="#000000" >
                         </TextView>
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_gravity="center"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="4dp"
                             android:src="@drawable/icon_item_shift" >
                         </ImageView>
-                    </LinearLayout>
-                </FrameLayout>
+                    </FrameLayout>
 
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20px"
-                    android:background="@drawable/all_corner_button"
-                    android:onClick="onRemoveData" >
-
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginRight="20dp" >
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1px"
+                        android:background="@drawable/bottom_corner_button"
+                        android:onClick="onSecurityMode" >
 
                         <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="left|center"
                             android:layout_marginLeft="4dp"
                             android:gravity="left|center"
-                            android:text="@string/item_remove_data"
+                            android:text="@string/item_mode_security"
                             android:textColor="#000000" >
                         </TextView>
-                    </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/icon_item_shift" >
-                    </ImageView>
-                </FrameLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="4dp"
+                            android:orientation="horizontal" >
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp" >
+                            <TextView
+                                android:id="@+id/id_text_mode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="4dp"
+                                android:gravity="left|center"
+                                android:textColor="#000000"
+                                android:textStyle="bold" >
+                            </TextView>
 
-                    <TextView
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_item_shift" >
+                            </ImageView>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <FrameLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_sync"
-                        android:textColor="#000000" >
-                    </TextView>
-                </LinearLayout>
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20px"
+                        android:background="@drawable/all_corner_button"
+                        android:onClick="onRemoveData" >
 
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:background="@drawable/top_corner_button"
-                    android:onClick="onDropbox" >
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="20dp" >
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginRight="20dp" >
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_gravity="left|center"
+                                android:layout_marginLeft="4dp"
+                                android:gravity="left|center"
+                                android:text="@string/item_remove_data"
+                                android:textColor="#000000" >
+                            </TextView>
+                        </LinearLayout>
 
                         <ImageView
-                            android:id="@+id/img_dropbox_logo"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center" >
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="4dp"
+                            android:src="@drawable/icon_item_shift" >
                         </ImageView>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp" >
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_marginLeft="4dp"
                             android:gravity="left|center"
-                            android:text="@string/item_dropbox"
+                            android:text="@string/item_sync"
                             android:textColor="#000000" >
                         </TextView>
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/icon_item_shift" >
-                    </ImageView>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:background="@drawable/no_corner_button"
-                    android:onClick="onGoogle" >
-
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginRight="20dp" >
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1px"
+                        android:background="@drawable/top_corner_button"
+                        android:onClick="onDropbox" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="20dp" >
+
+                            <ImageView
+                                android:id="@+id/img_dropbox_logo"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center" >
+                            </ImageView>
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginLeft="4dp"
+                                android:gravity="left|center"
+                                android:text="@string/item_dropbox"
+                                android:textColor="#000000" >
+                            </TextView>
+                        </LinearLayout>
 
                         <ImageView
-                            android:id="@+id/img_gg_drive_logo"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center" >
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="4dp"
+                            android:src="@drawable/icon_item_shift" >
                         </ImageView>
+                    </FrameLayout>
 
-                        <TextView
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1px"
+                        android:background="@drawable/no_corner_button"
+                        android:onClick="onGoogle" >
+
+                        <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:layout_marginLeft="4dp"
-                            android:gravity="left|center"
-                            android:text="@string/item_google"
-                            android:textColor="#000000" >
-                        </TextView>
-                    </LinearLayout>
+                            android:layout_marginRight="20dp" >
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/icon_item_shift" >
-                    </ImageView>
-                </FrameLayout>
+                            <ImageView
+                                android:id="@+id/img_gg_drive_logo"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center" >
+                            </ImageView>
 
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:background="@drawable/bottom_corner_button"
-                    android:onClick="onReadFileviaCloud" >
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginLeft="4dp"
+                                android:gravity="left|center"
+                                android:text="@string/item_google"
+                                android:textColor="#000000" >
+                            </TextView>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="4dp"
+                            android:src="@drawable/icon_item_shift" >
+                        </ImageView>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1px"
+                        android:background="@drawable/bottom_corner_button"
+                        android:onClick="onReadFileviaCloud" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="20dp" >
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginLeft="4dp"
+                                android:gravity="left|center"
+                                android:text="@string/item_cloud"
+                                android:textColor="#000000" >
+                            </TextView>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="4dp"
+                            android:src="@drawable/icon_item_shift" >
+                        </ImageView>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20px"
+                        android:background="@drawable/all_corner_button"
+                        android:onClick="onRegisterEmailAddress" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="20dp" >
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_gravity="left|center"
+                                android:layout_marginLeft="4dp"
+                                android:gravity="left|center"
+                                android:text="@string/re_register_email_title"
+                                android:textColor="#000000" >
+                            </TextView>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="4dp"
+                            android:src="@drawable/icon_item_shift" >
+                        </ImageView>
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginRight="20dp" >
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp" >
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_marginLeft="4dp"
                             android:gravity="left|center"
-                            android:text="@string/item_cloud"
+                            android:text="@string/item_payment"
                             android:textColor="#000000" >
                         </TextView>
                     </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/icon_item_shift" >
-                    </ImageView>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20px"
-                    android:background="@drawable/all_corner_button"
-                    android:onClick="onRegisterEmailAddress" >
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginRight="20dp" >
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/top_corner_button"
+                        android:onClick="onUnlimitedItems" >
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:layout_gravity="left|center"
                             android:layout_marginLeft="4dp"
                             android:gravity="left|center"
-                            android:text="@string/re_register_email_title"
+                            android:text="@string/item_unlimited_item"
                             android:textColor="#000000" >
                         </TextView>
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="4dp"
-                        android:src="@drawable/icon_item_shift" >
-                    </ImageView>
-                </FrameLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp" >
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_payment"
-                        android:textColor="#000000" >
-                    </TextView>
-                </LinearLayout>
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1px"
+                        android:background="@drawable/no_corner_button"
+                        android:onClick="onNoAdmod" >
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/top_corner_button"
-                    android:onClick="onUnlimitedItems" >
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="@string/item_no_admod"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_unlimited_item"
-                        android:textColor="#000000" >
-                    </TextView>
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="1px"
+                        android:background="@drawable/bottom_corner_button"
+                        android:onClick="onExportData" >
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="left|center"
+                            android:text="@string/item_export_data"
+                            android:textColor="#000000" >
+                        </TextView>
+                    </LinearLayout>
                 </LinearLayout>
+            </com.japanappstudio.IDxPassword.activities.MyScrollView>
+        </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:background="@drawable/no_corner_button"
-                    android:onClick="onNoAdmod" >
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_no_admod"
-                        android:textColor="#000000" >
-                    </TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:background="@drawable/bottom_corner_button"
-                    android:onClick="onExportData" >
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="4dp"
-                        android:gravity="left|center"
-                        android:text="@string/item_export_data"
-                        android:textColor="#000000" >
-                    </TextView>
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <com.google.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-            android:id="@+id/main_adView"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            ads:adUnitId="a14f59e5c442767" />
+            android:background="@color/black"
+            android:orientation="vertical" >
+
+            <com.google.ads.AdView
+                xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+                android:id="@+id/main_adView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                ads:adUnitId="a14f59e5c442767" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <!-- <LinearLayout
+        android:id="@+id/ln_setting"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </LinearLayout>
+ -->
+</FrameLayout>

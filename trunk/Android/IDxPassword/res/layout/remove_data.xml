@@ -50,7 +50,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical" >
+        android:orientation="vertical" android:background="@color/black">
 
         <com.google.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
