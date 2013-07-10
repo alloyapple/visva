@@ -22,9 +22,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +64,10 @@ public class SettingActivity extends BaseActivity {
 	private CharSequence[] mListDataChoiceTemp;
 	private IDxPWDataBaseHandler mDataBaseHandler;
 	private boolean isExportData;
+//	private float x0, y0;
+//	private float xTouch, yTouch;
+	private int width, height;
+//	private LinearLayout lnSetting;
 
 	// /////////////////////////////////////////////////////////////////////////
 	// Your app-specific settings. //
@@ -100,6 +109,7 @@ public class SettingActivity extends BaseActivity {
 	private ImageView mImgDropbox;
 	public static String sercurity_mode;
 	private TextView textModeSercurity;
+	private MyScrollView scrollView;
 
 	// private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private static final String TAG = "BillingService";
@@ -131,6 +141,9 @@ public class SettingActivity extends BaseActivity {
 		/* init database */
 		initDatabase();
 		textModeSercurity = (TextView) findViewById(R.id.id_text_mode);
+//		lnSetting = (LinearLayout) findViewById(R.id.ln_setting);
+		scrollView=(MyScrollView) findViewById(R.id.setting_scrollView);
+		scrollView.setActivityCall(this);
 		mPref = IdManagerPreference.getInstance(this);
 		initAdmod();
 		startService(new Intent(this, BillingService.class));
@@ -141,6 +154,35 @@ public class SettingActivity extends BaseActivity {
 		if (sercurity_mode == null)
 			sercurity_mode = getResources().getString(
 					R.string.text_security_off);
+		Display d = getWindowManager().getDefaultDisplay();
+		setWidthScreen(d.getWidth());
+		height = d.getHeight();
+//		lnSetting.setOnTouchListener(new OnTouchListener() {
+//
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				switch (event.getAction()) {
+//				case MotionEvent.ACTION_DOWN:
+//					xTouch = x0 = event.getX();
+//					yTouch = y0 = event.getY();
+//					return true;
+//				case MotionEvent.ACTION_UP:
+//					xTouch = event.getX();
+//					yTouch = event.getY();
+//					if (Math.abs(xTouch - x0) > Math.abs(yTouch - y0)
+//							&& x0 - xTouch > width / 3) {
+//						onReturn(null);
+//						return true;
+//
+//					}
+//
+//				default:
+//					break;
+//				}
+//				return false;
+//			}
+//		});
 
 	}
 
@@ -1036,6 +1078,14 @@ public class SettingActivity extends BaseActivity {
 	protected void onDestroy() {
 		BillingHelper.stopService();
 		super.onDestroy();
+	}
+
+	public void setWidthScreen(int width) {
+		this.width = width;
+	}
+
+	public int getWidthScreen() {
+		return width;
 	}
 
 }
