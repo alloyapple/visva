@@ -6,11 +6,6 @@ import java.util.Date;
 
 import com.japanappstudio.IDxPassword.activities.R;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.accounts.OperationCanceledException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -35,13 +30,8 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
@@ -62,11 +52,8 @@ public class SyncCloudActivity extends Activity {
 	private static final int NO_CLOUD_LOGIN = 0;
 	private static final int GG_DRIVE_LOGIN_SESSION = 1;
 	private static final int DROPBOX_LOGIN_SESSION = 2;
-	// https://developers.google.com/drive/scopes
-	private static final String AUTH_TOKEN_TYPE = "oauth2:https://www.googleapis.com/auth/drive";
 
 	// https://code.google.com/apis/console/
-	private static final String CLIENT_ID = "863640288546-6m1t1cab8f3vv7o73h5q5lkod0dm5rvq.apps.googleusercontent.com";
 	private static final int REQUEST_ACCOUNT_PICKER = 1;
 	private int mCloudType = 0;
 
@@ -106,10 +93,6 @@ public class SyncCloudActivity extends Activity {
 	private int modeSyncData = Contants.MODE_SYNC_TO_CLOUD;
 	private static final int REQUEST_AUTHORIZATION = 2;
 
-	private AccountManager accountManager;
-	private Account[] accounts;
-	private String authToken;
-
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +107,10 @@ public class SyncCloudActivity extends Activity {
 		/* gg drive api */
 		credential = GoogleAccountCredential.usingOAuth2(this,
 				DriveScopes.DRIVE);
-		accountManager = AccountManager.get(this);
-		accounts = accountManager.getAccountsByType("com.google");
-
+		if (!"".equals(mGGAccountName)) {
+			credential.setSelectedAccountName(mGGAccountName);
+			service = getDriveService(credential);
+		}
 		/* init control */
 		mTextViewCloudType = (TextView) findViewById(R.id.cloud_type);
 		mTextViewLastTimeSync = (TextView) findViewById(R.id.last_time_sync);
@@ -152,50 +136,21 @@ public class SyncCloudActivity extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		super.onResume();
+
 		if (mApi.getSession().isLinked()) {
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name)
 					+ " Dropbox");
 			mCloudType = DROPBOX_LOGIN_SESSION;
 		} else if (!"".equals(mGGAccountName)) {
-			Log.e("authen gg " + mGGAccountName, "authen gg "
-					+ mIdManagerPreference.getKeyAuthenGGDrive());
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name)
 					+ " Google Drive" + "\n Account: " + mGGAccountName);
 			mCloudType = GG_DRIVE_LOGIN_SESSION;
-			authToken = mIdManagerPreference.getKeyAuthenGGDrive();
-			if (null != authToken && !"".equals(authToken)) {
-				credential.setSelectedAccountName(mGGAccountName);
-				service = getDriveService(credential);
-			} else {
-				checkAuthenForGGDrive();
-			}
 		} else {
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name));
 			mCloudType = NO_CLOUD_LOGIN;
 		}
-	}
 
-	private void checkAuthenForGGDrive() {
-		// TODO Auto-generated method stub
-		accountManager.getAuthToken(accounts[0], AUTH_TOKEN_TYPE, null, this,
-				new AccountManagerCallback<Bundle>() {
-
-					public void run(final AccountManagerFuture<Bundle> future) {
-						try {
-							authToken = future.getResult().getString(
-									AccountManager.KEY_AUTHTOKEN);
-							mIdManagerPreference.setKeyAuthenGGDrive(authToken);
-							service = getDriveService(credential);
-						} catch (OperationCanceledException exception) {
-							// TODO
-						} catch (Exception exception) {
-							Log.d(this.getClass().getName(),
-									exception.getMessage());
-						}
-					}
-				}, null);
-
+		super.onResume();
 	}
 
 	/**
@@ -239,8 +194,8 @@ public class SyncCloudActivity extends Activity {
 	private void startAutoSyncData(int mCloudType) {
 		if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
 			if (mGGAccountName != null) {
-				credential.setSelectedAccountName(mGGAccountName);
-				service = getDriveService(credential);
+//				credential.setSelectedAccountName(mGGAccountName);
+//				service = getDriveService(credential);
 				boolean isCheckedTime = false;
 				saveFileAutoSync(mGGAccountName, isCheckedTime);
 			}
@@ -743,6 +698,7 @@ public class SyncCloudActivity extends Activity {
 						REQUEST_ACCOUNT_PICKER);
 			}
 			break;
+			
 		default:
 			break;
 		}
@@ -750,6 +706,7 @@ public class SyncCloudActivity extends Activity {
 
 	private void saveFileToDrive(String accountName, boolean isCheckedTime) {
 		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
+		Log.e("mservice", "m service "+service);
 		GGUploadController drive = new GGUploadController(this, service,
 				fileDb, mHandler, accountName, isCheckedTime);
 		drive.execute();
@@ -769,18 +726,9 @@ public class SyncCloudActivity extends Activity {
 		drive.execute();
 	}
 
-	@SuppressWarnings("deprecation")
 	private Drive getDriveService(GoogleAccountCredential credential) {
-		final HttpTransport transport = AndroidHttp.newCompatibleTransport();
-		final JsonFactory jsonFactory = new GsonFactory();
-		GoogleCredential credential1 = new GoogleCredential();
-		credential1.setAccessToken(authToken);
-		Drive drive = new Drive.Builder(transport, jsonFactory, credential1)
-				.setApplicationName(getString(R.string.app_name))
-				.setGoogleClientRequestInitializer(
-						new GoogleKeyInitializer(CLIENT_ID)).build();
-		return drive;
-
+		return new Drive.Builder(AndroidHttp.newCompatibleTransport(),
+				new GsonFactory(), credential).build();
 	}
 
 	private Handler mHandler = new Handler() {
@@ -811,7 +759,8 @@ public class SyncCloudActivity extends Activity {
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
 				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
-				startActivityForResult(credential.newChooseAccountIntent(),
+				Log.e("dklajfd", "asdkfjh "+e);
+				startActivityForResult(e.getIntent(),
 						REQUEST_AUTHORIZATION);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD) {
 				saveFileToDrive(mGGAccountName, false);

@@ -61,6 +61,7 @@ public class GGAutoSyncController extends AsyncTask<Void, Long, Integer> {
 			Files.List request = null;
 			File gDriveFile = null;
 			request = mService.files().list();
+			Log.e("svisdf "+request, "service "+mService);
 			FileList files = request.execute();
 			Log.e("file.size", "file.size " + files.size());
 			for (File file : files.getItems()) {

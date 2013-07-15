@@ -23,7 +23,7 @@ import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 public class GGDriveUploadController extends AsyncTask<Void, Long, Integer> {
 	private Context mContext;
 	private final ProgressDialog mDialog;
-	private Drive mService;
+	private static Drive mService;
 	private java.io.File mFileDb;
 	private long mFileLength;
 	private Handler mHandler;

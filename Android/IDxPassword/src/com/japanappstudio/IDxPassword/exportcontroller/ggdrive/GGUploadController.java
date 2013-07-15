@@ -25,7 +25,7 @@ import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 	private Context mContext;
 	private final ProgressDialog mDialog;
-	private Drive mService;
+	private  Drive mService;
 	private java.io.File mFileDb;
 	private long mFileLength;
 	private Handler mHandler;
@@ -38,6 +38,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 	public GGUploadController(Activity context, Drive service,
 			java.io.File fileDb, Handler mHandler, String acountName,
 			boolean isCheckedTime) {
+		Log.e("aksldfd", "mservicegg "+service);
 		this.mContext = context;
 		this.mService = service;
 		this.mFileDb = fileDb;
@@ -65,6 +66,7 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 			File gDriveFile = null;
 			request = mService.files().list();
 			FileList files = request.execute();
+			Log.e("svisdf "+request, "service "+mService);
 			for (File file : files.getItems()) {
 				if (Contants.DATA_IDMANAGER_NAME.equals(file.getTitle())) {
 					gDriveFile = file;
@@ -129,9 +131,11 @@ public class GGUploadController extends AsyncTask<Void, Long, Integer> {
 			event = e;
 			return Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
 		} catch (IOException e) {
+			Log.e("run me", "ioexceptionsss");
 			e.printStackTrace();
-			return Contants.DIALOG_MESSAGE_SYNC_FAILED;
+			return Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED;
 		}
+		Log.e("run me", "run ne");
 		return Contants.DIALOG_MESSAGE_SYNC_FAILED;
 	}
 

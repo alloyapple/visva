@@ -1,15 +1,9 @@
 package com.japanappstudio.IDxPassword.activities.syncloud;
 
-import com.japanappstudio.IDxPassword.activities.R;
-
-import android.accounts.Account;
+import java.io.IOException;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +11,13 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import com.japanappstudio.IDxPassword.activities.R;
+import com.japanappstudio.IDxPassword.contants.Contants;
+import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -29,35 +25,23 @@ import com.dropbox.client2.session.AccessTokenPair;
 import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.services.GoogleKeyInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.http.FileContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.japanappstudio.IDxPassword.contants.Contants;
-import com.japanappstudio.IDxPassword.database.IdManagerPreference;
+import com.google.api.services.drive.model.File;
 
-@SuppressWarnings("deprecation")
 public class GGDriveSettingActivity extends Activity {
 	private static final int REQUEST_ACCOUNT_PICKER = 1;
+	private static final int REQUEST_AUTHORIZATION = 2;
+	private static final int CAPTURE_IMAGE = 3;
 	private static Uri fileUri;
 	private static Drive service;
 	private GoogleAccountCredential credential;
 	private Button mBtnLinkToGGDrive;
 	private String mAccountName = "";
-
-	// https://developers.google.com/drive/scopes
-	private static final String AUTH_TOKEN_TYPE = "oauth2:https://www.googleapis.com/auth/drive";
-
-	// https://code.google.com/apis/console/
-	private static final String CLIENT_ID = "863640288546-6m1t1cab8f3vv7o73h5q5lkod0dm5rvq.apps.googleusercontent.com";
-
-	private AccountManager accountManager;
-	private Account[] accounts;
-	private String authToken;
 
 	// /////////////////////////////////////////////////////////////////////////
 	// Your app-specific settings. //
@@ -84,7 +68,6 @@ public class GGDriveSettingActivity extends Activity {
 
 	private IdManagerPreference mIdManagerPreference;
 
-	private boolean isLogIn = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -106,8 +89,6 @@ public class GGDriveSettingActivity extends Activity {
 
 		credential = GoogleAccountCredential.usingOAuth2(this,
 				DriveScopes.DRIVE);
-		accountManager = AccountManager.get(this);
-		accounts = accountManager.getAccountsByType("com.google");
 
 		mBtnLinkToGGDrive = (Button) findViewById(R.id.btn_link_to_gg_drive);
 		mBtnLinkToGGDrive.setOnClickListener(new OnClickListener() {
@@ -124,28 +105,12 @@ public class GGDriveSettingActivity extends Activity {
 		});
 
 		if (!"".equals(mAccountName)) {
-			creatDialog(null, getString(R.string.gg_drive_already_use)).show();
-			mBtnLinkToGGDrive.setText(getString(R.string.dropbox_reset_sync));
+			mBtnLinkToGGDrive.setText(getString(R.string.gg_drive_already_use));
 		} else {
 			mBtnLinkToGGDrive.setText(getString(R.string.dropbox_start_to_use));
 		}
 	}
-	private AlertDialog creatDialog(String message, String title) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		if (title != null)
-			builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(getResources().getString(R.string.confirm_ok),
-				new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-
-					}
-				});
-		return builder.create();
-	}
 	@Override
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {
@@ -158,38 +123,36 @@ public class GGDriveSettingActivity extends Activity {
 
 				if (accountName != null) {
 					credential.setSelectedAccountName(accountName);
-
-					accountManager.getAuthToken(accounts[1], AUTH_TOKEN_TYPE,
-							null, this, new AccountManagerCallback<Bundle>() {
-
-								public void run(
-										final AccountManagerFuture<Bundle> future) {
-									try {
-										authToken = future
-												.getResult()
-												.getString(
-														AccountManager.KEY_AUTHTOKEN);
-										mIdManagerPreference
-												.setKeyAuthenGGDrive(authToken);
-										service = getDriveService(credential);
-									} catch (OperationCanceledException exception) {
-										// TODO
-									} catch (Exception exception) {
-//										Log.d(this.getClass().getName(),
-//												exception.getMessage());
-									}
-								}
-							}, null);
-
+					service = getDriveService(credential);
 					mBtnLinkToGGDrive
 							.setText(getString(R.string.gg_drive_already_use));
 					mIdManagerPreference.setGoogleAccNameSession(accountName);
 					if (mApi.getSession().isLinked())
 						logOutDropbox();
-					// finish();
+					//finish();
 				}
 			}
 			break;
+		case REQUEST_AUTHORIZATION:
+			if (resultCode == Activity.RESULT_OK) {
+				String accountName = data
+						.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+				if (accountName != null) {
+					credential.setSelectedAccountName(accountName);
+					service = getDriveService(credential);
+					mBtnLinkToGGDrive
+							.setText(getString(R.string.gg_drive_already_use));
+					mIdManagerPreference.setGoogleAccNameSession(accountName);
+				}
+			} else {
+				startActivityForResult(credential.newChooseAccountIntent(),
+						REQUEST_ACCOUNT_PICKER);
+			}
+			break;
+		case CAPTURE_IMAGE:
+			if (resultCode == Activity.RESULT_OK) {
+				saveFileToDrive();
+			}
 		}
 	}
 
@@ -208,16 +171,41 @@ public class GGDriveSettingActivity extends Activity {
 		edit.commit();
 	}
 
+	private void saveFileToDrive() {
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					// File's binary content
+					java.io.File fileContent = new java.io.File(fileUri
+							.getPath());
+					FileContent mediaContent = new FileContent("image/jpeg",
+							fileContent);
+
+					// File's metadata.
+					File body = new File();
+					body.setTitle(fileContent.getName());
+					body.setMimeType("image/jpeg");
+
+					File file = service.files().insert(body, mediaContent)
+							.execute();
+					if (file != null) {
+						showToast("Photo uploaded: " + file.getTitle());
+						finish();
+					}
+				} catch (UserRecoverableAuthIOException e) {
+					startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
+	}
+
 	private Drive getDriveService(GoogleAccountCredential credential) {
-		final HttpTransport transport = AndroidHttp.newCompatibleTransport();
-		final JsonFactory jsonFactory = new GsonFactory();
-		GoogleCredential credential1 = new GoogleCredential();
-		credential1.setAccessToken(authToken);
-		Drive drive = new Drive.Builder(transport, jsonFactory, credential1)
-				.setApplicationName(getString(R.string.app_name))
-				.setGoogleClientRequestInitializer(
-						new GoogleKeyInitializer(CLIENT_ID)).build();
-		return drive;
+		return new Drive.Builder(AndroidHttp.newCompatibleTransport(),
+				new GsonFactory(), credential).build();
 	}
 
 	public void showToast(final String toast) {
@@ -322,24 +310,4 @@ public class GGDriveSettingActivity extends Activity {
 				});
 		builder.show();
 	}
-	
-	  @Override
-	    protected Dialog onCreateDialog(final int id) {
-	        switch (id) {
-	            case 1:
-	                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GGDriveSettingActivity.this);
-
-	                String[] names = new String[accounts.length];
-
-	                for (int i = 0; i < accounts.length; i++) {
-	                    names[i] = accounts[i].name;
-	                }
-
-//	                alertDialogBuilder.setItems(names, new DialogInterface.);
-	                alertDialogBuilder.setTitle("Select a Google account");
-	                return alertDialogBuilder.create();
-	        }
-
-	        return null;
-	    }
 }
