@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/action_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
+        android:orientation="horizontal" >
+
+        
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_form"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/id_edit_url"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:inputType="textUri"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="14sp" >
+            </EditText>
+
+            <Button
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/refresh"
+                android:onClick="onReload" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/search_form"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/id_edit_google_search"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:hint="Google"
+                android:imeOptions="actionSearch"
+                android:lines="1"
+                android:textColor="#000000"
+                android:textSize="14sp" >
+            </EditText>
+
+            <ImageButton
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/search"
+                android:onClick="onGoogleSearch" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/id_frame_webview"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <FrameLayout
+            android:id="@+id/id_linear_webview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <ScrollView
+                android:id="@+id/id_scroll"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" >
+
+                <WebView
+                    android:id="@+id/id_webview_get_icon"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+                </WebView>
+            </ScrollView>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/id_frame_bound"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <ImageView
+                android:id="@+id/id_img_bound"
+                android:layout_width="240dp"
+                android:layout_height="180dp"
+                android:background="@drawable/edi_square" >
+            </ImageView>
+        </RelativeLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/black_bar"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/brouther_back"
+                android:onClick="onBroutherBack" />
+
+            <Button
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/brouther_next"
+                android:onClick="onBroutherNext" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/id_checkbox_get_icon_internet"
+            android:layout_width="30dp"
+            android:layout_height="24dp"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/checkbox_mark"
+            android:button="@android:color/transparent" >
+        </CheckBox>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/black">
+
+        <com.google.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+            android:id="@+id/main_adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="a14f59e5c442767" />
+    </LinearLayout>
+
+</LinearLayout>
