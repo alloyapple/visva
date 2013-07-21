@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_00"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/action_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/black_bar"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="fill_parent" >
+
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="18dp"
+                android:layout_height="31dp"
+                android:layout_gravity="center|center"
+                android:background="@drawable/edit" />
+
+            <Button
+                android:id="@+id/btn_return"
+                android:layout_width="33dp"
+                android:layout_height="31dp"
+                android:layout_gravity="center|center"
+                android:background="@drawable/return_button"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/search_form"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/search" />
+
+            <EditText
+                android:id="@+id/edit_text_search"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:hint="Search"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" >
+            </EditText>
+
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/close_text"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_plus"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/btn_plus" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_add_new_folder"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/folder"
+            android:gravity="bottom" />
+
+        <exp.mtparet.dragdrop.view.DndListViewFolder
+            android:id="@+id/list_view_folder"
+            android:layout_width="85dp"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="@color/transparent"
+            android:layout_above="@id/btn_add_new_folder"
+            android:background="@color/transparent"
+            android:divider="@color/transparent" />
+
+        <exp.mtparet.dragdrop.view.ListViewDragDrop
+            android:id="@+id/list_view_item"
+            android:layout_width="wrap_content"
+            android:cacheColorHint="@color/transparent"
+            android:layout_height="400dp"
+            android:layout_toRightOf="@id/list_view_folder"
+            android:divider="@color/transparent" />
+
+        <RelativeLayout
+            android:id="@+id/layoutDrag"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:layout_toRightOf="@id/list_view_folder"
+            android:background="@drawable/item_bar"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp" />
+
+            <Button
+                android:id="@+id/btn_id_item_delete"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/delete" />
+
+            <TextView
+                android:id="@+id/txt_id_name"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/imageView1"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="FaceBook"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_id_url"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_id_name"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/imageView1"
+                android:ellipsize="marquee"
+                android:gravity="bottom"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="http://www.facebook.com"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_id_item_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/txt_id_name"
+                android:background="@drawable/btn_jog_push"
+                android:onClick="onBtnClickEdit" >
+            </Button>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="46dp"
+        android:background="@drawable/bg_actionbar" >
+
+        <Button
+            android:id="@+id/btn_main_info"
+            android:layout_width="16dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/btn_info" />
+
+        <Button
+            android:id="@+id/btn_setting"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/btn_setting" />
+
+        <Button
+            android:id="@+id/btn_sync"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/sync" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="@color/black">
+
+        <com.google.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+            android:id="@+id/main_adView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="a14f59e5c442767" />
+    </LinearLayout>
+
+</LinearLayout>
