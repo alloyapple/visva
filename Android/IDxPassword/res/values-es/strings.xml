@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="btn_agree">Aprobación</string>
+    <string name="btn_disagree">No Aprobación</string>
+    <string name="text_change_remove_data">Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione.</string>
+    <string name="message_change_remove_data">El modo de datos de demolición ha sido cambiado.</string>
+    <string name="message_no_match_pass">La contraseña no coincide. Por favor, hazlo de nuevo.</string>
+    <string name="message_coppied_clipboard">El siguiente punto se ha copiado en el portapapeles.</string>
+    <string name="message_pay_to_unlimit_item">Para eliminar el límite en el número de artículo IDxPassword, se cobra ***.</string>
+    <string name="message_pay_to_no_ad">Para eliminar la publicidad, se le cobrará $4.99.</string>
+    <string name="message_pay_to_export">Para agregar la función de la exportación de datos en formato CSV. Se cobra $9.99.</string>
+    <string name="title_master_pass">Contraseña Maestra</string>
+    <string name="title_current_pass">Contraseña maestra actual</string>
+    <string name="title_delete_items">Borrar</string>
+    <string name="title_add_items">Nuevo</string>
+    <string name="text_min">min</string>
+     <string name="text_security_off">Apagado</string>
+    <string name="text_security_immediately">Inmediatamente</string>
+    <string name="text_off">No Destruct</string>
+    <string name="hint_no_image">NO IMAGE</string>
+    <string name="hint_note">Nota</string>
+    
+    <string name="btn_paste_browse">WEB</string>
+    <string name="message_add_item">A sólo 12 elementos pueden ser registrado en esta aplicación. Usted puede pagar ¢ 99 para llave de código para eliminar el límite de elementos.</string>
+    <string name="title_add_folder">Añadir carpeta</string>
+    <string name="title_change_folder">Cambiar nombre de la carpeta</string>
+    <string name="confirm_delete">Borrar</string>
+    <string name="title_delete">Eliminar carpeta</string>
+    <string name="security_mode_title">Auto sesión Cerrar</string>
+    <string name="re_register_email_title">E-mail Dirección Re-registro</string>
+    <string name="remove_data_title">Daños en los datos de configuración</string>
+    <string name="item_change_master_apss">Cambiar contraseña maestra</string>
+    <string name="item_mode_security">Auto sesión Cerrar</string>
+    <string name="item_remove_data">Daños en los datos de configuración</string>
+    <string name="item_sync">Sincronización</string>
+    <string name="item_google">GoogleDrive sincronización</string>
+    <string name="item_dropbox">Dropbox sincronización</string>
+    <string name="item_cloud">Carga Texto Datos</string>
+    <string name="item_payment">Acusados ​​Servicios Opcionales</string>
+    <string name="item_unlimited_item">Artículos Restricciones de Cancelación</string>
+    <string name="item_no_admod">Anuncio de Cancelación</string>
+    <string name="item_export_data">CSV Plaintext Export</string>
+    <string name="new_pass">Nuevo:</string>
+    <string name="confirm_pass">Verificar:</string>
+    <string name="password_generator_title">Password Generator</string>
+    <string name="button_generate">Generación</string>
+    <string name="item_number">Número</string>
+    <string name="item_capital">Capital</string>
+    <string name="item_lower_case">Minúscula</string>
+    <string name="item_sign">Firmar</string>
+    <string name="item_duplicate">Duplicar la Prevención</string>
+    <string name="item_number_character">Número de Caracteres</string>
+    <string name="list_icon_title">Logo/Icon</string>
+    <string name="setting_title">Ajustar</string>
+    <string name="confirm_ok">Aprobación</string>
+    <string name="confirm_cancel">Cancelar</string>
+    <string name="list_carrier_title">Carrior</string>
+    <string name="list_e_commerce">E-commerce</string>
+    <string name="list_finance">Financiar</string>
+    <string name="list_webservice">Web</string>
+    <string name="list_general">General</string>
+    <string name="list_airline">Airline</string>
+    <string name="list_isp">ISP</string>
+
+    <!-- cloud and data -->
+    <string name="cloud_service_name">Nube nombre de servicio:</string>
+    <string name="txt_dropbox_tut">Dropbox es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
+    <!--
+    <string name="item_sync">Sincronización</string>
+    <string name="item_dropbox">Dropbox sincronización</string>
+    <string name="item_cloud">Carga Texto Datos</string>
+    -->
+    <string name="dropbox_start_to_use">Comenzar a Utilizar</string>
+    <string name="dropbox_reset_sync">Restablecer Sync</string>
+    <string name="dropbox_already_use">IDxPassword ya pueden utilizar Dropbox.</string>
+    <string name="dropbox_use_instead">IDxPassword está utilizando Google Drive en estos momentos. ¿Quieres utilizar Dropbox en su lugar?</string>
+
+    <!-- <string name="item_google">GoogleDrive sincronización</string> -->
+    <string name="txt_gg_drive_tut">GoogleDrive es uno de los servicios en la nube más populares. Para utilizar este servicio es necesario para obtener la cuenta (libre) de antemano.</string>
+    <string name="gg_drive_already_use">IDxPassword ya pueden utilizar Google Drive.</string>
+    <string name="gg_drive_use_instead">IDxPassword está usando Dropbox en estos momentos. ¿Quieres usar Google Drive en su lugar?</string>
+    <string name="internet_not_use">Internet no se puede utilizar.</string>
+    <string name="no_cloud_set_up">No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.</string>
+    <string name="no_data_on_cloud">No hay datos en la nube.</string>
+    <string name="data_rewritten">Los datos de este * se escribiría así. ¿Estás seguro?</string>
+    <string name="data_not_change_format">Los datos seleccionados no se podía cambiar al formato adecuado.</string>
+    <string name="success">Tenido éxito!</string>
+    <string name="charge_option_service">Acusados ​​Servicios Opcionales</string>
+    <string name="item_restrict_cancel">Artículos Restricciones de Cancelación</string>
+    <string name="confirm_app_purchase">Confirme su In-App Purchase</string>
+    <string name="eliminate_item_purchase">Para eliminar el límite en el número de artículo IDxPassword, se cobra ***.</string>
+    <string name="csv_plain_text_export">CSV Plaintext Export</string>
+    <string name="item_limit">A sólo 12 elementos pueden ser registrado en esta aplicación. Usted puede pagar ¢ 99 para llave de código para eliminar el límite de elementos.</string>
+    <string name="add_data_function">Para agregar la función de la exportación de datos en formato CSV. Se cobra $9.99.</string>
+    <string name="unify_newer_data">Unificar por los datos más recientes</string>
+    <string name="last_sync">Última sincronización:</string>
+    <string name="no_cloud_serivce_set_up">No hay servicio de nube no se ha establecido. Es necesario configurarlo a través del menú Sincronización en la página de configuración.</string>
+    <string name="sync_interrupt">La sincronización se interrumpe.</string>
+    <string name="sync_failed">La sincronización se ha fallado.</string>
+    <string name="sync_finish">La sincronización se terminó.</string>
+    <string name="data_cloud_newer">Aunque los datos sobre Dropbox (GoogleDrive) es más reciente, que está seguro de sobreescribirlo?</string>
+    <string name="limit_login_msg">El modo de destrucción está encendido. Usted perderá datos IDxPassword después de entrar en %d PW mal momento.</string>
+    <string name="sync_data_duplicate_msg_drop">Datos Este Android es más reciente. Está seguro que desea sobrescribir la más antigua en Dropbox ?.</string>
+    <string name="sync_data_duplicate_msg_google">Datos Este Android es más reciente. Está seguro que desea sobrescribir la más antigua en GoogleDrive?.</string>
+    <string name="sync_to_cloud_data_device_newer_drop">Los datos de Dropbox  se sobrescribirán con los datos de este iPhone. Estás seguro?</string>
+    <string name="sync_to_device_data_cloud_newer_drop">Datos de este Android se sobrescribirán con los datos más recientes sobre Dropbox .</string>
+    <string name="sync_to_cloud_data_device_newer_google">Los datos de GoogleDrive se sobrescribirán con los datos de este iPhone. Estás seguro?</string>
+    <string name="sync_to_device_data_cloud_newer_google">Datos de este Android se sobrescribirán con los datos más recientes sobre GoogleDrive.</string>
+
+    <!-- others -->
+    <string name="content_agreement">Japón App Studio, Inc. no se hace responsable de los daños de cualquier usuario causado por deficiencias en sus programas, interrupción de sus servicios, el cambio de su sistema de gestión, o por otra razón.\nAl firmar para utilizar su servicio y pulsar el botón "aprobación" abajo, con ello se compromete a respetar las Condiciones de Contrato.</string>
+    <string name="title_agreement">[Términos de Acuerdo]</string>
+    <string name="select_text_format">Seleccione Texto Formato</string>
+    <string name="wrong_pw_login">La contraseña no coincide. Por favor, hazlo de nuevo.</string>
+    <string name="data_erased_msg">Los datos se borran después de introducir la contraseña maestra mal las veces que se seleccione..</string>
+    <string name="email_title_register">Email Registro</string>
+    <string name="email_address_title">E-mail Dirección</string>
+    <string name="email_receiver_update_info">Voy a recibir la información sobre los productos y novedades de nuestra empresa. (puede ser mensual)</string>
+    <string name="email_receiver_important_info">Voy a recibir el anuncio importante.</string>
+    <string name="email_sign_up">contratar</string>
+    <string name="title_edit">Editar</string>
+    <string name="term_of_use_condition">[Términos de Acuerdo]\n
+Japón App Studio, Inc. no se hace responsable de los daños de cualquier usuario causado por deficiencias en sus programas, interrupción de sus servicios, el cambio de su sistema de gestión, o por otra razón.\n
+Al firmar para utilizar su servicio y pulsar el botón \"aprobación\" abajo, con ello se compromete a respetar las Condiciones de Contrato.</string>
+    <string name="message_change_pass">Está seguro de cambiar la contraseña?</string>
+
+</resources>
