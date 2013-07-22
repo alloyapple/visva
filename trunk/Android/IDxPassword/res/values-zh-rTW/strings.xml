@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="btn_agree">同意</string>
+    <string name="btn_disagree">拒絕</string>
+    <string name="text_change_remove_data">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
+    <string name="message_change_remove_data">成功變更數據刪除設置。</string>
+    <string name="message_no_match_pass">您輸入的密碼不正確，請重新輸入。</string>
+    <string name="message_coppied_clipboard">The following item has been copied to the clipboard.</string>
+    <string name="message_pay_to_unlimit_item">您要解除帳戶、密碼個數限制，您將支付*台币</string>
+    <string name="message_pay_to_no_ad">您要刪除廣告，您將支付*台币。</string>
+    <string name="message_pay_to_export">您要通過CSV形式輸出數據，您將支付*台币。</string>
+    <string name="title_current_pass">當前密碼</string>
+    <string name="text_off">不是自毀</string>
+    <string name="text_security_off">没有</string>
+    <string name="text_security_immediately">立即</string>
+    <string name="title_master_pass">密碼</string>
+    <string name="title_delete_items">刪除</string>
+    <string name="title_add_items">新</string>
+    <string name="list_general">一般</string>
+    <string name="text_min">分</string>
+    <string name="hint_no_image">預定日期</string>
+    <string name="hint_note">Note</string>
+    <string name="btn_paste_browse">WEB</string>
+    <string name="message_add_item">多達12個ID密碼免費註冊一個免費的版本。如果你想使用更多的功能限制（¥85），請購買的解鎖鍵碼。</string>
+    <string name="title_add_folder">“添加文件夾”</string>
+    <string name="title_change_folder">重命名文件夾</string>
+    <string name="confirm_delete">刪除</string>
+    <string name="title_delete">刪除文件夾</string>
+    <string name="security_mode_title">自動註銷</string>
+    <string name="re_register_email_title">重新登錄電子郵箱地址</string>
+    <string name="remove_data_title">配置數據損壞</string>
+    <string name="item_change_master_apss">修改密碼</string>
+    <string name="item_mode_security">自動註銷</string>
+    <string name="item_remove_data">配置數據損壞</string>
+    <string name="item_sync">同步運行</string>
+    <string name="item_google">與GoogleDrive同步</string>
+    <string name="item_dropbox">與Dropbox同步</string>
+    <string name="item_cloud">加載文本數據</string>
+    <string name="item_payment">結算設置</string>
+    <string name="item_unlimited_item">解除項目個數限制</string>
+    <string name="item_no_admod">刪除廣告</string>
+    <string name="item_export_data">通過CSV形式輸出</string>
+    <string name="new_pass">新:</string>
+    <string name="confirm_pass">確認:</string>
+    <string name="password_generator_title">密碼生成</string>
+    <string name="button_generate">生成</string>
+    <string name="item_number">數字</string>
+    <string name="item_capital">大寫</string>
+    <string name="item_lower_case">小寫</string>
+    <string name="item_sign">符號</string>
+    <string name="item_duplicate">重複防止</string>
+    <string name="item_number_character">字數</string>
+    <string name="list_icon_title">標誌/圖標</string>
+    <string name="setting_title">設置</string>
+    <string name="confirm_ok">同意</string>
+    <string name="confirm_cancel">取消</string>
+    <string name="list_carrier_title">昂納光通信</string>
+    <string name="list_e_commerce">購物</string>
+    <string name="list_finance">金融</string>
+    <string name="list_webservice">捲筒紙</string>
+    <string name="list_airline">Airline</string>
+    <string name="list_isp">ISP</string>
+
+    <!-- cloud and text data -->
+    <string name="cloud_service_name">使用雲計算服務</string>
+    <string name="txt_dropbox_tut">Dropbox是最有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。</string>
+    <!--
+    <string name="item_sync">同步運行</string>
+    <string name="item_dropbox">與Dropbox同步</string>
+    <string name="item_cloud">加載文本數據</string>
+    -->
+    <string name="dropbox_start_to_use">開始使用</string>
+    <string name="dropbox_reset_sync">解除同步</string>
+    <string name="dropbox_already_use">您的帳戶已經可以使用Dropbox。</string>
+    <string name="dropbox_use_instead">您現在使用GoogleDrive。代替使用Dropbox嗎？</string>
+    <!-- <string name="item_google">與GoogleDrive同步</string> -->
+    <string name="txt_gg_drive_tut">GoogleDrive是有名的提供同步本地文件的網絡存儲在線應用之壹。使用此服務需要獲得帳戶（免費）。</string>
+    <string name="gg_drive_already_use">您的帳號已經可以使用GoogleDrive。</string>
+    <string name="gg_drive_use_instead">您現在使用Dropbox。代替使用GoogleDrive嗎？</string>
+    <string name="internet_not_use">無法使用互聯網。</string>
+    <string name="no_cloud_set_up">同步設置信息不存在，請在【設置】-【同步】進行同步程序設置。</string>
+    <string name="no_data_on_cloud">Cloud上數據不存在。</string>
+    <string name="data_rewritten">您要替換*的數據嗎？</string>
+    <string name="data_not_change_format">無法轉換數據爲應用程序形式。</string>
+    <string name="success">Succeeded!</string>
+    <string name="charge_option_service">結算設置</string>
+    <string name="item_restrict_cancel">解除項目個數限制</string>
+    <string name="confirm_app_purchase">確認您的程序內購買</string>
+    <string name="eliminate_item_purchase">您要刪除廣告，您將支付*台币。</string>
+    <string name="csv_plain_text_export">通過CSV形式輸出</string>
+    <string name="item_limit">多達12個ID密碼免費註冊一個免費的版本。如果你想使用更多的功能限制（¥85），請購買的解鎖鍵碼。</string>
+    <string name="add_data_function">您要通過CSV形式輸出數據，您將支付*台币。</string>
+    <string name="unify_newer_data">新的數據統一由</string>
+    <string name="last_sync">上次同步</string>
+    <string name="no_cloud_serivce_set_up">可以同步的服務沒有設置。 [同步​​​​] - [設置]，必須設置同步。</string>
+    <string name="sync_interrupt">我被中斷的同步。</string>
+    <string name="sync_failed">我同步失敗。</string>
+    <string name="sync_finish">我結束了同步。</string>
+    <string name="data_cloud_newer">更好的數據（GoogleDrive）是新的，但Dropbox，你確定你真的要覆蓋它嗎？</string>
+    <string name="sync_data_duplicate_msg_drop">你確定你想從Dropbox的，誰是新的數據，本次Android上的數據嗎？.</string>
+    <string name="sync_data_duplicate_msg_google">你確定你想從GoogleDrive的，誰是新的數據，本次Android上的數據嗎？.</string>
+    
+    <string name="sync_to_cloud_data_device_newer_drop">您確定您要覆蓋的數據，但在此的iPhone Dropbox的數據嗎？</string>
+    <string name="sync_to_device_data_cloud_newer_drop">閱讀Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
+    <string name="sync_to_cloud_data_device_newer_google">您確定您要覆蓋的數據，但在此的iPhone GoogleDrive的數據嗎？</string>
+    <string name="sync_to_device_data_cloud_newer_google">閱讀GoogleDrive上的數據。你確定要當前數據丟失了嗎？</string>
+
+    <!-- others -->
+     <string name="title_agreement">[免責聲明]</string>
+    <string name="select_text_format">選擇文本數據格式</string>
+    <string name="email_receiver_update_info"></string>
+    <string name="email_receiver_important_info">我將獲得的重要公告。</string>
+    <string name="email_sign_up">報名</string>
+    <string name="email_title_register">注冊電子郵件</string>
+    <string name="email_address_title">Email Address</string>
+    <string name="wrong_pw_login">您輸入的密碼不正確，請重新輸入。</string>
+    <string name="data_erased_msg">達到您制定的密碼錯誤次數時，數據將被刪除。</string>
+    <string name="title_edit">編輯</string>
+    <string name="term_of_use_condition">[免責聲明]\n
+由第三方提供的軟件對該軟件的變更以及本管理系統的服務不足，所造成的壹切後果，其責任與Japan App Studio, inc.無關。\n
+[審批]\n
+利用者點擊\"同意\"開始利用本管理系統的服務，都將被視作是對本聲明全部內容的無意義的認可。</string>
+<string name="message_change_pass">您要替換當前的密碼嗎？</string>
+</resources>
