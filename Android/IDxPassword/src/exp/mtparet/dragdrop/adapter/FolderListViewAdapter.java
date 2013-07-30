@@ -44,7 +44,7 @@ public class FolderListViewAdapter extends BaseAdapter {
 		this.folderList = folderList;
 		this.isSearchMode = isSearchMode;
 		searchFolder = new GroupFolder(Contants.SEARCH_FOLDER_ID, "", 0,
-				Contants.MASTER_PASSWORD_ID, 0);
+				Contants.MASTER_PASSWORD_ID, Contants.SEARCH_FOLDER_ID);
 	}
 
 	@Override
@@ -110,14 +110,20 @@ public class FolderListViewAdapter extends BaseAdapter {
 				imgFolderIcon.setBackgroundResource(R.drawable.favorite);
 			} else if (folderList.get(position).getgOrder() == Contants.HISTORY_FOLDER_ID)
 				imgFolderIcon.setBackgroundResource(R.drawable.history);
+			else if (folderList.get(position).getgOrder() == Contants.SEARCH_FOLDER_ID) {
+				imgFolderIcon.setBackgroundResource(R.drawable.ic_search);
+			} 
 
 		} else {
 			if (position == currentFolderItem
-					|| (isSearchMode && position == 0))
+					|| (isSearchMode && position == 0)) {
 				imgBgFolder.setBackgroundResource(R.drawable.folder_select);
-			else
+				imgFolderIcon.setVisibility(View.GONE);
+			}else {
 				imgBgFolder.setBackgroundResource(R.drawable.folder_common);
-			imgFolderIcon.setVisibility(View.GONE);
+				imgFolderIcon.setVisibility(View.GONE);
+			}
+
 			if (isEdit == true) {
 				imgFolderDelete.setVisibility(View.VISIBLE);
 				imgFolderEdit.setVisibility(View.VISIBLE);

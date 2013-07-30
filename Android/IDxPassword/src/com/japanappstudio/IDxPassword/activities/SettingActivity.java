@@ -23,13 +23,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +36,11 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.idmanager.BillingHelper;
 import com.idmanager.BillingService;
 import com.japanappstudio.IDxPassword.activities.syncloud.DropboxSettingActivity;
@@ -48,6 +49,9 @@ import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.exportcontroller.dropbox.DropBoxController;
 import com.japanappstudio.IDxPassword.exportcontroller.dropbox.ReadFileViaDropBox;
+import com.japanappstudio.IDxPassword.exportcontroller.ggdrive.DownloadCSVViaGGDrive;
+import com.japanappstudio.IDxPassword.exportcontroller.ggdrive.GGDriveUploadCSVController;
+import com.japanappstudio.IDxPassword.exportcontroller.ggdrive.ReadCSVViaGGDrive;
 import com.japanappstudio.IDxPassword.idxpwdatabase.ElementID;
 import com.japanappstudio.IDxPassword.idxpwdatabase.GroupFolder;
 import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
@@ -64,10 +68,10 @@ public class SettingActivity extends BaseActivity {
 	private CharSequence[] mListDataChoiceTemp;
 	private IDxPWDataBaseHandler mDataBaseHandler;
 	private boolean isExportData;
-//	private float x0, y0;
-//	private float xTouch, yTouch;
+	// private float x0, y0;
+	// private float xTouch, yTouch;
 	private int width, height;
-//	private LinearLayout lnSetting;
+	// private LinearLayout lnSetting;
 
 	// /////////////////////////////////////////////////////////////////////////
 	// Your app-specific settings. //
@@ -90,6 +94,11 @@ public class SettingActivity extends BaseActivity {
 	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 
 	private DropboxAPI<AndroidAuthSession> mApi;
+
+	/* gg drive */
+	private static Drive service;
+	private GoogleAccountCredential credential;
+
 	private String fileExportName;
 	private static final int PAYMENT_TO_UNLIMIT_ITEMS = 0;
 	private static final int PAYMENT_TO_NO_AD = 1;
@@ -141,8 +150,8 @@ public class SettingActivity extends BaseActivity {
 		/* init database */
 		initDatabase();
 		textModeSercurity = (TextView) findViewById(R.id.id_text_mode);
-//		lnSetting = (LinearLayout) findViewById(R.id.ln_setting);
-		scrollView=(MyScrollView) findViewById(R.id.setting_scrollView);
+		// lnSetting = (LinearLayout) findViewById(R.id.ln_setting);
+		scrollView = (MyScrollView) findViewById(R.id.setting_scrollView);
 		scrollView.setActivityCall(this);
 		mPref = IdManagerPreference.getInstance(this);
 		initAdmod();
@@ -157,32 +166,32 @@ public class SettingActivity extends BaseActivity {
 		Display d = getWindowManager().getDefaultDisplay();
 		setWidthScreen(d.getWidth());
 		height = d.getHeight();
-//		lnSetting.setOnTouchListener(new OnTouchListener() {
-//
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				// TODO Auto-generated method stub
-//				switch (event.getAction()) {
-//				case MotionEvent.ACTION_DOWN:
-//					xTouch = x0 = event.getX();
-//					yTouch = y0 = event.getY();
-//					return true;
-//				case MotionEvent.ACTION_UP:
-//					xTouch = event.getX();
-//					yTouch = event.getY();
-//					if (Math.abs(xTouch - x0) > Math.abs(yTouch - y0)
-//							&& x0 - xTouch > width / 3) {
-//						onReturn(null);
-//						return true;
-//
-//					}
-//
-//				default:
-//					break;
-//				}
-//				return false;
-//			}
-//		});
+		// lnSetting.setOnTouchListener(new OnTouchListener() {
+		//
+		// @Override
+		// public boolean onTouch(View v, MotionEvent event) {
+		// // TODO Auto-generated method stub
+		// switch (event.getAction()) {
+		// case MotionEvent.ACTION_DOWN:
+		// xTouch = x0 = event.getX();
+		// yTouch = y0 = event.getY();
+		// return true;
+		// case MotionEvent.ACTION_UP:
+		// xTouch = event.getX();
+		// yTouch = event.getY();
+		// if (Math.abs(xTouch - x0) > Math.abs(yTouch - y0)
+		// && x0 - xTouch > width / 3) {
+		// onReturn(null);
+		// return true;
+		//
+		// }
+		//
+		// default:
+		// break;
+		// }
+		// return false;
+		// }
+		// });
 
 	}
 
@@ -326,10 +335,26 @@ public class SettingActivity extends BaseActivity {
 				isExportData = false;
 				String fileName = "";
 				startReadFileViaCloud(fileName, false);
+			} else if (!"".equals(mGGAccountName)) {
+				startReadFileViaGGDrive();
 			} else
 				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
+	}
+
+	private void startReadFileViaGGDrive() {
+		// TODO Auto-generated method stub
+		/* gg drive api */
+		credential = GoogleAccountCredential.usingOAuth2(SettingActivity.this,
+				DriveScopes.DRIVE);
+		credential.setSelectedAccountName(mGGAccountName);
+		service = getDriveService(credential);
+
+		ReadCSVViaGGDrive readFCsvViaGGDrive = new ReadCSVViaGGDrive(
+				SettingActivity.this, service, mHandler);
+		readFCsvViaGGDrive.execute();
+
 	}
 
 	/**
@@ -345,7 +370,8 @@ public class SettingActivity extends BaseActivity {
 				showDialogRequestPayment(getResources().getString(
 						R.string.message_pay_to_export));
 			else {
-				if (mApi.getSession().isLinked()) {
+				if (mApi.getSession().isLinked()
+						|| (!"".equals(mGGAccountName) && null != mGGAccountName)) {
 					isExportData = true;
 					showDialog(Contants.DIALOG_EXPORT_DATA);
 				} else {
@@ -521,7 +547,10 @@ public class SettingActivity extends BaseActivity {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
 							/* add new folder to database */
-							startReadFileViaCloud(mSelectedFile, true);
+							if (mApi.getSession().isLinked())
+								startReadFileViaCloud(mSelectedFile, true);
+							else if (!"".equals(mGGAccountName))
+								saveFileToDevice(mGGAccountName, mSelectedFile);
 							return;
 						}
 					});
@@ -605,7 +634,10 @@ public class SettingActivity extends BaseActivity {
 									mListDataChoice[item], Toast.LENGTH_SHORT)
 									.show();
 							mSelectedFile = mListDataChoice[item];
-							startReadFileViaCloud(mSelectedFile, false);
+							if (mApi.getSession().isLinked())
+								startReadFileViaCloud(mSelectedFile, false);
+							else if (!"".equals(mGGAccountName))
+								saveFileToDevice(mGGAccountName, mSelectedFile);
 						}
 					});
 			return alertBuilder.create();
@@ -630,7 +662,24 @@ public class SettingActivity extends BaseActivity {
 								/* gen file csv */
 								generateCsvFile(Contants.PATH_ID_FILES + "/"
 										+ fileExportName);
-								startSyncToCloud(fileExportName, true);
+								if (mApi.getSession().isLinked())
+									startSyncToCloud(fileExportName, true);
+								else if (!"".equals(mGGAccountName)) {
+									/* gg drive api */
+									credential = GoogleAccountCredential
+											.usingOAuth2(SettingActivity.this,
+													DriveScopes.DRIVE);
+									credential
+											.setSelectedAccountName(mGGAccountName);
+									service = getDriveService(credential);
+
+									// save file to gg drive
+									boolean isCheckTime = false;
+									saveFileToDrive(mGGAccountName,
+											isCheckTime, Contants.PATH_ID_FILES
+													+ "/" + fileExportName);
+								}
+
 							} else
 								return;
 							return;
@@ -1012,7 +1061,6 @@ public class SettingActivity extends BaseActivity {
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
 			mHandler.sendMessage(msg);
-			showToast("file not found");
 		}
 	}
 
@@ -1088,4 +1136,35 @@ public class SettingActivity extends BaseActivity {
 		return width;
 	}
 
+	/**
+	 * save file csv to gg drive in idpw file
+	 */
+
+	private void saveFileToDrive(String accountName, boolean isCheckedTime,
+			String filePath) {
+		java.io.File csvFile = new File(filePath);
+
+		GGDriveUploadCSVController drive = new GGDriveUploadCSVController(this,
+				service, csvFile, mHandler, accountName);
+		drive.execute();
+	}
+
+	/**
+	 * get authen to access gg drive
+	 */
+	private Drive getDriveService(GoogleAccountCredential credential) {
+		return new Drive.Builder(AndroidHttp.newCompatibleTransport(),
+				new GsonFactory(), credential).build();
+	}
+
+	private void saveFileToDevice(String accountName, CharSequence mSeletedFile) {
+		String fileName = (String) mSeletedFile;
+		String cachePath = Contants.PATH_ID_FILES + fileName;
+		java.io.File file = new java.io.File(cachePath);
+//		if (!file.exists())
+//			file.mkdir();
+		DownloadCSVViaGGDrive drive = new DownloadCSVViaGGDrive(this, service,
+				file, mHandler, fileName, true);
+		drive.execute();
+	}
 }
