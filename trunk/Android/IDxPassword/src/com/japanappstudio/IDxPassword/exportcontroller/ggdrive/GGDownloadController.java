@@ -39,6 +39,7 @@ public class GGDownloadController extends AsyncTask<Void, Long, Integer> {
 	private UserRecoverableAuthIOException event;
 	private boolean isExistFolder = false;
 	private boolean isExitFile = false;
+	private String mFileName;
 
 	public GGDownloadController(Activity context, Drive service,
 			java.io.File fileDb, Handler mHandler, String acountName,
@@ -46,6 +47,7 @@ public class GGDownloadController extends AsyncTask<Void, Long, Integer> {
 		this.mContext = context;
 		this.mService = service;
 		this.mFileDb = fileDb;
+		this.mFileName = mFileDb.getName();
 		this.mFileLength = fileDb.length();
 		this.mHandler = mHandler;
 		this.isCheckedTime = isCheckedTime;
@@ -98,8 +100,6 @@ public class GGDownloadController extends AsyncTask<Void, Long, Integer> {
 				}
 
 			request.setPageToken(files.getNextPageToken());
-
-			FileContent mediaContent = new FileContent("image/text", mFileDb);
 
 			// File's metadata.
 			File body = new File();
