@@ -1,10 +1,8 @@
 package exp.mtparet.dragdrop.adapter;
 
 import java.util.ArrayList;
-
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.idxpwdatabase.GroupFolder;
-
 import exp.mtparet.dragdrop.view.DndListViewFolder;
 import android.content.Context;
 import android.os.Handler;
