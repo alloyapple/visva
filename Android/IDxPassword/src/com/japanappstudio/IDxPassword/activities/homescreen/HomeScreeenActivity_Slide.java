@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,7 +31,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,14 +42,8 @@ import com.japanappstudio.IDxPassword.activities.BaseActivity;
 import com.japanappstudio.IDxPassword.activities.BrowserActivity;
 import com.japanappstudio.IDxPassword.activities.CopyItemActivity;
 import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
-import com.japanappstudio.IDxPassword.activities.EnterOldPasswordActivity;
 import com.japanappstudio.IDxPassword.activities.R;
-import com.japanappstudio.IDxPassword.activities.RegisterEmailActivity;
 import com.japanappstudio.IDxPassword.activities.SettingActivity;
-import com.japanappstudio.IDxPassword.activities.SetupRemoveDataActivity;
-import com.japanappstudio.IDxPassword.activities.SetupSecurityModeActivity;
-import com.japanappstudio.IDxPassword.activities.slide_activity.Panel;
-import com.japanappstudio.IDxPassword.activities.syncloud.GGDriveSettingActivity;
 import com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
@@ -66,12 +58,11 @@ import exp.mtparet.dragdrop.view.DndListViewFolder;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
-public class HomeScreeenActivity extends BaseActivity implements
+public class HomeScreeenActivity_Slide extends BaseActivity implements
 		OnClickListener {
 
 	// ==========================Control define ====================
-	//private FrameLayout mainRootLayout;
-	private LinearLayout mainRootLayout;
+	private LinearLayout mainRelativeLayout;
 	private ListViewDragDrop idListView;
 	private DndListViewFolder folderListView;
 
@@ -91,8 +82,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private Button btnSearch;
 	private Button btnClearTextSearch;
 	private EditText mEditTextSearch;
-
-	private Panel panelSetting;
 
 	// ===========================Class Define =====================
 	private ItemAdapter itemAdapter;
@@ -182,10 +171,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 	 */
 	private void initControl() {
 		/* init layout */
-		mainRootLayout = (LinearLayout) LinearLayout.inflate(context,
+		mainRelativeLayout = (LinearLayout) LinearLayout.inflate(context,
 				R.layout.page_home_screen, null);
-//		mainRootLayout = (FrameLayout) LinearLayout.inflate(context,
-//				R.layout.page_home_screen_slide, null);
+
 		/* init layout drag */
 		initLayoutDrag();
 
@@ -196,39 +184,36 @@ public class HomeScreeenActivity extends BaseActivity implements
 		initListViewId();
 
 		/* init button */
-		btnAddNewFolder = (Button) mainRootLayout
+		btnAddNewFolder = (Button) mainRelativeLayout
 				.findViewById(R.id.btn_add_new_folder);
 		btnAddNewFolder.setOnClickListener(this);
 
-		btnAddNewId = (Button) mainRootLayout.findViewById(R.id.btn_plus);
+		btnAddNewId = (Button) mainRelativeLayout.findViewById(R.id.btn_plus);
 		btnAddNewId.setOnClickListener(this);
 
-		btnEdit = (Button) mainRootLayout.findViewById(R.id.btn_edit);
+		btnEdit = (Button) mainRelativeLayout.findViewById(R.id.btn_edit);
 		btnEdit.setOnClickListener(this);
-		btnReturn = (Button) mainRootLayout.findViewById(R.id.btn_return);
+		btnReturn = (Button) mainRelativeLayout.findViewById(R.id.btn_return);
 		btnReturn.setOnClickListener(this);
-		btnSetting = (Button) mainRootLayout.findViewById(R.id.btn_setting);
+		btnSetting = (Button) mainRelativeLayout.findViewById(R.id.btn_setting);
 		btnSetting.setOnClickListener(this);
 
-		btnSync = (Button) mainRootLayout.findViewById(R.id.btn_sync);
+		btnSync = (Button) mainRelativeLayout.findViewById(R.id.btn_sync);
 		btnSync.setOnClickListener(this);
 
-		btnInfo = (Button) mainRootLayout.findViewById(R.id.btn_main_info);
+		btnInfo = (Button) mainRelativeLayout.findViewById(R.id.btn_main_info);
 		btnInfo.setOnClickListener(this);
 
-		btnSearch = (Button) mainRootLayout.findViewById(R.id.btn_search);
+		btnSearch = (Button) mainRelativeLayout.findViewById(R.id.btn_search);
 		btnSearch.setOnClickListener(this);
 
-		btnClearTextSearch = (Button) mainRootLayout
+		btnClearTextSearch = (Button) mainRelativeLayout
 				.findViewById(R.id.btn_close);
 		btnClearTextSearch.setOnClickListener(this);
 		btnClearTextSearch.setVisibility(View.GONE);
 
-//		panelSetting = (Panel) mainRootLayout
-//				.findViewById(R.id.l_home_panel_setting);
-//		panelSetting.setHandle(btnSetting);
 		/* init editText */
-		mEditTextSearch = (EditText) mainRootLayout
+		mEditTextSearch = (EditText) mainRelativeLayout
 				.findViewById(R.id.edit_text_search);
 		mEditTextSearch
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -294,13 +279,13 @@ public class HomeScreeenActivity extends BaseActivity implements
 		});
 
 		/* set contentView for home screen layout */
-		setContentView(mainRootLayout);
+		setContentView(mainRelativeLayout);
 
 	}
 
 	private void initListViewId() {
 		/* init listview */
-		idListView = (ListViewDragDrop) mainRootLayout
+		idListView = (ListViewDragDrop) mainRelativeLayout
 				.findViewById(R.id.list_view_item);
 
 		/* init adapter for listview */
@@ -344,7 +329,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 	private void initListViewFolder() {
 		// TODO Auto-generated method stub
-		folderListView = (DndListViewFolder) mainRootLayout
+		folderListView = (DndListViewFolder) mainRelativeLayout
 				.findViewById(R.id.list_view_folder);
 		folderListViewAdapter = new FolderListViewAdapter(this,
 				mFolderListItems, false, mMainHandler, folderListView,
@@ -375,11 +360,13 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 	private void initLayoutDrag() {
 		/* init layout drag */
-		layoutDrag = (RelativeLayout) mainRootLayout
+		layoutDrag = (RelativeLayout) mainRelativeLayout
 				.findViewById(R.id.layoutDrag);
-		imageDrag = (ImageView) mainRootLayout.findViewById(R.id.imageView1);
-		txtIdName = (TextView) mainRootLayout.findViewById(R.id.txt_id_name);
-		txtIdUrl = (TextView) mainRootLayout.findViewById(R.id.txt_id_url);
+		imageDrag = (ImageView) mainRelativeLayout
+				.findViewById(R.id.imageView1);
+		txtIdName = (TextView) mainRelativeLayout
+				.findViewById(R.id.txt_id_name);
+		txtIdUrl = (TextView) mainRelativeLayout.findViewById(R.id.txt_id_url);
 	}
 
 	/**
@@ -458,7 +445,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 				long arg3) {
 			// TODO Auto-generated method stub
 			if (!isEdit)
-				CopyItemActivity.startActivity(HomeScreeenActivity.this,
+				CopyItemActivity.startActivity(HomeScreeenActivity_Slide.this,
 						mIdListItems.get(arg2).geteId());
 		}
 	};
@@ -800,21 +787,21 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		/* setting */
 		else if (v == btnSetting) {
-			Intent intentSeting = new Intent(HomeScreeenActivity.this,
+			Intent intentSeting = new Intent(HomeScreeenActivity_Slide.this,
 					SettingActivity.class);
 			startActivity(intentSeting);
 		}
 
 		/* sync data to cloud */
 		else if (v == btnSync) {
-			Intent intentSync = new Intent(HomeScreeenActivity.this,
+			Intent intentSync = new Intent(HomeScreeenActivity_Slide.this,
 					SyncCloudActivity.class);
 			startActivity(intentSync);
 		}
 
 		/* go to a browser */
 		else if (v == btnInfo) {
-			Intent intentBrowser = new Intent(HomeScreeenActivity.this,
+			Intent intentBrowser = new Intent(HomeScreeenActivity_Slide.this,
 					BrowserActivity.class);
 			intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.INFO_TO);
 			startActivity(intentBrowser);
@@ -1203,7 +1190,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 	private void startIntentCreateNewIds() {
 		int currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		Intent newIdIntent = new Intent(HomeScreeenActivity.this,
+		Intent newIdIntent = new Intent(HomeScreeenActivity_Slide.this,
 				EditIdPasswordActivity.class);
 		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 1);
 		mIdManagerPreference.setCurrentFolderId(currentFolderId);
@@ -1409,45 +1396,5 @@ public class HomeScreeenActivity extends BaseActivity implements
 		@SuppressWarnings("deprecation")
 		BitmapDrawable result = new BitmapDrawable(bMap);
 		return result;
-	}
-
-	// // method of setting
-
-	public void onReturn(View v) {
-		finish();
-	}
-
-	public void onChangeMasterPass(View v) {
-		Intent intentChangePW = new Intent(this, EnterOldPasswordActivity.class);
-		intentChangePW.putExtra(EnterOldPasswordActivity.KEY_MODE,
-				EnterOldPasswordActivity.FROM_SETTING);
-		startActivity(intentChangePW);
-		finish();
-	}
-
-	public static void startActivity(Activity activity, int valueExtra) {
-		Intent i = new Intent(activity, SettingActivity.class);
-		i.putExtra("modeBundleSetting", valueExtra);
-		activity.startActivity(i);
-	}
-
-	public void onSecurityMode(View v) {
-		SetupSecurityModeActivity.startActivity(this);
-	}
-
-	public void onRemoveData(View v) {
-		SetupRemoveDataActivity.startActivity(this);
-	}
-
-	public void onGoogle(View v) {
-		Intent intentDropbox = new Intent(this, GGDriveSettingActivity.class);
-		startActivity(intentDropbox);
-	}
-
-	public void onRegisterEmailAddress(View v) {
-		Intent intentRegisterEmail = new Intent(this,
-				RegisterEmailActivity.class);
-		intentRegisterEmail.putExtra(Contants.CREATE_NEW_EMAIL, false);
-		startActivity(intentRegisterEmail);
 	}
 }

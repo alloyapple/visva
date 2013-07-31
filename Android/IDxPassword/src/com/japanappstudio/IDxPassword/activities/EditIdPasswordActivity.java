@@ -1,7 +1,5 @@
 package com.japanappstudio.IDxPassword.activities;
 
-import it.sephiroth.demo.slider.widget.MultiDirectionSlidingDrawer;
-
 import java.io.ByteArrayOutputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -119,7 +117,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.edit_id_pass2);
+		setContentView(R.layout.layout_edit_id_pass);
 		modeBundle = getIntent().getExtras().getInt(
 				Contants.IS_INTENT_CREATE_NEW_ID);
 		if (modeBundle != 2)

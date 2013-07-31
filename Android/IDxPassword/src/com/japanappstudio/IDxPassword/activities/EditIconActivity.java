@@ -339,7 +339,6 @@ public class EditIconActivity extends BaseActivity {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -381,7 +380,7 @@ public class EditIconActivity extends BaseActivity {
 		startActivityForResult(photoPickerIntent, Contants.SELECT_PHOTO);
 	}
 
-	@SuppressLint("NewApi")
+
 	@Override
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {
@@ -425,7 +424,8 @@ public class EditIconActivity extends BaseActivity {
 					getParam().height = (int)h;
 					getParam().leftMargin = (int) (d.getWidth() - getParam().width) / 2;
 					getParam().topMargin = (int) (heightP - getParam().height) / 2;
-					imageView.setImageBitmap(bmp);
+					mDrawableIconEdit= new BitmapDrawable(bmp);
+					imageView.setImageDrawable(mDrawableIconEdit);
 					imageView.requestLayout();
 
 				} else {
