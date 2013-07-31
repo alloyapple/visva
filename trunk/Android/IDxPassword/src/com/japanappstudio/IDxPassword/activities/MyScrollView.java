@@ -35,12 +35,12 @@ public class MyScrollView extends ScrollView{
 		case MotionEvent.ACTION_MOVE:
 			xTouch = ev.getX();
 			yTouch = ev.getY();
-			if (Math.abs(xTouch - x0) > Math.abs(yTouch - y0)
-					&& x0 - xTouch > activityCall.getWidthScreen() / 6) {
-				activityCall.onReturn(null);
-				return true;
-
-			}
+//			if (Math.abs(xTouch - x0) > Math.abs(yTouch - y0)
+//					&& x0 - xTouch > activityCall.getWidthScreen() / 6) {
+//				activityCall.onReturn(null);
+//				return true;
+//
+//			}
 
 		default:
 			break;
