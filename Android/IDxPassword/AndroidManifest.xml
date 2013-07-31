@@ -102,6 +102,11 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
+            android:name="com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity_Slide"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
             android:name="com.japanappstudio.IDxPassword.activities.CopyItemActivity"
             android:screenOrientation="portrait" >
         </activity>
