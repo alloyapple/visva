@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 Johan Nilsson <http://markupartist.com>
+<!--
+     Copyright (C) 2011 Johan Nilsson <http://markupartist.com>
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,17 +16,9 @@
 -->
 
 <resources>
+
     <declare-styleable name="ActionBar">
         <attr name="title" format="string" localization="suggested" />
-    </declare-styleable>
-     <declare-styleable name="MultiDirectionSlidingDrawer">
-        <attr name="handle" format="reference" />
-        <attr name="content" format="reference" />
-        <attr name="direction" />
-        <attr name="bottomOffset" format="dimension"  />
-        <attr name="topOffset" format="dimension"  />
-        <attr name="allowSingleTap" format="boolean" />
-        <attr name="animateOnClick" format="boolean" />
     </declare-styleable>
     <attr name="direction">
         <enum name="rightToLeft" value="0" />
@@ -33,4 +26,35 @@
         <enum name="leftToRight" value="2" />
         <enum name="topToBottom" value="3" />
     </attr>
+
+    <declare-styleable name="Panel">
+
+        <!-- Defines panel animation duration in ms. -->
+        <attr name="animationDuration" format="integer" />
+        <!-- Defines panel position on the screen. -->
+        <attr name="position">
+
+            <!-- Panel placed at top of the screen. -->
+            <enum name="top" value="0" />
+            <!-- Panel placed at bottom of the screen. -->
+            <enum name="bottom" value="1" />
+            <!-- Panel placed at left of the screen. -->
+            <enum name="left" value="2" />
+            <!-- Panel placed at right of the screen. -->
+            <enum name="right" value="3" />
+        </attr>
+        <!-- Identifier for the child that represents the panel's handle. -->
+        <attr name="handle" format="reference" />
+        <!-- Identifier for the child that represents the panel's content. -->
+        <attr name="content" format="reference" />
+        <!-- Defines if flying gesture forces linear interpolator in animation. -->
+        <attr name="linearFlying" format="boolean" />
+        <!-- Defines size relative to parent (must be in form: nn%p). -->
+        <attr name="weight" format="fraction" />
+        <!-- Defines opened handle (drawable/color). -->
+        <attr name="openedHandle" format="reference|color" />
+        <!-- Defines closed handle (drawable/color). -->
+        <attr name="closedHandle" format="reference|color" />
+    </declare-styleable>
+
 </resources>
