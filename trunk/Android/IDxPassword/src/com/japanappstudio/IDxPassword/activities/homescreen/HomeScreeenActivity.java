@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,7 +32,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -278,12 +276,18 @@ public class HomeScreeenActivity extends BaseActivity implements
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				// TODO Auto-generated method stub
-				Log.e("string of search", "string search " + s);
 				mTextSearch = mEditTextSearch.getText().toString();
 				/* clear text */
 				// mEditTextSearch.setText("");
 
 				mIdListItems = startSearch(mTextSearch);
+				/* reset folder adapter */
+				isSearchMode = true;
+				// GroupFolder folder = new GroupFolder(1000, "", 0,
+				// Contants.MASTER_PASSWORD_ID, 0);
+				folderListViewAdapter.updateSearchMode(isSearchMode,
+						currentFolderItem);
+				btnClearTextSearch.setVisibility(View.VISIBLE);
 				if (null != mIdListItems && mIdListItems.size() > 0) {
 					/* reset id adapter */
 					currentFolderId = mFolderListItems.get(currentFolderItem)
@@ -291,14 +295,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 					itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
 							currentFolderId);
 					// btnClearTextSearch.setVisibility(View.GONE);
-
-					/* reset folder adapter */
-					isSearchMode = true;
-					// GroupFolder folder = new GroupFolder(1000, "", 0,
-					// Contants.MASTER_PASSWORD_ID, 0);
-					folderListViewAdapter.updateSearchMode(isSearchMode,
-							currentFolderItem);
-					btnClearTextSearch.setVisibility(View.VISIBLE);
 				}
 			}
 
