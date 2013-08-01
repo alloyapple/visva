@@ -121,7 +121,8 @@ public class SyncCloudActivity extends Activity {
 		if (mLastTimeSync > 0)
 			mTextViewLastTimeSync.setText(getString(R.string.last_sync)
 					+ split[0] + "/" + split[1] + "/" + split[2]);
-
+		else
+			mTextViewLastTimeSync.setText(getString(R.string.last_sync)+"NO");
 		// We create a new AuthSession so that we can use the Dropbox API.
 		AndroidAuthSession session = buildSession();
 		mApi = new DropboxAPI<AndroidAuthSession>(session);
@@ -143,7 +144,7 @@ public class SyncCloudActivity extends Activity {
 			mCloudType = DROPBOX_LOGIN_SESSION;
 		} else if (!"".equals(mGGAccountName)) {
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name)
-					+ " Google Drive" + "\n Account: " + mGGAccountName);
+					+ " Google Drive");
 			mCloudType = GG_DRIVE_LOGIN_SESSION;
 		} else {
 			mTextViewCloudType.setText(getString(R.string.cloud_service_name));
@@ -194,8 +195,8 @@ public class SyncCloudActivity extends Activity {
 	private void startAutoSyncData(int mCloudType) {
 		if (mCloudType == GG_DRIVE_LOGIN_SESSION) {
 			if (mGGAccountName != null) {
-//				credential.setSelectedAccountName(mGGAccountName);
-//				service = getDriveService(credential);
+				// credential.setSelectedAccountName(mGGAccountName);
+				// service = getDriveService(credential);
 				boolean isCheckedTime = false;
 				saveFileAutoSync(mGGAccountName, isCheckedTime);
 			}
@@ -698,7 +699,7 @@ public class SyncCloudActivity extends Activity {
 						REQUEST_ACCOUNT_PICKER);
 			}
 			break;
-			
+
 		default:
 			break;
 		}
@@ -706,7 +707,7 @@ public class SyncCloudActivity extends Activity {
 
 	private void saveFileToDrive(String accountName, boolean isCheckedTime) {
 		java.io.File fileDb = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
-		Log.e("mservice", "m service "+service);
+		Log.e("mservice", "m service " + service);
 		GGUploadController drive = new GGUploadController(this, service,
 				fileDb, mHandler, accountName, isCheckedTime);
 		drive.execute();
@@ -759,9 +760,8 @@ public class SyncCloudActivity extends Activity {
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
 				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
-				Log.e("dklajfd", "asdkfjh "+e);
-				startActivityForResult(e.getIntent(),
-						REQUEST_AUTHORIZATION);
+				Log.e("dklajfd", "asdkfjh " + e);
+				startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD) {
 				saveFileToDrive(mGGAccountName, false);
 			}

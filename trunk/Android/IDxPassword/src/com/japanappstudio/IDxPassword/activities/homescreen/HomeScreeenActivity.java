@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +71,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		OnClickListener {
 
 	// ==========================Control define ====================
-	//private FrameLayout mainRootLayout;
+	// private FrameLayout mainRootLayout;
 	private LinearLayout mainRootLayout;
 	private ListViewDragDrop idListView;
 	private DndListViewFolder folderListView;
@@ -184,8 +185,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 		/* init layout */
 		mainRootLayout = (LinearLayout) LinearLayout.inflate(context,
 				R.layout.page_home_screen, null);
-//		mainRootLayout = (FrameLayout) LinearLayout.inflate(context,
-//				R.layout.page_home_screen_slide, null);
+		// mainRootLayout = (FrameLayout) LinearLayout.inflate(context,
+		// R.layout.page_home_screen_slide, null);
 		/* init layout drag */
 		initLayoutDrag();
 
@@ -224,9 +225,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 		btnClearTextSearch.setOnClickListener(this);
 		btnClearTextSearch.setVisibility(View.GONE);
 
-//		panelSetting = (Panel) mainRootLayout
-//				.findViewById(R.id.l_home_panel_setting);
-//		panelSetting.setHandle(btnSetting);
+		// panelSetting = (Panel) mainRootLayout
+		// .findViewById(R.id.l_home_panel_setting);
+		// panelSetting.setHandle(btnSetting);
 		/* init editText */
 		mEditTextSearch = (EditText) mainRootLayout
 				.findViewById(R.id.edit_text_search);
@@ -277,7 +278,28 @@ public class HomeScreeenActivity extends BaseActivity implements
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				// TODO Auto-generated method stub
-				btnClearTextSearch.setVisibility(View.VISIBLE);
+				Log.e("string of search", "string search " + s);
+				mTextSearch = mEditTextSearch.getText().toString();
+				/* clear text */
+				// mEditTextSearch.setText("");
+
+				mIdListItems = startSearch(mTextSearch);
+				if (null != mIdListItems && mIdListItems.size() > 0) {
+					/* reset id adapter */
+					currentFolderId = mFolderListItems.get(currentFolderItem)
+							.getgId();
+					itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
+							currentFolderId);
+					// btnClearTextSearch.setVisibility(View.GONE);
+
+					/* reset folder adapter */
+					isSearchMode = true;
+					// GroupFolder folder = new GroupFolder(1000, "", 0,
+					// Contants.MASTER_PASSWORD_ID, 0);
+					folderListViewAdapter.updateSearchMode(isSearchMode,
+							currentFolderItem);
+					btnClearTextSearch.setVisibility(View.VISIBLE);
+				}
 			}
 
 			@Override
@@ -1348,16 +1370,18 @@ public class HomeScreeenActivity extends BaseActivity implements
 		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
 		/* reset folder adapter */
 		mFolderListItems.clear();
-		mIdListItems.clear();
-		// get data from folder database
-		loadDataFromFolderDataBase();
-		//
-		/* reset adapter */
-		folderListViewAdapter.updateFolderList(mFolderListItems);
-		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		mIdListItems = constructList(currentFolderId);
-		itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
-				currentFolderId);
+		if (null != mIdListItems) {
+			mIdListItems.clear();
+			// get data from folder database
+			loadDataFromFolderDataBase();
+			//
+			/* reset adapter */
+			folderListViewAdapter.updateFolderList(mFolderListItems);
+			currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
+			mIdListItems = constructList(currentFolderId);
+			itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
+					currentFolderId);
+		}
 	}
 
 	// private void showToast(String string) {
