@@ -54,6 +54,7 @@ public class IdManagerPreference {
 	public static final String DROPBOX_CHECK_LOGIN = "DROPBOX_CHECK_LOGIN";
 	public static final String KEY_AUTHEN_GG_DRIVE = "KEY_AUTHEN_GG_DRIVE";
 	public static final String KEY_PAUSE_APP="PAUSE_APP";
+	public static final String KEY_CLOUD_SETTING_SUCCESS ="KEY_CLOUD_SETTING_SUCCESS";
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
 	 * 
@@ -462,5 +463,30 @@ public class IdManagerPreference {
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(KEY_PAUSE_APP, b);
 		editor.commit();
+	}
+	
+	/* set vs get project is first time installed */
+	public void setCloudSettingSuccess(String key, boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(key, b);
+		editor.commit();
+	}
+
+	public boolean isCloudSettingSuccess(String key) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(key, false);
+	}
+
+	public void setCloudSettingSuccess(boolean b) {
+		setCloudSettingSuccess(KEY_CLOUD_SETTING_SUCCESS, b);
+	}
+
+	public boolean isCloudSettingSuccess() {
+		boolean b;
+		b = isCloudSettingSuccess(KEY_CLOUD_SETTING_SUCCESS);
+		return b;
 	}
 }

@@ -1024,6 +1024,7 @@ public class SettingActivity extends BaseActivity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -1044,6 +1045,12 @@ public class SettingActivity extends BaseActivity {
 			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
 		}
 		textModeSercurity.setText(sercurity_mode);
+		
+		/*show dialog sync cloud success*/
+		if(mPref.isCloudSettingSuccess()){
+			mPref.setCloudSettingSuccess(false);
+			showDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
+		}
 
 	}
 

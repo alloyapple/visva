@@ -127,9 +127,10 @@ public class GGDriveSettingActivity extends Activity {
 					mBtnLinkToGGDrive
 							.setText(getString(R.string.gg_drive_already_use));
 					mIdManagerPreference.setGoogleAccNameSession(accountName);
+					mIdManagerPreference.setCloudSettingSuccess(true);
 					if (mApi.getSession().isLinked())
 						logOutDropbox();
-					//finish();
+					finish();
 				}
 			}
 			break;

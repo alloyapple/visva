@@ -31,10 +31,7 @@ import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 
 import com.japanappstudio.IDxPassword.activities.R;
-import com.japanappstudio.IDxPassword.activities.R.drawable;
-import com.japanappstudio.IDxPassword.activities.R.id;
-import com.japanappstudio.IDxPassword.activities.R.layout;
-import com.japanappstudio.IDxPassword.activities.R.string;
+
 
 @SuppressLint("HandlerLeak")
 public class DropboxSettingActivity extends Activity {
@@ -168,6 +165,7 @@ public class DropboxSettingActivity extends Activity {
 					setLoggedIn(true);
 					if (mIdManagerPreference.isDropboxLogin()) {
 						mIdManagerPreference.setDropboxLogin(false);
+						mIdManagerPreference.setCloudSettingSuccess(true);
 						finish();
 					}
 				} catch (IllegalStateException e) {
@@ -180,7 +178,6 @@ public class DropboxSettingActivity extends Activity {
 	}
 
 	private void logOut() {
-		Log.e("log out", "log out");
 		// Remove credentials from the session
 		mApi.getSession().unlink();
 
@@ -353,37 +350,37 @@ public class DropboxSettingActivity extends Activity {
 		builder.show();
 	}
 
-	private Handler mHandler = new Handler() {
-		@SuppressWarnings("deprecation")
-		public void handleMessage(android.os.Message msg) {
-			Log.e("result", "result " + msg.arg1);
-			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_SUCCESS)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED);
-			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD)
-				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
-				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
-			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
-				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
-			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER)
-				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
-				Log.e("adjfhkldhf", "adfkjhkd ");
-				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
-				// startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
-			}
-		};
-	};
+//	private Handler mHandler = new Handler() {
+//		@SuppressWarnings("deprecation")
+//		public void handleMessage(android.os.Message msg) {
+//			Log.e("result", "result " + msg.arg1);
+//			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_SUCCESS)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED);
+//			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD)
+//				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
+//				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
+//			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
+//				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
+//			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_CLOUD_NEWER);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_CLOUD_DATA_DEVICE_NEWER);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_CLOUD_NEWER);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER)
+//				showDialog(Contants.DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER);
+//			else if (msg.arg1 == Contants.DIALOG_MESSAGE_AUTHEN_GG_FAILED) {
+//				Log.e("adjfhkldhf", "adfkjhkd ");
+//				UserRecoverableAuthIOException e = (UserRecoverableAuthIOException) msg.obj;
+//				// startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
+//			}
+//		};
+//	};
 }
