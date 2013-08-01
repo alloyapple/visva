@@ -25,13 +25,14 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="25dp"
         android:orientation="vertical" >
 
         <Button
             android:layout_width="276dp"
             android:layout_height="42dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/btn_sync_auto"
             android:gravity="center"
             android:onClick="onSyncAuto"
@@ -44,7 +45,7 @@
         <Button
             android:layout_width="276dp"
             android:layout_height="42dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/btn_sync_to_cloud"
             android:gravity="center"
             android:onClick="onSyncToCloud" >
@@ -53,7 +54,7 @@
         <Button
             android:layout_width="276dp"
             android:layout_height="42dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/btn_sync_to_device"
             android:gravity="center"
             android:onClick="OnSyncToDevice" >
@@ -62,7 +63,6 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical" >
 
             <TextView
@@ -78,7 +78,7 @@
                 android:id="@+id/last_time_sync"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:text="Last time sync:"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

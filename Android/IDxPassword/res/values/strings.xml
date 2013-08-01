@@ -148,6 +148,7 @@
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
     <string name="email_to_sent">jappstudio@gmail.com</string>
     <string name="email_subject">IDxPW_Email _INF_New</string>
+    <string name="email_update">IDxPW_Email _INF_Re</string>
     <string name="new_email_create_content">MonthlyMag: %1$s\nImportantINF:%2$s \nemail:%3$s</string>
     <string name="change_email_content">MonthlyMag: %1$s\nImportantINF:%2$s \nemail:%3$s \nold email: %4$s</string>
     <string name="title_edit">Edit</string>

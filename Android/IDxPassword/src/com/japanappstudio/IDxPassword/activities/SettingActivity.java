@@ -647,7 +647,7 @@ public class SettingActivity extends BaseActivity {
 			builder.setIcon(R.drawable.icon);
 			final EditText input = new EditText(this);
 			input.setId(Contants.TEXT_ID);
-			input.setText("idxp.idp");
+			input.setText("idx");
 			builder.setView(input);
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {

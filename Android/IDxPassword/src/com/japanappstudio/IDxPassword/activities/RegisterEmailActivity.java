@@ -133,7 +133,7 @@ public class RegisterEmailActivity extends Activity {
 					Log.e("user email", "eamil " + usera.getsEmail());
 					// sendMailConfirm(usera.getsEmail());
 					initShareItent(
-							getString(R.string.email_subject),
+							getString(R.string.email_update),
 							getString(R.string.change_email_content,
 									sentUpdateNewInfoMsg, sentImportantInfoMsg,
 									myUser.getsEmail(), oldEmail),
