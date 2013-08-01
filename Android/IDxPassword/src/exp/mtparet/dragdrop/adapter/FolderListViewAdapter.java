@@ -110,6 +110,10 @@ public class FolderListViewAdapter extends BaseAdapter {
 				imgFolderIcon.setBackgroundResource(R.drawable.history);
 			else if (folderList.get(position).getgOrder() == Contants.SEARCH_FOLDER_ID) {
 				imgFolderIcon.setBackgroundResource(R.drawable.ic_search);
+				if (position == currentFolderItem)
+					imgBgFolder.setBackgroundResource(R.drawable.folder_select);
+				else
+					imgBgFolder.setBackgroundResource(R.drawable.folder_common);
 			} 
 
 		} else {
