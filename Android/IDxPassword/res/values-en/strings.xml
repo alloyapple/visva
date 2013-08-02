@@ -16,7 +16,7 @@
     <string name="title_add_items">New</string>
     <string name="text_min">min</string>
     <string name="text_off">Not Destruct</string>
-     <string name="text_security_off">Off</string>
+    <string name="text_security_off">Off</string>
     <string name="text_security_immediately">Immediately</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Note</string>
@@ -95,13 +95,16 @@
     <string name="limit_login_msg">Destruction mode is turned on. You will lose IDxPassword data after entering wrong PW %d times.</string>
     <string name="sync_data_duplicate_msg_drop">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox?.</string>
     <string name="sync_data_duplicate_msg_google">This Android\'s data is newer. Are you sure to overwite by the older one on GoogleDrive?.</string>
-
     <string name="sync_to_cloud_data_device_newer_drop">The data on Dropbox will be overwritten by this Android\'s data. Are you sure?</string>
     <string name="sync_to_device_data_cloud_newer_drop">This Android\'s data will be overwritten by the newer data on Dropbox.</string>
     <string name="sync_to_cloud_data_device_newer_google">The data on GoogleDrive will be overwritten by this Android\'s data. Are you sure?</string>
     <string name="sync_to_device_data_cloud_newer_google">This Android\'s data will be overwritten by the newer data on GoogleDrive.</string>
-    
+
     <!-- others -->
+    <string name="InsertGroupError">Insert Folder Error</string>
+    <string name="GroupNameError">Folder Name Error</string>
+    <string name="GroupNameExisted">Folder Name Existed</string>
+    <string name="InvalidFolder">Invalid Folder</string>
     <string name="EmailError">Email Error</string>
     <string name="PassTooLong">Too Long Password</string>
     <string name="password_empty">Password is Empty</string>

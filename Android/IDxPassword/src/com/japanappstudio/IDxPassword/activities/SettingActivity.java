@@ -143,6 +143,7 @@ public class SettingActivity extends BaseActivity {
 
 	};
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -381,18 +382,6 @@ public class SettingActivity extends BaseActivity {
 
 		} else
 			showDialog(Contants.DIALOG_NO_NET_WORK);
-	}
-
-	private void showToast(final String string) {
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				Toast.makeText(SettingActivity.this, string, Toast.LENGTH_LONG)
-						.show();
-			}
-		});
 	}
 
 	/**

@@ -132,6 +132,10 @@
     <string name="sync_to_device_data_cloud_newer_google">This Android\'s data will be overwritten by the newer data on GoogleDrive.</string>
     
     <!-- others -->
+	<string name="InsertGroupError">Insert Folder Error</string>
+    <string name="GroupNameError">Folder Name Error</string>
+    <string name="GroupNameExisted">Folder Name Existed</string>
+    <string name="InvalidFolder">Invalid Folder</string>
     <string name="EmailError">Email Error</string>
     <string name="PassTooLong">Too Long Password</string>
     <string name="password_empty">Password is Empty</string>
@@ -156,7 +160,7 @@
     <string name="email_to_sent">jappstudio@gmail.com</string>
     <string name="email_subject">IDxPW_Email _INF_New</string>
     <string name="email_update">IDxPW_Email _INF_Re</string>
-    <string name="new_email_create_content">MonthlyMag: %1$s\nImportantINF:%2$s \nemail:%3$s\ndevicelang:$4$s</string>
+    <string name="new_email_create_content">MonthlyMag: %1$s\nImportantINF:%2$s \nemail:%3$s\ndevicelang:%4$s</string>
     <string name="change_email_content">MonthlyMag: %1$s\nImportantINF:%2$s \nemail:%3$s \nold email: %4$s \ndevicelang:%5$s</string>
     <string name="title_edit">Edit</string>
     <string name="term_of_use_condition">[Terms of Agreement]\nJapan App Studio, Inc. will not be held liable for any user\'s damage caused by deficiencies in its programs, stoppage of its services, change of its management system, or other reason.\nBy signing in to use its service and tapping the \"Approval\" button below, you thereby agree to abide by these Terms of Agreement.</string>
