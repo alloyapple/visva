@@ -107,6 +107,13 @@
     <string name="sync_to_device_data_cloud_newer_google">GoogleDrive의 데이터를 가져옵니다. 현재의 데이터가 손실되지만 동의 하십나까?</string>
 
     <!-- others -->
+    <string name="EmailError">이메일 오류</string>
+    <string name="PassTooLong">암호가 너무 깁니다.</string>
+    <string name="password_empty">암호가 없습니다.</string>
+    <string name="data_destroyed">데이터가 삭제되었습니다.</string>
+    <string name="email_change_sucess">이메일 주소를 변경합니다.</string>
+    <string name="msg_email_replace">현재 이메일을 대체하시겠습니까?</string>
+    <string name="title_email_null">Title is null</string>
     <string name="title_agreement">[고지]</string>
     <string name="select_text_format">형식 선택</string>
     <string name="email_receiver_update_info">당사의 신제품 등의 알림 메일을받겠습니다. (월 한 번 정도)</string>

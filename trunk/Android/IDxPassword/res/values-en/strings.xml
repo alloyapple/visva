@@ -102,6 +102,13 @@
     <string name="sync_to_device_data_cloud_newer_google">This Android\'s data will be overwritten by the newer data on GoogleDrive.</string>
     
     <!-- others -->
+    <string name="EmailError">Email Error</string>
+    <string name="PassTooLong">Too Long Password</string>
+    <string name="password_empty">Password is Empty</string>
+    <string name="data_destroyed">Data has been destroyed</string>
+    <string name="email_change_sucess">Email has changed</string>
+    <string name="msg_email_replace">Replace current email?</string>
+    <string name="title_email_null">Title is null</string>
     <string name="title_agreement">[Terms of Agreement]</string>
     <string name="select_text_format">Select Text Format</string>
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>

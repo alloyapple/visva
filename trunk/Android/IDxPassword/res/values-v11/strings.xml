@@ -99,6 +99,7 @@
     <string name="sync_data_duplicate_msg_google">This Android\'s data is newer. Are you sure to overwite by the older one on GoogleDrive?.</string>
 
     <!-- others -->
+    <string name="msg_email_replace">Replace current email?</string>
     <string name="wrong_pw_login">The password does not match. Please do it again.</string>
     <string name="data_erased_msg">Data will be erased after entering the wrong master password the times you will select.</string>
     <string name="title_edit">Edit</string>

@@ -109,6 +109,13 @@
     <string name="sync_to_device_data_cloud_newer_google">Datos de este Android se sobrescribirán con los datos más recientes sobre GoogleDrive.</string>
 
     <!-- others -->
+    <string name="EmailError">Email Error</string>
+    <string name="PassTooLong">Demasiado largo Contraseña</string>
+    <string name="password_empty">Contraseña está vacío</string>
+    <string name="data_destroyed">Los datos han sido destruidos</string>
+    <string name="email_change_sucess">Email ha cambiado</string>
+    <string name="msg_email_replace">Reemplace correo electrónico actual?</string>
+    <string name="title_email_null">Título es nulo</string>
     <string name="content_agreement">Japón App Studio, Inc. no se hace responsable de los daños de cualquier usuario causado por deficiencias en sus programas, interrupción de sus servicios, el cambio de su sistema de gestión, o por otra razón.\nAl firmar para utilizar su servicio y pulsar el botón "aprobación" abajo, con ello se compromete a respetar las Condiciones de Contrato.</string>
     <string name="title_agreement">[Términos de Acuerdo]</string>
     <string name="select_text_format">Seleccione Texto Formato</string>

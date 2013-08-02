@@ -1,5 +1,7 @@
 package com.japanappstudio.IDxPassword.activities;
 
+import java.util.Locale;
+
 import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
@@ -10,9 +12,9 @@ import net.sqlcipher.database.SQLiteDatabase;
 import com.japanappstudio.IDxPassword.activities.R;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,6 +38,7 @@ public class RegisterEmailActivity extends Activity {
 	private String newEmail = "", oldEmail = "";
 	private UserDB myUser;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -50,8 +53,12 @@ public class RegisterEmailActivity extends Activity {
 
 		isCreateNew = getIntent().getExtras().getBoolean(
 				Contants.CREATE_NEW_EMAIL);
-		if(!isCreateNew)
-			((TextView) findViewById(R.id.title_register_mail)).setText(getResources().getString(R.string.re_register_email_title));
+		if (!isCreateNew) {
+			((TextView) findViewById(R.id.title_register_mail))
+					.setText(getResources().getString(
+							R.string.re_register_email_title));
+			showDialog(Contants.DIALOG_MESSAGE_EMAIL_RENEW);
+		}
 		mEditTextEmail = (EditText) findViewById(R.id.edit_text_email);
 		mEditTextEmail.addTextChangedListener(new TextWatcher() {
 
@@ -86,10 +93,10 @@ public class RegisterEmailActivity extends Activity {
 			}
 		});
 
-		UserDB user = mIDxPWDataBaseHandler
-				.getUser(Contants.MASTER_PASSWORD_ID);
-		if (!"".equals(user.getsEmail().toString()))
-			showEmailDialog();
+		// UserDB user = mIDxPWDataBaseHandler
+		// .getUser(Contants.MASTER_PASSWORD_ID);
+		// if (!"".equals(user.getsEmail().toString()))
+		// showEmailDialog();
 		mEditTextEmail.setText(oldEmail);
 		chBUpdateNewInfo = (CheckBox) findViewById(R.id.check_box_sent_email_update_info);
 		chBUpdateImportanInfo = (CheckBox) findViewById(R.id.check_box_sent_email_update_impotant_infp);
@@ -99,6 +106,7 @@ public class RegisterEmailActivity extends Activity {
 		finish();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void onClickRegisterEmail(View v) {
 		newEmail = mEditTextEmail.getText().toString();
 		if (chBUpdateImportanInfo.isChecked())
@@ -109,7 +117,7 @@ public class RegisterEmailActivity extends Activity {
 			sentUpdateNewInfoMsg = "OK";
 		else
 			sentUpdateNewInfoMsg = "NO";
-		if (!"".equals(newEmail))
+		if (!"".equals(newEmail)) {
 			if (mEmailValidator.validate(newEmail)) {
 				myUser.setsEmail(newEmail);
 				mIDxPWDataBaseHandler.updateUser(myUser);
@@ -119,73 +127,46 @@ public class RegisterEmailActivity extends Activity {
 							HomeScreeenActivity.class);
 
 					startActivity(intent);
-
+					
+					String deviceLang = Locale.getDefault().getLanguage();
 					initShareItent(
 							getString(R.string.email_subject),
 							getString(R.string.new_email_create_content,
 									sentUpdateNewInfoMsg, sentImportantInfoMsg,
-									myUser.getsEmail()),
+									myUser.getsEmail(),deviceLang),
 							getString(R.string.email_to_sent));
+					finish();
 
 				} else {
-					UserDB usera = mIDxPWDataBaseHandler
-							.getUser(Contants.MASTER_PASSWORD_ID);
-					Log.e("user email", "eamil " + usera.getsEmail());
+					showDialog(Contants.DIALOG_MESSAGE_EMAIL_CHANGE_SUCESS);
 					// sendMailConfirm(usera.getsEmail());
-					initShareItent(
-							getString(R.string.email_update),
-							getString(R.string.change_email_content,
-									sentUpdateNewInfoMsg, sentImportantInfoMsg,
-									myUser.getsEmail(), oldEmail),
-							getString(R.string.email_to_sent));
+
 				}
-				finish();
+				//
 
 			} else {
 				mEditTextEmail.setText("");
 				mBtnClearText.setVisibility(View.GONE);
+				showDialog(Contants.DIALOG_MESSAGE_EMAIL_ERROR);
 			}
+		} else
+			showDialog(Contants.DIALOG_MESSAGE_EMAIL_NULL);
 	}
 
-	private void sendMailConfirm(String getsEmail) {
-		// TODO Auto-generated method stub
-		Intent gmail = new Intent(Intent.ACTION_VIEW);
-		gmail.setClassName("com.google.android.gm",
-				"com.google.android.gm.ComposeActivityGmail");
-		gmail.putExtra(Intent.EXTRA_EMAIL, new String[] { getsEmail });
-		gmail.setData(Uri.parse(getsEmail));
-		gmail.putExtra(Intent.EXTRA_SUBJECT,
-				"[IDxPassword]Change email address");
-		gmail.setType("plain/text");
-		gmail.putExtra(Intent.EXTRA_TEXT,
-				"You have changed your email address for IDxPassword");
-		startActivity(gmail);
-	}
-
-	private void showEmailDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setIcon(R.drawable.icon);
-		builder.setMessage("ID e-mail address is already registered. Do you want to register a new email address?");
-		builder.setPositiveButton(R.string.confirm_ok,
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						return;
-					}
-				});
-		builder.setNegativeButton(R.string.confirm_cancel,
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						finish();
-						return;
-					}
-				});
-	}
+	// private void sendMailConfirm(String getsEmail) {
+	// // TODO Auto-generated method stub
+	// Intent gmail = new Intent(Intent.ACTION_VIEW);
+	// gmail.setClassName("com.google.android.gm",
+	// "com.google.android.gm.ComposeActivityGmail");
+	// gmail.putExtra(Intent.EXTRA_EMAIL, new String[] { getsEmail });
+	// gmail.setData(Uri.parse(getsEmail));
+	// gmail.putExtra(Intent.EXTRA_SUBJECT,
+	// "[IDxPassword]Change email address");
+	// gmail.setType("plain/text");
+	// gmail.putExtra(Intent.EXTRA_TEXT,
+	// "You have changed your email address for IDxPassword");
+	// startActivity(gmail);
+	// }
 
 	private void initShareItent(String subject, String content, String email) {
 		Intent share = new Intent(android.content.Intent.ACTION_SEND);
@@ -199,5 +180,95 @@ public class RegisterEmailActivity extends Activity {
 		share.setType("vnd.android.cursor.dir/email");
 		startActivity(Intent.createChooser(share, "Select"));
 
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		switch (id) {
+		case Contants.DIALOG_MESSAGE_EMAIL_NULL:
+			builder.setTitle(getResources().getString(
+					R.string.email_title_register));
+			builder.setMessage(getString(R.string.title_email_null));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_EMAIL_RENEW:
+			builder.setTitle(getResources().getString(
+					R.string.email_title_register));
+			builder.setMessage(getString(R.string.msg_email_replace));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
+		case Contants.DIALOG_MESSAGE_EMAIL_ERROR:
+			builder.setTitle(getResources().getString(
+					R.string.email_title_register));
+			builder.setMessage(getString(R.string.EmailError));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
+			builder.setNegativeButton(getString(R.string.confirm_cancel),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							finish();
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_EMAIL_CHANGE_SUCESS:
+			builder.setTitle(getResources().getString(
+					R.string.email_title_register));
+			builder.setMessage(getString(R.string.email_change_sucess));
+			builder.setIcon(R.drawable.icon);
+			builder.setCancelable(false);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							Log.e("device language", "device language "+Locale.getDefault().getLanguage());
+							String deviceLang = Locale.getDefault().getLanguage();
+							initShareItent(
+									getString(R.string.email_update),
+									getString(R.string.change_email_content,
+											sentUpdateNewInfoMsg,
+											sentImportantInfoMsg,
+											myUser.getsEmail(), oldEmail,deviceLang),
+									getString(R.string.email_to_sent));
+							finish();
+							return;
+						}
+					});
+			return builder.create();
+		}
+		return super.onCreateDialog(id);
 	}
 }
