@@ -107,6 +107,13 @@
     <string name="sync_to_device_data_cloud_newer_google">閱讀GoogleDrive上的數據。你確定要當前數據丟失了嗎？</string>
 
     <!-- others -->
+    <string name="EmailError">郵件錯誤</string>
+    <string name="PassTooLong">密碼過長</string>
+    <string name="password_empty">密碼爲空</string>
+    <string name="data_destroyed">數據已被刪除。</string>
+     <string name="email_change_sucess">成功修改郵件地址。</string>
+    <string name="msg_email_replace">您要代替當前的郵件地址嗎？</string>
+    <string name="title_email_null">標題爲空</string>
      <string name="title_agreement">[免責聲明]</string>
     <string name="select_text_format">選擇文本數據格式</string>
     <string name="email_receiver_update_info"></string>

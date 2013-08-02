@@ -107,6 +107,13 @@
     <string name="sync_to_device_data_cloud_newer_google">GoogleDrive 上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
 
     <!-- others -->
+    <string name="EmailError">Email Error</string>
+    <string name="PassTooLong">パスワードが長すぎます。</string>
+    <string name="password_empty">パスワードがありません。</string>
+    <string name="data_destroyed">データは消去されました。</string>
+    <string name="email_change_sucess">メールアドレスは変更されました。</string>
+    <string name="msg_email_replace">タイトルが必要です。</string>
+    <string name="title_email_null">タイトルが必要です。</string>
     <string name="title_agreement">[免責]</string>
     <string name="select_text_format">フォーマット選択</string>
     <string name="email_title_register">Email の登録</string>

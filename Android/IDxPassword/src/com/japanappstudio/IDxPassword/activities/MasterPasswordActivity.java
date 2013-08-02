@@ -22,8 +22,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+@SuppressWarnings("deprecation")
 public class MasterPasswordActivity extends BaseActivity implements
 		OnClickListener {
 
@@ -74,11 +74,6 @@ public class MasterPasswordActivity extends BaseActivity implements
 
 	}
 
-	private void showToast(String string) {
-		Toast.makeText(MasterPasswordActivity.this, string, Toast.LENGTH_SHORT)
-				.show();
-	}
-
 	public void onReturn(View v) {
 		finish();
 	}
@@ -88,11 +83,14 @@ public class MasterPasswordActivity extends BaseActivity implements
 		activity.startActivity(i);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		if (v == mBtnDone) {
 			if ("".equals(mEditTextMasterPW.getText().toString())) {
-				showToast("Please enter your master password");
+				showDialog(Contants.DIALOG_MESSAGE_PW_EMPTY);
+			} else if (mEditTextMasterPW.getText().toString().length() > Contants.MAX_LENGTH_PW) {
+
 			} else {
 				/* check remove data values */
 				checkRemoveDataValues();
@@ -130,6 +128,7 @@ public class MasterPasswordActivity extends BaseActivity implements
 	/**
 	 * remove data after type master password times limit to remove data values
 	 */
+	@SuppressWarnings("deprecation")
 	private void removeData() {
 		/* remove database */
 		File db = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
@@ -178,6 +177,10 @@ public class MasterPasswordActivity extends BaseActivity implements
 			return createDialog(Contants.DIALOG_WRONG_PASS_NO_SECURE);
 		case Contants.DIALOG_REMOVED_DATA:
 			return createDialog(Contants.DIALOG_REMOVED_DATA);
+		case Contants.DIALOG_MESSAGE_PW_EMPTY:
+			return createDialog(Contants.DIALOG_MESSAGE_PW_EMPTY);
+		case Contants.DIALOG_MESSAGE_PW_TOO_LONG:
+			return createDialog(Contants.DIALOG_MESSAGE_PW_TOO_LONG);
 		default:
 			return null;
 		}
@@ -195,6 +198,23 @@ public class MasterPasswordActivity extends BaseActivity implements
 			builder.setMessage(getResources().getString(
 					R.string.limit_login_msg, mNumberAtemppt));
 			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							return;
+						}
+
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_PW_TOO_LONG:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.PassTooLong));
 			builder.setIcon(R.drawable.icon);
 
 			builder.setPositiveButton(
@@ -228,10 +248,29 @@ public class MasterPasswordActivity extends BaseActivity implements
 
 					});
 			return builder.create();
+		case Contants.DIALOG_MESSAGE_PW_EMPTY:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources()
+					.getString(R.string.password_empty));
+			// builder.setMessage("Type the name of new folder:");
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							return;
+						}
+
+					});
+			return builder.create();
 		case Contants.DIALOG_REMOVED_DATA:
 			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setMessage(getResources().getString(
-					R.string.data_erased_msg));
+			builder.setMessage(getResources()
+					.getString(R.string.data_destroyed));
 			// builder.setMessage("Type the name of new folder:");
 			builder.setIcon(R.drawable.icon);
 
