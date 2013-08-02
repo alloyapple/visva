@@ -1,0 +1,220 @@
+
+info_item.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+40_giay_cong_them_mau
+  rotate: false
+  xy: 1, 809
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+add_money
+  rotate: false
+  xy: 1, 607
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Add_time
+  rotate: false
+  xy: 237, 809
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Aicap (2)
+  rotate: false
+  xy: 1, 405
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+aicap
+  rotate: false
+  xy: 237, 607
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+battu_10giay
+  rotate: false
+  xy: 473, 809
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+bat_tu
+  rotate: false
+  xy: 1, 203
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Bomb
+  rotate: false
+  xy: 237, 405
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+bonus (2)
+  rotate: false
+  xy: 473, 607
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Bonus
+  rotate: false
+  xy: 709, 809
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+bruce
+  rotate: false
+  xy: 1, 1
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+BruceLee
+  rotate: false
+  xy: 237, 203
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Cong_1_mau_moi_40s
+  rotate: false
+  xy: 473, 405
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Cong_them_15_mau
+  rotate: false
+  xy: 709, 607
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Cong_them_tien
+  rotate: false
+  xy: 237, 1
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+gladiator (2)
+  rotate: false
+  xy: 473, 203
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+gladiator
+  rotate: false
+  xy: 709, 405
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Haiquan (2)
+  rotate: false
+  xy: 473, 1
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+HaiQuan
+  rotate: false
+  xy: 709, 203
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+No_bomb
+  rotate: false
+  xy: 709, 1
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+
+info_item2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Reload_time
+  rotate: false
+  xy: 1, 809
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+samurai (2)
+  rotate: false
+  xy: 1, 607
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+samurai
+  rotate: false
+  xy: 237, 809
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+skill (2)
+  rotate: false
+  xy: 1, 405
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+skill
+  rotate: false
+  xy: 237, 607
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+slowtime
+  rotate: false
+  xy: 1, 203
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+slow_time
+  rotate: false
+  xy: 237, 405
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+tang_them_thoi_gian_su_dung_ky_nang
+  rotate: false
+  xy: 1, 1
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+weapon (2)
+  rotate: false
+  xy: 237, 203
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1
+Weapon
+  rotate: false
+  xy: 237, 1
+  size: 234, 200
+  orig: 234, 200
+  offset: 0, 0
+  index: -1

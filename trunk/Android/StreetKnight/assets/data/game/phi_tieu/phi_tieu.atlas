@@ -1,0 +1,96 @@
+
+phi_tieu.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+10
+  rotate: false
+  xy: 1, 657
+  size: 350, 250
+  orig: 350, 250
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 1, 405
+  size: 350, 250
+  orig: 350, 250
+  offset: 0, 0
+  index: -1
+12
+  rotate: false
+  xy: 353, 657
+  size: 350, 250
+  orig: 350, 250
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 1, 153
+  size: 350, 250
+  orig: 350, 250
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 353, 405
+  size: 350, 250
+  orig: 350, 250
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 705, 757
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 1, 1
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 353, 253
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 705, 605
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 705, 453
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 203, 1
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 555, 253
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 405, 101
+  size: 200, 150
+  orig: 200, 150
+  offset: 0, 0
+  index: -1

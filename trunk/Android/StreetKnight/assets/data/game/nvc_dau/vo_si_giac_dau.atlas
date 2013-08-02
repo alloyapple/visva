@@ -1,0 +1,158 @@
+
+vo_si_giac_dau.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 1, 607
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 1, 205
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+16
+  rotate: false
+  xy: 553, 757
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+18
+  rotate: false
+  xy: 553, 505
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+19
+  rotate: false
+  xy: 553, 253
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+20
+  rotate: false
+  xy: 553, 1
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+
+vo_si_giac_dau2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+14
+  rotate: false
+  xy: 1, 607
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 1, 205
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+21
+  rotate: false
+  xy: 553, 757
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+22
+  rotate: false
+  xy: 553, 505
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+23
+  rotate: false
+  xy: 553, 253
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+25
+  rotate: false
+  xy: 553, 1
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+
+vo_si_giac_dau3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+4
+  rotate: false
+  xy: 1, 403
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 1, 1
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+28
+  rotate: false
+  xy: 553, 553
+  size: 400, 250
+  orig: 400, 250
+  offset: 0, 0
+  index: -1
+
+vo_si_giac_dau4.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+6
+  rotate: false
+  xy: 1, 403
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 1, 1
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+
+vo_si_giac_dau5.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+8
+  rotate: false
+  xy: 1, 403
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 1, 1
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1

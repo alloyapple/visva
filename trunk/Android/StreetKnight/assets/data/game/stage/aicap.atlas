@@ -1,0 +1,12 @@
+
+aicap.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+45
+  rotate: false
+  xy: 1, 1
+  size: 839, 551
+  orig: 839, 551
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,236 @@
+
+uiskin.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg-dialog
+  rotate: false
+  xy: 1, 77
+  size: 197, 46
+  split: 12, 12, 23, 13
+  orig: 197, 46
+  offset: 0, 0
+  index: -1
+popup
+  rotate: false
+  xy: 1, 11
+  size: 64, 64
+  split: 24, 12, 31, 12
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+khung_text
+  rotate: false
+  xy: 200, 91
+  size: 52, 32
+  split: 15, 11, 12, 11
+  orig: 52, 32
+  offset: 0, 0
+  index: -1
+checkbox-0
+  rotate: false
+  xy: 67, 40
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+checkbox-1
+  rotate: false
+  xy: 104, 40
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+khung_chat
+  rotate: false
+  xy: 141, 42
+  size: 32, 33
+  split: 7, 6, 7, 5
+  orig: 32, 33
+  offset: 0, 0
+  index: -1
+default-window
+  rotate: false
+  xy: 67, 9
+  size: 27, 29
+  split: 4, 3, 20, 3
+  orig: 27, 29
+  offset: 0, 0
+  index: -1
+default-select
+  rotate: false
+  xy: 96, 18
+  size: 27, 20
+  split: 4, 14, 4, 4
+  orig: 27, 20
+  offset: 0, 0
+  index: -1
+default-round-large
+  rotate: false
+  xy: 175, 55
+  size: 20, 20
+  split: 5, 5, 5, 4
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+default-scroll
+  rotate: false
+  xy: 125, 18
+  size: 20, 20
+  split: 2, 2, 2, 2
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+default-round-down
+  rotate: false
+  xy: 147, 20
+  size: 12, 20
+  split: 5, 5, 5, 4
+  orig: 12, 20
+  offset: 0, 0
+  index: -1
+default-round
+  rotate: false
+  xy: 161, 20
+  size: 12, 20
+  split: 5, 5, 5, 4
+  orig: 12, 20
+  offset: 0, 0
+  index: -1
+check-off
+  rotate: false
+  xy: 175, 39
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+textfield
+  rotate: false
+  xy: 175, 39
+  size: 14, 14
+  split: 3, 3, 3, 3
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+check-on
+  rotate: false
+  xy: 175, 23
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+tree-minus
+  rotate: false
+  xy: 200, 75
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+tree-plus
+  rotate: false
+  xy: 216, 75
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+default-slider-knob
+  rotate: false
+  xy: 197, 55
+  size: 9, 18
+  orig: 9, 18
+  offset: 0, 0
+  index: -1
+default-slider
+  rotate: false
+  xy: 1, 1
+  size: 8, 8
+  split: 2, 2, 2, 2
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+default-pane
+  rotate: false
+  xy: 96, 13
+  size: 5, 3
+  split: 1, 1, 1, 1
+  orig: 5, 3
+  offset: 0, 0
+  index: -1
+default-rect-pad
+  rotate: false
+  xy: 96, 13
+  size: 5, 3
+  split: 1, 1, 1, 1
+  orig: 5, 3
+  offset: 0, 0
+  index: -1
+default-splitpane-vertical
+  rotate: false
+  xy: 191, 48
+  size: 3, 5
+  split: 0, 0, 0, 5
+  orig: 3, 5
+  offset: 0, 0
+  index: -1
+default-splitpane
+  rotate: false
+  xy: 232, 86
+  size: 5, 3
+  split: 0, 5, 0, 0
+  orig: 5, 3
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 208, 70
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1
+default-rect-down
+  rotate: false
+  xy: 11, 6
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1
+default-rect
+  rotate: false
+  xy: 103, 13
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1
+default-select-selection
+  rotate: false
+  xy: 191, 43
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1
+default-pane-noborder
+  rotate: false
+  xy: 254, 122
+  size: 1, 1
+  split: 0, 0, 0, 0
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+selection
+  rotate: false
+  xy: 254, 119
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 254, 116
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1

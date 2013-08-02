@@ -1,0 +1,384 @@
+
+menu.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2
+  rotate: false
+  xy: 1, 527
+  size: 838, 490
+  orig: 838, 490
+  offset: 0, 0
+  index: -1
+about
+  rotate: false
+  xy: 1, 35
+  size: 838, 490
+  orig: 838, 490
+  offset: 0, 0
+  index: -1
+12
+  rotate: false
+  xy: 841, 909
+  size: 168, 108
+  orig: 168, 108
+  offset: 0, 0
+  index: -1
+again
+  rotate: false
+  xy: 841, 807
+  size: 170, 100
+  orig: 170, 100
+  offset: 0, 0
+  index: -1
+back_menu
+  rotate: false
+  xy: 841, 705
+  size: 170, 100
+  orig: 170, 100
+  offset: 0, 0
+  index: -1
+fb_but
+  rotate: false
+  xy: 841, 583
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+43
+  rotate: false
+  xy: 841, 481
+  size: 120, 100
+  orig: 120, 100
+  offset: 0, 0
+  index: -1
+EGYPT
+  rotate: false
+  xy: 841, 429
+  size: 135, 50
+  orig: 135, 50
+  offset: 0, 0
+  index: -1
+HALONG
+  rotate: false
+  xy: 841, 377
+  size: 135, 50
+  orig: 135, 50
+  offset: 0, 0
+  index: -1
+JAPAN
+  rotate: false
+  xy: 841, 325
+  size: 135, 50
+  orig: 135, 50
+  offset: 0, 0
+  index: -1
+ROME
+  rotate: false
+  xy: 841, 273
+  size: 135, 50
+  orig: 135, 50
+  offset: 0, 0
+  index: -1
+SAIGON
+  rotate: false
+  xy: 841, 221
+  size: 135, 50
+  orig: 135, 50
+  offset: 0, 0
+  index: -1
+vibration
+  rotate: false
+  xy: 841, 169
+  size: 170, 50
+  orig: 170, 50
+  offset: 0, 0
+  index: -1
+35
+  rotate: false
+  xy: 841, 127
+  size: 150, 40
+  orig: 150, 40
+  offset: 0, 0
+  index: -1
+hANOI
+  rotate: false
+  xy: 841, 75
+  size: 120, 50
+  orig: 120, 50
+  offset: 0, 0
+  index: -1
+music
+  rotate: false
+  xy: 841, 23
+  size: 120, 50
+  orig: 120, 50
+  offset: 0, 0
+  index: -1
+trans
+  rotate: false
+  xy: 963, 670
+  size: 32, 33
+  orig: 32, 33
+  offset: 0, 0
+  index: -1
+black
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 963, 636
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+
+menu2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nen_chung
+  rotate: false
+  xy: 1, 493
+  size: 838, 490
+  orig: 838, 490
+  offset: 0, 0
+  index: -1
+shop
+  rotate: false
+  xy: 1, 1
+  size: 838, 490
+  orig: 838, 490
+  offset: 0, 0
+  index: -1
+HOANGSA
+  rotate: false
+  xy: 841, 943
+  size: 117, 40
+  orig: 117, 40
+  offset: 0, 0
+  index: -1
+36
+  rotate: false
+  xy: 841, 901
+  size: 110, 40
+  orig: 110, 40
+  offset: 0, 0
+  index: -1
+39
+  rotate: false
+  xy: 841, 849
+  size: 100, 50
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+40
+  rotate: false
+  xy: 841, 797
+  size: 100, 50
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+kil
+  rotate: false
+  xy: 841, 745
+  size: 100, 50
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+move
+  rotate: false
+  xy: 841, 693
+  size: 100, 50
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+Nap_tien_tiengANH
+  rotate: false
+  xy: 841, 641
+  size: 100, 50
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+Nap_tien_TiengVIET
+  rotate: false
+  xy: 841, 589
+  size: 100, 50
+  orig: 100, 50
+  offset: 0, 0
+  index: -1
+32
+  rotate: false
+  xy: 841, 547
+  size: 100, 40
+  orig: 100, 40
+  offset: 0, 0
+  index: -1
+34
+  rotate: false
+  xy: 841, 505
+  size: 100, 40
+  orig: 100, 40
+  offset: 0, 0
+  index: -1
+37
+  rotate: false
+  xy: 841, 463
+  size: 100, 40
+  orig: 100, 40
+  offset: 0, 0
+  index: -1
+26
+  rotate: false
+  xy: 841, 421
+  size: 97, 40
+  orig: 97, 40
+  offset: 0, 0
+  index: -1
+
+menu3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+4
+  rotate: false
+  xy: 1, 567
+  size: 636, 446
+  orig: 636, 446
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 1, 178
+  size: 587, 387
+  orig: 587, 387
+  offset: 0, 0
+  index: -1
+31
+  rotate: false
+  xy: 639, 571
+  size: 279, 442
+  orig: 279, 442
+  offset: 0, 0
+  index: -1
+113
+  rotate: false
+  xy: 1, 26
+  size: 550, 150
+  orig: 550, 150
+  offset: 0, 0
+  index: -1
+25
+  rotate: false
+  xy: 590, 265
+  size: 280, 300
+  orig: 280, 300
+  offset: 0, 0
+  index: -1
+tut
+  rotate: false
+  xy: 590, 133
+  size: 186, 130
+  orig: 186, 130
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 553, 1
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 778, 133
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+14
+  rotate: false
+  xy: 739, 1
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+
+menu4.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+15
+  rotate: false
+  xy: 1, 317
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+16
+  rotate: false
+  xy: 1, 185
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+17
+  rotate: false
+  xy: 187, 317
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+18
+  rotate: false
+  xy: 1, 53
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+19
+  rotate: false
+  xy: 187, 185
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+20
+  rotate: false
+  xy: 373, 317
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+22
+  rotate: false
+  xy: 187, 53
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+33
+  rotate: false
+  xy: 373, 185
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+44
+  rotate: false
+  xy: 559, 317
+  size: 184, 130
+  orig: 184, 130
+  offset: 0, 0
+  index: -1
+Highest_score
+  rotate: false
+  xy: 1, 1
+  size: 210, 50
+  orig: 210, 50
+  offset: 0, 0
+  index: -1

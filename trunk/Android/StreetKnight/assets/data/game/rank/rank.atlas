@@ -1,0 +1,76 @@
+
+rank.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 1, 403
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 1, 1
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+
+rank2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+3
+  rotate: false
+  xy: 1, 403
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 1, 1
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+
+rank3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+5
+  rotate: false
+  xy: 1, 403
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 1, 1
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+
+rank4.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+7
+  rotate: false
+  xy: 1, 403
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 1, 1
+  size: 550, 400
+  orig: 550, 400
+  offset: 0, 0
+  index: -1

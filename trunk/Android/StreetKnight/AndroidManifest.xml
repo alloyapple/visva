@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="vn.zgome.streetknight.android"
+    android:installLocation="preferExternal"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+    
+	<uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" 
+        android:largeHeap="true"
+        android:name="vn.zgome.game.streetknight.android.MainApplication">
+        <activity
+            android:name="vn.zgome.game.streetknight.android.MainActivity"
+            android:screenOrientation="landscape" 
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+         <activity android:name="com.facebook.LoginActivity"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                  android:label="@string/app_name" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+    	
+        <activity
+            android:name="com.appota.asdk.topup.browser.BrowserActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:hardwareAccelerated="true"
+            android:theme="@style/MyDialogStyle">
+        </activity>
+        <activity
+            android:name="com.appota.asdk.inapp.InAppSMSActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard" >
+        </activity>
+        <activity
+            android:name="com.appota.asdk.inapp.InAppCardActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard" >
+        </activity>
+        <activity
+            android:name="com.appota.asdk.inapp.InAppBankActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.appota.asdk.inapp.PaypalActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name="com.paypal.android.MEP.PayPalActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <meta-data
+            android:name="client_id"
+            android:value="c703f16c633cac19ecb5a6d03e4f71b6051cc6899" />
+        <meta-data
+            android:name="client_secret"
+            android:value="e0aa1c398daaf4b2efe8d0b50c03de91051cc6899" />
+        <meta-data
+            android:name="callback_uri"
+            android:value="http://localhost.com" />
+        <meta-data
+            android:name="sandbox_inapp_api_key"
+            android:value="e7cd47df8a87dbeab227834fefb08cb2051cc6899" />
+        <meta-data
+            android:name="inapp_api_key"
+            android:value="b052254c0da3b0531817116a99f264ed051cc6899" />
+        <meta-data
+            android:name="sandbox"
+            android:value="false" />
+        <meta-data
+            android:name="enable_log"
+            android:value="true" />
+        <meta-data
+            android:name="lang"
+            android:value="vi" />    
+        
+    </application>
+
+</manifest>
