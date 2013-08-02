@@ -1,0 +1,26 @@
+
+money.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 1, 247
+  size: 838, 490
+  orig: 838, 490
+  offset: 0, 0
+  index: -1
+tieptucchoi
+  rotate: false
+  xy: 1, 1
+  size: 430, 244
+  orig: 430, 244
+  offset: 0, 0
+  index: -1
+nap_tien
+  rotate: false
+  xy: 841, 657
+  size: 138, 80
+  orig: 138, 80
+  offset: 0, 0
+  index: -1

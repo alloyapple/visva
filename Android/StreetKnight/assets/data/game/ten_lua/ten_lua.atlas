@@ -1,0 +1,61 @@
+
+ten_lua.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+4
+  rotate: false
+  xy: 1, 707
+  size: 450, 300
+  orig: 450, 300
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 1, 405
+  size: 450, 300
+  orig: 450, 300
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 453, 707
+  size: 450, 300
+  orig: 450, 300
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 1, 103
+  size: 450, 300
+  orig: 450, 300
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 453, 405
+  size: 450, 300
+  orig: 450, 300
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 1, 1
+  size: 270, 100
+  orig: 270, 100
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 453, 303
+  size: 270, 100
+  orig: 270, 100
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 453, 201
+  size: 270, 100
+  orig: 270, 100
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,108 @@
+
+dao_gam.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+10
+  rotate: false
+  xy: 1, 709
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 1, 407
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+12
+  rotate: false
+  xy: 403, 709
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+13
+  rotate: false
+  xy: 1, 105
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+14
+  rotate: false
+  xy: 403, 407
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 403, 105
+  size: 400, 300
+  orig: 400, 300
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 805, 809
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 805, 607
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 805, 405
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 805, 203
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 805, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+
+dao_gam2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+6
+  rotate: false
+  xy: 1, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 203, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 405, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1

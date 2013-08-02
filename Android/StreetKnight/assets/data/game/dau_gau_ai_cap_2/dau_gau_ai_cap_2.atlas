@@ -1,0 +1,76 @@
+
+dau_gau_ai_cap_2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+dau_gau_ai_cap_22.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+3
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+dau_gau_ai_cap_23.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+5
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+dau_gau_ai_cap_24.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+7
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1

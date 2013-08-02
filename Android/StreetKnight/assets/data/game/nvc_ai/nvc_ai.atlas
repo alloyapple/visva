@@ -1,0 +1,171 @@
+
+nvc_ai.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+14
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+16
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+18
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai4.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+20
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+21
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai5.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+22
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+23
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai6.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+25
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+28
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai7.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+4
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai8.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+6
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+
+nvc_ai9.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+8
+  rotate: false
+  xy: 1, 403
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 1, 1
+  size: 600, 400
+  orig: 600, 400
+  offset: 0, 0
+  index: -1

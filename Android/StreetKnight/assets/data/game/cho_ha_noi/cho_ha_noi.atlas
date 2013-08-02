@@ -1,0 +1,54 @@
+
+cho_ha_noi.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+7
+  rotate: false
+  xy: 1, 1
+  size: 160, 105
+  orig: 160, 105
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 163, 26
+  size: 120, 80
+  orig: 120, 80
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 285, 26
+  size: 120, 80
+  orig: 120, 80
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 407, 26
+  size: 120, 80
+  orig: 120, 80
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 529, 26
+  size: 120, 80
+  orig: 120, 80
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 651, 26
+  size: 120, 80
+  orig: 120, 80
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 773, 26
+  size: 120, 80
+  orig: 120, 80
+  offset: 0, 0
+  index: -1
