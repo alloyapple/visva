@@ -15,12 +15,11 @@
     <string name="title_delete_items">Borrar</string>
     <string name="title_add_items">Nuevo</string>
     <string name="text_min">min</string>
-     <string name="text_security_off">Apagado</string>
+    <string name="text_security_off">Apagado</string>
     <string name="text_security_immediately">Inmediatamente</string>
     <string name="text_off">No Destruct</string>
     <string name="hint_no_image">NO IMAGE</string>
     <string name="hint_note">Nota</string>
-    
     <string name="btn_paste_browse">WEB</string>
     <string name="message_add_item">A sólo 12 elementos pueden ser registrado en esta aplicación. Usted puede pagar ¢ 99 para llave de código para eliminar el límite de elementos.</string>
     <string name="title_add_folder">Añadir carpeta</string>
@@ -109,6 +108,10 @@
     <string name="sync_to_device_data_cloud_newer_google">Datos de este Android se sobrescribirán con los datos más recientes sobre GoogleDrive.</string>
 
     <!-- others -->
+    <string name="InsertGroupError">Inserte Error Folder</string>
+    <string name="GroupNameError">Folder Name Error</string>
+    <string name="GroupNameExisted">Nombre de la carpeta existió</string>
+    <string name="InvalidFolder">Carpeta no válida</string>
     <string name="EmailError">Email Error</string>
     <string name="PassTooLong">Demasiado largo Contraseña</string>
     <string name="password_empty">Contraseña está vacío</string>

@@ -2,7 +2,6 @@ package com.japanappstudio.IDxPassword.activities.homescreen;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.sqlcipher.database.SQLiteDatabase;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,8 +16,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -261,9 +262,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 								// Contants.MASTER_PASSWORD_ID, 0);
 								folderListViewAdapter.updateSearchMode(
 										isSearchMode, currentFolderItem);
-								// folderListView.setSelection(0);
-								// if (!mFolderListItems.contains(searchFolder))
-								// mFolderListItems.add(searchFolder);
 							}
 							return true;
 						}
@@ -785,6 +783,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 					} else
 						startIntentCreateNewIds();
 				}
+			} else {
+				showDialog(Contants.DIALOG_MESSAGE_FOLDER_INVALID);
 			}
 		}
 
@@ -943,6 +943,14 @@ public class HomeScreeenActivity extends BaseActivity implements
 			return createExampleDialog(Contants.DIALOG_EXIT);
 		case Contants.DIALOG_MOVE_ID_TO_FOLDER:
 			return createExampleDialog(Contants.DIALOG_MOVE_ID_TO_FOLDER);
+		case Contants.DIALOG_MESSAGE_FOLDER_INVALID:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_FOLDER_INVALID);
+		case Contants.DIALOG_MESSAGE_FOLDER_EXISTED:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_FOLDER_EXISTED);
+		case Contants.DIALOG_MESSAGE_FOLDER_ERROR:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_FOLDER_ERROR);
+		case Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR);
 		default:
 			return null;
 		}
@@ -1121,6 +1129,78 @@ public class HomeScreeenActivity extends BaseActivity implements
 			builder.setTitle(getResources().getString(R.string.title_add_items));
 			builder.setMessage(getResources().getString(
 					R.string.message_add_item));
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							return;
+						}
+					});
+
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_FOLDER_INVALID:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(R.string.InvalidFolder));
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							return;
+						}
+					});
+
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_FOLDER_EXISTED:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(
+					R.string.GroupNameExisted));
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							return;
+						}
+					});
+
+			return builder.create();
+
+		case Contants.DIALOG_MESSAGE_FOLDER_ERROR:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources()
+					.getString(R.string.GroupNameError));
+			builder.setIcon(R.drawable.icon);
+
+			builder.setPositiveButton(
+					getResources().getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							return;
+						}
+					});
+
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setMessage(getResources().getString(
+					R.string.InsertGroupError));
 			builder.setIcon(R.drawable.icon);
 
 			builder.setPositiveButton(
@@ -1316,12 +1396,20 @@ public class HomeScreeenActivity extends BaseActivity implements
 	 * add new folder to database
 	 */
 	private void addNewFolderToDatabase(String folderName) {
-		if (folderName == null || folderName.equals(""))
+		if (folderName == null || folderName.equals("")) {
+			Message msg = mHandler.obtainMessage();
+			msg.arg1 = Contants.DIALOG_MESSAGE_FOLDER_ERROR;
+			mHandler.sendMessage(msg);
 			return;
+		}
 		List<GroupFolder> folderList = mIDxPWDataBaseHandler.getAllFolders();
 		for (int i = 0; i < folderList.size(); i++) {
-			if (folderName.equals(folderList.get(i).getgName()))
+			if (folderName.equals(folderList.get(i).getgName())) {
+				Message msg = mHandler.obtainMessage();
+				msg.arg1 = Contants.DIALOG_MESSAGE_FOLDER_EXISTED;
+				mHandler.sendMessage(msg);
 				return;
+			}
 		}
 		int sizeOfFolder = folderList.size();
 		int sizeTemp = 0;
@@ -1337,7 +1425,15 @@ public class HomeScreeenActivity extends BaseActivity implements
 		folderId++;
 		GroupFolder folder = new GroupFolder(folderId, folderName, 0,
 				Contants.MASTER_PASSWORD_ID, 0);
+		int size1 = mIDxPWDataBaseHandler.getFoldersCount();
 		mIDxPWDataBaseHandler.addNewFolder(folder);
+		int size2 = mIDxPWDataBaseHandler.getFoldersCount();
+		if (size2 <= size1) {
+			Message msg = mHandler.obtainMessage();
+			msg.arg1 = Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR;
+			mHandler.sendMessage(msg);
+			return;
+		}
 
 		folderListViewAdapter.addNewFolder(folder, folder.getgOrder());
 		mIdListItems = constructList(folderId);
@@ -1379,10 +1475,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 					currentFolderId);
 		}
 	}
-
-	// private void showToast(String string) {
-	// Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
-	// }
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -1470,4 +1562,17 @@ public class HomeScreeenActivity extends BaseActivity implements
 		intentRegisterEmail.putExtra(Contants.CREATE_NEW_EMAIL, false);
 		startActivity(intentRegisterEmail);
 	}
+
+	private Handler mHandler = new Handler() {
+		@SuppressWarnings("deprecation")
+		public void handleMessage(android.os.Message msg) {
+			Log.e("adkjfh", "adskfjhd " + msg.arg1);
+			if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_EXISTED)
+				showDialog(Contants.DIALOG_MESSAGE_FOLDER_EXISTED);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_ERROR)
+				showDialog(Contants.DIALOG_MESSAGE_FOLDER_ERROR);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR)
+				showDialog(Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR);
+		};
+	};
 }

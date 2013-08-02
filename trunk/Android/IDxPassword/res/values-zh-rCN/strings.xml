@@ -106,11 +106,15 @@
     <string name="sync_to_device_data_cloud_newer_google">阅读GoogleDrive上的数据。你确定要当前数据丢失了吗？</string>
 
     <!-- others -->
+    <string name="InsertGroupError">创建文件夹错误</string>
+    <string name="GroupNameError">文件夹名称错误</string>
+    <string name="GroupNameExisted">文件夹名称存在</string>
+    <string name="InvalidFolder">无法使用此文件夹</string>
     <string name="EmailError">邮件错误</string>
     <string name="PassTooLong">密码过长</string>
     <string name="password_empty">密码为空</string>
     <string name="data_destroyed">数据已被删除。</string>
-     <string name="email_change_sucess">成功修改邮件地址。</string>
+    <string name="email_change_sucess">成功修改邮件地址。</string>
     <string name="msg_email_replace">您要代替当前的邮件地址吗？</string>
     <string name="title_email_null">标题为空</string>
     <string name="title_agreement">[免责声明]</string>

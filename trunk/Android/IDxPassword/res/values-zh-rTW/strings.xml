@@ -100,21 +100,24 @@
     <string name="data_cloud_newer">更好的數據（GoogleDrive）是新的，但Dropbox，你確定你真的要覆蓋它嗎？</string>
     <string name="sync_data_duplicate_msg_drop">你確定你想從Dropbox的，誰是新的數據，本次Android上的數據嗎？.</string>
     <string name="sync_data_duplicate_msg_google">你確定你想從GoogleDrive的，誰是新的數據，本次Android上的數據嗎？.</string>
-    
     <string name="sync_to_cloud_data_device_newer_drop">您確定您要覆蓋的數據，但在此的iPhone Dropbox的數據嗎？</string>
     <string name="sync_to_device_data_cloud_newer_drop">閱讀Dropbox上的數據。你確定要當前數據丟失了嗎？</string>
     <string name="sync_to_cloud_data_device_newer_google">您確定您要覆蓋的數據，但在此的iPhone GoogleDrive的數據嗎？</string>
     <string name="sync_to_device_data_cloud_newer_google">閱讀GoogleDrive上的數據。你確定要當前數據丟失了嗎？</string>
 
     <!-- others -->
+    <string name="InsertGroupError">創建文件夾錯誤</string>
+    <string name="GroupNameError">文件夾名稱錯誤</string>
+    <string name="GroupNameExisted">文件夾名稱存在</string>
+    <string name="InvalidFolder">無法使用此文件夾</string>
     <string name="EmailError">郵件錯誤</string>
     <string name="PassTooLong">密碼過長</string>
     <string name="password_empty">密碼爲空</string>
     <string name="data_destroyed">數據已被刪除。</string>
-     <string name="email_change_sucess">成功修改郵件地址。</string>
+    <string name="email_change_sucess">成功修改郵件地址。</string>
     <string name="msg_email_replace">您要代替當前的郵件地址嗎？</string>
     <string name="title_email_null">標題爲空</string>
-     <string name="title_agreement">[免責聲明]</string>
+    <string name="title_agreement">[免責聲明]</string>
     <string name="select_text_format">選擇文本數據格式</string>
     <string name="email_receiver_update_info"></string>
     <string name="email_receiver_important_info">我將獲得的重要公告。</string>
@@ -128,5 +131,6 @@
 由第三方提供的軟件對該軟件的變更以及本管理系統的服務不足，所造成的壹切後果，其責任與Japan App Studio, inc.無關。\n
 [審批]\n
 利用者點擊\"同意\"開始利用本管理系統的服務，都將被視作是對本聲明全部內容的無意義的認可。</string>
-<string name="message_change_pass">您要替換當前的密碼嗎？</string>
+    <string name="message_change_pass">您要替換當前的密碼嗎？</string>
+
 </resources>

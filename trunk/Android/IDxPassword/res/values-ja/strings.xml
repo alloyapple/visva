@@ -12,7 +12,7 @@
     <string name="message_pay_to_export">CSV形式での書出し機能を追加します。1,000円課金されますがよろしいですか？</string>
     <string name="title_current_pass">現在のマスターパスワード</string>
     <string name="text_off">なし</string>
-     <string name="text_security_off">無し</string>
+    <string name="text_security_off">無し</string>
     <string name="text_security_immediately">即時</string>
     <string name="title_master_pass">マスターパスワード</string>
     <string name="title_delete_items">削除</string>
@@ -107,6 +107,10 @@
     <string name="sync_to_device_data_cloud_newer_google">GoogleDrive 上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
 
     <!-- others -->
+    <string name="InsertGroupError">フォルダ作成エラー</string>
+    <string name="GroupNameError">フォルダ名エラー</string>
+    <string name="GroupNameExisted">同名のフォルダがあります。</string>
+    <string name="InvalidFolder">このフォルダは利用できません。</string>
     <string name="EmailError">Email Error</string>
     <string name="PassTooLong">パスワードが長すぎます。</string>
     <string name="password_empty">パスワードがありません。</string>

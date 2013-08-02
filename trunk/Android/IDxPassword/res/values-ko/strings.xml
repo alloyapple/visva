@@ -12,7 +12,7 @@
     <string name="message_pay_mto_export">CSV 형식으로 내보내기 기능을 추가합니다. 1,000 원 부과됩니다 괜찮습니까?</string>
     <string name="title_current_pass">현재 마스터 비밀 번호</string>
     <string name="text_off">없음</string>
-     <string name="text_security_off">없음</string>
+    <string name="text_security_off">없음</string>
     <string name="text_security_immediately">즉시</string>
     <string name="list_general">일반</string>
     <string name="title_master_pass">마스터 비밀 번호</string>
@@ -107,6 +107,10 @@
     <string name="sync_to_device_data_cloud_newer_google">GoogleDrive의 데이터를 가져옵니다. 현재의 데이터가 손실되지만 동의 하십나까?</string>
 
     <!-- others -->
+    <string name="InsertGroupError">폴더 생성 오류</string>
+    <string name="GroupNameError">폴더 이름 오류</string>
+    <string name="GroupNameExisted">폴더명이 이미 존재합니다.</string>
+    <string name="InvalidFolder">이 폴더는 사용할 수 없습니다.</string>
     <string name="EmailError">이메일 오류</string>
     <string name="PassTooLong">암호가 너무 깁니다.</string>
     <string name="password_empty">암호가 없습니다.</string>

@@ -47,13 +47,17 @@ public class Contants {
 	public static final int DIALOG_MESSAGE_SYNC_DEVICE_DATA_DEVICE_NEWER = 30;
 	public static final int DIALOG_MESSAGE_AUTHEN_GG_FAILED = 31;
 	public static final int DIALOG_MESSAGE_CREATED_FOLDER_ID_PASSWORD = 32;
-	public static final int DIALOG_MESSAGE_EMAIL_NULL=33;
-	public static final int DIALOG_MESSAGE_EMAIL_RENEW=34;
+	public static final int DIALOG_MESSAGE_EMAIL_NULL = 33;
+	public static final int DIALOG_MESSAGE_EMAIL_RENEW = 34;
 	public static final int DIALOG_MESSAGE_EMAIL_CHANGE_SUCESS = 35;
-	public static final int DIALOG_MESSAGE_PW_EMPTY=36;
+	public static final int DIALOG_MESSAGE_PW_EMPTY = 36;
 	public static final int DIALOG_MESSAGE_PW_TOO_LONG = 37;
 	public static final int DIALOG_MESSAGE_EMAIL_ERROR = 38;
-
+	public static final int DIALOG_MESSAGE_FOLDER_INVALID = 39;
+	public static final int DIALOG_MESSAGE_FOLDER_EXISTED = 40;
+	public static final int DIALOG_MESSAGE_FOLDER_ERROR = 41;
+	public static final int DIALOG_MESSAGE_FOLDER_INSERT_ERROR = 42;
+	
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;
 	public static final int TYPE_FOLDER_NON_NORMAL = 0;
@@ -90,7 +94,7 @@ public class Contants {
 	public static final String IS_CHANGE_PASSWORD = "isChangePW";
 	public static int MASTER_PASSWORD_ID = 101;
 	public static final String IS_SYNC_TO_CLOUD = "IS_SYNC_TO_CLOUD";
-//	public static final String FILE_CSV_NAME = "idxp.android.idp";
+	// public static final String FILE_CSV_NAME = "idxp.android.idp";
 	public static final String FIlE_CSV_EXPORT = "id&password.csv";
 	public static final String IS_EXPORT_FILE = "IS_EXPORT_FILE";
 
@@ -115,7 +119,7 @@ public class Contants {
 	public static final String APP_SECRET = "mif0ph1pr4s0s6y";
 
 	public static final String KEY_CHOICE_CSV_FILE = "KEY_CHOICE_CSV_FILE";
-	
+
 	public static final int MAX_LENGTH_PW = 127;
 
 }

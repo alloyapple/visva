@@ -127,20 +127,18 @@ public class RegisterEmailActivity extends Activity {
 							HomeScreeenActivity.class);
 
 					startActivity(intent);
-					
+
 					String deviceLang = Locale.getDefault().getLanguage();
 					initShareItent(
 							getString(R.string.email_subject),
 							getString(R.string.new_email_create_content,
 									sentUpdateNewInfoMsg, sentImportantInfoMsg,
-									myUser.getsEmail(),deviceLang),
+									myUser.getsEmail(), deviceLang),
 							getString(R.string.email_to_sent));
 					finish();
 
 				} else {
 					showDialog(Contants.DIALOG_MESSAGE_EMAIL_CHANGE_SUCESS);
-					// sendMailConfirm(usera.getsEmail());
-
 				}
 				//
 
@@ -204,10 +202,10 @@ public class RegisterEmailActivity extends Activity {
 						}
 					});
 			return builder.create();
-		case Contants.DIALOG_MESSAGE_EMAIL_RENEW:
+		case Contants.DIALOG_MESSAGE_EMAIL_ERROR:
 			builder.setTitle(getResources().getString(
 					R.string.email_title_register));
-			builder.setMessage(getString(R.string.msg_email_replace));
+			builder.setMessage(getString(R.string.EmailError));
 			builder.setIcon(R.drawable.icon);
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
@@ -218,10 +216,12 @@ public class RegisterEmailActivity extends Activity {
 							return;
 						}
 					});
-		case Contants.DIALOG_MESSAGE_EMAIL_ERROR:
+			
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_EMAIL_RENEW:
 			builder.setTitle(getResources().getString(
 					R.string.email_title_register));
-			builder.setMessage(getString(R.string.EmailError));
+			builder.setMessage(getString(R.string.msg_email_replace));
 			builder.setIcon(R.drawable.icon);
 			builder.setPositiveButton(getString(R.string.confirm_ok),
 					new DialogInterface.OnClickListener() {
@@ -254,14 +254,17 @@ public class RegisterEmailActivity extends Activity {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
 							/* add new folder to database */
-							Log.e("device language", "device language "+Locale.getDefault().getLanguage());
-							String deviceLang = Locale.getDefault().getLanguage();
+							Log.e("device language", "device language "
+									+ Locale.getDefault().getLanguage());
+							String deviceLang = Locale.getDefault()
+									.getLanguage();
 							initShareItent(
 									getString(R.string.email_update),
 									getString(R.string.change_email_content,
 											sentUpdateNewInfoMsg,
 											sentImportantInfoMsg,
-											myUser.getsEmail(), oldEmail,deviceLang),
+											myUser.getsEmail(), oldEmail,
+											deviceLang),
 									getString(R.string.email_to_sent));
 							finish();
 							return;
