@@ -132,6 +132,7 @@
     <string name="sync_to_device_data_cloud_newer_google">This Android\'s data will be overwritten by the newer data on GoogleDrive.</string>
     
     <!-- others -->
+    <string name="SelectFileTitle">Select File</string>
 	<string name="InsertGroupError">Insert Folder Error</string>
     <string name="GroupNameError">Folder Name Error</string>
     <string name="GroupNameExisted">Folder Name Existed</string>
