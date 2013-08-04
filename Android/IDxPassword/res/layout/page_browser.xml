@@ -44,64 +44,83 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:scrollbars="vertical" >
-
-            <WebView
-                android:id="@+id/web_view"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-            </WebView>
-        </ScrollView>
+        android:layout_height="fill_parent" >
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="46dp"
-            android:background="@drawable/top_bar"
-            android:orientation="horizontal" >
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center"
+            android:orientation="vertical" >
 
-            <Button
-                android:layout_width="19dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/btn_arrow_left"
-                android:onClick="onBack" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
 
-            <Button
-                android:layout_width="19dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/btn_arrow_right"
-                android:onClick="onNext" />
+                <ScrollView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:scrollbars="vertical" >
+
+                    <WebView
+                        android:id="@+id/web_view"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+                    </WebView>
+                </ScrollView>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="46dp"
+                    android:background="@drawable/top_bar"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:layout_width="19dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/btn_arrow_left"
+                        android:onClick="onBack" />
+
+                    <Button
+                        android:layout_width="19dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/btn_arrow_right"
+                        android:onClick="onNext" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:orientation="vertical" >
+
+                <com.google.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+                    android:id="@+id/main_adView_browser"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="a14f59e5c442767" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:orientation="vertical" >
-
-        <com.google.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-            android:id="@+id/main_adView"
+        <LinearLayout
+            android:id="@+id/page_browser_ln_webview"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            ads:adUnitId="a14f59e5c442767" />
-    </LinearLayout>
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|center"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

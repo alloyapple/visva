@@ -237,17 +237,45 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_gravity="right"
-        panel:animationDuration="100"
-        panel:closedHandle="@drawable/right_switcher_collapsed_background"
+        panel:animationDuration="333"
         panel:content="@+id/panelContent"
         panel:linearFlying="true"
-        panel:openedHandle="@drawable/right_switcher_expanded_background"
         panel:position="right"
         panel:weight="100%p" >
 
         <include
             android:id="@+id/panelContent"
             layout="@layout/setting" />
+    </com.japanappstudio.IDxPassword.activities.slide_activity.Panel>
+    <com.japanappstudio.IDxPassword.activities.slide_activity.Panel
+        android:id="@+id/l_home_panel_info"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right"
+        panel:animationDuration="333"
+        panel:content="@+id/panelContent_info"
+        panel:linearFlying="true"
+        panel:position="right"
+        panel:weight="100%p" >
+
+        <include
+            android:id="@+id/panelContent_info"
+            layout="@layout/page_browser" />
+    </com.japanappstudio.IDxPassword.activities.slide_activity.Panel>
+     <com.japanappstudio.IDxPassword.activities.slide_activity.Panel
+        android:id="@+id/l_home_panel_edit_idxpass"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right"
+        panel:animationDuration="333"
+        panel:content="@+id/panelContent_idxpass"
+        panel:linearFlying="true"
+        panel:position="right"
+        panel:weight="100%p" >
+
+        <include
+            android:id="@+id/panelContent_idxpass"
+            layout="@layout/layout_edit_id_pass" />
     </com.japanappstudio.IDxPassword.activities.slide_activity.Panel>
 
 </FrameLayout>
