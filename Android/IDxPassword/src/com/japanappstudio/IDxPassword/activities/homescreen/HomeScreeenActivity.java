@@ -88,6 +88,7 @@ import com.japanappstudio.IDxPassword.activities.SettingURLActivity;
 import com.japanappstudio.IDxPassword.activities.SetupRemoveDataActivity;
 import com.japanappstudio.IDxPassword.activities.SetupSecurityModeActivity;
 import com.japanappstudio.IDxPassword.activities.slide_activity.Panel;
+import com.japanappstudio.IDxPassword.activities.slide_activity.Panel.OnPanelListener;
 import com.japanappstudio.IDxPassword.activities.syncloud.DropboxSettingActivity;
 import com.japanappstudio.IDxPassword.activities.syncloud.GGDriveSettingActivity;
 import com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity;
@@ -145,6 +146,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private Panel panelSetting;
 	private Panel panelInfo;
 	private Panel panelEditIdxpass;
+	private boolean isPanelVisiable = false;
 
 	// ===========================Class Define =====================
 	private ItemAdapter itemAdapter;
@@ -464,12 +466,40 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		panelSetting = (Panel) mainRootLayout
 				.findViewById(R.id.l_home_panel_setting);
+		panelSetting.setOnPanelListener(new OnPanelListener() {
+
+			@Override
+			public void onPanelOpened(Panel panel) {
+				// TODO Auto-generated method stub
+				isPanelVisiable = true;
+			}
+
+			@Override
+			public void onPanelClosed(Panel panel) {
+				// TODO Auto-generated method stub
+				isPanelVisiable = false;
+			}
+		});
 		LinearLayout touchViewSetting = (LinearLayout) mainRootLayout
 				.findViewById(R.id.setting_touchView);
 		panelSetting.setTouchView(touchViewSetting);
 
 		// panelSetting.setHandle(btnSetting, HOME_SETTING, this);
 		panelInfo = (Panel) mainRootLayout.findViewById(R.id.l_home_panel_info);
+		panelInfo.setOnPanelListener(new OnPanelListener() {
+
+			@Override
+			public void onPanelOpened(Panel panel) {
+				// TODO Auto-generated method stub
+				isPanelVisiable = true;
+			}
+
+			@Override
+			public void onPanelClosed(Panel panel) {
+				// TODO Auto-generated method stub
+				isPanelVisiable = false;
+			}
+		});
 		LinearLayout touchViewInfo = (LinearLayout) mainRootLayout
 				.findViewById(R.id.page_browser_ln_webview);
 		panelInfo.setTouchView(touchViewInfo);
@@ -477,6 +507,20 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		panelEditIdxpass = (Panel) mainRootLayout
 				.findViewById(R.id.l_home_panel_edit_idxpass);
+		panelEditIdxpass.setOnPanelListener(new OnPanelListener() {
+
+			@Override
+			public void onPanelOpened(Panel panel) {
+				// TODO Auto-generated method stub
+				isPanelVisiable = true;
+			}
+
+			@Override
+			public void onPanelClosed(Panel panel) {
+				// TODO Auto-generated method stub
+				isPanelVisiable = false;
+			}
+		});
 		LinearLayout touchViewIdxpass = (LinearLayout) mainRootLayout
 				.findViewById(R.id.edit_idxpass_touch_ln);
 		panelEditIdxpass.setTouchView(touchViewIdxpass);
@@ -2056,9 +2100,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (panelSetting.getVisibility() != View.VISIBLE
-					&& panelInfo.getVisibility() != View.VISIBLE
-					&& panelEditIdxpass.getVisibility() != View.VISIBLE) {
+			if (!isPanelVisiable) {
 				if (mPref.getSecurityMode() == Contants.KEY_OFF) {
 					finish();
 				} else
