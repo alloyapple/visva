@@ -119,7 +119,7 @@ public class DownloadCSVViaGGDrive extends AsyncTask<Void, Long, Integer> {
 //						file.mkdir();
 					OutputStream outputStream = new FileOutputStream(file);
 					rewrite(input, outputStream);
-					return Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
+					return Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED;
 				}
 			} else {
 				return Contants.DIALOG_MESSAGE_SYNC_FAILED;
@@ -154,11 +154,11 @@ public class DownloadCSVViaGGDrive extends AsyncTask<Void, Long, Integer> {
 		mDialog.dismiss();
 		Log.e("result", "result " + result);
 		Message msg = mHandler.obtainMessage();
-		if (result == Contants.DIALOG_MESSAGE_SYNC_SUCCESS) {
+		if (result == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
 			Date date = new Date();
 			mLastTimeSync = date.getTime();
 			mIdManagerPreference.setLastTimeSyncCloud(mLastTimeSync);
-			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_SUCCESS;
+			msg.arg1 = Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED;
 			mHandler.sendMessage(msg);
 		} else if (result == Contants.DIALOG_MESSAGE_SYNC_FAILED) {
 			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_FAILED;

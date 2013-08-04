@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_setting"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -28,6 +29,7 @@
         android:layout_width="fill_parent"
         android:layout_height="250dp"
         android:layout_below="@id/top_bar_title"
+        android:background="@drawable/all_corner_button"
         android:layout_margin="10dp" >
     </ListView>
 
@@ -35,7 +37,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/list_file_selected"
-        android:layout_margin="5dp"
-        android:text="adkjfldj dlkjdl adl d adk r jf  ia jf" />
+        android:layout_margin="10dp"
+        android:background="@drawable/all_corner_button"
+        android:text="@string/GoogleDocAlert" />
 
 </RelativeLayout>
