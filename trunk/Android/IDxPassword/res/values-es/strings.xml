@@ -108,6 +108,7 @@
     <string name="sync_to_device_data_cloud_newer_google">Datos de este Android se sobrescribirán con los datos más recientes sobre GoogleDrive.</string>
 
     <!-- others -->
+    <string name="GoogleDocAlert">Si ha convertido subir archivos al formato de Google Docs Subir ajuste, no se puede obtener los archivos.</string>
     <string name="InsertGroupError">Inserte Error Folder</string>
     <string name="GroupNameError">Folder Name Error</string>
     <string name="GroupNameExisted">Nombre de la carpeta existió</string>

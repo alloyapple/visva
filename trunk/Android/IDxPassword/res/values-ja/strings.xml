@@ -107,6 +107,7 @@
     <string name="sync_to_device_data_cloud_newer_google">GoogleDrive 上のデータを読み込みます。現在のデータは失われますがよろしいですか？</string>
 
     <!-- others -->
+     <string name="GoogleDocAlert">GoogleDriveのアップロード設定により「アップロードしたファイルをGoogleドキュメント形式に変換」している場合、ファイルを読み込めません。</string>
     <string name="InsertGroupError">フォルダ作成エラー</string>
     <string name="GroupNameError">フォルダ名エラー</string>
     <string name="GroupNameExisted">同名のフォルダがあります。</string>

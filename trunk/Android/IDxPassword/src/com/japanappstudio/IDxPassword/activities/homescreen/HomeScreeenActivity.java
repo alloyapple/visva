@@ -83,6 +83,7 @@ import com.japanappstudio.IDxPassword.activities.ListIconActivity;
 import com.japanappstudio.IDxPassword.activities.PasswordGeneratorActivity;
 import com.japanappstudio.IDxPassword.activities.R;
 import com.japanappstudio.IDxPassword.activities.RegisterEmailActivity;
+import com.japanappstudio.IDxPassword.activities.SelectFileActivity;
 import com.japanappstudio.IDxPassword.activities.SettingActivity;
 import com.japanappstudio.IDxPassword.activities.SettingURLActivity;
 import com.japanappstudio.IDxPassword.activities.SetupRemoveDataActivity;
@@ -295,6 +296,11 @@ public class HomeScreeenActivity extends BaseActivity implements
 					mListDataChoice[i] = mFileList.get(i);
 					mListDataChoiceTemp[i] = mFileList.get(i);
 				}
+				
+				Intent intent = new Intent(HomeScreeenActivity.this, SelectFileActivity.class);
+				intent.putExtra("listFile", mFileList);
+				startActivity(intent);
+				
 				if (mListDataChoiceTemp.length > 0)
 					showDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {

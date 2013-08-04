@@ -1089,8 +1089,8 @@ public class SettingActivity extends BaseActivity {
 			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD)
 				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_LIST_DATA) {
+				Log.e("adkjhf", "djfhdfh");
 				Object object = msg.obj;
-
 				ArrayList<String> mFileList = (ArrayList<String>) object;
 				mListDataChoice = new String[mFileList.size()];
 				mListDataChoiceTemp = new String[mFileList.size()];
@@ -1098,8 +1098,12 @@ public class SettingActivity extends BaseActivity {
 					mListDataChoice[i] = mFileList.get(i);
 					mListDataChoiceTemp[i] = mFileList.get(i);
 				}
+				Intent intent = new Intent(SettingActivity.this, SelectFileActivity.class);
+				intent.putExtra("listFile", mFileList);
+				startActivity(intent);
 				if (mListDataChoiceTemp.length > 0)
 					showDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);
+				
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
 				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {

@@ -56,7 +56,7 @@
     <string name="confirm_delete">Delete</string>
     <string name="title_delete">Delete Folder</string>
     <string name="security_mode_title">Auto Sign Off</string>
-     <string name="re_register_email_title">E-mail Address Re-register</string>
+    <string name="re_register_email_title">E-mail Address Re-register</string>
     <string name="remove_data_title">Configuration data corruption</string>
     <string name="item_change_master_apss">Reset Master Password</string>
     <string name="item_mode_security">Auto Sign Off</string>
@@ -125,15 +125,15 @@
     <string name="sync_data_duplicate_msg">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox(GoogleDrive)?.</string>
     <string name="sync_data_duplicate_msg_drop">This Android\'s data is newer. Are you sure to overwite by the older one on Dropbox?.</string>
     <string name="sync_data_duplicate_msg_google">This Android\'s data is newer. Are you sure to overwite by the older one on GoogleDrive?.</string>
-    
     <string name="sync_to_cloud_data_device_newer_drop">The data on Dropbox will be overwritten by this Android\'s data. Are you sure?</string>
     <string name="sync_to_device_data_cloud_newer_drop">This Android\'s data will be overwritten by the newer data on Dropbox.</string>
     <string name="sync_to_cloud_data_device_newer_google">The data on GoogleDrive will be overwritten by this Android\'s data. Are you sure?</string>
     <string name="sync_to_device_data_cloud_newer_google">This Android\'s data will be overwritten by the newer data on GoogleDrive.</string>
-    
+
     <!-- others -->
+    <string name="GoogleDocAlert">If you converted upload files to Google Docs format by Upload setting, you cannot get the files.</string>
     <string name="SelectFileTitle">Select File</string>
-	<string name="InsertGroupError">Insert Folder Error</string>
+    <string name="InsertGroupError">Insert Folder Error</string>
     <string name="GroupNameError">Folder Name Error</string>
     <string name="GroupNameExisted">Folder Name Existed</string>
     <string name="InvalidFolder">Invalid Folder</string>
