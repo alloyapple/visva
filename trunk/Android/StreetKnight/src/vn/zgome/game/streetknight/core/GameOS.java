@@ -8,6 +8,7 @@ import vn.zgome.game.streetknight.loading.LoadingScreen;
 import vn.zgome.game.streetknight.menu.MenuScreen;
 import vn.zgome.game.streetknight.splash.SplashScreen;
 import vn.zgome.game.streetknight.tut.TutScreen;
+import android.content.Context;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -50,11 +51,13 @@ public class GameOS extends Game{
 	public long lastTime;
 	public long currentTime;
 	public int delayTime;
+	private Context context;
 	
 	public boolean isFistTime;
 	
-	public GameOS()
+	public GameOS(Context context)
 	{		
+		this.context = context;
 		processLib = new ProcessLib(this);
 		
 		screenInfo = new ScreenInfo(this);
@@ -67,7 +70,7 @@ public class GameOS extends Game{
 		menuScreen = new MenuScreen(this);
 		gameScreen = new GameScreen(this);
 		tutScreen = new TutScreen(this);
-		dataSave = new DataSave(this);
+		dataSave = new DataSave(this,context);
 	}
 	
 	public void create()

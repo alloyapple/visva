@@ -3,13 +3,16 @@ package vn.zgome.game.streetknight.android;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sqlcipher.database.SQLiteDatabase;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import vn.zgome.game.streetknight.core.FacebookListener;
 import vn.zgome.game.streetknight.core.GameOS;
 import vn.zgome.game.streetknight.core.IAPListener;
 import vn.zgome.game.streetknight.core.ISmsEvent;
+import vn.zgome.game.streetknight.database.KungfuDBHandler;
+import vn.zgome.game.streetknight.database.KungfuDBItem;
+import vn.zgome.game.streetknight.util.Contants;
 import vn.zgome.streetknight.android.R;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -45,8 +48,8 @@ import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 
-public class MainActivity extends AndroidApplication implements FacebookListener,
-		IAPListener, ISmsEvent {
+public class MainActivity extends AndroidApplication implements
+		FacebookListener, IAPListener, ISmsEvent {
 	private static final String SMS_NUMBER = "8798";
 	private static final String SMS_MESSAGE = "NAP 42G3";
 
@@ -74,6 +77,8 @@ public class MainActivity extends AndroidApplication implements FacebookListener
 	SmsCreate mSmsCreate;
 	static SharedPreferences mPreference;
 
+	private KungfuDBHandler mKungfuDBHandler;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +99,7 @@ public class MainActivity extends AndroidApplication implements FacebookListener
 		// Create the layout
 		RelativeLayout layout = new RelativeLayout(this);
 
-		game = new GameOS();
+		game = new GameOS(this);
 		game.android = new AndroidFunctionImp(this);
 		game.iapListener = this;
 		game.facebookListener = this;
@@ -181,13 +186,13 @@ public class MainActivity extends AndroidApplication implements FacebookListener
 		isResumed = true;
 
 		mUiLifecycleHelper.onResume();
-		
-//		if (dialogParams != null) {
-////			if (ensureOpenSession()) {
-//				showDialogWithoutNotificationBar("feed", dialogParams);
-////			}
-//		}
-		
+
+		// if (dialogParams != null) {
+		// // if (ensureOpenSession()) {
+		// showDialogWithoutNotificationBar("feed", dialogParams);
+		// // }
+		// }
+
 		// Measure mobile app install ads
 		// Ref: https://developers.facebook.com/docs/tutorials/mobile-app-ads/
 		com.facebook.Settings
@@ -521,22 +526,22 @@ public class MainActivity extends AndroidApplication implements FacebookListener
 			});
 			return false;
 		}
-//		Log.e("ensureOpenSession", "ensureOpenSession" + "true");
+		// Log.e("ensureOpenSession", "ensureOpenSession" + "true");
 		return true;
 	}
 
 	private void onSessionStateChanged(Session session, SessionState state,
 			Exception exception) {
-		if (isSessionOpened &&state != null && state.isOpened()) {
+		if (isSessionOpened && state != null && state.isOpened()) {
 			isSessionOpened = false;
 			if (dialogParams != null) {
 				showDialogWithoutNotificationBar("feed", dialogParams);
 			}
 		}
 	}
-	
+
 	boolean isSessionOpened = false;
-	
+
 	@Override
 	public void onFeedRequest(String link, String name, String caption,
 			String descript, String pictureUrl) {
@@ -559,7 +564,7 @@ public class MainActivity extends AndroidApplication implements FacebookListener
 	private void showDialogWithoutNotificationBar(final String action,
 			final Bundle params) {
 		// Create the dialog
-		
+
 		if (params == null) {
 			Log.e("params", "fsdfsofnsodnfosdnfds");
 			return;
@@ -603,7 +608,8 @@ public class MainActivity extends AndroidApplication implements FacebookListener
 
 	void requestPublishPermissions(Session session) {
 		if (session != null) {
-			Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(this, PERMISSIONS);
+			Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(
+					this, PERMISSIONS);
 			session.requestNewPublishPermissions(newPermissionsRequest);
 		}
 	}
