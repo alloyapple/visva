@@ -57,6 +57,7 @@ public class Contants {
 	public static final int DIALOG_MESSAGE_FOLDER_EXISTED = 40;
 	public static final int DIALOG_MESSAGE_FOLDER_ERROR = 41;
 	public static final int DIALOG_MESSAGE_FOLDER_INSERT_ERROR = 42;
+	public static final int DIALOG_CREATE_ID_PASSWORD = 43;
 	
 	public static final int NUMBER_FOLDER_DEFALT = 3;
 	public static final int TYPE_FOLDER_NORMAL = 1;

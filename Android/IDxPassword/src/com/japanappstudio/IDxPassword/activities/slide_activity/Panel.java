@@ -13,15 +13,13 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.japanappstudio.IDxPassword.activities.MyScrollView;
 import com.japanappstudio.IDxPassword.activities.R;
-
+//import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
+@SuppressWarnings("deprecation")
 public class Panel extends LinearLayout {
 
 	private static final String TAG = "Panel";
@@ -45,10 +43,12 @@ public class Panel extends LinearLayout {
 	private int mPosition;
 	private int mDuration;
 	private boolean mLinearFlying;
-	private int mHandleId;
+	// private int mHandleId;
 	private int mContentId;
-	private View mHandle;
+//	private View mHandle;
 	private View mContent;
+//	private HomeScreeenActivity parent;
+	private int mScreenID;
 	// private Drawable mOpenedHandle;
 	// private Drawable mClosedHandle;
 	private float mTrackX;
@@ -67,7 +67,6 @@ public class Panel extends LinearLayout {
 	};
 
 	private State mState;
-	private Interpolator mInterpolator;
 	private GestureDetector mGestureDetector;
 	private int mContentHeight;
 	private int mContentWidth;
@@ -75,7 +74,8 @@ public class Panel extends LinearLayout {
 	private float mWeight;
 	private PanelOnGestureListener mGestureListener;
 	private boolean mBringToFront;
-	private MyScrollView scrollView;
+	// private MyScrollView scrollView;
+	private View touchView;
 
 	public Panel(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -152,14 +152,9 @@ public class Panel extends LinearLayout {
 	 * 
 	 * @return Panel's mHandle
 	 */
-	public View getHandle() {
-		return mHandle;
-	}
-
-	public void setHandle(View v) {
-		mHandle = v;
-		mHandle.setOnClickListener(clickListener);
-	}
+//	public View getHandle() {
+//		return mHandle;
+//	}
 
 	/**
 	 * Gets Panel's mContent
@@ -170,27 +165,13 @@ public class Panel extends LinearLayout {
 		return mContent;
 	}
 
-	/**
-	 * Sets the acceleration curve for panel's animation.
-	 * 
-	 * @param i
-	 *            The interpolator which defines the acceleration curve
-	 */
-	public void setInterpolator(Interpolator i) {
-		mInterpolator = i;
-	}
-
-	/**
-	 * Set the opened state of Panel.
-	 * 
-	 * @param open
-	 *            True if Panel is to be opened, false if Panel is to be closed.
-	 * @param animate
-	 *            True if use animation, false otherwise.
-	 * 
-	 * @return True if operation was performed, false otherwise.
-	 * 
-	 */
+//	public void setHandle(View v, int idScreen, HomeScreeenActivity parent) {
+//		mHandle = v;
+//		this.parent = parent;
+//		this.mScreenID = idScreen;
+//		mHandle.setOnClickListener(clickListener);
+//
+//	}
 	public boolean setOpen(boolean open, boolean animate) {
 		if (mState == State.READY && isOpen() ^ open) {
 			mIsShrinking = !open;
@@ -221,6 +202,7 @@ public class Panel extends LinearLayout {
 		return mContent.getVisibility() == VISIBLE;
 	}
 
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -232,19 +214,18 @@ public class Panel extends LinearLayout {
 		// + name + "'");
 		// }
 		// mHandle.setOnTouchListener(touchListener);
+		// mHandle.setOnClickListener(clickListener);
 
 		mContent = findViewById(mContentId);
 		if (mContent == null) {
-			String name = getResources().getResourceEntryName(mHandleId);
+			String name = getResources().getResourceEntryName(mContentId);
 			throw new RuntimeException(
 					"Your Panel must have a child View whose id attribute is 'R.id."
 							+ name + "'");
 		}
 
-		scrollView = (MyScrollView) findViewById(R.id.setting_scrollView);
-		scrollView.setOnTouchListener(touchListener);
 		// reposition children
-		removeView(mHandle);
+		// removeView(mHandle);
 		removeView(mContent);
 		if (mPosition == TOP || mPosition == LEFT) {
 			addView(mContent);
@@ -350,6 +331,11 @@ public class Panel extends LinearLayout {
 			// event.getY());
 			int action = event.getAction();
 			if (action == MotionEvent.ACTION_DOWN) {
+				isSlide = false;
+				if (event.getX() < mContentWidth / 6) {
+					isSlide = true;
+				} else
+					return false;
 				if (mBringToFront) {
 					bringToFront();
 				}
@@ -365,51 +351,57 @@ public class Panel extends LinearLayout {
 					}
 				}
 				setInitialPosition = true;
-				isSlide = false;
-			} else {
-				if (action == MotionEvent.ACTION_MOVE) {
-					float deltaX = Math.abs(event.getX() - initX);
-					float deltaY = Math.abs(event.getY() - initY);
-					if (deltaX > 10*deltaY)
-						isSlide = true;
+			} else if (isSlide) {
+				if (setInitialPosition) {
+					// now we know content dimensions, so we multiply
+					// factors...
+					initX *= mContentWidth;
+					initY *= mContentHeight;
+					// ... and set initial panel's position
+					mGestureListener.setScroll(initX, initY);
+					setInitialPosition = false;
+					// for offsetLocation we have to invert values
+					initX = -initX;
+					initY = -initY;
 				}
-				if (isSlide) {
-					if (setInitialPosition) {
-						// now we know content dimensions, so we multiply
-						// factors...
-						initX *= mContentWidth;
-						initY *= mContentHeight;
-						// ... and set initial panel's position
-						mGestureListener.setScroll(initX, initY);
-						setInitialPosition = false;
-						// for offsetLocation we have to invert values
-						initX = -initX;
-						initY = -initY;
+				// offset every ACTION_MOVE & ACTION_UP event
+				event.offsetLocation(initX, initY);
+
+			}
+			if (isSlide) {
+				if (!mGestureDetector.onTouchEvent(event)) {
+					if (action == MotionEvent.ACTION_UP) {
+						// tup up after scrolling
+						post(startAnimation);
 					}
-					// offset every ACTION_MOVE & ACTION_UP event
-					event.offsetLocation(initX, initY);
 				}
+				return true;
 			}
-			if (!mGestureDetector.onTouchEvent(event)) {
-				if (action == MotionEvent.ACTION_UP&&isSlide) {
-					// tup up after scrolling
-					post(startAnimation);
-				}
-			}
+
 			return false;
 		}
 	};
 
-	OnClickListener clickListener = new OnClickListener() {
-		public void onClick(View v) {
-			if (mBringToFront) {
-				bringToFront();
-			}
-			if (initChange()) {
-				post(startAnimation);
-			}
+	public void slidePanel() {
+		if (mBringToFront) {
+			bringToFront();
 		}
-	};
+		if (initChange()) {
+			post(startAnimation);
+		}
+	}
+
+//	public OnClickListener clickListener = new OnClickListener() {
+//		public void onClick(View v) {
+//
+//			if (mBringToFront) {
+//				bringToFront();
+//			}
+//			if (initChange()) {
+//				post(startAnimation);
+//			}
+//		}
+//	};
 
 	public boolean initChange() {
 		if (mState != State.READY) {
@@ -485,14 +477,14 @@ public class Panel extends LinearLayout {
 				// for FLYING events we calculate animation duration based on
 				// flying velocity
 				// also for very high velocity make sure duration >= 20 ms
-				if (mState == State.FLYING && mLinearFlying) {
-					calculatedDuration = (int) (1000 * Math
-							.abs((toXDelta - fromXDelta) / mVelocity));
-					calculatedDuration = Math.max(calculatedDuration, 20);
-				} else {
-					calculatedDuration = mDuration
-							* Math.abs(toXDelta - fromXDelta) / mContentWidth;
-				}
+				// if (mState == State.FLYING && mLinearFlying) {
+				// calculatedDuration = (int) (1000 * Math
+				// .abs((toXDelta - fromXDelta) / mVelocity));
+				// calculatedDuration = Math.max(calculatedDuration, 20);
+				// } else {
+				calculatedDuration = mDuration
+						* Math.abs(toXDelta - fromXDelta) / mContentWidth;
+				// }
 			}
 
 			mTrackX = mTrackY = 0;
@@ -509,11 +501,11 @@ public class Panel extends LinearLayout {
 					fromYDelta, toYDelta);
 			animation.setDuration(calculatedDuration);
 			animation.setAnimationListener(animationListener);
-			if (mState == State.FLYING && mLinearFlying) {
-				animation.setInterpolator(new LinearInterpolator());
-			} else if (mInterpolator != null) {
-				animation.setInterpolator(mInterpolator);
-			}
+			// if (mState == State.FLYING && mLinearFlying) {
+			// animation.setInterpolator(new LinearInterpolator());
+			// } else if (mInterpolator != null) {
+			// animation.setInterpolator(mInterpolator);
+			// }
 			startAnimation(animation);
 		}
 	};
@@ -536,11 +528,6 @@ public class Panel extends LinearLayout {
 	};
 
 	private void postProcess() {
-		// if (mIsShrinking && mClosedHandle != null) {
-		// mHandle.setBackgroundDrawable(mClosedHandle);
-		// } else if (!mIsShrinking && mOpenedHandle != null) {
-		// mHandle.setBackgroundDrawable(mOpenedHandle);
-		// }
 		// invoke listener if any
 		if (panelListener != null) {
 			if (mIsShrinking) {
@@ -549,6 +536,15 @@ public class Panel extends LinearLayout {
 				panelListener.onPanelOpened(Panel.this);
 			}
 		}
+	}
+
+	public View getTouchView() {
+		return touchView;
+	}
+
+	public void setTouchView(View touchView) {
+		this.touchView = touchView;
+		touchView.setOnTouchListener(touchListener);
 	}
 
 	class PanelOnGestureListener implements OnGestureListener {
@@ -561,6 +557,7 @@ public class Panel extends LinearLayout {
 		}
 
 		public boolean onDown(MotionEvent e) {
+			Log.i("TAG_ID", "onDown-gesture");
 			scrollX = scrollY = 0;
 			initChange();
 			return true;
@@ -568,6 +565,7 @@ public class Panel extends LinearLayout {
 
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
+			Log.i("TAG_ID", "onFling-gesture");
 			mState = State.FLYING;
 			mVelocity = mOrientation == VERTICAL ? velocityY : velocityX;
 			post(startAnimation);
@@ -580,6 +578,7 @@ public class Panel extends LinearLayout {
 
 		public boolean onScroll(MotionEvent e1, MotionEvent e2,
 				float distanceX, float distanceY) {
+			Log.i("TAG_ID", "onScroll-gesture");
 			mState = State.TRACKING;
 			float tmpY = 0, tmpX = 0;
 			if (mOrientation == VERTICAL) {
@@ -611,6 +610,7 @@ public class Panel extends LinearLayout {
 
 		public boolean onSingleTapUp(MotionEvent e) {
 			// not used
+			Log.i("TAG_ID", "onTabUp-gesture");
 			return false;
 		}
 	}

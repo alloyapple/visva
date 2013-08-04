@@ -150,8 +150,8 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 				userDB.setPassword(mMasterPassword);
 				mIDxPWDataBaseHandler.updateUser(userDB);
 				/* return setting activity */
-				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
+//				startActivity(intent);
 				finish();
 			}
 		}
@@ -159,8 +159,8 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		if(isChangePW)
-			SettingActivity.startActivity(this, 2);
+//		if(isChangePW)
+//			SettingActivity.startActivity(this, 2);
 		finish();
 	}
 

@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
 
 public class GetInternetImageActivity extends BaseActivity {
 	private String URL_SEARCH = "https://www.google.com.vn/#hl=en&output=search&q=$k+e+y+w+o+r+d$";
@@ -228,7 +229,6 @@ public class GetInternetImageActivity extends BaseActivity {
 		return FloatMath.sqrt(x * x + y * y);
 	}
 
-
 	private void midPoint(PointF point, MotionEvent event) {
 		float x = event.getX(0) + event.getX(1);
 		float y = event.getY(0) + event.getY(1);
@@ -330,14 +330,24 @@ public class GetInternetImageActivity extends BaseActivity {
 	private void initControl() {
 		// TODO Auto-generated method stub
 		editText = ((EditText) findViewById(R.id.id_edit_url));
-		editText.setText(EditIdPasswordActivity.mUrlItem);
+		editText.setText(mPrefApp.isEditIDxPassHome() ? HomeScreeenActivity.mUrlItem
+				: EditIdPasswordActivity.mUrlItem);
 
 		webView = (WebView) findViewById(R.id.id_webview_get_icon);
-		if (EditIdPasswordActivity.mUrlItem != null
-				&& !EditIdPasswordActivity.mUrlItem.equals(""))
-			webView.loadUrl(EditIdPasswordActivity.mUrlItem);
-		else 
-			webView.loadUrl("https://www.google.com");
+		if (!mPrefApp.isEditIDxPassHome()) {
+			if (EditIdPasswordActivity.mUrlItem != null
+					&& !EditIdPasswordActivity.mUrlItem.equals(""))
+				webView.loadUrl(EditIdPasswordActivity.mUrlItem);
+			else
+				webView.loadUrl("https://www.google.com");
+		}else{
+				if (HomeScreeenActivity.mUrlItem != null
+						&& !HomeScreeenActivity.mUrlItem.equals(""))
+					webView.loadUrl(HomeScreeenActivity.mUrlItem);
+				else
+					webView.loadUrl("https://www.google.com");
+			
+		}
 		webView.setContentDescription("application/pdf");
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);

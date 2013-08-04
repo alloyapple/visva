@@ -296,8 +296,8 @@ public class HomeScreeenActivity_Slide extends BaseActivity implements
 				.getgOrder();
 		// set for search item list
 		mIdListItems = constructList(currentFolderId);
-		itemAdapter = new ItemAdapter(context, mIdListItems, false,
-				mMainHandler, idListView, currentFolderId, currentFolderOrder);
+//		itemAdapter = new ItemAdapter(this, mIdListItems, false,
+//				mMainHandler, idListView, currentFolderId, currentFolderOrder);
 		idListView.setAdapter(itemAdapter);
 
 		/**

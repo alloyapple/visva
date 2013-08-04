@@ -48,7 +48,7 @@ public class BrowserActivity extends BaseActivity {
 	}
 
 	public void initAdmod() {
-		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdView adview = (AdView) findViewById(R.id.main_adView_browser);
 		AdRequest re = new AdRequest();
 		if (adview != null) {
 			adview.loadAd(re);

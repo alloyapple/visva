@@ -152,8 +152,7 @@ public class SettingActivity extends BaseActivity {
 		initDatabase();
 		textModeSercurity = (TextView) findViewById(R.id.id_text_mode);
 		// lnSetting = (LinearLayout) findViewById(R.id.ln_setting);
-		scrollView = (MyScrollView) findViewById(R.id.setting_scrollView);
-		scrollView.setActivityCall(this);
+//		scrollView = (MyScrollView) findViewById(R.id.setting_scrollView);
 		mPref = IdManagerPreference.getInstance(this);
 		initAdmod();
 		startService(new Intent(this, BillingService.class));
@@ -209,7 +208,7 @@ public class SettingActivity extends BaseActivity {
 	}
 
 	public void initAdmod() {
-		AdView adview = (AdView) findViewById(R.id.main_adView);
+		AdView adview = (AdView) findViewById(R.id.main_adView_setting);
 		AdRequest re = new AdRequest();
 		if (adview != null) {
 			adview.loadAd(re);

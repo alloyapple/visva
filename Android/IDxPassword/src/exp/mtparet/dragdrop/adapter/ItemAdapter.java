@@ -32,13 +32,14 @@ import java.util.ArrayList;
 
 import javax.crypto.NoSuchPaddingException;
 
-import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.idxpwdatabase.ElementID;
 import com.japanappstudio.IDxPassword.sercurity.CipherUtil;
 
 import com.japanappstudio.IDxPassword.activities.R;
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
+
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -63,7 +64,7 @@ public class ItemAdapter extends BaseAdapter {
 
 	private static final int DIALOG_DELETE_ID = 3;
 	private static final int DIALOG_EDIT_ID = 4;
-	private Context context;
+	private HomeScreeenActivity context;
 	private ArrayList<ElementID> idItemList;
 	private ListViewDragDrop idListView;
 	private boolean isModeEdit;
@@ -73,9 +74,10 @@ public class ItemAdapter extends BaseAdapter {
 	private IdManagerPreference mIdManagerPreference;
 	private Drawable mDrawableIcon;
 
-	public ItemAdapter(Context context, ArrayList<ElementID> idItemList,
-			boolean isModeEdit, Handler mHandler, ListViewDragDrop idListView,
-			int currentFoldeId, int currentFolderOrder) {
+	public ItemAdapter(HomeScreeenActivity context,
+			ArrayList<ElementID> idItemList, boolean isModeEdit,
+			Handler mHandler, ListViewDragDrop idListView, int currentFoldeId,
+			int currentFolderOrder) {
 		this.context = context;
 		this.idItemList = idItemList;
 		this.isModeEdit = isModeEdit;
@@ -180,7 +182,6 @@ public class ItemAdapter extends BaseAdapter {
 	private OnClickListener mOnDeleteClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Log.e("click edit", "click edit");
 			final int position = idListView.getPositionForView((View) v
 					.getParent());
 			Message msg = mHandler.obtainMessage();
@@ -195,17 +196,11 @@ public class ItemAdapter extends BaseAdapter {
 		public void onClick(View v) {
 			final int position = idListView.getPositionForView((View) v
 					.getParent());
-			Message msg = mHandler.obtainMessage();
-			msg.arg1 = DIALOG_EDIT_ID;
-			msg.arg2 = position;
-			mHandler.sendMessage(msg);
-			Intent intent = new Intent(context, EditIdPasswordActivity.class);
-			intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 0);
-			intent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
+			context.modeBundle = 0;
+			context.currentElementId = idItemList.get(position)
+					.geteId();
 			mIdManagerPreference.setCurrentFolderId(currentFolderId);
-			intent.putExtra(Contants.CURRENT_PASSWORD_ID,
-					idItemList.get(position).geteId());
-			context.startActivity(intent);
+			context.slidePanelEditIdxPass();
 		}
 	};
 

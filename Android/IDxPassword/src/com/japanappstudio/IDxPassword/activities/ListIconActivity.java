@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
 
 public class ListIconActivity extends BaseActivity {
 	public static final int DIALOG_DELETE = 0;
@@ -287,7 +288,7 @@ public class ListIconActivity extends BaseActivity {
 		initListIcon();
 		initAdmod();
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -509,9 +510,14 @@ public class ListIconActivity extends BaseActivity {
 	}
 
 	public void selectIcon(int cataloge, int index) {
-		EditIdPasswordActivity.updateIcon(getResources().getDrawable(
-				mIdIcon.get(cataloge)[index]));
-		EditIdPasswordActivity.startActivity(ListIconActivity.this, 2);
+		if (!mPrefApp.isEditIDxPassHome()) {
+			EditIdPasswordActivity.updateIcon(getResources().getDrawable(
+					mIdIcon.get(cataloge)[index]));
+			EditIdPasswordActivity.startActivity(ListIconActivity.this, 2);
+		} else {
+			HomeScreeenActivity.updateIcon(getResources().getDrawable(
+					mIdIcon.get(cataloge)[index]));
+		}
 		finish();
 	}
 
@@ -521,7 +527,8 @@ public class ListIconActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity.startActivity(ListIconActivity.this, 2);
+		if (!mPrefApp.isEditIDxPassHome())
+			EditIdPasswordActivity.startActivity(ListIconActivity.this, 2);
 		finish();
 
 	}
@@ -555,12 +562,21 @@ public class ListIconActivity extends BaseActivity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									// TODO Auto-generated method stub
-									EditIdPasswordActivity
-											.updateIcon(getResources()
-													.getDrawable(
-															R.drawable.default_icon));
-									EditIdPasswordActivity.startActivity(
-											ListIconActivity.this, 2);
+									if (!mPrefApp.isEditIDxPassHome()) {
+										EditIdPasswordActivity
+												.updateIcon(getResources()
+														.getDrawable(
+																R.drawable.default_icon));
+										EditIdPasswordActivity.startActivity(
+												ListIconActivity.this, 2);
+									} else {
+										HomeScreeenActivity
+												.updateIcon(getResources()
+														.getDrawable(
+																R.drawable.default_icon));
+										HomeScreeenActivity.startActivity(
+												ListIconActivity.this, 2);
+									}
 									ListIconActivity.this.finish();
 								}
 							})

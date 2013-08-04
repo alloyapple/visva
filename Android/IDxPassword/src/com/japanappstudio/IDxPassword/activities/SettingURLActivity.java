@@ -1,6 +1,8 @@
 package com.japanappstudio.IDxPassword.activities;
 
 import com.japanappstudio.IDxPassword.activities.R;
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +24,7 @@ public class SettingURLActivity extends BaseActivity {
 	private EditText editGoogle;
 	private EditText editUrl;
 	private String URL_SEARCH = "https://www.google.com.vn/#hl=en&output=search&q=$k+e+y+w+o+r+d$";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -52,6 +55,7 @@ public class SettingURLActivity extends BaseActivity {
 				});
 		initControl();
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -65,14 +69,19 @@ public class SettingURLActivity extends BaseActivity {
 		}
 
 	}
+
 	public static void startActivity(Activity activity) {
 		Intent i = new Intent(activity, SettingURLActivity.class);
 		activity.startActivity(i);
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity.mUrlItem=webView.getUrl();
-		EditIdPasswordActivity.startActivity(this, 2);
+		if (!mPrefApp.isEditIDxPassHome()) {
+			EditIdPasswordActivity.mUrlItem = webView.getUrl();
+			EditIdPasswordActivity.startActivity(this, 2);
+		} else {
+			HomeScreeenActivity.mUrlItem = webView.getUrl();
+		}
 		finish();
 	}
 
@@ -95,7 +104,7 @@ public class SettingURLActivity extends BaseActivity {
 		editUrl.setText("http://www.google.com");
 		webView = (WebView) findViewById(R.id.id_webview_url_setup);
 		webView.loadUrl("http://www.google.com");
-		
+
 		webView.setContentDescription("application/pdf");
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);

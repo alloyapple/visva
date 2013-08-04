@@ -173,6 +173,7 @@ public class CopyItemActivity extends BaseActivity {
 	}
 
 	public void onEdit() {
+		mPrefApp.setEditIDxPassHome(false);
 		Intent intent = new Intent(this, EditIdPasswordActivity.class);
 		intent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 0);
 		intent.putExtra(Contants.IS_SRC_ACTIVITY, 1);

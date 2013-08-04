@@ -53,8 +53,10 @@ public class IdManagerPreference {
 	public static final String CURRENT_FOLDER_ID = "CURRENT_FOLDER_ID";
 	public static final String DROPBOX_CHECK_LOGIN = "DROPBOX_CHECK_LOGIN";
 	public static final String KEY_AUTHEN_GG_DRIVE = "KEY_AUTHEN_GG_DRIVE";
-	public static final String KEY_PAUSE_APP="PAUSE_APP";
-	public static final String KEY_CLOUD_SETTING_SUCCESS ="KEY_CLOUD_SETTING_SUCCESS";
+	public static final String KEY_PAUSE_APP = "PAUSE_APP";
+	public static final String KEY_CLOUD_SETTING_SUCCESS = "KEY_CLOUD_SETTING_SUCCESS";
+	public static final String KEY_IS_EDIT_ON_HOME = "KEY_IS_EDIT_ON_HOME";
+
 	/**
 	 * // ======================== CORE FUNCTIONS ========================
 	 * 
@@ -452,11 +454,13 @@ public class IdManagerPreference {
 		b = getMasterPW(KEY_AUTHEN_GG_DRIVE);
 		return b;
 	}
+
 	public boolean getIsPauseApp() {
 		SharedPreferences pref = context.getSharedPreferences(
 				IDMANAGER_SHARE_PREFERENCE, 0);
-		return pref.getBoolean(KEY_PAUSE_APP,false);
+		return pref.getBoolean(KEY_PAUSE_APP, false);
 	}
+
 	public void setPauseApp(boolean b) {
 		SharedPreferences pref = context.getSharedPreferences(
 				IDMANAGER_SHARE_PREFERENCE, 0);
@@ -464,7 +468,7 @@ public class IdManagerPreference {
 		editor.putBoolean(KEY_PAUSE_APP, b);
 		editor.commit();
 	}
-	
+
 	/* set vs get project is first time installed */
 	public void setCloudSettingSuccess(String key, boolean b) {
 		SharedPreferences pref = context.getSharedPreferences(
@@ -488,5 +492,18 @@ public class IdManagerPreference {
 		boolean b;
 		b = isCloudSettingSuccess(KEY_CLOUD_SETTING_SUCCESS);
 		return b;
+	}
+
+	public void setEditIDxPassHome(boolean b) {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putBoolean(KEY_IS_EDIT_ON_HOME, b);
+		editor.commit();
+	}
+	public boolean isEditIDxPassHome() {
+		SharedPreferences pref = context.getSharedPreferences(
+				IDMANAGER_SHARE_PREFERENCE, 0);
+		return pref.getBoolean(KEY_IS_EDIT_ON_HOME, false);
 	}
 }
