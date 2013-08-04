@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sqlcipher.database.SQLiteDatabase;
+import com.japanappstudio.IDxPassword.activities.R;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,13 +22,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -36,6 +42,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.ads.AdRequest;
@@ -47,7 +54,7 @@ import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
 import com.japanappstudio.IDxPassword.idxpwdatabase.Password;
 
 //@SuppressWarnings("unused")
-public class EditIdPasswordActivity extends BaseActivity implements
+public class EditIdPasswordActivity2 extends BaseActivity implements
 		OnItemClickListener, android.content.DialogInterface.OnClickListener {
 	public static final int ELEMENT_FLAG_TRUE = 1;
 	public static final int ELEMENT_FLAG_FALSE = 0;
@@ -341,7 +348,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 
 	public void initAdmod() {
-		AdView adview = (AdView) findViewById(R.id.main_adView_edit_idxpass);
+		AdView adview = (AdView) findViewById(R.id.main_adView);
 		AdRequest re = new AdRequest();
 		if (adview != null) {
 			adview.loadAd(re);
@@ -507,7 +514,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 	}
 
 	public static void startActivity(Activity activity, int valueExtra) {
-		Intent i = new Intent(activity, EditIdPasswordActivity.class);
+		Intent i = new Intent(activity, EditIdPasswordActivity2.class);
 		i.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, valueExtra);
 		activity.startActivity(i);
 	}
@@ -546,7 +553,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 	public void onInfo(View v) {
 		saveInput();
-		Intent intentBrowser = new Intent(EditIdPasswordActivity.this,
+		Intent intentBrowser = new Intent(EditIdPasswordActivity2.this,
 				BrowserActivity.class);
 		intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.EDIT_TO);
 		startActivity(intentBrowser);
@@ -565,7 +572,7 @@ public class EditIdPasswordActivity extends BaseActivity implements
 			widthMemo = btn_memo.getWidth();
 		else
 			widthMemo = img_memo.getWidth();
-		Intent intentMemo = new Intent(EditIdPasswordActivity.this,
+		Intent intentMemo = new Intent(EditIdPasswordActivity2.this,
 				ImageMemoActivity.class);
 		intentMemo.putExtra("modeBundleMemo", 1);
 		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
@@ -581,6 +588,27 @@ public class EditIdPasswordActivity extends BaseActivity implements
 
 	}
 
+	@Override
+	@Deprecated
+	protected Dialog onCreateDialog(int id) {
+		// TODO Auto-generated method stub
+		switch (id) {
+		case Contants.DIALOG_CREATE_ID:
+			return createDialog(Contants.DIALOG_CREATE_ID);
+		default:
+			return null;
+		}
+	}
+
+	private Dialog createDialog(int id) {
+		switch (id) {
+		case Contants.DIALOG_CREATE_ID:
+			break;
+		default:
+			return null;
+		}
+		return null;
+	}
 
 	/**
 	 * create new id password
@@ -602,20 +630,20 @@ public class EditIdPasswordActivity extends BaseActivity implements
 		return convertToByte;
 	}
 
-	// private static boolean checkValidataUrl(String pUrl) {
-	// URL u = null;
-	// try {
-	// u = new URL(pUrl);
-	// } catch (MalformedURLException e) {
-	// return false;
-	// }
-	// try {
-	// u.toURI();
-	// } catch (URISyntaxException e) {
-	// return false;
-	// }
-	// return true;
-	// }
+	private static boolean checkValidataUrl(String pUrl) {
+		URL u = null;
+		try {
+			u = new URL(pUrl);
+		} catch (MalformedURLException e) {
+			return false;
+		}
+		try {
+			u.toURI();
+		} catch (URISyntaxException e) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * add new id password to database

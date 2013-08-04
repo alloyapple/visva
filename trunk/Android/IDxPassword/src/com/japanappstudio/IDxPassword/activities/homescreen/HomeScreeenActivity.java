@@ -1,7 +1,15 @@
 package com.japanappstudio.IDxPassword.activities.homescreen;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,8 +18,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +31,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,38 +39,71 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.session.AccessTokenPair;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.idmanager.BillingHelper;
+import com.idmanager.BillingService;
 import com.japanappstudio.IDxPassword.activities.BaseActivity;
 import com.japanappstudio.IDxPassword.activities.BrowserActivity;
+import com.japanappstudio.IDxPassword.activities.ChoiceCSVImportType;
 import com.japanappstudio.IDxPassword.activities.CopyItemActivity;
-import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
 import com.japanappstudio.IDxPassword.activities.EnterOldPasswordActivity;
+import com.japanappstudio.IDxPassword.activities.ImageMemoActivity;
+import com.japanappstudio.IDxPassword.activities.Item;
+import com.japanappstudio.IDxPassword.activities.ListIconActivity;
+import com.japanappstudio.IDxPassword.activities.PasswordGeneratorActivity;
 import com.japanappstudio.IDxPassword.activities.R;
 import com.japanappstudio.IDxPassword.activities.RegisterEmailActivity;
 import com.japanappstudio.IDxPassword.activities.SettingActivity;
+import com.japanappstudio.IDxPassword.activities.SettingURLActivity;
 import com.japanappstudio.IDxPassword.activities.SetupRemoveDataActivity;
 import com.japanappstudio.IDxPassword.activities.SetupSecurityModeActivity;
 import com.japanappstudio.IDxPassword.activities.slide_activity.Panel;
+import com.japanappstudio.IDxPassword.activities.syncloud.DropboxSettingActivity;
 import com.japanappstudio.IDxPassword.activities.syncloud.GGDriveSettingActivity;
 import com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
+import com.japanappstudio.IDxPassword.exportcontroller.dropbox.DropBoxController;
+import com.japanappstudio.IDxPassword.exportcontroller.dropbox.ReadFileViaDropBox;
+import com.japanappstudio.IDxPassword.exportcontroller.ggdrive.DownloadCSVViaGGDrive;
+import com.japanappstudio.IDxPassword.exportcontroller.ggdrive.GGDriveUploadCSVController;
+import com.japanappstudio.IDxPassword.exportcontroller.ggdrive.ReadCSVViaGGDrive;
 import com.japanappstudio.IDxPassword.idletime.ControlApplication;
 import com.japanappstudio.IDxPassword.idxpwdatabase.ElementID;
 import com.japanappstudio.IDxPassword.idxpwdatabase.GroupFolder;
 import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
+import com.japanappstudio.IDxPassword.idxpwdatabase.Password;
+import com.japanappstudio.IDxPassword.util.NetworkUtility;
 
 import exp.mtparet.dragdrop.adapter.FolderListViewAdapter;
 import exp.mtparet.dragdrop.adapter.ItemAdapter;
@@ -66,12 +111,17 @@ import exp.mtparet.dragdrop.view.DndListViewFolder;
 import exp.mtparet.dragdrop.view.ListViewDragDrop;
 
 @SuppressLint({ "HandlerLeak", "DefaultLocale" })
+@SuppressWarnings("deprecation")
 public class HomeScreeenActivity extends BaseActivity implements
 		OnClickListener {
 
 	// ==========================Control define ====================
-	// private FrameLayout mainRootLayout;
-	private LinearLayout mainRootLayout;
+	public static int HOME_SETTING = 0;
+	public static int HOME_INFO = 2;
+	public static int HOME_EDIT_IDx_PASS = 2;
+	private FrameLayout mainRootLayout;
+	// private LinearLayout mainRootLayout;
+
 	private ListViewDragDrop idListView;
 	private DndListViewFolder folderListView;
 
@@ -93,6 +143,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private EditText mEditTextSearch;
 
 	private Panel panelSetting;
+	private Panel panelInfo;
+	private Panel panelEditIdxpass;
 
 	// ===========================Class Define =====================
 	private ItemAdapter itemAdapter;
@@ -101,7 +153,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	private ArrayList<GroupFolder> mFolderListItems = new ArrayList<GroupFolder>();
 	private ArrayList<ElementID> mIdListItems = new ArrayList<ElementID>();
-	private IdManagerPreference mIdManagerPreference;
+	private IdManagerPreference mPref;
 	// ============================Variable Define ==================
 
 	private Context context;
@@ -120,7 +172,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	// private Drawable mDrawableIcon;
 
 	private Handler mMainHandler = new Handler() {
-		@SuppressWarnings("deprecation")
+
 		public void handleMessage(android.os.Message msg) {
 			if (msg.arg1 == Contants.DIALOG_DELETE_FOLDER) {
 				showDialog(Contants.DIALOG_DELETE_FOLDER);
@@ -137,6 +189,185 @@ public class HomeScreeenActivity extends BaseActivity implements
 			positionReturnedByHandler = msg.arg2;
 		};
 	};
+
+	// variable of setting class
+
+	private static final String ID_ITEMS_PAYMENT_TO_UN_LIMIT = "0000000000000001";
+	private static final String ID_ITEMS_PAYMENT_TO_NO_AD = "0000000000000002";
+	private static final String ID_ITEMS_PAYMENT_TO_EXPORT = "0000000000000003";
+	private CharSequence[] mListDataChoice;
+	private CharSequence mSelectedFile = "";
+	private CharSequence[] mListDataChoiceTemp;
+	private IDxPWDataBaseHandler mDataBaseHandler;
+	private boolean isExportData;
+	// private float x0, y0;
+	// private float xTouch, yTouch;
+	private int widthScreen;
+	// private LinearLayout lnSetting;
+
+	// /////////////////////////////////////////////////////////////////////////
+	// Your app-specific settings. //
+	// /////////////////////////////////////////////////////////////////////////
+
+	// Replace this with your app key and secret assigned by Dropbox.
+	// Note that this is a really insecure way to do this, and you shouldn't
+	// ship code which contains your key & secret in such an obvious way.
+	// Obfuscation is good.
+	// final static private String APP_KEY = "667sgm6m2mdu384";
+	// final static private String APP_SECRET = "0ozy2rvw6ktyrnt";
+
+	// If you'd like to change the access type to the full Dropbox instead of
+	// an app folder, change this value.
+	final static private AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
+
+	// You don't need to change these, leave them alone.
+	final static private String ACCOUNT_PREFS_NAME = "prefs";
+	final static private String ACCESS_KEY_NAME = "ACCESS_KEY";
+	final static private String ACCESS_SECRET_NAME = "ACCESS_SECRET";
+
+	private DropboxAPI<AndroidAuthSession> mApi;
+
+	/* gg drive */
+	private static Drive service;
+	private GoogleAccountCredential credential;
+
+	private String fileExportName;
+	private static final int PAYMENT_TO_UNLIMIT_ITEMS = 0;
+	private static final int PAYMENT_TO_NO_AD = 1;
+	private static final int PAYMENT_TO_EXPORT = 2;
+	public int modePayment;
+	private List<GroupFolder> mGList;
+	private List<ElementID> mEList;
+	private List<Password> mPList;
+	private int sizeOfGList;
+	private int sizeOfEList;
+	private int sizeOfPList;
+	private String mGGAccountName;
+
+	private ImageView mImgGGDrive;
+	private ImageView mImgDropbox;
+	public static String sercurity_mode;
+	private TextView textModeSercurity;
+
+	private static final String TAG = "BillingService";
+	public Handler mTransactionHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Log.i(TAG, "Transaction complete");
+			Log.i(TAG, "Transaction status: "
+					+ BillingHelper.latestPurchase.purchaseState);
+			Log.i(TAG, "Item purchased is: "
+					+ BillingHelper.latestPurchase.productId);
+
+			if (BillingHelper.latestPurchase.isPurchased()) {
+				if (modePayment == PAYMENT_TO_UNLIMIT_ITEMS) {
+					mPref.setIsPaymentUnlimit(true);
+				} else if (modePayment == PAYMENT_TO_NO_AD) {
+					mPref.setIsPaymentNoAd(true);
+				} else if (modePayment == PAYMENT_TO_EXPORT) {
+					mPref.setIsPaymentExport(true);
+				}
+			}
+		};
+
+	};
+	private Handler mHandler = new Handler() {
+		@SuppressWarnings("unchecked")
+		public void handleMessage(android.os.Message msg) {
+			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
+				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_SUCCESS)
+				showDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE)
+				showDialog(Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED)
+				showDialog(Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED);
+			else if (msg.arg1 == Contants.DIALOG_NO_DATA_CLOUD)
+				showDialog(Contants.DIALOG_NO_DATA_CLOUD);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_LIST_DATA) {
+				Object object = msg.obj;
+
+				ArrayList<String> mFileList = (ArrayList<String>) object;
+				mListDataChoice = new String[mFileList.size()];
+				mListDataChoiceTemp = new String[mFileList.size()];
+				for (int i = 0; i < mFileList.size(); i++) {
+					mListDataChoice[i] = mFileList.get(i);
+					mListDataChoiceTemp[i] = mFileList.get(i);
+				}
+				if (mListDataChoiceTemp.length > 0)
+					showDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);
+			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
+				showDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
+			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED) {
+				Intent intent = new Intent(HomeScreeenActivity.this,
+						ChoiceCSVImportType.class);
+				intent.putExtra(Contants.KEY_CHOICE_CSV_FILE, mSelectedFile);
+				startActivity(intent);
+				// showDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
+			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_EXISTED)
+				showDialog(Contants.DIALOG_MESSAGE_FOLDER_EXISTED);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_ERROR)
+				showDialog(Contants.DIALOG_MESSAGE_FOLDER_ERROR);
+			else if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR)
+				showDialog(Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR);
+		};
+	};
+
+	// variable info activity
+	private WebView webViewInfo;
+	private String urlInfo;
+	private EditText editTextInfo;
+
+	// variable edit idxpassword activity
+	public static final int ELEMENT_FLAG_TRUE = 1;
+	public static final int ELEMENT_FLAG_FALSE = 0;
+	// =========================Control Define ==================
+	// private ListView mListView;
+	private CheckBox mCheckBoxLike;
+
+	private EditText mEditTextUrlId;
+	private EditText mEditTextNameId;
+	private EditText[] mEditTitle;
+	private EditText[] mEditContent;
+	private ImageButton[] btnGenerator;
+	private LinearLayout lnRowItem;
+	private EditText mEditTextNote;
+	// =========================Class Define ====================
+	private static ArrayList<Item> mItems;
+	// private MultiDirectionSlidingDrawer mSlidingDrawer;
+	// =========================Variable Define =================
+	public static String DEFAULT_NAME_ITEM[] = { "ID", "Password", "", "", "" };
+	public static int MAX_ITEM = 5;
+	public int modeBundle = 1;
+
+	// id password info
+	public static boolean isCreatNew;
+	public static int currentElementId;
+	private static int isLike;
+	private static String titleRecord;
+	private static byte[] icon;
+	private static String url;
+	private static String note;
+	private static byte[] imageMemo;
+	private static Drawable mDrawableIcon;
+	public static Drawable mDrawableMemo;
+	public static String mUrlItem;
+	public static String mStringOfSelectItem;
+	private Button btn_memo;
+	private ImageButton img_memo, img_avata;
+
+	public static int itemSelect = -1;
+	private static final String DEFAULT_URL = "http://google.com";
+	private boolean isButtonPress = false;
+	private static boolean isSetUrl;
+	// private int
+	public static final String IS_INTENT_CREATE_NEW_ID = "IS_INTENT_CREATE_NEW_ID";
+	private static int widthMemo;
+	private static float ratioMemo;
+
+	private ImageView controlView;
+	private LinearLayout view1, view2;
+	private LinearLayout lnParent;
+	private float weightItem;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -155,6 +386,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 		/* initialize variable */
 		initializeVariable();
 
+		onCreateSetting();
+
+		onCreateInfo();
+
+		initViewEditIdxPass();
+
 	}
 
 	/**
@@ -170,7 +407,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		AdRequest re = new AdRequest();
 		if (adview != null) {
 			adview.loadAd(re);
-			if (!mIdManagerPreference.getIsPaymentNoAd())
+			if (!mPref.getIsPaymentNoAd())
 				adview.setVisibility(View.VISIBLE);
 			else
 				adview.setVisibility(View.GONE);
@@ -182,10 +419,11 @@ public class HomeScreeenActivity extends BaseActivity implements
 	 */
 	private void initControl() {
 		/* init layout */
-		mainRootLayout = (LinearLayout) LinearLayout.inflate(context,
-				R.layout.page_home_screen, null);
-		// mainRootLayout = (FrameLayout) LinearLayout.inflate(context,
-		// R.layout.page_home_screen_slide, null);
+		// mainRootLayout = (LinearLayout) LinearLayout.inflate(context,
+		// R.layout.page_home_screen, null);
+		mainRootLayout = (FrameLayout) LinearLayout.inflate(context,
+				R.layout.page_home_screen_slide, null);
+
 		/* init layout drag */
 		initLayoutDrag();
 
@@ -224,9 +462,26 @@ public class HomeScreeenActivity extends BaseActivity implements
 		btnClearTextSearch.setOnClickListener(this);
 		btnClearTextSearch.setVisibility(View.GONE);
 
-		// panelSetting = (Panel) mainRootLayout
-		// .findViewById(R.id.l_home_panel_setting);
-		// panelSetting.setHandle(btnSetting);
+		panelSetting = (Panel) mainRootLayout
+				.findViewById(R.id.l_home_panel_setting);
+		LinearLayout touchViewSetting = (LinearLayout) mainRootLayout
+				.findViewById(R.id.setting_touchView);
+		panelSetting.setTouchView(touchViewSetting);
+
+		// panelSetting.setHandle(btnSetting, HOME_SETTING, this);
+		panelInfo = (Panel) mainRootLayout.findViewById(R.id.l_home_panel_info);
+		LinearLayout touchViewInfo = (LinearLayout) mainRootLayout
+				.findViewById(R.id.page_browser_ln_webview);
+		panelInfo.setTouchView(touchViewInfo);
+		// panelInfo.setHandle(btnInfo, HOME_INFO, this);
+
+		panelEditIdxpass = (Panel) mainRootLayout
+				.findViewById(R.id.l_home_panel_edit_idxpass);
+		LinearLayout touchViewIdxpass = (LinearLayout) mainRootLayout
+				.findViewById(R.id.edit_idxpass_touch_ln);
+		panelEditIdxpass.setTouchView(touchViewIdxpass);
+		// panelEditIdxpass.setHandle(null, HOME_EDIT_IDx_PASS, this);
+
 		/* init editText */
 		mEditTextSearch = (EditText) mainRootLayout
 				.findViewById(R.id.edit_text_search);
@@ -327,8 +582,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 				.getgOrder();
 		// set for search item list
 		mIdListItems = constructList(currentFolderId);
-		itemAdapter = new ItemAdapter(context, mIdListItems, false,
-				mMainHandler, idListView, currentFolderId, currentFolderOrder);
+		itemAdapter = new ItemAdapter(this, mIdListItems, false, mMainHandler,
+				idListView, currentFolderId, currentFolderOrder);
 		idListView.setAdapter(itemAdapter);
 
 		/**
@@ -403,7 +658,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	 */
 	private void initDataBase() {
 		/* share preference */
-		mIdManagerPreference = IdManagerPreference.getInstance(this);
+		mPref = IdManagerPreference.getInstance(this);
 		SQLiteDatabase.loadLibs(this);
 		// mDataBaseHandler = new DataBaseHandler(this);
 		mIDxPWDataBaseHandler = new IDxPWDataBaseHandler(this);
@@ -523,7 +778,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 	};
 	private OnItemClickListener listenerReceivePicture = new OnItemClickListener() {
 
-		@SuppressWarnings("deprecation")
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
 			if (oneItemSelected != null) {
@@ -754,7 +1008,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 		idList.set(j, idTemp);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		/* add new folder */
@@ -770,9 +1023,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		else if (v == btnAddNewId) {
 			// EditIdPasswordActivity.startActivity(this);
 			if (currentFolderItem < mFolderListItems.size() - 2) {
-				// List<ElementID> elementList = mIDxPWDataBaseHandler
-				// .getAllElementIdByGroupFolderId(currentFolderId);
-				int number_items = mIdManagerPreference
+				int number_items = mPref
 						.getNumberItems(IdManagerPreference.NUMBER_ITEMS);
 				if (number_items >= Contants.MAX_ELEMENT)
 					showDialog(Contants.DIALOG_CREATE_ID);
@@ -800,7 +1051,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 			btnEdit.setVisibility(View.GONE);
 			btnReturn.setVisibility(View.VISIBLE);
 			isEdit = true;
-			mIdManagerPreference.setEditMode(true);
+			mPref.setEditMode(true);
 			/* set folder and id listview in edit mode */
 			setEditModeForFolderAndIdListView(isEdit);
 		} else if (v == btnReturn) {
@@ -813,14 +1064,15 @@ public class HomeScreeenActivity extends BaseActivity implements
 			btnReturn.setVisibility(View.GONE);
 			isEdit = false;
 			setEditModeForFolderAndIdListView(isEdit);
-			mIdManagerPreference.setEditMode(false);
+			mPref.setEditMode(false);
 		}
 
 		/* setting */
 		else if (v == btnSetting) {
-			Intent intentSeting = new Intent(HomeScreeenActivity.this,
-					SettingActivity.class);
-			startActivity(intentSeting);
+			// Intent intentSeting = new Intent(HomeScreeenActivity.this,
+			// SettingActivity.class);
+			// startActivity(intentSeting);
+			panelSetting.slidePanel();
 		}
 
 		/* sync data to cloud */
@@ -832,10 +1084,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		/* go to a browser */
 		else if (v == btnInfo) {
-			Intent intentBrowser = new Intent(HomeScreeenActivity.this,
-					BrowserActivity.class);
-			intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.INFO_TO);
-			startActivity(intentBrowser);
+			// Intent intentBrowser = new Intent(HomeScreeenActivity.this,
+			// BrowserActivity.class);
+			// intentBrowser.putExtra(Contants.KEY_TO_BROWSER,
+			// Contants.INFO_TO);
+			// startActivity(intentBrowser);
+			panelInfo.slidePanel();
 		} else if (v == btnSearch) {
 			if ("".equals(mEditTextSearch.getText().toString())) {
 				// showToast("Type to edit text to search");
@@ -943,6 +1197,32 @@ public class HomeScreeenActivity extends BaseActivity implements
 			return createExampleDialog(Contants.DIALOG_EXIT);
 		case Contants.DIALOG_MOVE_ID_TO_FOLDER:
 			return createExampleDialog(Contants.DIALOG_MOVE_ID_TO_FOLDER);
+
+		case Contants.DIALOG_NO_NET_WORK:
+			return createExampleDialog(Contants.DIALOG_NO_NET_WORK);
+		case Contants.DIALOG_CHOICE_CLOUD_TYPE:
+			return createExampleDialog(Contants.DIALOG_CHOICE_CLOUD_TYPE);
+		case Contants.DIALOG_NO_CLOUD_SETUP:
+			return createExampleDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+		case Contants.DIALOG_EXPORT_DATA:
+			return createExampleDialog(Contants.DIALOG_EXPORT_DATA);
+		case Contants.DIALOG_MESSAGE_SYNC_FAILED:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
+		case Contants.DIALOG_MESSAGE_SYNC_SUCCESS:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
+		case Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED);
+		case Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE);
+		case Contants.DIALOG_NO_DATA_CLOUD:
+			return createExampleDialog(Contants.DIALOG_NO_DATA_CLOUD);
+		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);
+		case Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED);
+		case Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD:
+			return createExampleDialog(Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD);
+
 		case Contants.DIALOG_MESSAGE_FOLDER_INVALID:
 			return createExampleDialog(Contants.DIALOG_MESSAGE_FOLDER_INVALID);
 		case Contants.DIALOG_MESSAGE_FOLDER_EXISTED:
@@ -951,6 +1231,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 			return createExampleDialog(Contants.DIALOG_MESSAGE_FOLDER_ERROR);
 		case Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR:
 			return createExampleDialog(Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR);
+
 		default:
 			return null;
 		}
@@ -973,6 +1254,13 @@ public class HomeScreeenActivity extends BaseActivity implements
 			((AlertDialog) dialog).setMessage("Do you want to move this id to "
 					+ mFolderListItems.get(mCurrentFolderPosition).getgName()
 					+ "?");
+		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
+
+			if (mListDataChoiceTemp != null && mListDataChoiceTemp.length > 0) {
+				mListDataChoice = new String[mListDataChoiceTemp.length];
+				mListDataChoice = mListDataChoiceTemp;
+			}
+
 			break;
 		}
 	}
@@ -980,7 +1268,6 @@ public class HomeScreeenActivity extends BaseActivity implements
 	/**
 	 * add new folder to group
 	 */
-	@SuppressWarnings("deprecation")
 	private void addNewFolder() {
 		showDialog(Contants.DIALOG_ADD_NEW_FOLDER);
 	}
@@ -1276,6 +1563,243 @@ public class HomeScreeenActivity extends BaseActivity implements
 						}
 					});
 			return builderMoveId.create();
+		case Contants.DIALOG_NO_NET_WORK:
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setMessage(getString(R.string.internet_not_use));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_NO_CLOUD_SETUP:
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setMessage(getString(R.string.no_cloud_serivce_set_up));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_SYNC_SUCCESS:
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setMessage(getString(R.string.sync_finish));
+			builder.setCancelable(false);
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							deleteFileAfterUpload();
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_SYNC_FAILED:
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setCancelable(false);
+			builder.setMessage(getString(R.string.sync_failed));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							deleteFileAfterUpload();
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_NO_DATA_CLOUD:
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setCancelable(false);
+			builder.setMessage(getString(R.string.no_data_on_cloud));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							deleteFileAfterUpload();
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD:
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setCancelable(false);
+			builder.setMessage(getString(R.string.data_rewritten));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							if (mApi.getSession().isLinked())
+								startReadFileViaCloud(mSelectedFile, true);
+							else if (!"".equals(mGGAccountName))
+								saveFileToDevice(mGGAccountName, mSelectedFile);
+							return;
+						}
+					});
+			builder.setNegativeButton(getString(R.string.confirm_cancel),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_SYNC_DUPLICATED_FILE:
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setMessage(getString(R.string.sync_data_duplicate_msg));
+			builder.setIcon(R.drawable.icon);
+			builder.setCancelable(false);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							startSyncToCloud(fileExportName, false);
+							return;
+						}
+					});
+			builder.setNegativeButton(getString(R.string.confirm_cancel),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							deleteFileAfterUpload();
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED:
+			builder.setCancelable(false);
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setMessage(getString(R.string.sync_interrupt));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							deleteFileAfterUpload();
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_READ_DATA_SUCCESSED:
+			builder.setCancelable(false);
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setMessage(getString(R.string.success));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							String file = mSelectedFile.toString();
+							importFileCSVToDatabase(file);
+							return;
+						}
+					});
+			return builder.create();
+		case Contants.DIALOG_MESSAGE_CHOICE_DATA_READ:
+			AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+			alertBuilder.setTitle(getResources().getString(R.string.item_sync));
+			alertBuilder.setIcon(R.drawable.icon);
+			alertBuilder.setItems(mListDataChoice,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int item) {
+							Toast.makeText(getApplicationContext(),
+									mListDataChoice[item], Toast.LENGTH_SHORT)
+									.show();
+							mSelectedFile = mListDataChoice[item];
+							if (mApi.getSession().isLinked())
+								startReadFileViaCloud(mSelectedFile, false);
+							else if (!"".equals(mGGAccountName))
+								saveFileToDevice(mGGAccountName, mSelectedFile);
+						}
+					});
+			return alertBuilder.create();
+		case Contants.DIALOG_EXPORT_DATA: {
+			builder.setTitle(getResources().getString(R.string.item_sync));
+			builder.setMessage(getString(R.string.item_export_data));
+			builder.setIcon(R.drawable.icon);
+			final EditText input2 = new EditText(this);
+			input2.setId(Contants.TEXT_ID);
+			input2.setText("idxp.idp");
+			builder.setView(input2);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							fileExportName = input2.getText().toString()
+									+ ".csv";
+							/* start export file */
+							if (!"".equals(fileExportName)) {
+								/* gen file csv */
+								generateCsvFile(Contants.PATH_ID_FILES + "/"
+										+ fileExportName);
+								if (mApi.getSession().isLinked())
+									startSyncToCloud(fileExportName, true);
+								else if (!"".equals(mGGAccountName)) {
+									/* gg drive api */
+									credential = GoogleAccountCredential
+											.usingOAuth2(
+													HomeScreeenActivity.this,
+													DriveScopes.DRIVE);
+									credential
+											.setSelectedAccountName(mGGAccountName);
+									service = getDriveService(credential);
+
+									// save file to gg drive
+									boolean isCheckTime = false;
+									saveFileToDrive(mGGAccountName,
+											isCheckTime, Contants.PATH_ID_FILES
+													+ "/" + fileExportName);
+								}
+
+							} else
+								return;
+							return;
+						}
+					});
+			builder.setNegativeButton(getString(R.string.confirm_cancel),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							return;
+						}
+					});
+		}
+			return builder.create();
 
 		default:
 			return null;
@@ -1300,13 +1824,10 @@ public class HomeScreeenActivity extends BaseActivity implements
 	}
 
 	private void startIntentCreateNewIds() {
-		int currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
-		Intent newIdIntent = new Intent(HomeScreeenActivity.this,
-				EditIdPasswordActivity.class);
-		newIdIntent.putExtra(Contants.IS_INTENT_CREATE_NEW_ID, 1);
-		mIdManagerPreference.setCurrentFolderId(currentFolderId);
-		newIdIntent.putExtra(Contants.CURRENT_FOLDER_ID, currentFolderId);
-		startActivity(newIdIntent);
+		modeBundle = 1;
+		mPref.setCurrentFolderId(mFolderListItems.get(currentFolderItem)
+				.getgId());
+		slidePanelEditIdxPass();
 	}
 
 	/**
@@ -1324,9 +1845,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 		currentFolderId = mFolderListItems.get(currentFolderItem).getgId();
 		itemAdapter.setIdItemList(mIdListItems, currentFolderItem,
 				currentFolderId);
-		mIdManagerPreference.setNumberItem(IdManagerPreference.NUMBER_ITEMS,
-				mIdManagerPreference
-						.getNumberItems(IdManagerPreference.NUMBER_ITEMS) - 1);
+		mPref.setNumberItem(IdManagerPreference.NUMBER_ITEMS,
+				mPref.getNumberItems(IdManagerPreference.NUMBER_ITEMS) - 1);
 	}
 
 	/**
@@ -1443,12 +1963,67 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 	public void onResume() {
 		super.onResume();
-		if (!mIdManagerPreference.getIsPaymentNoAd())
+		if (!mPref.getIsPaymentNoAd())
 			adview.setVisibility(View.VISIBLE);
 		else
 			adview.setVisibility(View.GONE);
 		/* refresh 2 list view */
 		refreshListView();
+		AndroidAuthSession session = buildSession();
+		mApi = new DropboxAPI<AndroidAuthSession>(session);
+		mGGAccountName = mPref.getGoogleAccNameSession();
+		if (mApi.getSession().isLinked()) {
+			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox_selected);
+			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
+		} else if (!"".equals(mGGAccountName)) {
+			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox);
+			mImgGGDrive
+					.setBackgroundResource(R.drawable.logo_google_drive_selected);
+		} else {
+			mImgDropbox.setBackgroundResource(R.drawable.logo_dropbox);
+			mImgGGDrive.setBackgroundResource(R.drawable.logo_google);
+		}
+		textModeSercurity.setText(sercurity_mode);
+
+		// resume method of edit idxpassword activity
+		onResumeEditIdxPass();
+
+	}
+
+	public void onResumeEditIdxPass() {
+		if (mDrawableIcon != null)
+			img_avata.setBackgroundDrawable(mDrawableIcon);
+		else {
+			img_avata.setBackgroundDrawable(getResources().getDrawable(
+					R.drawable.default_icon));
+			if (isSetUrl)
+				((EditText) findViewById(R.id.edit_text_url)).setText(mUrlItem);
+		}
+		isSetUrl = false;
+		if (mDrawableMemo != null) {
+
+			img_memo.setLayoutParams(new FrameLayout.LayoutParams(widthMemo,
+					(int) (widthMemo * ratioMemo)));
+			img_memo.requestLayout();
+			img_memo.setBackgroundDrawable(mDrawableMemo);
+			btn_memo.setVisibility(View.GONE);
+		} else {
+			img_memo.setVisibility(View.GONE);
+		}
+		if (itemSelect >= 0) {
+			mItems.get(itemSelect).mContentItem = mStringOfSelectItem;
+			updateItems(mItems);
+			itemSelect = -1;
+		}
+		if (mDrawableMemo != null) {
+			img_memo.setBackgroundDrawable(mDrawableMemo);
+			img_memo.setVisibility(View.VISIBLE);
+			btn_memo.setVisibility(View.GONE);
+		} else {
+			img_memo.setBackgroundDrawable(mDrawableMemo);
+			img_memo.setVisibility(View.GONE);
+			btn_memo.setVisibility(View.VISIBLE);
+		}
 	}
 
 	/**
@@ -1476,16 +2051,22 @@ public class HomeScreeenActivity extends BaseActivity implements
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_BACK:
-			if (mIdManagerPreference.getSecurityMode() == Contants.KEY_OFF) {
-				finish();
-			} else
-				showDialog(Contants.DIALOG_EXIT);
+			if (panelSetting.getVisibility() != View.VISIBLE
+					&& panelInfo.getVisibility() != View.VISIBLE
+					&& panelEditIdxpass.getVisibility() != View.VISIBLE) {
+				if (mPref.getSecurityMode() == Contants.KEY_OFF) {
+					finish();
+				} else
+					showDialog(Contants.DIALOG_EXIT);
+
+			} else {
+				return false;
+			}
 			break;
 		default:
 			break;
@@ -1508,8 +2089,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		getApp().stop();
 		super.onDestroy();
-		mIdManagerPreference.setEditMode(false);
+		mPref.setEditMode(false);
 		android.os.Process.killProcess(android.os.Process.myPid());
+		BillingHelper.stopService();
 	}
 
 	public Drawable getImageDataBase(byte[] data) {
@@ -1518,15 +2100,53 @@ public class HomeScreeenActivity extends BaseActivity implements
 		}
 
 		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
-		@SuppressWarnings("deprecation")
 		BitmapDrawable result = new BitmapDrawable(bMap);
 		return result;
 	}
 
 	// // method of setting
 
-	public void onReturn(View v) {
-		finish();
+	private void onCreateSetting() {
+		initDatabase();
+		textModeSercurity = (TextView) findViewById(R.id.id_text_mode);
+		// lnSetting = (LinearLayout) findViewById(R.id.ln_setting);
+		mPref = IdManagerPreference.getInstance(this);
+		initAdmodSetting();
+		startService(new Intent(this, BillingService.class));
+		BillingHelper.setCompletedHandler(mTransactionHandler);
+
+		mImgDropbox = (ImageView) findViewById(R.id.img_dropbox_logo);
+		mImgGGDrive = (ImageView) findViewById(R.id.img_gg_drive_logo);
+		if (sercurity_mode == null)
+			sercurity_mode = getResources().getString(
+					R.string.text_security_off);
+		Display d = getWindowManager().getDefaultDisplay();
+		setWidthScreen(d.getWidth());
+
+	}
+
+	public void initAdmodSetting() {
+		adview = (AdView) findViewById(R.id.main_adView_setting);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			if (!mPref.getIsPaymentNoAd())
+				adview.setVisibility(View.VISIBLE);
+			else
+				adview.setVisibility(View.GONE);
+		}
+	}
+
+	private void initDatabase() {
+		// TODO Auto-generated method stub
+		SQLiteDatabase.loadLibs(this);
+		mDataBaseHandler = new IDxPWDataBaseHandler(this);
+		mGList = mDataBaseHandler.getAllFolders();
+		mEList = mDataBaseHandler.getAllElmentIds();
+		mPList = mDataBaseHandler.getAllPasswords();
+		sizeOfGList = mGList.size();
+		sizeOfEList = mEList.size();
+		sizeOfPList = mPList.size();
 	}
 
 	public void onChangeMasterPass(View v) {
@@ -1534,7 +2154,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		intentChangePW.putExtra(EnterOldPasswordActivity.KEY_MODE,
 				EnterOldPasswordActivity.FROM_SETTING);
 		startActivity(intentChangePW);
-		finish();
+		// finish();
 	}
 
 	public static void startActivity(Activity activity, int valueExtra) {
@@ -1563,16 +2183,1112 @@ public class HomeScreeenActivity extends BaseActivity implements
 		startActivity(intentRegisterEmail);
 	}
 
-	private Handler mHandler = new Handler() {
-		@SuppressWarnings("deprecation")
-		public void handleMessage(android.os.Message msg) {
-			Log.e("adkjfh", "adskfjhd " + msg.arg1);
-			if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_EXISTED)
-				showDialog(Contants.DIALOG_MESSAGE_FOLDER_EXISTED);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_ERROR)
-				showDialog(Contants.DIALOG_MESSAGE_FOLDER_ERROR);
-			else if (msg.arg1 == Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR)
-				showDialog(Contants.DIALOG_MESSAGE_FOLDER_INSERT_ERROR);
-		};
-	};
+	public void onDropbox(View v) {
+		Intent intentDropbox = new Intent(this, DropboxSettingActivity.class);
+		startActivity(intentDropbox);
+	}
+
+	public void onUnlimitedItems(View v) {
+		modePayment = PAYMENT_TO_UNLIMIT_ITEMS;
+		if (!mPref.getIsPaymentUnlimit())
+			showDialogRequestPayment(getResources().getString(
+					R.string.message_pay_to_unlimit_item));
+	}
+
+	public void onNoAdmod(View v) {
+		modePayment = PAYMENT_TO_NO_AD;
+		if (!mPref.getIsPaymentNoAd())
+			showDialogRequestPayment(getResources().getString(
+					R.string.message_pay_to_no_ad));
+	}
+
+	public void showDialogRequestPayment(String message) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setIcon(R.drawable.icon);
+		builder.setTitle(getResources().getString(R.string.item_payment));
+		builder.setMessage(message);
+		builder.setPositiveButton(
+				getResources().getString(R.string.confirm_ok),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						if (modePayment == PAYMENT_TO_UNLIMIT_ITEMS) {
+							BillingHelper.requestPurchase(
+									HomeScreeenActivity.this,
+									ID_ITEMS_PAYMENT_TO_UN_LIMIT);
+						} else if (modePayment == PAYMENT_TO_NO_AD) {
+							// mPref.setIsPaymentUnlimit(IdManagerPreference.IS_PAYMENT_UNLIMIT,
+							// true);
+							if (BillingHelper.isBillingSupported()) {
+								BillingHelper.requestPurchase(
+										HomeScreeenActivity.this,
+										ID_ITEMS_PAYMENT_TO_NO_AD);
+							} else {
+								Log.i(TAG, "Can't purchase on this device");
+
+							}
+
+						} else if (modePayment == PAYMENT_TO_EXPORT) {
+							BillingHelper.requestPurchase(
+									HomeScreeenActivity.this,
+									ID_ITEMS_PAYMENT_TO_EXPORT);
+						}
+					}
+				});
+		builder.setNegativeButton(
+				getResources().getString(R.string.confirm_cancel),
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		builder.create().show();
+	}
+
+	/**
+	 * read file via cloud
+	 * 
+	 * @param v
+	 */
+
+	public void onReadFileviaCloud(View v) {
+		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
+			if (mApi.getSession().isLinked()) {
+				isExportData = false;
+				String fileName = "";
+				startReadFileViaCloud(fileName, false);
+			} else if (!"".equals(mGGAccountName)) {
+				startReadFileViaGGDrive();
+			} else
+				showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+		} else
+			showDialog(Contants.DIALOG_NO_NET_WORK);
+	}
+
+	private void startReadFileViaGGDrive() {
+		// TODO Auto-generated method stub
+		/* gg drive api */
+		credential = GoogleAccountCredential.usingOAuth2(
+				HomeScreeenActivity.this, DriveScopes.DRIVE);
+		credential.setSelectedAccountName(mGGAccountName);
+		service = getDriveService(credential);
+
+		ReadCSVViaGGDrive readFCsvViaGGDrive = new ReadCSVViaGGDrive(
+				HomeScreeenActivity.this, service, mHandler);
+		readFCsvViaGGDrive.execute();
+
+	}
+
+	/**
+	 * export data to cloud
+	 * 
+	 * @param v
+	 */
+	public void onExportData(View v) {
+		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
+			modePayment = PAYMENT_TO_EXPORT;
+			if (!mPref.getIsPaymentExport())
+				showDialogRequestPayment(getResources().getString(
+						R.string.message_pay_to_export));
+			else {
+				if (mApi.getSession().isLinked()
+						|| (!"".equals(mGGAccountName) && null != mGGAccountName)) {
+					isExportData = true;
+					showDialog(Contants.DIALOG_EXPORT_DATA);
+				} else {
+					showDialog(Contants.DIALOG_NO_CLOUD_SETUP);
+				}
+			}
+
+		} else
+			showDialog(Contants.DIALOG_NO_NET_WORK);
+	}
+
+	protected void importFileCSVToDatabase(String mSelectedFile) {
+		// TODO Auto-generated method stub
+		// File sdcard = Environment.getExternalStorageDirectory();
+		File file = new File(Contants.PATH_ID_FILES + mSelectedFile);
+		ArrayList<PasswordItem> mItems = new ArrayList<PasswordItem>();
+		String group = null, title = null, icon = null, url = null, note = null, image = null;
+		String[] id = new String[Contants.MAX_ITEM_PASS_ID];
+		String[] password = new String[Contants.MASTER_PASSWORD_ID];
+		int fav = 0;
+		if (file.exists()) {
+			BufferedReader in;
+			try {
+				in = new BufferedReader(new FileReader(file));
+				String reader = "";
+				int row = 0;
+				try {
+					while ((reader = in.readLine()) != null) {
+						if (row > 0) {
+							Log.e("xem chay may kan", "xem chay may kab " + row);
+							String[] rowData = reader.split(",");
+							ArrayList<String> rowDataList = new ArrayList<String>();
+							// for(int )
+
+							for (int i = 0; i < rowData.length; i++) {
+								rowDataList.add(rowData[i]);
+							}
+
+							int size = rowDataList.size();
+							if (size < 17)
+								for (int i = size; i < 17; i++) {
+									rowDataList.add("");
+								}
+
+							for (int i = 0; i < rowDataList.size(); i++) {
+								Log.e("adjhfkshdf",
+										"adsfkjh " + rowDataList.get(i));
+								group = rowDataList.get(0);
+								title = rowDataList.get(1);
+								icon = rowDataList.get(2);
+								fav = Integer.parseInt(rowDataList.get(3));
+								url = rowDataList.get(4);
+								note = rowDataList.get(5);
+								image = rowDataList.get(6);
+
+								id[0] = rowDataList.get(7);
+								password[0] = rowDataList.get(8);
+								id[1] = rowDataList.get(9);
+								password[1] = rowDataList.get(10);
+								id[2] = rowDataList.get(11);
+								password[2] = rowDataList.get(12);
+								id[3] = rowDataList.get(13);
+								password[3] = rowDataList.get(14);
+								id[4] = rowDataList.get(15);
+								password[4] = rowDataList.get(16);
+							}
+
+							/* update to database */
+							boolean isGExist = false;
+							boolean isEExist = false;
+							/* insert folder */
+							if (sizeOfGList > 0)
+								for (int i = 0; i < sizeOfGList; i++) {
+									if (!group.equals(mGList.get(i).getgName()))
+										isGExist = false;
+									else
+										isGExist = true;
+									if (i == (sizeOfGList - 1) && !isGExist) {
+										int gId = 0;
+										for (int j = 0; j < sizeOfGList; j++)
+											if (gId < mGList.get(j).getgId())
+												gId = mGList.get(j).getgId();
+										gId++;
+										GroupFolder folder = new GroupFolder(
+												gId, group, 0,
+												Contants.MASTER_PASSWORD_ID, 0);
+										mDataBaseHandler.addNewFolder(folder);
+										mGList.add(folder);
+										sizeOfGList++;
+									}
+								}
+							else if (!isGExist) {
+								isGExist = true;
+								int gId = 0;
+								for (int j = 0; j < sizeOfGList; j++)
+									if (gId < mGList.get(j).getgId())
+										gId = mGList.get(j).getgId();
+								gId++;
+								GroupFolder folder = new GroupFolder(gId,
+										group, 0, Contants.MASTER_PASSWORD_ID,
+										0);
+								mDataBaseHandler.addNewFolder(folder);
+								mGList.add(folder);
+								sizeOfGList++;
+							}
+
+							/* insert element */
+							for (int i = 0; i < sizeOfGList; i++) {
+								List<ElementID> elementList = mDataBaseHandler
+										.getAllElementIdByGroupFolderId(mGList
+												.get(i).getgId());
+								if (elementList.size() > 0)
+									for (int j = 0; j < elementList.size(); j++) {
+										if (title.equals(elementList.get(j)
+												.geteTitle()))
+											isEExist = true;
+
+										if (j == sizeOfEList - 1 && !isEExist) {
+											int eId = sizeOfEList;
+											long timeStamp = System
+													.currentTimeMillis();
+											for (int k = 0; k < mEList.size(); k++)
+												if (eId < mEList.get(k)
+														.geteId())
+													eId = mEList.get(k)
+															.geteId();
+											eId++;
+											ElementID element = new ElementID(
+													eId,
+													mGList.get(i).getgId(),
+													title, new byte[] {},
+													timeStamp, fav, 0, url,
+													note, new byte[] {}, 0);
+											mDataBaseHandler
+													.addElement(element);
+
+											mEList.add(element);
+											sizeOfEList++;
+										}
+									}
+								else if (!isEExist) {
+									isEExist = true;
+									int eId = sizeOfEList;
+									long timeStamp = System.currentTimeMillis();
+									eId++;
+									ElementID element = new ElementID(eId,
+											mGList.get(i).getgId(), title,
+											new byte[] {}, timeStamp, fav, 0,
+											url, note, new byte[] {}, 0);
+									mDataBaseHandler.addElement(element);
+									mEList.add(element);
+									sizeOfEList++;
+								}
+
+							}
+
+							/* insert to password */
+							int elementId = 0;
+							for (int i = 0; i < sizeOfEList; i++) {
+								if (title.equals(mEList.get(i).geteTitle()))
+									elementId = mEList.get(i).geteId();
+							}
+							mDataBaseHandler
+									.deletePasswordByElementId(elementId);
+							Log.e("item", "item.size " + mItems.size());
+							for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
+								if (!"".equals(id[i])
+										|| !"".equals(password[i])) {
+									int pwId = sizeOfPList;
+									for (int k = 0; k < sizeOfPList; k++)
+										if (pwId < mPList.get(k)
+												.getPasswordId())
+											pwId = mPList.get(k)
+													.getPasswordId();
+									Password passWord = new Password(pwId,
+											elementId, id[i], password[i]);
+									mDataBaseHandler.addNewPassword(passWord);
+									mPList.add(passWord);
+									sizeOfPList++;
+								}
+							}
+						}
+						row++;
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	/**
+	 * delete file csv after upload to cloud
+	 */
+	private void deleteFileAfterUpload() {
+		// TODO Auto-generated method stub
+		File file = new File(Contants.PATH_ID_FILES + "/" + fileExportName);
+		if (file.exists())
+			file.delete();
+	}
+
+	private void generateCsvFile(String sFileName) {
+		List<GroupFolder> groupList = mDataBaseHandler.getAllFolders();
+		List<ElementID> elementList = mDataBaseHandler.getAllElmentIds();
+
+		int sizeOfElementList = elementList.size();
+		int sizeOfgroupList = groupList.size();
+		try {
+			FileWriter writer = new FileWriter(sFileName);
+			writer.append("group");
+			writer.append(",");
+			writer.append("title");
+			writer.append(",");
+			writer.append("icon");
+			writer.append(",");
+			writer.append("fav");
+			writer.append(",");
+			writer.append("url");
+			writer.append(",");
+			writer.append("note");
+			writer.append(",");
+			writer.append("image");
+			writer.append(",");
+
+			writer.append("id1");
+			writer.append(",");
+			writer.append("pa1");
+			writer.append(",");
+
+			writer.append("id2");
+			writer.append(",");
+			writer.append("pa2");
+			writer.append(",");
+
+			writer.append("id3");
+			writer.append(",");
+			writer.append("pa3");
+			writer.append(",");
+
+			writer.append("id4");
+			writer.append(",");
+			writer.append("pa4");
+			writer.append(",");
+
+			writer.append("id5");
+			writer.append(",");
+			writer.append("pa5");
+			writer.append(",");
+
+			writer.append("\n");
+			// generate whatever data you want
+			for (int i = 0; i < sizeOfElementList; i++) {
+				GroupFolder groupFolder = null;
+				int groupFolderId = elementList.get(i).geteGroupId();
+				for (int j = 0; j < sizeOfgroupList; j++)
+					if (groupFolderId == groupList.get(j).getgId())
+						groupFolder = groupList.get(j);
+				writer.append("" + groupFolder.getgName());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteTitle());
+				writer.append(",");
+				writer.append("");
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteFavourite());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteUrl());
+				writer.append(",");
+				writer.append("" + elementList.get(i).geteNote());
+				writer.append(",");
+				writer.append("");
+				writer.append(",");
+
+				List<Password> passwordList = mDataBaseHandler
+						.getAllPasswordByElementId(elementList.get(i).geteId());
+				int sizeOfPassWordList = passwordList.size();
+				for (int k = 0; k < sizeOfPassWordList; k++) {
+					writer.append("" + passwordList.get(k).getTitleNameId());
+					writer.append(",");
+					writer.append("" + passwordList.get(k).getPassword());
+					writer.append(",");
+				}
+
+				writer.append("\n");
+			}
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private AndroidAuthSession buildSession() {
+		AppKeyPair appKeyPair = new AppKeyPair(Contants.APP_KEY,
+				Contants.APP_SECRET);
+		AndroidAuthSession session;
+
+		String[] stored = getKeys();
+		if (stored != null) {
+			AccessTokenPair accessToken = new AccessTokenPair(stored[0],
+					stored[1]);
+			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE,
+					accessToken);
+		} else {
+			session = new AndroidAuthSession(appKeyPair, ACCESS_TYPE);
+		}
+
+		return session;
+	}
+
+	/**
+	 * Shows keeping the access keys returned from Trusted Authenticator in a
+	 * local store, rather than storing user name & password, and
+	 * re-authenticating each time (which is not to be done, ever).
+	 * 
+	 * @return Array of [access_key, access_secret], or null if none stored
+	 */
+	private String[] getKeys() {
+		SharedPreferences prefs = getSharedPreferences(ACCOUNT_PREFS_NAME, 0);
+		String key = prefs.getString(ACCESS_KEY_NAME, null);
+		String secret = prefs.getString(ACCESS_SECRET_NAME, null);
+		if (key != null && secret != null) {
+			String[] ret = new String[2];
+			ret[0] = key;
+			ret[1] = secret;
+			return ret;
+		} else {
+			return null;
+		}
+	}
+
+	private void startSyncToCloud(String fileExportName,
+			boolean isCheckDuplicated) {
+		// TODO Auto-generated method stub
+		File fileExport = new File(Contants.PATH_ID_FILES + "/"
+				+ fileExportName);
+		if (fileExport.exists()) {
+			DropBoxController newFile = new DropBoxController(
+					HomeScreeenActivity.this, mApi,
+					Contants.FOLDER_ON_DROPBOX_CSV, fileExport, mHandler,
+					isCheckDuplicated);
+			newFile.execute();
+		} else {
+			Message msg = mHandler.obtainMessage();
+			msg.arg1 = Contants.DIALOG_MESSAGE_SYNC_INTERRUPTED;
+			mHandler.sendMessage(msg);
+		}
+	}
+
+	/**
+	 * start read file via cloud
+	 */
+	private void startReadFileViaCloud(CharSequence fileName,
+			boolean isCheckFile) {
+		Log.e("isCheckFile", "isCheckFile " + isCheckFile);
+		File file = new File(Contants.PATH_ID_FILES);
+		if (!file.exists())
+			file.mkdirs();
+		String mFilePath = file.getAbsolutePath();
+		ReadFileViaDropBox readFile = new ReadFileViaDropBox(
+				HomeScreeenActivity.this, mApi, Contants.FOLDER_ON_DROPBOX_CSV,
+				mFilePath, mHandler, fileName, isCheckFile);
+		readFile.execute();
+	}
+
+	class PasswordItem {
+		String titleId;
+		String password;
+	}
+
+	public void setWidthScreen(int width) {
+		this.widthScreen = width;
+	}
+
+	public int getWidthScreen() {
+		return widthScreen;
+	}
+
+	/**
+	 * save file csv to gg drive in idpw file
+	 */
+
+	private void saveFileToDrive(String accountName, boolean isCheckedTime,
+			String filePath) {
+		java.io.File csvFile = new File(filePath);
+
+		GGDriveUploadCSVController drive = new GGDriveUploadCSVController(this,
+				service, csvFile, mHandler, accountName);
+		drive.execute();
+	}
+
+	/**
+	 * get authen to access gg drive
+	 */
+	private Drive getDriveService(GoogleAccountCredential credential) {
+		return new Drive.Builder(AndroidHttp.newCompatibleTransport(),
+				new GsonFactory(), credential).build();
+	}
+
+	private void saveFileToDevice(String accountName, CharSequence mSeletedFile) {
+		String fileName = (String) mSeletedFile;
+		String cachePath = Contants.PATH_ID_FILES + fileName;
+		java.io.File file = new java.io.File(cachePath);
+		DownloadCSVViaGGDrive drive = new DownloadCSVViaGGDrive(this, service,
+				file, mHandler, fileName, true);
+		drive.execute();
+	}
+
+	// /
+	// ////methods of info actvity
+	public void onCreateInfo() {
+		urlInfo = "http://www.japanappstudio.com/home.html";
+		initControlInfo();
+		initAdmodInfo();
+		editTextInfo = (EditText) findViewById(R.id.id_edit_browser);
+
+	}
+
+	public void initAdmodInfo() {
+		adview = (AdView) findViewById(R.id.main_adView_browser);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			if (!mPref.getIsPaymentNoAd())
+				adview.setVisibility(View.VISIBLE);
+			else
+				adview.setVisibility(View.GONE);
+		}
+	}
+
+	public void onReload(View v) {
+		webViewInfo.reload();
+	}
+
+	public void onBack(View v) {
+		webViewInfo.goBack();
+	}
+
+	public void onNext(View v) {
+		try {
+			KeyEvent shiftPressEvent = new KeyEvent(0, 0, KeyEvent.ACTION_DOWN,
+					KeyEvent.KEYCODE_SHIFT_RIGHT, 0, 0);
+			shiftPressEvent.dispatch(webViewInfo);
+		} catch (Exception e) {
+			throw new AssertionError(e);
+		}
+	}
+
+	private void initControlInfo() {
+		// TODO Auto-generated method stub
+		webViewInfo = (WebView) findViewById(R.id.web_view);
+		webViewInfo.loadUrl(urlInfo);
+		webViewInfo.setContentDescription("application/pdf");
+		WebSettings webSettings = webViewInfo.getSettings();
+		webSettings.setLoadsImagesAutomatically(true);
+		webSettings.setSupportZoom(true);
+		webSettings.setBuiltInZoomControls(true);
+		webViewInfo.invokeZoomPicker();
+		this.webViewInfo.setWebViewClient(new WebViewClient() {
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				view.loadUrl(url);
+				return true;
+			}
+
+			@Override
+			public void onLoadResource(WebView view, String url) {
+			}
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				// TODO Auto-generated method stub
+				editTextInfo.setText(webViewInfo.getUrl());
+				super.onPageFinished(view, url);
+			}
+		});
+
+	}
+
+	// methods of edit idxpassword activity
+	public void onCreateIdxPassword() {
+		updateViewEditIdxpass();
+		currentFolderId = mPref.getCurrentFolderId();
+		icon = new byte[] {};
+		imageMemo = new byte[] {};
+		if (modeBundle == 1) {
+			currentElementId = -1;
+		}
+
+		/* initialize database */
+
+		weightItem = mPref.getWeightSlideItem();
+		/* initialize control */
+		if (modeBundle <= 1) {
+			mItems = loadDataForListItem();
+		}
+		updateItems(mItems);
+		if (modeBundle == 0) {
+			isCreatNew = false;
+			mDrawableIcon = getIconDataBase(icon);
+			mDrawableMemo = getMemoDataBase(imageMemo);
+
+		} else if (modeBundle == 1) {
+			isCreatNew = true;
+			mDrawableIcon = null;
+			mDrawableMemo = null;
+		} else {
+			mEditTextNameId.setText(titleRecord);
+			mEditTextNote.setText(note);
+			mEditTextUrlId.setText(mUrlItem);
+		}
+
+	}
+
+	@Override
+	public void onAttachedToWindow() {
+		// TODO Auto-generated method stub
+		super.onAttachedToWindow();
+		if (weightItem > 0) {
+			view1.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, weightItem));
+			view2.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, 1 - weightItem));
+			lnParent.invalidate();
+		}
+
+	}
+
+	public void initAdmodEditIdxPass() {
+		AdView adview = (AdView) findViewById(R.id.main_adView_edit_idxpass);
+		AdRequest re = new AdRequest();
+		if (adview != null) {
+			adview.loadAd(re);
+			adview.setVisibility(View.VISIBLE);
+		}
+	}
+
+	public void initViewEditIdxPass() {
+		initSlideView();
+		initViewItem();
+		initControlEditIdxPassword();
+		initAdmodEditIdxPass();
+	}
+
+	public void initSlideView() {
+		controlView = (ImageView) findViewById(R.id.img);
+		view1 = (LinearLayout) findViewById(R.id.ln_1);
+		view2 = (LinearLayout) findViewById(R.id.ln_2);
+		lnParent = (LinearLayout) findViewById(R.id.id_parent);
+		controlView.setOnTouchListener(new OnTouchListener() {
+			float yFirst, yMove;
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					yMove = yFirst = event.getRawY();
+					break;
+				case MotionEvent.ACTION_UP:
+					break;
+				case MotionEvent.ACTION_MOVE:
+					yFirst = yMove;
+					yMove = event.getRawY();
+					move(yMove - yFirst);
+					break;
+				default:
+					break;
+				}
+				return true;
+			}
+		});
+	}
+
+	public void initViewItem() {
+		lnRowItem = (LinearLayout) findViewById(R.id.id_ln_rowItem);
+		mEditTitle = new EditText[MAX_ITEM];
+		mEditTitle[0] = (EditText) findViewById(R.id.id_txt_nameItem1);
+		mEditTitle[1] = (EditText) findViewById(R.id.id_txt_nameItem2);
+		mEditTitle[2] = (EditText) findViewById(R.id.id_txt_nameItem3);
+		mEditTitle[3] = (EditText) findViewById(R.id.id_txt_nameItem4);
+		mEditTitle[4] = (EditText) findViewById(R.id.id_txt_nameItem5);
+		for (int i = 0; i < mEditTitle.length; i++) {
+			final int pos = i;
+
+			mEditTitle[i].addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					if (mItems != null)
+						mItems.get(pos).mNameItem = s.toString();
+				}
+			});
+		}
+		mEditContent = new EditText[MAX_ITEM];
+		mEditContent[0] = (EditText) findViewById(R.id.id_txt_detailItem1);
+		mEditContent[1] = (EditText) findViewById(R.id.id_txt_detailItem2);
+		mEditContent[2] = (EditText) findViewById(R.id.id_txt_detailItem3);
+		mEditContent[3] = (EditText) findViewById(R.id.id_txt_detailItem4);
+		mEditContent[4] = (EditText) findViewById(R.id.id_txt_detailItem5);
+		for (int i = 0; i < mEditTitle.length; i++) {
+			final int pos = i;
+
+			mEditContent[i].addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					if (mItems != null)
+						mItems.get(pos).mContentItem = s.toString();
+				}
+			});
+		}
+		btnGenerator = new ImageButton[MAX_ITEM];
+		btnGenerator[0] = (ImageButton) findViewById(R.id.id_btn_generator1);
+		btnGenerator[1] = (ImageButton) findViewById(R.id.id_btn_generator2);
+		btnGenerator[2] = (ImageButton) findViewById(R.id.id_btn_generator3);
+		btnGenerator[3] = (ImageButton) findViewById(R.id.id_btn_generator4);
+		btnGenerator[4] = (ImageButton) findViewById(R.id.id_btn_generator5);
+		for (int i = 0; i < btnGenerator.length; i++) {
+			final int pos = i;
+			btnGenerator[i].setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					onToGenerator(pos);
+				}
+			});
+		}
+	}
+
+	public void updateViewEditIdxpass() {
+		for (int i = 0; i < mEditTitle.length; i++) {
+			mEditTitle[i].setText("");
+			mEditContent[i].setText("");
+		}
+		mEditTextNameId.setText("");
+		mEditTextNote.setText("");
+		mEditTextUrlId.setText("");
+		mCheckBoxLike.setChecked(false);
+	}
+
+	public void updateItems(ArrayList<Item> mItems) {
+		if (mItems == null || mItems.size() < MAX_ITEM)
+			return;
+		for (int i = 0; i < MAX_ITEM; i++) {
+			mEditTitle[i].setText(mItems.get(i).mNameItem);
+			mEditContent[i].setText(mItems.get(i).mContentItem);
+		}
+	}
+
+	public void move(float delta) {
+		int hRow = lnRowItem.getHeight();
+		int h3 = controlView.getHeight();
+		int h = lnParent.getHeight();
+		float weightMin = (2.1f * hRow) / (float) (h - h3);
+		float weightMax = (5.1f * hRow) / (float) (h - h3);
+		float detalWeight = delta / (h - h3);
+		if (delta == 0)
+			return;
+		else {
+			float weight1 = ((LinearLayout.LayoutParams) view1
+					.getLayoutParams()).weight;
+			weight1 = weight1 + detalWeight;
+			if (weight1 < weightMin)
+				weight1 = weightMin;
+			else if (weight1 > weightMax)
+				weight1 = weightMax;
+			view1.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, weight1));
+			view2.setLayoutParams(new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 0, 1 - weight1));
+			lnParent.invalidate();
+
+		}
+	}
+
+	public Drawable getIconDataBase(byte[] data) {
+		if (data == null || data.length == 0) {
+			return null;
+		}
+
+		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+		BitmapDrawable result = new BitmapDrawable(bMap);
+		return result;
+	}
+
+	public Drawable getMemoDataBase(byte[] data) {
+		if (data == null || data.length == 0) {
+			return null;
+		}
+
+		Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+		BitmapDrawable result = new BitmapDrawable(bMap);
+		return result;
+	}
+
+	public static void setRatioMemo(float k) {
+		ratioMemo = k;
+	}
+
+	/**
+	 * initialize database
+	 */
+
+	/**
+	 * initialize control
+	 */
+	private void initControlEditIdxPassword() {
+		// TODO Auto-generated method stub
+		btn_memo = (Button) findViewById(R.id.button_img_memo);
+		img_memo = (ImageButton) findViewById(R.id.btn_img_memo);
+		img_avata = ((ImageButton) findViewById(R.id.img_avatar));
+		mEditTextNameId = (EditText) findViewById(R.id.id_name_id_pass);
+
+		mEditTextNote = (EditText) findViewById(R.id.edit_text_note);
+
+		mEditTextUrlId = (EditText) findViewById(R.id.edit_text_url);
+
+		mCheckBoxLike = (CheckBox) findViewById(R.id.id_like);
+
+		mCheckBoxLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				if (isChecked)
+					isLike = 1;
+				else
+					isLike = 0;
+			}
+		});
+		/* load data for list item id */
+	}
+
+	/**
+	 * load data for list item
+	 * 
+	 * @return
+	 */
+	private ArrayList<Item> loadDataForListItem() {
+		ArrayList<Item> itemList = new ArrayList<Item>();
+
+		/* is create new id */
+		if (modeBundle == 1) {
+			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
+				Item item = new Item();
+				item.mNameItem = DEFAULT_NAME_ITEM[i];
+				item.mContentItem = "";
+				itemList.add(item);
+
+			}
+			mUrlItem = DEFAULT_URL;
+			((ImageButton) findViewById(R.id.btn_img_memo))
+					.setVisibility(View.GONE);
+		} else if (modeBundle == 0) {
+			ElementID element = mDataBaseHandler.getElementID(currentElementId);
+			mEditTextNote.setText(element.geteNote());
+			mUrlItem = element.geteUrl();
+			imageMemo = element.geteMemoData();
+			mEditTextNameId.setText(element.geteTitle());
+			mEditTextUrlId.setText(mUrlItem);
+			icon = element.geteIconData();
+			if (element.geteFavourite() == 0)
+				mCheckBoxLike.setChecked(false);
+			else if (element.geteFavourite() == 1)
+				mCheckBoxLike.setChecked(true);
+			List<Password> listPass = mDataBaseHandler
+					.getAllPasswordByElementId(currentElementId);
+			for (int i = 0; i < Contants.MAX_ITEM_PASS_ID; i++) {
+				Item item = new Item();
+				if (i < listPass.size()) {
+					item.mNameItem = listPass.get(i).getTitleNameId();
+					item.mContentItem = listPass.get(i).getPassword();
+				} else {
+					item.mNameItem = DEFAULT_NAME_ITEM[i];
+					item.mContentItem = "";
+				}
+				itemList.add(item);
+			}
+		}
+		return itemList;
+	}
+
+	public void onImgAvatar(View v) {
+		ListIconActivity.startActivity(this);
+		saveInput();
+	}
+
+	public void onToGenerator(int i) {
+		itemSelect = i;
+		mStringOfSelectItem = mItems.get(itemSelect).mContentItem;
+		saveInput();
+		PasswordGeneratorActivity.startActivity(this);
+
+	}
+
+	public void saveInput() {
+		titleRecord = mEditTextNameId.getText().toString();
+		mUrlItem = mEditTextUrlId.getText().toString();
+		note = mEditTextNote.getText().toString();
+	}
+
+	public void onReturn(View v) {
+		float weight1 = ((LinearLayout.LayoutParams) view1.getLayoutParams()).weight;
+		mPref.setWeightSlideItem(weight1);
+		if (isButtonPress)
+			return;
+		isButtonPress = true;
+		createOrUpdateId();
+		onResume();
+	}
+
+	public void onInfo(View v) {
+		saveInput();
+		Intent intentBrowser = new Intent(this, BrowserActivity.class);
+		intentBrowser.putExtra(Contants.KEY_TO_BROWSER, Contants.INFO_TO);
+		startActivity(intentBrowser);
+	}
+
+	public void onGoogleHome(View v) {
+		isSetUrl = true;
+		saveInput();
+		SettingURLActivity.startActivity(this);
+
+	}
+
+	public void onMemoImage(View v) {
+		if (btn_memo.getVisibility() == View.VISIBLE)
+			widthMemo = btn_memo.getWidth();
+		else
+			widthMemo = img_memo.getWidth();
+		Intent intentMemo = new Intent(this, ImageMemoActivity.class);
+		intentMemo.putExtra("modeBundleMemo", 1);
+		startActivityForResult(intentMemo, Contants.INTENT_IMG_MEMO);
+	}
+
+	/**
+	 * create new id password
+	 */
+	private void createOrUpdateId() {
+		addNewIdValuesToDataBase();
+		panelEditIdxpass.slidePanel();
+	}
+
+	public byte[] getImageData(Drawable pDrawable) {
+		if (pDrawable == null)
+			return new byte[] {};
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		Bitmap bMap = drawableToBitmap(pDrawable);
+		bMap.compress(Bitmap.CompressFormat.PNG, 60, outStream);
+		byte[] convertToByte = outStream.toByteArray();
+		return convertToByte;
+	}
+
+	/**
+	 * add new id password to database
+	 */
+	private void addNewIdValuesToDataBase() {
+		titleRecord = mEditTextNameId.getText().toString();
+		url = mEditTextUrlId.getText().toString();
+		if (titleRecord.equals(""))
+			return;
+		note = mEditTextNote.getText().toString();
+		int elementId = -1;
+
+		if (isCreatNew) {
+			List<ElementID> elementList = mDataBaseHandler.getAllElmentIds();
+			int sizeOfElementId = elementList.size();
+			elementId = sizeOfElementId;
+			for (int i = 0; i < sizeOfElementId; i++) {
+				if (elementId < elementList.get(i).geteId())
+					elementId = elementList.get(i).geteId();
+			}
+			elementId++;
+		} else
+			elementId = currentElementId;
+
+		ElementID newElement = new ElementID(elementId, currentFolderId,
+				titleRecord, getImageData(mDrawableIcon),
+				System.currentTimeMillis(), isLike, ELEMENT_FLAG_FALSE, url,
+				note, getImageData(mDrawableMemo),
+				mDataBaseHandler.getElementsCountFromFolder(currentFolderId));
+
+		// create id int normal folder
+		if (isCreatNew) {
+			mDataBaseHandler.addElement(newElement);
+			mPref.setNumberItem(IdManagerPreference.NUMBER_ITEMS,
+					mPref.getNumberItems(IdManagerPreference.NUMBER_ITEMS) + 1);
+		} else
+			mDataBaseHandler.updateElement(newElement);
+
+		/* update password */
+		mDataBaseHandler.deletePasswordByElementId(elementId);
+		List<Password> passWordList = mDataBaseHandler.getAllPasswords();
+		int sizeOfPasswordList = passWordList.size();
+		int passId = 0;
+		passId = mDataBaseHandler.getPasswordsCount();
+		for (int i = 0; i < sizeOfPasswordList; i++) {
+			if (passId < passWordList.get(i).getPasswordId())
+				passId = passWordList.get(i).getPasswordId();
+		}
+		passId++;
+		for (int i = 0; i < mItems.size(); i++) {
+			Password newPass = new Password(passId, elementId,
+					mItems.get(i).mNameItem, mItems.get(i).mContentItem);
+			mDataBaseHandler.addNewPassword(newPass);
+			passId++;
+		}
+		/* return home */
+
+	}
+
+	public static void updateIcon(Drawable pDrawable) {
+		mDrawableIcon = pDrawable;
+	}
+
+	public static void updateMemo(Drawable pDrawable) {
+		mDrawableMemo = pDrawable;
+	}
+
+	public static Drawable getIcon() {
+		return mDrawableIcon;
+	}
+
+	public static Bitmap drawableToBitmap(Drawable drawable) {
+		if (drawable instanceof BitmapDrawable) {
+			return ((BitmapDrawable) drawable).getBitmap();
+		}
+		int width = drawable.getIntrinsicWidth();
+		width = width > 0 ? width : 1;
+		int height = drawable.getIntrinsicHeight();
+		height = height > 0 ? height : 1;
+
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+		drawable.draw(canvas);
+
+		return bitmap;
+	}
+
+	public void slidePanelEditIdxPass() {
+		panelEditIdxpass.slidePanel();
+		onCreateIdxPassword();
+		onResumeEditIdxPass();
+		onAttachedToWindow();
+		mPref.setEditIDxPassHome(true);
+	}
+
+	public void closeEditIdxPass() {
+		if (panelEditIdxpass.getVisibility() != View.VISIBLE) {
+			float weight1 = ((LinearLayout.LayoutParams) view1
+					.getLayoutParams()).weight;
+			mPref.setWeightSlideItem(weight1);
+		}
+	}
 }

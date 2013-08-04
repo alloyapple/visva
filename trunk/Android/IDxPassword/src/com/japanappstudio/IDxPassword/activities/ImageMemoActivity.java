@@ -37,6 +37,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 
 public class ImageMemoActivity extends BaseActivity {
@@ -69,11 +70,19 @@ public class ImageMemoActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_memo_2);
 		bmpDraw = null;
-		if (EditIdPasswordActivity.mDrawableMemo != null) {
+
+		if ((mPrefApp.isEditIDxPassHome() ? HomeScreeenActivity.mDrawableMemo
+				: EditIdPasswordActivity.mDrawableMemo) != null) {
 			bmpDraw = Bitmap.createBitmap(widthF, heightF,
 					Bitmap.Config.ARGB_8888);
-			bmp = EditIdPasswordActivity
-					.drawableToBitmap(EditIdPasswordActivity.mDrawableMemo);
+			if (!mPrefApp.isEditIDxPassHome())
+				bmp = EditIdPasswordActivity
+						.drawableToBitmap(EditIdPasswordActivity.mDrawableMemo);
+			else {
+				bmp = HomeScreeenActivity
+						.drawableToBitmap(HomeScreeenActivity.mDrawableMemo);
+
+			}
 			rectBmp.set(0, 0, bmp.getWidth(), bmp.getHeight());
 			float ratioH = (float) bmp.getHeight() / bmpDraw.getHeight();
 			float ratioW = (float) bmp.getWidth() / bmpDraw.getWidth();
@@ -93,6 +102,7 @@ public class ImageMemoActivity extends BaseActivity {
 			widthB = widthF;
 			heightB = heightF;
 		}
+
 		mFrameMemo = (FrameLayout) findViewById(R.id.id_memo_frame);
 		mFrameMemo.addView(new MySurface(this));
 		mCheckBoxChoiceImgMemo = (CheckBox) findViewById(R.id.check_box_choice_img);
@@ -105,14 +115,23 @@ public class ImageMemoActivity extends BaseActivity {
 							boolean isChecked) {
 						// TODO Auto-generated method stub
 						if (mCheckBoxChoiceImgMemo.isChecked() && bmp != null) {
-							EditIdPasswordActivity
-									.updateMemo((Drawable) new BitmapDrawable(
-											snapScreen(leftB, topB, widthB,
-													heightB)));
-							EditIdPasswordActivity.setRatioMemo(heightB
-									/ (float) widthB);
-							EditIdPasswordActivity.startActivity(
-									ImageMemoActivity.this, 2);
+							if (!mPrefApp.isEditIDxPassHome()) {
+								EditIdPasswordActivity
+										.updateMemo((Drawable) new BitmapDrawable(
+												snapScreen(leftB, topB, widthB,
+														heightB)));
+								EditIdPasswordActivity.setRatioMemo(heightB
+										/ (float) widthB);
+								EditIdPasswordActivity.startActivity(
+										ImageMemoActivity.this, 2);
+							} else {
+								HomeScreeenActivity
+										.updateMemo((Drawable) new BitmapDrawable(
+												snapScreen(leftB, topB, widthB,
+														heightB)));
+								HomeScreeenActivity.setRatioMemo(heightB
+										/ (float) widthB);
+							}
 							finish();
 						} else {
 							mCheckBoxChoiceImgMemo.setChecked(false);
@@ -158,7 +177,8 @@ public class ImageMemoActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		EditIdPasswordActivity.startActivity(this, 2);
+		if (!mPrefApp.isEditIDxPassHome())
+			EditIdPasswordActivity.startActivity(this, 2);
 		finish();
 	}
 
@@ -479,7 +499,7 @@ public class ImageMemoActivity extends BaseActivity {
 						case R:
 							if (leftB + widthB + deltaX <= mFrameMemo
 									.getWidth()) {
-								if (leftB + widthB + deltaX-deltaBound>= leftB) {
+								if (leftB + widthB + deltaX - deltaBound >= leftB) {
 									widthB += deltaX;
 								} else {
 									mode = L;
@@ -492,10 +512,10 @@ public class ImageMemoActivity extends BaseActivity {
 						case B:
 							if (topB + heightB + deltaY <= mFrameMemo
 									.getHeight()) {
-								if (topB + heightB + deltaY -deltaBound>= topB) {
+								if (topB + heightB + deltaY - deltaBound >= topB) {
 									heightB += deltaY;
 								} else {
-									mode=T;
+									mode = T;
 									topB = (int) (topB + heightB + deltaY - deltaBound);
 									heightB = (int) (2 * deltaBound - heightB - deltaY);
 								}

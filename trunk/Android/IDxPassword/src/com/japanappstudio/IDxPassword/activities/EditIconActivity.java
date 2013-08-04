@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 
 public class EditIconActivity extends BaseActivity {
@@ -91,11 +92,17 @@ public class EditIconActivity extends BaseActivity {
 						mCheckBox.setChecked(false);
 						return;
 					}
-					EditIdPasswordActivity
-							.updateIcon((Drawable) new BitmapDrawable(
-									snapScreen()));
-					EditIdPasswordActivity.startActivity(EditIconActivity.this,
-							2);
+					if (!mPrefApp.isEditIDxPassHome()) {
+						EditIdPasswordActivity
+								.updateIcon((Drawable) new BitmapDrawable(
+										snapScreen()));
+						EditIdPasswordActivity.startActivity(
+								EditIconActivity.this, 2);
+					} else {
+						HomeScreeenActivity
+								.updateIcon((Drawable) new BitmapDrawable(
+										snapScreen()));
+					}
 					finish();
 				}
 			}
@@ -151,8 +158,12 @@ public class EditIconActivity extends BaseActivity {
 				return true;
 			}
 		});
-		if (modeBundle == 1)
-			mDrawableIconEdit = EditIdPasswordActivity.getIcon();
+		if (modeBundle == 1) {
+			if (!mPrefApp.isEditIDxPassHome())
+				mDrawableIconEdit = EditIdPasswordActivity.getIcon();
+			else
+				mDrawableIconEdit = HomeScreeenActivity.getIcon();
+		}
 		initAdmod();
 
 	}
@@ -380,7 +391,6 @@ public class EditIconActivity extends BaseActivity {
 		startActivityForResult(photoPickerIntent, Contants.SELECT_PHOTO);
 	}
 
-
 	@Override
 	protected void onActivityResult(final int requestCode,
 			final int resultCode, final Intent data) {
@@ -413,18 +423,18 @@ public class EditIconActivity extends BaseActivity {
 					if (ratioH > ratioW) {
 						w = bmp.getWidth() / ratioH;
 						h = imageView.getHeight();
-						
+
 					} else {
 						w = imageView.getWidth();
 						h = bmp.getHeight() / ratioW;
 					}
 					Display d = getWindowManager().getDefaultDisplay();
 					int heightP = mRelativeLayout.getHeight();
-					getParam().width = (int)w;
-					getParam().height = (int)h;
+					getParam().width = (int) w;
+					getParam().height = (int) h;
 					getParam().leftMargin = (int) (d.getWidth() - getParam().width) / 2;
 					getParam().topMargin = (int) (heightP - getParam().height) / 2;
-					mDrawableIconEdit= new BitmapDrawable(bmp);
+					mDrawableIconEdit = new BitmapDrawable(bmp);
 					imageView.setImageDrawable(mDrawableIconEdit);
 					imageView.requestLayout();
 

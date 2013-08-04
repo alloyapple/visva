@@ -7,6 +7,8 @@ import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import com.japanappstudio.IDxPassword.activities.R;
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -76,7 +78,7 @@ public class SetupSecurityModeActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		int position = mWheelViewModeSecurity.getCurrentItem();
 		mIdManagerPreference.setSecurityMode(position);
-		SettingActivity.sercurity_mode=modes[position];
+		HomeScreeenActivity.sercurity_mode=modes[position];
 		if (position == 0) {
 			getApp().setPeriod(Long.MAX_VALUE);
 		} else if (position == 1) {

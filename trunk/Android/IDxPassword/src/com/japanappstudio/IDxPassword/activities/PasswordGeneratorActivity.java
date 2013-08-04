@@ -26,8 +26,8 @@ import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.japanappstudio.IDxPassword.activities.homescreen.HomeScreeenActivity;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
-
 
 public class PasswordGeneratorActivity extends BaseActivity {
 	private int number = 8;
@@ -93,21 +93,40 @@ public class PasswordGeneratorActivity extends BaseActivity {
 	}
 
 	public void onReturn(View v) {
-		if (resultGenarator.toString() != "")
-			EditIdPasswordActivity.mStringOfSelectItem = resultGenarator
-					.toString();
-		else
+		if (resultGenarator.toString() != "") {
+			if (!mPrefApp.isEditIDxPassHome()) {
+				EditIdPasswordActivity.mStringOfSelectItem = resultGenarator
+						.toString();
+			}else{
+				HomeScreeenActivity.mStringOfSelectItem = resultGenarator
+						.toString();
+			}
+		} else{
+			if (!mPrefApp.isEditIDxPassHome()) 
 			EditIdPasswordActivity.itemSelect = -1;
+			else HomeScreeenActivity.itemSelect = -1;
+		}
+		if (!mPrefApp.isEditIDxPassHome()) 
 		EditIdPasswordActivity.startActivity(this, 2);
+
 		finish();
 	}
 
 	public void onGenerate(View v) {
-		if (EditIdPasswordActivity.mStringOfSelectItem != null
-				&& !EditIdPasswordActivity.mStringOfSelectItem.equals(""))
-			creatConfirmGenerate().show();
-		else
-			generator();
+
+		if (!mPrefApp.isEditIDxPassHome()) {
+			if (EditIdPasswordActivity.mStringOfSelectItem != null
+					&& !EditIdPasswordActivity.mStringOfSelectItem.equals(""))
+				creatConfirmGenerate().show();
+			else
+				generator();
+		}else{
+			if (HomeScreeenActivity.mStringOfSelectItem != null
+					&& !HomeScreeenActivity.mStringOfSelectItem.equals(""))
+				creatConfirmGenerate().show();
+			else
+				generator();
+		}
 	}
 
 	public void onNumberCharacter(View v) {
