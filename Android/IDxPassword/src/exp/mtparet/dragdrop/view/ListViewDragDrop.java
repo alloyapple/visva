@@ -42,7 +42,7 @@ import android.widget.ListView;
 /**
  * Extends ListView, implement some additionnal listener
  * 
- * @author Matthieu Paret
+ * @author visva team
  * 
  */
 @SuppressLint("Recycle")
@@ -136,8 +136,8 @@ public class ListViewDragDrop extends ListView {
 		boolean handled = false;
 		float xPos = ev.getX();
 		float yPos = ev.getY();
-		Log.e("getWidth "+getWidth(), "getHeight "+getHeight());
-		if (xPos < (getWidth() - 70)) {
+		Log.e("getWidth " + getWidth(), "getHeight " + getHeight());
+		if (xPos < (getWidth() - 60)) {
 			Rect r = mTempRect;
 			if (mDragView != null)
 				mDragView.getDrawingRect(r);
@@ -153,7 +153,7 @@ public class ListViewDragDrop extends ListView {
 			if (!handled)
 				return super.onTouchEvent(ev);
 		} else {
-			/*remove on move element to folder*/
+			/* remove on move element to folder */
 			int left = this.getLeft();
 			int right = this.getRight();
 			int top = this.getTop();
@@ -171,9 +171,9 @@ public class ListViewDragDrop extends ListView {
 				}
 			}
 			isMove = false;
-			
+
 			if ((mDragListener != null || mDropListener != null)
-					&& mDragView != null && mIdManagerPreference.isEditMode()) {
+					&& mDragView != null) {
 				int action = ev.getAction();
 				switch (action) {
 
@@ -310,7 +310,7 @@ public class ListViewDragDrop extends ListView {
 		}
 
 		if (event.getAction() == MotionEvent.ACTION_UP && isMove) {
-			Log.e("onActionUp", "onActionUp "+isMove);
+			Log.e("onActionUp", "onActionUp " + isMove);
 			int left = this.getLeft();
 			int right = this.getRight();
 			int top = this.getTop();
@@ -341,8 +341,7 @@ public class ListViewDragDrop extends ListView {
 
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			if (mDragListener != null || mDropListener != null
-					&& mIdManagerPreference.isEditMode()) {
+			if (mDragListener != null || mDropListener != null) {
 				int x = (int) ev.getX();
 				int y = (int) ev.getY();
 
@@ -386,9 +385,8 @@ public class ListViewDragDrop extends ListView {
 			}
 			break;
 		case MotionEvent.ACTION_UP:
-			
-			if (mDragListener != null || mDropListener != null
-					&& mIdManagerPreference.isEditMode()) {
+
+			if (mDragListener != null || mDropListener != null) {
 				Rect r = mTempRect;
 				r = mTempRect;
 				if (mDragView != null)

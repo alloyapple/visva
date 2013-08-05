@@ -783,7 +783,11 @@ public class HomeScreeenActivity extends BaseActivity implements
 				CopyItemActivity.startActivity(HomeScreeenActivity.this,
 						mIdListItems.get(arg2).geteId());
 			else{
-				
+				modeBundle = 0;
+				currentElementId = mIdListItems.get(arg2)
+						.geteId();
+				mPref.setCurrentFolderId(currentFolderId);
+				slidePanelEditIdxPass();
 			}
 		}
 	};

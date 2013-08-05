@@ -148,21 +148,16 @@ public class ItemAdapter extends BaseAdapter {
 		btnDelete.setOnClickListener(mOnDeleteClickListener);
 
 		if (isModeEdit && (currentFolderOrder >= 0)) {
-			btnEdit.setVisibility(View.VISIBLE);
 			btnDelete.setVisibility(View.VISIBLE);
-			btnDelete.setFocusable(true);
-			btnEdit.setFocusable(true);
 			txtIdUrl.setSelected(true);
 			txtIdName.setSelected(true);
 		} else {
-			btnEdit.setVisibility(View.GONE);
 			btnDelete.setVisibility(View.GONE);
-			btnDelete.setFocusable(false);
-			btnEdit.setFocusable(false);
 			txtIdUrl.setSelected(false);
 			txtIdName.setSelected(false);
 		}
-
+		btnDelete.setFocusable(false);
+		btnEdit.setFocusable(false);
 		return convertView;
 	}
 
