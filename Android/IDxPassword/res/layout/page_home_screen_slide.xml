@@ -93,28 +93,48 @@
             android:layout_weight="1"
             android:orientation="horizontal" >
 
+            <FrameLayout
+            android:id="@+id/layout_folder"
+            android:layout_width="85dp"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:layout_width="85dp"
+                android:layout_height="fill_parent" >
+
+                <Button
+                    android:id="@+id/btn_add_new_folder_fake"
+                    android:layout_width="65dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/folder"
+                    android:gravity="bottom" />
+
+                <exp.mtparet.dragdrop.view.DndListViewFolder
+                    android:id="@+id/list_view_folder"
+                    android:layout_width="85dp"
+                    android:layout_height="fill_parent"
+                    android:layout_above="@id/btn_add_new_folder_fake"
+                    android:background="@color/transparent"
+                    android:cacheColorHint="@color/transparent"
+                    android:divider="@color/transparent" />
+            </RelativeLayout>
+
             <Button
                 android:id="@+id/btn_add_new_folder"
                 android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
                 android:background="@drawable/folder"
                 android:gravity="bottom" />
-
-            <exp.mtparet.dragdrop.view.DndListViewFolder
-                android:id="@+id/list_view_folder"
-                android:layout_width="85dp"
-                android:layout_height="fill_parent"
-                android:layout_above="@id/btn_add_new_folder"
-                android:background="@color/transparent"
-                android:cacheColorHint="@color/transparent"
-                android:divider="@color/transparent" />
+        </FrameLayout>
 
             <exp.mtparet.dragdrop.view.ListViewDragDrop
                 android:id="@+id/list_view_item"
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
-                android:layout_toRightOf="@id/list_view_folder"
+                android:layout_toRightOf="@id/layout_folder"
                 android:cacheColorHint="@color/transparent"
                 android:divider="@color/transparent" />
 
@@ -122,7 +142,7 @@
                 android:id="@+id/layoutDrag"
                 android:layout_width="250dp"
                 android:layout_height="80dp"
-                android:layout_toRightOf="@id/list_view_folder"
+                android:layout_toRightOf="@id/layout_folder"
                 android:background="@drawable/item_bar"
                 android:visibility="gone" >
 

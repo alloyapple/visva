@@ -276,6 +276,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private Handler mHandler = new Handler() {
 		@SuppressWarnings("unchecked")
 		public void handleMessage(android.os.Message msg) {
+			Log.e("dfkhdf", "dfdhf "+msg.arg1);
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_SUCCESS)
@@ -2037,6 +2038,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		// resume method of edit idxpassword activity
 		onResumeEditIdxPass();
+		
+		/*show dialog sync cloud success*/
+		if(mPref.isCloudSettingSuccess()){
+			mPref.setCloudSettingSuccess(false);
+			showDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
+		}
 
 	}
 
