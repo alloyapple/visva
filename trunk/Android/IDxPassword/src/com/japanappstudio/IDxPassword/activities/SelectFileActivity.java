@@ -18,6 +18,7 @@ import com.japanappstudio.IDxPassword.database.IdManagerPreference;
 import com.japanappstudio.IDxPassword.exportcontroller.dropbox.ReadFileViaDropBox;
 import com.japanappstudio.IDxPassword.exportcontroller.ggdrive.DownloadCSVViaGGDrive;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,10 +32,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+@SuppressLint("HandlerLeak")
 public class SelectFileActivity extends Activity implements OnItemClickListener {
 	// If you'd like to change the access type to the full Dropbox instead of
 	// an app folder, change this value.
@@ -171,7 +171,7 @@ public class SelectFileActivity extends Activity implements OnItemClickListener 
 	}
 
 	private Handler mHandler = new Handler() {
-		@SuppressWarnings({ "unchecked", "deprecation" })
+		@SuppressWarnings({ "deprecation" })
 		public void handleMessage(android.os.Message msg) {
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
@@ -190,6 +190,7 @@ public class SelectFileActivity extends Activity implements OnItemClickListener 
 						ChoiceCSVImportType.class);
 				intent.putExtra(Contants.KEY_CHOICE_CSV_FILE, mSelectFile);
 				startActivity(intent);
+				finish();
 			}
 		};
 	};

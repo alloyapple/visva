@@ -8,6 +8,9 @@ import com.japanappstudio.IDxPassword.idxpwdatabase.UserDB;
 import net.sqlcipher.database.SQLiteDatabase;
 import com.japanappstudio.IDxPassword.activities.R;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -35,13 +38,15 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.change_master_password);
-		isChangePW = getIntent().getExtras().getBoolean(Contants.IS_CHANGE_PASSWORD);
+		isChangePW = getIntent().getExtras().getBoolean(
+				Contants.IS_CHANGE_PASSWORD);
 
 		/* init database */
 		initDataBase();
 		/* init control */
 		initControl();
 	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -54,6 +59,7 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 	/**
 	 * intialize database
 	 */
@@ -77,26 +83,33 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 
 		/* check is change pw or create new pw */
 		if (isChangePW) {
-			txtChangePW.setText(getResources().getString(R.string.title_master_pass));
-			txtVerifyVPW.setText(getResources().getString(R.string.confirm_pass));
+			txtChangePW.setText(getResources().getString(
+					R.string.title_master_pass));
+			txtVerifyVPW.setText(getResources()
+					.getString(R.string.confirm_pass));
 			txtPW.setText(getResources().getString(R.string.new_pass));
 		} else {
-			txtChangePW.setText(getResources().getString(R.string.title_master_pass));
-			txtVerifyVPW.setText(getResources().getString(R.string.confirm_pass));
+			txtChangePW.setText(getResources().getString(
+					R.string.title_master_pass));
+			txtVerifyVPW.setText(getResources()
+					.getString(R.string.confirm_pass));
 			txtPW.setText(getResources().getString(R.string.new_pass));
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void confirmMaster(View v) {
 
 		/* is create new master pw */
 		if (!isChangePW) {
 			if (!editTextVerifyPW.getText().toString().trim()
 					.equals(editTextPW.getText().toString().trim()))
-				showToast(getResources().getString(R.string.message_no_match_pass));
+				showToast(getResources().getString(
+						R.string.message_no_match_pass));
 			else if ("".equals(editTextVerifyPW.getText().toString())
 					|| "".equals(editTextPW.getText().toString()))
-				showToast(getResources().getString(R.string.message_no_match_pass));
+				showToast(getResources().getString(
+						R.string.message_no_match_pass));
 			else {
 				/* set master pw */
 				mMasterPassword = editTextPW.getText().toString();
@@ -106,22 +119,23 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 
 				// mDataBaseHandler.addNewUser(user);
 
-				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID, mMasterPassword, "");
+				UserDB userDB = new UserDB(Contants.MASTER_PASSWORD_ID,
+						mMasterPassword, "");
 				mIDxPWDataBaseHandler.addNewUser(userDB);
 
 				// add general folder
-				GroupFolder generalFolder = new GroupFolder(0, getString(R.string.list_general), 0,
+				GroupFolder generalFolder = new GroupFolder(0,
+						getString(R.string.list_general), 0,
 						Contants.MASTER_PASSWORD_ID, 1);
 				mIDxPWDataBaseHandler.addNewFolder(generalFolder);
 
 				/* return Term of service */
 				Intent intent = null;
-				if ("".equals(userDB.getsEmail())){
+				if ("".equals(userDB.getsEmail())) {
 					intent = new Intent(MasterPasswordChangeActivity.this,
 							RegisterEmailActivity.class);
 					intent.putExtra(Contants.CREATE_NEW_EMAIL, true);
-				}
-				else
+				} else
 					intent = new Intent(MasterPasswordChangeActivity.this,
 							MasterPasswordActivity.class);
 				startActivity(intent);
@@ -131,36 +145,14 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 
 		/* change master pw */
 		else {
-
-			if (!editTextVerifyPW.getText().toString().trim()
-					.equals(editTextPW.getText().toString().trim())) {
-				showToast(getResources().getString(R.string.message_no_match_pass));
-			} else if ("".equals(editTextVerifyPW.getText().toString())
-					|| "".equals(editTextPW.getText().toString()))
-				showToast(getResources().getString(R.string.message_no_match_pass));
-			else {
-				mMasterPassword = editTextVerifyPW.getText().toString();
-				/* update this password to db */
-				// UserDataBase user = new
-				// UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
-				// "test");
-				// mDataBaseHandler.updateUser(user);
-
-				UserDB userDB = mIDxPWDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
-				userDB.setPassword(mMasterPassword);
-				mIDxPWDataBaseHandler.updateUser(userDB);
-				/* return setting activity */
-//				Intent intent = new Intent(MasterPasswordChangeActivity.this, SettingActivity.class);
-//				startActivity(intent);
-				finish();
-			}
+			showDialog(Contants.DIALOG_MESSAGE_CHANGE_PW);
 		}
 
 	}
 
 	public void onReturn(View v) {
-//		if(isChangePW)
-//			SettingActivity.startActivity(this, 2);
+		// if(isChangePW)
+		// SettingActivity.startActivity(this, 2);
 		finish();
 	}
 
@@ -170,6 +162,67 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	}
 
 	private void showToast(String string) {
-		Toast.makeText(MasterPasswordChangeActivity.this, string, Toast.LENGTH_LONG).show();
+		Toast.makeText(MasterPasswordChangeActivity.this, string,
+				Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		switch (id) {
+		case Contants.DIALOG_MESSAGE_CHANGE_PW:
+			builder.setTitle(getResources().getString(R.string.app_name));
+			builder.setCancelable(false);
+			builder.setMessage(getString(R.string.message_change_pass));
+			builder.setIcon(R.drawable.icon);
+			builder.setPositiveButton(getString(R.string.confirm_ok),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							/* add new folder to database */
+							if (!editTextVerifyPW.getText().toString().trim()
+									.equals(editTextPW.getText().toString().trim())) {
+								showToast(getResources().getString(
+										R.string.message_no_match_pass));
+							} else if ("".equals(editTextVerifyPW.getText().toString())
+									|| "".equals(editTextPW.getText().toString()))
+								showToast(getResources().getString(
+										R.string.message_no_match_pass));
+							else {
+								mMasterPassword = editTextVerifyPW.getText().toString();
+								/* update this password to db */
+								// UserDataBase user = new
+								// UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
+								// "test");
+								// mDataBaseHandler.updateUser(user);
+
+								UserDB userDB = mIDxPWDataBaseHandler
+										.getUser(Contants.MASTER_PASSWORD_ID);
+								userDB.setPassword(mMasterPassword);
+								mIDxPWDataBaseHandler.updateUser(userDB);
+								/* return setting activity */
+								// Intent intent = new Intent(MasterPasswordChangeActivity.this,
+								// SettingActivity.class);
+								// startActivity(intent);
+								finish();
+							}
+						
+							return;
+						}
+					});
+			builder.setNegativeButton(getString(R.string.confirm_cancel),
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+			return builder.create();
+		default:
+			return null;
+		}
 	}
 }
