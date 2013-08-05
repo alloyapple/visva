@@ -136,7 +136,8 @@ public class ListViewDragDrop extends ListView {
 		boolean handled = false;
 		float xPos = ev.getX();
 		float yPos = ev.getY();
-		if (xPos < 150) {
+		Log.e("getWidth "+getWidth(), "getHeight "+getHeight());
+		if (xPos < (getWidth() - 70)) {
 			Rect r = mTempRect;
 			if (mDragView != null)
 				mDragView.getDrawingRect(r);
@@ -198,7 +199,7 @@ public class ListViewDragDrop extends ListView {
 					int x = (int) ev.getX();
 					y = (int) ev.getY();
 
-					if (x < 150) {
+					if (x < (getWidth() - 60)) {
 						return false;
 					} else {
 						if (mIdManagerPreference.isEditMode()) {
@@ -345,7 +346,7 @@ public class ListViewDragDrop extends ListView {
 				int x = (int) ev.getX();
 				int y = (int) ev.getY();
 
-				if (x < 150) {
+				if (x < (getWidth() - 60)) {
 					return false;
 				}
 

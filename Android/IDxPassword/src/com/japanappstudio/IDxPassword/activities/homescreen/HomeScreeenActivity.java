@@ -782,6 +782,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (!isEdit)
 				CopyItemActivity.startActivity(HomeScreeenActivity.this,
 						mIdListItems.get(arg2).geteId());
+			else{
+				
+			}
 		}
 	};
 	private OnTouchListener mOnItemUpOutListener = new OnTouchListener() {
