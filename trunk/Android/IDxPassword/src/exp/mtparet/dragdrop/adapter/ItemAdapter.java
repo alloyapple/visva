@@ -141,7 +141,7 @@ public class ItemAdapter extends BaseAdapter {
 		/* btn edit */
 		Button btnEdit = (Button) convertView
 				.findViewById(R.id.btn_id_item_edit);
-		btnEdit.setOnClickListener(mOnEditClickListener);
+		iv.setOnClickListener(mOnEditClickListener);
 		/* button delete */
 		Button btnDelete = (Button) convertView
 				.findViewById(R.id.btn_id_item_delete);
