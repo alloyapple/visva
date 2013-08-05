@@ -3,15 +3,12 @@ package vn.zgome.game.streetknight.android;
 import java.util.Arrays;
 import java.util.List;
 
-import net.sqlcipher.database.SQLiteDatabase;
 import org.json.JSONException;
 import org.json.JSONObject;
 import vn.zgome.game.streetknight.core.FacebookListener;
 import vn.zgome.game.streetknight.core.GameOS;
 import vn.zgome.game.streetknight.core.IAPListener;
 import vn.zgome.game.streetknight.core.ISmsEvent;
-import vn.zgome.game.streetknight.database.KungfuDBHandler;
-import vn.zgome.game.streetknight.database.KungfuDBItem;
 import vn.zgome.game.streetknight.util.Contants;
 import vn.zgome.streetknight.android.R;
 import android.app.AlertDialog;
@@ -50,7 +47,7 @@ import com.facebook.widget.WebDialog;
 
 public class MainActivity extends AndroidApplication implements
 		FacebookListener, IAPListener, ISmsEvent {
-	private static final String SMS_NUMBER = "8798";
+	private static final String SMS_NUMBER = "6765";
 	private static final String SMS_MESSAGE = "NAP 42G3";
 
 	private static final List<String> PERMISSIONS = Arrays
@@ -77,7 +74,6 @@ public class MainActivity extends AndroidApplication implements
 	SmsCreate mSmsCreate;
 	static SharedPreferences mPreference;
 
-	private KungfuDBHandler mKungfuDBHandler;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

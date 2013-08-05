@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class Asset 
 {	
 	
-	public static boolean isTestVersion = true;
+	public static boolean isTestVersion = false;
 	
 	public static AssetManager manager;
 	
