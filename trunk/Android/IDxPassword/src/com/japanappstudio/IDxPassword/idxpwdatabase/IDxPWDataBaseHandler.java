@@ -10,7 +10,6 @@ import net.sqlcipher.database.SQLiteOpenHelper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 public class IDxPWDataBaseHandler extends SQLiteOpenHelper {
 	// User table name

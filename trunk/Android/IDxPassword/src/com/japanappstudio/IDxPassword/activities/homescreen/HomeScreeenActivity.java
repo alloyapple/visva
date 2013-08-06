@@ -3034,6 +3034,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		mEditTextNote.setText("");
 		mEditTextUrlId.setText("");
 		mCheckBoxLike.setChecked(false);
+		isButtonPress=false;
 	}
 
 	public void updateItems(ArrayList<Item> mItems) {

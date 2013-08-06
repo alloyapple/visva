@@ -14,13 +14,17 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EnterOldPasswordActivity extends BaseActivity implements
 		OnClickListener {
@@ -47,7 +51,9 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		Bundle b = getIntent().getExtras();
 		mode = b.getInt(KEY_MODE);
-		setContentView(R.layout.master_password);
+		setContentView(R.layout.master_password_2);
+		getWindow().setBackgroundDrawable(
+				getResources().getDrawable(R.drawable.setup_master_password));
 		if (mode == FROM_SETTING) {
 			((TextView) findViewById(R.id.enter_old_pass))
 					.setText(getResources().getString(
@@ -70,6 +76,19 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		mMasterPW = user.getPassword();
 
 	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		// Checks whether a hardware keyboard is available
+		if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_NO) {
+			Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
+		} else if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_YES) {
+			Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
@@ -82,13 +101,14 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 	public void confirmMaster(View v) {
 
 	}
 
 	public void onReturn(View v) {
-//		if (mode == FROM_SETTING || mode == FROM_ENTER_OLD_PASS)
-//			SettingActivity.startActivity(this, 2);
+		// if (mode == FROM_SETTING || mode == FROM_ENTER_OLD_PASS)
+		// SettingActivity.startActivity(this, 2);
 		finish();
 	}
 
@@ -131,11 +151,11 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 
 			/* go to HomeScreen activity */
 			if (mode == FROM_SETTING) {
-//				Intent intent = new Intent(EnterOldPasswordActivity.this,
-//						EnterOldPasswordActivity.class);
-//				intent.putExtra(KEY_MODE, FROM_ENTER_OLD_PASS);
-//				startActivity(intent);
-//				finish();
+				// Intent intent = new Intent(EnterOldPasswordActivity.this,
+				// EnterOldPasswordActivity.class);
+				// intent.putExtra(KEY_MODE, FROM_ENTER_OLD_PASS);
+				// startActivity(intent);
+				// finish();
 				Intent intent = new Intent(EnterOldPasswordActivity.this,
 						MasterPasswordChangeActivity.class);
 				intent.putExtra(Contants.IS_CHANGE_PASSWORD, true);
@@ -272,4 +292,17 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		}
 	}
 
+	public void onChangeKeyBoard(View v) {
+//		if (mEditTextMasterPW.getInputType() != InputType.TYPE_NUMBER_VARIATION_PASSWORD) {
+//			mEditTextMasterPW
+//					.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//		} else{
+			mEditTextMasterPW
+					.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+//		}
+		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+				.getSystemService(INPUT_METHOD_SERVICE);
+		imeManager.showSoftInput(mEditTextMasterPW,
+				InputMethodManager.SHOW_FORCED);
+	}
 }
