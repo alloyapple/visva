@@ -26,7 +26,7 @@ public class Waiter extends Thread {
 				idle = System.currentTimeMillis() - lastUsed;
 			Log.d(TAG, "Application is idle for " + idle + " ms");
 			try {
-				Thread.sleep(1000); // check every 5 seconds
+				Thread.sleep(100); // check every 5 seconds
 			} catch (InterruptedException e) {
 				Log.d(TAG, "Waiter interrupted!");
 			}
@@ -49,7 +49,7 @@ public class Waiter extends Thread {
 	}
 
 	// soft stopping of thread
-	public synchronized void stop(boolean b) {
+	public  void stop(boolean b) {
 		stop = true;
 	}
 

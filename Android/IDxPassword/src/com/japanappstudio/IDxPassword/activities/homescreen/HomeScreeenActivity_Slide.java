@@ -43,7 +43,6 @@ import com.japanappstudio.IDxPassword.activities.BrowserActivity;
 import com.japanappstudio.IDxPassword.activities.CopyItemActivity;
 import com.japanappstudio.IDxPassword.activities.EditIdPasswordActivity;
 import com.japanappstudio.IDxPassword.activities.R;
-import com.japanappstudio.IDxPassword.activities.SettingActivity;
 import com.japanappstudio.IDxPassword.activities.syncloud.SyncCloudActivity;
 import com.japanappstudio.IDxPassword.contants.Contants;
 import com.japanappstudio.IDxPassword.database.IdManagerPreference;
@@ -787,9 +786,9 @@ public class HomeScreeenActivity_Slide extends BaseActivity implements
 
 		/* setting */
 		else if (v == btnSetting) {
-			Intent intentSeting = new Intent(HomeScreeenActivity_Slide.this,
-					SettingActivity.class);
-			startActivity(intentSeting);
+//			Intent intentSeting = new Intent(HomeScreeenActivity_Slide.this,
+//					SettingActivity.class);
+//			startActivity(intentSeting);
 		}
 
 		/* sync data to cloud */

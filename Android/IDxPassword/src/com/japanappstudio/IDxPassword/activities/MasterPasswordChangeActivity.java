@@ -13,13 +13,18 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MasterPasswordChangeActivity extends BaseActivity {
+public class MasterPasswordChangeActivity extends BaseActivity implements
+		IParent {
 	// =======================Control Define ====================
 
 	private EditText editTextVerifyPW;
@@ -32,19 +37,24 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 	private IDxPWDataBaseHandler mIDxPWDataBaseHandler;
 	// =======================Variables Define ==================
 	private boolean isChangePW;
+	public Button btn_switch_keyboard;
 	private String mMasterPassword;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.change_master_password);
+		setContentView(R.layout.change_master_password_2);
 		isChangePW = getIntent().getExtras().getBoolean(
 				Contants.IS_CHANGE_PASSWORD);
+		getWindow().setBackgroundDrawable(
+				getResources().getDrawable(R.drawable.setup_master_password));
 
 		/* init database */
 		initDataBase();
 		/* init control */
 		initControl();
+		MyRelativeLayout activityRootView = (MyRelativeLayout) findViewById(R.id.root_view);
+		activityRootView.setIParent(this);
 	}
 
 	@Override
@@ -95,6 +105,15 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 					.getString(R.string.confirm_pass));
 			txtPW.setText(getResources().getString(R.string.new_pass));
 		}
+		editTextVerifyPW.setTransformationMethod(PasswordTransformationMethod
+				.getInstance());
+		editTextPW.setTransformationMethod(PasswordTransformationMethod
+				.getInstance());
+		btn_switch_keyboard = (Button) findViewById(R.id.btn_switch_keyboard);
+		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+				.getSystemService(INPUT_METHOD_SERVICE);
+		imeManager.showSoftInput(editTextPW,
+				InputMethodManager.SHOW_IMPLICIT);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -181,19 +200,27 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
 							/* add new folder to database */
-							if (!editTextVerifyPW.getText().toString().trim()
-									.equals(editTextPW.getText().toString().trim())) {
+							if (!editTextVerifyPW
+									.getText()
+									.toString()
+									.trim()
+									.equals(editTextPW.getText().toString()
+											.trim())) {
 								showToast(getResources().getString(
 										R.string.message_no_match_pass));
-							} else if ("".equals(editTextVerifyPW.getText().toString())
-									|| "".equals(editTextPW.getText().toString()))
+							} else if ("".equals(editTextVerifyPW.getText()
+									.toString())
+									|| "".equals(editTextPW.getText()
+											.toString()))
 								showToast(getResources().getString(
 										R.string.message_no_match_pass));
 							else {
-								mMasterPassword = editTextVerifyPW.getText().toString();
+								mMasterPassword = editTextVerifyPW.getText()
+										.toString();
 								/* update this password to db */
 								// UserDataBase user = new
-								// UserDataBase(Contants.MASTER_PASSWORD_ID, mMasterPassword,
+								// UserDataBase(Contants.MASTER_PASSWORD_ID,
+								// mMasterPassword,
 								// "test");
 								// mDataBaseHandler.updateUser(user);
 
@@ -202,12 +229,13 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 								userDB.setPassword(mMasterPassword);
 								mIDxPWDataBaseHandler.updateUser(userDB);
 								/* return setting activity */
-								// Intent intent = new Intent(MasterPasswordChangeActivity.this,
+								// Intent intent = new
+								// Intent(MasterPasswordChangeActivity.this,
 								// SettingActivity.class);
 								// startActivity(intent);
 								finish();
 							}
-						
+
 							return;
 						}
 					});
@@ -224,5 +252,34 @@ public class MasterPasswordChangeActivity extends BaseActivity {
 		default:
 			return null;
 		}
+	}
+
+	public void onChangeKeyBoard(View v) {
+		EditText mEditTextMasterPW = editTextVerifyPW.isFocused() ? editTextVerifyPW
+				: editTextPW;
+		if (mEditTextMasterPW.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_TEXT);
+		} else {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_NUMBER);
+		}
+
+		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+				.getSystemService(INPUT_METHOD_SERVICE);
+		imeManager.showSoftInput(mEditTextMasterPW,
+				InputMethodManager.SHOW_IMPLICIT);
+		mEditTextMasterPW.setTransformationMethod(PasswordTransformationMethod
+				.getInstance());
+	}
+
+	@Override
+	public void show_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.GONE);
 	}
 }

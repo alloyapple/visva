@@ -29,7 +29,7 @@ public class BaseActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
+		getApp().setActivity(this);
 		if (mPrefApp.getIsPauseApp() && mPrefApp.getSecurityMode() == 1) {
 			mPrefApp.setPauseApp(false);
 			Intent i = new Intent(this, SecurityMasterPasswordActivity.class);
