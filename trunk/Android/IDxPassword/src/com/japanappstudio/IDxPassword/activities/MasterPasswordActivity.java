@@ -18,14 +18,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.ClipboardManager;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 @SuppressWarnings("deprecation")
 public class MasterPasswordActivity extends BaseActivity implements
-		OnClickListener {
+		OnClickListener,IParent {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
@@ -39,6 +42,7 @@ public class MasterPasswordActivity extends BaseActivity implements
 	private int mRemoveDataTimes;
 	private int mNumberAtemppt = 0;
 	private String mMasterPW;
+	public Button btn_switch_keyboard;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +57,20 @@ public class MasterPasswordActivity extends BaseActivity implements
 			startActivity(intent);
 			finish();
 		} else {
-			setContentView(R.layout.master_password);
-
+			setContentView(R.layout.master_password_2);
+			getWindow().setBackgroundDrawable(
+					getResources().getDrawable(R.drawable.setup_master_password));
 			mIdManagerPreference.setSecurityLoop(true);
 			// button
 			mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
 			mBtnDone.setOnClickListener(this);
 			mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
+			mEditTextMasterPW.setTransformationMethod(PasswordTransformationMethod.getInstance());
+			btn_switch_keyboard = (Button) findViewById(R.id.btn_switch_keyboard);
+			InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+					.getSystemService(INPUT_METHOD_SERVICE);
+			imeManager.showSoftInput(mEditTextMasterPW,
+					InputMethodManager.SHOW_IMPLICIT);
 			/* init database */
 			SQLiteDatabase.loadLibs(this);
 			// mDataBaseHandler = new DataBaseHandler(this);
@@ -67,6 +78,8 @@ public class MasterPasswordActivity extends BaseActivity implements
 			UserDB userTemp = mIDxPWDataBaseHandler
 					.getUser(Contants.MASTER_PASSWORD_ID);
 			mMasterPW = userTemp.getPassword();
+			MyRelativeLayout activityRootView = (MyRelativeLayout) findViewById(R.id.root_view);
+			activityRootView.setIParent(this);
 		}
 	}
 
@@ -83,7 +96,7 @@ public class MasterPasswordActivity extends BaseActivity implements
 		activity.startActivity(i);
 	}
 
-	@SuppressWarnings("deprecation")
+
 	@Override
 	public void onClick(View v) {
 		if (v == mBtnDone) {
@@ -100,7 +113,7 @@ public class MasterPasswordActivity extends BaseActivity implements
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+
 	private void checkRemoveDataValues() {
 		// TODO Auto-generated method stub
 		if (!mMasterPW.equals(mEditTextMasterPW.getText().toString())) {
@@ -128,7 +141,7 @@ public class MasterPasswordActivity extends BaseActivity implements
 	/**
 	 * remove data after type master password times limit to remove data values
 	 */
-	@SuppressWarnings("deprecation")
+
 	private void removeData() {
 		/* remove database */
 		File db = getDatabasePath(Contants.DATA_IDMANAGER_NAME);
@@ -291,6 +304,30 @@ public class MasterPasswordActivity extends BaseActivity implements
 		default:
 			return null;
 		}
+	}
+	public void onChangeKeyBoard(View v) {
+		if (mEditTextMasterPW.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_TEXT);
+		} else {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_NUMBER);
+		}
+
+		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+				.getSystemService(INPUT_METHOD_SERVICE);
+		imeManager.showSoftInput(mEditTextMasterPW,
+				InputMethodManager.SHOW_IMPLICIT);
+		mEditTextMasterPW.setTransformationMethod(PasswordTransformationMethod.getInstance());
+	}
+	@Override
+	public void show_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.GONE);
 	}
 
 }

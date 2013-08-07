@@ -2,13 +2,7 @@ package com.japanappstudio.IDxPassword.activities;
 
 import java.io.File;
 
-import com.japanappstudio.IDxPassword.contants.Contants;
-import com.japanappstudio.IDxPassword.database.IdManagerPreference;
-import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
-import com.japanappstudio.IDxPassword.idxpwdatabase.UserDB;
-
 import net.sqlcipher.database.SQLiteDatabase;
-import com.japanappstudio.IDxPassword.activities.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,8 +21,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.japanappstudio.IDxPassword.contants.Contants;
+import com.japanappstudio.IDxPassword.database.IdManagerPreference;
+import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
+import com.japanappstudio.IDxPassword.idxpwdatabase.UserDB;
+
 public class EnterOldPasswordActivity extends BaseActivity implements
-		OnClickListener {
+		OnClickListener, IParent {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
@@ -45,6 +45,7 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 	public static int FROM_SETTING = 0;
 	public static int FROM_ENTER_OLD_PASS = 1;
 	public static String KEY_MODE = "KEY_TO";
+	public Button btn_switch_keyboard;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +70,19 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 		mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
 		mBtnDone.setOnClickListener(this);
 		mEditTextMasterPW = (EditText) findViewById(R.id.editText_master_pw);
+		mEditTextMasterPW.setTransformationMethod(PasswordTransformationMethod.getInstance());
+		btn_switch_keyboard = (Button) findViewById(R.id.btn_switch_keyboard);
+		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+				.getSystemService(INPUT_METHOD_SERVICE);
+		imeManager.showSoftInput(mEditTextMasterPW,
+				InputMethodManager.SHOW_IMPLICIT);
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new IDxPWDataBaseHandler(this);
 		UserDB user = mDataBaseHandler.getUser(Contants.MASTER_PASSWORD_ID);
 		mMasterPW = user.getPassword();
+		MyRelativeLayout activityRootView = (MyRelativeLayout) findViewById(R.id.root_view);
+		activityRootView.setIParent(this);
 
 	}
 
@@ -293,16 +302,28 @@ public class EnterOldPasswordActivity extends BaseActivity implements
 	}
 
 	public void onChangeKeyBoard(View v) {
-//		if (mEditTextMasterPW.getInputType() != InputType.TYPE_NUMBER_VARIATION_PASSWORD) {
-//			mEditTextMasterPW
-//					.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//		} else{
-			mEditTextMasterPW
-					.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-//		}
+		if (mEditTextMasterPW.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_TEXT);
+		} else {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_NUMBER);
+		}
+
 		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
 				.getSystemService(INPUT_METHOD_SERVICE);
 		imeManager.showSoftInput(mEditTextMasterPW,
-				InputMethodManager.SHOW_FORCED);
+				InputMethodManager.SHOW_IMPLICIT);
+		mEditTextMasterPW.setTransformationMethod(PasswordTransformationMethod.getInstance());
+	}
+
+	@Override
+	public void show_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.GONE);
 	}
 }

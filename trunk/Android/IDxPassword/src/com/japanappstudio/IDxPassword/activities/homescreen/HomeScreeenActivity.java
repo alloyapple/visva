@@ -84,7 +84,6 @@ import com.japanappstudio.IDxPassword.activities.PasswordGeneratorActivity;
 import com.japanappstudio.IDxPassword.activities.R;
 import com.japanappstudio.IDxPassword.activities.RegisterEmailActivity;
 import com.japanappstudio.IDxPassword.activities.SelectFileActivity;
-import com.japanappstudio.IDxPassword.activities.SettingActivity;
 import com.japanappstudio.IDxPassword.activities.SettingURLActivity;
 import com.japanappstudio.IDxPassword.activities.SetupRemoveDataActivity;
 import com.japanappstudio.IDxPassword.activities.SetupSecurityModeActivity;
@@ -250,6 +249,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private ImageView mImgGGDrive;
 	private ImageView mImgDropbox;
 	public static String sercurity_mode;
+	private String modes[] = { "Off", "", "1 ", "3 ", "5 ", "10 " };
 	private TextView textModeSercurity;
 
 	private static final String TAG = "BillingService";
@@ -276,7 +276,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	private Handler mHandler = new Handler() {
 		@SuppressWarnings("unchecked")
 		public void handleMessage(android.os.Message msg) {
-			Log.e("dfkhdf", "dfdhf "+msg.arg1);
+			Log.e("dfkhdf", "dfdhf " + msg.arg1);
 			if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_FAILED)
 				showDialog(Contants.DIALOG_MESSAGE_SYNC_FAILED);
 			else if (msg.arg1 == Contants.DIALOG_MESSAGE_SYNC_SUCCESS)
@@ -297,11 +297,12 @@ public class HomeScreeenActivity extends BaseActivity implements
 					mListDataChoice[i] = mFileList.get(i);
 					mListDataChoiceTemp[i] = mFileList.get(i);
 				}
-				
-				Intent intent = new Intent(HomeScreeenActivity.this, SelectFileActivity.class);
+
+				Intent intent = new Intent(HomeScreeenActivity.this,
+						SelectFileActivity.class);
 				intent.putExtra("listFile", mFileList);
 				startActivity(intent);
-				
+
 				if (mListDataChoiceTemp.length > 0)
 					showDialog(Contants.DIALOG_MESSAGE_CHOICE_DATA_READ);
 			} else if (msg.arg1 == Contants.DIALOG_MESSAGE_READ_DATA_DUPLICATED_SDCARD) {
@@ -782,10 +783,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 			if (!isEdit)
 				CopyItemActivity.startActivity(HomeScreeenActivity.this,
 						mIdListItems.get(arg2).geteId());
-			else{
+			else {
 				modeBundle = 0;
-				currentElementId = mIdListItems.get(arg2)
-						.geteId();
+				currentElementId = mIdListItems.get(arg2).geteId();
 				mPref.setCurrentFolderId(currentFolderId);
 				slidePanelEditIdxPass();
 			}
@@ -1573,6 +1573,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
 							finish();
+							// finishApp();
 							return;
 						}
 					});
@@ -2021,6 +2022,8 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 	public void onResume() {
 		super.onResume();
+		startService(new Intent(this, BillingService.class));
+		BillingHelper.setCompletedHandler(mTransactionHandler);
 		if (!mPref.getIsPaymentNoAd())
 			adview.setVisibility(View.VISIBLE);
 		else
@@ -2045,9 +2048,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 
 		// resume method of edit idxpassword activity
 		onResumeEditIdxPass();
-		
-		/*show dialog sync cloud success*/
-		if(mPref.isCloudSettingSuccess()){
+
+		/* show dialog sync cloud success */
+		if (mPref.isCloudSettingSuccess()) {
 			mPref.setCloudSettingSuccess(false);
 			showDialog(Contants.DIALOG_MESSAGE_SYNC_SUCCESS);
 		}
@@ -2122,7 +2125,9 @@ public class HomeScreeenActivity extends BaseActivity implements
 		case KeyEvent.KEYCODE_BACK:
 			if (!isPanelVisiable) {
 				if (mPref.getSecurityMode() == Contants.KEY_OFF) {
+//					getApp().stop();
 					finish();
+//					finishApp();
 				} else
 					showDialog(Contants.DIALOG_EXIT);
 
@@ -2146,14 +2151,22 @@ public class HomeScreeenActivity extends BaseActivity implements
 		getApp().touch();
 	}
 
+	public void finishApp() {
+		getApp().stop();
+		BillingHelper.stopService();
+		mPref.setEditMode(false);
+		android.os.Process.killProcess(android.os.Process.myPid());
+	}
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		getApp().stop();
-		super.onDestroy();
 		mPref.setEditMode(false);
-		android.os.Process.killProcess(android.os.Process.myPid());
+		super.onDestroy();
 		BillingHelper.stopService();
+		android.os.Process.killProcess(android.os.Process.myPid());
+
 	}
 
 	public Drawable getImageDataBase(byte[] data) {
@@ -2169,19 +2182,20 @@ public class HomeScreeenActivity extends BaseActivity implements
 	// // method of setting
 
 	private void onCreateSetting() {
+		modes[0] = getResources().getString(R.string.text_security_off);
+		modes[1] = getResources().getString(R.string.text_security_immediately);
+		for (int i = 2; i < modes.length; i++) {
+			modes[i] = modes[i] + getResources().getString(R.string.text_min);
+		}
 		initDatabase();
 		textModeSercurity = (TextView) findViewById(R.id.id_text_mode);
 		// lnSetting = (LinearLayout) findViewById(R.id.ln_setting);
 		mPref = IdManagerPreference.getInstance(this);
 		initAdmodSetting();
-		startService(new Intent(this, BillingService.class));
-		BillingHelper.setCompletedHandler(mTransactionHandler);
 
 		mImgDropbox = (ImageView) findViewById(R.id.img_dropbox_logo);
 		mImgGGDrive = (ImageView) findViewById(R.id.img_gg_drive_logo);
-		if (sercurity_mode == null)
-			sercurity_mode = getResources().getString(
-					R.string.text_security_off);
+		sercurity_mode = modes[mPref.getSecurityMode()];
 		Display d = getWindowManager().getDefaultDisplay();
 		setWidthScreen(d.getWidth());
 
@@ -2220,7 +2234,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 	}
 
 	public static void startActivity(Activity activity, int valueExtra) {
-		Intent i = new Intent(activity, SettingActivity.class);
+		Intent i = new Intent(activity, HomeScreeenActivity.class);
 		i.putExtra("modeBundleSetting", valueExtra);
 		activity.startActivity(i);
 	}
@@ -3034,7 +3048,7 @@ public class HomeScreeenActivity extends BaseActivity implements
 		mEditTextNote.setText("");
 		mEditTextUrlId.setText("");
 		mCheckBoxLike.setChecked(false);
-		isButtonPress=false;
+		isButtonPress = false;
 	}
 
 	public void updateItems(ArrayList<Item> mItems) {

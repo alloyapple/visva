@@ -23,11 +23,26 @@ public class ControlApplication extends Application {
 		// setTimerDown(true);
 		mPref = IdManagerPreference.getInstance(this);
 		Log.d(TAG, "Starting application" + this.toString());
-		if (mPref.getSecurityMode() == 0) {
-			waiter = new Waiter(Long.MAX_VALUE, this);
-		} else {
-			waiter = new Waiter(mPref.getSecurityMode() * 60 * 1000, this);
-		} // 15 mins
+		waiter = new Waiter(Long.MAX_VALUE, this);
+		int sercurity_mode=mPref.getSecurityMode();
+		if (sercurity_mode == 0) {
+			waiter.setPeriod(Long.MAX_VALUE);
+		} else if (sercurity_mode == 1) {
+			waiter.setPeriod(Long.MAX_VALUE);
+		} else if (sercurity_mode == 2) {
+			waiter.setPeriod(1 * 5 * 1000);
+		} else if (sercurity_mode == 3) {
+			waiter.setPeriod(3 * 60 * 1000);
+		} else if (sercurity_mode == 4) {
+			waiter.setPeriod(5 * 60 * 1000);
+		} else if (sercurity_mode == 5) {
+			waiter.setPeriod(10 * 60 * 1000);
+		}
+//		if (mPref.getSecurityMode() == 0) {
+//			waiter = new Waiter(Long.MAX_VALUE, this);
+//		} else {
+//			waiter = new Waiter(mPref.getSecurityMode() * 60 * 1000, this);
+//		} // 15 mins
 		waiter.start();
 	}
 
@@ -50,7 +65,6 @@ public class ControlApplication extends Application {
 	}
 
 	public void startMasterPass() {
-
 		Intent i = new Intent(activity, SecurityMasterPasswordActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(i);

@@ -9,6 +9,9 @@ import com.japanappstudio.IDxPassword.idxpwdatabase.IDxPWDataBaseHandler;
 import com.japanappstudio.IDxPassword.idxpwdatabase.UserDB;
 
 import net.sqlcipher.database.SQLiteDatabase;
+
+import com.japanappstudio.IDxPassword.activities.IParent;
+import com.japanappstudio.IDxPassword.activities.MyRelativeLayout;
 import com.japanappstudio.IDxPassword.activities.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -20,16 +23,18 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class SecurityMasterPasswordActivity extends Activity implements
-		OnClickListener {
+		OnClickListener,IParent {
 
 	// =========================Control Define =====================
 	private Button mBtnDone;
@@ -41,17 +46,19 @@ public class SecurityMasterPasswordActivity extends Activity implements
 	// ==========================Variable Define ===================
 	private int mRemoveDataTimes;
 	private int mNumberAtemppt = 0;
-	private String mMasterPW;
-	private int mSecurityValues;
+	private String mMasterPW="";
 	private boolean isKeyBoardNumber = false;
-
+	public Button btn_switch_keyboard;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// init idmanager preference
 		mIdManagerPreference = IdManagerPreference.getInstance(this);
 
-		setContentView(R.layout.page_security_masterpw);
+		setContentView(R.layout.master_password_2);
+		getWindow().setBackgroundDrawable(
+				getResources().getDrawable(R.drawable.setup_master_password));
+		/* init service */
 		// button
 		mBtnDone = (Button) findViewById(R.id.btn_confirm_master_pw);
 		mBtnDone.setOnClickListener(this);
@@ -80,7 +87,15 @@ public class SecurityMasterPasswordActivity extends Activity implements
 				}
 			}
 		});
-
+//		mEditTextMasterPW.setTransformationMethod(PasswordTransformationMethod.getInstance());
+		btn_switch_keyboard = (Button) findViewById(R.id.btn_switch_keyboard);
+//		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+//				.getSystemService(INPUT_METHOD_SERVICE);
+//		imeManager.showSoftInput(mEditTextMasterPW,
+//				InputMethodManager.SHOW_IMPLICIT);
+		MyRelativeLayout activityRootView = (MyRelativeLayout) findViewById(R.id.root_view);
+		activityRootView.setIParent(this);
+		
 		/* init database */
 		SQLiteDatabase.loadLibs(this);
 		mDataBaseHandler = new IDxPWDataBaseHandler(this);
@@ -88,8 +103,7 @@ public class SecurityMasterPasswordActivity extends Activity implements
 				.getUser(Contants.MASTER_PASSWORD_ID);
 		mMasterPW = user.getPassword();
 
-		/* init service */
-
+		
 	}
 
 	public void confirmMaster(View v) {
@@ -291,5 +305,29 @@ public class SecurityMasterPasswordActivity extends Activity implements
 	}
 	public ControlApplication getApp() {
 		return (ControlApplication) this.getApplication();
+	}
+	public void onChangeKeyBoard(View v) {
+		if (mEditTextMasterPW.getInputType() == InputType.TYPE_CLASS_NUMBER) {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_TEXT);
+		} else {
+			mEditTextMasterPW.setInputType(InputType.TYPE_CLASS_NUMBER);
+		}
+
+		InputMethodManager imeManager = (InputMethodManager) getApplicationContext()
+				.getSystemService(INPUT_METHOD_SERVICE);
+		imeManager.showSoftInput(mEditTextMasterPW,
+				InputMethodManager.SHOW_IMPLICIT);
+		mEditTextMasterPW.setTransformationMethod(PasswordTransformationMethod.getInstance());
+	}
+	@Override
+	public void show_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void hide_keyboard() {
+		// TODO Auto-generated method stub
+		btn_switch_keyboard.setVisibility(View.GONE);
 	}
 }
