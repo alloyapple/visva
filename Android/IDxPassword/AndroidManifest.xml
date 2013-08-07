@@ -26,7 +26,7 @@
 
     <application
         android:name="com.japanappstudio.IDxPassword.idletime.ControlApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -43,7 +43,9 @@
 
         <service android:name="com.idmanager.BillingService" />
 
-        <receiver android:name="com.idmanager.BillingReceiver" >
+        <receiver
+            android:name="com.idmanager.BillingReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
                 <action android:name="com.android.vending.billing.RESPONSE_CODE" />
@@ -68,12 +70,11 @@
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.EnterOldPasswordActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" >
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.MasterPasswordActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysVisible" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.japanappstudio.IDxPassword.activities.PasswordGeneratorActivity"
