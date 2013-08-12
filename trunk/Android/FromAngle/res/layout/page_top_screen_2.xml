@@ -148,6 +148,7 @@
                     style="@style/layout_action" >
 
                     <LinearLayout
+                        android:layout_marginTop="4dp"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -162,10 +163,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/message1"
-                            android:textSize="14sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <ImageView
+                        android:layout_marginTop="4dp"
                         android:id="@+id/imgMessageStatus"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -177,6 +179,7 @@
                     style="@style/layout_action" >
 
                     <LinearLayout
+                        android:layout_marginTop="4dp"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -192,13 +195,14 @@
                             android:layout_height="wrap_content"
                             android:lines="1"
                             android:text="@string/message2"
-                            android:textSize="13sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <ImageView
                         android:id="@+id/imgMessageSettingStatus"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:src="@drawable/bar_grey" />
                 </LinearLayout>
 
@@ -207,6 +211,7 @@
                     style="@style/layout_action" >
 
                     <LinearLayout
+                        android:layout_marginTop="4dp"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -222,10 +227,11 @@
                             android:layout_height="wrap_content"
                             android:lines="1"
                             android:text="@string/safetyvalidation3"
-                            android:textSize="14sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <ImageView
+                        android:layout_marginTop="4dp"
                         android:id="@+id/imgValidateStatus"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"

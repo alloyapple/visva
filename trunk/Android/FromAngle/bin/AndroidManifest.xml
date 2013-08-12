@@ -6,7 +6,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,7 @@
         <activity
             android:name="com.lemon.fromangle.SplashActivity"
             android:label="@string/app_name"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,6 +69,8 @@
         </activity>
 
         <service android:name="com.lemon.fromangle.service.MessageFollowService" >
+        </service>
+        <service android:name="com.lemon.fromangle.service.AlarmFCService" >
         </service>
 
         <receiver android:name="com.lemon.fromangle.service.AlarmManagerBroadcastReceiver" >

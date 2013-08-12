@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:background="@drawable/bg_validation"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="5dp" >
 
     <LinearLayout
         android:id="@+id/text_name"
@@ -49,13 +49,11 @@
             android:id="@+id/lblGuideOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="15dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:text="@string/please_reply_by_press_ok"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="17sp"
             android:textColor="@color/black" />
 
         <Button
@@ -63,6 +61,7 @@
             android:layout_width="160dp"
             android:layout_height="75dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:background="@drawable/ok_btn"
             android:gravity="center_horizontal"
             android:onClick="onOKClick" />
@@ -72,12 +71,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="25dp"
             android:text="@string/please_reply_by_press_close"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="15sp"
             android:textColor="@color/black" />
     </LinearLayout>
 
