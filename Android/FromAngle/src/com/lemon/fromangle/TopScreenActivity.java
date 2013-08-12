@@ -289,14 +289,14 @@ public class TopScreenActivity extends PaymentActivity {
 						lblStatusFinalValidate.setText(getString(R.string.ok));
 						lblStatusFinalValidate.setTextColor(Color.WHITE);
 						lblStatusNextValidate.setText("---");
-						lblStatusNextValidate.setTextColor(Color.BLACK);
+						lblStatusNextValidate.setTextColor(Color.WHITE);
 					} else if (modeValidation == 1) {
 						imgValidateStatus.setImageResource(R.drawable.bar_red);
 						imgTopStatus.setImageResource(R.drawable.bg_safety);
 						lblStatusFinalValidate.setText(getString(R.string.ng));
 						lblStatusFinalValidate.setTextColor(Color.RED);
 						lblStatusNextValidate.setText("---");
-						lblStatusNextValidate.setTextColor(Color.BLACK);
+						lblStatusNextValidate.setTextColor(Color.WHITE);
 					} else if (modeValidation == 2) {
 						imgValidateStatus.setImageResource(R.drawable.bar_grey);
 						imgTopStatus.setImageResource(R.drawable.bg_stop);
@@ -328,9 +328,9 @@ public class TopScreenActivity extends PaymentActivity {
 							.setImageResource(R.drawable.bar_grey);
 					imgTopStatus.setImageResource(R.drawable.bg_stop);
 					lblStatusFinalValidate.setText("---");
-					lblStatusFinalValidate.setTextColor(Color.BLACK);
+					lblStatusFinalValidate.setTextColor(Color.WHITE);
 					lblStatusNextValidate.setText("---");
-					lblStatusNextValidate.setTextColor(Color.BLACK);
+					lblStatusNextValidate.setTextColor(Color.WHITE);
 				}
 
 			} else {
@@ -338,9 +338,9 @@ public class TopScreenActivity extends PaymentActivity {
 				imgTopStatus.setImageResource(R.drawable.bg_stop);
 				imgValidateStatus.setImageResource(R.drawable.bar_grey);
 				lblStatusFinalValidate.setText("---");
-				lblStatusFinalValidate.setTextColor(Color.BLACK);
+				lblStatusFinalValidate.setTextColor(Color.WHITE);
 				lblStatusNextValidate.setText("---");
-				lblStatusNextValidate.setTextColor(Color.BLACK);
+				lblStatusNextValidate.setTextColor(Color.WHITE);
 			}
 		} else {
 			imgValidateStatus.setImageResource(R.drawable.bar_grey);
@@ -349,9 +349,9 @@ public class TopScreenActivity extends PaymentActivity {
 			imgTopStatus.setImageResource(R.drawable.bg_stop);
 			imgValidateStatus.setImageResource(R.drawable.bar_grey);
 			lblStatusFinalValidate.setText("---");
-			lblStatusFinalValidate.setTextColor(Color.BLACK);
+			lblStatusFinalValidate.setTextColor(Color.WHITE);
 			lblStatusNextValidate.setText("---");
-			lblStatusNextValidate.setTextColor(Color.BLACK);
+			lblStatusNextValidate.setTextColor(Color.WHITE);
 		}
 		super.onResume();
 	}
