@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A25843817C1B94000D5055B /* libwebsockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25843717C1B94000D5055B /* libwebsockets.a */; };
+		3A25843B17C1BA7D00D5055B /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25843917C1BA7D00D5055B /* libcurl.a */; };
+		3A25843C17C1BA7D00D5055B /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25843A17C1BA7D00D5055B /* libwebp.a */; };
 		3A722FE617BF604200F3693F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A722FE517BF604200F3693F /* QuartzCore.framework */; };
 		3A722FE817BF604200F3693F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A722FE717BF604200F3693F /* OpenGLES.framework */; };
 		3A722FEA17BF604200F3693F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A722FE917BF604200F3693F /* OpenAL.framework */; };
@@ -118,8 +121,6 @@
 		3A72314417BF604700F3693F /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3A72314317BF604700F3693F /* EAGLView.mm */; };
 		3A72314917BF604700F3693F /* AccelerometerSimulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A72314817BF604700F3693F /* AccelerometerSimulation.m */; };
 		3A72314B17BF604700F3693F /* platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72314A17BF604700F3693F /* platform.cpp */; };
-		3A72315B17BF604800F3693F /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A72315A17BF604800F3693F /* libcurl.a */; };
-		3A72315D17BF604800F3693F /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A72315C17BF604800F3693F /* libwebp.a */; };
 		3A72316417BF604800F3693F /* CCScriptSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72316317BF604800F3693F /* CCScriptSupport.cpp */; };
 		3A72316817BF604800F3693F /* CCGLProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72316717BF604800F3693F /* CCGLProgram.cpp */; };
 		3A72316B17BF604800F3693F /* ccGLStateCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72316A17BF604800F3693F /* ccGLStateCache.cpp */; };
@@ -277,12 +278,14 @@
 		3A72337717BF605100F3693F /* cpSpatialIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A72337617BF605100F3693F /* cpSpatialIndex.c */; };
 		3A72337917BF605100F3693F /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A72337817BF605100F3693F /* cpSweep1D.c */; };
 		3A72337B17BF605100F3693F /* cpVect.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A72337A17BF605100F3693F /* cpVect.c */; };
-		3A72338317BF605100F3693F /* libwebsockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A72338217BF605100F3693F /* libwebsockets.a */; };
 		3A72338917BF605100F3693F /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72338817BF605100F3693F /* AppDelegate.cpp */; };
 		3A72338C17BF605100F3693F /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72338B17BF605100F3693F /* HelloWorldScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A25843717C1B94000D5055B /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebsockets.a; path = libs/libwebsockets/ios/lib/libwebsockets.a; sourceTree = "<group>"; };
+		3A25843917C1BA7D00D5055B /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = libs/cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
+		3A25843A17C1BA7D00D5055B /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = libs/cocos2dx/platform/third_party/ios/libraries/libwebp.a; sourceTree = "<group>"; };
 		3A722FE217BF604200F3693F /* Pikachu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pikachu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A722FE517BF604200F3693F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3A722FE717BF604200F3693F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -516,8 +519,6 @@
 		3A72315617BF604700F3693F /* multi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = multi.h; path = libs/cocos2dx/platform/third_party/ios/curl/multi.h; sourceTree = "<group>"; };
 		3A72315717BF604700F3693F /* stdcheaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stdcheaders.h; path = libs/cocos2dx/platform/third_party/ios/curl/stdcheaders.h; sourceTree = "<group>"; };
 		3A72315817BF604700F3693F /* typecheck-gcc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "typecheck-gcc.h"; path = "libs/cocos2dx/platform/third_party/ios/curl/typecheck-gcc.h"; sourceTree = "<group>"; };
-		3A72315A17BF604800F3693F /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = libs/cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
-		3A72315C17BF604800F3693F /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = libs/cocos2dx/platform/third_party/ios/libraries/libwebp.a; sourceTree = "<group>"; };
 		3A72315F17BF604800F3693F /* decode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = decode.h; path = libs/cocos2dx/platform/third_party/ios/webp/decode.h; sourceTree = "<group>"; };
 		3A72316017BF604800F3693F /* encode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = encode.h; path = libs/cocos2dx/platform/third_party/ios/webp/encode.h; sourceTree = "<group>"; };
 		3A72316117BF604800F3693F /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = types.h; path = libs/cocos2dx/platform/third_party/ios/webp/types.h; sourceTree = "<group>"; };
@@ -867,7 +868,6 @@
 		3A72337A17BF605100F3693F /* cpVect.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = cpVect.c; path = libs/chipmunk/src/cpVect.c; sourceTree = "<group>"; };
 		3A72337C17BF605100F3693F /* prime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = prime.h; path = libs/chipmunk/src/prime.h; sourceTree = "<group>"; };
 		3A72338017BF605100F3693F /* libwebsockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libwebsockets.h; path = libs/libwebsockets/ios/include/libwebsockets.h; sourceTree = "<group>"; };
-		3A72338217BF605100F3693F /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebsockets.a; path = libs/libwebsockets/ios/lib/libwebsockets.a; sourceTree = "<group>"; };
 		3A72338517BF605100F3693F /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		3A72338717BF605100F3693F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		3A72338817BF605100F3693F /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
@@ -888,9 +888,9 @@
 				3A722FF017BF604200F3693F /* UIKit.framework in Frameworks */,
 				3A722FF217BF604200F3693F /* Foundation.framework in Frameworks */,
 				3A722FF417BF604200F3693F /* CoreGraphics.framework in Frameworks */,
-				3A72315B17BF604800F3693F /* libcurl.a in Frameworks */,
-				3A72315D17BF604800F3693F /* libwebp.a in Frameworks */,
-				3A72338317BF605100F3693F /* libwebsockets.a in Frameworks */,
+				3A25843817C1B94000D5055B /* libwebsockets.a in Frameworks */,
+				3A25843B17C1BA7D00D5055B /* libcurl.a in Frameworks */,
+				3A25843C17C1BA7D00D5055B /* libwebp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1403,8 +1403,8 @@
 		3A72315917BF604800F3693F /* libraries */ = {
 			isa = PBXGroup;
 			children = (
-				3A72315A17BF604800F3693F /* libcurl.a */,
-				3A72315C17BF604800F3693F /* libwebp.a */,
+				3A25843917C1BA7D00D5055B /* libcurl.a */,
+				3A25843A17C1BA7D00D5055B /* libwebp.a */,
 			);
 			name = libraries;
 			sourceTree = "<group>";
@@ -2077,7 +2077,7 @@
 		3A72338117BF605100F3693F /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				3A72338217BF605100F3693F /* libwebsockets.a */,
+				3A25843717C1B94000D5055B /* libwebsockets.a */,
 			);
 			name = lib;
 			sourceTree = "<group>";
@@ -2566,6 +2566,7 @@
 				3A72339117BF605100F3693F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
