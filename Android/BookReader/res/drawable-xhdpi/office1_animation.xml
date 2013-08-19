@@ -1,0 +1,26 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true" >
+
+    <item
+        android:drawable="@drawable/office1"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/office1_60"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/office1_120"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/office1_180"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/office1_240"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/office1_300"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/office1_checked"
+        android:duration="75"/>
+
+</animation-list>

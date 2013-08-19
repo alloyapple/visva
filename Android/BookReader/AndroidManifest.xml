@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.samsung.svmc.pdfreader"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_app"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault.Light" >
+        <activity
+            android:name="com.visva.android.bookreader.pdfreader.SplashScreen"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="com.visva.android.bookreader.pdfreader.PDFReader" >
+        </activity>
+        
+        <activity android:name="com.visva.android.bookreader.pdfreader.FileExplorer" >
+        </activity>
+        
+        <activity
+            android:name="com.visva.android.bookreader.pdfreader.BrightnessSettings"
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        
+        <activity android:name="com.visva.android.bookreader.io.FileSettings" >
+        </activity>
+        
+        <activity android:name="com.qoppa.samples.viewer.SamplePDFViewer" >
+        </activity>
+        
+        <activity
+            android:name="com.visva.android.bookreader.pdfreader.ConfigurationSettings"
+            android:theme="@style/Theme.DialogActivity" >
+        </activity>
+        
+		<activity android:name="com.visva.android.bookreader.pdfreader.FaceDetectionDemo">
+		</activity>
+		
+        <service android:name="com.visva.android.bookreader.feature.BrightnessService" >
+        </service>
+        <service android:name="com.visva.android.bookreader.pdfreader.HandleAdvanceAutoBrightnessModeThread" >
+        </service>
+
+        <receiver android:name="com.visva.android.bookreader.feature.FaceDetectionThread" >
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_OFF" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
