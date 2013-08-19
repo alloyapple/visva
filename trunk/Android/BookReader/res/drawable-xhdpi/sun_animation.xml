@@ -1,0 +1,26 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true" >
+
+    <item
+        android:drawable="@drawable/sun"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/sun_60"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/sun_120"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/sun_180"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/sun_240"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/sun_300"
+        android:duration="75"/>
+    <item
+        android:drawable="@drawable/sun_checked"
+        android:duration="75"/>
+
+</animation-list>

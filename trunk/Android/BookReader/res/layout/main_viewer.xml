@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/applicationframe"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFEEEEEE" >
+
+    <FrameLayout
+        android:id="@+id/pdfViewerFrameLayout"
+        android:layout_width="1dp"
+        android:layout_height="1dp" >
+    </FrameLayout>
+
+    <com.qoppa.samples.viewer.QScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#FFEEEEEE" >
+
+        <LinearLayout
+            android:id="@+id/pagepane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFEEEEEE"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </com.qoppa.samples.viewer.QScrollView>
+
+</FrameLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_menu_settings"
+        android:title="Settings"/>
+    <item
+        android:id="@+id/menuFaceDetectionDemo"
+        android:icon="@drawable/ic_menu_star"
+        android:title="Face Detection Demo"
+        android:visible="false"/>
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:id="@+id/menuItemAutoScroll"
+            android:icon="@drawable/ic_menu_star"
+            android:checked="false"
+            android:checkable="true"
+            android:title="Auto Scroll"
+            android:visible="false">
+        </item>
+    </group>
+
+</menu>
