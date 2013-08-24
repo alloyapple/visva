@@ -32,32 +32,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity android:name="com.visva.android.bookreader.pdfreader.PDFReader" >
         </activity>
-        
         <activity android:name="com.visva.android.bookreader.pdfreader.FileExplorer" >
         </activity>
-        
         <activity
             android:name="com.visva.android.bookreader.pdfreader.BrightnessSettings"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
-        
         <activity android:name="com.visva.android.bookreader.io.FileSettings" >
         </activity>
-        
         <activity android:name="com.qoppa.samples.viewer.SamplePDFViewer" >
         </activity>
-        
         <activity
             android:name="com.visva.android.bookreader.pdfreader.ConfigurationSettings"
             android:theme="@style/Theme.DialogActivity" >
         </activity>
-        
-		<activity android:name="com.visva.android.bookreader.pdfreader.FaceDetectionDemo">
-		</activity>
-		
+        <activity android:name="com.visva.android.bookreader.pdfreader.FaceDetectionDemo" >
+        </activity>
+        <activity
+            android:name="com.visva.android.bookreader.epub.BookViewActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="BookView"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.visva.android.bookreader.epub.MagazineActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="Magazine"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+
         <service android:name="com.visva.android.bookreader.feature.BrightnessService" >
         </service>
         <service android:name="com.visva.android.bookreader.pdfreader.HandleAdvanceAutoBrightnessModeThread" >
