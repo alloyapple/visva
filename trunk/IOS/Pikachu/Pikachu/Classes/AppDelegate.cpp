@@ -10,7 +10,6 @@
 
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
-#include "HelloWorldScene.h"
 #include "MenuLayer.h"
 
 USING_NS_CC;

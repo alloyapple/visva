@@ -281,7 +281,6 @@
 		3A72337917BF605100F3693F /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A72337817BF605100F3693F /* cpSweep1D.c */; };
 		3A72337B17BF605100F3693F /* cpVect.c in Sources */ = {isa = PBXBuildFile; fileRef = 3A72337A17BF605100F3693F /* cpVect.c */; };
 		3A72338917BF605100F3693F /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72338817BF605100F3693F /* AppDelegate.cpp */; };
-		3A72338C17BF605100F3693F /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A72338B17BF605100F3693F /* HelloWorldScene.cpp */; };
 		3A8E650C17C6680500DC43AE /* add_time.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A8E645917C6680300DC43AE /* add_time.png */; };
 		3A8E650D17C6680500DC43AE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A8E645A17C6680300DC43AE /* background.png */; };
 		3A8E650E17C6680500DC43AE /* box_footer.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A8E645B17C6680300DC43AE /* box_footer.png */; };
@@ -1034,8 +1033,6 @@
 		3A72338517BF605100F3693F /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		3A72338717BF605100F3693F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		3A72338817BF605100F3693F /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
-		3A72338A17BF605100F3693F /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
-		3A72338B17BF605100F3693F /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
 		3A8E645917C6680300DC43AE /* add_time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add_time.png; path = Resources/add_time.png; sourceTree = "<group>"; };
 		3A8E645A17C6680300DC43AE /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Resources/background.png; sourceTree = "<group>"; };
 		3A8E645B17C6680300DC43AE /* box_footer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = box_footer.png; path = Resources/box_footer.png; sourceTree = "<group>"; };
@@ -2573,8 +2570,6 @@
 			children = (
 				3A72338717BF605100F3693F /* AppDelegate.h */,
 				3A72338817BF605100F3693F /* AppDelegate.cpp */,
-				3A72338A17BF605100F3693F /* HelloWorldScene.h */,
-				3A72338B17BF605100F3693F /* HelloWorldScene.cpp */,
 				3A8E65BF17C6698E00DC43AE /* MenuLayer.h */,
 				3A8E65BE17C6698E00DC43AE /* MenuLayer.cpp */,
 				3AAEA48517C72D9200151823 /* Common.h */,
@@ -3063,7 +3058,6 @@
 				3A72337917BF605100F3693F /* cpSweep1D.c in Sources */,
 				3A72337B17BF605100F3693F /* cpVect.c in Sources */,
 				3A72338917BF605100F3693F /* AppDelegate.cpp in Sources */,
-				3A72338C17BF605100F3693F /* HelloWorldScene.cpp in Sources */,
 				3A8E65C017C6698E00DC43AE /* MenuLayer.cpp in Sources */,
 				3A678FED17C9AA8200F71F4C /* CommonFunctions.cpp in Sources */,
 				3A678FF017C9AEB600F71F4C /* LevelLayer.cpp in Sources */,
