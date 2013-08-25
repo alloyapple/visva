@@ -10,6 +10,8 @@
 		3A25843817C1B94000D5055B /* libwebsockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25843717C1B94000D5055B /* libwebsockets.a */; };
 		3A25843B17C1BA7D00D5055B /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25843917C1BA7D00D5055B /* libcurl.a */; };
 		3A25843C17C1BA7D00D5055B /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A25843A17C1BA7D00D5055B /* libwebp.a */; };
+		3A678FED17C9AA8200F71F4C /* CommonFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A678FEB17C9AA8200F71F4C /* CommonFunctions.cpp */; };
+		3A678FF017C9AEB600F71F4C /* LevelLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A678FEE17C9AEB600F71F4C /* LevelLayer.cpp */; };
 		3A722FE617BF604200F3693F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A722FE517BF604200F3693F /* QuartzCore.framework */; };
 		3A722FE817BF604200F3693F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A722FE717BF604200F3693F /* OpenGLES.framework */; };
 		3A722FEA17BF604200F3693F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A722FE917BF604200F3693F /* OpenAL.framework */; };
@@ -465,6 +467,10 @@
 		3A25843717C1B94000D5055B /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebsockets.a; path = libs/libwebsockets/ios/lib/libwebsockets.a; sourceTree = "<group>"; };
 		3A25843917C1BA7D00D5055B /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = libs/cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		3A25843A17C1BA7D00D5055B /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = libs/cocos2dx/platform/third_party/ios/libraries/libwebp.a; sourceTree = "<group>"; };
+		3A678FEB17C9AA8200F71F4C /* CommonFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CommonFunctions.cpp; path = Classes/CommonFunctions.cpp; sourceTree = "<group>"; };
+		3A678FEC17C9AA8200F71F4C /* CommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonFunctions.h; path = Classes/CommonFunctions.h; sourceTree = "<group>"; };
+		3A678FEE17C9AEB600F71F4C /* LevelLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelLayer.cpp; path = Classes/LevelLayer.cpp; sourceTree = "<group>"; };
+		3A678FEF17C9AEB600F71F4C /* LevelLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelLayer.h; path = Classes/LevelLayer.h; sourceTree = "<group>"; };
 		3A722FE217BF604200F3693F /* Pikachu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pikachu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A722FE517BF604200F3693F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3A722FE717BF604200F3693F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1232,6 +1238,7 @@
 		3A8E650B17C6680500DC43AE /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = win.wav; path = Resources/win.wav; sourceTree = "<group>"; };
 		3A8E65BE17C6698E00DC43AE /* MenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuLayer.cpp; path = Classes/MenuLayer.cpp; sourceTree = "<group>"; };
 		3A8E65BF17C6698E00DC43AE /* MenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuLayer.h; path = Classes/MenuLayer.h; sourceTree = "<group>"; };
+		3AAEA48517C72D9200151823 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Common.h; path = Classes/Common.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2615,6 +2622,11 @@
 				3A72338B17BF605100F3693F /* HelloWorldScene.cpp */,
 				3A8E65BF17C6698E00DC43AE /* MenuLayer.h */,
 				3A8E65BE17C6698E00DC43AE /* MenuLayer.cpp */,
+				3AAEA48517C72D9200151823 /* Common.h */,
+				3A678FEB17C9AA8200F71F4C /* CommonFunctions.cpp */,
+				3A678FEC17C9AA8200F71F4C /* CommonFunctions.h */,
+				3A678FEE17C9AEB600F71F4C /* LevelLayer.cpp */,
+				3A678FEF17C9AEB600F71F4C /* LevelLayer.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -3150,6 +3162,8 @@
 				3A72338917BF605100F3693F /* AppDelegate.cpp in Sources */,
 				3A72338C17BF605100F3693F /* HelloWorldScene.cpp in Sources */,
 				3A8E65C017C6698E00DC43AE /* MenuLayer.cpp in Sources */,
+				3A678FED17C9AA8200F71F4C /* CommonFunctions.cpp in Sources */,
+				3A678FF017C9AEB600F71F4C /* LevelLayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3160,6 +3174,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3183,6 +3198,7 @@
 					"\"$(PROJECT_NAME)/libs/cocos2dx/platform/ios\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -3192,6 +3208,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3213,6 +3230,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
