@@ -24,7 +24,7 @@ public final class WebServiceConfig {
 
 	public static String PROTOCOL_HTTPS = "https:";
 
-	public static String APP_DOMAIN = "http://49.212.184.41:7576/Angle/public/";
+	public static String APP_DOMAIN = "http://192.241.231.115/~phuongna/angel/public/";
 	// ===================== WEB SERVICE LINK ==================//
 
 	public static String URL_LOGIN = APP_DOMAIN + "login";

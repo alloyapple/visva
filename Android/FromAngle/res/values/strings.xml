@@ -60,7 +60,7 @@
     <string name="error_email">例.　sin-kim@gmail.com</string>
     <string name="error_name">例.　木村シンジ</string>
     <string name="error_message">例.　ミカへ　オレはミカに出逢えて本当によかった。もしバイト先で...</string>
-<!--     <string name="name_validate">Safety Validation</string> -->
+    <!-- <string name="name_validate">Safety Validation</string> -->
     <string name="mr_ms_name">%s さん </string>
     <string name="network_unvailable">ネットワークへの接続ができません</string>
     <string name="user_email"><a href="http://google.com">ga@angelsmails.com</a></string>
@@ -72,5 +72,6 @@
     <string name="txt_Of">の</string>
     <string name="time_less_current">アラーム設定を先にスタートさせてください。</string>
     <string name="cant_save_time_less_current">過去の時間は設定できません。未来を設定してください。</string>
+    <string name="confirmed"> <u>確認!</u></string>
 
 </resources>

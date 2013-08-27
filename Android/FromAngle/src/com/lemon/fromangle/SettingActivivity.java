@@ -258,22 +258,22 @@ public class SettingActivivity extends Activity {
 			// ringtonemanager
 			startManagingCursor(mCursor); // starts the cursor query
 		}
-		
-		new CountDownTimer(2000,100) {
-			
+
+		new CountDownTimer(2000, 100) {
+
 			@Override
 			public void onTick(long millisUntilFinished) {
 				// TODO Auto-generated method stub
 				checkRing = false;
 			}
-			
+
 			@Override
 			public void onFinish() {
 				// TODO Auto-generated method stub
 				checkRing = true;
 			}
 		}.start();
-		
+
 		super.onResume();
 
 	}
@@ -384,7 +384,7 @@ public class SettingActivivity extends Activity {
 						Log.e("adsfsd " + arg2, "ksdhf " + checkRing);
 						if (arg0 == spnSelectRingTune) {
 							if (checkRing) {
-								
+
 								int pos = spnSelectRingTune
 										.getSelectedItemPosition();
 								uriRingtune = mListUriRingTone[pos].toString();
@@ -408,7 +408,7 @@ public class SettingActivivity extends Activity {
 					public void onNothingSelected(AdapterView<?> arg0) {
 						// TODO Auto-generated method stub
 					}
-					
+
 				});
 		uriRingtune = mListUriRingTone[0].toString();
 	}
@@ -467,24 +467,23 @@ public class SettingActivivity extends Activity {
 			btnSave.setEnabled(true);
 			btnCancel.setEnabled(false);
 			sendUpdateStatusToServer("0");
-			
+
 		}
 	};
-	
+
 	private void sendUpdateStatusToServer(String status) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> params = ParameterFactory.updateStatusForServer(
 				userId, status);
-		AsyncHttpPost postUpdateStt = new AsyncHttpPost(
-				SettingActivivity.this, new AsyncHttpResponseProcess(
-						SettingActivivity.this) {
+		AsyncHttpPost postUpdateStt = new AsyncHttpPost(SettingActivivity.this,
+				new AsyncHttpResponseProcess(SettingActivivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						mFromAngleSharedPref.setMessageSettingStatus("0");
 						mFromAngleSharedPref.putAppStatus("0");
 						mFromAngleSharedPref.setValidationMode(2);
-						showToast(getResources().getString(
-								R.string.stop_success));
+						 showToast(getResources().getString(
+						 R.string.stop_success));
 						finish();
 					}
 
@@ -496,6 +495,7 @@ public class SettingActivivity extends Activity {
 				}, params, true);
 		postUpdateStt.execute(WebServiceConfig.URL_MESSAGE_SETTING);
 	}
+
 	OnClickListener onSaveClick = new OnClickListener() {
 
 		@Override
@@ -616,6 +616,7 @@ public class SettingActivivity extends Activity {
 					btnCancel.setBackgroundResource(R.drawable.stop_btn);
 					btnSave.setEnabled(false);
 					btnCancel.setEnabled(true);
+					finish();
 				} else if (error == GlobalValue.MSG_RESPONSE_UPDATE_INFO_FAILED) {
 					showToast(getString(R.string.duplicated_email));
 				} else
@@ -667,13 +668,14 @@ public class SettingActivivity extends Activity {
 						// if(mFromAngleSharedPref.getMessageSettingStatus())
 						stopAlarmManager();
 						startRunAlarmManager();
-
+						Log.e("adfff", "adfdf "+(getResources().getString(R.string.sucess)));
 						showToast(getResources().getString(R.string.sucess));
 
 						btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 						btnCancel.setBackgroundResource(R.drawable.stop_btn);
 						btnSave.setEnabled(false);
 						btnCancel.setEnabled(true);
+						finish();
 					}
 				} else if (error == GlobalValue.MSG_REPONSE_FAILED) {
 					showToast(getString(R.string.duplicated_email));

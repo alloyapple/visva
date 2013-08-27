@@ -470,6 +470,7 @@ public class MessageSettingActivity extends PaymentActivity {
 									R.string.stop_success));
 						checkResponseFromServer(response);
 						saveInputPref();
+						finish();
 					}
 				}, params, true);
 		get.execute(WebServiceConfig.URL_MESSAGE_SETTING);
@@ -816,6 +817,7 @@ public class MessageSettingActivity extends PaymentActivity {
 						mFromAngleSharedPref.setValidationMode(2);
 						showToast(getResources().getString(
 								R.string.stop_success));
+						finish();
 					}
 
 					@Override
