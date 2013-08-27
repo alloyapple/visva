@@ -7,11 +7,7 @@ import org.json.JSONObject;
 
 public class ParserUtility {
 	// ==============FUNCTIONS TO EXTRACT OBJECT FROM JSON STRING=========//
-	
-	
-	
-	
-	
+
 	// ========================= CORE FUNCTIONS ===========================
 
 	/**

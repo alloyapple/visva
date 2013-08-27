@@ -128,7 +128,7 @@ public final class R {
         public static final int btn2=0x7f090017;
         public static final int btn3=0x7f090018;
         public static final int btnCancel=0x7f090002;
-        public static final int btnClose=0x7f09003f;
+        public static final int btnClose=0x7f090040;
         public static final int btnHome=0x7f09002c;
         public static final int btnLeft=0x7f09000a;
         public static final int btnOk=0x7f090003;
@@ -138,6 +138,7 @@ public final class R {
         public static final int btnStart=0x7f090029;
         public static final int btnStop=0x7f09002a;
         public static final int chkVibrate=0x7f090014;
+        public static final int confirmed=0x7f09003d;
         public static final int datePicker1=0x7f090000;
         public static final int email_contact=0x7f090009;
         public static final int id_checkbox_agreed=0x7f090005;
@@ -158,14 +159,14 @@ public final class R {
         public static final int layoutSetting=0x7f090035;
         public static final int layoutTopStatus=0x7f09002d;
         public static final int layoutValidate=0x7f090039;
-        public static final int lblGuideClose=0x7f09003e;
-        public static final int lblGuideOk=0x7f09003d;
+        public static final int lblGuideClose=0x7f09003f;
+        public static final int lblGuideOk=0x7f09003e;
         public static final int lblMessage=0x7f09003c;
         public static final int lblStatusFinalValidate=0x7f090031;
         public static final int lblStatusNextValidate=0x7f090034;
         public static final int link_web=0x7f090006;
         public static final int pb=0x7f09000c;
-        public static final int shape_my=0x7f090040;
+        public static final int shape_my=0x7f090041;
         public static final int spnSelectRingTune=0x7f090013;
         public static final int text_name=0x7f09003b;
         public static final int timePicker1=0x7f090001;
@@ -217,6 +218,7 @@ public final class R {
         public static final int btn_ok=0x7f070005;
         public static final int cant_save_time_less_current=0x7f07003e;
         public static final int change_info_sucess=0x7f070024;
+        public static final int confirmed=0x7f07003f;
         public static final int days_after=0x7f07000c;
         public static final int duplicated_email=0x7f070022;
         public static final int email_not_validate=0x7f070023;
@@ -238,7 +240,7 @@ public final class R {
         public static final int message_paid_not_paid=0x7f07002d;
         public static final int message_trial_case=0x7f07002f;
         public static final int messsage_setting=0x7f070012;
-        /**      <string name="name_validate">Safety Validation</string> 
+        /**  <string name="name_validate">Safety Validation</string> 
   <string name="name_validate">Safety Validation</string> 
      <string name="name_validate">Safety Validation</string> 
          */
