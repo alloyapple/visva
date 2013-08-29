@@ -493,7 +493,7 @@ public class SettingActivivity extends Activity {
 						finish();
 					}
 				}, params, true);
-		postUpdateStt.execute(WebServiceConfig.URL_MESSAGE_SETTING);
+		postUpdateStt.execute(WebServiceConfig.URL_CHANGE_STATUS);
 	}
 
 	OnClickListener onSaveClick = new OnClickListener() {

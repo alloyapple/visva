@@ -69,8 +69,8 @@ public class TopScreenActivity extends PaymentActivity {
 		mFromAngleSharedPref = new FromAngleSharedPref(this);
 		mFromAngleSharedPref.setExistByTopScreen(false);
 		initUI();
-//		startService(new Intent(this, BillingService.class));
-		
+		// startService(new Intent(this, BillingService.class));
+
 		paymentService = new PaymentService(this);
 		String userId = mFromAngleSharedPref.getUserId();
 		if (!StringUtility.isEmpty(userId))
@@ -228,7 +228,7 @@ public class TopScreenActivity extends PaymentActivity {
 
 	@Override
 	protected void onDestroy() {
-		
+
 		mFromAngleSharedPref.setExistByTopScreen(true);
 		super.onDestroy();
 	}
@@ -236,7 +236,8 @@ public class TopScreenActivity extends PaymentActivity {
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
-		BillingHelper.stopService(this);
+		if (true == BillingHelper.isBillingSupported())
+			BillingHelper.stopService(this);
 		super.onPause();
 	}
 
@@ -250,14 +251,14 @@ public class TopScreenActivity extends PaymentActivity {
 	protected void onResume() {
 		startService(new Intent(this, BillingService.class));
 		BillingHelper.setCompletedHandler(mTransactionHandler);
-		Log.e("user id " + mFromAngleSharedPref.getKeyRunAlarm(), "mode validation " 
-				+ mFromAngleSharedPref.getValidationMode());
+		Log.e("user id " + mFromAngleSharedPref.getKeyRunAlarm(),
+				"mode validation " + mFromAngleSharedPref.getValidationMode());
 		if (mFromAngleSharedPref.getModeDestroyedService() == GlobalValue.KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE) {
-			//mFromAngleSharedPref.setKeyRunAlarm(false);
-			//mFromAngleSharedPref.setMessageSettingStatus("");
-//			mFromAngleSharedPref.setValidationMode(0);
-//			mFromAngleSharedPref.putAppStatus(""
-//					+ GlobalValue.MSG_RESPONSE_MSG_SETTING_FAILED);
+			// mFromAngleSharedPref.setKeyRunAlarm(false);
+			// mFromAngleSharedPref.setMessageSettingStatus("");
+			// mFromAngleSharedPref.setValidationMode(0);
+			// mFromAngleSharedPref.putAppStatus(""
+			// + GlobalValue.MSG_RESPONSE_MSG_SETTING_FAILED);
 			mFromAngleSharedPref.putModeDestroyedService(0);
 		} else {
 			mFromAngleSharedPref.putModeDestroyedService(0);
@@ -445,7 +446,8 @@ public class TopScreenActivity extends PaymentActivity {
 	@Override
 	public void onTrialCase() {
 		// TODO Auto-generated method stub
-		creatDialog(null, getResources().getString(R.string.message_trial_case)).show();
+		creatDialog(null, getResources().getString(R.string.message_trial_case))
+				.show();
 	}
 
 	private AlertDialog creatDialog(String message, String title) {
@@ -468,6 +470,6 @@ public class TopScreenActivity extends PaymentActivity {
 	@Override
 	public void onDeniedPayment() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
