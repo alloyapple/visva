@@ -39,6 +39,7 @@ public final class WebServiceConfig {
 	public static String URL_MESSAGE_SETTING = APP_DOMAIN
 			+ "message_setting_registration";
 	public static String URL_CHECK_USER_EXIT=APP_DOMAIN+"check_exist_user";
+	public static String URL_CHANGE_STATUS=APP_DOMAIN + "change_status";
 	// ===================== PARAMETER =======================//
 
 }

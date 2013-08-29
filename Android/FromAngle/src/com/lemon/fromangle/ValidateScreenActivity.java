@@ -187,7 +187,7 @@ public class ValidateScreenActivity extends LemonBaseActivity {
 						Log.e("failed ", "failed");
 					}
 				}, params, true);
-		postUpdateStt.execute(WebServiceConfig.URL_MESSAGE_SETTING);
+		postUpdateStt.execute(WebServiceConfig.URL_CHANGE_STATUS);
 	}
 
 	public void onCancelClick(View v) {
