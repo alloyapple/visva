@@ -1,7 +1,9 @@
 package com.lemon.fromangle;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import com.lemon.fromangle.config.FromAngleSharedPref;
 import com.lemon.fromangle.config.GlobalValue;
 import com.lemon.fromangle.controls.PaymentActivity;
 import com.lemon.fromangle.controls.PaymentService;
+import com.lemon.fromangle.service.MessageFollowService;
 import com.lemon.fromangle.utility.StringUtility;
 import com.payment.BillingHelper;
 import com.payment.BillingService;
@@ -299,10 +302,15 @@ public class TopScreenActivity extends PaymentActivity {
 						lblStatusNextValidate.setText("---");
 						lblStatusNextValidate.setTextColor(Color.WHITE);
 					} else if (modeValidation == 2) {
+						//stop alarm 
+						stopAlarmManager();
+						//return to default mode
+						mFromAngleSharedPref.setKeyRunAlarm(false);
 						imgValidateStatus.setImageResource(R.drawable.bar_grey);
 						imgTopStatus.setImageResource(R.drawable.bg_stop);
 						imgMessageSettingStatus
 								.setImageResource(R.drawable.bar_grey);
+						imgMessageStatus.setImageResource(R.drawable.bar_grey);
 						lblStatusFinalValidate.setText(getString(R.string.ng));
 						lblStatusFinalValidate.setTextColor(Color.RED);
 						lblStatusNextValidate.setText(getString(R.string.ng));
@@ -400,24 +408,24 @@ public class TopScreenActivity extends PaymentActivity {
 		// s.replace("%2$s", receivers);
 		// textViewMesage.setText(getString(R.string.msg_stop_service));
 		textViewMesage.setText(s);
-		Log.e("receiver", "receiver " + receivers);
-		TextView textView = (TextView) (layoutParent
-				.findViewById(R.id.email_contact));
-		textView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent sent = new Intent(android.content.Intent.ACTION_SEND);
-				sent.setType("text/plain");
-				sent.putExtra(Intent.EXTRA_EMAIL,
-						new String[] { "ga@angelsmails.com" });
-				sent.setType("vnd.android.cursor.dir/email");
-				TopScreenActivity.this.startActivity(Intent.createChooser(sent,
-						"Select"));
-
-			}
-		});
+//		Log.e("receiver", "receiver " + receivers);
+//		TextView textView = (TextView) (layoutParent
+//				.findViewById(R.id.email_contact));
+//		textView.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Intent sent = new Intent(android.content.Intent.ACTION_SEND);
+//				sent.setType("text/plain");
+//				sent.putExtra(Intent.EXTRA_EMAIL,
+//						new String[] { "ga@angelsmails.com" });
+//				sent.setType("vnd.android.cursor.dir/email");
+//				TopScreenActivity.this.startActivity(Intent.createChooser(sent,
+//						"Select"));
+//
+//			}
+//		});
 		builder.setPositiveButton(getResources().getString(R.string.btn_close),
 				new DialogInterface.OnClickListener() {
 
@@ -471,5 +479,22 @@ public class TopScreenActivity extends PaymentActivity {
 	public void onDeniedPayment() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private void stopAlarmManager() {
+		// TODO Auto-generated method stub
+		// int timeDelay = -5000;
+		// Log.e("delay time", "delay time " + timeDelay);
+		Intent myIntent = new Intent(TopScreenActivity.this,
+				MessageFollowService.class);
+		PendingIntent pendingIntent = PendingIntent.getService(TopScreenActivity.this,
+				0, myIntent, 0);
+		AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+		// Calendar calendar = Calendar.getInstance();
+		// calendar.setTimeInMillis(System.currentTimeMillis());
+		// calendar.add(Calendar.SECOND, timeDelay);
+		// alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		// pendingIntent);
+		alarmManager.cancel(pendingIntent);
 	}
 }

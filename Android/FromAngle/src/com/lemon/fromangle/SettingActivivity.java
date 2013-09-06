@@ -482,8 +482,8 @@ public class SettingActivivity extends Activity {
 						mFromAngleSharedPref.setMessageSettingStatus("0");
 						mFromAngleSharedPref.putAppStatus("0");
 						mFromAngleSharedPref.setValidationMode(2);
-						 showToast(getResources().getString(
-						 R.string.stop_success));
+						// showToast(getResources().getString(
+						// R.string.stop_success));
 						finish();
 					}
 
@@ -611,7 +611,10 @@ public class SettingActivivity extends Activity {
 					addDataToPreference();
 					stopAlarmManager();
 					startRunAlarmManager();
-
+					
+					mFromAngleSharedPref.setKeyRunAlarm(true);
+					mFromAngleSharedPref.setValidationMode(0);
+					mFromAngleSharedPref.setMessageSettingStatus("0");
 					btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
 					btnCancel.setBackgroundResource(R.drawable.stop_btn);
 					btnSave.setEnabled(false);
@@ -668,7 +671,10 @@ public class SettingActivivity extends Activity {
 						// if(mFromAngleSharedPref.getMessageSettingStatus())
 						stopAlarmManager();
 						startRunAlarmManager();
-						Log.e("adfff", "adfdf "+(getResources().getString(R.string.sucess)));
+						Log.e("adfff",
+								"adfdf "
+										+ (getResources()
+												.getString(R.string.sucess)));
 						showToast(getResources().getString(R.string.sucess));
 
 						btnSave.setBackgroundResource(R.drawable.btn_start_pressed);
