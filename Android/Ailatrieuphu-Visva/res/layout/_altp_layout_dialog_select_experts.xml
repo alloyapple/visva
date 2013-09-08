@@ -1,0 +1,100 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_wrap"
+    android:background="@drawable/_altp_bg_dialog" >
+
+    <TextView
+        android:id="@+id/dialog_help_experts_title"
+        style="@style/layout_wrap"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/_txt_title_select_experts"
+        android:textColor="@color/color_txt_menu"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        style="@style/layout_full_wrap"
+        android:layout_gravity="center|center" >
+
+        <TextView
+            android:id="@+id/dialog_help_experts_suggest"
+            style="@style/layout_wrap"
+            android:layout_gravity="center|center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:lineSpacingExtra="10sp"
+            android:textColor="@color/color_txt_white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TableLayout
+            android:id="@+id/dialog_select_experts_container"
+            style="@style/layout_full_wrap" >
+
+            <TableRow style="@style/layout_full_wrap" >
+
+                <ImageButton
+                    android:id="@+id/dialog_select_experts_baochaungo"
+                    style="@style/layout_wrap"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/_altp_experts_baochaungo"
+                    android:contentDescription="@string/_content_description" >
+                </ImageButton>
+
+                <ImageButton
+                    android:id="@+id/dialog_select_experts_billgate"
+                    style="@style/layout_wrap"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/_altp_experts_billgate"
+                    android:contentDescription="@string/_content_description" />
+
+                <ImageButton
+                    android:id="@+id/dialog_select_experts_einstein"
+                    style="@style/layout_wrap"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/_altp_experts_einstein"
+                    android:contentDescription="@string/_content_description" />
+            </TableRow>
+
+            <TableRow style="@style/layout_full_wrap" >
+
+                <ImageButton
+                    android:id="@+id/dialog_select_experts_khongminh"
+                    style="@style/layout_wrap"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/_altp_experts_khongminh"
+                    android:contentDescription="@string/_content_description" />
+
+                <ImageButton
+                    android:id="@+id/dialog_select_experts_lanlevan"
+                    style="@style/layout_wrap"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/_altp_experts_lanlevan"
+                    android:contentDescription="@string/_content_description" />
+
+                <ImageButton
+                    android:id="@+id/dialog_select_experts_paul"
+                    style="@style/layout_wrap"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/_altp_experts_paul"
+                    android:contentDescription="@string/_content_description" />
+            </TableRow>
+        </TableLayout>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/_layout_dialog_help_experts_oki"
+        style="@style/layout_wrap"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/altp_btn_menu_"
+        android:text="@string/_txt_btn_confirm_back"
+        android:textColor="@color/color_txt_menu"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+</FrameLayout>

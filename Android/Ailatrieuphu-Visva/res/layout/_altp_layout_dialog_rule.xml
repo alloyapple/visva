@@ -1,0 +1,29 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_wrap"
+    android:background="@drawable/_altp_bg_dialog" >
+
+    <TextView
+        style="@style/layout_wrap"
+        android:layout_gravity="center|top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:lineSpacingExtra="10sp"
+        android:text="@string/_txt_msg_dialog_rule"
+        android:textColor="@color/color_txt_white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/_layout_dialog_rule_btn_ok"
+        style="@style/layout_wrap"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/altp_btn_menu_"
+        android:text="@string/_txt_btn_ok"
+        android:textColor="@color/color_txt_menu"
+        android:textStyle="bold" />
+
+</FrameLayout>

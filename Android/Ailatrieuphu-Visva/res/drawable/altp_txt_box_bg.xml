@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- This is the main color -->
+    <item>
+        <shape>
+            <solid android:color="@color/color_transparent" />
+        </shape>
+    </item>
+    <!-- This is the line -->
+    <item
+        android:bottom="0dp"
+        android:left="1.5dp">
+        <shape>
+            <size
+                android:height="5dp"
+                android:width="2dp" />
+            <solid android:color="@color/color_txt_white" />
+        </shape>
+    </item>
+    <item
+        android:bottom="0dp"
+        android:right="1.5dp">
+        <shape>
+            <size
+                android:height="5dp"
+                android:width="2dp" />
+            <solid android:color="@color/color_txt_white" />
+        </shape>
+    </item>
+    <item android:bottom="0dp">
+        <shape>
+            <size android:height="2dp" />
+            <solid android:color="@color/color_txt_white" />
+        </shape>
+    </item>
+
+</layer-list>
