@@ -1,0 +1,68 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_wrap"
+    android:background="@drawable/_altp_bg_dialog" >
+
+    <LinearLayout
+        style="@style/layout_wrap"
+        android:layout_gravity="center|center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            style="@style/layout_wrap"
+            android:layout_gravity="left|center"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/_layout_dialog_options_check_sound"
+                style="@style/layout_wrap"
+                android:layout_marginLeft="12dp"
+                android:button="@drawable/altp_btn_checkbox" />
+
+            <TextView
+                style="@style/layout_wrap"
+                android:layout_marginLeft="8dp"
+                android:text="@string/_txt_check_sound"
+                android:textColor="@color/color_txt_white"
+                android:textSize="16sp"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/layout_wrap"
+            android:layout_gravity="left|center"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/_layout_dialog_options_check_share"
+                style="@style/layout_wrap"
+                android:layout_marginLeft="12dp"
+                android:button="@drawable/altp_btn_checkbox" />
+
+            <TextView
+                style="@style/layout_wrap"
+                android:layout_marginLeft="8dp"
+                android:text="@string/_txt_check_share"
+                android:textColor="@color/color_txt_white"
+                android:textSize="16sp"
+                android:textStyle="bold" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/_layout_dialog_options_btn_ok"
+        style="@style/layout_wrap"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/altp_btn_menu_"
+        android:text="@string/_txt_btn_confirm_close"
+        android:textColor="@color/color_txt_menu"
+        android:textStyle="bold" />
+
+</FrameLayout>

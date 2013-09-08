@@ -1,0 +1,53 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_wrap"
+    android:background="@drawable/_altp_bg_dialog" >
+
+    <TextView
+        android:id="@+id/dialog_help_experts_title"
+        style="@style/layout_wrap"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/_txt_title_save_score"
+        android:textColor="@color/color_txt_menu"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/_layout_dialog_input_name"
+        style="@style/layout_full_wrap"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center|center"
+        android:layout_marginBottom="10dp"
+        android:singleLine="true"
+        android:hint="@string/_suggest_input_player_name"
+        android:textColor="@color/color_txt_black"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        style="@style/layout_wrap"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="36dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/_layout_dialog_save_score_oki"
+            style="@style/layout_wrap"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/altp_btn_menu_"
+            android:text="@string/_txt_btn_confirm_oki_save_score"
+            android:textColor="@color/color_txt_menu"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/_layout_dialog_save_score_cancel"
+            style="@style/layout_wrap"
+            android:background="@drawable/altp_btn_menu_"
+            android:text="@string/_txt_btn_confirm_cancel_save_score"
+            android:textColor="@color/color_txt_menu"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</FrameLayout>

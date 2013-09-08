@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ai là triệu phú</string>
+    <string name="_content_description"></string>
+    <string name="_txt_button_begin">BẮT ĐẦU</string>
+    <string name="_txt_button_options">TÙY CHỌN</string>
+    <string name="_txt_button_high_score">KỶ LUC</string>
+    <string name="_txt_button_add_times">THÊM LƯỢT</string>
+    <string name="_txt_button_exit">THOÁT</string>
+    <string name="_txt_question_content">Bài thơ được xem là bản tuyên ngôn độc lập của nước ta có tên là gì?</string>
+    <string name="_txt_question_number">Câu hỏi số 1:</string>
+    <string name="_txt_btn_ok">Đồng ý</string>
+    <string name="_txt_btn_cancel">Bỏ qua</string>
+    <string name="_txt_btn_dont_known">Tôi chưa rõ</string>
+    <string name="_txt_title_high_score">THÀNH TÍCH</string>
+    <string name="_txt_name_default_1">1. No name</string>
+    <string name="_txt_name_default_2">2. No name</string>
+    <string name="_txt_name_default_3">3. No name</string>
+    <string name="_txt_score_default"> -- </string>
+    <string name="_txt_msg_dialog_begin">Bạn đã nắm rõ \nluật chơi của chương trình và\nsẵn sàng bắt đầu cuộc cuộc chơi?</string>
+    <string name="_txt_msg_dialog_rule">Bạn có 15 câu hỏi\nMỗi câu có 4 đáp án A, B, C, D\nCó 3 mốc quan trọng 5, 10,15\nvà 4 sự trợ giúp trong khi chơi.</string>
+    <string name="_txt_msg_dialog_exit">Bạn muốn thoát khỏi chương trình?</string>
+    <string name="_txt_msg_dialog_select_answer_confirm">Phương án cuối cùng của bạn là %?</string>
+    <string name="_txt_btn_confirm_oki_select">Đúng vậy</string>
+    <string name="_txt_btn_confirm_cancel_select">Không phải</string>
+    <string name="_msg_confirm_use_50_50">Bạn muốn sử dụng sự trợ giúp 50/50?</string>
+    <string name="_msg_confirm_use_audience">Bạn muốn sử dụng sự trợ giúp hỏi ý kiến khán giả?</string>
+    <string name="_msg_confirm_use_call">Bạn muốn sử dụng sự trợ giúp gọi điện thoại cho các chuyên gia?</string>
+    <string name="_msg_confirm_use_change_question">Bạn muốn  đổi câu hỏi khác?</string>
+    <string name="_txt_btn_confirm_oki_save_score">Lưu điểm</string>
+    <string name="_txt_btn_confirm_back">Trở lại</string>
+    <string name="_txt_btn_confirm_cancel_save_score">Bỏ qua</string>
+    <string name="_txt_btn_confirm_close">Đóng</string>
+    <string name="_txt_title_select_experts">Bạn muốn kết nối với ai?</string>
+    <string name="_txt_title_save_score">Nhập tên của bạn</string>
+    <string name="_txt_title_help_audience">Kết quả trợ giúp</string>
+    <string name="_txt_title_help_experts">Lời khuyên của chuyên gia</string>
+    <string name="_txt_msg_help_of_experts_0">Giáo sư Ngô Bảo Châu khuyên bạn chọn đáp án: %x%</string>
+    <string name="_txt_msg_help_of_experts_1">BillGate khuyên bạn chọn đáp án: %x%</string>
+    <string name="_txt_msg_help_of_experts_2">Einstein khuyên bạn chọn đáp án: %x%</string>
+    <string name="_txt_msg_help_of_experts_3">Khổng Minh khuyên bạn chọn đáp án: %x%</string>
+    <string name="_txt_msg_help_of_experts_4">Giáo sư Lê Văn Lan khuyên bạn chọn đáp án: %x%</string>
+    <string name="_txt_msg_help_of_experts_5">Bạch tuộc Paul khuyên bạn chọn đáp án: %x%</string>
+    <string name="_suggest_input_player_name">Tên người chơi</string>
+    <string name="_txt_answer_a">A :</string>
+    <string name="_txt_answer_b">B :</string>
+    <string name="_txt_answer_c">C :</string>
+    <string name="_txt_answer_d">D :</string>
+    <string name="_txt_check_sound">Bật âm thanh</string>
+    <string name="_txt_check_share">Tự động chia sẻ</string>
+    <string name="share_fb">Chia sẻ qua Facebook</string>
+    <string name="description">Thêm mô tả của bạn</string>
+    
+    <string name="app_id">140565312809271</string>
+    <string name="network_error">Please check your network connection</string>
+    <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_button_text">OK</string>
+    <string name="error_dialog_default_text">No response from server.</string>
+    <string name="error_authentication_retry">An error occurred that requires your attention. %1$s</string>
+    <string name="error_authentication_reopen">An error occurred, please re-login.</string>
+    <string name="error_permission">Please allow us to post on your behalf.</string>
+    <string name="error_server">The server is busy, please retry later.</string>
+    <string name="error_bad_request">An error occurred, please contact the developer with the following message: %1$s</string>
+    <string name="error_unknown">An unknown error occurred, please contact the developer with the following message: %1$s</string>
+    <string name="error_fetching_profile">Error fetching your user profile - Please try again</string>
+    <string name="error_fetching_friend_bitmap">Error fetching your friend\'s profile picture - Please try again</string>
+    <string name="error_switching_screens">Error switching screens - Please try again</string>
+    <string name="error_no_scores">"No scores to display"</string>
+    <string name="logout">Logout</string>
+    <string name="loading">Loading&#8230;</string>
+
+</resources>

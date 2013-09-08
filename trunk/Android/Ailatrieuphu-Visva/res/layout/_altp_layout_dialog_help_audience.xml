@@ -1,0 +1,156 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/_altp_bg_dialog" >
+
+    <LinearLayout
+        style="@style/layout_full_wrap"
+        android:layout_gravity="center|top"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/layout_wrap"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/_txt_title_help_audience"
+            android:textColor="@color/color_txt_menu"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            style="@style/layout_full_wrap"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                style="@style/layout_full_wrap"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/layout_wrap"
+                    android:text="@string/_txt_answer_a"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    style="@style/layout_full_wrap"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:weightSum="1" >
+
+                    <TextView
+                        android:id="@+id/dialog_help_audience_rate_a"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:background="@color/color_bg_white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dialog_help_audience_rate_percent_a"
+                    style="@style/layout_wrap"
+                    android:layout_marginLeft="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/layout_full_wrap"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/layout_wrap"
+                    android:text="@string/_txt_answer_b"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    style="@style/layout_full_wrap"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:weightSum="1" >
+
+                    <TextView
+                        android:id="@+id/dialog_help_audience_rate_b"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:background="@color/color_bg_white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dialog_help_audience_rate_percent_b"
+                    style="@style/layout_wrap"
+                    android:layout_marginLeft="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/layout_full_wrap"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/layout_wrap"
+                    android:text="@string/_txt_answer_c"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    style="@style/layout_full_wrap"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:weightSum="1" >
+
+                    <TextView
+                        android:id="@+id/dialog_help_audience_rate_c"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:background="@color/color_bg_white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dialog_help_audience_rate_percent_c"
+                    style="@style/layout_wrap"
+                    android:layout_marginLeft="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/layout_full_wrap"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/layout_wrap"
+                    android:text="@string/_txt_answer_d"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    style="@style/layout_full_wrap"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:weightSum="1" >
+
+                    <TextView
+                        android:id="@+id/dialog_help_audience_rate_d"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:background="@color/color_bg_white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dialog_help_audience_rate_percent_d"
+                    style="@style/layout_wrap"
+                    android:layout_marginLeft="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/_layout_dialog_help_audience_oki"
+        style="@style/layout_wrap"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/altp_btn_menu_"
+        android:text="@string/_txt_btn_confirm_back"
+        android:textColor="@color/color_txt_menu"
+        android:textStyle="bold" />
+
+</FrameLayout>
