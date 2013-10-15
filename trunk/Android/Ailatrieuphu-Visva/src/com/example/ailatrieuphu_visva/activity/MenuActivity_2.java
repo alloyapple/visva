@@ -1,14 +1,8 @@
 package com.example.ailatrieuphu_visva.activity;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,7 +14,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,17 +21,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ailatrieuphu_visva.R;
 import com.example.ailatrieuphu_visva.db.DBConnector;
-import com.example.ailatrieuphu_visva.facebook.AsyncFacebookRunner;
-import com.example.ailatrieuphu_visva.facebook.BaseRequestListener;
-import com.example.ailatrieuphu_visva.facebook.DialogError;
-import com.example.ailatrieuphu_visva.facebook.Facebook;
-import com.example.ailatrieuphu_visva.facebook.Facebook.DialogListener;
-import com.example.ailatrieuphu_visva.facebook.FacebookError;
-import com.example.ailatrieuphu_visva.facebook.SessionStore;
 import com.example.ailatrieuphu_visva.utils.Helpers;
 
 public class MenuActivity_2 extends Activity {
@@ -52,17 +37,15 @@ public class MenuActivity_2 extends Activity {
 	private Button _btn_menu_options;
 	private Button _btn_menu_exit;
 	private Button _btn_facebook;
-	private AnimationDrawable _anim_begin;
+	//private AnimationDrawable _anim_begin;
 	private Boolean _is_begin;
 	private DBConnector _db_connector;
 
-	private Facebook _mFacebook;
 	private ProgressDialog mProgress;
-	private Handler mRunOnUi;
 	private EditText et_description;
-	private static final String APP_ID = "361292540665890";
 	private Dialog dialog;
 
+	
 	private Handler _handler = new Handler();
 	private OnClickListener _listener_onclick_begin = new OnClickListener() {
 
@@ -133,7 +116,7 @@ public class MenuActivity_2 extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			onClickShareFaceBook();
+			//onClickShareFaceBook();
 		}
 	};
 
@@ -151,25 +134,25 @@ public class MenuActivity_2 extends Activity {
 		_btn_menu_exit.setOnClickListener(_listener_onclick_exit);
 		_btn_facebook = (Button) findViewById(R.id._layout_menu_btn_facebook);
 		_btn_facebook.setOnClickListener(_listener_onclick_share_facebook);
-		_anim_begin = (AnimationDrawable) _btn_menu_begin.getBackground().getCurrent();
+		//_anim_begin = (AnimationDrawable) _btn_menu_begin.getBackground().getCurrent();
+		
+//		Typeface type = Typeface.createFromAsset(getAssets(),"fonts/VNI-Helve-Bold.TTF"); 		
+//		_btn_menu_begin.setTypeface(type);
+//		_btn_menu_high_score.setTypeface(type);
+//		_btn_menu_options.setTypeface(type);
+//		_btn_menu_exit.setTypeface(type);
+		
 		_db_connector = new DBConnector(this);
-		_mFacebook = new Facebook(APP_ID);
-		mRunOnUi = new Handler();
-		SessionStore.restore(_mFacebook, this);
-		if (_mFacebook.isSessionValid()) {
-			// String name = SessionStore.getName(this);
-		}
-
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// TODO Auto-generated method stub
 		super.onWindowFocusChanged(hasFocus);
-		if (!_is_begin) {
-			_anim_begin.stop();
-			_anim_begin.selectDrawable(0);
-		}
+//		if (!_is_begin) {
+//			_anim_begin.stop();
+//			_anim_begin.selectDrawable(0);
+//		}
 	}
 
 	@Override
@@ -221,7 +204,7 @@ public class MenuActivity_2 extends Activity {
 		mProgress = new ProgressDialog(this);
 		mProgress.setMessage("Posting ...");
 		mProgress.show();
-		AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(_mFacebook);
+		//AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(_mFacebook);
 		// try {
 		Bundle params = new Bundle();
 		// is = new FileInputStream(path);
@@ -229,7 +212,7 @@ public class MenuActivity_2 extends Activity {
 		params.putString("message", message);
 		params.putString("filename", "test1.mp4");
 		params.putByteArray("video", data);
-		mAsyncFbRunner.request("me/videos", params, "POST", new WallPostListener());
+		//mAsyncFbRunner.request("me/videos", params, "POST", new WallPostListener());
 		// } catch (FileNotFoundException e) {
 		// e.printStackTrace();
 		// } catch (IOException e) {
@@ -248,86 +231,7 @@ public class MenuActivity_2 extends Activity {
 		return byteBuffer.toByteArray();
 	}
 
-	private final class WallPostListener extends BaseRequestListener {
 
-		public void onComplete(final String response) {
-			mRunOnUi.post(new Runnable() {
-				@Override
-				public void run() {
-					mProgress.cancel();
-					dialog.dismiss();
-				}
-			});
-		}
-	}
-
-	private void onClickShareFaceBook() {
-		if (_mFacebook.isSessionValid()) {
-			showCustomDialog();
-		} else {
-			_mFacebook.authorize(this, new String[] { "user_photos,publish_checkins,publish_actions,publish_stream" }, -1, new FbLoginDialogListener());
-		}
-	}
-
-	private final class FbLoginDialogListener implements DialogListener {
-		public void onComplete(Bundle values) {
-			SessionStore.save(_mFacebook, MenuActivity_2.this);
-			// mFacebookBtn.setChecked(true);
-			getFbName();
-		}
-
-		public void onFacebookError(FacebookError error) {
-			// mFacebookBtn.setChecked(false);
-		}
-
-		public void onError(DialogError error) {
-			// mFacebookBtn.setChecked(false);
-		}
-
-		public void onCancel() {
-			// mFacebookBtn.setChecked(false);
-		}
-	}
-
-	private void getFbName() {
-		mProgress.setMessage("Loading...");
-		mProgress.show();
-		mProgress.setCanceledOnTouchOutside(false);
-
-		new Thread() {
-			@Override
-			public void run() {
-				String name = "";
-				int what = 1;
-				try {
-					String me = _mFacebook.request("me");
-					JSONObject jsonObj = (JSONObject) new JSONTokener(me).nextValue();
-					name = jsonObj.getString("name");
-					what = 0;
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				mFbHandler.sendMessage(mFbHandler.obtainMessage(what, name));
-			}
-		}.start();
-	}
-
-	@SuppressLint("HandlerLeak")
-	private Handler mFbHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			mProgress.dismiss();
-
-			if (msg.what == 0) {
-				String username = (String) msg.obj;
-				username = (username.equals("")) ? "No Name" : username;
-				SessionStore.saveName(username, MenuActivity_2.this);
-				Toast.makeText(MenuActivity_2.this, "Bạn đã đăng nhập với tài khoản " + username, Toast.LENGTH_LONG).show();
-			} else {
-
-			}
-		}
-	};
 
 	private void onClickBegin() {
 		creat_dialog_begin(this, _listener_onclick_oki_begin, _listener_onclick_dont_known_begin);
@@ -351,7 +255,7 @@ public class MenuActivity_2 extends Activity {
 		_is_begin = true;
 		Helpers.releaseSound(_sound);
 		_sound = Helpers.playSound(this, R.raw._altp_sound_begin_game, false);
-		_anim_begin.start();
+		//_anim_begin.start();
 		new Thread() {
 			public void run() {
 				Helpers.wait_sound(_sound);
@@ -362,8 +266,8 @@ public class MenuActivity_2 extends Activity {
 					public void run() {
 						// TODO Auto-generated method stub
 						MainGameActivity.startActivity(MenuActivity_2.this);
-						_anim_begin.stop();
-						_anim_begin.selectDrawable(0);
+//						_anim_begin.stop();
+//						_anim_begin.selectDrawable(0);
 					}
 				});
 			}
@@ -376,7 +280,7 @@ public class MenuActivity_2 extends Activity {
 		_is_begin = true;
 		Helpers.releaseSound(_sound);
 		_sound = Helpers.playSound(this, R.raw._altp_sound_begin_game, false);
-		_anim_begin.start();
+		//_anim_begin.start();
 		new Thread() {
 			public void run() {
 				Helpers.wait_sound(_sound);
@@ -386,8 +290,8 @@ public class MenuActivity_2 extends Activity {
 					public void run() {
 						// TODO Auto-generated method stub
 						MainGameActivity.startActivity(MenuActivity_2.this);
-						_anim_begin.stop();
-						_anim_begin.selectDrawable(0);
+						//_anim_begin.stop();
+						//_anim_begin.selectDrawable(0);
 					}
 				});
 			}

@@ -1,77 +1,83 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/layout_full"
-    android:background="@drawable/_altp_menu_bg"
-    tools:context=".MainActivity" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/_altp_menu_bg" >
 
     <LinearLayout
-        style="@style/layout_full"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/button_menu_margin_bottom"
+        android:layout_marginLeft="@dimen/button_menu_margin_left"
+        android:gravity="center|bottom"
         android:orientation="vertical" >
 
-        <ImageView
-            style="@style/layout_wrap"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/_altp_logo_menu"
-            android:contentDescription="@string/_content_description" />
+        <Button
+            android:id="@+id/_layout_menu_btn_begin"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/altp_btn_menu_"
+            android:gravity="center"
+            android:text="@string/_txt_button_begin"
+            android:textColor="@color/color_text_btn_menu"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            style="@style/layout_wrap"
-            android:layout_gravity="center"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical" >
+        <Button
+            android:id="@+id/_layout_menu_btn_high_score"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/altp_btn_menu_no_anim_"
+            android:gravity="center"
+            android:text="@string/_txt_button_high_score"
+            android:textColor="@color/color_text_btn_menu"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/_layout_menu_btn_begin"
-                style="@style/layout_wrap"
-                android:background="@drawable/altp_btn_menu_"
-                android:text="@string/_txt_button_begin"
-                android:textColor="@color/color_txt_menu"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/_layout_menu_btn__options"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/altp_btn_menu_no_anim_"
+            android:gravity="center"
+            android:text="@string/_txt_button_options"
+            android:textColor="@color/color_text_btn_menu"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/_layout_menu_btn_high_score"
-                style="@style/layout_wrap"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/altp_btn_menu_no_anim_"
-                android:text="@string/_txt_button_high_score"
-                android:textColor="@color/color_txt_menu"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/_layout_menu_btn_add_times"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/altp_btn_menu_no_anim_"
+            android:gravity="center"
+            android:text="@string/_txt_button_add_times"
+            android:textColor="@color/color_text_btn_menu"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/_layout_menu_btn__options"
-                style="@style/layout_wrap"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/altp_btn_menu_no_anim_"
-                android:text="@string/_txt_button_options"
-                android:textColor="@color/color_txt_menu"
-                android:textStyle="bold" />
-            <Button
-                android:id="@+id/_layout_menu_btn_add_times"
-                style="@style/layout_wrap"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/altp_btn_menu_no_anim_"
-                android:text="@string/_txt_button_add_times"
-                android:textColor="@color/color_txt_menu"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/_layout_menu_btn_exit"
-                style="@style/layout_wrap"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/altp_btn_menu_no_anim_"
-                android:text="@string/_txt_button_exit"
-                android:textColor="@color/color_txt_menu"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/_layout_menu_btn_exit"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/altp_btn_menu_no_anim_"
+            android:gravity="center"
+            android:text="@string/_txt_button_exit"
+            android:textColor="@color/color_text_btn_menu"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <Button
         android:id="@+id/_layout_menu_btn_facebook"
-        style="@style/layout_wrap"
-        android:layout_gravity="top|right"
+        android:layout_width="@dimen/button_fb_width"
+        android:layout_height="@dimen/button_fb_height"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/altp_btn_facebook_" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/altp_btn_facebook_"
+        android:gravity="top|right" />
 
-</FrameLayout>
+</RelativeLayout>

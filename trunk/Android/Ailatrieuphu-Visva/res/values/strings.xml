@@ -4,8 +4,8 @@
     <string name="app_name">Ai là triệu phú</string>
     <string name="_content_description"></string>
     <string name="_txt_button_begin">BẮT ĐẦU</string>
-    <string name="_txt_button_options">TÙY CHỌN</string>
-    <string name="_txt_button_high_score">KỶ LUC</string>
+    <string name="_txt_button_options">CÀI ĐẶT</string>
+    <string name="_txt_button_high_score">ĐIỂM CAO</string>
     <string name="_txt_button_add_times">THÊM LƯỢT</string>
     <string name="_txt_button_exit">THOÁT</string>
     <string name="_txt_question_content">Bài thơ được xem là bản tuyên ngôn độc lập của nước ta có tên là gì?</string>
