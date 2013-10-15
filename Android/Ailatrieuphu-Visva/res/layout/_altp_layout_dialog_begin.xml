@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/layout_wrap"
+    android:layout_width="@dimen/bg_dialog_width"
+    android:layout_height="@dimen/bg_dialog_height"
     android:background="@drawable/_altp_bg_dialog" >
 
     <TextView
@@ -14,7 +15,7 @@
         android:text="@string/_txt_msg_dialog_begin"
         android:textColor="@color/color_txt_white"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold" /> 
 
     <LinearLayout
         style="@style/layout_wrap"

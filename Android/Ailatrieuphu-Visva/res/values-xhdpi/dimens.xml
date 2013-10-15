@@ -10,4 +10,6 @@
 	<dimen name="button_menu_margin_bottom">40dp</dimen>
 	<dimen name="button_fb_width">50dp</dimen>
 	<dimen name="button_fb_height">50dp</dimen>
+	<dimen name="bg_dialog_width">464dp</dimen>
+	<dimen name="bg_dialog_height">192dp</dimen>
 </resources>
