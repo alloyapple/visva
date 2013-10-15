@@ -25,6 +25,17 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/_layout_menu_btn_add_times"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/altp_btn_menu_no_anim_"
+            android:gravity="center"
+            android:text="@string/_txt_button_add_times"
+            android:textColor="@color/color_text_btn_menu"
+            android:textSize="@dimen/button_text_size"
+            android:textStyle="bold" />
+
+        <Button
             android:id="@+id/_layout_menu_btn_high_score"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
@@ -47,17 +58,6 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/_layout_menu_btn_add_times"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="@dimen/button_height"
-            android:background="@drawable/altp_btn_menu_no_anim_"
-            android:gravity="center"
-            android:text="@string/_txt_button_add_times"
-            android:textColor="@color/color_text_btn_menu"
-            android:textSize="@dimen/button_text_size"
-            android:textStyle="bold" />
-
-        <Button
             android:id="@+id/_layout_menu_btn_exit"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
@@ -73,10 +73,10 @@
         android:id="@+id/_layout_menu_btn_facebook"
         android:layout_width="@dimen/button_fb_width"
         android:layout_height="@dimen/button_fb_height"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/altp_btn_facebook_"
         android:gravity="top|right" />
 

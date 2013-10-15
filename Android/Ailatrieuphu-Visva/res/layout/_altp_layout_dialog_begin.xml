@@ -2,42 +2,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/bg_dialog_width"
     android:layout_height="@dimen/bg_dialog_height"
-    android:background="@drawable/_altp_bg_dialog" >
+    android:background="@drawable/_altp_bg_dialog_begin" >
 
     <TextView
         style="@style/layout_wrap"
         android:layout_gravity="center|top"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:lineSpacingExtra="10sp"
         android:text="@string/_txt_msg_dialog_begin"
         android:textColor="@color/color_txt_white"
         android:textSize="16sp"
-        android:textStyle="bold" /> 
+        android:textStyle="bold" />
 
     <LinearLayout
         style="@style/layout_wrap"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/_layout_dialog_begin_btn_ok"
-            style="@style/layout_wrap"
-            android:layout_marginRight="8dp"
+            android:layout_width="@dimen/button_dialog_width"
+            android:layout_height="@dimen/button_dialog_height"
             android:background="@drawable/altp_btn_menu_"
             android:text="@string/_txt_btn_ok"
             android:textColor="@color/color_txt_menu"
+            android:textSize="@dimen/button_dialog_text_size"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/_layout_dialog_begin_btn_dont_known"
-            style="@style/layout_wrap"
+            android:layout_width="@dimen/button_dialog_width"
+            android:layout_height="@dimen/button_dialog_height"
             android:background="@drawable/altp_btn_menu_"
             android:text="@string/_txt_btn_dont_known"
             android:textColor="@color/color_txt_menu"
+            android:textSize="@dimen/button_dialog_text_size"
             android:textStyle="bold" />
     </LinearLayout>
 

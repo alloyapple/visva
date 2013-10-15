@@ -18,7 +18,7 @@
     <string name="_txt_name_default_2">2. No name</string>
     <string name="_txt_name_default_3">3. No name</string>
     <string name="_txt_score_default"> -- </string>
-    <string name="_txt_msg_dialog_begin">Bạn đã nắm rõ \nluật chơi của chương trình và\nsẵn sàng bắt đầu cuộc cuộc chơi?</string>
+    <string name="_txt_msg_dialog_begin">Bạn đã nắm rõ \nluật chơi của chương trình và\nsẵn sàng bắt đầu cuộc chơi?</string>
     <string name="_txt_msg_dialog_rule">Bạn có 15 câu hỏi\nMỗi câu có 4 đáp án A, B, C, D\nCó 3 mốc quan trọng 5, 10,15\nvà 4 sự trợ giúp trong khi chơi.</string>
     <string name="_txt_msg_dialog_exit">Bạn muốn thoát khỏi chương trình?</string>
     <string name="_txt_msg_dialog_select_answer_confirm">Phương án cuối cùng của bạn là %?</string>
