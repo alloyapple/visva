@@ -5,7 +5,8 @@
     <color name="color_txt_question">#ffffff</color>
     <color name="color_txt_white">#ffffff</color>
     <color name="color_bg_white">#ffffff</color>
-     <color name="color_txt_black">#000000</color>
+    <color name="color_txt_black">#000000</color>
     <color name="color_transparent">#00000000</color>
+    <color name="color_text_btn_menu">#FBDB0C</color>
 
 </resources>

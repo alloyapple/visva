@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
-          android:drawable="@drawable/_altp_btn_menu_press" /> <!-- pressed -->
+          android:drawable="@drawable/_altp_menu_button_pressed" /> <!-- pressed -->
     <item android:state_focused="true"
-          android:drawable="@drawable/_altp_btn_menu_press" /> <!-- focused -->
-    <item android:drawable="@drawable/_altp_btn_menu" /> <!-- default -->
+          android:drawable="@drawable/_altp_menu_button_pressed" /> <!-- focused -->
+    <item android:drawable="@drawable/_altp_menu_button" /> <!-- default -->
 </selector>
