@@ -3,16 +3,19 @@ package com.example.ailatrieuphu_visva.activity;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +39,7 @@ public class MenuActivity_2 extends Activity {
 	private Button _btn_menu_options;
 	private Button _btn_menu_exit;
 	private Button _btn_facebook;
-	//private AnimationDrawable _anim_begin;
+	private AnimationDrawable _anim_begin;
 	private Boolean _is_begin;
 	private DBConnector _db_connector;
 
@@ -44,7 +47,6 @@ public class MenuActivity_2 extends Activity {
 	private EditText et_description;
 	private Dialog dialog;
 
-	
 	private Handler _handler = new Handler();
 	private OnClickListener _listener_onclick_begin = new OnClickListener() {
 
@@ -115,7 +117,7 @@ public class MenuActivity_2 extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			//onClickShareFaceBook();
+			// onClickShareFaceBook();
 		}
 	};
 
@@ -133,14 +135,16 @@ public class MenuActivity_2 extends Activity {
 		_btn_menu_exit.setOnClickListener(_listener_onclick_exit);
 		_btn_facebook = (Button) findViewById(R.id._layout_menu_btn_facebook);
 		_btn_facebook.setOnClickListener(_listener_onclick_share_facebook);
-		//_anim_begin = (AnimationDrawable) _btn_menu_begin.getBackground().getCurrent();
-		
-//		Typeface type = Typeface.createFromAsset(getAssets(),"fonts/VNI-Helve-Bold.TTF"); 		
-//		_btn_menu_begin.setTypeface(type);
-//		_btn_menu_high_score.setTypeface(type);
-//		_btn_menu_options.setTypeface(type);
-//		_btn_menu_exit.setTypeface(type);
-		
+		// _anim_begin = (AnimationDrawable)
+		// _btn_menu_begin.getBackground().getCurrent();
+
+		// Typeface type =
+		// Typeface.createFromAsset(getAssets(),"fonts/VNI-Helve-Bold.TTF");
+		// _btn_menu_begin.setTypeface(type);
+		// _btn_menu_high_score.setTypeface(type);
+		// _btn_menu_options.setTypeface(type);
+		// _btn_menu_exit.setTypeface(type);
+
 		_db_connector = new DBConnector(this);
 	}
 
@@ -148,16 +152,19 @@ public class MenuActivity_2 extends Activity {
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// TODO Auto-generated method stub
 		super.onWindowFocusChanged(hasFocus);
-//		if (!_is_begin) {
-//			_anim_begin.stop();
-//			_anim_begin.selectDrawable(0);
-//		}
+		// if (!_is_begin && _anim_begin != null) {
+		// _anim_begin.stop();
+		// _anim_begin.selectDrawable(0);
+		// }
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
+		Log.e("adhfhdf","adjhfjkdhf");
 		Helpers.releaseSound(_sound);
+		if (_anim_begin != null)
+			_anim_begin.stop();
 		super.onPause();
 	}
 
@@ -165,6 +172,7 @@ public class MenuActivity_2 extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		_is_begin = false;
+		_btn_menu_begin.setBackgroundResource(R.drawable.altp_btn_menu_);
 		_sound = Helpers.playSound(this, R.raw._altp_sound_background, true);
 		super.onResume();
 	}
@@ -203,7 +211,8 @@ public class MenuActivity_2 extends Activity {
 		mProgress = new ProgressDialog(this);
 		mProgress.setMessage("Posting ...");
 		mProgress.show();
-		//AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(_mFacebook);
+		// AsyncFacebookRunner mAsyncFbRunner = new
+		// AsyncFacebookRunner(_mFacebook);
 		// try {
 		Bundle params = new Bundle();
 		// is = new FileInputStream(path);
@@ -211,7 +220,8 @@ public class MenuActivity_2 extends Activity {
 		params.putString("message", message);
 		params.putString("filename", "test1.mp4");
 		params.putByteArray("video", data);
-		//mAsyncFbRunner.request("me/videos", params, "POST", new WallPostListener());
+		// mAsyncFbRunner.request("me/videos", params, "POST", new
+		// WallPostListener());
 		// } catch (FileNotFoundException e) {
 		// e.printStackTrace();
 		// } catch (IOException e) {
@@ -230,10 +240,13 @@ public class MenuActivity_2 extends Activity {
 		return byteBuffer.toByteArray();
 	}
 
-
-
 	private void onClickBegin() {
-		creat_dialog_begin(this, _listener_onclick_oki_begin, _listener_onclick_dont_known_begin);
+		_btn_menu_begin.setBackgroundResource(R.drawable.altp_btn_anim_menu_);
+		_anim_begin = (AnimationDrawable) _btn_menu_begin.getBackground();
+		// _anim_begin.start();
+
+		creat_dialog_begin(this, _listener_onclick_oki_begin,
+				_listener_onclick_dont_known_begin);
 		Helpers.releaseSound(_sound);
 		_sound = Helpers.playSound(this, R.raw._altp_sound_ready, false);
 	}
@@ -252,9 +265,10 @@ public class MenuActivity_2 extends Activity {
 
 	private void onClickOkiBegin() {
 		_is_begin = true;
+		_anim_begin.start();
 		Helpers.releaseSound(_sound);
 		_sound = Helpers.playSound(this, R.raw._altp_sound_begin_game, false);
-		//_anim_begin.start();
+		// _anim_begin.start();
 		new Thread() {
 			public void run() {
 				Helpers.wait_sound(_sound);
@@ -265,8 +279,8 @@ public class MenuActivity_2 extends Activity {
 					public void run() {
 						// TODO Auto-generated method stub
 						MainGameActivity.startActivity(MenuActivity_2.this);
-//						_anim_begin.stop();
-//						_anim_begin.selectDrawable(0);
+						_anim_begin.stop();
+						_anim_begin.selectDrawable(0);
 					}
 				});
 			}
@@ -279,7 +293,7 @@ public class MenuActivity_2 extends Activity {
 		_is_begin = true;
 		Helpers.releaseSound(_sound);
 		_sound = Helpers.playSound(this, R.raw._altp_sound_begin_game, false);
-		//_anim_begin.start();
+		_anim_begin.start();
 		new Thread() {
 			public void run() {
 				Helpers.wait_sound(_sound);
@@ -289,8 +303,8 @@ public class MenuActivity_2 extends Activity {
 					public void run() {
 						// TODO Auto-generated method stub
 						MainGameActivity.startActivity(MenuActivity_2.this);
-						//_anim_begin.stop();
-						//_anim_begin.selectDrawable(0);
+						_anim_begin.stop();
+						_anim_begin.selectDrawable(0);
 					}
 				});
 			}
@@ -309,49 +323,70 @@ public class MenuActivity_2 extends Activity {
 		_dialog_high_score.dismiss();
 	}
 
-	public void creat_dialog_begin(Context mContext, OnClickListener listener_oki, OnClickListener listener_dont_known) {
+	private void creat_dialog_begin(Context mContext,
+			OnClickListener listener_oki, OnClickListener listener_dont_known) {
 		_dialog_begin = new Dialog(mContext);
-		_dialog_begin.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_begin.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_begin.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_begin, null);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_begin_btn_ok);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_begin,
+				null);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_begin_btn_ok);
 		btn_oki.setOnClickListener(listener_oki);
-		Button btn_dont_known = (Button) dialog_view.findViewById(R.id._layout_dialog_begin_btn_dont_known);
+		Button btn_dont_known = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_begin_btn_dont_known);
 		btn_dont_known.setOnClickListener(listener_dont_known);
 		_dialog_begin.setContentView(dialog_view);
 		_dialog_begin.show();
 	}
 
-	public void creat_dialog_rule(Context mContext, OnClickListener listener_oki) {
+	private void creat_dialog_rule(Context mContext,
+			OnClickListener listener_oki) {
 		_dialog_rule = new Dialog(mContext);
-		_dialog_rule.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_rule.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_rule.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_rule, null);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_rule_btn_ok);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_rule,
+				null);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_rule_btn_ok);
 		btn_oki.setOnClickListener(listener_oki);
 		_dialog_rule.setContentView(dialog_view);
 		_dialog_rule.show();
 	}
 
-	public void creat_dialog_highscore(Context mContext) {
+	private void creat_dialog_highscore(Context mContext) {
 		_dialog_high_score = new Dialog(mContext);
-		_dialog_high_score.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_high_score.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_high_score.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_high_score, null);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_high_score_btn_ok);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(
+				R.layout._altp_layout_dialog_high_score, null);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_btn_ok);
 		btn_oki.setOnClickListener(_listener_onclick_oki_high_score);
 		TextView _txt_name[] = new TextView[3];
-		_txt_name[0] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_name_1);
-		_txt_name[1] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_name_2);
-		_txt_name[2] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_name_3);
+		_txt_name[0] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_name_1);
+		_txt_name[1] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_name_2);
+		_txt_name[2] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_name_3);
 
 		TextView _txt_score[] = new TextView[3];
-		_txt_score[0] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_score_1);
-		_txt_score[1] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_score_2);
-		_txt_score[2] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_score_3);
+		_txt_score[0] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_score_1);
+		_txt_score[1] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_score_2);
+		_txt_score[2] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_score_3);
 
 		for (int i = 0; i < 3; i++) {
 		}
@@ -359,14 +394,18 @@ public class MenuActivity_2 extends Activity {
 		_dialog_high_score.show();
 	}
 
-	public void creat_dialog_options(Context mContext) {
+	private void creat_dialog_options(Context mContext) {
 		_dialog_options = new Dialog(mContext);
-		_dialog_options.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_options.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_options.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_options, null);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(
+				R.layout._altp_layout_dialog_options, null);
 		_dialog_options.setContentView(dialog_view);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_options_btn_ok);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_options_btn_ok);
 		btn_oki.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -379,25 +418,30 @@ public class MenuActivity_2 extends Activity {
 		_dialog_options.show();
 	}
 
-	public void creat_dialog_exit(Context mContext) {
+	private void creat_dialog_exit(Context mContext) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		builder.setMessage(getResources().getString(R.string._txt_msg_dialog_exit));
-		builder.setPositiveButton(getResources().getString(R.string._txt_btn_ok), new DialogInterface.OnClickListener() {
+		builder.setMessage(getResources().getString(
+				R.string._txt_msg_dialog_exit));
+		builder.setPositiveButton(getResources()
+				.getString(R.string._txt_btn_ok),
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
-		builder.setNegativeButton(getResources().getString(R.string._txt_btn_cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						finish();
+					}
+				});
+		builder.setNegativeButton(
+				getResources().getString(R.string._txt_btn_cancel),
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
 
-			}
-		});
+					}
+				});
 		builder.create().show();
 	}
 

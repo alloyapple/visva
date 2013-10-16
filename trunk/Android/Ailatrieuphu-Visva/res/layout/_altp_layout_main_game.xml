@@ -30,13 +30,6 @@
         style="@style/layout_full"
         android:orientation="vertical" >
 
-        <ImageView
-            style="@style/layout_wrap"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/_altp_logo_menu"
-            android:contentDescription="@string/_content_description" />
-
         <LinearLayout
             style="@style/layout_wrap"
             android:layout_gravity="center"
