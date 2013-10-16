@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout_wrap"
-    android:background="@drawable/_altp_bg_dialog_begin" >
+    android:background="@drawable/_altp_bg_dialog_options" >
 
     <LinearLayout
         style="@style/layout_wrap"
@@ -19,8 +19,7 @@
             <CheckBox
                 android:id="@+id/_layout_dialog_options_check_sound"
                 style="@style/layout_wrap"
-                android:layout_marginLeft="12dp"
-                android:button="@drawable/altp_btn_checkbox" />
+                android:layout_marginLeft="12dp" />
 
             <TextView
                 style="@style/layout_wrap"
@@ -41,8 +40,7 @@
             <CheckBox
                 android:id="@+id/_layout_dialog_options_check_share"
                 style="@style/layout_wrap"
-                android:layout_marginLeft="12dp"
-                android:button="@drawable/altp_btn_checkbox" />
+                android:layout_marginLeft="12dp" />
 
             <TextView
                 style="@style/layout_wrap"
@@ -57,9 +55,10 @@
 
     <Button
         android:id="@+id/_layout_dialog_options_btn_ok"
-        style="@style/layout_wrap"
+        android:layout_width="@dimen/button_dialog_width"
+        android:layout_height="@dimen/button_dialog_height"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/altp_btn_menu_"
         android:text="@string/_txt_btn_confirm_close"
         android:textColor="@color/color_txt_menu"
