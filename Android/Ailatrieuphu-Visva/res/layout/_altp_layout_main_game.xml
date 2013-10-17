@@ -88,7 +88,8 @@
         <TextView
             android:id="@+id/_layout_main_game_txt_question_number"
             style="@style/layout_wrap"
-            android:layout_margin="4dp"
+            android:layout_marginLeft="@dimen/text_margin_left"
+            android:layout_marginTop="@dimen/text_margin_top"
             android:text="@string/_txt_question_number"
             android:textColor="@color/color_txt_question"
             android:textStyle="bold" >
@@ -98,8 +99,8 @@
             android:id="@+id/_layout_main_game_txt_question_content"
             style="@style/layout_full_wrap"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="@dimen/text_summary_margin_left"
+            android:layout_marginRight="@dimen/text_summary_margin_right"
             android:gravity="center"
             android:text="@string/_txt_question_content"
             android:textColor="@color/color_txt_question"
@@ -111,37 +112,39 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:gravity="bottom"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/layout_text_answer_margin_left"
+        android:layout_marginBottom="@dimen/layout_text_answer_margin_bottom"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/_layout_main_game_btn_answer_a"
-            style="@style/layout_full_wrap"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/_layout_main_game_btn_answer_b"
-            style="@style/layout_full_wrap"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/_layout_main_game_btn_answer_c"
-            style="@style/layout_wrap"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/_layout_main_game_btn_answer_d"
-            style="@style/layout_full_wrap"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
             android:textStyle="bold" />

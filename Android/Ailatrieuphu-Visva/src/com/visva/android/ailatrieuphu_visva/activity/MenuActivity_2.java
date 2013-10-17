@@ -1,4 +1,4 @@
-package com.example.ailatrieuphu_visva.activity;
+package com.visva.android.ailatrieuphu_visva.activity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,9 +24,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.ailatrieuphu_visva.R;
-import com.example.ailatrieuphu_visva.db.DBConnector;
-import com.example.ailatrieuphu_visva.utils.Helpers;
+import com.visva.android.ailatrieuphu_visva.R;
+import com.visva.android.ailatrieuphu_visva.db.DBConnector;
+import com.visva.android.ailatrieuphu_visva.utils.Helpers;
 
 public class MenuActivity_2 extends Activity {
 	private MediaPlayer _sound;

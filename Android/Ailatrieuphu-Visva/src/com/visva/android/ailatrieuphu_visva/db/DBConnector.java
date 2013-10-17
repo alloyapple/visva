@@ -1,4 +1,4 @@
-package com.example.ailatrieuphu_visva.db;
+package com.visva.android.ailatrieuphu_visva.db;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 public class DBConnector extends SQLiteOpenHelper {
 	public static final String KEY_ID = "_id";
 	private static final String DATABASE_NAME = "Question.mp3";
-	private static final String DATABASE_PATH = "/data/data/com.example.ailatrieuphu_visva/databases/";
+	private static final String DATABASE_PATH = "/data/data/com.visva.android.ailatrieuphu_visva/databases/";
 	private static final int DATABASE_VERSION = 1;
 
 	public static final String QUESTION = "Question";

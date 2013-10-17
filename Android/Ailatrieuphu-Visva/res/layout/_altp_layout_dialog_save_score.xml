@@ -17,12 +17,12 @@
     <EditText
         android:id="@+id/_layout_dialog_input_name"
         style="@style/layout_full_wrap"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_gravity="center|center"
         android:layout_marginBottom="10dp"
-        android:singleLine="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:hint="@string/_suggest_input_player_name"
+        android:singleLine="true"
         android:textColor="@color/color_txt_black"
         android:textSize="16sp" />
 
@@ -43,7 +43,8 @@
 
         <Button
             android:id="@+id/_layout_dialog_save_score_cancel"
-            style="@style/layout_wrap"
+            android:layout_width="@dimen/button_dialog_width"
+            android:layout_height="@dimen/button_dialog_height"
             android:background="@drawable/altp_btn_menu_"
             android:text="@string/_txt_btn_confirm_cancel_save_score"
             android:textColor="@color/color_txt_menu"
