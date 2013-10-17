@@ -4,117 +4,147 @@
     style="@style/layout_full"
     android:background="@drawable/_altp_menu_bg" >
 
-    <TextView
-        android:id="@+id/_layout_main_game_txt_money"
-        style="@style/layout_wrap"
-        android:layout_gravity="left|top"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textColor="@color/color_txt_white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/_altp_bar_time_money" >
 
-    <TextView
-        android:id="@+id/_layout_main_game_txt_time"
-        style="@style/layout_wrap"
-        android:layout_gravity="right|top"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textColor="@color/color_txt_white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/_layout_main_game_txt_money"
+            style="@style/layout_wrap"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="@dimen/text_money_margin_left"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/color_txt_white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/_layout_main_game_txt_time"
+            style="@style/layout_wrap"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="@dimen/text_time_margin_left"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/color_txt_white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <LinearLayout
-        style="@style/layout_full"
+        style="@style/layout_wrap"
+        android:layout_gravity="left|top"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="@dimen/layout_support_margin"
         android:orientation="vertical" >
 
-        <LinearLayout
-            style="@style/layout_wrap"
-            android:layout_gravity="center"
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_50_50"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
+            android:background="@drawable/altp_btn_help_50_50_"
+            android:gravity="left" />
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_call_relatives"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
+            android:background="@drawable/altp_btn_help_call_relatives_"
+            android:gravity="left" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_help_50_50"
-                style="@style/layout_wrap"
-                android:background="@drawable/altp_btn_help_50_50_" />
+    <LinearLayout
+        style="@style/layout_wrap"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="@dimen/layout_support_margin"
+        android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_help_call_relatives"
-                style="@style/layout_wrap"
-                android:background="@drawable/altp_btn_help_call_relatives_" />
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_audience"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
+            android:background="@drawable/altp_btn_help_audience_" />
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_help_audience"
-                style="@style/layout_wrap"
-                android:background="@drawable/altp_btn_help_audience_" />
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_change_question"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/altp_btn_help_change_question_" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_help_change_question"
-                style="@style/layout_wrap"
-                android:background="@drawable/altp_btn_help_change_question_" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/_altp_boder_text"
+        android:layout_marginTop="@dimen/layout_text_margin_top"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            style="@style/layout_full"
-            android:gravity="bottom"
-            android:orientation="vertical" >
+        <TextView
+            android:id="@+id/_layout_main_game_txt_question_number"
+            style="@style/layout_wrap"
+            android:layout_margin="4dp"
+            android:text="@string/_txt_question_number"
+            android:textColor="@color/color_txt_question"
+            android:textStyle="bold" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/_layout_main_game_txt_question_number"
-                style="@style/layout_wrap"
-                android:layout_margin="4dp"
-                android:text="@string/_txt_question_number"
-                android:textColor="@color/color_txt_question"
-                android:textStyle="bold" >
-            </TextView>
+        <TextView
+            android:id="@+id/_layout_main_game_txt_question_content"
+            style="@style/layout_full_wrap"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center"
+            android:text="@string/_txt_question_content"
+            android:textColor="@color/color_txt_question"
+            android:textStyle="bold" >
+        </TextView>
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/_layout_main_game_txt_question_content"
-                style="@style/layout_full_wrap"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"
-                android:text="@string/_txt_question_content"
-                android:textColor="@color/color_txt_question"
-                android:textStyle="bold" >
-            </TextView>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_answer_a"
-                style="@style/layout_full_wrap"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/altp_btn_answer_normal_"
-                android:textColor="@color/color_txt_white"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_a"
+            style="@style/layout_full_wrap"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_answer_b"
-                style="@style/layout_full_wrap"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/altp_btn_answer_normal_"
-                android:textColor="@color/color_txt_white"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_b"
+            style="@style/layout_full_wrap"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_answer_c"
-                style="@style/layout_wrap"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/altp_btn_answer_normal_"
-                android:textColor="@color/color_txt_white"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_c"
+            style="@style/layout_wrap"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/_layout_main_game_btn_answer_d"
-                style="@style/layout_full_wrap"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/altp_btn_answer_normal_"
-                android:textColor="@color/color_txt_white"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_d"
+            style="@style/layout_full_wrap"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </FrameLayout>
