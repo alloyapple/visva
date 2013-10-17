@@ -1,4 +1,4 @@
-package com.example.ailatrieuphu_visva.utils;
+package com.visva.android.ailatrieuphu_visva.utils;
 
 import android.content.Context;
 import android.media.MediaPlayer;

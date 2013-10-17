@@ -1,4 +1,4 @@
-package com.example.ailatrieuphu_visva.i;
+package com.visva.android.ailatrieuphu_visva.i;
 
 public interface IAPListener {
 	public void callSmsPurchase();

@@ -1,4 +1,4 @@
-package com.example.ailatrieuphu_visva.activity;
+package com.visva.android.ailatrieuphu_visva.activity;
 
 import java.util.Random;
 
@@ -22,10 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.example.ailatrieuphu_visva.R;
-import com.example.ailatrieuphu_visva.db.DBConnector;
-import com.example.ailatrieuphu_visva.db.Question;
-import com.example.ailatrieuphu_visva.utils.Helpers;
+import com.visva.android.ailatrieuphu_visva.R;
+import com.visva.android.ailatrieuphu_visva.db.DBConnector;
+import com.visva.android.ailatrieuphu_visva.db.Question;
+import com.visva.android.ailatrieuphu_visva.utils.Helpers;
 
 @SuppressWarnings("deprecation")
 public class MainGameActivity extends Activity {
@@ -322,7 +322,7 @@ public class MainGameActivity extends Activity {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						_btn_answer[answer].setBackgroundResource(R.drawable._altp_answer_accept_state);
+						_btn_answer[answer].setBackgroundResource(R.drawable._altp_menu_button_pressed);
 						_my_answer = answer + 1;
 						lockAnswer(true);
 					}

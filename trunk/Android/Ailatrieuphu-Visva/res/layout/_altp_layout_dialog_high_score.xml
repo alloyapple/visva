@@ -80,7 +80,8 @@
 
     <Button
         android:id="@+id/_layout_dialog_high_score_btn_ok"
-        style="@style/layout_wrap"
+        android:layout_width="@dimen/button_dialog_width"
+        android:layout_height="@dimen/button_dialog_height"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="30dp"
         android:background="@drawable/altp_btn_menu_"

@@ -1,4 +1,4 @@
-package com.example.ailatrieuphu_visva.i;
+package com.visva.android.ailatrieuphu_visva.i;
 
 public interface FacebookListener {
 	public final static String LINK = "http://appstore.vn/android/details?id=vn.zgome.streetknight.android";

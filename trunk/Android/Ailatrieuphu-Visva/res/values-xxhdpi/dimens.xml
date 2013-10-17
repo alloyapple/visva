@@ -16,8 +16,16 @@
     <dimen name="checkbox_height">100dp</dimen>
     <dimen name="button_support_width">70dp</dimen>
     <dimen name="button_support_height">70dp</dimen>
-    <dimen name="layout_support_margin">120dp</dimen>
+    <dimen name="layout_support_margin">100dp</dimen>
     <dimen name="text_money_margin_left">100dp</dimen>
     <dimen name="text_time_margin_left">110dp</dimen>
-    <dimen name="layout_text_margin_top">200dp</dimen>
+    <dimen name="layout_text_margin_top">250dp</dimen>
+    <dimen name="text_margin_left">25dp</dimen>
+    <dimen name="text_margin_top">25dp</dimen>
+    <dimen name="text_summary_margin_left">30dp</dimen>
+    <dimen name="text_summary_margin_right">30dp</dimen>
+    <dimen name="layout_text_answer_margin_bottom">38dp</dimen>
+    <dimen name="layout_text_answer_margin_left">10dp</dimen>
+    <dimen name="button_answer_width">220dp</dimen>
+    <dimen name="button_answer_height">50dp</dimen>
 </resources>

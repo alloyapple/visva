@@ -1,4 +1,4 @@
-package com.example.ailatrieuphu_visva.db;
+package com.visva.android.ailatrieuphu_visva.db;
 
 import java.util.Random;
 
