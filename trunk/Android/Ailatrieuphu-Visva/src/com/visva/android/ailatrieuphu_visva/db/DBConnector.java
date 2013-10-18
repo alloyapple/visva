@@ -74,7 +74,8 @@ public class DBConnector extends SQLiteOpenHelper {
 				createIndexInFirstPlay();
 				close();
 			} catch (IOException e) {
-				Toast.makeText(ctx, "Hãy Reboot lại máy...", Toast.LENGTH_LONG).show();
+				Toast.makeText(ctx, "Hãy Reboot lại máy...",
+						Toast.LENGTH_LONG).show();
 			}
 			return false;
 		}
@@ -84,7 +85,8 @@ public class DBConnector extends SQLiteOpenHelper {
 		SQLiteDatabase checkDB = null;
 		try {
 			String myPath = DATABASE_PATH + DATABASE_NAME;
-			checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
+			checkDB = SQLiteDatabase.openDatabase(myPath, null,
+					SQLiteDatabase.OPEN_READWRITE);
 			Log.v("DATABASE", "OPEN CHECK");
 		} catch (SQLiteException e) {
 		}
@@ -118,23 +120,38 @@ public class DBConnector extends SQLiteOpenHelper {
 	public void openDataBase() throws SQLException {
 		if (myDB == null || (myDB != null && !myDB.isOpen())) {
 			String myPath = DATABASE_PATH + DATABASE_NAME;
-			myDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
+			myDB = SQLiteDatabase.openDatabase(myPath, null,
+					SQLiteDatabase.OPEN_READWRITE);
 		}
-
 	}
 
 	public Cursor getQuestion(String tableName, int id) {
-		return myDB.query(tableName, new String[] { KEY_ID, QUESTION, CASE_A, CASE_B, CASE_C, CASE_D, TRUE_CASE }, KEY_ID + " = " + id, null, null, null, null);
+		Cursor cursor = null;
+		try {
+			cursor = myDB.query(tableName, new String[] { KEY_ID, QUESTION,
+					CASE_A, CASE_B, CASE_C, CASE_D, TRUE_CASE }, KEY_ID + " = "
+					+ id, null, null, null, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
 	}
 
 	public Cursor getIndex(String tableName, int level) {
-		return myDB.query(tableName, new String[] { KEY_ID, PASS, }, KEY_ID + " = " + level, null, null, null, null);
+		Cursor cursor = null;
+		try {
+			cursor = myDB.query(tableName, new String[] { KEY_ID, PASS, },
+					KEY_ID + " = " + level, null, null, null, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cursor;
 	}
 
 	public void setIndex(int level, int index) {
 		ContentValues inititalValues = new ContentValues();
 		inititalValues.put(PASS, index);
-		myDB.update("Manager", inititalValues, KEY_ID + "=" + level, null);
+		myDB.update("Manager", inititalValues, KEY_ID + "=" + level, null);  
 	}
 
 	public void createIndexInFirstPlay() {
@@ -145,25 +162,32 @@ public class DBConnector extends SQLiteOpenHelper {
 	}
 
 	public Question getData(int level) {
+		Cursor sugCursor = null;
 		int id = getId(level);
-		Cursor sugCursor = this.getQuestion("Question" + String.valueOf(level), id);
+		try {
+			sugCursor = this
+					.getQuestion("Question" + String.valueOf(level), id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		((Activity) ctx).startManagingCursor(sugCursor);
 		Question question = new Question();
 		question.setLevel(level);
-		if (sugCursor.moveToFirst()) {
+		if (!sugCursor.isClosed() && sugCursor.moveToFirst()) {
 			do {
-				Cursor cur = sugCursor;
-				question.set_id(cur.getInt(0));
-				question.set_question_content(cur.getString(1));
-				question.set_answer_a(cur.getString(2));
-				question.set_answer_b(cur.getString(3));
-				question.set_answer_c(cur.getString(4));
-				question.set_answer_d(cur.getString(5));
-				question.set_correct_answer(cur.getInt(6));
+				//Cursor cur = sugCursor;
+				question.set_id(sugCursor.getInt(0));
+				question.set_question_content(sugCursor.getString(1));
+				question.set_answer_a(sugCursor.getString(2));
+				question.set_answer_b(sugCursor.getString(3));
+				question.set_answer_c(sugCursor.getString(4));
+				question.set_answer_d(sugCursor.getString(5));
+				question.set_correct_answer(sugCursor.getInt(6));
 				question.swap_correct_answer();
 			} while (sugCursor.moveToNext());
 		}
 		if (sugCursor != null && !sugCursor.isClosed()) {
+			((Activity) ctx).stopManagingCursor(sugCursor);
 			sugCursor.close();
 		}
 		this.setIndex(level, id + 1);
@@ -174,16 +198,16 @@ public class DBConnector extends SQLiteOpenHelper {
 		int index = 1;
 		Cursor sugCursor = getIndex("Manager", level);
 		((Activity) ctx).startManagingCursor(sugCursor);
-		if (sugCursor.moveToFirst()) {
+		if (!sugCursor.isClosed() && sugCursor.moveToFirst()) {
 			do {
-				Cursor cur = sugCursor;
-				index = cur.getInt(1);
+				//Cursor cur = sugCursor;
+				index = sugCursor.getInt(1);
 			} while (sugCursor.moveToNext());
 		}
 		if (sugCursor != null && !sugCursor.isClosed()) {
+			((Activity) ctx).stopManagingCursor(sugCursor);
 			sugCursor.close();
 		}
 		return index;
 	}
-
 }
