@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout_wrap"
-    android:background="@drawable/_altp_bg_dialog" >
+    android:background="@drawable/_altp_bg_dialog_begin" >
 
     <TextView
         android:id="@+id/dialog_help_experts_title"
@@ -34,7 +34,8 @@
 
         <Button
             android:id="@+id/_layout_dialog_save_score_oki"
-            style="@style/layout_wrap"
+            android:layout_width="@dimen/button_dialog_width"
+            android:layout_height="@dimen/button_dialog_height"
             android:layout_marginRight="8dp"
             android:background="@drawable/altp_btn_menu_"
             android:text="@string/_txt_btn_confirm_oki_save_score"

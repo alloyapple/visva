@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout_wrap"
-    android:background="@drawable/_altp_bg_dialog" >
+    android:background="@drawable/_altp_bg_dialog_begin" >
 
     <LinearLayout
         style="@style/layout_full_wrap"

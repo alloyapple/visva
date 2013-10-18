@@ -321,6 +321,10 @@ public class MainGameActivity extends Activity {
 	public void lockAnswer(boolean b) {
 		for (int i = 0; i < 4; i++)
 			_btn_answer[i].setEnabled(!b);
+		_btn_help_50_50.setEnabled(!b);
+		_btn_help_audience.setEnabled(!b);
+		_btn_help_call_relatives.setEnabled(!b);
+		_btn_help_change_question.setEnabled(!b);
 	}
 
 	public void confirmSelectAnswer(final int answer) {
@@ -913,7 +917,7 @@ public class MainGameActivity extends Activity {
 		case 3:
 			return "300";
 		case 4:
-			return "500";
+			return "500";     
 		case 5:
 			return "1 000";
 		case 6:

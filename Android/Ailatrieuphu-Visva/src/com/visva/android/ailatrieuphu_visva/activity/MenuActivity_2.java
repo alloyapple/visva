@@ -53,7 +53,8 @@ public class MenuActivity_2 extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			onClickBegin();
+			if (!_is_begin)
+				onClickBegin();
 		}
 	};
 	private OnClickListener _listener_onclick_high_score = new OnClickListener() {
@@ -61,7 +62,8 @@ public class MenuActivity_2 extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			onClickHighScore();
+			if (!_is_begin)
+				onClickHighScore();
 		}
 	};
 	private OnClickListener _listener_onclick_options = new OnClickListener() {
@@ -69,7 +71,8 @@ public class MenuActivity_2 extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			onClickOptions();
+			if (!_is_begin)
+				onClickOptions();
 		}
 	};
 	private OnClickListener _listener_onclick_exit = new OnClickListener() {
@@ -77,7 +80,8 @@ public class MenuActivity_2 extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			onClickExit();
+			if (!_is_begin)
+				onClickExit();
 		}
 	};
 	private OnClickListener _listener_onclick_oki_begin = new OnClickListener() {
@@ -161,7 +165,7 @@ public class MenuActivity_2 extends Activity {
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
-		Log.e("adhfhdf","adjhfjkdhf");
+		Log.e("adhfhdf", "adjhfjkdhf");
 		Helpers.releaseSound(_sound);
 		if (_anim_begin != null)
 			_anim_begin.stop();
@@ -303,6 +307,7 @@ public class MenuActivity_2 extends Activity {
 					public void run() {
 						// TODO Auto-generated method stub
 						MainGameActivity.startActivity(MenuActivity_2.this);
+						_is_begin = false;
 						_anim_begin.stop();
 						_anim_begin.selectDrawable(0);
 					}
