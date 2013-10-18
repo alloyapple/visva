@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_full"
+    android:background="@drawable/_altp_menu_bg" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/_altp_bar_time_money" >
+
+        <TextView
+            android:id="@+id/_layout_main_game_txt_money"
+            style="@style/layout_wrap"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/text_money_margin_left"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/color_txt_white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/_layout_main_game_txt_time"
+            style="@style/layout_wrap"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="@dimen/text_time_margin_left"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@color/color_txt_white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_support_left"
+        style="@style/layout_wrap"
+        android:layout_gravity="left|top"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="@dimen/layout_support_margin"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_50_50"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
+            android:background="@drawable/altp_btn_help_50_50_"
+            android:gravity="left" />
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_call_relatives"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/altp_btn_help_call_relatives_"
+            android:gravity="left" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout_wrap"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="@dimen/layout_support_margin"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_audience"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
+            android:background="@drawable/altp_btn_help_audience_" />
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_help_change_question"
+            android:layout_width="@dimen/button_support_width"
+            android:layout_height="@dimen/button_support_height"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/altp_btn_help_change_question_" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/layout_support_left"
+        android:background="@drawable/_altp_boder_text"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/_layout_main_game_txt_question_number"
+            style="@style/layout_wrap"
+            android:layout_marginLeft="@dimen/text_margin_left"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:text="@string/_txt_question_number"
+            android:textColor="@color/color_txt_question"
+            android:textStyle="bold" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/_layout_main_game_txt_question_content"
+            style="@style/layout_full_wrap"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="@dimen/text_summary_margin_left"
+            android:layout_marginRight="@dimen/text_summary_margin_right"
+            android:gravity="center"
+            android:text="@string/_txt_question_content"
+            android:textColor="@color/color_txt_question"
+            android:textStyle="bold" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/layout_text_answer_margin_bottom"
+        android:layout_marginLeft="@dimen/layout_text_answer_margin_left"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_a"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_b"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_c"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/_layout_main_game_btn_answer_d"
+            android:layout_width="@dimen/button_answer_width"
+            android:layout_height="@dimen/button_answer_height"
+            android:background="@drawable/altp_btn_answer_normal_"
+            android:textColor="@color/color_txt_white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>
