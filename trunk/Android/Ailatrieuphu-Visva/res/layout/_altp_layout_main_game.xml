@@ -13,7 +13,6 @@
             android:id="@+id/_layout_main_game_txt_money"
             style="@style/layout_wrap"
             android:layout_alignParentLeft="true"
-            android:layout_gravity="left|top"
             android:layout_marginLeft="@dimen/text_money_margin_left"
             android:layout_marginTop="10dp"
             android:gravity="center"
