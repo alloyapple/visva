@@ -14,9 +14,9 @@
             style="@style/layout_wrap"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/text_money_margin_left"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/layout_time_money_margin_top"
             android:gravity="center"
-            android:textColor="@color/color_txt_white"
+            android:textColor="@color/color_txt_menu"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="right|top"
             android:layout_marginRight="@dimen/text_time_margin_left"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/layout_time_money_margin_top"
             android:gravity="center"
             android:textColor="@color/color_txt_white"
             android:textSize="18sp"
@@ -37,7 +37,7 @@
         android:id="@+id/layout_support_left"
         style="@style/layout_wrap"
         android:layout_gravity="left|top"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="@dimen/layout_support_margin"
         android:orientation="vertical" >
 
@@ -61,7 +61,7 @@
         style="@style/layout_wrap"
         android:layout_alignParentRight="true"
         android:layout_gravity="right|top"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="@dimen/layout_support_margin"
         android:orientation="vertical" >
 
@@ -80,10 +80,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_question"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/layout_question_height"
         android:layout_alignParentRight="true"
         android:layout_below="@id/layout_support_left"
+        android:layout_marginTop="@dimen/layout_text_margin_top"
         android:background="@drawable/_altp_boder_text"
         android:orientation="vertical" >
 
@@ -94,6 +96,7 @@
             android:layout_marginTop="@dimen/text_margin_top"
             android:text="@string/_txt_question_number"
             android:textColor="@color/color_txt_question"
+            android:textSize="@dimen/text_size_question"
             android:textStyle="bold" >
         </TextView>
 
@@ -106,6 +109,7 @@
             android:gravity="center"
             android:text="@string/_txt_question_content"
             android:textColor="@color/color_txt_question"
+            android:textSize="@dimen/text_size_question"
             android:textStyle="bold" >
         </TextView>
     </LinearLayout>
@@ -114,7 +118,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/layout_text_answer_margin_bottom"
         android:layout_marginLeft="@dimen/layout_text_answer_margin_left"
         android:gravity="center|bottom"
@@ -126,6 +129,7 @@
             android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
+            android:textSize="@dimen/text_size_answer"
             android:textStyle="bold" />
 
         <Button
@@ -134,6 +138,7 @@
             android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
+            android:textSize="@dimen/text_size_answer"
             android:textStyle="bold" />
 
         <Button
@@ -142,6 +147,7 @@
             android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
+            android:textSize="@dimen/text_size_answer"
             android:textStyle="bold" />
 
         <Button
@@ -150,7 +156,26 @@
             android:layout_height="@dimen/button_answer_height"
             android:background="@drawable/altp_btn_answer_normal_"
             android:textColor="@color/color_txt_white"
+            android:textSize="@dimen/text_size_answer"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <vn.amobi.util.ads.AmobiAdView
+        android:id="@+id/small_main_menu_adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:keepScreenOn="true"
+        android:visibility="visible" />
+
+    <com.google.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/main_adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="a1503be3530d135"
+        android:keepScreenOn="true" />
 
 </RelativeLayout>

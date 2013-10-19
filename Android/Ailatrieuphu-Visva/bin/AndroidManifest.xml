@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -42,6 +43,44 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+
+        <service
+            android:name="vn.amobi.util.ads.notifications.AmobiService"
+            android:label="Amobi"
+            android:process=":amobi_service" >
+        </service>
+
+        <!-- Ads category, dùng để phân thể loại quảng cáo nhận về, hiện tại để mặc định là 0 -->
+        <meta-data
+            android:name="vn.amobi.util.param.ads_category"
+            android:value="0" >
+        </meta-data>
+        <meta-data
+            android:name="vn.amobi.util.ads.widget_id"
+            android:value="ace0c7772bf7d2898c74a8ca97f67b5e" >
+        </meta-data>
+        <meta-data
+            android:name="vn.sunnet.util.sms.SmsLauncherTime.PushAds"
+            android:value="true" >
+        </meta-data>
+        <meta-data
+            android:name="vn.sunnet.util.sms.SmsLauncherTime.ClassLauncher"
+            android:value="com.visva.android.ailatrieuphu_visva.activity.MainGameActivity" >
+        </meta-data>
+        <meta-data
+            android:name="vn.sunnet.util.sms.SmsLauncherTime.MsgFirst"
+            android:value="1" >
+        </meta-data>
+        <meta-data
+            android:name="vn.sunnet.util.AdsLauncher.PushAds"
+            android:value="true" />
+        <meta-data
+            android:name="vn.sunnet.util.AdsLauncher.ClassLauncher"
+            android:value="com.visva.android.ailatrieuphu_visva.activity.MainGameActivity" >
+        </meta-data>
     </application>
 
 </manifest>
