@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -842,6 +841,7 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 				.getLayoutInflater();
 		View dialog_view = inflater.inflate(
 				R.layout._altp_layout_dialog_save_score, null);
+		
 		Button btn_oki = (Button) dialog_view
 				.findViewById(R.id._layout_dialog_save_score_oki);
 		btn_oki.setOnClickListener(_listener_onclick_oki_save_score);

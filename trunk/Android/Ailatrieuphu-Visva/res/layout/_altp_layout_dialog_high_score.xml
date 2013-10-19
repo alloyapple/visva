@@ -83,7 +83,7 @@
         android:layout_width="@dimen/button_dialog_width"
         android:layout_height="@dimen/button_dialog_height"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/altp_btn_menu_"
         android:text="@string/_txt_btn_ok"
         android:textColor="@color/color_txt_menu"
