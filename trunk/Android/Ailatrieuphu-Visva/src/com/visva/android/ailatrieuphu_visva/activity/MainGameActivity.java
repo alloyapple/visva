@@ -2,6 +2,11 @@ package com.visva.android.ailatrieuphu_visva.activity;
 
 import java.util.Random;
 
+import vn.amobi.util.ads.AdEventInterface;
+import vn.amobi.util.ads.AmobiAdView;
+import vn.amobi.util.ads.AmobiAdView.WidgetSize;
+import vn.amobi.util.ads.notifications.AmobiPushAd;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,23 +17,29 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 import com.visva.android.ailatrieuphu_visva.R;
 import com.visva.android.ailatrieuphu_visva.db.DBConnector;
 import com.visva.android.ailatrieuphu_visva.db.Question;
 import com.visva.android.ailatrieuphu_visva.utils.Helpers;
 
 @SuppressWarnings("deprecation")
-public class MainGameActivity extends Activity {
+public class MainGameActivity extends Activity implements AdEventInterface {
 	private static final int ID_DIALOG_CONFIRM_USE_50_50 = 0;
 	private static final int ID_DIALOG_CONFIRM_USE_AUDIENCE = 1;
 	private static final int ID_DIALOG_CONFIRM_USE_CALL = 2;
@@ -78,6 +89,8 @@ public class MainGameActivity extends Activity {
 
 	private int _time = 600;
 	private int _money = 0;
+
+	private AdView layoutAds;
 	private OnClickListener _listener_onclick_help_50_50 = new OnClickListener() {
 
 		@Override
@@ -200,6 +213,10 @@ public class MainGameActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().clearFlags(
+				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		setContentView(R.layout._altp_layout_main_game);
 		_btn_help_50_50 = (Button) findViewById(R.id._layout_main_game_btn_help_50_50);
 		_btn_help_50_50.setOnClickListener(_listener_onclick_help_50_50);
@@ -230,8 +247,54 @@ public class MainGameActivity extends Activity {
 			_db_conector = new DBConnector(this);
 			_db_conector.openDataBase();
 		}
+
+		// init ads
+		initAmobiAds();
+
+		//Look up the AdView as a resource and load a request.
+		layoutAds = (AdView) this.findViewById(R.id.main_adView);
+		refreshAdsMob();
+
 		new Thread(task_count_down_time).start();
 		toNextQuestion(_level);
+	}
+
+	private void initAmobiAds() {
+		// TODO Auto-generated method stub
+		AmobiAdView adView = (AmobiAdView) findViewById(R.id.small_main_menu_adView);
+		if (adView != null) {
+			adView.setEventListener(this);
+			adView.loadAd(WidgetSize.SMALL);
+			adView.setHideAfterClick(false);
+			adView.scheduleRefresh();
+		}
+		AmobiPushAd pushAd = new AmobiPushAd(this);
+		pushAd.sendRequest();
+	}
+
+	// refresh adsmobs after 30 seconds
+	private void refreshAdsMob() {
+		new CountDownTimer(12000, 10000) {
+
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onFinish() {
+				// Initiate a generic request to load it with an ad
+				Log.e("refresh ads", "refresh ads");
+				AdRequest adRequest = new AdRequest();
+				adRequest.setTesting(true);
+				layoutAds.refreshDrawableState();
+				layoutAds.loadAd(adRequest);
+				layoutAds.invalidate();
+				layoutAds.bringToFront();
+				refreshAdsMob();
+			}
+		}.start();
 	}
 
 	@Override
@@ -258,7 +321,7 @@ public class MainGameActivity extends Activity {
 			_db_conector = new DBConnector(this);
 			_db_conector.openDataBase();
 		}
-		
+
 		super.onResume();
 	}
 
@@ -917,7 +980,7 @@ public class MainGameActivity extends Activity {
 		case 3:
 			return "300";
 		case 4:
-			return "500";     
+			return "500";
 		case 5:
 			return "1 000";
 		case 6:
@@ -944,5 +1007,17 @@ public class MainGameActivity extends Activity {
 			break;
 		}
 		return "0";
+	}
+
+	@Override
+	public void onAdViewClose() {
+		// TODO Auto-generated method stub
+		Log.e("onAdViewClose", "maingame");
+	}
+
+	@Override
+	public void onLoadAdError(ErrorCode arg0) {
+		// TODO Auto-generated method stub
+		Log.e("onLoadAdError", "maingame");
 	}
 }

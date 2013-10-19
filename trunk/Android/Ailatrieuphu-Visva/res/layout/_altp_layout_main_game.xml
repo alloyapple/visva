@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout_full"
     android:background="@drawable/_altp_menu_bg" >
@@ -14,9 +14,9 @@
             style="@style/layout_wrap"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/text_money_margin_left"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/layout_time_money_margin_top"
             android:gravity="center"
-            android:textColor="@color/color_txt_white"
+            android:textColor="@color/color_txt_menu"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="right|top"
             android:layout_marginRight="@dimen/text_time_margin_left"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/layout_time_money_margin_top"
             android:gravity="center"
             android:textColor="@color/color_txt_white"
             android:textSize="18sp"
@@ -34,6 +34,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/layout_support_left"
         style="@style/layout_wrap"
         android:layout_gravity="left|top"
         android:layout_marginLeft="5dp"
@@ -58,6 +59,7 @@
 
     <LinearLayout
         style="@style/layout_wrap"
+        android:layout_alignParentRight="true"
         android:layout_gravity="right|top"
         android:layout_marginRight="5dp"
         android:layout_marginTop="@dimen/layout_support_margin"
@@ -78,10 +80,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_question"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/_altp_boder_text"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/layout_support_left"
         android:layout_marginTop="@dimen/layout_text_margin_top"
+        android:background="@drawable/_altp_boder_text"
         android:orientation="vertical" >
 
         <TextView
@@ -110,10 +115,10 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:layout_marginLeft="@dimen/layout_text_answer_margin_left"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/layout_text_answer_margin_bottom"
+        android:layout_marginLeft="@dimen/layout_text_answer_margin_left"
+        android:gravity="center|bottom"
         android:orientation="vertical" >
 
         <Button
@@ -149,4 +154,21 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-</FrameLayout>
+    <vn.amobi.util.ads.AmobiAdView
+        android:id="@+id/small_main_menu_adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+    <com.google.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/main_adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="a1503be3530d135"
+        android:keepScreenOn="true" />
+
+</RelativeLayout>
