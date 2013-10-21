@@ -17,6 +17,7 @@ public class HomeActivity extends VisvaAbstractActivity{
 	public int contentView() {
 		// TODO Auto-generated method stub
 		return R.layout.home_act;
+		
 	}
 
 	@Override
