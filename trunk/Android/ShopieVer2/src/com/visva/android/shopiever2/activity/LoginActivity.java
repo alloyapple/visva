@@ -1,5 +1,7 @@
 package com.visva.android.shopiever2.activity;
 
-public class LoginActivity {
+import android.app.Activity;
+
+public class LoginActivity extends Activity{
 
 }
