@@ -9,5 +9,6 @@
     <string name="btn_cancel">Cancel</string>
     <string name="network_unvailable">Network is unvailable</string>
     <string name="failed_to_conect_server">Failed to conect to server</string>
-
+	<string name="ca_nhan">Cá nhân</string>
+	<string name="qua_tang">Quà tặng</string>
 </resources>
