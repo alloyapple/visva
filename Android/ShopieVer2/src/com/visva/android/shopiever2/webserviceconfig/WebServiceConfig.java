@@ -3,7 +3,7 @@ package com.visva.android.shopiever2.webserviceconfig;
 /**
  * WebServiceConfig class contains web service settings
  * 
- * @author Lemon
+ * @author Kane
  */
 public final class WebServiceConfig {
 	// Network time out: 60s
