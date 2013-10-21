@@ -9,7 +9,7 @@ import android.view.animation.RotateAnimation;
 
 import com.visva.android.shopiever2.R;
 
-public class HomeActivity extends AbstractActivity{
+public class HomeActivity extends VisvaAbstractActivity{
 	private View checkinCircle;
 	
 	private boolean isChecked = false;
