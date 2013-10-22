@@ -52,8 +52,8 @@ public class HomeActivity extends VisvaAbstractActivity{
 			final RotateAnimation anim = new RotateAnimation(0, angle, checkinCircle.getWidth() / 2, checkinCircle.getHeight() / 2);
 			final RotateAnimation anim1 = new RotateAnimation(0, angle, checkinCircle.getWidth() / 2, checkinCircle.getHeight() / 2);
 			
-			anim.setDuration(angle * 8);
-			anim1.setDuration(angle * 8);
+			anim.setDuration(angle * 15);
+			anim1.setDuration(angle * 15);
 			
 			anim.setInterpolator(new Interpolator() {
 				
