@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <drawable name="transparent_button_cache_hint">#cc33b5e5</drawable>
-    
-    <color name="home_background">#262E35</color>
-    <color name="actionbar_background">#458DAD</color>
-    <color name="actionbar_item_background">#99367895</color>
-</resources>
