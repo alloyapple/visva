@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/container"
+    android:background="@color/home_background" >
+    <RelativeLayout 
+    	android:layout_width="match_parent"
+    	android:layout_height="@dimen/actionbar_height"
+    	android:orientation="vertical"
+    	android:id="@+id/actionbar"
+    	android:background="@color/actionbar_background"
+        >
+        <ImageButton
+        	android:layout_width="@dimen/actionbar_height"
+    		android:layout_height="@dimen/actionbar_height"
+    		android:background="@color/actionbar_item_background"
+            />
+    </RelativeLayout>
+</LinearLayout>
