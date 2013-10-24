@@ -21,6 +21,8 @@
     <string name="doi_qua">ĐỔI QUÀ</string>
     <string name="noi_tich_diem">Nơi Tích Điểm</string>
     <string name="promt_gender">Giới tính</string>
+    <string name="hello_user">Hello %1$s!</string>
+    <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
 
     <string-array name="gender">
         <item>Male</item>
@@ -55,7 +57,7 @@
     <string name="name_note_empty">Vui lòng nhập tên bạn nhé!</string>
 
     <!-- Shoppie3 -->
-    <string name="fb_app_id">491369950945744</string>
+    <string name="fb_app_id">591061027620197</string>
     <string name="title_help">HƯỚNG DẪN</string>
     <string name="title_profile">TÀI KHOẢN CÁ NHÂN</string>
     <string name="title_select_store">CỬA HÀNG</string>
