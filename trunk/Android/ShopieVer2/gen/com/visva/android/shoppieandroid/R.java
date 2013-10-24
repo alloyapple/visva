@@ -361,7 +361,7 @@ containing a value of this type.
     public static final class string {
         public static final int KEY_TAG_TAB=0x7f080024;
         public static final int action_settings=0x7f08001a;
-        public static final int already_registered=0x7f080049;
+        public static final int already_registered=0x7f08004b;
         public static final int app_name=0x7f080019;
         public static final int btn_cancel=0x7f08001e;
         public static final int btn_close=0x7f08001c;
@@ -392,68 +392,70 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_log_in_button=0x7f080008;
         public static final int com_facebook_usersettingsfragment_logged_in=0x7f080009;
         public static final int com_facebook_usersettingsfragment_not_logged_in=0x7f08000a;
-        public static final int cua_hang=0x7f080031;
-        public static final int dang_ky=0x7f08003a;
+        public static final int cua_hang=0x7f080033;
+        public static final int dang_ky=0x7f08003c;
         public static final int doi_qua=0x7f080026;
         public static final int empty=0x7f080025;
         /**  other 
          */
-        public static final int error_config=0x7f080048;
-        public static final int ex_desc_shop=0x7f08002d;
-        public static final int ex_name_user=0x7f08002f;
+        public static final int error_config=0x7f08004a;
+        public static final int ex_desc_shop=0x7f08002f;
+        public static final int ex_name_user=0x7f080031;
         /**  Shoppie2 
          */
-        public static final int ex_notifi=0x7f080029;
-        public static final int ex_score=0x7f08002e;
-        public static final int ex_title_cocacola=0x7f08002c;
-        public static final int ex_title_shop=0x7f08002b;
+        public static final int ex_notifi=0x7f08002b;
+        public static final int ex_score=0x7f080030;
+        public static final int ex_title_cocacola=0x7f08002e;
+        public static final int ex_title_shop=0x7f08002d;
         public static final int failed_to_conect_server=0x7f080020;
         /**  Shoppie3 
          */
-        public static final int fb_app_id=0x7f08003f;
-        public static final int gcm_deleted=0x7f08004f;
-        public static final int gcm_error=0x7f08004d;
-        public static final int gcm_message=0x7f08004c;
-        public static final int gcm_recoverable_error=0x7f08004e;
-        public static final int gcm_registered=0x7f08004a;
-        public static final int gcm_unregistered=0x7f08004b;
-        public static final int giao_dich=0x7f080033;
+        public static final int fb_app_id=0x7f080041;
+        public static final int gcm_deleted=0x7f080051;
+        public static final int gcm_error=0x7f08004f;
+        public static final int gcm_message=0x7f08004e;
+        public static final int gcm_recoverable_error=0x7f080050;
+        public static final int gcm_registered=0x7f08004c;
+        public static final int gcm_unregistered=0x7f08004d;
+        public static final int giao_dich=0x7f080035;
         public static final int hello_shoppie=0x7f080023;
-        public static final int hello_shoppie_2=0x7f08003b;
-        public static final int hello_shoppie_3=0x7f08003c;
+        public static final int hello_shoppie_2=0x7f08003d;
+        public static final int hello_shoppie_3=0x7f08003e;
+        public static final int hello_user=0x7f080029;
         public static final int hello_world=0x7f08001b;
-        public static final int hom_thu=0x7f080044;
-        public static final int lbl_find_place_pie=0x7f08002a;
-        public static final int name_note_empty=0x7f08003e;
+        public static final int hom_thu=0x7f080046;
+        public static final int lbl_find_place_pie=0x7f08002c;
+        public static final int name_note_empty=0x7f080040;
         public static final int network_unvailable=0x7f08001f;
         public static final int noi_tich_diem=0x7f080027;
-        public static final int notifiy_gift_redeem=0x7f080046;
-        public static final int notifiy_gift_redeem_example=0x7f080045;
-        public static final int notifiy_gift_redeem_failed=0x7f080047;
-        public static final int options_clear=0x7f080057;
-        public static final int options_exit=0x7f080058;
-        public static final int options_register=0x7f080055;
-        public static final int options_unregister=0x7f080056;
+        public static final int notifiy_gift_redeem=0x7f080048;
+        public static final int notifiy_gift_redeem_example=0x7f080047;
+        public static final int notifiy_gift_redeem_failed=0x7f080049;
+        public static final int options_clear=0x7f080059;
+        public static final int options_exit=0x7f08005a;
+        public static final int options_register=0x7f080057;
+        public static final int options_unregister=0x7f080058;
+        public static final int permission_not_granted=0x7f08002a;
         public static final int promt_gender=0x7f080028;
-        public static final int qua_da_doi=0x7f080032;
+        public static final int qua_da_doi=0x7f080034;
         public static final int qua_tang=0x7f080022;
-        public static final int redeem=0x7f080039;
-        public static final int redeeming=0x7f080043;
-        public static final int server_register_error=0x7f080053;
-        public static final int server_registered=0x7f080051;
-        public static final int server_registering=0x7f080050;
-        public static final int server_unregister_error=0x7f080054;
-        public static final int server_unregistered=0x7f080052;
-        public static final int thich=0x7f080030;
-        public static final int title_cua_hang=0x7f080038;
-        public static final int title_diemkhac=0x7f080037;
-        public static final int title_gioithieu=0x7f080034;
-        public static final int title_help=0x7f080040;
-        public static final int title_profile=0x7f080041;
-        public static final int title_quatang=0x7f080036;
-        public static final int title_sanpham=0x7f080035;
-        public static final int title_select_store=0x7f080042;
-        public static final int update_profile=0x7f08003d;
+        public static final int redeem=0x7f08003b;
+        public static final int redeeming=0x7f080045;
+        public static final int server_register_error=0x7f080055;
+        public static final int server_registered=0x7f080053;
+        public static final int server_registering=0x7f080052;
+        public static final int server_unregister_error=0x7f080056;
+        public static final int server_unregistered=0x7f080054;
+        public static final int thich=0x7f080032;
+        public static final int title_cua_hang=0x7f08003a;
+        public static final int title_diemkhac=0x7f080039;
+        public static final int title_gioithieu=0x7f080036;
+        public static final int title_help=0x7f080042;
+        public static final int title_profile=0x7f080043;
+        public static final int title_quatang=0x7f080038;
+        public static final int title_sanpham=0x7f080037;
+        public static final int title_select_store=0x7f080044;
+        public static final int update_profile=0x7f08003f;
     }
     public static final class style {
         /** 
