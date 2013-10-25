@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#00212e"
+        android:paddingTop="100dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_shoppie"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp" >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/img_login"
+                    android:contentDescription="@string/KEY_TAG_TAB"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="5dp"
+                    android:text="Login with Facebook"
+                    android:textColor="#fff" />
+
+                <com.facebook.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/img_login"
+                    android:onClick="onFBLogin"
+                    android:gravity="center" >
+                </com.facebook.widget.LoginButton>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_shoppie_2"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_shoppie_3"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+               <EditText
+                    android:id="@+id/activity_register_edt_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:paddingLeft="5dp"
+                    android:textColor="#fff" >
+
+                </EditText>
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/activity_register_btn_register"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/img_login"
+                android:contentDescription="@string/KEY_TAG_TAB"
+                android:onClick="onClickedLogin" />
+
+            <TextView
+                android:id="@+id/tv_log"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
