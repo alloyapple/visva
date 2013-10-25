@@ -12,8 +12,6 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 
-
-
 public class HomeActivity extends VisvaAbstractActivity{
 	private View checkinCircle;
 	private MPager pager;
@@ -40,12 +38,14 @@ public class HomeActivity extends VisvaAbstractActivity{
 	public void onClick(View v){
 		switch (v.getId()) {
 		case R.id.bt_canhan:
-			isChecked = false;
-			setCheckIn(isChecked);
-			changeToActivity(new Intent(this, HomeActivity.class), false);
+//			isChecked = false;
+//			setCheckIn(isChecked);
+//			changeToActivity(new Intent(this, HomeActivity.class), false);
+			pager.extendView();
 			break;
 		case R.id.bt_quatang:
-			goBack();
+//			goBack();
+			pager.collapseView();
 			break;
 		case R.id.checkin:
 			isChecked = !isChecked;
