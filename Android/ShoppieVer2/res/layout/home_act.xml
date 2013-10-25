@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/footer_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/footer_bg"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bt_canhan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bt_selector"
+            android:onClick="onClick"
+            android:paddingLeft="20dp"
+            android:gravity="left|center_vertical"
+            android:text="@string/ca_nhan"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/bt_quatang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bt_selector"
+            android:onClick="onClick"
+            android:paddingRight="20dp"
+            android:gravity="right|center_vertical"
+            android:text="@string/qua_tang"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20sp"/>"
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/checkin_cirle"
+        android:layout_alignParentBottom="true" >
+
+        <View
+            android:id="@+id/checkin_circle"
+            android:layout_width="@dimen/checkin_cirle"
+            android:layout_height="@dimen/checkin_cirle"
+            android:layout_centerHorizontal="true"
+            android:background="#ffffff" />
+
+        <Button
+            android:id="@+id/checkin"
+            android:layout_width="@dimen/checkin_button"
+            android:layout_height="@dimen/checkin_button"
+            android:layout_centerInParent="true"
+            android:onClick="onClick" />
+    </RelativeLayout>
+
+</RelativeLayout>
