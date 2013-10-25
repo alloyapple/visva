@@ -1,10 +1,6 @@
 package vn.com.shoppie.view;
 
 import vn.com.shoppie.R;
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,6 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
+
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.Animator.AnimatorListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class MPager extends RelativeLayout{
 	public static final short SLIDE_UPDOWN = 0;
@@ -201,6 +202,8 @@ public class MPager extends RelativeLayout{
 	}
 
 	private void autoSlide() {
+		if(!isSlide)
+			return;
 		if(inoutMode == SLIDE_IN){
 			if(currentX > 0.2f * distanceX)
 				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 750);
