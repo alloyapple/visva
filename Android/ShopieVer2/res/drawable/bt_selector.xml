@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:exitFadeDuration="100"
-        android:enterFadeDuration="100">
-    <item android:state_pressed="true" android:drawable="@drawable/transparent_button_cache_hint" />
-    <item android:state_focused="true" android:drawable="@drawable/transparent_button_cache_hint" />
-</selector>
