@@ -1,8 +1,12 @@
 package vn.com.shoppie.activity;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.adapter.CatelogyAdapter;
+import vn.com.shoppie.view.MPager;
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Interpolator;
@@ -12,7 +16,7 @@ import android.view.animation.RotateAnimation;
 
 public class HomeActivity extends VisvaAbstractActivity{
 	private View checkinCircle;
-	
+	private MPager pager;
 	private boolean isChecked = false;
 	@Override
 	public int contentView() {
@@ -25,6 +29,12 @@ public class HomeActivity extends VisvaAbstractActivity{
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		checkinCircle = findViewById(R.id.checkin_circle);
+		
+		if(Build.VERSION.SDK_INT >= 11)
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, 
+					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+		pager = (MPager) findViewById(R.id.pager);
+		pager.setAdapter(new CatelogyAdapter(this));
 	}
 	
 	public void onClick(View v){

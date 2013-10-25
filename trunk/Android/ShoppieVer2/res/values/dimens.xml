@@ -9,4 +9,25 @@
 	<dimen name="checkin_cirle">110dp</dimen>
 	<dimen name="checkin_button">100dp</dimen>
 	
+	<dimen name="page_item_width">310dp</dimen>
+	<dimen name="page_item_height">341dp</dimen>
+	<dimen name="page_item_title_padding">123dp</dimen>
+	<dimen name="page_item_icon_height">101dp</dimen>
+	<dimen name="page_item_catelogy_title_margin_left">21dp</dimen>
+	<dimen name="page_item_catelogy_title_margin_top">21dp</dimen>
+	<dimen name="page_item_catelogy_title_textsize">30sp</dimen>
+	<dimen name="page_item_subcatelogy_title_margin_left">20dp</dimen>
+	<dimen name="page_item_subcatelogy_title_textsize">18sp</dimen>
+	<dimen name="page_item_count_width">39dp</dimen>
+	<dimen name="page_item_count_height">39dp</dimen>
+	<dimen name="page_item_image_height">148dp</dimen>
+	<dimen name="page_item_catelogy_desc_margin_left">15dp</dimen>
+	<dimen name="page_item_catelogy_desc_margin_top">15dp</dimen>
+	<dimen name="page_item_catelogy_desc_textsize">25sp</dimen>
+	<dimen name="page_item_catelogy_subdesc_margin_left">15dp</dimen>
+	<dimen name="page_item_catelogy_subdesc_textsize">12sp</dimen>
+
+	
+	<dimen name="page_back_item_width">268dp</dimen>
+	<dimen name="page_back_item_height">292dp</dimen>
 </resources>
