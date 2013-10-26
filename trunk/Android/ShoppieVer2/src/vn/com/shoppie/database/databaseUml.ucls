@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
+  <class id="1" language="java" name="vn.com.shoppie.database.adbObject" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/adbObject.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="169" width="310" x="41" y="462"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="vn.com.shoppie.database.adbSqlHelper" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/adbSqlHelper.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="277" width="224" x="391" y="462"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="vn.com.shoppie.database.adbManager" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/adbManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="385" width="261" x="426" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="vn.com.shoppie.database.adbException" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/adbException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="97" width="126" x="544" y="1712"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="vn.com.shoppie.database.smng.CampaignMng" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/smng/CampaignMng.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="367" width="522" x="456" y="970"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="vn.com.shoppie.database.smng.SDataBaseHelper" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/smng/SDataBaseHelper.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="151" width="308" x="127" y="779"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="vn.com.shoppie.database.sobject.Campaign" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/sobject/Campaign.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="295" width="212" x="456" y="1377"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="8" language="java" name="vn.com.shoppie.database.sobject.Campaign.CampaignColumn" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/database/sobject/Campaign.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="169" width="239" x="265" y="1712"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="9" language="java" name="vn.com.shoppie.database.sobject.ShoppieObject.ShoppieObjectColumn" 
+    project="Shoppie4" file="/Shoppie4/src/vn/com/shoppie/database/sobject/ShoppieObject.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="79" width="151" x="265" y="1377"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <generalization id="10">    
+    <bendpoint x="645" y="779"/>    
+    <bendpoint x="645" y="462"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <nesting id="11">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
+  </nesting>  
+  <dependency id="12">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <dependency id="14">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <association id="16">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="17" name="help"/>      
+      <multiplicity id="18" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="20">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="21">    
+    <bendpoint x="465" y="779"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

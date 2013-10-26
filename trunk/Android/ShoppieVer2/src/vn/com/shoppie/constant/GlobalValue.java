@@ -49,4 +49,26 @@ public final class GlobalValue {
 	public static final int KEY_DESTROYED_SERVICE_BY_BACK = 3;
 	public static final int KEY_DESTROYED_SERVICE_BY_ON_FINISH = 4;
 	public static final int KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE = 5;
+	
+	
+	//gcm
+	public static final String SENDER_ID1 = "AIzaSyD4keVrSodVstQl_91Md5c7INI4Xhmcl_4";
+	public static final String SENDER_ID = "622843213634";
+	public static final String EXTRA_TYPE_CHECKIN = "Checkin";
+	public static final String EXTRA_TYPE_REGISTER = "Register";
+	public static final String EXTRA_TYPE_PURCHASE = "Purchase";
+	public static final String EXTRA_TYPE_NOTIFY = "Notify";
+	
+	public static final String EXTRA_MESSAGE = "message";
+	public static final String EXTRA_TYPE = "Type";
+	public static final String EXTRA_PIE_QTY = "PieQty";
+	public static final String DISPLAY_MESSAGE_ACTION = "com.shoppie.pushnotifications.DISPLAY_MESSAGE";
+	public static final String GCM_API1 = "622843213634";
+	
+	//notification
+	public static final String SPEC_CHAR_DOT="�";
+	public static final int NOTIFICATION_ID_CHECKIN=1;
+	public static final int NOTIFICATION_ID_REGISTER=2;
+	public static final int NOTIFICATION_ID_PURCHARSE=3;
+	public static final int NOTIFICATION_ID_NOTIFY=4;
 }

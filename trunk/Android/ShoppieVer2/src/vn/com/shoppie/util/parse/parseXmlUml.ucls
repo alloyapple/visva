@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <interface id="1" language="java" name="vn.com.shoppie.util.parse.OnParseListener" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/OnParseListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="169" width="204" x="812" y="336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="vn.com.shoppie.util.parse.ServicesAddress" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/ServicesAddress.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="115" width="190" x="844" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="vn.com.shoppie.util.parse.WiException" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/WiException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="259" width="155" x="48" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="vn.com.shoppie.util.parse.WiModelManager" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/WiModelManager.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="169" width="274" x="1196" y="336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="vn.com.shoppie.util.parse.WiModelParser" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/WiModelParser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="169" width="222" x="1318" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="vn.com.shoppie.util.parse.WiModelParserException" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/WiModelParserException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="151" width="267" x="243" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="vn.com.shoppie.util.parse.WiModelParserHandler" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/WiModelParserHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="205" width="254" x="550" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="vn.com.shoppie.util.parse.WiModelProtocol" project="Shoppie4" 
+    file="/Shoppie4/src/vn/com/shoppie/util/parse/WiModelProtocol.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="259" width="204" x="1074" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="9">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="10" name="mng"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="12">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="13" name="mng"/>      
+      <multiplicity id="14" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="15">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="16" name="_parseProtocol"/>      
+      <multiplicity id="17" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="18">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
