@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_background"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        layout="@layout/layout_top" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ListView
+            android:id="@+id/lv_notifi"
+            style="@style/ListViewTheme"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="10dip"
+            android:background="#0000"
+            android:cacheColorHint="#0000"
+            android:divider="#5aaa"
+            android:dividerHeight="1dp"
+            android:fastScrollEnabled="false"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true" />
+
+        <ProgressBar
+            android:id="@+id/prg_loading"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+</LinearLayout>

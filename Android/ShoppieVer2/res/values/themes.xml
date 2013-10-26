@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ListViewTheme" parent="android:Theme">
+        
+        <item name="android:listViewStyle">@style/Widget.ListView</item>
+        <item name="android:listPreferredItemHeight">48dp</item>
+        <item name="android:listDivider">@android:color/transparent</item>
+        
+        <item name="android:scrollbarSize">2dp</item>
+        
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_handle_vertical_xml</item>
+        <item name="android:scrollbarTrackVertical">@drawable/scrollbar_vertical_xml</item>
+        
+	</style>
+	<style name="ListViewThemeCampaign" parent="android:Theme">
+        
+        <item name="android:listViewStyle">@style/Widget.ListView</item>
+        <item name="android:listPreferredItemHeight">256dp</item>
+        <item name="android:listDivider">@android:color/transparent</item>
+        
+        <item name="android:scrollbarSize">1dp</item>
+        
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_handle_vertical_xml</item>
+        <item name="android:scrollbarTrackVertical">@drawable/scrollbar_vertical_xml</item>
+        
+	</style>
+</resources>

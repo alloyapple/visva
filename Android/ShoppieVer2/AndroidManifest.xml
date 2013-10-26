@@ -18,12 +18,12 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name="vn.com.shoppie.activity.LoginActivity"
+            android:name="vn.com.shoppie.activity.HomeActivity"
             android:label="@string/app_name" >
 
         </activity>
         <activity
-            android:name="vn.com.shoppie.activity.HomeActivity"
+            android:name="vn.com.shoppie.activity.LoginActivity"
             android:screenOrientation="portrait" >
                         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
