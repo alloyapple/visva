@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <drawable name="transparent_button_cache_hint">#cc33b5e5</drawable>
-    
+
     <color name="home_background">#262E35</color>
     <color name="actionbar_background">#458DAD</color>
     <color name="actionbar_item_background">#99367895</color>
+    <color name="blue">#4af</color>
+    <color name="bg_item_shop">#ee2D6580</color>
+    <color name="fg_notifi">#fff</color>
+    <color name="fg_lbl_find_place_pie">#fff</color>
+    <color name="bg_text">#074e6f</color>
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
+    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+    <color name="white">#FFF</color>
+    <color name="l_blue">#909BAA</color>
+    <color name="d_blue">#6D7B92</color>
+    <color name="gray">#CCCCCC</color>
+    <color name="d_gray">#666</color>
+    <color name="black">#000</color>
+    <color name="main_blue_color">#551498d0</color>
+
+    <!-- Shoppie 4 -->
+    <color name="blue_layout_press">#0b99bc</color>
+    <color name="blue_layout">#00c0e5</color>
+    <color name="blue_click">#26aae1</color>
+    <color name="blue_background">#00141c</color>
+    <color name="blue_dark_border">#00212e</color>
+    <color name="blue_blur">#123c4c</color>
+    <color name="blue_dark_text">#373737</color>
+    <color name="blue_button_press">#3399ff</color>
+    <color name="blue_button">#333</color>
+
 </resources>
