@@ -30,7 +30,12 @@ import com.facebook.widget.LoginButton;
 public class LoginActivity extends Activity {
 
 	private final String PENDING_ACTION_BUNDLE_KEY = "com.visva.android.shoppieandroid:PendingAction";
-
+	public static final String ERR_BLUETOOTH_NULL = "-2";
+	public static final String ERR_UNKNOWN = "-1";
+	public static final String ERR_SERVER = "-3";
+	public static final String ERR_GCM = "-4";
+	public static final String ERR_STILL_REGISTER = "-5";
+	public static final String ERR_DATABASE_ERR = "-6";
 	// private Button postStatusUpdateButton;
 	// private Button postPhotoButton;
 	// private Button pickFriendsButton;
@@ -112,60 +117,71 @@ public class LoginActivity extends Activity {
 
 	public void onClickedLogin(View v) {
 
-		//List<NameValuePair> params = ParameterFactory.checkUserExist(device_id);
-		//createAccountByShoppie(params);
-//		public void shareGift(final DialogShareFacebook dialogShare, Gift gift) {
-//			if (Session.getActiveSession() == null) {
-//				Session session = new Session.Builder(this).build();
-//			    Session.setActiveSession(session);
-////			    currentSession = session;
-//				showToast("Báº¡n pháº£i login facebook trÆ°á»›c");
-//				Log.e("ActivityGift line 130", "Session null");
-//				return;
-//			}
-//			String message;
-//			String desc;
-//			String link;
-//			String pic;
-//			String name;
-//			// loginFacebook();
-//			message = "Ä�á»•i quÃ : " + gift.giftName + " chá»‰ vá»›i " + gift.pieQty + " Pie.";
-//			desc = gift.description + "\ná»¨ng dá»¥ng di Ä‘á»™ng shoppie.\nDÃ¹ng thá»­ ngay Ä‘á»ƒ nháº­n quÃ .";
-//			link = "http://shoppie.com.vn/";
-//			pic = WebServiceConfig.HEAD_IMAGE + gift.giftImage;
-//			Log.e("FB: link image", pic);
-//			name = gift.giftName;
-//			// SUtilFacebook.getInstance(ActivityProductGift.this).shareStatus(dialogShare.address.getText()
-//			// + " \n" + message, name, desc, link, pic, dialogShare);
-//
-//			Bundle param = new Bundle();
-//			param.putString("message", message);
-//			param.putString("name", name);
-//			param.putString("description", desc);
-//			param.putString("link", link);
-//			param.putString("picture", pic);
-//			Session session = Session.getActiveSession();
-//			if (session == null || !session.isOpened()) {
-//				// load session
-//				Log.e("ActivityProductGift line 220: Session is null", "NULL");
-//				return;
-//			}
-//			try {
-//				WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(LoginActivity.this, Session.getActiveSession(), param)).setOnCompleteListener(new OnCompleteListener() {
-//
-//					public void onComplete(Bundle values, FacebookException error) {
-//						if (error != null) {
-//							showToast("ChÆ°a Ä‘Äƒng Ä‘Æ°á»£c lÃªn Facebook.");
-//						} else {
-//							// showToast("Ä�Äƒng thÃ nh cÃ´ng.");
-//						}
-//					}
-//				}).build();
-//				feedDialog.show();
-//			} catch (FacebookException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+		startActivity(intent);
+		
+		// List<NameValuePair> params =
+		// ParameterFactory.checkUserExist(device_id);
+		// createAccountByShoppie(params);
+		// public void shareGift(final DialogShareFacebook dialogShare, Gift
+		// gift) {
+		// if (Session.getActiveSession() == null) {
+		// Session session = new Session.Builder(this).build();
+		// Session.setActiveSession(session);
+		// // currentSession = session;
+		// showToast("Báº¡n pháº£i login facebook trÆ°á»›c");
+		// Log.e("ActivityGift line 130", "Session null");
+		// return;
+		// }
+		// String message;
+		// String desc;
+		// String link;
+		// String pic;
+		// String name;
+		// // loginFacebook();
+		// message = "Ä�á»•i quÃ : " + gift.giftName +
+		// " chá»‰ vá»›i " + gift.pieQty + " Pie.";
+		// desc = gift.description +
+		// "\ná»¨ng dá»¥ng di Ä‘á»™ng shoppie.\nDÃ¹ng thá»­ ngay Ä‘á»ƒ nháº­n quÃ .";
+		// link = "http://shoppie.com.vn/";
+		// pic = WebServiceConfig.HEAD_IMAGE + gift.giftImage;
+		// Log.e("FB: link image", pic);
+		// name = gift.giftName;
+		// //
+		// SUtilFacebook.getInstance(ActivityProductGift.this).shareStatus(dialogShare.address.getText()
+		// // + " \n" + message, name, desc, link, pic, dialogShare);
+		//
+		// Bundle param = new Bundle();
+		// param.putString("message", message);
+		// param.putString("name", name);
+		// param.putString("description", desc);
+		// param.putString("link", link);
+		// param.putString("picture", pic);
+		// Session session = Session.getActiveSession();
+		// if (session == null || !session.isOpened()) {
+		// // load session
+		// Log.e("ActivityProductGift line 220: Session is null", "NULL");
+		// return;
+		// }
+		// try {
+		// WebDialog feedDialog = (new
+		// WebDialog.FeedDialogBuilder(LoginActivity.this,
+		// Session.getActiveSession(), param)).setOnCompleteListener(new
+		// OnCompleteListener() {
+		//
+		// public void onComplete(Bundle values, FacebookException error) {
+		// if (error != null) {
+		// showToast("ChÆ°a Ä‘Äƒng Ä‘Æ°á»£c lÃªn Facebook.");
+		// } else {
+		// // showToast("Ä�Äƒng thÃ nh cÃ´ng.");
+		// }
+		// }
+		// }).build();
+		// feedDialog.show();
+		// } catch (FacebookException e) {
+		// e.printStackTrace();
+		// }
+		// }
 	}
 
 	public void createAccountByShoppie(List<NameValuePair> params) {

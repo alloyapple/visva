@@ -3,12 +3,15 @@ package vn.com.shoppie.activity;
 import java.lang.reflect.Method;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.database.sobject.User;
 import vn.com.shoppie.util.VisvaDialog;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-public abstract class VisvaAbstractActivity extends Activity {
+
+public abstract class VisvaAbstractActivity extends Activity{
 	// abstract method
 
 	private LinearLayout container;
@@ -55,6 +59,7 @@ public abstract class VisvaAbstractActivity extends Activity {
 		} catch (Exception e) {
 
 		}
+		
 		registerBaseActivityReceiver();
 		setContentView(R.layout.abstract_activity);
 		init();
