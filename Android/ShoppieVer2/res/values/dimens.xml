@@ -28,6 +28,9 @@
     <dimen name="page_back_item_width">268dp</dimen>
     <dimen name="page_back_item_height">292dp</dimen>
 
+    <dimen name="catelogy_detail_footer_height">80dp</dimen>
+    <dimen name="catelogy_detail_footer_bt_width">70dp</dimen>
+    
     <!-- Shoppie 4 -->
     <integer name="display_width">400</integer>
     <integer name="display_height">400</integer>

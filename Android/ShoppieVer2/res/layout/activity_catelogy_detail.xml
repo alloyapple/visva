@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <vn.com.shoppie.view.MPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/catelogy_detail_footer_height" />
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="@dimen/catelogy_detail_footer_height"
+    	android:layout_alignParentBottom="true"
+    	android:background="@color/footer_color"
+        >
+        <ImageButton 
+            android:id="@+id/footer_bt"
+        	android:layout_width="@dimen/catelogy_detail_footer_bt_width"
+    		android:layout_height="match_parent"
+    		android:layout_alignParentRight="true"
+    		android:background="@drawable/transparent_button_cache_hint"
+            />
+        <TextView 
+            android:id="@+id/footer_tv"
+            android:layout_width="match_parent"
+    		android:layout_height="match_parent"
+    		android:layout_toLeftOf="@id/footer_bt"
+    		android:layout_margin="5dp"
+    		android:textSize="14sp"
+    		android:gravity="center_vertical"
+    		android:text="Danh sách các sản phẩm bạn muốn tới xem thử tại cửa hàng của thương hiệu"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
