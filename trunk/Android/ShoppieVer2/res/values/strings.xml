@@ -89,4 +89,17 @@
     <string name="options_clear">Clear</string>
     <string name="options_exit">Exit</string>
 
+    <!-- personal info -->
+    <string name="personal_info">Cá nhân</string>
+    <string name="personl_friend">Bạn bè</string>
+    <string name="personal_favourite">Yêu thích</string>
+    <string name="main_personal_info">Thông tin cá nhân</string>
+    <string name="history_trade">Lịch sử giao dịch</string>
+    <string name="gift">Đổi quà</string>
+    <string name="personal_number_pie">Điểm tích lũy:</string>
+    <string name="personal_favourite_category">Thương hiệu yêu thích</string>
+    <string name="personal_favourite_product">Sản phẩm yêu thích</string>
+    <string name="personal_feedback">Gửi feedback</string>
+    <string name="personal_help">Trợ giúp</string>
+
 </resources>

@@ -27,7 +27,7 @@
     <dimen name="page_item_catelogy_subdesc_textsize">12sp</dimen>
     <dimen name="page_back_item_width">268dp</dimen>
     <dimen name="page_back_item_height">292dp</dimen>
-
+    <dimen name="personal_text_title_size">18sp</dimen>
     <dimen name="catelogy_detail_footer_height">80dp</dimen>
     <dimen name="catelogy_detail_footer_bt_width">70dp</dimen>
     
@@ -39,5 +39,17 @@
     <item name="page_width" format="float" type="dimen">0.85</item>
 
     <string name="str_page_width">0.85</string>
+
+    <!-- personal info -->
+    <dimen name="personal_info_margin_top">20dp</dimen>
+    <dimen name="personal_info_margin_right">20dp</dimen>
+    <dimen name="personal_info_margin_left">20dp</dimen>
+    <dimen name="personal_avatar_margin_left">30dp</dimen>
+    <dimen name="personal_layout_photo_height">180dp</dimen>
+    <dimen name="personal_avatar_width">95dp</dimen>
+    <dimen name="personal_avatar_height">95dp</dimen>
+    <dimen name="personal_avatar_margin_top">20dp</dimen>
+    <dimen name="personal_layout_item_height">40dp</dimen>
+    <dimen name="personal_item_img_size">30dp</dimen>
 
 </resources>
