@@ -3,8 +3,10 @@ package vn.com.shoppie.adapter;
 import vn.com.shoppie.R;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -51,6 +53,15 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			View image = v.findViewById(R.id.image);
 			
 		}
+		
+		v.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.d("Click", "Catelogy");
+			}
+		});
 		return v;
 	}
 	

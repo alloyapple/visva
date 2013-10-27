@@ -3,7 +3,8 @@ package vn.com.shoppie.activity;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.view.MPager;
-import android.content.Intent;
+import vn.com.shoppie.view.MPager.OnStartExtend;
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +24,7 @@ public class HomeActivity extends VisvaAbstractActivity{
 		
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -33,6 +35,20 @@ public class HomeActivity extends VisvaAbstractActivity{
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 		pager = (MPager) findViewById(R.id.pager);
 		pager.setAdapter(new CatelogyAdapter(this));
+		
+		pager.setOnStartExtendListenner(new OnStartExtend() {
+			
+			@Override
+			public void onExtend(View v) {
+				isChecked = false;
+				setCheckIn(isChecked);
+			}
+			
+			@Override
+			public void onCollapse(View v) {
+				
+			}
+		});
 	}
 	
 	public void onClick(View v){

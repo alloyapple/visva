@@ -1,7 +1,9 @@
 package vn.com.shoppie.view;
 
 import vn.com.shoppie.R;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -16,15 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
-
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class MPager extends RelativeLayout{
-	public static final short SLIDE_UPDOWN = 0;
-	public static final short SLIDE_LEFTRIGHT = 1;
+	public static final short SLIDE_UP = 0;
+	public static final short SLIDE_DOWN = 1;
 	public static final short SLIDE_IN = 0;
 	public static final short SLIDE_OUT = 1;
 
@@ -62,7 +63,8 @@ public class MPager extends RelativeLayout{
 	private VelocityTracker mVelocityTracker;
 
 	private GestureDetector mGestureDetector;
-
+	
+	private OnStartExtend onStartExtend;
 	public MPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		if(mVelocityTracker == null) {
@@ -177,6 +179,23 @@ public class MPager extends RelativeLayout{
 	}
 	
 	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		// TODO Auto-generated method stub
+//		switch (ev.getAction()) {
+//		case MotionEvent:
+//			
+//			break;
+//
+//		default:
+//			break;
+//		}
+		onTouchEvent(ev);
+		if(isSlide)
+			return true;
+		return false;
+	}
+	
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(container.getParent() != container1)
 			return super.onTouchEvent(event);
@@ -186,14 +205,14 @@ public class MPager extends RelativeLayout{
 			return super.onTouchEvent(event);
 		
 		mVelocityTracker.addMovement(event);
-		mGestureDetector.onTouchEvent(event);
+		boolean value = mGestureDetector.onTouchEvent(event);
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_UP:
 			autoSlide();
-			break;
+			return false;
 		case MotionEvent.ACTION_CANCEL:
 			autoSlide();
-			break;
+			return false;
 
 		default:
 			break;
@@ -258,10 +277,7 @@ public class MPager extends RelativeLayout{
 						mScroller.abortAnimation();
 					}
 					else{
-						if(slideMode == SLIDE_LEFTRIGHT)
-							updateSlideLefRight();
-						//						else
-						//							updateSlideUpDown(value);
+						updateSlideLefRight();
 					}
 					postInvalidate();
 					//					invalidate();
@@ -276,7 +292,7 @@ public class MPager extends RelativeLayout{
 		inoutMode = SLIDE_OUT;
 		currentSlide = container.getChildAt(container.getChildCount() - 1);
 
-		if(slideMode == SLIDE_LEFTRIGHT)
+		if(slideMode == SLIDE_DOWN)
 			distance = (getWidth() - currentSlide.getWidth()) / 2 + currentSlide.getWidth() * 5 / 4;
 		else
 			distance = (getHeight() - currentSlide.getHeight()) / 2 + currentSlide.getHeight() * 5 / 4;
@@ -292,7 +308,7 @@ public class MPager extends RelativeLayout{
 
 		currentSlide = container.getChildAt(0);
 
-		if(slideMode == SLIDE_LEFTRIGHT)
+		if(slideMode == SLIDE_DOWN)
 			distance = (getWidth() - currentSlide.getWidth()) / 2 + currentSlide.getWidth() * 5 / 4;
 		else
 			distance = (getHeight() - currentSlide.getHeight()) / 2 + currentSlide.getHeight() * 5 / 4;
@@ -304,7 +320,7 @@ public class MPager extends RelativeLayout{
 		
 		AnimatorSet set1 = new AnimatorSet();
 		set1.playTogether(
-				ObjectAnimator.ofFloat(currentSlide, "rotation", angle),
+				ObjectAnimator.ofFloat(currentSlide, "rotation", angle()),
 				ObjectAnimator.ofFloat(currentSlide, "translationX", -distance * 2),
 				ObjectAnimator.ofFloat(currentSlide, "translationY", -distance * 2)
 				);
@@ -426,18 +442,28 @@ public class MPager extends RelativeLayout{
 		return slideMode;
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void updateSlideLefRight() {
 		float t = (distanceX - currentX) / distanceX;
-		currentAngle = angle * t;
+		currentAngle = angle() * t;
 		//		currentX = -distance * t;
 		currentY = fx(currentX);
-		AnimatorSet set = new AnimatorSet();
-		set.playTogether(
-				ObjectAnimator.ofFloat(currentSlide, "rotation", currentAngle),
-				ObjectAnimator.ofFloat(currentSlide, "translationX", currentX - distanceX),
-				ObjectAnimator.ofFloat(currentSlide, "translationY", currentY - distanceY)
-				);
-		set.setDuration(0).start();
+		
+		if(Build.VERSION.SDK_INT < 11){
+			AnimatorSet set = new AnimatorSet();
+			set.playTogether(
+					ObjectAnimator.ofFloat(currentSlide, "rotation", currentAngle),
+					ObjectAnimator.ofFloat(currentSlide, "translationX", currentX - distanceX),
+					ObjectAnimator.ofFloat(currentSlide, "translationY", currentY - distanceY)
+					);
+			set.setDuration(0).start();
+		}
+		else{
+			currentSlide.setRotation(currentAngle);
+			currentSlide.setTranslationX(currentX - distanceX);
+			currentSlide.setTranslationY(currentY - distanceY);
+		}
+		
 	}
 
 	public void updateSlideUpDown(int value) {
@@ -460,6 +486,10 @@ public class MPager extends RelativeLayout{
 
 	public void extendView(){
 		if(container.getParent() == container1 && container.getChildCount() > 2){
+			if(onStartExtend != null){
+				onStartExtend.onExtend(this);
+			}
+			
 			int lastPos = getHeight() / 2 - container.getChildAt(0).getHeight() / 2;
 			
 			isOpenSlide = false;
@@ -499,6 +529,11 @@ public class MPager extends RelativeLayout{
 
 	public void collapseView(){
 		if(container.getParent() == scrollView){
+			if(onStartExtend != null){
+				onStartExtend.onCollapse(this);
+			}
+			
+			
 			isOpenSlide = false;
 			
 			int containerTop = scrollView.getTop();
@@ -559,7 +594,7 @@ public class MPager extends RelativeLayout{
 		@Override
 		public boolean onSingleTapUp(MotionEvent ev) {
 
-			return true;
+			return false;
 		}
 
 		@Override
@@ -574,42 +609,55 @@ public class MPager extends RelativeLayout{
 
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent event, float distanceX, float distanceY) {
+			Log.d("Scroll", "" + distanceX + " , " + distanceY);
 			if(!isOpenMoveSlide)
-				return true;
+				return false;
 			if(!isSlide){
-				if(true){
-					slideMode = SLIDE_LEFTRIGHT;
-					if(event.getX() > downX){
-						if(container.getChildCount() <= 1)
-							return false;
-						startSlideIn();
-					}
-					else{
-						if(container.getChildCount() <= 2)
-							return false;
-						startSlideOut();
+				int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 3/2;
+				Log.d("minSlide", "" + minSlide);
+				if(Math.abs(distanceX) < minSlide && Math.abs(event.getX() - downX) < minSlide){
+					if(Math.abs(event.getY() - downY) > minSlide * 10){
+						extendView();
 					}
 				}
 				else{
-					slideMode = SLIDE_UPDOWN;
-					if(event.getY() < downY){
-						if(container.getChildCount() <= 1)
-							return false;
-						startSlideIn();
+					if(distanceY < 0){
+						if(event.getX() > downX){
+							slideMode = SLIDE_DOWN;
+							if(container.getChildCount() <= 1)
+								return false;
+							startSlideIn();
+						}
+						else{
+							slideMode = SLIDE_UP;
+							if(container.getChildCount() <= 2)
+								return false;
+							startSlideOut();
+						}
 					}
 					else{
-						if(container.getChildCount() <= 2)
-							return false;
-						startSlideOut();
+						if(event.getX() > downX){
+							slideMode = SLIDE_UP;
+							if(container.getChildCount() <= 1)
+								return false;
+							startSlideIn();
+						}
+						else{
+							slideMode = SLIDE_DOWN;
+							if(container.getChildCount() <= 2)
+								return false;
+							startSlideOut();
+						}
 					}
+					isSlide = true;
 				}
-				isSlide = true;
 			}
 			else{
 				switch (slideMode) {
-				case SLIDE_UPDOWN:
+				case SLIDE_UP:
+					updateSlideLeftRight1(-distanceX);
 					break;
-				case SLIDE_LEFTRIGHT:
+				case SLIDE_DOWN:
 					updateSlideLeftRight1(-distanceX);
 					break;
 
@@ -620,7 +668,7 @@ public class MPager extends RelativeLayout{
 
 			lastX = event.getX();
 			lastY = event.getY();
-			return true;
+			return false;
 		}
 
 		@Override
@@ -642,25 +690,28 @@ public class MPager extends RelativeLayout{
 			}
 			lastX = event.getX();
 			lastY = event.getY();
-			return true;
+			return false;
 		}
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 			if(velocityX > 100){
 				if(!isSlide){
-					if(true){
-						slideMode = SLIDE_LEFTRIGHT;
-						if(e2.getX() > downX){
-							if(container.getChildCount() <= 1)
-								return false;
-							startSlideIn();
-						}
-						else{
-							if(container.getChildCount() <= 2)
-								return false;
-							startSlideOut();
-						}
+					if(velocityY > 0){
+						slideMode = SLIDE_DOWN;
+					}
+					else{
+						slideMode = SLIDE_UP;
+					}
+					if(e2.getX() > downX){
+						if(container.getChildCount() <= 1)
+							return false;
+						startSlideIn();
+					}
+					else{
+						if(container.getChildCount() <= 2)
+							return false;
+						startSlideOut();
 					}
 					isSlide = true;
 					//					value = 0;
@@ -672,7 +723,7 @@ public class MPager extends RelativeLayout{
 
 				if(!isSlide){
 					if(true){
-						slideMode = SLIDE_LEFTRIGHT;
+						slideMode = SLIDE_DOWN;
 						if(e2.getX() > downX){
 							if(container.getChildCount() <= 1)
 								return false;
@@ -690,18 +741,37 @@ public class MPager extends RelativeLayout{
 				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 750);
 				invalidate();
 			}
-			return true;
+			return false;
 		}
 	}
 
-	private float fx(float x){
-		return x / 3;
+	private float angle(){
+		if(slideMode == SLIDE_DOWN)
+			return angle;
+		else
+			return -angle;
 	}
 	
+	private float fx(float x){
+		if(slideMode == SLIDE_DOWN)
+			return x / 3;
+		else
+			return -x / 3;
+	}
+	
+	public void setOnStartExtendListenner(OnStartExtend onStartExtend) {
+		this.onStartExtend = onStartExtend;
+	}
+
 	private static final Interpolator sInterpolator = new Interpolator() {
 		public float getInterpolation(float t) {
 			t -= 1.0f;
 			return t * t * t * t * t + 1.0f;
 		}
 	};
+	
+	public interface OnStartExtend{
+		public void onExtend(View v);
+		public void onCollapse(View v);
+	}
 }
