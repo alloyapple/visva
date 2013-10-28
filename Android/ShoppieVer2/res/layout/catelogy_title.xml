@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Tam thoi fix kich thuoc o day, cho tinh kich thuoc cho cac man hinh tab sau -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="252dp"
-    android:layout_height="82dp"
+    android:layout_width="@dimen/page_item_width"
+    android:layout_height="@dimen/page_item_icon_height"
     android:background="@android:color/white" >
     <View 
-    	android:layout_width="82dp"
-    	android:layout_height="82dp"
+    	android:layout_width="@dimen/page_item_icon_height"
+    	android:layout_height="@dimen/page_item_icon_height"
     	android:id="@+id/icon"
     	android:background="#F5C63B"    
         />
@@ -15,9 +15,9 @@
 	    android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_toRightOf="@id/icon"
-    	android:layout_marginLeft="17dp"
-    	android:layout_marginTop="17dp"
-    	android:textSize="24sp"
+    	android:layout_marginLeft="@dimen/page_title_catelogy_title_marginleft"
+    	android:layout_marginTop="@dimen/page_title_catelogy_title_margintop"
+    	android:textSize="@dimen/page_item_catelogy_title_textsize"
     	android:text="Ăn uống"
     	android:textColor="#2A5C72"
 	    />
@@ -27,15 +27,15 @@
     	android:layout_height="wrap_content"
     	android:layout_toRightOf="@id/icon"
     	android:layout_below="@id/catelogy"
-    	android:layout_marginLeft="16dp"
-    	android:textSize="15sp"
+    	android:layout_marginLeft="@dimen/page_title_catelogy_subcatelogy_marginleft"
+    	android:textSize="@dimen/page_title_catelogy_subcatelogy_textsize"
     	android:text="Quán ăn, nhậu nhẹt"
     	android:textColor="@android:color/darker_gray"
 	    />
 	<TextView
 	    android:id="@+id/count" 
-	    android:layout_width="32dp"
-    	android:layout_height="32dp"
+	    android:layout_width="@dimen/page_item_count_width"
+    	android:layout_height="@dimen/page_item_count_height"
     	android:layout_alignParentRight="true"
     	android:background="#ff0000"
 	    />
