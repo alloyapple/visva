@@ -1,6 +1,7 @@
 package vn.com.shoppie.view;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.view.MScrollView.OnReachBottom;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -16,8 +17,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.Scroller;
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -44,6 +45,7 @@ public class MPager extends RelativeLayout{
 	private boolean isSlide = false;
 	private boolean isOpenSlide = true;
 	private boolean isOpenMoveSlide = true;
+	private boolean isOpenCollapse = false;
 
 	private View currentSlide;
 
@@ -63,6 +65,7 @@ public class MPager extends RelativeLayout{
 	private VelocityTracker mVelocityTracker;
 
 	private GestureDetector mGestureDetector;
+	private GestureDetector mCollapseGestureDetector;
 	
 	private OnStartExtend onStartExtend;
 	public MPager(Context context, AttributeSet attrs) {
@@ -73,7 +76,11 @@ public class MPager extends RelativeLayout{
 		if(mGestureDetector == null){
 			mGestureDetector = new GestureDetector(getContext() , new GestureListener());
 		}
-
+		
+		if(mCollapseGestureDetector == null){
+			mCollapseGestureDetector = new GestureDetector(getContext() , new CollapseGestureListenner());
+		}
+		
 		initLayout();
 	}
 
@@ -85,11 +92,15 @@ public class MPager extends RelativeLayout{
 		if(mGestureDetector == null){
 			mGestureDetector = new GestureDetector(getContext() , new GestureListener());
 		}
-
+		
+		if(mCollapseGestureDetector == null){
+			mCollapseGestureDetector = new GestureDetector(getContext() , new CollapseGestureListenner());
+		}
+		
 		initLayout();
 	}
 
-	private ScrollView scrollView;
+	private MScrollView scrollView;
 	private LinearLayout container1;
 	private RelativeLayout container;
 	private LinearLayout layout1;
@@ -99,7 +110,7 @@ public class MPager extends RelativeLayout{
 		layout1.setGravity(Gravity.CENTER);
 		addView(layout1 , -1 , -1);
 		
-		scrollView = new ScrollView(getContext());
+		scrollView = new MScrollView(getContext());
 		layout1.addView(scrollView, -1, -2);
 
 		container1 = new LinearLayout(getContext());
@@ -197,15 +208,22 @@ public class MPager extends RelativeLayout{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if(container.getParent() != container1)
+		if(event.getPointerCount() > 1)
+			return false;
+		mVelocityTracker.addMovement(event);
+		if(container.getParent() != container1){
+			isOpenCollapse = false;
+			if(mCollapseGestureDetector.onTouchEvent(event))
+				return true;
 			return super.onTouchEvent(event);
+		}
 		if(mAdapter == null)
 			return super.onTouchEvent(event);
 		if(mAdapter.getCount() <= 1)
 			return super.onTouchEvent(event);
+
 		
-		mVelocityTracker.addMovement(event);
-		boolean value = mGestureDetector.onTouchEvent(event);
+		mGestureDetector.onTouchEvent(event);
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_UP:
 			autoSlide();
@@ -484,6 +502,71 @@ public class MPager extends RelativeLayout{
 
 	int pos = 0;
 
+	public void addViewBySet(int lastPos , boolean isFirst){
+		int count = container.getChildCount() + 9;
+		int realCount = 0;
+		for(int i = container.getChildCount() ; i < count && i < mAdapter.getCount() ; i++){
+			container.addView(mAdapter.getView(i) , mAdapter.getViewWidth() , mAdapter.getViewHeight());
+			realCount++;
+		}
+		
+		extendView(40);
+		int scrollHeight = container.getChildAt(1).getHeight();
+		MarginLayoutParams params = (MarginLayoutParams) container.getChildAt(container.getChildCount() - 1).getLayoutParams();
+		scrollHeight += params.topMargin;
+		
+		int topScroll = 0;
+		if(scrollHeight >= getHeight())
+			topScroll = 0;
+		else
+			topScroll = (getHeight() - scrollHeight) / 2;
+		
+		if(isFirst){
+			for(int i = 0 ; i < container.getChildCount() ; i++){
+				View v = container.getChildAt(i);
+				params = (MarginLayoutParams) v.getLayoutParams();
+				ObjectAnimator.ofFloat(v, "translationY", -(topScroll + params.topMargin - lastPos), 0).setDuration(500).start();
+			}
+			scrollView.setOnReachBottom(new OnReachBottom() {
+				
+				@Override
+				public void onReachBottom() {
+					addViewBySet(-1, false);
+				}
+			});
+			scrollView.setStopScroll(false);
+		}
+		else if(realCount > 0){
+			scrollView.setStopScroll(true);
+			for(int i = container.getChildCount() - realCount + 1 ; i < container.getChildCount() ; i++){
+				ObjectAnimator.ofFloat(container.getChildAt(i), "translationY", mAdapter.getViewHeight() - mAdapter.getTitlePadding(), 0).setDuration(350).start();
+			}
+			ObjectAnimator a = ObjectAnimator.ofFloat(container.getChildAt(container.getChildCount() - realCount), "translationY", mAdapter.getViewHeight() - mAdapter.getTitlePadding(), 0).setDuration(350);
+			a.addListener(new AnimatorListener() {
+				
+				@Override
+				public void onAnimationStart(Animator arg0) {
+				}
+				
+				@Override
+				public void onAnimationRepeat(Animator arg0) {
+				}
+				
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					scrollView.setStopScroll(false);
+				}
+				
+				@Override
+				public void onAnimationCancel(Animator arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			a.start();
+		}
+	}
+	
 	public void extendView(){
 		if(container.getParent() == container1 && container.getChildCount() > 2){
 			if(onStartExtend != null){
@@ -493,33 +576,14 @@ public class MPager extends RelativeLayout{
 			int lastPos = getHeight() / 2 - container.getChildAt(0).getHeight() / 2;
 			
 			isOpenSlide = false;
+			isOpenCollapse = false;
 			container1.removeView(container);
 			scrollView.addView(container , -1 , -2);
 			scrollView.scrollTo(0, 0);
 			container.removeAllViews();
 			removeViewAt(0);
 			
-			
-			for(int i = 0 ; i < mAdapter.getCount() ; i++){
-				container.addView(mAdapter.getView(i) , mAdapter.getViewWidth() , mAdapter.getViewHeight());
-			}
-			
-			extendView(40);
-			int scrollHeight = container.getChildAt(1).getHeight();
-			MarginLayoutParams params = (MarginLayoutParams) container.getChildAt(container.getChildCount() - 1).getLayoutParams();
-			scrollHeight += params.topMargin;
-			
-			int topScroll = 0;
-			if(scrollHeight >= getHeight())
-				topScroll = 0;
-			else
-				topScroll = (getHeight() - scrollHeight) / 2;
-			
-			for(int i = 0 ; i < container.getChildCount() ; i++){
-				View v = container.getChildAt(i);
-				params = (MarginLayoutParams) v.getLayoutParams();
-				ObjectAnimator.ofFloat(v, "translationY", -(topScroll + params.topMargin - lastPos), 0).setDuration(500).start();
-			}
+			addViewBySet(lastPos , true);
 		}
 		else
 			return;
@@ -528,13 +592,20 @@ public class MPager extends RelativeLayout{
 	}
 
 	public void collapseView(){
+		if(!isOpenCollapse)
+			return;
 		if(container.getParent() == scrollView){
 			if(onStartExtend != null){
 				onStartExtend.onCollapse(this);
 			}
-			
+			scrollView.setStopScroll(true);
+			scrollView.scrollTo(0, 0);
+			for(int i = 5 ; i < container.getChildCount() ; i++){
+				container.removeViewAt(i);
+			}
 			
 			isOpenSlide = false;
+			isOpenMoveSlide = false;
 			
 			int containerTop = scrollView.getTop();
 			int newTop = (getHeight() - container.getChildAt(1).getHeight()) / 2;
@@ -547,7 +618,6 @@ public class MPager extends RelativeLayout{
 			extendView(0);
 			scrollView.removeAllViews();
 			container1.addView(container , -1 , -1);
-			isOpenSlide = true;
 			
 			ObjectAnimator a = ObjectAnimator.ofFloat(container.getChildAt(0), "translationY", lastPos[0] , 0).setDuration(500);
 			a.addListener(new AnimatorListener() {
@@ -567,6 +637,7 @@ public class MPager extends RelativeLayout{
 				@Override
 				public void onAnimationEnd(Animator arg0) {
 					setAdapter(mAdapter);
+					isOpenSlide = true;
 				}
 				
 				@Override
@@ -744,7 +815,22 @@ public class MPager extends RelativeLayout{
 			return false;
 		}
 	}
+	
+	class CollapseGestureListenner extends GestureDetector.SimpleOnGestureListener{
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
 
+			Log.d("Fling", "" + velocityY);
+			if(velocityY < -10000){
+				scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());
+				isOpenCollapse = true;
+				collapseView();
+			}
+			return true;
+		}
+	}
+	
 	private float angle(){
 		if(slideMode == SLIDE_DOWN)
 			return angle;

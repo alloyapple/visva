@@ -3,9 +3,12 @@ package vn.com.shoppie.activity;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.view.MPager;
+import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.view.MPager.OnStartExtend;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -16,6 +19,7 @@ import android.view.animation.RotateAnimation;
 public class HomeActivity extends VisvaAbstractActivity {
 	private View checkinCircle;
 	private MPager pager;
+	private CatelogyAdapter adapter;
 	private boolean isChecked = false;
 
 	@Override
@@ -36,7 +40,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 		pager = (MPager) findViewById(R.id.pager);
-		pager.setAdapter(new CatelogyAdapter(this));
+		adapter = new CatelogyAdapter(this);
+		pager.setAdapter(adapter);
 		
 		pager.setOnStartExtendListenner(new OnStartExtend() {
 			
@@ -49,6 +54,14 @@ public class HomeActivity extends VisvaAbstractActivity {
 			@Override
 			public void onCollapse(View v) {
 				
+			}
+		});
+		
+		adapter.setOnItemClick(new OnItemClick() {
+			
+			@Override
+			public void onClick(int pos) {
+				changeToActivity(new Intent(HomeActivity.this, CollectionList.class), false);
 			}
 		});
 	}

@@ -26,6 +26,11 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name="vn.com.shoppie.activity.CollectionList"
+            android:screenOrientation="portrait" >
+
+        </activity>
+        <activity
             android:name="vn.com.shoppie.activity.LoginActivity"
             android:screenOrientation="portrait" >
             <intent-filter>

@@ -2,6 +2,7 @@ package vn.com.shoppie.adapter;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.view.MPagerAdapterBase;
+import vn.com.shoppie.view.OnItemClick;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +26,7 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	}
 	
 	@Override
-	public View getView(int position) {
+	public View getView(final int position) {
 		View v;
 		if(cacheView[position] != null){
 			v = cacheView[position];
@@ -59,7 +60,9 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.d("Click", "Catelogy");
+				if(onItemClick != null){
+					onItemClick.onClick(position);
+				}
 			}
 		});
 		return v;
@@ -84,7 +87,7 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 5;
+		return 50;
 	}
 
 	@Override
@@ -126,4 +129,10 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 		// TODO Auto-generated method stub
 		return (int) context.getResources().getDimension(R.dimen.page_item_title_padding);
 	}
+	
+	public void setOnItemClick(OnItemClick onItemClick){
+		this.onItemClick = onItemClick;
+	}
+	
+	private OnItemClick onItemClick;
 }
