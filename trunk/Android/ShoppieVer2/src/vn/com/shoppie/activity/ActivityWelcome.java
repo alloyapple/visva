@@ -10,6 +10,7 @@ import vn.com.shoppie.util.SUtil;
 import vn.com.shoppie.util.SUtilText;
 import vn.com.shoppie.util.SUtilXml;
 import vn.com.shoppie.view.pageindicator.CirclePageIndicator;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +36,7 @@ import com.facebook.model.GraphUser;
 import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.maps.model.LatLng;
 
-public class ActivityWelcome extends ActivityShoppie implements
+public class ActivityWelcome extends Activity implements
 		OnWelcomeRegisterListener, LocationListener {
 	public static final String ERR_BLUETOOTH_NULL = "-2";
 	public static final String ERR_UNKNOWN = "-1";
@@ -56,7 +57,7 @@ public class ActivityWelcome extends ActivityShoppie implements
 	};
 
 	ViewPager mPager;
-	CirclePageIndicator mIndicator;
+	//CirclePageIndicator mIndicator;
 
 	AdapterWelcomeImage mAdapter;
 	ArrayList<Integer> mData = new ArrayList<Integer>();
@@ -125,18 +126,18 @@ public class ActivityWelcome extends ActivityShoppie implements
 
 	public void findViewById() {
 		mPager = (ViewPager) findViewById(R.id.pager);
-		mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+	//	mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 
 		mAdapter = new AdapterWelcomeImage(this, mData);
 		mPager.setAdapter(mAdapter);
-		mIndicator.setViewPager(mPager);
+		//mIndicator.setViewPager(mPager);
 
 		mPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int arg0) {
 				// Log.e("page change", "" + arg0);
-				mIndicator.setCurrentItem(arg0);
+			//	mIndicator.setCurrentItem(arg0);
 			}
 
 			@Override
@@ -218,12 +219,13 @@ public class ActivityWelcome extends ActivityShoppie implements
 		mData.add(R.drawable.slide3);
 		mData.add(R.drawable.slide4);
 		mData.add(R.drawable.slide5);
+		mData.add(R.drawable.slide6);
 		mData.add(PAGE_REGISTER);
 		// mAdapter.notifyDataSetChanged();
 
 		mAdapter = new AdapterWelcomeImage(this, mData);
 		mPager.setAdapter(mAdapter);
-		mIndicator.setViewPager(mPager);
+		//mIndicator.setViewPager(mPager);
 	}
 
 	LocationManager mLocaMng;
@@ -466,17 +468,5 @@ public class ActivityWelcome extends ActivityShoppie implements
 			}
 		} else {
 		}
-	}
-
-	@Override
-	public int contentView() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-		
 	}
 }
