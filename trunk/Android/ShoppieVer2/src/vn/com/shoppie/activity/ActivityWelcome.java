@@ -37,7 +37,7 @@ import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ActivityWelcome extends Activity implements
-		OnWelcomeRegisterListener, LocationListener {
+		 LocationListener {
 	public static final String ERR_BLUETOOTH_NULL = "-2";
 	public static final String ERR_UNKNOWN = "-1";
 	public static final String ERR_SERVER = "-3";
@@ -76,7 +76,7 @@ public class ActivityWelcome extends Activity implements
 
 		addDataSample();
 
-		mAdapter.setOnRegisterListener(this);
+		//mAdapter.setOnRegisterListener(this);
 
 		// request Location
 		mLocaMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -230,40 +230,40 @@ public class ActivityWelcome extends Activity implements
 
 	LocationManager mLocaMng;
 
-	@Override
-	public void btnRegisterClick(final View btnRegister, final EditText edtName) {
-		checkNetwork();
-		// getInfo
-		name = edtName.getText().toString();
-		if (name.equals("")) {
-			edtName.post(new Runnable() {
-
-				@Override
-				public void run() {
-					showToast(getResources()
-							.getString(R.string.name_note_empty));
-				}
-			});
-
-			return;
-		}
-		new AsyncTask<String, Void, Boolean>() {
-			protected void onPreExecute() {
-				edtName.setEnabled(false);
-				btnRegister.setEnabled(false);
-			};
-			@Override
-			protected Boolean doInBackground(String... params) {
-				register(name);
-				return false;
-			}
-			protected void onPostExecute(Boolean result) {
-				edtName.setEnabled(true);
-				btnRegister.setEnabled(true);
-			};
-		}.execute();
-
-	}
+//	@Override
+//	public void btnRegisterClick(final View btnRegister, final EditText edtName) {
+//		checkNetwork();
+//		// getInfo
+//		name = edtName.getText().toString();
+//		if (name.equals("")) {
+//			edtName.post(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					showToast(getResources()
+//							.getString(R.string.name_note_empty));
+//				}
+//			});
+//
+//			return;
+//		}
+//		new AsyncTask<String, Void, Boolean>() {
+//			protected void onPreExecute() {
+//				edtName.setEnabled(false);
+//				btnRegister.setEnabled(false);
+//			};
+//			@Override
+//			protected Boolean doInBackground(String... params) {
+//				register(name);
+//				return false;
+//			}
+//			protected void onPostExecute(Boolean result) {
+//				edtName.setEnabled(true);
+//				btnRegister.setEnabled(true);
+//			};
+//		}.execute();
+//
+//	}
 
 	public void register(final String name) {
 		ActivityShoppie.myUser.custName = name;
@@ -459,7 +459,7 @@ public class ActivityWelcome extends Activity implements
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										String name = user.getUsername();
-										register(name);
+										//register(name);
 									}
 								}
 							}
