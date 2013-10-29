@@ -1,11 +1,11 @@
 package vn.com.shoppie.constant;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public class ShopieSharePref {
 
+	private static String FIRST_TIME_RUN_APP = "first_time_run_app";
 	// ================================================================
 
 	private Context context;
