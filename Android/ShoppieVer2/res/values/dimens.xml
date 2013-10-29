@@ -31,6 +31,30 @@
     <dimen name="catelogy_detail_footer_height">80dp</dimen>
     <dimen name="catelogy_detail_footer_bt_width">70dp</dimen>
     
+    <dimen name="page_title_catelogy_title_margintop">21dp</dimen>
+	<dimen name="page_title_catelogy_title_marginleft">21dp</dimen>
+	<dimen name="page_title_catelogy_subcatelogy_marginleft">20dp</dimen>
+	<dimen name="page_title_catelogy_subcatelogy_textsize">18sp</dimen>
+    
+    <dimen name="collection_item_height">113dp</dimen>
+	<dimen name="collection_item_item_width">81dp</dimen>
+	<dimen name="collection_item_item_height">81dp</dimen>
+	<dimen name="collection_item_item_marginleft">16dp</dimen>
+	<dimen name="collection_item_item_margintop">16dp</dimen>
+	<dimen name="collection_item_item_text_width">81dp</dimen>
+	<dimen name="collection_item_item_text_height">21dp</dimen>
+	<dimen name="collection_item_item_text_marginleft">16dp</dimen>
+	<dimen name="collection_item_item_text_margintop">76dp</dimen>
+	<dimen name="collection_item_title_margintop">18dp</dimen>
+	<dimen name="collection_item_title_marginleft">12dp</dimen>
+	<dimen name="collection_item_title_textsize">18sp</dimen>
+	<dimen name="collection_item_subtitle_margintop">2dp</dimen>
+	<dimen name="collection_item_subtitle_marginleft">12dp</dimen>
+	<dimen name="collection_item_subtitle_textsize">15sp</dimen>
+	<dimen name="collection_item_star_width">39dp</dimen>
+	<dimen name="collection_item_star_height">39dp</dimen>
+    
+    
     <!-- Shoppie 4 -->
     <integer name="display_width">400</integer>
     <integer name="display_height">400</integer>
