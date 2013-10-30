@@ -1,4 +1,4 @@
-package vn.com.shoppie.util;
+package vn.com.shoppie.object;
 
 import android.content.Context;
 import android.graphics.Bitmap;

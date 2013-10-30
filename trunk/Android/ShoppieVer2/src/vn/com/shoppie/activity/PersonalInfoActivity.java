@@ -3,6 +3,9 @@ package vn.com.shoppie.activity;
 import java.util.ArrayList;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.fragment.FavouriteFragment;
+import vn.com.shoppie.fragment.FragmentPersonalInfo;
+import vn.com.shoppie.fragment.HistoryTradeFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment;
 import vn.com.shoppie.fragment.PersonalFriendFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
@@ -22,11 +25,20 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	// ==========================Constant Define=================
 	private static final String MAIN_PERSONAL_INFO_FRAGMENT = "main_info";
 	private static final String PERSONAL_FRIEND_FRAGMENT = "friend";
+	private static final String FAVOURITE_FRAGMENT = "favourite";
+	private static final String HISTORY_TRADE_FRAGMET = "history_trade";
+	private static final String FRAGMENT_PERSONAL_INFO = "personal_info";
 	private static final int MAIN_PERSONAL_INFO = 1001;
 	private static final int PERSONAL_FRIEND = 1002;
+	private static final int HISTORY_TRADE = 1003;
+	private static final int FAVOURITE = 1004;
+	private static final int PERSONAL_INFO = 1005;
 	// ===========================Control Define==================
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
+	private FragmentPersonalInfo mFragmentPersonalInfo;
+	private HistoryTradeFragment mHistoryTradeFragment;
+	private FavouriteFragment mFavouriteFragment;
 	private ArrayList<Fragment> mLstFragments;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
@@ -52,8 +64,14 @@ public class PersonalInfoActivity extends FragmentActivity implements
 				.findFragmentById(R.id.layout_personal_main_info);
 		mPersonalFriendFragment = (PersonalFriendFragment) mFmManager
 				.findFragmentById(R.id.layout_personal_friend);
-		mTxtTitle = (TextView)findViewById(R.id.txt_title_fragment);
-		
+		mFavouriteFragment = (FavouriteFragment) mFmManager
+				.findFragmentById(R.id.layout_personal_favourite);
+		mFragmentPersonalInfo = (FragmentPersonalInfo) mFmManager
+				.findFragmentById(R.id.layout_personal_info_fragment);
+		mHistoryTradeFragment = (HistoryTradeFragment) mFmManager
+				.findFragmentById(R.id.layout_personal_history_trade);
+
+		mTxtTitle = (TextView) findViewById(R.id.txt_title_fragment);
 		mMainPersonalInfoFragment.setListener(this);
 
 		showFragment(MAIN_PERSONAL_INFO);
@@ -66,22 +84,46 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private void showFragment(int fragment) {
 		// TODO Auto-generated method stub
 		switch (fragment) {
+
 		case MAIN_PERSONAL_INFO:
-			
 			mTransaction = hideFragment();
 			mTransaction.show(mMainPersonalInfoFragment);
 			addToSBackStack(MAIN_PERSONAL_INFO_FRAGMENT);
-			mTransaction.commit();			
+			mTransaction.commit();
 			mTxtTitle.setText(getString(R.string.personal_info));
-			
 			break;
+
 		case PERSONAL_FRIEND:
-			
 			mTransaction = hideFragment();
 			mTransaction.show(mPersonalFriendFragment);
-			addToSBackStack(MAIN_PERSONAL_INFO_FRAGMENT);
-			mTransaction.commit();			
+			addToSBackStack(PERSONAL_FRIEND_FRAGMENT);
+			mTransaction.commit();
 			mTxtTitle.setText(getString(R.string.personl_friend));
+			break;
+
+		case HISTORY_TRADE:
+			mTransaction = hideFragment();
+			mTransaction.show(mHistoryTradeFragment);
+			addToSBackStack(HISTORY_TRADE_FRAGMET);
+			mTransaction.commit();
+			mTxtTitle.setText(getString(R.string.personl_friend));
+			break;
+
+		case FAVOURITE:
+			mTransaction = hideFragment();
+			mTransaction.show(mFavouriteFragment);
+			addToSBackStack(FAVOURITE_FRAGMENT);
+			mTransaction.commit();
+			mTxtTitle.setText(getString(R.string.personl_friend));
+			break;
+
+		case PERSONAL_INFO:
+			mTransaction = hideFragment();
+			mTransaction.show(mFragmentPersonalInfo);
+			addToSBackStack(FRAGMENT_PERSONAL_INFO);
+			mTransaction.commit();
+			mTxtTitle.setText(getString(R.string.personl_friend));
+			break;
 		default:
 			break;
 		}
@@ -91,6 +133,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction = mFmManager.beginTransaction();
 		mTransaction.hide(mMainPersonalInfoFragment);
 		mTransaction.hide(mPersonalFriendFragment);
+		mTransaction.hide(mFavouriteFragment);
+		mTransaction.hide(mFragmentPersonalInfo);
+		mTransaction.hide(mHistoryTradeFragment);
 		if (!backstack.isEmpty())
 			showToast(backstack.get(0));
 		return mTransaction;
@@ -165,6 +210,15 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		} else if (currentView.equals(PERSONAL_FRIEND_FRAGMENT)) {
 			mTransaction.show(mPersonalFriendFragment);
 			// mPersonalFriendFragment.
+		} else if (currentView.equals(FAVOURITE_FRAGMENT)) {
+			mTransaction.show(mFavouriteFragment);
+			// mPersonalFriendFragment.
+		} else if (currentView.equals(HISTORY_TRADE_FRAGMET)) {
+			mTransaction.show(mHistoryTradeFragment);
+			// mPersonalFriendFragment.
+		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
+			mTransaction.show(mFragmentPersonalInfo);
+			// mPersonalFriendFragment.
 		}
 		mTransaction.commitAllowingStateLoss();
 	}
@@ -173,18 +227,19 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	public void onClickPersonalInfo() {
 		// TODO Auto-generated method stub
 		Log.e("onclickinfo", "onCLick oinfo");
+		showFragment(PERSONAL_INFO);
 	}
 
 	@Override
 	public void onClickFavouriteProduct() {
 		// TODO Auto-generated method stub
-
+		showFragment(FAVOURITE);
 	}
 
 	@Override
 	public void onClickFavouriteCategory() {
 		// TODO Auto-generated method stub
-
+		showFragment(FAVOURITE);
 	}
 
 	@Override
@@ -196,7 +251,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onClickHistoryTrade() {
 		// TODO Auto-generated method stub
-
+		showFragment(HISTORY_TRADE);
 	}
 
 	@Override
