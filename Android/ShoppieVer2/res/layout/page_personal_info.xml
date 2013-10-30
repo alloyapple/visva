@@ -47,6 +47,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="vn.com.shoppie.fragment.PersonalFriendFragment" />
+
+        <fragment
+            android:id="@+id/layout_personal_info_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="vn.com.shoppie.fragment.FragmentPersonalInfo" />
+
+        <fragment
+            android:id="@+id/layout_personal_favourite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="vn.com.shoppie.fragment.FavouriteFragment" />
+
+        <fragment
+            android:id="@+id/layout_personal_history_trade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="vn.com.shoppie.fragment.HistoryTradeFragment" />
     </RelativeLayout>
 
 </LinearLayout>

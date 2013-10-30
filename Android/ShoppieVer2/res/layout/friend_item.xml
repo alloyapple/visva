@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <vn.com.shoppie.object.MyCircleImageView
+        android:id="@+id/fb_friend_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/bg_default_avatar" />
+
+    <TextView
+        android:id="@+id/fb_friend_name"
+        android:layout_width="@dimen/personal_friend_text_name_width"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:layout_marginRight="40dp"
+        android:layout_toRightOf="@id/fb_friend_avatar"
+        android:text="MIMI"
+        android:textColor="#000000"
+        android:textSize="@dimen/personal_friend_name_text_size" />
+
+    <TextView
+        android:id="@+id/fb_friend_number_pie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fb_friend_name"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/fb_friend_avatar"
+        android:text="123456 pie"
+        android:textColor="#000000"
+        android:textSize="@dimen/personal_friend_number_pie_text_size" />
+
+    <Button
+        android:id="@+id/fb_friend_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/ic_invite" />
+
+</RelativeLayout>

@@ -75,5 +75,8 @@
     <dimen name="personal_avatar_margin_top">20dp</dimen>
     <dimen name="personal_layout_item_height">40dp</dimen>
     <dimen name="personal_item_img_size">30dp</dimen>
+    <dimen name="personal_friend_name_text_size">18sp</dimen>
+    <dimen name="personal_friend_number_pie_text_size">12sp</dimen>
+    <dimen name="personal_friend_text_name_width">180dp</dimen>
 
 </resources>
