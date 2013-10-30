@@ -11,11 +11,9 @@ import vn.com.shoppie.fragment.PersonalFriendFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +37,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private FragmentPersonalInfo mFragmentPersonalInfo;
 	private HistoryTradeFragment mHistoryTradeFragment;
 	private FavouriteFragment mFavouriteFragment;
-	private ArrayList<Fragment> mLstFragments;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
 	private TextView mTxtTitle;
@@ -106,7 +103,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction.show(mHistoryTradeFragment);
 			addToSBackStack(HISTORY_TRADE_FRAGMET);
 			mTransaction.commit();
-			mTxtTitle.setText(getString(R.string.personl_friend));
+			mTxtTitle.setText(getString(R.string.history_trade));
 			break;
 
 		case FAVOURITE:
@@ -114,7 +111,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction.show(mFavouriteFragment);
 			addToSBackStack(FAVOURITE_FRAGMENT);
 			mTransaction.commit();
-			mTxtTitle.setText(getString(R.string.personl_friend));
+			mTxtTitle.setText(getString(R.string.personal_favourite));
 			break;
 
 		case PERSONAL_INFO:
@@ -122,7 +119,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction.show(mFragmentPersonalInfo);
 			addToSBackStack(FRAGMENT_PERSONAL_INFO);
 			mTransaction.commit();
-			mTxtTitle.setText(getString(R.string.personl_friend));
+			mTxtTitle.setText(getString(R.string.main_personal_info));
 			break;
 		default:
 			break;
@@ -180,7 +177,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onBackPressed() {
 
-		showToast("BackPress");
 		/*
 		 * if (backstack.size() == 0) { if(mTopPanel.isOpen()){
 		 * mTopPanel.setOpen(false, true); return; } super.onBackPressed();
@@ -206,19 +202,23 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction = hideFragment();
 		if (currentView.equals(MAIN_PERSONAL_INFO_FRAGMENT)) {
 			mTransaction.show(mMainPersonalInfoFragment);
+			mTxtTitle.setText(getString(R.string.personal_info));
 			// mMainPersonalInfoFragment.refreshUI();
 		} else if (currentView.equals(PERSONAL_FRIEND_FRAGMENT)) {
 			mTransaction.show(mPersonalFriendFragment);
+			mTxtTitle.setText(getString(R.string.personl_friend));
 			// mPersonalFriendFragment.
 		} else if (currentView.equals(FAVOURITE_FRAGMENT)) {
 			mTransaction.show(mFavouriteFragment);
+			mTxtTitle.setText(getString(R.string.personal_favourite));
 			// mPersonalFriendFragment.
 		} else if (currentView.equals(HISTORY_TRADE_FRAGMET)) {
 			mTransaction.show(mHistoryTradeFragment);
+			mTxtTitle.setText(getString(R.string.history_trade));
 			// mPersonalFriendFragment.
 		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
 			mTransaction.show(mFragmentPersonalInfo);
-			// mPersonalFriendFragment.
+			mTxtTitle.setText(getString(R.string.main_personal_info));
 		}
 		mTransaction.commitAllowingStateLoss();
 	}
@@ -226,7 +226,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onClickPersonalInfo() {
 		// TODO Auto-generated method stub
-		Log.e("onclickinfo", "onCLick oinfo");
 		showFragment(PERSONAL_INFO);
 	}
 

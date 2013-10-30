@@ -115,11 +115,29 @@
                 </TextView>
             </LinearLayout>
 
-            <vn.com.shoppie.object.HorizontalListView
-                android:id="@+id/list_friend_favorite_product"
+            <LinearLayout
+                android:id="@+id/layout_fravourite_product"
                 android:layout_width="fill_parent"
-                android:layout_height="100dp" >
-            </vn.com.shoppie.object.HorizontalListView>
+                android:layout_height="@dimen/personal_layout_item_height"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/top_corner_button" >
+
+                <ImageView
+                    android:layout_width="@dimen/personal_item_img_size"
+                    android:layout_height="@dimen/personal_item_img_size"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_favourite"
+                    android:contentDescription="@string/KEY_TAG_TAB" >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/personal_favourite_product"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_fravourite_category"
@@ -146,11 +164,30 @@
                 </TextView>
             </LinearLayout>
 
-            <vn.com.shoppie.object.HorizontalListView
-                android:id="@+id/list_friend_favorite_category"
+            <LinearLayout
+                android:id="@+id/layout_personal_people"
                 android:layout_width="fill_parent"
-                android:layout_height="100dp" >
-            </vn.com.shoppie.object.HorizontalListView>
+                android:layout_height="@dimen/personal_layout_item_height"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/top_corner_button" >
+
+                <ImageView
+                    android:layout_width="@dimen/personal_item_img_size"
+                    android:layout_height="@dimen/personal_item_img_size"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_personal_people"
+                    android:contentDescription="@string/KEY_TAG_TAB" >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/personl_friend"
+                    android:textColor="@color/black" >
+                </TextView>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_feedback"
@@ -173,6 +210,56 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_feedback"
+                    android:textColor="@color/black" >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_help"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/personal_layout_item_height"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/top_corner_button" >
+
+                <ImageView
+                    android:layout_width="@dimen/personal_item_img_size"
+                    android:layout_height="@dimen/personal_item_img_size"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_help"
+                    android:contentDescription="@string/KEY_TAG_TAB" >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/personal_help"
+                    android:textColor="@color/black" >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_history_trade"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/personal_layout_item_height"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/top_corner_button" >
+
+                <ImageView
+                    android:layout_width="@dimen/personal_item_img_size"
+                    android:layout_height="@dimen/personal_item_img_size"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_history_trade"
+                    android:contentDescription="@string/KEY_TAG_TAB" >
+                </ImageView>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/history_trade"
                     android:textColor="@color/black" >
                 </TextView>
             </LinearLayout>
