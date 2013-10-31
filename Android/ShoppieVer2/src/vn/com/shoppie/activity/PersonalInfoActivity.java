@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import vn.com.shoppie.R;
 import vn.com.shoppie.fragment.FavouriteFragment;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
+import vn.com.shoppie.fragment.FriendDetailFragment;
 import vn.com.shoppie.fragment.HistoryTradeFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment;
 import vn.com.shoppie.fragment.PersonalFriendFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
-
+import vn.com.shoppie.fragment.PersonalFriendFragment.onViewFriendDetail;
+import vn.com.shoppie.object.FBUser;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,24 +21,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class PersonalInfoActivity extends FragmentActivity implements
-		MainPersonalInfoListener {
+		MainPersonalInfoListener, onViewFriendDetail {
 	// ==========================Constant Define=================
 	private static final String MAIN_PERSONAL_INFO_FRAGMENT = "main_info";
 	private static final String PERSONAL_FRIEND_FRAGMENT = "friend";
 	private static final String FAVOURITE_FRAGMENT = "favourite";
 	private static final String HISTORY_TRADE_FRAGMET = "history_trade";
 	private static final String FRAGMENT_PERSONAL_INFO = "personal_info";
+	private static final String FRIEND_DETAIL_FRAGMENT = "friend_detail";
 	private static final int MAIN_PERSONAL_INFO = 1001;
 	private static final int PERSONAL_FRIEND = 1002;
 	private static final int HISTORY_TRADE = 1003;
 	private static final int FAVOURITE = 1004;
 	private static final int PERSONAL_INFO = 1005;
+	private static final int FRIEND_DETAIL = 1006;
 	// ===========================Control Define==================
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
 	private FragmentPersonalInfo mFragmentPersonalInfo;
 	private HistoryTradeFragment mHistoryTradeFragment;
 	private FavouriteFragment mFavouriteFragment;
+	private FriendDetailFragment mFriendDetailFragment;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
 	private TextView mTxtTitle;
@@ -67,9 +72,12 @@ public class PersonalInfoActivity extends FragmentActivity implements
 				.findFragmentById(R.id.layout_personal_info_fragment);
 		mHistoryTradeFragment = (HistoryTradeFragment) mFmManager
 				.findFragmentById(R.id.layout_personal_history_trade);
+		mFriendDetailFragment = (FriendDetailFragment) mFmManager
+				.findFragmentById(R.id.layout_personal_friend_detail);
 
 		mTxtTitle = (TextView) findViewById(R.id.txt_title_fragment);
 		mMainPersonalInfoFragment.setListener(this);
+		mPersonalFriendFragment.setListener(this);
 
 		showFragment(MAIN_PERSONAL_INFO);
 		mTransaction = hideFragment();
@@ -121,6 +129,13 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction.commit();
 			mTxtTitle.setText(getString(R.string.main_personal_info));
 			break;
+		case FRIEND_DETAIL:
+			mTransaction = hideFragment();
+			mTransaction.show(mFriendDetailFragment);
+			addToSBackStack(FRIEND_DETAIL_FRAGMENT);
+			mTransaction.commit();
+			mTxtTitle.setText(getString(R.string.personl_friend));
+			break;
 		default:
 			break;
 		}
@@ -133,6 +148,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction.hide(mFavouriteFragment);
 		mTransaction.hide(mFragmentPersonalInfo);
 		mTransaction.hide(mHistoryTradeFragment);
+		mTransaction.hide(mFriendDetailFragment);
 		if (!backstack.isEmpty())
 			showToast(backstack.get(0));
 		return mTransaction;
@@ -219,6 +235,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
 			mTransaction.show(mFragmentPersonalInfo);
 			mTxtTitle.setText(getString(R.string.main_personal_info));
+		}else if (currentView.equals(FRIEND_DETAIL_FRAGMENT)) {
+			mTransaction.show(mFriendDetailFragment);
+			mTxtTitle.setText(getString(R.string.personl_friend));
 		}
 		mTransaction.commitAllowingStateLoss();
 	}
@@ -263,6 +282,13 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	public void onClickFeedback() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onClickViewFriendDetail(FBUser friend) {
+		// TODO Auto-generated method stub
+		showFragment(FRIEND_DETAIL);
+		mFriendDetailFragment.updateUser(friend);
 	}
 
 }

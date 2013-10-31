@@ -80,5 +80,7 @@
     <dimen name="personal_detail_info_margin_left">20dp</dimen>
     <dimen name="personal_detail_info_margin_top">20dp</dimen>
     <dimen name="personal_detail_info_text_size">16dp</dimen>
+    <dimen name="personal_friend_detail_favourite_width">100dp</dimen>
+    <dimen name="personal_friend_detail_favourite_height">100dp</dimen>
 
 </resources>

@@ -101,6 +101,7 @@
     <string name="personal_favourite_product">Sản phẩm yêu thích</string>
     <string name="personal_feedback">Gửi feedback</string>
     <string name="personal_help">Trợ giúp</string>
+    <string name="personal_email">Gửi Email</string>
 
     <!-- personal detail info -->
     <string name="personal_detail_info_name">Tên</string>
