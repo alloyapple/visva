@@ -25,7 +25,7 @@
             android:background="@drawable/img_personal_effect_cover"
             android:contentDescription="@string/app_name" />
 
-        <ImageView
+        <vn.com.shoppie.object.MyCircleImageView
             android:id="@+id/img_avatar"
             android:layout_width="@dimen/personal_avatar_width"
             android:layout_height="@dimen/personal_avatar_height"
@@ -35,7 +35,7 @@
             android:contentDescription="@string/app_name" />
 
         <ImageView
-            android:id="@+id/img_personal_bg_number_pie"
+            android:id="@+id/img_friend_detail_number_pie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -55,7 +55,7 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/txt_personal_name"
+            android:id="@+id/txt_personal_friend_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/txt_personal_number_pie"
@@ -67,7 +67,7 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/txt_personal_id"
+            android:id="@+id/txt_personal_friend_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/txt_personal_number_pie"
@@ -91,7 +91,7 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:id="@+id/layout_info"
+                android:id="@+id/layout_fravourite_product"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/personal_layout_item_height"
                 android:layout_marginLeft="10dp"
@@ -102,7 +102,7 @@
                     android:layout_height="@dimen/personal_item_img_size"
                     android:layout_gravity="left|center"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_info"
+                    android:background="@drawable/ic_favourite"
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
@@ -110,15 +110,14 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
-                    android:text="@string/main_personal_info"
-                    android:textColor="@color/black" >
-                </TextView>
+                    android:text="@string/personal_favourite_product"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <vn.com.shoppie.object.HorizontalListView
                 android:id="@+id/list_friend_favorite_product"
                 android:layout_width="fill_parent"
-                android:layout_height="100dp" >
+                android:layout_height="@dimen/personal_friend_detail_favourite_height" >
             </vn.com.shoppie.object.HorizontalListView>
 
             <LinearLayout
@@ -149,7 +148,7 @@
             <vn.com.shoppie.object.HorizontalListView
                 android:id="@+id/list_friend_favorite_category"
                 android:layout_width="fill_parent"
-                android:layout_height="100dp" >
+                android:layout_height="@dimen/personal_friend_detail_favourite_height" >
             </vn.com.shoppie.object.HorizontalListView>
 
             <LinearLayout
@@ -164,7 +163,7 @@
                     android:layout_height="@dimen/personal_item_img_size"
                     android:layout_gravity="left|center"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_feedback"
+                    android:background="@drawable/ic_email"
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
@@ -172,7 +171,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
-                    android:text="@string/personal_feedback"
+                    android:text="@string/personal_email"
                     android:textColor="@color/black" >
                 </TextView>
             </LinearLayout>

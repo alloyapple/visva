@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListFBFriendAdapter;
 import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
+import vn.com.shoppie.fragment.PersonalFriendFragment.onViewFriendDetail;
 import vn.com.shoppie.network.ParserUtility;
 import vn.com.shoppie.object.FBUser;
 import android.os.Bundle;
@@ -16,16 +17,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.facebook.UiLifecycleHelper;
 import com.facebook.Request;
+import com.facebook.Request.GraphUserListCallback;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.facebook.Request.GraphUserListCallback;
+import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
 public class PersonalFriendFragment extends FragmentBasic implements
@@ -43,6 +46,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	// ============================Variable Define =====================
 	private boolean pickFriendsWhenSessionOpened;
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
+	private onViewFriendDetail mListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +59,16 @@ public class PersonalFriendFragment extends FragmentBasic implements
 				mListFriend);
 		mListFBFriendAdapter.setListener(this);
 		mFriendListView.setAdapter(mListFBFriendAdapter);
+		mFriendListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Log.e("adkjhdf", "asdfjf "+arg2);
+				mListener.onClickViewFriendDetail(mListFriend.get(arg2));
+			}
+		});
 
 		mLinearProgressBar = (RelativeLayout) root
 				.findViewById(R.id.layout_progressBar);
@@ -216,5 +230,13 @@ public class PersonalFriendFragment extends FragmentBasic implements
 		Toast.makeText(getActivity(), "invite " + friend.getUserName(),
 				Toast.LENGTH_SHORT).show();
 
+	}
+
+	public interface onViewFriendDetail {
+		public void onClickViewFriendDetail(FBUser friend);
+	}
+
+	public void setListener(onViewFriendDetail monVieFriendDetail) {
+		this.mListener = monVieFriendDetail;
 	}
 }

@@ -90,6 +90,9 @@ public class ListFBFriendAdapter extends BaseAdapter {
 		} else
 			txtNumberPie.setVisibility(View.GONE);
 		
+		btnInvite.setFocusable(false);
+		imgPhoto.setFocusable(false);
+		
 		mImageLoader.DisplayImage(mListFriend.get(position).getUserAvatarLink(), imgPhoto);
 		return convertView;
 	}
