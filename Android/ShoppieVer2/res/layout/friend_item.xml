@@ -12,13 +12,24 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/bg_avatar" />
+    
+    <Button
+        android:id="@+id/fb_friend_btn"
+        android:layout_width="@dimen/personal_friend_invite_btn_width"
+        android:layout_height="@dimen/personal_friend_invite_btn_height"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_invite" />
 
     <TextView
         android:id="@+id/fb_friend_name"
-        android:layout_width="@dimen/personal_friend_text_name_width"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="15dp"
         android:layout_toRightOf="@id/fb_friend_avatar"
+        android:layout_toLeftOf="@id/fb_friend_btn"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:text="MIMI"
@@ -37,15 +48,5 @@
         android:text="123456 pie"
         android:textColor="#000000"
         android:textSize="@dimen/personal_friend_number_pie_text_size" />
-
-    <Button
-        android:id="@+id/fb_friend_btn"
-        android:layout_width="@dimen/personal_friend_invite_btn_width"
-        android:layout_height="@dimen/personal_friend_invite_btn_height"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/ic_invite" />
 
 </RelativeLayout>
