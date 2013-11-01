@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,13 +35,11 @@ public class MPager extends RelativeLayout{
 	private int currentItem = 0;
 	private MPagerAdapterBase mAdapter;
 	
-	private float lastX;
-	private float lastY;
-
 	private float downX;
 	private float downY;
 
 	private boolean isSlide = false;
+	private boolean isAutoSlide = false;
 	private boolean isOpenSlide = true;
 	private boolean isOpenMoveSlide = true;
 	private boolean isOpenCollapse = false;
@@ -60,8 +57,6 @@ public class MPager extends RelativeLayout{
 	float currentAngle = 0;
 
 	private Scroller mScroller;
-	private Scroller mDragScroller;
-	private Scroller mExtendScroller;
 	private VelocityTracker mVelocityTracker;
 
 	private GestureDetector mGestureDetector;
@@ -138,8 +133,6 @@ public class MPager extends RelativeLayout{
 
 	public void init(){
 		mScroller = new Scroller(getContext(), sInterpolator);
-		mExtendScroller = new Scroller(getContext(), sInterpolator);
-		mDragScroller = new Scroller(getContext(), new AccelerateInterpolator());
 		distance = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 40;
 		distanceX = distance;
 		distanceX = distance / 2;
@@ -200,14 +193,19 @@ public class MPager extends RelativeLayout{
 //		default:
 //			break;
 //		}
-		onTouchEvent(ev);
 		if(isSlide)
 			return true;
-		return false;
+		else{
+			onTouchEvent(ev);
+			return false;
+		}
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if(isAutoSlide)
+			return true;
+		
 		if(event.getPointerCount() > 1)
 			return false;
 		mVelocityTracker.addMovement(event);
@@ -226,11 +224,13 @@ public class MPager extends RelativeLayout{
 		mGestureDetector.onTouchEvent(event);
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_UP:
+			Log.d("UP", "UP");
 			autoSlide();
-			return false;
+			return true;
 		case MotionEvent.ACTION_CANCEL:
+			Log.d("UP", "CANCEL");
 			autoSlide();
-			return false;
+			return true;
 
 		default:
 			break;
@@ -239,6 +239,7 @@ public class MPager extends RelativeLayout{
 	}
 
 	private void autoSlide() {
+		Log.d("Auto", "Slide " + currentX + " " + distanceX);
 		if(!isSlide)
 			return;
 		if(inoutMode == SLIDE_IN){
@@ -254,6 +255,8 @@ public class MPager extends RelativeLayout{
 				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 750);
 		}
 		invalidate();
+		isAutoSlide = true;
+		isOpenMoveSlide = false;
 		isSlide = false;
 	}
 
@@ -453,6 +456,8 @@ public class MPager extends RelativeLayout{
 			}
 		}
 		clearAnimator(currentSlide);
+		
+		isAutoSlide = false;
 		Log.d("CurrentItem", "" + currentItem);
 	}
 
@@ -661,7 +666,7 @@ public class MPager extends RelativeLayout{
 	}
 
 	class GestureListener extends GestureDetector.SimpleOnGestureListener {
-
+		
 		@Override
 		public boolean onSingleTapUp(MotionEvent ev) {
 
@@ -680,7 +685,6 @@ public class MPager extends RelativeLayout{
 
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent event, float distanceX, float distanceY) {
-			Log.d("Scroll", "" + distanceX + " , " + distanceY);
 			if(!isOpenMoveSlide)
 				return false;
 			if(!isSlide){
@@ -724,6 +728,14 @@ public class MPager extends RelativeLayout{
 				}
 			}
 			else{
+				if(currentX < MPager.this.distanceX / 5)
+					distanceX *= 3;
+				else if(currentX < MPager.this.distanceX / 4)
+					distanceX *= 2.5f;
+				else if(currentX < MPager.this.distanceX / 3)
+					distanceX *= 2;
+				else if(currentX < MPager.this.distanceX / 2)
+					distanceX *= 1.5f;
 				switch (slideMode) {
 				case SLIDE_UP:
 					updateSlideLeftRight1(-distanceX);
@@ -737,13 +749,12 @@ public class MPager extends RelativeLayout{
 				}
 			}
 
-			lastX = event.getX();
-			lastY = event.getY();
 			return false;
 		}
 
 		@Override
 		public boolean onDown(MotionEvent event) {
+			Log.d("OnDown", "OnDown");
 			if(isOpenSlide)
 				isOpenMoveSlide = true;
 			else{
@@ -756,62 +767,61 @@ public class MPager extends RelativeLayout{
 				downY 	= event.getY();
 			}
 			else{
+				Log.d("Touch", "Continue");
 				mScroller.abortAnimation();
 				isSlide = true;
 			}
-			lastX = event.getX();
-			lastY = event.getY();
 			return false;
 		}
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			if(velocityX > 100){
-				if(!isSlide){
-					if(velocityY > 0){
-						slideMode = SLIDE_DOWN;
-					}
-					else{
-						slideMode = SLIDE_UP;
-					}
-					if(e2.getX() > downX){
-						if(container.getChildCount() <= 1)
-							return false;
-						startSlideIn();
-					}
-					else{
-						if(container.getChildCount() <= 2)
-							return false;
-						startSlideOut();
-					}
-					isSlide = true;
-					//					value = 0;
-				}
-				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 750);
-				invalidate();
-			}
-			else if(velocityX < -100){
-
-				if(!isSlide){
-					if(true){
-						slideMode = SLIDE_DOWN;
-						if(e2.getX() > downX){
-							if(container.getChildCount() <= 1)
-								return false;
-							startSlideIn();
-						}
-						else{
-							if(container.getChildCount() <= 2)
-								return false;
-							startSlideOut();
-						}
-					}
-					isSlide = true;
-					//					value = 0;
-				}
-				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 750);
-				invalidate();
-			}
+//			if(velocityX > 100){
+//				if(!isSlide){
+//					if(velocityY > 0){
+//						slideMode = SLIDE_DOWN;
+//					}
+//					else{
+//						slideMode = SLIDE_UP;
+//					}
+//					if(e2.getX() > downX){
+//						if(container.getChildCount() <= 1)
+//							return false;
+//						startSlideIn();
+//					}
+//					else{
+//						if(container.getChildCount() <= 2)
+//							return false;
+//						startSlideOut();
+//					}
+//					isSlide = true;
+//					//					value = 0;
+//				}
+//				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 750);
+//				invalidate();
+//			}
+//			else if(velocityX < -100){
+//
+//				if(!isSlide){
+//					if(true){
+//						slideMode = SLIDE_DOWN;
+//						if(e2.getX() > downX){
+//							if(container.getChildCount() <= 1)
+//								return false;
+//							startSlideIn();
+//						}
+//						else{
+//							if(container.getChildCount() <= 2)
+//								return false;
+//							startSlideOut();
+//						}
+//					}
+//					isSlide = true;
+//					//					value = 0;
+//				}
+//				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 750);
+//				invalidate();
+//			}
 			return false;
 		}
 	}
