@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/actionbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/actionbar_background"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:layout_width="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_height"
+            android:background="@drawable/ic_back"
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:onClick="onClickBtnBack" />
+
+        <vn.com.shoppie.object.HorizontalListView
+            android:id="@+id/list_title_search"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp" >
+        </vn.com.shoppie.object.HorizontalListView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/actionbar_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_search"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btn_location_ic"
+            android:layout_width="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_height"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_location"
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:onClick="onClickBtnSearch" />
+
+        <ImageButton
+            android:id="@+id/btn_search_icon"
+            android:layout_width="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_height"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/ic_search"
+            android:contentDescription="@string/KEY_TAG_TAB" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/actionbar_height"
+            android:layout_toLeftOf="@id/btn_location_ic"
+            android:layout_toRightOf="@id/btn_search_icon"
+            android:background="@android:color/transparent"
+            android:hint="@string/txt_search_brand_hint"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

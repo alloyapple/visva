@@ -117,5 +117,8 @@
     <string name="personal_history_trade_shoping">Tích lũy khi mua sắm</string>
     <string name="personal_history_trade_lucky">Tích lũy khi may mắn</string>
     <string name="personal_history_trade_gift">Đổi quà</string>
+    
+    <!-- search activity -->
+    <string name="txt_search_brand_hint">Tìm theo thương hiệu</string>
 
 </resources>

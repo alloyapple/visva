@@ -20,9 +20,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-
-public abstract class VisvaAbstractActivity extends Activity{
+public abstract class VisvaAbstractActivity extends Activity {
 	// abstract method
 
 	private LinearLayout container;
@@ -59,7 +57,7 @@ public abstract class VisvaAbstractActivity extends Activity{
 		} catch (Exception e) {
 
 		}
-		
+
 		registerBaseActivityReceiver();
 		setContentView(R.layout.abstract_activity);
 		init();
@@ -148,6 +146,12 @@ public abstract class VisvaAbstractActivity extends Activity{
 			progressDialog = null;
 		}
 
+	}
+
+	public void onClickBtnSearch(View v) {
+		Intent intent = new Intent(VisvaAbstractActivity.this,
+				SearchActivity.class);
+		startActivity(intent);
 	}
 
 	/**
