@@ -83,4 +83,7 @@
     <dimen name="personal_friend_detail_favourite_width">100dp</dimen>
     <dimen name="personal_friend_detail_favourite_height">100dp</dimen>
 
+    <!-- search activity -->
+    <string name="list_title_search_height">50dp</string>
+
 </resources>
