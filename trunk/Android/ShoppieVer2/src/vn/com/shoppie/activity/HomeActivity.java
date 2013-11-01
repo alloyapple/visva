@@ -9,14 +9,18 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class HomeActivity extends VisvaAbstractActivity {
+	private RelativeLayout actionBar;
 	private View checkinCircle;
 	private MPager pager;
 	private CatelogyAdapter adapter;
@@ -32,13 +36,19 @@ public class HomeActivity extends VisvaAbstractActivity {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
-		checkinCircle = findViewById(R.id.checkin_circle);
-
 		if (Build.VERSION.SDK_INT >= 11)
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+		
+		//setup actionbar
+		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
+		TextView tvTitle = new TextView(this);
+		tvTitle.setGravity(Gravity.CENTER);
+		tvTitle.setText("Tìm nơi tích điểm");
+		actionBar.addView(tvTitle, -1, -1);
+		
+		checkinCircle = findViewById(R.id.checkin_circle);
 		pager = (MPager) findViewById(R.id.pager);
 		adapter = new CatelogyAdapter(this);
 		pager.setAdapter(adapter);
@@ -61,11 +71,12 @@ public class HomeActivity extends VisvaAbstractActivity {
 			
 			@Override
 			public void onClick(int pos) {
+				Log.d("OnClick", "Pos " + pos);
 				changeToActivity(new Intent(HomeActivity.this, CollectionList.class), false);
 			}
 		});
 	}
-
+	
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_canhan:

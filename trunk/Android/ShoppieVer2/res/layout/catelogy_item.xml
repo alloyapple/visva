@@ -32,6 +32,8 @@
     	android:layout_marginLeft="@dimen/page_item_subcatelogy_title_margin_left"
     	android:textSize="@dimen/page_item_subcatelogy_title_textsize"
     	android:text="Quán ăn, nhậu nhẹt"
+    	android:singleLine="true"
+    	android:ellipsize="end"
     	android:textColor="@android:color/darker_gray"
 	    />
 	<TextView
@@ -41,7 +43,7 @@
     	android:layout_alignParentRight="true"
     	android:background="@drawable/ic_head_center02"
 	    />
-	<View 
+	<ImageView 
 	    android:id="@+id/image"
 	    android:layout_width="match_parent"
     	android:layout_height="@dimen/page_item_image_height"

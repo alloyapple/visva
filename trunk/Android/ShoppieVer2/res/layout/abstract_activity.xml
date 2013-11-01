@@ -16,6 +16,7 @@
         	android:layout_width="@dimen/actionbar_height"
     		android:layout_height="@dimen/actionbar_height"
     		android:background="@color/actionbar_item_background"
+    		android:id="@+id/actionbar_icon"
             />
     </RelativeLayout>
 </LinearLayout>
