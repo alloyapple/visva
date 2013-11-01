@@ -244,15 +244,15 @@ public class MPager extends RelativeLayout{
 			return;
 		if(inoutMode == SLIDE_IN){
 			if(currentX > 0.2f * distanceX)
-				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 750);
+				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1000);
 			else
-				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 750);
+				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1000);
 		}
 		else{
 			if(currentX > 0.7f * distanceX)
-				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 750);
+				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1000);
 			else
-				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 750);
+				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1000);
 		}
 		invalidate();
 		isAutoSlide = true;
@@ -688,10 +688,10 @@ public class MPager extends RelativeLayout{
 			if(!isOpenMoveSlide)
 				return false;
 			if(!isSlide){
-				int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 3/2;
+				int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4/2;
 				Log.d("minSlide", "" + minSlide);
 				if(Math.abs(distanceX) < minSlide && Math.abs(event.getX() - downX) < minSlide){
-					if(Math.abs(event.getY() - downY) > minSlide * 10){
+					if(Math.abs(event.getY() - downY) > minSlide * 6){
 						extendView();
 					}
 				}
@@ -797,7 +797,7 @@ public class MPager extends RelativeLayout{
 //					isSlide = true;
 //					//					value = 0;
 //				}
-//				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 750);
+//				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1000);
 //				invalidate();
 //			}
 //			else if(velocityX < -100){
@@ -819,7 +819,7 @@ public class MPager extends RelativeLayout{
 //					isSlide = true;
 //					//					value = 0;
 //				}
-//				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 750);
+//				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1000);
 //				invalidate();
 //			}
 			return false;
@@ -832,7 +832,7 @@ public class MPager extends RelativeLayout{
 				float velocityY) {
 
 			Log.d("Fling", "" + velocityY);
-			if(velocityY < -10000){
+			if(velocityY < -5000){
 				scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());
 				isOpenCollapse = true;
 				collapseView();
