@@ -28,7 +28,7 @@ public class SearchBrandFragment extends FragmentBasic {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View root = (ViewGroup) inflater.inflate(
-				R.layout.page_personal_info_fragment, null);
+				R.layout.page_search_brand_fragment, null);
 
 		txtName = (TextView) root.findViewById(R.id.txt_personal_detail_name);
 		txtAddress = (TextView) root
