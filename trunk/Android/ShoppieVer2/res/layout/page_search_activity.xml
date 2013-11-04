@@ -60,4 +60,28 @@
             android:hint="@string/txt_search_brand_hint"
             android:textColor="@color/white" />
     </RelativeLayout>
-</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_search_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+            android:id="@+id/search_brand_list_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            class="vn.com.shoppie.fragment.SearchBrandFragment" />
+
+        <fragment
+            android:id="@+id/search_brand_detail_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            class="vn.com.shoppie.fragment.SearchBrandDetailFragment" />
+
+        <fragment
+            android:id="@+id/search_map_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            class="vn.com.shoppie.fragment.SearchMapFragment" />
+    </RelativeLayout>
+</RelativeLayout>
