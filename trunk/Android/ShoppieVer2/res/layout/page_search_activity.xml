@@ -64,7 +64,9 @@
     <RelativeLayout
         android:id="@+id/layout_search_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_above="@id/actionbar_bottom"
+        android:layout_below="@id/actionbar_top" >
 
         <fragment
             android:id="@+id/search_brand_list_fragment"
@@ -81,7 +83,8 @@
         <fragment
             android:id="@+id/search_map_fragment"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             class="vn.com.shoppie.fragment.SearchMapFragment" />
     </RelativeLayout>
-</RelativeLayout>
+
+</RelativeLayout>
