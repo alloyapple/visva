@@ -45,7 +45,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
 		TextView tvTitle = new TextView(this);
 		tvTitle.setGravity(Gravity.CENTER);
+		tvTitle.setTextSize(getResources().getDimension(R.dimen.actionbar_title_textsize));
 		tvTitle.setText("Tìm nơi tích điểm");
+		tvTitle.setTextColor(0xffffffff);
 		actionBar.addView(tvTitle, -1, -1);
 		
 		checkinCircle = findViewById(R.id.checkin_circle);

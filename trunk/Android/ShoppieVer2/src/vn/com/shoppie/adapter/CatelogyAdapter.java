@@ -45,31 +45,31 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			v = inflater.inflate(R.layout.catelogy_item, null, false);
 			TextView title = (TextView) v.findViewById(R.id.catelogy);
 			TextView subTitle = (TextView) v.findViewById(R.id.subcatelogy);
-			ImageButton icon = (ImageButton) v.findViewById(R.id.icon);
+			View icon = v.findViewById(R.id.icon);
 			if(position == 0){
 				title.setText("Coffee");
 				subTitle.setText("HÀNG QUÁN");
-				icon.setImageResource(R.drawable.icon_cafe);
+				icon.setBackgroundResource(R.drawable.icon_coffee1);
 			}
 			else if(position == 1){
 				title.setText("Nhà hàng");
 				subTitle.setText("QUÁN ĂN, NHẬU NHẸT");
-				icon.setImageResource(R.drawable.icon_dish);
+				icon.setBackgroundResource(R.drawable.icon_resturant1);
 			}
 			else if(position == 2){
 				title.setText("Thời trang");
 				subTitle.setText("QUẦN ÁO, MŨ NÓN, KÍNH");
-				icon.setImageResource(R.drawable.icon_fashion);
+				icon.setBackgroundResource(R.drawable.icon_shopping1);
 			}
 			else if(position == 3){
 				title.setText("Giải trí");
 				subTitle.setText("ĂN CHƠI NHẢY MÚA");
-				icon.setImageResource(R.drawable.icon_relax);
+				icon.setBackgroundResource(R.drawable.icon_giaitri1);
 			}
 			else if(position == 4){
 				title.setText("Mua sắm");
 				subTitle.setText("SIÊU THỊ, CỬA HÀNG");
-				icon.setImageResource(R.drawable.icon_shoping);
+				icon.setBackgroundResource(R.drawable.icon_muasam1);
 			}
 			
 			ImageView image = (ImageView) v.findViewById(R.id.image);
@@ -158,4 +158,9 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	}
 	
 	private OnItemClick onItemClick;
+	@Override
+	public boolean isCircle() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

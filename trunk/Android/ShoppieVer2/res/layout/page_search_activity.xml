@@ -39,7 +39,8 @@
             android:layout_width="@dimen/actionbar_height"
             android:layout_height="@dimen/actionbar_height"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_location"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_location"
             android:contentDescription="@string/KEY_TAG_TAB"
             android:onClick="onClickBtnSearch" />
 
@@ -48,7 +49,8 @@
             android:layout_width="@dimen/actionbar_height"
             android:layout_height="@dimen/actionbar_height"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/ic_search"
+            android:src="@drawable/ic_search"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/KEY_TAG_TAB" />
 
         <EditText

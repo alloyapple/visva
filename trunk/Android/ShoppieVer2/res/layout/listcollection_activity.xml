@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/home_background" >
     <ListView 
+        android:layout_marginTop="10dp"
     	android:layout_width="@dimen/page_item_width"
     	android:layout_height="wrap_content"
     	android:layout_centerHorizontal="true"

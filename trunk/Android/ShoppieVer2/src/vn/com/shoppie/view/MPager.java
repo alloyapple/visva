@@ -43,6 +43,7 @@ public class MPager extends RelativeLayout{
 	private boolean isOpenSlide = true;
 	private boolean isOpenMoveSlide = true;
 	private boolean isOpenCollapse = false;
+	private boolean canbeExtended = true;
 
 	private View currentSlide;
 
@@ -116,9 +117,9 @@ public class MPager extends RelativeLayout{
 		container1.addView(container, -1, -1);
 
 		//add 3 views to circle
-		View view1 = new View(getContext()); view1.setBackgroundColor(0xffff0000);
-		View view2 = new View(getContext()); view2.setBackgroundColor(0xff00ff00);
-		View view3 = new View(getContext()); view3.setBackgroundColor(0xff0000ff);
+		View view1 = new View(getContext());
+		View view2 = new View(getContext());
+		View view3 = new View(getContext());
 		container.addView(view1);
 		container.addView(view2);
 		container.addView(view3);
@@ -397,6 +398,11 @@ public class MPager extends RelativeLayout{
 	//	}
 
 	private void updateSlideLeftRight1(float distanceX){
+		if(inoutMode == SLIDE_IN && !mAdapter.isCircle() && currentItem == mAdapter.getCount() - 1)
+			return;
+		if(inoutMode == SLIDE_OUT && !mAdapter.isCircle() && currentItem == 0)
+			return;
+		
 		currentX += distanceX;
 
 		if(currentX > this.distanceX)
@@ -573,6 +579,8 @@ public class MPager extends RelativeLayout{
 	}
 	
 	public void extendView(){
+		if(!canbeExtended)
+			return;
 		if(container.getParent() == container1 && container.getChildCount() > 2){
 			if(onStartExtend != null){
 				onStartExtend.onExtend(this);
@@ -853,6 +861,10 @@ public class MPager extends RelativeLayout{
 			return x / 3;
 		else
 			return -x / 3;
+	}
+	
+	public void setCanbeExtended(boolean canbeExtended) {
+		this.canbeExtended = canbeExtended;
 	}
 	
 	public void setOnStartExtendListenner(OnStartExtend onStartExtend) {
