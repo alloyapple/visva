@@ -44,11 +44,18 @@
     	android:text="Xu hướng THỜI TRANG TRẺ nam nữ 4 mùa. Cập nhật tin tức"
     	android:textColor="@android:color/darker_gray"
 	    />
+	<View 
+	    android:layout_width="match_parent"
+    	android:layout_height="3dp"
+    	android:layout_marginLeft="5dp"
+    	android:layout_marginRight="5dp"
+    	android:background="@drawable/collection_devider"
+	    />
 	<TextView
 	    android:id="@+id/star" 
 	    android:layout_width="@dimen/collection_item_star_width"
     	android:layout_height="@dimen/collection_item_star_height"
     	android:layout_alignParentRight="true"
-    	android:background="#ff0000"
+    	android:background="@drawable/ic_favourist"
 	    />
 </RelativeLayout>

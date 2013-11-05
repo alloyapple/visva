@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/collectiondetail_item_width"
+    android:layout_height="@dimen/collectiondetail_item_height"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="@dimen/page_item_count_width"
+        android:layout_height="@dimen/page_item_count_height"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_head_center02" />
+	
+    <TextView
+        android:id="@+id/name"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:maxLines="2"
+        android:text="ĐIỂM PIE MAY MẮN \n CHẠM ĐỂ MỞ"
+        android:textColor="#2A5C72"
+        android:textSize="@dimen/page_item_catelogy_desc_textsize" />
+</RelativeLayout>

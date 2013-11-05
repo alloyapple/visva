@@ -51,6 +51,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="vn.com.shoppie.activity.CatelogyDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="vn.com.shoppie.activity.LoginActivity"
             android:screenOrientation="portrait" >
         </activity>

@@ -30,8 +30,16 @@
     		android:layout_margin="5dp"
     		android:textSize="14sp"
     		android:gravity="center_vertical"
+    		android:textColor="#808C98"
     		android:text="Danh sách các sản phẩm bạn muốn tới xem thử tại cửa hàng của thương hiệu"
             />
     </RelativeLayout>
+
+    <vn.com.shoppie.view.PieView
+        android:id="@+id/pie"
+        android:layout_centerHorizontal="true"
+        android:layout_width="640px"
+        android:layout_height="992px"
+        android:visibility="gone" />
 
 </RelativeLayout>

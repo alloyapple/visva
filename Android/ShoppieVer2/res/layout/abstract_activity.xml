@@ -14,9 +14,11 @@
         android:orientation="vertical" >
 
         <ImageButton
+            android:id="@+id/actionbar_icon"
             android:layout_width="@dimen/actionbar_height"
             android:layout_height="@dimen/actionbar_height"
-            android:background="@drawable/ic_location"
+            android:background="@color/actionbar_item_background"
+            android:src="@drawable/ic_location"
             android:contentDescription="@string/KEY_TAG_TAB" >
         </ImageButton>
     </RelativeLayout>

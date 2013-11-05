@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/collectiondetail_item_width"
+    android:layout_height="@dimen/collectiondetail_item_height"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
+        android:layout_marginTop="@dimen/page_item_count_height"
+        android:maxLines="2"
+        android:text="Áo sơ mi nữ sọc cổ lá sen"
+        android:textColor="#2A5C72"
+        android:textSize="@dimen/page_item_catelogy_desc_textsize" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_marginTop="5dp"
+        android:text="Giá: 1.000.000 VND"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/bottom"
+        android:layout_marginTop="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_marginRight="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_alignParentBottom="true"
+        >
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:id="@+id/share"
+			android:text="SHARE"
+			android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
+            />
+        <Button 
+            android:layout_width="30dp"
+        	android:layout_height="30dp"
+        	android:layout_marginTop="5dp"
+        	android:id="@+id/bt_fb"
+        	android:layout_below="@id/share"
+            />
+        <Button 
+            android:layout_width="30dp"
+        	android:layout_height="30dp"
+        	android:layout_marginTop="5dp"
+        	android:id="@+id/bt_mail"
+        	android:layout_toRightOf="@id/bt_fb"
+        	android:layout_below="@id/share"
+            />
+        <Button 
+            android:layout_width="30dp"
+        	android:layout_height="30dp"
+        	android:layout_marginTop="5dp"
+        	android:id="@+id/bt_sms"
+        	android:layout_toRightOf="@id/bt_mail"
+        	android:layout_below="@id/share"
+            />
+    </RelativeLayout>
+    <TextView 
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentBottom="true"
+    	android:layout_marginBottom="15dp"
+    	android:layout_marginRight="15dp"
+    	android:id="@+id/like"
+    	android:textSize="14sp"
+    	android:text="1234"
+    	android:drawablePadding="5dp"
+    	android:drawableLeft="@drawable/ic_like"
+    	android:textColor="#2A5C72"
+        />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/price"
+        android:layout_above="@id/bottom"
+        android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_marginRight="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bodycon ra đời như là cách để phái đẹp phô diễn đường cong cơ thể. Đơn giản, tiện dụng, dễ mix đồ, nhưng dường như món thời trang này vẫn còn làm nhiều người e ngại. Rất nhiều phái đẹp chọn cách nói không với các kiểu bodycon và cho rằng nó chỉ hợp với sao. Nhưng thực tế, chỉ cần tinh ý là bạn có thể chọn được một kiểu bodycon rất phù hợp.
+
+1. Bodycon hợp với bất cứ ai: Nhiều phụ nữ lo sợ bodycon sẽ làm lộ vòng bụng lớn, thân hình thừa mỡ của họ. Nhưng bạn yên tâm đi, dù đồ sộ tới đâu, thân hình bạn vẫn có những đường cong đủ đẹp để diện các mẫu bodycon phù hợp. Nếu không tự tin thì một số kiểu áo gen sẽ giúp bạn làm gọn cơ thể trước khi diện mẫu váy này.
+2. Hãy biết giấu những gì cần giấu: Khi diện một chiếc váy bodycon, điều cần nhất của bạn là hiểu được cơ thể mình. Đâu là điểm đẹp cần khoe, đâu là điểm xấu cần phải che đậy. Các kiểu bodycon phối màu sắc là gợi ý hiệu quả cho những thân hình cần phải che giấu nhiều.
+Bodycon ra đời như là cách để phái đẹp phô diễn đường cong cơ thể. Đơn giản, tiện dụng, dễ mix đồ, nhưng dường như món thời trang này vẫn còn làm nhiều người e ngại. Rất nhiều phái đẹp chọn cách nói không với các kiểu bodycon và cho rằng nó chỉ hợp với sao. Nhưng thực tế, chỉ cần tinh ý là bạn có thể chọn được một kiểu bodycon rất phù hợp.
+
+1. Bodycon hợp với bất cứ ai: Nhiều phụ nữ lo sợ bodycon sẽ làm lộ vòng bụng lớn, thân hình thừa mỡ của họ. Nhưng bạn yên tâm đi, dù đồ sộ tới đâu, thân hình bạn vẫn có những đường cong đủ đẹp để diện các mẫu bodycon phù hợp. Nếu không tự tin thì một số kiểu áo gen sẽ giúp bạn làm gọn cơ thể trước khi diện mẫu váy này.
+2. Hãy biết giấu những gì cần giấu: Khi diện một chiếc váy bodycon, điều cần nhất của bạn là hiểu được cơ thể mình. Đâu là điểm đẹp cần khoe, đâu là điểm xấu cần phải che đậy. Các kiểu bodycon phối màu sắc là gợi ý hiệu quả cho những thân hình cần phải che giấu nhiều."
+            android:textColor="#2A5C72"
+            android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+    </RelativeLayout>
+	
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="@dimen/page_item_count_width"
+        android:layout_height="@dimen/page_item_count_height"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_head_center02" />
+
+</RelativeLayout>
