@@ -37,7 +37,7 @@ import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.maps.model.LatLng;
 
 public class ActivityWelcome extends Activity implements
-		 LocationListener {
+		 LocationListener,OnWelcomeRegisterListener {
 	public static final String ERR_BLUETOOTH_NULL = "-2";
 	public static final String ERR_UNKNOWN = "-1";
 	public static final String ERR_SERVER = "-3";
@@ -76,7 +76,7 @@ public class ActivityWelcome extends Activity implements
 
 		addDataSample();
 
-		//mAdapter.setOnRegisterListener(this);
+		mAdapter.setOnRegisterListener(this);
 
 		// request Location
 		mLocaMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -244,7 +244,7 @@ public class ActivityWelcome extends Activity implements
 //							.getString(R.string.name_note_empty));
 //				}
 //			});
-//
+//  
 //			return;
 //		}
 //		new AsyncTask<String, Void, Boolean>() {
@@ -264,130 +264,160 @@ public class ActivityWelcome extends Activity implements
 //		}.execute();
 //
 //	}
-
+  
 	public void register(final String name) {
 		ActivityShoppie.myUser.custName = name;
 		name64 = new String(Base64.encode(name.getBytes(), Base64.DEFAULT));
 		SettingPreference.setUserName(ActivityWelcome.this, name);
 		// Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
 		// Log.e("user name", name);
-		new AsyncTask<String, String, String>() {
-			boolean isOn = false;
+		boolean isOn =false;
+		registering = true;
+		if (regId.equals("")) {
+			retreviveGcm();
+		}
+		String lat = ActivityShoppie.myLocation.latitude + "";
+		String lng = ActivityShoppie.myLocation.longitude + "";
+		BluetoothAdapter mAdapter = BluetoothAdapter
+				.getDefaultAdapter();
+		if (mAdapter != null && mAdapter.isEnabled()) {
+			isOn = true;
+		}
+		if (mAdapter != null) {
+			blueMac = mAdapter.getAddress();
+			while (!mAdapter.isEnabled() || blueMac == null
+					|| blueMac.equals("")) {
 
-			protected void onPreExecute() {
-				// show progressbar
-				// showToast("Ä�ang Ä‘Äƒng kÃ½...");
+				mAdapter.enable();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+				blueMac = SUtil.getInstance().getBluetoothAddress(
+						ActivityWelcome.this, false);
 			}
-
-			@Override
-			protected String doInBackground(String... params) {
-				if (registering) {
-					return ERR_STILL_REGISTER;
-				}
-				registering = true;
-				if (regId.equals("")) {
-					retreviveGcm();
-				}
-				if (regId.equals("")) {
-					return ERR_GCM;
-				}
-				String lat = ActivityShoppie.myLocation.latitude + "";
-				String lng = ActivityShoppie.myLocation.longitude + "";
-				BluetoothAdapter mAdapter = BluetoothAdapter
-						.getDefaultAdapter();
-				if (mAdapter != null && mAdapter.isEnabled()) {
-					isOn = true;
-				}
-				if (mAdapter != null) {
-					blueMac = mAdapter.getAddress();
-					while (!mAdapter.isEnabled() || blueMac == null
-							|| blueMac.equals("")) {
-
-						mAdapter.enable();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-						}
-						blueMac = SUtil.getInstance().getBluetoothAddress(
-								ActivityWelcome.this, false);
-					}
-				}
-				if (blueMac == null || blueMac.equals(""))
-					return ERR_BLUETOOTH_NULL;
-				return SUtilXml.getInstance().registerAccount(
-						ActivityWelcome.this, regId, blueMac, emeil, lat, lng,
-						SUtilText.removeAccent(name));
-			}
-
-			@SuppressWarnings("static-access")
-			protected void onPostExecute(String result) {
-				registering = false;
-				boolean startHome = true;
-				if (result.equals(ERR_UNKNOWN)) {
-					// showToast("Register failed: code: " + result);
-					showToast("CÃ³ lá»—i xáº£y ra chÆ°a rÃµ nguyÃªn nhÃ¢n!");
-					// tvLog.setText("i don't known this ERROR!");
-				} else if (result.equals(ERR_BLUETOOTH_NULL)) {
-					showToast("ChÃºng tÃ´i chÆ°a thá»ƒ Ä‘Äƒng kÃ½ Ä‘Æ°á»£c mÃ¡y báº¡n vá»›i há»‡ thá»‘ng!");
-					// tvLog.setText("i can not get your bluetooth!");
-				} else if (result.equals(ERR_STILL_REGISTER)) {
-					registering = true;
-					showToast("Váº«n Ä‘ang Ä‘Äƒng kÃ½. Báº¡n Ä‘á»£i trong giÃ¢y lÃ¡t...");
-					// tvLog.setText("You're registering. Don't try more!");
-				} else if (result.equals(ERR_SERVER)) {
-					showToast("ChÆ°a káº¿t ná»‘i Ä‘Æ°á»£c vá»›i há»‡ thá»‘ng Shoppie. Báº¡n hÃ£y thá»­ láº¡i vÃ o lÃºc khÃ¡c!");
-					// tvLog.setText("Our server having some trouble. Try later!");
-				} else if (result.equals(ERR_DATABASE_ERR)) {
-					showToast("CÃ³ váº¥n Ä‘á»� vá»� lÆ°u thÃ´ng tin cá»§a báº¡n.");
-					// tvLog.setText("What did you to my DATABASE???");
-				} else {
-					SettingPreference.setFirstUse(getApplicationContext(),
-							false);
-					SettingPreference
-							.setUserName(getApplicationContext(), name);
-					// save data to sdcard
-					SUtil.getInstance().writeRegId(getApplicationContext(),
-							regId, name, blueMac);
-					// showToast("Register success: userId: " + result +
-					// " gcm: " + regId + " blue: " + blueMac + " emeil: " +
-					// emeil);
-					showToast("ChÃ o má»«ng báº¡n sá»­ dá»¥ng há»‡ thá»‘ng Shoppie!");
-					// tvLog.setText("Register success: \nuserId: " + result +
-					// " \ngcm: " + regId + " \nblue: " + blueMac + " \nemeil: "
-					// + emeil + " name: " + name);
-					startHome = false;
-					startActivity(new Intent(ActivityWelcome.this,
-							HomeActivity.class));
-					finish();
-					try {
-						int userId = Integer.valueOf(result);
-						SettingPreference.setUserID(getApplicationContext(),
-								userId);
-					} catch (NumberFormatException e) {
-						onPostExecute(ERR_SERVER);
-						return;
-					}
-
-					ActivityShoppie.myUser.custId = result;
-					ActivityShoppie.myUser.custName = name;
-
-				}
-				BluetoothAdapter mAdapter = BluetoothAdapter
-						.getDefaultAdapter();
-				if (!isOn) {
-					if (mAdapter != null) {
-						mAdapter.disable();
-					}
-				}
-				//
-				if (startHome) {
-					startActivity(new Intent(ActivityWelcome.this,
-							HomeActivity.class));
-					finish();
-				}
-
-			};
-		}.execute("");
+		}
+		Log.e("regid " + regId + "  blueMac " + blueMac + "  " + emeil
+				+ " lat " + lat + " long " + lng, "he he name " + name);
+//		new AsyncTask<String, String, String>() {
+//			boolean isOn = false;
+//
+//			protected void onPreExecute() {
+//				// show progressbar
+//				// showToast("Ä�ang Ä‘Äƒng kÃ½...");
+//			}
+//
+//			@Override
+//			protected String doInBackground(String... params) {
+//				if (registering) {
+//					return ERR_STILL_REGISTER;
+//				}
+//				registering = true;
+//				if (regId.equals("")) {
+//					retreviveGcm();
+//				}
+//				if (regId.equals("")) {
+//					return ERR_GCM;
+//				}
+//				String lat = ActivityShoppie.myLocation.latitude + "";
+//				String lng = ActivityShoppie.myLocation.longitude + "";
+//				BluetoothAdapter mAdapter = BluetoothAdapter
+//						.getDefaultAdapter();
+//				if (mAdapter != null && mAdapter.isEnabled()) {
+//					isOn = true;
+//				}
+//				if (mAdapter != null) {
+//					blueMac = mAdapter.getAddress();
+//					while (!mAdapter.isEnabled() || blueMac == null
+//							|| blueMac.equals("")) {
+//
+//						mAdapter.enable();
+//						try {
+//							Thread.sleep(1000);
+//						} catch (InterruptedException e) {
+//						}
+//						blueMac = SUtil.getInstance().getBluetoothAddress(
+//								ActivityWelcome.this, false);
+//					}
+//				}
+//				if (blueMac == null || blueMac.equals(""))
+//					return ERR_BLUETOOTH_NULL;
+//				Log.e("regid " + regId + "  " + blueMac + "  " + emeil
+//						+ " lat " + lat + " long " + lng, "he he name " + name);
+//				return SUtilXml.getInstance().registerAccount(
+//						ActivityWelcome.this, regId, blueMac, emeil, lat, lng,
+//						SUtilText.removeAccent(name));
+//			}
+//
+//			@SuppressWarnings("static-access")
+//			protected void onPostExecute(String result) {
+//				registering = false;
+//				boolean startHome = true;
+//				if (result.equals(ERR_UNKNOWN)) {
+//					// showToast("Register failed: code: " + result);
+//					showToast("CÃ³ lá»—i xáº£y ra chÆ°a rÃµ nguyÃªn nhÃ¢n!");
+//					// tvLog.setText("i don't known this ERROR!");
+//				} else if (result.equals(ERR_BLUETOOTH_NULL)) {
+//					showToast("ChÃºng tÃ´i chÆ°a thá»ƒ Ä‘Äƒng kÃ½ Ä‘Æ°á»£c mÃ¡y báº¡n vá»›i há»‡ thá»‘ng!");
+//					// tvLog.setText("i can not get your bluetooth!");
+//				} else if (result.equals(ERR_STILL_REGISTER)) {
+//					registering = true;
+//					showToast("Váº«n Ä‘ang Ä‘Äƒng kÃ½. Báº¡n Ä‘á»£i trong giÃ¢y lÃ¡t...");
+//					// tvLog.setText("You're registering. Don't try more!");
+//				} else if (result.equals(ERR_SERVER)) {
+//					showToast("ChÆ°a káº¿t ná»‘i Ä‘Æ°á»£c vá»›i há»‡ thá»‘ng Shoppie. Báº¡n hÃ£y thá»­ láº¡i vÃ o lÃºc khÃ¡c!");
+//					// tvLog.setText("Our server having some trouble. Try later!");
+//				} else if (result.equals(ERR_DATABASE_ERR)) {
+//					showToast("CÃ³ váº¥n Ä‘á»� vá»� lÆ°u thÃ´ng tin cá»§a báº¡n.");
+//					// tvLog.setText("What did you to my DATABASE???");
+//				} else {
+//					SettingPreference.setFirstUse(getApplicationContext(),
+//							false);
+//					SettingPreference
+//							.setUserName(getApplicationContext(), name);
+//					// save data to sdcard
+//					SUtil.getInstance().writeRegId(getApplicationContext(),
+//							regId, name, blueMac);
+//					// showToast("Register success: userId: " + result +
+//					// " gcm: " + regId + " blue: " + blueMac + " emeil: " +
+//					// emeil);
+//					showToast("ChÃ o má»«ng báº¡n sá»­ dá»¥ng há»‡ thá»‘ng Shoppie!");
+//					// tvLog.setText("Register success: \nuserId: " + result +
+//					// " \ngcm: " + regId + " \nblue: " + blueMac + " \nemeil: "
+//					// + emeil + " name: " + name);
+//					startHome = false;
+//					startActivity(new Intent(ActivityWelcome.this,
+//							HomeActivity.class));
+//					finish();
+//					try {
+//						int userId = Integer.valueOf(result);
+//						SettingPreference.setUserID(getApplicationContext(),
+//								userId);
+//					} catch (NumberFormatException e) {
+//						onPostExecute(ERR_SERVER);
+//						return;
+//					}
+//
+//					ActivityShoppie.myUser.custId = result;
+//					ActivityShoppie.myUser.custName = name;
+//
+//				}
+//				BluetoothAdapter mAdapter = BluetoothAdapter
+//						.getDefaultAdapter();
+//				if (!isOn) {
+//					if (mAdapter != null) {
+//						mAdapter.disable();
+//					}
+//				}
+//				//
+//				if (startHome) {
+//					startActivity(new Intent(ActivityWelcome.this,
+//							HomeActivity.class));
+//					finish();
+//				}
+//
+//			};
+//		}.execute("");
 	}
 
 	final int REQ_NETWORK = 1;
@@ -459,7 +489,7 @@ public class ActivityWelcome extends Activity implements
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										String name = user.getUsername();
-										//register(name);
+										register(name);
 									}
 								}
 							}
@@ -468,5 +498,11 @@ public class ActivityWelcome extends Activity implements
 			}
 		} else {
 		}
+	}
+
+	@Override
+	public void btnRegisterClick(View v, EditText name) {
+		// TODO Auto-generated method stub
+		register(name.getText().toString());
 	}
 }
