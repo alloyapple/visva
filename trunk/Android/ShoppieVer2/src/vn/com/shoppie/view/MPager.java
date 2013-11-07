@@ -44,6 +44,11 @@ public class MPager extends RelativeLayout{
 	private boolean isOpenMoveSlide = true;
 	private boolean isOpenCollapse = false;
 	private boolean canbeExtended = true;
+	private boolean lockSlide = false;
+	
+	public void setLockSlide(boolean lockSlide) {
+		this.lockSlide = lockSlide;
+	}
 
 	private View currentSlide;
 
@@ -165,16 +170,16 @@ public class MPager extends RelativeLayout{
 		currentItem = 0;
 		addViewTo(mAdapter.getView(currentItem), container.getChildCount() - 1);
 		if(container.getChildCount() > 1)
-			addViewTo(mAdapter.getBackView(currentItem), container.getChildCount() - 2);
-		addViewTo(mAdapter.getNextView(currentItem), 0);
+			addViewTo(mAdapter.getBackView(currentItem), 0);
+		addViewTo(mAdapter.getNextView(currentItem), container.getChildCount() - 2);
 	}
 	
 	private void cacheNextView(){
-		addViewTo(mAdapter.getNextView(currentItem), 0);
+		addViewTo(mAdapter.getNextView(currentItem), container.getChildCount() - 2);
 	}
 	
 	private void cacheBackView(){
-		addViewTo(mAdapter.getBackView(currentItem), container.getChildCount() - 2);
+		addViewTo(mAdapter.getBackView(currentItem), 0);
 	}
 	
 	private void addViewTo(View view , int pos){
@@ -194,6 +199,8 @@ public class MPager extends RelativeLayout{
 //		default:
 //			break;
 //		}
+		if(lockSlide)
+			return super.onInterceptTouchEvent(ev);
 		if(isSlide)
 			return true;
 		else{
@@ -204,6 +211,8 @@ public class MPager extends RelativeLayout{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if(lockSlide)
+			return super.onTouchEvent(event);
 		if(isAutoSlide)
 			return true;
 		
@@ -398,9 +407,9 @@ public class MPager extends RelativeLayout{
 	//	}
 
 	private void updateSlideLeftRight1(float distanceX){
-		if(inoutMode == SLIDE_IN && !mAdapter.isCircle() && currentItem == mAdapter.getCount() - 1)
+		if(inoutMode == SLIDE_IN && !mAdapter.isCircle() && currentItem == 0)
 			return;
-		if(inoutMode == SLIDE_OUT && !mAdapter.isCircle() && currentItem == 0)
+		if(inoutMode == SLIDE_OUT && !mAdapter.isCircle() && currentItem == mAdapter.getCount() - 1)
 			return;
 		
 		currentX += distanceX;
@@ -436,11 +445,11 @@ public class MPager extends RelativeLayout{
 				break;
 
 			case SLIDE_OUT://success
-				currentItem = mAdapter.getBackItemId(currentItem);
+				currentItem = mAdapter.getNextItemId(currentItem);
 				container.removeView(currentSlide);
 				container.addView(currentSlide, 0);
 				cacheNextView();
-				cacheBackView();
+//				cacheBackView();
 				break;
 			default:
 				break;
@@ -449,8 +458,8 @@ public class MPager extends RelativeLayout{
 		else if(currentX == distanceX){
 			switch (inoutMode) {
 			case SLIDE_IN://success
-				currentItem = mAdapter.getNextItemId(currentItem);
-				cacheNextView();
+				currentItem = mAdapter.getBackItemId(currentItem);
+//				cacheNextView();
 				cacheBackView();
 				break;
 

@@ -63,4 +63,9 @@
     	android:layout_alignParentRight="true"
     	android:background="@drawable/ic_head_center02"
 	    />
+	
+	<include 
+	    layout="@layout/collectiondetail2"
+	    android:id="@+id/text"
+	    />
 </RelativeLayout>

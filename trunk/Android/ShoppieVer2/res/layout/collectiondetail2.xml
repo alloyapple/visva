@@ -82,7 +82,7 @@
     	android:textColor="#2A5C72"
         />
     
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/price"
@@ -105,7 +105,7 @@ Bodycon ra đời như là cách để phái đẹp phô diễn đường cong c
 2. Hãy biết giấu những gì cần giấu: Khi diện một chiếc váy bodycon, điều cần nhất của bạn là hiểu được cơ thể mình. Đâu là điểm đẹp cần khoe, đâu là điểm xấu cần phải che đậy. Các kiểu bodycon phối màu sắc là gợi ý hiệu quả cho những thân hình cần phải che giấu nhiều."
             android:textColor="#2A5C72"
             android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
-    </RelativeLayout>
+    </ScrollView>
 	
     <TextView
         android:id="@+id/count"
