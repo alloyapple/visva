@@ -47,27 +47,27 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			TextView subTitle = (TextView) v.findViewById(R.id.subcatelogy);
 			View icon = v.findViewById(R.id.icon);
 			if(position == 0){
-				title.setText("Coffee");
+				title.setText("0 Coffee");
 				subTitle.setText("HÀNG QUÁN");
 				icon.setBackgroundResource(R.drawable.icon_coffee1);
 			}
 			else if(position == 1){
-				title.setText("Nhà hàng");
+				title.setText("1 Nhà hàng");
 				subTitle.setText("QUÁN ĂN, NHẬU NHẸT");
 				icon.setBackgroundResource(R.drawable.icon_resturant1);
 			}
 			else if(position == 2){
-				title.setText("Thời trang");
+				title.setText("2 Thời trang");
 				subTitle.setText("QUẦN ÁO, MŨ NÓN, KÍNH");
 				icon.setBackgroundResource(R.drawable.icon_shopping1);
 			}
 			else if(position == 3){
-				title.setText("Giải trí");
+				title.setText("3 Giải trí");
 				subTitle.setText("ĂN CHƠI NHẢY MÚA");
 				icon.setBackgroundResource(R.drawable.icon_giaitri1);
 			}
 			else if(position == 4){
-				title.setText("Mua sắm");
+				title.setText("4 Mua sắm");
 				subTitle.setText("SIÊU THỊ, CỬA HÀNG");
 				icon.setBackgroundResource(R.drawable.icon_muasam1);
 			}

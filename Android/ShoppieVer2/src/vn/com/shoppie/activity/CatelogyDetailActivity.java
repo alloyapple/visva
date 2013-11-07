@@ -34,7 +34,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		icon.setImageBitmap(null);
 		
 		mPager = (MPager) findViewById(R.id.pager);
-		final CollectionDetailAdapter adapter = new CollectionDetailAdapter(this);
+		final CollectionDetailAdapter adapter = new CollectionDetailAdapter(this , mPager);
 		mPager.setAdapter(adapter);
 		mPager.setCanbeExtended(false);
 		
