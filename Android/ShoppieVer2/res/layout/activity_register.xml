@@ -41,10 +41,8 @@
 
                 <com.facebook.widget.LoginButton
                     android:id="@+id/login_button"
-                    style="@style/login_button"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="@android:color/transparent"
                     android:gravity="center" >
                 </com.facebook.widget.LoginButton>
             </RelativeLayout>
@@ -69,29 +67,27 @@
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
-					
-                    <EditText
-                        android:id="@+id/activity_register_edt_name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_holo_light"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:paddingLeft="5dp" 
-                        
-                        android:textColor="#fff">
-                        <requestFocus ></requestFocus>
-                    </EditText>
+                <EditText
+                    android:id="@+id/activity_register_edt_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_holo_light"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="text|number"
+                    android:paddingLeft="5dp"
+                    android:textColor="#fff" >
+                </EditText>
             </LinearLayout>
 
-            <ImageButton
+            <Button
                 android:id="@+id/activity_register_btn_register"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_start"
-                android:contentDescription="@string/KEY_TAG_TAB"
-                android:onClick="btnClicked" />
+                android:onClick="onClickRegister"
+                android:contentDescription="@string/KEY_TAG_TAB" />
 
             <TextView
                 android:id="@+id/tv_log"

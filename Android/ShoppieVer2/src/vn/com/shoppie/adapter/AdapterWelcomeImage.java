@@ -18,8 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class AdapterWelcomeImage extends PagerAdapter {
@@ -69,7 +69,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 					name.setSelection(name.getText().length());
 				}
 			});
-			final ImageButton btnRegister=(ImageButton)v.findViewById(R.id.activity_register_btn_register);
+			final Button btnRegister=(Button)v.findViewById(R.id.activity_register_btn_register);
 			
 				btnRegister.setOnClickListener(new OnClickListener() {
 					
