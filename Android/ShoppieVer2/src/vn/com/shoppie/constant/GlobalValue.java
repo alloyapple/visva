@@ -52,7 +52,9 @@ public final class GlobalValue {
 
 	// gcm
 	public static final String SENDER_ID1 = "AIzaSyD4keVrSodVstQl_91Md5c7INI4Xhmcl_4";
-	public static final String SENDER_ID = "622843213634";
+	public static final String SENDER_ID = "780637496192";
+	//780637496192
+	//622843213634 
 	public static final String EXTRA_TYPE_CHECKIN = "Checkin";
 	public static final String EXTRA_TYPE_REGISTER = "Register";
 	public static final String EXTRA_TYPE_PURCHASE = "Purchase";
