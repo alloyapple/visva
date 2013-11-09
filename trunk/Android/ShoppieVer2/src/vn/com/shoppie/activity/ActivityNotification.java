@@ -46,7 +46,7 @@ public class ActivityNotification extends VisvaAbstractActivity implements OnCli
 		} else {
 			isFromNotifi = false;
 		}
-		refreshUI();
+		//refreshUI();
 	}
 
 	public void findViewById() {
@@ -69,47 +69,6 @@ public class ActivityNotification extends VisvaAbstractActivity implements OnCli
 		}
 	}
 
-	public void refreshUI() {
-		new AsyncTask<String, Void, ArrayList<ShoppieObject>>() {
-			protected void onPreExecute() {
-				prgLoading.setVisibility(View.VISIBLE);
-			};
-			@Override
-			protected ArrayList<ShoppieObject> doInBackground(String... params) {
-				ArrayList<ShoppieObject> lstNoti = GetObjectsFromLink.getInstance().getNotification(getApplicationContext(), new OnLoadXmlListener() {
-
-					@Override
-					public void loadSuccess(String link, String xml) {
-						WiModelManager mng = new WiModelManager();
-						mng.parse(xml);
-						ArrayList<ShoppieObject> value = mng.getResultShoppieObject();
-						refreshData(value);
-					}
-
-					@Override
-					public void loadFailed(String link) {
-
-					}
-				});
-				if (lstNoti == null || lstNoti.isEmpty()){
-					ArrayList<Notification> ds=GetObjectsFromLink.getInstance().getNotification(getApplicationContext());
-					for(Notification obj: ds){
-						lstNoti.add(obj);
-					}
-				}
-					
-
-				return lstNoti;
-			}
-
-			protected void onPostExecute(java.util.ArrayList<ShoppieObject> result) {
-				prgLoading.setVisibility(View.GONE);
-				if (result != null && !result.isEmpty())
-					refreshData(result);
-			}
-		}.execute();
-
-	}
 
 	public void refreshData(ArrayList<ShoppieObject> newData) {
 		if(newData!=null && !newData.isEmpty()){
