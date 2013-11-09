@@ -10,8 +10,10 @@ import org.json.JSONObject;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
-import vn.com.shoppie.database.sobject.MerchantCategory;
+import vn.com.shoppie.database.sobject.MerchCampaignList;
+import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
+import vn.com.shoppie.database.sobject.StatusUpdateView;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
@@ -104,23 +106,19 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private void requestToGetCampainCategory() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
-				.getMerchantCategoryValue();
+				.updateCampaignViewd("95", "148");
 		AsyncHttpPost postUpdateStt = new AsyncHttpPost(HomeActivity.this,
 				new AsyncHttpResponseProcess(HomeActivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("adkfj", "reponse " + response.toString());
 						try {
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
-							MerchantCategoryList merchantCategoriesList = gson
+							StatusUpdateView statusUpdateView = gson
 									.fromJson(jsonObject.toString(),
-											MerchantCategoryList.class);
-							for (int i = 0; i < merchantCategoriesList.getResult().size(); i++)
-
-								Log.e("adkjfhd", "asdfjd "
-										+  merchantCategoriesList.getResult().get(i)
-												.getMerchCatName());
+											StatusUpdateView.class);
+							Log.e("adkjfhd", "sizeaa "
+									+ statusUpdateView.getResult().getValue());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -133,7 +131,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 						finish();
 					}
 				}, nameValuePairs, true);
-		postUpdateStt.execute(WebServiceConfig.URL_MERCHCAMPAIGNS);
+		postUpdateStt.execute(WebServiceConfig.URL_UPDATE_CAMPAIGN_VIEW);
 
 	}
 

@@ -6,17 +6,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class MerchantCategoryList {
 	@SerializedName("Result")
-	private ArrayList<MerchantCategory> Result;
+	private ArrayList<MerchantCategoryItem> Result;
 
 	public MerchantCategoryList() {
 
 	}
 
-	public ArrayList<MerchantCategory> getResult() {
+	public ArrayList<MerchantCategoryItem> getResult() {
 		return Result;
 	}
 
-	public void setResult(ArrayList<MerchantCategory> result) {
+	public void setResult(ArrayList<MerchantCategoryItem> result) {
 		Result = result;
 	}
 }

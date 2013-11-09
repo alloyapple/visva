@@ -2,7 +2,7 @@ package vn.com.shoppie.database.sobject;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MerchantCategory {
+public class MerchantCategoryItem {
 	
 	@SerializedName("merchCatId")
 	public int merchCatId;
