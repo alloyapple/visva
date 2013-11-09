@@ -39,4 +39,9 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("custName", custName));
 		return nameValuePairs;
 	}
+	
+	public static List<NameValuePair> getMerchantCategoryValue(){
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		return nameValuePairs;
+	}
 }

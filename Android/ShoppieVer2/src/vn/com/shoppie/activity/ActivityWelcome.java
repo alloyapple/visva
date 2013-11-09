@@ -195,7 +195,7 @@ public class ActivityWelcome extends Activity implements
 		// Get GCM registration id
 		regId = GCMRegistrar.getRegistrationId(this);
 		// writeRegId(regId, name, email);
-		// Log.e("regId", regId);
+		 Log.e("regId","adufhd "+ regId);
 
 		// Check if regid already presents
 		if (regId.equals("")) {
@@ -489,7 +489,7 @@ public class ActivityWelcome extends Activity implements
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										String name = user.getUsername();
-										register(name);
+										//register(name);
 									}
 								}
 							}
@@ -503,6 +503,6 @@ public class ActivityWelcome extends Activity implements
 	@Override
 	public void btnRegisterClick(View v, EditText name) {
 		// TODO Auto-generated method stub
-		register(name.getText().toString());
+		//register(name.getText().toString());
 	}
 }

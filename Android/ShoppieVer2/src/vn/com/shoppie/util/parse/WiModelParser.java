@@ -56,7 +56,7 @@ public class WiModelParser extends DefaultHandler {
 
 		/* Set listener for parse SAX */
 		WiModelParserHandler _handler=new WiModelParserHandler();
-		_handler.setProtocolListener(new WiModelProtocol(mng));	// set callback
+		//_handler.setProtocolListener(new WiModelProtocol(mng));	// set callback
 		
 		xmlReader.setContentHandler(_handler);
 		

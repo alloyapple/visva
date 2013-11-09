@@ -1,10 +1,24 @@
 package vn.com.shoppie.activity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
+import vn.com.shoppie.database.sobject.MerchantCategory;
+import vn.com.shoppie.database.sobject.MerchantCategoryList;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.view.MPager;
-import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.view.MPager.OnStartExtend;
+import vn.com.shoppie.view.OnItemClick;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
@@ -19,12 +33,16 @@ import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 public class HomeActivity extends VisvaAbstractActivity {
 	private RelativeLayout actionBar;
 	private View checkinCircle;
 	private MPager pager;
 	private CatelogyAdapter adapter;
 	private boolean isChecked = false;
+	private TextView mTxtTitle;
 
 	@Override
 	public int contentView() {
@@ -40,52 +58,88 @@ public class HomeActivity extends VisvaAbstractActivity {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-		
-		//setup actionbar
+
+		// setup actionbar
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
-		TextView tvTitle = new TextView(this);
-		tvTitle.setGravity(Gravity.CENTER);
-		tvTitle.setTextSize(getResources().getDimension(R.dimen.actionbar_title_textsize));
-		tvTitle.setText("Tìm nơi tích điểm");
-		tvTitle.setTextColor(0xffffffff);
-		actionBar.addView(tvTitle, -1, -1);
-		
+		mTxtTitle = new TextView(this);
+		mTxtTitle.setGravity(Gravity.CENTER);
+		mTxtTitle.setTextSize(getResources().getDimension(
+				R.dimen.actionbar_title_textsize));
+		mTxtTitle.setText("Tìm nơi tích điểm");
+		mTxtTitle.setTextColor(0xffffffff);
+		actionBar.addView(mTxtTitle, -1, -1);
+
 		checkinCircle = findViewById(R.id.checkin_circle);
 		pager = (MPager) findViewById(R.id.pager);
 		adapter = new CatelogyAdapter(this);
 		pager.setAdapter(adapter);
-		
+
 		pager.setOnStartExtendListenner(new OnStartExtend() {
-			
+
 			@Override
 			public void onExtend(View v) {
 				isChecked = false;
 				setCheckIn(isChecked);
 			}
-			
+
 			@Override
 			public void onCollapse(View v) {
-				
+
 			}
 		});
-		
+
 		adapter.setOnItemClick(new OnItemClick() {
-			
+
 			@Override
 			public void onClick(int pos) {
 				Log.d("OnClick", "Pos " + pos);
-				changeToActivity(new Intent(HomeActivity.this, CollectionList.class), false);
+				changeToActivity(new Intent(HomeActivity.this,
+						CollectionList.class), false);
 			}
 		});
+
+		requestToGetCampainCategory();
 	}
-	
+
+	private void requestToGetCampainCategory() {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.getMerchantCategoryValue();
+		AsyncHttpPost postUpdateStt = new AsyncHttpPost(HomeActivity.this,
+				new AsyncHttpResponseProcess(HomeActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("adkfj", "reponse " + response.toString());
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							MerchantCategoryList merchantCategoriesList = gson
+									.fromJson(jsonObject.toString(),
+											MerchantCategoryList.class);
+							for (int i = 0; i < merchantCategoriesList.getResult().size(); i++)
+
+								Log.e("adkjfhd", "asdfjd "
+										+  merchantCategoriesList.getResult().get(i)
+												.getMerchCatName());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postUpdateStt.execute(WebServiceConfig.URL_MERCHCAMPAIGNS);
+
+	}
+
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_canhan:
-			// isChecked = false;
-			// setCheckIn(isChecked);
-			// changeToActivity(new Intent(this, HomeActivity.class), false);
-			// pager.extendView();
 			gotoActivity(HomeActivity.this, PersonalInfoActivity.class);
 			break;
 		case R.id.bt_quatang:

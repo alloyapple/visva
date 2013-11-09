@@ -28,9 +28,9 @@ public final class WebServiceConfig {
 	// ===================== WEB SERVICE LINK ==================//
 
 	/** SHOPPIE */
-	public static final String URL_SHOPPIE_HOME = "http://ws.shoppie.com.vn/index.php/api/webservice";
+	public static final String URL_SHOPPIE_HOME = "http://ws.shoppie.com.vn/index.php/api/webservice/";
 	/** HOME PAGE & LOOKBOOK campaignId=15 */
-	public static final String URL_MERCHCAMPAIGNS = "/merchcampaigns2";
+	public static final String URL_MERCHCAMPAIGNS = URL_SHOPPIE_HOME +"merchcategories_v2/format/json";
 	/** NOTIFICATION */
 	public static final String URL_NOTIFICATION = "/notifications";
 	/** TIM NOI TICH DIEM */
