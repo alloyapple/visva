@@ -112,10 +112,9 @@
     <string name="personal_detail_info_gender">Giới tính</string>
     
     <!--personal history trade  -->
-    <string name="personal_history_trade_total">Tổng</string>
+    <string name="personal_history_trade_total">Số Pie hiện có</string>
     <string name="personal_history_trade_chekin">Tích lũy khi checkin</string>
     <string name="personal_history_trade_shoping">Tích lũy khi mua sắm</string>
-    <string name="personal_history_trade_lucky">Tích lũy khi may mắn</string>
     <string name="personal_history_trade_gift">Đổi quà</string>
     
     <!-- search activity -->
