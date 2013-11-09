@@ -106,7 +106,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private void requestToGetCampainCategory() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
-				.updateCampaignViewd("95", "148");
+				.getMerchantCategoryValue();
 		AsyncHttpPost postUpdateStt = new AsyncHttpPost(HomeActivity.this,
 				new AsyncHttpResponseProcess(HomeActivity.this) {
 					@Override
@@ -114,11 +114,12 @@ public class HomeActivity extends VisvaAbstractActivity {
 						try {
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
-							StatusUpdateView statusUpdateView = gson
+							MerchantCategoryList merchantCategoryList = gson
 									.fromJson(jsonObject.toString(),
-											StatusUpdateView.class);
+											MerchantCategoryList.class);
+							for(int i = 0; i < merchantCategoryList.getResult().size();i++)
 							Log.e("adkjfhd", "sizeaa "
-									+ statusUpdateView.getResult().getValue());
+									+ merchantCategoryList.getResult().get(i).getMerchCatName());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -131,7 +132,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 						finish();
 					}
 				}, nameValuePairs, true);
-		postUpdateStt.execute(WebServiceConfig.URL_UPDATE_CAMPAIGN_VIEW);
+		postUpdateStt.execute(WebServiceConfig.URL_MERCHCAMPAIGNS);
 
 	}
 
