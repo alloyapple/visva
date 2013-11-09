@@ -37,13 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/personal_history_trade_lucky"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/personal_history_trade_gift"
             android:textSize="@dimen/personal_detail_info_text_size" />
     </LinearLayout>
@@ -73,14 +66,6 @@
 
         <TextView
             android:id="@+id/txt_personal_history_trade_shoping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="123456 pie"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:id="@+id/txt_personal_history_trade_lucky"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
