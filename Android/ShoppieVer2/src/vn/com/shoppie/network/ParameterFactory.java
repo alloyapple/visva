@@ -5,36 +5,10 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import vn.com.shoppie.activity.HomeActivity;
-import vn.com.shoppie.database.sobject.MerchCampaignList;
-import vn.com.shoppie.database.sobject.MerchantCategoryList;
-import vn.com.shoppie.database.sobject.StatusUpdateView;
-import vn.com.shoppie.webconfig.WebServiceConfig;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 public final class ParameterFactory {
 	private static String TAG = "ParameterFactory";
 
-	public static List<NameValuePair> createRegisterSettingParam(
-			String useName, String device_id, String tel, String email,
-			String dateStr, String timeStr, String daysAfter) {
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("tel", tel));
-		parameters.add(new BasicNameValuePair("device_id", device_id));
-		parameters.add(new BasicNameValuePair("mail", email));
-		parameters.add(new BasicNameValuePair("user_name", useName));
-		parameters.add(new BasicNameValuePair("day", dateStr));
-		parameters.add(new BasicNameValuePair("time", timeStr));
-		parameters.add(new BasicNameValuePair("days_after", daysAfter));
-
-		return parameters;
-	}
 
 	public static List<NameValuePair> createRegisterSPAccount(
 			String deviceToken, String bluetoothId, String deviceId,

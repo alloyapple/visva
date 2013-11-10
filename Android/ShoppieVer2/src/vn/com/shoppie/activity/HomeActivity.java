@@ -1,19 +1,15 @@
 package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
-import vn.com.shoppie.database.sobject.MerchCampaignList;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
-import vn.com.shoppie.database.sobject.StatusUpdateView;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
@@ -34,9 +30,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 public class HomeActivity extends VisvaAbstractActivity {
 	private RelativeLayout actionBar;
@@ -110,8 +104,15 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
+		
+		requestupdateToGetMerchProducts();
 	}
 	
+	private void requestupdateToGetMerchProducts() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void requestToGetCampainCategory() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory

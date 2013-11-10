@@ -13,6 +13,14 @@ public class ShopieSharePref {
 	public ShopieSharePref(Context context) {
 		this.context = context;
 	}
+	
+	public void setCustId(int userId){
+		putIntValue(GlobalValue.USER_ID, userId);
+	}
+	
+	public int getCustId(){
+		return getIntValue(GlobalValue.USER_ID);
+	}
 
 	// ======================== CORE FUNCTIONS ========================
 
