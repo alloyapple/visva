@@ -1,10 +1,14 @@
 package vn.com.shoppie.adapter;
 
+import java.util.ArrayList;
+
 import vn.com.shoppie.R;
+import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.util.CoverLoader;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CatelogyAdapter extends MPagerAdapterBase{
+	
+	public static final String URL_HEADER = "http://shoppie.com.vn:8080/";
+	
+	private ArrayList<MerchantCategoryItem> data;
 	
 	private String url[] = {
 		"http://s2.haivl.com/data/photos2/20131101/0c417aa1769641e4840f52b9c0fa31cc/medium-8f2db76cd755492ba0eb72de22f9df5c-400.jpg",
@@ -24,8 +32,9 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	
 	private Context context;
 	private View cacheView[];
-	public CatelogyAdapter(Context context){
+	public CatelogyAdapter(Context context , ArrayList<MerchantCategoryItem> data){
 		this.context = context;
+		this.data = data;
 		initCache();
 	}
 	
@@ -46,34 +55,14 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			TextView title = (TextView) v.findViewById(R.id.catelogy);
 			TextView subTitle = (TextView) v.findViewById(R.id.subcatelogy);
 			View icon = v.findViewById(R.id.icon);
-			if(position == 0){
-				title.setText("0 Coffee");
-				subTitle.setText("HÀNG QUÁN");
-				icon.setBackgroundResource(R.drawable.icon_coffee1);
-			}
-			else if(position == 1){
-				title.setText("1 Nhà hàng");
-				subTitle.setText("QUÁN ĂN, NHẬU NHẸT");
-				icon.setBackgroundResource(R.drawable.icon_resturant1);
-			}
-			else if(position == 2){
-				title.setText("2 Thời trang");
-				subTitle.setText("QUẦN ÁO, MŨ NÓN, KÍNH");
-				icon.setBackgroundResource(R.drawable.icon_shopping1);
-			}
-			else if(position == 3){
-				title.setText("3 Giải trí");
-				subTitle.setText("ĂN CHƠI NHẢY MÚA");
-				icon.setBackgroundResource(R.drawable.icon_giaitri1);
-			}
-			else if(position == 4){
-				title.setText("4 Mua sắm");
-				subTitle.setText("SIÊU THỊ, CỬA HÀNG");
-				icon.setBackgroundResource(R.drawable.icon_muasam1);
-			}
+			title.setText(data.get(position).getMerchCatName());
+			subTitle.setText(data.get(position).getMerchCatDesc());
+			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon);
+			Log.d("Icon", data.get(position).getIcon());
+			Log.d("Image", data.get(position).getImage());
 			
 			ImageView image = (ImageView) v.findViewById(R.id.image);
-			CoverLoader.getInstance(context).DisplayImage(url[position % url.length], image);
+			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image);
 
 			cacheView[position] = v;
 		}
@@ -110,13 +99,13 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 5;
+		return data.size();
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public MerchantCategoryItem getItem(int position) {
 		// TODO Auto-generated method stub
-		return null;
+		return data.get(position);
 	}
 
 	@Override

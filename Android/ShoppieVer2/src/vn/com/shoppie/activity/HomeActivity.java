@@ -73,8 +73,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 		checkinCircle = findViewById(R.id.checkin_circle);
 		pager = (MPager) findViewById(R.id.pager);
-		adapter = new CatelogyAdapter(this);
-		pager.setAdapter(adapter);
 
 		pager.setOnStartExtendListenner(new OnStartExtend() {
 
@@ -90,19 +88,30 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
+		requestToGetCampainCategory();
+	}
+
+	private void setAdapter(ArrayList<MerchantCategoryItem> data) {
+		adapter = new CatelogyAdapter(this, data);
+		pager.setAdapter(adapter);
+		
 		adapter.setOnItemClick(new OnItemClick() {
 
 			@Override
 			public void onClick(int pos) {
 				Log.d("OnClick", "Pos " + pos);
-				changeToActivity(new Intent(HomeActivity.this,
-						CollectionList.class), false);
+				Intent intent = new Intent(HomeActivity.this, CollectionList.class);
+				intent.putExtra(CollectionList.KEY_MERCHANT_ID, "" + adapter.getItem(pos).getMerchCatId());
+				intent.putExtra(CollectionList.KEY_CUSTOMER_ID, "149");
+				intent.putExtra(CollectionList.KEY_ICON, adapter.getItem(pos).getIcon());
+				intent.putExtra(CollectionList.KEY_TITLE, adapter.getItem(pos).getMerchCatName());
+				intent.putExtra(CollectionList.KEY_DESC, adapter.getItem(pos).getMerchCatDesc());
+				changeToActivity(intent , false);
 			}
 		});
 
-		requestToGetCampainCategory();
 	}
-
+	
 	private void requestToGetCampainCategory() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
@@ -117,9 +126,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 							MerchantCategoryList merchantCategoryList = gson
 									.fromJson(jsonObject.toString(),
 											MerchantCategoryList.class);
-							for(int i = 0; i < merchantCategoryList.getResult().size();i++)
-							Log.e("adkjfhd", "sizeaa "
-									+ merchantCategoryList.getResult().get(i).getMerchCatName());
+							setAdapter(merchantCategoryList.getResult());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

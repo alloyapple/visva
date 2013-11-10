@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -138,7 +139,7 @@ public class MPager extends RelativeLayout{
 	}
 
 	public void init(){
-		mScroller = new Scroller(getContext(), sInterpolator);
+		mScroller = new Scroller(getContext(), new DecelerateInterpolator(2.0f));
 		distance = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 40;
 		distanceX = distance;
 		distanceX = distance / 2;
@@ -254,15 +255,15 @@ public class MPager extends RelativeLayout{
 			return;
 		if(inoutMode == SLIDE_IN){
 			if(currentX > 0.2f * distanceX)
-				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1000);
+				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
 			else
-				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1000);
+				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1200);
 		}
 		else{
 			if(currentX > 0.7f * distanceX)
-				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1000);
+				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
 			else
-				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1000);
+				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1200);
 		}
 		invalidate();
 		isAutoSlide = true;
