@@ -36,7 +36,7 @@ public final class WebServiceConfig {
 	/** Update campaign View */
 	public static final String URL_UPDATE_CAMPAIGN_VIEW = URL_SHOPPIE_HOME
 			+ "updatecampaignviewed_v2/format/json";
-	public static final String URL_REGISTER = "/autoregister";
+	public static final String URL_REGISTER =URL_SHOPPIE_HOME +"/autoregister/format/json";
 	public static final String URL_UPDATE_INFO = "/customerupdate";
 	public static final String URL_FEEDBACK = "/customerfeedback";
 

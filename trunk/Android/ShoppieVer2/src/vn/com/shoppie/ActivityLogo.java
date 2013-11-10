@@ -55,20 +55,6 @@ public class ActivityLogo extends Activity {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.activity_logo);
 		SettingPreference.setMem(this, 2);
-		// // Add code to print out the key hash
-		try {
-			PackageInfo info = getPackageManager().getPackageInfo("vn.com.shoppie", PackageManager.GET_SIGNATURES);
-			for (Signature signature : info.signatures) {
-				MessageDigest md = MessageDigest.getInstance("SHA");
-				md.update(signature.toByteArray());
-				Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-			}
-		} catch (NameNotFoundException e) {
-
-		} catch (NoSuchAlgorithmException e) {
-
-		}
-		Log.e("user id", SettingPreference.getUserID(ActivityLogo.this) + "");
 		
 		if (!SettingPreference.getFirstUse(this) && SettingPreference.getUserID(this) > 0) {
 			startActivity(new Intent(ActivityLogo.this, HomeActivity.class));

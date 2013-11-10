@@ -13,11 +13,9 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,12 +82,6 @@ public class AdapterWelcomeImage extends PagerAdapter {
 			v = inflater.inflate(R.layout.item_welcome, null);
 			ImageView imv = (ImageView) v.findViewById(R.id.iv_welcome);
 			try{
-//				drb=context.getResources().getDrawable(data.get(position));
-//				imv.setImageDrawable(drb);
-				WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-				Display display = wm.getDefaultDisplay();
-				Log.e("display", display.getWidth()+"-"+display.getHeight());
-//				Display display=((ActivityWelcome)context).getWindowManager().getDefaultDisplay();
 				int width=context.getResources().getInteger(R.integer.display_width);
 				int height=context.getResources().getInteger(R.integer.display_height);
 				imv.setImageBitmap(SUtilBitmap.decodeSampledBitmapFromResource(context.getResources(), data.get(position),width,height));

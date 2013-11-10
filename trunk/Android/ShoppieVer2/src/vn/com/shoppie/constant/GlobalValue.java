@@ -10,8 +10,9 @@ public final class GlobalValue {
 	public static boolean DEBUG_MODE = true;
 	public static final String SHOPIE_PREFERENCES = "SHOPIE_PREFERENCES";
 	public static final String IS_RUN_FROM_ACTIVITY = "isRunFromActivity";
-	public static String userId = "12";
+	public static String USER_ID = "user_id";
 	public static String userEmail = "";
+
 
 	public static final int DIALOG_FAILED_TO_CONNECT_SERVER = 0;
 

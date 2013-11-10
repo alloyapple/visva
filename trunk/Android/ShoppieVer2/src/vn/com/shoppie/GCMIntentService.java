@@ -102,8 +102,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 	/**
 	 * Issues a notification to inform the user that server has sent a message.
 	 */
+	@SuppressWarnings("deprecation")
 	private static void generateNotification(Context context, String message,
 			String type, String pieQty) {
+		Log.e("message", "message "+message);
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 		NotificationManager notificationManager = (NotificationManager) context
