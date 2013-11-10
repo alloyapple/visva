@@ -58,6 +58,20 @@ public class CoverLoader {
 		}
 	}
 
+	public void DisplayImage(String url, View imageView , int width , int height) {
+		imageViews.put(imageView, url);
+		Bitmap bitmap = memoryCache.get(url);
+		if (bitmap != null)
+			if(width < bitmap.getWidth())
+				imageView.setBackgroundDrawable(new BitmapDrawable(Bitmap.createScaledBitmap(bitmap, width, height, false)));
+			else
+				imageView.setBackgroundDrawable(new BitmapDrawable(bitmap));
+		else {
+			queuePhoto(url, imageView);
+			imageView.setBackgroundResource(stub_id);
+		}
+	}
+	
 	private void queuePhoto(String url, View imageView) {
 		PhotoToLoad p = new PhotoToLoad(url, imageView);
 		executorService.submit(new PhotosLoader(p));

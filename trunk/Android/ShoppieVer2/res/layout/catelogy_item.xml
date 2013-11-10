@@ -45,30 +45,8 @@
 	<ImageView 
 	    android:id="@+id/image"
 	    android:layout_width="match_parent"
-    	android:layout_height="@dimen/page_item_image_height"
+    	android:layout_height="match_parent"
     	android:layout_below="@id/icon"
     	android:background="@drawable/images01"
-	    />
-	<TextView 
-	    android:id="@+id/description"
-	    android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_below="@id/image"
-    	android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
-    	android:layout_marginTop="@dimen/page_item_catelogy_desc_margin_top"
-    	android:textSize="@dimen/page_item_catelogy_desc_textsize"
-    	android:text="COCKTAIL POOL BAR"
-    	android:textColor="#2A5C72"
-	    />
-	<TextView 
-	    android:id="@+id/subdescription"
-	    android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_below="@id/description"
-    	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
-    	android:lines="2"
-    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:text="ENJOY A DELICIOUS AND FRESHING\nCOCKTAIL AT SB DIAGONAL ZERO. BAR OR POOL"
-    	android:textColor="@android:color/darker_gray"
 	    />
 </RelativeLayout>
