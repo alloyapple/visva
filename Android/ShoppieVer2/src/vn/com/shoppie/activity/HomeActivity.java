@@ -8,8 +8,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
+import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.database.sobject.MerchProductList;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
+import vn.com.shoppie.database.sobject.MerchantStoreList;
+import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
@@ -39,6 +43,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private CatelogyAdapter adapter;
 	private boolean isChecked = false;
 	private TextView mTxtTitle;
+	private ShopieSharePref mShopieSharePref;
 
 	@Override
 	public int contentView() {
@@ -64,6 +69,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
 		actionBar.addView(mTxtTitle, -1, -1);
+		mShopieSharePref = new ShopieSharePref(this);
 
 		checkinCircle = findViewById(R.id.checkin_circle);
 		pager = (MPager) findViewById(R.id.pager);
@@ -83,42 +89,175 @@ public class HomeActivity extends VisvaAbstractActivity {
 		});
 
 		requestToGetCampainCategory();
+
+		requestupdateToGetMerchProducts("95", "148"/*
+													 * +mShopieSharePref.getCustId
+													 * ()
+													 */);
+
+		updateLuckyPie("95", "148"/*
+								 * +mShopieSharePref.getCustId ()
+								 */);
+
+		requestGetMerchantStores("148"/** +mShopieSharePref.getCustId () */
+		);
+
+		requestToUpdateFriends("241"/** +mShopieSharePref.getCustId () */
+		);
+	}
+
+	private void requestToUpdateFriends(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void requestGetMerchantStores(String custId) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.getMerchantStores(custId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				HomeActivity.this, new AsyncHttpResponseProcess(
+						HomeActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							MerchantStoreList merchantStoreList = gson
+									.fromJson(jsonObject.toString(),
+											MerchantStoreList.class);
+							Log.e("merchantproductlist", "merchantproductlist "
+									+ merchantStoreList.getResult().size());
+							for (int i = 0; i < merchantStoreList.getResult()
+									.size(); i++) {
+								Log.e("merchantproductlist",
+										"merchantproductlist "
+												+ merchantStoreList.getResult()
+														.get(i)
+														.getMerchBanner());
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
+	}
+
+	private void updateLuckyPie(String campaignId, String custId) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.updateLuckyPie(
+				campaignId, custId);
+		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(HomeActivity.this,
+				new AsyncHttpResponseProcess(HomeActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							StatusUpdatePie statusUpdatePie = gson.fromJson(
+									jsonObject.toString(),
+									StatusUpdatePie.class);
+							Log.e("adkjfhd", "sizeaa "
+									+ statusUpdatePie.getResult().getValue());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postUpdateLuckyPie.execute(WebServiceConfig.URL_UPDATE_PIE);
+
 	}
 
 	private void setAdapter(ArrayList<MerchantCategoryItem> data) {
 		adapter = new CatelogyAdapter(this, data);
 		pager.setAdapter(adapter);
-		
+
 		adapter.setOnItemClick(new OnItemClick() {
 
 			@Override
 			public void onClick(int pos) {
 				Log.d("OnClick", "Pos " + pos);
-				Intent intent = new Intent(HomeActivity.this, CollectionList.class);
-				intent.putExtra(CollectionList.KEY_MERCHANT_ID, "" + adapter.getItem(pos).getMerchCatId());
+				Intent intent = new Intent(HomeActivity.this,
+						CollectionList.class);
+				intent.putExtra(CollectionList.KEY_MERCHANT_ID, ""
+						+ adapter.getItem(pos).getMerchCatId());
 				intent.putExtra(CollectionList.KEY_CUSTOMER_ID, "149");
-				intent.putExtra(CollectionList.KEY_ICON, adapter.getItem(pos).getIcon());
-				intent.putExtra(CollectionList.KEY_TITLE, adapter.getItem(pos).getMerchCatName());
-				intent.putExtra(CollectionList.KEY_DESC, adapter.getItem(pos).getMerchCatDesc());
-				changeToActivity(intent , false);
+				intent.putExtra(CollectionList.KEY_ICON, adapter.getItem(pos)
+						.getIcon());
+				intent.putExtra(CollectionList.KEY_TITLE, adapter.getItem(pos)
+						.getMerchCatName());
+				intent.putExtra(CollectionList.KEY_DESC, adapter.getItem(pos)
+						.getMerchCatDesc());
+				changeToActivity(intent, false);
 			}
 		});
 
-		
-		requestupdateToGetMerchProducts();
 	}
-	
-	private void requestupdateToGetMerchProducts() {
+
+	private void requestupdateToGetMerchProducts(String campaignId,
+			String custId) {
 		// TODO Auto-generated method stub
-		
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.getMerchantProduct(campaignId, custId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				HomeActivity.this, new AsyncHttpResponseProcess(
+						HomeActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							MerchProductList merchProductList = gson.fromJson(
+									jsonObject.toString(),
+									MerchProductList.class);
+							Log.e("merchantproductlist", "merchantproductlist "
+									+ merchProductList.getResult().size());
+							for (int i = 0; i < merchProductList.getResult()
+									.size(); i++) {
+								Log.e("merchantproductlist",
+										"merchantproductlist "
+												+ merchProductList.getResult()
+														.get(i).getLongDesc());
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_PRODUCT);
 	}
 
 	private void requestToGetCampainCategory() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getMerchantCategoryValue();
-		AsyncHttpPost postUpdateStt = new AsyncHttpPost(HomeActivity.this,
-				new AsyncHttpResponseProcess(HomeActivity.this) {
+		AsyncHttpPost postCampaignCategory = new AsyncHttpPost(
+				HomeActivity.this, new AsyncHttpResponseProcess(
+						HomeActivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						try {
@@ -140,7 +279,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 						finish();
 					}
 				}, nameValuePairs, true);
-		postUpdateStt.execute(WebServiceConfig.URL_MERCHCAMPAIGNS);
+		postCampaignCategory.execute(WebServiceConfig.URL_MERCHCAMPAIGNS);
 
 	}
 
