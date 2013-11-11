@@ -3,8 +3,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/page_item_width"
     android:layout_height="@dimen/page_item_height"
-    android:background="@android:color/white"
     android:layout_gravity="center" >
+    <View 
+        android:layout_width="match_parent"
+    	android:layout_height="@dimen/page_item_icon_height"
+        android:background="@android:color/white"
+        />
     <View 
     	android:layout_width="@dimen/page_item_icon_height"
     	android:layout_height="@dimen/page_item_icon_height"
