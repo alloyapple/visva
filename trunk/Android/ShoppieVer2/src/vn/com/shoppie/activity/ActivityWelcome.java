@@ -173,7 +173,10 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	protected void onResume() {
 		super.onResume();
 		uiHelper.onResume();
-
+		if (mShopieSharePref.getCustId() > 0) {
+			startActivity(new Intent(this, HomeActivity.class));
+			this.finish();
+		}
 		final Session session = Session.getActiveSession();
 		if (session == null || session.isClosed() || !session.isOpened()) {
 			uiHelper = new UiLifecycleHelper(this, callback);
