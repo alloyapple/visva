@@ -13,5 +13,6 @@ public abstract class MPagerAdapterBase {
 	public abstract int getNextItemId(int currPosition);
 	public abstract int getBackItemId(int currPosition);
 	public abstract int getTitlePadding();
+	public abstract int getTitleHeight();
 	public abstract boolean isCircle();
 }

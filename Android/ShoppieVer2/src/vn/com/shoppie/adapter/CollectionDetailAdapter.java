@@ -1,6 +1,10 @@
 package vn.com.shoppie.adapter;
 
+import java.util.ArrayList;
+
 import vn.com.shoppie.R;
+import vn.com.shoppie.database.sobject.MerchProductItem;
+import vn.com.shoppie.util.CoverLoader;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
@@ -21,12 +25,15 @@ import com.nineoldandroids.animation.ObjectAnimator;
 
 public class CollectionDetailAdapter extends MPagerAdapterBase{
 
+	private ArrayList<MerchProductItem> data;
+	
 	private Context context;
 	private View cacheView[];
 	private MPager mPager;
-	public CollectionDetailAdapter(Context context , MPager mPager){
+	public CollectionDetailAdapter(Context context , MPager mPager , ArrayList<MerchProductItem> data){
 		this.context = context;
 		this.mPager = mPager;
+		this.data = data;
 		initCache();
 	}
 	
@@ -59,6 +66,25 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 					}
 				});
 				text.setVisibility(View.GONE);
+				
+				TextView name = (TextView) v.findViewById(R.id.name);
+				TextView name1 = (TextView) v.findViewById(R.id.name1);
+				TextView price = (TextView) v.findViewById(R.id.price);
+				TextView price1 = (TextView) v.findViewById(R.id.price1);
+				TextView color = (TextView) v.findViewById(R.id.color);
+				TextView like = (TextView) v.findViewById(R.id.like);
+				TextView like1 = (TextView) v.findViewById(R.id.like1);
+				
+				name.setText(getItem(position).getProductName());
+				name1.setText(getItem(position).getProductName());
+				price.setText("Giá: " + getItem(position).getPrice());
+				price1.setText("Giá: " + getItem(position).getPrice());
+				color.setText("" + getItem(position).getShortDesc());
+				like.setText("" + getItem(position).getLikedNumber());
+				like1.setText("" + getItem(position).getLikedNumber());
+				
+				View image = v.findViewById(R.id.image);
+				CoverLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + data.get(position).getProductImage(), image);
 			}
 			cacheView[position] = v;
 		}
@@ -96,7 +122,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 				}
 			});
 			
-			TextView desc = (TextView) v.findViewById(R.id.desc);
+			TextView desc = (TextView) v.findViewById(R.id.desc1);
+			desc.setText(getItem(position).getLongDesc());
 			desc.setTag(v.findViewById(R.id.text));
 			desc.setOnClickListener(new OnClickListener() {
 				
@@ -130,13 +157,13 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 5;
+		return data.size() + 1;
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public MerchProductItem getItem(int position) {
 		// TODO Auto-generated method stub
-		return null;
+		return data.get(position);
 	}
 
 	@Override
@@ -212,5 +239,11 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 		
 		v.startAnimation(anim);
 		
+	}
+
+	@Override
+	public int getTitleHeight() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
