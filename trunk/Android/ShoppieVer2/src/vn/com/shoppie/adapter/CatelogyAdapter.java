@@ -22,14 +22,6 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	
 	private ArrayList<MerchantCategoryItem> data;
 	
-	private String url[] = {
-		"http://s2.haivl.com/data/photos2/20131101/0c417aa1769641e4840f52b9c0fa31cc/medium-8f2db76cd755492ba0eb72de22f9df5c-400.jpg",
-		"http://img.youtube.com/vi/P6CwUHzB5Jk/0.jpg",
-		"http://s6.haivl.com/data/photos2/20131101/4b79b3c7f5e74103ad3452debb337224/medium-090e0226f02541b8bd77a4933f3ec863-400.jpg",
-		"http://pagead2.googlesyndication.com/simgad/2294249788465311495",
-		"http://s6.haivl.com/data/photos2/20131031/615e32fe62aa4140930d12f3d8167dd4/medium-c764679780ee49dd8188f583f884566c-650.jpg"
-	};
-	
 	private Context context;
 	private View cacheView[];
 	public CatelogyAdapter(Context context , ArrayList<MerchantCategoryItem> data){
@@ -52,16 +44,16 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService
 					(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(R.layout.catelogy_item, null, false);
-			TextView title = (TextView) v.findViewById(R.id.catelogy);
-			TextView subTitle = (TextView) v.findViewById(R.id.subcatelogy);
-			View icon = v.findViewById(R.id.icon);
+			
+			TextView  title    = (TextView) v.findViewById(R.id.catelogy);
+			TextView  subTitle = (TextView) v.findViewById(R.id.subcatelogy);
+			View 	  icon     = v.findViewById(R.id.icon);
+			ImageView image    = (ImageView) v.findViewById(R.id.image);
+
 			title.setText(data.get(position).getMerchCatName());
 			subTitle.setText(data.get(position).getMerchCatDesc());
-			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon);
-			Log.d("Icon", data.get(position).getIcon());
-			Log.d("Image", data.get(position).getImage());
 			
-			ImageView image = (ImageView) v.findViewById(R.id.image);
+			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon);
 			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image);
 
 			cacheView[position] = v;
@@ -147,9 +139,30 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	}
 	
 	private OnItemClick onItemClick;
+	
 	@Override
 	public boolean isCircle() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public void hideBottom() {
+		for(int i = 0 ; i < getCount() ; i++) {
+			View v = getView(i);
+			v.findViewById(R.id.image).setVisibility(View.INVISIBLE);;
+		}
+	}
+	
+	public void showBottom() {
+		for(int i = 0 ; i < getCount() ; i++) {
+			View v = getView(i);
+			v.findViewById(R.id.image).setVisibility(View.VISIBLE);;
+		}
+	}
+
+	@Override
+	public int getTitleHeight() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

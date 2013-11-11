@@ -659,6 +659,9 @@ public class MPager extends RelativeLayout{
 				
 				@Override
 				public void onAnimationEnd(Animator arg0) {
+					if(onStartExtend != null){
+						onStartExtend.onFinishCollapse(MPager.this);
+					}
 					setAdapter(mAdapter);
 					isOpenSlide = true;
 				}
@@ -723,7 +726,7 @@ public class MPager extends RelativeLayout{
 						}
 						else{
 							slideMode = SLIDE_UP;
-							if(container.getChildCount() <= 2)
+							if(container.getChildCount() <= 1)
 								return false;
 							startSlideOut();
 						}
@@ -737,7 +740,7 @@ public class MPager extends RelativeLayout{
 						}
 						else{
 							slideMode = SLIDE_DOWN;
-							if(container.getChildCount() <= 2)
+							if(container.getChildCount() <= 1)
 								return false;
 							startSlideOut();
 						}
@@ -891,5 +894,6 @@ public class MPager extends RelativeLayout{
 	public interface OnStartExtend{
 		public void onExtend(View v);
 		public void onCollapse(View v);
+		public void onFinishCollapse(View v);
 	}
 }

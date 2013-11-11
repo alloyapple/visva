@@ -80,11 +80,17 @@ public class HomeActivity extends VisvaAbstractActivity {
 			public void onExtend(View v) {
 				isChecked = false;
 				setCheckIn(isChecked);
+				adapter.hideBottom();
 			}
 
 			@Override
 			public void onCollapse(View v) {
+				
+			}
 
+			@Override
+			public void onFinishCollapse(View v) {
+				adapter.showBottom();
 			}
 		});
 

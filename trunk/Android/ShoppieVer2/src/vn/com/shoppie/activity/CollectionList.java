@@ -89,7 +89,11 @@ public class CollectionList extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				startActivity(new Intent(CollectionList.this, CatelogyDetailActivity.class));
+				Intent intent = new Intent(CollectionList.this, CatelogyDetailActivity.class);
+				Log.d("CPAID", "" + adapter.getItem(position).getCampaignId());
+				intent.putExtra(CatelogyDetailActivity.CAMPAIGN_ID_KEY, "" + adapter.getItem(position).getCampaignId());
+				intent.putExtra(CatelogyDetailActivity.CUSTOMER_ID_KEY, "148");
+				startActivity(intent);
 			}
 		});
 		requestToGetgetMerchantCampaign(merchantId, customerId);
