@@ -48,6 +48,9 @@ public class CollectionList extends Activity{
 	private ListView listView;
 	private ListCollectionAdapter adapter;
 	
+	private static String listCampaignId[];
+	private static int curId = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -89,11 +92,14 @@ public class CollectionList extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(CollectionList.this, CatelogyDetailActivity.class);
-				Log.d("CPAID", "" + adapter.getItem(position).getCampaignId());
-				intent.putExtra(CatelogyDetailActivity.CAMPAIGN_ID_KEY, "" + adapter.getItem(position).getCampaignId());
-				intent.putExtra(CatelogyDetailActivity.CUSTOMER_ID_KEY, "148");
-				startActivity(intent);
+				if(position > 0) {
+					curId = position - 1;
+					Intent intent = new Intent(CollectionList.this, CatelogyDetailActivity.class);
+					Log.d("CPAID", "" + adapter.getItem(curId).getCampaignId());
+					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_ID_KEY, "" + adapter.getItem(curId).getCampaignId());
+					intent.putExtra(CatelogyDetailActivity.CUSTOMER_ID_KEY, "148");
+					startActivity(intent);
+				}
 			}
 		});
 		requestToGetgetMerchantCampaign(merchantId, customerId);
@@ -102,6 +108,23 @@ public class CollectionList extends Activity{
 	private void setData(ArrayList<MerchCampaignItem> data) {
 		adapter = new ListCollectionAdapter(this, data);
 		listView.setAdapter(adapter);
+		
+		listCampaignId = new String[adapter.getCount()];
+		for(int i = 0 ; i < adapter.getCount() ; i++) {
+			listCampaignId[i] = "" + adapter.getItem(i).getCampaignId();
+		}
+	}
+	
+	public static String getNextCampaignId() {
+		if(curId == listCampaignId.length - 1) {
+			curId = 0;
+			return listCampaignId[0];
+		}
+		else {
+			String result = listCampaignId[curId + 1];
+			curId++;
+			return result; 
+		}
 	}
 	
 	private void requestToGetgetMerchantCampaign(String merchCatId,
