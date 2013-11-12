@@ -38,7 +38,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private String custId = "";
 	
 	private MPager mPager;
-	
+	private CollectionDetailAdapter adapter;
 	@Override
 	public int contentView() {
 		// TODO Auto-generated method stub
@@ -68,8 +68,23 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	}
 	
 	private void setAdapter(ArrayList<MerchProductItem> data) {
-		final CollectionDetailAdapter adapter = new CollectionDetailAdapter(this , mPager , data);
+//		if(adapter != null)
+//			adapter.recycle();
+		adapter = new CollectionDetailAdapter(this , mPager , data);
 		mPager.setAdapter(adapter);
+		adapter.setOnItemClick(new OnItemClick() {
+			
+			@Override
+			public void onClick(int pos) {
+				if(pos == adapter.getCount() - 1) {
+					if(CollectionList.getNextCampaignId() != null) {
+						Log.d("OnClick ", "Item " + pos);
+						camId = CollectionList.getNextCampaignId();
+						requestupdateToGetMerchProducts(camId, custId);
+					}
+				}
+			}
+		});
 	}
 	
 	private void requestupdateToGetMerchProducts(String campaignId,
@@ -104,4 +119,5 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_PRODUCT);
 	}
+	
 }

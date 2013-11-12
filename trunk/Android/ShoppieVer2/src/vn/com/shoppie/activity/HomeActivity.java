@@ -193,7 +193,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void setAdapter(ArrayList<MerchantCategoryItem> data) {
 		adapter = new CatelogyAdapter(this, data);
-		pager.setAdapter(adapter);
+		for(int i = 0 ; i < 10 ; i++) {
+			pager.setAdapter(adapter);
+		}
 
 		adapter.setOnItemClick(new OnItemClick() {
 

@@ -35,6 +35,7 @@ public class MPager extends RelativeLayout{
 
 	private int currentItem = 0;
 	private MPagerAdapterBase mAdapter;
+	private View cover;
 	
 	private float downX;
 	private float downY;
@@ -151,12 +152,14 @@ public class MPager extends RelativeLayout{
 		this.mAdapter = adapter;
 		
 		if(getChildAt(0) != container1 || getChildAt(0) != layout1){
-			View v = new View(getContext());
-			v.setBackgroundResource(R.drawable.bg_center);
-			LayoutParams params = new LayoutParams((int)(mAdapter.getViewWidth() * 1.06f), 
-					(int)(mAdapter.getViewHeight() * 1.05f));
-			params.addRule(RelativeLayout.CENTER_IN_PARENT);
-			addView(v, 0 , params);
+			if(getChildAt(0) != cover) {
+				cover = new View(getContext());
+				cover.setBackgroundResource(R.drawable.bg_center);
+				LayoutParams params = new LayoutParams((int)(mAdapter.getViewWidth() * 1.06f), 
+						(int)(mAdapter.getViewHeight() * 1.05f));
+				params.addRule(RelativeLayout.CENTER_IN_PARENT);
+				addView(cover, 0 , params);
+			}
 		}
 		
 		container.removeAllViews();
@@ -170,9 +173,11 @@ public class MPager extends RelativeLayout{
 	private void initByAdapter(){
 		currentItem = 0;
 		addViewTo(mAdapter.getView(currentItem), container.getChildCount() - 1);
-		if(container.getChildCount() > 1)
-			addViewTo(mAdapter.getBackView(currentItem), 0);
-		addViewTo(mAdapter.getNextView(currentItem), container.getChildCount() - 2);
+		if(mAdapter.getCount() > 1) {
+			if(container.getChildCount() > 1)
+				addViewTo(mAdapter.getBackView(currentItem), 0);
+			addViewTo(mAdapter.getNextView(currentItem), container.getChildCount() - 2);
+		}
 	}
 	
 	private void cacheNextView(){
@@ -192,14 +197,6 @@ public class MPager extends RelativeLayout{
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stub
-//		switch (ev.getAction()) {
-//		case MotionEvent:
-//			
-//			break;
-//
-//		default:
-//			break;
-//		}
 		if(lockSlide)
 			return super.onInterceptTouchEvent(ev);
 		if(isSlide)
@@ -604,7 +601,7 @@ public class MPager extends RelativeLayout{
 			scrollView.addView(container , -1 , -2);
 			scrollView.scrollTo(0, 0);
 			container.removeAllViews();
-			removeViewAt(0);
+			removeView(cover);
 			
 			addViewBySet(lastPos , true);
 		}

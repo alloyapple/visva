@@ -246,4 +246,12 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public void recycle() {
+		for(int i = 0 ; i < cacheView.length ; i++) {
+			if(cacheView[i] != null) {
+				cacheView = null;
+			}
+		}
+	}
 }
