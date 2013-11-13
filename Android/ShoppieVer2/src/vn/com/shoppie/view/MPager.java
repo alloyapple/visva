@@ -71,6 +71,7 @@ public class MPager extends RelativeLayout{
 	private GestureDetector mCollapseGestureDetector;
 	
 	private OnStartExtend onStartExtend;
+	private OnPageChange onPageChange;
 	public MPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		if(mVelocityTracker == null) {
@@ -409,6 +410,8 @@ public class MPager extends RelativeLayout{
 			return;
 		if(inoutMode == SLIDE_OUT && !mAdapter.isCircle() && currentItem == mAdapter.getCount() - 1)
 			return;
+		if(inoutMode == SLIDE_OUT && !mAdapter.canbeNext(currentItem))
+			return;
 		
 		currentX += distanceX;
 
@@ -448,6 +451,9 @@ public class MPager extends RelativeLayout{
 				container.addView(currentSlide, 0);
 				cacheNextView();
 //				cacheBackView();
+				
+				if(onPageChange != null)
+					onPageChange.onChange(currentItem);
 				break;
 			default:
 				break;
@@ -459,6 +465,9 @@ public class MPager extends RelativeLayout{
 				currentItem = mAdapter.getBackItemId(currentItem);
 //				cacheNextView();
 				cacheBackView();
+				
+				if(onPageChange != null)
+					onPageChange.onChange(currentItem);
 				break;
 
 			case SLIDE_OUT://fail
@@ -881,6 +890,10 @@ public class MPager extends RelativeLayout{
 		this.onStartExtend = onStartExtend;
 	}
 
+	public void setOnPageChange(OnPageChange onPageChange) {
+		this.onPageChange = onPageChange;
+	}
+
 	private static final Interpolator sInterpolator = new Interpolator() {
 		public float getInterpolation(float t) {
 			t -= 1.0f;
@@ -892,5 +905,9 @@ public class MPager extends RelativeLayout{
 		public void onExtend(View v);
 		public void onCollapse(View v);
 		public void onFinishCollapse(View v);
+	}
+	
+	public interface OnPageChange{
+		public void onChange(int pos);
 	}
 }

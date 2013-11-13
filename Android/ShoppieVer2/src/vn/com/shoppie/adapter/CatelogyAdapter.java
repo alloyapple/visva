@@ -165,4 +165,10 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public boolean canbeNext(int curId) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

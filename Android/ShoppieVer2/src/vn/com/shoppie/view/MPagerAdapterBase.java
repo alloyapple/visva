@@ -15,4 +15,5 @@ public abstract class MPagerAdapterBase {
 	public abstract int getTitlePadding();
 	public abstract int getTitleHeight();
 	public abstract boolean isCircle();
+	public abstract boolean canbeNext(int curId);
 }

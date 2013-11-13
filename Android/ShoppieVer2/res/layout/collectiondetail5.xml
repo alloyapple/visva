@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/collectiondetail_item_width"
+    android:layout_height="@dimen/collectiondetail_item_height"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="@dimen/page_item_count_width"
+        android:layout_height="@dimen/page_item_count_height"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_head_center02" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="15dp" >
+
+        <View 
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/img_checkin_loading"
+            />
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:text="CÒN NHIỀU LÝ DO ĐỂ QUAY TRỞ LẠI"
+            android:textColor="#D32971"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:text="SHOPPIE GIÚP TRẢI NGHIỆM CỦA BẠN THÚ VỊ HƠN NỮA"
+            android:textColor="#2A5C72"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</RelativeLayout>
