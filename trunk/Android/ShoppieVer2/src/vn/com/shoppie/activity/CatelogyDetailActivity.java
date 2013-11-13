@@ -7,8 +7,6 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CollectionDetailAdapter;
 import vn.com.shoppie.database.sobject.MerchProductItem;
@@ -17,17 +15,17 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.view.MPager;
+import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.view.OnItemClick;
-import vn.com.shoppie.view.PieView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.ImageButton;
+
+import com.google.gson.Gson;
 
 public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
@@ -71,15 +69,17 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 //		if(adapter != null)
 //			adapter.recycle();
 		adapter = new CollectionDetailAdapter(this , mPager , data);
+		adapter.id = CollectionList.curId;
 		mPager.setAdapter(adapter);
-		adapter.setOnItemClick(new OnItemClick() {
+		
+		mPager.setOnPageChange(new OnPageChange() {
 			
 			@Override
-			public void onClick(int pos) {
+			public void onChange(int pos) {
 				if(pos == adapter.getCount() - 1) {
-					if(CollectionList.getNextCampaignId() != null) {
-						Log.d("OnClick ", "Item " + pos);
-						camId = CollectionList.getNextCampaignId();
+					String id = CollectionList.getNextCampaignId();
+					if(id != null) {
+						camId = id;
 						requestupdateToGetMerchProducts(camId, custId);
 					}
 				}

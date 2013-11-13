@@ -9,23 +9,27 @@ import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class CollectionDetailAdapter extends MPagerAdapterBase{
 
 	private ArrayList<MerchProductItem> data;
+	public int id = 0;
 	
 	private Context context;
 	private View cacheView[];
@@ -50,8 +54,10 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 		else{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService
 					(Context.LAYOUT_INFLATER_SERVICE);
-			if(position == getCount() - 1)
+			if(position == getCount() - 2)
 				v = inflater.inflate(R.layout.collectiondetail3, null, false);
+			else if(position == getCount() - 1)
+				v = inflater.inflate(R.layout.collectiondetail5, null, false);
 			else {
 				v = inflater.inflate(R.layout.collectiondetail_1, null, false);
 				View text = v.findViewById(R.id.text);
@@ -85,11 +91,28 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 				
 				View image = v.findViewById(R.id.image);
 				CoverLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + data.get(position).getProductImage(), image);
+				
+				TextView desc = (TextView) v.findViewById(R.id.desc1);
+				desc.setText(getItem(position).getLongDesc());
+				desc.setTag(v.findViewById(R.id.text));
+				desc.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						View text = (View) v.getTag();
+						closeDesc(text);
+						mPager.setLockSlide(false);
+					}
+				});
 			}
 			cacheView[position] = v;
+			TextView count = (TextView) v.findViewById(R.id.count);
+			count.setText("" + id);
+			
 		}
 		
-		if(position == getCount() - 1)
+		if(position == getCount() - 2) {
+			v.setSoundEffectsEnabled(false);
 			v.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -98,9 +121,47 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 					if(onItemClick != null){
 						onItemClick.onClick(position);
 					}
+					
+					if(!pied) {
+						SoundPool sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+	
+						int iTmp = sp.load(context, R.raw.pied, 1); // in 2nd param u have to pass your desire ringtone
+						sp.play(iTmp, 1, 1, 0, 0, 1);
+						MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.pied); // in 2nd param u have to pass your desire ringtone
+						mPlayer.start();
+						
+						View piedView = v.findViewById(R.id.pied_view);
+						piedView.setVisibility(View.VISIBLE);
+						ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f, piedView.getWidth() / 2, piedView.getHeight() / 2);
+						anim.setDuration(1000);
+						anim.setInterpolator(new OvershootInterpolator());
+						anim.setAnimationListener(new AnimationListener() {
+							
+							@Override
+							public void onAnimationStart(Animation animation) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void onAnimationRepeat(Animation animation) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void onAnimationEnd(Animation animation) {
+								pied = true;
+								pied();
+							}
+						});
+						
+						piedView.startAnimation(anim);
+					}
 				}
 			});
-		else {
+		}
+		else if(position < getCount() - 3){
 			v.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -122,18 +183,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 				}
 			});
 			
-			TextView desc = (TextView) v.findViewById(R.id.desc1);
-			desc.setText(getItem(position).getLongDesc());
-			desc.setTag(v.findViewById(R.id.text));
-			desc.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					View text = (View) v.getTag();
-					closeDesc(text);
-					mPager.setLockSlide(false);
-				}
-			});
+			
 		}
 		return v;
 	}
@@ -157,7 +207,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return data.size() + 1;
+		return data.size() + 2;
 	}
 
 	@Override
@@ -254,4 +304,19 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 			}
 		}
 	}
+
+	@Override
+	public boolean canbeNext(int curId) {
+		// TODO Auto-generated method stub
+		if(curId == getCount() - 2 && !pied)
+			return false;
+		return true;
+	}
+	
+	public void pied() {
+		View v = cacheView[getCount() - 2].findViewById(R.id.pied_layout);
+		v.setVisibility(View.VISIBLE);
+	}
+	
+	public boolean pied = false;
 }

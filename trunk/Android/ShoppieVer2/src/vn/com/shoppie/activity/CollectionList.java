@@ -49,7 +49,7 @@ public class CollectionList extends Activity{
 	private ListCollectionAdapter adapter;
 	
 	private static String listCampaignId[];
-	private static int curId = 0;
+	public static int curId = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,9 +121,7 @@ public class CollectionList extends Activity{
 			return listCampaignId[0];
 		}
 		else {
-			String result = listCampaignId[curId + 1];
-			curId++;
-			return result; 
+			return listCampaignId[++curId]; 
 		}
 	}
 	
