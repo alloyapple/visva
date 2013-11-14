@@ -32,7 +32,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:background="@drawable/ico_facebook"
+                    android:background="@drawable/img_login"
                     android:contentDescription="@string/KEY_TAG_TAB"
                     android:paddingLeft="50dp"
                     android:paddingRight="5dp"
@@ -43,7 +43,8 @@
                     android:id="@+id/login_button"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:gravity="center" >
+                    android:gravity="center"
+                    android:onClick="onFBLogin" >
                 </com.facebook.widget.LoginButton>
             </RelativeLayout>
 
@@ -71,12 +72,10 @@
                     android:id="@+id/activity_register_edt_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_holo_light"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:inputType="text|number"
                     android:paddingLeft="5dp"
-                    android:textColor="#fff" >
+                    android:textColor="#000000" >
                 </EditText>
             </LinearLayout>
 
@@ -85,9 +84,9 @@
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/btn_start"
-                android:onClick="onClickRegister"
-                android:contentDescription="@string/KEY_TAG_TAB" />
+                android:background="@drawable/ic_start"
+                android:contentDescription="@string/KEY_TAG_TAB"
+                android:onClick="onClickedLogin" />
 
             <TextView
                 android:id="@+id/tv_log"

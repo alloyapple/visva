@@ -71,6 +71,10 @@ public abstract class VisvaAbstractActivity extends Activity {
 		View view = inflater.inflate(contentView(), container, false);
 
 		container.addView(view, -1, -1);
+	}  
+
+	public void onClickSearchActivity(View v) {
+		gotoActivity(self, SearchActivity.class);
 	}
 
 	public void changeToActivity(Intent intent, boolean isFinish) {

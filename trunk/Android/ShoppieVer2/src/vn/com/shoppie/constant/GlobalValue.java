@@ -52,8 +52,7 @@ public final class GlobalValue {
 	public static final int KEY_DESTROYED_SERVICE_BY_FORCE_CLOSE = 5;
 
 	// gcm
-	public static final String SENDER_ID1 = "AIzaSyD4keVrSodVstQl_91Md5c7INI4Xhmcl_4";
-	public static final String SENDER_ID = "780637496192";
+	public static final String SENDER_ID = "622843213634";
 	//780637496192
 	//622843213634 
 	public static final String EXTRA_TYPE_CHECKIN = "Checkin";

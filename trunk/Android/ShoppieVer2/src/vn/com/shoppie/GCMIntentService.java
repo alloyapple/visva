@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -37,7 +38,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// ServerUtilities.register(context, MainActivity.name,
 		// MainActivity.email, registrationId);
 		// Toast.makeText(this, "services: "+registrationId,
-		// Toast.LENGTH_SHORT).show();
+		// Toast.LENGTH_SHORT).show();  
 	}
 
 	/**
@@ -56,7 +57,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * */
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Log.i(TAG, "Received message");
+		Log.i(TAG, "Received service message");
 		String message = intent.getExtras().getString(GlobalValue.EXTRA_MESSAGE);
 		// Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 		String type = intent.getExtras().getString(GlobalValue.EXTRA_TYPE);
@@ -86,6 +87,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onError(Context context, String errorId) {
 		Log.i(TAG, "Received error: " + errorId);
+		Toast.makeText(this, "Received error: ", Toast.LENGTH_SHORT).show();
 		CommonUtilities.displayMessage(context,
 				getString(R.string.gcm_error, errorId));
 	}
