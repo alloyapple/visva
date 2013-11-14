@@ -43,7 +43,6 @@
                     android:id="@+id/login_button"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:src="@drawable/img_login"
                     android:onClick="onFBLogin"
                     android:gravity="center" >
                 </com.facebook.widget.LoginButton>

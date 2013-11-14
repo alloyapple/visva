@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    
     <!-- Creates a custom permission so only this app can receive its messages. -->
     <permission
         android:name="vn.com.shoppie.permission.C2D_MESSAGE"

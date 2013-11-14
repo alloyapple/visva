@@ -220,8 +220,9 @@ public class ActivityWelcome extends Activity implements LocationListener,
 			// Device is already registered on GCM
 			if (GCMRegistrar.isRegisteredOnServer(this)) {
 				// Skips registration.
-				// Toast.makeText(getApplicationContext(),
-				// "Already registered with GCM", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(),
+						"Already registered with GCM", Toast.LENGTH_LONG)
+						.show();
 			} else {
 			}
 		}
@@ -278,7 +279,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	private void registerToSPServer(String deviceToken, String bluetoothId,
 			String deviceId, String latitude, String longitude, String custName) {
 		// TODO Auto-generated method stub
-
+		GCMRegistrar.setRegisteredOnServer(this, true);
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.createRegisterSPAccount(deviceToken, bluetoothId, deviceId,

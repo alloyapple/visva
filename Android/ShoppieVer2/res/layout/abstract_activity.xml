@@ -19,6 +19,7 @@
             android:layout_height="@dimen/actionbar_height"
             android:background="@color/actionbar_item_background"
             android:src="@drawable/ic_location"
+            android:onClick="onClickSearchActivity"
             android:contentDescription="@string/KEY_TAG_TAB" >
         </ImageButton>
     </RelativeLayout>

@@ -235,16 +235,16 @@ public class HomeActivity extends VisvaAbstractActivity {
 							MerchProductList merchProductList = gson.fromJson(
 									jsonObject.toString(),
 									MerchProductList.class);
-							Log.e("merchantproductlist", "merchantproductlist "
+							Log.e("merchantproductlist", "merchantproductlisdfdsfdt "
 									+ merchProductList.getResult().size());
 							for (int i = 0; i < merchProductList.getResult()
 									.size(); i++) {
 								Log.e("merchantproductlist",
-										"merchantproductlist "
+										"merchantproductlistdfdf "
 												+ merchProductList.getResult()
 														.get(i).getLongDesc());
 							}
-						} catch (JSONException e) {
+						} catch (JSONException e) {  
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
