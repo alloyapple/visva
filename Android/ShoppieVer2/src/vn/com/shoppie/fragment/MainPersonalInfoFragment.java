@@ -1,12 +1,20 @@
 package vn.com.shoppie.fragment;
 
+import com.facebook.model.GraphUser;
+
 import vn.com.shoppie.R;
+import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.database.sobject.HistoryTransactionItem;
+import vn.com.shoppie.database.sobject.HistoryTransactionList;
+import vn.com.shoppie.util.ImageLoader;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainPersonalInfoFragment extends FragmentBasic {
 
@@ -19,9 +27,14 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private LinearLayout mLayoutFeedback;
 	private LinearLayout mLayoutHelp;
 	private LinearLayout mLayoutHistoryTrade;
-
+	private ImageView mImgAvatar;
+	private TextView mTxtUserName;
+	private TextView mTxtUserId;
+	private TextView mTxtUserNumberPie;
 	// =========================Class Define --------------------
 	private MainPersonalInfoListener mListener;
+	private ImageLoader mImageLoader;
+	private ShopieSharePref mShopieSharePref;
 
 	// =========================Variable Define==================
 	@Override
@@ -30,12 +43,19 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		View root = (ViewGroup) inflater.inflate(
 				R.layout.page_main_personal_info, null);
 
+		mImageLoader = new ImageLoader(getActivity());
+		mShopieSharePref = new ShopieSharePref(getActivity());
 		initialize(root);
 		return root;
 	}
 
 	private void initialize(View v) {
 		// TODO Auto-generated method stub
+
+		mTxtUserId = (TextView) v.findViewById(R.id.txt_personal_id);
+		mTxtUserName = (TextView) v.findViewById(R.id.txt_personal_name);
+		mTxtUserNumberPie = (TextView) v
+				.findViewById(R.id.txt_personal_number_pie);
 		mLayoutFavouriteProduct = (LinearLayout) v
 				.findViewById(R.id.layout_fravourite_product);
 		mLayoutFeedback = (LinearLayout) v.findViewById(R.id.layout_feedback);
@@ -140,5 +160,18 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 
 	public void setListener(MainPersonalInfoListener listener) {
 		this.mListener = listener;
+	}
+
+	public void updateUserInfo(GraphUser user) {
+		// TODO Auto-generated method stub
+		mImageLoader.DisplayImage(user.getLink(), mImgAvatar);
+		mTxtUserName.setText(user.getName());
+		mTxtUserId.setText(mShopieSharePref.getCustId());
+	}
+
+	public void updatePie(HistoryTransactionList historyTransactionList) {
+		// TODO Auto-generated method stub
+		HistoryTransactionItem historyTransactionItem = historyTransactionList.getResult().get(0);
+		mTxtUserNumberPie.setText(historyTransactionItem.getCurrentBal());
 	}
 }

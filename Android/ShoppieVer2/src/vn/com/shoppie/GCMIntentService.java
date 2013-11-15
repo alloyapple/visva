@@ -108,7 +108,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private static void generateNotification(Context context, String message,
 			String type, String pieQty) {
 		Log.e("message", "message "+message);
-		int icon = R.drawable.ic_launcher;
+		int icon = R.drawable.icon_launcher;
 		long when = System.currentTimeMillis();
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);

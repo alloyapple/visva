@@ -1,8 +1,23 @@
 package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.google.gson.Gson;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.fragment.FavouriteFragment;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
 import vn.com.shoppie.fragment.FriendDetailFragment;
@@ -11,11 +26,17 @@ import vn.com.shoppie.fragment.MainPersonalInfoFragment;
 import vn.com.shoppie.fragment.PersonalFriendFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
 import vn.com.shoppie.fragment.PersonalFriendFragment.onViewFriendDetail;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FBUser;
+import vn.com.shoppie.webconfig.WebServiceConfig;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +56,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private static final int FAVOURITE = 1004;
 	private static final int PERSONAL_INFO = 1005;
 	private static final int FRIEND_DETAIL = 1006;
+	private static final int REQ_NETWORK = 1;
 	// ===========================Control Define==================
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
@@ -45,17 +67,165 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
 	private TextView mTxtTitle;
-	// =========================Class Define --------------------
+	// =========================Class Define ====================
+	private UiLifecycleHelper lifecycleHelper;
+	private ShopieSharePref mShopieSharePref;
 	// =========================Variable Define==================
 	private ArrayList<String> backstack = new ArrayList<String>();
+	private int custId;
+
+	private Session.StatusCallback callback = new Session.StatusCallback() {
+		@Override
+		public void call(final Session session, final SessionState state,
+				final Exception exception) {
+			onSessionStateChange(session, state, exception);
+		}
+	};
 
 	@Override
-	protected void onCreate(Bundle arg0) {
+	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		super.onCreate(arg0);
+		super.onCreate(savedInstanceState);
+
+		// Facebook
+		lifecycleHelper = new UiLifecycleHelper(PersonalInfoActivity.this,
+				new Session.StatusCallback() {
+					@Override
+					public void call(Session session, SessionState state,
+							Exception exception) {
+						Log.e("adkjdfh", "adkdjhf ");
+						onSessionStateChanged(session, state, exception);
+					}
+
+					private void onSessionStateChanged(Session session,
+							SessionState state, Exception exception) {
+						// TODO Auto-generated method stub
+					}
+				});
+		lifecycleHelper.onCreate(savedInstanceState);
+		ensureOpenSession();
+
+		mShopieSharePref = new ShopieSharePref(this);
 		setContentView(R.layout.page_personal_info);
 
 		initialize();
+
+	}
+
+	private boolean ensureOpenSession() {
+		Log.e("addfjh", "adkjdfh ");
+		if (Session.getActiveSession() == null
+				|| !Session.getActiveSession().isOpened()) {
+			Session.openActiveSession(PersonalInfoActivity.this, true,
+					new Session.StatusCallback() {
+						@Override
+						public void call(Session session, SessionState state,
+								Exception exception) {
+							onSessionStateChange(session, state, exception);
+						}
+					});
+			return false;
+		}
+		return true;
+	}
+
+	private void requestToUpdateUserInfo(String custId) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.updateHistoryTransaction(custId);
+		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(
+				PersonalInfoActivity.this, new AsyncHttpResponseProcess(
+						PersonalInfoActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							HistoryTransactionList historyTransactionList = gson
+									.fromJson(jsonObject.toString(),
+											HistoryTransactionList.class);
+							mMainPersonalInfoFragment
+									.updatePie(historyTransactionList);
+							mHistoryTradeFragment
+									.updatePie(historyTransactionList);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postUpdateLuckyPie.execute(WebServiceConfig.URL_HISTORY_TRANSACTION);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle bundle) {
+		super.onSaveInstanceState(bundle);
+		lifecycleHelper.onSaveInstanceState(bundle);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		lifecycleHelper.onResume();
+		final Session session = Session.getActiveSession();
+		if (session == null || session.isClosed() || !session.isOpened()) {
+			lifecycleHelper = new UiLifecycleHelper(this, callback);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		lifecycleHelper.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		lifecycleHelper.onPause();
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		lifecycleHelper.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQ_NETWORK) {
+			// checkNetwork();
+		}
+	}
+
+	private void onSessionStateChange(final Session session,
+			SessionState state, Exception exception) {
+		if (session != null && session.isOpened()) {
+			Request request = Request.newMeRequest(session,
+					new Request.GraphUserCallback() {
+						@Override
+						public void onCompleted(GraphUser user,
+								Response response) {
+							if (session == Session.getActiveSession()) {
+								if (user != null) {
+									mMainPersonalInfoFragment
+											.updateUserInfo(user);
+									custId = mShopieSharePref.getCustId();
+									requestToUpdateUserInfo("" + custId);
+								}
+							}
+						}
+					});
+			request.executeAsync();
+		}
 
 	}
 
@@ -235,7 +405,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
 			mTransaction.show(mFragmentPersonalInfo);
 			mTxtTitle.setText(getString(R.string.main_personal_info));
-		}else if (currentView.equals(FRIEND_DETAIL_FRAGMENT)) {
+		} else if (currentView.equals(FRIEND_DETAIL_FRAGMENT)) {
 			mTransaction.show(mFriendDetailFragment);
 			mTxtTitle.setText(getString(R.string.personl_friend));
 		}
