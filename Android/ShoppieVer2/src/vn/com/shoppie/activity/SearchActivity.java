@@ -20,6 +20,7 @@ import vn.com.shoppie.database.sobject.MerchantStoreList;
 import vn.com.shoppie.fragment.SearchBrandDetailFragment;
 import vn.com.shoppie.fragment.SearchBrandFragment;
 import vn.com.shoppie.fragment.SearchMapFragment;
+import vn.com.shoppie.fragment.SearchBrandFragment.IOnClickShowStoreDetail;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
@@ -32,16 +33,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-public class SearchActivity extends FragmentActivity {
+public class SearchActivity extends FragmentActivity implements IOnClickShowStoreDetail{
 	// ==========================Constant Define=================
 	private static final String SEARCH_BRAND_FRAGMENT_STRING = "brand_fragment";
 	private static final String SEARCH_BRAND_DETAIL_FRAGMENT_STRING = "brand_detail_fragment";
@@ -85,6 +83,7 @@ public class SearchActivity extends FragmentActivity {
 		mSearchMapFragment = (SearchMapFragment) mFmManager
 				.findFragmentById(R.id.search_map_fragment);
 
+		mSearchBrandFragment.setListener(this);
 		showFragment(SEARCH_BRAND_FRAGMENT_ID);
 		mTransaction = hideFragment();
 		mTransaction.show(mSearchBrandFragment);
@@ -335,5 +334,12 @@ public class SearchActivity extends FragmentActivity {
 					}
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
+	}
+
+	@Override
+	public void onClickViewStoreDetail(int position) {
+		// TODO Auto-generated method stub
+		showFragment(SEARCH_BRAND_DETAIL_FRAGMENT_ID);
+		mSearchBrandFragment.updateUI(position);
 	}
 }
