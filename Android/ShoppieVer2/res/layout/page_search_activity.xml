@@ -21,7 +21,7 @@
 
         <vn.com.shoppie.object.HorizontalListView
             android:id="@+id/list_title_search"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/actionbar_height" >
         </vn.com.shoppie.object.HorizontalListView>
     </LinearLayout>
@@ -54,6 +54,7 @@
             android:src="@drawable/ic_search" />
 
         <EditText
+            android:id="@+id/edt_search"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/actionbar_height"
             android:layout_toLeftOf="@id/btn_location_ic"
