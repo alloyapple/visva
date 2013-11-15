@@ -106,6 +106,7 @@ public class MPager extends RelativeLayout{
 
 	private MScrollView scrollView;
 	private LinearLayout container1;
+	private LinearLayout container2;
 	private RelativeLayout container;
 	private LinearLayout layout1;
 	
@@ -115,6 +116,8 @@ public class MPager extends RelativeLayout{
 		addView(layout1 , -1 , -1);
 		
 		scrollView = new MScrollView(getContext());
+		container2 = new LinearLayout(getContext());
+		scrollView.addView(container2);
 		layout1.addView(scrollView, -1, -2);
 
 		container1 = new LinearLayout(getContext());
@@ -171,8 +174,42 @@ public class MPager extends RelativeLayout{
 		}
 	}
 	
+	public void setAdapter(MPagerAdapterBase adapter , int initIndex){
+		this.mAdapter = adapter;
+		
+		if(getChildAt(0) != container1 || getChildAt(0) != layout1){
+			if(getChildAt(0) != cover) {
+				cover = new View(getContext());
+				cover.setBackgroundResource(R.drawable.bg_center);
+				LayoutParams params = new LayoutParams((int)(mAdapter.getViewWidth() * 1.06f), 
+						(int)(mAdapter.getViewHeight() * 1.05f));
+				params.addRule(RelativeLayout.CENTER_IN_PARENT);
+				addView(cover, 0 , params);
+				ObjectAnimator.ofFloat(cover, "alpha", 0 , 1f).setDuration(500).start();
+			}
+		}
+		
+		container.removeAllViews();
+		if(adapter.getCount() > 0){
+			for(int i = 0 ; i < mAdapter.getCount() && i < 3 ; i++)
+				container.addView(new View(getContext()));
+//			initByAdapter();
+			initByAdapter(initIndex);
+		}
+	}
+	
 	private void initByAdapter(){
 		currentItem = 0;
+		addViewTo(mAdapter.getView(currentItem), container.getChildCount() - 1);
+		if(mAdapter.getCount() > 1) {
+			if(container.getChildCount() > 1)
+				addViewTo(mAdapter.getBackView(currentItem), 0);
+			addViewTo(mAdapter.getNextView(currentItem), container.getChildCount() - 2);
+		}
+	}
+	
+	private void initByAdapter(int initIndex){
+		currentItem = initIndex;
 		addViewTo(mAdapter.getView(currentItem), container.getChildCount() - 1);
 		if(mAdapter.getCount() > 1) {
 			if(container.getChildCount() > 1)
@@ -529,6 +566,44 @@ public class MPager extends RelativeLayout{
 
 	int pos = 0;
 
+	public void addViewBySet(int lastPos , int lastId) {
+		int count = mAdapter.getCount();
+		int realCount = 0;
+		int index = 0;
+		if(lastId == count - 1)
+			index = 0;
+		else
+			index = lastId + 1;
+		while (realCount < count) {
+			container.addView(mAdapter.getView(index) , mAdapter.getViewWidth() , mAdapter.getViewHeight());
+
+			if(index == count - 1)
+				index = 0;
+			else
+				index++;
+			
+			realCount++;
+		}
+
+		extendView(40);
+		int scrollHeight = container.getChildAt(1).getHeight();
+		MarginLayoutParams params = (MarginLayoutParams) container.getChildAt(container.getChildCount() - 1).getLayoutParams();
+		scrollHeight += params.topMargin;
+		
+		int topScroll = 0;
+		if(scrollHeight >= getHeight())
+			topScroll = 0;
+		else
+			topScroll = (getHeight() - scrollHeight) / 2;
+		
+		for(int i = 0 ; i < container.getChildCount() ; i++){
+			View v = container.getChildAt(i);
+			params = (MarginLayoutParams) v.getLayoutParams();
+			ObjectAnimator.ofFloat(v, "translationY", -(topScroll + params.topMargin - lastPos), 0).setDuration(500).start();
+		}
+		scrollView.setStopScroll(false);
+	}
+	
 	public void addViewBySet(int lastPos , boolean isFirst){
 		int count = container.getChildCount() + 9;
 		int realCount = 0;
@@ -602,17 +677,20 @@ public class MPager extends RelativeLayout{
 				onStartExtend.onExtend(this);
 			}
 			
-			int lastPos = getHeight() / 2 - container.getChildAt(0).getHeight() / 2;
+			int lastPos = getHeight() / 2 - mAdapter.getViewHeight() / 2;
+			int scrollHeight = mAdapter.getTitlePadding() * (mAdapter.getCount() - 1)
+					+ mAdapter.getTitleHeight();
 			
 			isOpenSlide = false;
 			isOpenCollapse = false;
 			container1.removeView(container);
-			scrollView.addView(container , -1 , -2);
+			container2.addView(container , -1 , scrollHeight);
 			scrollView.scrollTo(0, 0);
 			container.removeAllViews();
 			removeView(cover);
 			
-			addViewBySet(lastPos , true);
+			addViewBySet(lastPos , currentItem);
+//			addViewBySet(lastPos , true);
 		}
 		else
 			return;
@@ -623,15 +701,15 @@ public class MPager extends RelativeLayout{
 	public void collapseView(){
 		if(!isOpenCollapse)
 			return;
-		if(container.getParent() == scrollView){
+		if(container.getParent() == container2){
 			if(onStartExtend != null){
 				onStartExtend.onCollapse(this);
 			}
 			scrollView.setStopScroll(true);
-			scrollView.scrollTo(0, 0);
-			for(int i = 5 ; i < container.getChildCount() ; i++){
-				container.removeViewAt(i);
-			}
+//			scrollView.scrollTo(0, 0);
+//			for(int i = 5 ; i < container.getChildCount() ; i++){
+//				container.removeViewAt(i);
+//			}
 			
 			isOpenSlide = false;
 			isOpenMoveSlide = false;
@@ -641,11 +719,11 @@ public class MPager extends RelativeLayout{
 			int lastPos[] = new int[container.getChildCount()];
 			for(int i = 0 ; i < container.getChildCount() ; i++){
 				MarginLayoutParams params = (MarginLayoutParams) container.getChildAt(i).getLayoutParams();
-				lastPos[i] = -(newTop - (containerTop + params.topMargin));
+				lastPos[i] = -(newTop - (containerTop + params.topMargin)) - scrollView.getScrollY();
 			}
 			
 			extendView(0);
-			scrollView.removeAllViews();
+			container2.removeAllViews();
 			container1.addView(container , -1 , -1);
 			
 			ObjectAnimator a = ObjectAnimator.ofFloat(container.getChildAt(0), "translationY", lastPos[0] , 0).setDuration(500);
@@ -668,7 +746,8 @@ public class MPager extends RelativeLayout{
 					if(onStartExtend != null){
 						onStartExtend.onFinishCollapse(MPager.this);
 					}
-					setAdapter(mAdapter);
+//					setAdapter(mAdapter);
+					setAdapter(mAdapter, currentItem);
 					isOpenSlide = true;
 				}
 				
@@ -715,10 +794,9 @@ public class MPager extends RelativeLayout{
 			if(!isOpenMoveSlide)
 				return false;
 			if(!isSlide){
-				int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4/2;
-				Log.d("minSlide", "" + minSlide);
+				int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4;
 				if(Math.abs(distanceX) < minSlide && Math.abs(event.getX() - downX) < minSlide){
-					if(Math.abs(event.getY() - downY) > minSlide * 6){
+					if(event.getY() - downY > minSlide * 6){
 						extendView();
 					}
 				}
@@ -854,18 +932,25 @@ public class MPager extends RelativeLayout{
 	}
 	
 	class CollapseGestureListenner extends GestureDetector.SimpleOnGestureListener{
+		boolean isDown = false;
+		int distance = 0;
+		int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4/2;
+		
+		
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
 
 			Log.d("Fling", "" + velocityY);
-			if(velocityY < -5000){
+			if(velocityY < -minSlide && scrollView.isReachBottom()){
 				scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());
 				isOpenCollapse = true;
 				collapseView();
 			}
 			return true;
 		}
+		
+		
 	}
 	
 	private float angle(){

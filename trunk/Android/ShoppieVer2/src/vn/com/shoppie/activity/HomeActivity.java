@@ -32,6 +32,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -39,7 +40,6 @@ import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.gson.Gson;
@@ -91,8 +91,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 			@Override
 			public void onExtend(View v) {
-				isChecked = false;
-				setCheckIn(isChecked);
+				hideCheckin();
 				adapter.hideBottom();
 			}
 
@@ -104,6 +103,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			@Override
 			public void onFinishCollapse(View v) {
 				adapter.showBottom();
+				showCheckin();
 			}
 		});
 
@@ -420,8 +420,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 			final RotateAnimation anim1 = new RotateAnimation(0, angle,
 					checkinCircle.getWidth() / 2, checkinCircle.getHeight() / 2);
 
-			anim.setDuration(angle * 15);
-			anim1.setDuration(angle * 15);
+			anim.setDuration(angle * 7);
+			anim1.setDuration(angle * 7);
 
 			anim.setInterpolator(new Interpolator() {
 
@@ -453,5 +453,19 @@ public class HomeActivity extends VisvaAbstractActivity {
 		} else {
 			checkinCircle.clearAnimation();
 		}
+	}
+	
+	private void hideCheckin() {
+		View v = findViewById(R.id.checkin_layout);
+		MarginLayoutParams params = (MarginLayoutParams) v.getLayoutParams();
+		params.height = (int) getResources().getDimension(R.dimen.footer_height);
+		v.setLayoutParams(params);
+	}
+	
+	private void showCheckin() {
+		View v = findViewById(R.id.checkin_layout);
+		MarginLayoutParams params = (MarginLayoutParams) v.getLayoutParams();
+		params.height = (int) getResources().getDimension(R.dimen.checkin_cirle);
+		v.setLayoutParams(params);
 	}
 }

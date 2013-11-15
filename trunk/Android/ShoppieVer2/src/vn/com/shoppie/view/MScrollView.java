@@ -9,6 +9,7 @@ import android.widget.ScrollView;
 public class MScrollView extends ScrollView{
 	private OnReachBottom onReachBottom;
 	private boolean stopScroll = false;
+	private boolean isReachBottom = false;
 	
 	public MScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -51,6 +52,10 @@ public class MScrollView extends ScrollView{
 				if(onReachBottom != null)
 					onReachBottom.onReachBottom();
 			}
+			if(diff < 3)
+				isReachBottom = true;
+			else
+				isReachBottom = false;
 		}
 		super.onScrollChanged(l, t, oldl, oldt);
 	}
@@ -65,6 +70,10 @@ public class MScrollView extends ScrollView{
 
 	public void setStopScroll(boolean stopScroll) {
 		this.stopScroll = stopScroll;
+	}
+
+	public boolean isReachBottom() {
+		return isReachBottom;
 	}
 
 	interface OnReachBottom{

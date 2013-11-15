@@ -128,8 +128,6 @@ public abstract class VisvaAbstractActivity extends Activity {
 	public void onClickSearchActivity(View v) {
 		gotoActivity(self, SearchActivity.class);
 	}
-
-	
 	
 	public void changeToActivity(Intent intent, boolean isFinish) {
 		startActivity(intent);

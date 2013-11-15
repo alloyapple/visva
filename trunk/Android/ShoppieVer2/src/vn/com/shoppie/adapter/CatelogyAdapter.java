@@ -2,6 +2,8 @@ package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
 
+import com.nineoldandroids.animation.ObjectAnimator;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.util.CoverLoader;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,11 +50,13 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			
 			TextView  title    = (TextView) v.findViewById(R.id.catelogy);
 			TextView  subTitle = (TextView) v.findViewById(R.id.subcatelogy);
+			TextView  tvCount = (TextView) v.findViewById(R.id.count);
 			View 	  icon     = v.findViewById(R.id.icon);
 			ImageView image    = (ImageView) v.findViewById(R.id.image);
-
+			
 			title.setText(data.get(position).getMerchCatName());
 			subTitle.setText(data.get(position).getMerchCatDesc());
+			tvCount.setText("" + data.get(position).getCampaignNumber());
 			
 			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon);
 			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image);
@@ -156,14 +161,16 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	public void showBottom() {
 		for(int i = 0 ; i < getCount() ; i++) {
 			View v = getView(i);
-			v.findViewById(R.id.image).setVisibility(View.VISIBLE);;
+			View bottom = v.findViewById(R.id.image);
+			bottom.setVisibility(View.VISIBLE);
+			ObjectAnimator.ofFloat(bottom, "alpha", 0 , 1f).setDuration(500).start();
 		}
 	}
 
 	@Override
 	public int getTitleHeight() {
 		// TODO Auto-generated method stub
-		return 0;
+		return (int) context.getResources().getDimension(R.dimen.page_item_icon_height);
 	}
 
 	@Override
