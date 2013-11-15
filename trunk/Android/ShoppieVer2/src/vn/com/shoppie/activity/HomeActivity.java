@@ -109,20 +109,20 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 		requestToGetCampainCategory();
 
-		requestupdateToGetMerchProducts("95", "148"/*
-													 * +mShopieSharePref.getCustId
-													 * ()
-													 */);
+		//requestupdateToGetMerchProducts("95", "148"/*
+		//											 * +mShopieSharePref.getCustId
+		//											 * ()
+		//											 */);
 
-		updateLuckyPie("95", "148"/*
-								 * +mShopieSharePref.getCustId ()
-								 */);
+		//updateLuckyPie("95", "148"/*
+		//						 * +mShopieSharePref.getCustId ()
+		//						 */);
 
-		requestGetMerchantStores("148"/** +mShopieSharePref.getCustId () */
-		);
+		//requestGetMerchantStores("148"/** +mShopieSharePref.getCustId () */
+		//);
 
-		requestToUpdateFriends("241"/** +mShopieSharePref.getCustId () */
-		);
+		//requestToUpdateFriends("241"/** +mShopieSharePref.getCustId () */
+		//);
 	}
 
 	private void requestToUpdateFriends(String string) {
