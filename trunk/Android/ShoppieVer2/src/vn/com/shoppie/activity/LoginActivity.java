@@ -504,11 +504,6 @@ public class LoginActivity extends ActivityShoppie {
 		}
 	}
 
-	private void showToast(final String str) {
-		// TODO Auto-generated method stub
-		Toast.makeText(LoginActivity.this, str, Toast.LENGTH_SHORT).show();
-	}
-
 	/**
 	 * Receiving push messages
 	 * */

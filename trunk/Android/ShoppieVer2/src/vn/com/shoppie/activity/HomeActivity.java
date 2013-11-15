@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.ShopieSharePref;
@@ -17,11 +18,15 @@ import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnStartExtend;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
@@ -34,9 +39,13 @@ import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
 import com.google.gson.Gson;
 
 public class HomeActivity extends VisvaAbstractActivity {
+	public static final int REQUEST_CODE_BLUETOOTH = 1;
 	private RelativeLayout actionBar;
 	private View checkinCircle;
 	private MPager pager;
@@ -44,6 +53,10 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private boolean isChecked = false;
 	private TextView mTxtTitle;
 	private ShopieSharePref mShopieSharePref;
+
+	// Google analysis
+	protected Tracker mGaTracker;
+	protected GoogleAnalytics mGaInstance;
 
 	@Override
 	public int contentView() {
@@ -85,7 +98,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 			@Override
 			public void onCollapse(View v) {
-				
+
 			}
 
 			@Override
@@ -114,7 +127,91 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void requestToUpdateFriends(String string) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	static int DURATION = 60;
+	public static boolean requesting = false;
+	Thread scanBluetooth = new Thread(new Runnable() {
+
+		@Override
+		public void run() {
+			requesting = true;
+			boolean isBlueOn = false;
+			BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+			isBlueOn = adapter.isEnabled();
+			int count = 0;
+			while (true) {
+				count++;
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+				if (count > DURATION) {
+					break;
+				}
+			}
+			if (!isBlueOn) {
+				adapter.disable();
+			}
+			requesting = false;
+		}
+	});
+
+	protected void onActivityResult(int req, int res, Intent data) {
+		super.onActivityResult(req, res, data);
+		if (req == REQUEST_CODE_BLUETOOTH) {
+			String alert = "";
+			if (res == RESULT_CANCELED) {
+				alert = "Chưa thực hiện giao dịch checkin.";
+			} else {
+				alert = "Đang thực hiện giao dịch checkin.";
+			}
+			DialogUtility.alert(self, alert, new OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					// continue with delete
+					dialog.dismiss();
+				}
+			});
+		}
+	}
+
+	public void startBluetoothByIntent() {
+		// start Bluetooth by Intent
+		if (BluetoothAdapter.getDefaultAdapter() != null) {
+			if (BluetoothAdapter.getDefaultAdapter().getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+				Intent intent = new Intent(
+						BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+				intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
+						DURATION);
+				try {
+					startActivityForResult(intent, REQUEST_CODE_BLUETOOTH);
+					if (!requesting)
+						try {
+							scanBluetooth.start();
+						} catch (IllegalStateException e) {
+						}
+				} catch (IllegalThreadStateException e) {
+					showToast("Chưa thể thực hiện checkin. Bạn hãy thử lại!");
+				}
+			}
+
+		}
+
+	}
+
+	public void onClickCheckin(View v) {
+		super.mGaTracker.sendEvent(getString(R.string.ca_button),
+				getString(R.string.ac_press), "btn_pie",
+				System.currentTimeMillis());
+		startBluetoothByIntent();
+		GA_MAP_PARAMS.clear();
+		GA_MAP_PARAMS.put("method", "btnClicked");
+		GA_MAP_PARAMS.put("button", "activity_home_btn_pie");
+		mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 	}
 
 	private void requestGetMerchantStores(String custId) {
@@ -193,7 +290,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void setAdapter(ArrayList<MerchantCategoryItem> data) {
 		adapter = new CatelogyAdapter(this, data);
-		for(int i = 0 ; i < 10 ; i++) {
+		for (int i = 0; i < 10; i++) {
 			pager.setAdapter(adapter);
 		}
 
@@ -235,8 +332,10 @@ public class HomeActivity extends VisvaAbstractActivity {
 							MerchProductList merchProductList = gson.fromJson(
 									jsonObject.toString(),
 									MerchProductList.class);
-							Log.e("merchantproductlist", "merchantproductlisdfdsfdt "
-									+ merchProductList.getResult().size());
+							Log.e("merchantproductlist",
+									"merchantproductlisdfdsfdt "
+											+ merchProductList.getResult()
+													.size());
 							for (int i = 0; i < merchProductList.getResult()
 									.size(); i++) {
 								Log.e("merchantproductlist",
@@ -244,7 +343,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 												+ merchProductList.getResult()
 														.get(i).getLongDesc());
 							}
-						} catch (JSONException e) {  
+						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}

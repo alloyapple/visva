@@ -1,32 +1,53 @@
 package vn.com.shoppie.activity;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.database.sobject.User;
+import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.util.VisvaDialog;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
+
 public abstract class VisvaAbstractActivity extends Activity {
 	// abstract method
+	public static long LST_NOTIFY_TIME = 0;
+	public static final long THRE_NOTIFY_TIME = 5000; /* 5 seconds */
 
+	public static final String GA_HIT_TYPE_BUTTON = "button";
+	public static final String GA_EVENT = "event";
+	public static final String GA_EXCEPTION = "exception";
+	public static final String GA_SOCIAL = "social";
+	public static final String GA_VIEW = "view";
+	public HashMap<String, String> GA_MAP_PARAMS = new HashMap<String, String>();
 	private LinearLayout container;
 	protected VisvaDialog progressDialog;
 	protected VisvaAbstractActivity self;
 	protected static String TAG = "";
+	public String Tag = this.getClass().getName();
+	// Google analysis
+	protected Tracker mGaTracker;
+	protected GoogleAnalytics mGaInstance;
+	
+	public static Toast mToast;
+
+	//SBroastcastProvider broastcast = new SBroastcastProvider(this);
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -57,11 +78,42 @@ public abstract class VisvaAbstractActivity extends Activity {
 		} catch (Exception e) {
 
 		}
+		// Get the intent that started this Activity.
+		Intent intent = this.getIntent();
+		Uri uri = intent.getData();
 
+		// Get the GoogleAnalytics singleton. Note that the SDK uses
+		// the application context to avoid leaking the current context.
+		mGaInstance = GoogleAnalytics.getInstance(this);
+
+		// Use the GoogleAnalytics singleton to get a Tracker.
+		mGaTracker = mGaInstance
+				.getTracker(getString(R.string.ga_trackingId)); // Placeholder
+																// tracking
+																// ID.
+
+		if (intent.getData() != null) {
+			EasyTracker.getTracker().setCampaign(uri.getPath());
+		}
+
+		if (uri != null) {
+			if (uri.getQueryParameter("utm_source") != null) {
+				EasyTracker.getTracker().setCampaign(uri.getPath());
+			} else if (uri.getQueryParameter("referrer") != null) {
+				EasyTracker.getTracker().setReferrer(
+						uri.getQueryParameter("referrer"));
+			}
+		}
+		setOnBroastcast(this);
 		registerBaseActivityReceiver();
 		setContentView(R.layout.abstract_activity);
 		init();
 		onCreate();
+	}
+
+	private void setOnBroastcast(VisvaAbstractActivity visvaAbstractActivity) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void init() {
@@ -71,12 +123,14 @@ public abstract class VisvaAbstractActivity extends Activity {
 		View view = inflater.inflate(contentView(), container, false);
 
 		container.addView(view, -1, -1);
-	}  
+	}
 
 	public void onClickSearchActivity(View v) {
 		gotoActivity(self, SearchActivity.class);
 	}
 
+	
+	
 	public void changeToActivity(Intent intent, boolean isFinish) {
 		startActivity(intent);
 		if (isFinish) {
@@ -340,9 +394,29 @@ public abstract class VisvaAbstractActivity extends Activity {
 		// TODO Auto-generated method stub
 		this.finish();
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		// LST_NOTIFY_TIME = 0;
+		//registerReceiver(broastcast.getBroastcast(), new IntentFilter(
+		//		GlobalValue.DISPLAY_MESSAGE_ACTION));
+	}
+	
+	protected void showLog() {
+		Log.i(Tag, "heap size: " + Debug.getNativeHeapSize());
+		Log.i(Tag, "heap size alloced: " + Debug.getNativeHeapAllocatedSize());
+		Log.i(Tag, "heap size free: " + Debug.getNativeHeapFreeSize());
+	}
+	
 	// =======================UPDATE MY LOCATION==================//
-
+	public void showToast(String text) {
+		if (mToast == null)
+			mToast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+		mToast.cancel();
+		mToast.setText(text);
+		mToast.show();
+	}
 }
