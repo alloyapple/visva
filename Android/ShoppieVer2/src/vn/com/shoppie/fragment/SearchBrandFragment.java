@@ -5,14 +5,15 @@ import java.util.Map;
 import java.util.Vector;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.activity.SearchActivity;
 import vn.com.shoppie.adapter.StoreAdapter;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -20,13 +21,13 @@ public class SearchBrandFragment extends FragmentBasic {
 	// =============================Constant Define=====================
 	// ============================Control Define =====================
 	// ============================Class Define =======================
-	private IOnClickShowStoreDetail mListener;
+	
 	// ============================Variable Define =====================
 
 	private ListView listView;
 	private Vector<String> nameList = new Vector<String>();
 	private Map<String, MerchantStoreItem> manageByName = new HashMap<String, MerchantStoreItem>();
-
+	private StoreAdapter adapter;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -43,7 +44,9 @@ public class SearchBrandFragment extends FragmentBasic {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
-				mListener.onClickViewStoreDetail(position);
+				Log.d("onClick", "" + position);
+				SearchActivity act = (SearchActivity) getActivity();
+				act.onClickViewStoreDetail(adapter.getItem(position));
 			}
 		});
 
@@ -51,9 +54,9 @@ public class SearchBrandFragment extends FragmentBasic {
 	}
 
 	public void setAdapter(Vector<MerchantStoreItem> data) {
-		StoreAdapter adapter = new StoreAdapter(getActivity(), data);
+		adapter = new StoreAdapter(getActivity() , data);
 		listView.setAdapter(adapter);
-
+		
 		nameList.clear();
 		manageByName.clear();
 		for (int i = 0; i < data.size(); i++) {
@@ -84,17 +87,4 @@ public class SearchBrandFragment extends FragmentBasic {
 		super.onResume();
 	}
 
-	public interface IOnClickShowStoreDetail {
-		public void onClickViewStoreDetail(int position);
-	}
-
-	public void setListener(IOnClickShowStoreDetail iOnClickShowStoreDetail) {
-		this.mListener = iOnClickShowStoreDetail;
-	}
-
-	public void updateUI(int position) {
-		// TODO Auto-generated method stub
-		Toast.makeText(getActivity(), "truyen cai " + position + " sang ",
-				Toast.LENGTH_SHORT).show();
-	}
 }

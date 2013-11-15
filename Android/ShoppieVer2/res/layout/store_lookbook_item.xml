@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/storedetail_item_width"
+    android:layout_height="@dimen/storedetail_item_height"
+    android:background="@android:color/white" >
+    <View 
+    	android:layout_width="match_parent"
+    	android:layout_height="@dimen/storedetail_item_width"
+    	android:id="@+id/image"
+        />
+    <TextView 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
+    	android:layout_marginTop="@dimen/page_item_catelogy_desc_margin_top"
+    	android:textSize="@dimen/page_item_catelogy_desc_textsize"
+    	android:layout_below="@id/image"
+    	android:id="@+id/name"
+    	android:text="Áo sơ mi nữ sọc cổ lá sen"
+    	android:textColor="#2A5C72"
+        />
+    <TextView 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="5dp"
+    	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
+    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
+    	android:textColor="@android:color/darker_gray"
+    	android:layout_below="@id/name"
+    	android:id="@+id/desc"
+    	android:text="aisufweavksjv bxkvhewgiuaywg ksadjhfksdahfk asjhwieutyksdja"
+        />
+	<TextView
+	    android:id="@+id/count" 
+	    android:layout_width="@dimen/page_item_count_width"
+    	android:layout_height="@dimen/page_item_count_height"
+    	android:layout_alignParentRight="true"
+    	android:background="@drawable/ic_head_center02"
+	    />
+	
+</RelativeLayout>
