@@ -18,9 +18,9 @@ import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.database.sobject.MerchantStoreList;
 import vn.com.shoppie.fragment.SearchBrandDetailFragment;
+import vn.com.shoppie.fragment.SearchBrandDetailFragment.IOnClickShowStoreDetail;
 import vn.com.shoppie.fragment.SearchBrandFragment;
 import vn.com.shoppie.fragment.SearchMapFragment;
-import vn.com.shoppie.fragment.SearchBrandFragment.IOnClickShowStoreDetail;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
@@ -34,6 +34,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -83,7 +85,7 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 		mSearchMapFragment = (SearchMapFragment) mFmManager
 				.findFragmentById(R.id.search_map_fragment);
 
-		mSearchBrandFragment.setListener(this);
+		mSearchBrandDetailFragment.setListener(this);
 		showFragment(SEARCH_BRAND_FRAGMENT_ID);
 		mTransaction = hideFragment();
 		mTransaction.show(mSearchBrandFragment);
@@ -234,6 +236,14 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 		
 		CatelogyIconAdapter adapter = new CatelogyIconAdapter(this , catelogyList);
 		mTitleSearchListView.setAdapter(adapter);
+		mTitleSearchListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				setDataByIcon(iconDataList.get(position));
+			}
+		});
 		
 		ShopieSharePref mShopieSharePref = new ShopieSharePref(this);
 		requestGetMerchantStores(String.valueOf(mShopieSharePref.getCustId()));
@@ -336,10 +346,11 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
 	}
 
+
 	@Override
-	public void onClickViewStoreDetail(int position) {
+	public void onClickViewStoreDetail(MerchantStoreItem store) {
 		// TODO Auto-generated method stub
 		showFragment(SEARCH_BRAND_DETAIL_FRAGMENT_ID);
-		mSearchBrandFragment.updateUI(position);
+		mSearchBrandDetailFragment.updateUI(store);
 	}
 }

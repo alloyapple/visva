@@ -56,6 +56,11 @@
     <dimen name="collectiondetail_item_height">409dp</dimen>
     <dimen name="collectiondetail_item_type1_bottom">99dp</dimen>
     <dimen name="collectiondetail_item_type1_imgheight">310dp</dimen>
+    
+    <dimen name="storedetail_item_width">310dp</dimen>
+    <dimen name="storedetail_item_height">457dp</dimen>
+    <dimen name="storedetail_item_image_height">310dp</dimen>
+    
     <!-- Shoppie 4 -->
     <integer name="display_width">400</integer>
     <integer name="display_height">400</integer>
