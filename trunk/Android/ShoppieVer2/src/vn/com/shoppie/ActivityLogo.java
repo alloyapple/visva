@@ -82,7 +82,7 @@ public class ActivityLogo extends Activity {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 		@SuppressWarnings("unused")
 		Notification noti = mBuilder.build();
-		mBuilder.setSmallIcon(R.drawable.ic_launcher);
+		mBuilder.setSmallIcon(R.drawable.icon_launcher);
 		mBuilder.setContentTitle("Shoppie");
 		mBuilder.setContentText("Detail message");
 

@@ -1,6 +1,7 @@
 package vn.com.shoppie.fragment;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,5 +24,10 @@ public class HistoryTradeFragment extends FragmentBasic {
 	@Override
 	public void onResume() {
 		super.onResume();
+	}
+
+	public void updatePie(HistoryTransactionList historyTransactionList) {
+		// TODO Auto-generated method stub
+		
 	}
 }

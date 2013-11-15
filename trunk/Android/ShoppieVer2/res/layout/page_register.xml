@@ -4,11 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:background="@color/actionbar_background"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/actionbar_icon"
+            android:layout_width="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_height"
+            android:background="@color/actionbar_item_background"
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:onClick="onClickSearchActivity"
+            android:src="@drawable/ic_location" >
+        </ImageButton>
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#00212e"
-        android:paddingTop="100dp" >
+        android:paddingTop="10dp" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -19,7 +37,28 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_shoppie"
+                android:text="@string/introduct_code"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/introduce_code_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_introduce"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/introduct_tip"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register_by"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -30,71 +69,138 @@
                 android:layout_marginTop="20dp" >
 
                 <Button
+                    android:id="@+id/login_fb_button"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:background="@drawable/img_login"
-                    android:contentDescription="@string/KEY_TAG_TAB"
-                    android:paddingLeft="50dp"
-                    android:paddingRight="5dp"
-                    android:text="Login with Facebook"
-                    android:textColor="#fff" />
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/btn_register_fb"
+                    android:onClick="onFBLogin" >
+                </Button>
 
-                <com.facebook.widget.LoginButton
-                    android:id="@+id/login_button"
-                    android:layout_width="fill_parent"
+                <Button
+                    android:id="@+id/login_shoppie_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:onClick="onFBLogin"
-                    android:gravity="center" >
-                </com.facebook.widget.LoginButton>
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/btn_register_shoppie"
+                    android:onClick="onFBLogin" >
+                </Button>
             </RelativeLayout>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello_shoppie_2"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top|center_vertical"
+                android:background="@drawable/all_corner_button"
                 android:orientation="horizontal" >
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hello_shoppie_3"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
+                    android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+                    android:orientation="vertical" >
 
-               <EditText
-                    android:id="@+id/activity_register_edt_name"
-                    android:layout_width="fill_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/personal_detail_info_name"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/personal_detail_info_email"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/personal_detail_info_phone"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/personal_detail_info_address"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/personal_detail_info_birth"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/personal_detail_info_gender"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:paddingLeft="5dp"
-                    android:textColor="#fff" >
+                    android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
+                    android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+                    android:orientation="vertical" >
 
-                </EditText>
+                    <EditText
+                        android:id="@+id/txt_personal_register_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:inputType="text"
+                        android:text="Kieu Duc Thang"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:inputType="text"
+                        android:text="Kieu Duc Thang"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:inputType="text"
+                        android:text="Kieu Duc Thang"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:inputType="text"
+                        android:text="Kieu Duc Thang"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_birth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:inputType="text"
+                        android:text="Kieu Duc Thang"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <Spinner
+                        android:id="@+id/spin_personal_register_gender"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp" />
+                </LinearLayout>
             </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/activity_register_btn_register"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/img_login"
-                android:contentDescription="@string/KEY_TAG_TAB"
-                android:onClick="onClickedLogin" />
-
-            <TextView
-                android:id="@+id/tv_log"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>
 

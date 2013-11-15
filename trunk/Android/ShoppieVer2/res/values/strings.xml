@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="welcome_shoppie">Chào mừng bạn sử dụng hệ thống Shoppie!</string>
+
+    <string name="welcome_shoppie">Chào mừng bạn sử dụng hệ thống Shoppie!</string>
     <string name="btn_close">Close</string>
     <string name="btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
@@ -49,6 +50,10 @@
     <string name="hello_shoppie_3">Tên tài khoản:</string>
     <string name="update_profile">Cập nhật thông tin để nhận Quà và Mã thẻ nạp tiền điện thoại từ Shoppie</string>
     <string name="name_note_empty">Vui lòng nhập tên bạn nhé!</string>
+    <string name="introduct_code">Nhập mã giới thiệu nếu có</string>
+    <string name="introduct_tip">Chương trình giới thiệu shoppie.Người giới thiệu được tặng 30 Pie, bạn được tặng 15 Pie</string>
+    <string name="register_by">Đăng ký bằng</string>
+    <string name="register_tip">Bấm nút đăng ký này đồng nghĩa với việc bạn đồng ý Điều khoản và điều kiện sử dụng tại www.shoppie.com.vn</string>
 
     <!-- Shoppie3 -->
     <string name="fb_app_id">491369950945744</string>
