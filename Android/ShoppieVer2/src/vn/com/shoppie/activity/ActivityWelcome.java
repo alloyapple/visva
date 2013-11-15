@@ -220,9 +220,9 @@ public class ActivityWelcome extends Activity implements LocationListener,
 			// Device is already registered on GCM
 			if (GCMRegistrar.isRegisteredOnServer(this)) {
 				// Skips registration.
-				Toast.makeText(getApplicationContext(),
-						"Already registered with GCM", Toast.LENGTH_LONG)
-						.show();
+//				Toast.makeText(getApplicationContext(),
+//						"Already registered with GCM", Toast.LENGTH_LONG)
+//						.show();
 			} else {
 			}
 		}
