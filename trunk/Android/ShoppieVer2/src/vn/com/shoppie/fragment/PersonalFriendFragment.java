@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListFBFriendAdapter;
 import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
-import vn.com.shoppie.fragment.PersonalFriendFragment.onViewFriendDetail;
 import vn.com.shoppie.network.ParserUtility;
 import vn.com.shoppie.object.FBUser;
 import android.os.Bundle;
@@ -27,8 +26,6 @@ import com.facebook.Request;
 import com.facebook.Request.GraphUserListCallback;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
 public class PersonalFriendFragment extends FragmentBasic implements
@@ -41,10 +38,8 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	private ListView mFriendListView;
 	private RelativeLayout mLinearProgressBar;
 	// ============================Class Define =======================
-	private UiLifecycleHelper lifecycleHelper;
 	private ListFBFriendAdapter mListFBFriendAdapter;
 	// ============================Variable Define =====================
-	private boolean pickFriendsWhenSessionOpened;
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
 	private onViewFriendDetail mListener;
 
