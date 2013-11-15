@@ -8,8 +8,8 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:splitMotionEvents="false"
-        android:layout_marginBottom="@dimen/footer_height" />
+        android:layout_marginBottom="@dimen/footer_height"
+        android:splitMotionEvents="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,28 +43,37 @@
             android:text="@string/qua_tang"
             android:textColor="@android:color/darker_gray"
             android:textSize="20sp" />
-"
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/checkin_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/checkin_cirle"
+        android:gravity="center"
         android:layout_alignParentBottom="true" >
 
-        <View
-            android:id="@+id/checkin_circle"
-            android:layout_width="@dimen/checkin_cirle"
-            android:layout_height="@dimen/checkin_cirle"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/img_checkin_loading" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/checkin_cirle" >
 
-        <Button
-            android:id="@+id/checkin"
-            android:layout_width="@dimen/checkin_button"
-            android:layout_height="@dimen/checkin_button"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            android:onClick="onClick" />
-    </RelativeLayout>
+            <View
+                android:id="@+id/checkin_circle"
+                android:layout_width="@dimen/checkin_cirle"
+                android:layout_height="@dimen/checkin_cirle"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/img_checkin_loading" />
+
+            <Button
+                android:id="@+id/checkin"
+                android:layout_width="@dimen/checkin_button"
+                android:layout_height="@dimen/checkin_button"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:onClick="onClick"
+                android:text="Check in"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

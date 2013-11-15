@@ -31,6 +31,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	public static final String  CAMPAIGN_ID_KEY = "campaign_id";
 	public static final String  CUSTOMER_ID_KEY = "cuttomer_id";
+	public static final String  LUCKY_PIE_KEY = "lucky_pie";
 	
 	private String camId  = "";
 	private String custId = "";

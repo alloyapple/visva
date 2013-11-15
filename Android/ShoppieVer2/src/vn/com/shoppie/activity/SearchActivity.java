@@ -1,16 +1,31 @@
 package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.adapter.CatelogyIconAdapter;
+import vn.com.shoppie.database.sobject.MerchantCategoryItem;
+import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.fragment.SearchBrandDetailFragment;
 import vn.com.shoppie.fragment.SearchBrandFragment;
 import vn.com.shoppie.fragment.SearchMapFragment;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.HorizontalListView;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -39,6 +54,7 @@ public class SearchActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_search_activity);
 
+		Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
 		intialize();
 	}
 
@@ -59,6 +75,8 @@ public class SearchActivity extends FragmentActivity {
 		mTransaction.show(mSearchBrandFragment);
 		addToSBackStack(SEARCH_BRAND_FRAGMENT_STRING);
 		mTransaction.commit();
+		
+		requestToGetCampainCategory();
 	}
 
 	private void addToSBackStack(String tag) {
@@ -173,4 +191,40 @@ public class SearchActivity extends FragmentActivity {
 		mTransaction.commitAllowingStateLoss();
 	}
 
+	private void setIconAdapter(ArrayList<MerchantCategoryItem> catelogyList) {
+		CatelogyIconAdapter adapter = new CatelogyIconAdapter(this , catelogyList);
+		mTitleSearchListView.setAdapter(adapter);
+	}
+	
+	private void requestToGetCampainCategory() {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.getMerchantCategoryValue();
+		AsyncHttpPost postCampaignCategory = new AsyncHttpPost(
+				SearchActivity.this, new AsyncHttpResponseProcess(
+						SearchActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							MerchantCategoryList merchantCategoryList = gson
+									.fromJson(jsonObject.toString(),
+											MerchantCategoryList.class);
+							setIconAdapter(merchantCategoryList.getResult());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postCampaignCategory.execute(WebServiceConfig.URL_MERCHCAMPAIGNS);
+
+	}
 }
