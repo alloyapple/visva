@@ -203,7 +203,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	}
 
-	public void onClickCheckin(View v) {
+	private void onClickCheckin() {
 		super.mGaTracker.sendEvent(getString(R.string.ca_button),
 				getString(R.string.ac_press), "btn_pie",
 				System.currentTimeMillis());
@@ -211,7 +211,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		GA_MAP_PARAMS.clear();
 		GA_MAP_PARAMS.put("method", "btnClicked");
 		GA_MAP_PARAMS.put("button", "activity_home_btn_pie");
-		mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
+		//mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 	}
 
 	private void requestGetMerchantStores(String custId) {
@@ -397,9 +397,11 @@ public class HomeActivity extends VisvaAbstractActivity {
 			break;
 		case R.id.bt_quatang:
 			// goBack();
+			gotoActivity(HomeActivity.this, ActivityGiftTransaction.class);
 			pager.collapseView();
 			break;
 		case R.id.checkin:
+			onClickCheckin();
 			isChecked = !isChecked;
 			setCheckIn(isChecked);
 			break;

@@ -69,6 +69,10 @@
             android:name="vn.com.shoppie.activity.SearchActivity"
             android:screenOrientation="portrait" >
         </activity>
+         <activity
+            android:name="vn.com.shoppie.activity.ActivityGiftTransaction"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name="vn.com.shoppie.activity.ActivityWelcome"
             android:screenOrientation="portrait" >
