@@ -50,7 +50,8 @@ public class FacebookUser {
 			private String url;
 
 			public String getUrl() {
-				return url;
+				String _url = url.replace("_q", "_n");
+				return _url;
 			}
 
 			public void setUrl(String url) {
