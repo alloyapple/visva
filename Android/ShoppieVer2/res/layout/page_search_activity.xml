@@ -21,8 +21,8 @@
 
         <vn.com.shoppie.object.HorizontalListView
             android:id="@+id/list_title_search"
-            android:layout_width="@dimen/actionbar_height"
-             android:layout_height="@dimen/actionbar_height">
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/actionbar_height" >
         </vn.com.shoppie.object.HorizontalListView>
     </LinearLayout>
 
