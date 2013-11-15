@@ -79,46 +79,46 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		lifecycleHelper = new UiLifecycleHelper(getActivity(),
-				new Session.StatusCallback() {
-					@Override
-					public void call(Session session, SessionState state,
-							Exception exception) {
-						onSessionStateChanged(session, state, exception);
-					}
-
-					private void onSessionStateChanged(Session session,
-							SessionState state, Exception exception) {
-						// TODO Auto-generated method stub
-					}
-				});
-		lifecycleHelper.onCreate(savedInstanceState);
-		ensureOpenSession();
+//		lifecycleHelper = new UiLifecycleHelper(getActivity(),
+//				new Session.StatusCallback() {
+//					@Override
+//					public void call(Session session, SessionState state,
+//							Exception exception) {
+//						onSessionStateChanged(session, state, exception);
+//					}
+//
+//					private void onSessionStateChanged(Session session,
+//							SessionState state, Exception exception) {
+//						// TODO Auto-generated method stub
+//					}
+//				});
+//		lifecycleHelper.onCreate(savedInstanceState);
+//		ensureOpenSession();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		getFriends();
+		//getFriends();
 	}
 
-	private boolean ensureOpenSession() {
-		if (Session.getActiveSession() == null
-				|| !Session.getActiveSession().isOpened()) {
-			Session.openActiveSession(getActivity(), true,
-					new Session.StatusCallback() {
-						@Override
-						public void call(Session session, SessionState state,
-								Exception exception) {
-							onSessionStateChanged(session, state, exception);
-						}
-					});
-			return false;
-		}
-		return true;
-	}
+//	private boolean ensureOpenSession() {
+//		if (Session.getActiveSession() == null
+//				|| !Session.getActiveSession().isOpened()) {
+//			Session.openActiveSession(getActivity(), true,
+//					new Session.StatusCallback() {
+//						@Override
+//						public void call(Session session, SessionState state,
+//								Exception exception) {
+//							onSessionStateChanged(session, state, exception);
+//						}
+//					});
+//			return false;
+//		}
+//		return true;
+//	}
 
-	private void getFriends() {
+	public void getFriends() {
 		Session activeSession = Session.getActiveSession();
 		if (activeSession.getState().isOpened()) {
 			Request friendRequest = Request.newMyFriendsRequest(activeSession,
@@ -194,14 +194,14 @@ public class PersonalFriendFragment extends FragmentBasic implements
 		}
 	}
 
-	private void onSessionStateChanged(Session session, SessionState state,
-			Exception exception) {
-		if (pickFriendsWhenSessionOpened && state.isOpened()) {
-			pickFriendsWhenSessionOpened = false;
-			Log.e("gdfsdaf", "adfdf");
-			getUserData(session);
-		}
-	}
+//	private void onSessionStateChanged(Session session, SessionState state,
+//			Exception exception) {
+//		if (pickFriendsWhenSessionOpened && state.isOpened()) {
+//			pickFriendsWhenSessionOpened = false;
+//			Log.e("gdfsdaf", "adfdf");
+//			getUserData(session);
+//		}
+//	}
 
 	private void getUserData(final Session session) {
 		Request request = Request.newMeRequest(session,
