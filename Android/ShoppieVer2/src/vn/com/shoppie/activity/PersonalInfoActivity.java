@@ -7,14 +7,6 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
-import com.google.gson.Gson;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
@@ -23,15 +15,15 @@ import vn.com.shoppie.fragment.FragmentPersonalInfo;
 import vn.com.shoppie.fragment.FriendDetailFragment;
 import vn.com.shoppie.fragment.HistoryTradeFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment;
-import vn.com.shoppie.fragment.PersonalFriendFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
+import vn.com.shoppie.fragment.PersonalFriendFragment;
 import vn.com.shoppie.fragment.PersonalFriendFragment.onViewFriendDetail;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FBUser;
+import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.webconfig.WebServiceConfig;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -40,6 +32,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.Request;
+import com.facebook.Request.GraphUserCallback;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
+import com.facebook.model.GraphUser;
+import com.google.gson.Gson;
 
 public class PersonalInfoActivity extends FragmentActivity implements
 		MainPersonalInfoListener, onViewFriendDetail {
@@ -56,7 +58,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private static final int FAVOURITE = 1004;
 	private static final int PERSONAL_INFO = 1005;
 	private static final int FRIEND_DETAIL = 1006;
-	private static final int REQ_NETWORK = 1;
 	// ===========================Control Define==================
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
@@ -74,14 +75,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private ArrayList<String> backstack = new ArrayList<String>();
 	private int custId;
 
-	private Session.StatusCallback callback = new Session.StatusCallback() {
-		@Override
-		public void call(final Session session, final SessionState state,
-				final Exception exception) {
-			onSessionStateChange(session, state, exception);
-		}
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -93,17 +86,13 @@ public class PersonalInfoActivity extends FragmentActivity implements
 					@Override
 					public void call(Session session, SessionState state,
 							Exception exception) {
-						Log.e("adkjdfh", "adkdjhf ");
-						onSessionStateChanged(session, state, exception);
+						// onSessionStateChange(session, state, exception);
+						updateUserInfo();
 					}
 
-					private void onSessionStateChanged(Session session,
-							SessionState state, Exception exception) {
-						// TODO Auto-generated method stub
-					}
 				});
 		lifecycleHelper.onCreate(savedInstanceState);
-		ensureOpenSession();
+		// ensureOpenSession();
 
 		mShopieSharePref = new ShopieSharePref(this);
 		setContentView(R.layout.page_personal_info);
@@ -112,24 +101,27 @@ public class PersonalInfoActivity extends FragmentActivity implements
 
 	}
 
-	private boolean ensureOpenSession() {
-		Log.e("addfjh", "adkjdfh ");
-		if (Session.getActiveSession() == null
-				|| !Session.getActiveSession().isOpened()) {
-			Session.openActiveSession(PersonalInfoActivity.this, true,
-					new Session.StatusCallback() {
-						@Override
-						public void call(Session session, SessionState state,
-								Exception exception) {
-							onSessionStateChange(session, state, exception);
-						}
-					});
-			return false;
-		}
-		return true;
-	}
+	// private boolean ensureOpenSession() {
+	// Log.e("addfjh", "adkjdfh "
+	// + (Session.getActiveSession() == null || !Session
+	// .getActiveSession().isOpened()));
+	// if (Session.getActiveSession() == null
+	// || !Session.getActiveSession().isOpened()) {
+	// Session.openActiveSession(PersonalInfoActivity.this, true,
+	// new Session.StatusCallback() {
+	// @Override
+	// public void call(Session session, SessionState state,
+	// Exception exception) {
+	// Log.e("run ládhf", "sđfjhh ");
+	// onSessionStateChange(session, state, exception);
+	// }
+	// });
+	// return false;
+	// }
+	// return true;
+	// }
 
-	private void requestToUpdateUserInfo(String custId) {
+	private void requestToUpdateUserPie(String custId) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
@@ -173,61 +165,75 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onSaveInstanceState(Bundle bundle) {
 		super.onSaveInstanceState(bundle);
-		lifecycleHelper.onSaveInstanceState(bundle);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		lifecycleHelper.onResume();
-		final Session session = Session.getActiveSession();
-		if (session == null || session.isClosed() || !session.isOpened()) {
-			lifecycleHelper = new UiLifecycleHelper(this, callback);
+		updateUserInfo();
+	}
+
+	private void updateUserInfo() {
+		// TODO Auto-generated method stub
+		Session activeSession = Session.getActiveSession();
+		Log.e("ddfjh", "asddfdfkjfd " + activeSession.getState().isOpened());
+		if (activeSession.getState().isOpened()) {
+			Request infoRequest = Request.newMeRequest(activeSession,
+					new GraphUserCallback() {
+
+						@Override
+						public void onCompleted(GraphUser user,
+								Response response) {
+							// TODO Auto-generated method stub
+							GraphObject graphObject = response.getGraphObject();
+
+							JSONObject jsonObject = graphObject
+									.getInnerJSONObject();
+							Gson gson = new Gson();
+							FacebookUser facebookUser = gson.fromJson(
+									jsonObject.toString(), FacebookUser.class);
+							mMainPersonalInfoFragment.updateUserInfo(facebookUser);
+							custId = mShopieSharePref.getCustId();
+							requestToUpdateUserPie("" + custId);
+
+						}
+					});
+			Bundle params = new Bundle();
+			params.putString("fields", "id, name, picture");
+			infoRequest.setParameters(params);
+			infoRequest.executeAsync();
 		}
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		lifecycleHelper.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		lifecycleHelper.onPause();
 	}
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		lifecycleHelper.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == REQ_NETWORK) {
-			// checkNetwork();
-		}
-	}
-
-	private void onSessionStateChange(final Session session,
-			SessionState state, Exception exception) {
-		if (session != null && session.isOpened()) {
-			Request request = Request.newMeRequest(session,
-					new Request.GraphUserCallback() {
-						@Override
-						public void onCompleted(GraphUser user,
-								Response response) {
-							if (session == Session.getActiveSession()) {
-								if (user != null) {
-									mMainPersonalInfoFragment
-											.updateUserInfo(user);
-									custId = mShopieSharePref.getCustId();
-									requestToUpdateUserInfo("" + custId);
-								}
-							}
-						}
-					});
-			request.executeAsync();
-		}
-
-	}
+	// private void onSessionStateChange(final Session session,
+	// SessionState state, Exception exception) {
+	// if (session != null && session.isOpened()) {
+	// Request request = Request.newMeRequest(session,
+	// new Request.GraphUserCallback() {
+	// @Override
+	// public void onCompleted(GraphUser user,
+	// Response response) {
+	// if (session == Session.getActiveSession()) {
+	// if (user != null) {
+	//
+	// }
+	// }
+	// }
+	// });
+	// request.executeAsync();
+	// }
+	//
+	// }
 
 	private void initialize() {
 		// TODO Auto-generated method stub
@@ -446,6 +452,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	public void onClickFriend() {
 		// TODO Auto-generated method stub
 		showFragment(PERSONAL_FRIEND);
+		mPersonalFriendFragment.getFriends();
 	}
 
 	@Override

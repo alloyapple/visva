@@ -13,7 +13,7 @@ public class FileCache {
 				android.os.Environment.MEDIA_MOUNTED))
 			cacheDir = new File(
 					android.os.Environment.getExternalStorageDirectory(),
-					"YQLTutorialCache");
+					"Shoppie");
 		else
 			cacheDir = context.getCacheDir();
 		if (!cacheDir.exists())

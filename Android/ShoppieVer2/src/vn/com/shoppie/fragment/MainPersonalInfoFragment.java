@@ -6,6 +6,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionItem;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
+import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.util.ImageLoader;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mTxtUserName = (TextView) v.findViewById(R.id.txt_personal_name);
 		mTxtUserNumberPie = (TextView) v
 				.findViewById(R.id.txt_personal_number_pie);
+		mImgAvatar = (ImageView)v.findViewById(R.id.img_avatar);
 		mLayoutFavouriteProduct = (LinearLayout) v
 				.findViewById(R.id.layout_fravourite_product);
 		mLayoutFeedback = (LinearLayout) v.findViewById(R.id.layout_feedback);
@@ -162,16 +164,17 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		this.mListener = listener;
 	}
 
-	public void updateUserInfo(GraphUser user) {
+	public void updateUserInfo(FacebookUser user) {
 		// TODO Auto-generated method stub
-		mImageLoader.DisplayImage(user.getLink(), mImgAvatar);
+		mImageLoader.DisplayImage(user.getPicture().getData().getUrl(), mImgAvatar);
+		Log.e("adkdfh", "sdjdhf "+user.getId());
 		mTxtUserName.setText(user.getName());
-		mTxtUserId.setText(mShopieSharePref.getCustId());
+		//mTxtUserId.setText(mShopieSharePref.getCustId());
 	}
 
 	public void updatePie(HistoryTransactionList historyTransactionList) {
 		// TODO Auto-generated method stub
 		HistoryTransactionItem historyTransactionItem = historyTransactionList.getResult().get(0);
-		mTxtUserNumberPie.setText(historyTransactionItem.getCurrentBal());
+		//mTxtUserNumberPie.setText(historyTransactionItem.getCurrentBal());
 	}
 }

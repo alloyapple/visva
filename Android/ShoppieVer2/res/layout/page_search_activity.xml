@@ -21,8 +21,8 @@
 
         <vn.com.shoppie.object.HorizontalListView
             android:id="@+id/list_title_search"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp" >
+            android:layout_width="@dimen/actionbar_height"
+             android:layout_height="@dimen/actionbar_height">
         </vn.com.shoppie.object.HorizontalListView>
     </LinearLayout>
 
@@ -40,18 +40,18 @@
             android:layout_height="@dimen/actionbar_height"
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_location"
             android:contentDescription="@string/KEY_TAG_TAB"
-            android:onClick="onClickBtnSearch" />
+            android:onClick="onClickBtnSearch"
+            android:src="@drawable/ic_location" />
 
         <ImageButton
             android:id="@+id/btn_search_icon"
             android:layout_width="@dimen/actionbar_height"
             android:layout_height="@dimen/actionbar_height"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_search"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/KEY_TAG_TAB" />
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:src="@drawable/ic_search" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -68,7 +68,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/actionbar_bottom"
-        android:layout_below="@id/actionbar_top" >
+        android:layout_below="@id/actionbar_top"
+        android:layout_marginLeft="@dimen/personal_info_margin_left"
+        android:layout_marginRight="@dimen/personal_info_margin_right"
+        android:layout_marginTop="@dimen/personal_info_margin_top" >
 
         <fragment
             android:id="@+id/search_brand_list_fragment"
