@@ -3,14 +3,24 @@ package vn.com.shoppie.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.activity.HomeActivity;
 import vn.com.shoppie.adapter.ListFBFriendAdapter;
 import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
+import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.database.sobject.MerchantStoreList;
+import vn.com.shoppie.database.sobject.UserInfo;
+import vn.com.shoppie.database.sobject.UserInfoList;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.network.ParserUtility;
 import vn.com.shoppie.object.FBUser;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +37,7 @@ import com.facebook.Request.GraphUserListCallback;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
+import com.google.gson.Gson;
 
 public class PersonalFriendFragment extends FragmentBasic implements
 		InviteFriendJoinSPInterface {
@@ -39,6 +50,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	private RelativeLayout mLinearProgressBar;
 	// ============================Class Define =======================
 	private ListFBFriendAdapter mListFBFriendAdapter;
+	private ShopieSharePref mShopieSharePref;
 	// ============================Variable Define =====================
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
 	private onViewFriendDetail mListener;
@@ -60,11 +72,12 @@ public class PersonalFriendFragment extends FragmentBasic implements
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Log.e("adkjhdf", "asdfjf "+arg2);
+				Log.e("adkjhdf", "asdfjf " + arg2);
 				mListener.onClickViewFriendDetail(mListFriend.get(arg2));
 			}
 		});
-
+		
+		mShopieSharePref = new ShopieSharePref(getActivity());
 		mLinearProgressBar = (RelativeLayout) root
 				.findViewById(R.id.layout_progressBar);
 		mLinearProgressBar.setVisibility(View.VISIBLE);
@@ -74,44 +87,44 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		lifecycleHelper = new UiLifecycleHelper(getActivity(),
-//				new Session.StatusCallback() {
-//					@Override
-//					public void call(Session session, SessionState state,
-//							Exception exception) {
-//						onSessionStateChanged(session, state, exception);
-//					}
-//
-//					private void onSessionStateChanged(Session session,
-//							SessionState state, Exception exception) {
-//						// TODO Auto-generated method stub
-//					}
-//				});
-//		lifecycleHelper.onCreate(savedInstanceState);
-//		ensureOpenSession();
+		// lifecycleHelper = new UiLifecycleHelper(getActivity(),
+		// new Session.StatusCallback() {
+		// @Override
+		// public void call(Session session, SessionState state,
+		// Exception exception) {
+		// onSessionStateChanged(session, state, exception);
+		// }
+		//
+		// private void onSessionStateChanged(Session session,
+		// SessionState state, Exception exception) {
+		// // TODO Auto-generated method stub
+		// }
+		// });
+		// lifecycleHelper.onCreate(savedInstanceState);
+		// ensureOpenSession();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		//getFriends();
+		// getFriends();
 	}
 
-//	private boolean ensureOpenSession() {
-//		if (Session.getActiveSession() == null
-//				|| !Session.getActiveSession().isOpened()) {
-//			Session.openActiveSession(getActivity(), true,
-//					new Session.StatusCallback() {
-//						@Override
-//						public void call(Session session, SessionState state,
-//								Exception exception) {
-//							onSessionStateChanged(session, state, exception);
-//						}
-//					});
-//			return false;
-//		}
-//		return true;
-//	}
+	// private boolean ensureOpenSession() {
+	// if (Session.getActiveSession() == null
+	// || !Session.getActiveSession().isOpened()) {
+	// Session.openActiveSession(getActivity(), true,
+	// new Session.StatusCallback() {
+	// @Override
+	// public void call(Session session, SessionState state,
+	// Exception exception) {
+	// onSessionStateChanged(session, state, exception);
+	// }
+	// });
+	// return false;
+	// }
+	// return true;
+	// }
 
 	public void getFriends() {
 		Session activeSession = Session.getActiveSession();
@@ -180,6 +193,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 							mListFBFriendAdapter.updateFolderList(mListFriend);
 							if (mLinearProgressBar.getVisibility() == View.VISIBLE)
 								mLinearProgressBar.setVisibility(View.GONE);
+							updateListFriendFromSP(""+mShopieSharePref.getCustId());
 						}
 					});
 			Bundle params = new Bundle();
@@ -189,14 +203,52 @@ public class PersonalFriendFragment extends FragmentBasic implements
 		}
 	}
 
-//	private void onSessionStateChanged(Session session, SessionState state,
-//			Exception exception) {
-//		if (pickFriendsWhenSessionOpened && state.isOpened()) {
-//			pickFriendsWhenSessionOpened = false;
-//			Log.e("gdfsdaf", "adfdf");
-//			getUserData(session);
-//		}
-//	}
+	private void updateListFriendFromSP(String custId) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.updateFriends(custId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							UserInfoList userInfoList = gson.fromJson(
+									jsonObject.toString(), UserInfoList.class);
+							Log.e("merchantproductlist", "merchantproductlist "
+									+ userInfoList.getResult().size());
+							for (int i = 0; i < userInfoList.getResult().size(); i++) {
+								Log.e("merchantproductlist",
+										"merchantproductlist "
+												+ userInfoList.getResult().get(i)
+														.getCustName());
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_UPDATE_FRIENDS);
+	}
+
+	// private void onSessionStateChanged(Session session, SessionState state,
+	// Exception exception) {
+	// if (pickFriendsWhenSessionOpened && state.isOpened()) {
+	// pickFriendsWhenSessionOpened = false;
+	// Log.e("gdfsdaf", "adfdf");
+	// getUserData(session);
+	// }
+	// }
 
 	private void getUserData(final Session session) {
 		Request request = Request.newMeRequest(session,

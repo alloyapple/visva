@@ -1,11 +1,16 @@
 package vn.com.shoppie.fragment;
 
+import java.util.ArrayList;
+
 import vn.com.shoppie.R;
+import vn.com.shoppie.adapter.FriendDetailAdapter;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionItem;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.object.FacebookUser;
+import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.MyCircleImageView;
+import vn.com.shoppie.object.OneItem;
 import vn.com.shoppie.util.ImageLoader;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,12 +35,17 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private TextView mTxtUserName;
 	private TextView mTxtUserId;
 	private TextView mTxtUserNumberPie;
+	private HorizontalListView mFavouriteBrandList;
+	private HorizontalListView mFavouriteProductList;
 	// =========================Class Define --------------------
 	private MainPersonalInfoListener mListener;
 	private ImageLoader mImageLoader;
 	private ShopieSharePref mShopieSharePref;
-
+	private FriendDetailAdapter mFriendDetailAdapter;
 	// =========================Variable Define==================
+	private boolean isShowFavouriteProduct = false;
+	private boolean isShowFavouriteBrand = false;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -67,21 +77,37 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.findViewById(R.id.layout_history_trade);
 		mLayoutPersonalInfo = (LinearLayout) v.findViewById(R.id.layout_info);
 
+		mFavouriteBrandList = (HorizontalListView) v
+				.findViewById(R.id.favourite_brand_list);
+		mFavouriteProductList = (HorizontalListView) v
+				.findViewById(R.id.favourite_product_list);
+		mFriendDetailAdapter = new FriendDetailAdapter(getActivity(),
+				constructList());
+		mFavouriteBrandList.setAdapter(mFriendDetailAdapter);
+		mFavouriteProductList.setAdapter(mFriendDetailAdapter);
 		mLayoutFavouriteProduct.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mListener.onClickFavouriteProduct();
+				if (!isShowFavouriteProduct)
+					mFavouriteProductList.setVisibility(View.GONE);
+				else
+					mFavouriteProductList.setVisibility(View.VISIBLE);
+				isShowFavouriteProduct = !isShowFavouriteProduct;
 			}
 		});
 
 		mLayoutFrvouriteCategory.setOnClickListener(new View.OnClickListener() {
-
+ 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mListener.onClickFavouriteCategory();
+				if (!isShowFavouriteBrand)
+					mFavouriteBrandList.setVisibility(View.GONE);
+				else
+					mFavouriteBrandList.setVisibility(View.VISIBLE);
+				isShowFavouriteBrand = !isShowFavouriteBrand;
 			}
 		});
 
@@ -177,4 +203,26 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mTxtUserNumberPie.setText("Điểm tích lũy: "
 				+ historyTransactionItem.getCurrentBal());
 	}
+
+	private ArrayList<OneItem> constructList() {
+		ArrayList<OneItem> al = new ArrayList<OneItem>();
+
+		OneItem op = new OneItem(R.drawable.maison, "maison");
+		al.add(op);
+
+		OneItem op2 = new OneItem(R.drawable.dans, "dans");
+		al.add(op2);
+
+		OneItem op3 = new OneItem(R.drawable.dort, "dort");
+		al.add(op3);
+
+		OneItem op4 = new OneItem(R.drawable.garcon, "gar�on");
+		al.add(op4);
+
+		OneItem op5 = new OneItem(R.drawable.le, "le");
+		al.add(op5);
+
+		return al;
+	}
+
 }

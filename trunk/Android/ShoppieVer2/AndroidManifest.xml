@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    
+
     <!-- Creates a custom permission so only this app can receive its messages. -->
     <permission
         android:name="vn.com.shoppie.permission.C2D_MESSAGE"
@@ -67,9 +67,10 @@
         </activity>
         <activity
             android:name="vn.com.shoppie.activity.SearchActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysVisible" >
         </activity>
-         <activity
+        <activity
             android:name="vn.com.shoppie.activity.ActivityGiftTransaction"
             android:screenOrientation="portrait" >
         </activity>

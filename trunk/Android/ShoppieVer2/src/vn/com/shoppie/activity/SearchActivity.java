@@ -41,7 +41,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-public class SearchActivity extends FragmentActivity implements IOnClickShowStoreDetail{
+public class SearchActivity extends FragmentActivity implements
+		IOnClickShowStoreDetail {
 	// ==========================Constant Define=================
 	private static final String SEARCH_BRAND_FRAGMENT_STRING = "brand_fragment";
 	private static final String SEARCH_BRAND_DETAIL_FRAGMENT_STRING = "brand_detail_fragment";
@@ -63,6 +64,7 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 
 	private Map<MerchantCategoryItem, Vector<MerchantStoreItem>> manageData = new HashMap<MerchantCategoryItem, Vector<MerchantStoreItem>>();
 	private Vector<MerchantCategoryItem> iconDataList = new Vector<MerchantCategoryItem>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -76,7 +78,7 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 	private void intialize() {
 		// TODO Auto-generated method stub
 		mTitleSearchListView = (HorizontalListView) findViewById(R.id.list_title_search);
-				
+
 		mFmManager = getSupportFragmentManager();
 		mSearchBrandFragment = (SearchBrandFragment) mFmManager
 				.findFragmentById(R.id.search_brand_list_fragment);
@@ -91,24 +93,25 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 		mTransaction.show(mSearchBrandFragment);
 		addToSBackStack(SEARCH_BRAND_FRAGMENT_STRING);
 		mTransaction.commit();
-		
+
 		requestToGetCampainCategory();
 		edtSearch = (EditText) findViewById(R.id.edt_search);
 		edtSearch.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
@@ -141,6 +144,10 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 			}
 		} catch (IndexOutOfBoundsException e) {
 		}
+	}
+
+	public void onClickBtnSearchMap(View v) {
+		showFragment(SEARCH_MAP_FRAGMENT_ID);
 	}
 
 	private FragmentTransaction hideFragment() {
@@ -230,12 +237,14 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 	}
 
 	private void setIconAdapter(ArrayList<MerchantCategoryItem> catelogyList) {
-		for(int i = 0 ; i < catelogyList.size() ; i++) {
+		for (int i = 0; i < catelogyList.size(); i++) {
 			iconDataList.add(catelogyList.get(i));
 		}
-		
-		CatelogyIconAdapter adapter = new CatelogyIconAdapter(this , catelogyList);
+
+		CatelogyIconAdapter adapter = new CatelogyIconAdapter(this,
+				catelogyList);
 		mTitleSearchListView.setAdapter(adapter);
+
 		mTitleSearchListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -248,7 +257,7 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 		ShopieSharePref mShopieSharePref = new ShopieSharePref(this);
 		requestGetMerchantStores(String.valueOf(mShopieSharePref.getCustId()));
 	}
-	
+
 	private void requestToGetCampainCategory() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
@@ -280,30 +289,32 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 		postCampaignCategory.execute(WebServiceConfig.URL_MERCHCAMPAIGNS);
 
 	}
-	
+
 	private void setStoreData(ArrayList<MerchantStoreItem> data) {
 		manageData.clear();
-		for(int i = 0 ; i < iconDataList.size() ; i++) {
-			manageData.put(iconDataList.get(i), new Vector<MerchantStoreItem>());
+		for (int i = 0; i < iconDataList.size(); i++) {
+			manageData
+					.put(iconDataList.get(i), new Vector<MerchantStoreItem>());
 		}
-		
+
 		for (MerchantStoreItem merchantStoreItem : data) {
-			for (int i = 0; i < iconDataList.size() ; i++) {
-				if(iconDataList.get(i).getMerchCatId() == merchantStoreItem.getMerchCatId()) {
+			for (int i = 0; i < iconDataList.size(); i++) {
+				if (iconDataList.get(i).getMerchCatId() == merchantStoreItem
+						.getMerchCatId()) {
 					manageData.get(iconDataList.get(i)).add(merchantStoreItem);
 					break;
 				}
 			}
 		}
-		
-		if(iconDataList.size() > 0)
+
+		if (iconDataList.size() > 0)
 			setDataByIcon(iconDataList.get(0));
 	}
-	
+
 	public void setDataByIcon(MerchantCategoryItem icon) {
 		mSearchBrandFragment.setAdapter(manageData.get(icon));
 	}
-	
+
 	private void requestGetMerchantStores(String custId) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
@@ -323,14 +334,14 @@ public class SearchActivity extends FragmentActivity implements IOnClickShowStor
 							Log.e("merchantproductlist", "merchantproductlist "
 									+ merchantStoreList.getResult().size());
 							setStoreData(merchantStoreList.getResult());
-//							for (int i = 0; i < merchantStoreList.getResult()
-//									.size(); i++) {
-//								Log.e("merchantproductlist",
-//										"merchantproductlist "
-//												+ merchantStoreList.getResult()
-//														.get(i)
-//														.getMerchBanner());
-//							}
+							// for (int i = 0; i < merchantStoreList.getResult()
+							// .size(); i++) {
+							// Log.e("merchantproductlist",
+							// "merchantproductlist "
+							// + merchantStoreList.getResult()
+							// .get(i)
+							// .getMerchBanner());
+							// }
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
