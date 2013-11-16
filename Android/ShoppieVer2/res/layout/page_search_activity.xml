@@ -41,7 +41,7 @@
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
             android:contentDescription="@string/KEY_TAG_TAB"
-            android:onClick="onClickBtnSearch"
+            android:onClick="onClickBtnSearchMap"
             android:src="@drawable/ic_location" />
 
         <ImageButton

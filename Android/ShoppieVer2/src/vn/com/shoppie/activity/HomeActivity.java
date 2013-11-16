@@ -125,10 +125,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 		//);
 	}
 
-	private void requestToUpdateFriends(String string) {
-		// TODO Auto-generated method stub
-
-	}
 
 	static int DURATION = 60;
 	public static boolean requesting = false;

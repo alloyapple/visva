@@ -137,6 +137,13 @@
                     android:textColor="@color/black" />
             </LinearLayout>
 
+            <vn.com.shoppie.object.HorizontalListView
+                android:id="@+id/favourite_product_list"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/personal_friend_detail_favourite_height"
+                android:visibility="gone" >
+            </vn.com.shoppie.object.HorizontalListView>
+
             <LinearLayout
                 android:id="@+id/layout_fravourite_category"
                 android:layout_width="fill_parent"
@@ -161,6 +168,13 @@
                     android:textColor="@color/black" >
                 </TextView>
             </LinearLayout>
+
+            <vn.com.shoppie.object.HorizontalListView
+                android:id="@+id/favourite_brand_list"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/personal_friend_detail_favourite_height"
+                android:visibility="gone" >
+            </vn.com.shoppie.object.HorizontalListView>
 
             <LinearLayout
                 android:id="@+id/layout_personal_people"
