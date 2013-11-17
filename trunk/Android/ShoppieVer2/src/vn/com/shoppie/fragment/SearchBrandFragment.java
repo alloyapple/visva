@@ -62,8 +62,11 @@ public class SearchBrandFragment extends FragmentBasic {
 		for (int i = 0; i < data.size(); i++) {
 			String name = new String(data.get(i).getStoreName());
 			nameList.add(data.get(i).getStoreName());
-			manageByName.put(name, data.get(i));
+			if(manageByName.get(name) == null)
+				manageByName.put(name, data.get(i));
 		}
+		SearchActivity activity = (SearchActivity) getActivity();
+		activity.setPieMap(data);
 	}
 
 	public void filter(String content) {
