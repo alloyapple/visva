@@ -39,6 +39,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 public class SearchActivity extends FragmentActivity implements
@@ -84,9 +89,14 @@ public class SearchActivity extends FragmentActivity implements
 				.findFragmentById(R.id.search_brand_list_fragment);
 		mSearchBrandDetailFragment = (SearchBrandDetailFragment) mFmManager
 				.findFragmentById(R.id.search_brand_detail_fragment);
-		mSearchMapFragment = (SearchMapFragment) mFmManager
-				.findFragmentById(R.id.search_map_fragment);
 
+		mSearchMapFragment = (SearchMapFragment)
+        		mFmManager.findFragmentById(R.id.search_map_fragment);
+
+	    // Show the current location in Google Map        
+//		mSearchMapFragment.changeLocation(21.033333, 105.850000);		
+//		mSearchMapFragment.addMaker(21.033333, 105.850000, "+551", "test");
+		
 		mSearchBrandDetailFragment.setListener(this);
 		showFragment(SEARCH_BRAND_FRAGMENT_ID);
 		mTransaction = hideFragment();
@@ -363,5 +373,9 @@ public class SearchActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		showFragment(SEARCH_BRAND_DETAIL_FRAGMENT_ID);
 		mSearchBrandDetailFragment.updateUI(store);
+	}
+	
+	public void setPieMap(Vector<MerchantStoreItem> data) {
+		mSearchMapFragment.updatePie(data);
 	}
 }
