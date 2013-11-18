@@ -1,7 +1,11 @@
 package vn.com.shoppie.adapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.object.FBUser;
@@ -10,9 +14,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +23,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.RequestAsyncTask;
+import com.facebook.Response;
+import com.facebook.Session;
 
 public class ListFBFriendAdapter extends BaseAdapter {
-
 	private Context context;
 	private ArrayList<FBUser> mListFriend;
 	private InviteFriendJoinSPInterface mListener;
@@ -89,11 +98,12 @@ public class ListFBFriendAdapter extends BaseAdapter {
 			txtNumberPie.setText(mListFriend.get(position).getNumberPie());
 		} else
 			txtNumberPie.setVisibility(View.GONE);
-		
+
 		btnInvite.setFocusable(false);
 		imgPhoto.setFocusable(false);
-		
-		mImageLoader.DisplayImage(mListFriend.get(position).getUserAvatarLink(), imgPhoto);
+
+		mImageLoader.DisplayImage(
+				mListFriend.get(position).getUserAvatarLink(), imgPhoto);
 		return convertView;
 	}
 
@@ -111,30 +121,6 @@ public class ListFBFriendAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		mListFriend.add(friend);
 		notifyDataSetChanged();
-	}
-
-	private Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth,
-			int reqHeight, int orientation) {
-		// First decode with inJustDecodeBounds=true to check dimensions
-		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		Matrix mtx = new Matrix();
-		mtx.postRotate(orientation);
-		// BitmapFactory.decodeResource(res, resId, options);
-		BitmapFactory.decodeFile(filePath, options);
-
-		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, reqWidth,
-				reqHeight);
-		int width = options.outWidth;
-		int height = options.outHeight;
-		Log.e("width " + height, "width " + width);
-
-		// Decode bitmap with inSampleSize set
-		options.inJustDecodeBounds = false;
-		Log.e("orientation ", "orientation " + orientation);
-		return decodeBitmap(BitmapFactory.decodeFile(filePath, options),
-				orientation);
 	}
 
 	public static int calculateInSampleSize(BitmapFactory.Options options,
@@ -179,40 +165,6 @@ public class ListFBFriendAdapter extends BaseAdapter {
 		return BitmapFactory.decodeResource(res, resId, options);
 	}
 
-	private Bitmap decodeBitmap(Bitmap bitmap, int orientation) {
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		Matrix mtx = new Matrix();
-		mtx.postRotate(orientation);
-		return Bitmap.createBitmap(bitmap, 0, 0, width, height, mtx, true);
-	}
-
-	private int checkOrientation(Uri fileUri) {
-		int rotate = 0;
-		String imagePath = fileUri.getPath();
-		ExifInterface exif = null;
-		try {
-			exif = new ExifInterface(imagePath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // Since API Level 5
-		int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-				ExifInterface.ORIENTATION_NORMAL);
-		switch (orientation) {
-		case ExifInterface.ORIENTATION_ROTATE_270:
-			rotate = 270;
-			break;
-		case ExifInterface.ORIENTATION_ROTATE_180:
-			rotate = 180;
-			break;
-		case ExifInterface.ORIENTATION_ROTATE_90:
-			rotate = 90;
-			break;
-		}
-		return rotate;
-	}
-
 	public interface InviteFriendJoinSPInterface {
 		public void inviteFriendJoinSp(FBUser friend);
 	}
@@ -222,4 +174,5 @@ public class ListFBFriendAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		this.mListener = mInviteFriendJoinSPInterface;
 	}
+
 }

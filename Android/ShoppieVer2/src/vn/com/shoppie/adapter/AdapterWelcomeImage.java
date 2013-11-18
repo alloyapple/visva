@@ -113,4 +113,9 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	public interface OnWelcomeRegisterListener{
 		public void btnRegisterClick(View v,EditText name);
 	}
+	public void updateData(ArrayList<Integer> mData) {
+		// TODO Auto-generated method stub
+		this.data = mData;
+		notifyDataSetChanged();
+	}
 }

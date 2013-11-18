@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="@color/blue_layout" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="2dp"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:onClick="btnClicked"
+        android:singleLine="true"
+        android:text="CỬA HÀNG TẶNG ĐIỂM"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/layout_top_ll_left"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_blue"
+        android:clickable="true" 
+        android:onClick="btnClicked">
+
+        <ImageButton
+            android:id="@+id/layout_top_btn_left"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:scaleType="centerInside"
+            android:src="@drawable/new_back" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_top_ll_right"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_blue"
+        android:clickable="true" 
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/layout_top_btn_right"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:padding="5dp"
+            android:src="@drawable/ic_category" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/layout_top_tv_toptitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp"
+        android:layout_toLeftOf="@id/layout_top_ll_right"
+        android:layout_toRightOf="@id/layout_top_ll_left"
+        android:background="@drawable/ic_bg_search"
+        android:clickable="true"
+        android:gravity="left|center_vertical"
+        android:hint="Tìm cửa hàng"
+        android:onClick="btnClicked"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="#aa071b27"
+        android:textSize="20sp"
+        android:visibility="gone" >
+    </EditText>
+
+</RelativeLayout>

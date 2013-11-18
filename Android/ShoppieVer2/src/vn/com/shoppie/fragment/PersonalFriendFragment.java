@@ -276,11 +276,14 @@ public class PersonalFriendFragment extends FragmentBasic implements
 		// TODO Auto-generated method stub
 		Toast.makeText(getActivity(), "invite " + friend.getUserName(),
 				Toast.LENGTH_SHORT).show();
+		mListener.inviteFriendJoinSP(friend);
 
 	}
 
 	public interface onViewFriendDetail {
 		public void onClickViewFriendDetail(FBUser friend);
+		
+		public void inviteFriendJoinSP(FBUser friend);
 	}
 
 	public void setListener(onViewFriendDetail monVieFriendDetail) {

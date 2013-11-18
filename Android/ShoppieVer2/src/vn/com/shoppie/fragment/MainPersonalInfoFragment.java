@@ -12,6 +12,7 @@ import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.OneItem;
 import vn.com.shoppie.util.ImageLoader;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainPersonalInfoFragment extends FragmentBasic {
 
@@ -90,7 +92,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (!isShowFavouriteProduct)
+				if (isShowFavouriteProduct)
 					mFavouriteProductList.setVisibility(View.GONE);
 				else
 					mFavouriteProductList.setVisibility(View.VISIBLE);
@@ -99,11 +101,11 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		});
 
 		mLayoutFrvouriteCategory.setOnClickListener(new View.OnClickListener() {
- 
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (!isShowFavouriteBrand)
+				if (isShowFavouriteBrand)
 					mFavouriteBrandList.setVisibility(View.GONE);
 				else
 					mFavouriteBrandList.setVisibility(View.VISIBLE);
@@ -116,7 +118,11 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mListener.onClickFeedback();
+				showToast(getActivity().getString(R.string.feedback_content));
+				initShareItent(
+						getActivity().getString(R.string.feedback_subject),
+						getActivity().getString(R.string.feedback_content2),
+						getActivity().getString(R.string.feedback_send_to));
 			}
 		});
 		mLayoutFriend.setOnClickListener(new View.OnClickListener() {
@@ -170,10 +176,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	public interface MainPersonalInfoListener {
 		public void onClickPersonalInfo();
 
-		public void onClickFavouriteProduct();
-
-		public void onClickFavouriteCategory();
-
 		public void onClickHelp();
 
 		public void onClickHistoryTrade();
@@ -225,4 +227,21 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		return al;
 	}
 
+	private void showToast(String string) {
+		Toast.makeText(getActivity(), string, Toast.LENGTH_LONG).show();
+	}
+
+	private void initShareItent(String subject, String content, String email) {
+		Intent share = new Intent(android.content.Intent.ACTION_SEND);
+		share.setType("text/plain");
+		share.putExtra(Intent.EXTRA_SUBJECT, "" + subject);
+		share.putExtra(Intent.EXTRA_TEXT, "" + content);
+		share.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
+		// if (pFilePath != null)
+		// share.putExtra(Intent.EXTRA_STREAM,
+		// Uri.fromFile(new File(pFilePath)));
+		share.setType("vnd.android.cursor.dir/email");
+		startActivity(Intent.createChooser(share, "Select"));
+
+	}
 }

@@ -57,7 +57,7 @@ public class ActivityLogo extends Activity {
 		SettingPreference.setMem(this, 2);
 		
 		if (!SettingPreference.getFirstUse(this) && SettingPreference.getUserID(this) > 0) {
-			startActivity(new Intent(ActivityLogo.this, HomeActivity.class));
+			//startActivity(new Intent(ActivityLogo.this, HomeActivity.class));
 			ActivityLogo.this.finish();
 		} else {
 			//startActivity(new Intent(ActivityLogo.this, ActivityWelcome.class));
@@ -90,16 +90,16 @@ public class ActivityLogo extends Activity {
 		mBuilder.setNumber(++numberMessage);
 		// noti.sound=Uri.parse("android.resource://" + getPackageName() + "/" +
 		// R.raw.ting_ting );
-		Intent intent = new Intent(this, HomeActivity.class);
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		stackBuilder.addParentStack(ActivityLogo.class);
-		stackBuilder.addNextIntent(intent);
-		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-		mBuilder.setContentIntent(resultPendingIntent);
-		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		mBuilder.setAutoCancel(true);
+//		Intent intent = new Intent(this, HomeActivity.class);
+//		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//		stackBuilder.addParentStack(ActivityLogo.class);
+//		stackBuilder.addNextIntent(intent);
+//		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//		mBuilder.setContentIntent(resultPendingIntent);
+//		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//		mBuilder.setAutoCancel(true);
 
-		mNotificationManager.notify(notiId, mBuilder.build());
+//		mNotificationManager.notify(notiId, mBuilder.build());
 	}
 
 	public void showAnim() {
@@ -170,7 +170,7 @@ public class ActivityLogo extends Activity {
 					startActivity(new Intent(ActivityLogo.this, LoginActivity.class));
 					// ActivityLogo.this.finish();
 				} else {
-					startActivity(new Intent(ActivityLogo.this, HomeActivity.class));
+					//startActivity(new Intent(ActivityLogo.this, HomeActivity.class));
 					// ActivityLogo.this.finish();
 				}
 
@@ -210,7 +210,7 @@ public class ActivityLogo extends Activity {
 					startActivity(new Intent(ActivityLogo.this, ActivityWelcome.class));
 					// ActivityLogo.this.finish();
 				} else {
-					startActivity(new Intent(ActivityLogo.this, HomeActivity.class));
+					//startActivity(new Intent(ActivityLogo.this, HomeActivity.class));
 					// ActivityLogo.this.finish();
 				}
 

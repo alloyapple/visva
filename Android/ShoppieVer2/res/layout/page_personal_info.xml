@@ -58,7 +58,7 @@
             android:id="@+id/layout_personal_favourite"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="vn.com.shoppie.fragment.FavouriteFragment" />
+            class="vn.com.shoppie.fragment.HelpFragment" />
 
         <fragment
             android:id="@+id/layout_personal_history_trade"
