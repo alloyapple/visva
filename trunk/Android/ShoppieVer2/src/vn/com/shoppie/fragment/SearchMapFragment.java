@@ -2,15 +2,14 @@ package vn.com.shoppie.fragment;
 
 import java.util.Vector;
 
-import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Typeface;
 import android.util.Log;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,10 +19,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class SearchMapFragment extends SupportMapFragment{
+
 	// =============================Constant Define=====================
 	// ============================Control Define =====================
 	// ============================Class Define =======================
 	// ============================Variable Define =====================
+
 
 	private GoogleMap map;
 	
@@ -34,7 +35,9 @@ public class SearchMapFragment extends SupportMapFragment{
 		LatLng latLng = new LatLng(latitude, longitute); 
 		map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 	    map.animateCamera(CameraUpdateFactory.zoomTo(17));
+
 	}
+
 	
 	public void addMaker(double latitude , double longitute , String value , String name) {
 		// create marker
@@ -45,6 +48,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		 
 		// adding marker
 		getMap().addMarker(marker);
+
 	}
 	
 	private Bitmap createMakerIcon(int type , String value) {
@@ -105,4 +109,5 @@ public class SearchMapFragment extends SupportMapFragment{
 			count++;
 		}
 	}
+
 }

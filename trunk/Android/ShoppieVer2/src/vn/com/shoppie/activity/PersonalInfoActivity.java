@@ -1,6 +1,8 @@
 package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -8,11 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
-import vn.com.shoppie.fragment.FavouriteFragment;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
 import vn.com.shoppie.fragment.FriendDetailFragment;
+import vn.com.shoppie.fragment.HelpFragment;
 import vn.com.shoppie.fragment.HistoryTradeFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
@@ -33,8 +36,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Request.GraphUserCallback;
+import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -44,26 +49,31 @@ import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 
 public class PersonalInfoActivity extends FragmentActivity implements
-		MainPersonalInfoListener, onViewFriendDetail {
+		MainPersonalInfoListener, onViewFriendDetail
+		 {
 	// ==========================Constant Define=================
 	private static final String MAIN_PERSONAL_INFO_FRAGMENT = "main_info";
 	private static final String PERSONAL_FRIEND_FRAGMENT = "friend";
-	private static final String FAVOURITE_FRAGMENT = "favourite";
+	private static final String HELP_FRAGMENT = "favourite";
 	private static final String HISTORY_TRADE_FRAGMET = "history_trade";
 	private static final String FRAGMENT_PERSONAL_INFO = "personal_info";
 	private static final String FRIEND_DETAIL_FRAGMENT = "friend_detail";
 	private static final int MAIN_PERSONAL_INFO = 1001;
 	private static final int PERSONAL_FRIEND = 1002;
 	private static final int HISTORY_TRADE = 1003;
-	private static final int FAVOURITE = 1004;
+	private static final int HELP = 1004;
 	private static final int PERSONAL_INFO = 1005;
 	private static final int FRIEND_DETAIL = 1006;
+	private static final List<String> PERMISSIONS = Arrays
+			.asList("publish_actions");
+	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+
 	// ===========================Control Define==================
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
 	private FragmentPersonalInfo mFragmentPersonalInfo;
 	private HistoryTradeFragment mHistoryTradeFragment;
-	private FavouriteFragment mFavouriteFragment;
+	private HelpFragment mHelpFragment;
 	private FriendDetailFragment mFriendDetailFragment;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
@@ -74,6 +84,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	// =========================Variable Define==================
 	private ArrayList<String> backstack = new ArrayList<String>();
 	private int custId;
+	private boolean pendingPublishReauthorization = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -186,16 +197,18 @@ public class PersonalInfoActivity extends FragmentActivity implements
 								Response response) {
 							// TODO Auto-generated method stub
 							GraphObject graphObject = response.getGraphObject();
-
-							JSONObject jsonObject = graphObject
-									.getInnerJSONObject();
-							Gson gson = new Gson();
-							FacebookUser facebookUser = gson.fromJson(
-									jsonObject.toString(), FacebookUser.class);
-							mMainPersonalInfoFragment.updateUserInfo(facebookUser);
-							custId = mShopieSharePref.getCustId();
-							requestToUpdateUserPie("" + custId);
-
+							if (graphObject != null) {
+								JSONObject jsonObject = graphObject
+										.getInnerJSONObject();
+								Gson gson = new Gson();
+								FacebookUser facebookUser = gson.fromJson(
+										jsonObject.toString(),
+										FacebookUser.class);
+								mMainPersonalInfoFragment
+										.updateUserInfo(facebookUser);
+								custId = mShopieSharePref.getCustId();
+								requestToUpdateUserPie("" + custId);
+							}
 						}
 					});
 			Bundle params = new Bundle();
@@ -242,7 +255,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 				.findFragmentById(R.id.layout_personal_main_info);
 		mPersonalFriendFragment = (PersonalFriendFragment) mFmManager
 				.findFragmentById(R.id.layout_personal_friend);
-		mFavouriteFragment = (FavouriteFragment) mFmManager
+		mHelpFragment = (HelpFragment) mFmManager
 				.findFragmentById(R.id.layout_personal_favourite);
 		mFragmentPersonalInfo = (FragmentPersonalInfo) mFmManager
 				.findFragmentById(R.id.layout_personal_info_fragment);
@@ -290,12 +303,12 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTxtTitle.setText(getString(R.string.history_trade));
 			break;
 
-		case FAVOURITE:
+		case HELP:
 			mTransaction = hideFragment();
-			mTransaction.show(mFavouriteFragment);
-			addToSBackStack(FAVOURITE_FRAGMENT);
+			mTransaction.show(mHelpFragment);
+			addToSBackStack(HELP_FRAGMENT);
 			mTransaction.commit();
-			mTxtTitle.setText(getString(R.string.personal_favourite));
+			mTxtTitle.setText(getString(R.string.personal_help));
 			break;
 
 		case PERSONAL_INFO:
@@ -321,7 +334,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction = mFmManager.beginTransaction();
 		mTransaction.hide(mMainPersonalInfoFragment);
 		mTransaction.hide(mPersonalFriendFragment);
-		mTransaction.hide(mFavouriteFragment);
+		mTransaction.hide(mHelpFragment);
 		mTransaction.hide(mFragmentPersonalInfo);
 		mTransaction.hide(mHistoryTradeFragment);
 		mTransaction.hide(mFriendDetailFragment);
@@ -400,8 +413,8 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction.show(mPersonalFriendFragment);
 			mTxtTitle.setText(getString(R.string.personl_friend));
 			// mPersonalFriendFragment.
-		} else if (currentView.equals(FAVOURITE_FRAGMENT)) {
-			mTransaction.show(mFavouriteFragment);
+		} else if (currentView.equals(HELP_FRAGMENT)) {
+			mTransaction.show(mHelpFragment);
 			mTxtTitle.setText(getString(R.string.personal_favourite));
 			// mPersonalFriendFragment.
 		} else if (currentView.equals(HISTORY_TRADE_FRAGMET)) {
@@ -425,21 +438,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onClickFavouriteProduct() {
-		// TODO Auto-generated method stub
-		showFragment(FAVOURITE);
-	}
-
-	@Override
-	public void onClickFavouriteCategory() {
-		// TODO Auto-generated method stub
-		showFragment(FAVOURITE);
-	}
-
-	@Override
 	public void onClickHelp() {
 		// TODO Auto-generated method stub
-
+		showFragment(HELP);
 	}
 
 	@Override
@@ -458,7 +459,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onClickFeedback() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -468,4 +469,81 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mFriendDetailFragment.updateUser(friend);
 	}
 
+
+
+
+	private void inviteFBFriendJoinSP(FBUser friend) {
+		Session session = Session.getActiveSession();
+
+		if (session != null) {
+
+			// Check for publish permissions
+//			List<String> permissions = session.getPermissions();
+//			if (!isSubsetOf(PERMISSIONS, permissions)) {
+//				pendingPublishReauthorization = true;
+//				Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(
+//						this, PERMISSIONS);
+//				session.requestNewPublishPermissions(newPermissionsRequest);
+//				return;
+//			}
+
+			Bundle postParams = new Bundle();
+			postParams.putString("name", "Shoppie");
+			postParams.putString("caption", "");
+			postParams.putString("description", getString(R.string.invitation_content,mShopieSharePref.getCustId()));
+			postParams
+					.putString(
+							"link",
+							"http://www.shoppie.com.vn/");
+			postParams
+					.putString("picture",
+							"http://farm4.staticflickr.com/3736/10907501955_f8724f3633_m.jpg");
+			//http://radio.vnmedia.vn/Uploads/Images/xcan-02-on%20rainy%20days.jpg
+			//	http://farm4.staticflickr.com/3736/10907501955_f8724f3633_m.jpg
+			Request.Callback callback = new Request.Callback() {
+				public void onCompleted(Response response) {
+					// JSONObject graphResponse = response.getGraphObject()
+					// .getInnerJSONObject();
+					// String postId = null;
+					// try {
+					// postId = graphResponse.getString("id");
+					// } catch (JSONException e) {
+					// Log.i("dfjdhf", "JSON error " + e.getMessage());
+					// }
+					// FacebookRequestError error = response.getError();
+					// if (error != null) {
+					// Toast.makeText(context, error.getErrorMessage(),
+					// Toast.LENGTH_SHORT).show();
+					// } else {
+					// Toast.makeText(context, postId, Toast.LENGTH_LONG)
+					// .show();
+					// }
+					Log.e("adkdfj", "ienjdh " + response.toString());
+				}
+			};
+
+			Request request = new Request(session, friend.getUserId()+"/feed", postParams,
+					HttpMethod.POST, callback);
+
+			RequestAsyncTask task = new RequestAsyncTask(request);
+			task.execute();
+		}
+
+	}
+
+	private boolean isSubsetOf(Collection<String> subset,
+			Collection<String> superset) {
+		for (String string : subset) {
+			if (!superset.contains(string)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public void inviteFriendJoinSP(FBUser friend) {
+		// TODO Auto-generated method stub
+		inviteFBFriendJoinSP(friend);
+	}
 }
