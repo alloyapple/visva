@@ -1,32 +1,35 @@
 package vn.com.shoppie.fragment;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Rect;
 import android.util.Log;
-
+import android.util.TypedValue;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class SearchMapFragment extends SupportMapFragment{
 
-	// =============================Constant Define=====================
-	// ============================Control Define =====================
-	// ============================Class Define =======================
-	// ============================Variable Define =====================
-
-
 	private GoogleMap map;
+	private Marker curMarker = null;
+	
+	private HashMap<Marker, MerchantStoreItem> manageStorebyMarker = new HashMap<Marker, MerchantStoreItem>();
 	
 	public void changeLocation(double latitude , double longitute) {
 		if(map == null)
@@ -35,19 +38,64 @@ public class SearchMapFragment extends SupportMapFragment{
 		LatLng latLng = new LatLng(latitude, longitute); 
 		map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 	    map.animateCamera(CameraUpdateFactory.zoomTo(17));
-
+	    map.setMyLocationEnabled(true);
+	    map.getUiSettings().setZoomControlsEnabled(true);
+	    map.getUiSettings().setMyLocationButtonEnabled(true);
+	    map.getUiSettings().setCompassEnabled(true);
+	    map.getUiSettings().setRotateGesturesEnabled(true);
+	    map.getUiSettings().setZoomGesturesEnabled(true);
+	    map.setOnMapClickListener(new OnMapClickListener() {
+			
+			@Override
+			public void onMapClick(LatLng arg0) {
+				// TODO Auto-generated method stub
+				if(curMarker != null) {
+					MerchantStoreItem store = manageStorebyMarker.get(curMarker);
+					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty())));
+					curMarker = null;
+				}
+			}
+		});
+	    map.setOnMarkerClickListener(new OnMarkerClickListener() {
+			
+			@Override
+			public boolean onMarkerClick(Marker marker) {
+				// TODO Auto-generated method stub
+				if(curMarker != null) {
+					MerchantStoreItem store = manageStorebyMarker.get(curMarker);
+					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty())));
+					curMarker = null;
+				}
+				else {
+					curMarker = marker;
+					MerchantStoreItem store = manageStorebyMarker.get(marker);
+					marker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIconDetail(0, "+" + store.getPieQty(), store.getStoreName(), store.getStoreAddress())));
+				}
+				return true;
+			}
+		});
+	}
+	
+	private void refreshMarker(Marker marker) {
+		
 	}
 
 	
-	public void addMaker(double latitude , double longitute , String value , String name) {
+	private Marker addMaker(double latitude , double longitute , String value , String name) {
 		// create marker
 		MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
 		 
 		// Changing marker icon
 		marker.icon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, value)));
-		 
+		
 		// adding marker
-		getMap().addMarker(marker);
+		return getMap().addMarker(marker);
+	}
+	
+	private void addMarker(MerchantStoreItem store) {
+		Marker maker = addMaker(Double.parseDouble(store.getLatitude()), Double.parseDouble(store.getLongtitude()), 
+				"+" + store.getPieQty(), store.getStoreName());
+		manageStorebyMarker.put(maker, store);
 
 	}
 	
@@ -55,11 +103,10 @@ public class SearchMapFragment extends SupportMapFragment{
 		Paint textPaint = new Paint();
 		textPaint.setAntiAlias(true);
 		textPaint.setTextAlign(Align.CENTER);
-//		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		textPaint.setColor(0xffffffff);
 		textPaint.setTextSize(30);
 		int width = (int) (textPaint.measureText(value) * 4f / 2f);
-		int height = (int) (width * 5f / 4f);
+		int height = (int) (width + getPixelByDp(5));
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		Paint paint = new Paint();
@@ -73,41 +120,80 @@ public class SearchMapFragment extends SupportMapFragment{
 		return bitmap;
 	}
 	
-	private Bitmap createMakerIcon1(int type , String value) {
+	private Bitmap createMakerIconDetail(int type , String value , String name , String ad) {
 		Paint textPaint = new Paint();
 		textPaint.setAntiAlias(true);
 		textPaint.setTextAlign(Align.CENTER);
-//		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		textPaint.setColor(0xffffffff);
 		textPaint.setTextSize(30);
+		
 		int width = (int) (textPaint.measureText(value) * 4f / 2f);
-		int height = (int) (width * 5f / 4f);
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+		int nameWidth = Math.min((int) (textPaint.measureText(name)), width * 3);
+		int height = (int) (width + getPixelByDp(5));
+		Bitmap bitmap = Bitmap.createBitmap(width * 2 + nameWidth * 2, height, Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		Paint paint = new Paint();
 		paint.setStrokeWidth(3);
 		paint.setAntiAlias(true);
 		paint.setColor(0xffff0000);
-		canvas.drawCircle(width / 2, width / 2, width / 2, paint);
-		canvas.drawLine(width / 2, width, width / 2, height , paint);
-		canvas.drawText(value, width / 2, width / 2 + textPaint.getTextSize() / 3, textPaint);
+		
+		canvas.drawCircle(canvas.getWidth() / 2, width / 2, width / 2, paint);
+		canvas.drawCircle(canvas.getWidth() - width / 2, width / 2, width / 2, paint);
+		canvas.drawRect(new Rect(canvas.getWidth() / 2, 0, canvas.getWidth() - width / 2, width), paint);
+		canvas.drawLine(canvas.getWidth() / 2, width, canvas.getWidth() / 2, height , paint);
+		canvas.drawText(value, canvas.getWidth() / 2, width / 2 + textPaint.getTextSize() / 3, textPaint);
+		
+		String nameToDraw = "";
+		if(textPaint.measureText(name) <= nameWidth)
+			nameToDraw = name;
+		else {
+			for (int i = name.length() - 1; i >= 0; i--) {
+				if(textPaint.measureText(name.substring(0, i) + "...") <= nameWidth) {
+					nameToDraw = name.substring(0, i) + "...";
+					break;
+				}
+			}
+		}
+		textPaint.setTextAlign(Align.LEFT);
+		canvas.drawText(nameToDraw, canvas.getWidth() / 2 + width / 2, width * 2 / 7 + textPaint.getTextSize() / 3, textPaint);
+		
+		String adToDraw = "";
+		textPaint.setTextSize(20);
+		if(textPaint.measureText(ad) <= nameWidth)
+			adToDraw = ad;
+		else {
+			for (int i = ad.length() - 1; i >= 0; i--) {
+				if(textPaint.measureText(ad.substring(0, i) + "...") <= nameWidth) {
+					adToDraw = ad.substring(0, i) + "...";
+					break;
+				}
+			}
+		}
+		textPaint.setTextAlign(Align.LEFT);
+		canvas.drawText(adToDraw, canvas.getWidth() / 2 + width / 2, width * 3 / 4 + textPaint.getTextSize() / 3, textPaint);
 		
 		return bitmap;
 	}
 	
 	public void updatePie(Vector<MerchantStoreItem> data) {
-		Log.d("Pie", "Start");
-//		getMap().clear();
+		manageStorebyMarker.clear();
+		curMarker = null;
+		getMap().clear();
 		
 		int count = 0;
 		for (MerchantStoreItem merchantStoreItem : data) {
 			if(count == 0)
 				changeLocation(Double.parseDouble(merchantStoreItem.getLatitude()), Double.parseDouble(merchantStoreItem.getLongtitude()));
 			Log.d("Pie", "" + merchantStoreItem.getLatitude() + " : " + merchantStoreItem.getLongtitude());
-			addMaker(Double.parseDouble(merchantStoreItem.getLatitude()), Double.parseDouble(merchantStoreItem.getLongtitude()), 
-					"+" + merchantStoreItem.getPieQty(), merchantStoreItem.getStoreName());
+			addMarker(merchantStoreItem);
+			
 			count++;
 		}
 	}
-
+	
+	public int getPixelByDp(int dp) {
+		Resources r = getResources();
+		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+		return (int) px;
+	}
 }

@@ -32,12 +32,7 @@
     	android:text="Quán ăn, nhậu nhẹt"
     	android:textColor="@android:color/darker_gray"
 	    />
-	<TextView
-	    android:id="@+id/count" 
-	    android:layout_width="@dimen/page_item_count_width"
-    	android:layout_height="@dimen/page_item_count_height"
-    	android:layout_alignParentRight="true"
-    	android:background="#ff0000"
-	    />
+	<include 
+	    layout="@layout/count_layout"/>
 
 </RelativeLayout>
