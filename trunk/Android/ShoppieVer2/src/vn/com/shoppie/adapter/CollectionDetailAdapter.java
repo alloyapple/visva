@@ -166,7 +166,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 					}
 				});
 			}
-			else if(position < getCount() - 3){
+			else if(position <= getCount() - 3){
 				v.setOnClickListener(new OnClickListener() {
 					
 					@Override

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.adapter.ListCollectionAdapter;
+import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.MerchCampaignItem;
 import vn.com.shoppie.database.sobject.MerchCampaignList;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -47,7 +48,7 @@ public class CollectionList extends Activity{
 	
 	private ListView listView;
 	private ListCollectionAdapter adapter;
-	
+	private ShopieSharePref pref;
 	private static String listCampaignId[];
 	public static int curId = 0;
 	
@@ -61,6 +62,7 @@ public class CollectionList extends Activity{
 	}
 
 	private void init() {
+		pref = new ShopieSharePref(this);
 		
 		Bundle extras = getIntent().getExtras();
 		merchantId = extras.getString(KEY_MERCHANT_ID);
@@ -98,6 +100,8 @@ public class CollectionList extends Activity{
 					Log.d("CPAID", "" + adapter.getItem(curId).getCampaignId());
 					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_ID_KEY, "" + adapter.getItem(curId).getCampaignId());
 					intent.putExtra(CatelogyDetailActivity.CUSTOMER_ID_KEY, "148");
+					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_NAME_KEY, adapter.getItem(curId).getCampaignName());
+					
 					startActivity(intent);
 				}
 			}

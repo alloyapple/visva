@@ -16,25 +16,30 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
-import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
+	public static final String  CAMPAIGN_NAME_KEY = "campaign_name";
 	public static final String  CAMPAIGN_ID_KEY = "campaign_id";
 	public static final String  CUSTOMER_ID_KEY = "cuttomer_id";
 	public static final String  LUCKY_PIE_KEY = "lucky_pie";
 	
 	private String camId  = "";
 	private String custId = "";
+	private String camName = "";
 	
 	private MPager mPager;
 	private CollectionDetailAdapter adapter;
@@ -62,6 +67,19 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		Bundle extras = getIntent().getExtras();
 		camId = extras.getString(CAMPAIGN_ID_KEY);
 		custId = extras.getString(CUSTOMER_ID_KEY);
+		camName = extras.getString(CAMPAIGN_NAME_KEY);
+		
+		// setup actionbar
+		RelativeLayout actionBar = (RelativeLayout) findViewById(R.id.actionbar);
+		LayoutInflater inflater = LayoutInflater.from(this);
+		View v = inflater.inflate(R.layout.collection_detail_actionbar, null);
+
+		TextView mTxtTitle = (TextView) v.findViewById(R.id.title);
+		mTxtTitle.setTextSize(getResources().getDimension(
+				R.dimen.actionbar_title_textsize));
+		mTxtTitle.setText(camName);
+
+		actionBar.addView(v, -1, -1);
 		
 		requestupdateToGetMerchProducts(camId , custId);
 	}

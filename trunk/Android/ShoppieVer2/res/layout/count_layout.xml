@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/count" 
+	    android:layout_width="@dimen/page_item_count_width"
+    	android:layout_height="@dimen/page_item_count_height"
+    	android:layout_alignParentRight="true"
+    	android:background="@drawable/ic_head_center02"
+    	android:textSize="18sp"
+    	android:textColor="@android:color/white"
+    	android:paddingLeft="18dp"
+    	android:paddingTop="5dp"
+/>
