@@ -48,22 +48,27 @@
         	android:layout_marginTop="5dp"
         	android:id="@+id/bt_fb"
         	android:layout_below="@id/share"
+        	android:background="@drawable/icon_share_fb"
             />
         <Button 
             android:layout_width="30dp"
         	android:layout_height="30dp"
         	android:layout_marginTop="5dp"
+        	android:layout_marginLeft="5dp"
         	android:id="@+id/bt_mail"
         	android:layout_toRightOf="@id/bt_fb"
         	android:layout_below="@id/share"
+        	android:background="@drawable/icon_share_mail"
             />
         <Button 
             android:layout_width="30dp"
         	android:layout_height="30dp"
         	android:layout_marginTop="5dp"
+        	android:layout_marginLeft="5dp"
         	android:id="@+id/bt_sms"
         	android:layout_toRightOf="@id/bt_mail"
         	android:layout_below="@id/share"
+        	android:background="@drawable/icon_share_sms"
             />
     </RelativeLayout>
     <TextView 
@@ -120,4 +125,10 @@ Bodycon ra đời như là cách để phái đẹp phô diễn đường cong c
     	android:paddingTop="5dp"
 	    />
 
+    <vn.com.shoppie.view.MagicTextView
+        android:layout_width="@dimen/page_item_count_width"
+    	android:layout_height="@dimen/page_item_count_height"
+    	android:text="Mua - tặng" 
+    	android:textColor="#ff000000"
+        ></vn.com.shoppie.view.MagicTextView>
 </RelativeLayout>

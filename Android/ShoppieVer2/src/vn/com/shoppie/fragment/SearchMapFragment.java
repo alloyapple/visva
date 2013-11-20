@@ -1,32 +1,42 @@
 package vn.com.shoppie.fragment;
 
+import java.security.acl.LastOwnerException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import vn.com.shoppie.activity.SearchActivity;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
-import com.facebook.FacebookRequestError.Category;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 public class SearchMapFragment extends SupportMapFragment{
 
@@ -34,6 +44,17 @@ public class SearchMapFragment extends SupportMapFragment{
 	private Marker curMarker = null;
 	
 	private HashMap<Marker, MerchantStoreItem> manageStorebyMarker = new HashMap<Marker, MerchantStoreItem>();
+	
+	private View mOriginalContentView;
+	private TouchableWrapper mTouchView; 
+	
+	@Override
+	  public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+	    mOriginalContentView = super.onCreateView(inflater, parent, savedInstanceState);    
+	    mTouchView = new TouchableWrapper(getActivity());
+	    mTouchView.addView(mOriginalContentView);
+	    return mTouchView;
+	  }
 	
 	public void changeLocation(double latitude , double longitute) {
 		if(map == null)
@@ -68,13 +89,23 @@ public class SearchMapFragment extends SupportMapFragment{
 			@Override
 			public boolean onMarkerClick(Marker marker) {
 				// TODO Auto-generated method stub
+				
 				if(curMarker != null) {
 					MerchantStoreItem store = manageStorebyMarker.get(curMarker);
 					
-					int color = getColorByStore(store);
+					Projection projection = getMap().getProjection();
+					LatLng markerLocation = marker.getPosition();
+					Point screenPosition = projection.toScreenLocation(markerLocation);
 					
-					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty() , color)));
-					curMarker = null;
+					if(screenPosition.x <= mTouchView.getXLastTouchOnScreen() && marker.equals(curMarker)) {
+						((SearchActivity) getActivity()).onClickViewStoreDetail(store);
+					}
+					else {
+						int color = getColorByStore(store);
+						
+						curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty() , color)));
+						curMarker = null;
+					}
 				}
 				else {
 					curMarker = marker;
@@ -83,6 +114,8 @@ public class SearchMapFragment extends SupportMapFragment{
 					int color = getColorByStore(store);
 					
 					marker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIconDetail(0, "+" + store.getPieQty(), store.getStoreName(), store.getStoreAddress() , color)));
+					getMap().moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+					getMap().animateCamera(CameraUpdateFactory.zoomTo(17));
 				}
 				return true;
 			}
@@ -99,10 +132,12 @@ public class SearchMapFragment extends SupportMapFragment{
 		MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
 		 
 		// Changing marker icon
-		marker.icon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, value , color)));
+		Bitmap icon = createMakerIcon(0, value , color);
+		marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
 		
 		// adding marker
-		return getMap().addMarker(marker);
+		Marker markerObject = getMap().addMarker(marker);
+		return markerObject;
 	}
 	
 	private void addMarker(MerchantStoreItem store) {
@@ -220,5 +255,41 @@ public class SearchMapFragment extends SupportMapFragment{
 		Resources r = getResources();
 		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
 		return (int) px;
+	}
+	
+	public boolean isVisibleArea(Marker marker) {
+		   final LatLngBounds.Builder bld = new LatLngBounds.Builder();
+		   final VisibleRegion visibleRegion = getMap().getProjection().getVisibleRegion();
+		   bld.include(visibleRegion.farLeft)
+		      .include(visibleRegion.farRight)
+		      .include(visibleRegion.nearLeft)
+		      .include(visibleRegion.nearRight);
+		   return bld.build().contains(marker.getPosition());
+	}
+	
+	public class TouchableWrapper extends FrameLayout {
+		private int lastX;
+		
+		public TouchableWrapper(Context context) {
+			super(context);
+		}
+
+		@Override
+		public boolean dispatchTouchEvent(MotionEvent event) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				break;
+			case MotionEvent.ACTION_UP:
+				lastX = (int) event.getX();
+				break;
+			}
+			return super.dispatchTouchEvent(event);
+		}
+		
+		public int getXLastTouchOnScreen() {
+			int location[] = new int[2];
+			getLocationOnScreen(location);
+			return lastX + location[0];
+		}
 	}
 }

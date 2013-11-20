@@ -259,7 +259,7 @@ public class SearchActivity extends FragmentActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				setDataByIcon(iconDataList.get(position));
+				setDataByIcon(iconDataList.get(position) , false);
 			}
 		});
 		
@@ -321,11 +321,15 @@ public class SearchActivity extends FragmentActivity implements
 		}
 
 		if (iconDataList.size() > 0)
-			setDataByIcon(iconDataList.get(0));
+			setDataByIcon(iconDataList.get(0) , false);
 	}
 
-	public void setDataByIcon(MerchantCategoryItem icon) {
+	public void setDataByIcon(MerchantCategoryItem icon , boolean isUpdateMap) {
 		mSearchBrandFragment.setAdapter(manageData.get(icon));
+		
+		if(isUpdateMap) {
+			setPieMap(manageData.get(icon));
+		}
 	}
 
 	private void requestGetMerchantStores(String custId) {
