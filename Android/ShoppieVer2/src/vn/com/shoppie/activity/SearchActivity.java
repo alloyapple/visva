@@ -68,6 +68,7 @@ public class SearchActivity extends FragmentActivity implements
 	private ArrayList<String> backstack = new ArrayList<String>();
 
 	private Map<MerchantCategoryItem, Vector<MerchantStoreItem>> manageData = new HashMap<MerchantCategoryItem, Vector<MerchantStoreItem>>();
+	private Map<MerchantStoreItem, MerchantCategoryItem> manageCategoryByStore = new HashMap<MerchantStoreItem, MerchantCategoryItem>();
 	private Vector<MerchantCategoryItem> iconDataList = new Vector<MerchantCategoryItem>();
 
 	@Override
@@ -92,10 +93,6 @@ public class SearchActivity extends FragmentActivity implements
 
 		mSearchMapFragment = (SearchMapFragment)
         		mFmManager.findFragmentById(R.id.search_map_fragment);
-
-	    // Show the current location in Google Map        
-//		mSearchMapFragment.changeLocation(21.033333, 105.850000);		
-//		mSearchMapFragment.addMaker(21.033333, 105.850000, "+551", "test");
 		
 		mSearchBrandDetailFragment.setListener(this);
 		showFragment(SEARCH_BRAND_FRAGMENT_ID);
@@ -247,8 +244,10 @@ public class SearchActivity extends FragmentActivity implements
 	}
 
 	private void setIconAdapter(ArrayList<MerchantCategoryItem> catelogyList) {
+		Log.d("Category Color", "Color start");
 		for (int i = 0; i < catelogyList.size(); i++) {
 			iconDataList.add(catelogyList.get(i));
+			Log.d("Category Color", "Color " + catelogyList.get(i).getLineColor());
 		}
 
 		CatelogyIconAdapter adapter = new CatelogyIconAdapter(this,
@@ -301,6 +300,9 @@ public class SearchActivity extends FragmentActivity implements
 	}
 
 	private void setStoreData(ArrayList<MerchantStoreItem> data) {
+		manageCategoryByStore.clear();
+		setPieMap(data);
+		
 		manageData.clear();
 		for (int i = 0; i < iconDataList.size(); i++) {
 			manageData
@@ -312,6 +314,7 @@ public class SearchActivity extends FragmentActivity implements
 				if (iconDataList.get(i).getMerchCatId() == merchantStoreItem
 						.getMerchCatId()) {
 					manageData.get(iconDataList.get(i)).add(merchantStoreItem);
+					manageCategoryByStore.put(merchantStoreItem, iconDataList.get(i));
 					break;
 				}
 			}
@@ -375,7 +378,11 @@ public class SearchActivity extends FragmentActivity implements
 		mSearchBrandDetailFragment.updateUI(store);
 	}
 	
-	public void setPieMap(Vector<MerchantStoreItem> data) {
+	public void setPieMap(List<MerchantStoreItem> data) {
 		mSearchMapFragment.updatePie(data);
+	}
+	
+	public MerchantCategoryItem getCategoryByStore(MerchantStoreItem store) {
+		return manageCategoryByStore.get(store);
 	}
 }
