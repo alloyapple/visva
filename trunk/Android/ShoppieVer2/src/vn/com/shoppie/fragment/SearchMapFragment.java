@@ -1,8 +1,11 @@
 package vn.com.shoppie.fragment;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
+import vn.com.shoppie.activity.SearchActivity;
+import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -14,6 +17,7 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.util.TypedValue;
 
+import com.facebook.FacebookRequestError.Category;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
@@ -51,7 +55,10 @@ public class SearchMapFragment extends SupportMapFragment{
 				// TODO Auto-generated method stub
 				if(curMarker != null) {
 					MerchantStoreItem store = manageStorebyMarker.get(curMarker);
-					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty())));
+					
+					int color = getColorByStore(store);
+					
+					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty() , color)));
 					curMarker = null;
 				}
 			}
@@ -63,13 +70,19 @@ public class SearchMapFragment extends SupportMapFragment{
 				// TODO Auto-generated method stub
 				if(curMarker != null) {
 					MerchantStoreItem store = manageStorebyMarker.get(curMarker);
-					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty())));
+					
+					int color = getColorByStore(store);
+					
+					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty() , color)));
 					curMarker = null;
 				}
 				else {
 					curMarker = marker;
 					MerchantStoreItem store = manageStorebyMarker.get(marker);
-					marker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIconDetail(0, "+" + store.getPieQty(), store.getStoreName(), store.getStoreAddress())));
+					
+					int color = getColorByStore(store);
+					
+					marker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIconDetail(0, "+" + store.getPieQty(), store.getStoreName(), store.getStoreAddress() , color)));
 				}
 				return true;
 			}
@@ -81,25 +94,37 @@ public class SearchMapFragment extends SupportMapFragment{
 	}
 
 	
-	private Marker addMaker(double latitude , double longitute , String value , String name) {
+	private Marker addMaker(double latitude , double longitute , String value , String name , int color) {
 		// create marker
 		MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
 		 
 		// Changing marker icon
-		marker.icon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, value)));
+		marker.icon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, value , color)));
 		
 		// adding marker
 		return getMap().addMarker(marker);
 	}
 	
 	private void addMarker(MerchantStoreItem store) {
+		int color = getColorByStore(store);
 		Marker maker = addMaker(Double.parseDouble(store.getLatitude()), Double.parseDouble(store.getLongtitude()), 
-				"+" + store.getPieQty(), store.getStoreName());
+				"+" + store.getPieQty(), store.getStoreName() , color);
 		manageStorebyMarker.put(maker, store);
 
 	}
 	
-	private Bitmap createMakerIcon(int type , String value) {
+	private int getColorByStore(MerchantStoreItem store) {
+		try {
+			MerchantCategoryItem category = ((SearchActivity) getActivity()).getCategoryByStore(store);
+			int color = category != null ? Integer.parseInt(category.getLineColor()) + 0xff000000 : 0xffff0000;
+			return color;			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return 0xffff0000;
+		}
+	}
+	
+	private Bitmap createMakerIcon(int type , String value , int color) {
 		Paint textPaint = new Paint();
 		textPaint.setAntiAlias(true);
 		textPaint.setTextAlign(Align.CENTER);
@@ -112,7 +137,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		Paint paint = new Paint();
 		paint.setStrokeWidth(3);
 		paint.setAntiAlias(true);
-		paint.setColor(0xffff0000);
+		paint.setColor(color);
 		canvas.drawCircle(width / 2, width / 2, width / 2, paint);
 		canvas.drawLine(width / 2, width, width / 2, height , paint);
 		canvas.drawText(value, width / 2, width / 2 + textPaint.getTextSize() / 3, textPaint);
@@ -120,7 +145,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		return bitmap;
 	}
 	
-	private Bitmap createMakerIconDetail(int type , String value , String name , String ad) {
+	private Bitmap createMakerIconDetail(int type , String value , String name , String ad , int color) {
 		Paint textPaint = new Paint();
 		textPaint.setAntiAlias(true);
 		textPaint.setTextAlign(Align.CENTER);
@@ -135,7 +160,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		Paint paint = new Paint();
 		paint.setStrokeWidth(3);
 		paint.setAntiAlias(true);
-		paint.setColor(0xffff0000);
+		paint.setColor(color);
 		
 		canvas.drawCircle(canvas.getWidth() / 2, width / 2, width / 2, paint);
 		canvas.drawCircle(canvas.getWidth() - width / 2, width / 2, width / 2, paint);
@@ -175,7 +200,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		return bitmap;
 	}
 	
-	public void updatePie(Vector<MerchantStoreItem> data) {
+	public void updatePie(List<MerchantStoreItem> data) {
 		manageStorebyMarker.clear();
 		curMarker = null;
 		getMap().clear();
