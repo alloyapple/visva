@@ -133,7 +133,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase{
 							int iTmp = sp.load(context, R.raw.pied, 1); // in 2nd param u have to pass your desire ringtone
 							sp.play(iTmp, 1, 1, 0, 0, 1);
 							MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.pied); // in 2nd param u have to pass your desire ringtone
-							mPlayer.start();
+							if(mPlayer != null)
+								mPlayer.start();
 							
 							View piedView = v.findViewById(R.id.pied_view);
 							piedView.setVisibility(View.VISIBLE);
