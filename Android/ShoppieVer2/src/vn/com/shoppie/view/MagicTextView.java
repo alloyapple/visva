@@ -47,10 +47,9 @@ public class MagicTextView extends TextView
 		TextPaint textPaint = getPaint();
 		textPaint.setColor( getCurrentTextColor() );
 		textPaint.drawableState = getDrawableState();
-
 		canvas.save();
 
-		canvas.rotate(45, canvas.getWidth() / 2, canvas.getHeight() / 2);
+		canvas.rotate(45, getTextSize() * 0.0f , getTextSize() * 1.8f);
 
 		canvas.translate( getCompoundPaddingLeft(), 
 				getExtendedPaddingTop() );

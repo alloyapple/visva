@@ -126,9 +126,12 @@ Bodycon ra đời như là cách để phái đẹp phô diễn đường cong c
 	    />
 
     <vn.com.shoppie.view.MagicTextView
-        android:layout_width="@dimen/page_item_count_width"
-    	android:layout_height="@dimen/page_item_count_height"
+        android:layout_width="56dp"
+    	android:layout_height="56dp"
     	android:text="Mua - tặng" 
     	android:textColor="#ff000000"
-        ></vn.com.shoppie.view.MagicTextView>
+    	android:textSize="10dp"
+    	android:layout_alignParentRight="true"
+    	android:singleLine="true"
+        />
 </RelativeLayout>

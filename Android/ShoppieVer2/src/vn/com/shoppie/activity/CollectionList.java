@@ -103,12 +103,26 @@ public class CollectionList extends Activity{
 					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_NAME_KEY, adapter.getItem(curId).getCampaignName());
 					
 					startActivity(intent);
+					
+					clearMemory();
 				}
 			}
 		});
-		requestToGetgetMerchantCampaign(merchantId, customerId);
 	}
 
+	private void clearMemory() {
+		listView.setAdapter(null);
+		adapter = null;
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		requestToGetgetMerchantCampaign(merchantId, customerId);
+	}
+	
 	private void setData(ArrayList<MerchCampaignItem> data) {
 		adapter = new ListCollectionAdapter(this, data);
 		listView.setAdapter(adapter);
