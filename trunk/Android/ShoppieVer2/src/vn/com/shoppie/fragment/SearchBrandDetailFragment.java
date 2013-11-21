@@ -1,10 +1,18 @@
 package vn.com.shoppie.fragment;
 
+import com.antonyt.infiniteviewpager.StoreImageFragment;
+import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.util.CoverLoader;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +24,6 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 	private TextView name;
 	private TextView desc;
 	private TextView count;
-	private View image;
 	// ============================Class Define =======================
 	private IOnClickShowStoreDetail mListener;
 	// ============================Variable Define =====================
@@ -29,7 +36,36 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 		name = (TextView) root.findViewById(R.id.name);
 		desc = (TextView) root.findViewById(R.id.desc);
 		count = (TextView) root.findViewById(R.id.count);
-		image = root.findViewById(R.id.image);
+		
+		PagerAdapter adapter = new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
+			int[] colours = new int[] { Color.CYAN, Color.GRAY, Color.MAGENTA};
+
+			@Override
+			public int getCount() {
+				return colours.length * 2;
+			}
+
+			@Override
+			public Fragment getItem(int position) {
+				if(Math.abs(position) >= colours.length) {
+					return getItem(position % colours.length);
+				}
+				Fragment fragment = new StoreImageFragment();
+				Bundle args = new Bundle();
+				args.putInt("colour", colours[position]);
+				args.putInt("identifier", position);
+				fragment.setArguments(args);
+				return fragment;
+			}
+		};
+
+		// wrap pager to provide infinite paging with wrap-around
+		PagerAdapter wrappedAdapter = new InfinitePagerAdapter(adapter);
+
+		// actually an InfiniteViewPager
+		ViewPager viewPager = (ViewPager) root.findViewById(R.id.pager);
+		viewPager.setAdapter(wrappedAdapter);
+		
 		return root;
 	}
 
@@ -56,6 +92,5 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 		name.setText(store.getStoreName());
 		desc.setText(store.getMerchDesc());
 		count.setText("+" + store.getPieQty());
-		CoverLoader.getInstance(getActivity()).DisplayImage(CatelogyAdapter.URL_HEADER + store.getMerchBanner(), image);
 	}
 }

@@ -6,5 +6,5 @@
     android:gravity="bottom|center_horizontal" >
     
 	<include 
-	    layout="@layout/store_lookbook_item"/>"
+	    layout="@layout/store_lookbook_item"/>
 </LinearLayout>
