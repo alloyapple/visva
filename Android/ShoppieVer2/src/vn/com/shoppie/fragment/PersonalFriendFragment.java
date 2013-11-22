@@ -8,12 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.activity.HomeActivity;
 import vn.com.shoppie.adapter.ListFBFriendAdapter;
 import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
 import vn.com.shoppie.constant.ShopieSharePref;
-import vn.com.shoppie.database.sobject.MerchantStoreList;
-import vn.com.shoppie.database.sobject.UserInfo;
+import vn.com.shoppie.database.sobject.ShoppieFriendList;
 import vn.com.shoppie.database.sobject.UserInfoList;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
@@ -53,7 +51,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	private ShopieSharePref mShopieSharePref;
 	// ============================Variable Define =====================
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
-	private onViewFriendDetail mListener;
+	private IOnViewFriendDetail mListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +74,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 				mListener.onClickViewFriendDetail(mListFriend.get(arg2));
 			}
 		});
-		
+
 		mShopieSharePref = new ShopieSharePref(getActivity());
 		mLinearProgressBar = (RelativeLayout) root
 				.findViewById(R.id.layout_progressBar);
@@ -174,8 +172,6 @@ public class PersonalFriendFragment extends FragmentBasic implements
 															.getStringValue(
 																	jsonPictureData,
 																	"url");
-													Log.e("url ", "datata "
-															+ url);
 												}
 											}
 										} catch (JSONException e) {
@@ -193,7 +189,8 @@ public class PersonalFriendFragment extends FragmentBasic implements
 							mListFBFriendAdapter.updateFolderList(mListFriend);
 							if (mLinearProgressBar.getVisibility() == View.VISIBLE)
 								mLinearProgressBar.setVisibility(View.GONE);
-							updateListFriendFromSP(""+mShopieSharePref.getCustId());
+							updateListFriendFromSP(""
+									+ mShopieSharePref.getCustId());
 						}
 					});
 			Bundle params = new Bundle();
@@ -217,16 +214,12 @@ public class PersonalFriendFragment extends FragmentBasic implements
 						try {
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
-							UserInfoList userInfoList = gson.fromJson(
-									jsonObject.toString(), UserInfoList.class);
-							Log.e("merchantproductlist", "merchantproductlist "
-									+ userInfoList.getResult().size());
-							for (int i = 0; i < userInfoList.getResult().size(); i++) {
-								Log.e("merchantproductlist",
-										"merchantproductlist "
-												+ userInfoList.getResult().get(i)
-														.getCustName());
-							}
+							ShoppieFriendList userInfoList = gson.fromJson(
+									jsonObject.toString(),
+									ShoppieFriendList.class);
+							if (userInfoList.getResult().size() > 0)
+								updateListFriendOnShoppie(userInfoList);
+
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -239,6 +232,26 @@ public class PersonalFriendFragment extends FragmentBasic implements
 					}
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_UPDATE_FRIENDS);
+	}
+
+	private void updateListFriendOnShoppie(ShoppieFriendList userInfoList) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < userInfoList.getResult().size(); i++) {
+			for (int j = 0; j < mListFriend.size(); j++) {
+				if (mListFriend
+						.get(j)
+						.getUserId()
+						.equals(userInfoList.getResult().get(i).getFacebookid())) {
+					mListFriend.get(j).setJoinSP(true);
+					mListFriend.get(j).setNumberPie(
+							userInfoList.getResult().get(i).getCurrentBal());
+					
+					/* update list facebook friend */
+					mListFBFriendAdapter.updateFolderList(mListFriend);
+					
+				}
+			}
+		}
 	}
 
 	// private void onSessionStateChanged(Session session, SessionState state,
@@ -280,13 +293,13 @@ public class PersonalFriendFragment extends FragmentBasic implements
 
 	}
 
-	public interface onViewFriendDetail {
+	public interface IOnViewFriendDetail {
 		public void onClickViewFriendDetail(FBUser friend);
-		
+
 		public void inviteFriendJoinSP(FBUser friend);
 	}
 
-	public void setListener(onViewFriendDetail monVieFriendDetail) {
+	public void setListener(IOnViewFriendDetail monVieFriendDetail) {
 		this.mListener = monVieFriendDetail;
 	}
 }

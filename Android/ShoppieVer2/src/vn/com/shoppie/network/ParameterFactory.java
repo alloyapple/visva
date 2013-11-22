@@ -141,10 +141,15 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("custId", custId));
 		return nameValuePairs;
 	}
-	
+
 	public static List<NameValuePair> updateHistoryTransaction(String custId) {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		return nameValuePairs;
+	}
+
+	public static List<NameValuePair> getGiftList() {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		return nameValuePairs;
 	}
 }

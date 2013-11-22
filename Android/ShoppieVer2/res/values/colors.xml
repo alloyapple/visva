@@ -37,7 +37,9 @@
     <color name="blue_dark_text">#373737</color>
     <color name="blue_button_press">#3399ff</color>
     <color name="blue_button">#333</color>
+    <color name="blue_text_color">#00688B</color>
 	
     <color name="footer_color">#181F25</color>
+    <string name="text_form_color">#00C5CD</string>
     
 </resources>

@@ -478,8 +478,8 @@ public class LoginActivity extends ActivityShoppie {
 		boolean enableButtons = (session != null && session.isOpened());
 		if (enableButtons && user != null) {
 			showToast(user.getFirstName() + " logined ");
-			Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-			startActivity(intent);
+			//Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+			//startActivity(intent);
 			finish();
 		} else {
 			showToast("log out");
