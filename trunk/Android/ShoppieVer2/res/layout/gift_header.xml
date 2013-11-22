@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tam thoi fix kich thuoc o day, cho tinh kich thuoc cho cac man hinh tab sau -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/page_item_width"
+    android:layout_height="@dimen/gift_item_header_height" >
+    <View 
+    	android:layout_width="@dimen/page_item_width"
+    	android:layout_height="@dimen/gift_item_header_height"
+    	android:id="@+id/icon"
+    	android:background="@drawable/round_corner_shape"    
+        />
+
+</RelativeLayout>
