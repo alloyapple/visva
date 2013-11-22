@@ -2,11 +2,12 @@
 <!-- Tam thoi fix kich thuoc o day, cho tinh kich thuoc cho cac man hinh tab sau -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/page_item_width"
-    android:layout_height="@dimen/gift_item_header_height" >
+    android:layout_height="@dimen/gift_item_header_height"
+    android:layout_marginBottom="@dimen/gift_item_padding" >
     <View 
     	android:layout_width="@dimen/page_item_width"
     	android:layout_height="@dimen/gift_item_header_height"
-    	android:id="@+id/icon"
+    	android:id="@+id/image"
     	android:background="@drawable/round_corner_shape"    
         />
 

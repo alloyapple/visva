@@ -9,11 +9,30 @@
     	android:layout_height="wrap_content"
     	android:layout_centerHorizontal="true"
     	android:id="@+id/list"  
-    	android:divider="#00000000"
+    	android:divider="@android:color/transparent"
+    	android:listSelector="@android:color/transparent"
         />
+    <ScrollView 
+        android:layout_marginTop="10dp"
+    	android:layout_width="@dimen/gift_item_width"
+    	android:layout_height="wrap_content"
+    	android:layout_centerHorizontal="true"
+    	android:id="@+id/scrollView"  
+    	android:listSelector="@android:color/transparent"
+        >
+		<LinearLayout
+    		android:divider="@android:color/transparent"
+		    android:layout_width="@dimen/gift_item_width"
+    		android:layout_height="wrap_content"
+    		android:id="@+id/listcontent"
+    		android:orientation="vertical"
+		    />        
+    </ScrollView>
 	<ImageButton 
 	    android:layout_width="@dimen/actionbar_height"
     	android:layout_height="@dimen/actionbar_height"
     	android:background="@color/actionbar_item_background"
+    	android:src="@drawable/ic_back"
+    	android:onClick="onClickBack"
 	    />
 </RelativeLayout>

@@ -1,25 +1,35 @@
 package vn.com.shoppie.adapter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.GiftItem;
+import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.ImageLoader;
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.analytics.tracking.android.Log;
 
 public class GiftAdapter extends BaseAdapter{
 	private Vector<GroupGift> groupList;
-	private Context context;
+	private Activity context;
+	private ImageLoader mImageLoader;
 	
-	public GiftAdapter(Context context , List<GiftItem> data) {
+	public GiftAdapter(Activity context , List<GiftItem> data) {
 		this.context = context;
+		mImageLoader = new ImageLoader(context);
 		createGroups(data);
 	}
 	
@@ -30,9 +40,11 @@ public class GiftAdapter extends BaseAdapter{
 			GroupGift group = new GroupGift();
 			for(int j = 0 ; j < 4 && i * 4 + j < data.size(); j++) {
 				group.add(data.get(i * 4 + j));
+				Log.d("Link Image : " + (CatelogyAdapter.URL_HEADER + data.get(i * 4 + j).getGiftImage()));
 			}
 			groupList.add(group);
 		}
+		cacheView = new View[getCount()];
 	}
 	
 	@Override
@@ -57,23 +69,36 @@ public class GiftAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder holder = null;
-		if(convertView == null) {
+//		if(convertView == null) {
+//			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//			convertView = inflater.inflate(R.layout.gift_item, null);
+//			
+//			holder = new ViewHolder();
+//			holder.title = (TextView) convertView.findViewById(R.id.title);
+//			holder.row0 = (LinearLayout) convertView.findViewById(R.id.row0);
+//			holder.row1 = (LinearLayout) convertView.findViewById(R.id.row1);
+//			convertView.setTag(holder);
+//		}
+//		else {
+//			holder = (ViewHolder) convertView.getTag();
+//		}
+//		holder.title.setText("Danh sách quà đã đủ điểm đổi");
+//		addGiftByGroup(getItem(position), holder.row0, holder.row1);
+		
+		if(cacheView[position] == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.gift_item, null);
+			cacheView[position] = inflater.inflate(R.layout.gift_item, null);
 			
 			holder = new ViewHolder();
-			holder.title = (TextView) convertView.findViewById(R.id.title);
-			holder.row0 = (LinearLayout) convertView.findViewById(R.id.row0);
-			holder.row1 = (LinearLayout) convertView.findViewById(R.id.row1);
-			convertView.setTag(holder);
+			holder.title = (TextView) cacheView[position].findViewById(R.id.title);
+			holder.row0 = (LinearLayout) cacheView[position].findViewById(R.id.row0);
+			holder.row1 = (LinearLayout) cacheView[position].findViewById(R.id.row1);
+			
+			holder.title.setText("Danh sách quà đã đủ điểm đổi");
+			addGiftByGroup(getItem(position), holder.row0, holder.row1);
 		}
-		else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-		holder.title.setText("Danh sách quà đã đủ điểm đổi");
-		addGiftByGroup(getItem(position), holder.row0, holder.row1);
 		
-		return convertView;
+		return cacheView[position];
 	}
 	
 	private void addGiftByGroup(GroupGift group, LinearLayout row0 , LinearLayout row1) {
@@ -93,6 +118,9 @@ public class GiftAdapter extends BaseAdapter{
 		}
 		for (int i = 0; i < group.getCount(); i++) {
 			View v = createViewByGift(group.getItem(i));
+			if(v.getParent() != null) {
+				((LinearLayout) v.getParent()).removeView(v);
+			}
 			if(i == 0 || i == 1) {
 				row0.addView(v , getDimention(R.dimen.gift_item_row_height) , -1);
 			}
@@ -107,14 +135,32 @@ public class GiftAdapter extends BaseAdapter{
 		return (int) context.getResources().getDimension(id);
 	}
 	
-	private View createViewByGift(GiftItem item) {
+	private View createViewByGift(final GiftItem item) {
+		if(manageViewByItem.get(item) != null)
+			return manageViewByItem.get(item);
+		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.gift_small_item, null);
 		
 		TextView tvName = (TextView) v.findViewById(R.id.name);
 		ImageView image = (ImageView) v.findViewById(R.id.image);
 		
-		tvName.setText("Quà quà quà");
+		tvName.setText(item.getPieQty());
+		
+		CoverLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image
+				, 100
+				, 300);
+//		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image
+//				, (int) context.getResources().getDimension(R.dimen.gift_item_row_height));
+		manageViewByItem.put(item, v);
+		image.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(context, "Click Gift " + item.getGiftName(), Toast.LENGTH_SHORT).show();
+			}
+		});
 		
 		return v;
 	}
@@ -140,4 +186,7 @@ public class GiftAdapter extends BaseAdapter{
 			return list.get(pos);
 		}
 	}
+	
+	private View[] cacheView;
+	private HashMap<GiftItem, View> manageViewByItem = new HashMap<GiftItem, View>();
 }
