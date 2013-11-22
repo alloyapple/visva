@@ -19,7 +19,9 @@ import vn.com.shoppie.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 
 public class ImageLoader {
@@ -50,6 +52,21 @@ public class ImageLoader {
 		}
 	}
 
+	public void DisplayImage(String url, ImageView imageView , int width) {
+		imageViews.put(imageView, url);
+		Bitmap bitmap = memoryCache.get(url);
+		if (bitmap != null) {
+			if(width < bitmap.getWidth())
+				imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, width, bitmap.getHeight() / bitmap.getWidth() * width, false));
+			else
+				imageView.setImageBitmap(bitmap);
+		}
+		else {
+			queuePhoto(url, imageView);
+			imageView.setImageResource(stub_id);
+		}
+	}
+	
 	private void queuePhoto(String url, ImageView imageView) {
 		PhotoToLoad p = new PhotoToLoad(url, imageView);
 		executorService.submit(new PhotosLoader(p));

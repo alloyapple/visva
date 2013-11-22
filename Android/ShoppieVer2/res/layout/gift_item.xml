@@ -3,6 +3,7 @@
     android:layout_width="@dimen/gift_item_width"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginBottom="@dimen/gift_item_padding"
     android:background="@drawable/round_corner_shape" >
     <TextView 
         android:id="@+id/title"
