@@ -109,7 +109,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/main_personal_info"
-                    android:textColor="@color/black" >
+                    android:textColor="@color/blue_text_color" >
                 </TextView>
             </LinearLayout>
 
@@ -134,7 +134,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_favourite_product"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/blue_text_color" />
             </LinearLayout>
 
             <vn.com.shoppie.object.HorizontalListView
@@ -165,7 +165,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_favourite_category"
-                    android:textColor="@color/black" >
+                    android:textColor="@color/blue_text_color" >
                 </TextView>
             </LinearLayout>
 
@@ -197,7 +197,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personl_friend"
-                    android:textColor="@color/black" >
+                    android:textColor="@color/blue_text_color" >
                 </TextView>
             </LinearLayout>
 
@@ -222,7 +222,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_feedback"
-                    android:textColor="@color/black" >
+                    android:textColor="@color/blue_text_color" >
                 </TextView>
             </LinearLayout>
 
@@ -247,7 +247,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_help"
-                    android:textColor="@color/black" >
+                    android:textColor="@color/blue_text_color" >
                 </TextView>
             </LinearLayout>
 
@@ -272,7 +272,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/history_trade"
-                    android:textColor="@color/black" >
+                    android:textColor="@color/blue_text_color" >
                 </TextView>
             </LinearLayout>
         </LinearLayout>

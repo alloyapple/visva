@@ -1,8 +1,6 @@
 package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -10,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
@@ -20,7 +17,7 @@ import vn.com.shoppie.fragment.HistoryTradeFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
 import vn.com.shoppie.fragment.PersonalFriendFragment;
-import vn.com.shoppie.fragment.PersonalFriendFragment.onViewFriendDetail;
+import vn.com.shoppie.fragment.PersonalFriendFragment.IOnViewFriendDetail;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
@@ -36,20 +33,22 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.HttpMethod;
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
 import com.facebook.Request.GraphUserCallback;
-import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
+import com.facebook.widget.WebDialog;
+import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.gson.Gson;
 
 public class PersonalInfoActivity extends FragmentActivity implements
-		MainPersonalInfoListener, onViewFriendDetail
+		MainPersonalInfoListener, IOnViewFriendDetail
 		 {
 	// ==========================Constant Define=================
 	private static final String MAIN_PERSONAL_INFO_FRAGMENT = "main_info";
@@ -64,10 +63,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private static final int HELP = 1004;
 	private static final int PERSONAL_INFO = 1005;
 	private static final int FRIEND_DETAIL = 1006;
-	private static final List<String> PERMISSIONS = Arrays
-			.asList("publish_actions");
-	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
-
 	// ===========================Control Define==================
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
@@ -84,7 +79,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	// =========================Variable Define==================
 	private ArrayList<String> backstack = new ArrayList<String>();
 	private int custId;
-	private boolean pendingPublishReauthorization = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -469,81 +463,60 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mFriendDetailFragment.updateUser(friend);
 	}
 
-
-
-
-	private void inviteFBFriendJoinSP(FBUser friend) {
-		Session session = Session.getActiveSession();
-
-		if (session != null) {
-
-			// Check for publish permissions
-//			List<String> permissions = session.getPermissions();
-//			if (!isSubsetOf(PERMISSIONS, permissions)) {
-//				pendingPublishReauthorization = true;
-//				Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(
-//						this, PERMISSIONS);
-//				session.requestNewPublishPermissions(newPermissionsRequest);
-//				return;
-//			}
-
-			Bundle postParams = new Bundle();
-			postParams.putString("name", "Shoppie");
-			postParams.putString("caption", "");
-			postParams.putString("description", getString(R.string.invitation_content,mShopieSharePref.getCustId()));
-			postParams
-					.putString(
-							"link",
-							"http://www.shoppie.com.vn/");
-			postParams
-					.putString("picture",
-							"http://farm4.staticflickr.com/3736/10907501955_f8724f3633_m.jpg");
-			//http://radio.vnmedia.vn/Uploads/Images/xcan-02-on%20rainy%20days.jpg
-			//	http://farm4.staticflickr.com/3736/10907501955_f8724f3633_m.jpg
-			Request.Callback callback = new Request.Callback() {
-				public void onCompleted(Response response) {
-					// JSONObject graphResponse = response.getGraphObject()
-					// .getInnerJSONObject();
-					// String postId = null;
-					// try {
-					// postId = graphResponse.getString("id");
-					// } catch (JSONException e) {
-					// Log.i("dfjdhf", "JSON error " + e.getMessage());
-					// }
-					// FacebookRequestError error = response.getError();
-					// if (error != null) {
-					// Toast.makeText(context, error.getErrorMessage(),
-					// Toast.LENGTH_SHORT).show();
-					// } else {
-					// Toast.makeText(context, postId, Toast.LENGTH_LONG)
-					// .show();
-					// }
-					Log.e("adkdfj", "ienjdh " + response.toString());
-				}
-			};
-
-			Request request = new Request(session, friend.getUserId()+"/feed", postParams,
-					HttpMethod.POST, callback);
-
-			RequestAsyncTask task = new RequestAsyncTask(request);
-			task.execute();
-		}
-
-	}
-
-	private boolean isSubsetOf(Collection<String> subset,
-			Collection<String> superset) {
-		for (String string : subset) {
-			if (!superset.contains(string)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	@Override
 	public void inviteFriendJoinSP(FBUser friend) {
 		// TODO Auto-generated method stub
-		inviteFBFriendJoinSP(friend);
+		publishFeedDialog(friend);
 	}
+	
+	private void publishFeedDialog(final FBUser friend) {
+        Bundle params = new Bundle();
+        params.putString("name", "Shoppie");
+        params.putString("caption", "");
+        params.putString("description", getString(R.string.invitation_content,mShopieSharePref.getCustId()));
+        params.putString("link", "http://www.shoppie.com.vn/");
+        params.putString("picture", "http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
+        params.putString("to", ""+friend.getUserId());
+        WebDialog feedDialog = (  
+            new WebDialog.FeedDialogBuilder(PersonalInfoActivity.this,
+                Session.getActiveSession(),
+                params))
+            .setOnCompleteListener(new OnCompleteListener() {
+
+                @Override
+                public void onComplete(Bundle values,
+                    FacebookException error) {
+                    if (error == null) {
+                        // When the story is posted, echo the success
+                        // and the post Id.
+                        final String name = friend.getUserName();
+                        if (name != null) {
+                            Toast.makeText(PersonalInfoActivity.this,
+                                "Invited "+name,
+                                Toast.LENGTH_SHORT).show();
+                        } else {
+                            // User clicked the Cancel button
+                            Toast.makeText(PersonalInfoActivity.this, 
+                                "Publish cancelled", 
+                                Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (error instanceof FacebookOperationCanceledException) {
+                        // User clicked the "x" button
+                        Toast.makeText(PersonalInfoActivity.this, 
+                            "Publish cancelled", 
+                            Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Generic, ex: network error
+                        Toast.makeText(PersonalInfoActivity.this, 
+                            "Error posting story", 
+                            Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            })
+            .build();
+        feedDialog.show();
+
+    }
+
 }

@@ -10,10 +10,8 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.ShopieSharePref;
-import vn.com.shoppie.database.sobject.MerchProductList;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
-import vn.com.shoppie.database.sobject.MerchantStoreList;
 import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
@@ -194,9 +192,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 					showToast("Chưa thể thực hiện checkin. Bạn hãy thử lại!");
 				}
 			}
-
 		}
-
 	}
 
 	private void onClickCheckin() {
@@ -210,46 +206,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 		//mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 	}
 
-	private void requestGetMerchantStores(String custId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-		List<NameValuePair> nameValuePairs = ParameterFactory
-				.getMerchantStores(custId);
-		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
-				HomeActivity.this, new AsyncHttpResponseProcess(
-						HomeActivity.this) {
-					@Override
-					public void processIfResponseSuccess(String response) {
-						try {
-							JSONObject jsonObject = new JSONObject(response);
-							Gson gson = new Gson();
-							MerchantStoreList merchantStoreList = gson
-									.fromJson(jsonObject.toString(),
-											MerchantStoreList.class);
-							Log.e("merchantproductlist", "merchantproductlist "
-									+ merchantStoreList.getResult().size());
-							for (int i = 0; i < merchantStoreList.getResult()
-									.size(); i++) {
-								Log.e("merchantproductlist",
-										"merchantproductlist "
-												+ merchantStoreList.getResult()
-														.get(i)
-														.getMerchBanner());
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-
-					@Override
-					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
-						finish();
-					}
-				}, nameValuePairs, true);
-		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
-	}
 
 	private void updateLuckyPie(String campaignId, String custId) {
 		// TODO Auto-generated method stub
@@ -310,48 +266,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
-	}
-
-	private void requestupdateToGetMerchProducts(String campaignId,
-			String custId) {
-		// TODO Auto-generated method stub
-		List<NameValuePair> nameValuePairs = ParameterFactory
-				.getMerchantProduct(campaignId, custId);
-		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
-				HomeActivity.this, new AsyncHttpResponseProcess(
-						HomeActivity.this) {
-					@Override
-					public void processIfResponseSuccess(String response) {
-						try {
-							JSONObject jsonObject = new JSONObject(response);
-							Gson gson = new Gson();
-							MerchProductList merchProductList = gson.fromJson(
-									jsonObject.toString(),
-									MerchProductList.class);
-							Log.e("merchantproductlist",
-									"merchantproductlisdfdsfdt "
-											+ merchProductList.getResult()
-													.size());
-							for (int i = 0; i < merchProductList.getResult()
-									.size(); i++) {
-								Log.e("merchantproductlist",
-										"merchantproductlistdfdf "
-												+ merchProductList.getResult()
-														.get(i).getLongDesc());
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-
-					@Override
-					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
-						finish();
-					}
-				}, nameValuePairs, true);
-		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_PRODUCT);
 	}
 
 	private void requestToGetCampainCategory() {

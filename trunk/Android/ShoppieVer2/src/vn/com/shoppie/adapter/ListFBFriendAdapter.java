@@ -1,12 +1,6 @@
 package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.util.ImageLoader;
@@ -14,8 +8,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -23,23 +15,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.facebook.FacebookRequestError;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
 
 public class ListFBFriendAdapter extends BaseAdapter {
-	private Context context;
+	private Context mContext;
 	private ArrayList<FBUser> mListFriend;
 	private InviteFriendJoinSPInterface mListener;
 	private ImageLoader mImageLoader;
 
 	public ListFBFriendAdapter(Context context, ArrayList<FBUser> mListFriend) {
-		this.context = context;
+		this.mContext = context;
 		this.mListFriend = mListFriend;
 		this.mImageLoader = new ImageLoader(context);
 	}
@@ -67,10 +51,9 @@ public class ListFBFriendAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 
 		if (convertView == null) {
-			convertView = (RelativeLayout) RelativeLayout.inflate(context,
+			convertView = (RelativeLayout) RelativeLayout.inflate(mContext,
 					R.layout.friend_item, null);
 		}
-
 		ImageView imgPhoto = (ImageView) convertView
 				.findViewById(R.id.fb_friend_avatar);
 		TextView txtName = (TextView) convertView
@@ -95,10 +78,13 @@ public class ListFBFriendAdapter extends BaseAdapter {
 
 		if (mListFriend.get(position).isJoinSP()) {
 			txtNumberPie.setVisibility(View.VISIBLE);
-			txtNumberPie.setText(mListFriend.get(position).getNumberPie());
-		} else
+			txtNumberPie.setText(mListFriend.get(position).getNumberPie()+" pie");
+			convertView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+			
+		} else{
 			txtNumberPie.setVisibility(View.GONE);
-
+			convertView.setBackgroundResource(R.drawable.bg_friend_fb_only);
+		}
 		btnInvite.setFocusable(false);
 		imgPhoto.setFocusable(false);
 
