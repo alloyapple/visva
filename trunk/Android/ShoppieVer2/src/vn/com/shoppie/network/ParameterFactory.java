@@ -2,7 +2,6 @@ package vn.com.shoppie.network;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -35,44 +34,6 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("custId", custId));
 		return nameValuePairs;
 	}
-
-	// private void requestToGetgetMerchantCampaign(String merchCatId,
-	// String custId) {
-	// List<NameValuePair> nameValuePairs = ParameterFactory
-	// .getMerchantCampaignValues(merchCatId, custId);
-	// AsyncHttpPost postUpdateStt = new AsyncHttpPost(HomeActivity.this,
-	// new AsyncHttpResponseProcess(HomeActivity.this) {
-	// @Override
-	// public void processIfResponseSuccess(String response) {
-	// Log.e("adkfj", "reponse " + response.toString());
-	// try {
-	// JSONObject jsonObject = new JSONObject(response);
-	// Gson gson = new Gson();
-	// MerchCampaignList merchCampaignList = gson
-	// .fromJson(jsonObject.toString(),
-	// MerchCampaignList.class);
-	// Log.e("adkjfhd", "sizeaa "
-	// + merchCampaignList.getResult().size());
-	// for (int i = 0; i < merchCampaignList.getResult()
-	// .size(); i++)
-	// Log.e("adkjfhd", "asdfjd "
-	// + merchCampaignList.getResult().get(i)
-	// .getCampaignDesc());
-	// } catch (JSONException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// @Override
-	// public void processIfResponseFail() {
-	// Log.e("failed ", "failed");
-	// finish();
-	// }
-	// }, nameValuePairs, true);
-	// postUpdateStt.execute(WebServiceConfig.URL_MERCHANT_CAMPAIGN);
-	//
-	// }
 
 	public static List<NameValuePair> updateCampaignViewd(String campaignId,
 			String custId) {

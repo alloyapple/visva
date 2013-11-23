@@ -26,72 +26,71 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
 
-    <RelativeLayout 
+    <RelativeLayout
+        android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/bottom"
-        android:layout_marginTop="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
         android:layout_marginRight="@dimen/page_item_catelogy_subdesc_margin_left"
-        android:layout_alignParentBottom="true"
-        >
-        <TextView 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:id="@+id/share"
-			android:text="SHARE"
-			android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-            />
-        <Button 
+        android:layout_marginTop="@dimen/page_item_catelogy_subdesc_margin_left" >
+
+        <TextView
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHARE"
+            android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
+        <Button
+            android:id="@+id/bt_fb"
             android:layout_width="30dp"
-        	android:layout_height="30dp"
-        	android:layout_marginTop="5dp"
-        	android:id="@+id/bt_fb"
-        	android:layout_below="@id/share"
-        	android:background="@drawable/icon_share_fb"
-            />
-        <Button 
+            android:layout_height="30dp"
+            android:layout_below="@id/share"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/icon_share_fb" />
+
+        <Button
+            android:id="@+id/bt_mail"
             android:layout_width="30dp"
-        	android:layout_height="30dp"
-        	android:layout_marginTop="5dp"
-        	android:layout_marginLeft="5dp"
-        	android:id="@+id/bt_mail"
-        	android:layout_toRightOf="@id/bt_fb"
-        	android:layout_below="@id/share"
-        	android:background="@drawable/icon_share_mail"
-            />
-        <Button 
+            android:layout_height="30dp"
+            android:layout_below="@id/share"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/bt_fb"
+            android:background="@drawable/icon_share_mail" />
+
+        <Button
+            android:id="@+id/bt_sms"
             android:layout_width="30dp"
-        	android:layout_height="30dp"
-        	android:layout_marginTop="5dp"
-        	android:layout_marginLeft="5dp"
-        	android:id="@+id/bt_sms"
-        	android:layout_toRightOf="@id/bt_mail"
-        	android:layout_below="@id/share"
-        	android:background="@drawable/icon_share_sms"
-            />
+            android:layout_height="30dp"
+            android:layout_below="@id/share"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/bt_mail"
+            android:background="@drawable/icon_share_sms" />
     </RelativeLayout>
-    <TextView 
-        android:gravity="center_vertical"
+
+    <TextView
+        android:id="@+id/like1"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_alignParentRight="true"
-    	android:layout_alignParentBottom="true"
-    	android:layout_marginBottom="15dp"
-    	android:layout_marginRight="15dp"
-    	android:id="@+id/like1"
-    	android:textSize="14sp"
-    	android:text="1234"
-    	android:drawablePadding="5dp"
-    	android:drawableLeft="@drawable/ic_like"
-    	android:textColor="#2A5C72"
-        />
-    
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:drawableLeft="@drawable/ic_like"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="1234"
+        android:textColor="#2A5C72"
+        android:textSize="14sp" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/price1"
         android:layout_above="@id/bottom"
+        android:layout_below="@id/price1"
         android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
         android:layout_marginRight="@dimen/page_item_catelogy_subdesc_margin_left"
         android:layout_marginTop="5dp" >
@@ -109,29 +108,28 @@ Bodycon ra đời như là cách để phái đẹp phô diễn đường cong c
 1. Bodycon hợp với bất cứ ai: Nhiều phụ nữ lo sợ bodycon sẽ làm lộ vòng bụng lớn, thân hình thừa mỡ của họ. Nhưng bạn yên tâm đi, dù đồ sộ tới đâu, thân hình bạn vẫn có những đường cong đủ đẹp để diện các mẫu bodycon phù hợp. Nếu không tự tin thì một số kiểu áo gen sẽ giúp bạn làm gọn cơ thể trước khi diện mẫu váy này.
 2. Hãy biết giấu những gì cần giấu: Khi diện một chiếc váy bodycon, điều cần nhất của bạn là hiểu được cơ thể mình. Đâu là điểm đẹp cần khoe, đâu là điểm xấu cần phải che đậy. Các kiểu bodycon phối màu sắc là gợi ý hiệu quả cho những thân hình cần phải che giấu nhiều."
             android:textColor="#2A5C72"
-            android:textSize="@dimen/page_item_catelogy_subdesc_textsize"  />
+            android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
     </ScrollView>
-	
+
     <TextView
-	    android:id="@+id/count" 
-	    android:layout_width="@dimen/page_item_count_width"
-    	android:layout_height="@dimen/page_item_count_height"
-    	android:layout_alignParentRight="true"
-    	android:background="@drawable/ic_head_center02"
-    	android:text="5"
-    	android:textSize="18sp"
-    	android:textColor="@android:color/white"
-    	android:paddingLeft="18dp"
-    	android:paddingTop="5dp"
-	    />
+        android:id="@+id/count"
+        android:layout_width="@dimen/page_item_count_width"
+        android:layout_height="@dimen/page_item_count_height"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_head_center02"
+        android:paddingLeft="18dp"
+        android:paddingTop="5dp"
+        android:text="5"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
     <vn.com.shoppie.view.MagicTextView
         android:layout_width="56dp"
-    	android:layout_height="56dp"
-    	android:text="Mua - tặng" 
-    	android:textColor="#ff000000"
-    	android:textSize="10dp"
-    	android:layout_alignParentRight="true"
-    	android:singleLine="true"
-        />
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:text="Mua - tặng"
+        android:textColor="#ff000000"
+        android:textSize="10dp" />
+
 </RelativeLayout>

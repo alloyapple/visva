@@ -13,7 +13,6 @@ public final class GlobalValue {
 	public static String USER_ID = "user_id";
 	public static String userEmail = "";
 
-
 	public static final int DIALOG_FAILED_TO_CONNECT_SERVER = 0;
 
 	public static final int MSG_REPONSE_SUCESS = 1;
@@ -53,8 +52,8 @@ public final class GlobalValue {
 
 	// gcm
 	public static final String SENDER_ID = "622843213634";
-	//780637496192
-	//622843213634 
+	// 780637496192
+	// 622843213634
 	public static final String EXTRA_TYPE_CHECKIN = "Checkin";
 	public static final String EXTRA_TYPE_REGISTER = "Register";
 	public static final String EXTRA_TYPE_PURCHASE = "Purchase";
@@ -72,4 +71,13 @@ public final class GlobalValue {
 	public static final int NOTIFICATION_ID_REGISTER = 2;
 	public static final int NOTIFICATION_ID_PURCHARSE = 3;
 	public static final int NOTIFICATION_ID_NOTIFY = 4;
+
+	// type category
+	public static final String TYPE_MERCHANT_CATEGORY = "merchant_category";
+	public static final String TYPE_CAMPAIGNS = "campaigns";
+	public static final String TYPE_MERCH_PRODUCTS = "merch_products";
+	public static final String TYPE_MERCH_STORE = "merch_store";
+	public static final String TYPE_GIFT = "gifts";
+	public static final String TYPE_FAVOURITE_PRODUCT = "favourite_products";
+	public static final String TYPE_FAVOURITE_BRAND = "favourite_brand";
 }
