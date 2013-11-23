@@ -12,7 +12,9 @@ import org.json.JSONObject;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyIconAdapter;
+import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
@@ -23,8 +25,10 @@ import vn.com.shoppie.fragment.SearchBrandFragment;
 import vn.com.shoppie.fragment.SearchMapFragment;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.HorizontalListView;
+import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -38,12 +42,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 public class SearchActivity extends FragmentActivity implements
@@ -63,7 +61,8 @@ public class SearchActivity extends FragmentActivity implements
 	private FragmentTransaction mTransaction;
 	private HorizontalListView mTitleSearchListView;
 	private EditText edtSearch;
-	// =========================Class Define --------------------
+	// =========================Class Define ===================
+	private ShoppieDBProvider mShoppieDBProvider;
 	// =========================Variable Define==================
 	private ArrayList<String> backstack = new ArrayList<String>();
 
@@ -77,12 +76,12 @@ public class SearchActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_search_activity);
 
-		Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show();
 		intialize();
 	}
 
 	private void intialize() {
 		// TODO Auto-generated method stub
+		mShoppieDBProvider = new ShoppieDBProvider(this);
 		mTitleSearchListView = (HorizontalListView) findViewById(R.id.list_title_search);
 
 		mFmManager = getSupportFragmentManager();
@@ -91,17 +90,15 @@ public class SearchActivity extends FragmentActivity implements
 		mSearchBrandDetailFragment = (SearchBrandDetailFragment) mFmManager
 				.findFragmentById(R.id.search_brand_detail_fragment);
 
-		mSearchMapFragment = (SearchMapFragment)
-        		mFmManager.findFragmentById(R.id.search_map_fragment);
-		
+		mSearchMapFragment = (SearchMapFragment) mFmManager
+				.findFragmentById(R.id.search_map_fragment);
+
 		mSearchBrandDetailFragment.setListener(this);
 		showFragment(SEARCH_BRAND_FRAGMENT_ID);
 		mTransaction = hideFragment();
 		mTransaction.show(mSearchBrandFragment);
 		addToSBackStack(SEARCH_BRAND_FRAGMENT_STRING);
 		mTransaction.commit();
-
-		requestToGetCampainCategory();
 		edtSearch = (EditText) findViewById(R.id.edt_search);
 		edtSearch.addTextChangedListener(new TextWatcher() {
 
@@ -125,6 +122,36 @@ public class SearchActivity extends FragmentActivity implements
 				mSearchBrandFragment.filter(edtSearch.getText().toString());
 			}
 		});
+
+		/** request to server to get campaign category */
+		if (NetworkUtility.getInstance(this).isNetworkAvailable()){
+			Log.e("adfjfh", "adfdddddd ");
+			requestToGetCampainCategory();
+		}
+		else {
+			getMerchantCategoryFromDB();
+		}
+	}
+
+	private void getMerchantCategoryFromDB() {
+		// TODO Auto-generated method stub
+		
+		JsonDataObject jsonDataObject = mShoppieDBProvider
+				.getJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
+		String merchantCategory = jsonDataObject.getJsonData();
+		if (merchantCategory != null && !"".equals(merchantCategory))
+			try {
+				JSONObject jsonObject = new JSONObject(merchantCategory);
+				Gson gson = new Gson();
+				MerchantCategoryList merchantCategoryList = gson.fromJson(
+						jsonObject.toString(), MerchantCategoryList.class);
+				setIconAdapter(merchantCategoryList.getResult());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+			showToast(getString(R.string.network_unvailable));
 	}
 
 	private void addToSBackStack(String tag) {
@@ -247,7 +274,8 @@ public class SearchActivity extends FragmentActivity implements
 		Log.d("Category Color", "Color start");
 		for (int i = 0; i < catelogyList.size(); i++) {
 			iconDataList.add(catelogyList.get(i));
-			Log.d("Category Color", "Color " + catelogyList.get(i).getLineColor());
+			Log.d("Category Color", "Color "
+					+ catelogyList.get(i).getLineColor());
 		}
 
 		CatelogyIconAdapter adapter = new CatelogyIconAdapter(this,
@@ -259,12 +287,37 @@ public class SearchActivity extends FragmentActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				setDataByIcon(iconDataList.get(position) , false);
+				setDataByIcon(iconDataList.get(position), false);
 			}
 		});
-		
+
 		ShopieSharePref mShopieSharePref = new ShopieSharePref(this);
-		requestGetMerchantStores(String.valueOf(mShopieSharePref.getCustId()));
+		if (NetworkUtility.getInstance(this).isNetworkAvailable())
+			requestGetMerchantStores(String.valueOf(mShopieSharePref
+					.getCustId()));
+		else
+			requestGetMerchantStoresFromDB();
+	}
+
+	private void requestGetMerchantStoresFromDB() {
+		// TODO Auto-generated method stub
+		JsonDataObject jsonDataObject = mShoppieDBProvider
+				.getJsonData(GlobalValue.TYPE_MERCH_STORE);
+		String merchantStores = jsonDataObject.getJsonData();
+		if (merchantStores != null && !"".equals(merchantStores))
+			try {
+				JSONObject jsonObject = new JSONObject(merchantStores);
+				Gson gson = new Gson();
+				MerchantStoreList merchantStoreList = gson
+						.fromJson(jsonObject.toString(),
+								MerchantStoreList.class);
+				setStoreData(merchantStoreList.getResult());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+			showToast(getString(R.string.network_unvailable));
 	}
 
 	private void requestToGetCampainCategory() {
@@ -302,7 +355,7 @@ public class SearchActivity extends FragmentActivity implements
 	private void setStoreData(ArrayList<MerchantStoreItem> data) {
 		manageCategoryByStore.clear();
 		setPieMap(data);
-		
+
 		manageData.clear();
 		for (int i = 0; i < iconDataList.size(); i++) {
 			manageData
@@ -314,20 +367,21 @@ public class SearchActivity extends FragmentActivity implements
 				if (iconDataList.get(i).getMerchCatId() == merchantStoreItem
 						.getMerchCatId()) {
 					manageData.get(iconDataList.get(i)).add(merchantStoreItem);
-					manageCategoryByStore.put(merchantStoreItem, iconDataList.get(i));
+					manageCategoryByStore.put(merchantStoreItem,
+							iconDataList.get(i));
 					break;
 				}
 			}
 		}
 
 		if (iconDataList.size() > 0)
-			setDataByIcon(iconDataList.get(0) , false);
+			setDataByIcon(iconDataList.get(0), false);
 	}
 
-	public void setDataByIcon(MerchantCategoryItem icon , boolean isUpdateMap) {
+	public void setDataByIcon(MerchantCategoryItem icon, boolean isUpdateMap) {
 		mSearchBrandFragment.setAdapter(manageData.get(icon));
-		
-		if(isUpdateMap) {
+
+		if (isUpdateMap) {
 			setPieMap(manageData.get(icon));
 		}
 	}
@@ -348,17 +402,13 @@ public class SearchActivity extends FragmentActivity implements
 							MerchantStoreList merchantStoreList = gson
 									.fromJson(jsonObject.toString(),
 											MerchantStoreList.class);
-							Log.e("merchantproductlist", "merchantproductlist "
-									+ merchantStoreList.getResult().size());
+							/** update to database */
+							mShoppieDBProvider
+									.deleteJsonData(GlobalValue.TYPE_MERCH_STORE);
+							JsonDataObject jsonDataObject = new JsonDataObject(
+									response, GlobalValue.TYPE_MERCH_STORE);
+							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 							setStoreData(merchantStoreList.getResult());
-							// for (int i = 0; i < merchantStoreList.getResult()
-							// .size(); i++) {
-							// Log.e("merchantproductlist",
-							// "merchantproductlist "
-							// + merchantStoreList.getResult()
-							// .get(i)
-							// .getMerchBanner());
-							// }
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -374,18 +424,17 @@ public class SearchActivity extends FragmentActivity implements
 		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
 	}
 
-
 	@Override
 	public void onClickViewStoreDetail(MerchantStoreItem store) {
 		// TODO Auto-generated method stub
 		showFragment(SEARCH_BRAND_DETAIL_FRAGMENT_ID);
 		mSearchBrandDetailFragment.updateUI(store);
 	}
-	
+
 	public void setPieMap(List<MerchantStoreItem> data) {
 		mSearchMapFragment.updatePie(data);
 	}
-	
+
 	public MerchantCategoryItem getCategoryByStore(MerchantStoreItem store) {
 		return manageCategoryByStore.get(store);
 	}

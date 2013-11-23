@@ -2,20 +2,21 @@ package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.GlobalValue;
+import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnStartExtend;
@@ -50,11 +51,11 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private CatelogyAdapter adapter;
 	private boolean isChecked = false;
 	private TextView mTxtTitle;
-	private ShopieSharePref mShopieSharePref;
 
 	// Google analysis
 	protected Tracker mGaTracker;
 	protected GoogleAnalytics mGaInstance;
+	private ShoppieDBProvider mShoppieDBProvider;
 
 	@Override
 	public int contentView() {
@@ -80,7 +81,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
 		actionBar.addView(mTxtTitle, -1, -1);
-		mShopieSharePref = new ShopieSharePref(this);
 
 		checkinCircle = findViewById(R.id.checkin_circle);
 		pager = (MPager) findViewById(R.id.pager);
@@ -105,24 +105,32 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
-		requestToGetCampainCategory();
-
-		//requestupdateToGetMerchProducts("95", "148"/*
-		//											 * +mShopieSharePref.getCustId
-		//											 * ()
-		//											 */);
-
-		//updateLuckyPie("95", "148"/*
-		//						 * +mShopieSharePref.getCustId ()
-		//						 */);
-
-		//requestGetMerchantStores("148"/** +mShopieSharePref.getCustId () */
-		//);
-
-		//requestToUpdateFriends("241"/** +mShopieSharePref.getCustId () */
-		//);
+		mShoppieDBProvider = new ShoppieDBProvider(this);
+		if (NetworkUtility.getInstance(this).isNetworkAvailable())
+			requestToGetMerchantCategory();
+		else
+			getMerchantCategoryFromDB();
 	}
 
+	private void getMerchantCategoryFromDB() {
+		// TODO Auto-generated method stub
+		JsonDataObject jsonDataObject = mShoppieDBProvider
+				.getJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
+		String merchantCategory = jsonDataObject.getJsonData();
+		if (merchantCategory != null && !"".equals(merchantCategory))
+			try {
+				JSONObject jsonObject = new JSONObject(merchantCategory);
+				Gson gson = new Gson();
+				MerchantCategoryList merchantCategoryList = gson.fromJson(
+						jsonObject.toString(), MerchantCategoryList.class);
+				setAdapter(merchantCategoryList.getResult());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+			showToast(getString(R.string.network_unvailable));
+	}
 
 	static int DURATION = 60;
 	public static boolean requesting = false;
@@ -203,9 +211,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 		GA_MAP_PARAMS.clear();
 		GA_MAP_PARAMS.put("method", "btnClicked");
 		GA_MAP_PARAMS.put("button", "activity_home_btn_pie");
-		//mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
+		// mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 	}
-
 
 	private void updateLuckyPie(String campaignId, String custId) {
 		// TODO Auto-generated method stub
@@ -222,8 +229,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 							StatusUpdatePie statusUpdatePie = gson.fromJson(
 									jsonObject.toString(),
 									StatusUpdatePie.class);
-							Log.e("adkjfhd", "sizeaa "
-									+ statusUpdatePie.getResult().getValue());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -265,10 +270,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 				changeToActivity(intent, false);
 			}
 		});
-
 	}
 
-	private void requestToGetCampainCategory() {
+	private void requestToGetMerchantCategory() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getMerchantCategoryValue();
@@ -283,6 +287,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 							MerchantCategoryList merchantCategoryList = gson
 									.fromJson(jsonObject.toString(),
 											MerchantCategoryList.class);
+							/** update to database */
+							mShoppieDBProvider
+									.deleteJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
+							JsonDataObject jsonDataObject = new JsonDataObject(
+									response,
+									GlobalValue.TYPE_MERCHANT_CATEGORY);
+							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 							setAdapter(merchantCategoryList.getResult());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -364,18 +375,20 @@ public class HomeActivity extends VisvaAbstractActivity {
 			checkinCircle.clearAnimation();
 		}
 	}
-	
+
 	private void hideCheckin() {
 		View v = findViewById(R.id.checkin_layout);
 		MarginLayoutParams params = (MarginLayoutParams) v.getLayoutParams();
-		params.height = (int) getResources().getDimension(R.dimen.footer_height);
+		params.height = (int) getResources()
+				.getDimension(R.dimen.footer_height);
 		v.setLayoutParams(params);
 	}
-	
+
 	private void showCheckin() {
 		View v = findViewById(R.id.checkin_layout);
 		MarginLayoutParams params = (MarginLayoutParams) v.getLayoutParams();
-		params.height = (int) getResources().getDimension(R.dimen.checkin_cirle);
+		params.height = (int) getResources()
+				.getDimension(R.dimen.checkin_cirle);
 		v.setLayoutParams(params);
 	}
 }
