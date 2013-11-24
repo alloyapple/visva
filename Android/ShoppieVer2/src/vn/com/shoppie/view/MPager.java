@@ -234,13 +234,19 @@ public class MPager extends RelativeLayout{
 	
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubz
 		if(lockSlide)
 			return super.onInterceptTouchEvent(ev);
 		if(isSlide)
 			return true;
 		else{
 			onTouchEvent(ev);
+			
+			if(container.getParent() != container1){
+				return super.onInterceptTouchEvent(ev);
+			}
+			if(Math.abs(ev.getY() - downY) > 10)
+				return true;
 			return false;
 		}
 	}
@@ -306,6 +312,20 @@ public class MPager extends RelativeLayout{
 		isSlide = false;
 	}
 
+	private void finishByFlying() {
+		int time = 1000;
+		if(inoutMode == SLIDE_IN){
+			mScroller.startScroll((int) currentX, 0, distanceX, 100 , 800);
+		}
+		else{
+			mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 800);
+		}
+		invalidate();
+		isAutoSlide = true;
+		isOpenMoveSlide = false;
+		isSlide = false;
+	}
+	
 	/**
 	 * 
 	 * @param value 0 if collapse. other if extend
@@ -796,7 +816,7 @@ public class MPager extends RelativeLayout{
 			if(!isSlide){
 				int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4;
 				if(Math.abs(distanceX) < minSlide && Math.abs(event.getX() - downX) < minSlide){
-					if(event.getY() - downY > minSlide * 6){
+					if(event.getY() - downY > minSlide * 3){
 						extendView();
 					}
 				}
@@ -881,52 +901,13 @@ public class MPager extends RelativeLayout{
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//			if(velocityX > 100){
-//				if(!isSlide){
-//					if(velocityY > 0){
-//						slideMode = SLIDE_DOWN;
-//					}
-//					else{
-//						slideMode = SLIDE_UP;
-//					}
-//					if(e2.getX() > downX){
-//						if(container.getChildCount() <= 1)
-//							return false;
-//						startSlideIn();
-//					}
-//					else{
-//						if(container.getChildCount() <= 2)
-//							return false;
-//						startSlideOut();
-//					}
-//					isSlide = true;
-//					//					value = 0;
-//				}
-//				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1000);
-//				invalidate();
-//			}
-//			else if(velocityX < -100){
-//
-//				if(!isSlide){
-//					if(true){
-//						slideMode = SLIDE_DOWN;
-//						if(e2.getX() > downX){
-//							if(container.getChildCount() <= 1)
-//								return false;
-//							startSlideIn();
-//						}
-//						else{
-//							if(container.getChildCount() <= 2)
-//								return false;
-//							startSlideOut();
-//						}
-//					}
-//					isSlide = true;
-//					//					value = 0;
-//				}
-//				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1000);
-//				invalidate();
-//			}
+			if(velocityX > 100 && isSlide && inoutMode == SLIDE_IN){
+				finishByFlying();
+			}
+			else if(velocityX < -100 && isSlide && inoutMode == SLIDE_OUT){
+				finishByFlying();
+			}
+			
 			return false;
 		}
 	}
