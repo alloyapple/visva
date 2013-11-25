@@ -330,9 +330,13 @@ public class MPager extends RelativeLayout{
 	private void finishByFlying() {
 		int time = 1000;
 		if(inoutMode == SLIDE_IN){
+			if(!mAdapter.isCircle())
+				return;
 			mScroller.startScroll((int) currentX, 0, distanceX, 100 , 800);
 		}
 		else{
+			if(!mAdapter.canbeNext(currentItem))
+				return;
 			mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 800);
 		}
 		invalidate();

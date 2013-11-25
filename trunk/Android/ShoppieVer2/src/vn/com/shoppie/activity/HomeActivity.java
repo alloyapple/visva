@@ -2,12 +2,15 @@ package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.GlobalValue;
+import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
@@ -39,6 +42,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import com.google.gson.Gson;
@@ -51,12 +55,12 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private CatelogyAdapter adapter;
 	private boolean isChecked = false;
 	private TextView mTxtTitle;
-
+	
 	// Google analysis
 	protected Tracker mGaTracker;
 	protected GoogleAnalytics mGaInstance;
 	private ShoppieDBProvider mShoppieDBProvider;
-
+	private ShopieSharePref mSharePref;
 	@Override
 	public int contentView() {
 		// TODO Auto-generated method stub
@@ -105,6 +109,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
+		mSharePref = new ShopieSharePref(this);
+		
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestToGetMerchantCategory();
@@ -260,7 +266,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 						CollectionList.class);
 				intent.putExtra(CollectionList.KEY_MERCHANT_ID, ""
 						+ adapter.getItem(pos).getMerchCatId());
-				intent.putExtra(CollectionList.KEY_CUSTOMER_ID, "149");
+				intent.putExtra(CollectionList.KEY_CUSTOMER_ID, String.valueOf(mSharePref.getCustId()));
 				intent.putExtra(CollectionList.KEY_ICON, adapter.getItem(pos)
 						.getIcon());
 				intent.putExtra(CollectionList.KEY_TITLE, adapter.getItem(pos)

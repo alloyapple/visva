@@ -28,6 +28,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -128,6 +129,41 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							View text = (View) v.getTag();
 							closeDesc(text);
 							mPager.setLockSlide(false);
+						}
+					});
+					
+					Button btFacebook = (Button) v.findViewById(R.id.bt_fb);
+					btFacebook.setTag(getItem(position));
+					Button btMail = (Button) v.findViewById(R.id.bt_mail);
+					btMail.setTag(getItem(position));
+					Button btSms = (Button) v.findViewById(R.id.bt_sms);
+					btSms.setTag(getItem(position));
+					
+					btFacebook.setOnClickListener(new OnClickListener() {
+											
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							MerchProductItem item = (MerchProductItem) v.getTag();
+							publishFeedDialog(item);
+						}
+					});
+					btSms.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							MerchProductItem item = (MerchProductItem) v.getTag();
+							initShareSMS(item);
+						}
+					});
+					btMail.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							MerchProductItem item = (MerchProductItem) v.getTag();
+							initShareItent(item);
 						}
 					});
 				}
@@ -231,7 +267,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					ImageLoader.getInstance(context).DisplayImage(
 							CatelogyAdapter.URL_HEADER
 									+ data.get(position).getProductImage(),
-							image);
+							image  , true
+							, true , false , false , true);
 					isNeedUpdateImage[position] = false;
 				}
 			}
@@ -245,9 +282,40 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			freeImageForException(position);
 			return getView(position);
 		}
-
 	}
 
+	public void freeImage(int currPos) {
+		int pre = 0;
+		int next = 0;
+		if (currPos == 0) {
+			pre = getCount() - 1;
+			next = currPos + 1;
+		} else if (currPos == getCount() - 1) {
+			pre = currPos - 1;
+			next = 0;
+		}
+		
+		for (int i = 0; i < cacheView.length; i++) {
+			if (i != currPos && i != pre && i != next) {
+				View v = cacheView[i];
+				if(v != null) {
+					View image = v.findViewById(R.id.image);
+					if (image != null) {
+						BitmapDrawable d = (BitmapDrawable) image.getBackground();
+						image.setBackgroundDrawable(null);
+						if(d != null) {
+							Bitmap b = d.getBitmap();
+							b.recycle();
+							b = null;
+						}
+					}
+				}
+				if(!isNeedUpdateImage[i])
+					isNeedUpdateImage[i] = true;
+			}
+		}
+	}
+	
 	private void freeImageForException(int pos) {
 		int pre = 0;
 		int next = 0;
@@ -262,16 +330,20 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		for (int i = 0; i < cacheView.length; i++) {
 			View v = cacheView[i];
 			if (i != pos && i != pre && i != next) {
-				View image = v.findViewById(R.id.image);
-				if (image != null) {
-					BitmapDrawable d = (BitmapDrawable) image.getBackground();
-					image.setBackgroundDrawable(null);
-					Bitmap b = d.getBitmap();
-					b.recycle();
-					b = null;
-					System.gc();
-					isNeedUpdateImage[i] = true;
+				if(v != null) {
+					View image = v.findViewById(R.id.image);
+					if (image != null) {
+						BitmapDrawable d = (BitmapDrawable) image.getBackground();
+						image.setBackgroundDrawable(null);
+						if(d != null) {
+							Bitmap b = d.getBitmap();
+							b.recycle();
+							b = null;
+							System.gc();
+						}
+					}
 				}
+				isNeedUpdateImage[i] = true;
 			}
 		}
 	}
@@ -400,8 +472,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	@Override
 	public boolean canbeNext(int curId) {
 		// TODO Auto-generated method stub
-		if (curId == getCount() - 2 && !pied)
-			return false;
+//		if (curId == getCount() - 2 && !pied)
+//			return false;
 		return true;
 	}
 
@@ -417,13 +489,13 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	 * 
 	 * @param image_url
 	 */
-	private void publishFeedDialog(final String image_url) {
+	private void publishFeedDialog(MerchProductItem item) {
 		Bundle params = new Bundle();
 		params.putString("name", "Shoppie");
 		params.putString("caption", "");
 		params.putString("description",
 				context.getString(R.string.introduct_invitation));
-		params.putString("link", "" + image_url);
+//		params.putString("link", "" + image_url);
 		params.putString("picture",
 				"http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
 		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(context,
@@ -455,7 +527,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	/**
 	 * share via email
 	 */
-	private void initShareItent() {
+	private void initShareItent(MerchProductItem item) {
 		Intent share = new Intent(android.content.Intent.ACTION_SEND);
 		share.setType("text/plain");
 		share.putExtra(Intent.EXTRA_SUBJECT, "Shoppie Invitation");
@@ -472,7 +544,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	/**
 	 * share vis sms
 	 */
-	private void initShareSMS() {
+	private void initShareSMS(MerchProductItem item) {
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
 		sendIntent.putExtra("sms_body",
 				context.getString(R.string.introduct_invitation));
