@@ -21,57 +21,122 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 
 public class ImageLoader {
 
+	private int REQUIRED_SIZE = 512;
+	
 	MemoryCache memoryCache = new MemoryCache();
 	FileCache fileCache;
-	private Map<ImageView, String> imageViews = Collections
-			.synchronizedMap(new WeakHashMap<ImageView, String>());
+	private Map<View, String> imageViews = Collections
+			.synchronizedMap(new WeakHashMap<View, String>());
 	ExecutorService executorService;
 	// Handler to display images in UI thread
 	Handler handler = new Handler();
 
+	private static ImageLoader instance;
+	private Context context;
+	
+	public static ImageLoader getInstance(Context context){
+		if(instance == null)
+			instance = new ImageLoader(context);
+		return instance;
+	}
+	
 	public ImageLoader(Context context) {
+		this.context = context;
 		fileCache = new FileCache(context);
 		executorService = Executors.newFixedThreadPool(5);
 	}
 
 	final int stub_id = R.drawable.bg_avatar;
 
-	public void DisplayImage(String url, ImageView imageView) {
-		imageViews.put(imageView, url);
-		Bitmap bitmap = memoryCache.get(url);
-		if (bitmap != null)
-			imageView.setImageBitmap(bitmap);
-		else {
-			queuePhoto(url, imageView);
-			imageView.setImageResource(stub_id);
+	private void setImageBitmap(View v , Bitmap bitmap) {
+		if(v instanceof ImageView) {
+			((ImageView) v).setImageBitmap(bitmap);
 		}
+		else {
+			v.setBackgroundDrawable(new BitmapDrawable(bitmap));
+		}
+		Log.d("Bitmap Size", "Bitmap Size w " + bitmap.getWidth() + " h " + bitmap.getHeight());
 	}
-
-	public void DisplayImage(String url, ImageView imageView , int width) {
-		imageViews.put(imageView, url);
-		Bitmap bitmap = memoryCache.get(url);
-		if (bitmap != null) {
-			if(width < bitmap.getWidth())
-				imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, width, bitmap.getHeight() / bitmap.getWidth() * width, false));
-			else
-				imageView.setImageBitmap(bitmap);
+	
+	private void setImageResource(View v , int resId) {
+		if(v instanceof ImageView) {
+			((ImageView) v).setImageResource(resId);
 		}
 		else {
-			queuePhoto(url, imageView);
-			imageView.setImageResource(stub_id);
+			v.setBackgroundResource(resId);
 		}
 	}
 	
-	private void queuePhoto(String url, ImageView imageView) {
+	public void DisplayImage(String url, View imageView) {
+		imageViews.put(imageView, url);
+		Bitmap bitmap = memoryCache.get(url);
+		if (bitmap != null) 
+			setImageBitmap(imageView, bitmap);
+//			imageView.setImageBitmap(bitmap);
+		else {
+			queuePhoto(url, imageView);
+//			imageView.setImageResource(stub_id);
+			setImageResource(imageView, stub_id);
+		}
+	}
+	
+	public void DisplayImage(String url, View imageView , boolean topleft
+			, boolean topright , boolean bottomleft , boolean bottomright) {
+		DisplayImage(url, imageView, topleft, topright, bottomleft, bottomright, true);
+	}
+	
+	public void DisplayImage(String url, View imageView , boolean topleft
+			, boolean topright , boolean bottomleft , boolean bottomright , boolean keepSize) {
+		imageViews.put(imageView, url);
+		Bitmap bitmap = memoryCache.get(url);
+		if (bitmap != null) {
+			if(keepSize) {
+				Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(bitmap, topleft, topright, bottomleft, bottomright);
+				setImageBitmap(imageView, bmp);
+			}
+			else {
+				Log.d("KeepSize", "NonKeepSize1");
+				MarginLayoutParams params = (MarginLayoutParams) imageView.getLayoutParams();
+				Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(bitmap, topleft, topright, bottomleft, bottomright , params.width , params.height);
+				setImageBitmap(imageView, bmp);
+			}
+		}
+		else {
+			queuePhoto(url, imageView, topleft
+					, topright , bottomleft , bottomright , keepSize);
+			setImageResource(imageView, stub_id);
+		}
+	}
+	
+	private void queuePhoto(String url, View imageView) {
 		PhotoToLoad p = new PhotoToLoad(url, imageView);
 		executorService.submit(new PhotosLoader(p));
 	}
 
+	private void queuePhoto(String url, View imageView
+			, boolean topleft , boolean topright
+			, boolean bottomleft , boolean bottomright ) {
+		PhotoToLoad p = new PhotoToLoad(url, imageView , topleft ,
+				topright , bottomleft , bottomright);
+		executorService.submit(new PhotosLoader(p));
+	}
+	
+	private void queuePhoto(String url, View imageView
+			, boolean topleft , boolean topright
+			, boolean bottomleft , boolean bottomright 
+			, boolean keepSize) {
+		PhotoToLoad p = new PhotoToLoad(url, imageView , topleft ,
+				topright , bottomleft , bottomright , keepSize);
+		executorService.submit(new PhotosLoader(p));
+	}
+	
 	private Bitmap getBitmap(String url) {
 		File f = fileCache.getFile(url);
 
@@ -115,7 +180,7 @@ public class ImageLoader {
 
 			// Find the correct scale value. It should be the power of 2.
 			// Recommended Size 512
-			final int REQUIRED_SIZE = 512;
+			
 			int width_tmp = o.outWidth, height_tmp = o.outHeight;
 			int scale = 1;
 			while (true) {
@@ -144,11 +209,38 @@ public class ImageLoader {
 	// Task for the queue
 	private class PhotoToLoad {
 		public String url;
-		public ImageView imageView;
-
-		public PhotoToLoad(String u, ImageView i) {
+		public View imageView;
+		public boolean roundCornerTopLeft = false;
+		public boolean roundCornerTopRight = false;
+		public boolean roundCornerBottomLeft = false;
+		public boolean roundCornerBottomRight = false;
+		public boolean keepSize = true;
+		public PhotoToLoad(String u, View i) {
 			url = u;
 			imageView = i;
+		}
+		
+		public PhotoToLoad(String u, View i , boolean roundCornerTopLeft ,
+				boolean roundCornerTopRight , boolean roundCornerBottomLeft ,
+				boolean roundCornerBottomRight) {
+			url = u;
+			imageView = i;
+			this.roundCornerTopLeft     = roundCornerTopLeft;
+			this.roundCornerTopRight    = roundCornerTopRight;
+			this.roundCornerBottomLeft  = roundCornerBottomLeft;
+			this.roundCornerBottomRight = roundCornerBottomRight;
+		}
+		
+		public PhotoToLoad(String u, View i , boolean roundCornerTopLeft ,
+				boolean roundCornerTopRight , boolean roundCornerBottomLeft ,
+				boolean roundCornerBottomRight , boolean keepSize) {
+			url = u;
+			imageView = i;
+			this.roundCornerTopLeft     = roundCornerTopLeft;
+			this.roundCornerTopRight    = roundCornerTopRight;
+			this.roundCornerBottomLeft  = roundCornerBottomLeft;
+			this.roundCornerBottomRight = roundCornerBottomRight;
+			this.keepSize = keepSize;
 		}
 	}
 
@@ -168,6 +260,7 @@ public class ImageLoader {
 				memoryCache.put(photoToLoad.url, bmp);
 				if (imageViewReused(photoToLoad))
 					return;
+				
 				BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
 				handler.post(bd);
 			} catch (Throwable th) {
@@ -196,10 +289,25 @@ public class ImageLoader {
 		public void run() {
 			if (imageViewReused(photoToLoad))
 				return;
-			if (bitmap != null)
-				photoToLoad.imageView.setImageBitmap(bitmap);
+			if (bitmap != null) {
+				if(photoToLoad.keepSize) {
+					Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(bitmap, photoToLoad.roundCornerTopLeft, photoToLoad.roundCornerTopRight
+						, photoToLoad.roundCornerBottomLeft, photoToLoad.roundCornerBottomRight);
+					setImageBitmap(photoToLoad.imageView, bmp);
+				}
+				else {
+					Log.d("KeepSize", "NonKeepSize " + photoToLoad.roundCornerTopLeft + photoToLoad.roundCornerTopRight
+							+ photoToLoad.roundCornerBottomLeft + photoToLoad.roundCornerBottomRight);
+					MarginLayoutParams params = (MarginLayoutParams) photoToLoad.imageView.getLayoutParams();
+					Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(bitmap, photoToLoad.roundCornerTopLeft, photoToLoad.roundCornerTopRight
+							, photoToLoad.roundCornerBottomLeft, photoToLoad.roundCornerBottomRight
+							, params.width , params.height);
+						setImageBitmap(photoToLoad.imageView, bmp);
+				}
+				
+			}
 			else
-				photoToLoad.imageView.setImageResource(stub_id);
+				setImageResource(photoToLoad.imageView, stub_id);
 		}
 	}
 
@@ -208,4 +316,7 @@ public class ImageLoader {
 		fileCache.clear();
 	}
 
+	public void setRequiredSize(int REQUIRED_SIZE) {
+		this.REQUIRED_SIZE = REQUIRED_SIZE;
+	}
 }

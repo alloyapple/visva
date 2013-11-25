@@ -2,13 +2,18 @@
 <!-- Tam thoi fix kich thuoc o day, cho tinh kich thuoc cho cac man hinh tab sau -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/page_item_width"
-    android:layout_height="@dimen/page_item_icon_height"
-    android:background="@android:color/white" >
+    android:layout_height="@dimen/page_item_icon_height" >
     <View 
     	android:layout_width="@dimen/page_item_icon_height"
     	android:layout_height="@dimen/page_item_icon_height"
     	android:id="@+id/icon"
-    	android:background="#F5C63B"    
+    	android:background="@drawable/head_bg_center"
+        />
+    <View 
+        android:layout_width="match_parent"
+    	android:layout_height="@dimen/page_item_icon_height"
+    	android:layout_toRightOf="@id/icon"
+        android:background="@drawable/round_topright_corner"
         />
 	<TextView 
 	    android:id="@+id/catelogy"

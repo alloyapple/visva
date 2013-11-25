@@ -1,9 +1,11 @@
 package vn.com.shoppie.activity;
 
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.adapter.GiftAdapter;
@@ -16,7 +18,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.JsonDataObject;
-import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
@@ -34,8 +36,9 @@ public class ActivityGiftTransaction extends Activity {
 
 	private ListView listView;
 	private LinearLayout content;
+	private GiftAdapter adapter;
 	private ShoppieDBProvider mShoppieDBProvider;
-
+	private ImageLoader imageLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -106,7 +109,7 @@ public class ActivityGiftTransaction extends Activity {
 			View image = headerView.findViewById(R.id.image);
 			// listView.addHeaderView(headerView);
 
-			CoverLoader.getInstance(this).DisplayImage(
+			ImageLoader.getInstance(this).DisplayImage(
 					CatelogyAdapter.URL_HEADER + onTopItem.getGiftImage(),
 					image);
 
@@ -115,7 +118,7 @@ public class ActivityGiftTransaction extends Activity {
 					.getDimension(R.dimen.gift_item_padding));
 		}
 
-		GiftAdapter adapter = new GiftAdapter(this, listItem);
+		adapter = new GiftAdapter(this, listItem);
 		// listView.setAdapter(adapter);
 
 		for (int i = 0; i < adapter.getCount(); i++) {
@@ -125,6 +128,14 @@ public class ActivityGiftTransaction extends Activity {
 		}
 	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		content.removeAllViews();
+		adapter = null;
+	}
+	
 	private void updateListGift() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.getGiftList();

@@ -73,6 +73,8 @@
     <dimen name="gift_item_title_textsize">20sp</dimen>
     <dimen name="gift_item_name_textsize">14sp</dimen>
     <dimen name="gift_item_name_height">20dp</dimen>
+
+    <dimen name="conner_circle_radius">8dp</dimen>
     
     <!-- Shoppie 4 -->
     <integer name="display_width">400</integer>

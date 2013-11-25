@@ -235,6 +235,21 @@ public class MPager extends RelativeLayout{
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stubz
+//		switch (ev.getAction()) {
+//		case MotionEvent.ACTION_MOVE:
+//			if(Math.abs(ev.getX() - downX) > 10 || Math.abs(ev.getY() - downY) > 10) {
+//				ev.setAction(MotionEvent.ACTION_CANCEL);
+//				Log.d("Move", "False");
+//				return false;
+//			}
+//			else {
+//				Log.d("Move", "True");
+//			}
+//			break;
+//
+//		default:
+//			break;
+//		}
 		if(lockSlide)
 			return super.onInterceptTouchEvent(ev);
 		if(isSlide)

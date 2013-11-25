@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchCampaignItem;
-import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.ImageLoader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,9 +71,7 @@ public class ListCollectionAdapter extends BaseAdapter{
 		holder.title.setText(getItem(position).getCampaignName());
 		holder.subTitle.setText(getItem(position).getCampaignDesc());
 		holder.like.setText("" + getItem(position).getLikedNumber());
-		CoverLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + getItem(position).getCampaignImage(), holder.image
-				, (int) context.getResources().getDimension(R.dimen.collection_item_item_width)
-				, (int) context.getResources().getDimension(R.dimen.collection_item_item_height));
+		ImageLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + getItem(position).getCampaignImage(), holder.image);
 		
 		return convertView;
 	}

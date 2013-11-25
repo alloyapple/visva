@@ -5,15 +5,16 @@
     android:layout_height="@dimen/page_item_height"
     android:layout_gravity="center" >
     <View 
-        android:layout_width="match_parent"
-    	android:layout_height="@dimen/page_item_icon_height"
-        android:background="@android:color/white"
-        />
-    <View 
     	android:layout_width="@dimen/page_item_icon_height"
     	android:layout_height="@dimen/page_item_icon_height"
     	android:id="@+id/icon"
     	android:background="@drawable/head_bg_center"
+        />
+    <View 
+        android:layout_width="match_parent"
+    	android:layout_height="@dimen/page_item_icon_height"
+    	android:layout_toRightOf="@id/icon"
+        android:background="@drawable/round_topright_corner"
         />
 	<TextView 
 	    android:id="@+id/catelogy"
@@ -51,11 +52,10 @@
     	android:paddingLeft="18dp"
     	android:paddingTop="5dp"
 	    />
-	<ImageView 
+	<View 
 	    android:id="@+id/image"
 	    android:layout_width="match_parent"
     	android:layout_height="match_parent"
     	android:layout_below="@id/icon"
-    	android:background="@drawable/images01"
 	    />
 </RelativeLayout>

@@ -6,7 +6,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
-import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
 import android.content.Context;
@@ -37,8 +37,7 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 		cacheView = new View[getCount()];
 	}
 	
-	@Override
-	public View getView(final int position) {
+	public View getView(final int position , boolean showBottom) {
 		View v;
 		if(cacheView[position] != null){
 			v = cacheView[position];
@@ -52,14 +51,20 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			TextView  subTitle = (TextView) v.findViewById(R.id.subcatelogy);
 			TextView  tvCount = (TextView) v.findViewById(R.id.count);
 			View 	  icon     = v.findViewById(R.id.icon);
-			ImageView image    = (ImageView) v.findViewById(R.id.image);
+			View image    = v.findViewById(R.id.image);
 			
 			title.setText(data.get(position).getMerchCatName());
 			subTitle.setText(data.get(position).getMerchCatDesc());
 			tvCount.setText("" + data.get(position).getCampaignNumber());
 			
-			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon);
-			CoverLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image);
+			if(showBottom)
+				ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon , true
+					, false , false , false , false);
+			else
+				ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon , true
+						, false , true , false , false);
+				
+			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image);
 
 			cacheView[position] = v;
 		}
@@ -75,6 +80,11 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			}
 		});
 		return v;
+	}
+	
+	@Override
+	public View getView(final int position) {
+		return getView(position, true);
 	}
 	
 	@Override
@@ -153,8 +163,11 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	
 	public void hideBottom() {
 		for(int i = 0 ; i < getCount() ; i++) {
-			View v = getView(i);
+			View v = getView(i , false);
 			v.findViewById(R.id.image).setVisibility(View.INVISIBLE);;
+			Log.d("ImageLoader", "Loader icon " + i);
+			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
+					, false , true , false , false);
 		}
 	}
 	
@@ -162,6 +175,8 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 		for(int i = 0 ; i < getCount() ; i++) {
 			View v = getView(i);
 			View bottom = v.findViewById(R.id.image);
+			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
+					, false , false , false , false);
 			bottom.setVisibility(View.VISIBLE);
 			ObjectAnimator.ofFloat(bottom, "alpha", 0 , 1f).setDuration(500).start();
 		}

@@ -2,9 +2,11 @@ package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.adapter.ListCollectionAdapter;
@@ -17,7 +19,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.JsonDataObject;
-import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
@@ -85,7 +87,7 @@ public class CollectionList extends Activity {
 		TextView titleTv = (TextView) headerView.findViewById(R.id.catelogy);
 		TextView subTitleTv = (TextView) headerView
 				.findViewById(R.id.subcatelogy);
-		CoverLoader.getInstance(this).DisplayImage(
+		ImageLoader.getInstance(this).DisplayImage(
 				CatelogyAdapter.URL_HEADER + iconLink, icon);
 		titleTv.setText(title);
 		subTitleTv.setText(titleDesc);
