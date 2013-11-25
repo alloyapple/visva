@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
-import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.ImageLoader;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
@@ -50,7 +49,7 @@ public class CatelogyIconAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(R.layout.category_header_item, null, false);
 			ImageView imgIcon = (ImageView) v.findViewById(R.id.img_category);
-			CoverLoader.getInstance(context).DisplayImage(
+			ImageLoader.getInstance(context).DisplayImage(
 					CatelogyAdapter.URL_HEADER + data.get(position).getIcon(),
 					imgIcon);
 		}

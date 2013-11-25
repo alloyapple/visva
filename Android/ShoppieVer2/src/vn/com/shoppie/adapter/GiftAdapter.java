@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.GiftItem;
-import vn.com.shoppie.util.CoverLoader;
 import vn.com.shoppie.util.ImageLoader;
 import android.app.Activity;
 import android.content.Context;
@@ -30,6 +29,7 @@ public class GiftAdapter extends BaseAdapter{
 	public GiftAdapter(Activity context , List<GiftItem> data) {
 		this.context = context;
 		mImageLoader = new ImageLoader(context);
+		mImageLoader.setRequiredSize(256);
 		createGroups(data);
 	}
 	
@@ -147,11 +147,7 @@ public class GiftAdapter extends BaseAdapter{
 		
 		tvName.setText(item.getPieQty());
 		
-		CoverLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image
-				, 100
-				, 300);
-//		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image
-//				, (int) context.getResources().getDimension(R.dimen.gift_item_row_height));
+		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image);
 		manageViewByItem.put(item, v);
 		image.setOnClickListener(new OnClickListener() {
 			

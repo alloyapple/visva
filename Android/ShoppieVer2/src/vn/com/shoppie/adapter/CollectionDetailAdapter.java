@@ -3,16 +3,16 @@ package vn.com.shoppie.adapter;
 import java.util.ArrayList;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.activity.PersonalInfoActivity;
 import vn.com.shoppie.database.sobject.MerchProductItem;
-import vn.com.shoppie.object.FBUser;
-import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -73,9 +73,16 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			} else {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				if (position == getCount() - 2)
+				if (position == getCount() - 2) {
 					v = inflater.inflate(R.layout.collectiondetail3, null,
 							false);
+					
+					Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_lucky_pie);
+					Bitmap bg = ImageUtil.getInstance(context).getShapeBitmap(bitmap, true, true, true, true);
+					v.setBackgroundDrawable(new BitmapDrawable(bg));
+					bitmap.recycle();
+					bitmap = null;
+				}
 				else if (position == getCount() - 1)
 					v = inflater.inflate(R.layout.collectiondetail5, null,
 							false);
@@ -221,7 +228,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			if (isNeedUpdateImage[position]) {
 				View image = v.findViewById(R.id.image);
 				if (image != null) {
-					CoverLoader.getInstance(context).DisplayImage(
+					ImageLoader.getInstance(context).DisplayImage(
 							CatelogyAdapter.URL_HEADER
 									+ data.get(position).getProductImage(),
 							image);
