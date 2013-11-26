@@ -6,7 +6,6 @@
     <View 
     	android:layout_width="match_parent"
     	android:layout_height="@dimen/collectiondetail_item_type1_imgheight"
-    	android:background="@drawable/images"
     	android:id="@+id/image"
         />
     <TextView 

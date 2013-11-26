@@ -129,9 +129,11 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 					String id = CollectionList.getNextCampaignId();
 					if (id != null) {
 						camId = id;
+						adapter.freeAll();
 						requestupdateToGetMerchProducts(camId, custId);
 					}
 				}
+				adapter.freeImage(pos);
 			}
 		});
 	}

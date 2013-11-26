@@ -268,22 +268,45 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							CatelogyAdapter.URL_HEADER
 									+ data.get(position).getProductImage(),
 							image  , true
-							, true , false , false , true);
+							, true , false , false , true, false);
 					isNeedUpdateImage[position] = false;
 				}
 			}
 			return v;
 		} catch (OutOfMemoryError e) {
-			freeImageForException(position);
+			freeImage(position);
 			// return null;
-			return new View(context);
+			return getView(position);
 		} catch (InflateException e) {
 			// TODO: handle exception
-			freeImageForException(position);
+			freeImage(position);
 			return getView(position);
 		}
 	}
 
+	public void freeAll() {
+		for (int i = 0; i < cacheView.length; i++) {
+			View v = cacheView[i];
+			if(v != null) {
+				View image = v.findViewById(R.id.image);
+				if (image != null) {
+					BitmapDrawable d = (BitmapDrawable) image.getBackground();
+					image.setBackgroundDrawable(null);
+					if(d != null) {
+						Bitmap b = d.getBitmap();
+						if(b != ImageLoader.defaultBitmap) {
+							b.recycle();
+							b = null;
+						}
+					}
+				}
+			}
+			if(!isNeedUpdateImage[i])
+				isNeedUpdateImage[i] = true;
+		}
+		System.gc();
+	}
+	
 	public void freeImage(int currPos) {
 		int pre = 0;
 		int next = 0;
@@ -293,6 +316,10 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		} else if (currPos == getCount() - 1) {
 			pre = currPos - 1;
 			next = 0;
+		}
+		else {
+			next = currPos + 1;
+			pre = currPos - 1;
 		}
 		
 		for (int i = 0; i < cacheView.length; i++) {
@@ -305,8 +332,10 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						image.setBackgroundDrawable(null);
 						if(d != null) {
 							Bitmap b = d.getBitmap();
-							b.recycle();
-							b = null;
+							if(b != ImageLoader.defaultBitmap) {
+								b.recycle();
+								b = null;
+							}
 						}
 					}
 				}
@@ -314,6 +343,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					isNeedUpdateImage[i] = true;
 			}
 		}
+		System.gc();
 	}
 	
 	private void freeImageForException(int pos) {
