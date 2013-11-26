@@ -18,7 +18,8 @@
     <string name="promt_gender">Giới tính</string>
     <string name="hello_user">Hello %1$s!</string>
     <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
-
+	<string name="pick_image">Pick An Image</string>
+    
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
