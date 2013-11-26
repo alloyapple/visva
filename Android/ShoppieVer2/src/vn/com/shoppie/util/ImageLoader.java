@@ -28,6 +28,8 @@ import android.widget.ImageView;
 
 public class ImageLoader {
 
+	public static Bitmap defaultBitmap;
+	
 	private int REQUIRED_SIZE = 512;
 	
 	MemoryCache memoryCache = new MemoryCache();
@@ -83,7 +85,11 @@ public class ImageLoader {
 		else {
 			queuePhoto(url, imageView);
 //			imageView.setImageResource(stub_id);
-			setImageResource(imageView, stub_id);
+			if(defaultBitmap == null) {
+				defaultBitmap = BitmapFactory.decodeResource(context.getResources(), stub_id);
+			}
+			setImageBitmap(imageView, defaultBitmap);
+//			setImageResource(imageView, stub_id);
 		}
 	}
 	
@@ -94,6 +100,11 @@ public class ImageLoader {
 	
 	public void DisplayImage(String url, View imageView , boolean topleft
 			, boolean topright , boolean bottomleft , boolean bottomright , boolean keepSize) {
+		DisplayImage(url, imageView, topleft, topright, bottomleft, bottomright, keepSize, true);
+	}
+	
+	public void DisplayImage(String url, View imageView , boolean topleft
+			, boolean topright , boolean bottomleft , boolean bottomright , boolean keepSize , boolean isCache) {
 		imageViews.put(imageView, url);
 		Bitmap bitmap = memoryCache.get(url);
 		if (bitmap != null) {
@@ -110,30 +121,38 @@ public class ImageLoader {
 		}
 		else {
 			queuePhoto(url, imageView, topleft
-					, topright , bottomleft , bottomright , keepSize);
-			setImageResource(imageView, stub_id);
+					, topright , bottomleft , bottomright , keepSize , isCache);
+//			setImageResource(imageView, stub_id);
+			if(defaultBitmap == null) {
+				defaultBitmap = BitmapFactory.decodeResource(context.getResources(), stub_id);
+			}
+			setImageBitmap(imageView, defaultBitmap);
 		}
 	}
 	
 	private void queuePhoto(String url, View imageView) {
-		PhotoToLoad p = new PhotoToLoad(url, imageView);
-		executorService.submit(new PhotosLoader(p));
+		queuePhoto(url, imageView, false, false, false, false);
 	}
 
 	private void queuePhoto(String url, View imageView
 			, boolean topleft , boolean topright
 			, boolean bottomleft , boolean bottomright ) {
-		PhotoToLoad p = new PhotoToLoad(url, imageView , topleft ,
-				topright , bottomleft , bottomright);
-		executorService.submit(new PhotosLoader(p));
+		queuePhoto(url, imageView, topleft, topright, bottomleft, bottomright, true);
 	}
 	
 	private void queuePhoto(String url, View imageView
 			, boolean topleft , boolean topright
 			, boolean bottomleft , boolean bottomright 
 			, boolean keepSize) {
+		queuePhoto(url, imageView, topleft, topright, bottomleft, bottomright, keepSize, true);
+	}
+	
+	private void queuePhoto(String url, View imageView
+			, boolean topleft , boolean topright
+			, boolean bottomleft , boolean bottomright 
+			, boolean keepSize , boolean isCache) {
 		PhotoToLoad p = new PhotoToLoad(url, imageView , topleft ,
-				topright , bottomleft , bottomright , keepSize);
+				topright , bottomleft , bottomright , keepSize , isCache);
 		executorService.submit(new PhotosLoader(p));
 	}
 	
@@ -210,6 +229,7 @@ public class ImageLoader {
 	private class PhotoToLoad {
 		public String url;
 		public View imageView;
+		public boolean isCache = true;
 		public boolean roundCornerTopLeft = false;
 		public boolean roundCornerTopRight = false;
 		public boolean roundCornerBottomLeft = false;
@@ -242,6 +262,19 @@ public class ImageLoader {
 			this.roundCornerBottomRight = roundCornerBottomRight;
 			this.keepSize = keepSize;
 		}
+		
+		public PhotoToLoad(String u, View i , boolean roundCornerTopLeft ,
+				boolean roundCornerTopRight , boolean roundCornerBottomLeft ,
+				boolean roundCornerBottomRight , boolean keepSize , boolean isCache) {
+			url = u;
+			imageView = i;
+			this.roundCornerTopLeft     = roundCornerTopLeft;
+			this.roundCornerTopRight    = roundCornerTopRight;
+			this.roundCornerBottomLeft  = roundCornerBottomLeft;
+			this.roundCornerBottomRight = roundCornerBottomRight;
+			this.keepSize = keepSize;
+			this.isCache = isCache;
+		}
 	}
 
 	class PhotosLoader implements Runnable {
@@ -257,7 +290,8 @@ public class ImageLoader {
 				if (imageViewReused(photoToLoad))
 					return;
 				Bitmap bmp = getBitmap(photoToLoad.url);
-				memoryCache.put(photoToLoad.url, bmp);
+				if(photoToLoad.isCache)
+					memoryCache.put(photoToLoad.url, bmp);
 				if (imageViewReused(photoToLoad))
 					return;
 				
@@ -280,12 +314,12 @@ public class ImageLoader {
 	class BitmapDisplayer implements Runnable {
 		Bitmap bitmap;
 		PhotoToLoad photoToLoad;
-
+		
 		public BitmapDisplayer(Bitmap b, PhotoToLoad p) {
 			bitmap = b;
 			photoToLoad = p;
 		}
-
+		
 		public void run() {
 			if (imageViewReused(photoToLoad))
 				return;
@@ -306,8 +340,13 @@ public class ImageLoader {
 				}
 				
 			}
-			else
-				setImageResource(photoToLoad.imageView, stub_id);
+			else {
+//				setImageResource(photoToLoad.imageView, stub_id);
+				if(defaultBitmap == null) {
+					defaultBitmap = BitmapFactory.decodeResource(context.getResources(), stub_id);
+				}
+				setImageBitmap(photoToLoad.imageView, defaultBitmap);
+			}
 		}
 	}
 
