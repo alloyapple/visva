@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
+import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.util.SBroastcastProvider;
+import vn.com.shoppie.util.SBroastcastProvider.BroastcastListener;
 import vn.com.shoppie.util.VisvaDialog;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -25,7 +28,8 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 
-public abstract class VisvaAbstractActivity extends Activity {
+public abstract class VisvaAbstractActivity extends Activity implements
+		BroastcastListener {
 	// abstract method
 	public static long LST_NOTIFY_TIME = 0;
 	public static final long THRE_NOTIFY_TIME = 5000; /* 5 seconds */
@@ -44,10 +48,9 @@ public abstract class VisvaAbstractActivity extends Activity {
 	// Google analysis
 	protected Tracker mGaTracker;
 	protected GoogleAnalytics mGaInstance;
-	
-	public static Toast mToast;
 
-	//SBroastcastProvider broastcast = new SBroastcastProvider(this);
+	SBroastcastProvider broastcast = new SBroastcastProvider(this);
+	private ShopieSharePref mShopieSharePref;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -78,6 +81,7 @@ public abstract class VisvaAbstractActivity extends Activity {
 		} catch (Exception e) {
 
 		}
+		mShopieSharePref = new ShopieSharePref(this);
 		// Get the intent that started this Activity.
 		Intent intent = this.getIntent();
 		Uri uri = intent.getData();
@@ -87,10 +91,9 @@ public abstract class VisvaAbstractActivity extends Activity {
 		mGaInstance = GoogleAnalytics.getInstance(this);
 
 		// Use the GoogleAnalytics singleton to get a Tracker.
-		mGaTracker = mGaInstance
-				.getTracker(getString(R.string.ga_trackingId)); // Placeholder
-																// tracking
-																// ID.
+		mGaTracker = mGaInstance.getTracker(getString(R.string.ga_trackingId)); // Placeholder
+																				// tracking
+																				// ID.
 
 		if (intent.getData() != null) {
 			EasyTracker.getTracker().setCampaign(uri.getPath());
@@ -113,7 +116,7 @@ public abstract class VisvaAbstractActivity extends Activity {
 
 	private void setOnBroastcast(VisvaAbstractActivity visvaAbstractActivity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void init() {
@@ -128,7 +131,7 @@ public abstract class VisvaAbstractActivity extends Activity {
 	public void onClickSearchActivity(View v) {
 		gotoActivity(self, SearchActivity.class);
 	}
-	
+
 	public void changeToActivity(Intent intent, boolean isFinish) {
 		startActivity(intent);
 		if (isFinish) {
@@ -151,12 +154,12 @@ public abstract class VisvaAbstractActivity extends Activity {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		unRegisterBaseActivityReceiver();
-	}
+	// @Override
+	// protected void onDestroy() {
+	// // TODO Auto-generated method stub
+	// super.onDestroy();
+	// unRegisterBaseActivityReceiver();
+	// }
 
 	/**
 	 * Open progress dialog
@@ -388,27 +391,27 @@ public abstract class VisvaAbstractActivity extends Activity {
 	}
 
 	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		this.finish();
-		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-	}
-
-	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		// LST_NOTIFY_TIME = 0;
-		//registerReceiver(broastcast.getBroastcast(), new IntentFilter(
-		//		GlobalValue.DISPLAY_MESSAGE_ACTION));
+		registerReceiver(broastcast.getBroastcast(), new IntentFilter(
+				GlobalValue.DISPLAY_MESSAGE_ACTION));
+		showLog();
 	}
-	
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(broastcast.getBroastcast());
+	}
+
 	protected void showLog() {
 		Log.i(Tag, "heap size: " + Debug.getNativeHeapSize());
 		Log.i(Tag, "heap size alloced: " + Debug.getNativeHeapAllocatedSize());
 		Log.i(Tag, "heap size free: " + Debug.getNativeHeapFreeSize());
 	}
-	
+
 	// =======================UPDATE MY LOCATION==================//
 	public void showToast(String text) {
 		if (mToast == null)
@@ -417,4 +420,114 @@ public abstract class VisvaAbstractActivity extends Activity {
 		mToast.setText(text);
 		mToast.show();
 	}
+
+	public void setOnBroastcast(SBroastcastProvider.BroastcastListener listener) {
+		broastcast.setOnBroastcastListener(listener);
+	}
+
+	protected android.app.AlertDialog dialogAlert = null;
+
+	@Override
+	public void onReceiveBroastcast(Context context, Intent intent) {
+		String type = "", pieQty = "0";
+		if (intent.hasExtra(GlobalValue.EXTRA_TYPE))
+			type = intent.getStringExtra(GlobalValue.EXTRA_TYPE);
+		if (intent.hasExtra(GlobalValue.EXTRA_PIE_QTY))
+			pieQty = intent.getStringExtra(GlobalValue.EXTRA_PIE_QTY);
+
+		try {
+			if (type.equals("Checkin") || type.equals("Purchase")
+					|| type.equals("Redeem")) {
+				int _pie = Integer.parseInt(pieQty);
+				int _crtPie = mShopieSharePref.getCurrentBal();
+				mShopieSharePref.setCurrentBtl(_pie + _crtPie);
+			}
+		} catch (NumberFormatException e) {
+		}
+
+		if (intent.hasExtra(GlobalValue.EXTRA_MESSAGE)) {
+			if ((System.currentTimeMillis() - LST_NOTIFY_TIME) > THRE_NOTIFY_TIME) {
+				LST_NOTIFY_TIME = System.currentTimeMillis();
+				// fire();
+			}
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// The rest of your onStart() code.
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+		// Send a screen view when the Activity is displayed to the user.
+		mGaTracker.sendView(this.getClass().getName());
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		// The rest of your onStop() code.
+		EasyTracker.getInstance().activityStop(this); // Add this method.
+		LST_NOTIFY_TIME = 0;
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		GA_MAP_PARAMS.clear();
+		GA_MAP_PARAMS.put("OnsaveInstanceState", this.getClass().getName()
+				.toString());
+		mGaTracker.send(GA_EVENT, GA_MAP_PARAMS);
+	}
+
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		GA_MAP_PARAMS.clear();
+		GA_MAP_PARAMS.put("onRestart", this.getClass().getName().toString());
+		mGaTracker.send(GA_EVENT, GA_MAP_PARAMS);
+	}
+
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(arg0, arg1, arg2);
+		GA_MAP_PARAMS.clear();
+		GA_MAP_PARAMS.put("onActivityResult", this.getClass().getName()
+				.toString());
+		mGaTracker.send(GA_EVENT, GA_MAP_PARAMS);
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		GA_MAP_PARAMS.clear();
+		GA_MAP_PARAMS
+				.put("onBackPressed", this.getClass().getName().toString());
+		mGaTracker.send(GA_EVENT, GA_MAP_PARAMS);
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+		finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		GA_MAP_PARAMS.clear();
+		GA_MAP_PARAMS.put("onDestroy", this.getClass().getName().toString());
+		mGaTracker.send(GA_EVENT, GA_MAP_PARAMS);
+	}
+
+	@Override
+	public void onLowMemory() {
+		// TODO Auto-generated method stub
+		super.onLowMemory();
+		GA_MAP_PARAMS.clear();
+		GA_MAP_PARAMS.put("onLowMemory", this.getClass().getName().toString());
+		mGaTracker.send(GA_EVENT, GA_MAP_PARAMS);
+	}
+
+	static Toast mToast;
 }
