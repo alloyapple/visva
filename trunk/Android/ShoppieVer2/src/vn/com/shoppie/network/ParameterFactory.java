@@ -6,7 +6,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 public final class ParameterFactory {
-	private static String TAG = "ParameterFactory";
 
 	public static List<NameValuePair> createRegisterSPAccount(
 			String deviceToken, String bluetoothId, String deviceId,
@@ -111,6 +110,20 @@ public final class ParameterFactory {
 
 	public static List<NameValuePair> getGiftList() {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		return nameValuePairs;
+	}
+
+	public static List<NameValuePair> getGiftListAvailable(String merchId,
+			String storeId, String custId, String giftId, String redeemQty,
+			String pieQty, String giftPrice) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("merchId", merchId));
+		nameValuePairs.add(new BasicNameValuePair("storeId", storeId));
+		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		nameValuePairs.add(new BasicNameValuePair("giftId", giftId));
+		nameValuePairs.add(new BasicNameValuePair("redeemQty", redeemQty));
+		nameValuePairs.add(new BasicNameValuePair("pieQty", pieQty));
+		nameValuePairs.add(new BasicNameValuePair("giftPrice", giftPrice));
 		return nameValuePairs;
 	}
 }

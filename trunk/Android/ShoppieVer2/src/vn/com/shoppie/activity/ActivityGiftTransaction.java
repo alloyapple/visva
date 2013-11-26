@@ -13,6 +13,7 @@ import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftList;
+import vn.com.shoppie.database.sobject.GiftRedeemList;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
@@ -39,6 +40,7 @@ public class ActivityGiftTransaction extends Activity {
 	private GiftAdapter adapter;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ImageLoader imageLoader;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -64,6 +66,50 @@ public class ActivityGiftTransaction extends Activity {
 			updateListGift();
 		else
 			updateListGiftFromDB();
+
+		updateGiftListAvailable("22", "99", "123", "30", "10", "275", "20000");
+	}
+
+	private void updateGiftListAvailable(String merchId, String storeId,
+			String custId, String giftId, String redeemQty, String pieQty,
+			String giftPrice) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.getGiftListAvailable(merchId, storeId, custId, giftId,
+						redeemQty, pieQty, giftPrice);
+		AsyncHttpPost postGetGiftList = new AsyncHttpPost(
+				ActivityGiftTransaction.this, new AsyncHttpResponseProcess(
+						ActivityGiftTransaction.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						String test="{"+"Result"+":["+""+"]}";
+						try {
+							JSONObject jsonObject = new JSONObject(test);
+							Gson gson = new Gson();
+							GiftRedeemList giftRedeemList = gson.fromJson(
+									jsonObject.toString(), GiftRedeemList.class);
+							Log.e("adkfjhdf", "adfkjh "
+									+ giftRedeemList.getResult().size());
+							for (int i = 0; i < giftRedeemList.getResult()
+									.size(); i++)
+								Log.e("dsfdfjd", "daiofuow "
+										+ giftRedeemList.getResult().get(i)
+												.getGiftName());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							Log.e("adfjfdh", "parse loi");
+							e.printStackTrace();
+							
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetGiftList.execute(WebServiceConfig.URL_GET_GIFT_TRANSACTION_AVAILABLE);
 	}
 
 	private void updateListGiftFromDB() {
@@ -135,7 +181,7 @@ public class ActivityGiftTransaction extends Activity {
 		content.removeAllViews();
 		adapter = null;
 	}
-	
+
 	private void updateListGift() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.getGiftList();
@@ -153,8 +199,7 @@ public class ActivityGiftTransaction extends Activity {
 							mShoppieDBProvider
 									.deleteJsonData(GlobalValue.TYPE_GIFT);
 							JsonDataObject jsonDataObject = new JsonDataObject(
-									response,
-									GlobalValue.TYPE_GIFT);
+									response, GlobalValue.TYPE_GIFT);
 							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 							setData(giftList.getGifts());
 						} catch (JSONException e) {

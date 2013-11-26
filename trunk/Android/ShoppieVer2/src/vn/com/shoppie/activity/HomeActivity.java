@@ -44,7 +44,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
 import com.google.gson.Gson;
 
 public class HomeActivity extends VisvaAbstractActivity {
@@ -57,7 +56,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private TextView mTxtTitle;
 	
 	// Google analysis
-	protected Tracker mGaTracker;
 	protected GoogleAnalytics mGaInstance;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ShopieSharePref mSharePref;
@@ -217,7 +215,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		GA_MAP_PARAMS.clear();
 		GA_MAP_PARAMS.put("method", "btnClicked");
 		GA_MAP_PARAMS.put("button", "activity_home_btn_pie");
-		// mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
+		mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 	}
 
 	private void updateLuckyPie(String campaignId, String custId) {

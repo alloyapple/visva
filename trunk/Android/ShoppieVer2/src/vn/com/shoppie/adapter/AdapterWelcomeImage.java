@@ -40,7 +40,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 		View v;
 		if (data.get(position) == ActivityWelcome.PAGE_REGISTER) {
 			try{
-				v=inflater.inflate(R.layout.activity_register, null);
+				v=inflater.inflate(R.layout.page_register, null);
 				
 			}catch(OutOfMemoryError e){
 				Log.e("out of memory", "wellcome Image Adapter");

@@ -57,6 +57,7 @@ public final class WebServiceConfig {
 	public static final String URL_UPDATE_INFO = "/customerupdate";
 	public static final String URL_FEEDBACK = "/customerfeedback";
 	public static final String URL_GET_GIFT_LIST = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/allgifts/format/json";
+	public static final String URL_GET_GIFT_TRANSACTION_AVAILABLE = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/giftredeem_v2/format/json";
 
 	// GCM a. Thang
 	public static final String SENDER_ID1 = "AIzaSyD4keVrSodVstQl_91Md5c7INI4Xhmcl_4";

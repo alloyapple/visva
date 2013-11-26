@@ -44,7 +44,7 @@
     <string name="KEY_TAG_TAB">tagTab</string>
     <string name="title_cua_hang">Cửa hàng</string>
     <string name="redeem">Đổi quà</string>
-    <string name="dang_ky">Đăng ký</string>
+    <string name="register">Đăng ký</string>
     <string name="hello_shoppie">Đăng nhập bằng tài khoản Facebook để bắt đầu sử dụng ứng dụng.</string>
     <string name="hello_shoppie_2">Hoặc bạn có thể nhập tên tài khoản</string>
     <string name="hello_shoppie_3">Tên tài khoản:</string>

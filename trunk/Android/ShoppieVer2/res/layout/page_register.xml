@@ -20,72 +20,79 @@
             android:onClick="onClickSearchActivity"
             android:src="@drawable/ic_location" >
         </ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/register"
+            android:textSize="@dimen/page_item_catelogy_desc_textsize"
+            android:textColor="@color/white" >
+        </TextView>
     </RelativeLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#00212e"
-        android:paddingTop="10dp" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp" >
 
-        <LinearLayout
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp" >
+            android:text="@string/introduct_code"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/introduct_code"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+        <EditText
+            android:id="@+id/introduce_code_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_introduce"
+            android:inputType="text" />
 
-            <EditText
-                android:id="@+id/introduce_code_edit_text"
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/introduct_tip"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register_by"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp" >
+
+            <com.facebook.widget.LoginButton
+                android:id="@+id/login_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_introduce"
-                android:inputType="text" />
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:onClick="onFBLogin" >
+            </com.facebook.widget.LoginButton>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/introduct_tip"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/register_by"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/activity_register_btn_register"
+                android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp" >
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_register_shoppie"
+                android:contentDescription="@string/KEY_TAG_TAB"
+                android:onClick="onClickedLogin" />
+        </RelativeLayout>
 
-                <Button
-                    android:id="@+id/login_fb_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentLeft="true"
-                    android:background="@drawable/btn_register_fb"
-                    android:onClick="onFBLogin" >
-                </Button>
-
-                <Button
-                    android:id="@+id/login_shoppie_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/btn_register_shoppie"
-                    android:onClick="onFBLogin" >
-                </Button>
-            </RelativeLayout>
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -105,94 +112,101 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/personal_detail_info_name"
+                        android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="40dp"
                         android:text="@string/personal_detail_info_email"
+                        android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="40dp"
                         android:text="@string/personal_detail_info_phone"
+                        android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="40dp"
                         android:text="@string/personal_detail_info_address"
+                        android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="40dp"
                         android:text="@string/personal_detail_info_birth"
+                        android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="30dp"
                         android:text="@string/personal_detail_info_gender"
+                        android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
+                    android:layout_marginRight="@dimen/personal_detail_info_margin_left"
                     android:layout_marginTop="@dimen/personal_detail_info_margin_top"
                     android:orientation="vertical" >
 
                     <EditText
-                        android:id="@+id/txt_personal_register_name"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/activity_register_edt_name"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:inputType="text"
-                        android:text="Kieu Duc Thang"
-                        android:textSize="@dimen/personal_detail_info_text_size" />
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:paddingLeft="5dp"
+                        android:textColor="#000000" >
+                    </EditText>
 
                     <EditText
                         android:id="@+id/txt_personal_register_email"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:inputType="text"
-                        android:text="Kieu Duc Thang"
+                        android:layout_marginTop="10dp"
+                        android:inputType="textEmailAddress"
+                        android:text=""
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
                         android:id="@+id/txt_personal_register_phone"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:inputType="text"
-                        android:text="Kieu Duc Thang"
+                        android:layout_marginTop="10dp"
+                        android:inputType="text|phone"
+                        android:text=""
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
                         android:id="@+id/txt_personal_register_address"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:inputType="text"
-                        android:text="Kieu Duc Thang"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
                         android:id="@+id/txt_personal_register_birth"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:inputType="text"
-                        android:text="Kieu Duc Thang"
+                        android:text=""
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <Spinner
@@ -200,8 +214,17 @@
                         android:layout_width="100dp"
                         android:layout_height="50dp" />
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/activity_register_btn_register"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/btn_register_shoppie"
+                    android:contentDescription="@string/KEY_TAG_TAB"
+                    android:onClick="onClickedLogin" />
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>
