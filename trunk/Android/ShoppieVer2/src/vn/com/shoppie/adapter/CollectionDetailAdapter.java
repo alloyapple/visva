@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -25,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
@@ -95,7 +97,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							// v.setVisibility(View.GONE);
 							closeDesc(v);
 							mPager.setLockSlide(false);
@@ -109,7 +110,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					TextView price1 = (TextView) v.findViewById(R.id.price1);
 					TextView color = (TextView) v.findViewById(R.id.color);
 					TextView like = (TextView) v.findViewById(R.id.like);
-					TextView like1 = (TextView) v.findViewById(R.id.like1);
 
 					name.setText(getItem(position).getProductName());
 					name1.setText(getItem(position).getProductName());
@@ -117,8 +117,40 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					price1.setText("Giá: " + getItem(position).getPrice());
 					color.setText("" + getItem(position).getShortDesc());
 					like.setText("" + getItem(position).getLikedNumber());
-					like1.setText("" + getItem(position).getLikedNumber());
-
+					
+					Button likeBt = (Button) v.findViewById(R.id.like_click);
+					likeBt.setTag(getItem(position));
+					int resId = 0;
+					if(getItem(position).getLiked() == 0) {
+						resId = R.drawable.ic_like;
+					}
+					else {
+						resId = R.drawable.ic_liked;
+					}
+					like.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
+					
+					OnClickListener onClickListener = new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							MerchProductItem item = (MerchProductItem) v.getTag();
+							if(item.getLiked() == 0) {
+								item.setLiked(1);
+								item.setLikedNumber(item.getLikedNumber() + 1);
+							}
+							else {
+								item.setLiked(0);
+								item.setLikedNumber(item.getLikedNumber() - 1);
+							}
+							updateLiked(item.getProductId());
+							if(onLikeListenner != null) {
+								onLikeListenner.onLike(item.getLiked() == 1, item.getProductId());
+							}
+						}
+					};
+					
+					likeBt.setOnClickListener(onClickListener);
+					
 					TextView desc = (TextView) v.findViewById(R.id.desc1);
 					desc.setText(getItem(position).getLongDesc());
 					desc.setTag(v.findViewById(R.id.text));
@@ -143,7 +175,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 											
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							MerchProductItem item = (MerchProductItem) v.getTag();
 							publishFeedDialog(item);
 						}
@@ -152,7 +183,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							MerchProductItem item = (MerchProductItem) v.getTag();
 							initShareSMS(item);
 						}
@@ -161,7 +191,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							MerchProductItem item = (MerchProductItem) v.getTag();
 							initShareItent(item);
 						}
@@ -179,7 +208,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						if (onItemClick != null) {
 							onItemClick.onClick(position);
 						}
@@ -205,25 +233,71 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							if (mPlayer != null)
 								mPlayer.start();
 
-							View piedView = v.findViewById(R.id.pied_view);
+							final View piedView = v.findViewById(R.id.pied_view);
 							piedView.setVisibility(View.VISIBLE);
 							ScaleAnimation anim = new ScaleAnimation(0, 1f, 0,
 									1f, piedView.getWidth() / 2, piedView
 											.getHeight() / 2);
 							anim.setDuration(1000);
-							anim.setInterpolator(new OvershootInterpolator());
+							anim.setInterpolator(new DecelerateInterpolator());
+							
+							final ScaleAnimation anim2 = new ScaleAnimation(1f, 1f, 1f,
+									1f, piedView.getWidth() / 2, piedView
+											.getHeight() / 2);
+							anim2.setDuration(1000);
+							
+							final ScaleAnimation anim1 = new ScaleAnimation(1f, 0f, 1f,
+									0f, piedView.getWidth() / 2, piedView
+											.getHeight() / 2);
+							anim1.setInterpolator(new AccelerateInterpolator());
+							anim1.setDuration(500);
+							
 							anim.setAnimationListener(new AnimationListener() {
 
 								@Override
 								public void onAnimationStart(Animation animation) {
-									// TODO Auto-generated method stub
 
 								}
 
 								@Override
 								public void onAnimationRepeat(
 										Animation animation) {
-									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animation animation) {
+									piedView.startAnimation(anim2);
+								}
+							});
+							anim2.setAnimationListener(new AnimationListener() {
+
+								@Override
+								public void onAnimationStart(Animation animation) {
+
+								}
+
+								@Override
+								public void onAnimationRepeat(
+										Animation animation) {
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animation animation) {
+									piedView.startAnimation(anim1);
+								}
+							});
+							anim1.setAnimationListener(new AnimationListener() {
+
+								@Override
+								public void onAnimationStart(Animation animation) {
+
+								}
+
+								@Override
+								public void onAnimationRepeat(
+										Animation animation) {
 
 								}
 
@@ -233,7 +307,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 									pied();
 								}
 							});
-
+							
+							
 							piedView.startAnimation(anim);
 						}
 					}
@@ -243,7 +318,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						View text = v.findViewById(R.id.text);
 						if (text.getAnimation() == null) {
 							mPager.setLockSlide(true);
@@ -278,7 +352,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			// return null;
 			return getView(position);
 		} catch (InflateException e) {
-			// TODO: handle exception
 			freeImage(position);
 			return getView(position);
 		}
@@ -396,13 +469,11 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return data.size() + 2;
 	}
 
 	@Override
 	public MerchProductItem getItem(int position) {
-		// TODO Auto-generated method stub
 		return data.get(position);
 	}
 
@@ -420,7 +491,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public int getNextItemId(int currPosition) {
-		// TODO Auto-generated method stub
 		if (currPosition + 1 == getCount())
 			return 0;
 		else
@@ -429,7 +499,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public int getBackItemId(int currPosition) {
-		// TODO Auto-generated method stub
 		if (currPosition - 1 == -1)
 			return getCount() - 1;
 		else
@@ -438,7 +507,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public int getTitlePadding() {
-		// TODO Auto-generated method stub
 		return (int) context.getResources().getDimension(
 				R.dimen.page_item_title_padding);
 	}
@@ -451,7 +519,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public boolean isCircle() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -465,13 +532,11 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 			@Override
 			public void onAnimationStart(Animation animation) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void onAnimationRepeat(Animation animation) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -487,7 +552,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public int getTitleHeight() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -501,7 +565,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public boolean canbeNext(int curId) {
-		// TODO Auto-generated method stub
 //		if (curId == getCount() - 2 && !pied)
 //			return false;
 		return true;
@@ -580,5 +643,34 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 				context.getString(R.string.introduct_invitation));
 		sendIntent.setType("vnd.android-dir/mms-sms");
 		context.startActivity(sendIntent);
+	}
+	
+	private void updateLiked(int productionId) {
+		for(int i = 0 ; i < data.size() ; i++) {
+			if(data.get(i).getProductId() == productionId) {
+				View v = getView(i);
+				TextView like = (TextView) v.findViewById(R.id.like);
+				int resId = 0;
+				if(data.get(i).getLiked() == 0) {
+					resId = R.drawable.ic_like;
+				}
+				else {
+					resId = R.drawable.ic_liked;
+				}
+				like.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
+				like.setText("" + data.get(i).getLikedNumber());
+			}
+		}
+		
+	}
+	
+	public void setOnLikeListenner(OnLikeListenner onLikeListenner) {
+		this.onLikeListenner = onLikeListenner;
+	}
+	
+	private OnLikeListenner onLikeListenner;
+	
+	public interface OnLikeListenner {
+		public void onLike(boolean liked , int productionId);
 	}
 }

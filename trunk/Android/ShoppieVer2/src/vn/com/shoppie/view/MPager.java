@@ -940,7 +940,7 @@ public class MPager extends RelativeLayout{
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
-
+			int minSlide = mAdapter.getViewWidth() / 10;
 			Log.d("Fling", "" + velocityY);
 			if(velocityY < -minSlide && scrollView.isReachBottom()){
 				scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());

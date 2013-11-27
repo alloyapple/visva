@@ -3,38 +3,105 @@
     android:layout_width="@dimen/storedetail_item_width"
     android:layout_height="@dimen/storedetail_item_height"
     android:background="@android:color/white" >
-    <com.antonyt.infiniteviewpager.InfiniteViewPager
-		android:id="@+id/pager"
-		android:layout_width="match_parent"
-		android:layout_height="@dimen/storedetail_item_width" />
+
+    <ScrollView
+        android:layout_width="@dimen/storedetail_item_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.antonyt.infiniteviewpager.InfiniteViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/storedetail_item_width" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pager"
+                android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
+                android:layout_marginTop="@dimen/page_item_catelogy_desc_margin_top"
+                android:text="Áo sơ mi nữ sọc cổ lá sen"
+                android:textColor="#2A5C72"
+                android:textSize="@dimen/page_item_catelogy_desc_textsize" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
+                android:layout_marginTop="5dp"
+                android:text="aisufweavksjv bxkvhewgiuaywg ksadjhfksdahfk asjhwieutyksdja \n asdfasdf \n wqerwqet \nfawefasdf\nwerqwerqw\nadfasdf\nqwerqwer"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="@dimen/page_item_count_width"
+                android:layout_height="@dimen/page_item_count_height"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_head_center02" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/bt_fb"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/share"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/icon_share_fb" />
+
+    <Button
+        android:id="@+id/bt_mail"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/share"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/bt_fb"
+        android:background="@drawable/icon_share_mail" />
+
+    <Button
+        android:id="@+id/bt_sms"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/share"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/bt_mail"
+        android:background="@drawable/icon_share_sms" />
+
     <TextView 
-        android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
-    	android:layout_marginTop="@dimen/page_item_catelogy_desc_margin_top"
-    	android:textSize="@dimen/page_item_catelogy_desc_textsize"
-    	android:layout_below="@id/pager"
-    	android:id="@+id/name"
-    	android:text="Áo sơ mi nữ sọc cổ lá sen"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+    	android:layout_height="40dp"
+        android:layout_marginRight="5dp"
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentBottom="true"
+    	android:layout_below="@id/image"
+    	android:id="@+id/like"
+    	android:textSize="14sp"
+    	android:text="1234"
+    	android:drawablePadding="5dp"
+    	android:drawableLeft="@drawable/ic_like"
     	android:textColor="#2A5C72"
         />
-    <TextView 
-        android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_marginTop="5dp"
-    	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
-    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:textColor="@android:color/darker_gray"
-    	android:layout_below="@id/name"
-    	android:id="@+id/desc"
-    	android:text="aisufweavksjv bxkvhewgiuaywg ksadjhfksdahfk asjhwieutyksdja"
-        />
-	<TextView
-	    android:id="@+id/count" 
-	    android:layout_width="@dimen/page_item_count_width"
-    	android:layout_height="@dimen/page_item_count_height"
+    <Button 
+        android:layout_width="90dp"
+    	android:layout_height="40dp"
     	android:layout_alignParentRight="true"
-    	android:background="@drawable/ic_head_center02"
-	    />
-	
+    	android:layout_alignParentBottom="true"
+    	android:id="@+id/like_click"
+    	android:background="#00000000"
+        />
 </RelativeLayout>

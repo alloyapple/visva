@@ -71,21 +71,6 @@
             android:background="@drawable/icon_share_sms" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/like1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="15dp"
-        android:drawableLeft="@drawable/ic_like"
-        android:drawablePadding="5dp"
-        android:gravity="center_vertical"
-        android:text="1234"
-        android:textColor="#2A5C72"
-        android:textSize="14sp" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

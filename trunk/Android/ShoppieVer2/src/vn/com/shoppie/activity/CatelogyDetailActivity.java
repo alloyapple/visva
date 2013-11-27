@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CollectionDetailAdapter;
+import vn.com.shoppie.adapter.CollectionDetailAdapter.OnLikeListenner;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
@@ -186,8 +187,20 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				adapter.freeImage(pos);
 			}
 		});
+		
+		adapter.setOnLikeListenner(new OnLikeListenner() {
+			
+			@Override
+			public void onLike(boolean liked, int productionId) {
+				likeProduct(liked, productionId);
+			}
+		});
 	}
 
+	private void likeProduct(boolean liked , int pId) {
+		
+	}
+	
 	private void requestupdateToGetMerchProducts(String campaignId,
 			String custId) {
 		// TODO Auto-generated method stub
