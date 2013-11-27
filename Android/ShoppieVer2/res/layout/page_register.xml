@@ -26,8 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/register"
-            android:textSize="@dimen/page_item_catelogy_desc_textsize"
-            android:textColor="@color/white" >
+            android:textColor="@color/white"
+            android:textSize="@dimen/page_item_catelogy_desc_textsize" >
         </TextView>
     </RelativeLayout>
 
@@ -46,11 +46,12 @@
 
         <EditText
             android:id="@+id/introduce_code_edit_text"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:background="@drawable/bg_introduce"
-            android:inputType="text" />
+            android:gravity="center"
+            android:inputType="number"
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -171,10 +172,10 @@
                         android:layout_height="wrap_content"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:paddingLeft="5dp"
-                        android:hint="Tên của bạn"
-                        android:singleLine="true"
                         android:gravity="center"
+                        android:hint="Tên của bạn"
+                        android:paddingLeft="5dp"
+                        android:singleLine="true"
                         android:textColor="#000000" >
                     </EditText>
 
@@ -183,11 +184,11 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="textEmailAddress"
-                        android:text=""
-                        android:hint="abc@xyz.com"
                         android:gravity="center"
+                        android:hint="abc@xyz.com"
+                        android:inputType="textEmailAddress"
                         android:singleLine="true"
+                        android:text=""
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
@@ -195,11 +196,11 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="text|phone"
-                        android:text=""
-                        android:hint="012345678"
                         android:gravity="center"
+                        android:hint="012345678"
+                        android:inputType="text|phone"
                         android:singleLine="true"
+                        android:text=""
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
@@ -207,10 +208,10 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="text"
-                        android:singleLine="true"
                         android:gravity="center"
                         android:hint="Ha noi - Viet Nam"
+                        android:inputType="text"
+                        android:singleLine="true"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
@@ -218,19 +219,19 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="text|datetime"
-                        android:text=""
-                        android:hint="dd/mm/yyyy"
-                        android:singleLine="true"
                         android:gravity="center"
+                        android:hint="dd/mm/yyyy"
+                        android:inputType="text|datetime"
+                        android:singleLine="true"
+                        android:text=""
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <Spinner
                         android:id="@+id/spin_personal_register_gender"
                         android:layout_width="fill_parent"
-                        android:layout_height="50dp" />
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp" />
                 </LinearLayout>
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

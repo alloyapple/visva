@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
@@ -23,6 +22,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.object.FacebookUser;
+import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -48,8 +48,7 @@ import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.gson.Gson;
 
 public class PersonalInfoActivity extends FragmentActivity implements
-		MainPersonalInfoListener, IOnViewFriendDetail
-		 {
+		MainPersonalInfoListener, IOnViewFriendDetail {
 	// ==========================Constant Define=================
 	private static final String MAIN_PERSONAL_INFO_FRAGMENT = "main_info";
 	private static final String PERSONAL_FRIEND_FRAGMENT = "friend";
@@ -84,26 +83,38 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-
-		// Facebook
-		lifecycleHelper = new UiLifecycleHelper(PersonalInfoActivity.this,
-				new Session.StatusCallback() {
-					@Override
-					public void call(Session session, SessionState state,
-							Exception exception) {
-						// onSessionStateChange(session, state, exception);
-						updateUserInfo();
-					}
-
-				});
-		lifecycleHelper.onCreate(savedInstanceState);
-		// ensureOpenSession();
-
-		mShopieSharePref = new ShopieSharePref(this);
 		setContentView(R.layout.page_personal_info);
-
+		mShopieSharePref = new ShopieSharePref(this);
 		initialize();
+		
+		if (mShopieSharePref.getLoginType()) {
+			// Facebook
+			lifecycleHelper = new UiLifecycleHelper(PersonalInfoActivity.this,
+					new Session.StatusCallback() {
+						@Override
+						public void call(Session session, SessionState state,
+								Exception exception) {
+							// onSessionStateChange(session, state, exception);
+							updateUserInfo();
+						}
 
+					});
+			lifecycleHelper.onCreate(savedInstanceState);
+			// ensureOpenSession();
+		} else {
+			ShoppieUserInfo userInfo = new ShoppieUserInfo(
+					mShopieSharePref.getCustName(),
+					mShopieSharePref.getPhone(), ""
+							+ mShopieSharePref.getCustId(),
+					mShopieSharePref.getEmail(),
+					mShopieSharePref.getCustAddress(),
+					mShopieSharePref.getGender(),
+					mShopieSharePref.getImageAvatar(),
+					mShopieSharePref.getImageCover());
+			mMainPersonalInfoFragment.updateShoppieUser(userInfo);
+			custId = mShopieSharePref.getCustId();
+			requestToUpdateUserPie("" + custId);
+		}
 	}
 
 	// private boolean ensureOpenSession() {
@@ -127,8 +138,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	// }
 
 	private void requestToUpdateUserPie(String custId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.updateHistoryTransaction(custId);
@@ -181,7 +190,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private void updateUserInfo() {
 		// TODO Auto-generated method stub
 		Session activeSession = Session.getActiveSession();
-		Log.e("ddfjh", "asddfdfkjfd " + activeSession.getState().isOpened());
 		if (activeSession.getState().isOpened()) {
 			Request infoRequest = Request.newMeRequest(activeSession,
 					new GraphUserCallback() {
@@ -453,7 +461,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onClickFeedback() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -468,55 +476,56 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		publishFeedDialog(friend);
 	}
-	
+
 	private void publishFeedDialog(final FBUser friend) {
-        Bundle params = new Bundle();
-        params.putString("name", "Shoppie");
-        params.putString("caption", "");
-        params.putString("description", getString(R.string.invitation_content,mShopieSharePref.getCustId()));
-        params.putString("link", "http://www.shoppie.com.vn/");
-        params.putString("picture", "http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
-        params.putString("to", ""+friend.getUserId());
-        WebDialog feedDialog = (  
-            new WebDialog.FeedDialogBuilder(PersonalInfoActivity.this,
-                Session.getActiveSession(),
-                params))
-            .setOnCompleteListener(new OnCompleteListener() {
+		Bundle params = new Bundle();
+		params.putString("name", "Shoppie");
+		params.putString("caption", "");
+		params.putString(
+				"description",
+				getString(R.string.invitation_content,
+						mShopieSharePref.getCustId()));
+		params.putString("link", "http://www.shoppie.com.vn/");
+		params.putString("picture",
+				"http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
+		params.putString("to", "" + friend.getUserId());
+		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
+				PersonalInfoActivity.this, Session.getActiveSession(), params))
+				.setOnCompleteListener(new OnCompleteListener() {
 
-                @Override
-                public void onComplete(Bundle values,
-                    FacebookException error) {
-                    if (error == null) {
-                        // When the story is posted, echo the success
-                        // and the post Id.
-                        final String name = friend.getUserName();
-                        if (name != null) {
-                            Toast.makeText(PersonalInfoActivity.this,
-                                "Invited "+name,
-                                Toast.LENGTH_SHORT).show();
-                        } else {
-                            // User clicked the Cancel button
-                            Toast.makeText(PersonalInfoActivity.this, 
-                                "Publish cancelled", 
-                                Toast.LENGTH_SHORT).show();
-                        }
-                    } else if (error instanceof FacebookOperationCanceledException) {
-                        // User clicked the "x" button
-                        Toast.makeText(PersonalInfoActivity.this, 
-                            "Publish cancelled", 
-                            Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Generic, ex: network error
-                        Toast.makeText(PersonalInfoActivity.this, 
-                            "Error posting story", 
-                            Toast.LENGTH_SHORT).show();
-                    }
-                }
+					@Override
+					public void onComplete(Bundle values,
+							FacebookException error) {
+						if (error == null) {
+							// When the story is posted, echo the success
+							// and the post Id.
+							final String name = friend.getUserName();
+							if (name != null) {
+								Toast.makeText(PersonalInfoActivity.this,
+										"Invited " + name, Toast.LENGTH_SHORT)
+										.show();
+							} else {
+								// User clicked the Cancel button
+								Toast.makeText(PersonalInfoActivity.this,
+										"Publish cancelled", Toast.LENGTH_SHORT)
+										.show();
+							}
+						} else if (error instanceof FacebookOperationCanceledException) {
+							// User clicked the "x" button
+							Toast.makeText(PersonalInfoActivity.this,
+									"Publish cancelled", Toast.LENGTH_SHORT)
+									.show();
+						} else {
+							// Generic, ex: network error
+							Toast.makeText(PersonalInfoActivity.this,
+									"Error posting story", Toast.LENGTH_SHORT)
+									.show();
+						}
+					}
 
-            })
-            .build();
-        feedDialog.show();
+				}).build();
+		feedDialog.show();
 
-    }
+	}
 
 }

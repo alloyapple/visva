@@ -30,7 +30,7 @@ public final class WebServiceConfig {
 	/** HOME PAGE & LOOKBOOK campaignId=15 */
 	public static final String URL_MERCHCAMPAIGNS = URL_SHOPPIE_HOME
 			+ "merchcategories_v2/format/json";
-	/** Merchant Campain */ 
+	/** Merchant Campain */
 	public static final String URL_MERCHANT_CAMPAIGN = URL_SHOPPIE_HOME
 			+ "merchcampaigns_v2/format/json";
 	/** Update campaign View */
@@ -58,7 +58,12 @@ public final class WebServiceConfig {
 	public static final String URL_FEEDBACK = "/customerfeedback";
 	public static final String URL_GET_GIFT_LIST = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/allgifts/format/json";
 	public static final String URL_GET_GIFT_TRANSACTION_AVAILABLE = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/giftredeem_v2/format/json";
-
+	/** LIKE SAN PHAM custId=118&productId=1 */
+	public static final String URL_LIKE_PRODUCT = URL_SHOPPIE_HOME
+			+ "/likeproduct";
+	/** UNLIKE SAN PHAM custId=118&productId=1 */
+	public static final String URL_UNLIKE_PRODUCT = URL_SHOPPIE_HOME
+			+ "/unlikeproduct";
 	// GCM a. Thang
 	public static final String SENDER_ID1 = "AIzaSyD4keVrSodVstQl_91Md5c7INI4Xhmcl_4";
 	public static final String SENDER_ID = "622843213634";

@@ -93,6 +93,56 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			requestupdateToGetMerchProducts(camId, custId);
 		else
 			requestGetMerchProductFromDB();
+
+		/** like vs unlike(custid,productId) */
+		likeProduct("", "");
+		unlikeProduct("", "");
+	}
+
+	private void unlikeProduct(String custId, String productId) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.likeProduct(
+				custId, productId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				CatelogyDetailActivity.this, new AsyncHttpResponseProcess(
+						CatelogyDetailActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("like success ", "like success");
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_UNLIKE_PRODUCT);
+
+	}
+
+	private void likeProduct(String custId, String productId) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.likeProduct(
+				custId, productId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				CatelogyDetailActivity.this, new AsyncHttpResponseProcess(
+						CatelogyDetailActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("like success ", "like success");
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_LIKE_PRODUCT);
+
 	}
 
 	private void requestGetMerchProductFromDB() {

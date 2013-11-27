@@ -5,14 +5,103 @@ import android.content.SharedPreferences;
 
 public class ShopieSharePref {
 
-	private static String FIRST_TIME_RUN_APP = "first_time_run_app";
 	private static final String CURRENT_BAL = "current_bal";
+	private static final String LOGIN_TYPE = "login_type";
+	private static final String IMAGE_AVATAR = "image_avatar";
+	private static final String IMAGE_COVER = "image_cover";
+	private static final String FRIEND_ID = "friendId";
+	private static final String CUST_NAME = "cust_name";
+	private static final String CUST_PHONE = "cust_phone";
+	private static final String CUST_ADDRESS = "cust_address";
+	private static final String CUST_EMAIL = "cust_email";
+	private static final String GENDER = "gender";
+	private static final String BIRTHDAY = "birth";
 	// ================================================================
 
 	private Context context;
 
 	public ShopieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setCustName(String name) {
+		putStringValue(CUST_NAME, name);
+	}
+
+	public String getCustName() {
+		return getStringValue(CUST_NAME);
+	}
+
+	public void setCustAddress(String adddress) {
+		putStringValue(CUST_ADDRESS, adddress);
+	}
+
+	public String getCustAddress() {
+		return getStringValue(CUST_ADDRESS);
+	}
+
+	public void setPhone(String phone) {
+		putStringValue(CUST_PHONE, phone);
+	}
+
+	public String getPhone() {
+		return getStringValue(CUST_PHONE);
+	}
+
+	public void setBirthDay(String birth) {
+		putStringValue(BIRTHDAY, birth);
+	}
+
+	public String getBirthDay() {
+		return getStringValue(BIRTHDAY);
+	}
+
+	public void setGender(int gender) {
+		putIntValue(GENDER, gender);
+	}
+
+	public int getGender() {
+		return getIntValue(GENDER);
+	}
+
+	public void setEmail(String email) {
+		putStringValue(CUST_EMAIL, email);
+	}
+
+	public String getEmail() {
+		return getStringValue(CUST_EMAIL);
+	}
+
+	public void setFriendId(int friendId) {
+		putIntValue(FRIEND_ID, friendId);
+	}
+
+	public int getFriendId() {
+		return getIntValue(FRIEND_ID);
+	}
+
+	public void setLoginType(boolean typeLogin) {
+		putBooleanValue(LOGIN_TYPE, typeLogin);
+	}
+
+	public boolean getLoginType() {
+		return getBooleanValue(LOGIN_TYPE);
+	}
+
+	public void setImageAvatar(String imageAvatarPath) {
+		putStringValue(IMAGE_AVATAR, imageAvatarPath);
+	}
+
+	public String getImageAvatar() {
+		return getStringValue(IMAGE_AVATAR);
+	}
+
+	public void setImageCover(String imageCover) {
+		putStringValue(IMAGE_COVER, imageCover);
+	}
+
+	public String getImageCover() {
+		return getStringValue(IMAGE_COVER);
 	}
 
 	public void setCurrentBtl(int currentBal) {
