@@ -30,7 +30,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -60,16 +59,17 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	public static String regId;
 	private String blueMac;
 	private String emeil;
+	private boolean loginType = false;
 	private String custName;
 	private String custAdress;
-	private String gender;
+	private int gender;
 	private String facebookId;
 	private String custEmail;
 	private String birthday;
-	private String deviceImei;
 	private String AppVersion;
 	private String OSVersion;
 	private String friendId;
+	private String phone;
 	private ShopieSharePref mShopieSharePref;
 	// FaceBook
 	private UiLifecycleHelper uiHelper;
@@ -250,8 +250,8 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	LocationManager mLocaMng;
 
 	private void register(final String name, String email, String address,
-			String gender, String birth, String facebookid, String AppVersion,
-			String OSVersion, String friendId) {
+			int gender, String birth, String facebookid, String AppVersion,
+			String OSVersion, String friendId, String phone) {
 
 		ActivityShoppie.myUser.custName = name;
 		SettingPreference.setUserName(ActivityWelcome.this, name);
@@ -280,24 +280,35 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 		registerToSPServer(regId, blueMac, emeil, lat, lng, name, email,
 				address, gender, birth, facebookid, emeil, AppVersion,
-				OSVersion, friendId);
+				OSVersion, friendId, phone);
 	}
 
 	private void registerToSPServer(String deviceToken, String bluetoothId,
 			String deviceId, String latitude, String longitude,
-			String custName, String custEmail, String custAddress,
-			String gender, String birthday, String facebookid,
-			String deviceImei, String AppVersion, String OSVersion,
-			String friendId) {
+			String custName, String custEmail, String custAddress, int gender,
+			String birthday, String facebookid, String deviceImei,
+			String AppVersion, String OSVersion, String friendId, String phone) {
 		// TODO Auto-generated method stub
 		GCMRegistrar.setRegisteredOnServer(this, true);
+		/** save user info */
+		mShopieSharePref.setCustName(custName);
+		mShopieSharePref.setEmail(custEmail);
+		mShopieSharePref.setPhone(phone);
+		mShopieSharePref.setCustAddress(custAddress);
+		mShopieSharePref.setBirthDay(birthday);
+		mShopieSharePref.setGender(gender);
+		String _gender;
+		if (gender == 0)
+			_gender = "Male";
+		else
+			_gender = "Female";
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 		// .createRegisterSPAccount(deviceToken, bluetoothId, deviceId,
 		// latitude, longitude, custName);
 				.createRegisterSPAccount(deviceToken, bluetoothId, deviceId,
 						latitude, longitude, custName, custEmail, custAddress,
-						gender, birthday, facebookid, deviceImei, AppVersion,
+						_gender, birthday, facebookid, deviceImei, AppVersion,
 						OSVersion, friendId);
 		AsyncHttpPost postUpdateStt = new AsyncHttpPost(ActivityWelcome.this,
 				new AsyncHttpResponseProcess(ActivityWelcome.this) {
@@ -312,6 +323,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 									+ userInfo.getResult().getDataValue());
 							mShopieSharePref.setCustId(userInfo.getResult()
 									.getDataValue());
+							mShopieSharePref.setLoginType(loginType);
 							showToast(getString(R.string.welcome_shoppie));
 							Intent intent = new Intent(ActivityWelcome.this,
 									HomeActivity.class);
@@ -390,6 +402,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 	private void onSessionStateChange(final Session session,
 			SessionState state, Exception exception) {
+		Log.e("adfd", "adfdf" + (session != null && session.isOpened()));
 		if (session != null && session.isOpened()) {
 			if (state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
 				Session.getActiveSession();
@@ -399,6 +412,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 							@Override
 							public void onCompleted(GraphUser user,
 									Response response) {
+								Log.e("adkfjh", "c " + response.toString());
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										custName = user.getName();
@@ -406,13 +420,18 @@ public class ActivityWelcome extends Activity implements LocationListener,
 										custAdress = "";
 										facebookId = user.getId();
 										birthday = user.getBirthday();
-										gender = "Male";
+										gender = 0;
+										loginType = true;
+										phone = "";
+										friendId = String
+												.valueOf(mShopieSharePref
+														.getFriendId());
 										if (mShopieSharePref.getCustId() == 0)
 											register(custName, custEmail,
 													custAdress, gender,
 													birthday, facebookId,
 													AppVersion, OSVersion,
-													friendId);
+													friendId, phone);
 									}
 								}
 							}
@@ -433,10 +452,12 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 	@Override
 	public void btnRegisterClick(View v, String name, String email,
-			String phone, String address, String gender, String birth,
-			String friendId) {
+			String phone, String address, int gender, String birth) {
 		// TODO Auto-generated method stub
+		loginType = false;
+		friendId = String.valueOf(mShopieSharePref.getFriendId());
 		if (mShopieSharePref.getCustId() == 0)
-			register(name, email, address, gender, birth, "", "1", "", friendId);
+			register(name, email, address, gender, birth, "", "1", "",
+					friendId, phone);
 	}
 }

@@ -318,7 +318,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_canhan:
-			Log.e("click here", "click here");
 			gotoActivity(HomeActivity.this, PersonalInfoActivity.class);
 			break;
 		case R.id.bt_quatang:

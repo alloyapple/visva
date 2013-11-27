@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityWelcome;
+import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.util.SUtilBitmap;
 import vn.com.shoppie.util.SUtilText;
 import android.content.Context;
@@ -32,6 +33,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	public AdapterWelcomeImage(Context context, ArrayList<Integer> data) {
 		this.context = context;
 		this.data = data;
+		mShopieSharePref = new ShopieSharePref(context);
 	}
 
 	@Override
@@ -40,6 +42,8 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	}
 
 	static Drawable drb;
+	private String friendId;
+	private ShopieSharePref mShopieSharePref;
 
 	@Override
 	public Object instantiateItem(View container, int position) {
@@ -68,6 +72,29 @@ public class AdapterWelcomeImage extends PagerAdapter {
 					.findViewById(R.id.spin_personal_register_gender);
 			final EditText friendCode = (EditText) v
 					.findViewById(R.id.introduce_code_edit_text);
+			friendCode.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					friendId += s.toString();
+					mShopieSharePref.setFriendId(Integer.parseInt(friendId));
+				}
+			});
 			// Create an ArrayAdapter using the string array and a default
 			// spinner
 			// layout
@@ -132,13 +159,12 @@ public class AdapterWelcomeImage extends PagerAdapter {
 						else if ("".equals(address.getText().toString()))
 							showToast(context.getString(R.string.leck_address));
 						else {
-							String _gender = (String) gender.getSelectedItem();
-							String friendId = friendCode.getText().toString();
+							int _gender = gender.getSelectedItemPosition();
 							_listener.btnRegisterClick(btnRegister, name
 									.getText().toString(), email.getText()
 									.toString(), phone.getText().toString(),
 									address.getText().toString(), _gender,
-									birth.getText().toString(), friendId);
+									birth.getText().toString());
 						}
 					}
 				}
@@ -183,8 +209,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 
 	public interface OnWelcomeRegisterListener {
 		public void btnRegisterClick(View v, String name, String email,
-				String phone, String address, String gender, String birth,
-				String friendId);
+				String phone, String address, int gender, String birth);
 	}
 
 	public void updateData(ArrayList<Integer> mData) {

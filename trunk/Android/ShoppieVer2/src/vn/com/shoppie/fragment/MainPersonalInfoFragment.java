@@ -12,6 +12,7 @@ import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.OneItem;
+import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.util.ImageLoader;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -230,8 +231,46 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mImageLoader.DisplayImage(user.getPicture().getData().getUrl(),
 				mImgAvatar);
 		mTxtUserName.setText(user.getName());
-		Log.e("dkdfh " + mShopieSharePref.getCustId(), "asdfkjdh " + mTxtUserId);
 		mTxtUserId.setText("ID: " + mShopieSharePref.getCustId());
+	}
+
+	public void updateShoppieUser(ShoppieUserInfo userInfo) {
+		mTxtUserName.setText(userInfo.getName());
+		mTxtUserId.setText("ID: " + userInfo.getId());
+		if (userInfo.getAvatar() != "") {
+			File file = new File(userInfo.getAvatar());
+			if (file.exists()) {
+				Uri uri = Uri.fromFile(file);
+				int orientation = checkOrientation(uri);
+				Bitmap bmp;
+				bmp = decodeSampledBitmapFromFile(userInfo.getAvatar(), 100,
+						100, orientation);
+				mImgAvatar.setImageBitmap(bmp);
+
+			} else {
+				Toast.makeText(getActivity(), "Load avatar error",
+						Toast.LENGTH_SHORT).show();
+				mImgAvatar.setBackgroundResource(R.drawable.bg_personal_avatar);
+			}
+		} else
+			mImgAvatar.setBackgroundResource(R.drawable.bg_personal_avatar);
+		if (userInfo.getCover() != "") {
+			File file = new File(userInfo.getCover());
+			if (file.exists()) {
+				Uri uri = Uri.fromFile(file);
+				int orientation = checkOrientation(uri);
+				Bitmap bmp;
+				bmp = decodeSampledBitmapFromFile(userInfo.getCover(), 200,
+						200, orientation);
+				mImgCover.setImageBitmap(bmp);
+
+			} else {
+				Toast.makeText(getActivity(), "Load avatar error",
+						Toast.LENGTH_SHORT).show();
+				mImgCover.setBackgroundResource(R.drawable.bg_personal_avatar);
+			}
+		} else
+			mImgCover.setBackgroundResource(R.drawable.bg_personal_cover);
 	}
 
 	public void updatePie(HistoryTransactionList historyTransactionList) {
@@ -339,15 +378,16 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 						Uri fileUri = Uri.fromFile(file);
 						int orientation = checkOrientation(fileUri);
 						Bitmap bmp;
-						if (isPickToAvatar){
-							 bmp = decodeSampledBitmapFromFile(imagePath,
-									100, 100, orientation);
+						if (isPickToAvatar) {
+							mShopieSharePref.setImageAvatar(imagePath);
+							bmp = decodeSampledBitmapFromFile(imagePath, 100,
+									100, orientation);
 							mImgAvatar.setImageBitmap(bmp);
-						}
-						else {
-							 bmp = decodeSampledBitmapFromFile(imagePath,
-									200, 200, orientation);
-							 mImgCover.setImageBitmap(bmp);
+						} else {
+							mShopieSharePref.setImageCover(imagePath);
+							bmp = decodeSampledBitmapFromFile(imagePath, 200,
+									200, orientation);
+							mImgCover.setImageBitmap(bmp);
 						}
 
 					} else {
@@ -380,17 +420,17 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 					fileUri = Uri.fromFile(file);
 					int orientation = checkOrientation(fileUri);
 					Bitmap bmp;
-					if (isPickToAvatar){
-						 bmp = decodeSampledBitmapFromFile(imagePath,
-								100, 100, orientation);
+					if (isPickToAvatar) {
+						mShopieSharePref.setImageAvatar(imagePath);
+						bmp = decodeSampledBitmapFromFile(imagePath, 100, 100,
+								orientation);
 						mImgAvatar.setImageBitmap(bmp);
+					} else {
+						mShopieSharePref.setImageCover(imagePath);
+						bmp = decodeSampledBitmapFromFile(imagePath, 200, 200,
+								orientation);
+						mImgCover.setImageBitmap(bmp);
 					}
-					else {
-						 bmp = decodeSampledBitmapFromFile(imagePath,
-								200, 200, orientation);
-						 mImgCover.setImageBitmap(bmp);
-					}
-
 
 				} else {
 					Log.d("test", "file don't exist !");

@@ -1,6 +1,7 @@
 package vn.com.shoppie.fragment;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.constant.ShopieSharePref;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ public class FragmentPersonalInfo extends FragmentBasic {
 	private TextView txtAddress;
 	private Spinner spinGender;
 	// ============================Class Define =======================
+	private ShopieSharePref mShopieSharePref;
 	// ============================Variable Define =====================
 
 	@Override
@@ -45,22 +47,31 @@ public class FragmentPersonalInfo extends FragmentBasic {
 				android.R.layout.simple_spinner_item);
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// // Apply the adapter to the spinner 
+		// // Apply the adapter to the spinner
 		spinGender.setAdapter(adapter);
-		spinGender.setSelection(0);
+		txtAddress.setText(mShopieSharePref.getCustAddress());
+		txtBirth.setText(mShopieSharePref.getBirthDay());
+		txtEmail.setText(mShopieSharePref.getEmail());
+		txtName.setText(mShopieSharePref.getCustName());
+		txtPhone.setText(mShopieSharePref.getPhone());
+		int gender = mShopieSharePref.getGender();
+		if (gender == 0)
+			spinGender.setSelection(0);
+		else
+			spinGender.setSelection(1);
 		spinGender.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		return root;
@@ -69,6 +80,7 @@ public class FragmentPersonalInfo extends FragmentBasic {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mShopieSharePref = new ShopieSharePref(getActivity());
 	}
 
 	@Override

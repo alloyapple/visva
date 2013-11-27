@@ -138,4 +138,20 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("giftPrice", giftPrice));
 		return nameValuePairs;
 	}
+
+	public static List<NameValuePair> likeProduct(String custId,
+			String productId) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		nameValuePairs.add(new BasicNameValuePair("productId", productId));
+		return nameValuePairs;
+	}
+	
+	public static List<NameValuePair> unLikeProduct(String custId,
+			String productId) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		nameValuePairs.add(new BasicNameValuePair("productId", productId));
+		return nameValuePairs;
+	}
 }
