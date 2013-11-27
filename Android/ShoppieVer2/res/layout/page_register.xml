@@ -48,6 +48,7 @@
             android:id="@+id/introduce_code_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:background="@drawable/bg_introduce"
             android:inputType="text" />
 
@@ -171,6 +172,9 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:paddingLeft="5dp"
+                        android:hint="Tên của bạn"
+                        android:singleLine="true"
+                        android:gravity="center"
                         android:textColor="#000000" >
                     </EditText>
 
@@ -181,6 +185,9 @@
                         android:layout_marginTop="10dp"
                         android:inputType="textEmailAddress"
                         android:text=""
+                        android:hint="abc@xyz.com"
+                        android:gravity="center"
+                        android:singleLine="true"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
@@ -190,6 +197,9 @@
                         android:layout_marginTop="10dp"
                         android:inputType="text|phone"
                         android:text=""
+                        android:hint="012345678"
+                        android:gravity="center"
+                        android:singleLine="true"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
@@ -198,6 +208,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:inputType="text"
+                        android:singleLine="true"
+                        android:gravity="center"
+                        android:hint="Ha noi - Viet Nam"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <EditText
@@ -205,24 +218,19 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="text"
+                        android:inputType="text|datetime"
                         android:text=""
+                        android:hint="dd/mm/yyyy"
+                        android:singleLine="true"
+                        android:gravity="center"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
                     <Spinner
                         android:id="@+id/spin_personal_register_gender"
-                        android:layout_width="100dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="50dp" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/activity_register_btn_register"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/btn_register_shoppie"
-                    android:contentDescription="@string/KEY_TAG_TAB"
-                    android:onClick="onClickedLogin" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

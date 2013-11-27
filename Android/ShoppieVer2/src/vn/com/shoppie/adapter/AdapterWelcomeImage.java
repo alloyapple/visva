@@ -16,14 +16,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 
 public class AdapterWelcomeImage extends PagerAdapter {
 	Context context;
 	ArrayList<Integer> data;
-	
+
 	public AdapterWelcomeImage(Context context, ArrayList<Integer> data) {
 		this.context = context;
 		this.data = data;
@@ -33,33 +38,78 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	public int getCount() {
 		return data.size();
 	}
+
 	static Drawable drb;
+
 	@Override
 	public Object instantiateItem(View container, int position) {
-		LayoutInflater inflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) container.getContext()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v;
 		if (data.get(position) == ActivityWelcome.PAGE_REGISTER) {
-			try{
-				v=inflater.inflate(R.layout.page_register, null);
-				
-			}catch(OutOfMemoryError e){
+			try {
+				v = inflater.inflate(R.layout.page_register, null);
+
+			} catch (OutOfMemoryError e) {
 				Log.e("out of memory", "wellcome Image Adapter");
 				return null;
 			}
-			final EditText name=(EditText)v.findViewById(R.id.activity_register_edt_name);
-			
+			final EditText name = (EditText) v
+					.findViewById(R.id.activity_register_edt_name);
+			final EditText email = (EditText) v
+					.findViewById(R.id.txt_personal_register_email);
+			final EditText phone = (EditText) v
+					.findViewById(R.id.txt_personal_register_phone);
+			final EditText address = (EditText) v
+					.findViewById(R.id.txt_personal_register_address);
+			final EditText birth = (EditText) v
+					.findViewById(R.id.txt_personal_register_birth);
+			final Spinner gender = (Spinner) v
+					.findViewById(R.id.spin_personal_register_gender);
+			final EditText friendCode = (EditText) v
+					.findViewById(R.id.introduce_code_edit_text);
+			// Create an ArrayAdapter using the string array and a default
+			// spinner
+			// layout
+			ArrayAdapter<CharSequence> adapter = ArrayAdapter
+					.createFromResource(context, R.array.gender_array,
+							android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			// // Apply the adapter to the spinner
+			gender.setAdapter(adapter);
+			gender.setSelection(0);
+			gender.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					// TODO Auto-generated method stub
+
+				}
+			});
 			name.addTextChangedListener(new TextWatcher() {
-				
+
 				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) { }
-				
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+				}
+
 				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-				
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+				}
+
 				@Override
 				public void afterTextChanged(Editable s) {
 					name.removeTextChangedListener(this);
-					String txt=SUtilText.removeAccent(s.toString());
+					String txt = SUtilText.removeAccent(s.toString());
 					s.clear();
 					s.append(txt);
 					name.setText(s);
@@ -67,26 +117,45 @@ public class AdapterWelcomeImage extends PagerAdapter {
 					name.setSelection(name.getText().length());
 				}
 			});
-			final Button btnRegister=(Button)v.findViewById(R.id.activity_register_btn_register);
-			
-				btnRegister.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						if(_listener!=null){
-							_listener.btnRegisterClick(btnRegister, name);
+			final Button btnRegister = (Button) v
+					.findViewById(R.id.activity_register_btn_register);
+
+			btnRegister.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (_listener != null) {
+						if ("".equals(name.getText().toString()))
+							showToast(context.getString(R.string.leck_name));
+						else if ("".equals(phone.getText().toString()))
+							showToast(context.getString(R.string.leck_phone));
+						else if ("".equals(address.getText().toString()))
+							showToast(context.getString(R.string.leck_address));
+						else {
+							String _gender = (String) gender.getSelectedItem();
+							String friendId = friendCode.getText().toString();
+							_listener.btnRegisterClick(btnRegister, name
+									.getText().toString(), email.getText()
+									.toString(), phone.getText().toString(),
+									address.getText().toString(), _gender,
+									birth.getText().toString(), friendId);
 						}
 					}
-				});
-		}else{
+				}
+			});
+		} else {
 			v = inflater.inflate(R.layout.item_welcome, null);
 			ImageView imv = (ImageView) v.findViewById(R.id.iv_welcome);
-			try{
-				int width=context.getResources().getInteger(R.integer.display_width);
-				int height=context.getResources().getInteger(R.integer.display_height);
-				imv.setImageBitmap(SUtilBitmap.decodeSampledBitmapFromResource(context.getResources(), data.get(position),width,height));
-				
-			}catch(OutOfMemoryError e){
+			try {
+				int width = context.getResources().getInteger(
+						R.integer.display_width);
+				int height = context.getResources().getInteger(
+						R.integer.display_height);
+				imv.setImageBitmap(SUtilBitmap.decodeSampledBitmapFromResource(
+						context.getResources(), data.get(position), width,
+						height));
+
+			} catch (OutOfMemoryError e) {
 				System.gc();
 				imv.setImageDrawable(drb);
 			}
@@ -105,17 +174,26 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	public boolean isViewFromObject(View arg0, Object arg1) {
 		return arg0 == ((View) arg1);
 	}
-	
+
 	OnWelcomeRegisterListener _listener;
-	public void setOnRegisterListener(OnWelcomeRegisterListener listener){
-		this._listener=listener;
+
+	public void setOnRegisterListener(OnWelcomeRegisterListener listener) {
+		this._listener = listener;
 	}
-	public interface OnWelcomeRegisterListener{
-		public void btnRegisterClick(View v,EditText name);
+
+	public interface OnWelcomeRegisterListener {
+		public void btnRegisterClick(View v, String name, String email,
+				String phone, String address, String gender, String birth,
+				String friendId);
 	}
+
 	public void updateData(ArrayList<Integer> mData) {
 		// TODO Auto-generated method stub
 		this.data = mData;
 		notifyDataSetChanged();
+	}
+
+	private void showToast(String string) {
+		Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
 	}
 }

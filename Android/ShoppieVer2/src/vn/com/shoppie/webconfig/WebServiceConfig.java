@@ -30,7 +30,7 @@ public final class WebServiceConfig {
 	/** HOME PAGE & LOOKBOOK campaignId=15 */
 	public static final String URL_MERCHCAMPAIGNS = URL_SHOPPIE_HOME
 			+ "merchcategories_v2/format/json";
-	/** Merchant Campain */
+	/** Merchant Campain */ 
 	public static final String URL_MERCHANT_CAMPAIGN = URL_SHOPPIE_HOME
 			+ "merchcampaigns_v2/format/json";
 	/** Update campaign View */
@@ -38,7 +38,7 @@ public final class WebServiceConfig {
 			+ "updatecampaignviewed_v2/format/json";
 	/** register account to SP server */
 	public static final String URL_REGISTER = URL_SHOPPIE_HOME
-			+ "/autoregister/format/json";
+			+ "/v2autoregister/format/json";
 	/** Merchant Products */
 	public static final String URL_MERCHANT_PRODUCT = URL_SHOPPIE_HOME
 			+ "merchproducts_v2/format/json";

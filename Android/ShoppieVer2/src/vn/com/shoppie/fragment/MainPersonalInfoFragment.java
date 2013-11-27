@@ -358,7 +358,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			break;
 		case REQUEST_CODE_GALLERY:
 			if (resultCode == getActivity().RESULT_OK) {
-				Log.d("data", "dataat " + data);
+				Log.d("data", "c " + data);
 				Uri uri = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
 				Cursor cursor = getActivity().getContentResolver().query(uri,
