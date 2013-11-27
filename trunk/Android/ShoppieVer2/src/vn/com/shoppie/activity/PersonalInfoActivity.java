@@ -86,7 +86,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		setContentView(R.layout.page_personal_info);
 		mShopieSharePref = new ShopieSharePref(this);
 		initialize();
-		
+
 		if (mShopieSharePref.getLoginType()) {
 			// Facebook
 			lifecycleHelper = new UiLifecycleHelper(PersonalInfoActivity.this,
@@ -340,8 +340,8 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction.hide(mFragmentPersonalInfo);
 		mTransaction.hide(mHistoryTradeFragment);
 		mTransaction.hide(mFriendDetailFragment);
-		if (!backstack.isEmpty())
-			showToast(backstack.get(0));
+		// if (!backstack.isEmpty())
+		// showToast(backstack.get(0));
 		return mTransaction;
 	}
 
@@ -352,7 +352,53 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	}
 
 	public void onClickBackPersonal(View v) {
-		finish();
+		/*
+		 * if (backstack.size() == 0) { if(mTopPanel.isOpen()){
+		 * mTopPanel.setOpen(false, true); return; } super.onBackPressed();
+		 * return; } if (backstack.size() == 1) { if
+		 * (!backstack.get(0).equals(VIEW_HOME)) { showToast(backstack.get(0));
+		 * mTransaction = hideFragment(); mTransaction.show(mFmHome);
+		 * backstack.clear(); addToSBackStack(VIEW_HOME); mFmHome.refreshUI();
+		 * mTransaction.commitAllowingStateLoss(); } else {
+		 * if(mTopPanel.isOpen()){ mTopPanel.setOpen(false, true); return; }
+		 * super.onBackPressed(); backstack.clear(); } return; }
+		 */
+		try {
+			backstack.remove(backstack.size() - 1);
+			if (backstack.size() == 0) {
+				super.onBackPressed();
+				return;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			super.onBackPressed();
+			return;
+		}
+		String currentView = backstack.get(backstack.size() - 1);
+		mTransaction = hideFragment();
+		if (currentView.equals(MAIN_PERSONAL_INFO_FRAGMENT)) {
+			mTransaction.show(mMainPersonalInfoFragment);
+			mTxtTitle.setText(getString(R.string.personal_info));
+			// mMainPersonalInfoFragment.refreshUI();
+		} else if (currentView.equals(PERSONAL_FRIEND_FRAGMENT)) {
+			mTransaction.show(mPersonalFriendFragment);
+			mTxtTitle.setText(getString(R.string.personl_friend));
+			// mPersonalFriendFragment.
+		} else if (currentView.equals(HELP_FRAGMENT)) {
+			mTransaction.show(mHelpFragment);
+			mTxtTitle.setText(getString(R.string.personal_favourite));
+			// mPersonalFriendFragment.
+		} else if (currentView.equals(HISTORY_TRADE_FRAGMET)) {
+			mTransaction.show(mHistoryTradeFragment);
+			mTxtTitle.setText(getString(R.string.history_trade));
+			// mPersonalFriendFragment.
+		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
+			mTransaction.show(mFragmentPersonalInfo);
+			mTxtTitle.setText(getString(R.string.main_personal_info));
+		} else if (currentView.equals(FRIEND_DETAIL_FRAGMENT)) {
+			mTransaction.show(mFriendDetailFragment);
+			mTxtTitle.setText(getString(R.string.personl_friend));
+		}
+		mTransaction.commitAllowingStateLoss();
 	}
 
 	public void addToSBackStack(String tag) {
