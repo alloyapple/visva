@@ -24,7 +24,7 @@
         <ImageButton
             android:layout_width="@dimen/actionbar_height"
             android:layout_height="@dimen/actionbar_height"
-            android:background="@color/actionbar_item_background"
+            android:background="@drawable/ic_back"
             android:contentDescription="@string/personal_info"
             android:onClick="onClickBackPersonal" />
     </RelativeLayout>
