@@ -18,8 +18,11 @@
     <string name="promt_gender">Giới tính</string>
     <string name="hello_user">Hello %1$s!</string>
     <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
-	<string name="pick_image">Pick An Image</string>
-    
+    <string name="pick_image">Pick An Image</string>
+    <string name="leck_name">Bạn chưa điền tên của mình</string>
+    <string name="leck_phone">Bạn chưa điền số điện thoại</string>
+    <string name="leck_address">Hãy điền địa chỉ của bạn để chúng tôi có thể gửi tặng bạn các món quà</string>
+
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
@@ -109,8 +112,8 @@
     <string name="personal_help">Trợ giúp</string>
     <string name="personal_email">Gửi Email</string>
     <string name="introduct_invitation">Bắt đầu với 225 Pie ngay khi bạn mời thành công 3 người bạn. Giống như nhận 1 thẻ điện thoại 20,000 VND! Tiếp tục nhận 75 Pie nữa cho mỗi 1 người bạn tham gia thành công.</string>
-	<string name="invitation_content">Hãy tải ứng dụng Shoppie &amp; nhập mã số %s và cả bạn &amp; tôi đều được tặng điểm Pie! Thú vị quá phải ko!</string>
-    
+    <string name="invitation_content">Hãy tải ứng dụng Shoppie &amp; nhập mã số %s và cả bạn &amp; tôi đều được tặng điểm Pie! Thú vị quá phải ko!</string>
+
     <!-- personal detail info -->
     <string name="personal_detail_info_name">Tên</string>
     <string name="personal_detail_info_email">Email</string>

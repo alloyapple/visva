@@ -9,7 +9,10 @@ public final class ParameterFactory {
 
 	public static List<NameValuePair> createRegisterSPAccount(
 			String deviceToken, String bluetoothId, String deviceId,
-			String latitude, String longitude, String custName) {
+			String latitude, String longitude, String custName,
+			String custEmail, String custAddress, String gender,
+			String birthday, String facebookid, String deviceImei,
+			String AppVersion, String OSVersion, String friendId) {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("deviceToken", deviceToken));
 		nameValuePairs.add(new BasicNameValuePair("deviceType", "Android"));
@@ -18,6 +21,15 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("latitude", latitude));
 		nameValuePairs.add(new BasicNameValuePair("longtitude", longitude));
 		nameValuePairs.add(new BasicNameValuePair("custName", custName));
+		nameValuePairs.add(new BasicNameValuePair("custEmail", custEmail));
+		nameValuePairs.add(new BasicNameValuePair("custAddress", custAddress));
+		nameValuePairs.add(new BasicNameValuePair("gender", gender));
+		nameValuePairs.add(new BasicNameValuePair("birthday", birthday));
+		nameValuePairs.add(new BasicNameValuePair("facebookid", facebookid));
+		nameValuePairs.add(new BasicNameValuePair("deviceImei", deviceImei));
+		nameValuePairs.add(new BasicNameValuePair("AppVersion", AppVersion));
+		nameValuePairs.add(new BasicNameValuePair("OSVersion", OSVersion));
+		nameValuePairs.add(new BasicNameValuePair("friendId", friendId));
 		return nameValuePairs;
 	}
 

@@ -60,8 +60,16 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	public static String regId;
 	private String blueMac;
 	private String emeil;
-	private String name;
-
+	private String custName;
+	private String custAdress;
+	private String gender;
+	private String facebookId;
+	private String custEmail;
+	private String birthday;
+	private String deviceImei;
+	private String AppVersion;
+	private String OSVersion;
+	private String friendId;
 	private ShopieSharePref mShopieSharePref;
 	// FaceBook
 	private UiLifecycleHelper uiHelper;
@@ -180,7 +188,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 		final Session session = Session.getActiveSession();
 		if (session == null || session.isClosed() || !session.isOpened()) {
 			uiHelper = new UiLifecycleHelper(this, callback);
-		} 
+		}
 	}
 
 	@Override
@@ -215,9 +223,9 @@ public class ActivityWelcome extends Activity implements LocationListener,
 			// Device is already registered on GCM
 			if (GCMRegistrar.isRegisteredOnServer(this)) {
 				// Skips registration.
-//				Toast.makeText(getApplicationContext(),
-//						"Already registered with GCM", Toast.LENGTH_LONG)
-//						.show();
+				// Toast.makeText(getApplicationContext(),
+				// "Already registered with GCM", Toast.LENGTH_LONG)
+				// .show();
 			} else {
 			}
 		}
@@ -241,7 +249,9 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 	LocationManager mLocaMng;
 
-	private void register(final String name) {
+	private void register(final String name, String email, String address,
+			String gender, String birth, String facebookid, String AppVersion,
+			String OSVersion, String friendId) {
 
 		ActivityShoppie.myUser.custName = name;
 		SettingPreference.setUserName(ActivityWelcome.this, name);
@@ -268,17 +278,27 @@ public class ActivityWelcome extends Activity implements LocationListener,
 			}
 		}
 
-		registerToSPServer(regId, blueMac, emeil, lat, lng, name);
+		registerToSPServer(regId, blueMac, emeil, lat, lng, name, email,
+				address, gender, birth, facebookid, emeil, AppVersion,
+				OSVersion, friendId);
 	}
 
 	private void registerToSPServer(String deviceToken, String bluetoothId,
-			String deviceId, String latitude, String longitude, String custName) {
+			String deviceId, String latitude, String longitude,
+			String custName, String custEmail, String custAddress,
+			String gender, String birthday, String facebookid,
+			String deviceImei, String AppVersion, String OSVersion,
+			String friendId) {
 		// TODO Auto-generated method stub
 		GCMRegistrar.setRegisteredOnServer(this, true);
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
+		// .createRegisterSPAccount(deviceToken, bluetoothId, deviceId,
+		// latitude, longitude, custName);
 				.createRegisterSPAccount(deviceToken, bluetoothId, deviceId,
-						latitude, longitude, custName);
+						latitude, longitude, custName, custEmail, custAddress,
+						gender, birthday, facebookid, deviceImei, AppVersion,
+						OSVersion, friendId);
 		AsyncHttpPost postUpdateStt = new AsyncHttpPost(ActivityWelcome.this,
 				new AsyncHttpResponseProcess(ActivityWelcome.this) {
 					@Override
@@ -381,9 +401,18 @@ public class ActivityWelcome extends Activity implements LocationListener,
 									Response response) {
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
-										name = user.getName();
+										custName = user.getName();
+										custEmail = user.getId();
+										custAdress = "";
+										facebookId = user.getId();
+										birthday = user.getBirthday();
+										gender = "Male";
 										if (mShopieSharePref.getCustId() == 0)
-											register(name);
+											register(custName, custEmail,
+													custAdress, gender,
+													birthday, facebookId,
+													AppVersion, OSVersion,
+													friendId);
 									}
 								}
 							}
@@ -394,10 +423,20 @@ public class ActivityWelcome extends Activity implements LocationListener,
 		}
 	}
 
+	// @Override
+	// public void btnRegisterClick(View v, String name, String email,
+	// String phone, String address, String gender, String birth) {
+	// // TODO Auto-generated method stub
+	// if (mShopieSharePref.getCustId() == 0)
+	// register(name.getText().toString());
+	// }
+
 	@Override
-	public void btnRegisterClick(View v, EditText name) {
+	public void btnRegisterClick(View v, String name, String email,
+			String phone, String address, String gender, String birth,
+			String friendId) {
 		// TODO Auto-generated method stub
 		if (mShopieSharePref.getCustId() == 0)
-			register(name.getText().toString());
+			register(name, email, address, gender, birth, "", "1", "", friendId);
 	}
 }
