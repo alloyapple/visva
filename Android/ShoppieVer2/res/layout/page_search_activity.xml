@@ -26,6 +26,13 @@
         </vn.com.shoppie.object.HorizontalListView>
     </LinearLayout>
 
+    <View 
+        android:id="@+id/actionbar_devider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/actionbar_top"
+        />
+    
     <RelativeLayout
         android:id="@+id/actionbar_bottom"
         android:layout_width="match_parent"
@@ -69,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/actionbar_bottom"
-        android:layout_below="@id/actionbar_top"
+        android:layout_below="@id/actionbar_devider"
         android:layout_marginLeft="@dimen/personal_info_margin_left"
         android:layout_marginRight="@dimen/personal_info_margin_right"
         android:layout_marginTop="@dimen/personal_info_margin_top" >

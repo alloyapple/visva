@@ -55,6 +55,15 @@
     	android:drawableLeft="@drawable/ic_like"
     	android:textColor="#2A5C72"
         />
+    <Button 
+        android:layout_width="90dp"
+    	android:layout_height="match_parent"
+    	android:layout_alignParentRight="true"
+    	android:layout_marginTop="60dp"
+    	android:layout_below="@id/image"
+    	android:id="@+id/like_click"
+    	android:background="#00000000"
+        />
 	<TextView 
 	    android:id="@+id/count" 
 	    android:layout_width="@dimen/page_item_count_width"

@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Point;
@@ -151,8 +152,10 @@ public class SearchMapFragment extends SupportMapFragment{
 	private int getColorByStore(MerchantStoreItem store) {
 		try {
 			MerchantCategoryItem category = ((SearchActivity) getActivity()).getCategoryByStore(store);
-			int color = category != null ? Integer.parseInt(category.getLineColor()) + 0xff000000 : 0xffff0000;
-			return color;			
+			String color = category.getLineColor();
+			String temp[] = color.split(",");
+			int colorValue = Color.rgb(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Integer.parseInt(temp[2]));
+			return colorValue;			
 		} catch (Exception e) {
 			// TODO: handle exception
 			return 0xffff0000;

@@ -30,6 +30,7 @@ import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.webconfig.WebServiceConfig;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -42,6 +43,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 public class SearchActivity extends FragmentActivity implements
@@ -133,6 +135,12 @@ public class SearchActivity extends FragmentActivity implements
 		}
 	}
 
+	public void setDeviderColor(int red , int green , int blue) {
+		View view = findViewById(R.id.actionbar_devider);
+		int colorValue = Color.rgb(red, green, blue);
+		view.setBackgroundColor(colorValue);
+	}
+	
 	private void getMerchantCategoryFromDB() {
 		// TODO Auto-generated method stub
 		
@@ -272,6 +280,7 @@ public class SearchActivity extends FragmentActivity implements
 
 	private void setIconAdapter(ArrayList<MerchantCategoryItem> catelogyList) {
 		Log.d("Category Color", "Color start");
+		iconDataList.clear();
 		for (int i = 0; i < catelogyList.size(); i++) {
 			iconDataList.add(catelogyList.get(i));
 			Log.d("Category Color", "Color "
@@ -288,6 +297,7 @@ public class SearchActivity extends FragmentActivity implements
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				setDataByIcon(iconDataList.get(position), false);
+				mSearchMapFragment.updatePie(manageData.get(iconDataList.get(position)));
 			}
 		});
 
@@ -384,6 +394,15 @@ public class SearchActivity extends FragmentActivity implements
 		if (isUpdateMap) {
 			setPieMap(manageData.get(icon));
 		}
+		
+		try {
+			String color = icon.getLineColor();
+			String temp[] = color.split(",");
+			setDeviderColor(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Integer.parseInt(temp[2]));
+		} catch (Exception e) {
+			setDeviderColor(0, 0, 0);
+		}
+		
 	}
 
 	private void requestGetMerchantStores(String custId) {
@@ -436,6 +455,11 @@ public class SearchActivity extends FragmentActivity implements
 	}
 
 	public MerchantCategoryItem getCategoryByStore(MerchantStoreItem store) {
-		return manageCategoryByStore.get(store);
+		for (int i = 0; i < iconDataList.size(); i++) {
+			if(store.getMerchCatId() == iconDataList.get(i).getMerchCatId()) {
+				return iconDataList.get(i);
+			}
+		}
+		return null;
 	}
 }
