@@ -43,12 +43,14 @@ public class CollectionList extends Activity {
 	public static final String KEY_ICON = "icon";
 	public static final String KEY_TITLE = "title";
 	public static final String KEY_DESC = "desc";
+	public static final String KEY_NUMBER = "number";
 
 	private String merchantId = "";
 	private String customerId = "";
 	private String iconLink = "";
 	private String title = "";
 	private String titleDesc = "";
+	private String number = "";
 
 	private ListView listView;
 	private ListCollectionAdapter adapter;
@@ -73,6 +75,7 @@ public class CollectionList extends Activity {
 		iconLink = extras.getString(KEY_ICON);
 		title = extras.getString(KEY_TITLE);
 		titleDesc = extras.getString(KEY_DESC);
+		number = extras.getString(KEY_NUMBER);
 
 		listView = (ListView) findViewById(R.id.list);
 		TextView text = new TextView(this);
@@ -87,11 +90,13 @@ public class CollectionList extends Activity {
 		TextView titleTv = (TextView) headerView.findViewById(R.id.catelogy);
 		TextView subTitleTv = (TextView) headerView
 				.findViewById(R.id.subcatelogy);
+		TextView countTv = (TextView) headerView.findViewById(R.id.count); 
 		ImageLoader.getInstance(this).DisplayImage(
 				CatelogyAdapter.URL_HEADER + iconLink, icon);
 		titleTv.setText(title);
 		subTitleTv.setText(titleDesc);
-
+		countTv.setText(number);
+		
 		listView.addHeaderView(headerView);
 		listView.setDivider(null);
 

@@ -59,12 +59,12 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			
 			if(showBottom)
 				ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon , true
-					, false , false , false , false);
+					, false , false , false , false , false);
 			else
 				ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon , true
-						, false , true , false , false);
+						, false , true , false , false , false);
 				
-			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image);
+			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image , false, false ,false ,false,false);
 
 			cacheView[position] = v;
 		}
@@ -176,7 +176,7 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			View v = getView(i);
 			View bottom = v.findViewById(R.id.image);
 			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
-					, false , false , false , false);
+					, false , false , false , false , false);
 			bottom.setVisibility(View.VISIBLE);
 			ObjectAnimator.ofFloat(bottom, "alpha", 0 , 1f).setDuration(500).start();
 		}
