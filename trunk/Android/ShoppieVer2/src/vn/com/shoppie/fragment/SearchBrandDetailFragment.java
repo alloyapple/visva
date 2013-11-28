@@ -2,11 +2,8 @@ package vn.com.shoppie.fragment;
 
 import com.antonyt.infiniteviewpager.StoreImageFragment;
 import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
-
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
-import vn.com.shoppie.util.CoverLoader;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
