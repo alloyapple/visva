@@ -412,7 +412,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 							@Override
 							public void onCompleted(GraphUser user,
 									Response response) {
-								Log.e("adkfjh", "c " + response.toString());
+								Log.e("adkfjh", "csdfsdfdf " + response.toString());
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										custName = user.getName();

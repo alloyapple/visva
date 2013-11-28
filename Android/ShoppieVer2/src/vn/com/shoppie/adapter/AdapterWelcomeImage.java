@@ -42,7 +42,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	}
 
 	static Drawable drb;
-	private String friendId;
+	private String friendId = "";
 	private ShopieSharePref mShopieSharePref;
 
 	@Override
@@ -92,7 +92,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				public void afterTextChanged(Editable s) {
 					// TODO Auto-generated method stub
 					friendId += s.toString();
-					mShopieSharePref.setFriendId(Integer.parseInt(friendId));
+					mShopieSharePref.setFriendId(friendId);
 				}
 			});
 			// Create an ArrayAdapter using the string array and a default

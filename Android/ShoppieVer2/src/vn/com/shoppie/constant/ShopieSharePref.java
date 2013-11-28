@@ -72,12 +72,12 @@ public class ShopieSharePref {
 		return getStringValue(CUST_EMAIL);
 	}
 
-	public void setFriendId(int friendId) {
-		putIntValue(FRIEND_ID, friendId);
+	public void setFriendId(String friendId) {
+		putStringValue(FRIEND_ID, friendId);
 	}
 
-	public int getFriendId() {
-		return getIntValue(FRIEND_ID);
+	public String getFriendId() {
+		return getStringValue(FRIEND_ID);
 	}
 
 	public void setLoginType(boolean typeLogin) {

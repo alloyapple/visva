@@ -169,9 +169,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 		if (req == REQUEST_CODE_BLUETOOTH) {
 			String alert = "";
 			if (res == RESULT_CANCELED) {
-				alert = "Chưa thực hiện giao dịch checkin.";
+				alert = getString(R.string.checkin_not_transaction);
 			} else {
-				alert = "Đang thực hiện giao dịch checkin.";
+				alert = getString(R.string.checkin_cancel_transaction);
 			}
 			DialogUtility.alert(self, alert, new OnClickListener() {
 
@@ -180,12 +180,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 					// TODO Auto-generated method stub
 					// continue with delete
 					dialog.dismiss();
+					setCheckIn(false);
 				}
 			});
 		}
 	}
 
-	public void startBluetoothByIntent() {
+	private void startBluetoothByIntent() {
 		// start Bluetooth by Intent
 		if (BluetoothAdapter.getDefaultAdapter() != null) {
 			if (BluetoothAdapter.getDefaultAdapter().getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
@@ -327,10 +328,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 			break;
 		case R.id.checkin:
 			onClickCheckin();
-			isChecked = !isChecked;
-			setCheckIn(isChecked);
+			setCheckIn(true);
 			break;
-
 		default:
 			break;
 		}
@@ -374,6 +373,10 @@ public class HomeActivity extends VisvaAbstractActivity {
 			});
 
 			checkinCircle.startAnimation(anim);
+			if(isCheckin){
+				checkinCircle.clearAnimation();
+				isCheckin = false;
+			}
 		} else {
 			checkinCircle.clearAnimation();
 		}

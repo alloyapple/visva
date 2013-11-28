@@ -3,16 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_background" >
-    <ListView 
-        android:layout_marginTop="10dp"
-    	android:layout_width="@dimen/page_item_width"
-    	android:layout_height="wrap_content"
-    	android:layout_centerHorizontal="true"
-    	android:id="@+id/list"  
-        />
-	<ImageButton 
-	    android:layout_width="@dimen/actionbar_height"
-    	android:layout_height="@dimen/actionbar_height"
-    	android:background="@color/actionbar_item_background"
-	    />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="@dimen/page_item_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <ImageButton
+        android:layout_width="@dimen/actionbar_height"
+        android:layout_height="@dimen/actionbar_height"
+        android:background="@drawable/ic_back"
+        android:onClick="onCLickBackBtn" />
+
 </RelativeLayout>

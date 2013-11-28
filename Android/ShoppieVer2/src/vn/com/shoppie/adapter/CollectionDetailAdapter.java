@@ -9,6 +9,8 @@ import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
+import vn.com.shoppie.webconfig.WebServiceConfig;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -36,9 +38,14 @@ import android.widget.Toast;
 
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
+import com.google.analytics.tracking.android.Log;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -79,14 +86,15 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 				if (position == getCount() - 2) {
 					v = inflater.inflate(R.layout.collectiondetail3, null,
 							false);
-					
-					Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_lucky_pie);
-					Bitmap bg = ImageUtil.getInstance(context).getShapeBitmap(bitmap, true, true, true, true);
+
+					Bitmap bitmap = BitmapFactory.decodeResource(
+							context.getResources(), R.drawable.bg_lucky_pie);
+					Bitmap bg = ImageUtil.getInstance(context).getShapeBitmap(
+							bitmap, true, true, true, true);
 					v.setBackgroundDrawable(new BitmapDrawable(bg));
 					bitmap.recycle();
 					bitmap = null;
-				}
-				else if (position == getCount() - 1)
+				} else if (position == getCount() - 1)
 					v = inflater.inflate(R.layout.collectiondetail5, null,
 							false);
 				else {
@@ -117,40 +125,40 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					price1.setText("Giá: " + getItem(position).getPrice());
 					color.setText("" + getItem(position).getShortDesc());
 					like.setText("" + getItem(position).getLikedNumber());
-					
+
 					Button likeBt = (Button) v.findViewById(R.id.like_click);
 					likeBt.setTag(getItem(position));
 					int resId = 0;
-					if(getItem(position).getLiked() == 0) {
+					if (getItem(position).getLiked() == 0) {
 						resId = R.drawable.ic_like;
-					}
-					else {
+					} else {
 						resId = R.drawable.ic_liked;
 					}
 					like.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
-					
+
 					OnClickListener onClickListener = new OnClickListener() {
-						
+
 						@Override
 						public void onClick(View v) {
-							MerchProductItem item = (MerchProductItem) v.getTag();
-							if(item.getLiked() == 0) {
+							MerchProductItem item = (MerchProductItem) v
+									.getTag();
+							if (item.getLiked() == 0) {
 								item.setLiked(1);
 								item.setLikedNumber(item.getLikedNumber() + 1);
-							}
-							else {
+							} else {
 								item.setLiked(0);
 								item.setLikedNumber(item.getLikedNumber() - 1);
 							}
 							updateLiked(item.getProductId());
-							if(onLikeListenner != null) {
-								onLikeListenner.onLike(item.getLiked() == 1, item.getProductId());
+							if (onLikeListenner != null) {
+								onLikeListenner.onLike(item.getLiked() == 1,
+										item.getProductId());
 							}
 						}
 					};
-					
+
 					likeBt.setOnClickListener(onClickListener);
-					
+
 					TextView desc = (TextView) v.findViewById(R.id.desc1);
 					desc.setText(getItem(position).getLongDesc());
 					desc.setTag(v.findViewById(R.id.text));
@@ -163,35 +171,38 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							mPager.setLockSlide(false);
 						}
 					});
-					
+
 					Button btFacebook = (Button) v.findViewById(R.id.bt_fb);
 					btFacebook.setTag(getItem(position));
 					Button btMail = (Button) v.findViewById(R.id.bt_mail);
 					btMail.setTag(getItem(position));
 					Button btSms = (Button) v.findViewById(R.id.bt_sms);
 					btSms.setTag(getItem(position));
-					
+
 					btFacebook.setOnClickListener(new OnClickListener() {
-											
+
 						@Override
 						public void onClick(View v) {
-							MerchProductItem item = (MerchProductItem) v.getTag();
+							MerchProductItem item = (MerchProductItem) v
+									.getTag();
 							publishFeedDialog(item);
 						}
 					});
 					btSms.setOnClickListener(new OnClickListener() {
-						
+
 						@Override
 						public void onClick(View v) {
-							MerchProductItem item = (MerchProductItem) v.getTag();
+							MerchProductItem item = (MerchProductItem) v
+									.getTag();
 							initShareSMS(item);
 						}
 					});
 					btMail.setOnClickListener(new OnClickListener() {
-						
+
 						@Override
 						public void onClick(View v) {
-							MerchProductItem item = (MerchProductItem) v.getTag();
+							MerchProductItem item = (MerchProductItem) v
+									.getTag();
 							initShareItent(item);
 						}
 					});
@@ -233,25 +244,26 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							if (mPlayer != null)
 								mPlayer.start();
 
-							final View piedView = v.findViewById(R.id.pied_view);
+							final View piedView = v
+									.findViewById(R.id.pied_view);
 							piedView.setVisibility(View.VISIBLE);
 							ScaleAnimation anim = new ScaleAnimation(0, 1f, 0,
 									1f, piedView.getWidth() / 2, piedView
 											.getHeight() / 2);
 							anim.setDuration(1000);
 							anim.setInterpolator(new DecelerateInterpolator());
-							
-							final ScaleAnimation anim2 = new ScaleAnimation(1f, 1f, 1f,
-									1f, piedView.getWidth() / 2, piedView
-											.getHeight() / 2);
+
+							final ScaleAnimation anim2 = new ScaleAnimation(1f,
+									1f, 1f, 1f, piedView.getWidth() / 2,
+									piedView.getHeight() / 2);
 							anim2.setDuration(1000);
-							
-							final ScaleAnimation anim1 = new ScaleAnimation(1f, 0f, 1f,
-									0f, piedView.getWidth() / 2, piedView
-											.getHeight() / 2);
+
+							final ScaleAnimation anim1 = new ScaleAnimation(1f,
+									0f, 1f, 0f, piedView.getWidth() / 2,
+									piedView.getHeight() / 2);
 							anim1.setInterpolator(new AccelerateInterpolator());
 							anim1.setDuration(500);
-							
+
 							anim.setAnimationListener(new AnimationListener() {
 
 								@Override
@@ -307,8 +319,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 									pied();
 								}
 							});
-							
-							
+
 							piedView.startAnimation(anim);
 						}
 					}
@@ -341,8 +352,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					ImageLoader.getInstance(context).DisplayImage(
 							CatelogyAdapter.URL_HEADER
 									+ data.get(position).getProductImage(),
-							image  , true
-							, true , false , false , true, false);
+							image, true, true, false, false, true, false);
 					isNeedUpdateImage[position] = false;
 				}
 			}
@@ -360,26 +370,26 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	public void freeAll() {
 		for (int i = 0; i < cacheView.length; i++) {
 			View v = cacheView[i];
-			if(v != null) {
+			if (v != null) {
 				View image = v.findViewById(R.id.image);
 				if (image != null) {
 					BitmapDrawable d = (BitmapDrawable) image.getBackground();
 					image.setBackgroundDrawable(null);
-					if(d != null) {
+					if (d != null) {
 						Bitmap b = d.getBitmap();
-						if(b != ImageLoader.defaultBitmap) {
+						if (b != ImageLoader.defaultBitmap) {
 							b.recycle();
 							b = null;
 						}
 					}
 				}
 			}
-			if(!isNeedUpdateImage[i])
+			if (!isNeedUpdateImage[i])
 				isNeedUpdateImage[i] = true;
 		}
 		System.gc();
 	}
-	
+
 	public void freeImage(int currPos) {
 		int pre = 0;
 		int next = 0;
@@ -389,36 +399,36 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		} else if (currPos == getCount() - 1) {
 			pre = currPos - 1;
 			next = 0;
-		}
-		else {
+		} else {
 			next = currPos + 1;
 			pre = currPos - 1;
 		}
-		
+
 		for (int i = 0; i < cacheView.length; i++) {
 			if (i != currPos && i != pre && i != next) {
 				View v = cacheView[i];
-				if(v != null) {
+				if (v != null) {
 					View image = v.findViewById(R.id.image);
 					if (image != null) {
-						BitmapDrawable d = (BitmapDrawable) image.getBackground();
+						BitmapDrawable d = (BitmapDrawable) image
+								.getBackground();
 						image.setBackgroundDrawable(null);
-						if(d != null) {
+						if (d != null) {
 							Bitmap b = d.getBitmap();
-							if(b != ImageLoader.defaultBitmap) {
+							if (b != ImageLoader.defaultBitmap) {
 								b.recycle();
 								b = null;
 							}
 						}
 					}
 				}
-				if(!isNeedUpdateImage[i])
+				if (!isNeedUpdateImage[i])
 					isNeedUpdateImage[i] = true;
 			}
 		}
 		System.gc();
 	}
-	
+
 	private void freeImageForException(int pos) {
 		int pre = 0;
 		int next = 0;
@@ -433,12 +443,13 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		for (int i = 0; i < cacheView.length; i++) {
 			View v = cacheView[i];
 			if (i != pos && i != pre && i != next) {
-				if(v != null) {
+				if (v != null) {
 					View image = v.findViewById(R.id.image);
 					if (image != null) {
-						BitmapDrawable d = (BitmapDrawable) image.getBackground();
+						BitmapDrawable d = (BitmapDrawable) image
+								.getBackground();
 						image.setBackgroundDrawable(null);
-						if(d != null) {
+						if (d != null) {
 							Bitmap b = d.getBitmap();
 							b.recycle();
 							b = null;
@@ -565,8 +576,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public boolean canbeNext(int curId) {
-//		if (curId == getCount() - 2 && !pied)
-//			return false;
+		// if (curId == getCount() - 2 && !pied)
+		// return false;
 		return true;
 	}
 
@@ -583,38 +594,46 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	 * @param image_url
 	 */
 	private void publishFeedDialog(MerchProductItem item) {
-		Bundle params = new Bundle();
-		params.putString("name", "Shoppie");
-		params.putString("caption", "");
-		params.putString("description",
-				context.getString(R.string.introduct_invitation));
-//		params.putString("link", "" + image_url);
-		params.putString("picture",
-				"http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
-		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(context,
-				Session.getActiveSession(), params)).setOnCompleteListener(
-				new OnCompleteListener() {
+		Session session = Session.getActiveSession();
+		if (session != null && session.isOpened()) {
+			Bundle params = new Bundle();
+			params.putString("name", "Shoppie");
+			params.putString("caption", "");
+			params.putString("description",
+					context.getString(R.string.introduct_invitation));
+			android.util.Log.e("adsfjh", "adfjh " + WebServiceConfig.HEAD_IMAGE
+					+ item.getThumbNail());
+			params.putString("link",
+					"" + WebServiceConfig.HEAD_IMAGE + item.getThumbNail());
+			params.putString("picture",
+					"http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
+			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(context,
+					Session.getActiveSession(), params)).setOnCompleteListener(
+					new OnCompleteListener() {
 
-					@Override
-					public void onComplete(Bundle values,
-							FacebookException error) {
-						if (error == null) {
-							// When the story is posted, echo the success
-							// and the post Id.
-							Toast.makeText(context, "Share successfully ",
-									Toast.LENGTH_SHORT).show();
-						} else if (error instanceof FacebookOperationCanceledException) {
-							// User clicked the "x" button
-							Toast.makeText(context, "Publish cancelled",
-									Toast.LENGTH_SHORT).show();
-						} else {
-							// Generic, ex: network error
-							Toast.makeText(context, "Error posting story",
-									Toast.LENGTH_SHORT).show();
+						@Override
+						public void onComplete(Bundle values,
+								FacebookException error) {
+							if (error == null) {
+								// When the story is posted, echo the success
+								// and the post Id.
+								Toast.makeText(context, "Share successfully ",
+										Toast.LENGTH_SHORT).show();
+							} else if (error instanceof FacebookOperationCanceledException) {
+								// User clicked the "x" button
+								Toast.makeText(context, "Publish cancelled",
+										Toast.LENGTH_SHORT).show();
+							} else {
+								// Generic, ex: network error
+								Toast.makeText(context, "Error posting story",
+										Toast.LENGTH_SHORT).show();
+							}
 						}
-					}
-				}).build();
-		feedDialog.show();
+					}).build();
+			feedDialog.show();
+		} else {
+			ensureOpenSession();
+		}
 	}
 
 	/**
@@ -644,33 +663,81 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		sendIntent.setType("vnd.android-dir/mms-sms");
 		context.startActivity(sendIntent);
 	}
-	
+
+	private boolean ensureOpenSession() {
+		if (Session.getActiveSession() == null
+				|| !Session.getActiveSession().isOpened()) {
+			Session.openActiveSession((Activity) context, true,
+					new Session.StatusCallback() {
+
+						@Override
+						public void call(Session session, SessionState state,
+								Exception exception) {
+							// TODO Auto-generated method stub
+							onSessionStateChanged(session, state, exception);
+						}
+					});
+			return false;
+		}
+		return true;
+	}
+
+	private void onSessionStateChanged(final Session session,
+			SessionState state, Exception exception) {
+		android.util.Log.e("adfdf",
+				"adfd " + (session != null && session.isOpened()));
+		if (session != null && session.isOpened()) {
+			if (state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
+				Session.getActiveSession();
+			} else {
+				Request request = Request.newMeRequest(session,
+						new Request.GraphUserCallback() {
+							@Override
+							public void onCompleted(GraphUser user,
+									Response response) {
+								if (session == Session.getActiveSession()) {
+									if (user != null) {
+										String name = user.getName();
+										android.util.Log.e(
+												"name " + user.getId(),
+												"adfname " + user.getName());
+									}
+								}
+							}
+						});
+				request.executeAsync();
+			}
+		} else {
+			Session.getActiveSession();
+		}
+	}
+
 	private void updateLiked(int productionId) {
-		for(int i = 0 ; i < data.size() ; i++) {
-			if(data.get(i).getProductId() == productionId) {
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i).getProductId() == productionId) {
 				View v = getView(i);
 				TextView like = (TextView) v.findViewById(R.id.like);
 				int resId = 0;
-				if(data.get(i).getLiked() == 0) {
+				if (data.get(i).getLiked() == 0) {
 					resId = R.drawable.ic_like;
-				}
-				else {
+				} else {
 					resId = R.drawable.ic_liked;
 				}
 				like.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
 				like.setText("" + data.get(i).getLikedNumber());
 			}
 		}
-		
+
 	}
-	
+
 	public void setOnLikeListenner(OnLikeListenner onLikeListenner) {
 		this.onLikeListenner = onLikeListenner;
 	}
-	
+
 	private OnLikeListenner onLikeListenner;
-	
+
 	public interface OnLikeListenner {
-		public void onLike(boolean liked , int productionId);
+		public void onLike(boolean liked, int productionId);
 	}
+
 }

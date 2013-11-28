@@ -9,11 +9,15 @@ import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.util.SBroastcastProvider;
 import vn.com.shoppie.util.SBroastcastProvider.BroastcastListener;
 import vn.com.shoppie.util.VisvaDialog;
+import vn.com.shoppie.view.PopupPie;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
@@ -51,6 +55,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 
 	SBroastcastProvider broastcast = new SBroastcastProvider(this);
 	private ShopieSharePref mShopieSharePref;
+	protected boolean isCheckin = false;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -448,9 +453,32 @@ public abstract class VisvaAbstractActivity extends Activity implements
 		if (intent.hasExtra(GlobalValue.EXTRA_MESSAGE)) {
 			if ((System.currentTimeMillis() - LST_NOTIFY_TIME) > THRE_NOTIFY_TIME) {
 				LST_NOTIFY_TIME = System.currentTimeMillis();
-				// fire();
+				fire();
 			}
 		}
+
+		isCheckin = true;
+	}
+
+	private void fire() {
+		if (dialogAlert != null && dialogAlert.isShowing())
+			dialogAlert.dismiss();
+		MediaPlayer mMediaPlayer = new MediaPlayer();
+		mMediaPlayer = MediaPlayer.create(VisvaAbstractActivity.this,
+				R.raw.ting_ting);
+		mMediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+		mMediaPlayer.setLooping(false);
+		mMediaPlayer.start();
+		mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				mp.release();
+			}
+		});
+
+		PopupPie pie = PopupPie.getInstance(this);
+		pie.fire(this);
 	}
 
 	@Override
