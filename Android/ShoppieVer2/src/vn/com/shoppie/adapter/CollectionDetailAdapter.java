@@ -83,7 +83,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			} else {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				if (position == getCount() - 2) {
+				if (position == data.size()) {
 					v = inflater.inflate(R.layout.collectiondetail3, null,
 							false);
 
@@ -92,9 +92,9 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					Bitmap bg = ImageUtil.getInstance(context).getShapeBitmap(
 							bitmap, true, true, true, true);
 					v.setBackgroundDrawable(new BitmapDrawable(bg));
-					bitmap.recycle();
-					bitmap = null;
-				} else if (position == getCount() - 1)
+//					bitmap.recycle();
+//					bitmap = null;
+				} else if (position == data.size() + 1)
 					v = inflater.inflate(R.layout.collectiondetail5, null,
 							false);
 				else {
@@ -324,7 +324,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						}
 					}
 				});
-			} else if (position <= getCount() - 3) {
+			} else if (position <= data.size() - 1) {
 				v.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -387,7 +387,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			if (!isNeedUpdateImage[i])
 				isNeedUpdateImage[i] = true;
 		}
-		System.gc();
 	}
 
 	public void freeImage(int currPos) {
@@ -405,7 +404,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		}
 
 		for (int i = 0; i < cacheView.length; i++) {
-			if (i != currPos && i != pre && i != next) {
+			if (i != currPos && i != pre && i != next && i < getCount() - 2) {
 				View v = cacheView[i];
 				if (v != null) {
 					View image = v.findViewById(R.id.image);
@@ -426,7 +425,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					isNeedUpdateImage[i] = true;
 			}
 		}
-		System.gc();
 	}
 
 	private void freeImageForException(int pos) {

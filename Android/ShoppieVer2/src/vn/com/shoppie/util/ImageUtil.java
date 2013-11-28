@@ -104,6 +104,8 @@ public class ImageUtil {
 	    canvas.drawPath(path, paint);
 	    paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 	    canvas.drawBitmap(bitmap, rect, rect, paint);
+	    canvas = null;
+//	    bitmap.recycle();bitmap = null;
 	    return output;
 	}
 }

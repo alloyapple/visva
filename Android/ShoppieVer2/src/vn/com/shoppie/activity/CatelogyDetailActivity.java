@@ -100,6 +100,13 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		unlikeProduct("", "");
 	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		adapter.freeAll();
+	}
+	
 	private void unlikeProduct(String custId, String productId) {
 		// TODO Auto-generated method stub
 
@@ -184,7 +191,8 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						requestupdateToGetMerchProducts(camId, custId);
 					}
 				}
-				adapter.freeImage(pos);
+				else
+					adapter.freeImage(pos);
 			}
 		});
 		

@@ -4,14 +4,11 @@
     android:layout_height="@dimen/storedetail_item_height"
     android:background="@android:color/white" >
 
-    <ScrollView
-        android:layout_width="@dimen/storedetail_item_width"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp" >
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_width="@dimen/storedetail_item_width"
+            android:layout_height="wrap_content"
+        	android:layout_marginBottom="40dp" >
 
             <com.antonyt.infiniteviewpager.InfiniteViewPager
                 android:id="@+id/pager"
@@ -29,17 +26,23 @@
                 android:textColor="#2A5C72"
                 android:textSize="@dimen/page_item_catelogy_desc_textsize" />
 
-            <TextView
-                android:id="@+id/desc"
+            <ScrollView 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
                 android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
                 android:layout_marginTop="5dp"
-                android:text="aisufweavksjv bxkvhewgiuaywg ksadjhfksdahfk asjhwieutyksdja \n asdfasdf \n wqerwqet \nfawefasdf\nwerqwerqw\nadfasdf\nqwerqwer"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
-
+                >
+                <TextView
+	                android:id="@+id/desc"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:text="aisufweavksjv bxkvhewgiuaywg ksadjhfksdahfk asjhwieutyksdja \n asdfasdf \n wqerwqet \nfawefasdf\nwerqwerqw\nadfasdf\nqwerqwer"
+	                android:textColor="@android:color/darker_gray"
+	                android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+                
+            </ScrollView>
+            
             <TextView
                 android:id="@+id/count"
                 android:layout_width="@dimen/page_item_count_width"
@@ -47,7 +50,6 @@
                 android:layout_alignParentRight="true"
                 android:background="@drawable/ic_head_center02" />
         </RelativeLayout>
-    </ScrollView>
 
     <Button
         android:id="@+id/bt_fb"

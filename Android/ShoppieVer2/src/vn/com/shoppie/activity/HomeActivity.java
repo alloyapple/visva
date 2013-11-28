@@ -272,6 +272,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 						.getMerchCatName());
 				intent.putExtra(CollectionList.KEY_DESC, adapter.getItem(pos)
 						.getMerchCatDesc());
+				intent.putExtra(CollectionList.KEY_NUMBER, "" + adapter.getItem(pos).getCampaignNumber());
 				changeToActivity(intent, false);
 			}
 		});

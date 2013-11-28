@@ -71,6 +71,8 @@ public class ListCollectionAdapter extends BaseAdapter{
 		holder.title.setText(getItem(position).getCampaignName());
 		holder.subTitle.setText(getItem(position).getCampaignDesc());
 		holder.like.setText("" + getItem(position).getLikedNumber());
+		holder.star.setVisibility(getItem(position).getLuckyPie() > 0 ? 
+				View.VISIBLE : View.INVISIBLE);
 		ImageLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + getItem(position).getCampaignImage(), holder.image);
 		
 		return convertView;
