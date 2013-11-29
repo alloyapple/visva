@@ -69,6 +69,6 @@
         android:layout_width="@dimen/collection_item_star_width"
         android:layout_height="@dimen/collection_item_star_height"
         android:layout_alignParentRight="true"
-        android:background="@drawable/ic_favourist" />
+        android:background="@drawable/star" />
 
 </RelativeLayout>

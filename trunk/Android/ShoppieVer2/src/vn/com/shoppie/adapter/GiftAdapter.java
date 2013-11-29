@@ -7,6 +7,7 @@ import java.util.Vector;
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.util.ImageLoader;
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -22,15 +23,19 @@ import android.widget.Toast;
 import com.google.analytics.tracking.android.Log;
 
 public class GiftAdapter extends BaseAdapter{
+	public static final int TYPE_AVAI = 0;
+	public static final int TYPE_INVAI = 1;
 	private Vector<GroupGift> groupList;
 	private Activity context;
 	private ImageLoader mImageLoader;
+	private int type = TYPE_AVAI;
 	
-	public GiftAdapter(Activity context , List<GiftItem> data) {
+	public GiftAdapter(Activity context , List<GiftItem> data , int type) {
 		this.context = context;
 		mImageLoader = new ImageLoader(context);
 		mImageLoader.setRequiredSize(256);
 		createGroups(data);
+		this.type = type;
 	}
 	
 	private void createGroups(List<GiftItem> data) {
@@ -94,7 +99,10 @@ public class GiftAdapter extends BaseAdapter{
 			holder.row0 = (LinearLayout) cacheView[position].findViewById(R.id.row0);
 			holder.row1 = (LinearLayout) cacheView[position].findViewById(R.id.row1);
 			
-			holder.title.setText("Danh sách quà đã đủ điểm đổi");
+			if(type == TYPE_AVAI)
+				holder.title.setText("Danh sách quà đã đủ điểm đổi");
+			else
+				holder.title.setText("Danh sách quà chưa đủ điểm đổi");
 			addGiftByGroup(getItem(position), holder.row0, holder.row1);
 		}
 		
@@ -154,11 +162,23 @@ public class GiftAdapter extends BaseAdapter{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				if(onClickItem != null)
+					onClickItem.onClickItem(item);
 				Toast.makeText(context, "Click Gift " + item.getGiftName(), Toast.LENGTH_SHORT).show();
 			}
 		});
 		
 		return v;
+	}
+	
+	public void setOnClickItem(OnClickItem onClickItem) {
+		this.onClickItem = onClickItem;
+	}
+	
+	private OnClickItem onClickItem;
+	
+	public interface OnClickItem {
+		public void onClickItem(GiftItem item);
 	}
 	
 	class ViewHolder {

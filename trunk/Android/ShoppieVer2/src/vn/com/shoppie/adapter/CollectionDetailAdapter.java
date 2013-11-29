@@ -387,11 +387,16 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			if (!isNeedUpdateImage[i])
 				isNeedUpdateImage[i] = true;
 		}
+		ImageLoader.getInstance(context).clearCache();
 	}
 
 	public void freeImage(int currPos) {
 		int pre = 0;
+		int pre1 = 0;
+		int pre2 = 0;
 		int next = 0;
+		int next1 = 0;
+		int next2 = 0;
 		if (currPos == 0) {
 			pre = getCount() - 1;
 			next = currPos + 1;
@@ -403,8 +408,14 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			pre = currPos - 1;
 		}
 
+		pre1 = getBackItemId(pre);
+		next1 = getNextItemId(next);
+		pre2 = getBackItemId(pre1);
+		next2 = getNextItemId(next1);
+		
 		for (int i = 0; i < cacheView.length; i++) {
-			if (i != currPos && i != pre && i != next && i < getCount() - 2) {
+			if (i != currPos && i != pre && i != next && i < getCount() - 2
+					&& i != next1 && i != pre1 && i != next2 && i != pre2) {
 				View v = cacheView[i];
 				if (v != null) {
 					View image = v.findViewById(R.id.image);

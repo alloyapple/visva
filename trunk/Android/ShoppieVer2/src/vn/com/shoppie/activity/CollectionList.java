@@ -126,6 +126,7 @@ public class CollectionList extends Activity {
 	}
 
 	private void clearMemory() {
+		adapter.clear();
 		listView.setAdapter(null);
 		adapter = null;
 	}
