@@ -932,17 +932,45 @@ public class MPager extends RelativeLayout{
 	}
 	
 	class CollapseGestureListenner extends GestureDetector.SimpleOnGestureListener{
-		boolean isDown = false;
+		boolean isDown = true;
 		int distance = 0;
 		int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4/2;
 		
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent event, float distanceX, float distanceY) {
+			Log.d("distanceY", "" + distanceY);
+			if(distanceY < 0) {
+				isDown = true;
+				distance = 0;
+			}
+			else if(scrollView.isReachBottom()){
+				if(isDown) {
+					distance = 0;
+					isDown = false;
+				}
+				else {
+					distance += distanceY;
+				}
+				if(distance > minSlide) {
+					isDown = true;
+					distance = 0;
+					scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());
+					isOpenCollapse = true;
+					collapseView();
+				}
+			}
+			
+			return true;
+		}
 		
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
-			int minSlide = mAdapter.getViewWidth() / 10;
+			int minSlide = mAdapter.getViewWidth() / 5;
 			Log.d("Fling", "" + velocityY);
 			if(velocityY < -minSlide && scrollView.isReachBottom()){
+				isDown = true;
+				distance = 0;
 				scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());
 				isOpenCollapse = true;
 				collapseView();

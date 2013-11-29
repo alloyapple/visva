@@ -82,6 +82,10 @@ public class ListCollectionAdapter extends BaseAdapter{
 		
 	}
 	
+	public void clear() {
+		ImageLoader.getInstance(context).clearCache();
+	}
+	
 	class ItemHolder {
 		public View backgroundView;
 		public View image;

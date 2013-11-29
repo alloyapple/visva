@@ -126,7 +126,8 @@ public class ImageLoader {
 			if(defaultBitmap == null) {
 				defaultBitmap = BitmapFactory.decodeResource(context.getResources(), stub_id);
 			}
-			setImageBitmap(imageView, defaultBitmap);
+			setImageBitmap(imageView, ImageUtil.getInstance(context).getShapeBitmap(defaultBitmap, topleft, topright
+					, bottomleft, bottomright));
 		}
 	}
 	
@@ -217,6 +218,7 @@ public class ImageLoader {
 			FileInputStream stream2 = new FileInputStream(f);
 			Bitmap bitmap = BitmapFactory.decodeStream(stream2, null, o2);
 			stream2.close();
+			
 			return bitmap;
 		} catch (FileNotFoundException e) {
 		} catch (IOException e) {
@@ -345,7 +347,8 @@ public class ImageLoader {
 				if(defaultBitmap == null) {
 					defaultBitmap = BitmapFactory.decodeResource(context.getResources(), stub_id);
 				}
-				setImageBitmap(photoToLoad.imageView, defaultBitmap);
+				setImageBitmap(photoToLoad.imageView, ImageUtil.getInstance(context).getShapeBitmap(defaultBitmap, photoToLoad.roundCornerTopLeft, photoToLoad.roundCornerTopRight
+						, photoToLoad.roundCornerBottomLeft, photoToLoad.roundCornerBottomRight));
 			}
 		}
 	}
