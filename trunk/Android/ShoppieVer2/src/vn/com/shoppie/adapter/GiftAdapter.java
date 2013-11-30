@@ -153,7 +153,13 @@ public class GiftAdapter extends BaseAdapter{
 		TextView tvName = (TextView) v.findViewById(R.id.name);
 		ImageView image = (ImageView) v.findViewById(R.id.image);
 		
-		tvName.setText(item.getPieQty());
+		String temp[] = item.getPieQty().split(",");
+		if(temp != null) {
+			tvName.setText(temp[0]);
+		}
+		else {
+			tvName.setText(item.getPieQty());
+		}
 		
 		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image);
 		manageViewByItem.put(item, v);
