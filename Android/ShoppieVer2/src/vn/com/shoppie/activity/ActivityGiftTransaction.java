@@ -72,7 +72,7 @@ public class ActivityGiftTransaction extends Activity {
 		else
 			updateListGiftFromDB();
 
-		updateGiftListAvailable("22", "99", "123", "30", "10", "275", "20000");
+//		updateGiftListAvailable("22", "99", "123", "30", "10", "275", "20000");
 	}
 
 	private void updateGiftListAvailable(String merchId, String storeId,
@@ -156,7 +156,6 @@ public class ActivityGiftTransaction extends Activity {
 			ImageLoader.getInstance(this).DisplayImage(
 					CatelogyAdapter.URL_HEADER + onTopItem.getGiftImage(),
 					image);
-
 			content.addView(headerView);
 			content.addView(new View(this), -1, (int) getResources()
 					.getDimension(R.dimen.gift_item_padding));
