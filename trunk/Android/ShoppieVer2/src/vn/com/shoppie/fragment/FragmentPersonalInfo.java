@@ -9,18 +9,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 public class FragmentPersonalInfo extends FragmentBasic {
 	// =============================Constant Define=====================
 	// ============================Control Define =====================
-	private TextView txtName;
-	private TextView txtEmail;
-	private TextView txtPhone;
-	private TextView txtBirth;
-	private TextView txtAddress;
+	private EditText txtName;
+	private EditText txtEmail;
+	private EditText txtPhone;
+	private EditText txtBirth;
+	private EditText txtAddress;
 	private Spinner spinGender;
+	private Button btnChangeUserInfo;
 	// ============================Class Define =======================
 	private ShopieSharePref mShopieSharePref;
 	// ============================Variable Define =====================
@@ -31,14 +34,36 @@ public class FragmentPersonalInfo extends FragmentBasic {
 		View root = (ViewGroup) inflater.inflate(
 				R.layout.page_personal_info_fragment, null);
 
-		txtName = (TextView) root.findViewById(R.id.txt_personal_detail_name);
-		txtAddress = (TextView) root
-				.findViewById(R.id.txt_personal_detail_address);
-		txtBirth = (TextView) root.findViewById(R.id.txt_personal_detail_birth);
-		txtEmail = (TextView) root.findViewById(R.id.txt_personal_detail_email);
-		txtPhone = (TextView) root.findViewById(R.id.txt_personal_detail_phone);
+		txtName = (EditText) root.findViewById(R.id.activity_register_edt_name);
+		txtAddress = (EditText) root
+				.findViewById(R.id.txt_personal_register_address);
+		txtBirth = (EditText) root.findViewById(R.id.txt_personal_register_birth);
+		txtEmail = (EditText) root.findViewById(R.id.txt_personal_register_email);
+		txtPhone = (EditText) root.findViewById(R.id.txt_personal_register_phone);
 		spinGender = (Spinner) root
-				.findViewById(R.id.spin_personal_detail_gender);
+				.findViewById(R.id.spin_personal_register_gender);
+		btnChangeUserInfo = (Button)root.findViewById(R.id.btn_change_user_info);
+		btnChangeUserInfo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+					if ("".equals(txtName.getText().toString()))
+						showToast(getActivity().getString(R.string.leck_name));
+					else if ("".equals(txtPhone.getText().toString()))
+						showToast(getActivity().getString(R.string.leck_phone));
+					else if ("".equals(txtAddress.getText().toString()))
+						showToast(getActivity().getString(R.string.leck_address));
+					else {
+						mShopieSharePref.setCustName(txtName.getText().toString());
+						mShopieSharePref.setCustAddress(txtAddress.getText().toString());
+						mShopieSharePref.setBirthDay(txtBirth.getText().toString());
+						mShopieSharePref.setEmail(txtEmail.getText().toString());
+						mShopieSharePref.setGender(spinGender.getSelectedItemPosition());
+						mShopieSharePref.setPhone(txtPhone.getText().toString());
+					}
+			}
+		});
 
 		// Create an ArrayAdapter using the string array and a default spinner
 		// layout
@@ -86,5 +111,9 @@ public class FragmentPersonalInfo extends FragmentBasic {
 	@Override
 	public void onResume() {
 		super.onResume();
+	}
+	
+	private void showToast(String string){
+		Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
 	}
 }

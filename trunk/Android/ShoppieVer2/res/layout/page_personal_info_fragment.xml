@@ -1,123 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/all_corner_button"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
-        android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+        android:background="@drawable/all_corner_button"
+        android:gravity="center"
         android:orientation="vertical" >
 
-        <TextView
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/all_corner_button"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
+                    android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/personal_detail_info_name"
+                        android:textColor="@color/blue_text_color"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="@string/personal_detail_info_email"
+                        android:textColor="@color/blue_text_color"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="@string/personal_detail_info_phone"
+                        android:textColor="@color/blue_text_color"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="@string/personal_detail_info_address"
+                        android:textColor="@color/blue_text_color"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="@string/personal_detail_info_birth"
+                        android:textColor="@color/blue_text_color"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/personal_detail_info_gender"
+                        android:textColor="@color/blue_text_color"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
+                    android:layout_marginRight="@dimen/personal_detail_info_margin_left"
+                    android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/activity_register_edt_name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center"
+                        android:hint="Tên của bạn"
+                        android:paddingLeft="5dp"
+                        android:singleLine="true"
+                        android:textColor="#000000" >
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_email"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:hint="abc@xyz.com"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_phone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:hint="012345678"
+                        android:inputType="text|phone"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_address"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:hint="Ha noi - Viet Nam"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <EditText
+                        android:id="@+id/txt_personal_register_birth"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:hint="dd/mm/yyyy"
+                        android:inputType="text|datetime"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textSize="@dimen/personal_detail_info_text_size" />
+
+                    <Spinner
+                        android:id="@+id/spin_personal_register_gender"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_change_user_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/personal_detail_info_name"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/personal_detail_info_email"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_detail_info_phone"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_detail_info_address"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_detail_info_birth"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_detail_info_gender"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/blue_text_color"
-        android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
-        android:layout_marginTop="@dimen/personal_detail_info_margin_top"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/txt_personal_detail_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Kieu Duc Thang"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:id="@+id/txt_personal_detail_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Kieu Duc Thang"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:id="@+id/txt_personal_detail_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Kieu Duc Thang"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:id="@+id/txt_personal_detail_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Kieu Duc Thang"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <TextView
-            android:id="@+id/txt_personal_detail_birth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Kieu Duc Thang"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <Spinner
-            android:id="@+id/spin_personal_detail_gender"
-            android:layout_width="100dp"
-            android:layout_height="50dp" />
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btn_accept"
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:onClick="onClickedLogin" />
     </LinearLayout>
 
 </LinearLayout>

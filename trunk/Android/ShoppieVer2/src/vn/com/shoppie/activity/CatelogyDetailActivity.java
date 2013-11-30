@@ -206,7 +206,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	}
 
 	private void likeProduct(boolean liked , int pId) {
-		
+		Log.e("adfkjdfh likeProduct", "likeProduct "+liked+" productId "+pId);
 	}
 	
 	private void requestupdateToGetMerchProducts(String campaignId,
