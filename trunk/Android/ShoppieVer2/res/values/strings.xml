@@ -115,6 +115,7 @@
     <string name="personal_email">Gửi Email</string>
     <string name="introduct_invitation">Bắt đầu với 225 Pie ngay khi bạn mời thành công 3 người bạn. Giống như nhận 1 thẻ điện thoại 20,000 VND! Tiếp tục nhận 75 Pie nữa cho mỗi 1 người bạn tham gia thành công.</string>
     <string name="invitation_content">Hãy tải ứng dụng Shoppie &amp; nhập mã số %s và cả bạn &amp; tôi đều được tặng điểm Pie! Thú vị quá phải ko!</string>
+    <string name="introduction_invitation">Hãy xem cái này! %1$s, %2$s</string>
 
     <!-- personal detail info -->
     <string name="personal_detail_info_name">Tên</string>
@@ -136,5 +137,9 @@
 
     <!-- search activity -->
     <string name="txt_search_brand_hint">Tìm theo thương hiệu</string>
+
+    <!-- change user info -->
+    <string name="phone_notice">Số Phone chính xác giúp Shoppie nạp thẻ điện thoại cho bạn chính xác</string>
+    <string name="address_notice">Địa chỉ nhà hoặc cơ quan - Là địa chỉ nhận voucher của bạn</string>
 
 </resources>

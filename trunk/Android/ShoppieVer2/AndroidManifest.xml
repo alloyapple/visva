@@ -68,6 +68,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="vn.com.shoppie.activity.ActivityChangeUserInfo"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="vn.com.shoppie.activity.SearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|stateHidden" >

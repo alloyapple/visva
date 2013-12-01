@@ -230,6 +230,12 @@ public abstract class VisvaAbstractActivity extends Activity implements
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
 
+	public void gotoActivityBySlideUp(Context context, Class<?> cla) {
+		Intent intent = new Intent(context, cla);
+		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+	}
+
 	public void gotoActivity(Context context, Class<?> cla, int flag) {
 		Intent intent = new Intent(context, cla);
 		intent.setFlags(flag);
@@ -388,7 +394,6 @@ public abstract class VisvaAbstractActivity extends Activity implements
 				finish();
 			}
 		}
-
 	}
 
 	protected void closeAllActivities() {
