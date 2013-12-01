@@ -18,11 +18,13 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +52,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private MPager mPager;
 	private CollectionDetailAdapter adapter;
 	private ShoppieDBProvider mShoppieDBProvider;
+	private ArrayList<MerchProductItem> mMerchProductItems = new ArrayList<MerchProductItem>();
 
 	@Override
 	public int contentView() {
@@ -97,9 +100,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		else
 			requestGetMerchProductFromDB();
 
-		/** like vs unlike(custid,productId) */
-		likeProduct("", "");
-		unlikeProduct("", "");
 	}
 
 	@Override
@@ -108,10 +108,8 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		super.onStop();
 		adapter.freeAll();
 	}
-	
-	private void unlikeProduct(String custId, String productId) {
-		// TODO Auto-generated method stub
 
+	private void unlikeProduct(String custId, final String productId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.likeProduct(
 				custId, productId);
@@ -120,20 +118,21 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						CatelogyDetailActivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("like success ", "like success");
+						// showToast("unlike success");
+						mShoppieDBProvider.deleteFavouriteDataById(productId);
 					}
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
-						finish();
+						showToast("unlike failed");
+						// finish();
 					}
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_UNLIKE_PRODUCT);
 
 	}
 
-	private void likeProduct(String custId, String productId) {
+	private void likeProduct(String custId, final String productId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.likeProduct(
 				custId, productId);
@@ -143,12 +142,28 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						Log.e("like success ", "like success");
+						MediaPlayer mPlayer = MediaPlayer.create(
+								CatelogyDetailActivity.this, R.raw.ting_ting); 
+						if (mPlayer != null)
+							mPlayer.start();
+
+						/** add to favourite product */
+						MerchProductItem merchProductItem = null;
+						for (int i = 0; i < mMerchProductItems.size(); i++) {
+							if (mMerchProductItems.get(i).getProductId() == Integer
+									.parseInt(productId))
+								merchProductItem = mMerchProductItems.get(i);
+						}
+						FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
+								merchProductItem.getProductImage(), GlobalValue.TYPE_FAVOURITE_PRODUCT,
+								productId);
+						mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
 					}
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
-						finish();
+						showToast("like failed");
+						// finish();
 					}
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_LIKE_PRODUCT);
@@ -166,7 +181,8 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				Gson gson = new Gson();
 				MerchProductList merchProductList = gson.fromJson(
 						jsonObject.toString(), MerchProductList.class);
-				setAdapter(merchProductList.getResult());
+				mMerchProductItems = merchProductList.getResult();
+				setAdapter(mMerchProductItems);
 			} catch (Exception e) {
 
 			}
@@ -176,8 +192,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	private void setAdapter(ArrayList<MerchProductItem> data) {
 		// if(adapter != null)
-		// adapter.recycle();
-		adapter = new CollectionDetailAdapter(this, mPager, data , pie > 0);
+		adapter = new CollectionDetailAdapter(this, mPager, data, pie > 0);
 		adapter.id = CollectionList.curId;
 		mPager.setAdapter(adapter);
 
@@ -192,21 +207,20 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						adapter.freeAll();
 						requestupdateToGetMerchProducts(camId, custId);
 					}
-				}
-				else
+				} else
 					adapter.freeImage(pos);
 			}
 		});
-		
+
 		adapter.setOnLikeListenner(new OnLikeListenner() {
-			
+
 			@Override
 			public void onLike(boolean liked, int productionId) {
 				likeProduct(liked, productionId);
 			}
 		});
-		
-		if(adapter.getCount() == 1) {
+
+		if (adapter.getCount() == 1) {
 			String id = CollectionList.getNextCampaignId();
 			if (id != null) {
 				camId = id;
@@ -216,10 +230,14 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		}
 	}
 
-	private void likeProduct(boolean liked , int pId) {
-		Log.e("adfkjdfh likeProduct", "likeProduct "+liked+" productId "+pId);
+	private void likeProduct(boolean liked, int pId) {
+		if (liked) {
+			likeProduct(custId, "" + pId);
+		} else {
+			unlikeProduct(custId, "" + pId);
+		}
 	}
-	
+
 	private void requestupdateToGetMerchProducts(String campaignId,
 			String custId) {
 		// TODO Auto-generated method stub
@@ -242,7 +260,8 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 							JsonDataObject jsonDataObject = new JsonDataObject(
 									response, GlobalValue.TYPE_MERCH_PRODUCTS);
 							mShoppieDBProvider.addNewJsonData(jsonDataObject);
-							setAdapter(merchProductList.getResult());
+							mMerchProductItems = merchProductList.getResult();
+							setAdapter(mMerchProductItems);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
