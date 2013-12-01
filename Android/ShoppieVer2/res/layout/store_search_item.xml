@@ -80,7 +80,7 @@
         android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:singleLine="true"
-        android:text="Checkin tặng"
+        android:text="Ghé thăm tặng"
         android:textColor="#ff458DAD"
-        android:textSize="10dp" />
+        android:textSize="9dp" />
 </RelativeLayout>
