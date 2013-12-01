@@ -9,26 +9,27 @@ import android.widget.TextView;
 
 public class MagicTextView extends TextView
 {
-	final boolean topDown;
+//	final boolean topDown;
 
 	public MagicTextView( Context context, 
 			AttributeSet attrs )
 	{
 		super( context, attrs );
-		final int gravity = getGravity();
-		if ( Gravity.isVertical( gravity )
-				&& ( gravity & Gravity.VERTICAL_GRAVITY_MASK ) 
-				== Gravity.BOTTOM )
-		{
-			setGravity( 
-					( gravity & Gravity.HORIZONTAL_GRAVITY_MASK )
-					| Gravity.TOP );
-			topDown = false;
-		}
-		else
-		{
-			topDown = true;
-		}
+//		final int gravity = getGravity();
+//		if ( Gravity.isVertical( gravity )
+//				&& ( gravity & Gravity.VERTICAL_GRAVITY_MASK ) 
+//				== Gravity.BOTTOM )
+//		{
+//			setGravity( 
+//					( gravity & Gravity.HORIZONTAL_GRAVITY_MASK )
+//					| Gravity.TOP );
+//			topDown = false;
+//		}
+//		else
+//		{
+//			topDown = true;
+//		}
+		setGravity(Gravity.BOTTOM);
 	}
 
 	@Override
@@ -47,12 +48,15 @@ public class MagicTextView extends TextView
 		TextPaint textPaint = getPaint();
 		textPaint.setColor( getCurrentTextColor() );
 		textPaint.drawableState = getDrawableState();
+		
+		int length = (int) textPaint.measureText(getText().toString());
+		
 		canvas.save();
 
-		canvas.rotate(45, getTextSize() * 0.0f , getTextSize() * 1.8f);
+		canvas.rotate(45, length - getWidth() , getTextSize() * 1.8f);
 
-		canvas.translate( getCompoundPaddingLeft(), 
-				getExtendedPaddingTop() );
+//		canvas.translate( getCompoundPaddingLeft(), 
+//				getHeight() / 2 );
 
 		getLayout().draw( canvas );
 		canvas.restore();

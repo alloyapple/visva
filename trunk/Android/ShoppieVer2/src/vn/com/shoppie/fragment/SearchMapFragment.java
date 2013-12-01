@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -270,6 +271,10 @@ public class SearchMapFragment extends SupportMapFragment{
 		   return bld.build().contains(marker.getPosition());
 	}
 	
+	public Location getMyLocation() {
+		return getMap().getMyLocation();
+	}
+ 	
 	public class TouchableWrapper extends FrameLayout {
 		private int lastX;
 		

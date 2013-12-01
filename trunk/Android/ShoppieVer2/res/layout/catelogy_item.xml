@@ -47,10 +47,12 @@
     	android:layout_alignParentRight="true"
     	android:background="@drawable/ic_head_center02"
     	android:text="5"
-    	android:textSize="18sp"
-    	android:textColor="@android:color/white"
-    	android:paddingLeft="18dp"
-    	android:paddingTop="5dp"
+        android:gravity="center_horizontal"
+    	android:paddingLeft="15dp"
+        android:paddingTop="4dp"
+        android:textStyle="normal"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
 	    />
 	<View 
 	    android:id="@+id/image"

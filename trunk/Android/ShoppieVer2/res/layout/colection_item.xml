@@ -54,7 +54,7 @@
         android:ellipsize="end"
         android:lines="3"
         android:text="Xu hướng THỜI TRANG TRẺ nam nữ 4 mùa. Cập nhật tin tức"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#808080"
         android:textSize="@dimen/collection_item_subtitle_textsize" />
 
     <View

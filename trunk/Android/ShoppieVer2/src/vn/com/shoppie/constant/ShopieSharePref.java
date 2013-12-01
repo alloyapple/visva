@@ -18,7 +18,8 @@ public class ShopieSharePref {
 	private static final String BIRTHDAY = "birth";
 	private static final String COUNT_CHANGE_INFO_TIME = "count_change_info_time";
 	// ================================================================
-
+	private static final String START_NUM = "num1";
+	
 	private Context context;
 
 	public ShopieSharePref(Context context) {
@@ -129,6 +130,15 @@ public class ShopieSharePref {
 		return getIntValue(GlobalValue.USER_ID);
 	}
 
+	public void addStartCount() {
+		int count = getIntValue(START_NUM);
+		count++;
+		putIntValue(START_NUM, count);
+	}
+	
+	public int getStartCount() {
+		return getIntValue(START_NUM);
+	}
 	// ======================== CORE FUNCTIONS ========================
 
 	/**

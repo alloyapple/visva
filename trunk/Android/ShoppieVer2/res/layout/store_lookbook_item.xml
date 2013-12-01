@@ -48,12 +48,13 @@
 			    android:layout_width="50dp"
 		    	android:layout_height="50dp"
 		    	android:layout_alignParentRight="true"
-		    	android:background="@drawable/ic_head_center02"
+		    	android:background="@drawable/store_count"
 		    	android:text="5"
-		    	android:textSize="18sp"
+		    	android:textSize="15sp"
+		    	android:gravity="center_horizontal"
 		    	android:textColor="@android:color/white"
-		    	android:paddingLeft="18dp"
-		    	android:paddingTop="5dp"
+		    	android:paddingLeft="15dp"
+		    	android:paddingTop="4dp"
 			    />
         </RelativeLayout>
 

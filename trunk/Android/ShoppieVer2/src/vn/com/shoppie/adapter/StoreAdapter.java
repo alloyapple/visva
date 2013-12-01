@@ -1,12 +1,16 @@
 package vn.com.shoppie.adapter;
 
+import java.text.DecimalFormat;
 import java.util.Vector;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.ListCollectionAdapter.ItemHolder;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.util.CoverLoader;
+import vn.com.shoppie.util.Utils;
 import android.content.Context;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +21,12 @@ public class StoreAdapter extends BaseAdapter {
 
 	private Context context;
 	private Vector<MerchantStoreItem> data;
+	private Location location;
 	
-	public StoreAdapter(Context context , Vector<MerchantStoreItem> data) {
+	public StoreAdapter(Context context , Vector<MerchantStoreItem> data ,Location location) {
 		this.context = context;
 		this.data = data;
+		this.location = location;
 	}
 	
 	@Override
@@ -68,7 +74,15 @@ public class StoreAdapter extends BaseAdapter {
 		else
 			holder.backgroundView.setBackgroundColor(0xffffffff);
 		holder.title.setText(getItem(position).getStoreName());
-		holder.subTitle1.setText(getItem(position).getLongtitude());
+		if(location != null) {
+			double length = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+						new LatLng(Double.parseDouble(getItem(position).getLatitude()), Double.parseDouble(getItem(position).getLongtitude())));
+			holder.subTitle1.setText("Khoảng cách: " + fmt(length) + " km");
+		}
+		else {
+			holder.subTitle1.setText("Khoảng cách: ");
+		}
+		
 		holder.subTitle2.setText(getItem(position).getStoreAddress());
 		holder.star.setText("+" + getItem(position).getPieQty());
 		CoverLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + getItem(position).getMerchLogo(), holder.image
@@ -76,6 +90,10 @@ public class StoreAdapter extends BaseAdapter {
 				, (int) context.getResources().getDimension(R.dimen.collection_item_item_height));
 		
 		return convertView;
+	}
+	
+	public static String fmt(double d) {
+		return new DecimalFormat("#.##").format(d);
 	}
 	
 	class ItemHolder {

@@ -6,6 +6,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.ImageUtil;
+import vn.com.shoppie.util.Utils;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
@@ -15,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -30,6 +32,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,13 +57,15 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	private View cacheView[];
 	private boolean isNeedUpdateImage[];
 	private MPager mPager;
-
+	private boolean hasPie = false;
+	
 	public CollectionDetailAdapter(Context context, MPager mPager,
-			ArrayList<MerchProductItem> data) {
+			ArrayList<MerchProductItem> data , boolean hasPie) {
 		this.context = context;
 		this.mPager = mPager;
 		this.data = data;
 		initCache();
+		this.hasPie = hasPie;
 	}
 
 	private void initCache() {
@@ -79,7 +84,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			} else {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				if (position == data.size()) {
+				if (position >= data.size() && position == getCount() - 2) {
 					v = inflater.inflate(R.layout.collectiondetail3, null,
 							false);
 
@@ -90,9 +95,20 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					v.setBackgroundDrawable(new BitmapDrawable(bg));
 					// bitmap.recycle();
 					// bitmap = null;
-				} else if (position == data.size() + 1)
+				} else if (position == getCount() - 1) {
 					v = inflater.inflate(R.layout.collectiondetail5, null,
 							false);
+					v.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// v.setVisibility(View.GONE);
+							if(itemClickListener != null)
+								itemClickListener.onItemClick(null, null, position, position);
+						}
+					});
+
+				}
 				else {
 					v = inflater.inflate(R.layout.collectiondetail_1, null,
 							false);
@@ -117,11 +133,20 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 					name.setText(getItem(position).getProductName());
 					name1.setText(getItem(position).getProductName());
-					price.setText("Giá: " + getItem(position).getPrice());
-					price1.setText("Giá: " + getItem(position).getPrice());
+					price.setText("" + Utils.formatMoney(getItem(position).getPrice()) + " VNĐ");
+					price1.setText("" + Utils.formatMoney(getItem(position).getPrice()) + " VNĐ");
 					color.setText("" + getItem(position).getShortDesc());
 					like.setText("" + getItem(position).getLikedNumber());
 
+					TextView count = (TextView) v.findViewById(R.id.count);
+					count.setText(getItem(position).getPieQty() > 0 ? "" + getItem(position).getPieQty() : "");
+//					
+					TextView count1 = (TextView) v.findViewById(R.id.count1);
+					count1.setText(getItem(position).getPieQty() > 0 ? "" + getItem(position).getPieQty() : "");
+					
+					TextView priceGoc = (TextView) v.findViewById(R.id.price1_goc);
+					priceGoc.setPaintFlags(priceGoc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					
 					Button likeBt = (Button) v.findViewById(R.id.like_click);
 					likeBt.setTag(getItem(position));
 					int resId = 0;
@@ -204,12 +229,9 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					});
 				}
 				cacheView[position] = v;
-				TextView count = (TextView) v.findViewById(R.id.count);
-				count.setText("" + id);
-
 			}
 
-			if (position == getCount() - 2) {
+			if (position == getCount() - 2 && position >= data.size()) {
 				v.setSoundEffectsEnabled(false);
 				v.setOnClickListener(new OnClickListener() {
 
@@ -485,7 +507,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	@Override
 	public int getCount() {
-		return data.size() + 2;
+		return hasPie ? data.size() + 2 : data.size() + 1;
 	}
 
 	@Override
@@ -748,4 +770,9 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		public void onLike(boolean liked, int productionId);
 	}
 
+	OnItemClickListener itemClickListener;
+
+	public void setItemClickListener(OnItemClickListener itemClickListener) {
+		this.itemClickListener = itemClickListener;
+	}
 }

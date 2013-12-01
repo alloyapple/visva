@@ -116,6 +116,8 @@ public class CollectionList extends Activity {
 							"148");
 					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_NAME_KEY,
 							adapter.getItem(curId).getCampaignName());
+					intent.putExtra(CatelogyDetailActivity.LUCKY_PIE_KEY,
+							adapter.getItem(curId).getLuckyPie());
 
 					startActivity(intent);
 

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/home_background" >
     <RelativeLayout 
         android:layout_width="@dimen/storedetail_item_width"
     	android:layout_height="@dimen/storedetail_item_height"
     	android:layout_centerInParent="true"
+    	android:background="@drawable/round_corner_shape"
         >
         <View 
 	    	android:layout_width="match_parent"
 	    	android:layout_height="@dimen/gift_item_header_height"
 	    	android:id="@+id/image"
-	    	android:background="@drawable/round_corner_shape"    
         />
         
         <LinearLayout 
@@ -27,6 +28,7 @@
 		    	android:layout_height="wrap_content"
 		    	android:textSize="22sp"
 		    	android:text="Chọn quà"
+            	android:textColor="#2A5C72"
 		    	android:textStyle="bold"
 		    	android:padding="5dp"
                 />
@@ -36,6 +38,7 @@
 		    	android:orientation="horizontal"    
                 >
                 <Spinner 
+                    android:id="@+id/spinner"
 		            android:layout_width="match_parent"
 			    	android:layout_height="@dimen/actionbar_height"
 			    	android:layout_marginRight="70dp"
@@ -55,8 +58,10 @@
             android:layout_below="@id/image"
             android:padding="5dp"
             android:text="Hướng dẫn cách đổi"
+            android:textColor="#2A5C72"
             android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="#F9F9F9" />
         <TextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
@@ -64,9 +69,17 @@
             android:layout_above="@id/bottombox"
             android:layout_below="@id/des_title"
             android:padding="5dp"
+            android:textColor="#808080"
             android:text="Hướng dẫn cách đổi"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:background="#F9F9F9" />
 
     </RelativeLayout>
+    <ImageButton 
+	    android:layout_width="@dimen/actionbar_height"
+    	android:layout_height="@dimen/actionbar_height"
+    	android:background="@color/actionbar_item_background"
+    	android:src="@drawable/ic_back"
+    	android:onClick="onClickBack"
+	    />
 </RelativeLayout>

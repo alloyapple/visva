@@ -23,6 +23,7 @@ import vn.com.shoppie.fragment.SearchBrandDetailFragment;
 import vn.com.shoppie.fragment.SearchBrandDetailFragment.IOnClickShowStoreDetail;
 import vn.com.shoppie.fragment.SearchBrandFragment;
 import vn.com.shoppie.fragment.SearchMapFragment;
+import vn.com.shoppie.fragment.SearchResultFragment;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
@@ -31,6 +32,7 @@ import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -39,26 +41,36 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.location.LocationClient;
 import com.google.gson.Gson;
 
 public class SearchActivity extends FragmentActivity implements
+		GooglePlayServicesClient.ConnectionCallbacks,
+		GooglePlayServicesClient.OnConnectionFailedListener,
 		IOnClickShowStoreDetail {
 	// ==========================Constant Define=================
 	private static final String SEARCH_BRAND_FRAGMENT_STRING = "brand_fragment";
 	private static final String SEARCH_BRAND_DETAIL_FRAGMENT_STRING = "brand_detail_fragment";
 	private static final String SEARCH_MAP_FRAGMENT_STRING = "map_fragment";
+	private static final String SEARCH_RESULT_FRAGMENT_STRING = "result_fragment";
 	private static final int SEARCH_BRAND_FRAGMENT_ID = 2001;
 	private static final int SEARCH_BRAND_DETAIL_FRAGMENT_ID = 2002;
 	private static final int SEARCH_MAP_FRAGMENT_ID = 2003;
+	private static final int SEARCH_RESULT_FRAGMENT_ID = 2004;
 	// ===========================Control Define==================
 	private SearchBrandFragment mSearchBrandFragment;
 	private SearchBrandDetailFragment mSearchBrandDetailFragment;
 	private SearchMapFragment mSearchMapFragment;
+	private SearchResultFragment mSearchResultFragment;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
 	private HorizontalListView mTitleSearchListView;
@@ -72,15 +84,25 @@ public class SearchActivity extends FragmentActivity implements
 	private Map<MerchantStoreItem, MerchantCategoryItem> manageCategoryByStore = new HashMap<MerchantStoreItem, MerchantCategoryItem>();
 	private Vector<MerchantCategoryItem> iconDataList = new Vector<MerchantCategoryItem>();
 
+	private LocationClient mLocationClient;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_search_activity);
 
+		mLocationClient = new LocationClient(this, this, this);
+		mLocationClient.connect();
 		intialize();
 	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		mLocationClient.disconnect();
+	}
+	
 	private void intialize() {
 		// TODO Auto-generated method stub
 		mShoppieDBProvider = new ShoppieDBProvider(this);
@@ -94,6 +116,9 @@ public class SearchActivity extends FragmentActivity implements
 
 		mSearchMapFragment = (SearchMapFragment) mFmManager
 				.findFragmentById(R.id.search_map_fragment);
+		
+		mSearchResultFragment = (SearchResultFragment) mFmManager
+				.findFragmentById(R.id.search_result_fragment);
 
 		mSearchBrandDetailFragment.setListener(this);
 		showFragment(SEARCH_BRAND_FRAGMENT_ID);
@@ -125,6 +150,15 @@ public class SearchActivity extends FragmentActivity implements
 			}
 		});
 
+		ImageButton btnSearch = (ImageButton) findViewById(R.id.btn_search_icon);
+		btnSearch.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showFragment(SEARCH_RESULT_FRAGMENT_ID);
+			}
+		});
+		
 		/** request to server to get campaign category */
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()){
 			Log.e("adfjfh", "adfdddddd ");
@@ -197,6 +231,7 @@ public class SearchActivity extends FragmentActivity implements
 		mTransaction.hide(mSearchBrandDetailFragment);
 		mTransaction.hide(mSearchBrandFragment);
 		mTransaction.hide(mSearchMapFragment);
+		mTransaction.hide(mSearchResultFragment);
 		return mTransaction;
 	}
 
@@ -227,6 +262,13 @@ public class SearchActivity extends FragmentActivity implements
 			mTransaction = hideFragment();
 			mTransaction.show(mSearchMapFragment);
 			addToSBackStack(SEARCH_MAP_FRAGMENT_STRING);
+			mTransaction.commit();
+			break;
+			
+		case SEARCH_RESULT_FRAGMENT_ID:
+			mTransaction = hideFragment();
+			mTransaction.show(mSearchResultFragment);
+			addToSBackStack(SEARCH_RESULT_FRAGMENT_STRING);
 			mTransaction.commit();
 			break;
 		default:
@@ -272,6 +314,10 @@ public class SearchActivity extends FragmentActivity implements
 			// mPersonalFriendFragment.
 		} else if (currentView.equals(SEARCH_MAP_FRAGMENT_STRING)) {
 			mTransaction.show(mSearchMapFragment);
+			// mPersonalFriendFragment.
+			// mPersonalFriendFragment.
+		} else if (currentView.equals(SEARCH_RESULT_FRAGMENT_STRING)) {
+			mTransaction.show(mSearchResultFragment);
 			// mPersonalFriendFragment.
 			// mPersonalFriendFragment.
 		}
@@ -449,6 +495,10 @@ public class SearchActivity extends FragmentActivity implements
 		showFragment(SEARCH_BRAND_DETAIL_FRAGMENT_ID);
 		mSearchBrandDetailFragment.updateUI(store);
 	}
+	
+	public void onClickShowSearchDetail() {
+		showFragment(SEARCH_RESULT_FRAGMENT_ID);
+	}
 
 	public void setPieMap(List<MerchantStoreItem> data) {
 		mSearchMapFragment.updatePie(data);
@@ -461,5 +511,30 @@ public class SearchActivity extends FragmentActivity implements
 			}
 		}
 		return null;
+	}
+	
+	public Location getMyLocation() {
+		Log.d("mLocationClient.getLastLocation()", mLocationClient.getLastLocation().getLatitude() + " "
+				+ mLocationClient.getLastLocation().getLongitude());
+		return mLocationClient.getLastLocation();
+//		return mSearchMapFragment.getMyLocation();
+	}
+
+	@Override
+	public void onConnectionFailed(ConnectionResult arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onConnected(Bundle arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDisconnected() {
+		// TODO Auto-generated method stub
+		
 	}
 }
