@@ -514,9 +514,13 @@ public class SearchActivity extends FragmentActivity implements
 	}
 	
 	public Location getMyLocation() {
-		Log.d("mLocationClient.getLastLocation()", mLocationClient.getLastLocation().getLatitude() + " "
-				+ mLocationClient.getLastLocation().getLongitude());
-		return mLocationClient.getLastLocation();
+		try {
+			return mLocationClient.getLastLocation();
+		} catch (Exception e) {
+			mLocationClient.connect();
+			return mLocationClient.getLastLocation();
+		}
+		
 //		return mSearchMapFragment.getMyLocation();
 	}
 
