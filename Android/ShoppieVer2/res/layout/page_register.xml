@@ -89,20 +89,23 @@
                 android:layout_alignParentRight="true"
                 android:background="@drawable/btn_register_shoppie"
                 android:contentDescription="@string/KEY_TAG_TAB"
-                android:onClick="onClickedLogin" />
+                android:onClick="onClickedCreateSPAccount" />
         </RelativeLayout>
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
-            <LinearLayout
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/layout_register"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/all_corner_button"
                 android:orientation="horizontal" >
 
                 <LinearLayout
+                    android:id="@+id/layout_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
@@ -159,11 +162,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_content"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
                     android:layout_marginRight="@dimen/personal_detail_info_margin_left"
                     android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+                    android:layout_toRightOf="@id/layout_title"
                     android:orientation="vertical" >
 
                     <EditText
@@ -221,7 +226,7 @@
                         android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:hint="dd/mm/yyyy"
-                        android:inputType="text|datetime"
+                        android:inputType="none"
                         android:singleLine="true"
                         android:text=""
                         android:textSize="@dimen/personal_detail_info_text_size" />
@@ -232,7 +237,16 @@
                         android:layout_height="50dp"
                         android:layout_marginBottom="5dp" />
                 </LinearLayout>
-            </LinearLayout>
+
+                <Button
+                    android:layout_below="@id/layout_content"
+                    android:id="@+id/btn_register_accept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/btn_accept" />
+            </RelativeLayout>
         </ScrollView>
     </LinearLayout>
 

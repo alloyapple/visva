@@ -16,12 +16,21 @@ public class ShopieSharePref {
 	private static final String CUST_EMAIL = "cust_email";
 	private static final String GENDER = "gender";
 	private static final String BIRTHDAY = "birth";
+	private static final String COUNT_CHANGE_INFO_TIME = "count_change_info_time";
 	// ================================================================
 
 	private Context context;
 
 	public ShopieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setCountChangeInfoTime(int time) {
+		putIntValue(COUNT_CHANGE_INFO_TIME, time);
+	}
+
+	public int getCoutnChangeInfoTime() {
+		return getIntValue(COUNT_CHANGE_INFO_TIME);
 	}
 
 	public void setCustName(String name) {

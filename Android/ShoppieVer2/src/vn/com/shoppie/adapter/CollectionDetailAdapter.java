@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -29,13 +28,11 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
@@ -45,7 +42,6 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
-import com.google.analytics.tracking.android.Log;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -92,8 +88,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					Bitmap bg = ImageUtil.getInstance(context).getShapeBitmap(
 							bitmap, true, true, true, true);
 					v.setBackgroundDrawable(new BitmapDrawable(bg));
-//					bitmap.recycle();
-//					bitmap = null;
+					// bitmap.recycle();
+					// bitmap = null;
 				} else if (position == data.size() + 1)
 					v = inflater.inflate(R.layout.collectiondetail5, null,
 							false);
@@ -412,7 +408,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		next1 = getNextItemId(next);
 		pre2 = getBackItemId(pre1);
 		next2 = getNextItemId(next1);
-		
+
 		for (int i = 0; i < cacheView.length; i++) {
 			if (i != currPos && i != pre && i != next && i < getCount() - 2
 					&& i != next1 && i != pre1 && i != next2 && i != pre2) {
@@ -608,14 +604,15 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			Bundle params = new Bundle();
 			params.putString("name", "Shoppie");
 			params.putString("caption", "");
-			params.putString("description",
-					context.getString(R.string.introduct_invitation));
-			android.util.Log.e("adsfjh", "adfjh " + WebServiceConfig.HEAD_IMAGE
-					+ item.getThumbNail());
+			params.putString(
+					"description",
+					context.getString(R.string.introduction_invitation,
+							item.getProductName(), item.getShortDesc()));
 			params.putString("link",
 					"" + WebServiceConfig.HEAD_IMAGE + item.getThumbNail());
 			params.putString("picture",
-					"http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
+					"" + WebServiceConfig.HEAD_IMAGE + item.getThumbNail());
+			// http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg
 			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(context,
 					Session.getActiveSession(), params)).setOnCompleteListener(
 					new OnCompleteListener() {
@@ -653,7 +650,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		share.setType("text/plain");
 		share.putExtra(Intent.EXTRA_SUBJECT, "Shoppie Invitation");
 		share.putExtra(Intent.EXTRA_TEXT,
-				"" + context.getString(R.string.introduct_invitation));
+				"" + context.getString(R.string.introduction_invitation,
+						item.getProductName(), item.getShortDesc()));
 		// share.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
 		// if (pFilePath != null)
 		// share.putExtra(Intent.EXTRA_STREAM,
@@ -668,7 +666,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	private void initShareSMS(MerchProductItem item) {
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
 		sendIntent.putExtra("sms_body",
-				context.getString(R.string.introduct_invitation));
+				context.getString(R.string.introduction_invitation,
+						item.getProductName(), item.getShortDesc()));
 		sendIntent.setType("vnd.android-dir/mms-sms");
 		context.startActivity(sendIntent);
 	}

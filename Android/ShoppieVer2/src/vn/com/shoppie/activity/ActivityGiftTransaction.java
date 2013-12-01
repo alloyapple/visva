@@ -95,7 +95,6 @@ public class ActivityGiftTransaction extends Activity {
 									jsonObject.toString(), GiftRedeemItem.class);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
-							Log.e("adfjfdh", "parse loi");
 							e.printStackTrace();
 							
 						}

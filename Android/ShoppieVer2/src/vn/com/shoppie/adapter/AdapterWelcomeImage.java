@@ -1,12 +1,16 @@
 package vn.com.shoppie.adapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityWelcome;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.util.SUtilBitmap;
 import vn.com.shoppie.util.SUtilText;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
@@ -15,13 +19,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
@@ -29,6 +36,7 @@ import android.widget.Toast;
 public class AdapterWelcomeImage extends PagerAdapter {
 	Context context;
 	ArrayList<Integer> data;
+	private DatePickerDialog datePicker;
 
 	public AdapterWelcomeImage(Context context, ArrayList<Integer> data) {
 		this.context = context;
@@ -58,6 +66,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				Log.e("out of memory", "wellcome Image Adapter");
 				return null;
 			}
+			final View layoutRegister  = (RelativeLayout)v.findViewById(R.id.layout_register);
 			final EditText name = (EditText) v
 					.findViewById(R.id.activity_register_edt_name);
 			final EditText email = (EditText) v
@@ -121,6 +130,45 @@ public class AdapterWelcomeImage extends PagerAdapter {
 
 				}
 			});
+			birth.setOnTouchListener(new View.OnTouchListener() {
+				
+				@SuppressWarnings("deprecation")
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					if (event.getAction() == MotionEvent.ACTION_DOWN) {
+						// TODO Auto-generated method stub
+						Log.e("txtDAte", "date " + birth.toString());
+						long currentTime = System.currentTimeMillis();
+						Date myDate = new Date(currentTime);
+						String myDateStr = "";
+						final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+						Date dateCurrent = new Date();
+						try {
+							myDateStr = df.format(myDate);
+							dateCurrent = df.parse(myDateStr);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							dateCurrent = new Date();
+							e.printStackTrace();
+						}
+
+						datePicker = new DatePickerDialog(
+								context,
+								new OnDateSetListener() {
+									@Override
+									public void onDateSet(DatePicker view, int year,
+											int monthOfYear, int dayOfMonth) {
+										Date d = new Date(year - 1900, monthOfYear,
+												dayOfMonth);
+										birth.setText(df.format(d).toString());
+									}
+								}, dateCurrent.getYear() + 1900,
+								dateCurrent.getMonth(), dateCurrent.getDate());
+						datePicker.show();
+					}
+					return false;
+				}
+			});
 			name.addTextChangedListener(new TextWatcher() {
 
 				@Override
@@ -146,8 +194,19 @@ public class AdapterWelcomeImage extends PagerAdapter {
 			});
 			final Button btnRegister = (Button) v
 					.findViewById(R.id.activity_register_btn_register);
-
-			btnRegister.setOnClickListener(new OnClickListener() {
+			final Button btnAccpetRegister= (Button)v.findViewById(R.id.btn_register_accept);
+			btnRegister.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if(layoutRegister.getVisibility() == View.GONE)
+						layoutRegister.setVisibility(View.VISIBLE);
+					else
+						layoutRegister.setVisibility(View.GONE);
+				}
+			});
+			btnAccpetRegister.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -221,4 +280,5 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	private void showToast(String string) {
 		Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
 	}
+	
 }
