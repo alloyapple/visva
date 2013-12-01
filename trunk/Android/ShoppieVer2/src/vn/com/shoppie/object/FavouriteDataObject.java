@@ -4,16 +4,35 @@ public class FavouriteDataObject {
 	private int _id;
 	private String image_url;
 	private String type;
+	private String favourite_id;
+
+	public String getFavourite_id() {
+		return favourite_id;
+	}
+
+	public void setFavourite_id(String favourite_id) {
+		this.favourite_id = favourite_id;
+	}
 
 	public FavouriteDataObject() {
 
 	}
 
-	public FavouriteDataObject(int _id, String image_url, String type) {
+	public FavouriteDataObject(String image_url, String type,
+			String favourite_id) {
+		super();
+		this.image_url = image_url;
+		this.type = type;
+		this.favourite_id = favourite_id;
+	}
+
+	public FavouriteDataObject(int _id, String image_url, String type,
+			String favourite_id) {
 		super();
 		this._id = _id;
 		this.image_url = image_url;
 		this.type = type;
+		this.favourite_id = favourite_id;
 	}
 
 	public int get_id() {

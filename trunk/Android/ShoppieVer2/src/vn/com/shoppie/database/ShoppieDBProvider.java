@@ -1,5 +1,7 @@
 package vn.com.shoppie.database;
 
+import java.util.ArrayList;
+
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.JsonDataObject;
 import android.content.ContentValues;
@@ -20,9 +22,10 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 
 	// favourite table
 	private static final String TABLE_FAVOURITE = "table_favourite";
-	private static final String FAVOURITE_ID = "favourite_id";
+	private static final String _ID = "_id";
 	private static final String FAVOURITE_IMAGE = "image_url";
 	private static final String FAVOURITE_TYPE = "favourite_type";
+	private static final String FAVOURITE_ID = "favourite_id";
 
 	public ShoppieDBProvider(Context context) {
 		super(context, DB_NAME, null, DATABASE_VERSION);
@@ -36,8 +39,9 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT," + JSON_DATA + " TEXT,"
 				+ JSON_TYPE + " TEXT" + ")";
 		String CREATE_FAVOURITE_TABLE = "CREATE TABLE " + TABLE_FAVOURITE + "("
-				+ FAVOURITE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ FAVOURITE_IMAGE + " TEXT," + FAVOURITE_TYPE + " TEXT" + ")";
+				+ _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FAVOURITE_IMAGE
+				+ " TEXT," + FAVOURITE_TYPE + " TEXT," + FAVOURITE_ID + " TEXT"
+				+ ")";
 		db.execSQL(CREATE_JSON_TABLE);
 		db.execSQL(CREATE_FAVOURITE_TABLE);
 	}
@@ -66,7 +70,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		ContentValues mValue = new ContentValues();
 		mValue.put(FAVOURITE_IMAGE, favouriteDataObject.getImage_url());
 		mValue.put(FAVOURITE_TYPE, favouriteDataObject.getType());
-
+		mValue.put(FAVOURITE_ID, favouriteDataObject.getFavourite_id());
 		mdb.insert(TABLE_FAVOURITE, null, mValue);
 		mdb.close();
 	}
@@ -88,11 +92,12 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 	public void updateFavouriteData(FavouriteDataObject favouriteDataObject) {
 		SQLiteDatabase mdb = getWritableDatabase();
 		ContentValues mValue = new ContentValues();
-		mValue.put(FAVOURITE_ID, favouriteDataObject.get_id());
+		mValue.put(_ID, favouriteDataObject.get_id());
 		mValue.put(FAVOURITE_IMAGE, favouriteDataObject.getImage_url());
 		mValue.put(FAVOURITE_TYPE, favouriteDataObject.getType());
+		mValue.put(FAVOURITE_ID, favouriteDataObject.getFavourite_id());
 
-		mdb.update(TABLE_FAVOURITE, mValue, FAVOURITE_ID + " = ?",
+		mdb.update(TABLE_FAVOURITE, mValue, _ID + " = ?",
 				new String[] { String.valueOf(favouriteDataObject.get_id()) });
 		mdb.close();
 	}
@@ -112,19 +117,24 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		return jsonDataObject;
 	}
 
-	public FavouriteDataObject getFavouriteData(String type) {
+	public ArrayList<FavouriteDataObject> getFavouriteData(String type) {
 		SQLiteDatabase mdb = getReadableDatabase();
-		FavouriteDataObject favouriteDataObject = new FavouriteDataObject();
-		Cursor mCursor = mdb.query(TABLE_FAVOURITE, null,
-				FAVOURITE_ID + " = ?", new String[] { String.valueOf(type) },
-				null, null, null);
+		ArrayList<FavouriteDataObject> favouriteList = new ArrayList<FavouriteDataObject>();
+		Cursor mCursor = mdb.query(TABLE_FAVOURITE, null, FAVOURITE_TYPE
+				+ " = ?", new String[] { String.valueOf(type) }, null, null,
+				null);
 		if (mCursor.moveToFirst()) {
-			favouriteDataObject = new FavouriteDataObject(
-					Integer.parseInt(mCursor.getString(0)),
-					mCursor.getString(1), mCursor.getString(2));
+			do {
+				FavouriteDataObject favouriteDataObject = new FavouriteDataObject();
+				favouriteDataObject = new FavouriteDataObject(
+						Integer.parseInt(mCursor.getString(0)),
+						mCursor.getString(1), mCursor.getString(2),
+						mCursor.getString(3));
+				favouriteList.add(favouriteDataObject);
+			} while (mCursor.moveToNext());
 		}
 		mCursor.close();
-		return favouriteDataObject;
+		return favouriteList;
 	}
 
 	/*-------------------------- DELETE FUNCTION--------------------------*/
@@ -145,22 +155,33 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		mdb.close();
 	}
 
+	// delete favourite data
+	public void deleteFavouriteDataById(String favouriteId) {
+		SQLiteDatabase mdb = getWritableDatabase();
+		mdb.delete(TABLE_FAVOURITE, FAVOURITE_ID + " = ?",
+				new String[] { String.valueOf(favouriteId) });
+		mdb.close();
+	}
+
 	/*-------------------------- COUNT FUNCTION--------------------------*/
 
 	public int countJsonData(String type) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		int count = 0;
-		String querry = "select * from " + TABLE_JSON + " where "+JSON_TYPE+" ='"+type+"'";
+		String querry = "select * from " + TABLE_JSON + " where " + JSON_TYPE
+				+ " ='" + type + "'";
 		Cursor cursor = mdb.rawQuery(querry, null);
 		count = cursor.getCount();
 		cursor.close();
 		mdb.close();
 		return count;
 	}
+
 	public int countFavouriteData(String type) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		int count = 0;
-		String querry = "select * from " + TABLE_FAVOURITE + " where "+FAVOURITE_TYPE+" ='"+type+"'";
+		String querry = "select * from " + TABLE_FAVOURITE + " where "
+				+ FAVOURITE_TYPE + " ='" + type + "'";
 		Cursor cursor = mdb.rawQuery(querry, null);
 		count = cursor.getCount();
 		cursor.close();

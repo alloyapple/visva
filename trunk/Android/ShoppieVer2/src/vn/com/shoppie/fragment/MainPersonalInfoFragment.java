@@ -4,14 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.FriendDetailAdapter;
+import vn.com.shoppie.adapter.FavouriteAdapter;
+import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.HistoryTransactionItem;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.object.FacebookUser;
+import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.MyCircleImageView;
-import vn.com.shoppie.object.OneItem;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.util.ImageLoader;
 import android.app.AlertDialog;
@@ -58,11 +60,15 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private MainPersonalInfoListener mListener;
 	private ImageLoader mImageLoader;
 	private ShopieSharePref mShopieSharePref;
-	private FriendDetailAdapter mFriendDetailAdapter;
+	private FavouriteAdapter mFavouriteProductAdapter;
+	private FavouriteAdapter mFavouriteBrandAdapter;
+	private ShoppieDBProvider mShoppieDBProvider;
 	// =========================Variable Define==================
 	private boolean isShowFavouriteProduct = false;
 	private boolean isShowFavouriteBrand = false;
 	private boolean isPickToAvatar = true;
+	private ArrayList<FavouriteDataObject> mFavouriteProductObjects = new ArrayList<FavouriteDataObject>();
+	private ArrayList<FavouriteDataObject> mFavouriteBrandObjects = new ArrayList<FavouriteDataObject>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,8 +78,19 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 
 		mImageLoader = new ImageLoader(getActivity());
 		mShopieSharePref = new ShopieSharePref(getActivity());
+		initData();
 		initialize(root);
 		return root;
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+		mShoppieDBProvider = new ShoppieDBProvider(getActivity());
+		mFavouriteProductObjects = mShoppieDBProvider
+				.getFavouriteData(GlobalValue.TYPE_FAVOURITE_PRODUCT);
+		mFavouriteBrandObjects = mShoppieDBProvider
+				.getFavouriteData(GlobalValue.TYPE_FAVOURITE_BRAND);
+		Log.e("mFavouriteProductObjects + "+mFavouriteProductObjects.size(), "mFavouriteBrandObjects "+mFavouriteBrandObjects.size());
 	}
 
 	private void initialize(View v) {
@@ -100,10 +117,12 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.findViewById(R.id.favourite_brand_list);
 		mFavouriteProductList = (HorizontalListView) v
 				.findViewById(R.id.favourite_product_list);
-		mFriendDetailAdapter = new FriendDetailAdapter(getActivity(),
-				constructList());
-		mFavouriteBrandList.setAdapter(mFriendDetailAdapter);
-		mFavouriteProductList.setAdapter(mFriendDetailAdapter);
+		mFavouriteProductAdapter = new FavouriteAdapter(getActivity(),
+				mFavouriteProductObjects);
+		mFavouriteBrandAdapter = new FavouriteAdapter(getActivity(),
+				mFavouriteBrandObjects);
+		mFavouriteBrandList.setAdapter(mFavouriteBrandAdapter);
+		mFavouriteProductList.setAdapter(mFavouriteProductAdapter);
 		mLayoutFavouriteProduct.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -111,8 +130,9 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				// TODO Auto-generated method stub
 				if (isShowFavouriteProduct)
 					mFavouriteProductList.setVisibility(View.GONE);
-				else
+				else {
 					mFavouriteProductList.setVisibility(View.VISIBLE);
+				}
 				isShowFavouriteProduct = !isShowFavouriteProduct;
 			}
 		});
@@ -279,27 +299,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.getResult().get(0);
 		mTxtUserNumberPie.setText("Điểm tích lũy: "
 				+ historyTransactionItem.getCurrentBal());
-	}
-
-	private ArrayList<OneItem> constructList() {
-		ArrayList<OneItem> al = new ArrayList<OneItem>();
-
-		OneItem op = new OneItem(R.drawable.maison, "maison");
-		al.add(op);
-
-		OneItem op2 = new OneItem(R.drawable.dans, "dans");
-		al.add(op2);
-
-		OneItem op3 = new OneItem(R.drawable.dort, "dort");
-		al.add(op3);
-
-		OneItem op4 = new OneItem(R.drawable.garcon, "gar�on");
-		al.add(op4);
-
-		OneItem op5 = new OneItem(R.drawable.le, "le");
-		al.add(op5);
-
-		return al;
 	}
 
 	private void showToast(String string) {
