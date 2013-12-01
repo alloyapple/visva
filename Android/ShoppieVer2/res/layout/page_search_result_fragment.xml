@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <View
+            android:layout_width="@dimen/loading_pie_width"
+            android:layout_height="@dimen/loading_pie_height"
+            android:background="@drawable/loading_pie" />
+
+        <View
+            android:id="@+id/loading"
+            android:layout_width="@dimen/loading_pie_width"
+            android:layout_height="@dimen/loading_pie_height"
+            android:background="@drawable/loading_out_pie" />
+    </RelativeLayout>
+
+    <LinearLayout 
+        android:id="@+id/confirm_layout"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        >
+        <TextView 
+            android:layout_width="300dp"
+        	android:layout_height="wrap_content"
+        	android:textSize="15sp"
+        	android:gravity="center"
+        	android:text="KHÔNG CÓ KẾT QUẢ NHƯ BẠN TÌM KIẾM"
+        	android:textColor="#D32971"
+            />
+        
+        <TextView 
+            android:layout_width="250dp"
+        	android:layout_height="wrap_content"
+        	android:layout_marginTop="50dp"
+        	android:textSize="15sp"
+        	android:gravity="center"
+        	android:text="BẠN CÓ MUỐN GỬI THƯ GIỚI THIỆU [BRAND] VỚI SHOPPIE?"
+        	android:textColor="@android:color/white"
+            />
+        
+        <LinearLayout 
+        	android:layout_marginTop="40dp"
+            android:layout_width="300dp"
+        	android:layout_height="wrap_content"
+        	android:orientation="horizontal"
+            >
+            <Button 
+                android:layout_width="120dp"
+        		android:layout_height="40dp"
+        		android:background="#367895"
+        		android:textSize="15sp"
+        		android:text="ĐỒNG Ý GỬI"
+        		android:textColor="@android:color/white"
+        		android:id="@+id/btn_accept"
+        		/>
+            
+            <Button
+                android:layout_marginLeft="60dp" 
+                android:layout_width="120dp"
+        		android:layout_height="40dp"
+        		android:background="#3F4A54"
+        		android:textSize="15sp"
+        		android:text="HỦY BỎ"
+        		android:textColor="@android:color/white"
+        		android:id="@+id/btn_cancel"/>
+        </LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/result_layout"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        >
+        <TextView 
+            android:layout_width="300dp"
+        	android:layout_height="wrap_content"
+        	android:textSize="15sp"
+        	android:gravity="center"
+        	android:text="GỬI THÀNH CÔNG"
+        	android:textColor="#D32971"
+            />
+        
+        <TextView 
+            android:layout_width="300dp"
+        	android:layout_height="wrap_content"
+        	android:layout_marginTop="50dp"
+        	android:textSize="15sp"
+        	android:gravity="center"
+        	android:text="CẢM ƠN BẠN! NẾU BẠN TỚI CỬA HÀNG ĐÓ, HÃY KHUYÊN HỌ THAM GIA VÀO MẠNG LƯỚI SHOPPIE"
+        	android:textColor="@android:color/white"
+            />
+    </LinearLayout>
+</LinearLayout>

@@ -38,7 +38,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:text="Khoảng cách: 3km"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#808080"
         android:textSize="@dimen/collection_item_subtitle_textsize" />
 
     <TextView
@@ -52,7 +52,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:text="Địa chỉ: Thái Hà"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#808080"
         android:textSize="@dimen/collection_item_subtitle_textsize" />
     
     <View
@@ -64,14 +64,23 @@
 
     <TextView
         android:id="@+id/star"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
-        android:textSize="16sp"
-    	android:textColor="@android:color/white"
-    	android:paddingLeft="10dp"
-    	android:singleLine="true"
-    	android:gravity="center"
-        android:background="@drawable/ic_favourist" />
+        android:background="@drawable/store_count"
+        android:gravity="center_horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="4dp"
+        android:text="5"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
 
+    <vn.com.shoppie.view.MagicTextView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:text="Checkin tặng"
+        android:textColor="#ff458DAD"
+        android:textSize="10dp" />
 </RelativeLayout>

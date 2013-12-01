@@ -22,6 +22,7 @@ import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.view.MPager;
+import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.view.MPager.OnStartExtend;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
@@ -33,7 +34,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -54,7 +57,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private CatelogyAdapter adapter;
 	private boolean isChecked = false;
 	private TextView mTxtTitle;
-	
+	private TextView hint;
+	private boolean isShowFirstHint = false;
 	// Google analysis
 	protected GoogleAnalytics mGaInstance;
 	private ShoppieDBProvider mShoppieDBProvider;
@@ -83,7 +87,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
 		actionBar.addView(mTxtTitle, -1, -1);
-
+		hint = (TextView) findViewById(R.id.hint);
 		checkinCircle = findViewById(R.id.checkin_circle);
 		pager = (MPager) findViewById(R.id.pager);
 
@@ -93,6 +97,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 			public void onExtend(View v) {
 				hideCheckin();
 				adapter.hideBottom();
+				if(hint.getVisibility() == View.VISIBLE)
+					hint.setVisibility(View.GONE);
 			}
 
 			@Override
@@ -252,10 +258,21 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void setAdapter(ArrayList<MerchantCategoryItem> data) {
 		adapter = new CatelogyAdapter(this, data);
-		for (int i = 0; i < 10; i++) {
-			pager.setAdapter(adapter);
-		}
-
+		pager.setAdapter(adapter);
+		pager.setOnPageChange(new OnPageChange() {
+			
+			@Override
+			public void onChange(int pos) {
+				// TODO Auto-generated method stub
+				if(hint.getVisibility() == View.VISIBLE) {
+					if(isShowFirstHint) {
+						hint.setText("Kéo lên trên/xuống dưới để xem danh sách");
+						isShowFirstHint = false;
+						pager.setOnPageChange(null);
+					}
+				}
+			}
+		});
 		adapter.setOnItemClick(new OnItemClick() {
 
 			@Override
@@ -276,6 +293,24 @@ public class HomeActivity extends VisvaAbstractActivity {
 				changeToActivity(intent, false);
 			}
 		});
+		
+		
+		int count = mSharePref.getStartCount();
+		if(count < 3) {
+			hint.setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					hint.setVisibility(View.GONE);
+					return false;
+				}
+			});
+			hint.setVisibility(View.VISIBLE);
+			hint.setText("Kéo trái/phải để xem nhiều chương trình hơn");
+			isShowFirstHint = true;
+			mSharePref.addStartCount();
+		}
 	}
 
 	private void requestToGetMerchantCategory() {

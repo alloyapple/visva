@@ -98,4 +98,97 @@ public class GiftItem {
 
 	}
 	
+	public int getMinPie() {
+		try {
+			String pieString = getPieQty();
+			String temp[] = pieString.split(",");
+			if(temp != null) {
+				int pie[] = new int[temp.length];
+				for(int i = 0 ; i < temp.length ; i++) {
+					pie[i] = Integer.parseInt(temp[i]);
+				}
+				for(int i = 0 ; i < temp.length ; i++) {
+					for(int j = i + 1 ; j < temp.length ; j++) {
+						if(pie[i] > pie[j]) {
+							int pieT = pie[i];
+							pie[i] = pie[j];
+							pie[j] = pieT;
+						}
+					}
+				}
+				return pie[0];
+			}
+			return Integer.parseInt(pieString);
+		} catch (Exception e) {
+			return Integer.MAX_VALUE;
+		}
+	}
+	
+	public int[] getPies() {
+		try {
+			String pieString = getPieQty();
+			String temp[] = pieString.split(",");
+			if(temp != null) {
+				int pie[] = new int[temp.length];
+				for(int i = 0 ; i < temp.length ; i++) {
+					pie[i] = Integer.parseInt(temp[i]);
+				}
+				for(int i = 0 ; i < temp.length ; i++) {
+					for(int j = i + 1 ; j < temp.length ; j++) {
+						if(pie[i] > pie[j]) {
+							int pieT = pie[i];
+							pie[i] = pie[j];
+							pie[j] = pieT;
+						}
+					}
+				}
+				return pie;
+			}
+			return null;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public int[] getPiesNotArr() {
+		try {
+			String pieString = getPieQty();
+			String temp[] = pieString.split(",");
+			if(temp != null) {
+				int pie[] = new int[temp.length];
+				for(int i = 0 ; i < temp.length ; i++) {
+					pie[i] = Integer.parseInt(temp[i]);
+				}
+				return pie;
+			}
+			return null;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public String[] getPricesNotArr() {
+		try {
+			String priceString = getGiftPrice();
+			String temp[] = priceString.split(",");
+			if(temp != null) {
+				return temp;
+			}
+			return null;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public String getPieStr() {
+		int pies[] = getPies();
+		if(pies == null) {
+			return getMinPie() + "";
+		}
+		else {
+			if(pies.length == 1)
+				return getMinPie() + "";
+			return getMinPie() + "+";
+		}
+	}
 }

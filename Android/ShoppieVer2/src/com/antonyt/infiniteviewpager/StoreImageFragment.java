@@ -17,19 +17,13 @@ import android.widget.TextView;
  */
 public class StoreImageFragment extends Fragment {
 
-	private int identifier;
-	private int colour;
 	private String link0;
-	private String link1;
-	private String link2;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Bundle args = getArguments();
 		link0 = args.getString("link0");
-		link1 = args.getString("link1");
-		link2 = args.getString("link2");
 	}
 
 	@Override
@@ -38,7 +32,7 @@ public class StoreImageFragment extends Fragment {
 		String link = link0;
 		ImageLoader.getInstance(getActivity()).DisplayImage(
 				link,
-				v, true, true, false, false, true, false);
+				v, false, false, false, false, true, false);
 		return v;
 	}
 

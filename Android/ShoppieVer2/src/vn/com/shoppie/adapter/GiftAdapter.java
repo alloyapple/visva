@@ -153,13 +153,15 @@ public class GiftAdapter extends BaseAdapter{
 		TextView tvName = (TextView) v.findViewById(R.id.name);
 		ImageView image = (ImageView) v.findViewById(R.id.image);
 		
-		String temp[] = item.getPieQty().split(",");
-		if(temp != null) {
-			tvName.setText(temp[0]);
-		}
-		else {
-			tvName.setText(item.getPieQty());
-		}
+//		String temp[] = item.getPieQty().split(",");
+//		if(temp != null) {
+//			tvName.setText(temp[0]);
+//		}
+//		else {
+//			tvName.setText(item.getPieQty());
+//		}
+		
+		tvName.setText(item.getPieStr());
 		
 		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image);
 		manageViewByItem.put(item, v);
@@ -170,7 +172,6 @@ public class GiftAdapter extends BaseAdapter{
 				// TODO Auto-generated method stub
 				if(onClickItem != null)
 					onClickItem.onClickItem(item);
-				Toast.makeText(context, "Click Gift " + item.getGiftName(), Toast.LENGTH_SHORT).show();
 			}
 		});
 		

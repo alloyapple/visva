@@ -16,19 +16,34 @@
     	android:textSize="@dimen/page_item_catelogy_desc_textsize"
     	android:layout_below="@id/image"
     	android:id="@+id/name"
+    	android:maxLines="1"
+        android:ellipsize="end"
     	android:text="Áo sơ mi nữ sọc cổ lá sen"
     	android:textColor="#2A5C72"
         />
+    
     <TextView 
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_marginTop="5dp"
     	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
     	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:textColor="@android:color/darker_gray"
+    	android:textColor="#808080"
+    	android:layout_below="@id/name"
+    	android:id="@+id/price_label"
+    	android:text="Giá: "
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="5dp"
+    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
     	android:layout_below="@id/name"
     	android:id="@+id/price"
-    	android:text="Giá: 1.000.000 VND"
+    	android:textColor="#D32971"
+    	android:layout_toRightOf="@id/price_label"
+    	android:text="1.000.000 VND"
         />
     <TextView 
         android:layout_width="match_parent"
@@ -36,7 +51,7 @@
     	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
     	android:layout_below="@id/price"
     	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:textColor="@android:color/darker_gray"
+    	android:textColor="#808080"
     	android:id="@+id/color"
     	android:text="Màu: Cháo lòng"
         />
@@ -45,9 +60,9 @@
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_alignParentRight="true"
-    	android:layout_marginTop="60dp"
+    	android:layout_alignParentBottom="true"
     	android:layout_marginRight="15dp"
-    	android:layout_below="@id/image"
+    	android:layout_marginBottom="15dp"
     	android:id="@+id/like"
     	android:textSize="14sp"
     	android:text="1234"
@@ -57,24 +72,34 @@
         />
     <Button 
         android:layout_width="90dp"
-    	android:layout_height="match_parent"
+    	android:layout_height="50dp"
     	android:layout_alignParentRight="true"
-    	android:layout_marginTop="60dp"
-    	android:layout_below="@id/image"
+    	android:layout_alignParentBottom="true"
     	android:id="@+id/like_click"
     	android:background="#00000000"
         />
-	<TextView 
-	    android:id="@+id/count" 
-	    android:layout_width="@dimen/page_item_count_width"
-    	android:layout_height="@dimen/page_item_count_height"
-    	android:layout_alignParentRight="true"
-    	android:background="@drawable/ic_head_center02"
-    	android:textSize="18sp"
-    	android:textColor="@android:color/white"
-    	android:paddingLeft="18dp"
-    	android:paddingTop="5dp"
-	/>
+	<TextView
+        android:id="@+id/count"
+        android:layout_width="@dimen/page_item_count_width"
+        android:layout_height="@dimen/page_item_count_height"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_head_center02"
+        android:gravity="center_horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="4dp"
+        android:textStyle="normal"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+	
+	<vn.com.shoppie.view.MagicTextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:text="Mua - tặng"
+        android:textColor="#ff458DAD"
+        android:textSize="10dp" />
+	
 	
 	<include 
 	    layout="@layout/collectiondetail2"

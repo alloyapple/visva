@@ -45,6 +45,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private String camId = "";
 	private String custId = "";
 	private String camName = "";
+	private int pie = 0;
 
 	private MPager mPager;
 	private CollectionDetailAdapter adapter;
@@ -78,6 +79,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		camId = extras.getString(CAMPAIGN_ID_KEY);
 		custId = extras.getString(CUSTOMER_ID_KEY);
 		camName = extras.getString(CAMPAIGN_NAME_KEY);
+		pie = extras.getInt(LUCKY_PIE_KEY);
 
 		// setup actionbar
 		RelativeLayout actionBar = (RelativeLayout) findViewById(R.id.actionbar);
@@ -175,7 +177,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private void setAdapter(ArrayList<MerchProductItem> data) {
 		// if(adapter != null)
 		// adapter.recycle();
-		adapter = new CollectionDetailAdapter(this, mPager, data);
+		adapter = new CollectionDetailAdapter(this, mPager, data , pie > 0);
 		adapter.id = CollectionList.curId;
 		mPager.setAdapter(adapter);
 
@@ -203,6 +205,15 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				likeProduct(liked, productionId);
 			}
 		});
+		
+		if(adapter.getCount() == 1) {
+			String id = CollectionList.getNextCampaignId();
+			if (id != null) {
+				camId = id;
+				adapter.freeAll();
+				requestupdateToGetMerchProducts(camId, custId);
+			}
+		}
 	}
 
 	private void likeProduct(boolean liked , int pId) {

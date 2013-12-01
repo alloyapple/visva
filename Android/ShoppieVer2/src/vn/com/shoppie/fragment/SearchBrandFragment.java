@@ -44,7 +44,6 @@ public class SearchBrandFragment extends FragmentBasic {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
-				Log.d("onClick", "" + position);
 				SearchActivity act = (SearchActivity) getActivity();
 				act.onClickViewStoreDetail(adapter.getItem(position));
 			}
@@ -54,7 +53,7 @@ public class SearchBrandFragment extends FragmentBasic {
 	}
 
 	public void setAdapter(Vector<MerchantStoreItem> data) {
-		adapter = new StoreAdapter(getActivity() , data);
+		adapter = new StoreAdapter(getActivity() , data , ((SearchActivity) getActivity()).getMyLocation());
 		listView.setAdapter(adapter);
 		
 		nameList.clear();
@@ -76,7 +75,7 @@ public class SearchBrandFragment extends FragmentBasic {
 				data.add(manageByName.get(name));
 			}
 		}
-		StoreAdapter adapter = new StoreAdapter(getActivity(), data);
+		StoreAdapter adapter = new StoreAdapter(getActivity(), data , ((SearchActivity) getActivity()).getMyLocation());
 		listView.setAdapter(adapter);
 	}
 

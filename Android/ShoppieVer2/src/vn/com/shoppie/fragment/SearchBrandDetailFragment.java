@@ -9,6 +9,7 @@ import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -88,12 +89,41 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 				fragment.setArguments(args);
 				return fragment;
 			}
+			
+			Fragment listFragment[];
 		};
 		// wrap pager to provide infinite paging with wrap-around
 		wrappedAdapter = new InfinitePagerAdapter(adapter);
 
 		// actually an InfiniteViewPager
-		viewPager.setAdapter(wrappedAdapter);
+		viewPager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager(), store));
+		viewPager.setCurrentItem(10000);
+	}
+	
+	class MyPagerAdapter extends FragmentPagerAdapter {
 
+		MerchantStoreItem store;
+		
+		public MyPagerAdapter(FragmentManager fm , MerchantStoreItem store) {
+			super(fm);
+			this.store = store;
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			// TODO Auto-generated method stub
+			Fragment fragment = new StoreImageFragment();
+			Bundle args = new Bundle();
+			args.putString("link0", CatelogyAdapter.URL_HEADER + store.getMerchLogo());;
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return Integer.MAX_VALUE;
+		}
+		
 	}
 }

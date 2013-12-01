@@ -10,8 +10,17 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/footer_height"
         android:splitMotionEvents="false" />
-
+	
+    <View 
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@drawable/line_bottom"
+        android:layout_marginBottom="@dimen/footer_height"
+        />
+    
     <LinearLayout
+        android:id="@+id/bottom_box"
         android:layout_width="match_parent"
         android:layout_height="@dimen/footer_height"
         android:layout_alignParentBottom="true"
@@ -76,4 +85,20 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@drawable/line_top"
+        />
+    
+    <TextView
+        android:id="@+id/hint"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:background="#99000000" 
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:text="Kéo trái/phải để xem nhiều hơn"/>
 </RelativeLayout>

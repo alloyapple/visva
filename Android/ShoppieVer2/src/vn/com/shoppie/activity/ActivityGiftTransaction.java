@@ -27,6 +27,7 @@ import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,8 @@ public class ActivityGiftTransaction extends Activity {
 	private GiftAdapter adapter1;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ImageLoader imageLoader;
-
+	private ShopieSharePref mSharePref;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -59,7 +61,7 @@ public class ActivityGiftTransaction extends Activity {
 	private void init() {
 		/** database */
 		mShoppieDBProvider = new ShoppieDBProvider(this);
-
+		mSharePref = new ShopieSharePref(this);
 		listView = (ListView) findViewById(R.id.list);
 
 		listView.setDividerHeight((int) getResources().getDimension(
@@ -163,7 +165,7 @@ public class ActivityGiftTransaction extends Activity {
 		Vector<GiftItem> item0 = new Vector<GiftItem>();
 		Vector<GiftItem> item1 = new Vector<GiftItem>();
 		for(int i = 0 ; i < listItem.size() ; i++) {
-			if(true) {
+			if(mSharePref.getCurrentBal() < listItem.get(i).getMinPie()) {
 				item0.add(listItem.get(i));
 			}
 			else {
@@ -189,13 +191,15 @@ public class ActivityGiftTransaction extends Activity {
 					.getDimension(R.dimen.gift_item_padding));
 		}
 
-		adapter1.setOnClickItem(new OnClickItem() {
+		adapter.setOnClickItem(new OnClickItem() {
 			
 			@Override
 			public void onClickItem(GiftItem item) {
 				// TODO Auto-generated method stub
-				ShopieSharePref pref = new ShopieSharePref(getApplicationContext());
-				updateGiftListAvailable(item.getMerchId(), "", "" + pref.getCustId()	, item.getGiftId(), item.getRedeemQty(), item.getPieQty(), item.getGiftPrice());
+				currItem = item;
+				startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
+//				ShopieSharePref pref = new ShopieSharePref(getApplicationContext());
+//				updateGiftListAvailable(item.getMerchId(), "", "" + pref.getCustId()	, item.getGiftId(), item.getRedeemQty(), item.getPieQty(), item.getGiftPrice());
 			}
 		});
 	}
@@ -204,8 +208,8 @@ public class ActivityGiftTransaction extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		content.removeAllViews();
-		adapter = null;
+//		content.removeAllViews();
+//		adapter = null;
 	}
 
 	private void updateListGift() {
@@ -246,4 +250,6 @@ public class ActivityGiftTransaction extends Activity {
 	public void onClickBack(View v) {
 		this.finish();
 	}
+	
+	public static GiftItem currItem;
 }
