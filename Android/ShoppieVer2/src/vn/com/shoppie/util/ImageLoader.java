@@ -62,7 +62,7 @@ public class ImageLoader {
 	@SuppressWarnings("deprecation")
 	private void setImageBitmap(View v, Bitmap bitmap) {
 		if (v instanceof ImageView) {
-			((ImageView) v).setImageBitmap(decodeBitmap(bitmap));
+			((ImageView) v).setImageBitmap(bitmap);
 		} else {
 			v.setBackgroundDrawable(new BitmapDrawable(bitmap));
 		}
