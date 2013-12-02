@@ -2,6 +2,7 @@ package vn.com.shoppie.database;
 
 import java.util.ArrayList;
 
+import vn.com.shoppie.object.Collection;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.JsonDataObject;
 import android.content.ContentValues;
@@ -27,6 +28,13 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 	private static final String FAVOURITE_TYPE = "favourite_type";
 	private static final String FAVOURITE_ID = "favourite_id";
 
+	// collection
+	private static final String TABLE_COLLECTION = "table_collection";
+	private static final String COL_ID = "collection_id";
+	private static final String MERCH_ID = "merch_id";
+	private static final String COLLECTION_ID = "collection_id";
+	private static final String ISVIEWED = "is_viewed";
+
 	public ShoppieDBProvider(Context context) {
 		super(context, DB_NAME, null, DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
@@ -42,8 +50,13 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 				+ _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FAVOURITE_IMAGE
 				+ " TEXT," + FAVOURITE_TYPE + " TEXT," + FAVOURITE_ID + " TEXT"
 				+ ")";
+		String CREATE_COLLECTION_TABLE = "CREATE TABLE " + TABLE_COLLECTION
+				+ "(" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ MERCH_ID + " INTEGER," + COLLECTION_ID + " INTEGER,"
+				+ ISVIEWED + " BOOLEAN" + ")";
 		db.execSQL(CREATE_JSON_TABLE);
 		db.execSQL(CREATE_FAVOURITE_TABLE);
+		db.execSQL(CREATE_COLLECTION_TABLE);
 	}
 
 	@Override
@@ -51,6 +64,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		db.execSQL("drop table if exists " + TABLE_JSON);
 		db.execSQL("drop table if exists " + TABLE_FAVOURITE);
+		db.execSQL("drop table if exists " + TABLE_COLLECTION);
 		onCreate(db);
 	}
 
@@ -72,6 +86,16 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		mValue.put(FAVOURITE_TYPE, favouriteDataObject.getType());
 		mValue.put(FAVOURITE_ID, favouriteDataObject.getFavourite_id());
 		mdb.insert(TABLE_FAVOURITE, null, mValue);
+		mdb.close();
+	}
+
+	public void addNewCollection(Collection collection) {
+		SQLiteDatabase mdb = getWritableDatabase();
+		ContentValues mValue = new ContentValues();
+		mValue.put(COLLECTION_ID, collection.getCollectionId());
+		mValue.put(MERCH_ID, collection.getMerchId());
+		mValue.put(ISVIEWED, collection.isViewed());
+		mdb.insert(TABLE_COLLECTION, null, mValue);
 		mdb.close();
 	}
 
@@ -99,6 +123,18 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 
 		mdb.update(TABLE_FAVOURITE, mValue, _ID + " = ?",
 				new String[] { String.valueOf(favouriteDataObject.get_id()) });
+		mdb.close();
+	}
+
+	public void updateCollection(Collection collection) {
+		SQLiteDatabase mdb = getWritableDatabase();
+		ContentValues mValue = new ContentValues();
+		mValue.put(COLLECTION_ID, collection.getCollectionId());
+		mValue.put(MERCH_ID, collection.getMerchId());
+		mValue.put(ISVIEWED, collection.isViewed());
+
+		mdb.update(TABLE_COLLECTION, mValue, COL_ID + " = ?",
+				new String[] { String.valueOf(collection.get_id()) });
 		mdb.close();
 	}
 
@@ -137,6 +173,28 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		return favouriteList;
 	}
 
+	public ArrayList<Collection> getCollectionData(int merchId,
+			int collectionId) {
+		SQLiteDatabase mdb = getReadableDatabase();
+		ArrayList<Collection> collections = new ArrayList<Collection>();
+		String query = "SELECT * FROM " + TABLE_COLLECTION + " WHERE "
+				+ MERCH_ID + "='" + merchId + "' and " + COLLECTION_ID + " = '"
+				+ collectionId + "'";
+		Cursor mCursor = mdb.rawQuery(query, null);
+		if (mCursor.moveToFirst()) {
+			do {
+				Collection collection = new Collection();
+				collection = new Collection(
+						Integer.parseInt(mCursor.getString(0)),
+						Integer.parseInt(mCursor.getString(0)), Integer.parseInt(mCursor.getString(0)),
+						Boolean.parseBoolean(mCursor.getString(3)));
+				collections.add(collection);
+			} while (mCursor.moveToNext());
+		}
+		mCursor.close();
+		return collections;
+	}
+
 	/*-------------------------- DELETE FUNCTION--------------------------*/
 
 	// delete jsondata
@@ -160,6 +218,14 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		SQLiteDatabase mdb = getWritableDatabase();
 		mdb.delete(TABLE_FAVOURITE, FAVOURITE_ID + " = ?",
 				new String[] { String.valueOf(favouriteId) });
+		mdb.close();
+	}
+
+	// delete favourite data
+	public void deleteCollectionById(String colId) {
+		SQLiteDatabase mdb = getWritableDatabase();
+		mdb.delete(TABLE_FAVOURITE, COL_ID + " = ?",
+				new String[] { String.valueOf(colId) });
 		mdb.close();
 	}
 
