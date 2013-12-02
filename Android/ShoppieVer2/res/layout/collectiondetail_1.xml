@@ -46,11 +46,26 @@
     	android:text="1.000.000 VND"
         />
     <TextView 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="5dp"
+    	android:layout_marginLeft="10dp"
+    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
+    	android:layout_below="@id/name"
+    	android:id="@+id/price_goc"
+    	android:textColor="#808080"
+    	android:layout_toRightOf="@id/price"
+    	android:text="1.000.000 VND"
+        />
+    <TextView 
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
     	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
     	android:layout_below="@id/price"
     	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
+    	android:singleLine="true"
+    	android:ellipsize="end"
+    	android:layout_marginRight="50dp"
     	android:textColor="#808080"
     	android:id="@+id/color"
     	android:text="Màu: Cháo lòng"
@@ -100,9 +115,9 @@
         android:textColor="#ff458DAD"
         android:textSize="10dp" />
 	
-	
 	<include 
 	    layout="@layout/collectiondetail2"
 	    android:id="@+id/text"
 	    />
+	
 </RelativeLayout>

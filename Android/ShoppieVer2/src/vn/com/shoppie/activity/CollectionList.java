@@ -53,8 +53,9 @@ public class CollectionList extends Activity {
 	private String number = "";
 
 	private ListView listView;
-	private ListCollectionAdapter adapter;
+	private static ListCollectionAdapter adapter;
 	private static String listCampaignId[];
+	private static String listCampaignName[];
 	public static int curId = 0;
 	private ShoppieDBProvider mShoppieDBProvider;
 
@@ -71,6 +72,7 @@ public class CollectionList extends Activity {
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		Bundle extras = getIntent().getExtras();
 		merchantId = extras.getString(KEY_MERCHANT_ID);
+		Log.d("MechanId", merchantId);
 		customerId = extras.getString(KEY_CUSTOMER_ID);
 		iconLink = extras.getString(KEY_ICON);
 		title = extras.getString(KEY_TITLE);
@@ -177,11 +179,17 @@ public class CollectionList extends Activity {
 		listView.setAdapter(adapter);
 
 		listCampaignId = new String[adapter.getCount()];
+		listCampaignName = new String[adapter.getCount()];
 		for (int i = 0; i < adapter.getCount(); i++) {
 			listCampaignId[i] = "" + adapter.getItem(i).getCampaignId();
+			listCampaignName[i] = "" + adapter.getItem(i).getCampaignName();
 		}
 	}
 
+	public static String getCurCampaignName() {
+		return listCampaignName[curId];
+	}
+	
 	public static String getNextCampaignId() {
 		if (curId == listCampaignId.length - 1) {
 			curId = 0;

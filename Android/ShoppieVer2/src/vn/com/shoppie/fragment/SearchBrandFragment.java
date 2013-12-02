@@ -71,7 +71,7 @@ public class SearchBrandFragment extends FragmentBasic {
 	public void filter(String content) {
 		Vector<MerchantStoreItem> data = new Vector<MerchantStoreItem>();
 		for (String name : nameList) {
-			if (name.contains(content)) {
+			if (name.toLowerCase().contains(content.toLowerCase())) {
 				data.add(manageByName.get(name));
 			}
 		}

@@ -11,6 +11,7 @@
     	android:background="@drawable/head_bg_center"
         />
     <View 
+        android:id="@+id/view1"
         android:layout_width="match_parent"
     	android:layout_height="@dimen/page_item_icon_height"
     	android:layout_toRightOf="@id/icon"

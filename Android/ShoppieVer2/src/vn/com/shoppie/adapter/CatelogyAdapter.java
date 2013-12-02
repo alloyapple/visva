@@ -164,8 +164,8 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 	public void hideBottom() {
 		for(int i = 0 ; i < getCount() ; i++) {
 			View v = getView(i , false);
-			v.findViewById(R.id.image).setVisibility(View.INVISIBLE);;
-			Log.d("ImageLoader", "Loader icon " + i);
+			v.findViewById(R.id.image).setVisibility(View.INVISIBLE);
+			v.findViewById(R.id.view1).setBackgroundResource(R.drawable.round_corner_shape_01);
 			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
 					, false , true , false , false);
 		}
@@ -175,6 +175,7 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 		for(int i = 0 ; i < getCount() ; i++) {
 			View v = getView(i);
 			View bottom = v.findViewById(R.id.image);
+			v.findViewById(R.id.view1).setBackgroundResource(R.drawable.round_topright_corner);
 			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
 					, false , false , false , false , false);
 			bottom.setVisibility(View.VISIBLE);
