@@ -2,9 +2,6 @@
 package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
-
-import com.google.analytics.tracking.android.Log;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.util.ImageLoader;
@@ -52,7 +49,6 @@ public class FavouriteAdapter extends BaseAdapter {
 			convertView = (LinearLayout)LinearLayout.inflate(context,R.layout.friend_favourite_item, null);
 		}
 		ImageView iv = (ImageView) convertView.findViewById(R.id.img_friend_favourite_item);
-		android.util.Log.e("adfdfjh","adsfdf "+mFavouriteDataObjects.get(position).getImage_url());
 		mImageLoader.DisplayImage(WebServiceConfig.HEAD_IMAGE+mFavouriteDataObjects.get(position).getImage_url(),iv);
 		iv.setContentDescription(this.mFavouriteDataObjects.get(position).getType());
 		return convertView;

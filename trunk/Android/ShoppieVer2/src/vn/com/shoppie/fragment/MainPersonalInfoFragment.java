@@ -3,6 +3,7 @@ package vn.com.shoppie.fragment;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.FavouriteAdapter;
 import vn.com.shoppie.constant.GlobalValue;
@@ -15,6 +16,7 @@ import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.ShoppieUserInfo;
+import vn.com.shoppie.touchimage.ImageViewTouch;
 import vn.com.shoppie.util.ImageLoader;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -50,12 +52,13 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private LinearLayout mLayoutHelp;
 	private LinearLayout mLayoutHistoryTrade;
 	private MyCircleImageView mImgAvatar;
-	private ImageView mImgCover;
+	private ImageViewTouch mImgCover;
 	private TextView mTxtUserName;
 	private TextView mTxtUserId;
 	private TextView mTxtUserNumberPie;
 	private HorizontalListView mFavouriteBrandList;
 	private HorizontalListView mFavouriteProductList;
+	private ImageView mImgEditCover;
 	// =========================Class Define --------------------
 	private MainPersonalInfoListener mListener;
 	private ImageLoader mImageLoader;
@@ -100,7 +103,9 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mTxtUserName = (TextView) v.findViewById(R.id.txt_personal_name);
 		mTxtUserNumberPie = (TextView) v.findViewById(R.id.txt_user_number_pie);
 		mImgAvatar = (MyCircleImageView) v.findViewById(R.id.img_avatar);
-		mImgCover = (ImageView) v.findViewById(R.id.img_cover);
+		mImgCover = (ImageViewTouch) v.findViewById(R.id.img_cover);
+		mImgCover.setDoubleTapEnabled(true);
+		mImgEditCover = (ImageView)v.findViewById(R.id.img_edit_cover);
 		mLayoutFavouriteProduct = (LinearLayout) v
 				.findViewById(R.id.layout_fravourite_product);
 		mLayoutFeedback = (LinearLayout) v.findViewById(R.id.layout_feedback);
@@ -205,11 +210,12 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			}
 		});
 
-		mImgCover.setOnClickListener(new View.OnClickListener() {
+		mImgEditCover.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				Log.e("adfkjdhf", "adsfh ");
 				isPickToAvatar = false;
 				pickImage();
 			}

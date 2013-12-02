@@ -10,12 +10,22 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/personal_layout_photo_height" >
 
-        <ImageView
+        <vn.com.shoppie.touchimage.ImageViewTouch
             android:id="@+id/img_cover"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/personal_layout_photo_height"
             android:scaleType="fitXY"
             android:background="@drawable/bg_personal_cover"
+            android:contentDescription="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/img_edit_cover"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/ic_edit_cover1"
             android:contentDescription="@string/app_name" />
 
         <ImageView
