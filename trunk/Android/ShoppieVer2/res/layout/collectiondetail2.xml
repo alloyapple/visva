@@ -36,6 +36,17 @@
         android:text="1.000.000 VND"
     	android:textColor="#D32971"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+    <TextView
+        android:id="@+id/price1_goc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name1"
+        android:layout_toRightOf="@id/price1"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:text="1.000.000 VND"
+    	android:textColor="#808080"
+        android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
     
     <TextView
         android:id="@+id/price1_goc"

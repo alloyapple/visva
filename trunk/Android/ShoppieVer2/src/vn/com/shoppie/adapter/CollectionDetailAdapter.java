@@ -127,10 +127,15 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					TextView name = (TextView) v.findViewById(R.id.name);
 					TextView name1 = (TextView) v.findViewById(R.id.name1);
 					TextView price = (TextView) v.findViewById(R.id.price);
+					TextView priceGoc = (TextView) v.findViewById(R.id.price_goc);
 					TextView price1 = (TextView) v.findViewById(R.id.price1);
+					TextView priceGoc1 = (TextView) v.findViewById(R.id.price1_goc);
 					TextView color = (TextView) v.findViewById(R.id.color);
 					TextView like = (TextView) v.findViewById(R.id.like);
 
+					priceGoc.setPaintFlags(priceGoc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					priceGoc1.setPaintFlags(priceGoc1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					
 					name.setText(getItem(position).getProductName());
 					name1.setText(getItem(position).getProductName());
 					price.setText("" + Utils.formatMoney(getItem(position).getPrice()) + " VNĐ");
@@ -138,14 +143,16 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					color.setText("" + getItem(position).getShortDesc());
 					like.setText("" + getItem(position).getLikedNumber());
 
+					priceGoc.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + getItem(position).getOldPrice()
+							: "");
+					priceGoc1.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + getItem(position).getOldPrice()
+							: "");
+					
 					TextView count = (TextView) v.findViewById(R.id.count);
 					count.setText(getItem(position).getPieQty() > 0 ? "" + getItem(position).getPieQty() : "");
 //					
 					TextView count1 = (TextView) v.findViewById(R.id.count1);
 					count1.setText(getItem(position).getPieQty() > 0 ? "" + getItem(position).getPieQty() : "");
-					
-					TextView priceGoc = (TextView) v.findViewById(R.id.price1_goc);
-					priceGoc.setPaintFlags(priceGoc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 					
 					Button likeBt = (Button) v.findViewById(R.id.like_click);
 					likeBt.setTag(getItem(position));
@@ -155,7 +162,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					} else {
 						resId = R.drawable.ic_liked;
 					}
-					like.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
+					like.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, resId);
 
 					OnClickListener onClickListener = new OnClickListener() {
 

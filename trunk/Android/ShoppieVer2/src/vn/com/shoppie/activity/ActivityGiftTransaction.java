@@ -173,6 +173,32 @@ public class ActivityGiftTransaction extends Activity {
 			}
 		}
 		
+		for(int i = 0 ; i < item0.size() ; i++) {
+			for (int j = i + 1; j < item0.size(); j++) {
+				if(item0.get(i).getMinPie() > item0.get(j).getMinPie()) {
+					GiftItem itemi = item0.get(i);
+					GiftItem itemj = item0.get(j);
+					item0.remove(j);
+					item0.remove(i);
+					item0.add(i, itemj);
+					item0.add(j, itemi);
+				}
+			}
+		}
+		
+		for(int i = 0 ; i < item1.size() ; i++) {
+			for (int j = i + 1; j < item1.size(); j++) {
+				if(item1.get(i).getMinPie() > item1.get(j).getMinPie()) {
+					GiftItem itemi = item1.get(i);
+					GiftItem itemj = item1.get(j);
+					item1.remove(j);
+					item1.remove(i);
+					item1.add(i, itemj);
+					item1.add(j, itemi);
+				}
+			}
+		}
+		
 		adapter = new GiftAdapter(this, item0 , GiftAdapter.TYPE_INVAI);
 		// listView.setAdapter(adapter);
 

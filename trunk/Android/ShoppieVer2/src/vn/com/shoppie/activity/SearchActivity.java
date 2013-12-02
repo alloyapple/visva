@@ -513,6 +513,13 @@ public class SearchActivity extends FragmentActivity implements
 		return null;
 	}
 	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mLocationClient.connect();
+	}
+	
 	public Location getMyLocation() {
 		try {
 			return mLocationClient.getLastLocation();

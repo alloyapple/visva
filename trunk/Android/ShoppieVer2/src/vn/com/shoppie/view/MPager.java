@@ -934,11 +934,11 @@ public class MPager extends RelativeLayout{
 	class CollapseGestureListenner extends GestureDetector.SimpleOnGestureListener{
 		boolean isDown = true;
 		int distance = 0;
-		int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 4/2;
+		int minSlide = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 20;
 		
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent event, float distanceX, float distanceY) {
-			Log.d("distanceY", "" + distanceY);
+			Log.d("distance", "" + distance);
 			if(distanceY < 0) {
 				isDown = true;
 				distance = 0;
@@ -958,6 +958,10 @@ public class MPager extends RelativeLayout{
 					isOpenCollapse = true;
 					collapseView();
 				}
+			}
+			else {
+				distance = 0;
+				isDown = false;
 			}
 			
 			return true;

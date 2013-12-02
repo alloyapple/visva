@@ -25,6 +25,7 @@ import com.google.analytics.tracking.android.Log;
 public class GiftAdapter extends BaseAdapter{
 	public static final int TYPE_AVAI = 0;
 	public static final int TYPE_INVAI = 1;
+	private List<GiftItem> data;
 	private Vector<GroupGift> groupList;
 	private Activity context;
 	private ImageLoader mImageLoader;
@@ -36,6 +37,7 @@ public class GiftAdapter extends BaseAdapter{
 		mImageLoader.setRequiredSize(256);
 		createGroups(data);
 		this.type = type;
+		this.data = data;
 	}
 	
 	private void createGroups(List<GiftItem> data) {
@@ -55,7 +57,7 @@ public class GiftAdapter extends BaseAdapter{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return groupList.size();
+		return 1;
 	}
 
 	@Override
@@ -96,47 +98,55 @@ public class GiftAdapter extends BaseAdapter{
 			
 			holder = new ViewHolder();
 			holder.title = (TextView) cacheView[position].findViewById(R.id.title);
-			holder.row0 = (LinearLayout) cacheView[position].findViewById(R.id.row0);
-			holder.row1 = (LinearLayout) cacheView[position].findViewById(R.id.row1);
 			
 			if(type == TYPE_AVAI)
 				holder.title.setText("Danh sách quà đã đủ điểm đổi");
 			else
 				holder.title.setText("Danh sách quà chưa đủ điểm đổi");
-			addGiftByGroup(getItem(position), holder.row0, holder.row1);
+			addGiftByGroup((LinearLayout) cacheView[position]);
 		}
 		
 		return cacheView[position];
 	}
 	
-	private void addGiftByGroup(GroupGift group, LinearLayout row0 , LinearLayout row1) {
-		row0.removeAllViews();
-		row1.removeAllViews();
-		if(group.getCount() == 0) {
-			row0.setVisibility(View.GONE);
-			row1.setVisibility(View.GONE);
-		}
-		else if(group.getCount() <= 2) {
-			row0.setVisibility(View.VISIBLE);
-			row1.setVisibility(View.GONE);
-		}
-		else {
-			row0.setVisibility(View.VISIBLE);
-			row1.setVisibility(View.VISIBLE);
-		}
-		for (int i = 0; i < group.getCount(); i++) {
-			View v = createViewByGift(group.getItem(i));
-			if(v.getParent() != null) {
-				((LinearLayout) v.getParent()).removeView(v);
+	private void addGiftByGroup(LinearLayout groupView) {
+		LinearLayout layout = new LinearLayout(context);
+		for (int i = 0; i < data.size(); i++) {
+			if(i % 2 == 0) {
+				layout = new LinearLayout(context);
+				groupView.addView(layout, -1, getDimention(R.dimen.gift_item_row_height));
 			}
-			if(i == 0 || i == 1) {
-				row0.addView(v , getDimention(R.dimen.gift_item_row_height) , -1);
-			}
-			else if(i == 2 || i == 3) {
-				row1.addView(v , getDimention(R.dimen.gift_item_row_height) , -1);
-			}
+			View v = createViewByGift(data.get(i));
+			layout.addView(v, getDimention(R.dimen.gift_item_row_height), getDimention(R.dimen.gift_item_row_height));
 		}
 		
+//		row0.removeAllViews();
+//		row1.removeAllViews();
+//		if(group.getCount() == 0) {
+//			row0.setVisibility(View.GONE);
+//			row1.setVisibility(View.GONE);
+//		}
+//		else if(group.getCount() <= 2) {
+//			row0.setVisibility(View.VISIBLE);
+//			row1.setVisibility(View.GONE);
+//		}
+//		else {
+//			row0.setVisibility(View.VISIBLE);
+//			row1.setVisibility(View.VISIBLE);
+//		}
+//		for (int i = 0; i < group.getCount(); i++) {
+//			View v = createViewByGift(group.getItem(i));
+//			if(v.getParent() != null) {
+//				((LinearLayout) v.getParent()).removeView(v);
+//			}
+//			if(i == 0 || i == 1) {
+//				row0.addView(v , getDimention(R.dimen.gift_item_row_height) , -1);
+//			}
+//			else if(i == 2 || i == 3) {
+//				row1.addView(v , getDimention(R.dimen.gift_item_row_height) , -1);
+//			}
+//		}
+//		
 	}
 	
 	private int getDimention(int id) {
@@ -163,7 +173,8 @@ public class GiftAdapter extends BaseAdapter{
 		
 		tvName.setText(item.getPieStr());
 		
-		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image);
+		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image
+				, false ,false, false , false ,false , false);
 		manageViewByItem.put(item, v);
 		image.setOnClickListener(new OnClickListener() {
 			
@@ -190,8 +201,6 @@ public class GiftAdapter extends BaseAdapter{
 	
 	class ViewHolder {
 		public TextView title;
-		public LinearLayout row0;
-		public LinearLayout row1;
 	}
 	
 	class GroupGift {

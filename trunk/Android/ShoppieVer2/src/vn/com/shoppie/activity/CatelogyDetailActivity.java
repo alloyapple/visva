@@ -192,7 +192,14 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	private void setAdapter(ArrayList<MerchProductItem> data) {
 		// if(adapter != null)
-		adapter = new CollectionDetailAdapter(this, mPager, data, pie > 0);
+		// adapter.recycle();
+		
+		TextView mTxtTitle = (TextView) findViewById(R.id.title);
+		mTxtTitle.setTextSize(getResources().getDimension(
+				R.dimen.actionbar_title_textsize));
+		mTxtTitle.setText(camName);
+		
+		adapter = new CollectionDetailAdapter(this, mPager, data , pie > 0);
 		adapter.id = CollectionList.curId;
 		mPager.setAdapter(adapter);
 
@@ -202,6 +209,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			public void onChange(int pos) {
 				if (pos == adapter.getCount() - 1) {
 					String id = CollectionList.getNextCampaignId();
+					camName = CollectionList.getCurCampaignName();
 					if (id != null) {
 						camId = id;
 						adapter.freeAll();
@@ -223,6 +231,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		if (adapter.getCount() == 1) {
 			String id = CollectionList.getNextCampaignId();
 			if (id != null) {
+				camName = CollectionList.getCurCampaignName();
 				camId = id;
 				adapter.freeAll();
 				requestupdateToGetMerchProducts(camId, custId);

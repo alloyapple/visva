@@ -64,7 +64,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		
 		LatLng latLng = new LatLng(latitude, longitute); 
 		map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-	    map.animateCamera(CameraUpdateFactory.zoomTo(17));
+	    map.animateCamera(CameraUpdateFactory.zoomTo(14));
 	    map.setMyLocationEnabled(true);
 	    map.getUiSettings().setZoomControlsEnabled(true);
 	    map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -117,7 +117,7 @@ public class SearchMapFragment extends SupportMapFragment{
 					
 					marker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIconDetail(0, "+" + store.getPieQty(), store.getStoreName(), store.getStoreAddress() , color)));
 					getMap().moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
-					getMap().animateCamera(CameraUpdateFactory.zoomTo(17));
+					getMap().animateCamera(CameraUpdateFactory.zoomTo(14));
 				}
 				return true;
 			}
