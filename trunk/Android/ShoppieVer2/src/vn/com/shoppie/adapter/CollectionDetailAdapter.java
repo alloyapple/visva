@@ -47,6 +47,7 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
+import com.google.analytics.tracking.android.Log;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -60,9 +61,9 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	private boolean isNeedUpdateImage[];
 	private MPager mPager;
 	private boolean hasPie = false;
-	
+
 	public CollectionDetailAdapter(Context context, MPager mPager,
-			ArrayList<MerchProductItem> data , boolean hasPie) {
+			ArrayList<MerchProductItem> data, boolean hasPie) {
 		this.context = context;
 		this.mPager = mPager;
 		this.data = data;
@@ -105,13 +106,13 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						@Override
 						public void onClick(View v) {
 							// v.setVisibility(View.GONE);
-							if(itemClickListener != null)
-								itemClickListener.onItemClick(null, null, position, position);
+							if (itemClickListener != null)
+								itemClickListener.onItemClick(null, null,
+										position, position);
 						}
 					});
 
-				}
-				else {
+				} else {
 					v = inflater.inflate(R.layout.collectiondetail_1, null,
 							false);
 					View text = v.findViewById(R.id.text);
@@ -129,19 +130,27 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					TextView name = (TextView) v.findViewById(R.id.name);
 					TextView name1 = (TextView) v.findViewById(R.id.name1);
 					TextView price = (TextView) v.findViewById(R.id.price);
-					TextView priceGoc = (TextView) v.findViewById(R.id.price_goc);
+					TextView priceGoc = (TextView) v
+							.findViewById(R.id.price_goc);
 					TextView price1 = (TextView) v.findViewById(R.id.price1);
-					TextView priceGoc1 = (TextView) v.findViewById(R.id.price1_goc);
+					TextView priceGoc1 = (TextView) v
+							.findViewById(R.id.price1_goc);
 					TextView color = (TextView) v.findViewById(R.id.color);
 					TextView like = (TextView) v.findViewById(R.id.like);
 
-					priceGoc.setPaintFlags(priceGoc.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-					priceGoc1.setPaintFlags(priceGoc1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-					
+					priceGoc.setPaintFlags(priceGoc.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
+					priceGoc1.setPaintFlags(priceGoc1.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
+
 					name.setText(getItem(position).getProductName());
 					name1.setText(getItem(position).getProductName());
-					price.setText("" + Utils.formatMoney(getItem(position).getPrice()) + " VNĐ");
-					price1.setText("" + Utils.formatMoney(getItem(position).getPrice()) + " VNĐ");
+					price.setText(""
+							+ Utils.formatMoney(getItem(position).getPrice())
+							+ " VNĐ");
+					price1.setText(""
+							+ Utils.formatMoney(getItem(position).getPrice())
+							+ " VNĐ");
 					color.setText("" + getItem(position).getShortDesc());
 					like.setText("" + getItem(position).getLikedNumber());
 
@@ -149,13 +158,14 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							: "");
 					priceGoc1.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + Utils.formatMoney(getItem(position).getOldPrice()) + " VNĐ" 
 							: "");
-					
 					TextView count = (TextView) v.findViewById(R.id.count);
-					count.setText(getItem(position).getPieQty() > 0 ? "" + getItem(position).getPieQty() : "");
-//					
+					count.setText(getItem(position).getPieQty() > 0 ? ""
+							+ getItem(position).getPieQty() : "");
+					//
 					TextView count1 = (TextView) v.findViewById(R.id.count1);
-					count1.setText(getItem(position).getPieQty() > 0 ? "" + getItem(position).getPieQty() : "");
-					
+					count1.setText(getItem(position).getPieQty() > 0 ? ""
+							+ getItem(position).getPieQty() : "");
+
 					if(getItem(position).getPieQty() > 999) {
 						MarginLayoutParams params = (MarginLayoutParams) count.getLayoutParams();
 						params.width *= 1.25f;
@@ -702,9 +712,11 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		Intent share = new Intent(android.content.Intent.ACTION_SEND);
 		share.setType("text/plain");
 		share.putExtra(Intent.EXTRA_SUBJECT, "Shoppie Invitation");
-		share.putExtra(Intent.EXTRA_TEXT,
-				"" + context.getString(R.string.introduction_invitation,
-						item.getProductName(), item.getShortDesc()));
+		share.putExtra(
+				Intent.EXTRA_TEXT,
+				""
+						+ context.getString(R.string.introduction_invitation,
+								item.getProductName(), item.getShortDesc()));
 		// share.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
 		// if (pFilePath != null)
 		// share.putExtra(Intent.EXTRA_STREAM,
@@ -718,7 +730,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	 */
 	private void initShareSMS(MerchProductItem item) {
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-		sendIntent.putExtra("sms_body",
+		sendIntent.putExtra(
+				"sms_body",
 				context.getString(R.string.introduction_invitation,
 						item.getProductName(), item.getShortDesc()));
 		sendIntent.setType("vnd.android-dir/mms-sms");
@@ -726,20 +739,33 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	}
 
 	private boolean ensureOpenSession() {
-		if (Session.getActiveSession() == null
-				|| !Session.getActiveSession().isOpened()) {
-			Session.openActiveSession((Activity) context, true,
-					new Session.StatusCallback() {
-
-						@Override
-						public void call(Session session, SessionState state,
-								Exception exception) {
-							// TODO Auto-generated method stub
-							onSessionStateChanged(session, state, exception);
-						}
-					});
-			return false;
-		}
+		android.util.Log.e("adfdsfh", "afiun df ");
+		Session.openActiveSession((Activity) context, true,
+				new Session.StatusCallback() {
+					@Override
+					public void call(final Session session, SessionState state,
+							Exception exception) {
+						// TODO Auto-generated method stub
+						Request request = Request.newMeRequest(session,
+								new Request.GraphUserCallback() {
+									@Override
+									public void onCompleted(GraphUser user,
+											Response response) {
+										if (session == Session
+												.getActiveSession()) {
+											if (user != null) {
+												String name = user.getName();
+												android.util.Log.e(
+														"name " + user.getId(),
+														"adfname "
+																+ user.getName());
+											}
+										}
+									}
+								});
+						request.executeAsync();
+					}
+				});
 		return true;
 	}
 
