@@ -402,7 +402,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 	private void onSessionStateChange(final Session session,
 			SessionState state, Exception exception) {
-		Log.e("adfd", "adfdf" + (session != null && session.isOpened()));
 		if (session != null && session.isOpened()) {
 			if (state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
 				Session.getActiveSession();
@@ -412,7 +411,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 							@Override
 							public void onCompleted(GraphUser user,
 									Response response) {
-								Log.e("adkfjh", "csdfsdfdf " + response.toString());
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										custName = user.getName();
@@ -438,17 +436,8 @@ public class ActivityWelcome extends Activity implements LocationListener,
 						});
 				request.executeAsync();
 			}
-		} else {
 		}
 	}
-
-	// @Override
-	// public void btnRegisterClick(View v, String name, String email,
-	// String phone, String address, String gender, String birth) {
-	// // TODO Auto-generated method stub
-	// if (mShopieSharePref.getCustId() == 0)
-	// register(name.getText().toString());
-	// }
 
 	@Override
 	public void btnRegisterClick(View v, String name, String email,
