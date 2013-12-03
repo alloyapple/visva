@@ -135,6 +135,7 @@
         android:textSize="14sp" />
 
     <vn.com.shoppie.view.MagicTextView
+	    android:id="@+id/muatang1"
         android:layout_width="@dimen/muatang_width"
         android:layout_height="@dimen/muatang_width"
         android:layout_alignParentRight="true"

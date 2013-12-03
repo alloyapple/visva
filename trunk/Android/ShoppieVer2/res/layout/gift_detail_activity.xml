@@ -26,7 +26,7 @@
             <TextView 
                 android:layout_width="match_parent"
 		    	android:layout_height="wrap_content"
-		    	android:textSize="22sp"
+		    	android:textSize="20sp"
 		    	android:text="Chọn quà"
             	android:textColor="#2A5C72"
 		    	android:textStyle="bold"
@@ -42,24 +42,33 @@
 		            android:layout_width="match_parent"
 			    	android:layout_height="@dimen/actionbar_height"
 			    	android:layout_marginRight="70dp"
+			    	android:background="@drawable/spinner"
             	/>
                 <Button 
+                    android:background="@drawable/btn_doiqua"
                     android:layout_alignParentRight="true"
                     android:layout_width="70dp"
 			    	android:layout_height="@dimen/actionbar_height"
+			    	android:onClick="onClickDoiqua"
                     />
             </RelativeLayout>
         </LinearLayout>
-        
+        <View 
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/image"
+            android:id="@+id/divider0"
+            android:background="#ECECEC"
+            />
         <TextView
             android:id="@+id/des_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/image"
+            android:layout_below="@id/divider0"
             android:padding="5dp"
             android:text="Hướng dẫn cách đổi"
             android:textColor="#2A5C72"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:background="#F9F9F9" />
         <TextView
@@ -71,9 +80,15 @@
             android:padding="5dp"
             android:textColor="#808080"
             android:text="Hướng dẫn cách đổi"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:background="#F9F9F9" />
-
+		<View 
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/desc"
+            android:id="@+id/divider1"
+            android:background="#ECECEC"
+            />
     </RelativeLayout>
     <ImageButton 
 	    android:layout_width="@dimen/actionbar_height"

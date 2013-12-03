@@ -11,6 +11,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CollectionDetailAdapter;
 import vn.com.shoppie.adapter.CollectionDetailAdapter.OnLikeListenner;
 import vn.com.shoppie.constant.GlobalValue;
+import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchProductList;
@@ -29,8 +30,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,6 +57,10 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ArrayList<MerchProductItem> mMerchProductItems = new ArrayList<MerchProductItem>();
 
+	private TextView hint;
+	private boolean isShowFirstHint = false;
+	private ShopieSharePref mSharePref;
+	
 	@Override
 	public int contentView() {
 		// TODO Auto-generated method stub
@@ -70,7 +77,25 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 		/** database */
 		mShoppieDBProvider = new ShoppieDBProvider(this);
-
+		mSharePref = new ShopieSharePref(this);
+		
+		hint = (TextView) findViewById(R.id.hint);
+		int count = mSharePref.getLikeCount();
+		if(count < 3) {
+			hint.setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					hint.setVisibility(View.GONE);
+					return false;
+				}
+			});
+			hint.setVisibility(View.VISIBLE);
+			isShowFirstHint = true;
+			mSharePref.addLikeCount();
+		}
+		
 		ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
 		icon.setBackgroundResource(R.drawable.ic_back);
 		icon.setImageBitmap(null);
@@ -240,6 +265,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	}
 
 	private void likeProduct(boolean liked, int pId) {
+		hint.setVisibility(View.GONE);
 		if (liked) {
 			likeProduct(custId, "" + pId);
 		} else {

@@ -16,8 +16,6 @@ import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftList;
-import vn.com.shoppie.database.sobject.GiftRedeemItem;
-import vn.com.shoppie.database.sobject.ShoppieObject;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
@@ -32,6 +30,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -69,48 +68,10 @@ public class ActivityGiftTransaction extends Activity {
 
 		content = (LinearLayout) findViewById(R.id.listcontent);
 
-		if (NetworkUtility.getInstance(this).isNetworkAvailable())
-			updateListGift();
-		else
-			updateListGiftFromDB();
-
 //		updateGiftListAvailable("22", "99", "123", "30", "10", "275", "20000");
 	}
 
-	private void updateGiftListAvailable(String merchId, String storeId,
-			String custId, String giftId, String redeemQty, String pieQty,
-			String giftPrice) {
-		// TODO Auto-generated method stub
-		List<NameValuePair> nameValuePairs = ParameterFactory
-				.getGiftListAvailable(merchId, storeId, custId, giftId,
-						redeemQty, pieQty, giftPrice);
-		AsyncHttpPost postGetGiftList = new AsyncHttpPost(
-				ActivityGiftTransaction.this, new AsyncHttpResponseProcess(
-						ActivityGiftTransaction.this) {
-					@Override
-					public void processIfResponseSuccess(String response) {
-						try {
-							System.out.println(response);
-							JSONObject jsonObject = new JSONObject(response);
-							Gson gson = new Gson();
-							GiftRedeemItem redeemItem = gson.fromJson(
-									jsonObject.toString(), GiftRedeemItem.class);
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							
-						}
-					}
-
-					@Override
-					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
-						finish();
-					}
-				}, nameValuePairs, true);
-		postGetGiftList.execute(WebServiceConfig.URL_GET_GIFT_TRANSACTION_AVAILABLE);
-	}
-
+	
 	private void updateListGiftFromDB() {
 		// TODO Auto-generated method stub
 		JsonDataObject jsonDataObject = mShoppieDBProvider
@@ -135,9 +96,12 @@ public class ActivityGiftTransaction extends Activity {
 		// TODO Auto-generated method stub
 		Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
 	}
-
+	
+	private GiftItem onTopItem = null;
+	
 	private void setData(List<GiftItem> listItem) {
-		GiftItem onTopItem = null;
+		content.removeAllViews();
+		
 		for (int i = 0; i < listItem.size(); i++) {
 			if (listItem.get(i).getViewtop().equals("Y")
 					|| listItem.get(i).getViewtop().equals("y")) {
@@ -160,8 +124,19 @@ public class ActivityGiftTransaction extends Activity {
 			content.addView(headerView);
 			content.addView(new View(this), -1, (int) getResources()
 					.getDimension(R.dimen.gift_item_padding));
+			
+			headerView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if(mSharePref.getCurrentBal() >= onTopItem.getMinPie()) {
+						currItem = onTopItem;
+						startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
+					}
+				}
+			});
 		}
-
+		
 		Vector<GiftItem> item0 = new Vector<GiftItem>();
 		Vector<GiftItem> item1 = new Vector<GiftItem>();
 		for(int i = 0 ; i < listItem.size() ; i++) {
@@ -217,7 +192,7 @@ public class ActivityGiftTransaction extends Activity {
 					.getDimension(R.dimen.gift_item_padding));
 		}
 
-		adapter.setOnClickItem(new OnClickItem() {
+		adapter1.setOnClickItem(new OnClickItem() {
 			
 			@Override
 			public void onClickItem(GiftItem item) {
@@ -238,6 +213,16 @@ public class ActivityGiftTransaction extends Activity {
 //		adapter = null;
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (NetworkUtility.getInstance(this).isNetworkAvailable())
+			updateListGift();
+		else
+			updateListGiftFromDB();
+	}
+	
 	private void updateListGift() {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.getGiftList();

@@ -82,7 +82,6 @@
     	android:textSize="14sp"
     	android:text="1234"
     	android:drawablePadding="5dp"
-    	android:drawableLeft="@drawable/ic_like"
     	android:textColor="#2A5C72"
         />
     <Button 
@@ -107,6 +106,7 @@
         android:textSize="14sp" />
 	
 	<vn.com.shoppie.view.MagicTextView
+	    android:id="@+id/muatang"
         android:layout_width="@dimen/muatang_width"
         android:layout_height="@dimen/muatang_width"
         android:layout_alignParentRight="true"

@@ -26,6 +26,7 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -36,6 +37,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
@@ -143,9 +145,9 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					color.setText("" + getItem(position).getShortDesc());
 					like.setText("" + getItem(position).getLikedNumber());
 
-					priceGoc.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + getItem(position).getOldPrice()
+					priceGoc.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + Utils.formatMoney(getItem(position).getOldPrice()) + " VNĐ" 
 							: "");
-					priceGoc1.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + getItem(position).getOldPrice()
+					priceGoc1.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + Utils.formatMoney(getItem(position).getOldPrice()) + " VNĐ" 
 							: "");
 					
 					TextView count = (TextView) v.findViewById(R.id.count);
@@ -153,6 +155,28 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 //					
 					TextView count1 = (TextView) v.findViewById(R.id.count1);
 					count1.setText(getItem(position).getPieQty() > 0 ? "" + getItem(position).getPieQty() : "");
+					
+					if(getItem(position).getPieQty() > 999) {
+						MarginLayoutParams params = (MarginLayoutParams) count.getLayoutParams();
+						params.width *= 1.25f;
+						params.height *= 1.25f;
+						count.setLayoutParams(params);
+						
+						params = (MarginLayoutParams) count1.getLayoutParams();
+						params.width *= 1.25f;
+						params.height *= 1.25f;
+						count1.setLayoutParams(params);
+						
+//						params = (MarginLayoutParams) v.findViewById(R.id.muatang).getLayoutParams();
+//						params.width *= 1.25f;
+//						params.height *= 1.25f;
+//						v.findViewById(R.id.muatang).setLayoutParams(params);
+//						
+//						params = (MarginLayoutParams) v.findViewById(R.id.muatang1).getLayoutParams();
+//						params.width *= 1.25f;
+//						params.height *= 1.25f;
+//						v.findViewById(R.id.muatang1).setLayoutParams(params);
+					}
 					
 					Button likeBt = (Button) v.findViewById(R.id.like_click);
 					likeBt.setTag(getItem(position));
@@ -162,7 +186,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					} else {
 						resId = R.drawable.ic_liked;
 					}
-					like.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, resId);
+					like.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
 
 					OnClickListener onClickListener = new OnClickListener() {
 

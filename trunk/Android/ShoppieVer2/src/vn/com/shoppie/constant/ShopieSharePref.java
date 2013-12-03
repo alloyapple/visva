@@ -19,6 +19,7 @@ public class ShopieSharePref {
 	private static final String COUNT_CHANGE_INFO_TIME = "count_change_info_time";
 	// ================================================================
 	private static final String START_NUM = "num1";
+	private static final String LIKE_NUM = "like";
 	
 	private Context context;
 
@@ -138,6 +139,16 @@ public class ShopieSharePref {
 	
 	public int getStartCount() {
 		return getIntValue(START_NUM);
+	}
+	
+	public void addLikeCount() {
+		int count = getIntValue(LIKE_NUM);
+		count++;
+		putIntValue(LIKE_NUM, count);
+	}
+	
+	public int getLikeCount() {
+		return getIntValue(LIKE_NUM);
 	}
 	// ======================== CORE FUNCTIONS ========================
 

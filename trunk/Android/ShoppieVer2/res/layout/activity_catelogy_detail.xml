@@ -42,4 +42,15 @@
         android:layout_height="992px"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/hint"
+        android:layout_width="match_parent"
+        android:minHeight="@dimen/actionbar_height"
+        android:layout_height="wrap_content"
+        android:background="#99000000" 
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:text="Click Like để lưu trữ thông tin sản phẩm bạn muốn thử khi tới cửa hàng đó. Xem danh sách phía dưới"/>
 </RelativeLayout>
