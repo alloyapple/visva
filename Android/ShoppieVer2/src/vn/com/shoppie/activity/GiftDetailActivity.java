@@ -1,12 +1,27 @@
 package vn.com.shoppie.activity;
 
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
+import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.GiftItem;
+import vn.com.shoppie.database.sobject.GiftRedeemItem;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +32,7 @@ import android.widget.TextView;
 
 public class GiftDetailActivity extends Activity{
 	private GiftItem item;
+	private ShopieSharePref mSharePref;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +44,7 @@ public class GiftDetailActivity extends Activity{
 	}
 
 	private void init() {
+		mSharePref = new ShopieSharePref(this);
 		item = ActivityGiftTransaction.currItem;
 		
 		((TextView) findViewById(R.id.desc)).setText(item.getDescription());
@@ -48,6 +65,45 @@ public class GiftDetailActivity extends Activity{
 	
 	public void onClickBack(View v) {
 		finish();
+	}
+	
+	private void updateGiftListAvailable(String merchId, String storeId,
+			String custId, String giftId, String redeemQty, String pieQty,
+			String giftPrice) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.getGiftListAvailable(merchId, storeId, custId, giftId,
+						redeemQty, pieQty, giftPrice);
+		AsyncHttpPost postGetGiftList = new AsyncHttpPost(
+				GiftDetailActivity.this, new AsyncHttpResponseProcess(
+						GiftDetailActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							System.out.println(response);
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							GiftRedeemItem redeemItem = gson.fromJson(
+									jsonObject.toString(), GiftRedeemItem.class);
+							finish();
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetGiftList.execute(WebServiceConfig.URL_GET_GIFT_TRANSACTION_AVAILABLE);
+	}
+
+	public void onClickDoiqua(View v) {
+		updateGiftListAvailable(ActivityGiftTransaction.currItem.getMerchId(), "", mSharePref.getCustId() + "", ActivityGiftTransaction.currItem.getGiftId(), ActivityGiftTransaction.currItem.getRedeemQty(), ActivityGiftTransaction.currItem.getPieQty(), ActivityGiftTransaction.currItem.getGiftPrice());
 	}
 	
 	class MySpinnerAdapter extends BaseAdapter {

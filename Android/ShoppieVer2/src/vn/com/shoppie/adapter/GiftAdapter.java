@@ -114,6 +114,10 @@ public class GiftAdapter extends BaseAdapter{
 		for (int i = 0; i < data.size(); i++) {
 			if(i % 2 == 0) {
 				layout = new LinearLayout(context);
+				if(i < data.size() - 2)
+					layout.setBackgroundColor(0xffffffff);
+				else
+					layout.setBackgroundResource(R.drawable.round_corner_shape_03);
 				groupView.addView(layout, -1, getDimention(R.dimen.gift_item_row_height));
 			}
 			View v = createViewByGift(data.get(i));
