@@ -76,11 +76,11 @@
         android:textSize="15sp" />
 
     <vn.com.shoppie.view.MagicTextView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/checkintext_width"
+        android:layout_height="@dimen/checkintext_width"
         android:layout_alignParentRight="true"
         android:singleLine="true"
         android:text="Ghé thăm tặng"
         android:textColor="#ff458DAD"
-        android:textSize="9dp" />
+        android:textSize="@dimen/checkintext_textsize" />
 </RelativeLayout>
