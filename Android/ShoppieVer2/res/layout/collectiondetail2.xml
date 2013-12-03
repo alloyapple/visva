@@ -135,12 +135,12 @@
         android:textSize="14sp" />
 
     <vn.com.shoppie.view.MagicTextView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/muatang_width"
+        android:layout_height="@dimen/muatang_width"
         android:layout_alignParentRight="true"
         android:singleLine="true"
         android:text="Mua - tặng"
         android:textColor="#ff458DAD"
-        android:textSize="10dp" />
+        android:textSize="@dimen/muatang_textsize" />
 
 </RelativeLayout>
