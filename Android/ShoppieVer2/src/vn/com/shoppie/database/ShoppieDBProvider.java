@@ -30,7 +30,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 
 	// collection
 	private static final String TABLE_COLLECTION = "table_collection";
-	private static final String COL_ID = "collection_id";
+	private static final String COL_ID = "col_id";
 	private static final String MERCH_ID = "merch_id";
 	private static final String COLLECTION_ID = "collection_id";
 	private static final String ISVIEWED = "is_viewed";

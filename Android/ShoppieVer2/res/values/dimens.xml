@@ -105,6 +105,7 @@
     <dimen name="personal_friend_invite_btn_height">30dp</dimen>
     <dimen name="personal_friend_text_name_width">100dp</dimen>
     <dimen name="personal_detail_info_margin_left">20dp</dimen>
+    <dimen name="register_info_margin_left">10dp</dimen>
     <dimen name="personal_detail_info_margin_top">20dp</dimen>
     <dimen name="personal_detail_info_text_size">16dp</dimen>
     <dimen name="personal_friend_detail_favourite_width">100dp</dimen>

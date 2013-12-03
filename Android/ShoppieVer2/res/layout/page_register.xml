@@ -41,13 +41,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/introduct_code"
-            android:textColor="@android:color/white"
+            android:textColor="@color/pink2"
             android:textSize="16sp" />
 
         <EditText
             android:id="@+id/introduce_code_edit_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:background="@drawable/bg_introduce"
             android:gravity="center"
             android:inputType="number"
@@ -56,27 +57,30 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
             android:text="@string/introduct_tip"
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:text="@string/register_by"
-            android:textColor="@android:color/white"
+            android:textColor="@color/pink2"
             android:textSize="16sp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp" >
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
 
             <com.facebook.widget.LoginButton
                 android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
                 android:onClick="onFBLogin" >
@@ -97,7 +101,6 @@
             android:layout_height="wrap_content" >
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/layout_register"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -108,8 +111,8 @@
                     android:id="@+id/layout_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
-                    android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical" >
 
                     <TextView
@@ -139,7 +142,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="35dp"
                         android:text="@string/personal_detail_info_address"
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
@@ -165,9 +168,9 @@
                     android:id="@+id/layout_content"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
-                    android:layout_marginRight="@dimen/personal_detail_info_margin_left"
-                    android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/layout_title"
                     android:orientation="vertical" >
 
@@ -224,6 +227,8 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:editable="false"
+                        android:focusable="false"
                         android:gravity="center"
                         android:hint="dd/mm/yyyy"
                         android:inputType="none"
@@ -239,13 +244,22 @@
                 </LinearLayout>
 
                 <Button
-                    android:layout_below="@id/layout_content"
                     android:id="@+id/btn_register_accept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/btn_accept" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_below="@id/btn_register_accept"
+                    android:text="@string/register_tip"
+                    android:textColor="@color/black"
+                    android:gravity="center" />
             </RelativeLayout>
         </ScrollView>
     </LinearLayout>
