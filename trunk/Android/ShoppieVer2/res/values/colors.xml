@@ -38,8 +38,11 @@
     <color name="blue_button_press">#3399ff</color>
     <color name="blue_button">#333</color>
     <color name="blue_text_color">#00688B</color>
-	
     <color name="footer_color">#181F25</color>
+
     <string name="text_form_color">#00C5CD</string>
-    
+
+    <color name="pink1">#851515</color>
+    <color name="pink2">#c41e3a</color>
+
 </resources>

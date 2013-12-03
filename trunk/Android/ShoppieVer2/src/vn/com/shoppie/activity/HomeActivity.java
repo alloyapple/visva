@@ -31,6 +31,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
@@ -86,6 +87,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
+		mTxtTitle.setTextSize(20);
+		mTxtTitle.setTypeface(null, Typeface.BOLD);
 		actionBar.addView(mTxtTitle, -1, -1);
 		hint = (TextView) findViewById(R.id.hint);
 		checkinCircle = findViewById(R.id.checkin_circle);

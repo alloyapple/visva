@@ -79,7 +79,7 @@
                 android:layout_centerInParent="true"
                 android:background="@android:color/transparent"
                 android:onClick="onClick"
-                android:text="Check in"
+                android:text="@string/checkin"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
         </RelativeLayout>

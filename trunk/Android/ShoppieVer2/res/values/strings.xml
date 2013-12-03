@@ -30,6 +30,7 @@
     </string-array>
 
     <!-- Shoppie2 -->
+    <string name="checkin">Tích lũy</string>
     <string name="ex_notifi">23</string>
     <string name="lbl_find_place_pie">Tìm nơi tích điểm pie</string>
     <string name="ex_title_shop">Shoppie</string>
