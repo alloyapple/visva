@@ -4,6 +4,7 @@ import java.security.acl.LastOwnerException;
 import java.util.HashMap;
 import java.util.List;
 
+import vn.com.shoppie.R;
 import vn.com.shoppie.activity.SearchActivity;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
@@ -189,7 +190,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		textPaint.setAntiAlias(true);
 		textPaint.setTextAlign(Align.CENTER);
 		textPaint.setColor(0xffffffff);
-		textPaint.setTextSize(30);
+		textPaint.setTextSize(getResources().getDimension(R.dimen.marker_textsize));
 		
 		int width = (int) (textPaint.measureText(value) * 4f / 2f);
 		int nameWidth = Math.min((int) (textPaint.measureText(name)), width * 3);
@@ -246,13 +247,18 @@ public class SearchMapFragment extends SupportMapFragment{
 		
 		int count = 0;
 		for (MerchantStoreItem merchantStoreItem : data) {
-			if(count == 0)
-				changeLocation(Double.parseDouble(merchantStoreItem.getLatitude()), Double.parseDouble(merchantStoreItem.getLongtitude()));
-			Log.d("Pie", "" + merchantStoreItem.getLatitude() + " : " + merchantStoreItem.getLongtitude());
+			if(count == 0) {
+				Location location = ((SearchActivity) getActivity()).getMyLocation();
+				changeLocation(location.getLatitude(), location.getLongitude());
+//				changeLocation(Double.parseDouble(merchantStoreItem.getLatitude()), Double.parseDouble(merchantStoreItem.getLongtitude()));
+				
+			}
 			addMarker(merchantStoreItem);
 			
 			count++;
 		}
+		
+		this.data = data;
 	}
 	
 	public int getPixelByDp(int dp) {
@@ -300,4 +306,6 @@ public class SearchMapFragment extends SupportMapFragment{
 			return lastX + location[0];
 		}
 	}
+	
+	private List<MerchantStoreItem> data;
 }

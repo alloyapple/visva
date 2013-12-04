@@ -71,4 +71,8 @@
     <dimen name="muatang_textsize">9dp</dimen>
     <dimen name="checkintext_width">60dp</dimen>
     <dimen name="checkintext_textsize">9dp</dimen>
+    <dimen name="count_textsize">14sp</dimen>
+    
+    <!-- *** -->
+    <dimen name="marker_textsize">30px</dimen>
 </resources>

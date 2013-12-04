@@ -32,7 +32,7 @@ public class StoreImageFragment extends Fragment {
 		String link = link0;
 		ImageLoader.getInstance(getActivity()).DisplayImage(
 				link,
-				v, false, false, false, false, true, false);
+				v);
 		return v;
 	}
 

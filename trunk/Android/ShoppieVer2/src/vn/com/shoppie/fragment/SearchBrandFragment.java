@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.SearchActivity;
 import vn.com.shoppie.adapter.StoreAdapter;
+import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.util.Utils;
 import android.location.Location;
@@ -32,6 +33,11 @@ public class SearchBrandFragment extends FragmentBasic {
 	private Vector<String> nameList = new Vector<String>();
 	private Map<String, MerchantStoreItem> manageByName = new HashMap<String, MerchantStoreItem>();
 	private StoreAdapter adapter;
+	
+	public StoreAdapter getAdapter() {
+		return adapter;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -57,26 +63,27 @@ public class SearchBrandFragment extends FragmentBasic {
 	}
 
 	public void setAdapter(Vector<MerchantStoreItem> data) {
-//		Location location = ((SearchActivity) getActivity()).getMyLocation();
-//		for (int i = 0; i < data.size() ; i++) {
-//			double lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
-//					new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));
-//			for (int j = i + 1 ; j < data.size() ; j++) {
-//				double lengthj = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
-//						new LatLng(Double.parseDouble(data.get(j).getLatitude()), Double.parseDouble(data.get(j).getLongtitude())));
-//				if(lengthi > lengthj) {
-//					lengthi = lengthj;
-//					MerchantStoreItem itemi = data.get(i);
-//					MerchantStoreItem itemj = data.get(j);
-//					
-//					data.remove(i);
-//					data.remove(j);
-//					
-//					data.add(i, itemj);
-//					data.add(j, itemi);
-//				}
-//			}
-//		}
+		Location location = ((SearchActivity) getActivity()).getMyLocation();
+		
+		for(int i = 0 ; i < data.size() ; i++) {
+			double lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+					new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));
+			for (int j = i + 1; j < data.size(); j++) {
+				double lengthj = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+						new LatLng(Double.parseDouble(data.get(j).getLatitude()), Double.parseDouble(data.get(j).getLongtitude())));
+				if(lengthi > lengthj) {
+					MerchantStoreItem itemi = data.get(i);
+					MerchantStoreItem itemj = data.get(j);
+					data.remove(j);
+					data.remove(i);
+					data.add(i, itemj);
+					data.add(j, itemi);
+					
+					lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+							new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));
+				}
+			}
+		}
 		
 		adapter = new StoreAdapter(getActivity() , data , ((SearchActivity) getActivity()).getMyLocation());
 		listView.setAdapter(adapter);

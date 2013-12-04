@@ -24,12 +24,24 @@
         android:orientation="vertical"
         android:layout_margin="15dp" >
 
-        <View 
+        <RelativeLayout 
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/img_checkin_loading"
+            >
+            <View 
+	            android:layout_width="200dp"
+	            android:layout_height="200dp"
+	            android:background="@drawable/loading_pie"
             />
+            <View 
+                android:id="@+id/pie_view"
+	            android:layout_width="200dp"
+	            android:layout_height="200dp"
+	            android:background="@drawable/loading_out_pie"
+            />
+        </RelativeLayout>
+        
         <TextView
             android:id="@+id/text1"
             android:layout_width="match_parent"
