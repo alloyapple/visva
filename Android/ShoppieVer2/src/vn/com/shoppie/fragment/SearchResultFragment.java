@@ -15,7 +15,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 
 public class SearchResultFragment extends FragmentBasic{
-	private View viewLoading;
 	private View viewConfirm;
 	private View viewResult;
 	private Button btnAccept;
@@ -26,12 +25,10 @@ public class SearchResultFragment extends FragmentBasic{
 			Bundle savedInstanceState) {
 		View root = (ViewGroup) inflater.inflate(
 				R.layout.page_search_result_fragment, null);
-		viewLoading = root.findViewById(R.id.loading_layout);
 		viewConfirm = root.findViewById(R.id.confirm_layout);
 		viewResult = root.findViewById(R.id.result_layout);
 
-		viewLoading.setVisibility(View.VISIBLE);
-		viewConfirm.setVisibility(View.GONE);
+		viewConfirm.setVisibility(View.VISIBLE);
 		viewResult.setVisibility(View.GONE);
 
 		btnAccept = (Button) root.findViewById(R.id.btn_accept);
@@ -41,7 +38,6 @@ public class SearchResultFragment extends FragmentBasic{
 
 			@Override
 			public void onClick(View v) {
-				viewLoading.setVisibility(View.GONE);
 				viewConfirm.setVisibility(View.GONE);
 				viewResult.setVisibility(View.VISIBLE);
 			}
@@ -86,7 +82,6 @@ public class SearchResultFragment extends FragmentBasic{
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				viewLoading.setVisibility(View.GONE);
 				viewConfirm.setVisibility(View.VISIBLE);
 				viewResult.setVisibility(View.GONE);
 			}

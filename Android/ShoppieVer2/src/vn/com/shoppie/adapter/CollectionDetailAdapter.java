@@ -31,6 +31,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView.OnItemClickListener;
@@ -47,7 +48,6 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
-import com.google.analytics.tracking.android.Log;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -817,6 +817,14 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	}
 
+	public void startLoading() {
+		View v = getView(getCount() - 1);
+		View loading = v.findViewById(R.id.pie_view);
+		RotateAnimation anim = new RotateAnimation(0, 1800, loading.getWidth() / 2, loading.getHeight() / 2);
+		anim.setDuration(4000);
+		loading.startAnimation(anim);
+	}
+	
 	public void setOnLikeListenner(OnLikeListenner onLikeListenner) {
 		this.onLikeListenner = onLikeListenner;
 	}

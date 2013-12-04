@@ -238,7 +238,16 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 					if (id != null) {
 						camId = id;
 						adapter.freeAll();
-						requestupdateToGetMerchProducts(camId, custId);
+						mPager.setLockSlide(true);
+						adapter.startLoading();
+						mPager.postDelayed(new Runnable() {
+							
+							@Override
+							public void run() {
+								mPager.setLockSlide(false);
+								requestupdateToGetMerchProducts(camId, custId);
+							}
+						} , 2000);
 					}
 				} else
 					adapter.freeImage(pos);

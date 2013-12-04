@@ -6,9 +6,9 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/loading_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:visibility="gone" >
 
         <View
             android:layout_width="@dimen/loading_pie_width"

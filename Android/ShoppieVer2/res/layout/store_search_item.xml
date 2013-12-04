@@ -1,86 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Tam thoi fix kich thuoc o day, cho tinh kich thuoc cho cac man hinh tab sau -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/background_view"
-    android:layout_width="@dimen/page_item_width"
-    android:layout_height="@dimen/collection_item_height"
-    android:background="@android:color/white" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <View
-        android:id="@+id/image"
-        android:layout_width="@dimen/collection_item_item_width"
-        android:layout_height="@dimen/collection_item_item_height"
-        android:layout_marginLeft="@dimen/collection_item_item_marginleft"
-        android:layout_centerVertical="true"
-        android:background="#1BCBA5" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/collection_item_title_marginleft"
-        android:layout_marginTop="@dimen/collection_item_title_margintop"
-        android:layout_toRightOf="@id/image"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="Ăn uống"
-        android:textColor="#2A5C72"
-        android:textSize="@dimen/collection_item_title_textsize" />
-
-    <TextView
-        android:id="@+id/subtitle1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginLeft="@dimen/collection_item_subtitle_marginleft"
-        android:layout_marginTop="@dimen/collection_item_subtitle_margintop"
-        android:layout_toRightOf="@id/image"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="Khoảng cách: 3km"
-        android:textColor="#808080"
-        android:textSize="@dimen/collection_item_subtitle_textsize" />
-
-    <TextView
-        android:id="@+id/subtitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/subtitle1"
-        android:layout_marginLeft="@dimen/collection_item_subtitle_marginleft"
-        android:layout_marginTop="@dimen/collection_item_subtitle_margintop"
-        android:layout_toRightOf="@id/image"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="Địa chỉ: Thái Hà"
-        android:textColor="#808080"
-        android:textSize="@dimen/collection_item_subtitle_textsize" />
-    
-    <View
+    <RelativeLayout
+    	android:id="@+id/background_view"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/collection_devider" />
+        android:layout_height="@dimen/collection_item_height" >
 
-    <TextView
-        android:id="@+id/star"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/store_count"
-        android:gravity="center_horizontal"
-        android:paddingLeft="15dp"
-        android:paddingTop="4dp"
-        android:text="5"
-        android:textColor="@android:color/white"
-        android:textSize="15sp" />
+        <View
+            android:id="@+id/image"
+            android:layout_width="@dimen/collection_item_item_width"
+            android:layout_height="@dimen/collection_item_item_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/collection_item_item_marginleft"
+            android:background="#1BCBA5" />
 
-    <vn.com.shoppie.view.MagicTextView
-        android:layout_width="@dimen/checkintext_width"
-        android:layout_height="@dimen/checkintext_width"
-        android:layout_alignParentRight="true"
-        android:singleLine="true"
-        android:text="Ghé thăm tặng"
-        android:textColor="#ff458DAD"
-        android:textSize="@dimen/checkintext_textsize" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/collection_item_title_marginleft"
+            android:layout_marginTop="@dimen/collection_item_title_margintop"
+            android:layout_toRightOf="@id/image"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Ăn uống"
+            android:textColor="#2A5C72"
+            android:textSize="@dimen/collection_item_title_textsize" />
+
+        <TextView
+            android:id="@+id/subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="@dimen/collection_item_subtitle_marginleft"
+            android:layout_marginTop="@dimen/collection_item_subtitle_margintop"
+            android:layout_toRightOf="@id/image"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Khoảng cách: 3km"
+            android:textColor="#808080"
+            android:textSize="@dimen/collection_item_subtitle_textsize" />
+
+        <TextView
+            android:id="@+id/subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subtitle1"
+            android:layout_marginLeft="@dimen/collection_item_subtitle_marginleft"
+            android:layout_marginTop="@dimen/collection_item_subtitle_margintop"
+            android:layout_toRightOf="@id/image"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Địa chỉ: Thái Hà"
+            android:textColor="#808080"
+            android:textSize="@dimen/collection_item_subtitle_textsize" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/collection_devider" />
+
+        <TextView
+            android:id="@+id/star"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/store_count"
+            android:gravity="center_horizontal"
+            android:paddingLeft="15dp"
+            android:paddingTop="4dp"
+            android:text="5"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <vn.com.shoppie.view.MagicTextView
+            android:layout_width="@dimen/checkintext_width"
+            android:layout_height="@dimen/checkintext_width"
+            android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:text="Ghé thăm tặng"
+            android:textColor="#ff458DAD"
+            android:textSize="@dimen/checkintext_textsize" />
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyIconAdapter;
+import vn.com.shoppie.adapter.StoreAdapter;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
@@ -155,7 +156,11 @@ public class SearchActivity extends FragmentActivity implements
 			
 			@Override
 			public void onClick(View v) {
-				showFragment(SEARCH_RESULT_FRAGMENT_ID);
+				StoreAdapter adapter = mSearchBrandFragment.getAdapter();
+				if(adapter == null)
+					return;
+				if(adapter.getCount() == 0)
+					showFragment(SEARCH_RESULT_FRAGMENT_ID);
 			}
 		});
 		
@@ -225,7 +230,7 @@ public class SearchActivity extends FragmentActivity implements
 	public void onClickBtnSearchMap(View v) {
 		showFragment(SEARCH_MAP_FRAGMENT_ID);
 	}
-
+	
 	private FragmentTransaction hideFragment() {
 		mTransaction = mFmManager.beginTransaction();
 		mTransaction.hide(mSearchBrandDetailFragment);

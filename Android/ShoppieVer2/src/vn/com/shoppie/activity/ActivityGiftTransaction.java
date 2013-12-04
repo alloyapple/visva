@@ -174,17 +174,7 @@ public class ActivityGiftTransaction extends Activity {
 			}
 		}
 		
-		adapter = new GiftAdapter(this, item0 , GiftAdapter.TYPE_INVAI);
-		// listView.setAdapter(adapter);
-
-		for (int i = 0; i < adapter.getCount(); i++) {
-			content.addView(adapter.getView(i, null, null));
-			content.addView(new View(this), -1, (int) getResources()
-					.getDimension(R.dimen.gift_item_padding));
-		}
-		
 		adapter1 = new GiftAdapter(this, item1 , GiftAdapter.TYPE_AVAI);
-		// listView.setAdapter(adapter);
 
 		for (int i = 0; i < adapter1.getCount(); i++) {
 			content.addView(adapter1.getView(i, null, null));
@@ -199,10 +189,17 @@ public class ActivityGiftTransaction extends Activity {
 				// TODO Auto-generated method stub
 				currItem = item;
 				startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
-//				ShopieSharePref pref = new ShopieSharePref(getApplicationContext());
-//				updateGiftListAvailable(item.getMerchId(), "", "" + pref.getCustId()	, item.getGiftId(), item.getRedeemQty(), item.getPieQty(), item.getGiftPrice());
 			}
 		});
+		
+		adapter = new GiftAdapter(this, item0 , GiftAdapter.TYPE_INVAI);
+		// listView.setAdapter(adapter);
+
+		for (int i = 0; i < adapter.getCount(); i++) {
+			content.addView(adapter.getView(i, null, null));
+			content.addView(new View(this), -1, (int) getResources()
+					.getDimension(R.dimen.gift_item_padding));
+		}
 	}
 
 	@Override

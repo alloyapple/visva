@@ -47,13 +47,13 @@
     	android:layout_height="@dimen/page_item_count_height"
     	android:layout_alignParentRight="true"
     	android:background="@drawable/ic_head_center02"
-    	android:text="5"
+    	android:text="505"
         android:gravity="center_horizontal"
-    	android:paddingLeft="15dp"
+    	android:paddingLeft="@dimen/page_item_catelogy_desc_margin_left"
         android:paddingTop="4dp"
         android:textStyle="normal"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/count_textsize"
 	    />
 	<View 
 	    android:id="@+id/image"

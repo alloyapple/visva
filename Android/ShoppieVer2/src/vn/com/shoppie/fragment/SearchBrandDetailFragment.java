@@ -1,22 +1,22 @@
 package vn.com.shoppie.fragment;
 
-import com.antonyt.infiniteviewpager.StoreImageFragment;
-import com.antonyt.infiniteviewpager.InfinitePagerAdapter;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.antonyt.infiniteviewpager.StoreImageFragment;
 
 public class SearchBrandDetailFragment extends FragmentBasic{
 	// =============================Constant Define=====================
@@ -24,8 +24,12 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 	private TextView name;
 	private TextView desc;
 	private TextView count;
-	private PagerAdapter wrappedAdapter;
 	private ViewPager viewPager;
+	private View indicator0;
+	private View indicator1;
+	private View indicator2;
+	private TextView tvLike;
+	private Button like;
 	// ============================Class Define =======================
 	private IOnClickShowStoreDetail mListener;
 	// ============================Variable Define =====================
@@ -39,6 +43,56 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 		desc = (TextView) root.findViewById(R.id.desc);
 		count = (TextView) root.findViewById(R.id.count);
 		viewPager = (ViewPager) root.findViewById(R.id.pager);
+
+		indicator0 = root.findViewById(R.id.indicator0);
+		indicator1 = root.findViewById(R.id.indicator1);
+		indicator2 = root.findViewById(R.id.indicator2);
+
+		tvLike = (TextView) root.findViewById(R.id.like);
+		like = (Button) root.findViewById(R.id.like_click);
+		
+		viewPager.setOnTouchListener(new View.OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				v.getParent().requestDisallowInterceptTouchEvent(true);
+				return false;
+			}
+		});
+
+		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int arg0) {
+				indicator0.setBackgroundResource(R.drawable.indicator0);
+				indicator1.setBackgroundResource(R.drawable.indicator0);
+				indicator2.setBackgroundResource(R.drawable.indicator0);
+				switch (arg0 % 3) {
+				case 0:
+					indicator0.setBackgroundResource(R.drawable.indicator1);
+					break;
+				case 1:
+					indicator1.setBackgroundResource(R.drawable.indicator1);
+					break;
+				case 2:
+					indicator2.setBackgroundResource(R.drawable.indicator1);
+					break;
+
+				default:
+					break;
+				}
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				viewPager.getParent().requestDisallowInterceptTouchEvent(true);
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+
 		return root;
 	}
 
@@ -51,7 +105,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 	public void onResume() {
 		super.onResume();
 	}
-	
+
 	public interface IOnClickShowStoreDetail {
 		public void onClickViewStoreDetail(MerchantStoreItem store);
 	}
@@ -65,45 +119,17 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 		name.setText(store.getStoreName());
 		desc.setText(store.getMerchDesc());
 		count.setText("+" + store.getPieQty());
-		
-		PagerAdapter adapter = new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
-			int[] colours = new int[] { Color.CYAN, Color.GRAY, Color.MAGENTA};
 
-			@Override
-			public int getCount() {
-				return colours.length * 2;
-			}
-
-			@Override
-			public Fragment getItem(int position) {
-				if(Math.abs(position) >= colours.length) {
-					return getItem(position % colours.length);
-				}
-				Fragment fragment = new StoreImageFragment();
-				Bundle args = new Bundle();
-				args.putInt("colour", colours[position]);
-				args.putInt("identifier", position);
-				args.putString("link0", CatelogyAdapter.URL_HEADER + store.getMerchLogo());;
-				args.putString("link1", CatelogyAdapter.URL_HEADER + store.getMerchLogo());;
-				args.putString("link2", CatelogyAdapter.URL_HEADER + store.getMerchLogo());;
-				fragment.setArguments(args);
-				return fragment;
-			}
-			
-			Fragment listFragment[];
-		};
-		// wrap pager to provide infinite paging with wrap-around
-		wrappedAdapter = new InfinitePagerAdapter(adapter);
-
-		// actually an InfiniteViewPager
 		viewPager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager(), store));
-		viewPager.setCurrentItem(10000);
+		viewPager.setCurrentItem(5001);
+		
+		tvLike.setText("0");
 	}
-	
-	class MyPagerAdapter extends FragmentPagerAdapter {
+
+	class MyPagerAdapter extends FragmentStatePagerAdapter {
 
 		MerchantStoreItem store;
-		
+
 		public MyPagerAdapter(FragmentManager fm , MerchantStoreItem store) {
 			super(fm);
 			this.store = store;
@@ -114,7 +140,8 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 			// TODO Auto-generated method stub
 			Fragment fragment = new StoreImageFragment();
 			Bundle args = new Bundle();
-			args.putString("link0", CatelogyAdapter.URL_HEADER + store.getMerchLogo());;
+			args.putString("link0", CatelogyAdapter.URL_HEADER + store.getMerchLogo());
+
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -122,8 +149,8 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return Integer.MAX_VALUE;
+			return 10000;
 		}
-		
+
 	}
 }
