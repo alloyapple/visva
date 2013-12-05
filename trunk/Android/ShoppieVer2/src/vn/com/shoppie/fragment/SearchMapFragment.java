@@ -1,9 +1,7 @@
 package vn.com.shoppie.fragment;
 
-import java.security.acl.LastOwnerException;
 import java.util.HashMap;
 import java.util.List;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.SearchActivity;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;

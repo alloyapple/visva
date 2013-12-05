@@ -7,8 +7,10 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import vn.com.shoppie.R;
+import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
+import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
 import vn.com.shoppie.fragment.HelpFragment;
 import vn.com.shoppie.fragment.HistoryTradeFragment;
@@ -21,8 +23,10 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.object.FacebookUser;
+import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.webconfig.WebServiceConfig;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -501,7 +505,32 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onClickFeedback() {
 		// TODO Auto-generated method stub
+		Toast.makeText(this, "Click feedback", Toast.LENGTH_SHORT).show();
+		uploadFeedback("2747","message test");
+	}
 
+	private void uploadFeedback(String custId, String message) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.sendFeedback(custId, message);
+		AsyncHttpPost postFeedback = new AsyncHttpPost(
+				PersonalInfoActivity.this, new AsyncHttpResponseProcess(
+						PersonalInfoActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("like success ", "like success");
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						showToast("like failed");
+						// finish();
+					}
+				}, nameValuePairs, true);
+		postFeedback.execute(WebServiceConfig.URL_FEEDBACK);
+
+	
 	}
 
 	@Override

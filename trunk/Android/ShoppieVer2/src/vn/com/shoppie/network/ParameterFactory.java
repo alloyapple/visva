@@ -154,4 +154,28 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("productId", productId));
 		return nameValuePairs;
 	}
+	
+	public static List<NameValuePair> likeBrand(String custId,
+			String merchId) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		nameValuePairs.add(new BasicNameValuePair("merchId", merchId));
+		return nameValuePairs;
+	}
+	
+	public static List<NameValuePair> unLikeBrand(String custId,
+			String merchId) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		nameValuePairs.add(new BasicNameValuePair("merchId", merchId));
+		return nameValuePairs;
+	}
+	
+	public static List<NameValuePair> sendFeedback(String custId,
+			String message) {
+		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("custId", custId));
+		data.add(new BasicNameValuePair("message", message));
+		return data;
+	}
 }
