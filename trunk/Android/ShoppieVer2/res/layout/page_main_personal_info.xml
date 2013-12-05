@@ -141,6 +141,7 @@
                 </ImageView>
 
                 <TextView
+                    android:id="@+id/text_favourite_product"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
@@ -172,6 +173,7 @@
                 </ImageView>
 
                 <TextView
+                    android:id="@+id/text_favourite_category"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
@@ -204,6 +206,7 @@
                 </ImageView>
 
                 <TextView
+                    android:id="@+id/text_friend"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
