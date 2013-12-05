@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="@dimen/collectiondetail_item_width"
+                android:layout_height="@dimen/collectiondetail_item_height"
+                android:layout_centerInParent="true"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@drawable/round_corner_shape_05" >
+
+                    <vn.com.shoppie.object.MyCircleImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_personal_avatar" >
+                    </vn.com.shoppie.object.MyCircleImageView>
+                    <vn.com.shoppie.view.MyTextView
+                        android:id="@+id/name" 
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_toRightOf="@id/img_avatar"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="Lê Thị La"
+                        />
+                    <vn.com.shoppie.view.MyTextView
+                        android:id="@+id/mail" 
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_toRightOf="@id/img_avatar"
+                        android:layout_below="@id/name"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:text="Email: abc@xxx.com"
+                        />
+                    <vn.com.shoppie.view.MyTextView
+                        android:id="@+id/phone" 
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_toRightOf="@id/img_avatar"
+                        android:layout_below="@id/mail"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:text="SĐT: 096969696969"
+                        />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/feed_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/round_corner_shape_03"
+                    android:gravity="top|left"
+                    android:layout_margin="15dp"
+                    android:textSize="14sp"
+                    android:hint="@string/feedback_hint" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_accept"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="#367895"
+                android:text="ĐỒNG Ý GỬI"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:background="#3F4A54"
+                android:text="HỦY BỎ"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
