@@ -62,6 +62,7 @@
     <string name="introduct_tip">Chương trình giới thiệu shoppie.Người giới thiệu được tặng 30 Pie, bạn được tặng 15 Pie</string>
     <string name="register_by">Đăng ký bằng</string>
     <string name="register_tip">Bấm nút đăng ký này đồng nghĩa với việc bạn đồng ý Điều khoản và điều kiện sử dụng tại www.shoppie.com.vn</string>
+    <string name="feedback_hint">Cho Shoppie biết cảm xúc của bạn, hoặc những kỳ vọng của bạn về sản phẩm/mạng lưới đối tác mà bạn muốn. Chúng tôi luôn lắng nghe.</string>
 
     <!-- Shoppie3 -->
     <string name="fb_app_id">491369950945744</string>
