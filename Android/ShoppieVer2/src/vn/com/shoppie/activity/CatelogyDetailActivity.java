@@ -168,7 +168,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 					public void processIfResponseSuccess(String response) {
 						Log.e("like success ", "like success");
 						MediaPlayer mPlayer = MediaPlayer.create(
-								CatelogyDetailActivity.this, R.raw.sound_like1); 
+								CatelogyDetailActivity.this, R.raw.sound_like2); 
 						if (mPlayer != null)
 							mPlayer.start();
 

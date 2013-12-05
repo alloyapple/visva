@@ -31,79 +31,80 @@
         </TextView>
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp" >
+        android:layout_height="wrap_content" >
 
-        <TextView
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/introduct_code"
-            android:textColor="@color/pink2"
-            android:textSize="16sp" />
+            android:orientation="vertical"
+            android:padding="20dp" >
 
-        <EditText
-            android:id="@+id/introduce_code_edit_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/bg_introduce"
-            android:gravity="center"
-            android:inputType="number"
-            android:textColor="@color/white" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/introduct_code"
+                android:textColor="@color/pink2"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:gravity="center"
-            android:text="@string/introduct_tip"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:text="@string/register_by"
-            android:textColor="@color/pink2"
-            android:textSize="16sp" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" >
-
-            <com.facebook.widget.LoginButton
-                android:id="@+id/login_button"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
+            <EditText
+                android:id="@+id/introduce_code_edit_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_introduce"
                 android:gravity="center"
-                android:onClick="onFBLogin" >
-            </com.facebook.widget.LoginButton>
+                android:inputType="number"
+                android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/activity_register_btn_register"
-                android:layout_width="150dp"
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:text="@string/introduct_tip"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/register_by"
+                android:textColor="@color/pink2"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/btn_register_shoppie"
-                android:contentDescription="@string/KEY_TAG_TAB"
-                android:onClick="onClickedCreateSPAccount" />
-        </RelativeLayout>
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" >
 
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+                <com.facebook.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:onClick="onFBLogin" >
+                </com.facebook.widget.LoginButton>
+
+                <Button
+                    android:id="@+id/activity_register_btn_register"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/btn_register_shoppie"
+                    android:contentDescription="@string/KEY_TAG_TAB"
+                    android:onClick="onClickedCreateSPAccount" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_register"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:background="@drawable/all_corner_button"
                 android:orientation="horizontal" >
 
@@ -255,13 +256,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
                     android:layout_below="@id/btn_register_accept"
+                    android:layout_margin="3dp"
+                    android:gravity="center"
                     android:text="@string/register_tip"
-                    android:textColor="@color/black"
-                    android:gravity="center" />
+                    android:textColor="@color/black" />
             </RelativeLayout>
-        </ScrollView>
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

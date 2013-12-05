@@ -1,14 +1,21 @@
 package vn.com.shoppie.fragment;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.activity.CatelogyDetailActivity;
 import vn.com.shoppie.adapter.CatelogyAdapter;
+import vn.com.shoppie.constant.GlobalValue;
+import vn.com.shoppie.database.ShoppieDBProvider;
+import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import vn.com.shoppie.object.FavouriteDataObject;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,8 +39,9 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 	private Button like;
 	// ============================Class Define =======================
 	private IOnClickShowStoreDetail mListener;
+	private ShoppieDBProvider mShoppieDBProvider;
 	// ============================Variable Define =====================
-
+	private MerchantStoreItem mMerchantStoreItem;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -51,6 +59,24 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 		tvLike = (TextView) root.findViewById(R.id.like);
 		like = (Button) root.findViewById(R.id.like_click);
 		
+		like.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.e("like success ", "like success");
+				MediaPlayer mPlayer = MediaPlayer.create(
+					getActivity(), R.raw.sound_like2); 
+				if (mPlayer != null)
+					mPlayer.start();
+
+				/** add to favourite product */
+				FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
+						mMerchantStoreItem.getMerchLogo(), GlobalValue.TYPE_FAVOURITE_BRAND,
+						""+mMerchantStoreItem.getMerchId());
+				mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+			}
+		});
 		viewPager.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
@@ -99,6 +125,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mShoppieDBProvider = new ShoppieDBProvider(getActivity());
 	}
 
 	@Override
@@ -116,6 +143,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 
 	public void updateUI(final MerchantStoreItem store) {
 		// TODO Auto-generated method stub
+		mMerchantStoreItem = store;
 		name.setText(store.getStoreName());
 		desc.setText(store.getMerchDesc());
 		count.setText("+" + store.getPieQty());

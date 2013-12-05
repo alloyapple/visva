@@ -154,7 +154,6 @@ public class CollectionList extends Activity {
 		JsonDataObject jsonDataObject = mShoppieDBProvider
 				.getJsonData(GlobalValue.TYPE_CAMPAIGNS);
 		String merchantCampaign = jsonDataObject.getJsonData();
-		Log.e("adfdfh", "adfjh " + merchantCampaign);
 		if (merchantCampaign != null && !"".equals(merchantCampaign))
 			try {
 				JSONObject jsonObject = new JSONObject(merchantCampaign);
@@ -218,10 +217,6 @@ public class CollectionList extends Activity {
 							JsonDataObject jsonDataObject = new JsonDataObject(
 									response, GlobalValue.TYPE_CAMPAIGNS);
 							mShoppieDBProvider.addNewJsonData(jsonDataObject);
-							Log.e("adfdfh",
-									"afdsf "
-											+ mShoppieDBProvider
-													.countJsonData(GlobalValue.TYPE_CAMPAIGNS));
 							setData(merchCampaignList.getResult());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

@@ -61,16 +61,16 @@ public class PersonalFriendFragment extends FragmentBasic implements
 				mListFriend);
 		mListFBFriendAdapter.setListener(this);
 		mFriendListView.setAdapter(mListFBFriendAdapter);
-		mFriendListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Log.e("adkjhdf", "asdfjf " + arg2);
-				mListener.onClickViewFriendDetail(mListFriend.get(arg2));
-			}
-		});
+//		mFriendListView.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+//					long arg3) {
+//				// TODO Auto-generated method stub
+//				Log.e("adkjhdf", "asdfjf " + arg2);
+//				mListener.onClickViewFriendDetail(mListFriend.get(arg2));
+//			}
+//		});
 
 		mShopieSharePref = new ShopieSharePref(getActivity());
 		mLinearProgressBar = (RelativeLayout) root

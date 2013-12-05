@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbar_height"
         android:background="@color/actionbar_background"
+        android:onClick="onClickSearchActivity"
         android:orientation="vertical" >
 
         <ImageButton
@@ -19,7 +20,6 @@
             android:layout_height="@dimen/actionbar_height"
             android:background="@color/actionbar_item_background"
             android:src="@drawable/ic_location"
-            android:onClick="onClickSearchActivity"
             android:contentDescription="@string/KEY_TAG_TAB" >
         </ImageButton>
     </RelativeLayout>

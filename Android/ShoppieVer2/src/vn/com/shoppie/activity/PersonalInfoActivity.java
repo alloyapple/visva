@@ -527,7 +527,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 						mShopieSharePref.getCustId()));
 		params.putString("link", "http://www.shoppie.com.vn/");
 		params.putString("picture",
-				"http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg");
+				"http://farm3.staticflickr.com/2827/11212635324_f135544731_o.png");
 		params.putString("to", "" + friend.getUserId());
 		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
 				PersonalInfoActivity.this, Session.getActiveSession(), params))

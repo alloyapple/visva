@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class FavouriteAdapter extends BaseAdapter {
 
@@ -46,7 +47,7 @@ public class FavouriteAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup arg2) {
 
 		if(convertView == null){
-			convertView = (LinearLayout)LinearLayout.inflate(context,R.layout.friend_favourite_item, null);
+			convertView = (RelativeLayout)RelativeLayout.inflate(context,R.layout.friend_favourite_item, null);
 		}
 		ImageView iv = (ImageView) convertView.findViewById(R.id.img_friend_favourite_item);
 		mImageLoader.DisplayImage(WebServiceConfig.HEAD_IMAGE+mFavouriteDataObjects.get(position).getImage_url(),iv);
