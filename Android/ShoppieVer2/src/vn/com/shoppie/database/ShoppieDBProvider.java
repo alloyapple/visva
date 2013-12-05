@@ -150,6 +150,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 					.getString(0)), mCursor.getString(1), mCursor.getString(2));
 		}
 		mCursor.close();
+		mdb.close();
 		return jsonDataObject;
 	}
 
@@ -170,6 +171,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 			} while (mCursor.moveToNext());
 		}
 		mCursor.close();
+		mdb.close();
 		return favouriteList;
 	}
 
@@ -192,6 +194,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 			} while (mCursor.moveToNext());
 		}
 		mCursor.close();
+		mdb.close();
 		return collections;
 	}
 

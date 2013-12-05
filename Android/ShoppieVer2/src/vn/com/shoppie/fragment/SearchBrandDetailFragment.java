@@ -1,11 +1,9 @@
 package vn.com.shoppie.fragment;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.activity.CatelogyDetailActivity;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
-import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.object.FavouriteDataObject;
 import android.media.MediaPlayer;
@@ -65,6 +63,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.e("like success ", "like success");
+				
 				MediaPlayer mPlayer = MediaPlayer.create(
 					getActivity(), R.raw.sound_like2); 
 				if (mPlayer != null)

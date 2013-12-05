@@ -177,11 +177,12 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				showToast(getActivity().getString(R.string.feedback_content));
-				initShareItent(
-						getActivity().getString(R.string.feedback_subject),
-						getActivity().getString(R.string.feedback_content2),
-						getActivity().getString(R.string.feedback_send_to));
+//				showToast(getActivity().getString(R.string.feedback_content));
+//				initShareItent(
+//						getActivity().getString(R.string.feedback_subject),
+//						getActivity().getString(R.string.feedback_content2),
+//						getActivity().getString(R.string.feedback_send_to));
+				mListener.onClickFeedback();
 			}
 		});
 		mLayoutFriend.setOnClickListener(new View.OnClickListener() {
