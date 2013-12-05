@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginBottom="@dimen/gift_item_padding" >
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:id="@+id/title"
         android:layout_width="match_parent"
     	android:layout_height="@dimen/gift_item_title_height"

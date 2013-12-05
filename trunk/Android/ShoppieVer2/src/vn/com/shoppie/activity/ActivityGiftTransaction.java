@@ -118,9 +118,10 @@ public class ActivityGiftTransaction extends Activity {
 			View image = headerView.findViewById(R.id.image);
 			// listView.addHeaderView(headerView);
 
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + CatelogyAdapter.URL_HEADER + onTopItem.getGiftImage());
 			ImageLoader.getInstance(this).DisplayImage(
 					CatelogyAdapter.URL_HEADER + onTopItem.getGiftImage(),
-					image);
+					image , true ,true,true,true,true,false);
 			content.addView(headerView);
 			content.addView(new View(this), -1, (int) getResources()
 					.getDimension(R.dimen.gift_item_padding));
@@ -176,12 +177,14 @@ public class ActivityGiftTransaction extends Activity {
 		
 		adapter1 = new GiftAdapter(this, item1 , GiftAdapter.TYPE_AVAI);
 
-		for (int i = 0; i < adapter1.getCount(); i++) {
-			content.addView(adapter1.getView(i, null, null));
-			content.addView(new View(this), -1, (int) getResources()
-					.getDimension(R.dimen.gift_item_padding));
+		if(item1.size() > 0) {
+			for (int i = 0; i < adapter1.getCount(); i++) {
+				content.addView(adapter1.getView(i, null, null));
+				content.addView(new View(this), -1, (int) getResources()
+						.getDimension(R.dimen.gift_item_padding));
+			}
 		}
-
+		
 		adapter1.setOnClickItem(new OnClickItem() {
 			
 			@Override
@@ -195,10 +198,12 @@ public class ActivityGiftTransaction extends Activity {
 		adapter = new GiftAdapter(this, item0 , GiftAdapter.TYPE_INVAI);
 		// listView.setAdapter(adapter);
 
-		for (int i = 0; i < adapter.getCount(); i++) {
-			content.addView(adapter.getView(i, null, null));
-			content.addView(new View(this), -1, (int) getResources()
-					.getDimension(R.dimen.gift_item_padding));
+		if(item0.size() > 0) {
+			for (int i = 0; i < adapter.getCount(); i++) {
+				content.addView(adapter.getView(i, null, null));
+				content.addView(new View(this), -1, (int) getResources()
+						.getDimension(R.dimen.gift_item_padding));
+			}
 		}
 	}
 

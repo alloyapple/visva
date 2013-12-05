@@ -25,7 +25,7 @@
             android:layout_height="fill_parent"
             android:orientation="vertical" >
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/tv_name"
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -42,7 +42,7 @@
                 android:textColor="#000"
                 android:textSize="18sp" />
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/tv_address"
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -61,7 +61,7 @@
                 android:textColor="#000"
                 android:textSize="14sp" />
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/tv_distance"
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
@@ -81,7 +81,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/tv_pie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -23,7 +23,7 @@
                 android:layout_marginTop="@dimen/personal_detail_info_margin_top"
                 android:orientation="vertical" >
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -31,7 +31,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -39,7 +39,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -47,7 +47,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -55,7 +55,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -63,7 +63,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -80,7 +80,7 @@
                 android:layout_marginTop="@dimen/personal_detail_info_margin_top"
                 android:orientation="vertical" >
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/activity_register_edt_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -91,9 +91,9 @@
                     android:layout_marginTop="10dp"
                     android:singleLine="true"
                     android:textColor="@color/blue_text_color" >
-                </TextView>
+                </vn.com.shoppie.view.MyTextView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/txt_personal_register_email"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/txt_personal_register_phone"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/txt_personal_register_address"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                     android:textColor="@color/blue_text_color"
                     android:textSize="@dimen/personal_detail_info_text_size" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/txt_personal_register_birth"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

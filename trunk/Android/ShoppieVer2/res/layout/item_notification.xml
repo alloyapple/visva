@@ -34,7 +34,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="10dp" >
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/item_notification_tv_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:textColor="@android:color/white"
             android:textSize="14sp" />
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/tv_time"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

@@ -16,7 +16,7 @@
             android:orientation="vertical"
             android:padding="20dp" >
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hello_shoppie"
@@ -48,7 +48,7 @@
                 </com.facebook.widget.LoginButton>
             </RelativeLayout>
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hello_shoppie_2"
@@ -61,7 +61,7 @@
                 android:gravity="top|center_vertical"
                 android:orientation="horizontal" >
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hello_shoppie_3"
@@ -88,7 +88,7 @@
                 android:contentDescription="@string/KEY_TAG_TAB"
                 android:onClick="onClickedLogin" />
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/tv_log"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

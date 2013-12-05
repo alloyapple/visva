@@ -53,7 +53,7 @@
             android:background="@drawable/tab_personal_number_pie"
             android:contentDescription="@string/app_name" />
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/txt_user_number_pie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/white" />
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/txt_personal_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/txt_user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,13 +115,13 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/main_personal_info"
                     android:textColor="@color/blue_text_color" >
-                </TextView>
+                </vn.com.shoppie.view.MyTextView>
             </LinearLayout>
 
             <LinearLayout
@@ -140,7 +140,7 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/text_favourite_product"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
@@ -172,14 +172,14 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/text_favourite_category"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_favourite_category"
                     android:textColor="@color/blue_text_color" >
-                </TextView>
+                </vn.com.shoppie.view.MyTextView>
             </LinearLayout>
 
             <vn.com.shoppie.object.HorizontalListView
@@ -205,14 +205,14 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/text_friend"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personl_friend"
                     android:textColor="@color/blue_text_color" >
-                </TextView>
+                </vn.com.shoppie.view.MyTextView>
             </LinearLayout>
 
             <LinearLayout
@@ -231,13 +231,13 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_feedback"
                     android:textColor="@color/blue_text_color" >
-                </TextView>
+                </vn.com.shoppie.view.MyTextView>
             </LinearLayout>
 
             <LinearLayout
@@ -256,13 +256,13 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/personal_help"
                     android:textColor="@color/blue_text_color" >
-                </TextView>
+                </vn.com.shoppie.view.MyTextView>
             </LinearLayout>
 
             <LinearLayout
@@ -281,13 +281,13 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="@string/history_trade"
                     android:textColor="@color/blue_text_color" >
-                </TextView>
+                </vn.com.shoppie.view.MyTextView>
             </LinearLayout>
         </LinearLayout>
     </vn.com.shoppie.view.MyScrollView>

@@ -24,7 +24,7 @@
             android:layout_marginTop="@dimen/collection_item_item_text_margintop"
             android:background="#30000000" >
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/like"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -34,14 +34,14 @@
                 android:textColor="@android:color/white" />
         </RelativeLayout>
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/star"
             android:layout_width="@dimen/collection_item_star_width"
             android:layout_height="@dimen/collection_item_star_height"
             android:layout_alignParentRight="true"
             android:background="@drawable/star" />
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:textColor="#2A5C72"
             android:textSize="@dimen/collection_item_title_textsize" />
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

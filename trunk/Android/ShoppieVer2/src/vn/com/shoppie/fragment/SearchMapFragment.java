@@ -20,7 +20,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -84,6 +83,7 @@ public class SearchMapFragment extends SupportMapFragment{
 					
 					curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty() , color)));
 					curMarker = null;
+					getMap().animateCamera(CameraUpdateFactory.zoomTo(14));
 				}
 			}
 		});
@@ -100,14 +100,32 @@ public class SearchMapFragment extends SupportMapFragment{
 					LatLng markerLocation = marker.getPosition();
 					Point screenPosition = projection.toScreenLocation(markerLocation);
 					
-					if(screenPosition.x <= mTouchView.getXLastTouchOnScreen() && marker.equals(curMarker)) {
-						((SearchActivity) getActivity()).onClickViewStoreDetail(store);
+					if(marker.equals(curMarker)) {
+						if(screenPosition.x <= mTouchView.getXLastTouchOnScreen() && marker.equals(curMarker)) {
+							((SearchActivity) getActivity()).onClickViewStoreDetail(store);
+						}
+						else {
+							int color = getColorByStore(store);
+							
+							curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty() , color)));
+							curMarker = null;
+							getMap().animateCamera(CameraUpdateFactory.zoomTo(14));
+						}
 					}
 					else {
+						
 						int color = getColorByStore(store);
 						
 						curMarker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIcon(0, "+" + store.getPieQty() , color)));
-						curMarker = null;
+						
+						curMarker = marker;
+						MerchantStoreItem store1 = manageStorebyMarker.get(marker);
+						
+						color = getColorByStore(store1);
+						
+						marker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIconDetail(0, "+" + store1.getPieQty(), store1.getStoreName(), store1.getStoreAddress() , color)));
+						getMap().moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+						getMap().animateCamera(CameraUpdateFactory.zoomTo(17));
 					}
 				}
 				else {
@@ -118,7 +136,7 @@ public class SearchMapFragment extends SupportMapFragment{
 					
 					marker.setIcon(BitmapDescriptorFactory.fromBitmap(createMakerIconDetail(0, "+" + store.getPieQty(), store.getStoreName(), store.getStoreAddress() , color)));
 					getMap().moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
-					getMap().animateCamera(CameraUpdateFactory.zoomTo(14));
+					getMap().animateCamera(CameraUpdateFactory.zoomTo(17));
 				}
 				return true;
 			}

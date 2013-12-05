@@ -17,7 +17,7 @@
     	android:layout_toRightOf="@id/icon"
         android:background="@drawable/round_topright_corner"
         />
-	<TextView 
+	<vn.com.shoppie.view.MyTextView 
 	    android:id="@+id/catelogy"
 	    android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
     	android:text="Ăn uống"
     	android:textColor="#2A5C72"
 	    />
-	<TextView 
+	<vn.com.shoppie.view.MyTextView 
 	    android:id="@+id/subcatelogy"
 	    android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
     	android:ellipsize="end"
     	android:textColor="@android:color/darker_gray"
 	    />
-	<TextView
+	<vn.com.shoppie.view.MyTextView
 	    android:id="@+id/count" 
 	    android:layout_width="@dimen/page_item_count_width"
     	android:layout_height="@dimen/page_item_count_height"

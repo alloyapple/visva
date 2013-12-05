@@ -8,7 +8,7 @@
     	android:layout_height="@dimen/collectiondetail_item_type1_imgheight"
     	android:id="@+id/image"
         />
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
     	android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
@@ -22,7 +22,7 @@
     	android:textColor="#2A5C72"
         />
     
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_marginTop="5dp"
@@ -34,7 +34,7 @@
     	android:text="Giá: "
         />
     
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_marginTop="5dp"
@@ -45,7 +45,7 @@
     	android:layout_toRightOf="@id/price_label"
     	android:text="1.000.000 VND"
         />
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_marginTop="5dp"
@@ -57,7 +57,7 @@
     	android:layout_toRightOf="@id/price"
     	android:text="1.000.000 VND"
         />
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
     	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
@@ -70,7 +70,7 @@
     	android:id="@+id/color"
     	android:text="Màu: Cháo lòng"
         />
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
     	android:id="@+id/like_click"
     	android:background="#00000000"
         />
-	<TextView
+	<vn.com.shoppie.view.MyTextView
         android:id="@+id/count"
         android:layout_width="@dimen/page_item_count_width"
         android:layout_height="@dimen/page_item_count_height"

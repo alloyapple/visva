@@ -4,7 +4,7 @@
     android:layout_height="@dimen/collectiondetail_item_height"
     android:background="@drawable/round_corner_shape" >
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/name1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:textColor="#2A5C72"
         android:textSize="@dimen/page_item_catelogy_desc_textsize" />
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/price1_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:textColor="#808080"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
 	
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/price1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:text="1.000.000 VND"
     	android:textColor="#D32971"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/price1_goc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
     	android:textColor="#808080"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
     
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/price1_goc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         android:layout_marginRight="@dimen/page_item_catelogy_subdesc_margin_left"
         android:layout_marginTop="@dimen/page_item_catelogy_subdesc_margin_left" >
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
         android:layout_marginRight="@dimen/page_item_catelogy_subdesc_margin_left"
         android:layout_marginTop="5dp" >
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/desc1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
             android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
     </ScrollView>
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/count1"
         android:gravity="center_horizontal"
         android:layout_width="@dimen/page_item_count_width"

@@ -24,6 +24,7 @@ import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.view.MPager.OnStartExtend;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
@@ -44,6 +45,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,8 +59,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private MPager pager;
 	private CatelogyAdapter adapter;
 	private boolean isChecked = false;
-	private TextView mTxtTitle;
-	private TextView hint;
+	private MyTextView mTxtTitle;
+	private MyTextView hint;
 	private boolean isShowFirstHint = false;
 	// Google analysis
 	protected GoogleAnalytics mGaInstance;
@@ -79,18 +81,27 @@ public class HomeActivity extends VisvaAbstractActivity {
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
+		ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
+		icon.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+			}
+		});
+		
 		// setup actionbar
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
-		mTxtTitle = new TextView(this);
+		mTxtTitle = new MyTextView(this);
 		mTxtTitle.setGravity(Gravity.CENTER);
 		mTxtTitle.setTextSize(getResources().getDimension(
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
-		mTxtTitle.setTextSize(20);
-		mTxtTitle.setTypeface(null, Typeface.BOLD);
+//		mTxtTitle.setTextSize(20);
+//		mTxtTitle.setTypeface(null, Typeface.BOLD);
 		actionBar.addView(mTxtTitle, -1, -1);
-		hint = (TextView) findViewById(R.id.hint);
+		hint = (MyTextView) findViewById(R.id.hint);
 		checkinCircle = findViewById(R.id.checkin_circle);
 		pager = (MPager) findViewById(R.id.pager);
 

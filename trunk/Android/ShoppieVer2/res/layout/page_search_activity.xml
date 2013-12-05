@@ -107,7 +107,7 @@
         <fragment
             android:id="@+id/search_map_fragment"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             class="vn.com.shoppie.fragment.SearchMapFragment" />
         
         <fragment

@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/ic_invite" />
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/fb_friend_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         android:textColor="@color/blue_text_color"
         android:textSize="@dimen/personal_friend_name_text_size" />
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/fb_friend_number_pie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

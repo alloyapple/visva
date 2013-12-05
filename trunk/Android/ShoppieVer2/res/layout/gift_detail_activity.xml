@@ -23,7 +23,7 @@
 	    	android:layout_alignParentBottom="true"
 	    	android:padding="10dp"
             >
-            <TextView 
+            <vn.com.shoppie.view.MyTextView 
                 android:layout_width="match_parent"
 		    	android:layout_height="wrap_content"
 		    	android:textSize="20sp"
@@ -60,7 +60,7 @@
             android:id="@+id/divider0"
             android:background="#ECECEC"
             />
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/des_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:background="#F9F9F9" />
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

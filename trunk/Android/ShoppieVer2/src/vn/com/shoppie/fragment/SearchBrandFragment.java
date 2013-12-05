@@ -35,7 +35,7 @@ public class SearchBrandFragment extends FragmentBasic {
 	private StoreAdapter adapter;
 	
 	public StoreAdapter getAdapter() {
-		return adapter;
+		return (StoreAdapter) listView.getAdapter();
 	}
 
 	@Override
