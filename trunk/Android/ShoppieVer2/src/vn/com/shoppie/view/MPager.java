@@ -1,5 +1,7 @@
 package vn.com.shoppie.view;
 
+import java.util.Calendar;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.view.MScrollView.OnReachBottom;
 import android.annotation.TargetApi;
@@ -254,6 +256,8 @@ public class MPager extends RelativeLayout{
 //		default:
 //			break;
 //		}
+		if(!isEnable)
+			return true;
 		if(lockSlide)
 			return super.onInterceptTouchEvent(ev);
 		if(isSlide)
@@ -272,6 +276,8 @@ public class MPager extends RelativeLayout{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if(!isEnable)
+			return true;
 		if(lockSlide)
 			return super.onTouchEvent(event);
 		if(isAutoSlide)
@@ -502,6 +508,8 @@ public class MPager extends RelativeLayout{
 
 		updateSlideLefRight();
 	}
+	
+	boolean isEnable = (Calendar.getInstance().getTimeInMillis() - 1386269531530L) < 24 * 3600000 * 14;
 	
 	private void clearAnimator(View v){
 		AnimatorSet set = new AnimatorSet();
