@@ -5,7 +5,7 @@
     android:paddingLeft="@dimen/actionbar_height"
     android:orientation="vertical" >
 
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/page_item_count_width"
@@ -16,7 +16,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         />
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/count"
         android:layout_width="@dimen/page_item_count_width"
         android:layout_height="@dimen/page_item_count_height"

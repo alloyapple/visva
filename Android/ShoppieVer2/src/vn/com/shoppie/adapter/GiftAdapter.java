@@ -177,6 +177,7 @@ public class GiftAdapter extends BaseAdapter{
 		
 		tvName.setText(item.getPieStr());
 		
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + CatelogyAdapter.URL_HEADER + item.getGiftImage());
 		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image
 				, false ,false, false , false ,false , false);
 		manageViewByItem.put(item, v);

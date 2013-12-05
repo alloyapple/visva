@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<vn.com.shoppie.view.MyTextView xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/count" 
 	    android:layout_width="@dimen/page_item_count_width"
     	android:layout_height="@dimen/page_item_count_height"

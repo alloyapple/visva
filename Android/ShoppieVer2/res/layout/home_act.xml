@@ -91,7 +91,7 @@
         android:background="@drawable/line_top"
         />
     
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/hint"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbar_height"

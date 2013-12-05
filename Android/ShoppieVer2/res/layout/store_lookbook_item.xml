@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/storedetail_item_width" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:id="@+id/like"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
@@ -78,7 +78,7 @@
                     />
             </RelativeLayout>
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:textColor="#2A5C72"
                 android:textSize="@dimen/page_item_catelogy_desc_textsize" />
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:id="@+id/count"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

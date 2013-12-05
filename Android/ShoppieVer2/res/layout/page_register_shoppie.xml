@@ -26,7 +26,7 @@
                     android:layout_marginTop="@dimen/personal_detail_info_margin_top"
                     android:orientation="vertical" >
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -34,7 +34,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -42,7 +42,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -50,7 +50,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -58,7 +58,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -66,7 +66,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"

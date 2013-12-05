@@ -801,6 +801,14 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		}
 	}
 
+	public void refresh(int current) {
+		for(int i = 0 ; i < isNeedUpdateImage.length ; i++)
+			isNeedUpdateImage[i] = true;
+		getView(current);
+		getView(getNextItemId(current));
+		getView(getBackItemId(current));
+	}
+	
 	private void updateLiked(int productionId) {
 		for (int i = 0; i < data.size(); i++) {
 			if (data.get(i).getProductId() == productionId) {

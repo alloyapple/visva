@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#262E35" >
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
         android:paddingLeft="5dp"
         android:id="@+id/text"
         android:layout_width="match_parent"

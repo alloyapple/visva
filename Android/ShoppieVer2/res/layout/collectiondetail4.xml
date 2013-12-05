@@ -4,7 +4,7 @@
     android:layout_height="@dimen/collectiondetail_item_height"
     android:background="@drawable/round_corner_shape" >
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
 	    android:id="@+id/count" 
 	    android:layout_width="@dimen/page_item_count_width"
     	android:layout_height="@dimen/page_item_count_height"
@@ -24,7 +24,7 @@
         android:orientation="vertical"
         android:layout_margin="15dp" >
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:textColor="#D32971"
             android:textSize="15sp" />
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/text2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

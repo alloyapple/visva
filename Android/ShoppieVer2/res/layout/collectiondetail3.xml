@@ -3,7 +3,7 @@
     android:layout_width="@dimen/collectiondetail_item_width"
     android:layout_height="@dimen/collectiondetail_item_height" >
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
 	    android:id="@+id/count" 
 	    android:layout_width="@dimen/page_item_count_width"
     	android:layout_height="@dimen/page_item_count_height"

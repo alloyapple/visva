@@ -34,6 +34,10 @@ public class MPager extends RelativeLayout{
 	private short inoutMode = 0;
 
 	private int currentItem = 0;
+	public int getCurrentItem() {
+		return currentItem;
+	}
+
 	private MPagerAdapterBase mAdapter;
 	private View cover;
 	

@@ -20,9 +20,9 @@
         	android:layout_width="@dimen/catelogy_detail_footer_bt_width"
     		android:layout_height="match_parent"
     		android:layout_alignParentRight="true"
-    		android:background="@drawable/transparent_button_cache_hint"
+    		android:background="@drawable/ic_tap"
             />
-        <TextView 
+        <vn.com.shoppie.view.MyTextView 
             android:id="@+id/footer_tv"
             android:layout_width="match_parent"
     		android:layout_height="match_parent"
@@ -42,7 +42,7 @@
         android:layout_height="992px"
         android:visibility="gone" />
 
-    <TextView
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/hint"
         android:layout_width="match_parent"
         android:minHeight="@dimen/actionbar_height"

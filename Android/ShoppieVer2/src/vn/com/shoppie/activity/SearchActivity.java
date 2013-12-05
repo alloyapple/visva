@@ -159,8 +159,11 @@ public class SearchActivity extends FragmentActivity implements
 				StoreAdapter adapter = mSearchBrandFragment.getAdapter();
 				if(adapter == null)
 					return;
-				if(adapter.getCount() == 0)
+				if(adapter.getCount() == 0) {
 					showFragment(SEARCH_RESULT_FRAGMENT_ID);
+					edtSearch.setText("");
+					mSearchBrandFragment.filter("");
+				}
 			}
 		});
 		

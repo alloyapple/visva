@@ -67,6 +67,14 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		return R.layout.activity_catelogy_detail;
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if(adapter != null)
+			adapter.refresh(mPager.getCurrentItem());
+	}
+	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public void onCreate() {

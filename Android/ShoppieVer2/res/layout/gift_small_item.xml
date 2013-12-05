@@ -4,7 +4,7 @@
     android:layout_height="@dimen/gift_item_row_height"
     android:padding="5dp"
     android:background="@drawable/bt_selector" >
-    <TextView 
+    <vn.com.shoppie.view.MyTextView 
     	android:layout_width="match_parent"
     	android:layout_height="@dimen/gift_item_name_height"
     	android:textSize="@dimen/gift_item_name_textsize"

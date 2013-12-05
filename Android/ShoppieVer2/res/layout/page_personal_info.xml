@@ -12,7 +12,7 @@
         android:background="@color/actionbar_background"
         android:orientation="vertical" >
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:id="@+id/txt_title_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

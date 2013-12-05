@@ -21,14 +21,14 @@
             android:src="@drawable/ic_location" >
         </ImageButton>
 
-        <TextView
+        <vn.com.shoppie.view.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/register"
             android:textColor="@color/white"
             android:textSize="@dimen/page_item_catelogy_desc_textsize" >
-        </TextView>
+        </vn.com.shoppie.view.MyTextView>
     </RelativeLayout>
 
     <ScrollView
@@ -41,7 +41,7 @@
             android:orientation="vertical"
             android:padding="20dp" >
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/introduct_code"
@@ -58,7 +58,7 @@
                 android:inputType="number"
                 android:textColor="@color/white" />
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -67,7 +67,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
 
-            <TextView
+            <vn.com.shoppie.view.MyTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -116,7 +116,7 @@
                     android:layout_marginTop="5dp"
                     android:orientation="vertical" >
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -124,7 +124,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -132,7 +132,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -140,7 +140,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="35dp"
@@ -148,7 +148,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
@@ -156,7 +156,7 @@
                         android:textColor="@color/blue_text_color"
                         android:textSize="@dimen/personal_detail_info_text_size" />
 
-                    <TextView
+                    <vn.com.shoppie.view.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -253,7 +253,7 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/btn_accept" />
 
-                <TextView
+                <vn.com.shoppie.view.MyTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/btn_register_accept"
