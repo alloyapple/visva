@@ -11,6 +11,7 @@ import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.database.sobject.MerchProductItem;
+import vn.com.shoppie.fragment.FeedbackFragment;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
 import vn.com.shoppie.fragment.HelpFragment;
 import vn.com.shoppie.fragment.HistoryTradeFragment;
@@ -58,14 +59,16 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private static final String HELP_FRAGMENT = "favourite";
 	private static final String HISTORY_TRADE_FRAGMET = "history_trade";
 	private static final String FRAGMENT_PERSONAL_INFO = "personal_info";
-	private static final String FRIEND_DETAIL_FRAGMENT = "friend_detail";
+	private static final String FEEDBACK_FRAGMENT = "feedback";
+	
 	private static final int MAIN_PERSONAL_INFO = 1001;
 	private static final int PERSONAL_FRIEND = 1002;
 	private static final int HISTORY_TRADE = 1003;
 	private static final int HELP = 1004;
 	private static final int PERSONAL_INFO = 1005;
-	private static final int FRIEND_DETAIL = 1006;
+	private static final int FEEDBACK = 1006;
 	// ===========================Control Define==================
+	private FeedbackFragment mFeedbackFragment;
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
 	private FragmentPersonalInfo mFragmentPersonalInfo;
@@ -265,6 +268,8 @@ public class PersonalInfoActivity extends FragmentActivity implements
 				.findFragmentById(R.id.layout_personal_info_fragment);
 		mHistoryTradeFragment = (HistoryTradeFragment) mFmManager
 				.findFragmentById(R.id.layout_personal_history_trade);
+		mFeedbackFragment = (FeedbackFragment) mFmManager
+				.findFragmentById(R.id.layout_feedback_fragment);
 
 		mTxtTitle = (TextView) findViewById(R.id.txt_title_fragment);
 		mMainPersonalInfoFragment.setListener(this);
@@ -320,9 +325,10 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction.commit();
 			mTxtTitle.setText(getString(R.string.main_personal_info));
 			break;
-		case FRIEND_DETAIL:
+		case FEEDBACK:
 			mTransaction = hideFragment();
-			addToSBackStack(FRIEND_DETAIL_FRAGMENT);
+			mTransaction.show(mFeedbackFragment);
+			addToSBackStack(FEEDBACK_FRAGMENT);
 			mTransaction.commit();
 			mTxtTitle.setText(getString(R.string.personl_friend));
 			break;
@@ -338,6 +344,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction.hide(mHelpFragment);
 		mTransaction.hide(mFragmentPersonalInfo);
 		mTransaction.hide(mHistoryTradeFragment);
+		mTransaction.hide(mFeedbackFragment);
 		// if (!backstack.isEmpty())
 		// showToast(backstack.get(0));
 		return mTransaction;
@@ -392,9 +399,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
 			mTransaction.show(mFragmentPersonalInfo);
 			mTxtTitle.setText(getString(R.string.main_personal_info));
-		} else if (currentView.equals(FRIEND_DETAIL_FRAGMENT)) {
-//			mTransaction.show(mFriendDetailFragment);
-			mTxtTitle.setText(getString(R.string.personl_friend));
+		} else if (currentView.equals(FEEDBACK_FRAGMENT)) {
+			 mTransaction.show(mFeedbackFragment);
+			mTxtTitle.setText(getString(R.string.feedback));
 		}
 		mTransaction.commitAllowingStateLoss();
 	}
@@ -470,9 +477,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
 			mTransaction.show(mFragmentPersonalInfo);
 			mTxtTitle.setText(getString(R.string.main_personal_info));
-		} else if (currentView.equals(FRIEND_DETAIL_FRAGMENT)) {
-//			mTransaction.show(mFriendDetailFragment);
-//			mTxtTitle.setText(getString(R.string.personl_friend));
+		} else if (currentView.equals(FEEDBACK_FRAGMENT)) {
+			 mTransaction.show(mFeedbackFragment);
+			 mTxtTitle.setText(getString(R.string.feedback));
 		}
 		mTransaction.commitAllowingStateLoss();
 	}
@@ -505,33 +512,10 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void onClickFeedback() {
 		// TODO Auto-generated method stub
-		Toast.makeText(this, "Click feedback", Toast.LENGTH_SHORT).show();
-		uploadFeedback("2747","message test");
+		showFragment(FEEDBACK);
 	}
-
-	private void uploadFeedback(String custId, String message) {
-		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
-		List<NameValuePair> nameValuePairs = ParameterFactory.sendFeedback(custId, message);
-		AsyncHttpPost postFeedback = new AsyncHttpPost(
-				PersonalInfoActivity.this, new AsyncHttpResponseProcess(
-						PersonalInfoActivity.this) {
-					@Override
-					public void processIfResponseSuccess(String response) {
-						Log.e("like success ", "like success");
-					}
-
-					@Override
-					public void processIfResponseFail() {
-						showToast("like failed");
-						// finish();
-					}
-				}, nameValuePairs, true);
-		postFeedback.execute(WebServiceConfig.URL_FEEDBACK);
 
 	
-	}
 
 	@Override
 	public void onClickViewFriendDetail(FBUser friend) {
