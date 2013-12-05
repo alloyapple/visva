@@ -166,7 +166,6 @@ public class SearchActivity extends FragmentActivity implements
 		
 		/** request to server to get campaign category */
 		if (NetworkUtility.getInstance(this).isNetworkAvailable()){
-			Log.e("adfjfh", "adfdddddd ");
 			requestToGetCampainCategory();
 		}
 		else {

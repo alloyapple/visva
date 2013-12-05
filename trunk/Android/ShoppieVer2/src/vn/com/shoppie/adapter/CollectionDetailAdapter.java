@@ -78,6 +78,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			isNeedUpdateImage[i] = true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(final int position) {
 		try {
@@ -426,6 +427,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void freeAll() {
 		for (int i = 0; i < cacheView.length; i++) {
 			View v = cacheView[i];

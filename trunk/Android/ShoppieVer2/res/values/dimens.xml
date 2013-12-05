@@ -9,7 +9,6 @@
     <dimen name="footer_height">55dp</dimen>
     <dimen name="checkin_cirle">110dp</dimen>
     <dimen name="checkin_button">100dp</dimen>
-    
     <dimen name="page_item_width">310dp</dimen>
     <dimen name="page_item_height">341dp</dimen>
     <dimen name="page_item_title_padding">123dp</dimen>
@@ -57,11 +56,9 @@
     <dimen name="collectiondetail_item_height">409dp</dimen>
     <dimen name="collectiondetail_item_type1_bottom">99dp</dimen>
     <dimen name="collectiondetail_item_type1_imgheight">310dp</dimen>
-    
     <dimen name="storedetail_item_width">310dp</dimen>
     <dimen name="storedetail_item_height">457dp</dimen>
     <dimen name="storedetail_item_image_height">310dp</dimen>
-    
     <dimen name="gift_item_width">310dp</dimen>
     <dimen name="gift_item_header_height">186dp</dimen>
     <dimen name="gift_item_full_height">360dp</dimen>
@@ -74,17 +71,14 @@
     <dimen name="gift_item_title_textsize">20sp</dimen>
     <dimen name="gift_item_name_textsize">14sp</dimen>
     <dimen name="gift_item_name_height">20dp</dimen>
-
     <dimen name="loading_pie_height">150dp</dimen>
     <dimen name="loading_pie_width">150dp</dimen>
     <dimen name="muatang_width">50dp</dimen>
     <dimen name="muatang_textsize">9dp</dimen>
     <dimen name="checkintext_width">60dp</dimen>
     <dimen name="checkintext_textsize">9dp</dimen>
-    
-    
     <dimen name="conner_circle_radius">8dp</dimen>
-    
+
     <!-- Shoppie 4 -->
     <integer name="display_width">400</integer>
     <integer name="display_height">400</integer>
@@ -116,7 +110,9 @@
     <dimen name="personal_detail_info_text_size">16dp</dimen>
     <dimen name="personal_friend_detail_favourite_width">100dp</dimen>
     <dimen name="personal_friend_detail_favourite_height">100dp</dimen>
-
+    <dimen name="personal_friend_detaillayout_favourite_width">104dp</dimen>
+    <dimen name="personal_friend_detaillayout_favourite_height">104dp</dimen>
+    
     <!-- search activity -->
     <string name="list_title_search_height">50dp</string>
 

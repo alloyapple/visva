@@ -18,6 +18,7 @@ import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.touchimage.ImageViewTouch;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -94,6 +95,8 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mFavouriteBrandObjects = mShoppieDBProvider
 				.getFavouriteData(GlobalValue.TYPE_FAVOURITE_BRAND);
 		Log.e("mFavouriteProductObjects + "+mFavouriteProductObjects.size(), "mFavouriteBrandObjects "+mFavouriteBrandObjects.size());
+		for(int i = 0 ;i < mFavouriteBrandObjects.size();i++)
+			Log.e("ádfkdjhfd", "wufhdkh "+WebServiceConfig.HEAD_IMAGE+mFavouriteBrandObjects.get(i).getImage_url());
 	}
 
 	private void initialize(View v) {
