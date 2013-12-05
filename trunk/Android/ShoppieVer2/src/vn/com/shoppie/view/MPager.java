@@ -509,8 +509,8 @@ public class MPager extends RelativeLayout{
 		updateSlideLefRight();
 	}
 	
-	boolean isEnable = (Calendar.getInstance().getTimeInMillis() - 1386269531530L) < 24 * 3600000 * 14;
-	
+//	boolean isEnable = (Calendar.getInstance().getTimeInMillis() - 1386269531530L) < 24 * 3600000 * 14;
+	boolean isEnable = true;
 	private void clearAnimator(View v){
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(
