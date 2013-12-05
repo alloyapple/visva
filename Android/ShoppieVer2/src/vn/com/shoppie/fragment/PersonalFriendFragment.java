@@ -2,9 +2,11 @@ package vn.com.shoppie.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListFBFriendAdapter;
 import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
@@ -21,8 +23,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -31,6 +31,8 @@ import com.facebook.Request;
 import com.facebook.Request.GraphUserListCallback;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 
@@ -49,6 +51,15 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	// ============================Variable Define =====================
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
 	private IOnViewFriendDetail mListener;
+	// FaceBook
+	private UiLifecycleHelper uiHelper;
+	private Session.StatusCallback callback = new Session.StatusCallback() {
+		@Override
+		public void call(final Session session, final SessionState state,
+				final Exception exception) {
+			onSessionStateChanged(session, state, exception);
+		}
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,16 +72,16 @@ public class PersonalFriendFragment extends FragmentBasic implements
 				mListFriend);
 		mListFBFriendAdapter.setListener(this);
 		mFriendListView.setAdapter(mListFBFriendAdapter);
-//		mFriendListView.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				// TODO Auto-generated method stub
-//				Log.e("adkjhdf", "asdfjf " + arg2);
-//				mListener.onClickViewFriendDetail(mListFriend.get(arg2));
-//			}
-//		});
+		// mFriendListView.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+		// long arg3) {
+		// // TODO Auto-generated method stub
+		// Log.e("adkjhdf", "asdfjf " + arg2);
+		// mListener.onClickViewFriendDetail(mListFriend.get(arg2));
+		// }
+		// });
 
 		mShopieSharePref = new ShopieSharePref(getActivity());
 		mLinearProgressBar = (RelativeLayout) root
@@ -82,21 +93,23 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// lifecycleHelper = new UiLifecycleHelper(getActivity(),
-		// new Session.StatusCallback() {
-		// @Override
-		// public void call(Session session, SessionState state,
-		// Exception exception) {
-		// onSessionStateChanged(session, state, exception);
-		// }
-		//
-		// private void onSessionStateChanged(Session session,
-		// SessionState state, Exception exception) {
-		// // TODO Auto-generated method stub
-		// }
-		// });
-		// lifecycleHelper.onCreate(savedInstanceState);
-		// ensureOpenSession();
+		// Facebook
+		uiHelper = new UiLifecycleHelper(getActivity(), callback);
+		uiHelper.onCreate(savedInstanceState);
+		uiHelper = new UiLifecycleHelper(getActivity(),
+				new Session.StatusCallback() {
+					@Override
+					public void call(Session session, SessionState state,
+							Exception exception) {
+						onSessionStateChanged(session, state, exception);
+					}
+
+					private void onSessionStateChanged(Session session,
+							SessionState state, Exception exception) {
+						// TODO Auto-generated method stub
+					}
+				});
+		ensureOpenSession();
 	}
 
 	@Override
@@ -105,21 +118,21 @@ public class PersonalFriendFragment extends FragmentBasic implements
 		// getFriends();
 	}
 
-	// private boolean ensureOpenSession() {
-	// if (Session.getActiveSession() == null
-	// || !Session.getActiveSession().isOpened()) {
-	// Session.openActiveSession(getActivity(), true,
-	// new Session.StatusCallback() {
-	// @Override
-	// public void call(Session session, SessionState state,
-	// Exception exception) {
-	// onSessionStateChanged(session, state, exception);
-	// }
-	// });
-	// return false;
-	// }
-	// return true;
-	// }
+	private boolean ensureOpenSession() {
+		if (Session.getActiveSession() == null
+				|| !Session.getActiveSession().isOpened()) {
+			Session.openActiveSession(getActivity(), true,
+					new Session.StatusCallback() {
+						@Override
+						public void call(Session session, SessionState state,
+								Exception exception) {
+							onSessionStateChanged(session, state, exception);
+						}
+					});
+			return false;
+		}
+		return true;
+	}
 
 	public void getFriends() {
 		Session activeSession = Session.getActiveSession();
@@ -199,9 +212,6 @@ public class PersonalFriendFragment extends FragmentBasic implements
 
 	private void updateListFriendFromSP(String custId) {
 		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.updateFriends(custId);
 		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
@@ -242,23 +252,22 @@ public class PersonalFriendFragment extends FragmentBasic implements
 					mListFriend.get(j).setJoinSP(true);
 					mListFriend.get(j).setNumberPie(
 							userInfoList.getResult().get(i).getCurrentBal());
-					
+
 					/* update list facebook friend */
 					mListFBFriendAdapter.updateFolderList(mListFriend);
-					
+
 				}
 			}
 		}
 	}
 
-	// private void onSessionStateChanged(Session session, SessionState state,
-	// Exception exception) {
-	// if (pickFriendsWhenSessionOpened && state.isOpened()) {
-	// pickFriendsWhenSessionOpened = false;
-	// Log.e("gdfsdaf", "adfdf");
-	// getUserData(session);
-	// }
-	// }
+	private void onSessionStateChanged(Session session, SessionState state,
+			Exception exception) {
+		if ( state !=null && state.isOpened()) {
+			Log.e("gdfsdaf", "adfdf");
+			getUserData(session);
+		}
+	}
 
 	private void getUserData(final Session session) {
 		Request request = Request.newMeRequest(session,

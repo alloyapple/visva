@@ -60,6 +60,9 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private HorizontalListView mFavouriteBrandList;
 	private HorizontalListView mFavouriteProductList;
 	private ImageView mImgEditCover;
+	private TextView mTxtFriend;
+	private TextView mTxtFavouriteProduct;
+	private TextView mTxtFavouriteBrand;
 	// =========================Class Define --------------------
 	private MainPersonalInfoListener mListener;
 	private ImageLoader mImageLoader;
@@ -94,9 +97,11 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.getFavouriteData(GlobalValue.TYPE_FAVOURITE_PRODUCT);
 		mFavouriteBrandObjects = mShoppieDBProvider
 				.getFavouriteData(GlobalValue.TYPE_FAVOURITE_BRAND);
-		Log.e("mFavouriteProductObjects + "+mFavouriteProductObjects.size(), "mFavouriteBrandObjects "+mFavouriteBrandObjects.size());
-		for(int i = 0 ;i < mFavouriteBrandObjects.size();i++)
-			Log.e("ádfkdjhfd", "wufhdkh "+WebServiceConfig.HEAD_IMAGE+mFavouriteBrandObjects.get(i).getImage_url());
+		Log.e("mFavouriteProductObjects + " + mFavouriteProductObjects.size(),
+				"mFavouriteBrandObjects " + mFavouriteBrandObjects.size());
+		for (int i = 0; i < mFavouriteBrandObjects.size(); i++)
+			Log.e("ádfkdjhfd", "wufhdkh " + WebServiceConfig.HEAD_IMAGE
+					+ mFavouriteBrandObjects.get(i).getImage_url());
 	}
 
 	private void initialize(View v) {
@@ -108,7 +113,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mImgAvatar = (MyCircleImageView) v.findViewById(R.id.img_avatar);
 		mImgCover = (ImageViewTouch) v.findViewById(R.id.img_cover);
 		mImgCover.setDoubleTapEnabled(true);
-		mImgEditCover = (ImageView)v.findViewById(R.id.img_edit_cover);
+		mImgEditCover = (ImageView) v.findViewById(R.id.img_edit_cover);
 		mLayoutFavouriteProduct = (LinearLayout) v
 				.findViewById(R.id.layout_fravourite_product);
 		mLayoutFeedback = (LinearLayout) v.findViewById(R.id.layout_feedback);
@@ -120,6 +125,11 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mLayoutHistoryTrade = (LinearLayout) v
 				.findViewById(R.id.layout_history_trade);
 		mLayoutPersonalInfo = (LinearLayout) v.findViewById(R.id.layout_info);
+		mTxtFavouriteBrand = (TextView) v
+				.findViewById(R.id.text_favourite_category);
+		mTxtFavouriteProduct = (TextView) v
+				.findViewById(R.id.text_favourite_product);
+		mTxtFriend = (TextView) v.findViewById(R.id.text_friend);
 
 		mFavouriteBrandList = (HorizontalListView) v
 				.findViewById(R.id.favourite_brand_list);
@@ -136,12 +146,14 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (isShowFavouriteProduct)
+				if (isShowFavouriteProduct) {
 					mFavouriteProductList.setVisibility(View.GONE);
-				else {
+					isShowFavouriteProduct = false;
+				} else if(mFavouriteProductObjects.size() > 0){
 					mFavouriteProductList.setVisibility(View.VISIBLE);
+					isShowFavouriteProduct = true;
 				}
-				isShowFavouriteProduct = !isShowFavouriteProduct;
+
 			}
 		});
 
@@ -150,11 +162,13 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (isShowFavouriteBrand)
+				if (isShowFavouriteBrand) {
 					mFavouriteBrandList.setVisibility(View.GONE);
-				else
+					isShowFavouriteBrand = false;
+				} else if (mFavouriteBrandObjects.size() > 0) {
 					mFavouriteBrandList.setVisibility(View.VISIBLE);
-				isShowFavouriteBrand = !isShowFavouriteBrand;
+					isShowFavouriteBrand = true;
+				}
 			}
 		});
 
@@ -223,6 +237,14 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				pickImage();
 			}
 		});
+
+		/** set data for textview */
+		mTxtFavouriteBrand.setText(getActivity().getString(
+				R.string.personal_favourite_category)
+				+ "(" + mFavouriteBrandObjects.size() + ")");
+		mTxtFavouriteProduct.setText(getActivity().getString(
+				R.string.personal_favourite_product)
+				+ "(" + mFavouriteProductObjects.size() + ")");
 	}
 
 	@Override
