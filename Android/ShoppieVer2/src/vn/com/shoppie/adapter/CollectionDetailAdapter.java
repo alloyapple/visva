@@ -31,6 +31,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
@@ -832,6 +833,14 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		View loading = v.findViewById(R.id.pie_view);
 		RotateAnimation anim = new RotateAnimation(0, 1800, loading.getWidth() / 2, loading.getHeight() / 2);
 		anim.setDuration(4000);
+		anim.setInterpolator(new Interpolator() {
+			
+			@Override
+			public float getInterpolation(float input) {
+				// TODO Auto-generated method stub
+				return input;
+			}
+		});
 		loading.startAnimation(anim);
 	}
 	

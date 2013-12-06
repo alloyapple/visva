@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.activity.PersonalInfoActivity;
 import vn.com.shoppie.constant.ShopieSharePref;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
@@ -57,7 +58,7 @@ public class FeedbackFragment extends FragmentBasic {
 
 			@Override
 			public void onClick(View v) {
-				(getActivity()).onClickBackPersonal(null);
+				((PersonalInfoActivity)getActivity()).onClickBackPersonal(null);
 			}
 		});
 		this.root = root;
