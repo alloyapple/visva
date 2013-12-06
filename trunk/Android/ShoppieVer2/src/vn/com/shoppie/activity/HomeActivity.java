@@ -94,12 +94,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
 		mTxtTitle = new MyTextView(this);
 		mTxtTitle.setGravity(Gravity.CENTER);
-		mTxtTitle.setTextSize(getResources().getDimension(
-				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
-		// mTxtTitle.setTextSize(20);
-		// mTxtTitle.setTypeface(null, Typeface.BOLD);
+		mTxtTitle.setTextSize(getResources().getDimension(R.dimen.actionbar_title_textsize));
 		actionBar.addView(mTxtTitle, -1, -1);
 		hint = (MyTextView) findViewById(R.id.hint);
 		checkinCircle = findViewById(R.id.checkin_circle);
@@ -190,7 +187,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			String alert = "";
 			if (res == RESULT_CANCELED) {
 				alert = getString(R.string.checkin_not_transaction);
-				showToast(getString(R.string.checkin_not_success));
+//				showToast(getString(R.string.checkin_not_success));
 			} else {
 				alert = getString(R.string.checkin_cancel_transaction);
 			}
@@ -204,8 +201,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 					timer.onFinish();
 					dialog.dismiss();
 				}
+				
 			});
-			showToast(getString(R.string.checkin_not_success));
+//			showToast(getString(R.string.checkin_not_success));
 			setCheckIn(false);
 		}
 	}

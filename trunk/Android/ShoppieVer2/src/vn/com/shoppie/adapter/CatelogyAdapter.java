@@ -10,6 +10,7 @@ import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -179,7 +180,8 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
 					, false , false , false , false , false);
 			bottom.setVisibility(View.VISIBLE);
-			ObjectAnimator.ofFloat(bottom, "alpha", 0 , 1f).setDuration(500).start();
+			if(Build.VERSION.SDK_INT >= 11)
+				ObjectAnimator.ofFloat(bottom, "alpha", 0 , 1f).setDuration(500).start();
 		}
 	}
 

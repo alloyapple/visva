@@ -21,15 +21,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
@@ -68,8 +72,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		this.context = context;
 		this.mPager = mPager;
 		this.data = data;
-		initCache();
 		this.hasPie = hasPie;
+		initCache();
 	}
 
 	private void initCache() {
@@ -394,13 +398,23 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						if (text.getAnimation() == null) {
 							mPager.setLockSlide(true);
 							text.setVisibility(View.VISIBLE);
-							AnimatorSet set = new AnimatorSet();
-							set.playTogether(ObjectAnimator.ofFloat(text,
-									"alpha", 0, 0.8f), ObjectAnimator.ofFloat(
-									text, "translationY", getViewHeight(), 0));
-							set.setDuration(350);
-							set.setInterpolator(new AccelerateInterpolator());
-							set.start();
+//							if(Build.VERSION.SDK_INT >= 11) {
+								AnimatorSet set = new AnimatorSet();
+								set.playTogether(ObjectAnimator.ofFloat(text,
+										"alpha", 0, 0.8f), ObjectAnimator.ofFloat(
+										text, "translationY", getViewHeight(), 0));
+								set.setDuration(350);
+								set.setInterpolator(new AccelerateInterpolator());
+								set.start();
+//							}
+//							else {
+//								AnimationSet set = new AnimationSet(true);
+//								set.addAnimation(new TranslateAnimation(0, 0, getViewHeight(), 0));
+//								set.addAnimation(new AlphaAnimation(0, 0.8f));
+//								set.setFillAfter(true);
+//								set.setDuration(350);
+//								text.startAnimation(set);
+//							}
 						}
 					}
 				});
@@ -605,31 +619,57 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	}
 
 	private void closeDesc(final View v) {
-		if (v.getAnimation() != null)
-			return;
-		TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
-				getViewHeight());
-		anim.setDuration(350);
-		anim.setAnimationListener(new AnimationListener() {
-
-			@Override
-			public void onAnimationStart(Animation animation) {
-
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				v.setVisibility(View.GONE);
-			}
-		});
-
-		v.startAnimation(anim);
-
+		Log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
+//		if (v.getAnimation() != null)
+//			return;
+		if (Build.VERSION.SDK_INT >= 11) {
+			TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
+					getViewHeight());
+			anim.setDuration(350);
+			anim.setAnimationListener(new AnimationListener() {
+	
+				@Override
+				public void onAnimationStart(Animation animation) {
+	
+				}
+	
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+	
+				}
+	
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					v.setVisibility(View.GONE);
+				}
+			});
+	
+			v.startAnimation(anim);
+		}
+		else {
+			TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
+					getViewHeight());
+			anim.setDuration(0);
+			anim.setAnimationListener(new AnimationListener() {
+	
+				@Override
+				public void onAnimationStart(Animation animation) {
+	
+				}
+	
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+	
+				}
+	
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					v.setVisibility(View.GONE);
+				}
+			});
+	
+			v.startAnimation(anim);
+		}
 	}
 
 	@Override

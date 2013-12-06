@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="actionbar_title_textsize">13sp</dimen>
 <dimen name="page_item_width">250dp</dimen>
 <dimen name="page_item_height">275dp</dimen>
 <dimen name="page_item_title_padding">99dp</dimen>
@@ -69,6 +70,13 @@
 <dimen name="checkintext_width">48dp</dimen>
 <dimen name="checkintext_textsize">7dp</dimen>
 <dimen name="count_textsize">11sp</dimen>
+<dimen name="pie_width">161dp</dimen>
+
+<dimen name="feedback_header_height">73dp</dimen>
+<dimen name="feedback_image_height">48dp</dimen>
+<dimen name="feedback_name_height">24dp</dimen>
+<dimen name="feedback_name_margintop">8dp</dimen>
+<dimen name="feedback_name_textsize">16sp</dimen>
 
     <!-- *** -->
     <dimen name="marker_textsize">25px</dimen>
