@@ -77,8 +77,6 @@ public class FeedbackFragment extends FragmentBasic {
 
 	private void uploadFeedback(String custId, String message) {
 		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.sendFeedback(
 				custId, message);
 		AsyncHttpPost postFeedback = new AsyncHttpPost(
@@ -87,7 +85,7 @@ public class FeedbackFragment extends FragmentBasic {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						Log.e("post success ", "post success");
-						((PersonalInfoActivity)getActivity()).onClickBackPersonal(null);
+						//((PersonalInfoActivity)getActivity()).onClickBackPersonal(null);
 					}
 
 					@Override
