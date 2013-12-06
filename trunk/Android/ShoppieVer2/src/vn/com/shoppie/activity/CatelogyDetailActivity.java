@@ -58,7 +58,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private ArrayList<MerchProductItem> mMerchProductItems = new ArrayList<MerchProductItem>();
 
 	private TextView hint;
-	private boolean isShowFirstHint = false;
 	private ShopieSharePref mSharePref;
 	
 	@Override
@@ -100,7 +99,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				}
 			});
 			hint.setVisibility(View.VISIBLE);
-			isShowFirstHint = true;
 			mSharePref.addLikeCount();
 		}
 		

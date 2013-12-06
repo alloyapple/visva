@@ -32,8 +32,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -47,7 +47,6 @@ import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.gson.Gson;
@@ -58,7 +57,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private View checkinCircle;
 	private MPager pager;
 	private CatelogyAdapter adapter;
-	private boolean isChecked = false;
 	private MyTextView mTxtTitle;
 	private MyTextView hint;
 	private boolean isShowFirstHint = false;
@@ -66,6 +64,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 	protected GoogleAnalytics mGaInstance;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ShopieSharePref mSharePref;
+
 	@Override
 	public int contentView() {
 		// TODO Auto-generated method stub
@@ -83,13 +82,14 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 		ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
 		icon.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+				startActivity(new Intent(getApplicationContext(),
+						SearchActivity.class));
 			}
 		});
-		
+
 		// setup actionbar
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
 		mTxtTitle = new MyTextView(this);
@@ -98,8 +98,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
-//		mTxtTitle.setTextSize(20);
-//		mTxtTitle.setTypeface(null, Typeface.BOLD);
+		// mTxtTitle.setTextSize(20);
+		// mTxtTitle.setTypeface(null, Typeface.BOLD);
 		actionBar.addView(mTxtTitle, -1, -1);
 		hint = (MyTextView) findViewById(R.id.hint);
 		checkinCircle = findViewById(R.id.checkin_circle);
@@ -111,7 +111,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			public void onExtend(View v) {
 				hideCheckin();
 				adapter.hideBottom();
-				if(hint.getVisibility() == View.VISIBLE)
+				if (hint.getVisibility() == View.VISIBLE)
 					hint.setVisibility(View.GONE);
 			}
 
@@ -128,7 +128,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		});
 
 		mSharePref = new ShopieSharePref(this);
-		
+
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestToGetMerchantCategory();
@@ -190,6 +190,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			String alert = "";
 			if (res == RESULT_CANCELED) {
 				alert = getString(R.string.checkin_not_transaction);
+				showToast(getString(R.string.checkin_not_success));
 			} else {
 				alert = getString(R.string.checkin_cancel_transaction);
 			}
@@ -199,10 +200,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
 					// continue with delete
+					Log.e("clckfadsf", "sdfkdjfd ");
+					timer.onFinish();
 					dialog.dismiss();
-					setCheckIn(false);
 				}
 			});
+			showToast(getString(R.string.checkin_not_success));
+			setCheckIn(false);
 		}
 	}
 
@@ -237,6 +241,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 		GA_MAP_PARAMS.put("method", "btnClicked");
 		GA_MAP_PARAMS.put("button", "activity_home_btn_pie");
 		mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
+		
+		/**set animation for checkin*/
+		setCheckIn(true);
 	}
 
 	private void updateLuckyPie(String campaignId, String custId) {
@@ -267,19 +274,18 @@ public class HomeActivity extends VisvaAbstractActivity {
 					}
 				}, nameValuePairs, true);
 		postUpdateLuckyPie.execute(WebServiceConfig.URL_UPDATE_PIE);
-
 	}
 
 	private void setAdapter(ArrayList<MerchantCategoryItem> data) {
 		adapter = new CatelogyAdapter(this, data);
 		pager.setAdapter(adapter);
 		pager.setOnPageChange(new OnPageChange() {
-			
+
 			@Override
 			public void onChange(int pos) {
 				// TODO Auto-generated method stub
-				if(hint.getVisibility() == View.VISIBLE) {
-					if(isShowFirstHint) {
+				if (hint.getVisibility() == View.VISIBLE) {
+					if (isShowFirstHint) {
 						hint.setText("Kéo lên trên/xuống dưới để xem danh sách");
 						isShowFirstHint = false;
 						pager.setOnPageChange(null);
@@ -296,23 +302,24 @@ public class HomeActivity extends VisvaAbstractActivity {
 						CollectionList.class);
 				intent.putExtra(CollectionList.KEY_MERCHANT_ID, ""
 						+ adapter.getItem(pos).getMerchCatId());
-				intent.putExtra(CollectionList.KEY_CUSTOMER_ID, String.valueOf(mSharePref.getCustId()));
+				intent.putExtra(CollectionList.KEY_CUSTOMER_ID,
+						String.valueOf(mSharePref.getCustId()));
 				intent.putExtra(CollectionList.KEY_ICON, adapter.getItem(pos)
 						.getIcon());
 				intent.putExtra(CollectionList.KEY_TITLE, adapter.getItem(pos)
 						.getMerchCatName());
 				intent.putExtra(CollectionList.KEY_DESC, adapter.getItem(pos)
 						.getMerchCatDesc());
-				intent.putExtra(CollectionList.KEY_NUMBER, "" + adapter.getItem(pos).getCampaignNumber());
+				intent.putExtra(CollectionList.KEY_NUMBER, ""
+						+ adapter.getItem(pos).getCampaignNumber());
 				changeToActivity(intent, false);
 			}
 		});
-		
-		
+
 		int count = mSharePref.getStartCount();
-		if(count < 3) {
+		if (count < 3) {
 			hint.setOnTouchListener(new OnTouchListener() {
-				
+
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					// TODO Auto-generated method stub
@@ -378,14 +385,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 			break;
 		case R.id.checkin:
 			onClickCheckin();
-			setCheckIn(true);
 			break;
 		default:
 			break;
 		}
 	}
 
-	private void setCheckIn(boolean isChecked) {
+	private void setCheckIn(final boolean isChecked) {
 		if (isChecked) {
 			int angle = 36000000;
 			final RotateAnimation anim = new RotateAnimation(0, angle,
@@ -418,18 +424,30 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					checkinCircle.startAnimation(anim1);
+						checkinCircle.startAnimation(anim1);
 				}
 			});
 
 			checkinCircle.startAnimation(anim);
-			if(isCheckin){
+			if (isCheckin) {
 				checkinCircle.clearAnimation();
 				isCheckin = false;
 			}
+			
+			timer.start();
 		} else {
+			timer.cancel();
 			checkinCircle.clearAnimation();
+			turnoffBluetooth();
 		}
+	}
+
+	private void turnoffBluetooth() {
+		//Disable bluetooth
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();    
+		if (mBluetoothAdapter.isEnabled()) {
+		    mBluetoothAdapter.disable(); 
+		} 
 	}
 
 	private void hideCheckin() {
@@ -447,4 +465,23 @@ public class HomeActivity extends VisvaAbstractActivity {
 				.getDimension(R.dimen.checkin_cirle);
 		v.setLayoutParams(params);
 	}
+	
+	CountDownTimer timer = new CountDownTimer(15000,15000) {
+		
+		@Override
+		public void onTick(long millisUntilFinished) {
+			// TODO Auto-generated method stub
+			if(isCheckin){
+				onFinish();
+				isCheckin = false;
+			}
+		}
+		
+		@Override
+		public void onFinish() {
+			// TODO Auto-generated method stub
+			setCheckIn(false);
+			turnoffBluetooth();
+		}
+	};
 }
