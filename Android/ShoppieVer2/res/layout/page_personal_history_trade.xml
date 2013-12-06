@@ -1,93 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/all_corner_button"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
-        android:layout_marginTop="@dimen/personal_detail_info_margin_top"
-        android:orientation="vertical" >
+        android:background="@drawable/all_corner_button"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
 
-        <vn.com.shoppie.view.MyTextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_history_trade_total"
-            android:textSize="@dimen/personal_detail_info_text_size" />
+            android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
+            android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+            android:layout_marginBottom="@dimen/personal_detail_info_margin_top"
+            android:orientation="vertical" >
 
-        <vn.com.shoppie.view.MyTextView
+            <vn.com.shoppie.view.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/personal_history_trade_total"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
+
+            <vn.com.shoppie.view.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/personal_history_trade_chekin"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
+
+            <vn.com.shoppie.view.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/personal_history_trade_shoping"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
+
+            <vn.com.shoppie.view.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/personal_history_trade_gift"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_history_trade_chekin"
-            android:textSize="@dimen/personal_detail_info_text_size" />
+            android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
+            android:layout_marginTop="@dimen/personal_detail_info_margin_top"
+            android:layout_marginBottom="@dimen/personal_detail_info_margin_top"
+            android:orientation="vertical"
+            android:textColor="@color/blue_text_color" >
 
-        <vn.com.shoppie.view.MyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_history_trade_shoping"
-            android:textSize="@dimen/personal_detail_info_text_size" />
+            <vn.com.shoppie.view.MyTextView
+                android:id="@+id/txt_personal_history_trade_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="123456 pie"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
 
-        <vn.com.shoppie.view.MyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/blue_text_color"
-            android:text="@string/personal_history_trade_gift"
-            android:textSize="@dimen/personal_detail_info_text_size" />
+            <vn.com.shoppie.view.MyTextView
+                android:id="@+id/txt_personal_history_trade_chekin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="123456 pie"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
+
+            <vn.com.shoppie.view.MyTextView
+                android:id="@+id/txt_personal_history_trade_shoping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="123456 pie"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
+
+            <vn.com.shoppie.view.MyTextView
+                android:id="@+id/txt_personal_history_trade_gift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="123456 pie"
+                android:textColor="@color/blue_text_color"
+                android:textSize="@dimen/personal_detail_info_text_size" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/blue_text_color"
-        android:layout_marginLeft="@dimen/personal_detail_info_margin_left"
-        android:layout_marginTop="@dimen/personal_detail_info_margin_top"
-        android:orientation="vertical" >
-
-        <vn.com.shoppie.view.MyTextView
-            android:id="@+id/txt_personal_history_trade_current"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="123456 pie"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <vn.com.shoppie.view.MyTextView
-            android:id="@+id/txt_personal_history_trade_chekin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="123456 pie"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <vn.com.shoppie.view.MyTextView
-            android:id="@+id/txt_personal_history_trade_shoping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="123456 pie"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-
-        <vn.com.shoppie.view.MyTextView
-            android:id="@+id/txt_personal_history_trade_gift"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="123456 pie"
-            android:textColor="@color/blue_text_color"
-            android:textSize="@dimen/personal_detail_info_text_size" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

@@ -5,11 +5,6 @@
     android:background="@drawable/all_corner_button"
     android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/list_personal_friend"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
     <RelativeLayout
         android:id="@+id/layout_progressBar"
         android:layout_width="fill_parent"
@@ -22,5 +17,41 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/actionbar_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:layout_alignParentBottom="true"
+        android:background="#181F25"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btn_search_icon"
+            android:layout_width="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_height"
+            android:layout_alignParentLeft="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/KEY_TAG_TAB"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/actionbar_height"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/btn_search_icon"
+            android:background="#3F4A54"
+            android:hint="@string/txt_search_friend"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_personal_friend"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/actionbar_bottom" />
 
 </RelativeLayout>

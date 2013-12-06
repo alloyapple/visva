@@ -48,6 +48,5 @@ public class HistoryTradeFragment extends FragmentBasic {
 			mTxtShoppingPie.setText(historyTransactionList.getResult().get(0).getPurchasePie()+" pie");
 			mTxtGiftPie.setText(historyTransactionList.getResult().get(0).getRedeemPie()+" pie");
 		}
-		
 	}
 }

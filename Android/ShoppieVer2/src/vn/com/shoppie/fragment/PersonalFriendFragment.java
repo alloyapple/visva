@@ -1,7 +1,10 @@
 package vn.com.shoppie.fragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
@@ -11,6 +14,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListFBFriendAdapter;
 import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
 import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.database.sobject.ShoppieFriendList;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
@@ -18,11 +22,15 @@ import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.network.ParserUtility;
 import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.webconfig.WebServiceConfig;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -36,6 +44,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 
+@SuppressLint("DefaultLocale")
 public class PersonalFriendFragment extends FragmentBasic implements
 		InviteFriendJoinSPInterface {
 	// =============================Constant Define=====================
@@ -45,11 +54,14 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	// ============================Control Define =====================
 	private ListView mFriendListView;
 	private RelativeLayout mLinearProgressBar;
+	private EditText mEditTextSearch;
 	// ============================Class Define =======================
 	private ListFBFriendAdapter mListFBFriendAdapter;
 	private ShopieSharePref mShopieSharePref;
 	// ============================Variable Define =====================
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
+	private Map<String, FBUser> manageByName = new HashMap<String, FBUser>();
+	private Vector<String> nameList = new Vector<String>();
 	private IOnViewFriendDetail mListener;
 	// FaceBook
 	private UiLifecycleHelper uiHelper;
@@ -66,28 +78,57 @@ public class PersonalFriendFragment extends FragmentBasic implements
 			Bundle savedInstanceState) {
 		View root = (ViewGroup) inflater.inflate(R.layout.page_personal_friend,
 				null);
+		mEditTextSearch = (EditText) root.findViewById(R.id.edt_search);
 		mFriendListView = (ListView) root
 				.findViewById(R.id.list_personal_friend);
 		mListFBFriendAdapter = new ListFBFriendAdapter(getActivity(),
 				mListFriend);
 		mListFBFriendAdapter.setListener(this);
 		mFriendListView.setAdapter(mListFBFriendAdapter);
-		// mFriendListView.setOnItemClickListener(new OnItemClickListener() {
-		//
-		// @Override
-		// public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-		// long arg3) {
-		// // TODO Auto-generated method stub
-		// Log.e("adkjhdf", "asdfjf " + arg2);
-		// mListener.onClickViewFriendDetail(mListFriend.get(arg2));
-		// }
-		// });
+
+		mEditTextSearch.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				filterSearch(mEditTextSearch.getText().toString());
+			}
+		});
 
 		mShopieSharePref = new ShopieSharePref(getActivity());
 		mLinearProgressBar = (RelativeLayout) root
 				.findViewById(R.id.layout_progressBar);
 		mLinearProgressBar.setVisibility(View.VISIBLE);
 		return root;
+	}
+
+	private void filterSearch(String content) {
+		// TODO Auto-generated method stub
+		Vector<FBUser> data = new Vector<FBUser>();
+		ArrayList<FBUser> _fbUserList = new ArrayList<FBUser>();
+		for (FBUser fbUser : mListFriend) {
+			if (fbUser.getUserName().toLowerCase()
+					.contains(content.toLowerCase().toString()))
+				_fbUserList.add(fbUser);
+		}
+		if ("".equals(content.toString()))
+			mListFBFriendAdapter.updateFolderList(mListFriend);
+		else
+			mListFBFriendAdapter.updateFolderList(_fbUserList);
 	}
 
 	@Override
@@ -263,7 +304,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 
 	private void onSessionStateChanged(Session session, SessionState state,
 			Exception exception) {
-		if ( state !=null && state.isOpened()) {
+		if (state != null && state.isOpened()) {
 			Log.e("gdfsdaf", "adfdf");
 			getUserData(session);
 		}

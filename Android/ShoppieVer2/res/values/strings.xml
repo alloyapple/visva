@@ -140,6 +140,7 @@
 
     <!-- search activity -->
     <string name="txt_search_brand_hint">Tìm theo thương hiệu</string>
+    <string name="txt_search_friend">Tìm bạn</string>
 
     <!-- change user info -->
     <string name="phone_notice">Số Phone chính xác giúp Shoppie nạp thẻ điện thoại cho bạn chính xác</string>
