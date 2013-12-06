@@ -120,7 +120,6 @@ public class CollectionList extends Activity {
 							adapter.getItem(curId).getCampaignName());
 					intent.putExtra(CatelogyDetailActivity.LUCKY_PIE_KEY,
 							adapter.getItem(curId).getLuckyPie());
-
 					startActivity(intent);
 
 					clearMemory();
