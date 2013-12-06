@@ -1,7 +1,11 @@
 package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
+import java.util.Vector;
+
 import vn.com.shoppie.R;
+import vn.com.shoppie.activity.SearchActivity;
+import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.util.ImageLoader;
 import android.content.Context;
@@ -21,6 +25,7 @@ public class ListFBFriendAdapter extends BaseAdapter {
 	private ArrayList<FBUser> mListFriend;
 	private InviteFriendJoinSPInterface mListener;
 	private ImageLoader mImageLoader;
+	private Vector<String> nameList = new Vector<String>();
 
 	public ListFBFriendAdapter(Context context, ArrayList<FBUser> mListFriend) {
 		this.mContext = context;
@@ -78,10 +83,12 @@ public class ListFBFriendAdapter extends BaseAdapter {
 
 		if (mListFriend.get(position).isJoinSP()) {
 			txtNumberPie.setVisibility(View.VISIBLE);
-			txtNumberPie.setText(mListFriend.get(position).getNumberPie()+" pie");
-			convertView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-			
-		} else{
+			txtNumberPie.setText(mListFriend.get(position).getNumberPie()
+					+ " pie");
+			convertView.setBackgroundColor(mContext.getResources().getColor(
+					R.color.white));
+
+		} else {
 			txtNumberPie.setVisibility(View.GONE);
 			convertView.setBackgroundResource(R.drawable.bg_friend_fb_only);
 		}
@@ -160,5 +167,4 @@ public class ListFBFriendAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		this.mListener = mInviteFriendJoinSPInterface;
 	}
-
 }
