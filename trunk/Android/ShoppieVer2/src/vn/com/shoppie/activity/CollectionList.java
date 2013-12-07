@@ -54,6 +54,7 @@ public class CollectionList extends Activity {
 
 	private ListView listView;
 	private static ListCollectionAdapter adapter;
+	private static int listpie[];
 	private static String listCampaignId[];
 	private static String listCampaignName[];
 	public static int curId = 0;
@@ -178,9 +179,11 @@ public class CollectionList extends Activity {
 		adapter = new ListCollectionAdapter(this, data);
 		listView.setAdapter(adapter);
 
+		listpie = new int[adapter.getCount()];
 		listCampaignId = new String[adapter.getCount()];
 		listCampaignName = new String[adapter.getCount()];
 		for (int i = 0; i < adapter.getCount(); i++) {
+			listpie[i] = adapter.getItem(i).getLuckyPie();
 			listCampaignId[i] = "" + adapter.getItem(i).getCampaignId();
 			listCampaignName[i] = "" + adapter.getItem(i).getCampaignName();
 		}
@@ -188,6 +191,10 @@ public class CollectionList extends Activity {
 
 	public static String getCurCampaignName() {
 		return listCampaignName[curId];
+	}
+	
+	public static int getCurPie() {
+		return listpie[curId];
 	}
 	
 	public static String getNextCampaignId() {
