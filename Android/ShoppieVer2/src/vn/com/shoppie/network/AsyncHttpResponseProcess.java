@@ -11,7 +11,6 @@ import vn.com.shoppie.util.VisvaDialog;
 import android.app.Activity;
 import android.util.Log;
 
-
 /**
  * AsyncHttpResponseProcess: process server response
  * 
@@ -39,9 +38,7 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 	@Override
 	public void after(int statusCode, HttpResponse response) {
 		// Process server response
-		if (progressDialog != null)
-
-		{
+		if (progressDialog != null) {
 			progressDialog.dismiss();
 			progressDialog = null;
 		}
@@ -49,10 +46,11 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 		switch (statusCode) {
 		case AsyncHttpBase.NETWORK_STATUS_OFF:
 			try {
-				DialogUtility.alert(context, context.getString(R.string.network_unvailable));
+				DialogUtility.alert(context,
+						context.getString(R.string.network_unvailable));
 			} catch (Exception e) {
 				DialogUtility.alert(context.getParent(),
-						 context.getString(R.string.network_unvailable));
+						context.getString(R.string.network_unvailable));
 				e.printStackTrace();
 			}
 			break;
