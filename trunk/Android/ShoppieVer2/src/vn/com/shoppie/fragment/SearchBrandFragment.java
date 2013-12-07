@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.w3c.dom.NameList;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import vn.com.shoppie.R;
@@ -11,6 +13,7 @@ import vn.com.shoppie.activity.SearchActivity;
 import vn.com.shoppie.adapter.StoreAdapter;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import vn.com.shoppie.util.StringUtility;
 import vn.com.shoppie.util.Utils;
 import android.location.Location;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ public class SearchBrandFragment extends FragmentBasic {
 
 	private ListView listView;
 	private Vector<String> nameList = new Vector<String>();
+	private Vector<String> nameUnsignList = new Vector<String>();
 	private Map<String, MerchantStoreItem> manageByName = new HashMap<String, MerchantStoreItem>();
 	private StoreAdapter adapter;
 	
@@ -88,10 +92,12 @@ public class SearchBrandFragment extends FragmentBasic {
 		adapter = new StoreAdapter(getActivity() , data , ((SearchActivity) getActivity()).getMyLocation());
 		listView.setAdapter(adapter);
 		nameList.clear();
+		nameUnsignList.clear();
 		manageByName.clear();
 		for (int i = 0; i < data.size(); i++) {
 			String name = new String(data.get(i).getStoreName());
 			nameList.add(data.get(i).getStoreName());
+			nameUnsignList.add(StringUtility.ConverToUnsign(data.get(i).getStoreName()));
 			if(manageByName.get(name) == null)
 				manageByName.put(name, data.get(i));
 		}
@@ -100,9 +106,11 @@ public class SearchBrandFragment extends FragmentBasic {
 	}
 
 	public void filter(String content) {
+		String unSign = StringUtility.ConverToUnsign(content);
 		Vector<MerchantStoreItem> data = new Vector<MerchantStoreItem>();
-		for (String name : nameList) {
-			if (name.toLowerCase().contains(content.toLowerCase())) {
+		for (String nameUnsign : nameUnsignList) {
+			if (nameUnsign.toLowerCase().contains(unSign.toLowerCase())) {
+				String name = nameList.get(nameUnsignList.indexOf(nameUnsign));
 				data.add(manageByName.get(name));
 			}
 		}

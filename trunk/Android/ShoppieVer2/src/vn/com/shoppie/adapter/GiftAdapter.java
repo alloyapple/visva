@@ -7,6 +7,7 @@ import java.util.Vector;
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
@@ -47,7 +48,7 @@ public class GiftAdapter extends BaseAdapter{
 			GroupGift group = new GroupGift();
 			for(int j = 0 ; j < 4 && i * 4 + j < data.size(); j++) {
 				group.add(data.get(i * 4 + j));
-				Log.d("Link Image : " + (CatelogyAdapter.URL_HEADER + data.get(i * 4 + j).getGiftImage()));
+				Log.d("Link Image : " + (WebServiceConfig.HEAD_IMAGE + data.get(i * 4 + j).getGiftImage()));
 			}
 			groupList.add(group);
 		}
@@ -177,8 +178,8 @@ public class GiftAdapter extends BaseAdapter{
 		
 		tvName.setText(item.getPieStr());
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + CatelogyAdapter.URL_HEADER + item.getGiftImage());
-		mImageLoader.DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage() , image
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + WebServiceConfig.HEAD_IMAGE + item.getGiftImage());
+		mImageLoader.DisplayImage(WebServiceConfig.HEAD_IMAGE + item.getGiftImage() , image
 				, false ,false, false , false ,false , false);
 		manageViewByItem.put(item, v);
 		image.setOnClickListener(new OnClickListener() {

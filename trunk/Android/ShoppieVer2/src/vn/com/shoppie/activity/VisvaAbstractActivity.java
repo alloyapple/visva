@@ -376,7 +376,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 	private static IntentFilter createIntentFilter() {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(FINISH_ALL_ACTIVITIES);
-		return filter;
+		return filter;ShoppieSharePref
 	}
 
 	protected void registerBaseActivityReceiver() {

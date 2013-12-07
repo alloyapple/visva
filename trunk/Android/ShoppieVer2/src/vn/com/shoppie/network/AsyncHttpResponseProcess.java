@@ -39,7 +39,10 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 	public void after(int statusCode, HttpResponse response) {
 		// Process server response
 		if (progressDialog != null) {
-			progressDialog.dismiss();
+			try {
+				progressDialog.dismiss();
+			} catch (Exception e) {
+			}
 			progressDialog = null;
 		}
 

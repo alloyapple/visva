@@ -118,9 +118,9 @@ public class ActivityGiftTransaction extends Activity {
 			View image = headerView.findViewById(R.id.image);
 			// listView.addHeaderView(headerView);
 
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + CatelogyAdapter.URL_HEADER + onTopItem.getGiftImage());
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage());
 			ImageLoader.getInstance(this).DisplayImage(
-					CatelogyAdapter.URL_HEADER + onTopItem.getGiftImage(),
+					WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage(),
 					image , true ,true,true,true,true,false);
 			content.addView(headerView);
 			content.addView(new View(this), -1, (int) getResources()

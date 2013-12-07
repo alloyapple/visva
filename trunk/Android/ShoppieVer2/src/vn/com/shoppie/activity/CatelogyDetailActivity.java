@@ -42,11 +42,13 @@ import com.google.gson.Gson;
 
 public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
+	public static final String MERCH_ID_KEY = "merch_id";
 	public static final String CAMPAIGN_NAME_KEY = "campaign_name";
 	public static final String CAMPAIGN_ID_KEY = "campaign_id";
 	public static final String CUSTOMER_ID_KEY = "cuttomer_id";
 	public static final String LUCKY_PIE_KEY = "lucky_pie";
 
+	private String merchId = "";
 	private String camId = "";
 	private String custId = "";
 	private String camName = "";
@@ -110,6 +112,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		mPager.setCanbeExtended(false);
 
 		Bundle extras = getIntent().getExtras();
+		merchId = extras.getString(MERCH_ID_KEY);
 		camId = extras.getString(CAMPAIGN_ID_KEY);
 		custId = extras.getString(CUSTOMER_ID_KEY);
 		camName = extras.getString(CAMPAIGN_NAME_KEY);
@@ -244,6 +247,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			@Override
 			public void onChange(int pos) {
 				if (pos == adapter.getCount() - 1) {
+					mShoppieDBProvider.addNewCollection(Integer.parseInt(camId), Integer.parseInt(merchId), true);
 					String id = CollectionList.getNextCampaignId();
 					camName = CollectionList.getCurCampaignName();
 					if (id != null) {

@@ -33,6 +33,7 @@
     	android:layout_toRightOf="@id/icon"
     	android:layout_below="@id/catelogy"
     	android:layout_marginLeft="@dimen/page_title_catelogy_subcatelogy_marginleft"
+    	android:singleLine="true"
     	android:textSize="@dimen/page_title_catelogy_subcatelogy_textsize"
     	android:text="Quán ăn, nhậu nhẹt"
     	android:textColor="@android:color/darker_gray"

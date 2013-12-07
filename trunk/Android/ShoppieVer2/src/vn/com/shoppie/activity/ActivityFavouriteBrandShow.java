@@ -1,14 +1,20 @@
 package vn.com.shoppie.activity;
 
+import com.antonyt.infiniteviewpager.StoreImageFragment;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.fragment.SearchBrandDetailFragment.IOnClickShowStoreDetail;
 import vn.com.shoppie.object.FavouriteDataObject;
-import android.app.Activity;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -18,7 +24,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ActivityFavouriteBrandShow extends Activity {
+public class ActivityFavouriteBrandShow extends FragmentActivity {
 	// =============================Constant Define=====================
 	// ============================Control Define =====================
 	private TextView name;
@@ -38,7 +44,6 @@ public class ActivityFavouriteBrandShow extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		// Remove title bar
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -60,7 +65,6 @@ public class ActivityFavouriteBrandShow extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Log.e("like success ", "like success");
 
 				MediaPlayer mPlayer = MediaPlayer.create(
@@ -117,5 +121,43 @@ public class ActivityFavouriteBrandShow extends Activity {
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
+	}
+	
+	public void updateUI(final MerchantStoreItem store) {
+		mMerchantStoreItem = store;
+		name.setText(store.getStoreName());
+		desc.setText(store.getMerchDesc());
+		count.setText("+" + store.getPieQty());
+
+		viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), store));
+		viewPager.setCurrentItem(5001);
+		
+		tvLike.setText("0");
+	}
+
+	class MyPagerAdapter extends FragmentStatePagerAdapter {
+
+		MerchantStoreItem store;
+
+		public MyPagerAdapter(FragmentManager fm , MerchantStoreItem store) {
+			super(fm);
+			this.store = store;
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			Fragment fragment = new StoreImageFragment();
+			Bundle args = new Bundle();
+			args.putString("link0", WebServiceConfig.HEAD_IMAGE + store.getMerchLogo());
+
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		@Override
+		public int getCount() {
+			return 10000;
+		}
+
 	}
 }

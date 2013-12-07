@@ -1,9 +1,10 @@
 package vn.com.shoppie.view;
 
-import java.util.Calendar;
+
+import java.util.Vector;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.view.MScrollView.OnReachBottom;
+import vn.com.shoppie.adapter.CollectionDetailAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -234,8 +235,10 @@ public class MPager extends RelativeLayout{
 	
 	private void addViewTo(View view , int pos){
 		LayoutParams params = new LayoutParams(mAdapter.getViewWidth(), mAdapter.getViewHeight());
+		View v = container.getChildAt(pos);
 		container.removeViewAt(pos);
 		container.addView(view, pos , params);
+		
 	}
 	
 	@Override
@@ -1018,11 +1021,11 @@ public class MPager extends RelativeLayout{
 			int minSlide = mAdapter.getViewWidth() / 5;
 			Log.d("Fling", "" + velocityY);
 			if(velocityY < -minSlide && scrollView.isReachBottom()){
-				isDown = true;
-				distance = 0;
+//				isDown = true;
+//				distance = 0;
 //				scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());
-				isOpenCollapse = true;
-				collapseView();
+//				isOpenCollapse = true;
+//				collapseView();
 			}
 			return true;
 		}

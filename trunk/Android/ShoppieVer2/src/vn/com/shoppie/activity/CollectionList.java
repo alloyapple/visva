@@ -94,7 +94,7 @@ public class CollectionList extends Activity {
 				.findViewById(R.id.subcatelogy);
 		TextView countTv = (TextView) headerView.findViewById(R.id.count); 
 		ImageLoader.getInstance(this).DisplayImage(
-				CatelogyAdapter.URL_HEADER + iconLink, icon);
+				WebServiceConfig.HEAD_IMAGE + iconLink, icon);
 		titleTv.setText(title);
 		subTitleTv.setText(titleDesc);
 		countTv.setText(number);
@@ -112,6 +112,8 @@ public class CollectionList extends Activity {
 					Intent intent = new Intent(CollectionList.this,
 							CatelogyDetailActivity.class);
 					Log.d("CPAID", "" + adapter.getItem(curId).getCampaignId());
+
+					intent.putExtra(CatelogyDetailActivity.MERCH_ID_KEY, merchantId);
 					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_ID_KEY, ""
 							+ adapter.getItem(curId).getCampaignId());
 					intent.putExtra(CatelogyDetailActivity.CUSTOMER_ID_KEY,
