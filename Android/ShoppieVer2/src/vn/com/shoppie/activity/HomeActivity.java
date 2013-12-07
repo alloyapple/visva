@@ -32,6 +32,9 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -43,8 +46,11 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
@@ -440,6 +446,96 @@ public class HomeActivity extends VisvaAbstractActivity {
 		}
 	}
 
+	public void showPieAnimation() {
+		SoundPool sp = new SoundPool(5,
+				AudioManager.STREAM_MUSIC, 0);
+
+		int iTmp = sp.load(this, R.raw.pied, 1);
+		sp.play(iTmp, 1, 1, 0, 0, 1);
+		MediaPlayer mPlayer = MediaPlayer.create(this,
+				R.raw.pied); // in 2nd param u have to pass
+								// your desire ringtone
+		if (mPlayer != null)
+			mPlayer.start();
+
+		final View piedView = findViewById(R.id.pied_view);
+		piedView.setVisibility(View.VISIBLE);
+		ScaleAnimation anim = new ScaleAnimation(0, 1f, 0,
+				1f, piedView.getWidth() / 2, piedView
+						.getHeight() / 2);
+		anim.setDuration(1000);
+		anim.setInterpolator(new DecelerateInterpolator());
+
+		final ScaleAnimation anim2 = new ScaleAnimation(1f,
+				1f, 1f, 1f, piedView.getWidth() / 2,
+				piedView.getHeight() / 2);
+		anim2.setDuration(1000);
+
+		final ScaleAnimation anim1 = new ScaleAnimation(1f,
+				0f, 1f, 0f, piedView.getWidth() / 2,
+				piedView.getHeight() / 2);
+		anim1.setInterpolator(new AccelerateInterpolator());
+		anim1.setDuration(500);
+
+		anim.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(
+					Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				piedView.startAnimation(anim2);
+			}
+		});
+		anim2.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(
+					Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				piedView.startAnimation(anim1);
+			}
+		});
+		anim1.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(
+					Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				View v = findViewById(R.id.pied_view);
+				v.setVisibility(View.VISIBLE);
+			}
+		});
+
+		piedView.startAnimation(anim);
+	}
+	
 	private void turnoffBluetooth() {
 		//Disable bluetooth
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();    

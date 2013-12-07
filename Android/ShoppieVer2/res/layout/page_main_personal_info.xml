@@ -47,7 +47,7 @@
 
         <ImageView
             android:id="@+id/img_personal_bg_number_pie"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@drawable/tab_personal_number_pie"

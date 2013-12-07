@@ -48,7 +48,7 @@ public class GiftDetailActivity extends Activity{
 		item = ActivityGiftTransaction.currItem;
 		
 		((TextView) findViewById(R.id.desc)).setText(item.getDescription());
-		ImageLoader.getInstance(this).DisplayImage(CatelogyAdapter.URL_HEADER + item.getGiftImage(), findViewById(R.id.image), true, true, false, false, true, false);
+		ImageLoader.getInstance(this).DisplayImage(WebServiceConfig.HEAD_IMAGE + item.getGiftImage(), findViewById(R.id.image), true, true, false, false, true, false);
 		
 		String price[] = item.getPricesNotArr();
 		int pie[] = item.getPiesNotArr();

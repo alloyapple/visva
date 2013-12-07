@@ -1,8 +1,10 @@
 package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.ImageUtil;
@@ -30,10 +32,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
@@ -66,7 +66,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	private boolean isNeedUpdateImage[];
 	private MPager mPager;
 	private boolean hasPie = false;
-
 	public CollectionDetailAdapter(Context context, MPager mPager,
 			ArrayList<MerchProductItem> data, boolean hasPie) {
 		this.context = context;
@@ -119,7 +118,12 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					});
 
 				} else {
-					v = inflater.inflate(R.layout.collectiondetail_1, null,
+					if(pullView.size() > 0) {
+						v = pullView.get(0);
+						pullView.remove(0);
+					}
+					else
+						v = inflater.inflate(R.layout.collectiondetail_1, null,
 							false);
 					View text = v.findViewById(R.id.text);
 					text.setOnClickListener(new OnClickListener() {
@@ -425,7 +429,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 				View image = v.findViewById(R.id.image);
 				if (image != null) {
 					ImageLoader.getInstance(context).DisplayImage(
-							CatelogyAdapter.URL_HEADER
+							WebServiceConfig.HEAD_IMAGE
 									+ data.get(position).getProductImage(),
 							image, true, true, false, false, true, false);
 					isNeedUpdateImage[position] = false;
@@ -898,4 +902,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	public void setItemClickListener(OnItemClickListener itemClickListener) {
 		this.itemClickListener = itemClickListener;
 	}
+	
+	private Vector<View> pullView = new Vector<View>();
 }

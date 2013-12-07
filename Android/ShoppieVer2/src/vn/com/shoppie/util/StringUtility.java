@@ -173,4 +173,30 @@ public final class StringUtility {
 	// return UUID.randomUUID().toString();
 	//
 	// }
+	
+	public static String ConverToUnsign(String s)
+    {
+		StringBuilder result = new StringBuilder(s);
+        String[] pattern = {"(á|à|ả|ã|ạ|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ)",
+               "đ",
+               "(é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ)",
+               "(í|ì|ỉ|ĩ|ị)",
+               "(ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ)",
+               "(ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự)",
+               "(ý|ỳ|ỷ|ỹ|ỵ)"};
+        char[] replaceChar = { 'a', 'd', 'e', 'i', 'o', 'u', 'y', 'A', 'D', 'E', 'I', 'O', 'U', 'Y' };
+
+        
+        for (int i = 0; i < s.length(); i++) {
+			char ch = s.charAt(i);
+			for (int j = 0; j < pattern.length; j++) {
+				if(pattern[j].contains("" + ch)) {
+					result.setCharAt(i, replaceChar[j]);
+					break;
+				}
+			}
+		}
+
+        return result.toString();
+    }
 }

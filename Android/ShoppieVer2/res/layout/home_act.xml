@@ -101,4 +101,13 @@
         android:textStyle="italic"
         android:visibility="gone"
         android:text="Kéo trái/phải để xem nhiều hơn"/>
+    
+    <View 
+        android:layout_width="@dimen/pie_width"
+        android:layout_height="@dimen/pie_width"
+        android:background="@drawable/pied"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        android:id="@+id/pied_view"
+        />
 </RelativeLayout>

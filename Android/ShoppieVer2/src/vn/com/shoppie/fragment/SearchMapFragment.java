@@ -185,7 +185,7 @@ public class SearchMapFragment extends SupportMapFragment{
 		textPaint.setAntiAlias(true);
 		textPaint.setTextAlign(Align.CENTER);
 		textPaint.setColor(0xffffffff);
-		textPaint.setTextSize(30);
+		textPaint.setTextSize(getResources().getDimension(R.dimen.marker_textsize));
 		int width = (int) (textPaint.measureText(value) * 4f / 2f);
 		int height = (int) (width + getPixelByDp(5));
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);

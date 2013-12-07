@@ -51,6 +51,14 @@ public class SearchResultFragment extends FragmentBasic{
 			}
 		});
 
+		root.findViewById(R.id.confirm_layout).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				((SearchActivity) getActivity()).onBackPressed();
+			}
+		});;
+		
 		View checkinCircle = root.findViewById(R.id.loading);
 
 		int angle = 900;

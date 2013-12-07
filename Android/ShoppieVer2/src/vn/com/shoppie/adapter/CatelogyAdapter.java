@@ -9,6 +9,7 @@ import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.OnItemClick;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 
 public class CatelogyAdapter extends MPagerAdapterBase{
 	
-	public static final String URL_HEADER = "http://shoppie.com.vn:8080/";
+//	public static final String URL_HEADER = "http://shoppie.com.vn:8080/";
 	
 	private ArrayList<MerchantCategoryItem> data;
 	
@@ -59,13 +60,13 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			tvCount.setText("" + data.get(position).getCampaignNumber());
 			
 			if(showBottom)
-				ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon , true
+				ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getIcon(), icon , true
 					, false , false , false , false , false);
 			else
-				ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getIcon(), icon , true
+				ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getIcon(), icon , true
 						, false , true , false , false , false);
 				
-			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(position).getImage(), image , false, false ,false ,false,false);
+			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getImage(), image , false, false ,false ,false,false);
 
 			cacheView[position] = v;
 		}
@@ -167,7 +168,7 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			View v = getView(i , false);
 			v.findViewById(R.id.image).setVisibility(View.INVISIBLE);
 			v.findViewById(R.id.view1).setBackgroundResource(R.drawable.round_corner_shape_01);
-			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
+			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
 					, false , true , false , false);
 		}
 	}
@@ -177,7 +178,7 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 			View v = getView(i);
 			View bottom = v.findViewById(R.id.image);
 			v.findViewById(R.id.view1).setBackgroundResource(R.drawable.round_topright_corner);
-			ImageLoader.getInstance(context).DisplayImage(URL_HEADER + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
+			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
 					, false , false , false , false , false);
 			bottom.setVisibility(View.VISIBLE);
 			if(Build.VERSION.SDK_INT >= 11)

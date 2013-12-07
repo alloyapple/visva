@@ -8,6 +8,7 @@ import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.util.CoverLoader;
 import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.util.Utils;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -96,7 +97,7 @@ public class StoreAdapter extends BaseAdapter {
 		
 		holder.subTitle2.setText(getItem(position).getStoreAddress());
 		holder.star.setText("+" + getItem(position).getPieQty());
-		CoverLoader.getInstance(context).DisplayImage(CatelogyAdapter.URL_HEADER + getItem(position).getMerchLogo(), holder.image
+		CoverLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + getItem(position).getMerchLogo(), holder.image
 				, (int) context.getResources().getDimension(R.dimen.collection_item_item_width)
 				, (int) context.getResources().getDimension(R.dimen.collection_item_item_height));
 		

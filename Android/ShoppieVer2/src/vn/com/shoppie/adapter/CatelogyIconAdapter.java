@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class CatelogyIconAdapter extends BaseAdapter {
 			v = inflater.inflate(R.layout.category_header_item, null, false);
 			ImageView imgIcon = (ImageView) v.findViewById(R.id.img_category);
 			ImageLoader.getInstance(context).DisplayImage(
-					CatelogyAdapter.URL_HEADER + data.get(position).getIcon(),
+					WebServiceConfig.HEAD_IMAGE + data.get(position).getIcon(),
 					imgIcon);
 		}
 		return v;

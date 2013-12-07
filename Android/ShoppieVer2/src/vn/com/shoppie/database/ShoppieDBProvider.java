@@ -90,15 +90,19 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 	}
 
 	public void addNewCollection(Collection collection) {
+		addNewCollection(collection.getCollectionId(), collection.getMerchId(), collection.isViewed());
+	}
+	
+	public void addNewCollection(int collectionId , int merchId , boolean isView) {
 		SQLiteDatabase mdb = getWritableDatabase();
 		ContentValues mValue = new ContentValues();
-		mValue.put(COLLECTION_ID, collection.getCollectionId());
-		mValue.put(MERCH_ID, collection.getMerchId());
-		mValue.put(ISVIEWED, collection.isViewed());
+		mValue.put(COLLECTION_ID, collectionId);
+		mValue.put(MERCH_ID, merchId);
+		mValue.put(ISVIEWED, isView);
 		mdb.insert(TABLE_COLLECTION, null, mValue);
 		mdb.close();
 	}
-
+	
 	/*-------------------------- INSERT - UPDATE FUNCTION--------------------------*/
 	public void updateJsonData(JsonDataObject jsonDataObject) {
 
@@ -192,8 +196,8 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 	public ArrayList<Collection> getCollectionData(int merchId, int collectionId) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		ArrayList<Collection> collections = new ArrayList<Collection>();
-		String query = "SELECT * FROM " + TABLE_COLLECTION + " WHERE "
-				+ MERCH_ID + "='" + merchId + "' and " + COLLECTION_ID + " = '"
+		String query = "SELECT * FROM " + TABLE_COLLECTION + " WHERE " +
+				COLLECTION_ID + " = '"
 				+ collectionId + "'";
 		Cursor mCursor = mdb.rawQuery(query, null);
 		if (mCursor.moveToFirst()) {
@@ -211,6 +215,11 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		return collections;
 	}
 
+	public boolean checkViewed(int merchId, int collectionId) {
+		boolean result = getCollectionData(merchId, collectionId).size() > 0;
+		return result;
+	}
+	
 	/*-------------------------- DELETE FUNCTION--------------------------*/
 
 	// delete jsondata

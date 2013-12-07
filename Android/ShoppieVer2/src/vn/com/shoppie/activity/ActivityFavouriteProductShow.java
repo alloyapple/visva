@@ -13,6 +13,8 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
@@ -23,6 +25,7 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FavouriteDataObject;
+import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.Utils;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
@@ -36,6 +39,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation.AnimationListener;
@@ -210,6 +214,31 @@ public class ActivityFavouriteProductShow extends Activity {
 				initShareItent(item);
 			}
 		});
+		
+		View image = findViewById(R.id.image);
+		ImageLoader.getInstance(this).DisplayImage(
+				WebServiceConfig.HEAD_IMAGE
+						+ mMerchProductItem.getProductImage(),
+				image, true, true, false, false, true, false);
+		
+		image.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				View text = findViewById(R.id.text);
+				if (text.getAnimation() == null) {
+					text.setVisibility(View.VISIBLE);
+						AnimatorSet set = new AnimatorSet();
+						set.playTogether(ObjectAnimator.ofFloat(text,
+								"alpha", 0, 0.8f), ObjectAnimator.ofFloat(
+								text, "translationY", getViewHeight(), 0));
+						set.setDuration(350);
+						set.setInterpolator(new AccelerateInterpolator());
+						set.start();
+				}
+			}
+		});
+		
 	}
 
 	private void onPostLikeToServer(int liked, int merchId) {

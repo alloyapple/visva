@@ -6,6 +6,7 @@ import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.object.FavouriteDataObject;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -167,7 +168,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 			// TODO Auto-generated method stub
 			Fragment fragment = new StoreImageFragment();
 			Bundle args = new Bundle();
-			args.putString("link0", CatelogyAdapter.URL_HEADER + store.getMerchLogo());
+			args.putString("link0", WebServiceConfig.HEAD_IMAGE + store.getMerchLogo());
 
 			fragment.setArguments(args);
 			return fragment;
