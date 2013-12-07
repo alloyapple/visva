@@ -141,6 +141,9 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		adapter.freeAll();
 	}
 
+	public void onClickShowFavouritePersonal(View v){
+		gotoActivity(CatelogyDetailActivity.this, PersonalInfoActivity.class);
+	}
 	private void unlikeProduct(String custId, final String productId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.likeProduct(
@@ -307,6 +310,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 									jsonObject.toString(),
 									MerchProductList.class);
 							/** update to database */
+							Log.e("adkjfhdf", "asdfkjdh "+response.toString());
 							mShoppieDBProvider
 									.deleteJsonData(GlobalValue.TYPE_MERCH_PRODUCTS);
 							JsonDataObject jsonDataObject = new JsonDataObject(
@@ -323,11 +327,11 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 										&& mShoppieDBProvider
 												.countFavouriteDataitem(""
 														+ merchProductItem
-																.getMerchId()) == 0) {
+																.getProductId()) == 0) {
 									FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
 											merchProductItem.getProductImage(),
 											GlobalValue.TYPE_FAVOURITE_PRODUCT,""+
-											merchProductItem.getMerchId());
+											merchProductItem.getProductId());
 									mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
 								}
 							}
