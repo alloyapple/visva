@@ -250,6 +250,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 					mShoppieDBProvider.addNewCollection(Integer.parseInt(camId), Integer.parseInt(merchId), true);
 					String id = CollectionList.getNextCampaignId();
 					camName = CollectionList.getCurCampaignName();
+					pie = CollectionList.getCurPie();
 					if (id != null) {
 						camId = id;
 						adapter.freeAll();
@@ -281,6 +282,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			String id = CollectionList.getNextCampaignId();
 			if (id != null) {
 				camName = CollectionList.getCurCampaignName();
+				pie = CollectionList.getCurPie();
 				camId = id;
 				adapter.freeAll();
 				requestupdateToGetMerchProducts(camId, custId);
