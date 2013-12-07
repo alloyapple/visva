@@ -3,7 +3,7 @@ package vn.com.shoppie.constant;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class ShopieSharePref {
+public class ShoppieSharePref {
 
 	private static final String CURRENT_BAL = "current_bal";
 	private static final String LOGIN_TYPE = "login_type";
@@ -23,7 +23,7 @@ public class ShopieSharePref {
 	
 	private Context context;
 
-	public ShopieSharePref(Context context) {
+	public ShoppieSharePref(Context context) {
 		this.context = context;
 	}
 

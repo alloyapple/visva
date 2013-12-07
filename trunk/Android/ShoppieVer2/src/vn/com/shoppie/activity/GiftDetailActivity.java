@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftRedeemItem;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 public class GiftDetailActivity extends Activity{
 	private GiftItem item;
-	private ShopieSharePref mSharePref;
+	private ShoppieSharePref mSharePref;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class GiftDetailActivity extends Activity{
 	}
 
 	private void init() {
-		mSharePref = new ShopieSharePref(this);
+		mSharePref = new ShoppieSharePref(this);
 		item = ActivityGiftTransaction.currItem;
 		
 		((TextView) findViewById(R.id.desc)).setText(item.getDescription());

@@ -14,7 +14,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyIconAdapter;
 import vn.com.shoppie.adapter.StoreAdapter;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
@@ -354,7 +354,7 @@ public class SearchActivity extends FragmentActivity implements
 			}
 		});
 
-		ShopieSharePref mShopieSharePref = new ShopieSharePref(this);
+		ShoppieSharePref mShopieSharePref = new ShoppieSharePref(this);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestGetMerchantStores(String.valueOf(mShopieSharePref
 					.getCustId()));

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
@@ -63,7 +63,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 	// Google analysis
 	protected GoogleAnalytics mGaInstance;
 	private ShoppieDBProvider mShoppieDBProvider;
-	private ShopieSharePref mSharePref;
+	private ShoppieSharePref mSharePref;
 
 	@Override
 	public int contentView() {
@@ -124,7 +124,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
-		mSharePref = new ShopieSharePref(this);
+		mSharePref = new ShoppieSharePref(this);
 
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())

@@ -7,7 +7,7 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import vn.com.shoppie.R;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.fragment.FeedbackFragment;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
@@ -74,7 +74,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private TextView mTxtTitle;
 	// =========================Class Define ====================
 	private UiLifecycleHelper lifecycleHelper;
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 	// =========================Variable Define==================
 	private ArrayList<String> backstack = new ArrayList<String>();
 	private int custId;
@@ -84,7 +84,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_personal_info);
-		mShopieSharePref = new ShopieSharePref(this);
+		mShopieSharePref = new ShoppieSharePref(this);
 		initialize();
 
 		if (mShopieSharePref.getLoginType()) {

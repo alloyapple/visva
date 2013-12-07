@@ -12,7 +12,7 @@ import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.adapter.GiftAdapter;
 import vn.com.shoppie.adapter.GiftAdapter.OnClickItem;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftList;
@@ -45,7 +45,7 @@ public class ActivityGiftTransaction extends Activity {
 	private GiftAdapter adapter1;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ImageLoader imageLoader;
-	private ShopieSharePref mSharePref;
+	private ShoppieSharePref mSharePref;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class ActivityGiftTransaction extends Activity {
 	private void init() {
 		/** database */
 		mShoppieDBProvider = new ShoppieDBProvider(this);
-		mSharePref = new ShopieSharePref(this);
+		mSharePref = new ShoppieSharePref(this);
 		listView = (ListView) findViewById(R.id.list);
 
 		listView.setDividerHeight((int) getResources().getDimension(
