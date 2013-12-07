@@ -72,7 +72,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 				/** add to favourite product */
 				FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
 						mMerchantStoreItem.getMerchLogo(), GlobalValue.TYPE_FAVOURITE_BRAND,
-						""+mMerchantStoreItem.getMerchId());
+						""+mMerchantStoreItem.getStoreId());
 				mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
 			}
 		});

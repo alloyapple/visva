@@ -154,6 +154,20 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		return jsonDataObject;
 	}
 
+	public JsonDataObject getJsonDataById(String jsonId) {
+		SQLiteDatabase mdb = getReadableDatabase();
+		JsonDataObject jsonDataObject = new JsonDataObject();
+		Cursor mCursor = mdb.query(TABLE_JSON, null, JSON_ID + " = ?",
+				new String[] { String.valueOf(jsonId) }, null, null, null);
+		if (mCursor.moveToFirst()) {
+			jsonDataObject = new JsonDataObject(Integer.parseInt(mCursor
+					.getString(0)), mCursor.getString(1), mCursor.getString(2));
+		}
+		mCursor.close();
+		mdb.close();
+		return jsonDataObject;
+	}
+
 	public ArrayList<FavouriteDataObject> getFavouriteData(String type) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		ArrayList<FavouriteDataObject> favouriteList = new ArrayList<FavouriteDataObject>();
@@ -175,8 +189,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		return favouriteList;
 	}
 
-	public ArrayList<Collection> getCollectionData(int merchId,
-			int collectionId) {
+	public ArrayList<Collection> getCollectionData(int merchId, int collectionId) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		ArrayList<Collection> collections = new ArrayList<Collection>();
 		String query = "SELECT * FROM " + TABLE_COLLECTION + " WHERE "
@@ -186,9 +199,9 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		if (mCursor.moveToFirst()) {
 			do {
 				Collection collection = new Collection();
-				collection = new Collection(
+				collection = new Collection(Integer.parseInt(mCursor
+						.getString(0)), Integer.parseInt(mCursor.getString(0)),
 						Integer.parseInt(mCursor.getString(0)),
-						Integer.parseInt(mCursor.getString(0)), Integer.parseInt(mCursor.getString(0)),
 						Boolean.parseBoolean(mCursor.getString(3)));
 				collections.add(collection);
 			} while (mCursor.moveToNext());
@@ -257,8 +270,8 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		mdb.close();
 		return count;
 	}
-	
-	public int countFavouriteDataitem(String fId){
+
+	public int countFavouriteDataitem(String fId) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		int count = 0;
 		String querry = "select * from " + TABLE_FAVOURITE + " where "

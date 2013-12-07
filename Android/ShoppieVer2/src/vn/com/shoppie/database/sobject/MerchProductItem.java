@@ -143,6 +143,16 @@ public class MerchProductItem implements Parcelable {
 		this.productId = in.readInt();
 		this.merchId = in.readInt();
 		this.productName = in.readString();
+		this.shortDesc = in.readString();
+		this.longDesc = in.readString();
+		this.likedNumber = in.readInt();
+		this.price = in.readInt();
+		this.oldPrice = in.readInt();
+		this.productImage = in.readString();
+		this.thumbNail = in.readString();
+		this.newStatus = in.readString();
+		this.pieQty = in.readInt();
+		this.liked = in.readInt();
 	}
 
 	@Override
@@ -157,6 +167,16 @@ public class MerchProductItem implements Parcelable {
 		out.writeInt(productId);
 		out.writeInt(merchId);
 		out.writeString(productName);
+		out.writeString(shortDesc);
+		out.writeString(longDesc);
+		out.writeInt(likedNumber);
+		out.writeInt(price);
+		out.writeInt(oldPrice);
+		out.writeString(productImage);
+		out.writeString(thumbNail);
+		out.writeString(newStatus);
+		out.writeInt(pieQty);
+		out.writeInt(liked);
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

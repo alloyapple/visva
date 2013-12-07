@@ -14,6 +14,7 @@
     	android:layout_height="@dimen/catelogy_detail_footer_height"
     	android:layout_alignParentBottom="true"
     	android:background="@color/footer_color"
+    	android:onClick="onClickShowFavouritePersonal"
         >
         <ImageButton 
             android:id="@+id/footer_bt"
