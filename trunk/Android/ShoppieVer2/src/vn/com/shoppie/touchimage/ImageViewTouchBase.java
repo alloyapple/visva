@@ -574,7 +574,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	 */
 	public float getMinScale() {
 		if ( mMinZoom == ZOOM_INVALID ) {
-			mMinZoom = computeMinZoom();
+			mMinZoom = 1.2f;
 		}
 		return mMinZoom;
 	}

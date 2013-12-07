@@ -59,7 +59,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	private TextView hint;
 	private ShopieSharePref mSharePref;
-	
+
 	@Override
 	public int contentView() {
 		// TODO Auto-generated method stub
@@ -70,10 +70,10 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(adapter != null)
+		if (adapter != null)
 			adapter.refresh(mPager.getCurrentItem());
 	}
-	
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public void onCreate() {
@@ -85,12 +85,12 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		/** database */
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		mSharePref = new ShopieSharePref(this);
-		
+
 		hint = (TextView) findViewById(R.id.hint);
 		int count = mSharePref.getLikeCount();
-		if(count < 3) {
+		if (count < 3) {
 			hint.setOnTouchListener(new OnTouchListener() {
-				
+
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					// TODO Auto-generated method stub
@@ -101,7 +101,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			hint.setVisibility(View.VISIBLE);
 			mSharePref.addLikeCount();
 		}
-		
+
 		ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
 		icon.setBackgroundResource(R.drawable.ic_back);
 		icon.setImageBitmap(null);
@@ -114,9 +114,8 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		custId = extras.getString(CUSTOMER_ID_KEY);
 		camName = extras.getString(CAMPAIGN_NAME_KEY);
 		pie = extras.getInt(LUCKY_PIE_KEY);
-		System.out.println(">>>>>>>>>>>>>>>>>>>pie : " + pie); 
-		
-		
+		System.out.println(">>>>>>>>>>>>>>>>>>>pie : " + pie);
+
 		// setup actionbar
 		RelativeLayout actionBar = (RelativeLayout) findViewById(R.id.actionbar);
 		LayoutInflater inflater = LayoutInflater.from(this);
@@ -176,7 +175,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 					public void processIfResponseSuccess(String response) {
 						Log.e("like success ", "like success");
 						MediaPlayer mPlayer = MediaPlayer.create(
-								CatelogyDetailActivity.this, R.raw.sound_like2); 
+								CatelogyDetailActivity.this, R.raw.sound_like2);
 						if (mPlayer != null)
 							mPlayer.start();
 
@@ -188,9 +187,10 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 								merchProductItem = mMerchProductItems.get(i);
 						}
 						FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
-								merchProductItem.getProductImage(), GlobalValue.TYPE_FAVOURITE_PRODUCT,
-								productId);
-						mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+								merchProductItem.getProductImage(),
+								GlobalValue.TYPE_FAVOURITE_PRODUCT, productId);
+						mShoppieDBProvider
+								.addNewFavouriteData(favouriteDataObject);
 					}
 
 					@Override
@@ -226,13 +226,13 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private void setAdapter(ArrayList<MerchProductItem> data) {
 		// if(adapter != null)
 		// adapter.recycle();
-		
+
 		TextView mTxtTitle = (TextView) findViewById(R.id.title);
 		mTxtTitle.setTextSize(getResources().getDimension(
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText(camName);
-		
-		adapter = new CollectionDetailAdapter(this, mPager, data , pie > 0);
+
+		adapter = new CollectionDetailAdapter(this, mPager, data, pie > 0);
 		adapter.id = CollectionList.curId;
 		mPager.setAdapter(adapter);
 
@@ -249,13 +249,13 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						mPager.setLockSlide(true);
 						adapter.startLoading();
 						mPager.postDelayed(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								mPager.setLockSlide(false);
 								requestupdateToGetMerchProducts(camId, custId);
 							}
-						} , 2000);
+						}, 2000);
 					}
 				} else
 					adapter.freeImage(pos);
@@ -314,6 +314,23 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 							mMerchProductItems = merchProductList.getResult();
 							setAdapter(mMerchProductItems);
+
+							/** update like to database */
+							for (int i = 0; i < mMerchProductItems.size(); i++) {
+								MerchProductItem merchProductItem = mMerchProductItems
+										.get(i);
+								if (merchProductItem.getLiked() == 1
+										&& mShoppieDBProvider
+												.countFavouriteDataitem(""
+														+ merchProductItem
+																.getMerchId()) == 0) {
+									FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
+											merchProductItem.getProductImage(),
+											GlobalValue.TYPE_FAVOURITE_PRODUCT,""+
+											merchProductItem.getMerchId());
+									mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+								}
+							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

@@ -257,4 +257,16 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		mdb.close();
 		return count;
 	}
+	
+	public int countFavouriteDataitem(String fId){
+		SQLiteDatabase mdb = getReadableDatabase();
+		int count = 0;
+		String querry = "select * from " + TABLE_FAVOURITE + " where "
+				+ FAVOURITE_ID + " ='" + fId + "'";
+		Cursor cursor = mdb.rawQuery(querry, null);
+		count = cursor.getCount();
+		cursor.close();
+		mdb.close();
+		return count;
+	}
 }

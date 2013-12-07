@@ -52,6 +52,7 @@
     <string name="redeem">Đổi quà</string>
     <string name="register">Đăng ký</string>
     <string name="checkin_not_transaction">Chưa thực hiện giao dịch checkin.</string>
+    <string name="checkin_not_success">Giao dịch không thành công</string>
     <string name="checkin_cancel_transaction">Đang thực hiện giao dịch checkin.</string>
     <string name="hello_shoppie">Đăng nhập bằng tài khoản Facebook để bắt đầu sử dụng ứng dụng.</string>
     <string name="hello_shoppie_2">Hoặc bạn có thể nhập tên tài khoản</string>

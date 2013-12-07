@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.activity.ActivityFavouriteBrandShow;
+import vn.com.shoppie.activity.ActivityFavouriteProductShow;
 import vn.com.shoppie.adapter.FavouriteAdapter;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShopieSharePref;
@@ -23,6 +25,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -34,6 +37,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -141,6 +146,29 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				mFavouriteBrandObjects);
 		mFavouriteBrandList.setAdapter(mFavouriteBrandAdapter);
 		mFavouriteProductList.setAdapter(mFavouriteProductAdapter);
+
+		mFavouriteProductList
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						// TODO Auto-generated method stub
+						Intent intent = new Intent(getActivity(), ActivityFavouriteProductShow.class);
+						startActivity(intent);
+					}
+				});
+		mFavouriteBrandList
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						// TODO Auto-generated method stub
+						Intent intent = new Intent(getActivity(), ActivityFavouriteBrandShow.class);
+						startActivity(intent);
+					}
+				});
 		mLayoutFavouriteProduct.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -149,7 +177,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				if (isShowFavouriteProduct) {
 					mFavouriteProductList.setVisibility(View.GONE);
 					isShowFavouriteProduct = false;
-				} else if(mFavouriteProductObjects.size() > 0){
+				} else if (mFavouriteProductObjects.size() > 0) {
 					mFavouriteProductList.setVisibility(View.VISIBLE);
 					isShowFavouriteProduct = true;
 				}
@@ -177,11 +205,11 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				showToast(getActivity().getString(R.string.feedback_content));
-//				initShareItent(
-//						getActivity().getString(R.string.feedback_subject),
-//						getActivity().getString(R.string.feedback_content2),
-//						getActivity().getString(R.string.feedback_send_to));
+				// showToast(getActivity().getString(R.string.feedback_content));
+				// initShareItent(
+				// getActivity().getString(R.string.feedback_subject),
+				// getActivity().getString(R.string.feedback_content2),
+				// getActivity().getString(R.string.feedback_send_to));
 				mListener.onClickFeedback();
 			}
 		});
