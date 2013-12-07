@@ -11,7 +11,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.AdapterWelcomeImage;
 import vn.com.shoppie.adapter.AdapterWelcomeImage.OnWelcomeRegisterListener;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.UserInfo;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
@@ -70,7 +70,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	private String OSVersion;
 	private String friendId;
 	private String phone;
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 	// FaceBook
 	private UiLifecycleHelper uiHelper;
 	private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -89,7 +89,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(arg0);
 
-		mShopieSharePref = new ShopieSharePref(this);
+		mShopieSharePref = new ShoppieSharePref(this);
 
 		setContentView(R.layout.activity_welcome);
 

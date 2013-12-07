@@ -20,19 +20,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import vn.com.shoppie.R;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 
 @SuppressLint("SimpleDateFormat")
 public class ActivityChangeUserInfo extends Activity {
 	private DatePickerDialog datePicker;
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 	private int mChangedInfoTimes;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		mShopieSharePref = new ShopieSharePref(this);
+		mShopieSharePref = new ShoppieSharePref(this);
 		mChangedInfoTimes = mShopieSharePref.getCoutnChangeInfoTime();
 		setContentView(R.layout.page_change_user_info);
 		final EditText name = (EditText) findViewById(R.id.activity_register_edt_name);

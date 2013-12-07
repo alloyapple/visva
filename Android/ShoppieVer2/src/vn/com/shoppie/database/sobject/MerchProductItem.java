@@ -1,8 +1,11 @@
 package vn.com.shoppie.database.sobject;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class MerchProductItem {
+public class MerchProductItem implements Parcelable {
 	@SerializedName("productId")
 	private int productId;
 
@@ -134,4 +137,37 @@ public class MerchProductItem {
 	public void setLiked(int liked) {
 		this.liked = liked;
 	}
+
+	public MerchProductItem(Parcel in) {
+		// TODO Auto-generated constructor stub
+		this.productId = in.readInt();
+		this.merchId = in.readInt();
+		this.productName = in.readString();
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		// TODO Auto-generated method stub
+		out.writeInt(productId);
+		out.writeInt(merchId);
+		out.writeString(productName);
+	}
+
+	// this is used to regenerate your object. All Parcelables must have a
+	// CREATOR that implements these two methods
+	public static final Parcelable.Creator<MerchProductItem> CREATOR = new Parcelable.Creator<MerchProductItem>() {
+		public MerchProductItem createFromParcel(Parcel in) {
+			return new MerchProductItem(in);
+		}
+
+		public MerchProductItem[] newArray(int size) {
+			return new MerchProductItem[size];
+		}
+	};
 }

@@ -865,7 +865,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 				like.setText("" + data.get(i).getLikedNumber());
 			}
 		}
-
 	}
 
 	public void startLoading() {

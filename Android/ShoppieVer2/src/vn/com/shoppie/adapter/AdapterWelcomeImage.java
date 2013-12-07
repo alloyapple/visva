@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityWelcome;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.util.SUtilBitmap;
 import vn.com.shoppie.util.SUtilText;
 import android.app.DatePickerDialog;
@@ -41,7 +41,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	public AdapterWelcomeImage(Context context, ArrayList<Integer> data) {
 		this.context = context;
 		this.data = data;
-		mShopieSharePref = new ShopieSharePref(context);
+		mShopieSharePref = new ShoppieSharePref(context);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 
 	static Drawable drb;
 	private String friendId = "";
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 
 	@Override
 	public Object instantiateItem(View container, int position) {

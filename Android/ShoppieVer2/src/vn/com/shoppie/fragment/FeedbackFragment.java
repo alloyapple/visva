@@ -6,7 +6,7 @@ import org.apache.http.NameValuePair;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.PersonalInfoActivity;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
@@ -22,13 +22,13 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class FeedbackFragment extends FragmentBasic {
-	private ShopieSharePref mSharePref;
+	private ShoppieSharePref mSharePref;
 	private View root;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mSharePref = new ShopieSharePref(getActivity());
+		mSharePref = new ShoppieSharePref(getActivity());
 		View root = (ViewGroup) inflater.inflate(R.layout.feedback_act,
 				null);
 

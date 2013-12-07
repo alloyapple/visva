@@ -80,4 +80,6 @@ public final class GlobalValue {
 	public static final String TYPE_GIFT = "gifts";
 	public static final String TYPE_FAVOURITE_PRODUCT = "favourite_products";
 	public static final String TYPE_FAVOURITE_BRAND = "favourite_brand";
+	
+	public static final String MERCH_PRODUCT_ITEM="merch_product_item";
 }

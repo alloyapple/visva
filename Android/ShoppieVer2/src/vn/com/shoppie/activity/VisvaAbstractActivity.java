@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.util.SBroastcastProvider;
 import vn.com.shoppie.util.SBroastcastProvider.BroastcastListener;
 import vn.com.shoppie.util.VisvaDialog;
@@ -54,7 +54,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 	protected GoogleAnalytics mGaInstance;
 
 	SBroastcastProvider broastcast = new SBroastcastProvider(this);
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 	protected boolean isCheckin = false;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -86,7 +86,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 		} catch (Exception e) {
 
 		}
-		mShopieSharePref = new ShopieSharePref(this);
+		mShopieSharePref = new ShoppieSharePref(this);
 		// Get the intent that started this Activity.
 		Intent intent = this.getIntent();
 		Uri uri = intent.getData();

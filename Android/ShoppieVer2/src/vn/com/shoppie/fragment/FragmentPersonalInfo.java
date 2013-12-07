@@ -2,7 +2,7 @@ package vn.com.shoppie.fragment;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityChangeUserInfo;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,7 +24,7 @@ public class FragmentPersonalInfo extends FragmentBasic {
 	private Spinner spinGender;
 	private Button btnChangeUserInfo;
 	// ============================Class Define =======================
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 
 	// ============================Variable Define =====================
 
@@ -85,7 +85,7 @@ public class FragmentPersonalInfo extends FragmentBasic {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mShopieSharePref = new ShopieSharePref(getActivity());
+		mShopieSharePref = new ShoppieSharePref(getActivity());
 	}
 
 	@Override

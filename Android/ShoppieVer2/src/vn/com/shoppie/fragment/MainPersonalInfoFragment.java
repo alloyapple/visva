@@ -4,18 +4,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityFavouriteBrandShow;
 import vn.com.shoppie.activity.ActivityFavouriteProductShow;
 import vn.com.shoppie.adapter.FavouriteAdapter;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.HistoryTransactionItem;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
+import vn.com.shoppie.database.sobject.MerchProductItem;
+import vn.com.shoppie.database.sobject.MerchProductList;
 import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.HorizontalListView;
+import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.touchimage.ImageViewTouch;
@@ -71,7 +78,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	// =========================Class Define --------------------
 	private MainPersonalInfoListener mListener;
 	private ImageLoader mImageLoader;
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 	private FavouriteAdapter mFavouriteProductAdapter;
 	private FavouriteAdapter mFavouriteBrandAdapter;
 	private ShoppieDBProvider mShoppieDBProvider;
@@ -81,6 +88,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private boolean isPickToAvatar = true;
 	private ArrayList<FavouriteDataObject> mFavouriteProductObjects = new ArrayList<FavouriteDataObject>();
 	private ArrayList<FavouriteDataObject> mFavouriteBrandObjects = new ArrayList<FavouriteDataObject>();
+	private ArrayList<MerchProductItem> mMerchProductItems = new ArrayList<MerchProductItem>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,7 +97,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				R.layout.page_main_personal_info, null);
 
 		mImageLoader = new ImageLoader(getActivity());
-		mShopieSharePref = new ShopieSharePref(getActivity());
+		mShopieSharePref = new ShoppieSharePref(getActivity());
 		initData();
 		initialize(root);
 		return root;
@@ -154,7 +162,18 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 					public void onItemClick(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
 						// TODO Auto-generated method stub
-						Intent intent = new Intent(getActivity(), ActivityFavouriteProductShow.class);
+						ArrayList<MerchProductItem> merchProductItems = requestGetMerchProductFromDB();
+						MerchProductItem merchProductItem = null;
+						FavouriteDataObject favouriteDataObject = mFavouriteProductObjects
+								.get(arg2);
+						for(int i = 0 ; i < merchProductItems.size();i++)
+							if(favouriteDataObject.getFavourite_id().equals(String.valueOf(merchProductItems.get(i).getMerchId()))){
+								merchProductItem = merchProductItems.get(i);
+							}
+						Intent intent = new Intent(getActivity(),
+								ActivityFavouriteProductShow.class);
+						intent.putExtra(GlobalValue.MERCH_PRODUCT_ITEM,
+								(MerchProductItem) merchProductItem);
 						startActivity(intent);
 					}
 				});
@@ -165,7 +184,8 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 					public void onItemClick(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
 						// TODO Auto-generated method stub
-						Intent intent = new Intent(getActivity(), ActivityFavouriteBrandShow.class);
+						Intent intent = new Intent(getActivity(),
+								ActivityFavouriteBrandShow.class);
 						startActivity(intent);
 					}
 				});
@@ -596,4 +616,27 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 
 		return inSampleSize;
 	}
+
+	private ArrayList<MerchProductItem> requestGetMerchProductFromDB() {
+		// TODO Auto-generated method stub
+		ArrayList<MerchProductItem> merchProductItems = new ArrayList<MerchProductItem>();
+		JsonDataObject jsonDataObject = mShoppieDBProvider
+				.getJsonData(GlobalValue.TYPE_MERCH_PRODUCTS);
+		String merchantProduct = jsonDataObject.getJsonData();
+		if (merchantProduct != null && !"".equals(merchantProduct))
+			try {
+				JSONObject jsonObject = new JSONObject(merchantProduct);
+				Gson gson = new Gson();
+				MerchProductList merchProductList = gson.fromJson(
+						jsonObject.toString(), MerchProductList.class);
+				merchProductItems = merchProductList.getResult();
+				return merchProductItems;
+			} catch (Exception e) {
+
+			}
+		else
+			showToast(getString(R.string.network_unvailable));
+		return null;
+	}
+
 }

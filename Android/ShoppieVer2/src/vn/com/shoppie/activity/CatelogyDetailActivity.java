@@ -11,7 +11,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CollectionDetailAdapter;
 import vn.com.shoppie.adapter.CollectionDetailAdapter.OnLikeListenner;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchProductList;
@@ -58,7 +58,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	private ArrayList<MerchProductItem> mMerchProductItems = new ArrayList<MerchProductItem>();
 
 	private TextView hint;
-	private ShopieSharePref mSharePref;
+	private ShoppieSharePref mSharePref;
 
 	@Override
 	public int contentView() {
@@ -84,7 +84,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 		/** database */
 		mShoppieDBProvider = new ShoppieDBProvider(this);
-		mSharePref = new ShopieSharePref(this);
+		mSharePref = new ShoppieSharePref(this);
 
 		hint = (TextView) findViewById(R.id.hint);
 		int count = mSharePref.getLikeCount();

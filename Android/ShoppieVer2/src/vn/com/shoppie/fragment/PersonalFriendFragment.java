@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListFBFriendAdapter;
 import vn.com.shoppie.adapter.ListFBFriendAdapter.InviteFriendJoinSPInterface;
-import vn.com.shoppie.constant.ShopieSharePref;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.database.sobject.ShoppieFriendList;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -57,7 +57,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	private EditText mEditTextSearch;
 	// ============================Class Define =======================
 	private ListFBFriendAdapter mListFBFriendAdapter;
-	private ShopieSharePref mShopieSharePref;
+	private ShoppieSharePref mShopieSharePref;
 	// ============================Variable Define =====================
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
 	private Map<String, FBUser> manageByName = new HashMap<String, FBUser>();
@@ -109,7 +109,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 			}
 		});
 
-		mShopieSharePref = new ShopieSharePref(getActivity());
+		mShopieSharePref = new ShoppieSharePref(getActivity());
 		mLinearProgressBar = (RelativeLayout) root
 				.findViewById(R.id.layout_progressBar);
 		mLinearProgressBar.setVisibility(View.VISIBLE);
