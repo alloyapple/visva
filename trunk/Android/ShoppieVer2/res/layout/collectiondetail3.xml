@@ -15,14 +15,22 @@
     	android:paddingTop="5dp"
 	    />
 	
-    <View 
+    <RelativeLayout 
         android:layout_width="@dimen/pie_width"
         android:layout_height="@dimen/pie_width"
         android:background="@drawable/pied"
         android:layout_centerInParent="true"
         android:visibility="invisible"
-        android:id="@+id/pied_view"
-        />
+        android:id="@+id/pied_view">
+        	<TextView 
+        	    android:id="@+id/pie_text"
+        	    android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:textColor="@color/white"
+        		android:textSize="60sp"
+        		android:text="+12"
+        		android:layout_centerInParent="true"/>
+        </RelativeLayout>
     <include 
         android:id="@+id/pied_layout"
         android:visibility="gone"
