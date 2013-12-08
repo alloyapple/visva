@@ -352,9 +352,16 @@ public class SearchActivity extends FragmentActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				setDataByIcon(iconDataList.get(position), false);
-				mSearchMapFragment.updatePie(manageData.get(iconDataList
-						.get(position)));
+				if(position > 0) {
+					setDataByIcon(iconDataList.get(position - 1), false);
+//					mSearchMapFragment.updatePie(manageData.get(iconDataList
+//							.get(position)));
+				}
+				else {
+					setDataByIcon(null, false);
+//					mSearchMapFragment.updatePie(manageData.get(iconDataList
+//							.get(position)));
+				}
 			}
 		});
 
@@ -449,6 +456,22 @@ public class SearchActivity extends FragmentActivity implements
 	}
 
 	public void setDataByIcon(MerchantCategoryItem icon, boolean isUpdateMap) {
+		if(icon == null) {
+			Vector<MerchantStoreItem> result = new Vector<MerchantStoreItem>();
+			for (int i = 0; i < iconDataList.size(); i++) {
+				Vector<MerchantStoreItem> list = manageData.get(iconDataList.get(i));
+				for (int j = 0; j < list.size(); j++) {
+					result.add(list.get(j));
+				}
+			}
+			
+			mSearchBrandFragment.setAdapter(result);
+
+			if (isUpdateMap) {
+				setPieMap(result);
+			}
+			return;
+		}
 		mSearchBrandFragment.setAdapter(manageData.get(icon));
 
 		if (isUpdateMap) {

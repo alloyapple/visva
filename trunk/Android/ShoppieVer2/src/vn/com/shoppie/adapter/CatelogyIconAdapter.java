@@ -26,13 +26,13 @@ public class CatelogyIconAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return data.size();
+		return data.size() + 1;
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public MerchantCategoryItem getItem(int position) {
 		// TODO Auto-generated method stub
-		return data.get(position);
+		return data.get(position - 1);
 	}
 
 	@Override
@@ -50,9 +50,14 @@ public class CatelogyIconAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(R.layout.category_header_item, null, false);
 			ImageView imgIcon = (ImageView) v.findViewById(R.id.img_category);
-			ImageLoader.getInstance(context).DisplayImage(
-					WebServiceConfig.HEAD_IMAGE + data.get(position).getIcon(),
-					imgIcon);
+			if(position > 0) {
+				ImageLoader.getInstance(context).DisplayImage(
+						WebServiceConfig.HEAD_IMAGE + getItem(position).getIcon(),
+						imgIcon);
+			}
+			else {
+				imgIcon.setBackgroundResource(R.drawable.ic_all);
+			}
 		}
 		return v;
 	}
