@@ -110,7 +110,7 @@ public class SearchActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		mTitleSearchListView = (HorizontalListView) findViewById(R.id.list_title_search);
-
+		
 		mFmManager = getSupportFragmentManager();
 		mSearchBrandFragment = (SearchBrandFragment) mFmManager
 				.findFragmentById(R.id.search_brand_list_fragment);

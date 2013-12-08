@@ -60,32 +60,39 @@
             android:id="@+id/divider0"
             android:background="#ECECEC"
             />
-        <vn.com.shoppie.view.MyTextView
-            android:id="@+id/des_title"
+
+        <LinearLayout
+            android:id="@+id/desc_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/divider0"
-            android:padding="5dp"
-            android:text="Hướng dẫn cách đổi"
-            android:textColor="#2A5C72"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:background="#F9F9F9" />
-        <vn.com.shoppie.view.MyTextView
-            android:id="@+id/desc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_above="@id/bottombox"
-            android:layout_below="@id/des_title"
-            android:padding="5dp"
-            android:textColor="#808080"
-            android:text="Hướng dẫn cách đổi"
-            android:textSize="15sp"
-            android:background="#F9F9F9" />
+            android:layout_below="@id/divider0"
+            android:background="#F9F9F9"
+            android:orientation="vertical" >
+
+	        <vn.com.shoppie.view.MyTextView
+	            android:id="@+id/des_title"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:padding="5dp"
+	            android:text="Hướng dẫn cách đổi"
+	            android:textColor="#2A5C72"
+	            android:textSize="20sp"
+	            android:textStyle="bold"
+	            android:background="#F9F9F9" />
+	        <vn.com.shoppie.view.MyTextView
+	            android:id="@+id/desc"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:padding="5dp"
+	            android:textColor="#808080"
+	            android:text="Hướng dẫn cách đổi"
+	            android:textSize="15sp" />
+        </LinearLayout>
 		<View 
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_below="@id/desc"
+            android:layout_below="@id/desc_layout"
             android:id="@+id/divider1"
             android:background="#ECECEC"
             />

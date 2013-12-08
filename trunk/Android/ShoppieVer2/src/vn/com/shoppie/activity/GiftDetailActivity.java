@@ -6,10 +6,7 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftRedeemItem;
@@ -25,15 +22,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class GiftDetailActivity extends Activity{
 	private GiftItem item;
 	private ShoppieSharePref mSharePref;
-	
+	private int currId;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -61,6 +62,19 @@ public class GiftDetailActivity extends Activity{
 //		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 //				android.R.layout.simple_spinner_item, text);
 		((Spinner) findViewById(R.id.spinner)).setAdapter(new MySpinnerAdapter(text));
+		((Spinner) findViewById(R.id.spinner)).setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				currId = position;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				
+			}
+		});
 	}
 	
 	public void onClickBack(View v) {
@@ -103,7 +117,10 @@ public class GiftDetailActivity extends Activity{
 	}
 
 	public void onClickDoiqua(View v) {
-		updateGiftListAvailable(ActivityGiftTransaction.currItem.getMerchId(), "", mSharePref.getCustId() + "", ActivityGiftTransaction.currItem.getGiftId(), ActivityGiftTransaction.currItem.getRedeemQty(), ActivityGiftTransaction.currItem.getPieQty(), ActivityGiftTransaction.currItem.getGiftPrice());
+		if(mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId])
+			updateGiftListAvailable(ActivityGiftTransaction.currItem.getMerchId(), "", mSharePref.getCustId() + "", ActivityGiftTransaction.currItem.getGiftId(), ActivityGiftTransaction.currItem.getRedeemQty(), ActivityGiftTransaction.currItem.getPieQty(), ActivityGiftTransaction.currItem.getGiftPrice());
+		else 
+			Toast.makeText(this, "Bạn không đủ điểm đổi", Toast.LENGTH_SHORT).show();
 	}
 	
 	class MySpinnerAdapter extends BaseAdapter {

@@ -8,7 +8,7 @@
         android:paddingLeft="5dp"
         android:id="@+id/text"
         android:layout_width="match_parent"
-        android:singleLine="true"
+        android:maxLines="2"
     	android:layout_height="40dp"
     	android:textColor="#ffffffff"
     	android:gravity="center"/>
