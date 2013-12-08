@@ -178,4 +178,9 @@ public final class ParameterFactory {
 		data.add(new BasicNameValuePair("message", message));
 		return data;
 	}
+	
+	public static List<NameValuePair> getParamsMobile(){
+		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+		return data;
+	}
 }

@@ -70,7 +70,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 	// Google analysis
 	protected GoogleAnalytics mGaInstance;
 	private ShoppieDBProvider mShoppieDBProvider;
-	private ShoppieSharePref mShoppieSharePref;
+	private static ShoppieSharePref mShoppieSharePref;
 	private AlertDialog mAlertDialog;
 
 	@Override
@@ -240,16 +240,18 @@ public class HomeActivity extends VisvaAbstractActivity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						try{
+						try {
 							dialog.dismiss();
-						}catch (Exception e) {
+						} catch (Exception e) {
 							// TODO: handle exception
 						}
+						mShoppieSharePref.setCheckinStatus(2);
 					}
 				});
 
 		return builder.create();
 	}
+
 	private void startBluetoothByIntent() {
 		// start Bluetooth by Intent
 		if (BluetoothAdapter.getDefaultAdapter() != null) {
@@ -394,7 +396,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 									.deleteJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
 							JsonDataObject jsonDataObject = new JsonDataObject(
 									response,
-									GlobalValue.TYPE_MERCHANT_CATEGORY);
+									GlobalValue.TYPE_MERCHANT_CATEGORY, 0);
 							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 							setAdapter(merchantCategoryList.getResult());
 						} catch (JSONException e) {
@@ -504,7 +506,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 		final View piedView = findViewById(R.id.pied_view);
 		((TextView) findViewById(R.id.pie_text)).setText("+" + pieValue);
-		
+
 		piedView.setVisibility(View.VISIBLE);
 		ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f,
 				piedView.getWidth() / 2, piedView.getHeight() / 2);
@@ -606,15 +608,16 @@ public class HomeActivity extends VisvaAbstractActivity {
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
-			Log.e(TAG, "getCheckinStatus "+mShoppieSharePref.getCheckinStatus());
+			Log.e(TAG,
+					"getCheckinStatus " + mShoppieSharePref.getCheckinStatus());
 			if (mShoppieSharePref.getCheckinStatus() == 1) {
 				onFinish();
+				showPieAnimation(1);
 				mShoppieSharePref.setCheckinStatus(0);
-//				showPieAnimation();
-			}else if(mShoppieSharePref.getCheckinStatus() == 2){
+			} else if (mShoppieSharePref.getCheckinStatus() == 2) {
 				onFinish();
-				mShoppieSharePref.setCheckinStatus(0);
 				showToast(getString(R.string.checkin_not_success));
+				mShoppieSharePref.setCheckinStatus(0);
 			}
 		}
 
@@ -628,8 +631,18 @@ public class HomeActivity extends VisvaAbstractActivity {
 			} catch (Exception e) {
 
 			}
+			mShoppieSharePref.setCheckinStatus(0);
 			setCheckIn(false);
 			turnoffBluetooth();
 		}
 	};
+
+	protected void onDestroy() {
+		updatePieToSPServer();
+		super.onDestroy();
+	}
+
+	private void updatePieToSPServer() {
+		
+	}
 }

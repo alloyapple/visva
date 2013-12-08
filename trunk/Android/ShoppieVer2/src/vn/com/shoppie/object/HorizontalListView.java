@@ -38,7 +38,6 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
@@ -72,8 +71,6 @@ public class HorizontalListView extends AdapterView<ListAdapter>{
 	private View childSelected;
 	private float xInit;
 	private float yInit;
-
-
 
 	public HorizontalListView(Context context, AttributeSet attrs) {
 		super(context, attrs);

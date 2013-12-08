@@ -466,7 +466,7 @@ public class SearchActivity extends FragmentActivity implements
 
 	}
 
-	private void requestGetMerchantStores(String custId) {
+	private void requestGetMerchantStores(final String custId) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
@@ -488,7 +488,7 @@ public class SearchActivity extends FragmentActivity implements
 							mShoppieDBProvider
 									.deleteJsonData(GlobalValue.TYPE_MERCH_STORE);
 							JsonDataObject jsonDataObject = new JsonDataObject(
-									response, GlobalValue.TYPE_MERCH_STORE);
+									response, GlobalValue.TYPE_MERCH_STORE,Integer.parseInt(custId));
 							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 
 						} catch (JSONException e) {

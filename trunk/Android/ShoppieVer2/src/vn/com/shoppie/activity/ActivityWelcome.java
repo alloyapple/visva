@@ -1,6 +1,7 @@
 package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -12,6 +13,8 @@ import vn.com.shoppie.adapter.AdapterWelcomeImage;
 import vn.com.shoppie.adapter.AdapterWelcomeImage.OnWelcomeRegisterListener;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
+import vn.com.shoppie.database.sobject.MerchantCategoryList;
+import vn.com.shoppie.database.sobject.ParamMobileItem;
 import vn.com.shoppie.database.sobject.UserInfo;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
@@ -135,6 +138,46 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 		blueMac = SUtil.getInstance().getBluetoothAddress(this, false);
 		emeil = SUtil.getInstance().getDeviceId(getApplicationContext());
+
+		checkParamMobile();
+	}
+
+	private void checkParamMobile() {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.getParamsMobile();
+		AsyncHttpPost postFeedback = new AsyncHttpPost(ActivityWelcome.this,
+				new AsyncHttpResponseProcess(ActivityWelcome.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+
+						try {
+							// JSONObject jsonObject = new JSONObject(response);
+							// Log.e("post success ", "post success " +
+							// response);
+							Gson gson = new Gson();
+							List<ParamMobileItem> paramMobileItems = Arrays
+									.asList(gson.fromJson(response,
+											ParamMobileItem[].class));
+							if (paramMobileItems != null
+									&& paramMobileItems.get(0) != null
+									&& !paramMobileItems.get(0).getValue()
+											.equals(""))
+								mShopieSharePref
+										.setValueParammMobile(paramMobileItems
+												.get(0).getValue());
+						} catch (Exception e) {
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						// finish();
+					}
+				}, nameValuePairs, true);
+		postFeedback.execute(WebServiceConfig.URL_PARAM_MOBILE);
+
 	}
 
 	public void findViewById() {

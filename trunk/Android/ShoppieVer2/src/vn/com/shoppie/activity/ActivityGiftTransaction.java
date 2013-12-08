@@ -246,12 +246,12 @@ public class ActivityGiftTransaction extends Activity {
 							Gson gson = new Gson();
 							GiftList giftList = gson.fromJson(
 									jsonObject.toString(), GiftList.class);
-							/** update to database */
-							mShoppieDBProvider
-									.deleteJsonData(GlobalValue.TYPE_GIFT);
-							JsonDataObject jsonDataObject = new JsonDataObject(
-									response, GlobalValue.TYPE_GIFT);
-							mShoppieDBProvider.addNewJsonData(jsonDataObject);
+//							/** update to database */
+//							mShoppieDBProvider
+//									.deleteJsonData(GlobalValue.TYPE_GIFT);
+//							JsonDataObject jsonDataObject = new JsonDataObject(
+//									response, GlobalValue.TYPE_GIFT);
+//							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 							setData(giftList.getGifts());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

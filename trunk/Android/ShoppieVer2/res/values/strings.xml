@@ -24,7 +24,8 @@
     <string name="leck_name">Bạn chưa điền tên của mình</string>
     <string name="leck_phone">Bạn chưa điền số điện thoại</string>
     <string name="leck_address">Hãy điền địa chỉ của bạn để chúng tôi có thể gửi tặng bạn các món quà</string>
-
+	<string name="sent_admin_shoppie">Gửi đến Admin Shoppie</string>
+    
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

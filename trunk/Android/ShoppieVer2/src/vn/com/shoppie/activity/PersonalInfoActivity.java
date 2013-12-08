@@ -325,7 +325,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction.show(mFeedbackFragment);
 			addToSBackStack(FEEDBACK_FRAGMENT);
 			mTransaction.commit();
-			mTxtTitle.setText(getString(R.string.personl_friend));
+			mTxtTitle.setText(getString(R.string.feedback));
 			break;
 		default:
 			break;

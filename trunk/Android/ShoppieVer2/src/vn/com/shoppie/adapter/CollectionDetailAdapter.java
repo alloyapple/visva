@@ -2,9 +2,7 @@ package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
 import java.util.Vector;
-
 import vn.com.shoppie.R;
-import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.ImageUtil;
@@ -23,7 +21,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InflateException;
@@ -43,7 +40,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;

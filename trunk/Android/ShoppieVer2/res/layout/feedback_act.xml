@@ -31,49 +31,51 @@
                         android:id="@+id/img_avatar"
                         android:layout_width="@dimen/feedback_image_height"
                         android:layout_height="@dimen/feedback_image_height"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/page_item_subcatelogy_title_margin_left"
                         android:layout_marginRight="@dimen/page_item_subcatelogy_title_margin_left"
-                        android:layout_centerVertical="true"
                         android:background="@drawable/bg_personal_avatar" >
                     </vn.com.shoppie.object.MyCircleImageView>
+
                     <vn.com.shoppie.view.MyTextView
-                        android:id="@+id/name" 
+                        android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/feedback_name_height"
-                        android:layout_toRightOf="@id/img_avatar"
                         android:layout_marginTop="@dimen/feedback_name_margintop"
-                        android:textSize="@dimen/feedback_name_textsize"
+                        android:layout_toRightOf="@id/img_avatar"
                         android:textColor="@color/white"
-                        />
+                        android:textSize="@dimen/feedback_name_textsize" />
+
                     <vn.com.shoppie.view.MyTextView
-                        android:id="@+id/mail" 
+                        android:id="@+id/mail"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/feedback_name_margintop"
-                        android:layout_toRightOf="@id/img_avatar"
                         android:layout_below="@id/name"
-                        android:textSize="@dimen/collection_item_subtitle_textsize"
-                        android:textColor="@color/white"
-                        />
-                    <vn.com.shoppie.view.MyTextView
-                        android:id="@+id/phone" 
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/feedback_name_margintop"
                         android:layout_toRightOf="@id/img_avatar"
-                        android:layout_below="@id/mail"
-                        android:textSize="@dimen/collection_item_subtitle_textsize"
                         android:textColor="@color/white"
-                        />
+                        android:textSize="@dimen/collection_item_subtitle_textsize" />
+
+                    <vn.com.shoppie.view.MyTextView
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/feedback_name_margintop"
+                        android:layout_below="@id/name"
+                        android:text="@string/sent_admin_shoppie"
+                        android:layout_toRightOf="@id/img_avatar"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/collection_item_subtitle_textsize" />
                 </RelativeLayout>
 
                 <EditText
                     android:id="@+id/feed_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="@dimen/page_item_catelogy_desc_margin_left"
                     android:background="@drawable/round_corner_shape_03"
                     android:gravity="top|left"
-                    android:layout_margin="@dimen/page_item_catelogy_desc_margin_left"
-                    android:textSize="@dimen/collection_item_subtitle_textsize"
-                    android:hint="@string/feedback_hint" />
+                    android:hint="@string/feedback_hint"
+                    android:textSize="@dimen/collection_item_subtitle_textsize" />
             </LinearLayout>
         </RelativeLayout>
 
