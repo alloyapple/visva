@@ -17,14 +17,23 @@ public class ShoppieSharePref {
 	private static final String GENDER = "gender";
 	private static final String BIRTHDAY = "birth";
 	private static final String COUNT_CHANGE_INFO_TIME = "count_change_info_time";
+	private static final String CHECKIN_STATUS = "checkin_status";
 	// ================================================================
 	private static final String START_NUM = "num1";
 	private static final String LIKE_NUM = "like";
-	
+
 	private Context context;
 
 	public ShoppieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setCheckinStatus(int b) {
+		putIntValue(CHECKIN_STATUS, b);
+	}
+
+	public int getCheckinStatus() {
+		return getIntValue(CHECKIN_STATUS);
 	}
 
 	public void setCountChangeInfoTime(int time) {
@@ -136,20 +145,21 @@ public class ShoppieSharePref {
 		count++;
 		putIntValue(START_NUM, count);
 	}
-	
+
 	public int getStartCount() {
 		return getIntValue(START_NUM);
 	}
-	
+
 	public void addLikeCount() {
 		int count = getIntValue(LIKE_NUM);
 		count++;
 		putIntValue(LIKE_NUM, count);
 	}
-	
+
 	public int getLikeCount() {
 		return getIntValue(LIKE_NUM);
 	}
+
 	// ======================== CORE FUNCTIONS ========================
 
 	/**

@@ -57,7 +57,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 
 	SBroastcastProvider broastcast = new SBroastcastProvider(this);
 	private ShoppieSharePref mShopieSharePref;
-	protected boolean isCheckin = false;
+	protected static boolean isCheckin = false;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
