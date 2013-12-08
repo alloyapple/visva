@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="actionbar_title_textsize">18sp</dimen>
+    <dimen name="actionbar_title_textsize">13sp</dimen>
     <dimen name="page_item_width">230dp</dimen>
     <dimen name="page_item_height">253dp</dimen>
     <dimen name="page_item_title_padding">91dp</dimen>

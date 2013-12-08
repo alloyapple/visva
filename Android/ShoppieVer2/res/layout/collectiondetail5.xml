@@ -25,19 +25,19 @@
         android:layout_margin="@dimen/page_item_catelogy_desc_margin_left" >
 
         <RelativeLayout 
-            android:layout_width="@dimen/pie_width"
-            android:layout_height="@dimen/pie_width"
+            android:layout_width="@dimen/pie_loading_width"
+            android:layout_height="@dimen/pie_loading_width"
             android:layout_marginBottom="@dimen/gift_item_padding"
             >
             <View 
-	            android:layout_width="@dimen/pie_width"
-	            android:layout_height="@dimen/pie_width"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
 	            android:background="@drawable/loading_pie"
             />
             <View 
                 android:id="@+id/pie_view"
-	            android:layout_width="@dimen/pie_width"
-	            android:layout_height="@dimen/pie_width"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
 	            android:background="@drawable/loading_out_pie"
             />
         </RelativeLayout>
