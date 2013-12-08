@@ -311,7 +311,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		}
 	}
 
-	private void requestupdateToGetMerchProducts(String campaignId,
+	private void requestupdateToGetMerchProducts(final String campaignId,
 			String custId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
@@ -336,7 +336,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 							if (mShoppieDBProvider.countJsonData(response) == 0) {
 								JsonDataObject jsonDataObject = new JsonDataObject(
 										response,
-										GlobalValue.TYPE_MERCH_PRODUCTS);
+										GlobalValue.TYPE_MERCH_PRODUCTS,Integer.parseInt(campaignId));
 								mShoppieDBProvider
 										.addNewJsonData(jsonDataObject);
 							}

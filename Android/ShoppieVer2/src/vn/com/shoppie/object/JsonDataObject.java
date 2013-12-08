@@ -4,22 +4,33 @@ public class JsonDataObject {
 	private int _id;
 	private String type;
 	private String jsonData;
+	private int campaignId;
+
+	public int getCampaignId() {
+		return campaignId;
+	}
+
+	public void setCampaignId(int campaignId) {
+		this.campaignId = campaignId;
+	}
 
 	public JsonDataObject() {
 
 	}
 
-	public JsonDataObject(String jsonData, String type) {
+	public JsonDataObject(String jsonData, String type,int campaignId) {
 		super();
 		this.type = type;
 		this.jsonData = jsonData;
+		this.campaignId = campaignId;
 	}
 
-	public JsonDataObject(int _id, String jsonData, String type) {
+	public JsonDataObject(int _id, String jsonData, String type,int campaignId) {
 		super();
 		this._id = _id;
 		this.type = type;
 		this.jsonData = jsonData;
+		this.campaignId =campaignId;
 	}
 
 	public int get_id() {

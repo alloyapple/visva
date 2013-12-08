@@ -92,13 +92,13 @@ public class CollectionList extends Activity {
 		TextView titleTv = (TextView) headerView.findViewById(R.id.catelogy);
 		TextView subTitleTv = (TextView) headerView
 				.findViewById(R.id.subcatelogy);
-		TextView countTv = (TextView) headerView.findViewById(R.id.count); 
+		TextView countTv = (TextView) headerView.findViewById(R.id.count);
 		ImageLoader.getInstance(this).DisplayImage(
 				WebServiceConfig.HEAD_IMAGE + iconLink, icon);
 		titleTv.setText(title);
 		subTitleTv.setText(titleDesc);
 		countTv.setText(number);
-		
+
 		listView.addHeaderView(headerView);
 		listView.setDivider(null);
 
@@ -107,13 +107,16 @@ public class CollectionList extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (position > 0 && NetworkUtility.getInstance(CollectionList.this).isNetworkAvailable()) {
+				if (position > 0
+						&& NetworkUtility.getInstance(CollectionList.this)
+								.isNetworkAvailable()) {
 					curId = position - 1;
 					Intent intent = new Intent(CollectionList.this,
 							CatelogyDetailActivity.class);
 					Log.d("CPAID", "" + adapter.getItem(curId).getCampaignId());
 
-					intent.putExtra(CatelogyDetailActivity.MERCH_ID_KEY, merchantId);
+					intent.putExtra(CatelogyDetailActivity.MERCH_ID_KEY,
+							merchantId);
 					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_ID_KEY, ""
 							+ adapter.getItem(curId).getCampaignId());
 					intent.putExtra(CatelogyDetailActivity.CUSTOMER_ID_KEY,
@@ -125,7 +128,7 @@ public class CollectionList extends Activity {
 					startActivity(intent);
 
 					clearMemory();
-				}else{
+				} else {
 					showToast(getString(R.string.network_unvailable));
 					finish();
 				}
@@ -149,32 +152,32 @@ public class CollectionList extends Activity {
 		super.onResume();
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestToGetMerchantCampaign(merchantId, customerId);
-		else{
+		else {
 			showToast(getString(R.string.network_unvailable));
 			finish();
 		}
-			//getMerchantCampaignFromDb();
+		// getMerchantCampaignFromDb();
 	}
 
-//	private void getMerchantCampaignFromDb() {
-//		// TODO Auto-generated method stub
-//		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
-//				.getJsonData(GlobalValue.TYPE_CAMPAIGNS);
-//		String merchantCampaign = jsonDataObject.getJsonData();
-//		if (merchantCampaign != null && !"".equals(merchantCampaign))
-//			try {
-//				JSONObject jsonObject = new JSONObject(merchantCampaign);
-//				Gson gson = new Gson();
-//				MerchCampaignList merchCampaignList = gson.fromJson(
-//						jsonObject.toString(), MerchCampaignList.class);
-//				setData(merchCampaignList.getResult());
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		else
-//			showToast(getString(R.string.network_unvailable));
-//	}
+	// private void getMerchantCampaignFromDb() {
+	// // TODO Auto-generated method stub
+	// ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
+	// .getJsonData(GlobalValue.TYPE_CAMPAIGNS);
+	// String merchantCampaign = jsonDataObject.getJsonData();
+	// if (merchantCampaign != null && !"".equals(merchantCampaign))
+	// try {
+	// JSONObject jsonObject = new JSONObject(merchantCampaign);
+	// Gson gson = new Gson();
+	// MerchCampaignList merchCampaignList = gson.fromJson(
+	// jsonObject.toString(), MerchCampaignList.class);
+	// setData(merchCampaignList.getResult());
+	// } catch (JSONException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// else
+	// showToast(getString(R.string.network_unvailable));
+	// }
 
 	private void showToast(String str) {
 		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
@@ -197,11 +200,11 @@ public class CollectionList extends Activity {
 	public static String getCurCampaignName() {
 		return listCampaignName[curId];
 	}
-	
+
 	public static int getCurPie() {
 		return listpie[curId];
 	}
-	
+
 	public static String getNextCampaignId() {
 		if (curId == listCampaignId.length - 1) {
 			curId = 0;
@@ -224,14 +227,16 @@ public class CollectionList extends Activity {
 							MerchCampaignList merchCampaignList = gson
 									.fromJson(jsonObject.toString(),
 											MerchCampaignList.class);
-							/** update to database */
-							int count = mShoppieDBProvider.countJsonData(response);
-							if(count == 0){
-								JsonDataObject jsonDataObject = new JsonDataObject(
-										response, GlobalValue.TYPE_CAMPAIGNS);
-								mShoppieDBProvider.addNewJsonData(jsonDataObject);
-							}
-							
+							// /** update to database */
+							// int count =
+							// mShoppieDBProvider.countJsonDataById(merchCampaignList.getResult().);
+							// if(count == 0){
+							// JsonDataObject jsonDataObject = new
+							// JsonDataObject(
+							// response, GlobalValue.TYPE_CAMPAIGNS);
+							// mShoppieDBProvider.addNewJsonData(jsonDataObject);
+							// }
+
 							setData(merchCampaignList.getResult());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

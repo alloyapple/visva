@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class AdapterWelcomeImage extends PagerAdapter {
@@ -67,6 +68,11 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				return null;
 			}
 			final View layoutRegister  = (RelativeLayout)v.findViewById(R.id.layout_register);
+			final TextView textIntroductionTip = (TextView)v.findViewById(R.id.text_introduction_tip);
+			if(!"".equals(mShopieSharePref.getValueParamMobile())){
+				textIntroductionTip.setText(mShopieSharePref.getValueParamMobile());
+			}else
+				textIntroductionTip.setText(context.getString(R.string.introduct_tip));
 			final EditText name = (EditText) v
 					.findViewById(R.id.activity_register_edt_name);
 			final EditText email = (EditText) v
@@ -280,5 +286,5 @@ public class AdapterWelcomeImage extends PagerAdapter {
 	private void showToast(String string) {
 		Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
 	}
-	
+
 }

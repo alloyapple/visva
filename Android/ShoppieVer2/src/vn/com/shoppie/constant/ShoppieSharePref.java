@@ -18,6 +18,7 @@ public class ShoppieSharePref {
 	private static final String BIRTHDAY = "birth";
 	private static final String COUNT_CHANGE_INFO_TIME = "count_change_info_time";
 	private static final String CHECKIN_STATUS = "checkin_status";
+	private static final String VALUE_PARAM_MOBILE = "value_param_mobile";
 	// ================================================================
 	private static final String START_NUM = "num1";
 	private static final String LIKE_NUM = "like";
@@ -26,6 +27,14 @@ public class ShoppieSharePref {
 
 	public ShoppieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setValueParammMobile(String value) {
+		putStringValue(VALUE_PARAM_MOBILE, value);
+	}
+
+	public String getValueParamMobile() {
+		return getStringValue(VALUE_PARAM_MOBILE);
 	}
 
 	public void setCheckinStatus(int b) {

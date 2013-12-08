@@ -10,6 +10,7 @@ import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,11 +20,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class FeedbackFragment extends FragmentBasic {
 	private ShoppieSharePref mSharePref;
 	private View root;
+	private MyCircleImageView mImgAvatar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +45,8 @@ public class FeedbackFragment extends FragmentBasic {
 		params.addRule(RelativeLayout.CENTER_IN_PARENT);
 		containerLayout.addView(cover, 0 , params);
 
+		final TextView name= (TextView)root.findViewById(R.id.name);
+		name.setText(mSharePref.getCustName());
 		root.findViewById(R.id.btn_accept).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -85,7 +90,7 @@ public class FeedbackFragment extends FragmentBasic {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						Log.e("post success ", "post success");
-						//((PersonalInfoActivity)getActivity()).onClickBackPersonal(null);
+						((PersonalInfoActivity)getActivity()).onClickBackPersonal(null);
 					}
 
 					@Override

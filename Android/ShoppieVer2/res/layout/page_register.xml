@@ -59,6 +59,7 @@
                 android:textColor="@color/white" />
 
             <vn.com.shoppie.view.MyTextView
+                android:id="@+id/text_introduction_tip"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"

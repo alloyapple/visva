@@ -20,6 +20,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 	private static final String JSON_ID = "json_id";
 	private static final String JSON_TYPE = "json_type";
 	private static final String JSON_DATA = "json_data";
+	private static final String JSON_CAMPAIGN_ID = "json_campain_id";
 
 	// favourite table
 	private static final String TABLE_FAVOURITE = "table_favourite";
@@ -45,7 +46,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		String CREATE_JSON_TABLE = "CREATE TABLE " + TABLE_JSON + "(" + JSON_ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT," + JSON_DATA + " TEXT,"
-				+ JSON_TYPE + " TEXT" + ")";
+				+ JSON_TYPE + " TEXT," + JSON_CAMPAIGN_ID + " INTEGER" + ")";
 		String CREATE_FAVOURITE_TABLE = "CREATE TABLE " + TABLE_FAVOURITE + "("
 				+ _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FAVOURITE_IMAGE
 				+ " TEXT," + FAVOURITE_TYPE + " TEXT," + FAVOURITE_ID + " TEXT"
@@ -74,6 +75,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		ContentValues mValue = new ContentValues();
 		mValue.put(JSON_DATA, jsonDataObject.getJsonData());
 		mValue.put(JSON_TYPE, jsonDataObject.getType());
+		mValue.put(JSON_CAMPAIGN_ID, jsonDataObject.getCampaignId());
 
 		mdb.insert(TABLE_JSON, null, mValue);
 		mdb.close();
@@ -86,6 +88,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		mValue.put(FAVOURITE_TYPE, favouriteDataObject.getType());
 		mValue.put(FAVOURITE_ID, favouriteDataObject.getFavourite_id());
 		mdb.insert(TABLE_FAVOURITE, null, mValue);
+
 		mdb.close();
 	}
 
@@ -154,7 +157,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 			do {
 				jsonDataObject.add(new JsonDataObject(Integer.parseInt(mCursor
 						.getString(0)), mCursor.getString(1), mCursor
-						.getString(2)));
+						.getString(2), Integer.parseInt(mCursor.getString(3))));
 			} while (mCursor.moveToNext());
 		}
 		mCursor.close();
@@ -169,7 +172,8 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 				new String[] { String.valueOf(jsonData) }, null, null, null);
 		if (mCursor.moveToFirst()) {
 			jsonDataObject = new JsonDataObject(Integer.parseInt(mCursor
-					.getString(0)), mCursor.getString(1), mCursor.getString(2));
+					.getString(0)), mCursor.getString(1), mCursor.getString(2),
+					Integer.parseInt(mCursor.getString(3)));
 		}
 		mCursor.close();
 		mdb.close();
@@ -264,6 +268,18 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		int count = 0;
 		String querry = "select * from " + TABLE_JSON + " where " + JSON_DATA
 				+ " ='" + jsonData + "'";
+		Cursor cursor = mdb.rawQuery(querry, null);
+		count = cursor.getCount();
+		cursor.close();
+		mdb.close();
+		return count;
+	}
+
+	public int countJsonDataById(String jsonId) {
+		SQLiteDatabase mdb = getReadableDatabase();
+		int count = 0;
+		String querry = "select * from " + TABLE_JSON + " where " + JSON_ID
+				+ " ='" + jsonId + "'";
 		Cursor cursor = mdb.rawQuery(querry, null);
 		count = cursor.getCount();
 		cursor.close();

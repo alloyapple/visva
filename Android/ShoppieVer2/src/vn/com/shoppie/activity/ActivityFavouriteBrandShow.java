@@ -4,11 +4,8 @@ import com.antonyt.infiniteviewpager.StoreImageFragment;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
-import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
-import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.webconfig.WebServiceConfig;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,11 +13,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class ActivityFavouriteBrandShow extends FragmentActivity {
@@ -34,8 +29,6 @@ public class ActivityFavouriteBrandShow extends FragmentActivity {
 	private View indicator1;
 	private View indicator2;
 	private TextView tvLike;
-	private Button like;
-	private ShoppieDBProvider mShoppieDBProvider;
 	// ============================Variable Define =====================
 	private MerchantStoreItem mMerchantStoreItem;
 
@@ -45,7 +38,6 @@ public class ActivityFavouriteBrandShow extends FragmentActivity {
 		// Remove title bar
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_search_brand_detail_fragment);
-		mShoppieDBProvider = new ShoppieDBProvider(this);
 		
 		mMerchantStoreItem = (MerchantStoreItem) getIntent().getExtras()
 				.getParcelable(GlobalValue.MERCH_BRAND_ITEM);
@@ -59,7 +51,7 @@ public class ActivityFavouriteBrandShow extends FragmentActivity {
 		indicator2 = findViewById(R.id.indicator2);
 
 		tvLike = (TextView) findViewById(R.id.like);
-		like = (Button) findViewById(R.id.like_click);
+//		(Button) findViewById(R.id.like_click);
 
 //		like.setOnClickListener(new View.OnClickListener() {
 //
