@@ -269,10 +269,16 @@ public class SearchActivity extends FragmentActivity implements
 			break;
 
 		case SEARCH_MAP_FRAGMENT_ID:
-			mTransaction = hideFragment();
-			mTransaction.show(mSearchMapFragment);
-			addToSBackStack(SEARCH_MAP_FRAGMENT_STRING);
-			mTransaction.commit();
+			String currentView = backstack.get(backstack.size() - 1);
+			if(!currentView.equals(SEARCH_MAP_FRAGMENT_STRING)) {
+				mTransaction = hideFragment();
+				mTransaction.show(mSearchMapFragment);
+				addToSBackStack(SEARCH_MAP_FRAGMENT_STRING);
+				mTransaction.commit();
+			}
+			else {
+				onBackPressed();
+			}
 			break;
 
 		case SEARCH_RESULT_FRAGMENT_ID:
@@ -353,14 +359,13 @@ public class SearchActivity extends FragmentActivity implements
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if(position > 0) {
-					setDataByIcon(iconDataList.get(position - 1), false);
-//					mSearchMapFragment.updatePie(manageData.get(iconDataList
-//							.get(position)));
+					setDataByIcon(iconDataList.get(position - 1), true);
+					mSearchMapFragment.updatePie(manageData.get(iconDataList
+							.get(position - 1)));
 				}
 				else {
-					setDataByIcon(null, false);
-//					mSearchMapFragment.updatePie(manageData.get(iconDataList
-//							.get(position)));
+					setDataByIcon(null, true);
+//					mSearchMapFragment.updatePie(null);
 				}
 			}
 		});
