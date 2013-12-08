@@ -46,6 +46,7 @@ public class MPager extends RelativeLayout{
 	private float downX;
 	private float downY;
 
+	private boolean isSlideOnScroll = false;
 	private boolean isSlide = false;
 	private boolean isAutoSlide = false;
 	private boolean isOpenSlide = true;
@@ -262,6 +263,8 @@ public class MPager extends RelativeLayout{
 			return super.onInterceptTouchEvent(ev);
 		if(isSlide)
 			return true;
+		if(isSlideOnScroll)
+			return true;
 		else{
 			onTouchEvent(ev);
 			
@@ -288,6 +291,24 @@ public class MPager extends RelativeLayout{
 		mVelocityTracker.addMovement(event);
 		if(container.getParent() != container1){
 			isOpenCollapse = false;
+			
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				downX = event.getX();
+				downY = event.getY();
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if(event.getX() - downX > 20 || event.getY() - downY > 20)
+					isSlideOnScroll = true;
+				break;
+			case MotionEvent.ACTION_UP:
+				isSlideOnScroll = false;
+				break;
+
+			default:
+				break;
+			}
+			
 			if(mCollapseGestureDetector.onTouchEvent(event))
 				return true;
 			return super.onTouchEvent(event);
@@ -988,7 +1009,7 @@ public class MPager extends RelativeLayout{
 				distance = 0;
 			}
 			else if(scrollView.isReachBottom()){
-				minSlide = mAdapter.getViewHeight() / 2;
+				minSlide = mAdapter.getViewHeight() * 2 / 3;
 				if(isDown) {
 					distance = 0;
 					isDown = false;

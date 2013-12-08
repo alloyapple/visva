@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.GiftAdapter;
 import vn.com.shoppie.adapter.GiftAdapter.OnClickItem;
-import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.GiftItem;
@@ -19,7 +18,6 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
-import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
@@ -128,10 +126,10 @@ public class ActivityGiftTransaction extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					if(mSharePref.getCurrentBal() >= onTopItem.getMinPie()) {
+//					if(mSharePref.getCurrentBal() >= onTopItem.getMinPie()) {
 						currItem = onTopItem;
 						startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
-					}
+//					}
 				}
 			});
 		}
@@ -187,7 +185,6 @@ public class ActivityGiftTransaction extends Activity {
 			
 			@Override
 			public void onClickItem(GiftItem item) {
-				// TODO Auto-generated method stub
 				currItem = item;
 				startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
 			}
