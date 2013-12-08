@@ -28,7 +28,10 @@ import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -44,14 +47,13 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
@@ -69,7 +71,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 	// Google analysis
 	protected GoogleAnalytics mGaInstance;
 	private ShoppieDBProvider mShoppieDBProvider;
-	private ShoppieSharePref mSharePref;
+	private ShoppieSharePref mShoppieSharePref;
+	private AlertDialog mAlertDialog;
 
 	@Override
 	public int contentView() {
@@ -135,8 +138,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
-		mSharePref = new ShoppieSharePref(this);
-
+		mShoppieSharePref = new ShoppieSharePref(this);
+		mShoppieSharePref.setCheckinStatus(0);
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestToGetMerchantCategory();
@@ -202,27 +205,52 @@ public class HomeActivity extends VisvaAbstractActivity {
 			String alert = "";
 			if (res == RESULT_CANCELED) {
 				alert = getString(R.string.checkin_not_transaction);
-				// showToast(getString(R.string.checkin_not_success));
 			} else {
-				alert = getString(R.string.checkin_cancel_transaction);
+				alert = getString(R.string.checking_transaction);
 			}
-			DialogUtility.alert(self, alert, new OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					// continue with delete
-					Log.e("clckfadsf", "sdfkdjfd ");
-					timer.onFinish();
-					dialog.dismiss();
-				}
-
-			});
+			// DialogUtility.alert(self, alert, new OnClickListener() {
+			//
+			// @Override
+			// public void onClick(DialogInterface dialog, int which) {
+			// // TODO Auto-generated method stub
+			// // continue with delete
+			// Log.e("clckfadsf", "sdfkdjfd ");
+			// timer.onFinish();
+			// dialog.dismiss();
+			// }
+			//
+			// });
+			mAlertDialog = creatDialog(this, alert, null);
+			mAlertDialog.show();
 			// showToast(getString(R.string.checkin_not_success));
 			// setCheckIn(false);
 		}
 	}
 
+	public static AlertDialog creatDialog(Context mContext, String message,
+			String title) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+		if (title != null)
+			builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(
+				mContext.getResources().getString(R.string.btn_close),
+				new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						try{
+							dialog.dismiss();
+						}catch (Exception e) {
+							// TODO: handle exception
+						}
+					}
+				});
+
+		return builder.create();
+	}
 	private void startBluetoothByIntent() {
 		// start Bluetooth by Intent
 		if (BluetoothAdapter.getDefaultAdapter() != null) {
@@ -316,7 +344,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 				intent.putExtra(CollectionList.KEY_MERCHANT_ID, ""
 						+ adapter.getItem(pos).getMerchCatId());
 				intent.putExtra(CollectionList.KEY_CUSTOMER_ID,
-						String.valueOf(mSharePref.getCustId()));
+						String.valueOf(mShoppieSharePref.getCustId()));
 				intent.putExtra(CollectionList.KEY_ICON, adapter.getItem(pos)
 						.getIcon());
 				intent.putExtra(CollectionList.KEY_TITLE, adapter.getItem(pos)
@@ -329,7 +357,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 		});
 
-		int count = mSharePref.getStartCount();
+		int count = mShoppieSharePref.getStartCount();
 		if (count < 3) {
 			hint.setOnTouchListener(new OnTouchListener() {
 
@@ -343,7 +371,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			hint.setVisibility(View.VISIBLE);
 			hint.setText("Kéo trái/phải để xem nhiều chương trình hơn");
 			isShowFirstHint = true;
-			mSharePref.addStartCount();
+			mShoppieSharePref.addStartCount();
 		}
 	}
 
@@ -540,7 +568,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				View v = findViewById(R.id.pied_view);
-				v.setVisibility(View.VISIBLE);
+				v.setVisibility(View.GONE);
 			}
 		});
 
@@ -572,20 +600,33 @@ public class HomeActivity extends VisvaAbstractActivity {
 		v.setLayoutParams(params);
 	}
 
-	CountDownTimer timer = new CountDownTimer(150000, 150000) {
+	CountDownTimer timer = new CountDownTimer(20000, 1000) {
 
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
-			if (isCheckin) {
+			Log.e(TAG, "getCheckinStatus "+mShoppieSharePref.getCheckinStatus());
+			if (mShoppieSharePref.getCheckinStatus() == 1) {
 				onFinish();
-				isCheckin = false;
+				mShoppieSharePref.setCheckinStatus(0);
+				showPieAnimation();
+			}else if(mShoppieSharePref.getCheckinStatus() == 2){
+				onFinish();
+				mShoppieSharePref.setCheckinStatus(0);
+				showToast(getString(R.string.checkin_not_success));
 			}
 		}
 
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
+			try {
+				if (mAlertDialog != null) {
+					mAlertDialog.dismiss();
+				}
+			} catch (Exception e) {
+
+			}
 			setCheckIn(false);
 			turnoffBluetooth();
 		}

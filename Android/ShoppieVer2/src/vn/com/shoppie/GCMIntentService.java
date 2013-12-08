@@ -3,6 +3,7 @@ package vn.com.shoppie;
 import vn.com.shoppie.activity.ActivityNotification;
 import vn.com.shoppie.activity.LoginActivity;
 import vn.com.shoppie.constant.GlobalValue;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.smng.GcmNotifyMng;
 import vn.com.shoppie.database.sobject.GcmNotify;
 import vn.com.shoppie.util.CommonUtilities;
@@ -21,9 +22,11 @@ import com.google.android.gcm.GCMBaseIntentService;
 public class GCMIntentService extends GCMBaseIntentService {
 
 	private static final String TAG = "GCMIntentService";
+	private static ShoppieSharePref mShoppieSharePref;
 
 	public GCMIntentService() {
 		super(GlobalValue.SENDER_ID);
+		mShoppieSharePref = new ShoppieSharePref(this);
 	}
 
 	/**
@@ -107,7 +110,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@SuppressWarnings("deprecation")
 	private static void generateNotification(Context context, String message,
 			String type, String pieQty) {
-		Log.e("message", "message "+message);
+		Log.e(TAG, "GMCmessage "+message);
+		if(message.contains(context.getString(R.string.message_contain_checkin))){
+			mShoppieSharePref.setCheckinStatus(1);
+		}else
+			mShoppieSharePref.setCheckinStatus(0);
 		int icon = R.drawable.icon_launcher;
 		long when = System.currentTimeMillis();
 		NotificationManager notificationManager = (NotificationManager) context
