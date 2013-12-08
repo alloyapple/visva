@@ -9,7 +9,7 @@
 	    android:layout_width="@dimen/page_item_count_width"
     	android:layout_height="@dimen/page_item_count_height"
     	android:layout_alignParentRight="true"
-    	android:background="@drawable/ic_head_center02"
+    	android:background="@drawable/bogoc_xanh"
     	android:textSize="@dimen/page_item_subcatelogy_title_textsize"
     	android:textColor="@android:color/white"
     	android:paddingLeft="@dimen/collection_item_title_margintop"
