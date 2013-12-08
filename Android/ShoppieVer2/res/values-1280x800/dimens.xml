@@ -15,7 +15,7 @@
     <dimen name="page_item_image_height">148dp</dimen>
     <dimen name="page_item_catelogy_desc_margin_left">15dp</dimen>
     <dimen name="page_item_catelogy_desc_margin_top">15dp</dimen>
-    <dimen name="page_item_catelogy_desc_textsize">25sp</dimen>
+    <dimen name="page_item_catelogy_desc_textsize">20sp</dimen>
     <dimen name="page_item_catelogy_subdesc_margin_left">15dp</dimen>
     <dimen name="page_item_catelogy_subdesc_textsize">12sp</dimen>
     <dimen name="page_back_item_width">268dp</dimen>
@@ -69,7 +69,7 @@
     <dimen name="loading_pie_height">150dp</dimen>
     <dimen name="loading_pie_width">150dp</dimen>
     <dimen name="muatang_width">50dp</dimen>
-    <dimen name="muatang_textsize">9dp</dimen>
+    <dimen name="muatang_textsize">10dp</dimen>
     <dimen name="checkintext_width">60dp</dimen>
     <dimen name="checkintext_textsize">9dp</dimen>
     <dimen name="count_textsize">14sp</dimen>
