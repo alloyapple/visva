@@ -66,12 +66,14 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	private boolean isNeedUpdateImage[];
 	private MPager mPager;
 	private boolean hasPie = false;
+	private int pie = 0;
 	public CollectionDetailAdapter(Context context, MPager mPager,
-			ArrayList<MerchProductItem> data, boolean hasPie) {
+			ArrayList<MerchProductItem> data, boolean hasPie , int pie) {
 		this.context = context;
 		this.mPager = mPager;
 		this.data = data;
 		this.hasPie = hasPie;
+		this.pie = pie;
 		initCache();
 	}
 
@@ -315,6 +317,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 							final View piedView = v
 									.findViewById(R.id.pied_view);
+							((TextView) v.findViewById(R.id.pie_text)).setText("+" + pie);
+							
 							piedView.setVisibility(View.VISIBLE);
 							ScaleAnimation anim = new ScaleAnimation(0, 1f, 0,
 									1f, piedView.getWidth() / 2, piedView
@@ -403,6 +407,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							mPager.setLockSlide(true);
 							text.setVisibility(View.VISIBLE);
 //							if(Build.VERSION.SDK_INT >= 11) {
+							System.out.println(">>>>>>>>>>>>>>>> open Desc");
 								AnimatorSet set = new AnimatorSet();
 								set.playTogether(ObjectAnimator.ofFloat(text,
 										"alpha", 0, 0.8f), ObjectAnimator.ofFloat(
@@ -626,31 +631,31 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		Log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
 //		if (v.getAnimation() != null)
 //			return;
-		if (Build.VERSION.SDK_INT >= 11) {
-			TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
-					getViewHeight());
-			anim.setDuration(350);
-			anim.setAnimationListener(new AnimationListener() {
-	
-				@Override
-				public void onAnimationStart(Animation animation) {
-	
-				}
-	
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-	
-				}
-	
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					v.setVisibility(View.GONE);
-				}
-			});
-	
-			v.startAnimation(anim);
-		}
-		else {
+//		if (Build.VERSION.SDK_INT >= 11) {
+//			TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
+//					getViewHeight());
+//			anim.setDuration(350);
+//			anim.setAnimationListener(new AnimationListener() {
+//	
+//				@Override
+//				public void onAnimationStart(Animation animation) {
+//	
+//				}
+//	
+//				@Override
+//				public void onAnimationRepeat(Animation animation) {
+//	
+//				}
+//	
+//				@Override
+//				public void onAnimationEnd(Animation animation) {
+//					v.setVisibility(View.GONE);
+//				}
+//			});
+//	
+//			v.startAnimation(anim);
+//		}
+//		else {
 			TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
 					getViewHeight());
 			anim.setDuration(0);
@@ -673,7 +678,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			});
 	
 			v.startAnimation(anim);
-		}
+//		}
 	}
 
 	@Override

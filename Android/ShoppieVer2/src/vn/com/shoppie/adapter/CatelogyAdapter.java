@@ -167,7 +167,10 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 		for(int i = 0 ; i < getCount() ; i++) {
 			View v = getView(i , false);
 			v.findViewById(R.id.image).setVisibility(View.INVISIBLE);
-			v.findViewById(R.id.view1).setBackgroundResource(R.drawable.round_corner_shape_01);
+			if(Build.VERSION.SDK_INT >= 11)
+				v.findViewById(R.id.view1).setBackgroundResource(R.drawable.round_corner_shape_01);
+			else
+				v.findViewById(R.id.view1).setBackgroundResource(R.drawable.reound_corner_shape_01_23);
 			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(i).getIcon(), v.findViewById(R.id.icon) , true
 					, false , true , false , false);
 		}

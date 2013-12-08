@@ -20,7 +20,6 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.JsonDataObject;
-import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.view.MPager.OnStartExtend;
@@ -29,7 +28,6 @@ import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,6 +53,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.gson.Gson;
@@ -488,7 +487,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		}
 	}
 
-	public void showPieAnimation() {
+	public void showPieAnimation(int pieValue) {
 		SoundPool sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
 		int iTmp = sp.load(this, R.raw.pied, 1);
@@ -504,6 +503,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 			mPlayer.start();
 
 		final View piedView = findViewById(R.id.pied_view);
+		((TextView) findViewById(R.id.pie_text)).setText("+" + pieValue);
+		
 		piedView.setVisibility(View.VISIBLE);
 		ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f,
 				piedView.getWidth() / 2, piedView.getHeight() / 2);
@@ -609,7 +610,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			if (mShoppieSharePref.getCheckinStatus() == 1) {
 				onFinish();
 				mShoppieSharePref.setCheckinStatus(0);
-				showPieAnimation();
+//				showPieAnimation();
 			}else if(mShoppieSharePref.getCheckinStatus() == 2){
 				onFinish();
 				mShoppieSharePref.setCheckinStatus(0);

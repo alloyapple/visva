@@ -67,10 +67,10 @@
 <dimen name="loading_pie_width">121dp</dimen>
 <dimen name="muatang_width">40dp</dimen>
 <dimen name="muatang_textsize">7dp</dimen>
-<dimen name="checkintext_width">48dp</dimen>
+<dimen name="checkintext_width">55dp</dimen>
 <dimen name="checkintext_textsize">7dp</dimen>
 <dimen name="count_textsize">10sp</dimen>
-<dimen name="pie_width">161dp</dimen>
+<dimen name="pie_width">322dp</dimen>
 
 <dimen name="feedback_header_height">73dp</dimen>
 <dimen name="feedback_image_height">48dp</dimen>

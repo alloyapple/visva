@@ -70,7 +70,7 @@
 <dimen name="checkintext_width">48dp</dimen>
 <dimen name="checkintext_textsize">7dp</dimen>
 <dimen name="count_textsize">11sp</dimen>
-<dimen name="pie_width">161dp</dimen>
+<dimen name="pie_width">322dp</dimen>
 
 <dimen name="feedback_header_height">73dp</dimen>
 <dimen name="feedback_image_height">48dp</dimen>

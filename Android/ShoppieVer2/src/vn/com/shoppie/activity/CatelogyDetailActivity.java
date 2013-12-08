@@ -248,7 +248,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText(camName);
 
-		adapter = new CollectionDetailAdapter(this, mPager, data, pie > 0);
+		adapter = new CollectionDetailAdapter(this, mPager, data, pie > 0 , pie);
 		adapter.id = CollectionList.curId;
 		mPager.setAdapter(adapter);
 

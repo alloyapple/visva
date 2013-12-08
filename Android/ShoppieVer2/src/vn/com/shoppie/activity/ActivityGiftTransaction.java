@@ -203,6 +203,16 @@ public class ActivityGiftTransaction extends Activity {
 						.getDimension(R.dimen.gift_item_padding));
 			}
 		}
+		
+		adapter.setOnClickItem(new OnClickItem() {
+			
+			@Override
+			public void onClickItem(GiftItem item) {
+				// TODO Auto-generated method stub
+				currItem = item;
+				startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
+			}
+		});
 	}
 
 	@Override

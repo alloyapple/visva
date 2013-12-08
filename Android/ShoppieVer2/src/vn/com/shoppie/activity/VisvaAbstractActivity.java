@@ -391,7 +391,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 
 	protected void unRegisterBaseActivityReceiver() {
 		unregisterReceiver(baseActivityReceiver);
-	}
+	}                                             
 
 	public class BaseActivityReceiver extends BroadcastReceiver {
 		@Override
