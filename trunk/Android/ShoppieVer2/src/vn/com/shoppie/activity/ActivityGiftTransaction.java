@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.adapter.GiftAdapter;
 import vn.com.shoppie.adapter.GiftAdapter.OnClickItem;
 import vn.com.shoppie.constant.GlobalValue;
@@ -44,7 +43,6 @@ public class ActivityGiftTransaction extends Activity {
 	private GiftAdapter adapter;
 	private GiftAdapter adapter1;
 	private ShoppieDBProvider mShoppieDBProvider;
-	private ImageLoader imageLoader;
 	private ShoppieSharePref mSharePref;
 	
 	@Override
@@ -72,25 +70,25 @@ public class ActivityGiftTransaction extends Activity {
 	}
 
 	
-	private void updateListGiftFromDB() {
-		// TODO Auto-generated method stub
-		JsonDataObject jsonDataObject = mShoppieDBProvider
-				.getJsonData(GlobalValue.TYPE_GIFT);
-		String merchantGift = jsonDataObject.getJsonData();
-		if (merchantGift != null && !"".equals(merchantGift))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantGift);
-				Gson gson = new Gson();
-				GiftList giftList = gson.fromJson(jsonObject.toString(),
-						GiftList.class);
-				setData(giftList.getGifts());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-	}
+//	private void updateListGiftFromDB() {
+//		// TODO Auto-generated method stub
+//		JsonDataObject jsonDataObject = mShoppieDBProvider
+//				.getJsonData(GlobalValue.TYPE_GIFT);
+//		String merchantGift = jsonDataObject.getJsonData();
+//		if (merchantGift != null && !"".equals(merchantGift))
+//			try {
+//				JSONObject jsonObject = new JSONObject(merchantGift);
+//				Gson gson = new Gson();
+//				GiftList giftList = gson.fromJson(jsonObject.toString(),
+//						GiftList.class);
+//				setData(giftList.getGifts());
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		else
+//			showToast(getString(R.string.network_unvailable));
+//	}
 
 	private void showToast(String string) {
 		// TODO Auto-generated method stub
@@ -211,8 +209,6 @@ public class ActivityGiftTransaction extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-//		content.removeAllViews();
-//		adapter = null;
 	}
 
 	@Override
@@ -221,8 +217,10 @@ public class ActivityGiftTransaction extends Activity {
 		super.onResume();
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			updateListGift();
-		else
-			updateListGiftFromDB();
+		else{
+			showToast(getString(R.string.network_unvailable));
+			finish();
+		}
 	}
 	
 	private void updateListGift() {

@@ -47,6 +47,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	public static final String CAMPAIGN_ID_KEY = "campaign_id";
 	public static final String CUSTOMER_ID_KEY = "cuttomer_id";
 	public static final String LUCKY_PIE_KEY = "lucky_pie";
+	private static final String TAG = "CatelogyDetailActivity";
 
 	private String merchId = "";
 	private String camId = "";
@@ -132,8 +133,11 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		actionBar.addView(v, -1, -1);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestupdateToGetMerchProducts(camId, custId);
-		else
-			requestGetMerchProductFromDB();
+		else {
+			showToast(getString(R.string.network_unvailable));
+			finish();
+		}
+		// requestGetMerchProductFromDB();
 
 	}
 
@@ -141,12 +145,14 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		adapter.freeAll();
+		if (adapter != null)
+			adapter.freeAll();
 	}
 
-	public void onClickShowFavouritePersonal(View v){
+	public void onClickShowFavouritePersonal(View v) {
 		gotoActivity(CatelogyDetailActivity.this, PersonalInfoActivity.class);
 	}
+
 	private void unlikeProduct(String custId, final String productId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.likeProduct(
@@ -195,8 +201,12 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
 								merchProductItem.getProductImage(),
 								GlobalValue.TYPE_FAVOURITE_PRODUCT, productId);
-						mShoppieDBProvider
-								.addNewFavouriteData(favouriteDataObject);
+						if (merchProductItem.getLiked() == 1
+								&& mShoppieDBProvider.countFavouriteDataItem(""
+										+ merchProductItem.getProductId()) == 0) {
+							mShoppieDBProvider
+									.addNewFavouriteData(favouriteDataObject);
+						}
 					}
 
 					@Override
@@ -209,25 +219,25 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	}
 
-	private void requestGetMerchProductFromDB() {
-		// TODO Auto-generated method stub
-		JsonDataObject jsonDataObject = mShoppieDBProvider
-				.getJsonData(GlobalValue.TYPE_MERCH_PRODUCTS);
-		String merchantProduct = jsonDataObject.getJsonData();
-		if (merchantProduct != null && !"".equals(merchantProduct))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantProduct);
-				Gson gson = new Gson();
-				MerchProductList merchProductList = gson.fromJson(
-						jsonObject.toString(), MerchProductList.class);
-				mMerchProductItems = merchProductList.getResult();
-				setAdapter(mMerchProductItems);
-			} catch (Exception e) {
-
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-	}
+	// private void requestGetMerchProductFromDB() {
+	// // TODO Auto-generated method stub
+	// JsonDataObject jsonDataObject = mShoppieDBProvider
+	// .getJsonData(GlobalValue.TYPE_MERCH_PRODUCTS);
+	// String merchantProduct = jsonDataObject.getJsonData();
+	// if (merchantProduct != null && !"".equals(merchantProduct))
+	// try {
+	// JSONObject jsonObject = new JSONObject(merchantProduct);
+	// Gson gson = new Gson();
+	// MerchProductList merchProductList = gson.fromJson(
+	// jsonObject.toString(), MerchProductList.class);
+	// mMerchProductItems = merchProductList.getResult();
+	// setAdapter(mMerchProductItems);
+	// } catch (Exception e) {
+	//
+	// }
+	// else
+	// showToast(getString(R.string.network_unvailable));
+	// }
 
 	private void setAdapter(ArrayList<MerchProductItem> data) {
 		// if(adapter != null)
@@ -247,7 +257,9 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			@Override
 			public void onChange(int pos) {
 				if (pos == adapter.getCount() - 1) {
-					mShoppieDBProvider.addNewCollection(Integer.parseInt(camId), Integer.parseInt(merchId), true);
+					mShoppieDBProvider.addNewCollection(
+							Integer.parseInt(camId), Integer.parseInt(merchId),
+							true);
 					String id = CollectionList.getNextCampaignId();
 					camName = CollectionList.getCurCampaignName();
 					pie = CollectionList.getCurPie();
@@ -309,21 +321,25 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						CatelogyDetailActivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
+						Log.i(TAG, "response " + response);
 						try {
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
 							MerchProductList merchProductList = gson.fromJson(
 									jsonObject.toString(),
 									MerchProductList.class);
-							/** update to database */
-							Log.e("adkjfhdf", "asdfkjdh "+response.toString());
-							mShoppieDBProvider
-									.deleteJsonData(GlobalValue.TYPE_MERCH_PRODUCTS);
-							JsonDataObject jsonDataObject = new JsonDataObject(
-									response, GlobalValue.TYPE_MERCH_PRODUCTS);
-							mShoppieDBProvider.addNewJsonData(jsonDataObject);
+
 							mMerchProductItems = merchProductList.getResult();
 							setAdapter(mMerchProductItems);
+
+							/** update to database */
+							if (mShoppieDBProvider.countJsonData(response) == 0) {
+								JsonDataObject jsonDataObject = new JsonDataObject(
+										response,
+										GlobalValue.TYPE_MERCH_PRODUCTS);
+								mShoppieDBProvider
+										.addNewJsonData(jsonDataObject);
+							}
 
 							/** update like to database */
 							for (int i = 0; i < mMerchProductItems.size(); i++) {
@@ -331,14 +347,17 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 										.get(i);
 								if (merchProductItem.getLiked() == 1
 										&& mShoppieDBProvider
-												.countFavouriteDataitem(""
+												.countFavouriteDataItem(""
 														+ merchProductItem
 																.getProductId()) == 0) {
 									FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
 											merchProductItem.getProductImage(),
-											GlobalValue.TYPE_FAVOURITE_PRODUCT,""+
-											merchProductItem.getProductId());
-									mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+											GlobalValue.TYPE_FAVOURITE_PRODUCT,
+											""
+													+ merchProductItem
+															.getProductId());
+									mShoppieDBProvider
+											.addNewFavouriteData(favouriteDataObject);
 								}
 							}
 						} catch (JSONException e) {

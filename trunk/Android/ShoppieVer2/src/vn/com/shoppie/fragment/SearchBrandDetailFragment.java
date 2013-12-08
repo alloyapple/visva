@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.antonyt.infiniteviewpager.StoreImageFragment;
 
-public class SearchBrandDetailFragment extends FragmentBasic{
+public class SearchBrandDetailFragment extends FragmentBasic {
 	// =============================Constant Define=====================
 	// ============================Control Define =====================
 	private TextView name;
@@ -41,6 +41,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 	private ShoppieDBProvider mShoppieDBProvider;
 	// ============================Variable Define =====================
 	private MerchantStoreItem mMerchantStoreItem;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -57,24 +58,28 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 
 		tvLike = (TextView) root.findViewById(R.id.like);
 		like = (Button) root.findViewById(R.id.like_click);
-		
+
 		like.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.e("like success ", "like success");
-				
-				MediaPlayer mPlayer = MediaPlayer.create(
-					getActivity(), R.raw.sound_like2); 
+
+				MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
+						R.raw.sound_like2);
 				if (mPlayer != null)
 					mPlayer.start();
 
 				/** add to favourite product */
-				FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
-						mMerchantStoreItem.getMerchLogo(), GlobalValue.TYPE_FAVOURITE_BRAND,
-						""+mMerchantStoreItem.getStoreId());
-				mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+				if (mShoppieDBProvider
+						.countFavouriteDataItem(""+mMerchantStoreItem.getStoreId()) == 0) {
+					FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
+							mMerchantStoreItem.getMerchLogo(),
+							GlobalValue.TYPE_FAVOURITE_BRAND, ""
+									+ mMerchantStoreItem.getStoreId());
+					mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+				}
 			}
 		});
 		viewPager.setOnTouchListener(new View.OnTouchListener() {
@@ -148,9 +153,10 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 		desc.setText(store.getMerchDesc());
 		count.setText("+" + store.getPieQty());
 
-		viewPager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager(), store));
+		viewPager.setAdapter(new MyPagerAdapter(getActivity()
+				.getSupportFragmentManager(), store));
 		viewPager.setCurrentItem(5001);
-		
+
 		tvLike.setText("0");
 	}
 
@@ -158,7 +164,7 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 
 		MerchantStoreItem store;
 
-		public MyPagerAdapter(FragmentManager fm , MerchantStoreItem store) {
+		public MyPagerAdapter(FragmentManager fm, MerchantStoreItem store) {
 			super(fm);
 			this.store = store;
 		}
@@ -168,7 +174,8 @@ public class SearchBrandDetailFragment extends FragmentBasic{
 			// TODO Auto-generated method stub
 			Fragment fragment = new StoreImageFragment();
 			Bundle args = new Bundle();
-			args.putString("link0", WebServiceConfig.HEAD_IMAGE + store.getMerchLogo());
+			args.putString("link0",
+					WebServiceConfig.HEAD_IMAGE + store.getMerchLogo());
 
 			fragment.setArguments(args);
 			return fragment;

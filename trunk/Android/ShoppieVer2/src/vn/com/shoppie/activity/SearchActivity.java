@@ -67,6 +67,7 @@ public class SearchActivity extends FragmentActivity implements
 	private static final int SEARCH_BRAND_DETAIL_FRAGMENT_ID = 2002;
 	private static final int SEARCH_MAP_FRAGMENT_ID = 2003;
 	private static final int SEARCH_RESULT_FRAGMENT_ID = 2004;
+	public final static String TAG = "SearchActivity";
 	// ===========================Control Define==================
 	private SearchBrandFragment mSearchBrandFragment;
 	private SearchBrandDetailFragment mSearchBrandDetailFragment;
@@ -86,6 +87,7 @@ public class SearchActivity extends FragmentActivity implements
 	private Vector<MerchantCategoryItem> iconDataList = new Vector<MerchantCategoryItem>();
 
 	private LocationClient mLocationClient;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -103,7 +105,7 @@ public class SearchActivity extends FragmentActivity implements
 		super.onStop();
 		mLocationClient.disconnect();
 	}
-	
+
 	private void intialize() {
 		// TODO Auto-generated method stub
 		mShoppieDBProvider = new ShoppieDBProvider(this);
@@ -117,7 +119,7 @@ public class SearchActivity extends FragmentActivity implements
 
 		mSearchMapFragment = (SearchMapFragment) mFmManager
 				.findFragmentById(R.id.search_map_fragment);
-		
+
 		mSearchResultFragment = (SearchResultFragment) mFmManager
 				.findFragmentById(R.id.search_result_fragment);
 
@@ -153,55 +155,56 @@ public class SearchActivity extends FragmentActivity implements
 
 		ImageButton btnSearch = (ImageButton) findViewById(R.id.btn_search_icon);
 		btnSearch.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				StoreAdapter adapter = mSearchBrandFragment.getAdapter();
-				if(adapter == null)
+				if (adapter == null)
 					return;
-				if(adapter.getCount() == 0) {
+				if (adapter.getCount() == 0) {
 					showFragment(SEARCH_RESULT_FRAGMENT_ID);
 					edtSearch.setText("");
 					mSearchBrandFragment.filter("");
 				}
 			}
 		});
-		
+
 		/** request to server to get campaign category */
-		if (NetworkUtility.getInstance(this).isNetworkAvailable()){
+		if (NetworkUtility.getInstance(this).isNetworkAvailable()) {
 			requestToGetCampainCategory();
-		}
-		else {
-			getMerchantCategoryFromDB();
+		} else {
+			showToast(getString(R.string.network_unvailable));
+			finish();
+			// getMerchantCategoryFromDB();
 		}
 	}
 
-	public void setDeviderColor(int red , int green , int blue) {
+	public void setDeviderColor(int red, int green, int blue) {
 		View view = findViewById(R.id.actionbar_devider);
 		int colorValue = Color.rgb(red, green, blue);
 		view.setBackgroundColor(colorValue);
 	}
-	
-	private void getMerchantCategoryFromDB() {
-		// TODO Auto-generated method stub
-		
-		JsonDataObject jsonDataObject = mShoppieDBProvider
-				.getJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
-		String merchantCategory = jsonDataObject.getJsonData();
-		if (merchantCategory != null && !"".equals(merchantCategory))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantCategory);
-				Gson gson = new Gson();
-				MerchantCategoryList merchantCategoryList = gson.fromJson(
-						jsonObject.toString(), MerchantCategoryList.class);
-				setIconAdapter(merchantCategoryList.getResult());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-	}
+
+	// private void getMerchantCategoryFromDB() {
+	// // TODO Auto-generated method stub
+	//
+	// JsonDataObject jsonDataObject = mShoppieDBProvider
+	// .getJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
+	// String merchantCategory = jsonDataObject.getJsonData();
+	// if (merchantCategory != null && !"".equals(merchantCategory))
+	// try {
+	// JSONObject jsonObject = new JSONObject(merchantCategory);
+	// Gson gson = new Gson();
+	// MerchantCategoryList merchantCategoryList = gson.fromJson(
+	// jsonObject.toString(), MerchantCategoryList.class);
+	// setIconAdapter(merchantCategoryList.getResult());
+	// } catch (JSONException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// else
+	// showToast(getString(R.string.network_unvailable));
+	// }
 
 	private void addToSBackStack(String tag) {
 		int index = backstack.lastIndexOf(tag);
@@ -232,7 +235,7 @@ public class SearchActivity extends FragmentActivity implements
 	public void onClickBtnSearchMap(View v) {
 		showFragment(SEARCH_MAP_FRAGMENT_ID);
 	}
-	
+
 	private FragmentTransaction hideFragment() {
 		mTransaction = mFmManager.beginTransaction();
 		mTransaction.hide(mSearchBrandDetailFragment);
@@ -271,7 +274,7 @@ public class SearchActivity extends FragmentActivity implements
 			addToSBackStack(SEARCH_MAP_FRAGMENT_STRING);
 			mTransaction.commit();
 			break;
-			
+
 		case SEARCH_RESULT_FRAGMENT_ID:
 			mTransaction = hideFragment();
 			mTransaction.show(mSearchResultFragment);
@@ -350,7 +353,8 @@ public class SearchActivity extends FragmentActivity implements
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				setDataByIcon(iconDataList.get(position), false);
-				mSearchMapFragment.updatePie(manageData.get(iconDataList.get(position)));
+				mSearchMapFragment.updatePie(manageData.get(iconDataList
+						.get(position)));
 			}
 		});
 
@@ -358,30 +362,33 @@ public class SearchActivity extends FragmentActivity implements
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestGetMerchantStores(String.valueOf(mShopieSharePref
 					.getCustId()));
-		else
-			requestGetMerchantStoresFromDB();
+		else {
+			showToast(getString(R.string.network_unvailable));
+			finish();
+		}
+		// requestGetMerchantStoresFromDB();
 	}
 
-	private void requestGetMerchantStoresFromDB() {
-		// TODO Auto-generated method stub
-		JsonDataObject jsonDataObject = mShoppieDBProvider
-				.getJsonData(GlobalValue.TYPE_MERCH_STORE);
-		String merchantStores = jsonDataObject.getJsonData();
-		if (merchantStores != null && !"".equals(merchantStores))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantStores);
-				Gson gson = new Gson();
-				MerchantStoreList merchantStoreList = gson
-						.fromJson(jsonObject.toString(),
-								MerchantStoreList.class);
-				setStoreData(merchantStoreList.getResult());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-	}
+	// private void requestGetMerchantStoresFromDB() {
+	// // TODO Auto-generated method stub
+	// JsonDataObject jsonDataObject = mShoppieDBProvider
+	// .getJsonData(GlobalValue.TYPE_MERCH_STORE);
+	// String merchantStores = jsonDataObject.getJsonData();
+	// if (merchantStores != null && !"".equals(merchantStores))
+	// try {
+	// JSONObject jsonObject = new JSONObject(merchantStores);
+	// Gson gson = new Gson();
+	// MerchantStoreList merchantStoreList = gson
+	// .fromJson(jsonObject.toString(),
+	// MerchantStoreList.class);
+	// setStoreData(merchantStoreList.getResult());
+	// } catch (JSONException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// else
+	// showToast(getString(R.string.network_unvailable));
+	// }
 
 	private void requestToGetCampainCategory() {
 		// TODO Auto-generated method stub
@@ -447,15 +454,16 @@ public class SearchActivity extends FragmentActivity implements
 		if (isUpdateMap) {
 			setPieMap(manageData.get(icon));
 		}
-		
+
 		try {
 			String color = icon.getLineColor();
 			String temp[] = color.split(",");
-			setDeviderColor(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Integer.parseInt(temp[2]));
+			setDeviderColor(Integer.parseInt(temp[0]),
+					Integer.parseInt(temp[1]), Integer.parseInt(temp[2]));
 		} catch (Exception e) {
 			setDeviderColor(0, 0, 0);
 		}
-		
+
 	}
 
 	private void requestGetMerchantStores(String custId) {
@@ -474,13 +482,15 @@ public class SearchActivity extends FragmentActivity implements
 							MerchantStoreList merchantStoreList = gson
 									.fromJson(jsonObject.toString(),
 											MerchantStoreList.class);
+							setStoreData(merchantStoreList.getResult());
+
 							/** update to database */
 							mShoppieDBProvider
 									.deleteJsonData(GlobalValue.TYPE_MERCH_STORE);
 							JsonDataObject jsonDataObject = new JsonDataObject(
 									response, GlobalValue.TYPE_MERCH_STORE);
 							mShoppieDBProvider.addNewJsonData(jsonDataObject);
-							setStoreData(merchantStoreList.getResult());
+
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -502,7 +512,7 @@ public class SearchActivity extends FragmentActivity implements
 		showFragment(SEARCH_BRAND_DETAIL_FRAGMENT_ID);
 		mSearchBrandDetailFragment.updateUI(store);
 	}
-	
+
 	public void onClickShowSearchDetail() {
 		showFragment(SEARCH_RESULT_FRAGMENT_ID);
 	}
@@ -513,46 +523,48 @@ public class SearchActivity extends FragmentActivity implements
 
 	public MerchantCategoryItem getCategoryByStore(MerchantStoreItem store) {
 		for (int i = 0; i < iconDataList.size(); i++) {
-			if(store.getMerchCatId() == iconDataList.get(i).getMerchCatId()) {
+			if (store.getMerchCatId() == iconDataList.get(i).getMerchCatId()) {
 				return iconDataList.get(i);
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		mLocationClient.connect();
 	}
-	
+
 	public Location getMyLocation() {
 		try {
 			return mLocationClient.getLastLocation();
 		} catch (Exception e) {
+			if (mLocationClient.isConnected() || mLocationClient.isConnecting())
+				return null;
 			mLocationClient.connect();
 			return mLocationClient.getLastLocation();
 		}
-		
-//		return mSearchMapFragment.getMyLocation();
+
+		// return mSearchMapFragment.getMyLocation();
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
