@@ -90,10 +90,11 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 	}
 
 	public void addNewCollection(Collection collection) {
-		addNewCollection(collection.getCollectionId(), collection.getMerchId(), collection.isViewed());
+		addNewCollection(collection.getCollectionId(), collection.getMerchId(),
+				collection.isViewed());
 	}
-	
-	public void addNewCollection(int collectionId , int merchId , boolean isView) {
+
+	public void addNewCollection(int collectionId, int merchId, boolean isView) {
 		SQLiteDatabase mdb = getWritableDatabase();
 		ContentValues mValue = new ContentValues();
 		mValue.put(COLLECTION_ID, collectionId);
@@ -102,7 +103,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		mdb.insert(TABLE_COLLECTION, null, mValue);
 		mdb.close();
 	}
-	
+
 	/*-------------------------- INSERT - UPDATE FUNCTION--------------------------*/
 	public void updateJsonData(JsonDataObject jsonDataObject) {
 
@@ -144,25 +145,28 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 
 	/*-------------------------- GET FUNCTION--------------------------*/
 
-	public JsonDataObject getJsonData(String type) {
+	public ArrayList<JsonDataObject> getJsonData(String type) {
 		SQLiteDatabase mdb = getReadableDatabase();
-		JsonDataObject jsonDataObject = new JsonDataObject();
+		ArrayList<JsonDataObject> jsonDataObject = new ArrayList<JsonDataObject>();
 		Cursor mCursor = mdb.query(TABLE_JSON, null, JSON_TYPE + " = ?",
 				new String[] { String.valueOf(type) }, null, null, null);
 		if (mCursor.moveToFirst()) {
-			jsonDataObject = new JsonDataObject(Integer.parseInt(mCursor
-					.getString(0)), mCursor.getString(1), mCursor.getString(2));
+			do {
+				jsonDataObject.add(new JsonDataObject(Integer.parseInt(mCursor
+						.getString(0)), mCursor.getString(1), mCursor
+						.getString(2)));
+			} while (mCursor.moveToNext());
 		}
 		mCursor.close();
 		mdb.close();
 		return jsonDataObject;
 	}
 
-	public JsonDataObject getJsonDataById(String jsonId) {
+	public JsonDataObject getJsonDataByData(String jsonData) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		JsonDataObject jsonDataObject = new JsonDataObject();
-		Cursor mCursor = mdb.query(TABLE_JSON, null, JSON_ID + " = ?",
-				new String[] { String.valueOf(jsonId) }, null, null, null);
+		Cursor mCursor = mdb.query(TABLE_JSON, null, JSON_DATA + " = ?",
+				new String[] { String.valueOf(jsonData) }, null, null, null);
 		if (mCursor.moveToFirst()) {
 			jsonDataObject = new JsonDataObject(Integer.parseInt(mCursor
 					.getString(0)), mCursor.getString(1), mCursor.getString(2));
@@ -196,9 +200,8 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 	public ArrayList<Collection> getCollectionData(int merchId, int collectionId) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		ArrayList<Collection> collections = new ArrayList<Collection>();
-		String query = "SELECT * FROM " + TABLE_COLLECTION + " WHERE " +
-				COLLECTION_ID + " = '"
-				+ collectionId + "'";
+		String query = "SELECT * FROM " + TABLE_COLLECTION + " WHERE "
+				+ COLLECTION_ID + " = '" + collectionId + "'";
 		Cursor mCursor = mdb.rawQuery(query, null);
 		if (mCursor.moveToFirst()) {
 			do {
@@ -219,7 +222,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		boolean result = getCollectionData(merchId, collectionId).size() > 0;
 		return result;
 	}
-	
+
 	/*-------------------------- DELETE FUNCTION--------------------------*/
 
 	// delete jsondata
@@ -256,11 +259,22 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 
 	/*-------------------------- COUNT FUNCTION--------------------------*/
 
-	public int countJsonData(String type) {
+	public int countJsonData(String jsonData) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		int count = 0;
-		String querry = "select * from " + TABLE_JSON + " where " + JSON_TYPE
-				+ " ='" + type + "'";
+		String querry = "select * from " + TABLE_JSON + " where " + JSON_DATA
+				+ " ='" + jsonData + "'";
+		Cursor cursor = mdb.rawQuery(querry, null);
+		count = cursor.getCount();
+		cursor.close();
+		mdb.close();
+		return count;
+	}
+
+	public int countJsonData() {
+		SQLiteDatabase mdb = getReadableDatabase();
+		int count = 0;
+		String querry = "select * from " + TABLE_JSON;
 		Cursor cursor = mdb.rawQuery(querry, null);
 		count = cursor.getCount();
 		cursor.close();
@@ -280,7 +294,7 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		return count;
 	}
 
-	public int countFavouriteDataitem(String fId) {
+	public int countFavouriteDataItem(String fId) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		int count = 0;
 		String querry = "select * from " + TABLE_FAVOURITE + " where "

@@ -6,7 +6,6 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
-import vn.com.shoppie.fragment.SearchBrandDetailFragment.IOnClickShowStoreDetail;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.media.MediaPlayer;
@@ -36,8 +35,6 @@ public class ActivityFavouriteBrandShow extends FragmentActivity {
 	private View indicator2;
 	private TextView tvLike;
 	private Button like;
-	// ============================Class Define =======================
-	private IOnClickShowStoreDetail mListener;
 	private ShoppieDBProvider mShoppieDBProvider;
 	// ============================Variable Define =====================
 	private MerchantStoreItem mMerchantStoreItem;
@@ -48,7 +45,10 @@ public class ActivityFavouriteBrandShow extends FragmentActivity {
 		// Remove title bar
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_search_brand_detail_fragment);
-
+		mShoppieDBProvider = new ShoppieDBProvider(this);
+		
+		mMerchantStoreItem = (MerchantStoreItem) getIntent().getExtras()
+				.getParcelable(GlobalValue.MERCH_BRAND_ITEM);
 		name = (TextView) findViewById(R.id.name);
 		desc = (TextView) findViewById(R.id.desc);
 		count = (TextView) findViewById(R.id.count);
@@ -61,25 +61,25 @@ public class ActivityFavouriteBrandShow extends FragmentActivity {
 		tvLike = (TextView) findViewById(R.id.like);
 		like = (Button) findViewById(R.id.like_click);
 
-		like.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Log.e("like success ", "like success");
-
-				MediaPlayer mPlayer = MediaPlayer.create(
-						ActivityFavouriteBrandShow.this, R.raw.sound_like2);
-				if (mPlayer != null)
-					mPlayer.start();
-
-				/** add to favourite product */
-				FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
-						mMerchantStoreItem.getMerchLogo(),
-						GlobalValue.TYPE_FAVOURITE_BRAND, ""
-								+ mMerchantStoreItem.getMerchId());
-				mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
-			}
-		});
+//		like.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				Log.e("like success ", "like success");
+//
+//				MediaPlayer mPlayer = MediaPlayer.create(
+//						ActivityFavouriteBrandShow.this, R.raw.sound_like2);
+//				if (mPlayer != null)
+//					mPlayer.start();
+//
+//				/** add to favourite product */
+//				FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
+//						mMerchantStoreItem.getMerchLogo(),
+//						GlobalValue.TYPE_FAVOURITE_BRAND, ""
+//								+ mMerchantStoreItem.getMerchId());
+//				mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+//			}
+//		});
 		viewPager.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
@@ -121,6 +121,9 @@ public class ActivityFavouriteBrandShow extends FragmentActivity {
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
+		
+		if(mMerchantStoreItem!=null)
+			updateUI(mMerchantStoreItem);
 	}
 	
 	public void updateUI(final MerchantStoreItem store) {

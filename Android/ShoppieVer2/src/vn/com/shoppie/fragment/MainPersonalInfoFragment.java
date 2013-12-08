@@ -15,12 +15,10 @@ import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.HistoryTransactionItem;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
-import vn.com.shoppie.database.sobject.MerchCampaignItem;
-import vn.com.shoppie.database.sobject.MerchCampaignList;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchProductList;
-import vn.com.shoppie.database.sobject.MerchantCategoryItem;
-import vn.com.shoppie.database.sobject.MerchantCategoryList;
+import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import vn.com.shoppie.database.sobject.MerchantStoreList;
 import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.HorizontalListView;
@@ -167,18 +165,12 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 								.get(arg2);
 						MerchProductItem merchProductItem = null;
 						for (int i = 0; i < merchCampaignItems.size(); i++) {
-							Log.e("sjflsdf "
-									+ merchCampaignItems.get(i).getProductId(),
-									"adjfhf "
-											+ favouriteDataObject
-													.getFavourite_id());
 							if (String.valueOf(
 									merchCampaignItems.get(i).getProductId())
 									.equals(favouriteDataObject
 											.getFavourite_id()))
 								merchProductItem = merchCampaignItems.get(i);
 						}
-
 						Intent intent = new Intent(getActivity(),
 								ActivityFavouriteProductShow.class);
 						intent.putExtra(GlobalValue.MERCH_PRODUCT_ITEM,
@@ -193,19 +185,22 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 					public void onItemClick(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
 						// TODO Auto-generated method stub
-						ArrayList<MerchantCategoryItem> merchantCategoryItems = getMerchantCategoryFromDB();
-						MerchantCategoryItem merchantCategoryItem = null;
+						ArrayList<MerchantStoreItem> merchantStoreItems = requestGetMerchantStoresFromDB();
+						MerchantStoreItem merchantStoreItem = null;
 						FavouriteDataObject favouriteDataObject = mFavouriteBrandObjects
 								.get(arg2);
-						for (int i = 0; i < merchantCategoryItems.size(); i++)
+						for (int i = 0; i < merchantStoreItems.size(); i++) {
 							if (favouriteDataObject.getFavourite_id().equals(
-									String.valueOf(merchantCategoryItems.get(i)
-											.getMerchCatId()))) {
-								merchantCategoryItem = merchantCategoryItems
-										.get(i);
+									String.valueOf(merchantStoreItems.get(i)
+											.getStoreId()))) {
+								merchantStoreItem = merchantStoreItems.get(i);
 							}
+						}
+						Log.e(TAG, "merchantStoreItems "+merchantStoreItems.size()+" merchantStoreItem "+merchantStoreItem);
 						Intent intent = new Intent(getActivity(),
 								ActivityFavouriteBrandShow.class);
+						intent.putExtra(GlobalValue.MERCH_BRAND_ITEM,
+								(MerchantStoreItem) merchantStoreItem);
 						startActivity(intent);
 					}
 				});
@@ -403,20 +398,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 
 	private void showToast(String string) {
 		Toast.makeText(getActivity(), string, Toast.LENGTH_LONG).show();
-	}
-
-	private void initShareItent(String subject, String content, String email) {
-		Intent share = new Intent(android.content.Intent.ACTION_SEND);
-		share.setType("text/plain");
-		share.putExtra(Intent.EXTRA_SUBJECT, "" + subject);
-		share.putExtra(Intent.EXTRA_TEXT, "" + content);
-		share.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
-		// if (pFilePath != null)
-		// share.putExtra(Intent.EXTRA_STREAM,
-		// Uri.fromFile(new File(pFilePath)));
-		share.setType("vnd.android.cursor.dir/email");
-		startActivity(Intent.createChooser(share, "Select"));
-
 	}
 
 	private void pickImage() {
@@ -637,70 +618,49 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		return inSampleSize;
 	}
 
-	private ArrayList<MerchantCategoryItem> getMerchantCategoryFromDB() {
-		// TODO Auto-generated method stub
-
-		JsonDataObject jsonDataObject = mShoppieDBProvider
-				.getJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
-		String merchantCategory = jsonDataObject.getJsonData();
-		if (merchantCategory != null && !"".equals(merchantCategory))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantCategory);
-				Gson gson = new Gson();
-				MerchantCategoryList merchantCategoryList = gson.fromJson(
-						jsonObject.toString(), MerchantCategoryList.class);
-				return merchantCategoryList.getResult();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-
-		return null;
-	}
-
 	private ArrayList<MerchProductItem> requestGetMerchProductFromDB() {
 		// TODO Auto-generated method stub
 		ArrayList<MerchProductItem> merchProductItems = new ArrayList<MerchProductItem>();
-		JsonDataObject jsonDataObject = mShoppieDBProvider
+		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
 				.getJsonData(GlobalValue.TYPE_MERCH_PRODUCTS);
-		String merchantProduct = jsonDataObject.getJsonData();
-		if (merchantProduct != null && !"".equals(merchantProduct))
-			try {
-				Log.d(TAG, "merchantProduct " + merchantProduct);
-				JSONObject jsonObject = new JSONObject(merchantProduct);
-				Gson gson = new Gson();
-				MerchProductList merchProductList = gson.fromJson(
-						jsonObject.toString(), MerchProductList.class);
-				merchProductItems = merchProductList.getResult();
-				return merchProductItems;
-			} catch (Exception e) {
+		for (int i = 0; i < jsonDataObject.size(); i++) {
+			String merchantProduct = jsonDataObject.get(i).getJsonData();
+			if (merchantProduct != null && !"".equals(merchantProduct))
+				try {
+					JSONObject jsonObject = new JSONObject(merchantProduct);
+					Gson gson = new Gson();
+					MerchProductList merchProductList = gson.fromJson(
+							jsonObject.toString(), MerchProductList.class);
+					merchProductItems.addAll(merchProductList.getResult());
+				} catch (Exception e) {
 
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-		return null;
+				}
+			else
+				showToast(getString(R.string.network_unvailable));
+		}
+		return merchProductItems;
 	}
 
-	private ArrayList<MerchCampaignItem> getMerchantCampaignFromDb() {
+	private ArrayList<MerchantStoreItem> requestGetMerchantStoresFromDB() {
 		// TODO Auto-generated method stub
-		JsonDataObject jsonDataObject = mShoppieDBProvider
-				.getJsonData(GlobalValue.TYPE_CAMPAIGNS);
-		String merchantCampaign = jsonDataObject.getJsonData();
-		if (merchantCampaign != null && !"".equals(merchantCampaign))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantCampaign);
-				Gson gson = new Gson();
-				MerchCampaignList merchCampaignList = gson.fromJson(
-						jsonObject.toString(), MerchCampaignList.class);
-				return merchCampaignList.getResult();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-		return null;
+		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
+				.getJsonData(GlobalValue.TYPE_MERCH_STORE);
+		Log.e(TAG, "jsonDataObject "+jsonDataObject.size());
+		ArrayList<MerchantStoreItem> merchantStoreItems = new ArrayList<MerchantStoreItem>();
+		for (int i = 0; i < jsonDataObject.size(); i++) {
+			String merchantStores = jsonDataObject.get(i).getJsonData();
+			if (merchantStores != null && !"".equals(merchantStores))
+				try {
+					JSONObject jsonObject = new JSONObject(merchantStores);
+					Gson gson = new Gson();
+					MerchantStoreList merchantStoreList = gson.fromJson(
+							jsonObject.toString(), MerchantStoreList.class);
+					merchantStoreItems.addAll(merchantStoreList.getResult());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return merchantStoreItems;
 	}
 }

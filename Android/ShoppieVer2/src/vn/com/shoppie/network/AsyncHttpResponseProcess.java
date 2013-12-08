@@ -30,9 +30,12 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 	public void before() {
 		// Show waiting dialog during connection
 		progressDialog = new VisvaDialog(context);
-		progressDialog.show();
-		progressDialog.setCancelable(false);
-
+		try {
+			progressDialog.show();
+			progressDialog.setCancelable(false);
+		} catch (Exception e) {
+			progressDialog = null;
+		}
 	}
 
 	@Override

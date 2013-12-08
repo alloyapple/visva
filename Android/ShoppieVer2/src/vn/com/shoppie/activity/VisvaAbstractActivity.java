@@ -6,6 +6,7 @@ import java.util.HashMap;
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
+import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.util.SBroastcastProvider;
 import vn.com.shoppie.util.SBroastcastProvider.BroastcastListener;
 import vn.com.shoppie.util.VisvaDialog;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.google.android.gms.internal.s;
 
 public abstract class VisvaAbstractActivity extends Activity implements
 		BroastcastListener {
@@ -47,7 +49,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 	private LinearLayout container;
 	protected VisvaDialog progressDialog;
 	protected VisvaAbstractActivity self;
-	protected static String TAG = "";
+	protected static String TAG = "VisvaAbstractActivity";
 	public String Tag = this.getClass().getName();
 	// Google analysis
 	protected Tracker mGaTracker;
@@ -213,9 +215,13 @@ public abstract class VisvaAbstractActivity extends Activity implements
 	}
 
 	public void onClickBtnSearch(View v) {
+		if(NetworkUtility.getInstance(this).isNetworkAvailable()){
 		Intent intent = new Intent(VisvaAbstractActivity.this,
 				SearchActivity.class);
 		startActivity(intent);
+		}else{
+			showToast(getString(R.string.network_unvailable));
+		}
 	}
 
 	/**
@@ -414,8 +420,10 @@ public abstract class VisvaAbstractActivity extends Activity implements
 	protected void onPause() {
 		super.onPause();
 		unregisterReceiver(broastcast.getBroastcast());
+	
 	}
 
+	
 	protected void showLog() {
 		Log.i(Tag, "heap size: " + Debug.getNativeHeapSize());
 		Log.i(Tag, "heap size alloced: " + Debug.getNativeHeapAllocatedSize());
@@ -439,6 +447,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 
 	@Override
 	public void onReceiveBroastcast(Context context, Intent intent) {
+		Log.v(TAG, "onReceiveBroastcast");
 		String type = "", pieQty = "0";
 		if (intent.hasExtra(GlobalValue.EXTRA_TYPE))
 			type = intent.getStringExtra(GlobalValue.EXTRA_TYPE);
@@ -551,6 +560,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 		GA_MAP_PARAMS.clear();
 		GA_MAP_PARAMS.put("onDestroy", this.getClass().getName().toString());
 		mGaTracker.send(GA_EVENT, GA_MAP_PARAMS);
+		unRegisterBaseActivityReceiver();
 	}
 
 	@Override

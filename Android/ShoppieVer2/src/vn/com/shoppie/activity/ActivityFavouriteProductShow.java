@@ -65,7 +65,6 @@ public class ActivityFavouriteProductShow extends Activity {
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 
 		mMerchProductItem = (MerchProductItem) getIntent().getExtras().getParcelable(GlobalValue.MERCH_PRODUCT_ITEM);
-		Log.e("adfdkfh", "ádfjdjhf "+mMerchProductItem);
 		View text = findViewById(R.id.text);
 		text.setOnClickListener(new OnClickListener() {
 

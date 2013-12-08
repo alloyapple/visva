@@ -68,7 +68,8 @@ public class SearchBrandFragment extends FragmentBasic {
 
 	public void setAdapter(Vector<MerchantStoreItem> data) {
 		Location location = ((SearchActivity) getActivity()).getMyLocation();
-		
+		if(location == null)
+			return;
 		for(int i = 0 ; i < data.size() ; i++) {
 			double lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
 					new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));

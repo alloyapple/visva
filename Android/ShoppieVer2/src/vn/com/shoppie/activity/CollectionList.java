@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.adapter.ListCollectionAdapter;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
@@ -108,7 +107,7 @@ public class CollectionList extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if (position > 0) {
+				if (position > 0 && NetworkUtility.getInstance(CollectionList.this).isNetworkAvailable()) {
 					curId = position - 1;
 					Intent intent = new Intent(CollectionList.this,
 							CatelogyDetailActivity.class);
@@ -126,6 +125,9 @@ public class CollectionList extends Activity {
 					startActivity(intent);
 
 					clearMemory();
+				}else{
+					showToast(getString(R.string.network_unvailable));
+					finish();
 				}
 			}
 		});
@@ -147,29 +149,32 @@ public class CollectionList extends Activity {
 		super.onResume();
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestToGetMerchantCampaign(merchantId, customerId);
-		else
-			getMerchantCampaignFromDb();
+		else{
+			showToast(getString(R.string.network_unvailable));
+			finish();
+		}
+			//getMerchantCampaignFromDb();
 	}
 
-	private void getMerchantCampaignFromDb() {
-		// TODO Auto-generated method stub
-		JsonDataObject jsonDataObject = mShoppieDBProvider
-				.getJsonData(GlobalValue.TYPE_CAMPAIGNS);
-		String merchantCampaign = jsonDataObject.getJsonData();
-		if (merchantCampaign != null && !"".equals(merchantCampaign))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantCampaign);
-				Gson gson = new Gson();
-				MerchCampaignList merchCampaignList = gson.fromJson(
-						jsonObject.toString(), MerchCampaignList.class);
-				setData(merchCampaignList.getResult());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
-	}
+//	private void getMerchantCampaignFromDb() {
+//		// TODO Auto-generated method stub
+//		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
+//				.getJsonData(GlobalValue.TYPE_CAMPAIGNS);
+//		String merchantCampaign = jsonDataObject.getJsonData();
+//		if (merchantCampaign != null && !"".equals(merchantCampaign))
+//			try {
+//				JSONObject jsonObject = new JSONObject(merchantCampaign);
+//				Gson gson = new Gson();
+//				MerchCampaignList merchCampaignList = gson.fromJson(
+//						jsonObject.toString(), MerchCampaignList.class);
+//				setData(merchCampaignList.getResult());
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		else
+//			showToast(getString(R.string.network_unvailable));
+//	}
 
 	private void showToast(String str) {
 		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
@@ -220,11 +225,13 @@ public class CollectionList extends Activity {
 									.fromJson(jsonObject.toString(),
 											MerchCampaignList.class);
 							/** update to database */
-							mShoppieDBProvider
-									.deleteJsonData(GlobalValue.TYPE_CAMPAIGNS);
-							JsonDataObject jsonDataObject = new JsonDataObject(
-									response, GlobalValue.TYPE_CAMPAIGNS);
-							mShoppieDBProvider.addNewJsonData(jsonDataObject);
+							int count = mShoppieDBProvider.countJsonData(response);
+							if(count == 0){
+								JsonDataObject jsonDataObject = new JsonDataObject(
+										response, GlobalValue.TYPE_CAMPAIGNS);
+								mShoppieDBProvider.addNewJsonData(jsonDataObject);
+							}
+							
 							setData(merchCampaignList.getResult());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

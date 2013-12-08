@@ -1,8 +1,11 @@
 package vn.com.shoppie.database.sobject;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class MerchantStoreItem {
+public class MerchantStoreItem implements Parcelable{
 	@SerializedName("merchId")
 	private int merchId;
 	@SerializedName("merchCatId")
@@ -112,4 +115,57 @@ public class MerchantStoreItem {
 	public void setPieQty(int pieQty) {
 		this.pieQty = pieQty;
 	}
+
+	public MerchantStoreItem(Parcel in) {
+		// TODO Auto-generated constructor stub
+		this.merchId = in.readInt();
+		this.merchCatId = in.readInt();
+		this.merchName = in.readString();
+		this.merchDesc = in.readString();
+		this.merchLogo = in.readString();
+		this.merchBanner = in.readString();
+		this.storeId = in.readInt();
+		this.storeName = in.readString();
+		this.storeAddress = in.readString();
+		this.latitude = in.readString();
+		this.longtitude = in.readString();
+		this.txnType = in.readInt();
+		this.pieQty = in.readInt();
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		// TODO Auto-generated method stub
+		out.writeInt(merchId);
+		out.writeInt(merchCatId);
+		out.writeString(merchName);
+		out.writeString(merchDesc);
+		out.writeString(merchLogo);
+		out.writeString(merchBanner);
+		out.writeInt(storeId);
+		out.writeString(storeName);
+		out.writeString(storeAddress);
+		out.writeString(latitude);
+		out.writeString(longtitude);
+		out.writeInt(txnType);
+		out.writeInt(pieQty);
+	}
+
+	// this is used to regenerate your object. All Parcelables must have a
+	// CREATOR that implements these two methods
+	public static final Parcelable.Creator<MerchantStoreItem> CREATOR = new Parcelable.Creator<MerchantStoreItem>() {
+		public MerchantStoreItem createFromParcel(Parcel in) {
+			return new MerchantStoreItem(in);
+		}
+
+		public MerchantStoreItem[] newArray(int size) {
+			return new MerchantStoreItem[size];
+		}
+	};
 }

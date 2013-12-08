@@ -86,15 +86,19 @@ public class HomeActivity extends VisvaAbstractActivity {
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
-		ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
-		icon.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(),
-						SearchActivity.class));
-			}
-		});
+		// ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
+		// icon.setOnClickListener(new View.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// if(NetworkUtility.getInstance(HomeActivity.this).isNetworkAvailable())
+		// startActivity(new Intent(getApplicationContext(),
+		// SearchActivity.class));
+		// else {
+		// showToast(getString(R.string.network_unvailable));
+		// }
+		// }
+		// });
 
 		// setup actionbar
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
@@ -102,7 +106,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 		mTxtTitle.setGravity(Gravity.CENTER);
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
-		mTxtTitle.setTextSize(getResources().getDimension(R.dimen.actionbar_title_textsize));
+		mTxtTitle.setTextSize(getResources().getDimension(
+				R.dimen.actionbar_title_textsize));
 		actionBar.addView(mTxtTitle, -1, -1);
 		hint = (MyTextView) findViewById(R.id.hint);
 		checkinCircle = findViewById(R.id.checkin_circle);
@@ -135,28 +140,32 @@ public class HomeActivity extends VisvaAbstractActivity {
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestToGetMerchantCategory();
-		else
+		else {
 			getMerchantCategoryFromDB();
+		}
+
 	}
 
 	private void getMerchantCategoryFromDB() {
 		// TODO Auto-generated method stub
-		JsonDataObject jsonDataObject = mShoppieDBProvider
+		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
 				.getJsonData(GlobalValue.TYPE_MERCHANT_CATEGORY);
-		String merchantCategory = jsonDataObject.getJsonData();
-		if (merchantCategory != null && !"".equals(merchantCategory))
-			try {
-				JSONObject jsonObject = new JSONObject(merchantCategory);
-				Gson gson = new Gson();
-				MerchantCategoryList merchantCategoryList = gson.fromJson(
-						jsonObject.toString(), MerchantCategoryList.class);
-				setAdapter(merchantCategoryList.getResult());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		else
-			showToast(getString(R.string.network_unvailable));
+		for (int i = 0; i < jsonDataObject.size(); i++) {
+			String merchantCategory = jsonDataObject.get(i).getJsonData();
+			if (merchantCategory != null && !"".equals(merchantCategory))
+				try {
+					JSONObject jsonObject = new JSONObject(merchantCategory);
+					Gson gson = new Gson();
+					MerchantCategoryList merchantCategoryList = gson.fromJson(
+							jsonObject.toString(), MerchantCategoryList.class);
+					setAdapter(merchantCategoryList.getResult());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			else
+				showToast(getString(R.string.network_unvailable));
+		}
 	}
 
 	static int DURATION = 60;
@@ -193,7 +202,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			String alert = "";
 			if (res == RESULT_CANCELED) {
 				alert = getString(R.string.checkin_not_transaction);
-//				showToast(getString(R.string.checkin_not_success));
+				// showToast(getString(R.string.checkin_not_success));
 			} else {
 				alert = getString(R.string.checkin_cancel_transaction);
 			}
@@ -207,10 +216,10 @@ public class HomeActivity extends VisvaAbstractActivity {
 					timer.onFinish();
 					dialog.dismiss();
 				}
-				
+
 			});
-//			showToast(getString(R.string.checkin_not_success));
-			setCheckIn(false);
+			// showToast(getString(R.string.checkin_not_success));
+			// setCheckIn(false);
 		}
 	}
 
@@ -245,8 +254,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 		GA_MAP_PARAMS.put("method", "btnClicked");
 		GA_MAP_PARAMS.put("button", "activity_home_btn_pie");
 		mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
-		
-		/**set animation for checkin*/
+
+		/** set animation for checkin */
 		setCheckIn(true);
 	}
 
@@ -384,8 +393,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 			break;
 		case R.id.bt_quatang:
 			// goBack();
-			gotoActivity(HomeActivity.this, ActivityGiftTransaction.class);
-			pager.collapseView();
+			if (NetworkUtility.getInstance(HomeActivity.this)
+					.isNetworkAvailable()) {
+				gotoActivity(HomeActivity.this, ActivityGiftTransaction.class);
+				pager.collapseView();
+			} else {
+				showToast(getString(R.string.network_unvailable));
+			}
 			break;
 		case R.id.checkin:
 			onClickCheckin();
@@ -428,7 +442,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-						checkinCircle.startAnimation(anim1);
+					checkinCircle.startAnimation(anim1);
 				}
 			});
 
@@ -437,7 +451,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 				checkinCircle.clearAnimation();
 				isCheckin = false;
 			}
-			
+
 			timer.start();
 		} else {
 			timer.cancel();
@@ -447,33 +461,33 @@ public class HomeActivity extends VisvaAbstractActivity {
 	}
 
 	public void showPieAnimation() {
-		SoundPool sp = new SoundPool(5,
-				AudioManager.STREAM_MUSIC, 0);
+		SoundPool sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
 		int iTmp = sp.load(this, R.raw.pied, 1);
 		sp.play(iTmp, 1, 1, 0, 0, 1);
-		MediaPlayer mPlayer = MediaPlayer.create(this,
-				R.raw.pied); // in 2nd param u have to pass
-								// your desire ringtone
+		MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.pied); // in 2nd
+																	// param u
+																	// have to
+																	// pass
+																	// your
+																	// desire
+																	// ringtone
 		if (mPlayer != null)
 			mPlayer.start();
 
 		final View piedView = findViewById(R.id.pied_view);
 		piedView.setVisibility(View.VISIBLE);
-		ScaleAnimation anim = new ScaleAnimation(0, 1f, 0,
-				1f, piedView.getWidth() / 2, piedView
-						.getHeight() / 2);
+		ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f,
+				piedView.getWidth() / 2, piedView.getHeight() / 2);
 		anim.setDuration(1000);
 		anim.setInterpolator(new DecelerateInterpolator());
 
-		final ScaleAnimation anim2 = new ScaleAnimation(1f,
-				1f, 1f, 1f, piedView.getWidth() / 2,
-				piedView.getHeight() / 2);
+		final ScaleAnimation anim2 = new ScaleAnimation(1f, 1f, 1f, 1f,
+				piedView.getWidth() / 2, piedView.getHeight() / 2);
 		anim2.setDuration(1000);
 
-		final ScaleAnimation anim1 = new ScaleAnimation(1f,
-				0f, 1f, 0f, piedView.getWidth() / 2,
-				piedView.getHeight() / 2);
+		final ScaleAnimation anim1 = new ScaleAnimation(1f, 0f, 1f, 0f,
+				piedView.getWidth() / 2, piedView.getHeight() / 2);
 		anim1.setInterpolator(new AccelerateInterpolator());
 		anim1.setDuration(500);
 
@@ -485,8 +499,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 
 			@Override
-			public void onAnimationRepeat(
-					Animation animation) {
+			public void onAnimationRepeat(Animation animation) {
 
 			}
 
@@ -503,8 +516,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 
 			@Override
-			public void onAnimationRepeat(
-					Animation animation) {
+			public void onAnimationRepeat(Animation animation) {
 
 			}
 
@@ -521,8 +533,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			}
 
 			@Override
-			public void onAnimationRepeat(
-					Animation animation) {
+			public void onAnimationRepeat(Animation animation) {
 
 			}
 
@@ -535,13 +546,14 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 		piedView.startAnimation(anim);
 	}
-	
+
 	private void turnoffBluetooth() {
-		//Disable bluetooth
-		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();    
+		// Disable bluetooth
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+				.getDefaultAdapter();
 		if (mBluetoothAdapter.isEnabled()) {
-		    mBluetoothAdapter.disable(); 
-		} 
+			mBluetoothAdapter.disable();
+		}
 	}
 
 	private void hideCheckin() {
@@ -559,18 +571,18 @@ public class HomeActivity extends VisvaAbstractActivity {
 				.getDimension(R.dimen.checkin_cirle);
 		v.setLayoutParams(params);
 	}
-	
-	CountDownTimer timer = new CountDownTimer(15000,15000) {
-		
+
+	CountDownTimer timer = new CountDownTimer(150000, 150000) {
+
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
-			if(isCheckin){
+			if (isCheckin) {
 				onFinish();
 				isCheckin = false;
 			}
 		}
-		
+
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
