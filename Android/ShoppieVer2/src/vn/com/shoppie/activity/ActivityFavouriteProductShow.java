@@ -4,15 +4,13 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 
-import com.facebook.FacebookException;
-import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.WebDialog;
-import com.facebook.widget.WebDialog.OnCompleteListener;
+import com.facebook.widget.LoginButton;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -25,6 +23,7 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FavouriteDataObject;
+import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.Utils;
 import vn.com.shoppie.webconfig.WebServiceConfig;
@@ -52,11 +51,27 @@ public class ActivityFavouriteProductShow extends Activity {
 	private MerchProductItem mMerchProductItem;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ShoppieSharePref mShopieSharePref;
+	private LoginButton mLoginButton;
+
+	// FaceBook
+	private UiLifecycleHelper uiHelper;
+
+	private Session.StatusCallback callback = new Session.StatusCallback() {
+		@Override
+		public void call(final Session session, final SessionState state,
+				final Exception exception) {
+			Log.e("Session change", session.isOpened() + "-" + state.toString());
+			onSessionStateChanged(session, state, exception);
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		// Facebook
+		uiHelper = new UiLifecycleHelper(this, callback);
+		uiHelper.onCreate(savedInstanceState);
 		// Remove title bar
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.collectiondetail_1);
@@ -64,7 +79,8 @@ public class ActivityFavouriteProductShow extends Activity {
 		mShopieSharePref = new ShoppieSharePref(this);
 		mShoppieDBProvider = new ShoppieDBProvider(this);
 
-		mMerchProductItem = (MerchProductItem) getIntent().getExtras().getParcelable(GlobalValue.MERCH_PRODUCT_ITEM);
+		mMerchProductItem = (MerchProductItem) getIntent().getExtras()
+				.getParcelable(GlobalValue.MERCH_PRODUCT_ITEM);
 		View text = findViewById(R.id.text);
 		text.setOnClickListener(new OnClickListener() {
 
@@ -182,19 +198,26 @@ public class ActivityFavouriteProductShow extends Activity {
 			}
 		});
 
-		Button btFacebook = (Button) findViewById(R.id.bt_fb);
-		btFacebook.setTag(mMerchProductItem);
+		mLoginButton = (LoginButton) findViewById(R.id.bt_fb);
+		mLoginButton.setTag(mMerchProductItem);
 		Button btMail = (Button) findViewById(R.id.bt_mail);
 		btMail.setTag(mMerchProductItem);
 		Button btSms = (Button) findViewById(R.id.bt_sms);
 		btSms.setTag(mMerchProductItem);
 
-		btFacebook.setOnClickListener(new OnClickListener() {
+		mLoginButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				MerchProductItem item = (MerchProductItem) v.getTag();
-				publishFeedDialog(item);
+				Session session = Session.getActiveSession();
+				boolean enableButtons = (session != null && session.isOpened());
+				if (enableButtons) {
+					FacebookUtil.getInstance(ActivityFavouriteProductShow.this)
+							.publishShareDialog(item);
+				} else {
+//					mLoginButton.onClickLoginFb();
+				}
 			}
 		});
 		btSms.setOnClickListener(new OnClickListener() {
@@ -213,31 +236,100 @@ public class ActivityFavouriteProductShow extends Activity {
 				initShareItent(item);
 			}
 		});
-		
+
 		View image = findViewById(R.id.image);
 		ImageLoader.getInstance(this).DisplayImage(
 				WebServiceConfig.HEAD_IMAGE
-						+ mMerchProductItem.getProductImage(),
-				image, true, true, false, false, true, false);
-		
+						+ mMerchProductItem.getProductImage(), image, true,
+				true, false, false, true, false);
+
 		image.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				View text = findViewById(R.id.text);
 				if (text.getAnimation() == null) {
 					text.setVisibility(View.VISIBLE);
-						AnimatorSet set = new AnimatorSet();
-						set.playTogether(ObjectAnimator.ofFloat(text,
-								"alpha", 0, 0.8f), ObjectAnimator.ofFloat(
-								text, "translationY", getViewHeight(), 0));
-						set.setDuration(350);
-						set.setInterpolator(new AccelerateInterpolator());
-						set.start();
+					AnimatorSet set = new AnimatorSet();
+					set.playTogether(ObjectAnimator.ofFloat(text, "alpha", 0,
+							0.8f), ObjectAnimator.ofFloat(text, "translationY",
+							getViewHeight(), 0));
+					set.setDuration(350);
+					set.setInterpolator(new AccelerateInterpolator());
+					set.start();
 				}
 			}
 		});
-		
+
+	}
+
+//	public void onClickLoginFb() {
+//		Context context = getContext();
+//		final Session openSession = sessionTracker.getOpenSession();
+//		Session currentSession = sessionTracker.getSession();
+//		if (currentSession == null || currentSession.getState().isClosed()) {
+//			sessionTracker.setSession(null);
+//			Session session = new Session.Builder(context).setApplicationId(
+//					applicationId).build();
+//			Session.setActiveSession(session);
+//			currentSession = session;
+//		}
+//		if (!currentSession.isOpened()) {
+//			Session.OpenRequest openRequest = null;
+//			if (parentFragment != null) {
+//				openRequest = new Session.OpenRequest(parentFragment);
+//			} else if (context instanceof Activity) {
+//				openRequest = new Session.OpenRequest((Activity) context);
+//			}
+//
+//			if (openRequest != null) {
+//				openRequest.setDefaultAudience(properties.defaultAudience);
+//				openRequest.setPermissions(properties.permissions);
+//				openRequest.setLoginBehavior(properties.loginBehavior);
+//
+//				if (SessionAuthorizationType.PUBLISH
+//						.equals(properties.authorizationType)) {
+//					currentSession.openForPublish(openRequest);
+//				} else {
+//					currentSession.openForRead(openRequest);
+//				}
+//	mShopieSharePref.setActionShareFB(false);
+//			}
+//		}
+//
+//		AppEventsLogger logger = AppEventsLogger.newLogger(getContext());
+//		Bundle parameters = new Bundle();
+//		parameters.putInt("logging_in", (openSession != null) ? 0 : 1);
+//		logger.logSdkEvent(loginLogoutEventName, null, parameters);
+//	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		uiHelper.onResume();
+
+		final Session session = Session.getActiveSession();
+		if (session == null || session.isClosed() || !session.isOpened()) {
+			uiHelper = new UiLifecycleHelper(this, callback);
+		} else {
+			Log.e("resume: session", "not null");
+			if(mShopieSharePref.getActionShareFB()){
+				FacebookUtil.getInstance(ActivityFavouriteProductShow.this).publishShareDialog(mMerchProductItem);
+				mShopieSharePref.setActionShareFB(false);
+			}
+		}
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		uiHelper.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		uiHelper.onPause();
 	}
 
 	private void onPostLikeToServer(int liked, int merchId) {
@@ -304,62 +396,6 @@ public class ActivityFavouriteProductShow extends Activity {
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_LIKE_PRODUCT);
 
-	}
-
-	/**
-	 * share via facebook
-	 * 
-	 * @param image_url
-	 */
-	private void publishFeedDialog(MerchProductItem item) {
-		Session session = Session.getActiveSession();
-		if (session != null && session.isOpened()) {
-			Bundle params = new Bundle();
-			params.putString("name", "Shoppie");
-			params.putString("caption", "");
-			params.putString(
-					"description",
-					getString(R.string.introduction_invitation,
-							item.getProductName(), item.getShortDesc()));
-			params.putString("link",
-					"" + WebServiceConfig.HEAD_IMAGE + item.getThumbNail());
-			params.putString("picture",
-					"" + WebServiceConfig.HEAD_IMAGE + item.getThumbNail());
-			// http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg
-			WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
-					ActivityFavouriteProductShow.this,
-					Session.getActiveSession(), params)).setOnCompleteListener(
-					new OnCompleteListener() {
-
-						@Override
-						public void onComplete(Bundle values,
-								FacebookException error) {
-							if (error == null) {
-								// When the story is posted, echo the success
-								// and the post Id.
-								Toast.makeText(
-										ActivityFavouriteProductShow.this,
-										"Share successfully ",
-										Toast.LENGTH_SHORT).show();
-							} else if (error instanceof FacebookOperationCanceledException) {
-								// User clicked the "x" button
-								Toast.makeText(
-										ActivityFavouriteProductShow.this,
-										"Publish cancelled", Toast.LENGTH_SHORT)
-										.show();
-							} else {
-								// Generic, ex: network error
-								Toast.makeText(
-										ActivityFavouriteProductShow.this,
-										"Error posting story",
-										Toast.LENGTH_SHORT).show();
-							}
-						}
-					}).build();
-			feedDialog.show();
-		} else {
-			ensureOpenSession();
-		}
 	}
 
 	/**

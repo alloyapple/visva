@@ -25,40 +25,41 @@
         android:text="Giá: "
         android:textColor="#808080"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
-	
+
     <vn.com.shoppie.view.MyTextView
         android:id="@+id/price1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name1"
-        android:layout_toRightOf="@id/price1_label"
         android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/price1_label"
         android:text="1.000.000 VND"
-    	android:textColor="#D32971"
+        android:textColor="#D32971"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
     <vn.com.shoppie.view.MyTextView
         android:id="@+id/price1_goc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name1"
-        android:layout_toRightOf="@id/price1"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/price1"
         android:text="1.000.000 VND"
-    	android:textColor="#808080"
+        android:textColor="#808080"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
-    
+
     <vn.com.shoppie.view.MyTextView
         android:id="@+id/price1_goc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name1"
         android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
-        android:layout_toRightOf="@id/price1"
         android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/price1"
         android:textColor="@android:color/darker_gray"
         android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
-    
+
     <RelativeLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
@@ -75,7 +76,7 @@
             android:text="SHARE"
             android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
 
-        <Button
+        <com.facebook.widget.LoginButton
             android:id="@+id/bt_fb"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -123,19 +124,19 @@
 
     <vn.com.shoppie.view.MyTextView
         android:id="@+id/count1"
-        android:gravity="center_horizontal"
         android:layout_width="@dimen/page_item_count_width"
         android:layout_height="@dimen/page_item_count_height"
         android:layout_alignParentRight="true"
         android:background="@drawable/bogoc_xanh"
+        android:gravity="center_horizontal"
         android:paddingLeft="15dp"
         android:paddingTop="4dp"
-        android:textStyle="normal"
         android:textColor="@android:color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textStyle="normal" />
 
     <vn.com.shoppie.view.MagicTextView
-	    android:id="@+id/muatang1"
+        android:id="@+id/muatang1"
         android:layout_width="@dimen/muatang_width"
         android:layout_height="@dimen/muatang_width"
         android:layout_alignParentRight="true"
