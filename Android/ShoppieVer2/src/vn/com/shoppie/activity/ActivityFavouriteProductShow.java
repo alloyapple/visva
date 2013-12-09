@@ -216,7 +216,7 @@ public class ActivityFavouriteProductShow extends Activity {
 					FacebookUtil.getInstance(ActivityFavouriteProductShow.this)
 							.publishShareDialog(item);
 				} else {
-//					mLoginButton.onClickLoginFb();
+					// mLoginButton.onClickLoginFb();
 				}
 			}
 		});
@@ -263,45 +263,6 @@ public class ActivityFavouriteProductShow extends Activity {
 
 	}
 
-//	public void onClickLoginFb() {
-//		Context context = getContext();
-//		final Session openSession = sessionTracker.getOpenSession();
-//		Session currentSession = sessionTracker.getSession();
-//		if (currentSession == null || currentSession.getState().isClosed()) {
-//			sessionTracker.setSession(null);
-//			Session session = new Session.Builder(context).setApplicationId(
-//					applicationId).build();
-//			Session.setActiveSession(session);
-//			currentSession = session;
-//		}
-//		if (!currentSession.isOpened()) {
-//			Session.OpenRequest openRequest = null;
-//			if (parentFragment != null) {
-//				openRequest = new Session.OpenRequest(parentFragment);
-//			} else if (context instanceof Activity) {
-//				openRequest = new Session.OpenRequest((Activity) context);
-//			}
-//
-//			if (openRequest != null) {
-//				openRequest.setDefaultAudience(properties.defaultAudience);
-//				openRequest.setPermissions(properties.permissions);
-//				openRequest.setLoginBehavior(properties.loginBehavior);
-//
-//				if (SessionAuthorizationType.PUBLISH
-//						.equals(properties.authorizationType)) {
-//					currentSession.openForPublish(openRequest);
-//				} else {
-//					currentSession.openForRead(openRequest);
-//				}
-//	mShopieSharePref.setActionShareFB(false);
-//			}
-//		}
-//
-//		AppEventsLogger logger = AppEventsLogger.newLogger(getContext());
-//		Bundle parameters = new Bundle();
-//		parameters.putInt("logging_in", (openSession != null) ? 0 : 1);
-//		logger.logSdkEvent(loginLogoutEventName, null, parameters);
-//	}
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -312,8 +273,9 @@ public class ActivityFavouriteProductShow extends Activity {
 			uiHelper = new UiLifecycleHelper(this, callback);
 		} else {
 			Log.e("resume: session", "not null");
-			if(mShopieSharePref.getActionShareFB()){
-				FacebookUtil.getInstance(ActivityFavouriteProductShow.this).publishShareDialog(mMerchProductItem);
+			if (mShopieSharePref.getActionShareFB()) {
+				FacebookUtil.getInstance(ActivityFavouriteProductShow.this)
+						.publishShareDialog(mMerchProductItem);
 				mShopieSharePref.setActionShareFB(false);
 			}
 		}

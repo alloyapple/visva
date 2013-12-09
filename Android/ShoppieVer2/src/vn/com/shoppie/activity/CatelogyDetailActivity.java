@@ -21,6 +21,7 @@ import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.JsonDataObject;
+import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.webconfig.WebServiceConfig;
@@ -198,6 +199,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 									.parseInt(productId))
 								merchProductItem = mMerchProductItems.get(i);
 						}
+
 						FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
 								merchProductItem.getProductImage(),
 								GlobalValue.TYPE_FAVOURITE_PRODUCT, productId);
@@ -207,6 +209,12 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 							mShoppieDBProvider
 									.addNewFavouriteData(favouriteDataObject);
 						}
+
+						/** post to facebook like product */
+						FacebookUtil.getInstance(self)
+								.publishLikeProductInBackground(
+										mSharePref.getCustName(),
+										merchProductItem);
 					}
 
 					@Override
@@ -248,7 +256,8 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText(camName);
 
-		adapter = new CollectionDetailAdapter(CatelogyDetailActivity.this, mPager, data, pie > 0 , pie);
+		adapter = new CollectionDetailAdapter(CatelogyDetailActivity.this,
+				mPager, data, pie > 0, pie);
 		adapter.id = CollectionList.curId;
 		mPager.setAdapter(adapter);
 
@@ -336,7 +345,8 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 							if (mShoppieDBProvider.countJsonData(response) == 0) {
 								JsonDataObject jsonDataObject = new JsonDataObject(
 										response,
-										GlobalValue.TYPE_MERCH_PRODUCTS,Integer.parseInt(campaignId));
+										GlobalValue.TYPE_MERCH_PRODUCTS,
+										Integer.parseInt(campaignId));
 								mShoppieDBProvider
 										.addNewJsonData(jsonDataObject);
 							}

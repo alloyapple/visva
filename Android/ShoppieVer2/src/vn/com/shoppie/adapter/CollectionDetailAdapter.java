@@ -11,7 +11,6 @@ import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.util.Utils;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
-import vn.com.shoppie.view.MScrollView;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
@@ -534,38 +533,38 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		}
 	}
 
-	private void freeImageForException(int pos) {
-		int pre = 0;
-		int next = 0;
-		if (pos == 0) {
-			pre = getCount() - 1;
-			next = pos + 1;
-		} else if (pos == getCount() - 1) {
-			pre = pos - 1;
-			next = 0;
-		}
-
-		for (int i = 0; i < cacheView.length; i++) {
-			View v = cacheView[i];
-			if (i != pos && i != pre && i != next) {
-				if (v != null) {
-					View image = v.findViewById(R.id.image);
-					if (image != null) {
-						BitmapDrawable d = (BitmapDrawable) image
-								.getBackground();
-						image.setBackgroundDrawable(null);
-						if (d != null) {
-							Bitmap b = d.getBitmap();
-							b.recycle();
-							b = null;
-							System.gc();
-						}
-					}
-				}
-				isNeedUpdateImage[i] = true;
-			}
-		}
-	}
+//	private void freeImageForException(int pos) {
+//		int pre = 0;
+//		int next = 0;
+//		if (pos == 0) {
+//			pre = getCount() - 1;
+//			next = pos + 1;
+//		} else if (pos == getCount() - 1) {
+//			pre = pos - 1;
+//			next = 0;
+//		}
+//
+//		for (int i = 0; i < cacheView.length; i++) {
+//			View v = cacheView[i];
+//			if (i != pos && i != pre && i != next) {
+//				if (v != null) {
+//					View image = v.findViewById(R.id.image);
+//					if (image != null) {
+//						BitmapDrawable d = (BitmapDrawable) image
+//								.getBackground();
+//						image.setBackgroundDrawable(null);
+//						if (d != null) {
+//							Bitmap b = d.getBitmap();
+//							b.recycle();
+//							b = null;
+//							System.gc();
+//						}
+//					}
+//				}
+//				isNeedUpdateImage[i] = true;
+//			}
+//		}
+//	}
 
 	@Override
 	public View getNextView(int currPosition) {
