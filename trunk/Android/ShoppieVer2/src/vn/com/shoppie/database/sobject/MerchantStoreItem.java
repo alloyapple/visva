@@ -18,6 +18,12 @@ public class MerchantStoreItem implements Parcelable{
 	private String merchLogo;
 	@SerializedName("merchBanner")
 	private String merchBanner;
+	@SerializedName("merchBanner2")
+	private String merchBanner2;
+	@SerializedName("merchBanner3")
+	private String merchBanner3;
+	@SerializedName("likedNumber")
+	private int likedNumber;
 	@SerializedName("storeId")
 	private int storeId;
 	@SerializedName("storeName")
@@ -28,10 +34,12 @@ public class MerchantStoreItem implements Parcelable{
 	private String latitude;
 	@SerializedName("longtitude")
 	private String longtitude;
-	@SerializedName("txnType")
-	private int txnType;
+	@SerializedName("pieQtyPurchase")
+	private int pieQtyPurchase;
 	@SerializedName("pieQty")
 	private int pieQty;
+	@SerializedName("liked")
+	private int liked;
 	
 	public MerchantStoreItem(){
 		
@@ -103,12 +111,6 @@ public class MerchantStoreItem implements Parcelable{
 	public void setLongtitude(String longtitude) {
 		this.longtitude = longtitude;
 	}
-	public int getTxnType() {
-		return txnType;
-	}
-	public void setTxnType(int txnType) {
-		this.txnType = txnType;
-	}
 	public int getPieQty() {
 		return pieQty;
 	}
@@ -124,13 +126,17 @@ public class MerchantStoreItem implements Parcelable{
 		this.merchDesc = in.readString();
 		this.merchLogo = in.readString();
 		this.merchBanner = in.readString();
+		this.merchBanner2 = in.readString();
+		this.merchBanner3 = in.readString();
+		this.likedNumber = in.readInt();
 		this.storeId = in.readInt();
 		this.storeName = in.readString();
 		this.storeAddress = in.readString();
 		this.latitude = in.readString();
 		this.longtitude = in.readString();
-		this.txnType = in.readInt();
+		this.pieQtyPurchase = in.readInt();
 		this.pieQty = in.readInt();
+		this.liked = in.readInt();
 	}
 
 	@Override
@@ -148,13 +154,17 @@ public class MerchantStoreItem implements Parcelable{
 		out.writeString(merchDesc);
 		out.writeString(merchLogo);
 		out.writeString(merchBanner);
+		out.writeString(merchBanner2);
+		out.writeString(merchBanner3);
+		out.writeInt(likedNumber);
 		out.writeInt(storeId);
 		out.writeString(storeName);
 		out.writeString(storeAddress);
 		out.writeString(latitude);
 		out.writeString(longtitude);
-		out.writeInt(txnType);
+		out.writeInt(pieQtyPurchase);
 		out.writeInt(pieQty);
+		out.writeInt(liked);
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

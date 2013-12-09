@@ -151,6 +151,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 		if (mShoppieSharePref.getLoginType())
 			FacebookUtil.getInstance(self).publishLoginSuccessInBackground(
 					mShoppieSharePref.getCustName());
+		
+		/**turn off bluetooth*/
+		turnoffBluetooth();
 	}
 
 	private void getMerchantCategoryFromDB() {

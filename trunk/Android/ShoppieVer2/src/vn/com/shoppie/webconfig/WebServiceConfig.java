@@ -92,7 +92,7 @@ public final class WebServiceConfig {
 	public static final String FB_KEY = "facebook-credentials";
 
 	// Image header
-	public static final String HEAD_IMAGE = "http://web.shoppie.com.vn:8080/";
+	public static final String HEAD_IMAGE = "http://210.211.117.90:8080/";
 
 	// ===================== PARAMETER =======================//
 
