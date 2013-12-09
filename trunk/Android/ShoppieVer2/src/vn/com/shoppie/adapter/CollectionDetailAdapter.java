@@ -3,12 +3,15 @@ package vn.com.shoppie.adapter;
 import java.util.ArrayList;
 import java.util.Vector;
 import vn.com.shoppie.R;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.MerchProductItem;
+import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.util.Utils;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
+import vn.com.shoppie.view.MScrollView;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
@@ -57,19 +60,22 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	private ArrayList<MerchProductItem> data;
 	public int id = 0;
 
-	private Context context;
+	private Activity context;
 	private View cacheView[];
 	private boolean isNeedUpdateImage[];
 	private MPager mPager;
 	private boolean hasPie = false;
 	private int pie = 0;
-	public CollectionDetailAdapter(Context context, MPager mPager,
-			ArrayList<MerchProductItem> data, boolean hasPie , int pie) {
+	private ShoppieSharePref mShoppieSharePref;
+
+	public CollectionDetailAdapter(Activity context, MPager mPager,
+			ArrayList<MerchProductItem> data, boolean hasPie, int pie) {
 		this.context = context;
 		this.mPager = mPager;
 		this.data = data;
 		this.hasPie = hasPie;
 		this.pie = pie;
+		this.mShoppieSharePref = new ShoppieSharePref(this.context);
 		initCache();
 	}
 
@@ -116,13 +122,12 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					});
 
 				} else {
-					if(pullView.size() > 0) {
+					if (pullView.size() > 0) {
 						v = pullView.get(0);
 						pullView.remove(0);
-					}
-					else
+					} else
 						v = inflater.inflate(R.layout.collectiondetail_1, null,
-							false);
+								false);
 					View text = v.findViewById(R.id.text);
 					text.setOnClickListener(new OnClickListener() {
 
@@ -162,10 +167,15 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					color.setText("" + getItem(position).getShortDesc());
 					like.setText("" + getItem(position).getLikedNumber());
 
-					priceGoc.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + Utils.formatMoney(getItem(position).getOldPrice()) + " VNĐ" 
+					priceGoc.setText(getItem(position).getOldPrice() > 0 ? "Gốc: "
+							+ Utils.formatMoney(getItem(position).getOldPrice())
+							+ " VNĐ"
 							: "");
-					priceGoc1.setText(getItem(position).getOldPrice() > 0 ? "Gốc: " + Utils.formatMoney(getItem(position).getOldPrice()) + " VNĐ" 
-							: "");
+					priceGoc1
+							.setText(getItem(position).getOldPrice() > 0 ? "Gốc: "
+									+ Utils.formatMoney(getItem(position)
+											.getOldPrice()) + " VNĐ"
+									: "");
 					TextView count = (TextView) v.findViewById(R.id.count);
 					count.setText(getItem(position).getPieQty() > 0 ? ""
 							+ getItem(position).getPieQty() : "");
@@ -174,28 +184,31 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					count1.setText(getItem(position).getPieQty() > 0 ? ""
 							+ getItem(position).getPieQty() : "");
 
-					if(getItem(position).getPieQty() > 999) {
-						MarginLayoutParams params = (MarginLayoutParams) count.getLayoutParams();
+					if (getItem(position).getPieQty() > 999) {
+						MarginLayoutParams params = (MarginLayoutParams) count
+								.getLayoutParams();
 						params.width *= 1.25f;
 						params.height *= 1.25f;
 						count.setLayoutParams(params);
-						
+
 						params = (MarginLayoutParams) count1.getLayoutParams();
 						params.width *= 1.25f;
 						params.height *= 1.25f;
 						count1.setLayoutParams(params);
-						
-//						params = (MarginLayoutParams) v.findViewById(R.id.muatang).getLayoutParams();
-//						params.width *= 1.25f;
-//						params.height *= 1.25f;
-//						v.findViewById(R.id.muatang).setLayoutParams(params);
-//						
-//						params = (MarginLayoutParams) v.findViewById(R.id.muatang1).getLayoutParams();
-//						params.width *= 1.25f;
-//						params.height *= 1.25f;
-//						v.findViewById(R.id.muatang1).setLayoutParams(params);
+
+						// params = (MarginLayoutParams)
+						// v.findViewById(R.id.muatang).getLayoutParams();
+						// params.width *= 1.25f;
+						// params.height *= 1.25f;
+						// v.findViewById(R.id.muatang).setLayoutParams(params);
+						//
+						// params = (MarginLayoutParams)
+						// v.findViewById(R.id.muatang1).getLayoutParams();
+						// params.width *= 1.25f;
+						// params.height *= 1.25f;
+						// v.findViewById(R.id.muatang1).setLayoutParams(params);
 					}
-					
+
 					Button likeBt = (Button) v.findViewById(R.id.like_click);
 					likeBt.setTag(getItem(position));
 					int resId = 0;
@@ -313,8 +326,9 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 							final View piedView = v
 									.findViewById(R.id.pied_view);
-							((TextView) v.findViewById(R.id.pie_text)).setText("+" + pie);
-							
+							((TextView) v.findViewById(R.id.pie_text))
+									.setText("+" + pie);
+
 							piedView.setVisibility(View.VISIBLE);
 							ScaleAnimation anim = new ScaleAnimation(0, 1f, 0,
 									1f, piedView.getWidth() / 2, piedView
@@ -402,24 +416,25 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						if (text.getAnimation() == null) {
 							mPager.setLockSlide(true);
 							text.setVisibility(View.VISIBLE);
-//							if(Build.VERSION.SDK_INT >= 11) {
+							// if(Build.VERSION.SDK_INT >= 11) {
 							System.out.println(">>>>>>>>>>>>>>>> open Desc");
-								AnimatorSet set = new AnimatorSet();
-								set.playTogether(ObjectAnimator.ofFloat(text,
-										"alpha", 0, 0.8f), ObjectAnimator.ofFloat(
-										text, "translationY", getViewHeight(), 0));
-								set.setDuration(350);
-								set.setInterpolator(new AccelerateInterpolator());
-								set.start();
-//							}
-//							else {
-//								AnimationSet set = new AnimationSet(true);
-//								set.addAnimation(new TranslateAnimation(0, 0, getViewHeight(), 0));
-//								set.addAnimation(new AlphaAnimation(0, 0.8f));
-//								set.setFillAfter(true);
-//								set.setDuration(350);
-//								text.startAnimation(set);
-//							}
+							AnimatorSet set = new AnimatorSet();
+							set.playTogether(ObjectAnimator.ofFloat(text,
+									"alpha", 0, 0.8f), ObjectAnimator.ofFloat(
+									text, "translationY", getViewHeight(), 0));
+							set.setDuration(350);
+							set.setInterpolator(new AccelerateInterpolator());
+							set.start();
+							// }
+							// else {
+							// AnimationSet set = new AnimationSet(true);
+							// set.addAnimation(new TranslateAnimation(0, 0,
+							// getViewHeight(), 0));
+							// set.addAnimation(new AlphaAnimation(0, 0.8f));
+							// set.setFillAfter(true);
+							// set.setDuration(350);
+							// text.startAnimation(set);
+							// }
 						}
 					}
 				});
@@ -625,56 +640,56 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	private void closeDesc(final View v) {
 		Log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
-//		if (v.getAnimation() != null)
-//			return;
-//		if (Build.VERSION.SDK_INT >= 11) {
-//			TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
-//					getViewHeight());
-//			anim.setDuration(350);
-//			anim.setAnimationListener(new AnimationListener() {
-//	
-//				@Override
-//				public void onAnimationStart(Animation animation) {
-//	
-//				}
-//	
-//				@Override
-//				public void onAnimationRepeat(Animation animation) {
-//	
-//				}
-//	
-//				@Override
-//				public void onAnimationEnd(Animation animation) {
-//					v.setVisibility(View.GONE);
-//				}
-//			});
-//	
-//			v.startAnimation(anim);
-//		}
-//		else {
-			TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
-					getViewHeight());
-			anim.setDuration(0);
-			anim.setAnimationListener(new AnimationListener() {
-	
-				@Override
-				public void onAnimationStart(Animation animation) {
-	
-				}
-	
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-	
-				}
-	
-				@Override
-				public void onAnimationEnd(Animation animation) {
-					v.setVisibility(View.GONE);
-				}
-			});
-	
-			v.startAnimation(anim);
-//		}
+		// if (v.getAnimation() != null)
+		// return;
+		// if (Build.VERSION.SDK_INT >= 11) {
+		// TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
+		// getViewHeight());
+		// anim.setDuration(350);
+		// anim.setAnimationListener(new AnimationListener() {
+		//
+		// @Override
+		// public void onAnimationStart(Animation animation) {
+		//
+		// }
+		//
+		// @Override
+		// public void onAnimationRepeat(Animation animation) {
+		//
+		// }
+		//
+		// @Override
+		// public void onAnimationEnd(Animation animation) {
+		// v.setVisibility(View.GONE);
+		// }
+		// });
+		//
+		// v.startAnimation(anim);
+		// }
+		// else {
+		TranslateAnimation anim = new TranslateAnimation(0, 0, 0,
+				getViewHeight());
+		anim.setDuration(0);
+		anim.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				v.setVisibility(View.GONE);
+			}
+		});
+
+		v.startAnimation(anim);
+		// }
 	}
 
 	@Override
@@ -698,6 +713,9 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	}
 
 	public void pied() {
+		if (mShoppieSharePref.getLoginType())
+			FacebookUtil.getInstance(context).publishLuckyPieInBackground(
+					mShoppieSharePref.getCustName());
 		View v = cacheView[getCount() - 2].findViewById(R.id.pied_layout);
 		v.setVisibility(View.VISIBLE);
 	}
@@ -848,13 +866,13 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	}
 
 	public void refresh(int current) {
-		for(int i = 0 ; i < isNeedUpdateImage.length ; i++)
+		for (int i = 0; i < isNeedUpdateImage.length; i++)
 			isNeedUpdateImage[i] = true;
 		getView(current);
 		getView(getNextItemId(current));
 		getView(getBackItemId(current));
 	}
-	
+
 	private void updateLiked(int productionId) {
 		for (int i = 0; i < data.size(); i++) {
 			if (data.get(i).getProductId() == productionId) {
@@ -875,10 +893,11 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	public void startLoading() {
 		View v = getView(getCount() - 1);
 		View loading = v.findViewById(R.id.pie_view);
-		RotateAnimation anim = new RotateAnimation(0, 1800, loading.getWidth() / 2, loading.getHeight() / 2);
+		RotateAnimation anim = new RotateAnimation(0, 1800,
+				loading.getWidth() / 2, loading.getHeight() / 2);
 		anim.setDuration(4000);
 		anim.setInterpolator(new Interpolator() {
-			
+
 			@Override
 			public float getInterpolation(float input) {
 				// TODO Auto-generated method stub
@@ -887,7 +906,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		});
 		loading.startAnimation(anim);
 	}
-	
+
 	public void setOnLikeListenner(OnLikeListenner onLikeListenner) {
 		this.onLikeListenner = onLikeListenner;
 	}
@@ -903,6 +922,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	public void setItemClickListener(OnItemClickListener itemClickListener) {
 		this.itemClickListener = itemClickListener;
 	}
-	
+
 	private Vector<View> pullView = new Vector<View>();
 }

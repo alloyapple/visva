@@ -20,6 +20,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.JsonDataObject;
+import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.view.MPager.OnStartExtend;
@@ -146,6 +147,10 @@ public class HomeActivity extends VisvaAbstractActivity {
 			getMerchantCategoryFromDB();
 		}
 
+		/** up facebook login success */
+		if (mShoppieSharePref.getLoginType())
+			FacebookUtil.getInstance(self).publishLoginSuccessInBackground(
+					mShoppieSharePref.getCustName());
 	}
 
 	private void getMerchantCategoryFromDB() {
@@ -614,6 +619,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 				onFinish();
 				showPieAnimation(1);
 				mShoppieSharePref.setCheckinStatus(0);
+				if (mShoppieSharePref.getLoginType())
+					FacebookUtil.getInstance(self).publishLuckyPieInBackground(
+							mShoppieSharePref.getCustName());
 			} else if (mShoppieSharePref.getCheckinStatus() == 2) {
 				onFinish();
 				showToast(getString(R.string.checkin_not_success));
@@ -643,6 +651,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 	}
 
 	private void updatePieToSPServer() {
-		
+
 	}
 }
