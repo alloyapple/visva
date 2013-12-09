@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Tam thoi fix kich thuoc o day, cho tinh kich thuoc cho cac man hinh tab sau -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/page_item_width"
-    android:layout_height="@dimen/gift_item_header_height"
-    android:layout_marginBottom="@dimen/gift_item_padding" >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/gift_item_padding"
+    android:background="@drawable/round_corner_shape"   >
     <View 
     	android:layout_width="@dimen/page_item_width"
     	android:layout_height="@dimen/gift_item_header_height"
-    	android:id="@+id/image"
-    	android:background="@drawable/round_corner_shape"    
+    	android:id="@+id/image"  
         />
-
+	<vn.com.shoppie.view.MyTextView 
+        android:id="@+id/title"
+	    android:layout_below="@id/image"
+        android:layout_width="match_parent"
+    	android:layout_height="@dimen/gift_item_title_height"
+    	android:textSize="@dimen/gift_item_title_textsize"
+    	android:textColor="#2A5C72"
+    	android:gravity="center_vertical"
+    	android:paddingLeft="10dp"
+	    android:background="@drawable/round_corner_shape_03"
+        />
 </RelativeLayout>

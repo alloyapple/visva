@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -112,12 +113,13 @@ public class ActivityGiftTransaction extends Activity {
 			View headerView = inflater.inflate(R.layout.gift_header, null,
 					false);
 			View image = headerView.findViewById(R.id.image);
+			((TextView) headerView.findViewById(R.id.title)).setText(onTopItem.getGiftName());
 			// listView.addHeaderView(headerView);
 
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage());
 			ImageLoader.getInstance(this).DisplayImage(
 					WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage(),
-					image , true ,true,true,true,true,false);
+					image , true ,true,false,false,true,false);
 			content.addView(headerView);
 			content.addView(new View(this), -1, (int) getResources()
 					.getDimension(R.dimen.gift_item_padding));

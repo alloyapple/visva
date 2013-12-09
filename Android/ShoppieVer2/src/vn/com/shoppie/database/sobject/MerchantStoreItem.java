@@ -75,11 +75,23 @@ public class MerchantStoreItem implements Parcelable{
 	public void setMerchLogo(String merchLogo) {
 		this.merchLogo = merchLogo;
 	}
-	public String getMerchBanner() {
+	public void setMerchBanner1(String merchBanner) {
+		this.merchBanner = merchBanner;
+	}
+	public String getMerchBanner1() {
 		return merchBanner;
 	}
-	public void setMerchBanner(String merchBanner) {
-		this.merchBanner = merchBanner;
+	public void setMerchBanner2(String merchBanner) {
+		this.merchBanner2 = merchBanner;
+	}
+	public String getMerchBanner2() {
+		return merchBanner2;
+	}
+	public void setMerchBanner3(String merchBanner) {
+		this.merchBanner3 = merchBanner;
+	}
+	public String getMerchBanner3() {
+		return merchBanner3;
 	}
 	public int getStoreId() {
 		return storeId;
