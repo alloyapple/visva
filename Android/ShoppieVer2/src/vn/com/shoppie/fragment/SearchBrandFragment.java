@@ -68,28 +68,27 @@ public class SearchBrandFragment extends FragmentBasic {
 
 	public void setAdapter(Vector<MerchantStoreItem> data) {
 		Location location = ((SearchActivity) getActivity()).getMyLocation();
-		if(location == null)
-			return;
-		for(int i = 0 ; i < data.size() ; i++) {
-			double lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
-					new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));
-			for (int j = i + 1; j < data.size(); j++) {
-				double lengthj = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
-						new LatLng(Double.parseDouble(data.get(j).getLatitude()), Double.parseDouble(data.get(j).getLongtitude())));
-				if(lengthi > lengthj) {
-					MerchantStoreItem itemi = data.get(i);
-					MerchantStoreItem itemj = data.get(j);
-					data.remove(j);
-					data.remove(i);
-					data.add(i, itemj);
-					data.add(j, itemi);
-					
-					lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
-							new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));
+		if(location != null) {
+			for(int i = 0 ; i < data.size() ; i++) {
+				double lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+						new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));
+				for (int j = i + 1; j < data.size(); j++) {
+					double lengthj = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+							new LatLng(Double.parseDouble(data.get(j).getLatitude()), Double.parseDouble(data.get(j).getLongtitude())));
+					if(lengthi > lengthj) {
+						MerchantStoreItem itemi = data.get(i);
+						MerchantStoreItem itemj = data.get(j);
+						data.remove(j);
+						data.remove(i);
+						data.add(i, itemj);
+						data.add(j, itemi);
+						
+						lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+								new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongtitude())));
+					}
 				}
 			}
 		}
-		
 		adapter = new StoreAdapter(getActivity() , data , ((SearchActivity) getActivity()).getMyLocation());
 		listView.setAdapter(adapter);
 		nameList.clear();
