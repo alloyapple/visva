@@ -10,11 +10,13 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CollectionDetailAdapter;
 import vn.com.shoppie.adapter.CollectionDetailAdapter.OnLikeListenner;
+import vn.com.shoppie.adapter.CollectionDetailAdapter.OnPieListenner;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchProductList;
+import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
@@ -26,15 +28,22 @@ import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -227,26 +236,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	}
 
-	// private void requestGetMerchProductFromDB() {
-	// // TODO Auto-generated method stub
-	// JsonDataObject jsonDataObject = mShoppieDBProvider
-	// .getJsonData(GlobalValue.TYPE_MERCH_PRODUCTS);
-	// String merchantProduct = jsonDataObject.getJsonData();
-	// if (merchantProduct != null && !"".equals(merchantProduct))
-	// try {
-	// JSONObject jsonObject = new JSONObject(merchantProduct);
-	// Gson gson = new Gson();
-	// MerchProductList merchProductList = gson.fromJson(
-	// jsonObject.toString(), MerchProductList.class);
-	// mMerchProductItems = merchProductList.getResult();
-	// setAdapter(mMerchProductItems);
-	// } catch (Exception e) {
-	//
-	// }
-	// else
-	// showToast(getString(R.string.network_unvailable));
-	// }
-
 	private void setAdapter(ArrayList<MerchProductItem> data) {
 		// if(adapter != null)
 		// adapter.recycle();
@@ -256,9 +245,9 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText(camName);
 
-		adapter = new CollectionDetailAdapter(CatelogyDetailActivity.this,
-				mPager, data, pie > 0, pie);
+		adapter = new CollectionDetailAdapter(CatelogyDetailActivity.this, mPager, data, pie > 0 , pie , camId);
 		adapter.id = CollectionList.curId;
+		
 		mPager.setAdapter(adapter);
 
 		mPager.setOnPageChange(new OnPageChange() {
@@ -270,21 +259,27 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 							Integer.parseInt(camId), Integer.parseInt(merchId),
 							true);
 					String id = CollectionList.getNextCampaignId();
-					camName = CollectionList.getCurCampaignName();
-					pie = CollectionList.getCurPie();
-					if (id != null) {
-						camId = id;
-						adapter.freeAll();
-						mPager.setLockSlide(true);
-						adapter.startLoading();
-						mPager.postDelayed(new Runnable() {
-
-							@Override
-							public void run() {
-								mPager.setLockSlide(false);
-								requestupdateToGetMerchProducts(camId, custId);
-							}
-						}, 2000);
+					if(CollectionList.curId != 0) {
+						camName = CollectionList.getCurCampaignName();
+						pie = CollectionList.getCurPie();
+						if (id != null) {
+							camId = id;
+							adapter.freeAll();
+							mPager.setLockSlide(true);
+							adapter.startLoading();
+							mPager.postDelayed(new Runnable() {
+		
+								@Override
+								public void run() {
+									mPager.setLockSlide(false);
+									requestupdateToGetMerchProducts(camId, custId);
+								}
+							}, 2000);
+						}
+					}
+					else {
+						CollectionList.autoFinish = true;
+						finish();
 					}
 				} else
 					adapter.freeImage(pos);
@@ -299,6 +294,14 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			}
 		});
 
+		adapter.setOnPieListenner(new OnPieListenner() {
+			
+			@Override
+			public void onPie(int pieValue, String campaignId) {
+				showPieAnimation(pieValue , campaignId);
+			}
+		});
+		
 		if (adapter.getCount() == 1) {
 			String id = CollectionList.getNextCampaignId();
 			if (id != null) {
@@ -385,4 +388,117 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_PRODUCT);
 	}
 
+	public void showPieAnimation(int pieValue , final String campId) {
+		SoundPool sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+
+		int iTmp = sp.load(this, R.raw.pied, 1);
+		sp.play(iTmp, 1, 1, 0, 0, 1);
+		MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.pied); 
+		if (mPlayer != null)
+			mPlayer.start();
+
+		final View piedView = findViewById(R.id.pied_view);
+		((TextView) findViewById(R.id.pie_text)).setText("+" + pieValue);
+
+		piedView.setVisibility(View.VISIBLE);
+		ScaleAnimation anim = new ScaleAnimation(0, 1f, 0, 1f,
+				piedView.getWidth() / 2, piedView.getHeight() / 2);
+		anim.setDuration(1000);
+		anim.setInterpolator(new DecelerateInterpolator());
+
+		final ScaleAnimation anim2 = new ScaleAnimation(1f, 1f, 1f, 1f,
+				piedView.getWidth() / 2, piedView.getHeight() / 2);
+		anim2.setDuration(1000);
+
+		final ScaleAnimation anim1 = new ScaleAnimation(1f, 0f, 1f, 0f,
+				piedView.getWidth() / 2, piedView.getHeight() / 2);
+		anim1.setInterpolator(new AccelerateInterpolator());
+		anim1.setDuration(500);
+
+		anim.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				piedView.startAnimation(anim2);
+			}
+		});
+		anim2.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				piedView.startAnimation(anim1);
+			}
+		});
+		anim1.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				View v = findViewById(R.id.pied_view);
+				v.setVisibility(View.GONE);
+				updateLuckyPie(campId, String.valueOf(mSharePref.getCustId()));
+			}
+		});
+
+		piedView.startAnimation(anim);
+	}
+	
+	private void updateLuckyPie(String campaignId, String custId) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.updateLuckyPie(
+				campaignId, custId);
+		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(CatelogyDetailActivity.this,
+				new AsyncHttpResponseProcess(CatelogyDetailActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							StatusUpdatePie statusUpdatePie = gson.fromJson(
+									jsonObject.toString(),
+									StatusUpdatePie.class);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postUpdateLuckyPie.execute(WebServiceConfig.URL_UPDATE_PIE);
+	}
 }

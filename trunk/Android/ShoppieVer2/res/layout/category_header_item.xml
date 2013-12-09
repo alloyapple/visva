@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ImageView
+    <View
         android:id="@+id/img_category"
         android:layout_width="@dimen/actionbar_height"
         android:layout_height="@dimen/actionbar_height"

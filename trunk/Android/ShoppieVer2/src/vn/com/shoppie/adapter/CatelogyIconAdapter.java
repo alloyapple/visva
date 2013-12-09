@@ -49,7 +49,7 @@ public class CatelogyIconAdapter extends BaseAdapter {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(R.layout.category_header_item, null, false);
-			ImageView imgIcon = (ImageView) v.findViewById(R.id.img_category);
+			View imgIcon = (View) v.findViewById(R.id.img_category);
 			if(position > 0) {
 				ImageLoader.getInstance(context).DisplayImage(
 						WebServiceConfig.HEAD_IMAGE + getItem(position).getIcon(),

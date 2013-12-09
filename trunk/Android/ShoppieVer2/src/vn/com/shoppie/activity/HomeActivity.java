@@ -267,36 +267,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 		setCheckIn(true);
 	}
 
-	private void updateLuckyPie(String campaignId, String custId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-		List<NameValuePair> nameValuePairs = ParameterFactory.updateLuckyPie(
-				campaignId, custId);
-		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(HomeActivity.this,
-				new AsyncHttpResponseProcess(HomeActivity.this) {
-					@Override
-					public void processIfResponseSuccess(String response) {
-						try {
-							JSONObject jsonObject = new JSONObject(response);
-							Gson gson = new Gson();
-							StatusUpdatePie statusUpdatePie = gson.fromJson(
-									jsonObject.toString(),
-									StatusUpdatePie.class);
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-
-					@Override
-					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
-						finish();
-					}
-				}, nameValuePairs, true);
-		postUpdateLuckyPie.execute(WebServiceConfig.URL_UPDATE_PIE);
-	}
-
 	private void setAdapter(ArrayList<MerchantCategoryItem> data) {
 		adapter = new CatelogyAdapter(this, data);
 		pager.setAdapter(adapter);

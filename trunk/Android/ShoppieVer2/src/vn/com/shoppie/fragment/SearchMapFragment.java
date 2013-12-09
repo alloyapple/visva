@@ -265,7 +265,9 @@ public class SearchMapFragment extends SupportMapFragment{
 		for (MerchantStoreItem merchantStoreItem : data) {
 			if(count == 0) {
 				Location location = ((SearchActivity) getActivity()).getMyLocation();
-				changeLocation(location.getLatitude(), location.getLongitude());
+				if(location != null) {
+					changeLocation(location.getLatitude(), location.getLongitude());
+				}
 //				changeLocation(Double.parseDouble(merchantStoreItem.getLatitude()), Double.parseDouble(merchantStoreItem.getLongtitude()));
 				
 			}

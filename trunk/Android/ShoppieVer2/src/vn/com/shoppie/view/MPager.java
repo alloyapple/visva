@@ -263,7 +263,7 @@ public class MPager extends RelativeLayout{
 			return super.onInterceptTouchEvent(ev);
 		if(isSlide)
 			return true;
-		if(isSlideOnScroll)
+		if(isSlideOnScroll && container.getParent() != container1)
 			return true;
 		else{
 			onTouchEvent(ev);

@@ -65,15 +65,17 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	private MPager mPager;
 	private boolean hasPie = false;
 	private int pie = 0;
+	private String campaignId;
 	private ShoppieSharePref mShoppieSharePref;
 
 	public CollectionDetailAdapter(Activity context, MPager mPager,
-			ArrayList<MerchProductItem> data, boolean hasPie, int pie) {
+			ArrayList<MerchProductItem> data, boolean hasPie, int pie , String campaignId) {
 		this.context = context;
 		this.mPager = mPager;
 		this.data = data;
 		this.hasPie = hasPie;
 		this.pie = pie;
+		this.campaignId = campaignId;
 		this.mShoppieSharePref = new ShoppieSharePref(this.context);
 		initCache();
 	}
@@ -195,17 +197,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						params.height *= 1.25f;
 						count1.setLayoutParams(params);
 
-						// params = (MarginLayoutParams)
-						// v.findViewById(R.id.muatang).getLayoutParams();
-						// params.width *= 1.25f;
-						// params.height *= 1.25f;
-						// v.findViewById(R.id.muatang).setLayoutParams(params);
-						//
-						// params = (MarginLayoutParams)
-						// v.findViewById(R.id.muatang1).getLayoutParams();
-						// params.width *= 1.25f;
-						// params.height *= 1.25f;
-						// v.findViewById(R.id.muatang1).setLayoutParams(params);
 					}
 
 					Button likeBt = (Button) v.findViewById(R.id.like_click);
@@ -295,114 +286,23 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			if (position == getCount() - 2 && position >= data.size()) {
 				v.setSoundEffectsEnabled(false);
 				v.setOnClickListener(new OnClickListener() {
-
 					@Override
 					public void onClick(View v) {
 						if (onItemClick != null) {
 							onItemClick.onClick(position);
 						}
-
-						if (!pied) {
-							SoundPool sp = new SoundPool(5,
-									AudioManager.STREAM_MUSIC, 0);
-
-							int iTmp = sp.load(context, R.raw.pied, 1); // in
-																		// 2nd
-																		// param
-																		// u
-																		// have
-																		// to
-																		// pass
-																		// your
-																		// desire
-																		// ringtone
-							sp.play(iTmp, 1, 1, 0, 0, 1);
-							MediaPlayer mPlayer = MediaPlayer.create(context,
-									R.raw.pied); // in 2nd param u have to pass
-													// your desire ringtone
-							if (mPlayer != null)
-								mPlayer.start();
-
-							final View piedView = v
-									.findViewById(R.id.pied_view);
-							((TextView) v.findViewById(R.id.pie_text))
-									.setText("+" + pie);
-
-							piedView.setVisibility(View.VISIBLE);
-							ScaleAnimation anim = new ScaleAnimation(0, 1f, 0,
-									1f, piedView.getWidth() / 2, piedView
-											.getHeight() / 2);
-							anim.setDuration(1000);
-							anim.setInterpolator(new DecelerateInterpolator());
-
-							final ScaleAnimation anim2 = new ScaleAnimation(1f,
-									1f, 1f, 1f, piedView.getWidth() / 2,
-									piedView.getHeight() / 2);
-							anim2.setDuration(1000);
-
-							final ScaleAnimation anim1 = new ScaleAnimation(1f,
-									0f, 1f, 0f, piedView.getWidth() / 2,
-									piedView.getHeight() / 2);
-							anim1.setInterpolator(new AccelerateInterpolator());
-							anim1.setDuration(500);
-
-							anim.setAnimationListener(new AnimationListener() {
-
-								@Override
-								public void onAnimationStart(Animation animation) {
-
-								}
-
-								@Override
-								public void onAnimationRepeat(
-										Animation animation) {
-
-								}
-
-								@Override
-								public void onAnimationEnd(Animation animation) {
-									piedView.startAnimation(anim2);
-								}
-							});
-							anim2.setAnimationListener(new AnimationListener() {
-
-								@Override
-								public void onAnimationStart(Animation animation) {
-
-								}
-
-								@Override
-								public void onAnimationRepeat(
-										Animation animation) {
-
-								}
-
-								@Override
-								public void onAnimationEnd(Animation animation) {
-									piedView.startAnimation(anim1);
-								}
-							});
-							anim1.setAnimationListener(new AnimationListener() {
-
-								@Override
-								public void onAnimationStart(Animation animation) {
-
-								}
-
-								@Override
-								public void onAnimationRepeat(
-										Animation animation) {
-
-								}
-
-								@Override
-								public void onAnimationEnd(Animation animation) {
-									pied = true;
-									pied();
-								}
-							});
-
-							piedView.startAnimation(anim);
+						if(onPieListenner != null) {
+							if(!pied) {
+								pied = true;
+								getView(position).postDelayed(new Runnable() {
+									
+									@Override
+									public void run() {
+										pied();
+									}
+								}, 2000);
+								onPieListenner.onPie(pie, campaignId);
+							}
 						}
 					}
 				});
@@ -916,6 +816,16 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		public void onLike(boolean liked, int productionId);
 	}
 
+	public void setOnPieListenner(OnPieListenner onPieListenner) {
+		this.onPieListenner = onPieListenner;
+	}
+	
+	private OnPieListenner onPieListenner;
+	
+	public interface OnPieListenner {
+		public void onPie(int pieValue , String campaignId);
+	}
+	
 	OnItemClickListener itemClickListener;
 
 	public void setItemClickListener(OnItemClickListener itemClickListener) {

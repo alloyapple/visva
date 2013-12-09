@@ -57,6 +57,7 @@ public class CollectionList extends Activity {
 	private static String listCampaignId[];
 	private static String listCampaignName[];
 	public static int curId = 0;
+	public static boolean autoFinish = false;
 	private ShoppieDBProvider mShoppieDBProvider;
 
 	@Override
@@ -150,6 +151,10 @@ public class CollectionList extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		if(autoFinish) {
+			autoFinish = false;
+			finish();
+		}
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestToGetMerchantCampaign(merchantId, customerId);
 		else {
@@ -158,26 +163,6 @@ public class CollectionList extends Activity {
 		}
 		// getMerchantCampaignFromDb();
 	}
-
-	// private void getMerchantCampaignFromDb() {
-	// // TODO Auto-generated method stub
-	// ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
-	// .getJsonData(GlobalValue.TYPE_CAMPAIGNS);
-	// String merchantCampaign = jsonDataObject.getJsonData();
-	// if (merchantCampaign != null && !"".equals(merchantCampaign))
-	// try {
-	// JSONObject jsonObject = new JSONObject(merchantCampaign);
-	// Gson gson = new Gson();
-	// MerchCampaignList merchCampaignList = gson.fromJson(
-	// jsonObject.toString(), MerchCampaignList.class);
-	// setData(merchCampaignList.getResult());
-	// } catch (JSONException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// else
-	// showToast(getString(R.string.network_unvailable));
-	// }
 
 	private void showToast(String str) {
 		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
@@ -196,7 +181,7 @@ public class CollectionList extends Activity {
 			listCampaignName[i] = "" + adapter.getItem(i).getCampaignName();
 		}
 	}
-
+	
 	public static String getCurCampaignName() {
 		return listCampaignName[curId];
 	}
