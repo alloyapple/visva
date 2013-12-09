@@ -545,51 +545,56 @@ public class MPager extends RelativeLayout{
 	}
 	
 	private void finishDrag(){
-		Log.d("Finish", "Drag");
-		if(currentX == 0){
-			switch (inoutMode) {
-			case SLIDE_IN://fail
-				container.removeView(currentSlide);
-				container.addView(currentSlide, 0);
-//				addViewTo(currentSlide, 0);
-				break;
+		System.out.println(">>>>>>>>>>>>>>>>>>>> finish drag");
+		postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(currentX == 0){
+					switch (inoutMode) {
+					case SLIDE_IN://fail
+						container.removeView(currentSlide);
+						container.addView(currentSlide, 0);
+						break;
 
-			case SLIDE_OUT://success
-				currentItem = mAdapter.getNextItemId(currentItem);
-				container.removeView(currentSlide);
-				container.addView(currentSlide, 0);
-				cacheNextView();
-//				cacheBackView();
-				
-				if(onPageChange != null)
-					onPageChange.onChange(currentItem);
-				break;
-			default:
-				break;
-			}
-		}
-		else if(currentX == distanceX){
-			switch (inoutMode) {
-			case SLIDE_IN://success
-				currentItem = mAdapter.getBackItemId(currentItem);
-//				cacheNextView();
-				cacheBackView();
-				
-				if(onPageChange != null)
-					onPageChange.onChange(currentItem);
-				break;
+					case SLIDE_OUT://success
+						currentItem = mAdapter.getNextItemId(currentItem);
+						container.removeView(currentSlide);
+						container.addView(currentSlide, 0);
+						cacheNextView();
+						
+						if(onPageChange != null)
+							onPageChange.onChange(currentItem);
+						break;
+					default:
+						break;
+					}
+				}
+				else if(currentX == distanceX){
+					switch (inoutMode) {
+					case SLIDE_IN://success
+						currentItem = mAdapter.getBackItemId(currentItem);
+//						cacheNextView();
+						cacheBackView();
+						
+						if(onPageChange != null)
+							onPageChange.onChange(currentItem);
+						break;
 
-			case SLIDE_OUT://fail
+					case SLIDE_OUT://fail
+						
+						break;
+					default:
+						break;
+					}
+				}
+				clearAnimator(currentSlide);
 				
-				break;
-			default:
-				break;
+				isAutoSlide = false;
+				Log.d("CurrentItem", "" + currentItem);
+
 			}
-		}
-		clearAnimator(currentSlide);
-		
-		isAutoSlide = false;
-		Log.d("CurrentItem", "" + currentItem);
+		}, 50);
 	}
 
 	public int getSlideType(){
