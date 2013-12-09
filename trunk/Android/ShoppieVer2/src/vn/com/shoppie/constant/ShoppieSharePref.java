@@ -19,6 +19,7 @@ public class ShoppieSharePref {
 	private static final String COUNT_CHANGE_INFO_TIME = "count_change_info_time";
 	private static final String CHECKIN_STATUS = "checkin_status";
 	private static final String VALUE_PARAM_MOBILE = "value_param_mobile";
+	private static final String ACTION_SHARE_FB = "action_share_fb";
 	// ================================================================
 	private static final String START_NUM = "num1";
 	private static final String LIKE_NUM = "like";
@@ -27,6 +28,14 @@ public class ShoppieSharePref {
 
 	public ShoppieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setActionShareFB(boolean b) {
+		putBooleanValue(ACTION_SHARE_FB, b);
+	}
+
+	public boolean getActionShareFB() {
+		return getBooleanValue(ACTION_SHARE_FB);
 	}
 
 	public void setValueParammMobile(String value) {
