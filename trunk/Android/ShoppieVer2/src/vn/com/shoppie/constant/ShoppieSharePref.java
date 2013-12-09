@@ -21,6 +21,8 @@ public class ShoppieSharePref {
 	private static final String VALUE_PARAM_MOBILE = "value_param_mobile";
 	private static final String VALUE_PARAM_SUPPORT_LINK = "value_param_mobile_link";
 	private static final String ACTION_SHARE_FB = "action_share_fb";
+	private static final String POST_LOGIN_FACEBOOK_SUCCESS = "post_login_fb_success";
+
 	// ================================================================
 	private static final String START_NUM = "num1";
 	private static final String LIKE_NUM = "like";
@@ -29,6 +31,14 @@ public class ShoppieSharePref {
 
 	public ShoppieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setPostLoginFBSuccess(boolean b) {
+		putBooleanValue(POST_LOGIN_FACEBOOK_SUCCESS, b);
+	}
+
+	public boolean getPostLoginFBSuccess() {
+		return getBooleanValue(POST_LOGIN_FACEBOOK_SUCCESS);
 	}
 
 	public void setParamMobileLink(String link) {

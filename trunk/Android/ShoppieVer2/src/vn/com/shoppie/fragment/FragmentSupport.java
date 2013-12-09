@@ -29,9 +29,6 @@ public class FragmentSupport extends FragmentBasic{
 		View root = (ViewGroup) inflater.inflate(
 				R.layout.page_support, null);
 		mWebView = (WebView)root.findViewById(R.id.web_support);
-		
-		android.util.Log.e("adfkjdfh", "adffjh "+mShopieSharePref.getParamMobileLink());
-//		mWebView.setWebViewClient(new MyWebViewClient());
 		mWebView.loadUrl(mShopieSharePref.getParamMobileLink());
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setJavaScriptEnabled(true);

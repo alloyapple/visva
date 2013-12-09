@@ -6,6 +6,7 @@ import java.util.List;
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityFavouriteProductShow;
 import vn.com.shoppie.database.sobject.MerchProductItem;
+import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 
 import com.facebook.FacebookException;
@@ -52,10 +53,15 @@ public class FacebookUtil {
 		final List<String> PERMISSIONS = Arrays.asList("publish_stream");
 
 		if (Session.getActiveSession() != null) {
-			NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
-					mContext, PERMISSIONS);
-			Session.getActiveSession().requestNewPublishPermissions(
-					reauthRequest);
+			List<String> sessionPermission = Session.getActiveSession()
+					.getPermissions();
+			if (!sessionPermission.containsAll(PERMISSIONS)) {
+				NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
+						mContext, PERMISSIONS);
+
+				Session.getActiveSession().requestNewPublishPermissions(
+						reauthRequest);
+			}
 		}
 
 		Request request = new Request(Session.getActiveSession(), "feed",
@@ -82,10 +88,86 @@ public class FacebookUtil {
 		final List<String> PERMISSIONS = Arrays.asList("publish_stream");
 
 		if (Session.getActiveSession() != null) {
-			NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
-					mContext, PERMISSIONS);
-			Session.getActiveSession().requestNewPublishPermissions(
-					reauthRequest);
+			List<String> sessionPermission = Session.getActiveSession()
+					.getPermissions();
+			if (!sessionPermission.containsAll(PERMISSIONS)) {
+				NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
+						mContext, PERMISSIONS);
+
+				Session.getActiveSession().requestNewPublishPermissions(
+						reauthRequest);
+			}
+		}
+
+		Request request = new Request(Session.getActiveSession(), "feed",
+				_postParameter, HttpMethod.POST);
+
+		RequestAsyncTask task = new RequestAsyncTask(request);
+		task.execute();
+	}
+
+	public void publishLikeProductInBackground(String userName,
+			MerchProductItem merchProductItem) {
+		String message = mContext.getString(R.string.fb_like_product, userName,
+				merchProductItem.getProductName());
+		String name = mContext.getString(R.string.fb_share_name);
+		// String desc = "Ứng dụng kích thích mua sắm.";
+		String link = mContext.getString(R.string.fb_link);
+		String pic = mContext.getString(R.string.fb_picture);
+		final Bundle _postParameter = new Bundle();
+		_postParameter.putString("name", name);
+		_postParameter.putString("link", link);
+		_postParameter.putString("picture", pic);
+		// _postParameter.putString("caption", desc);
+		_postParameter.putString("description", message);
+
+		final List<String> PERMISSIONS = Arrays.asList("publish_stream");
+
+		if (Session.getActiveSession() != null) {
+			List<String> sessionPermission = Session.getActiveSession()
+					.getPermissions();
+			if (!sessionPermission.containsAll(PERMISSIONS)) {
+				NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
+						mContext, PERMISSIONS);
+
+				Session.getActiveSession().requestNewPublishPermissions(
+						reauthRequest);
+			}
+		}
+		Request request = new Request(Session.getActiveSession(), "feed",
+				_postParameter, HttpMethod.POST);
+
+		RequestAsyncTask task = new RequestAsyncTask(request);
+		task.execute();
+	}
+
+	public void publishLikeBrandInBackground(String userName,
+			MerchantStoreItem merchantStoreItem) {
+		String message = mContext.getString(R.string.fb_like_product, userName,
+				merchantStoreItem.getStoreName());
+		String name = mContext.getString(R.string.fb_share_name);
+		// String desc = "Ứng dụng kích thích mua sắm.";
+		String link = mContext.getString(R.string.fb_link);
+		String pic = mContext.getString(R.string.fb_picture);
+		final Bundle _postParameter = new Bundle();
+		_postParameter.putString("name", name);
+		_postParameter.putString("link", link);
+		_postParameter.putString("picture", pic);
+		// _postParameter.putString("caption", desc);
+		_postParameter.putString("description", message);
+
+		final List<String> PERMISSIONS = Arrays.asList("publish_stream");
+
+		if (Session.getActiveSession() != null) {
+			List<String> sessionPermission = Session.getActiveSession()
+					.getPermissions();
+			if (!sessionPermission.containsAll(PERMISSIONS)) {
+				NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
+						mContext, PERMISSIONS);
+
+				Session.getActiveSession().requestNewPublishPermissions(
+						reauthRequest);
+			}
 		}
 
 		Request request = new Request(Session.getActiveSession(), "feed",
@@ -112,10 +194,15 @@ public class FacebookUtil {
 		final List<String> PERMISSIONS = Arrays.asList("publish_stream");
 
 		if (Session.getActiveSession() != null) {
-			NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
-					mContext, PERMISSIONS);
-			Session.getActiveSession().requestNewPublishPermissions(
-					reauthRequest);
+			List<String> sessionPermission = Session.getActiveSession()
+					.getPermissions();
+			if (!sessionPermission.containsAll(PERMISSIONS)) {
+				NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
+						mContext, PERMISSIONS);
+
+				Session.getActiveSession().requestNewPublishPermissions(
+						reauthRequest);
+			}
 		}
 
 		Request request = new Request(Session.getActiveSession(), "feed",

@@ -10,7 +10,6 @@ import vn.com.shoppie.util.BitmapWorkerTask;
 import vn.com.shoppie.util.BitmapWorkerTask.OnLoadBitmapHandle;
 import vn.com.shoppie.util.SUtilBitmap;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
