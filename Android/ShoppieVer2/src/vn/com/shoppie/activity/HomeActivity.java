@@ -78,7 +78,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 	public int contentView() {
 		// TODO Auto-generated method stub
 		return R.layout.home_act;
-
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -88,20 +87,6 @@ public class HomeActivity extends VisvaAbstractActivity {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-
-		// ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
-		// icon.setOnClickListener(new View.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// if(NetworkUtility.getInstance(HomeActivity.this).isNetworkAvailable())
-		// startActivity(new Intent(getApplicationContext(),
-		// SearchActivity.class));
-		// else {
-		// showToast(getString(R.string.network_unvailable));
-		// }
-		// }
-		// });
 
 		// setup actionbar
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
@@ -148,10 +133,11 @@ public class HomeActivity extends VisvaAbstractActivity {
 		}
 
 		/** up facebook login success */
-		if (mShoppieSharePref.getLoginType())
+		if (mShoppieSharePref.getLoginType() && !mShoppieSharePref.getPostLoginFBSuccess()){
 			FacebookUtil.getInstance(self).publishLoginSuccessInBackground(
 					mShoppieSharePref.getCustName());
-		
+			mShoppieSharePref.setPostLoginFBSuccess(true);
+		}
 		/**turn off bluetooth*/
 		turnoffBluetooth();
 	}
@@ -215,23 +201,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 			} else {
 				alert = getString(R.string.checking_transaction);
 			}
-
-			// DialogUtility.alert(self, alert, new OnClickListener() {
-			//
-			// @Override
-			// public void onClick(DialogInterface dialog, int which) {
-			// // TODO Auto-generated method stub
-			// // continue with delete
-			// Log.e("clckfadsf", "sdfkdjfd ");
-			// timer.onFinish();
-			// dialog.dismiss();
-			// }
-			//
-			// });
 			mAlertDialog = creatDialog(this, alert, null);
 			mAlertDialog.show();
-			// showToast(getString(R.string.checkin_not_success));
-			// setCheckIn(false);
 		}
 	}
 
