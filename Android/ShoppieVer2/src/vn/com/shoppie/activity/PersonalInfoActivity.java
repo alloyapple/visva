@@ -11,6 +11,7 @@ import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.fragment.FeedbackFragment;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
+import vn.com.shoppie.fragment.FragmentSupport;
 import vn.com.shoppie.fragment.HelpFragment;
 import vn.com.shoppie.fragment.HistoryTradeFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment;
@@ -68,7 +69,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private PersonalFriendFragment mPersonalFriendFragment;
 	private FragmentPersonalInfo mFragmentPersonalInfo;
 	private HistoryTradeFragment mHistoryTradeFragment;
-	private HelpFragment mHelpFragment;
+	private FragmentSupport mHelpFragment;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
 	private TextView mTxtTitle;
@@ -257,7 +258,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 				.findFragmentById(R.id.layout_personal_main_info);
 		mPersonalFriendFragment = (PersonalFriendFragment) mFmManager
 				.findFragmentById(R.id.layout_personal_friend);
-		mHelpFragment = (HelpFragment) mFmManager
+		mHelpFragment = (FragmentSupport) mFmManager
 				.findFragmentById(R.id.layout_personal_favourite);
 		mFragmentPersonalInfo = (FragmentPersonalInfo) mFmManager
 				.findFragmentById(R.id.layout_personal_info_fragment);
@@ -306,6 +307,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			break;
 
 		case HELP:
+			Log.e("asdfdfjh", "adfkdh ");
 			mTransaction = hideFragment();
 			mTransaction.show(mHelpFragment);
 			addToSBackStack(HELP_FRAGMENT);

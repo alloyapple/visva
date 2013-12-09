@@ -163,10 +163,14 @@ public class ActivityWelcome extends Activity implements LocationListener,
 							if (paramMobileItems != null
 									&& paramMobileItems.get(0) != null
 									&& !paramMobileItems.get(0).getValue()
-											.equals(""))
+											.equals("")) {
 								mShopieSharePref
 										.setValueParammMobile(paramMobileItems
 												.get(0).getValue());
+								mShopieSharePref
+										.setParamMobileLink(paramMobileItems
+												.get(1).getValue());
+							}
 						} catch (Exception e) {
 						}
 					}
