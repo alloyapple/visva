@@ -90,6 +90,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(final int position) {
+		System.out.println(">>>>>>>>>>>>>>>>>>>> getView");
 		try {
 			View v;
 			if (cacheView[position] != null) {
@@ -843,5 +844,10 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 		this.itemClickListener = itemClickListener;
 	}
 
+	public void addToPull(View v) {
+		if(v.findViewById(R.id.image) != null)
+			pullView.add(v);
+	}
+	
 	private Vector<View> pullView = new Vector<View>();
 }
