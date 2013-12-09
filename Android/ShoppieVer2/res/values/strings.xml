@@ -148,5 +148,15 @@
     <!-- change user info -->
     <string name="phone_notice">Số Phone chính xác giúp Shoppie nạp thẻ điện thoại cho bạn chính xác</string>
     <string name="address_notice">Địa chỉ nhà hoặc cơ quan - Là địa chỉ nhận voucher của bạn</string>
+    
+    <!--facebook  -->
+    <string name="fb_login_sucess_content">%s vừa đăng ký thành công tài khoản Shoppie</string>
+    <string name="fb_lucky_pie_content">%s vừa được tặng điểm Pie may mắn qua ứng dụng Shoppie</string>
+    <string name="fb_checkin_success">%s vừa thực hiện giao dịch Checkin qua ứng dụng Shoppie</string>
+    <string name="fb_like_product">%1$s vừa like sản phẩm %2$s qua ứng dụng Shoppie</string>
+    <string name="fb_like_brand">%2$s vừa like thương hiệu %2$s qua ứng dụng Shoppie</string>
+    <string name="fb_picture">http://farm6.staticflickr.com/5480/10948560363_bf15322277_m.jpg</string>
+    <string name="fb_share_name">Shoppie</string>
+    <string name="fb_link">http://shoppie.com.vn</string>
 
 </resources>
