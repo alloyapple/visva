@@ -212,15 +212,6 @@ public class CollectionList extends Activity {
 							MerchCampaignList merchCampaignList = gson
 									.fromJson(jsonObject.toString(),
 											MerchCampaignList.class);
-							// /** update to database */
-							// int count =
-							// mShoppieDBProvider.countJsonDataById(merchCampaignList.getResult().);
-							// if(count == 0){
-							// JsonDataObject jsonDataObject = new
-							// JsonDataObject(
-							// response, GlobalValue.TYPE_CAMPAIGNS);
-							// mShoppieDBProvider.addNewJsonData(jsonDataObject);
-							// }
 
 							setData(merchCampaignList.getResult());
 						} catch (JSONException e) {

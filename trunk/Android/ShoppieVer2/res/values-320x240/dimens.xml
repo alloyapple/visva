@@ -78,6 +78,11 @@
 <dimen name="feedback_name_height">22dp</dimen>
 <dimen name="feedback_name_margintop">7dp</dimen>
 <dimen name="feedback_name_textsize">15sp</dimen>
+
+<dimen name="count_text_size">10sp</dimen>
+<dimen name="count_text_padding_left">11dp</dimen>
+<dimen name="count_text_padding_top">3dp</dimen>
+
     
     <!-- *** -->
     <dimen name="marker_textsize">18px</dimen>

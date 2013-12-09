@@ -184,8 +184,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					TextView count1 = (TextView) v.findViewById(R.id.count1);
 					count1.setText(getItem(position).getPieQty() > 0 ? ""
 							+ getItem(position).getPieQty() : "");
-
-					if (getItem(position).getPieQty() > 999) {
+					
+					if (getItem(position).getPieQty() > 100 && count.getLineCount() > 1) {
 						MarginLayoutParams params = (MarginLayoutParams) count
 								.getLayoutParams();
 						params.width *= 1.25f;
@@ -197,6 +197,17 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						params.height *= 1.25f;
 						count1.setLayoutParams(params);
 
+						View muatang = v.findViewById(R.id.muatang);
+						params = (MarginLayoutParams) muatang.getLayoutParams();
+						params.width *= 1.1f;
+						params.height *= 1.1f;
+						muatang.setLayoutParams(params);
+						
+						View muatang1 = v.findViewById(R.id.muatang1);
+						params = (MarginLayoutParams) muatang1.getLayoutParams();
+						params.width *= 1.1f;
+						params.height *= 1.1f;
+						muatang1.setLayoutParams(params);
 					}
 
 					Button likeBt = (Button) v.findViewById(R.id.like_click);

@@ -77,10 +77,10 @@
                 android:layout_width="@dimen/checkin_button"
                 android:layout_height="@dimen/checkin_button"
                 android:layout_centerInParent="true"
-                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:text="@string/checkin"
                 android:textColor="@android:color/white"
+                android:background="#00000000"
                 android:textSize="18sp" />
         </RelativeLayout>
     </LinearLayout>

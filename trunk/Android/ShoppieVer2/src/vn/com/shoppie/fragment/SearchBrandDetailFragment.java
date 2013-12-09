@@ -174,8 +174,12 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 			// TODO Auto-generated method stub
 			Fragment fragment = new StoreImageFragment();
 			Bundle args = new Bundle();
-			args.putString("link0",
-					WebServiceConfig.HEAD_IMAGE + store.getMerchLogo());
+			if(position % 3 == 0)
+				args.putString("link0",WebServiceConfig.HEAD_IMAGE + store.getMerchBanner1());
+			else if(position % 3 == 1)
+				args.putString("link0",WebServiceConfig.HEAD_IMAGE + store.getMerchBanner2());
+			else if(position % 3 == 2)
+				args.putString("link0",WebServiceConfig.HEAD_IMAGE + store.getMerchBanner3());
 
 			fragment.setArguments(args);
 			return fragment;
