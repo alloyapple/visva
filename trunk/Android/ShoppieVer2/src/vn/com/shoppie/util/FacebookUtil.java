@@ -256,13 +256,13 @@ public class FacebookUtil {
 
 	public void publishFeedDialog(String custId, final FBUser friend) {
 		Bundle params = new Bundle();
+		String pic = mContext.getString(R.string.fb_picture);
 		params.putString("name", "Shoppie");
 		params.putString("caption", "");
 		params.putString("description",
 				mContext.getString(R.string.invitation_content, custId));
 		params.putString("link", "http://www.shoppie.com.vn/");
-		params.putString("picture",
-				"http://farm3.staticflickr.com/2827/11212635324_f135544731_o.png");
+		params.putString("picture", pic);
 		params.putString("to", "" + friend.getUserId());
 		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(mContext,
 				Session.getActiveSession(), params)).setOnCompleteListener(
