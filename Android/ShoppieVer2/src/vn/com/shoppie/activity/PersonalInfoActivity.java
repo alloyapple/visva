@@ -85,7 +85,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private ArrayList<String> backstack = new ArrayList<String>();
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
 	private int custId;
-	private boolean isShowFavourite;
+	private int isShowFavourite;
 
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 		@Override
@@ -102,31 +102,33 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_personal_info);
 
-		isShowFavourite = getIntent().getExtras().getBoolean(
+		isShowFavourite = getIntent().getExtras().getInt(
 				GlobalValue.IS_SHOW_FAVOURITE);
 		mShopieSharePref = new ShoppieSharePref(this);
 		// Facebook
 		lifecycleHelper = new UiLifecycleHelper(this, callback);
 		lifecycleHelper.onCreate(savedInstanceState);
 		initialize();
-		
+
 		if (mShopieSharePref.getLoginType()) {
 			// Facebook
 			Session session = Session.getActiveSession();
-			Log.e("adfksdfjh "+(session !=null && session.isOpened()), "asdfdfjh "+mShopieSharePref.getLoginType());
-			if(session !=null && session.isOpened())
-			updateUserInfo();
-//			lifecycleHelper = new UiLifecycleHelper(PersonalInfoActivity.this,
-//					new Session.StatusCallback() {
-//						@Override
-//						public void call(Session session, SessionState state,
-//								Exception exception) {
-//							// onSessionStateChange(session, state, exception);
-//							
-//						}
-//
-//					});
-//			lifecycleHelper.onCreate(savedInstanceState);
+			Log.e("adfksdfjh " + (session != null && session.isOpened()),
+					"asdfdfjh " + mShopieSharePref.getLoginType());
+			if (session != null && session.isOpened())
+				updateUserInfo();
+			// lifecycleHelper = new
+			// UiLifecycleHelper(PersonalInfoActivity.this,
+			// new Session.StatusCallback() {
+			// @Override
+			// public void call(Session session, SessionState state,
+			// Exception exception) {
+			// // onSessionStateChange(session, state, exception);
+			//
+			// }
+			//
+			// });
+			// lifecycleHelper.onCreate(savedInstanceState);
 			// ensureOpenSession();
 		} else {
 			ShoppieUserInfo userInfo = new ShoppieUserInfo(
@@ -185,9 +187,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 
 	private void updateUserInfo() {
 		// TODO Auto-generated method stub
-		
+
 		Session activeSession = Session.getActiveSession();
-		Log.e("adfdfh", "asdfdfk "+activeSession.getState().isOpened());
+		Log.e("adfdfh", "asdfdfk " + activeSession.getState().isOpened());
 		if (activeSession.getState().isOpened()) {
 			Request infoRequest = Request.newMeRequest(activeSession,
 					new GraphUserCallback() {
@@ -276,15 +278,22 @@ public class PersonalInfoActivity extends FragmentActivity implements
 
 		mTxtTitle = (MyTextView) findViewById(R.id.txt_title_fragment);
 		mTxtTitle.setLight();
-		
+
 		mMainPersonalInfoFragment.setListener(this);
 		mPersonalFriendFragment.setListener(this);
 
 		mMainPersonalInfoFragment.setShowFavouriteProduct(isShowFavourite);
-		showFragment(MAIN_PERSONAL_INFO);
-		mTransaction = hideFragment();
-		mTransaction.show(mMainPersonalInfoFragment);
-		addToSBackStack(MAIN_PERSONAL_INFO_FRAGMENT);
+		if (isShowFavourite < 2) {
+			showFragment(MAIN_PERSONAL_INFO);
+			mTransaction = hideFragment();
+			mTransaction.show(mMainPersonalInfoFragment);
+			addToSBackStack(MAIN_PERSONAL_INFO_FRAGMENT);
+		} else {
+			showFragment(PERSONAL_FRIEND);
+			mTransaction = hideFragment();
+			mTransaction.show(mPersonalFriendFragment);
+			addToSBackStack(PERSONAL_FRIEND_FRAGMENT);
+		}
 		mTransaction.commit();
 	}
 

@@ -63,12 +63,12 @@
                         android:layout_marginRight="70dp"
                         android:background="@drawable/spinner" />
 
-                    <Button
+                    <com.facebook.widget.GiftTransactionButton
+                        android:id="@+id/btn_gift_transaction"
                         android:layout_width="70dp"
                         android:layout_height="@dimen/actionbar_height"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/btn_doiqua"
-                        android:onClick="onClickDoiqua" />
+                        android:layout_alignParentRight="true" >
+                    </com.facebook.widget.GiftTransactionButton>
                 </RelativeLayout>
             </LinearLayout>
 

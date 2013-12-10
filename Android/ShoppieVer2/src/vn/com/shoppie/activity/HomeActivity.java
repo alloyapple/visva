@@ -12,6 +12,8 @@ import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
+import vn.com.shoppie.database.sobject.HistoryTransactionItem;
+import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -370,10 +372,12 @@ public class HomeActivity extends VisvaAbstractActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_canhan:
-			Intent intent = new Intent(HomeActivity.this,PersonalInfoActivity.class);
-			intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, false);
+			Intent intent = new Intent(HomeActivity.this,
+					PersonalInfoActivity.class);
+			intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, 0);
 			startActivity(intent);
-			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+			overridePendingTransition(R.anim.slide_in_left,
+					R.anim.slide_out_left);
 			break;
 		case R.id.bt_quatang:
 			// goBack();
@@ -605,5 +609,47 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void updatePieToSPServer() {
 
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+
+		requestToUpdateUserPie("" + mShoppieSharePref.getCustId());
+	}
+
+	private void requestToUpdateUserPie(String custId) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.updateHistoryTransaction(custId);
+		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(HomeActivity.this,
+				new AsyncHttpResponseProcess(HomeActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							HistoryTransactionList historyTransactionList = gson
+									.fromJson(jsonObject.toString(),
+											HistoryTransactionList.class);
+							HistoryTransactionItem historyTransactionItem = historyTransactionList
+									.getResult().get(0);
+							mShoppieSharePref
+									.setCurrentBtl(historyTransactionItem
+											.getCurrentBal());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postUpdateLuckyPie.execute(WebServiceConfig.URL_HISTORY_TRANSACTION);
 	}
 }
