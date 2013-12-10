@@ -1,14 +1,13 @@
 package vn.com.shoppie.activity;
 
 import vn.com.shoppie.database.sobject.User;
-
-import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+
+import com.google.android.gms.maps.model.LatLng;
 
 public class ActivityShoppie extends VisvaAbstractActivity implements
 		LocationListener {

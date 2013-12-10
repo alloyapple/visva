@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListCollectionAdapter;
-import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchCampaignItem;
 import vn.com.shoppie.database.sobject.MerchCampaignList;
@@ -17,8 +16,8 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
-import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
@@ -81,25 +80,31 @@ public class CollectionList extends Activity {
 		number = extras.getString(KEY_NUMBER);
 
 		listView = (ListView) findViewById(R.id.list);
-		TextView text = new TextView(this);
+		MyTextView text = new MyTextView(this);
 		text.setBackgroundColor(0xffffffff);
 		text.setText("abcd");
-
+		text.setTextSize(getResources().getDimension(R.dimen.actionbar_title_textsize));
+		text.setLight();
+		
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View headerView = inflater
 				.inflate(R.layout.catelogy_title, null, false);
 
 		View icon = headerView.findViewById(R.id.icon);
-		TextView titleTv = (TextView) headerView.findViewById(R.id.catelogy);
-		TextView subTitleTv = (TextView) headerView
+		MyTextView titleTv = (MyTextView) headerView.findViewById(R.id.catelogy);
+		MyTextView subTitleTv = (MyTextView) headerView
 				.findViewById(R.id.subcatelogy);
-		TextView countTv = (TextView) headerView.findViewById(R.id.count);
+		MyTextView countTv = (MyTextView) headerView.findViewById(R.id.count);
 		ImageLoader.getInstance(this).DisplayImage(
 				WebServiceConfig.HEAD_IMAGE + iconLink, icon);
 		titleTv.setText(title);
 		subTitleTv.setText(titleDesc);
 		countTv.setText(number);
 
+		titleTv.setNormal();
+		subTitleTv.setLight();
+		countTv.setLight();
+		
 		listView.addHeaderView(headerView);
 		listView.setDivider(null);
 

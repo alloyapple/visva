@@ -8,6 +8,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.view.MPagerAdapterBase;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
@@ -49,11 +50,15 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 					(Context.LAYOUT_INFLATER_SERVICE);
 			v = inflater.inflate(R.layout.catelogy_item, null, false);
 			
-			TextView  title    = (TextView) v.findViewById(R.id.catelogy);
-			TextView  subTitle = (TextView) v.findViewById(R.id.subcatelogy);
-			TextView  tvCount = (TextView) v.findViewById(R.id.count);
+			MyTextView title    = (MyTextView) v.findViewById(R.id.catelogy);
+			MyTextView subTitle = (MyTextView) v.findViewById(R.id.subcatelogy);
+			MyTextView tvCount = (MyTextView) v.findViewById(R.id.count);
 			View 	  icon     = v.findViewById(R.id.icon);
 			View image    = v.findViewById(R.id.image);
+			
+			title.setNormal();
+			subTitle.setLight();
+			tvCount.setLight();
 			
 			title.setText(data.get(position).getMerchCatName());
 			subTitle.setText(data.get(position).getMerchCatDesc());

@@ -6,6 +6,7 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchCampaignItem;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -56,11 +57,15 @@ public class ListCollectionAdapter extends BaseAdapter{
 			holder = new ItemHolder();
 			holder.backgroundView = convertView.findViewById(R.id.background_view);
 			holder.image = convertView.findViewById(R.id.image);
-			holder.title = (TextView) convertView.findViewById(R.id.title);
-			holder.subTitle = (TextView) convertView.findViewById(R.id.subtitle);
+			holder.title = (MyTextView) convertView.findViewById(R.id.title);
+			holder.subTitle = (MyTextView) convertView.findViewById(R.id.subtitle);
 			holder.star = convertView.findViewById(R.id.star);
-			holder.like = (TextView) convertView.findViewById(R.id.like);
+			holder.like = (MyTextView) convertView.findViewById(R.id.like);
 			holder.viewed = convertView.findViewById(R.id.ic_viewed);
+			
+			holder.title.setNormal();
+			holder.subTitle.setLight();
+			holder.like.setNormal();
 			
 			convertView.setTag(holder);
 		}
@@ -79,6 +84,7 @@ public class ListCollectionAdapter extends BaseAdapter{
 			holder.backgroundView.setBackgroundColor(0xfff8f8f8);
 		else
 			holder.backgroundView.setBackgroundColor(0xffffffff);
+		
 		holder.title.setText(getItem(position).getCampaignName());
 		holder.subTitle.setText(getItem(position).getCampaignDesc());
 		holder.like.setText("" + getItem(position).getLikedNumber());
@@ -100,10 +106,10 @@ public class ListCollectionAdapter extends BaseAdapter{
 	class ItemHolder {
 		public View backgroundView;
 		public View image;
-		public TextView title;
-		public TextView subTitle;
+		public MyTextView title;
+		public MyTextView subTitle;
 		public View star;
 		public View viewed;
-		public TextView like;
+		public MyTextView like;
 	}
 }

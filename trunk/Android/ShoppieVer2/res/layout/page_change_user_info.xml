@@ -24,6 +24,7 @@
         </ImageButton>
 
         <vn.com.shoppie.view.MyTextView
+            android:id="@+id/main_personal_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

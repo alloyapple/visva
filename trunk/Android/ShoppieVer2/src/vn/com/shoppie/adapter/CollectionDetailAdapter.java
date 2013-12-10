@@ -2,6 +2,7 @@ package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
 import java.util.Vector;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.MerchProductItem;
@@ -11,6 +12,7 @@ import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.util.Utils;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
@@ -20,9 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InflateException;
@@ -33,15 +32,14 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
@@ -101,7 +99,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 				if (position >= data.size() && position == getCount() - 2) {
 					v = inflater.inflate(R.layout.collectiondetail3, null,
 							false);
-
+					
 					Bitmap bitmap = BitmapFactory.decodeResource(
 							context.getResources(), R.drawable.bg_lucky_pie);
 					Bitmap bg = ImageUtil.getInstance(context).getShapeBitmap(
@@ -142,17 +140,19 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					});
 					text.setVisibility(View.GONE);
 
-					TextView name = (TextView) v.findViewById(R.id.name);
-					TextView name1 = (TextView) v.findViewById(R.id.name1);
-					TextView price = (TextView) v.findViewById(R.id.price);
-					TextView priceGoc = (TextView) v
+					MyTextView name = (MyTextView) v.findViewById(R.id.name);
+					MyTextView name1 = (MyTextView) v.findViewById(R.id.name1);
+					MyTextView price = (MyTextView) v.findViewById(R.id.price);
+					MyTextView priceGoc = (MyTextView) v
 							.findViewById(R.id.price_goc);
-					TextView price1 = (TextView) v.findViewById(R.id.price1);
-					TextView priceGoc1 = (TextView) v
+					MyTextView price1 = (MyTextView) v.findViewById(R.id.price1);
+					MyTextView priceGoc1 = (MyTextView) v
 							.findViewById(R.id.price1_goc);
-					TextView color = (TextView) v.findViewById(R.id.color);
-					TextView like = (TextView) v.findViewById(R.id.like);
+					MyTextView color = (MyTextView) v.findViewById(R.id.color);
+					MyTextView like = (MyTextView) v.findViewById(R.id.like);
 
+					like.setLight();
+					
 					priceGoc.setPaintFlags(priceGoc.getPaintFlags()
 							| Paint.STRIKE_THRU_TEXT_FLAG);
 					priceGoc1.setPaintFlags(priceGoc1.getPaintFlags()
@@ -178,13 +178,15 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 									+ Utils.formatMoney(getItem(position)
 											.getOldPrice()) + " VNĐ"
 									: "");
-					TextView count = (TextView) v.findViewById(R.id.count);
+					MyTextView count = (MyTextView) v.findViewById(R.id.count);
 					count.setText(getItem(position).getPieQty() > 0 ? ""
 							+ getItem(position).getPieQty() : "");
 					//
-					TextView count1 = (TextView) v.findViewById(R.id.count1);
+					MyTextView count1 = (MyTextView) v.findViewById(R.id.count1);
 					count1.setText(getItem(position).getPieQty() > 0 ? ""
 							+ getItem(position).getPieQty() : "");
+					count.setLight();
+					count1.setLight();
 					
 					if (getItem(position).getPieQty() > 100 && count.getLineCount() > 1) {
 						MarginLayoutParams params = (MarginLayoutParams) count

@@ -91,6 +91,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
 		mTxtTitle = new MyTextView(this);
 		mTxtTitle.setGravity(Gravity.CENTER);
+		mTxtTitle.setLight();
 		mTxtTitle.setText("Tìm nơi tích điểm");
 		mTxtTitle.setTextColor(0xffffffff);
 		mTxtTitle.setTextSize(getResources().getDimension(
@@ -394,6 +395,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void setCheckIn(final boolean isChecked) {
 		if (isChecked) {
+			checkinCircle.setBackgroundResource(R.drawable.img_checkin_loading);
 			int angle = 36000000;
 			final RotateAnimation anim = new RotateAnimation(0, angle,
 					checkinCircle.getWidth() / 2, checkinCircle.getHeight() / 2);
@@ -437,6 +439,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 			timer.start();
 		} else {
+
+			checkinCircle.setBackgroundResource(R.drawable.ic_checkin_normal);
 			timer.cancel();
 			checkinCircle.clearAnimation();
 			turnoffBluetooth();
