@@ -161,8 +161,8 @@
 
     <string name="gift_type_1_header">"Bạn vừa chọn đổi "</string>
     <string name="gift_type_1_body">" vào "</string>
-    <string name="gift_type_1_footer">" vui lòng chờ trong 3 giờ làm việc để Shoppie nạp tiền cho bạn. Hãy kiểm tra số điện thoại lần nữa."</string>
-    <string name="gift_type_2_footer">" vui lòng chờ trong 24 giờ làm việc để Shoppie gửi tới bạn. Hãy kiểm tra địa chỉ đăng ký của bạn lần nữa."</string>
+    <string name="gift_type_1_footer">" vui lòng chờ trong 6 giờ làm việc để Shoppie nạp tiền cho bạn. Hãy kiểm tra số điện thoại lần nữa."</string>
+    <string name="gift_type_2_footer">" vui lòng chờ trong 24 giờ làm việc để Shoppie hoàn thiện giao dịch. Hãy kiểm tra địa chỉ đăng ký của bạn lần nữa."</string>
     <string name="gift_type_3_footer">" vui lòng liên hệ với nhân viên thu ngân tại cơ sở đó để nhận quà."</string>
     <string name="gift_reject">"Số điểm của bạn chưa đủ. Mời bạn bè sử dụng Shoppie là cách dễ nhất để tích Pie đổi quà."</string>
     

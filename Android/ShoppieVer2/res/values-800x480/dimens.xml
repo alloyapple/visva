@@ -56,7 +56,7 @@
     <dimen name="gift_item_header_height">156dp</dimen>
     <dimen name="gift_item_full_height">302dp</dimen>
     <dimen name="gift_item_row_height">130dp</dimen>
-    <dimen name="gift_item_image_height">107dp</dimen>
+    <dimen name="gift_item_image_height">103dp</dimen>
     <dimen name="gift_item_half_height">172dp</dimen>
     <dimen name="gift_item_title_height">42dp</dimen>
     <dimen name="gift_item_title_textsize">17sp</dimen>

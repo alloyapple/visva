@@ -344,6 +344,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		case FEEDBACK:
 			mTransaction = hideFragment();
 			mTransaction.show(mFeedbackFragment);
+			mFeedbackFragment.updateUI();
 			addToSBackStack(FEEDBACK_FRAGMENT);
 			mTransaction.commit();
 			mTxtTitle.setText(getString(R.string.feedback));
