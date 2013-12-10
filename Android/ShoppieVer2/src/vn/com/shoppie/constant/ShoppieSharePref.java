@@ -23,6 +23,8 @@ public class ShoppieSharePref {
 	private static final String ACTION_SHARE_FB = "action_share_fb";
 	private static final String POST_LOGIN_FACEBOOK_SUCCESS = "post_login_fb_success";
 	private static final String LOGIN_TO_SHOW_FRIEND_SUCCESS = "login_to_show_friend_success";
+	private static final String COUNT_LIKE = "count_like";
+	private static final String COUNT_SHARE = "count_share";
 	// ================================================================
 	private static final String START_NUM = "num1";
 	private static final String LIKE_NUM = "like";
@@ -31,6 +33,22 @@ public class ShoppieSharePref {
 
 	public ShoppieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setCountLike(int likeCount) {
+		putIntValue(COUNT_LIKE, likeCount);
+	}
+
+	public int getCountLike() {
+		return getIntValue(COUNT_LIKE);
+	}
+
+	public void setShareCount(int shareCount) {
+		putIntValue(COUNT_SHARE, shareCount);
+	}
+
+	public int getShareCount() {
+		return getIntValue(COUNT_SHARE);
 	}
 
 	public void setLoginToShowFriendSuccess(boolean b) {
