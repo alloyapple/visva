@@ -13,7 +13,6 @@ import vn.com.shoppie.adapter.AdapterWelcomeImage;
 import vn.com.shoppie.adapter.AdapterWelcomeImage.OnWelcomeRegisterListener;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
-import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.database.sobject.ParamMobileItem;
 import vn.com.shoppie.database.sobject.UserInfo;
 import vn.com.shoppie.network.AsyncHttpPost;

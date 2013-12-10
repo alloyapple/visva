@@ -82,7 +82,6 @@ public class ActivityNotification extends VisvaAbstractActivity implements OnCli
 			this.finish();
 			break;
 		case R.id.layout_top_btn_right:
-			startActivity(new Intent(this, ActivitySendMessage.class));
 			break;
 		default:
 			break;

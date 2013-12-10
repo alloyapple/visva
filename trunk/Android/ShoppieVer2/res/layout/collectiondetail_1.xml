@@ -3,96 +3,95 @@
     android:layout_width="@dimen/collectiondetail_item_width"
     android:layout_height="@dimen/collectiondetail_item_height"
     android:background="@drawable/round_corner_shape" >
-    <View 
-    	android:layout_width="match_parent"
-    	android:layout_height="@dimen/collectiondetail_item_type1_imgheight"
-    	android:id="@+id/image"
-        />
-    <vn.com.shoppie.view.MyTextView 
+
+    <View
+        android:id="@+id/image"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
-    	android:layout_marginTop="@dimen/page_item_catelogy_desc_margin_top"
-    	android:textSize="@dimen/page_item_catelogy_desc_textsize"
-    	android:layout_below="@id/image"
-    	android:id="@+id/name"
-    	android:maxLines="1"
+        android:layout_height="@dimen/collectiondetail_item_type1_imgheight" />
+
+    <vn.com.shoppie.view.MyTextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image"
+        android:layout_marginLeft="@dimen/page_item_catelogy_desc_margin_left"
+        android:layout_marginTop="@dimen/page_item_catelogy_desc_margin_top"
         android:ellipsize="end"
-    	android:text="Áo sơ mi nữ sọc cổ lá sen"
-    	android:textColor="#2A5C72"
-        />
-    
-    <vn.com.shoppie.view.MyTextView 
+        android:maxLines="1"
+        android:text="Áo sơ mi nữ sọc cổ lá sen"
+        android:textColor="#2A5C72"
+        android:textSize="@dimen/page_item_catelogy_desc_textsize" />
+
+    <vn.com.shoppie.view.MyTextView
+        android:id="@+id/price_label"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_marginTop="5dp"
-    	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
-    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:textColor="#808080"
-    	android:layout_below="@id/name"
-    	android:id="@+id/price_label"
-    	android:text="Giá: "
-        />
-    
-    <vn.com.shoppie.view.MyTextView 
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_marginTop="5dp"
+        android:text="Giá: "
+        android:textColor="#808080"
+        android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
+    <vn.com.shoppie.view.MyTextView
+        android:id="@+id/price"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_marginTop="5dp"
-    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:layout_below="@id/name"
-    	android:id="@+id/price"
-    	android:textColor="#D32971"
-    	android:layout_toRightOf="@id/price_label"
-    	android:text="1.000.000 VND"
-        />
-    <vn.com.shoppie.view.MyTextView 
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/price_label"
+        android:text="1.000.000 VND"
+        android:textColor="#D32971"
+        android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
+    <vn.com.shoppie.view.MyTextView
+        android:id="@+id/price_goc"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_marginTop="5dp"
-    	android:layout_marginLeft="10dp"
-    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:layout_below="@id/name"
-    	android:id="@+id/price_goc"
-    	android:textColor="#808080"
-    	android:layout_toRightOf="@id/price"
-    	android:text="1.000.000 VND"
-        />
-    <vn.com.shoppie.view.MyTextView 
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/price"
+        android:text="1.000.000 VND"
+        android:textColor="#808080"
+        android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
+    <vn.com.shoppie.view.MyTextView
+        android:id="@+id/color"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
-    	android:layout_below="@id/price"
-    	android:textSize="@dimen/page_item_catelogy_subdesc_textsize"
-    	android:singleLine="true"
-    	android:ellipsize="end"
-    	android:layout_marginRight="50dp"
-    	android:textColor="#808080"
-    	android:id="@+id/color"
-    	android:text="Màu: Cháo lòng"
-        />
-    <vn.com.shoppie.view.MyTextView 
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price"
+        android:layout_marginLeft="@dimen/page_item_catelogy_subdesc_margin_left"
+        android:layout_marginRight="50dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Màu: Cháo lòng"
+        android:textColor="#808080"
+        android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+
+    <vn.com.shoppie.view.MyTextView
+        android:id="@+id/like"
         android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_alignParentRight="true"
-    	android:layout_alignParentBottom="true"
-    	android:layout_marginRight="15dp"
-    	android:layout_marginBottom="15dp"
-    	android:id="@+id/like"
-    	android:textSize="14sp"
-    	android:text="1234"
-    	android:drawablePadding="5dp"
-    	android:textColor="#2A5C72"
-        />
-    <Button 
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="1234"
+        android:textColor="#2A5C72"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/like_click"
         android:layout_width="90dp"
-    	android:layout_height="50dp"
-    	android:layout_alignParentRight="true"
-    	android:layout_alignParentBottom="true"
-    	android:id="@+id/like_click"
-    	android:background="#00000000"
-        />
-	<vn.com.shoppie.view.MyTextView
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="#00000000" />
+
+    <vn.com.shoppie.view.MyTextView
         android:id="@+id/count"
         android:layout_width="@dimen/page_item_count_width"
         android:layout_height="@dimen/page_item_count_height"
@@ -101,12 +100,12 @@
         android:gravity="center_horizontal"
         android:paddingLeft="15dp"
         android:paddingTop="4dp"
-        android:textStyle="normal"
         android:textColor="@android:color/white"
-        android:textSize="14sp" />
-	
-	<vn.com.shoppie.view.MagicTextView
-	    android:id="@+id/muatang"
+        android:textSize="14sp"
+        android:textStyle="normal" />
+
+    <vn.com.shoppie.view.MagicTextView
+        android:id="@+id/muatang"
         android:layout_width="@dimen/muatang_width"
         android:layout_height="@dimen/muatang_width"
         android:layout_alignParentRight="true"
@@ -114,10 +113,9 @@
         android:text="Mua - tặng"
         android:textColor="#ff458DAD"
         android:textSize="@dimen/muatang_textsize" />
-	
-	<include 
-	    layout="@layout/collectiondetail2"
-	    android:id="@+id/text"
-	    />
-	
+
+    <include
+        android:id="@+id/text"
+        layout="@layout/collectiondetail2" />
+
 </RelativeLayout>

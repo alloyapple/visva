@@ -76,13 +76,12 @@
             android:text="SHARE"
             android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
 
-        <com.facebook.widget.LoginButton
+        <com.facebook.widget.ShareButton
             android:id="@+id/bt_fb"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_below="@id/share"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/icon_share_fb" />
+            android:layout_marginTop="5dp" />
 
         <Button
             android:id="@+id/bt_mail"

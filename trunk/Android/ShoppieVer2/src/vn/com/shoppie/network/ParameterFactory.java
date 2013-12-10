@@ -33,6 +33,25 @@ public final class ParameterFactory {
 		return nameValuePairs;
 	}
 
+	public static List<NameValuePair> updateUserInfo(String custId,
+			String custName, String custEmail, String custPhone,
+			String birthday, String gender, String custCode, String deviceId,
+			String latitude, String longtitude, String custAddress) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		nameValuePairs.add(new BasicNameValuePair("custName", custName));
+		nameValuePairs.add(new BasicNameValuePair("custEmail", custEmail));
+		nameValuePairs.add(new BasicNameValuePair("custPhone", custPhone));
+		nameValuePairs.add(new BasicNameValuePair("birthday", birthday));
+		nameValuePairs.add(new BasicNameValuePair("gender", gender));
+		nameValuePairs.add(new BasicNameValuePair("custCode", custCode));
+		nameValuePairs.add(new BasicNameValuePair("deviceId", deviceId));
+		nameValuePairs.add(new BasicNameValuePair("latitude", latitude));
+		nameValuePairs.add(new BasicNameValuePair("longtitude", longtitude));
+		nameValuePairs.add(new BasicNameValuePair("custAddress", custAddress));
+		return nameValuePairs;
+	}
+
 	public static List<NameValuePair> getMerchantCategoryValue() {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		return nameValuePairs;
@@ -146,7 +165,7 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("productId", productId));
 		return nameValuePairs;
 	}
-	
+
 	public static List<NameValuePair> unLikeProduct(String custId,
 			String productId) {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -154,32 +173,29 @@ public final class ParameterFactory {
 		nameValuePairs.add(new BasicNameValuePair("productId", productId));
 		return nameValuePairs;
 	}
-	
-	public static List<NameValuePair> likeBrand(String custId,
-			String merchId) {
+
+	public static List<NameValuePair> likeBrand(String custId, String merchId) {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("custId", custId));
 		nameValuePairs.add(new BasicNameValuePair("merchId", merchId));
 		return nameValuePairs;
 	}
-	
-	public static List<NameValuePair> unLikeBrand(String custId,
-			String merchId) {
+
+	public static List<NameValuePair> unLikeBrand(String custId, String merchId) {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("custId", custId));
 		nameValuePairs.add(new BasicNameValuePair("merchId", merchId));
 		return nameValuePairs;
 	}
-	
-	public static List<NameValuePair> sendFeedback(String custId,
-			String message) {
+
+	public static List<NameValuePair> sendFeedback(String custId, String message) {
 		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
 		data.add(new BasicNameValuePair("custId", custId));
 		data.add(new BasicNameValuePair("message", message));
 		return data;
 	}
-	
-	public static List<NameValuePair> getParamsMobile(){
+
+	public static List<NameValuePair> getParamsMobile() {
 		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
 		return data;
 	}
