@@ -14,6 +14,7 @@ public final class GlobalValue {
 	public static String userEmail = "";
 
 	public static final int DIALOG_FAILED_TO_CONNECT_SERVER = 0;
+	public static final String IS_SHOW_FAVOURITE = "is_show_favourite";
 
 	public static final int MSG_REPONSE_SUCESS = 1;
 	public static final int MSG_CHECK_USER_EXIST = 0;
@@ -80,7 +81,7 @@ public final class GlobalValue {
 	public static final String TYPE_GIFT = "gifts";
 	public static final String TYPE_FAVOURITE_PRODUCT = "favourite_products";
 	public static final String TYPE_FAVOURITE_BRAND = "favourite_brand";
-	
-	public static final String MERCH_PRODUCT_ITEM="merch_product_item";
-	public static final String MERCH_BRAND_ITEM="merch_brand_item";
+
+	public static final String MERCH_PRODUCT_ITEM = "merch_product_item";
+	public static final String MERCH_BRAND_ITEM = "merch_brand_item";
 }

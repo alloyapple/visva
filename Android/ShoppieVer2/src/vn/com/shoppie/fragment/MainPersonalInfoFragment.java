@@ -86,7 +86,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private FavouriteAdapter mFavouriteBrandAdapter;
 	private ShoppieDBProvider mShoppieDBProvider;
 	// =========================Variable Define==================
-	private boolean isShowFavouriteProduct = false;
+	private boolean isShowFavouriteProduct;
 	private boolean isShowFavouriteBrand = false;
 	private boolean isPickToAvatar = true;
 	private ArrayList<FavouriteDataObject> mFavouriteProductObjects = new ArrayList<FavouriteDataObject>();
@@ -112,11 +112,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.getFavouriteData(GlobalValue.TYPE_FAVOURITE_PRODUCT);
 		mFavouriteBrandObjects = mShoppieDBProvider
 				.getFavouriteData(GlobalValue.TYPE_FAVOURITE_BRAND);
-		Log.e("mFavouriteProductObjects + " + mFavouriteProductObjects.size(),
-				"mFavouriteBrandObjects " + mFavouriteBrandObjects.size());
-		for (int i = 0; i < mFavouriteBrandObjects.size(); i++)
-			Log.e("ádfkdjhfd", "wufhdkh " + WebServiceConfig.HEAD_IMAGE
-					+ mFavouriteBrandObjects.get(i).getImage_url());
 	}
 
 	private void initialize(View v) {
@@ -157,6 +152,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mFavouriteBrandList.setAdapter(mFavouriteBrandAdapter);
 		mFavouriteProductList.setAdapter(mFavouriteProductAdapter);
 
+		
 		mFavouriteProductList
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
@@ -212,6 +208,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 						startActivity(intent);
 					}
 				});
+
 		mLayoutFavouriteProduct.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -256,14 +253,14 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				mListener.onClickFeedback();
 			}
 		});
-//		mLayoutFriend.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				mListener.onClickFriend();
-//			}
-//		});
+		// mLayoutFriend.setOnClickListener(new View.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		// mListener.onClickFriend();
+		// }
+		// });
 		mLayoutHelp.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -299,8 +296,8 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				if (enableButtons) {
 					mListener.onClickFriend();
 				} else {
-					 mTxtFriend.onClickLoginFb();
-					 mShopieSharePref.setLoginToShowFriendSuccess(true);
+					mTxtFriend.onClickLoginFb();
+					mShopieSharePref.setLoginToShowFriendSuccess(true);
 				}
 			}
 		});
@@ -692,5 +689,13 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	public void updateNumberFriend(int numberFriend) {
 		this.mTxtFriend.setText(getActivity()
 				.getString(R.string.personl_friend) + "(" + numberFriend + ")");
+	}
+
+	public void setShowFavouriteProduct(boolean isShowFavourite) {
+		// TODO Auto-generated method stub
+		if (isShowFavourite)
+			mFavouriteProductList.setVisibility(View.VISIBLE);
+		else
+			mFavouriteProductList.setVisibility(View.GONE);
 	}
 }
