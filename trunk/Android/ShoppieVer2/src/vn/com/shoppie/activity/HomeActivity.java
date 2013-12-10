@@ -369,7 +369,10 @@ public class HomeActivity extends VisvaAbstractActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_canhan:
-			gotoActivity(HomeActivity.this, PersonalInfoActivity.class);
+			Intent intent = new Intent(HomeActivity.this,PersonalInfoActivity.class);
+			intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, false);
+			startActivity(intent);
+			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 			break;
 		case R.id.bt_quatang:
 			// goBack();

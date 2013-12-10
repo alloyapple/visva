@@ -28,6 +28,7 @@ import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -160,7 +161,10 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	}
 
 	public void onClickShowFavouritePersonal(View v) {
-		gotoActivity(CatelogyDetailActivity.this, PersonalInfoActivity.class);
+		Intent intent = new Intent(CatelogyDetailActivity.this, PersonalInfoActivity.class);
+		intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, true);
+		startActivity(intent);
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
 
 	private void unlikeProduct(String custId, final String productId) {

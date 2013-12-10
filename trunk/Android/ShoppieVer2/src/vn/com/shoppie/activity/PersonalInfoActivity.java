@@ -7,6 +7,7 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import vn.com.shoppie.R;
+import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.fragment.FeedbackFragment;
@@ -82,6 +83,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private ArrayList<String> backstack = new ArrayList<String>();
 	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
 	private int custId;
+	private boolean isShowFavourite;
 
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 		@Override
@@ -97,6 +99,8 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_personal_info);
+		
+		isShowFavourite = getIntent().getExtras().getBoolean(GlobalValue.IS_SHOW_FAVOURITE);
 		mShopieSharePref = new ShoppieSharePref(this);
 		// Facebook
 		lifecycleHelper = new UiLifecycleHelper(this, callback);
@@ -244,26 +248,6 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		lifecycleHelper.onPause();
 	}
 
-	// private void onSessionStateChange(final Session session,
-	// SessionState state, Exception exception) {
-	// if (session != null && session.isOpened()) {
-	// Request request = Request.newMeRequest(session,
-	// new Request.GraphUserCallback() {
-	// @Override
-	// public void onCompleted(GraphUser user,
-	// Response response) {
-	// if (session == Session.getActiveSession()) {
-	// if (user != null) {
-	//
-	// }
-	// }
-	// }
-	// });
-	// request.executeAsync();
-	// }
-	//
-	// }
-
 	private void initialize() {
 		// TODO Auto-generated method stub
 		mFmManager = getSupportFragmentManager();
@@ -284,6 +268,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mMainPersonalInfoFragment.setListener(this);
 		mPersonalFriendFragment.setListener(this);
 
+		mMainPersonalInfoFragment.setShowFavouriteProduct(isShowFavourite);
 		showFragment(MAIN_PERSONAL_INFO);
 		mTransaction = hideFragment();
 		mTransaction.show(mMainPersonalInfoFragment);
