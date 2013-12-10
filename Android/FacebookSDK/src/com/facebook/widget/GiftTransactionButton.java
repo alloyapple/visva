@@ -54,9 +54,9 @@ import java.util.List;
  * state. Developers can override the use of the active session by calling the
  * {@link #setSession(com.facebook.Session)} method.
  */
-public class NoBGLoginButton extends Button {
+public class GiftTransactionButton extends Button {
 
-	private static final String TAG = NoBGLoginButton.class.getName();
+	private static final String TAG = GiftTransactionButton.class.getName();
 	private String applicationId = null;
 	private SessionTracker sessionTracker;
 	private GraphUser user = null;
@@ -200,7 +200,7 @@ public class NoBGLoginButton extends Button {
 	 * 
 	 * @see View#View(Context)
 	 */
-	public NoBGLoginButton(Context context) {
+	public GiftTransactionButton(Context context) {
 		super(context);
 		initializeActiveSessionWithCachedToken(context);
 		// since onFinishInflate won't be called, we need to finish
@@ -213,7 +213,7 @@ public class NoBGLoginButton extends Button {
 	 * 
 	 * @see View#View(Context, AttributeSet)
 	 */
-	public NoBGLoginButton(Context context, AttributeSet attrs) {
+	public GiftTransactionButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		if (attrs.getStyleAttribute() == 0) {
@@ -235,19 +235,19 @@ public class NoBGLoginButton extends Button {
 				// seem to work in IntelliJ
 				loginText = "Log in with Facebook";
 			} else {
-				this.setBackgroundResource(android.R.color.white);
+				this.setBackgroundResource(R.drawable.btn_doiqua);
 				this.setCompoundDrawablePadding(getResources()
 						.getDimensionPixelSize(
 								R.dimen.com_facebook_loginview_compound_drawable_padding));
-				this.setPadding(
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_left),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_top),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_right),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_bottom));
+//				this.setPadding(
+//						getResources().getDimensionPixelSize(
+//								R.dimen.com_facebook_loginview_padding_left),
+//						getResources().getDimensionPixelSize(
+//								R.dimen.com_facebook_loginview_padding_top),
+//						getResources().getDimensionPixelSize(
+//								R.dimen.com_facebook_loginview_padding_right),
+//						getResources().getDimensionPixelSize(
+//								R.dimen.com_facebook_loginview_padding_bottom));
 			}
 		}
 		parseAttributes(attrs);
@@ -261,7 +261,8 @@ public class NoBGLoginButton extends Button {
 	 * 
 	 * @see View#View(Context, AttributeSet, int)
 	 */
-	public NoBGLoginButton(Context context, AttributeSet attrs, int defStyle) {
+	public GiftTransactionButton(Context context, AttributeSet attrs,
+			int defStyle) {
 		super(context, attrs, defStyle);
 		parseAttributes(attrs);
 		initializeActiveSessionWithCachedToken(context);
@@ -649,9 +650,8 @@ public class NoBGLoginButton extends Button {
 	private void setButtonText() {
 		// if (sessionTracker != null && sessionTracker.getOpenSession() !=
 		// null) {
-		String text = "Bạn bè";
-		setText(text);
-		//getResources().getString(R.string.com_facebook_loginview_log_out_button));
+		// setText((logoutText != null) ? logoutText :
+		// getResources().getString(R.string.com_facebook_loginview_log_out_button));
 		// } else {
 		// setText((loginText != null) ? loginText :
 		// getResources().getString(R.string.com_facebook_loginview_log_in_button));
@@ -802,6 +802,7 @@ public class NoBGLoginButton extends Button {
 	}
 
 	public void onClickLoginFb() {
+		Log.e("adsfdfh", "adfddfdf ");
 		Context context = getContext();
 		final Session openSession = sessionTracker.getOpenSession();
 		Session currentSession = sessionTracker.getSession();

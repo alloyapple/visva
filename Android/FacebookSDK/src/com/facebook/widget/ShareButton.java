@@ -22,12 +22,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -64,8 +62,6 @@ public class ShareButton extends Button {
 											// current user info
 	private boolean confirmLogout;
 	private boolean fetchUserInfo;
-	private String loginText;
-	private String logoutText;
 	private UserInfoChangedCallback userInfoChangedCallback;
 	private Fragment parentFragment;
 	private LoginButtonProperties properties = new LoginButtonProperties();
@@ -221,36 +217,7 @@ public class ShareButton extends Button {
 			// so in case the users do not explicitly specify a style, we need
 			// to use sensible defaults.
 			this.setGravity(Gravity.CENTER);
-			this.setTextColor(getResources().getColor(
-					R.color.com_facebook_loginview_text_color));
-			this.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources()
-					.getDimension(R.dimen.com_facebook_loginview_text_size));
-			this.setTypeface(Typeface.DEFAULT_BOLD);
-			if (isInEditMode()) {
-				// cannot use a drawable in edit mode, so setting the background
-				// color instead
-				// of a background resource.
-				// this.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
-				// hardcoding in edit mode as getResources().getString() doesn't
-				// seem to work in IntelliJ
-				loginText = "Log in with Facebook";
-			} else {
-				this.setBackgroundResource(R.drawable.icon_share_fb);
-				this.setCompoundDrawablesWithIntrinsicBounds(
-						R.drawable.com_facebook_inverse_icon, 0, 0, 0);
-				this.setCompoundDrawablePadding(getResources()
-						.getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_compound_drawable_padding));
-				this.setPadding(
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_left),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_top),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_right),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_bottom));
-			}
+			this.setBackgroundResource(R.drawable.icon_share_fb);
 		}
 		parseAttributes(attrs);
 		if (!isInEditMode()) {
@@ -642,21 +609,10 @@ public class ShareButton extends Button {
 				R.styleable.com_facebook_login_view_confirm_logout, true);
 		fetchUserInfo = a.getBoolean(
 				R.styleable.com_facebook_login_view_fetch_user_info, true);
-		loginText = a.getString(R.styleable.com_facebook_login_view_login_text);
-		logoutText = a
-				.getString(R.styleable.com_facebook_login_view_logout_text);
 		a.recycle();
 	}
 
 	private void setButtonText() {
-		// if (sessionTracker != null && sessionTracker.getOpenSession() !=
-		// null) {
-		// setText((logoutText != null) ? logoutText :
-		// getResources().getString(R.string.com_facebook_loginview_log_out_button));
-		// } else {
-		// setText((loginText != null) ? loginText :
-		// getResources().getString(R.string.com_facebook_loginview_log_in_button));
-		// }
 	}
 
 	private boolean initializeActiveSessionWithCachedToken(Context context) {

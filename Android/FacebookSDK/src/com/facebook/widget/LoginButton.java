@@ -236,8 +236,6 @@ public class LoginButton extends Button {
 				loginText = "Log in with Facebook";
 			} else {
 				this.setBackgroundResource(R.drawable.btn_register_fb);
-				this.setCompoundDrawablesWithIntrinsicBounds(
-						R.drawable.com_facebook_inverse_icon, 0, 0, 0);
 				this.setCompoundDrawablePadding(getResources()
 						.getDimensionPixelSize(
 								R.dimen.com_facebook_loginview_compound_drawable_padding));

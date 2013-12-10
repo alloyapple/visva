@@ -54,9 +54,9 @@ import java.util.List;
  * state. Developers can override the use of the active session by calling the
  * {@link #setSession(com.facebook.Session)} method.
  */
-public class NoBGLoginButton extends Button {
+public class ViewLogin extends View {
 
-	private static final String TAG = NoBGLoginButton.class.getName();
+	private static final String TAG = ViewLogin.class.getName();
 	private String applicationId = null;
 	private SessionTracker sessionTracker;
 	private GraphUser user = null;
@@ -200,7 +200,7 @@ public class NoBGLoginButton extends Button {
 	 * 
 	 * @see View#View(Context)
 	 */
-	public NoBGLoginButton(Context context) {
+	public ViewLogin(Context context) {
 		super(context);
 		initializeActiveSessionWithCachedToken(context);
 		// since onFinishInflate won't be called, we need to finish
@@ -213,43 +213,9 @@ public class NoBGLoginButton extends Button {
 	 * 
 	 * @see View#View(Context, AttributeSet)
 	 */
-	public NoBGLoginButton(Context context, AttributeSet attrs) {
+	public ViewLogin(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		if (attrs.getStyleAttribute() == 0) {
-			// apparently there's no method of setting a default style in xml,
-			// so in case the users do not explicitly specify a style, we need
-			// to use sensible defaults.
-			this.setGravity(Gravity.CENTER);
-			this.setTextColor(getResources().getColor(
-					R.color.com_facebook_loginview_text_color));
-			this.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources()
-					.getDimension(R.dimen.com_facebook_loginview_text_size));
-			this.setTypeface(Typeface.DEFAULT_BOLD);
-			if (isInEditMode()) {
-				// cannot use a drawable in edit mode, so setting the background
-				// color instead
-				// of a background resource.
-				// this.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
-				// hardcoding in edit mode as getResources().getString() doesn't
-				// seem to work in IntelliJ
-				loginText = "Log in with Facebook";
-			} else {
-				this.setBackgroundResource(android.R.color.white);
-				this.setCompoundDrawablePadding(getResources()
-						.getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_compound_drawable_padding));
-				this.setPadding(
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_left),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_top),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_right),
-						getResources().getDimensionPixelSize(
-								R.dimen.com_facebook_loginview_padding_bottom));
-			}
-		}
 		parseAttributes(attrs);
 		if (!isInEditMode()) {
 			initializeActiveSessionWithCachedToken(context);
@@ -261,7 +227,7 @@ public class NoBGLoginButton extends Button {
 	 * 
 	 * @see View#View(Context, AttributeSet, int)
 	 */
-	public NoBGLoginButton(Context context, AttributeSet attrs, int defStyle) {
+	public ViewLogin(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		parseAttributes(attrs);
 		initializeActiveSessionWithCachedToken(context);
@@ -570,7 +536,6 @@ public class NoBGLoginButton extends Button {
 	public void setSession(Session newSession) {
 		sessionTracker.setSession(newSession);
 		fetchUserInfo();
-		setButtonText();
 	}
 
 	@Override
@@ -581,7 +546,6 @@ public class NoBGLoginButton extends Button {
 
 	private void finishInit() {
 		setOnClickListener(new LoginClickListener());
-		setButtonText();
 		if (!isInEditMode()) {
 			sessionTracker = new SessionTracker(getContext(),
 					new LoginButtonCallback(), null, false);
@@ -608,7 +572,6 @@ public class NoBGLoginButton extends Button {
 		if (sessionTracker != null && !sessionTracker.isTracking()) {
 			sessionTracker.startTracking();
 			fetchUserInfo();
-			setButtonText();
 		}
 	}
 
@@ -644,18 +607,6 @@ public class NoBGLoginButton extends Button {
 		logoutText = a
 				.getString(R.styleable.com_facebook_login_view_logout_text);
 		a.recycle();
-	}
-
-	private void setButtonText() {
-		// if (sessionTracker != null && sessionTracker.getOpenSession() !=
-		// null) {
-		String text = "Bạn bè";
-		setText(text);
-		//getResources().getString(R.string.com_facebook_loginview_log_out_button));
-		// } else {
-		// setText((loginText != null) ? loginText :
-		// getResources().getString(R.string.com_facebook_loginview_log_in_button));
-		// }
 	}
 
 	private boolean initializeActiveSessionWithCachedToken(Context context) {
@@ -845,8 +796,6 @@ public class NoBGLoginButton extends Button {
 		public void call(Session session, SessionState state,
 				Exception exception) {
 			fetchUserInfo();
-			setButtonText();
-
 			// if the client has a status callback registered, call it,
 			// otherwise
 			// call the default handleError method, but don't call both
