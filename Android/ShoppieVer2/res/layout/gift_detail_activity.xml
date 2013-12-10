@@ -32,6 +32,12 @@
 		    	android:textStyle="bold"
 		    	android:padding="5dp"
                 />
+            <Spinner 
+                android:id="@+id/spinner_store"
+	            android:layout_width="match_parent"
+		    	android:layout_height="@dimen/actionbar_height"
+		    	android:background="@drawable/spinner"
+            	/>
             <RelativeLayout 
 	            android:layout_width="match_parent"
 		    	android:layout_height="wrap_content"

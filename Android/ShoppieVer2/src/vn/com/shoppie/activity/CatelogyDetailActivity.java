@@ -16,6 +16,8 @@ import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchProductList;
+import vn.com.shoppie.database.sobject.MerchantCategoryItem;
+import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;

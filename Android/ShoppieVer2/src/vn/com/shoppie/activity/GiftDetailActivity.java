@@ -1,6 +1,9 @@
 package vn.com.shoppie.activity;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
@@ -10,13 +13,18 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftRedeemItem;
+import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import vn.com.shoppie.database.sobject.MerchantStoreList;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +44,8 @@ public class GiftDetailActivity extends Activity{
 	private GiftItem item;
 	private ShoppieSharePref mSharePref;
 	private int currId;
+	private int currStoreId;
+	private Vector<MerchantStoreItem> listStore = new Vector<MerchantStoreItem>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -75,6 +86,8 @@ public class GiftDetailActivity extends Activity{
 				
 			}
 		});
+		
+		requestGetMerchantStores(String.valueOf(mSharePref.getCustId()));
 	}
 	
 	public void onClickBack(View v) {
@@ -99,7 +112,7 @@ public class GiftDetailActivity extends Activity{
 							Gson gson = new Gson();
 							GiftRedeemItem redeemItem = gson.fromJson(
 									jsonObject.toString(), GiftRedeemItem.class);
-							finish();
+							showHelp(item.getGiftCatId());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -117,10 +130,69 @@ public class GiftDetailActivity extends Activity{
 	}
 
 	public void onClickDoiqua(View v) {
-		if(mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId])
-			updateGiftListAvailable(ActivityGiftTransaction.currItem.getMerchId(), "", mSharePref.getCustId() + "", ActivityGiftTransaction.currItem.getGiftId(), ActivityGiftTransaction.currItem.getRedeemQty(), ActivityGiftTransaction.currItem.getPieQty(), ActivityGiftTransaction.currItem.getGiftPrice());
+		Spinner spinnerStore = (Spinner) findViewById(R.id.spinner_store);
+		SpinnerAdapter adapter = spinnerStore.getAdapter();
+		
+		int storeId = 0;
+		if(adapter.getCount() > 0) {
+			storeId = listStore.get(currStoreId).getStoreId();
+		}
+		
+		if(mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId]) {
+			updateGiftListAvailable(ActivityGiftTransaction.currItem.getMerchId(), String.valueOf(storeId), mSharePref.getCustId() + "", ActivityGiftTransaction.currItem.getGiftId(), ActivityGiftTransaction.currItem.getRedeemQty(), ActivityGiftTransaction.currItem.getPieQty(), ActivityGiftTransaction.currItem.getGiftPrice());
+		}
 		else 
-			Toast.makeText(this, "Bạn không đủ điểm đổi", Toast.LENGTH_SHORT).show();
+			showReject();
+	}
+	
+	public String getStringResource(int id) {
+		return getResources().getString(id);
+	}
+	
+	private void showReject() {
+		DialogUtility.showYesNoDialog(this, R.string.gift_reject, R.string.btn_ok, R.string.btn_cancel, 
+					new OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							
+						}
+					});
+	}
+	
+	private void showHelp(int type) {
+		String header = "";
+		String body = "";
+		String footer = "";
+		if(type == 0)
+			footer = getStringResource(R.string.gift_type_1_footer);
+		else if(type == 1)
+			footer = getStringResource(R.string.gift_type_2_footer);
+		else if(type == 2)
+			footer = getStringResource(R.string.gift_type_3_footer);
+		body = getStringResource(R.string.gift_type_1_body);
+		header = getStringResource(R.string.gift_type_1_header);
+
+		String time = convertTimeMail(Calendar.getInstance().getTimeInMillis());
+		String message = header + item.getGiftName() + body + time + footer;
+		
+		DialogUtility.creatDialog(this, message, "Hướng dẫn đổi quà");
+	}
+	
+	public static String convertTimeMail(long timeStamp) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(timeStamp);
+		if (cal.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
+				&& cal.get(Calendar.MONTH) == Calendar.getInstance().get(
+						Calendar.MONTH)
+				&& cal.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance()
+						.get(Calendar.DAY_OF_MONTH)) {
+			return String.format("%02d", cal.get(Calendar.HOUR_OF_DAY)) + ":"
+					+ String.format("%02d", cal.get(Calendar.MINUTE));
+		} else {
+			return String.format("%02d", cal.get(Calendar.DAY_OF_MONTH)) + "/"
+					+ String.format("%02d", cal.get(Calendar.MONTH) + 1);
+		}
 	}
 	
 	class MySpinnerAdapter extends BaseAdapter {
@@ -157,5 +229,69 @@ public class GiftDetailActivity extends Activity{
 			((TextView) convertView.findViewById(R.id.text)).setText(data[position]);
 			return convertView;
 		}
+	}
+	
+	private void setStoreAdapter(ArrayList<MerchantStoreItem> items) {
+		for(int i = 0 ; i < items.size() ; i++) {
+			if(String.valueOf(items.get(i).getMerchId()).equals(item.getMerchId())) {
+				listStore.add(items.get(i));
+			}
+		}
+		String text[] = new String[listStore.size()];
+		for (int i = 0; i < text.length; i++) {
+			text[i] = listStore.get(i).getStoreName();
+		}
+		
+		Spinner spinnerStore = (Spinner) findViewById(R.id.spinner_store);
+		spinnerStore.setAdapter(new MySpinnerAdapter(text));
+		spinnerStore.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				currStoreId = position;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+	private void requestGetMerchantStores(final String custId) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory
+				.getMerchantStores(custId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				GiftDetailActivity.this, new AsyncHttpResponseProcess(
+						GiftDetailActivity.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							MerchantStoreList merchantStoreList = gson
+									.fromJson(jsonObject.toString(),
+											MerchantStoreList.class);
+							setStoreAdapter(merchantStoreList.getResult());
+
+							/** update to database */
+
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
 	}
 }
