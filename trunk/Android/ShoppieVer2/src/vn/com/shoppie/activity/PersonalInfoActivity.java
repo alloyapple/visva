@@ -101,27 +101,32 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_personal_info);
-		
-		isShowFavourite = getIntent().getExtras().getBoolean(GlobalValue.IS_SHOW_FAVOURITE);
+
+		isShowFavourite = getIntent().getExtras().getBoolean(
+				GlobalValue.IS_SHOW_FAVOURITE);
 		mShopieSharePref = new ShoppieSharePref(this);
 		// Facebook
 		lifecycleHelper = new UiLifecycleHelper(this, callback);
 		lifecycleHelper.onCreate(savedInstanceState);
 		initialize();
-
+		
 		if (mShopieSharePref.getLoginType()) {
 			// Facebook
-			lifecycleHelper = new UiLifecycleHelper(PersonalInfoActivity.this,
-					new Session.StatusCallback() {
-						@Override
-						public void call(Session session, SessionState state,
-								Exception exception) {
-							// onSessionStateChange(session, state, exception);
-							updateUserInfo();
-						}
-
-					});
-			lifecycleHelper.onCreate(savedInstanceState);
+			Session session = Session.getActiveSession();
+			Log.e("adfksdfjh "+(session !=null && session.isOpened()), "asdfdfjh "+mShopieSharePref.getLoginType());
+			if(session !=null && session.isOpened())
+			updateUserInfo();
+//			lifecycleHelper = new UiLifecycleHelper(PersonalInfoActivity.this,
+//					new Session.StatusCallback() {
+//						@Override
+//						public void call(Session session, SessionState state,
+//								Exception exception) {
+//							// onSessionStateChange(session, state, exception);
+//							
+//						}
+//
+//					});
+//			lifecycleHelper.onCreate(savedInstanceState);
 			// ensureOpenSession();
 		} else {
 			ShoppieUserInfo userInfo = new ShoppieUserInfo(
@@ -180,7 +185,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 
 	private void updateUserInfo() {
 		// TODO Auto-generated method stub
+		
 		Session activeSession = Session.getActiveSession();
+		Log.e("adfdfh", "asdfdfk "+activeSession.getState().isOpened());
 		if (activeSession.getState().isOpened()) {
 			Request infoRequest = Request.newMeRequest(activeSession,
 					new GraphUserCallback() {
@@ -201,6 +208,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 										.updateUserInfo(facebookUser);
 								custId = mShopieSharePref.getCustId();
 								requestToUpdateUserPie("" + custId);
+								getFriends();
 							}
 						}
 					});
@@ -214,9 +222,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		// Session.getActiveSession().onActivityResult(this, requestCode,
-		// resultCode, data);
-		// lifecycleHelper.onActivityResult(requestCode, resultCode, data);
+		Session.getActiveSession().onActivityResult(this, requestCode,
+				resultCode, data);
+		lifecycleHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -528,7 +536,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 				"" + mShopieSharePref.getCustId(), friend);
 	}
 
-	public void getFriends() {
+	private void getFriends() {
 		Session activeSession = Session.getActiveSession();
 		if (activeSession.getState().isOpened()) {
 			Request friendRequest = Request.newMyFriendsRequest(activeSession,
@@ -584,13 +592,15 @@ public class PersonalInfoActivity extends FragmentActivity implements
 										}
 									}
 
-									FBUser fbUser = new FBUser(PersonalInfoActivity.this,
+									FBUser fbUser = new FBUser(
+											PersonalInfoActivity.this,
 											userName, url, isJoinSP, numberPie,
 											userId);
 									mListFriend.add(fbUser);
 								}
 							/* update list facebook friend */
-							mMainPersonalInfoFragment.updateNumberFriend(mListFriend.size());
+							mMainPersonalInfoFragment
+									.updateNumberFriend(mListFriend.size());
 						}
 					});
 			Bundle params = new Bundle();
