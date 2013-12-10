@@ -5,6 +5,16 @@ import com.google.gson.annotations.SerializedName;
 public class GiftItem {
 	@SerializedName("giftId")
 	private String giftId;
+	@SerializedName("giftCatId")
+	private int giftCatId;
+	public int getGiftCatId() {
+		return giftCatId;
+	}
+
+	public void setGiftCatId(int giftCatId) {
+		this.giftCatId = giftCatId;
+	}
+
 	@SerializedName("merchId")
 	private String merchId;
 	@SerializedName("giftName")
