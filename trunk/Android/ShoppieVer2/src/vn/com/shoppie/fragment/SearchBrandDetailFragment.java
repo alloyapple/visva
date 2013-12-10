@@ -6,12 +6,14 @@ import org.apache.http.NameValuePair;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FavouriteDataObject;
+import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -48,6 +50,7 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 	private ShoppieDBProvider mShoppieDBProvider;
 	// ============================Variable Define =====================
 	private MerchantStoreItem mMerchantStoreItem;
+	private ShoppieSharePref mShoppieSharePref;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +69,6 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 		tvLike = (TextView) root.findViewById(R.id.like);
 		like = (Button) root.findViewById(R.id.like_click);
 
-		
 		like.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -74,18 +76,24 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 				// TODO Auto-generated method stub
 				boolean currLike = !mMerchantStoreItem.isLiked();
 				mMerchantStoreItem.setLiked(currLike);
-				tvLike.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
-				
-				if(currLike) {
-					mMerchantStoreItem.setLikeNumber(mMerchantStoreItem.getLikeNumber() + 1);
-					likeBrand(String.valueOf(mMerchantStoreItem.getStoreId()), String.valueOf(mMerchantStoreItem.getMerchId()));
+				tvLike.setCompoundDrawablesWithIntrinsicBounds(
+						mMerchantStoreItem.isLiked() ? R.drawable.ic_liked
+								: R.drawable.ic_like, 0, 0, 0);
+
+				if (currLike) {
+					mMerchantStoreItem.setLikeNumber(mMerchantStoreItem
+							.getLikeNumber() + 1);
+					likeBrand(String.valueOf(mMerchantStoreItem.getStoreId()),
+							String.valueOf(mMerchantStoreItem.getMerchId()));
+				} else {
+					mMerchantStoreItem.setLikeNumber(mMerchantStoreItem
+							.getLikeNumber() - 1);
+					unLikeBrand(
+							String.valueOf(mMerchantStoreItem.getStoreId()),
+							String.valueOf(mMerchantStoreItem.getMerchId()));
 				}
-				else {
-					mMerchantStoreItem.setLikeNumber(mMerchantStoreItem.getLikeNumber() - 1);
-					unLikeBrand(String.valueOf(mMerchantStoreItem.getStoreId()), String.valueOf(mMerchantStoreItem.getMerchId()));
-				}
-				tvLike.setText(mMerchantStoreItem.getLikeNumber());
-					
+				tvLike.setText(String.valueOf(mMerchantStoreItem.getLikeNumber()));
+
 				Log.e("like success ", "like success");
 
 				MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
@@ -153,6 +161,7 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mShoppieDBProvider = new ShoppieDBProvider(getActivity());
+		mShoppieSharePref = new ShoppieSharePref(getActivity());
 	}
 
 	@Override
@@ -171,7 +180,8 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 	public void updateUI(final MerchantStoreItem store) {
 		// TODO Auto-generated method stub
 		mMerchantStoreItem = store;
-		tvLike.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
+		tvLike.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem
+				.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
 		name.setText(store.getStoreName());
 		desc.setText(store.getMerchDesc());
 		count.setText("+" + store.getPieQty());
@@ -179,8 +189,7 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 		viewPager.setAdapter(new MyPagerAdapter(getActivity()
 				.getSupportFragmentManager(), store));
 		viewPager.setCurrentItem(5001);
-
-		tvLike.setText(mMerchantStoreItem.getLikeNumber());
+		tvLike.setText(String.valueOf(mMerchantStoreItem.getLikeNumber()));
 	}
 
 	class MyPagerAdapter extends FragmentStatePagerAdapter {
@@ -239,6 +248,10 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 						// GlobalValue.TYPE_FAVOURITE_PRODUCT, productId);
 						// mShoppieDBProvider
 						// .addNewFavouriteData(favouriteDataObject);
+						FacebookUtil.getInstance(getActivity())
+								.publishLikeBrandInBackground(
+										"" + mShoppieSharePref.getCustId(),
+										mMerchantStoreItem);
 					}
 
 					@Override

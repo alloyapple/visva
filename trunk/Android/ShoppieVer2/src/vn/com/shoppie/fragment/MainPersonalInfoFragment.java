@@ -29,9 +29,7 @@ import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.touchimage.ImageViewTouch;
-import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.util.ImageLoader;
-import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -152,7 +150,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mFavouriteBrandList.setAdapter(mFavouriteBrandAdapter);
 		mFavouriteProductList.setAdapter(mFavouriteProductAdapter);
 
-		
 		mFavouriteProductList
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
@@ -692,11 +689,14 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.getString(R.string.personl_friend) + "(" + numberFriend + ")");
 	}
 
-	public void setShowFavouriteProduct(boolean isShowFavourite) {
+	public void setShowFavouriteProduct(int isShowFavourite) {
 		// TODO Auto-generated method stub
-		if (isShowFavourite)
+		if (isShowFavourite == 1) {
 			mFavouriteProductList.setVisibility(View.VISIBLE);
-		else
+			isShowFavouriteProduct = true;
+		} else {
 			mFavouriteProductList.setVisibility(View.GONE);
+			isShowFavouriteProduct = false;
+		}
 	}
 }

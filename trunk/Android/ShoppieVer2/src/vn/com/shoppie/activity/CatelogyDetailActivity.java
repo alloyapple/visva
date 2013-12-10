@@ -166,7 +166,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	public void onClickShowFavouritePersonal(View v) {
 		Intent intent = new Intent(CatelogyDetailActivity.this, PersonalInfoActivity.class);
-		intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, true);
+		intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, 1);
 		startActivity(intent);
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
