@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import vn.com.shoppie.R;
-import vn.com.shoppie.activity.ActivityFavouriteProductShow;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 
 import com.facebook.FacebookException;
@@ -252,5 +252,49 @@ public class FacebookUtil {
 					}).build();
 			feedDialog.show();
 		}
+	}
+
+	public void publishFeedDialog(String custId, final FBUser friend) {
+		Bundle params = new Bundle();
+		params.putString("name", "Shoppie");
+		params.putString("caption", "");
+		params.putString("description",
+				mContext.getString(R.string.invitation_content, custId));
+		params.putString("link", "http://www.shoppie.com.vn/");
+		params.putString("picture",
+				"http://farm3.staticflickr.com/2827/11212635324_f135544731_o.png");
+		params.putString("to", "" + friend.getUserId());
+		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(mContext,
+				Session.getActiveSession(), params)).setOnCompleteListener(
+				new OnCompleteListener() {
+
+					@Override
+					public void onComplete(Bundle values,
+							FacebookException error) {
+						if (error == null) {
+							// When the story is posted, echo the success
+							// and the post Id.
+							final String name = friend.getUserName();
+							if (name != null) {
+								Toast.makeText(mContext, "Invited " + name,
+										Toast.LENGTH_SHORT).show();
+							} else {
+								// User clicked the Cancel button
+								Toast.makeText(mContext, "Publish cancelled",
+										Toast.LENGTH_SHORT).show();
+							}
+						} else if (error instanceof FacebookOperationCanceledException) {
+							// User clicked the "x" button
+							Toast.makeText(mContext, "Publish cancelled",
+									Toast.LENGTH_SHORT).show();
+						} else {
+							// Generic, ex: network error
+							Toast.makeText(mContext, "Error posting story",
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+				}).build();
+		feedDialog.show();
+
 	}
 }

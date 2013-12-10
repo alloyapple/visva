@@ -151,27 +151,27 @@ public class ActivityFavouriteProductShow extends Activity {
 		}
 		like.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
 
-		OnClickListener onClickListener = new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (mMerchProductItem.getLiked() == 0) {
-					mMerchProductItem.setLiked(1);
-					mMerchProductItem.setLikedNumber(mMerchProductItem
-							.getLikedNumber() + 1);
-				} else {
-					mMerchProductItem.setLiked(0);
-					mMerchProductItem.setLikedNumber(mMerchProductItem
-							.getLikedNumber() - 1);
-				}
-				updateLiked(mMerchProductItem.getProductId());
-
-				onPostLikeToServer(mMerchProductItem.getLiked(),
-						mMerchProductItem.getMerchId());
-			}
-		};
-
-		likeBt.setOnClickListener(onClickListener);
+//		OnClickListener onClickListener = new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				if (mMerchProductItem.getLiked() == 0) {
+//					mMerchProductItem.setLiked(1);
+//					mMerchProductItem.setLikedNumber(mMerchProductItem
+//							.getLikedNumber() + 1);
+//				} else {
+//					mMerchProductItem.setLiked(0);
+//					mMerchProductItem.setLikedNumber(mMerchProductItem
+//							.getLikedNumber() - 1);
+//				}
+//				updateLiked(mMerchProductItem.getProductId());
+//
+//				onPostLikeToServer(mMerchProductItem.getLiked(),
+//						mMerchProductItem.getMerchId());
+//			}
+//		};
+//
+//		likeBt.setOnClickListener(onClickListener);
 
 		TextView desc = (TextView) findViewById(R.id.desc1);
 		desc.setText(mMerchProductItem.getLongDesc());

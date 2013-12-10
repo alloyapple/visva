@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.facebook.Session;
+import com.facebook.widget.LoginTextView;
 import com.google.gson.Gson;
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityFavouriteBrandShow;
@@ -26,6 +29,7 @@ import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.touchimage.ImageViewTouch;
+import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.AlertDialog;
@@ -71,7 +75,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private HorizontalListView mFavouriteBrandList;
 	private HorizontalListView mFavouriteProductList;
 	private ImageView mImgEditCover;
-	private TextView mTxtFriend;
+	private LoginTextView mTxtFriend;
 	private TextView mTxtFavouriteProduct;
 	private TextView mTxtFavouriteBrand;
 	// =========================Class Define --------------------
@@ -140,7 +144,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.findViewById(R.id.text_favourite_category);
 		mTxtFavouriteProduct = (TextView) v
 				.findViewById(R.id.text_favourite_product);
-		mTxtFriend = (TextView) v.findViewById(R.id.text_friend);
+		mTxtFriend = (LoginTextView) v.findViewById(R.id.text_friend);
 
 		mFavouriteBrandList = (HorizontalListView) v
 				.findViewById(R.id.favourite_brand_list);
@@ -196,7 +200,11 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 								merchantStoreItem = merchantStoreItems.get(i);
 							}
 						}
-						Log.e(TAG, "merchantStoreItems "+merchantStoreItems.size()+" merchantStoreItem "+merchantStoreItem);
+						Log.e(TAG,
+								"merchantStoreItems "
+										+ merchantStoreItems.size()
+										+ " merchantStoreItem "
+										+ merchantStoreItem);
 						Intent intent = new Intent(getActivity(),
 								ActivityFavouriteBrandShow.class);
 						intent.putExtra(GlobalValue.MERCH_BRAND_ITEM,
@@ -248,14 +256,14 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				mListener.onClickFeedback();
 			}
 		});
-		mLayoutFriend.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mListener.onClickFriend();
-			}
-		});
+//		mLayoutFriend.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				mListener.onClickFriend();
+//			}
+//		});
 		mLayoutHelp.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -281,6 +289,21 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			}
 		});
 
+		mTxtFriend.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Session session = Session.getActiveSession();
+				boolean enableButtons = (session != null && session.isOpened());
+				if (enableButtons) {
+					mListener.onClickFriend();
+				} else {
+					 mTxtFriend.onClickLoginFb();
+					 mShopieSharePref.setLoginToShowFriendSuccess(true);
+				}
+			}
+		});
 		mImgAvatar.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -309,6 +332,8 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mTxtFavouriteProduct.setText(getActivity().getString(
 				R.string.personal_favourite_product)
 				+ "(" + mFavouriteProductObjects.size() + ")");
+		mTxtFriend.setText(getActivity().getString(R.string.personl_friend)
+				+ "(0)");
 	}
 
 	@Override
@@ -645,7 +670,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		// TODO Auto-generated method stub
 		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
 				.getJsonData(GlobalValue.TYPE_MERCH_STORE);
-		Log.e(TAG, "jsonDataObject "+jsonDataObject.size());
+		Log.e(TAG, "jsonDataObject " + jsonDataObject.size());
 		ArrayList<MerchantStoreItem> merchantStoreItems = new ArrayList<MerchantStoreItem>();
 		for (int i = 0; i < jsonDataObject.size(); i++) {
 			String merchantStores = jsonDataObject.get(i).getJsonData();
@@ -662,5 +687,10 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				}
 		}
 		return merchantStoreItems;
+	}
+
+	public void updateNumberFriend(int numberFriend) {
+		this.mTxtFriend.setText(getActivity()
+				.getString(R.string.personl_friend) + "(" + numberFriend + ")");
 	}
 }

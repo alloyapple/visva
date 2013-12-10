@@ -20,9 +20,11 @@ import vn.com.shoppie.fragment.PersonalFriendFragment.IOnViewFriendDetail;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.network.ParserUtility;
 import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.object.ShoppieUserInfo;
+import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,23 +35,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.facebook.FacebookException;
-import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
 import com.facebook.Request.GraphUserCallback;
+import com.facebook.Request.GraphUserListCallback;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.WebDialog;
-import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.google.gson.Gson;
 
 public class PersonalInfoActivity extends FragmentActivity implements
 		MainPersonalInfoListener, IOnViewFriendDetail {
-	// ==========================Constant Define=================
+	// =============================Constant Define=====================
+	private static final String FB_USER_ID = "id";
+	private static final String FB_USER_NAME = "name";
+	private static final String FB_USER_PICTURE = "picture";
 	private static final String MAIN_PERSONAL_INFO_FRAGMENT = "main_info";
 	private static final String PERSONAL_FRIEND_FRAGMENT = "friend";
 	private static final String HELP_FRAGMENT = "favourite";
@@ -78,6 +80,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private ShoppieSharePref mShopieSharePref;
 	// =========================Variable Define==================
 	private ArrayList<String> backstack = new ArrayList<String>();
+	private ArrayList<FBUser> mListFriend = new ArrayList<FBUser>();
 	private int custId;
 
 	private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -96,8 +99,8 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		setContentView(R.layout.page_personal_info);
 		mShopieSharePref = new ShoppieSharePref(this);
 		// Facebook
-				lifecycleHelper = new UiLifecycleHelper(this, callback);
-				lifecycleHelper.onCreate(savedInstanceState);		
+		lifecycleHelper = new UiLifecycleHelper(this, callback);
+		lifecycleHelper.onCreate(savedInstanceState);
 		initialize();
 
 		if (mShopieSharePref.getLoginType()) {
@@ -207,7 +210,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		super.onActivityResult(requestCode, resultCode, data);
 		// Session.getActiveSession().onActivityResult(this, requestCode,
 		// resultCode, data);
-		lifecycleHelper.onActivityResult(requestCode, resultCode, data);
+		// lifecycleHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -220,44 +223,13 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	protected void onResume() {
 		super.onResume();
 		lifecycleHelper.onResume();
-
-		// final Session session = Session.getActiveSession();
-		// if (session == null || session.isClosed() || !session.isOpened()) {
-		// uiHelper = new UiLifecycleHelper(this, callback);
-		// profilePictureView.setProfileId(null);
-		// ivLoginButton.setVisibility(View.VISIBLE);
-		// loginButton.setVisibility(View.VISIBLE);
-		// } else {
-		// ivLoginButton.setVisibility(View.GONE);
-		// loginButton.setVisibility(View.GONE);
-		// Log.e("resume: session", "not null");
-		// Request request = Request.newMeRequest(session, new
-		// Request.GraphUserCallback() {
-		// @Override
-		// public void onCompleted(GraphUser user, Response response) {
-		// if (session == Session.getActiveSession()) {
-		// if (user != null) {
-		// Log.e("load picture", "avatar");
-		// profilePictureView.setProfileId(user.getId());
-		// // mLyTop.setText(user.getName());
-		// mTvName.setText(user.getUsername());
-		// String birthday = user.getBirthday();
-		// SettingPreference.setUserBirthday(getApplicationContext(), "");
-		// try {
-		// if
-		// (SettingPreference.getUserBirthday(getApplicationContext()).equals("")
-		// && !birthday.equals("")) {
-		// SettingPreference.setUserBirthday(getApplicationContext(), birthday);
-		// }
-		// } catch (NullPointerException e) {
-		// }
-		// }
-		// }
-		// }
-		// });
-		// request.executeAsync();
-		// }
-
+		Session session = Session.getActiveSession();
+		boolean enableButtons = (session != null && session.isOpened());
+		if (enableButtons && mShopieSharePref.getLoginToShowFriendSuccess()) {
+			mShopieSharePref.setLoginToShowFriendSuccess(false);
+			showFragment(PERSONAL_FRIEND);
+			mPersonalFriendFragment.getFriends();
+		}
 	}
 
 	@Override
@@ -563,58 +535,79 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	@Override
 	public void inviteFriendJoinSP(FBUser friend) {
 		// TODO Auto-generated method stub
-		publishFeedDialog(friend);
+		FacebookUtil.getInstance(PersonalInfoActivity.this).publishFeedDialog(
+				"" + mShopieSharePref.getCustId(), friend);
 	}
 
-	private void publishFeedDialog(final FBUser friend) {
-		Bundle params = new Bundle();
-		params.putString("name", "Shoppie");
-		params.putString("caption", "");
-		params.putString(
-				"description",
-				getString(R.string.invitation_content,
-						mShopieSharePref.getCustId()));
-		params.putString("link", "http://www.shoppie.com.vn/");
-		params.putString("picture",
-				"http://farm3.staticflickr.com/2827/11212635324_f135544731_o.png");
-		params.putString("to", "" + friend.getUserId());
-		WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(
-				PersonalInfoActivity.this, Session.getActiveSession(), params))
-				.setOnCompleteListener(new OnCompleteListener() {
+	public void getFriends() {
+		Session activeSession = Session.getActiveSession();
+		if (activeSession.getState().isOpened()) {
+			Request friendRequest = Request.newMyFriendsRequest(activeSession,
+					new GraphUserListCallback() {
+						@Override
+						public void onCompleted(List<GraphUser> users,
+								Response response) {
+							// Log.e("user size", "user size "+users.size());
+							String userId = "";
+							String userName = "";
+							String userPicture = "";
+							String url = "";
+							int numberPie = 0;
+							boolean isJoinSP = false;
+							if (users != null)
+								for (int i = 0; i < users.size(); i++) {
+									JSONObject jsonObject = users.get(i)
+											.getInnerJSONObject();
+									if (jsonObject != null
+											&& jsonObject.length() > 0) {
+										userId = ParserUtility.getStringValue(
+												jsonObject, FB_USER_ID);
+										userName = ParserUtility
+												.getStringValue(jsonObject,
+														FB_USER_NAME);
+										userPicture = ParserUtility
+												.getStringValue(jsonObject,
+														FB_USER_PICTURE);
+										JSONObject jsonPicture;
+										try {
+											jsonPicture = new JSONObject(
+													userPicture);
+											if (jsonPicture != null
+													&& jsonPicture.length() > 0) {
+												String data = ParserUtility
+														.getStringValue(
+																jsonPicture,
+																"data");
+												JSONObject jsonPictureData = new JSONObject(
+														data);
+												if (jsonPictureData != null
+														&& jsonPictureData
+																.length() > 0) {
+													url = ParserUtility
+															.getStringValue(
+																	jsonPictureData,
+																	"url");
+												}
+											}
+										} catch (JSONException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+									}
 
-					@Override
-					public void onComplete(Bundle values,
-							FacebookException error) {
-						if (error == null) {
-							// When the story is posted, echo the success
-							// and the post Id.
-							final String name = friend.getUserName();
-							if (name != null) {
-								Toast.makeText(PersonalInfoActivity.this,
-										"Invited " + name, Toast.LENGTH_SHORT)
-										.show();
-							} else {
-								// User clicked the Cancel button
-								Toast.makeText(PersonalInfoActivity.this,
-										"Publish cancelled", Toast.LENGTH_SHORT)
-										.show();
-							}
-						} else if (error instanceof FacebookOperationCanceledException) {
-							// User clicked the "x" button
-							Toast.makeText(PersonalInfoActivity.this,
-									"Publish cancelled", Toast.LENGTH_SHORT)
-									.show();
-						} else {
-							// Generic, ex: network error
-							Toast.makeText(PersonalInfoActivity.this,
-									"Error posting story", Toast.LENGTH_SHORT)
-									.show();
+									FBUser fbUser = new FBUser(PersonalInfoActivity.this,
+											userName, url, isJoinSP, numberPie,
+											userId);
+									mListFriend.add(fbUser);
+								}
+							/* update list facebook friend */
+							mMainPersonalInfoFragment.updateNumberFriend(mListFriend.size());
 						}
-					}
-
-				}).build();
-		feedDialog.show();
-
+					});
+			Bundle params = new Bundle();
+			params.putString("fields", "id, name, picture");
+			friendRequest.setParameters(params);
+			friendRequest.executeAsync();
+		}
 	}
-
 }
