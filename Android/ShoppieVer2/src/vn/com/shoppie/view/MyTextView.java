@@ -17,6 +17,7 @@ public class MyTextView extends TextView {
         init();
 	}
 
+	
     public MyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
