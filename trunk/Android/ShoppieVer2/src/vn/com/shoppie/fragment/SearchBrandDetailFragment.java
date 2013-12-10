@@ -1,10 +1,16 @@
 package vn.com.shoppie.fragment;
 
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+
 import vn.com.shoppie.R;
-import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.media.MediaPlayer;
@@ -21,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.antonyt.infiniteviewpager.StoreImageFragment;
 
@@ -72,8 +79,8 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 					mPlayer.start();
 
 				/** add to favourite product */
-				if (mShoppieDBProvider
-						.countFavouriteDataItem(""+mMerchantStoreItem.getStoreId()) == 0) {
+				if (mShoppieDBProvider.countFavouriteDataItem(""
+						+ mMerchantStoreItem.getStoreId()) == 0) {
 					FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
 							mMerchantStoreItem.getMerchLogo(),
 							GlobalValue.TYPE_FAVOURITE_BRAND, ""
@@ -174,12 +181,15 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 			// TODO Auto-generated method stub
 			Fragment fragment = new StoreImageFragment();
 			Bundle args = new Bundle();
-			if(position % 3 == 0)
-				args.putString("link0",WebServiceConfig.HEAD_IMAGE + store.getMerchBanner1());
-			else if(position % 3 == 1)
-				args.putString("link0",WebServiceConfig.HEAD_IMAGE + store.getMerchBanner2());
-			else if(position % 3 == 2)
-				args.putString("link0",WebServiceConfig.HEAD_IMAGE + store.getMerchBanner3());
+			if (position % 3 == 0)
+				args.putString("link0",
+						WebServiceConfig.HEAD_IMAGE + store.getMerchBanner1());
+			else if (position % 3 == 1)
+				args.putString("link0",
+						WebServiceConfig.HEAD_IMAGE + store.getMerchBanner2());
+			else if (position % 3 == 2)
+				args.putString("link0",
+						WebServiceConfig.HEAD_IMAGE + store.getMerchBanner3());
 
 			fragment.setArguments(args);
 			return fragment;
@@ -190,6 +200,76 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 			// TODO Auto-generated method stub
 			return 10000;
 		}
+	}
 
+	private void likeBrand(String custId, final String merchId) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.likeBrand(custId,
+				merchId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("like success ", "like success");
+						MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
+								R.raw.sound_like2);
+						if (mPlayer != null)
+							mPlayer.start();
+
+						// /** add to favourite product */
+						// FavouriteDataObject favouriteDataObject = new
+						// FavouriteDataObject(
+						// mMerchProductItem.getProductImage(),
+						// GlobalValue.TYPE_FAVOURITE_PRODUCT, productId);
+						// mShoppieDBProvider
+						// .addNewFavouriteData(favouriteDataObject);
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						showToast("like failed");
+						// finish();
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_LIKE_BRAND);
+
+	}
+
+	private void unLikeBrand(String custId, final String merchId) {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.unLikeBrand(
+				custId, merchId);
+		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
+				getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						Log.e("like success ", "like success");
+						MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
+								R.raw.sound_like2);
+						if (mPlayer != null)
+							mPlayer.start();
+
+						// /** add to favourite product */
+						// FavouriteDataObject favouriteDataObject = new
+						// FavouriteDataObject(
+						// mMerchProductItem.getProductImage(),
+						// GlobalValue.TYPE_FAVOURITE_PRODUCT, productId);
+						// mShoppieDBProvider
+						// .addNewFavouriteData(favouriteDataObject);
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						showToast("like failed");
+						// finish();
+					}
+				}, nameValuePairs, true);
+		postGetMerchantProducts.execute(WebServiceConfig.URL_UNLIKE_BRAND);
+
+	}
+
+	private void showToast(String string) {
+		// TODO Auto-generated method stub
+		Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
 	}
 }
