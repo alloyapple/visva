@@ -137,20 +137,20 @@ public class PersonalFriendFragment extends FragmentBasic implements
 		// Facebook
 		uiHelper = new UiLifecycleHelper(getActivity(), callback);
 		uiHelper.onCreate(savedInstanceState);
-		uiHelper = new UiLifecycleHelper(getActivity(),
-				new Session.StatusCallback() {
-					@Override
-					public void call(Session session, SessionState state,
-							Exception exception) {
-						onSessionStateChanged(session, state, exception);
-					}
-
-					private void onSessionStateChanged(Session session,
-							SessionState state, Exception exception) {
-						// TODO Auto-generated method stub
-					}
-				});
-		ensureOpenSession();
+//		uiHelper = new UiLifecycleHelper(getActivity(),
+//				new Session.StatusCallback() {
+//					@Override
+//					public void call(Session session, SessionState state,
+//							Exception exception) {
+//						onSessionStateChanged(session, state, exception);
+//					}
+//
+//					private void onSessionStateChanged(Session session,
+//							SessionState state, Exception exception) {
+//						// TODO Auto-generated method stub
+//					}
+//				});
+//		ensureOpenSession();
 	}
 
 	@Override

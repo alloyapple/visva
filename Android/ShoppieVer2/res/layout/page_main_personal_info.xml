@@ -205,15 +205,15 @@
                     android:contentDescription="@string/KEY_TAG_TAB" >
                 </ImageView>
 
-                <com.facebook.widget.NoBGLoginButton
+                <com.facebook.widget.LoginTextView
                     android:id="@+id/text_friend"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
-                    android:background="@color/white"
                     android:text="@string/personl_friend"
-                    android:textColor="@color/blue_text_color" >
-                </com.facebook.widget.NoBGLoginButton>
+                    android:textColor="@color/blue_text_color"
+                    >
+               </com.facebook.widget.LoginTextView>
             </LinearLayout>
 
             <LinearLayout

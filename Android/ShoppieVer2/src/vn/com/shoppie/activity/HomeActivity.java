@@ -132,12 +132,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 		}
 
 		/** up facebook login success */
-		if (mShoppieSharePref.getLoginType() && !mShoppieSharePref.getPostLoginFBSuccess()){
+		if (mShoppieSharePref.getLoginType()
+				&& !mShoppieSharePref.getPostLoginFBSuccess()) {
 			FacebookUtil.getInstance(self).publishLoginSuccessInBackground(
 					mShoppieSharePref.getCustName());
 			mShoppieSharePref.setPostLoginFBSuccess(true);
 		}
-		/**turn off bluetooth*/
+		/** turn off bluetooth */
 		turnoffBluetooth();
 	}
 
@@ -205,7 +206,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		}
 	}
 
-	public static AlertDialog creatDialog(Context mContext, String message,
+	public AlertDialog creatDialog(Context mContext, String message,
 			String title) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 		if (title != null)
@@ -224,6 +225,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 							// TODO: handle exception
 						}
 						mShoppieSharePref.setCheckinStatus(2);
+						if (timer != null)
+							timer.onFinish();
 					}
 				});
 

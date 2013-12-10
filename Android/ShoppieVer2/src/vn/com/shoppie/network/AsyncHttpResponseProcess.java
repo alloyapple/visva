@@ -64,8 +64,12 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 			processHttpResponse(response);
 			break;
 		default:
-			DialogUtility.alert(context,
-					context.getString(R.string.failed_to_conect_server));
+			try {
+				DialogUtility.alert(context,
+						context.getString(R.string.failed_to_conect_server));
+			} catch (Exception e) {
+
+			}
 			break;
 		}
 	}
