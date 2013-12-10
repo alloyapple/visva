@@ -1,113 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/home_background" >
-    <RelativeLayout 
-        android:layout_width="@dimen/storedetail_item_width"
-    	android:layout_height="@dimen/storedetail_item_height"
-    	android:layout_centerInParent="true"
-    	android:background="@drawable/round_corner_shape"
-        >
-        <View 
-	    	android:layout_width="match_parent"
-	    	android:layout_height="@dimen/gift_item_header_height"
-	    	android:id="@+id/image"
-        />
-        
-        <LinearLayout 
-            android:id="@+id/bottombox"
-            android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="vertical"
-	    	android:layout_alignParentBottom="true"
-	    	android:padding="10dp"
-            >
-            <vn.com.shoppie.view.MyTextView 
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/home_background" >
+
+        <RelativeLayout
+            android:layout_width="@dimen/storedetail_item_width"
+            android:layout_height="@dimen/storedetail_item_height"
+            android:layout_centerInParent="true"
+            android:background="@drawable/round_corner_shape" >
+
+            <View
+                android:id="@+id/image"
                 android:layout_width="match_parent"
-		    	android:layout_height="wrap_content"
-		    	android:textSize="20sp"
-		    	android:text="Chọn quà"
-            	android:textColor="#2A5C72"
-		    	android:textStyle="bold"
-		    	android:padding="5dp"
-                />
-            <Spinner 
-                android:id="@+id/spinner_store"
-	            android:layout_width="match_parent"
-		    	android:layout_height="@dimen/actionbar_height"
-		    	android:background="@drawable/spinner"
-            	/>
-            <RelativeLayout 
-	            android:layout_width="match_parent"
-		    	android:layout_height="wrap_content"
-		    	android:orientation="horizontal"    
-                >
-                <Spinner 
-                    android:id="@+id/spinner"
-		            android:layout_width="match_parent"
-			    	android:layout_height="@dimen/actionbar_height"
-			    	android:layout_marginRight="70dp"
-			    	android:background="@drawable/spinner"
-            	/>
-                <Button 
-                    android:background="@drawable/btn_doiqua"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="70dp"
-			    	android:layout_height="@dimen/actionbar_height"
-			    	android:onClick="onClickDoiqua"
-                    />
-            </RelativeLayout>
-        </LinearLayout>
-        <View 
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/image"
-            android:id="@+id/divider0"
-            android:background="#ECECEC"
-            />
+                android:layout_height="@dimen/gift_item_header_height" />
 
-        <LinearLayout
-            android:id="@+id/desc_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/bottombox"
-            android:layout_below="@id/divider0"
-            android:background="#F9F9F9"
-            android:orientation="vertical" >
+            <LinearLayout
+                android:id="@+id/bottombox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:padding="10dp" >
 
-	        <vn.com.shoppie.view.MyTextView
-	            android:id="@+id/des_title"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:padding="5dp"
-	            android:text="Hướng dẫn cách đổi"
-	            android:textColor="#2A5C72"
-	            android:textSize="20sp"
-	            android:textStyle="bold"
-	            android:background="#F9F9F9" />
-	        <vn.com.shoppie.view.MyTextView
-	            android:id="@+id/desc"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:padding="5dp"
-	            android:textColor="#808080"
-	            android:text="Hướng dẫn cách đổi"
-	            android:textSize="15sp" />
-        </LinearLayout>
-		<View 
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/desc_layout"
-            android:id="@+id/divider1"
-            android:background="#ECECEC"
-            />
+                <vn.com.shoppie.view.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Chọn chi nhánh"
+                    android:textColor="#2A5C72"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinner_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/actionbar_height"
+                    android:background="@drawable/spinner" />
+
+                <vn.com.shoppie.view.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Chọn quà"
+                    android:textColor="#2A5C72"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/actionbar_height"
+                        android:layout_marginRight="70dp"
+                        android:background="@drawable/spinner" />
+
+                    <Button
+                        android:layout_width="70dp"
+                        android:layout_height="@dimen/actionbar_height"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/btn_doiqua"
+                        android:onClick="onClickDoiqua" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider0"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/image"
+                android:background="#ECECEC" />
+
+            <LinearLayout
+                android:id="@+id/desc_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/bottombox"
+                android:layout_below="@id/divider0"
+                android:background="#F9F9F9"
+                android:orientation="vertical" >
+
+                <vn.com.shoppie.view.MyTextView
+                    android:id="@+id/des_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F9F9F9"
+                    android:padding="5dp"
+                    android:text="Hướng dẫn cách đổi"
+                    android:textColor="#2A5C72"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <vn.com.shoppie.view.MyTextView
+                    android:id="@+id/desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Hướng dẫn cách đổi"
+                    android:textColor="#808080"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/desc_layout"
+                android:background="#ECECEC" />
+        </RelativeLayout>
+
+        <ImageButton
+            android:layout_width="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_height"
+            android:background="@color/actionbar_item_background"
+            android:onClick="onClickBack"
+            android:src="@drawable/ic_back" />
     </RelativeLayout>
-    <ImageButton 
-	    android:layout_width="@dimen/actionbar_height"
-    	android:layout_height="@dimen/actionbar_height"
-    	android:background="@color/actionbar_item_background"
-    	android:src="@drawable/ic_back"
-    	android:onClick="onClickBack"
-	    />
-</RelativeLayout>
+
+</ScrollView>
