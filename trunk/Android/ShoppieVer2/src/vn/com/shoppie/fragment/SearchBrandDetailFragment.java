@@ -66,7 +66,6 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 		tvLike = (TextView) root.findViewById(R.id.like);
 		like = (Button) root.findViewById(R.id.like_click);
 
-		like.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
 		
 		like.setOnClickListener(new View.OnClickListener() {
 
@@ -75,7 +74,7 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 				// TODO Auto-generated method stub
 				boolean currLike = !mMerchantStoreItem.isLiked();
 				mMerchantStoreItem.setLiked(currLike);
-				like.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
+				tvLike.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
 				
 				if(currLike)
 					likeBrand(String.valueOf(mMerchantStoreItem.getStoreId()), String.valueOf(mMerchantStoreItem.getMerchId()));
@@ -167,6 +166,7 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 	public void updateUI(final MerchantStoreItem store) {
 		// TODO Auto-generated method stub
 		mMerchantStoreItem = store;
+		tvLike.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
 		name.setText(store.getStoreName());
 		desc.setText(store.getMerchDesc());
 		count.setText("+" + store.getPieQty());
