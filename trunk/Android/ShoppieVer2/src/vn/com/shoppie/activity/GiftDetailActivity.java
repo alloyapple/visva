@@ -49,6 +49,8 @@ public class GiftDetailActivity extends Activity {
 	private ShoppieSharePref mSharePref;
 	private int currId;
 	private int currStoreId;
+	String price[];
+	int pie[];
 	private GiftTransactionButton mBtnGiftTransaction;
 	private Vector<MerchantStoreItem> listStore = new Vector<MerchantStoreItem>();
 
@@ -93,15 +95,14 @@ public class GiftDetailActivity extends Activity {
 									+ "",
 							ActivityGiftTransaction.currItem.getGiftId(),
 							ActivityGiftTransaction.currItem.getRedeemQty(),
-							ActivityGiftTransaction.currItem.getPieQty(),
-							ActivityGiftTransaction.currItem.getGiftPrice());
+							pie[currId] + "", price[currId]);
 				} else
 					showReject();
 
 			}
 		});
-		String price[] = item.getPricesNotArr();
-		int pie[] = item.getPiesNotArr();
+		price = item.getPricesNotArr();
+		pie = item.getPiesNotArr();
 		String text[] = new String[price.length];
 
 		for (int i = 0; i < pie.length; i++) {
@@ -138,6 +139,8 @@ public class GiftDetailActivity extends Activity {
 	private void updateGiftListAvailable(String merchId, String storeId,
 			String custId, String giftId, String redeemQty, String pieQty,
 			String giftPrice) {
+		System.out.println(merchId + " " + storeId + " " + custId + " "
+				+ giftId + " " + redeemQty + " " + pieQty + " " + giftPrice);
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getGiftListAvailable(merchId, storeId, custId, giftId,
@@ -171,26 +174,25 @@ public class GiftDetailActivity extends Activity {
 				.execute(WebServiceConfig.URL_GET_GIFT_TRANSACTION_AVAILABLE);
 	}
 
-	public void onClickDoiqua(View v) {
-		Spinner spinnerStore = (Spinner) findViewById(R.id.spinner_store);
-		SpinnerAdapter adapter = spinnerStore.getAdapter();
-
-		int storeId = 0;
-		if (adapter.getCount() > 0) {
-			storeId = listStore.get(currStoreId).getStoreId();
-		}
-
-		if (mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId]) {
-			updateGiftListAvailable(
-					ActivityGiftTransaction.currItem.getMerchId(),
-					String.valueOf(storeId), mSharePref.getCustId() + "",
-					ActivityGiftTransaction.currItem.getGiftId(),
-					ActivityGiftTransaction.currItem.getRedeemQty(),
-					ActivityGiftTransaction.currItem.getPieQty(),
-					ActivityGiftTransaction.currItem.getGiftPrice());
-		} else
-			showReject();
-	}
+	// public void onClickDoiqua(View v) {
+	// Spinner spinnerStore = (Spinner) findViewById(R.id.spinner_store);
+	// SpinnerAdapter adapter = spinnerStore.getAdapter();
+	//
+	// int storeId = 0;
+	// if (adapter.getCount() > 0) {
+	// storeId = listStore.get(currStoreId).getStoreId();
+	// }
+	//
+	// if(mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId]) {
+	// updateGiftListAvailable(ActivityGiftTransaction.currItem.getMerchId(),
+	// String.valueOf(storeId), mSharePref.getCustId() + "",
+	// ActivityGiftTransaction.currItem.getGiftId(),
+	// ActivityGiftTransaction.currItem.getRedeemQty(), pie[currId] + "",
+	// price[currId]);
+	// }
+	// else
+	// showReject();
+	// }
 
 	public String getStringResource(int id) {
 		return getResources().getString(id);
@@ -204,12 +206,12 @@ public class GiftDetailActivity extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						Log.e("adfdsfh", "adfdfjh ");
 						Session session = Session.getActiveSession();
-						if (session != null && session.isOpened()){
-							Intent intent =new Intent(GiftDetailActivity.this, PersonalInfoActivity.class);
+						if (session != null && session.isOpened()) {
+							Intent intent = new Intent(GiftDetailActivity.this,
+									PersonalInfoActivity.class);
 							intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, 2);
 							startActivity(intent);
-						}							
-						else
+						} else
 							mBtnGiftTransaction.onClickLoginFb();
 					}
 				});
@@ -219,11 +221,11 @@ public class GiftDetailActivity extends Activity {
 		String header = "";
 		String body = "";
 		String footer = "";
-		if (type == 0)
+		if (type == 1)
 			footer = getStringResource(R.string.gift_type_1_footer);
-		else if (type == 1)
-			footer = getStringResource(R.string.gift_type_2_footer);
 		else if (type == 2)
+			footer = getStringResource(R.string.gift_type_2_footer);
+		else if (type == 3)
 			footer = getStringResource(R.string.gift_type_3_footer);
 		body = getStringResource(R.string.gift_type_1_body);
 		header = getStringResource(R.string.gift_type_1_header);
@@ -231,7 +233,7 @@ public class GiftDetailActivity extends Activity {
 		String time = convertTimeMail(Calendar.getInstance().getTimeInMillis());
 		String message = header + item.getGiftName() + body + time + footer;
 
-		DialogUtility.creatDialog(this, message, "Hướng dẫn đổi quà");
+		DialogUtility.alert(this, message);
 	}
 
 	public static String convertTimeMail(long timeStamp) {

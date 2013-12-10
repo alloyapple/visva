@@ -366,6 +366,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				mImgAvatar);
 		mTxtUserName.setText(user.getName());
 		mTxtUserId.setText("ID: " + mShopieSharePref.getCustId());
+		mShopieSharePref.setImageAvatar(user.getPicture().getData().getUrl());
 	}
 
 	public void updateShoppieUser(ShoppieUserInfo userInfo) {
