@@ -7,8 +7,8 @@ import java.util.Vector;
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,7 +19,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.analytics.tracking.android.Log;
 
@@ -165,7 +164,7 @@ public class GiftAdapter extends BaseAdapter{
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.gift_small_item, null);
 		
-		TextView tvName = (TextView) v.findViewById(R.id.name);
+		MyTextView tvName = (MyTextView) v.findViewById(R.id.name);
 		ImageView image = (ImageView) v.findViewById(R.id.image);
 		
 //		String temp[] = item.getPieQty().split(",");
@@ -177,6 +176,7 @@ public class GiftAdapter extends BaseAdapter{
 //		}
 		
 		tvName.setText(item.getPieStr());
+		tvName.setLight();
 		
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + WebServiceConfig.HEAD_IMAGE + item.getGiftImage());
 		mImageLoader.DisplayImage(WebServiceConfig.HEAD_IMAGE + item.getGiftImage() , image

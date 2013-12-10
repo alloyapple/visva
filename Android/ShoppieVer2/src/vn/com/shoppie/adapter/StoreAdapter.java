@@ -8,6 +8,7 @@ import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.util.CoverLoader;
 import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.util.Utils;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -63,10 +64,14 @@ public class StoreAdapter extends BaseAdapter {
 			holder = new ItemHolder();
 			holder.backgroundView = convertView.findViewById(R.id.background_view);
 			holder.image = convertView.findViewById(R.id.image);
-			holder.title = (TextView) convertView.findViewById(R.id.title);
-			holder.subTitle1 = (TextView) convertView.findViewById(R.id.subtitle1);
-			holder.subTitle2 = (TextView) convertView.findViewById(R.id.subtitle2);
-			holder.star = (TextView) convertView.findViewById(R.id.star);
+			holder.title = (MyTextView) convertView.findViewById(R.id.title);
+			holder.subTitle1 = (MyTextView) convertView.findViewById(R.id.subtitle1);
+			holder.subTitle2 = (MyTextView) convertView.findViewById(R.id.subtitle2);
+			holder.star = (MyTextView) convertView.findViewById(R.id.star);
+			
+			holder.subTitle1.setLight();
+			holder.subTitle2.setLight();
+			holder.star.setLight();
 			
 			convertView.setTag(holder);
 		}
@@ -111,10 +116,10 @@ public class StoreAdapter extends BaseAdapter {
 	class ItemHolder {
 		public View backgroundView;
 		public View image;
-		public TextView title;
-		public TextView subTitle1;
-		public TextView subTitle2;
-		public TextView star;
+		public MyTextView title;
+		public MyTextView subTitle1;
+		public MyTextView subTitle2;
+		public MyTextView star;
 	}
 	
 }

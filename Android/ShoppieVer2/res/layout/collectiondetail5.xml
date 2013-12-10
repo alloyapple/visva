@@ -49,7 +49,7 @@
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:maxLines="2"
-            android:text="CÒN NHIỀU LÝ DO ĐỂ QUAY TRỞ LẠI"
+            android:text="BẠN CHƯA XEM ĐỦ PHẢI KHÔNG"
             android:textColor="#D32971"
             android:textSize="@dimen/collection_item_subtitle_textsize" />
 
@@ -60,7 +60,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
             android:maxLines="2"
-            android:text="SHOPPIE GIÚP TRẢI NGHIỆM CỦA BẠN THÚ VỊ HƠN NỮA"
+            android:text="CHỜ CHÚT! ĐANG TẢI BỘ SƯU TẬP TIẾP THEO"
             android:textColor="#2A5C72"
             android:textSize="@dimen/collection_item_subtitle_textsize" />
     </LinearLayout>

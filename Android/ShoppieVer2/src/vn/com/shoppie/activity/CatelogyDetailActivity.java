@@ -26,6 +26,7 @@ import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -136,11 +137,12 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View v = inflater.inflate(R.layout.collection_detail_actionbar, null);
 
-		TextView mTxtTitle = (TextView) v.findViewById(R.id.title);
+		MyTextView mTxtTitle = (MyTextView) v.findViewById(R.id.title);
 		mTxtTitle.setTextSize(getResources().getDimension(
 				R.dimen.actionbar_title_textsize));
 		mTxtTitle.setText(camName);
-
+		mTxtTitle.setLight();
+		
 		actionBar.addView(v, -1, -1);
 		if (NetworkUtility.getInstance(this).isNetworkAvailable())
 			requestupdateToGetMerchProducts(camId, custId);

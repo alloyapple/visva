@@ -45,6 +45,14 @@ public class MerchantStoreItem implements Parcelable{
 		
 	}
 	
+	public boolean isLiked() {
+		return liked == 1;
+	}
+	
+	public void setLiked(boolean isLiked) {
+		liked = isLiked ? 1 : 0;
+	}
+	
 	public int getMerchId() {
 		return merchId;
 	}

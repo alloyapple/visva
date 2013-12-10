@@ -70,7 +70,7 @@
                 android:layout_width="@dimen/checkin_cirle"
                 android:layout_height="@dimen/checkin_cirle"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/img_checkin_loading" />
+                android:background="@drawable/ic_checkin_normal" />
 
             <Button
                 android:id="@+id/checkin"

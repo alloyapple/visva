@@ -23,7 +23,27 @@ public class MyTextView extends TextView {
     }
     
     private void init() {
-    	Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "roboto.ttf");
+    	Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "ROBOTO-REGULAR.TTF");
         setTypeface(typeface);
 	}
+    
+    public void setBold() {
+    	Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "ROBOTO-BOLD.TTF");
+        setTypeface(typeface);
+    }
+    
+    public void setNormal() {
+    	Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "ROBOTO-REGULAR.TTF");
+        setTypeface(typeface);
+    }
+    
+    public void setItalic() {
+    	Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "ROBOTO-ITALIC.TTF");
+        setTypeface(typeface);
+    }
+    
+    public void setLight() {
+    	Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "ROBOTO-LIGHT.TTF");
+        setTypeface(typeface);
+    }
 }

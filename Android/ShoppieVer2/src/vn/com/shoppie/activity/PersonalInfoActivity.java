@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
@@ -26,6 +27,7 @@ import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.util.FacebookUtil;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,8 +36,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import com.facebook.Request;
 import com.facebook.Request.GraphUserCallback;
 import com.facebook.Request.GraphUserListCallback;
@@ -75,7 +77,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private FragmentSupport mHelpFragment;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
-	private TextView mTxtTitle;
+	private MyTextView mTxtTitle;
 	// =========================Class Define ====================
 	private UiLifecycleHelper lifecycleHelper;
 	private ShoppieSharePref mShopieSharePref;
@@ -264,7 +266,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mFeedbackFragment = (FeedbackFragment) mFmManager
 				.findFragmentById(R.id.layout_feedback_fragment);
 
-		mTxtTitle = (TextView) findViewById(R.id.txt_title_fragment);
+		mTxtTitle = (MyTextView) findViewById(R.id.txt_title_fragment);
+		mTxtTitle.setLight();
+		
 		mMainPersonalInfoFragment.setListener(this);
 		mPersonalFriendFragment.setListener(this);
 

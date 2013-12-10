@@ -66,11 +66,22 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 		tvLike = (TextView) root.findViewById(R.id.like);
 		like = (Button) root.findViewById(R.id.like_click);
 
+		like.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
+		
 		like.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				boolean currLike = !mMerchantStoreItem.isLiked();
+				mMerchantStoreItem.setLiked(currLike);
+				like.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
+				
+				if(currLike)
+					likeBrand(String.valueOf(mMerchantStoreItem.getStoreId()), String.valueOf(mMerchantStoreItem.getMerchId()));
+				else
+					unLikeBrand(String.valueOf(mMerchantStoreItem.getStoreId()), String.valueOf(mMerchantStoreItem.getMerchId()));
+					
 				Log.e("like success ", "like success");
 
 				MediaPlayer mPlayer = MediaPlayer.create(getActivity(),

@@ -4,8 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
+
 import com.google.android.gcm.GCMRegistrar;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -31,6 +34,7 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.SUtil;
+import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 
 @SuppressLint("SimpleDateFormat")
@@ -49,7 +53,8 @@ public class ActivityChangeUserInfo extends Activity implements
 	private String lng;
 	private String blueMac;
 	private String emeil;
-
+	private MyTextView mTxtTitle;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -57,6 +62,8 @@ public class ActivityChangeUserInfo extends Activity implements
 		mShopieSharePref = new ShoppieSharePref(this);
 		mChangedInfoTimes = mShopieSharePref.getCoutnChangeInfoTime();
 		setContentView(R.layout.page_change_user_info);
+		mTxtTitle = (MyTextView) findViewById(R.id.main_personal_title);
+		mTxtTitle.setLight();
 		final EditText name = (EditText) findViewById(R.id.activity_register_edt_name);
 		final EditText email = (EditText) findViewById(R.id.txt_personal_register_email);
 		final EditText phone = (EditText) findViewById(R.id.txt_personal_register_phone);
