@@ -3,11 +3,16 @@ package vn.com.shoppie.activity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.util.List;
+import org.apache.http.NameValuePair;
+import com.google.android.gcm.GCMRegistrar;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.bluetooth.BluetoothAdapter;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,12 +26,29 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.ShoppieSharePref;
+import vn.com.shoppie.database.sobject.UserInfo;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.util.SUtil;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 
 @SuppressLint("SimpleDateFormat")
-public class ActivityChangeUserInfo extends Activity {
+public class ActivityChangeUserInfo extends Activity implements
+		LocationListener {
 	private DatePickerDialog datePicker;
 	private ShoppieSharePref mShopieSharePref;
 	private int mChangedInfoTimes;
+	private String mUserName;
+	private String mUserPhone;
+	private String mUserAddress;
+	private String mUserBirth;
+	private String mUserEmail;
+	private int mUserGender;
+	private String lat;
+	private String lng;
+	private String blueMac;
+	private String emeil;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -133,21 +155,82 @@ public class ActivityChangeUserInfo extends Activity {
 				else if ("".equals(address.getText().toString()))
 					showToast(getString(R.string.leck_address));
 				else {
-					int _gender = gender.getSelectedItemPosition();
+					mUserGender = gender.getSelectedItemPosition();
 					/** save user info */
-					mShopieSharePref.setCustName(name.getText().toString());
-					mShopieSharePref.setEmail(email.getText().toString());
-					mShopieSharePref.setPhone(phone.getText().toString());
-					mShopieSharePref.setCustAddress(address.getText()
-							.toString());
-					mShopieSharePref.setBirthDay(birth.getText().toString());
-					mShopieSharePref.setGender(_gender);
+					mUserAddress = address.getText().toString();
+					mUserBirth = birth.getText().toString();
+					mUserEmail = email.getText().toString();
+					mUserName = name.getText().toString();
+					mUserPhone = phone.getText().toString();
+					mShopieSharePref.setCustName(mUserName);
+					mShopieSharePref.setEmail(mUserEmail);
+					mShopieSharePref.setPhone(mUserPhone);
+					mShopieSharePref.setCustAddress(mUserAddress);
+					mShopieSharePref.setBirthDay(mUserBirth);
+					mShopieSharePref.setGender(mUserGender);
 					mShopieSharePref
 							.setCountChangeInfoTime(mChangedInfoTimes + 1);
+					lat = ActivityShoppie.myLocation.latitude + "";
+					lng = ActivityShoppie.myLocation.longitude + "";
+					blueMac = SUtil.getInstance().getBluetoothAddress(
+							ActivityChangeUserInfo.this, false);
+					emeil = SUtil.getInstance().getDeviceId(
+							getApplicationContext());
+					updateUserInfo("" + mShopieSharePref.getCustId(),
+							mUserName, mUserEmail, mUserPhone, mUserBirth,
+							mUserGender, emeil, lat, lng, mUserAddress);
 					finish();
 				}
 			}
 		});
+	}
+
+	private void updateUserInfo(String custId, String custName,
+			String custEmail, String custPhone, String birthday, int gender,
+			String deviceId, String latitude, String longtitude,
+			String custAddress) {
+		// TODO Auto-generated method stub
+		GCMRegistrar.setRegisteredOnServer(this, true);
+		String _gender;
+		if (gender == 0)
+			_gender = "Male";
+		else
+			_gender = "Female";
+
+		BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (mAdapter != null) {
+			blueMac = mAdapter.getAddress();
+			while (!mAdapter.isEnabled() || blueMac == null
+					|| blueMac.equals("")) {
+
+				mAdapter.enable();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+				blueMac = SUtil.getInstance().getBluetoothAddress(
+						ActivityChangeUserInfo.this, false);
+			}
+		}
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.updateUserInfo(
+				custId, custName, custEmail, custPhone, birthday, _gender,
+				blueMac, deviceId, latitude, longtitude, custAddress);
+		AsyncHttpPost postUpdateStt = new AsyncHttpPost(
+				ActivityChangeUserInfo.this, new AsyncHttpResponseProcess(
+						ActivityChangeUserInfo.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postUpdateStt.execute(WebServiceConfig.URL_UPDATE_INFO_USER);
+
 	}
 
 	private void showToast(String string) {
@@ -157,5 +240,29 @@ public class ActivityChangeUserInfo extends Activity {
 
 	public void onClickBackBtn(View v) {
 		finish();
+	}
+
+	@Override
+	public void onLocationChanged(Location arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+
 	}
 }

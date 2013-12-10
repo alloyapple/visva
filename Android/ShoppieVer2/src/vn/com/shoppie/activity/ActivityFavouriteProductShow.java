@@ -3,17 +3,15 @@ package vn.com.shoppie.activity;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
+import com.facebook.widget.ShareButton;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
-
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
@@ -51,7 +49,7 @@ public class ActivityFavouriteProductShow extends Activity {
 	private MerchProductItem mMerchProductItem;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private ShoppieSharePref mShopieSharePref;
-	private LoginButton mLoginButton;
+	private ShareButton mLoginButton;
 
 	// FaceBook
 	private UiLifecycleHelper uiHelper;
@@ -141,17 +139,6 @@ public class ActivityFavouriteProductShow extends Activity {
 			params.height *= 1.25f;
 			count1.setLayoutParams(params);
 
-			// params = (MarginLayoutParams)
-			// v.findViewById(R.id.muatang).getLayoutParams();
-			// params.width *= 1.25f;
-			// params.height *= 1.25f;
-			// v.findViewById(R.id.muatang).setLayoutParams(params);
-			//
-			// params = (MarginLayoutParams)
-			// v.findViewById(R.id.muatang1).getLayoutParams();
-			// params.width *= 1.25f;
-			// params.height *= 1.25f;
-			// v.findViewById(R.id.muatang1).setLayoutParams(params);
 		}
 
 		Button likeBt = (Button) findViewById(R.id.like_click);
@@ -198,8 +185,9 @@ public class ActivityFavouriteProductShow extends Activity {
 			}
 		});
 
-		mLoginButton = (LoginButton) findViewById(R.id.bt_fb);
+		mLoginButton = (ShareButton) findViewById(R.id.bt_fb);
 		mLoginButton.setTag(mMerchProductItem);
+		mLoginButton.setApplicationId(getString(R.string.fb_app_id));
 		Button btMail = (Button) findViewById(R.id.bt_mail);
 		btMail.setTag(mMerchProductItem);
 		Button btSms = (Button) findViewById(R.id.bt_sms);
@@ -212,11 +200,13 @@ public class ActivityFavouriteProductShow extends Activity {
 				MerchProductItem item = (MerchProductItem) v.getTag();
 				Session session = Session.getActiveSession();
 				boolean enableButtons = (session != null && session.isOpened());
+				Log.e("adfkjdhf", "enableButtons "+enableButtons);
 				if (enableButtons) {
 					FacebookUtil.getInstance(ActivityFavouriteProductShow.this)
 							.publishShareDialog(item);
 				} else {
-					// mLoginButton.onClickLoginFb();
+					 mLoginButton.onClickLoginFb();
+					 mShopieSharePref.setActionShareFB(true);
 				}
 			}
 		});
@@ -280,6 +270,11 @@ public class ActivityFavouriteProductShow extends Activity {
 			}
 		}
 
+	}
+	@Override
+	public void onSaveInstanceState(Bundle bundle) {
+		super.onSaveInstanceState(bundle);
+		uiHelper.onSaveInstanceState(bundle);
 	}
 
 	@Override
@@ -450,7 +445,7 @@ public class ActivityFavouriteProductShow extends Activity {
 				request.executeAsync();
 			}
 		} else {
-			Session.getActiveSession();
+			mLoginButton.onClickLoginFb();
 		}
 	}
 

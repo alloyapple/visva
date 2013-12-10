@@ -328,7 +328,7 @@ public class SUtilXml {
 	 * */
 	public boolean updateInfo(Context context, String custId, String custName, String custEmail, String custPhone, String gender,String address,String birthday) {
 		// send POST
-		String url = WebServiceConfig.URL_SHOPPIE_HOME + WebServiceConfig.URL_UPDATE_INFO;
+		String url = WebServiceConfig.URL_SHOPPIE_HOME + WebServiceConfig.URL_UPDATE_INFO_USER;
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("custId", custId));
