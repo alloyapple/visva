@@ -7,14 +7,14 @@
     <string name="btn_cancel">Cancel</string>
     <string name="network_unvailable">Network is unvailable</string>
     <string name="failed_to_conect_server">Failed to conect to server</string>
-    <string name="qua_tang">QUÀ TẶNG</string>
+    <string name="qua_tang">Quà tặng</string>
     <string name="app_name">Shoppie</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">HelloShoppie</string>
     <string name="feedback">Feedback</string>
     <string name="empty" />
     <string name="message_contain_checkin">tặng bạn</string>
-    <string name="ca_nhan">CÁ NHÂN</string>
+    <string name="ca_nhan">Cá nhân</string>
     <string name="doi_qua">ĐỔI QUÀ</string>
     <string name="noi_tich_diem">Nơi Tích Điểm</string>
     <string name="promt_gender">Giới tính</string>

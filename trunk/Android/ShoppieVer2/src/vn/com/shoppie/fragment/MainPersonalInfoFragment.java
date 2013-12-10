@@ -416,6 +416,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				.getResult().get(0);
 		mTxtUserNumberPie.setText("Điểm tích lũy: "
 				+ historyTransactionItem.getCurrentBal());
+		mShopieSharePref.setCurrentBtl(historyTransactionItem.getCurrentBal());
 	}
 
 	private void showToast(String string) {

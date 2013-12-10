@@ -9,6 +9,7 @@
     	android:background="@drawable/head_bg_center"
         />
     <View 
+        android:id="@+id/view1"
         android:layout_width="match_parent"
     	android:layout_height="@dimen/page_item_icon_height"
     	android:layout_toRightOf="@id/icon"
@@ -19,8 +20,8 @@
 	    android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:layout_toRightOf="@id/icon"
-    	android:layout_marginLeft="@dimen/page_title_catelogy_title_marginleft"
-    	android:layout_marginTop="@dimen/page_title_catelogy_title_margintop"
+    	android:layout_marginLeft="@dimen/page_item_catelogy_title_margin_left"
+    	android:layout_marginTop="@dimen/page_item_catelogy_title_margin_top"
     	android:textSize="@dimen/page_item_catelogy_title_textsize"
     	android:text="Ăn uống"
     	android:textColor="#2A5C72"
@@ -31,13 +32,26 @@
     	android:layout_height="wrap_content"
     	android:layout_toRightOf="@id/icon"
     	android:layout_below="@id/catelogy"
-    	android:layout_marginLeft="@dimen/page_title_catelogy_subcatelogy_marginleft"
-    	android:singleLine="true"
-    	android:textSize="@dimen/page_title_catelogy_subcatelogy_textsize"
+    	android:layout_marginLeft="@dimen/page_item_subcatelogy_title_margin_left"
+    	android:textSize="@dimen/page_item_subcatelogy_title_textsize"
     	android:text="Quán ăn, nhậu nhẹt"
+    	android:singleLine="true"
+    	android:ellipsize="end"
     	android:textColor="@android:color/darker_gray"
 	    />
-	<include 
-	    layout="@layout/count_layout"/>
+	<vn.com.shoppie.view.MyTextView
+	    android:id="@+id/count" 
+	    android:layout_width="@dimen/page_item_count_width"
+    	android:layout_height="@dimen/page_item_count_height"
+    	android:layout_alignParentRight="true"
+    	android:background="@drawable/ic_head_center02"
+    	android:text="505"
+        android:gravity="center_horizontal"
+    	android:paddingLeft="@dimen/page_item_catelogy_desc_margin_left"
+        android:paddingTop="4dp"
+        android:textStyle="normal"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+	    />
 
 </RelativeLayout>

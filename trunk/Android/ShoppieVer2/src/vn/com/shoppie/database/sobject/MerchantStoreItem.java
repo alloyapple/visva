@@ -137,6 +137,14 @@ public class MerchantStoreItem implements Parcelable{
 	public void setPieQty(int pieQty) {
 		this.pieQty = pieQty;
 	}
+	
+	public int getLikeNumber() {
+		return likedNumber;
+	}
+	
+	public void setLikeNumber(int like) {
+		this.likedNumber = like;
+	}
 
 	public MerchantStoreItem(Parcel in) {
 		// TODO Auto-generated constructor stub

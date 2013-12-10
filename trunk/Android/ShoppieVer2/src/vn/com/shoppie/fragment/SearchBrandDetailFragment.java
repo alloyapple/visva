@@ -76,10 +76,15 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 				mMerchantStoreItem.setLiked(currLike);
 				tvLike.setCompoundDrawablesWithIntrinsicBounds(mMerchantStoreItem.isLiked() ? R.drawable.ic_liked : R.drawable.ic_like, 0, 0, 0);
 				
-				if(currLike)
+				if(currLike) {
+					mMerchantStoreItem.setLikeNumber(mMerchantStoreItem.getLikeNumber() + 1);
 					likeBrand(String.valueOf(mMerchantStoreItem.getStoreId()), String.valueOf(mMerchantStoreItem.getMerchId()));
-				else
+				}
+				else {
+					mMerchantStoreItem.setLikeNumber(mMerchantStoreItem.getLikeNumber() - 1);
 					unLikeBrand(String.valueOf(mMerchantStoreItem.getStoreId()), String.valueOf(mMerchantStoreItem.getMerchId()));
+				}
+				tvLike.setText(mMerchantStoreItem.getLikeNumber());
 					
 				Log.e("like success ", "like success");
 
@@ -175,7 +180,7 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 				.getSupportFragmentManager(), store));
 		viewPager.setCurrentItem(5001);
 
-		tvLike.setText("0");
+		tvLike.setText(mMerchantStoreItem.getLikeNumber());
 	}
 
 	class MyPagerAdapter extends FragmentStatePagerAdapter {

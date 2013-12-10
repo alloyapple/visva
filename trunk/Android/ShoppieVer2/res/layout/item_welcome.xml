@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <ImageView 
+
+    <ImageView
         android:id="@+id/iv_welcome"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:contentDescription="@string/KEY_TAG_TAB"
-        android:src="@drawable/slide1"
         android:layout_margin="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/KEY_TAG_TAB"
         android:scaleType="fitXY"
-        android:background="@android:color/transparent"/>
+        android:src="@drawable/slide1" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <View
+            android:id="@+id/indicator0"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_indicator_off" />
+
+        <View
+            android:id="@+id/indicator1"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_indicator_off" />
+
+        <View
+            android:id="@+id/indicator2"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_indicator_off" />
+
+        <View
+            android:id="@+id/indicator3"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_indicator_off" />
+
+        <View
+            android:id="@+id/indicator4"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_indicator_off" />
+
+        <View
+            android:id="@+id/indicator5"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_indicator_off" />
+
+        <View
+            android:id="@+id/indicator6"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_indicator_off" />
+    </LinearLayout>
+
+</RelativeLayout>
