@@ -344,8 +344,8 @@ public class SearchActivity extends FragmentActivity implements
 		Log.d("Category Color", "Color start");
 		iconDataList.clear();
 		for (int i = 0; i < catelogyList.size(); i++) {
-			if(catelogyList.get(i).getMerchCatId() != 30 &&
-					catelogyList.get(i).getMerchCatId() != 57)
+			if(catelogyList.get(i).getMerchCatId() != 7 &&
+					catelogyList.get(i).getMerchCatId() != 8)
 				iconDataList.add(catelogyList.get(i));
 		}
 
@@ -436,7 +436,7 @@ public class SearchActivity extends FragmentActivity implements
 
 	private void setStoreData(ArrayList<MerchantStoreItem> data) {
 		for(int i = data.size() - 1 ; i >= 0 ; i--) {
-			if(data.get(i).getMerchId() == 30 || data.get(i).getMerchId() == 57)
+			if(data.get(i).getMerchId() == 7 || data.get(i).getMerchId() == 8)
 				data.remove(i);
 		}
 		manageCategoryByStore.clear();
