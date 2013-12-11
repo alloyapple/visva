@@ -457,7 +457,7 @@ public class SearchActivity extends FragmentActivity implements
 		}
 
 		if (iconDataList.size() > 0)
-			setDataByIcon(iconDataList.get(0), false);
+			setDataByIcon(null, false);
 	}
 
 	public void setDataByIcon(MerchantCategoryItem icon, boolean isUpdateMap) {
