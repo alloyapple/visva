@@ -1,6 +1,6 @@
 package vn.com.shoppie.adapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.database.sobject.MerchantCategoryItem;
@@ -11,14 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 public class CatelogyIconAdapter extends BaseAdapter {
 	private Context context;
-	private ArrayList<MerchantCategoryItem> data;
+	private List<MerchantCategoryItem> data;
 
 	public CatelogyIconAdapter(Context context,
-			ArrayList<MerchantCategoryItem> data) {
+			List<MerchantCategoryItem> data) {
 		this.data = data;
 		this.context = context;
 	}
