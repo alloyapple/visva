@@ -5,7 +5,7 @@
     android:layout_height="match_parent" >
 
     <RelativeLayout
-    	android:id="@+id/background_view"
+        android:id="@+id/background_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/collection_item_height" >
 
@@ -78,14 +78,11 @@
             android:textColor="@android:color/white"
             android:textSize="15sp" />
 
-        <vn.com.shoppie.view.MagicTextView
+        <View
             android:layout_width="@dimen/checkintext_width"
             android:layout_height="@dimen/checkintext_width"
-            android:layout_alignParentRight="true"
-            android:singleLine="true"
-            android:text="Ghé thăm tặng"
-            android:textColor="#ff458DAD"
-            android:textSize="@dimen/checkintext_textsize" />
+            android:background="@drawable/text_1"
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
 </RelativeLayout>

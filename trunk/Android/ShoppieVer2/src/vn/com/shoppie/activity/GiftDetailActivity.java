@@ -67,6 +67,7 @@ public class GiftDetailActivity extends Activity {
 		mSharePref = new ShoppieSharePref(this);
 		item = ActivityGiftTransaction.currItem;
 
+		((TextView) findViewById(R.id.title)).setText(item.getGiftName());
 		((TextView) findViewById(R.id.desc)).setText(item.getDescription());
 		ImageLoader.getInstance(this)
 				.DisplayImage(

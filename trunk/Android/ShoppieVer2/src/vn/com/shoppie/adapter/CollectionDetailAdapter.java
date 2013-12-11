@@ -188,7 +188,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					count.setLight();
 					count1.setLight();
 					
-					if (getItem(position).getPieQty() > 100 && count.getLineCount() > 1) {
+					if (getItem(position).getPieQty() > 99) {
 						MarginLayoutParams params = (MarginLayoutParams) count
 								.getLayoutParams();
 						params.width *= 1.25f;
@@ -202,14 +202,38 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 						View muatang = v.findViewById(R.id.muatang);
 						params = (MarginLayoutParams) muatang.getLayoutParams();
-						params.width *= 1.1f;
-						params.height *= 1.1f;
+						params.width *= 1.25f;
+						params.height *= 1.25f;
 						muatang.setLayoutParams(params);
 						
 						View muatang1 = v.findViewById(R.id.muatang1);
 						params = (MarginLayoutParams) muatang1.getLayoutParams();
-						params.width *= 1.1f;
-						params.height *= 1.1f;
+						params.width *= 1.25f;
+						params.height *= 1.25f;
+						muatang1.setLayoutParams(params);
+					}
+					else if (getItem(position).getPieQty() > 999) {
+						MarginLayoutParams params = (MarginLayoutParams) count
+								.getLayoutParams();
+						params.width *= 1.5f;
+						params.height *= 1.55f;
+						count.setLayoutParams(params);
+
+						params = (MarginLayoutParams) count1.getLayoutParams();
+						params.width *= 1.5f;
+						params.height *= 1.5f;
+						count1.setLayoutParams(params);
+
+						View muatang = v.findViewById(R.id.muatang);
+						params = (MarginLayoutParams) muatang.getLayoutParams();
+						params.width *= 1.5f;
+						params.height *= 1.5f;
+						muatang.setLayoutParams(params);
+						
+						View muatang1 = v.findViewById(R.id.muatang1);
+						params = (MarginLayoutParams) muatang1.getLayoutParams();
+						params.width *= 1.25f;
+						params.height *= 1.25f;
 						muatang1.setLayoutParams(params);
 					}
 

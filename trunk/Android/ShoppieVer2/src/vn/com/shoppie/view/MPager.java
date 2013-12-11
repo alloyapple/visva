@@ -727,71 +727,6 @@ public class MPager extends RelativeLayout{
 		a.start();
 	}
 	
-//	public void addViewBySet(int lastPos , boolean isFirst){
-//		int count = container.getChildCount() + 9;
-//		int realCount = 0;
-//		for(int i = container.getChildCount() ; i < count && i < mAdapter.getCount() ; i++){
-//			container.addView(mAdapter.getView(i) , mAdapter.getViewWidth() , mAdapter.getViewHeight());
-//			realCount++;
-//		}
-//		
-//		extendView(40);
-//		int scrollHeight = container.getChildAt(1).getHeight();
-//		MarginLayoutParams params = (MarginLayoutParams) container.getChildAt(container.getChildCount() - 1).getLayoutParams();
-//		scrollHeight += params.topMargin;
-//		
-//		int topScroll = 0;
-//		if(scrollHeight >= getHeight())
-//			topScroll = 0;
-//		else
-//			topScroll = (getHeight() - scrollHeight) / 2;
-//		
-//		if(isFirst){
-//			for(int i = 0 ; i < container.getChildCount() ; i++){
-//				View v = container.getChildAt(i);
-//				params = (MarginLayoutParams) v.getLayoutParams();
-//				ObjectAnimator.ofFloat(v, "translationY", -(topScroll + params.topMargin - lastPos), 0).setDuration(500).start();
-//			}
-//			scrollView.setOnReachBottom(new OnReachBottom() {
-//				
-//				@Override
-//				public void onReachBottom() {
-//					addViewBySet(-1, false);
-//				}
-//			});
-//			scrollView.setStopScroll(false);
-//		}
-//		else if(realCount > 0){
-//			scrollView.setStopScroll(true);
-//			for(int i = container.getChildCount() - realCount + 1 ; i < container.getChildCount() ; i++){
-//				ObjectAnimator.ofFloat(container.getChildAt(i), "translationY", mAdapter.getViewHeight() - mAdapter.getTitlePadding(), 0).setDuration(350).start();
-//			}
-//			ObjectAnimator a = ObjectAnimator.ofFloat(container.getChildAt(container.getChildCount() - realCount), "translationY", mAdapter.getViewHeight() - mAdapter.getTitlePadding(), 0).setDuration(350);
-//			a.addListener(new AnimatorListener() {
-//				
-//				@Override
-//				public void onAnimationStart(Animator arg0) {
-//				}
-//				
-//				@Override
-//				public void onAnimationRepeat(Animator arg0) {
-//				}
-//				
-//				@Override
-//				public void onAnimationEnd(Animator arg0) {
-//					scrollView.setStopScroll(false);
-//				}
-//				
-//				@Override
-//				public void onAnimationCancel(Animator arg0) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//			});
-//			a.start();
-//		}
-//	}
-	
 	public void extendView(){
 		if(!canbeExtended)
 			return;
@@ -831,10 +766,6 @@ public class MPager extends RelativeLayout{
 				onStartExtend.onCollapse(this);
 			}
 			scrollView.setStopScroll(true);
-//			scrollView.scrollTo(0, 0);
-//			for(int i = 5 ; i < container.getChildCount() ; i++){
-//				container.removeViewAt(i);
-//			}
 			
 			isOpenSlide = false;
 			isOpenMoveSlide = false;
@@ -868,12 +799,17 @@ public class MPager extends RelativeLayout{
 				
 				@Override
 				public void onAnimationEnd(Animator arg0) {
-					if(onStartExtend != null){
-						onStartExtend.onFinishCollapse(MPager.this);
-					}
-//					setAdapter(mAdapter);
-					setAdapter(mAdapter, currentItem);
-					isOpenSlide = true;
+					postDelayed(new Runnable() {
+						
+						@Override
+						public void run() {
+							if(onStartExtend != null){
+								onStartExtend.onFinishCollapse(MPager.this);
+							}
+							setAdapter(mAdapter, currentItem);
+							isOpenSlide = true;
+						}
+					}, 100);
 				}
 				
 				@Override
@@ -1063,7 +999,6 @@ public class MPager extends RelativeLayout{
 			if(velocityY < -minSlide && scrollView.isReachBottom()){
 				isDown = true;
 				distance = 0;
-//				scrollView.scrollTo(scrollView.getScrollX(), scrollView.getScrollY());
 				isOpenCollapse = true;
 				collapseView();
 			}

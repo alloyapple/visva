@@ -248,6 +248,9 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		// if(adapter != null)
 		// adapter.recycle();
 
+		if(data.size() == 0)
+			finish();
+		
 		TextView mTxtTitle = (TextView) findViewById(R.id.title);
 		mTxtTitle.setTextSize(getResources().getDimension(
 				R.dimen.actionbar_title_textsize));
