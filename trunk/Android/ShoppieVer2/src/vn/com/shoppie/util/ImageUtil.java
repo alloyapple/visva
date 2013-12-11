@@ -41,7 +41,11 @@ public class ImageUtil {
 	
 	public Bitmap getShapeBitmap(Bitmap bitmap, boolean topleft , boolean topright
 			,boolean bottomleft , boolean bottomright) {
-		return getShapeBitmap(bitmap, topleft, topright, bottomleft, bottomright, radius);
+		try {
+			return getShapeBitmap(bitmap, topleft, topright, bottomleft, bottomright, radius);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public Bitmap getShapeBitmap(Bitmap bitmap, boolean topleft , boolean topright
