@@ -344,13 +344,13 @@ public class SearchActivity extends FragmentActivity implements
 		Log.d("Category Color", "Color start");
 		iconDataList.clear();
 		for (int i = 0; i < catelogyList.size(); i++) {
-			iconDataList.add(catelogyList.get(i));
-			Log.d("Category Color", "Color "
-					+ catelogyList.get(i).getLineColor());
+			if(catelogyList.get(i).getMerchCatId() != 30 &&
+					catelogyList.get(i).getMerchCatId() != 57)
+				iconDataList.add(catelogyList.get(i));
 		}
 
 		CatelogyIconAdapter adapter = new CatelogyIconAdapter(this,
-				catelogyList);
+				iconDataList);
 		mTitleSearchListView.setAdapter(adapter);
 
 		mTitleSearchListView.setOnItemClickListener(new OnItemClickListener() {
@@ -435,6 +435,10 @@ public class SearchActivity extends FragmentActivity implements
 	}
 
 	private void setStoreData(ArrayList<MerchantStoreItem> data) {
+		for(int i = data.size() - 1 ; i >= 0 ; i--) {
+			if(data.get(i).getMerchId() == 30 || data.get(i).getMerchId() == 57)
+				data.remove(i);
+		}
 		manageCategoryByStore.clear();
 		setPieMap(data);
 
