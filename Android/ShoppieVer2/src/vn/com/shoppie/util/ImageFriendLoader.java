@@ -27,7 +27,7 @@ import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 
-public class ImageLoader {
+public class ImageFriendLoader {
 
 	public static Bitmap defaultBitmap;
 
@@ -41,22 +41,22 @@ public class ImageLoader {
 	// Handler to display images in UI thread
 	Handler handler = new Handler();
 
-	private static ImageLoader instance;
+	private static ImageFriendLoader instance;
 	private Context context;
 	
-	public static ImageLoader getInstance(Context context) {
+	public static ImageFriendLoader getInstance(Context context) {
 		if (instance == null)
-			instance = new ImageLoader(context);
+			instance = new ImageFriendLoader(context);
 		return instance;
 	}
 
-	public ImageLoader(Context context) {
+	public ImageFriendLoader(Context context) {
 		this.context = context;
 		fileCache = new FileCache(context);
 		executorService = Executors.newFixedThreadPool(5);
 	}
 
-	final int stub_id = R.drawable.bg_avatar;
+	final int stub_id = R.drawable.bg_default_avatar;
 
 	@SuppressWarnings("deprecation")
 	private void setImageBitmap(View v, Bitmap bitmap) {
@@ -67,6 +67,14 @@ public class ImageLoader {
 		}
 		Log.d("Bitmap Size", "Bitmap Size w " + bitmap.getWidth() + " h "
 				+ bitmap.getHeight());
+	}
+
+	private void setImageResource(View v, int resId) {
+		if (v instanceof ImageView) {
+			((ImageView) v).setImageResource(resId);
+		} else {
+			v.setBackgroundResource(resId);
+		}
 	}
 
 	public void DisplayImage(String url, View imageView) {

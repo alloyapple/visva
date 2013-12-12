@@ -1,13 +1,9 @@
 package vn.com.shoppie.adapter;
 
 import java.util.ArrayList;
-import java.util.Vector;
-
 import vn.com.shoppie.R;
-import vn.com.shoppie.activity.SearchActivity;
-import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.object.FBUser;
-import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.ImageFriendLoader;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -24,13 +20,12 @@ public class ListFBFriendAdapter extends BaseAdapter {
 	private Context mContext;
 	private ArrayList<FBUser> mListFriend;
 	private InviteFriendJoinSPInterface mListener;
-	private ImageLoader mImageLoader;
-	private Vector<String> nameList = new Vector<String>();
+	private ImageFriendLoader mImageLoader;
 
 	public ListFBFriendAdapter(Context context, ArrayList<FBUser> mListFriend) {
 		this.mContext = context;
 		this.mListFriend = mListFriend;
-		this.mImageLoader = new ImageLoader(context);
+		this.mImageLoader = new ImageFriendLoader(context);
 	}
 
 	@Override
@@ -89,7 +84,7 @@ public class ListFBFriendAdapter extends BaseAdapter {
 					R.color.white));
 
 		} else {
-			txtNumberPie.setVisibility(View.GONE);
+			txtNumberPie.setText(0 + " pie");
 			convertView.setBackgroundResource(R.drawable.bg_friend_fb_only);
 		}
 		btnInvite.setFocusable(false);

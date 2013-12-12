@@ -250,14 +250,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				mListener.onClickFeedback();
 			}
 		});
-		// mLayoutFriend.setOnClickListener(new View.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		// // TODO Auto-generated method stub
-		// mListener.onClickFriend();
-		// }
-		// });
 		mLayoutHelp.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -338,6 +330,12 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.e(TAG, "gender "+mShopieSharePref.getGender());
+		int gender = mShopieSharePref.getGender();
+		if (gender == 0)
+			mImgAvatar.setImageResource(R.drawable.ic_male);
+		else
+			mImgAvatar.setImageResource(R.drawable.ic_female);
 	}
 
 	public void onClickMainPersonalInfo(View v) {

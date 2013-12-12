@@ -12,9 +12,10 @@
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/bg_avatar" />
+        android:layout_marginTop="5dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/bg_default_avatar" />
 
     <Button
         android:id="@+id/fb_friend_btn"
@@ -31,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:layout_toLeftOf="@id/fb_friend_btn"
         android:layout_toRightOf="@id/fb_friend_avatar"
         android:ellipsize="marquee"
