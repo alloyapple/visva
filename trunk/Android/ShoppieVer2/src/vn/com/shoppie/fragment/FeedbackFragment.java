@@ -52,7 +52,7 @@ public class FeedbackFragment extends FragmentBasic {
 				(int)((getDimention(R.dimen.collectiondetail_item_height) * 1.05f)));
 		params.addRule(RelativeLayout.CENTER_IN_PARENT);
 		containerLayout.addView(cover, 0 , params);
-
+		mImgAvatar = (MyCircleImageView) root.findViewById(R.id.img_avatar);
 		final TextView name= (TextView)root.findViewById(R.id.name);
 		name.setText(mSharePref.getCustName());
 		root.findViewById(R.id.btn_accept).setOnClickListener(new OnClickListener() {
@@ -152,6 +152,11 @@ public class FeedbackFragment extends FragmentBasic {
 	@Override
 	public void onResume() {
 		super.onResume();
+		int gender = mSharePref.getGender();
+		if (gender == 1)
+			mImgAvatar.setImageResource(R.drawable.ic_male);
+		else
+			mImgAvatar.setImageResource(R.drawable.ic_female);
 	}
 
 	private void uploadFeedback(String custId, String message) {
@@ -177,7 +182,6 @@ public class FeedbackFragment extends FragmentBasic {
 	}
 
 	public void updateUI() {
-		mImgAvatar = (MyCircleImageView) root.findViewById(R.id.img_avatar);
 		System.out.println(">>>>>>>>>>>>>>>>>> " + mSharePref.getImageAvatar());
 		if (mSharePref.getLoginType()) {
 			ImageLoader.getInstance(getActivity()).DisplayImage(mSharePref.getImageAvatar(), mImgAvatar);

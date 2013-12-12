@@ -20,11 +20,11 @@
 
         <ImageView
             android:id="@+id/img_edit_cover"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
+            android:layout_margin="15dp"
             android:background="@drawable/ic_edit_cover1"
             android:contentDescription="@string/app_name" />
 
@@ -42,7 +42,6 @@
             android:layout_height="@dimen/personal_avatar_height"
             android:layout_marginLeft="@dimen/personal_avatar_margin_left"
             android:layout_marginTop="@dimen/personal_avatar_margin_top"
-            android:background="@drawable/bg_personal_avatar"
             android:contentDescription="@string/app_name" />
 
         <ImageView

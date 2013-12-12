@@ -93,23 +93,6 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 							String.valueOf(mMerchantStoreItem.getMerchId()));
 				}
 				tvLike.setText(String.valueOf(mMerchantStoreItem.getLikeNumber()));
-
-				Log.e("like success ", "like success");
-
-				MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
-						R.raw.sound_like2);
-				if (mPlayer != null)
-					mPlayer.start();
-
-				/** add to favourite product */
-				if (mShoppieDBProvider.countFavouriteDataItem(""
-						+ mMerchantStoreItem.getStoreId()) == 0) {
-					FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
-							mMerchantStoreItem.getMerchLogo(),
-							GlobalValue.TYPE_FAVOURITE_BRAND, ""
-									+ mMerchantStoreItem.getStoreId());
-					mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
-				}
 			}
 		});
 		viewPager.setOnTouchListener(new View.OnTouchListener() {
@@ -236,22 +219,22 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						Log.e("like success ", "like success");
+						Log.e("like success ", "like success");
+
 						MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
 								R.raw.sound_like2);
 						if (mPlayer != null)
 							mPlayer.start();
 
-						// /** add to favourite product */
-						// FavouriteDataObject favouriteDataObject = new
-						// FavouriteDataObject(
-						// mMerchProductItem.getProductImage(),
-						// GlobalValue.TYPE_FAVOURITE_PRODUCT, productId);
-						// mShoppieDBProvider
-						// .addNewFavouriteData(favouriteDataObject);
-						FacebookUtil.getInstance(getActivity())
-								.publishLikeBrandInBackground(
-										"" + mShoppieSharePref.getCustId(),
-										mMerchantStoreItem);
+						/** add to favourite product */
+						if (mShoppieDBProvider.countFavouriteDataItem(""
+								+ mMerchantStoreItem.getStoreId()) == 0) {
+							FavouriteDataObject favouriteDataObject = new FavouriteDataObject(
+									mMerchantStoreItem.getMerchLogo(),
+									GlobalValue.TYPE_FAVOURITE_BRAND, ""
+											+ mMerchantStoreItem.getStoreId());
+							mShoppieDBProvider.addNewFavouriteData(favouriteDataObject);
+						}
 					}
 
 					@Override
