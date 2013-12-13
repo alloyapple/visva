@@ -761,6 +761,7 @@ public class MPager extends RelativeLayout{
 	public void collapseView(){
 		if(!isOpenCollapse)
 			return;
+		isOpenCollapse = false;
 		if(container.getParent() == container2){
 			if(onStartExtend != null){
 				onStartExtend.onCollapse(this);
@@ -942,13 +943,6 @@ public class MPager extends RelativeLayout{
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//			if(velocityX > 100 && isSlide && inoutMode == SLIDE_IN){
-//				finishByFlying();
-//			}
-//			else if(velocityX < -100 && isSlide && inoutMode == SLIDE_OUT){
-//				finishByFlying();
-//			}
-			
 			return false;
 		}
 	}
