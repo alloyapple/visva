@@ -86,7 +86,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	// =========================Variable Define==================
 	private boolean isShowFavouriteProduct;
 	private boolean isShowFavouriteBrand = false;
-	private boolean isPickToAvatar = true;
 	private ArrayList<FavouriteDataObject> mFavouriteProductObjects = new ArrayList<FavouriteDataObject>();
 	private ArrayList<FavouriteDataObject> mFavouriteBrandObjects = new ArrayList<FavouriteDataObject>();
 
@@ -295,7 +294,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				isPickToAvatar = true;
+				mShopieSharePref.setChooseImageAvatar(true);
 				pickImage();
 			}
 		});
@@ -305,8 +304,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.e("adfkjdhf", "adsfh ");
-				isPickToAvatar = false;
+				mShopieSharePref.setChooseImageAvatar(false);
 				pickImage();
 			}
 		});
@@ -320,22 +318,33 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				+ "(" + mFavouriteProductObjects.size() + ")");
 		mTxtFriend.setText(getActivity().getString(R.string.personl_friend)
 				+ "(0)");
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.e(TAG, "gender "+mShopieSharePref.getGender());
+		
 		int gender = mShopieSharePref.getGender();
 		if (gender == 0)
 			mImgAvatar.setImageResource(R.drawable.ic_male);
 		else
 			mImgAvatar.setImageResource(R.drawable.ic_female);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+//		int gender = mShopieSharePref.getGender();
+//		if (gender == 0)
+//			mImgAvatar.setImageResource(R.drawable.ic_male);
+//		else
+//			mImgAvatar.setImageResource(R.drawable.ic_female);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+//		Log.e(TAG, "gender "+mShopieSharePref.getGender());
+//		int gender = mShopieSharePref.getGender();
+//		if (gender == 0)
+//			mImgAvatar.setImageResource(R.drawable.ic_male);
+//		else
+//			mImgAvatar.setImageResource(R.drawable.ic_female);
 	}
 
 	public void onClickMainPersonalInfo(View v) {
@@ -477,7 +486,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 						Uri fileUri = Uri.fromFile(file);
 						int orientation = checkOrientation(fileUri);
 						Bitmap bmp;
-						if (isPickToAvatar) {
+						if (mShopieSharePref.getChooseImageAvatar()) {
 							mShopieSharePref.setImageAvatar(imagePath);
 							bmp = decodeSampledBitmapFromFile(imagePath, 100,
 									100, orientation);
@@ -488,16 +497,13 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 									200, orientation);
 							mImgCover.setImageBitmap(bmp);
 						}
-
-					} else {
-						// Log.d(tag, "file don't exist !");
-					}
+					} 
 				}
 			}
 			break;
 		case REQUEST_CODE_GALLERY:
 			if (resultCode == getActivity().RESULT_OK) {
-				Log.d("data", "c " + data);
+				Log.d("data", "cádfdfjh" + data);
 				Uri uri = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
 				Cursor cursor = getActivity().getContentResolver().query(uri,
@@ -507,11 +513,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				String imagePath = cursor.getString(columnIndex);
 				cursor.close();
 
-				// save original avatar image
-				// originalAvatarPath = imagePath;
-				// Log.i(tag, "onActivityResult - originalAvatarPath: "
-				// + originalAvatarPath);
-
 				File file = new File(imagePath);
 				String imageName = file.getName();
 				Uri fileUri = null;
@@ -519,7 +520,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 					fileUri = Uri.fromFile(file);
 					int orientation = checkOrientation(fileUri);
 					Bitmap bmp;
-					if (isPickToAvatar) {
+					if (mShopieSharePref.getChooseImageAvatar()) {
 						mShopieSharePref.setImageAvatar(imagePath);
 						bmp = decodeSampledBitmapFromFile(imagePath, 100, 100,
 								orientation);
@@ -534,13 +535,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				} else {
 					Log.d("test", "file don't exist !");
 				}
-				if (fileUri == null) {
-					// imgBound.setVisibility(View.GONE);
-				} else {
-					// imgBound.setVisibility(View.VISIBLE);
-				}
-				// imageView.setImageBitmap(null);
-				// imageView.setImageURI(fileUri);
 			}
 			break;
 		default:

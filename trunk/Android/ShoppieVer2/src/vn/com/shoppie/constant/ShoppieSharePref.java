@@ -25,6 +25,7 @@ public class ShoppieSharePref {
 	private static final String LOGIN_TO_SHOW_FRIEND_SUCCESS = "login_to_show_friend_success";
 	private static final String COUNT_LIKE = "count_like";
 	private static final String COUNT_SHARE = "count_share";
+	private static final String IS_CHOOSE_AVATAR = "choose_image_from_gallery";
 	// ================================================================
 	private static final String START_NUM = "num1";
 	private static final String LIKE_NUM = "like";
@@ -33,6 +34,14 @@ public class ShoppieSharePref {
 
 	public ShoppieSharePref(Context context) {
 		this.context = context;
+	}
+
+	public void setChooseImageAvatar(boolean b) {
+		putBooleanValue(IS_CHOOSE_AVATAR, b);
+	}
+
+	public boolean getChooseImageAvatar() {
+		return getBooleanValue(IS_CHOOSE_AVATAR);
 	}
 
 	public void setCountLike(int likeCount) {
