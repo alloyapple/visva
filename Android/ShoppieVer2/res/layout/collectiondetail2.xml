@@ -126,7 +126,7 @@
         android:layout_width="@dimen/page_item_count_width"
         android:layout_height="@dimen/page_item_count_height"
         android:layout_alignParentRight="true"
-        android:background="@drawable/bogoc_xanh"
+        android:background="@drawable/pie_count"
         android:gravity="center_horizontal"
         android:paddingLeft="15dp"
         android:paddingTop="4dp"

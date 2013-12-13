@@ -79,8 +79,8 @@
             android:textSize="15sp" />
 
         <View
-            android:layout_width="@dimen/checkintext_width"
-            android:layout_height="@dimen/checkintext_width"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:background="@drawable/text_1"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
