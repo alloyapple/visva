@@ -188,6 +188,11 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					count.setLight();
 					count1.setLight();
 					
+					MyTextView pie = (MyTextView) v.findViewById(R.id.pie);
+					MyTextView pie1 = (MyTextView) v.findViewById(R.id.pie1);
+					pie.setLight();
+					pie1.setLight();
+					
 					if (getItem(position).getPieQty() > 99) {
 						MarginLayoutParams params = (MarginLayoutParams) count
 								.getLayoutParams();
@@ -211,12 +216,22 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						params.width *= 1.25f;
 						params.height *= 1.25f;
 						muatang1.setLayoutParams(params);
+						
+						params = (MarginLayoutParams) pie.getLayoutParams();
+						params.width *= 1.25f;
+						params.height *= 1.25f;
+						pie.setLayoutParams(params);
+						
+						params = (MarginLayoutParams) pie1.getLayoutParams();
+						params.width *= 1.25f;
+						params.height *= 1.25f;
+						pie1.setLayoutParams(params);
 					}
 					else if (getItem(position).getPieQty() > 999) {
 						MarginLayoutParams params = (MarginLayoutParams) count
 								.getLayoutParams();
 						params.width *= 1.5f;
-						params.height *= 1.55f;
+						params.height *= 1.5f;
 						count.setLayoutParams(params);
 
 						params = (MarginLayoutParams) count1.getLayoutParams();
@@ -232,9 +247,19 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						
 						View muatang1 = v.findViewById(R.id.muatang1);
 						params = (MarginLayoutParams) muatang1.getLayoutParams();
-						params.width *= 1.25f;
-						params.height *= 1.25f;
+						params.width *= 1.5f;
+						params.height *= 1.5f;
 						muatang1.setLayoutParams(params);
+						
+						params = (MarginLayoutParams) pie.getLayoutParams();
+						params.width *= 1.5f;
+						params.height *= 1.5f;
+						pie.setLayoutParams(params);
+						
+						params = (MarginLayoutParams) pie1.getLayoutParams();
+						params.width *= 1.5f;
+						params.height *= 1.5f;
+						pie1.setLayoutParams(params);
 					}
 
 					Button likeBt = (Button) v.findViewById(R.id.like_click);

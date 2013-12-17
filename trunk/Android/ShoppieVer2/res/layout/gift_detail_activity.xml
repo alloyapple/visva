@@ -6,7 +6,9 @@
 
     <ScrollView
         android:layout_width="@dimen/storedetail_item_width"
-        android:layout_height="@dimen/storedetail_item_height"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:layout_centerInParent="true" >
 
         <LinearLayout
@@ -62,7 +64,6 @@
                     android:id="@+id/desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/gift_item_header_height"
                     android:padding="5dp"
                     android:text="Hướng dẫn cách đổi"
                     android:textColor="#808080"

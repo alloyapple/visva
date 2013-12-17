@@ -281,7 +281,6 @@ public class MPager extends RelativeLayout{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		System.out.println(">>>>>>>>>>>>>>>>>> event " + isEnable + " " + lockSlide + " " + isAutoSlide);
 		if(!isEnable)
 			return false;
 		if(lockSlide)
@@ -293,6 +292,7 @@ public class MPager extends RelativeLayout{
 			return false;
 		mVelocityTracker.addMovement(event);
 		if(container.getParent() != container1){
+			System.out.println(">>>>>>>>>>>>>>>>>> event " + isEnable + " " + lockSlide + " " + isAutoSlide);
 			isOpenCollapse = false;
 			
 			switch (event.getAction()) {
@@ -314,7 +314,7 @@ public class MPager extends RelativeLayout{
 			
 			if(mCollapseGestureDetector.onTouchEvent(event))
 				return true;
-			return super.onTouchEvent(event);
+			return true;
 		}
 		if(mAdapter == null)
 			return super.onTouchEvent(event);
@@ -988,7 +988,7 @@ public class MPager extends RelativeLayout{
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
-			int minSlide = mAdapter.getViewWidth() / 5;
+			int minSlide = mAdapter.getViewWidth() / 3;
 			Log.d("Fling", "" + velocityY);
 			if(velocityY < -minSlide && scrollView.isReachBottom()){
 				isDown = true;

@@ -126,7 +126,7 @@
         android:layout_width="@dimen/page_item_count_width"
         android:layout_height="@dimen/page_item_count_height"
         android:layout_alignParentRight="true"
-        android:background="@drawable/pie_count"
+        android:background="@drawable/bogoc_xanh"
         android:gravity="center_horizontal"
         android:paddingLeft="15dp"
         android:paddingTop="4dp"
@@ -134,6 +134,19 @@
         android:textSize="14sp"
         android:textStyle="normal" />
 
+    <vn.com.shoppie.view.MyTextView
+        android:id="@+id/pie1"
+        android:layout_width="@dimen/page_item_count_width"
+        android:layout_height="@dimen/page_item_count_height"
+        android:layout_alignParentRight="true"
+        android:gravity="bottom|right"
+        android:text="Pie"
+        android:paddingRight="1dp"
+        android:paddingBottom="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="8sp"
+        android:textStyle="normal" />
+    
     <View 
         android:id="@+id/muatang1"
         android:layout_width="@dimen/muatang_width"
