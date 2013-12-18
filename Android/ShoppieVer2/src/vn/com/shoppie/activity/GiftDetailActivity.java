@@ -73,7 +73,7 @@ public class GiftDetailActivity extends Activity {
 				.DisplayImage(
 						WebServiceConfig.HEAD_IMAGE + item.getGiftImage(),
 						findViewById(R.id.image), true, true, false, false,
-						true, false);
+						false, false);
 		mBtnGiftTransaction = (GiftTransactionButton) findViewById(R.id.btn_gift_transaction);
 		mBtnGiftTransaction.setOnClickListener(new View.OnClickListener() {
 

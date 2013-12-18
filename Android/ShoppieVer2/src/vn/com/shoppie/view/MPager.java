@@ -259,6 +259,14 @@ public class MPager extends RelativeLayout{
 //		default:
 //			break;
 //		}
+		if(container.getParent() != container1) {
+			if(isSlideOnScroll)
+				return true;
+			else {
+				onTouchEvent(ev);
+				return super.onInterceptTouchEvent(ev);
+			}
+		}
 		if(!isEnable)
 			return true;
 		if(lockSlide)
@@ -281,15 +289,8 @@ public class MPager extends RelativeLayout{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if(!isEnable)
-			return false;
-		if(lockSlide)
-			return super.onTouchEvent(event);
-		if(isAutoSlide)
-			return false;
-		
 		if(event.getPointerCount() > 1)
-			return false;
+			return true;
 		mVelocityTracker.addMovement(event);
 		if(container.getParent() != container1){
 			System.out.println(">>>>>>>>>>>>>>>>>> event " + isEnable + " " + lockSlide + " " + isAutoSlide);
@@ -316,6 +317,14 @@ public class MPager extends RelativeLayout{
 				return true;
 			return true;
 		}
+		
+		if(!isEnable)
+			return true;
+		if(lockSlide)
+			return true;
+		if(isAutoSlide)
+			return true;
+		
 		if(mAdapter == null)
 			return super.onTouchEvent(event);
 		if(mAdapter.getCount() <= 1)
