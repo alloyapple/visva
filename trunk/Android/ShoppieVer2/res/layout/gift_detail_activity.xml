@@ -20,8 +20,8 @@
 
             <View
                 android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/gift_item_header_height" />
+                android:layout_width="@dimen/storedetail_item_width"
+                android:layout_height="@dimen/storedetail_item_width" />
 
             <vn.com.shoppie.view.MyTextView
                 android:id="@+id/title"
