@@ -6,7 +6,7 @@
     android:layout_marginBottom="@dimen/gift_item_padding"
     android:background="@drawable/round_corner_shape"   >
     <View 
-    	android:layout_width="@dimen/page_item_width"
+    	android:layout_width="@dimen/gift_item_width"
     	android:layout_height="@dimen/gift_item_header_height"
     	android:id="@+id/image"  
         />

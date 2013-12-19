@@ -53,7 +53,7 @@
     <dimen name="storedetail_item_height">354dp</dimen>
     <dimen name="storedetail_item_image_height">240dp</dimen>
     <dimen name="gift_item_width">240dp</dimen>
-    <dimen name="gift_item_header_height">144dp</dimen>
+    <dimen name="gift_item_header_height">120dp</dimen>
     <dimen name="gift_item_full_height">279dp</dimen>
     <dimen name="gift_item_row_height">120dp</dimen>
     <dimen name="gift_item_image_height">94dp</dimen>

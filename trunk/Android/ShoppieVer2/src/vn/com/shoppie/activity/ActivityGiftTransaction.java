@@ -119,7 +119,7 @@ public class ActivityGiftTransaction extends Activity {
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage());
 			ImageLoader.getInstance(this).DisplayImage(
 					WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage(),
-					image , true ,true,false,false,true,false);
+					image , true ,true,false,false,true,false , 1);
 			content.addView(headerView);
 			content.addView(new View(this), -1, (int) getResources()
 					.getDimension(R.dimen.gift_item_padding));

@@ -252,24 +252,6 @@ public class AdapterWelcomeImage extends PagerAdapter {
 			}
 		}
 		
-		View indi[] = new View[7];
-		indi[0] = (View) v.findViewById(R.id.indicator0);
-		indi[1] = (View) v.findViewById(R.id.indicator1);
-		indi[2] = (View) v.findViewById(R.id.indicator2);
-		indi[3] = (View) v.findViewById(R.id.indicator3);
-		indi[4] = (View) v.findViewById(R.id.indicator4);
-		indi[5] = (View) v.findViewById(R.id.indicator5);
-		indi[6] = (View) v.findViewById(R.id.indicator6);
-		indi[0].setBackgroundResource(R.drawable.ic_indicator_off);
-		indi[1].setBackgroundResource(R.drawable.ic_indicator_off);
-		indi[2].setBackgroundResource(R.drawable.ic_indicator_off);
-		indi[3].setBackgroundResource(R.drawable.ic_indicator_off);
-		indi[4].setBackgroundResource(R.drawable.ic_indicator_off);
-		indi[5].setBackgroundResource(R.drawable.ic_indicator_off);
-		indi[6].setBackgroundResource(R.drawable.ic_indicator_off);
-		
-		indi[position].setBackgroundResource(R.drawable.ic_indicator_on);
-		
 		((ViewPager) container).addView(v, 0);
 		return v;
 	}

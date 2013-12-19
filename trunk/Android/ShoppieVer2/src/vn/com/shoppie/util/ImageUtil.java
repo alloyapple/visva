@@ -21,7 +21,7 @@ import android.graphics.Rect;
 import android.os.Environment;
 
 public class ImageUtil {
-	private int radius = 40;
+	public static int radius = 40;
 	
 	private static ImageUtil instance;
 	
@@ -56,6 +56,80 @@ public class ImageUtil {
 	public Bitmap getShapeBitmap(Bitmap bitmap, boolean topleft , boolean topright
 			,boolean bottomleft , boolean bottomright , int radius) {
 		return getShapeBitmap(bitmap, topleft, topright, bottomleft, bottomright, radius , bitmap.getWidth() , bitmap.getHeight());
+	}
+	
+	//type 0: top , 1: center , 2: footer
+	public Bitmap getShapeBitmapType(Bitmap bitmap, boolean topleft , boolean topright
+			,boolean bottomleft , boolean bottomright , int radius , int width , int height , int type) {
+		if(width != bitmap.getWidth())
+			radius /= (float)width / (float)bitmap.getWidth();
+	    Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+	            bitmap.getHeight(), Config.ARGB_8888);
+	    Canvas canvas = new Canvas(output);
+
+	    final int color = 0xff424242;
+	    final Paint paint = new Paint();
+	    final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+	    paint.setAntiAlias(true);
+	    canvas.drawARGB(0, 0, 0, 0);
+	    paint.setColor(color);
+	    
+	    Path path = new Path();
+	    if(topleft) {
+	    	path.moveTo(0, radius);
+	    	path.lineTo(radius, radius);
+	    	path.lineTo(radius, 0);
+	    	canvas.drawCircle(radius, radius, radius, paint);
+	    }
+	    else {
+	    	path.moveTo(0, 0);
+	    }
+	    if(topright) {
+	    	path.lineTo(canvas.getWidth() - radius, 0);
+	    	path.lineTo(canvas.getWidth() - radius, radius);
+	    	path.lineTo(canvas.getWidth() , radius);
+	    	canvas.drawCircle(canvas.getWidth() - radius, radius, radius, paint);
+	    }
+	    else {
+	    	path.lineTo(canvas.getWidth(), 0);
+	    }
+	    if(bottomright) {
+	    	path.lineTo(canvas.getWidth() , canvas.getHeight() - radius);
+	    	path.lineTo(canvas.getWidth() - radius , canvas.getHeight() - radius);
+	    	path.lineTo(canvas.getWidth() - radius , canvas.getHeight());
+	    	canvas.drawCircle(canvas.getWidth() - radius, canvas.getHeight() - radius, radius, paint);
+	    }
+	    else {
+	    	path.lineTo(canvas.getWidth() , canvas.getHeight());
+	    }
+	    if(bottomleft) {
+	    	path.lineTo(radius , canvas.getHeight());
+	    	path.lineTo(radius , canvas.getHeight() - radius);
+	    	path.lineTo(0 , canvas.getHeight() - radius);
+	    	canvas.drawCircle(radius, canvas.getHeight() - radius, radius, paint);
+	    }
+	    else {
+	    	path.lineTo(0 , canvas.getHeight());
+	    }
+	    path.close();
+	    canvas.drawPath(path, paint);
+	    paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+	    Rect dst = new Rect();
+	    dst.left = 0;
+	    dst.right = bitmap.getWidth();
+	    if(type == 0)
+	    	dst.top = 0;
+	    else if(type == 1)
+	    	dst.top = bitmap.getHeight() / 4;
+	    else if(type == 2)
+	    	dst.top = bitmap.getHeight() / 2;
+	    dst.bottom = dst.top + bitmap.getHeight() / 2;
+	    canvas.drawBitmap(bitmap, dst, rect, paint);
+	    canvas = null;
+//	    bitmap.recycle();bitmap = null;
+	    return output;
+
 	}
 	
 	public Bitmap getShapeBitmap(Bitmap bitmap, boolean topleft , boolean topright
