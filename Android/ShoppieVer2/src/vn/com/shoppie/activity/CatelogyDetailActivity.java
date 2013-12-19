@@ -16,8 +16,6 @@ import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchProductList;
-import vn.com.shoppie.database.sobject.MerchantCategoryItem;
-import vn.com.shoppie.database.sobject.MerchantCategoryList;
 import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
@@ -41,6 +39,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
@@ -122,6 +121,13 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		ImageButton icon = (ImageButton) findViewById(R.id.actionbar_icon);
 		icon.setBackgroundResource(R.drawable.ic_back);
 		icon.setImageBitmap(null);
+		icon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 
 		mPager = (MPager) findViewById(R.id.pager);
 		mPager.setCanbeExtended(false);
@@ -156,6 +162,11 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 	}
 
+	@Override
+	public void onClickSearchActivity(View v) {
+
+	}
+	
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
