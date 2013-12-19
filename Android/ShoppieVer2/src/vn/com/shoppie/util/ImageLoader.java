@@ -143,6 +143,42 @@ public class ImageLoader {
 		}
 	}
 
+	public void DisplayImage(String url, View imageView, boolean topleft,
+			boolean topright, boolean bottomleft, boolean bottomright,
+			boolean keepSize, boolean isCache , int type) {
+		imageViews.put(imageView, url);
+		Bitmap bitmap = memoryCache.get(url);
+		if (bitmap != null) {
+			if (keepSize) {
+				Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmapType(
+						bitmap, topleft, topright, bottomleft, bottomright , ImageUtil.radius , bitmap.getWidth() , bitmap.getHeight() ,type);
+				setImageBitmap(imageView, bmp);
+			} else {
+				Log.d("KeepSize", "NonKeepSize1");
+				MarginLayoutParams params = (MarginLayoutParams) imageView
+						.getLayoutParams();
+				Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmapType(
+						bitmap, topleft, topright, bottomleft, bottomright,
+						ImageUtil.radius ,
+						params.width, params.height , type);
+				setImageBitmap(imageView, bmp);
+			}
+		} else {
+			queuePhoto(url, imageView, topleft, topright, bottomleft,
+					bottomright, keepSize, isCache , type);
+			// setImageResource(imageView, stub_id);
+			if (defaultBitmap == null) {
+				defaultBitmap = BitmapFactory.decodeResource(
+						context.getResources(), stub_id);
+			}
+			setImageBitmap(
+					imageView,
+					ImageUtil.getInstance(context).getShapeBitmap(
+							defaultBitmap, topleft, topright, bottomleft,
+							bottomright));
+		}
+	}
+	
 	private void queuePhoto(String url, View imageView) {
 		queuePhoto(url, imageView, false, false, false, false);
 	}
@@ -168,6 +204,14 @@ public class ImageLoader {
 		executorService.submit(new PhotosLoader(p));
 	}
 
+	private void queuePhoto(String url, View imageView, boolean topleft,
+			boolean topright, boolean bottomleft, boolean bottomright,
+			boolean keepSize, boolean isCache , int type) {
+		PhotoToLoad p = new PhotoToLoad(url, imageView, topleft, topright,
+				bottomleft, bottomright, keepSize, isCache , type);
+		executorService.submit(new PhotosLoader(p));
+	}
+	
 	private Bitmap getBitmap(String url) {
 		File f = fileCache.getFile(url);
 
@@ -248,7 +292,8 @@ public class ImageLoader {
 		public boolean roundCornerBottomLeft = false;
 		public boolean roundCornerBottomRight = false;
 		public boolean keepSize = true;
-
+		public int type = -1;
+		
 		public PhotoToLoad(String u, View i) {
 			url = u;
 			imageView = i;
@@ -289,6 +334,21 @@ public class ImageLoader {
 			this.roundCornerBottomRight = roundCornerBottomRight;
 			this.keepSize = keepSize;
 			this.isCache = isCache;
+		}
+		
+		public PhotoToLoad(String u, View i, boolean roundCornerTopLeft,
+				boolean roundCornerTopRight, boolean roundCornerBottomLeft,
+				boolean roundCornerBottomRight, boolean keepSize,
+				boolean isCache , int type) {
+			url = u;
+			imageView = i;
+			this.roundCornerTopLeft = roundCornerTopLeft;
+			this.roundCornerTopRight = roundCornerTopRight;
+			this.roundCornerBottomLeft = roundCornerBottomLeft;
+			this.roundCornerBottomRight = roundCornerBottomRight;
+			this.keepSize = keepSize;
+			this.isCache = isCache;
+			this.type = type;
 		}
 	}
 
@@ -340,12 +400,24 @@ public class ImageLoader {
 				return;
 			if (bitmap != null) {
 				if (photoToLoad.keepSize) {
-					Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(
-							bitmap, photoToLoad.roundCornerTopLeft,
-							photoToLoad.roundCornerTopRight,
-							photoToLoad.roundCornerBottomLeft,
-							photoToLoad.roundCornerBottomRight);
-					setImageBitmap(photoToLoad.imageView, bmp);
+					if(photoToLoad.type == -1) {
+						Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(
+								bitmap, photoToLoad.roundCornerTopLeft,
+								photoToLoad.roundCornerTopRight,
+								photoToLoad.roundCornerBottomLeft,
+								photoToLoad.roundCornerBottomRight);
+						setImageBitmap(photoToLoad.imageView, bmp);
+					}
+					else {
+						Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmapType(
+								bitmap, photoToLoad.roundCornerTopLeft,
+								photoToLoad.roundCornerTopRight,
+								photoToLoad.roundCornerBottomLeft,
+								photoToLoad.roundCornerBottomRight,
+								ImageUtil.radius , bitmap.getWidth() , bitmap.getHeight()
+								, photoToLoad.type);
+						setImageBitmap(photoToLoad.imageView, bmp);
+					}
 				} else {
 					Log.d("KeepSize", "NonKeepSize "
 							+ photoToLoad.roundCornerTopLeft
@@ -354,13 +426,25 @@ public class ImageLoader {
 							+ photoToLoad.roundCornerBottomRight);
 					MarginLayoutParams params = (MarginLayoutParams) photoToLoad.imageView
 							.getLayoutParams();
-					Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(
-							bitmap, photoToLoad.roundCornerTopLeft,
-							photoToLoad.roundCornerTopRight,
-							photoToLoad.roundCornerBottomLeft,
-							photoToLoad.roundCornerBottomRight, params.width,
-							params.height);
-					setImageBitmap(photoToLoad.imageView, bmp);
+					if(photoToLoad.type == -1) {
+						Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(
+								bitmap, photoToLoad.roundCornerTopLeft,
+								photoToLoad.roundCornerTopRight,
+								photoToLoad.roundCornerBottomLeft,
+								photoToLoad.roundCornerBottomRight, params.width,
+								params.height);
+						setImageBitmap(photoToLoad.imageView, bmp);
+					}
+					else {
+						Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmapType(
+								bitmap, photoToLoad.roundCornerTopLeft,
+								photoToLoad.roundCornerTopRight,
+								photoToLoad.roundCornerBottomLeft,
+								photoToLoad.roundCornerBottomRight, 
+								ImageUtil.radius ,params.width,
+								params.height , photoToLoad.type);
+						setImageBitmap(photoToLoad.imageView, bmp);
+					}
 				}
 
 			} else {

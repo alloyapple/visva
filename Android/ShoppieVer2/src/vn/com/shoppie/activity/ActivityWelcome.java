@@ -32,7 +32,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Toast;
+
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -201,7 +203,11 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
-
+				System.out.println("abc " + arg0 + " " + arg1 + " " + arg2);
+				View on = findViewById(R.id.indicator);
+				MarginLayoutParams params = (MarginLayoutParams) on.getLayoutParams();
+				params.leftMargin = (int) ((arg0 + arg1) * (params.width * 4 / 3)); 
+				on.setLayoutParams(params);
 			}
 
 			@Override

@@ -31,63 +31,6 @@
         </vn.com.shoppie.view.MyTextView>
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-        <View
-            android:id="@+id/indicator0"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_indicator_off" />
-
-        <View
-            android:id="@+id/indicator1"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_indicator_off" />
-
-        <View
-            android:id="@+id/indicator2"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_indicator_off" />
-
-        <View
-            android:id="@+id/indicator3"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_indicator_off" />
-
-        <View
-            android:id="@+id/indicator4"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_indicator_off" />
-
-        <View
-            android:id="@+id/indicator5"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_indicator_off" />
-
-        <View
-            android:id="@+id/indicator6"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/ic_indicator_off" />
-    </LinearLayout>
-    
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
