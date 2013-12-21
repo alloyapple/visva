@@ -451,7 +451,7 @@ public class SUtilXml {
 				}
 				// SettingPreference.setUserID(context, Integer.valueOf(((User)
 				// data.get(0)).custId));
-				System.out.println("User ID:" + ((User) data.get(0)).custId);
+//				System.out.println("User ID:" + ((User) data.get(0)).custId);
 				new UserMng(context).insertNewTo(user.getValues());
 				return userID;
 			} catch (SQLException e) {

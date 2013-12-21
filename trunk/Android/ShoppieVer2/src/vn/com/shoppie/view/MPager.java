@@ -293,7 +293,6 @@ public class MPager extends RelativeLayout{
 			return true;
 		mVelocityTracker.addMovement(event);
 		if(container.getParent() != container1){
-			System.out.println(">>>>>>>>>>>>>>>>>> event " + isEnable + " " + lockSlide + " " + isAutoSlide);
 			isOpenCollapse = false;
 			
 			switch (event.getAction()) {
@@ -330,6 +329,7 @@ public class MPager extends RelativeLayout{
 		if(mAdapter.getCount() <= 1)
 			return super.onTouchEvent(event);
 
+		mVelocityTracker.computeCurrentVelocity(1000);
 		mGestureDetector.onTouchEvent(event);
 		if(isOpenMoveSlide) {
 			switch (event.getAction()) {
@@ -357,7 +357,7 @@ public class MPager extends RelativeLayout{
 			return;
 		if(inoutMode == SLIDE_IN){
 			if(velocityX > 100)
-				finishByFlying();
+				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
 			else if(currentX > 0.2f * distanceX)
 				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
 			else
@@ -365,13 +365,14 @@ public class MPager extends RelativeLayout{
 		}
 		else{
 			if(velocityX < -100)
-				finishByFlying();
+				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1200);
 			else if(currentX > 0.7f * distanceX)
 				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
 			else
 				mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1200);
 		}
 		invalidate();
+		isEnable = false;
 		isAutoSlide = true;
 		isOpenMoveSlide = false;
 		isSlide = false;
@@ -571,7 +572,6 @@ public class MPager extends RelativeLayout{
 	}
 	
 	private void finishDrag(){
-		System.out.println(">>>>>>>>>>>>>>>>>>>> finish drag");
 		postDelayed(new Runnable() {
 			
 			@Override
@@ -615,7 +615,8 @@ public class MPager extends RelativeLayout{
 					}
 				}
 				clearAnimator(currentSlide);
-				
+
+				isEnable = true;
 				isAutoSlide = false;
 				Log.d("CurrentItem", "" + currentItem);
 

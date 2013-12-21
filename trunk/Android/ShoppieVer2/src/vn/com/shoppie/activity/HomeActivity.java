@@ -91,6 +91,15 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 		// setup actionbar
 		actionBar = (RelativeLayout) findViewById(R.id.actionbar);
+		
+		findViewById(R.id.actionbar_icon).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoActivity(self, SearchActivity.class);
+			}
+		});
+		
 		mTxtTitle = new MyTextView(this);
 		mTxtTitle.setGravity(Gravity.CENTER);
 		mTxtTitle.setLight();

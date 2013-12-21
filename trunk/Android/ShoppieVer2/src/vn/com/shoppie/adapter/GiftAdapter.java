@@ -178,7 +178,6 @@ public class GiftAdapter extends BaseAdapter{
 		tvName.setText(item.getPieStr());
 		tvName.setLight();
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + WebServiceConfig.HEAD_IMAGE + item.getGiftImage());
 		mImageLoader.DisplayImage(WebServiceConfig.HEAD_IMAGE + item.getGiftImage() , image
 				, false ,false, false , false ,false , false);
 		manageViewByItem.put(item, v);

@@ -20,6 +20,7 @@ public class ShoppieSharePref {
 	private static final String CHECKIN_STATUS = "checkin_status";
 	private static final String VALUE_PARAM_MOBILE = "value_param_mobile";
 	private static final String VALUE_PARAM_SUPPORT_LINK = "value_param_mobile_link";
+	private static final String VALUE_PARAM_TERM_LINK = "value_param_term_link";
 	private static final String ACTION_SHARE_FB = "action_share_fb";
 	private static final String POST_LOGIN_FACEBOOK_SUCCESS = "post_login_fb_success";
 	private static final String LOGIN_TO_SHOW_FRIEND_SUCCESS = "login_to_show_friend_success";
@@ -84,6 +85,14 @@ public class ShoppieSharePref {
 		return getStringValue(VALUE_PARAM_SUPPORT_LINK);
 	}
 
+	public void setParamTermLink(String link) {
+		putStringValue(VALUE_PARAM_TERM_LINK, link);
+	}
+	
+	public String getParamTermLink() {
+		return getStringValue(VALUE_PARAM_TERM_LINK);
+	}
+	
 	public void setActionShareFB(boolean b) {
 		putBooleanValue(ACTION_SHARE_FB, b);
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -32,6 +32,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:layout_below="@id/actionbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
@@ -255,6 +256,7 @@
                     android:background="@drawable/btn_accept" />
 
                 <vn.com.shoppie.view.MyTextView
+                    android:id="@+id/tv_register_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/btn_register_accept"
@@ -265,5 +267,11 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+	
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -138,7 +138,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		custId = extras.getString(CUSTOMER_ID_KEY);
 		camName = extras.getString(CAMPAIGN_NAME_KEY);
 		pie = extras.getInt(LUCKY_PIE_KEY);
-		System.out.println(">>>>>>>>>>>>>>>>>>>pie : " + pie);
 
 		// setup actionbar
 		RelativeLayout actionBar = (RelativeLayout) findViewById(R.id.actionbar);
