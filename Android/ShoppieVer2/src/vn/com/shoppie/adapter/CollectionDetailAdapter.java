@@ -88,7 +88,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(final int position) {
-		System.out.println(">>>>>>>>>>>>>>>>>>>> getView");
 		try {
 			View v;
 			if (cacheView[position] != null) {
@@ -379,7 +378,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 							mPager.setLockSlide(true);
 							text.setVisibility(View.VISIBLE);
 							// if(Build.VERSION.SDK_INT >= 11) {
-							System.out.println(">>>>>>>>>>>>>>>> open Desc");
 							AnimatorSet set = new AnimatorSet();
 							set.playTogether(ObjectAnimator.ofFloat(text,
 									"alpha", 0, 0.8f), ObjectAnimator.ofFloat(

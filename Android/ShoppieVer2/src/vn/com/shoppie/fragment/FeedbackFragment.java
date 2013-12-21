@@ -182,7 +182,6 @@ public class FeedbackFragment extends FragmentBasic {
 	}
 
 	public void updateUI() {
-		System.out.println(">>>>>>>>>>>>>>>>>> " + mSharePref.getImageAvatar());
 		if (mSharePref.getLoginType()) {
 			ImageLoader.getInstance(getActivity()).DisplayImage(mSharePref.getImageAvatar(), mImgAvatar);
 		}

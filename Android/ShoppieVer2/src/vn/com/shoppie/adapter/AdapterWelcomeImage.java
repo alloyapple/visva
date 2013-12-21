@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import vn.com.shoppie.R;
+import vn.com.shoppie.activity.ActivityWebview;
 import vn.com.shoppie.activity.ActivityWelcome;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.util.SUtilBitmap;
@@ -12,7 +14,9 @@ import vn.com.shoppie.util.SUtilText;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
@@ -23,6 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,7 +35,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +91,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 					.findViewById(R.id.spin_personal_register_gender);
 			final EditText friendCode = (EditText) v
 					.findViewById(R.id.introduce_code_edit_text);
+			
 			friendCode.addTextChangedListener(new TextWatcher() {
 
 				@Override
@@ -110,6 +115,18 @@ public class AdapterWelcomeImage extends PagerAdapter {
 					mShopieSharePref.setFriendId(friendId);
 				}
 			});
+			
+			layoutRegister.findViewById(R.id.tv_register_tip).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String url = mShopieSharePref.getParamTermLink();
+					Intent i = new Intent(context, ActivityWebview.class);
+					i.putExtra("url", url);
+					context.startActivity(i);
+				}
+			});
+			
 			// Create an ArrayAdapter using the string array and a default
 			// spinner
 			// layout

@@ -140,9 +140,6 @@ public class GiftDetailActivity extends Activity {
 	private void updateGiftListAvailable(String merchId, String storeId,
 			String custId, String giftId, String redeemQty, String pieQty,
 			String giftPrice) {
-		System.out.println(merchId + " " + storeId + " " + custId + " "
-				+ giftId + " " + redeemQty + " " + pieQty + " " + giftPrice);
-		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getGiftListAvailable(merchId, storeId, custId, giftId,
 						redeemQty, pieQty, giftPrice);
@@ -152,16 +149,15 @@ public class GiftDetailActivity extends Activity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						try {
-							System.out.println(response);
+//							System.out.println(response);
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
 							GiftRedeemItem redeemItem = gson.fromJson(
 									jsonObject.toString(), GiftRedeemItem.class);
 							showHelp(item.getGiftCatId());
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
+							DialogUtility.alert(GiftDetailActivity.this, "Không thành công!");
 							e.printStackTrace();
-
 						}
 					}
 
@@ -174,26 +170,6 @@ public class GiftDetailActivity extends Activity {
 		postGetGiftList
 				.execute(WebServiceConfig.URL_GET_GIFT_TRANSACTION_AVAILABLE);
 	}
-
-	// public void onClickDoiqua(View v) {
-	// Spinner spinnerStore = (Spinner) findViewById(R.id.spinner_store);
-	// SpinnerAdapter adapter = spinnerStore.getAdapter();
-	//
-	// int storeId = 0;
-	// if (adapter.getCount() > 0) {
-	// storeId = listStore.get(currStoreId).getStoreId();
-	// }
-	//
-	// if(mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId]) {
-	// updateGiftListAvailable(ActivityGiftTransaction.currItem.getMerchId(),
-	// String.valueOf(storeId), mSharePref.getCustId() + "",
-	// ActivityGiftTransaction.currItem.getGiftId(),
-	// ActivityGiftTransaction.currItem.getRedeemQty(), pie[currId] + "",
-	// price[currId]);
-	// }
-	// else
-	// showReject();
-	// }
 
 	public String getStringResource(int id) {
 		return getResources().getString(id);

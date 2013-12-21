@@ -116,7 +116,6 @@ public class ActivityGiftTransaction extends Activity {
 			((TextView) headerView.findViewById(R.id.title)).setText(onTopItem.getGiftName());
 			// listView.addHeaderView(headerView);
 
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>> " + WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage());
 			ImageLoader.getInstance(this).DisplayImage(
 					WebServiceConfig.HEAD_IMAGE + onTopItem.getGiftImage(),
 					image , true ,true,false,false,true,false , 1);

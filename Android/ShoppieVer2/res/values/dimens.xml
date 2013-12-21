@@ -94,10 +94,13 @@
     <dimen name="personal_info_margin_right">20dp</dimen>
     <dimen name="personal_info_margin_left">20dp</dimen>
     <dimen name="personal_avatar_margin_left">30dp</dimen>
+    <dimen name="personal_avatar_margin_top">20dp</dimen>
     <dimen name="personal_layout_photo_height">180dp</dimen>
     <dimen name="personal_avatar_width">95dp</dimen>
     <dimen name="personal_avatar_height">95dp</dimen>
-    <dimen name="personal_avatar_margin_top">20dp</dimen>
+    <dimen name="personal_avatar_cover_margin_left">25dp</dimen>
+    <dimen name="personal_avatar_cover_margin_top">15dp</dimen>
+    <dimen name="personal_avatar_cover_size">105dp</dimen>
     <dimen name="personal_layout_item_height">40dp</dimen>
     <dimen name="personal_item_img_size">30dp</dimen>
     <dimen name="personal_friend_name_text_size">16sp</dimen>
