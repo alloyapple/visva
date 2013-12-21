@@ -294,7 +294,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 					likeBt.setOnClickListener(onClickListener);
 
-					TextView desc = (TextView) v.findViewById(R.id.desc1);
+					MyTextView desc = (MyTextView) v.findViewById(R.id.desc1);
+					desc.setLight();
 					desc.setText(getItem(position).getLongDesc());
 					desc.setTag(v.findViewById(R.id.text));
 					desc.setOnClickListener(new OnClickListener() {

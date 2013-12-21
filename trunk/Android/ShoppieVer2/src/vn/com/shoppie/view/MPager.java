@@ -54,6 +54,7 @@ public class MPager extends RelativeLayout{
 	private boolean isOpenCollapse = false;
 	private boolean canbeExtended = true;
 	private boolean lockSlide = false;
+	private boolean isFinishDrag = true;
 	
 	private long lastAutoSlideTime = 0;
 	
@@ -243,22 +244,6 @@ public class MPager extends RelativeLayout{
 	
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stubz
-//		switch (ev.getAction()) {
-//		case MotionEvent.ACTION_MOVE:
-//			if(Math.abs(ev.getX() - downX) > 10 || Math.abs(ev.getY() - downY) > 10) {
-//				ev.setAction(MotionEvent.ACTION_CANCEL);
-//				Log.d("Move", "False");
-//				return false;
-//			}
-//			else {
-//				Log.d("Move", "True");
-//			}
-//			break;
-//
-//		default:
-//			break;
-//		}
 		if(container.getParent() != container1) {
 			if(isSlideOnScroll)
 				return true;
@@ -316,7 +301,6 @@ public class MPager extends RelativeLayout{
 				return true;
 			return true;
 		}
-		
 		if(!isEnable)
 			return true;
 		if(lockSlide)
@@ -377,6 +361,8 @@ public class MPager extends RelativeLayout{
 		isOpenMoveSlide = false;
 		isSlide = false;
 		lastAutoSlideTime = Calendar.getInstance().getTimeInMillis();
+		
+		isFinishDrag = false;
 	}
 
 	private void finishByFlying() {
@@ -423,10 +409,10 @@ public class MPager extends RelativeLayout{
 
 	@Override
 	public void computeScroll() {
-
 		if(mScroller != null){
 			if(!mScroller.isFinished()){
 				if(mScroller.computeScrollOffset()){
+					Log.d("Computer", "Scroll >>>>>>>>>>>>>>>>>");
 					currentX = mScroller.getCurrX();
 					if(currentX >= distanceX){
 						currentX = distanceX;
@@ -434,7 +420,7 @@ public class MPager extends RelativeLayout{
 						finishDrag();
 						mScroller.abortAnimation();
 					}
-					else if(currentX < 0){
+					else if(currentX <= 0){
 						currentX = 0;
 						updateSlideLefRight();
 						finishDrag();
@@ -446,6 +432,10 @@ public class MPager extends RelativeLayout{
 					postInvalidate();
 					//					invalidate();
 				}
+			}
+			else {
+				if(!isFinishDrag)
+					finishDrag();
 			}
 		}
 		super.computeScroll();
@@ -572,6 +562,8 @@ public class MPager extends RelativeLayout{
 	}
 	
 	private void finishDrag(){
+		isFinishDrag = true;
+		Log.d("FinishDrag", ">>>>>>>>>>>>");
 		postDelayed(new Runnable() {
 			
 			@Override
@@ -624,6 +616,10 @@ public class MPager extends RelativeLayout{
 		}, 50);
 	}
 
+	public void finishDragVoid() {
+		
+	}
+	
 	public int getSlideType(){
 		return slideMode;
 	}
