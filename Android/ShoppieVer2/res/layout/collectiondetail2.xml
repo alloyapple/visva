@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#2A5C72"
-            android:textSize="@dimen/page_item_catelogy_subdesc_textsize" />
+            android:textSize="@dimen/collection_item_subtitle_textsize" />
     </ScrollView>
 
     <vn.com.shoppie.view.MyTextView
