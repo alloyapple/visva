@@ -190,18 +190,14 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 	public void findViewById() {
 		mPager = (ViewPager) findViewById(R.id.pager);
-		// mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 
 		mAdapter = new AdapterWelcomeImage(this, mData);
 		mPager.setAdapter(mAdapter);
-		// mIndicator.setViewPager(mPager);
 
 		mPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int arg0) {
-				// Log.e("page change", "" + arg0);
-				// mIndicator.setCurrentItem(arg0);
 			}
 
 			@Override

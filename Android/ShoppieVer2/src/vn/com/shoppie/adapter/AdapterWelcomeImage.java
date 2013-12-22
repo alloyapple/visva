@@ -71,6 +71,18 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				Log.e("out of memory", "wellcome Image Adapter");
 				return null;
 			}
+			
+			v.findViewById(R.id.tv_register_tip).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String url = mShopieSharePref.getParamTermLink();
+					Intent i = new Intent(context, ActivityWebview.class);
+					i.putExtra("url", url);
+					context.startActivity(i);
+				}
+			});
+			
 			final View layoutRegister  = (RelativeLayout)v.findViewById(R.id.layout_register);
 			final TextView textIntroductionTip = (TextView)v.findViewById(R.id.text_introduction_tip);
 			if(!"".equals(mShopieSharePref.getValueParamMobile())){
@@ -113,17 +125,6 @@ public class AdapterWelcomeImage extends PagerAdapter {
 					// TODO Auto-generated method stub
 					friendId += s.toString();
 					mShopieSharePref.setFriendId(friendId);
-				}
-			});
-			
-			layoutRegister.findViewById(R.id.tv_register_tip).setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					String url = mShopieSharePref.getParamTermLink();
-					Intent i = new Intent(context, ActivityWebview.class);
-					i.putExtra("url", url);
-					context.startActivity(i);
 				}
 			});
 			
