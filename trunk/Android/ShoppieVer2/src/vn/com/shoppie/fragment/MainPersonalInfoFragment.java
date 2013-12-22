@@ -3,12 +3,11 @@ package vn.com.shoppie.fragment;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.facebook.Session;
-import com.facebook.widget.LoginTextView;
-import com.google.gson.Gson;
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityFavouriteBrandShow;
 import vn.com.shoppie.activity.ActivityFavouriteProductShow;
@@ -31,6 +30,8 @@ import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.touchimage.ImageViewTouch;
 import vn.com.shoppie.util.ImageLoader;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -50,6 +51,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.Session;
+import com.facebook.widget.LoginTextView;
+import com.google.gson.Gson;
 
 public class MainPersonalInfoFragment extends FragmentBasic {
 
@@ -88,6 +93,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private boolean isShowFavouriteProduct;
 	private boolean isShowFavouriteBrand = false;
 	
+	private Uri mCapturedImageURI;
 	private String mCoverPath = "";
 	
 	private ArrayList<FavouriteDataObject> mFavouriteProductObjects = new ArrayList<FavouriteDataObject>();
@@ -499,11 +505,27 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 						switch (which) {
 						case 0:
 							// when user click camera to get image
-							Intent cameraIntent = new Intent(
-									android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-							// request code
-							startActivityForResult(cameraIntent,
-									REQUEST_CODE_GALLERY);
+							try {
+							    String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
+							    ContentValues values = new ContentValues();
+							    values.put(MediaStore.Images.Media.TITLE, fileName);
+							    mCapturedImageURI = getActivity().getContentResolver()
+							            .insert(
+							                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+							                    values);
+							    Intent intent = new Intent(
+							            MediaStore.ACTION_IMAGE_CAPTURE);
+							    intent.putExtra(MediaStore.EXTRA_OUTPUT,
+							            mCapturedImageURI);
+							    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+							} catch (Exception e) {
+							    Log.e("", "", e);
+							}
+//							Intent cameraIntent = new Intent(
+//									android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//							// request code
+//							startActivityForResult(cameraIntent,
+//									REQUEST_CODE_CAMERA);
 							break;
 
 						case 1:
@@ -513,7 +535,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 									Intent.ACTION_PICK,
 									android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 							startActivityForResult(galleryIntent,
-									REQUEST_CODE_CAMERA);
+									REQUEST_CODE_GALLERY);
 							break;
 
 						default:
@@ -531,35 +553,37 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		switch (requestCode) {
 		case REQUEST_CODE_CAMERA:
 			if (resultCode == getActivity().RESULT_OK) {
-				Uri uri = data.getData();
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-				Cursor cursor = getActivity().getContentResolver().query(uri,
-						filePathColumn, null, null, null);
-				cursor.moveToFirst();
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String imagePath = cursor.getString(columnIndex);
-				cursor.close();
-				if (uri != null) {
-					File file = new File(imagePath);
-					String imageName = file.getName();
-					if (file.exists()) {
-						Uri fileUri = Uri.fromFile(file);
-						int orientation = checkOrientation(fileUri);
-						Bitmap bmp;
-						if (mShopieSharePref.getChooseImageAvatar()) {
-							mShopieSharePref.setImageAvatar(imagePath);
-							bmp = decodeSampledBitmapFromFile(imagePath, 100,
-									100, orientation);
-							mImgAvatar.setImageBitmap(bmp);
-						} else {
-							bmp = decodeSampledBitmapFromFile(imagePath, 200,
-									200, orientation);
-							mImgCover.setImageBitmap(bmp);
-							mImgCover.reset();
-							mCoverPath = imagePath;
-						}
-					} 
-				}
+				
+				String[] projection = { MediaStore.Images.Media.DATA };
+		        Cursor cursor = getActivity().getContentResolver().query(mCapturedImageURI, projection, null,
+		                null, null);
+		        int column_index_data = cursor
+		                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		        cursor.moveToFirst();
+
+		        //THIS IS WHAT YOU WANT!
+		        String capturedImageFilePath = cursor.getString(column_index_data);
+
+				
+				File file = new File(capturedImageFilePath);
+				String imagePath = capturedImageFilePath;
+				if (file.exists()) {
+					Uri fileUri = Uri.fromFile(file);
+					int orientation = checkOrientation(fileUri);
+					Bitmap bmp;
+					if (mShopieSharePref.getChooseImageAvatar()) {
+						mShopieSharePref.setImageAvatar(imagePath);
+						bmp = decodeSampledBitmapFromFile(imagePath, 100,
+								100, orientation);
+						mImgAvatar.setImageBitmap(bmp);
+					} else {
+						bmp = decodeSampledBitmapFromFile(imagePath, 200,
+								200, orientation);
+						mImgCover.setImageBitmap(bmp);
+						mImgCover.reset();
+						mCoverPath = imagePath;
+					}
+				} 
 				mImgEditCover.setBackgroundResource(R.drawable.ic_edit_done_cover1);
 				isShowDoneBtn = true;
 				mImgCover.setEnableEdit(true);
