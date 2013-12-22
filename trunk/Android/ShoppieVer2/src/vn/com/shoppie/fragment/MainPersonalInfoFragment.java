@@ -521,11 +521,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 							} catch (Exception e) {
 							    Log.e("", "", e);
 							}
-//							Intent cameraIntent = new Intent(
-//									android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//							// request code
-//							startActivityForResult(cameraIntent,
-//									REQUEST_CODE_CAMERA);
 							break;
 
 						case 1:
