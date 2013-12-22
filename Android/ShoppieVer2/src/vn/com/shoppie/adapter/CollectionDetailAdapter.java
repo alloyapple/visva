@@ -177,6 +177,16 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 									+ Utils.formatMoney(getItem(position)
 											.getOldPrice()) + " VNĐ"
 									: "");
+					
+					if(getItem(position).getOldPrice() <= 0) {
+						price.setVisibility(View.INVISIBLE);
+						priceGoc.setVisibility(View.INVISIBLE);
+						price1.setVisibility(View.INVISIBLE);
+						priceGoc1.setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.price_label).setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.price1_label).setVisibility(View.INVISIBLE);
+					}
+					
 					MyTextView count = (MyTextView) v.findViewById(R.id.count);
 					count.setText(getItem(position).getPieQty() > 0 ? ""
 							+ getItem(position).getPieQty() : "");
@@ -414,11 +424,13 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 			}
 			return v;
 		} catch (OutOfMemoryError e) {
-			freeImage(position);
+			freeAll();
+//			freeImage(position);
 			// return null;
 			return getView(position);
 		} catch (InflateException e) {
-			freeImage(position);
+			freeAll();
+//			freeImage(position);
 			return getView(position);
 		}
 	}

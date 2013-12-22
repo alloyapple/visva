@@ -84,8 +84,12 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	private FavouriteAdapter mFavouriteBrandAdapter;
 	private ShoppieDBProvider mShoppieDBProvider;
 	// =========================Variable Define==================
+	private boolean isShowDoneBtn;
 	private boolean isShowFavouriteProduct;
 	private boolean isShowFavouriteBrand = false;
+	
+	private String mCoverPath = "";
+	
 	private ArrayList<FavouriteDataObject> mFavouriteProductObjects = new ArrayList<FavouriteDataObject>();
 	private ArrayList<FavouriteDataObject> mFavouriteBrandObjects = new ArrayList<FavouriteDataObject>();
 
@@ -299,13 +303,20 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			}
 		});
 
+		iniCoverImage();
+		
 		mImgEditCover.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mShopieSharePref.setChooseImageAvatar(false);
-				pickImage();
+				if(!isShowDoneBtn) {
+					mShopieSharePref.setChooseImageAvatar(false);
+					pickImage();
+				}
+				else {
+					mImgEditCover.setBackgroundResource(R.drawable.ic_edit_cover1);
+					savePickCoverImage();
+				}
 			}
 		});
 
@@ -428,6 +439,55 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		Toast.makeText(getActivity(), string, Toast.LENGTH_LONG).show();
 	}
 
+	private void iniCoverImage() {
+		String imagePath = mShopieSharePref.getImageCover();
+		Log.d("Scale", "abc>>>>>>>>>>>>>> " + mShopieSharePref.getEditCoverScaleCenterX());
+		File file = new File(imagePath);
+		if (file.exists()) {
+			Uri fileUri = Uri.fromFile(file);
+			int orientation = checkOrientation(fileUri);
+			Bitmap bmp;
+			bmp = decodeSampledBitmapFromFile(imagePath, 200,
+					200, orientation);
+			mImgCover.setImageBitmap(bmp);
+			mCoverPath = imagePath;
+			mImgCover.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					Log.d("scale", "1>>>>>>>>>>>>> " + mShopieSharePref.getEditCoverScrollx() + " " + mShopieSharePref.getEditCoverScrolly());
+					mImgCover.reset();
+					mImgCover.postScale(mShopieSharePref.getEditCoverScale(), mShopieSharePref.getEditCoverScaleCenterX(), 
+							mShopieSharePref.getEditCoverScaleCenterY());
+
+//					mImgCover.panBy(mShopieSharePref.getEditCoverScrollx(), 
+//							mShopieSharePref.getEditCoverScrolly());
+					mImgCover.postTranslate(-mImgCover.getXScroll(), 
+							-mImgCover.getYScroll());
+					mImgCover.postTranslate(mShopieSharePref.getEditCoverScrollx(), 
+							mShopieSharePref.getEditCoverScrolly());
+//					mImgCover.postTranslate(4.9f , -54f);
+//					mImgCover.postTranslate(-345f, 328f);
+					Log.d("scale", "2>>>>>>>>>>>>> " + mImgCover.getXScroll() + " " + mImgCover.getYScroll());
+					mImgCover.center(true, true);
+				}
+			}, 200);
+		} 
+	}
+	
+	private void savePickCoverImage() {
+		float scaleCenter[] = mImgCover.getCenterScale();
+		mShopieSharePref.setImageCover(mCoverPath);
+		mShopieSharePref.setEditCoverScale(mImgCover.getScale());
+		mShopieSharePref.setEditCoverScaleCenterX(scaleCenter[0]);
+		mShopieSharePref.setEditCoverScaleCenterY(scaleCenter[1]);
+		mShopieSharePref.setEditCoverScrollx(mImgCover.getXScroll());
+		mShopieSharePref.setEditCoverScrolly(mImgCover.getYScroll());
+		isShowDoneBtn = false;
+		mImgCover.setEnableEdit(false);
+		Log.d("scale", ">>>>>>>>>>>>> " + mImgCover.getYScroll());
+	}
+	
 	private void pickImage() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(R.string.pick_image);
@@ -492,13 +552,17 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 									100, orientation);
 							mImgAvatar.setImageBitmap(bmp);
 						} else {
-							mShopieSharePref.setImageCover(imagePath);
 							bmp = decodeSampledBitmapFromFile(imagePath, 200,
 									200, orientation);
 							mImgCover.setImageBitmap(bmp);
+							mImgCover.reset();
+							mCoverPath = imagePath;
 						}
 					} 
 				}
+				mImgEditCover.setBackgroundResource(R.drawable.ic_edit_done_cover1);
+				isShowDoneBtn = true;
+				mImgCover.setEnableEdit(true);
 			}
 			break;
 		case REQUEST_CODE_GALLERY:
@@ -526,15 +590,19 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 								orientation);
 						mImgAvatar.setImageBitmap(bmp);
 					} else {
-						mShopieSharePref.setImageCover(imagePath);
 						bmp = decodeSampledBitmapFromFile(imagePath, 200, 200,
 								orientation);
 						mImgCover.setImageBitmap(bmp);
+						mImgCover.reset();
+						mCoverPath = imagePath;
 					}
 
 				} else {
 					Log.d("test", "file don't exist !");
 				}
+				mImgEditCover.setBackgroundResource(R.drawable.ic_edit_done_cover1);
+				isShowDoneBtn = true;
+				mImgCover.setEnableEdit(true);
 			}
 			break;
 		default:

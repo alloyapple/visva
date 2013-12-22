@@ -65,7 +65,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	public static final float ZOOM_INVALID = -1f;
 
 	protected Matrix mBaseMatrix = new Matrix();
-	protected Matrix mSuppMatrix = new Matrix();
+	public Matrix mSuppMatrix = new Matrix();
 	protected Matrix mNextMatrix;
 	protected Handler mHandler = new Handler();
 	protected Runnable mLayoutRunnable = null;
@@ -752,7 +752,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		return getScale( mBaseMatrix );
 	}
 
-	protected void center( boolean horizontal, boolean vertical ) {
+	public void center( boolean horizontal, boolean vertical ) {
 		final Drawable drawable = getDrawable();
 		if ( drawable == null ) return;
 
@@ -801,17 +801,23 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		return mCenterRect;
 	}
 
-	protected void postTranslate( float deltaX, float deltaY ) {
+	public void postTranslate( float deltaX, float deltaY ) {
+		scrollX += deltaX;
+		scrollY += deltaY;
 		if ( deltaX != 0 || deltaY != 0 ) {
 			if ( LOG_ENABLED ) {
 				Log.i( LOG_TAG, "postTranslate: " + deltaX + "x" + deltaY );
 			}
 			mSuppMatrix.postTranslate( deltaX, deltaY );
 			setImageMatrix( getImageViewMatrix() );
+
 		}
+		
+		Log.d("scrollX", "" + scrollX);
+		Log.d("scrollY", "" + scrollY);
 	}
 
-	protected void postScale( float scale, float centerX, float centerY ) {
+	public void postScale( float scale, float centerX, float centerY ) {
 		if ( LOG_ENABLED ) {
 			Log.i( LOG_TAG, "postScale: " + scale + ", center: " + centerX + "x" + centerY );
 		}
@@ -853,7 +859,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		zoomTo( scale, center.x, center.y, durationMs );
 	}
 
-	protected void zoomTo( float scale, float centerX, float centerY ) {
+	public void zoomTo( float scale, float centerX, float centerY ) {
 		if ( scale > getMaxScale() ) scale = getMaxScale();
 
 		float oldScale = getScale();
@@ -861,6 +867,10 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		postScale( deltaScale, centerX, centerY );
 		onZoom( getScale() );
 		center( true, true );
+		
+		this.scale = deltaScale;
+		this.centerX = centerX;
+		this.centerY = centerY;
 	}
 
 	protected void onZoom( float scale ){}
@@ -877,7 +887,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		panBy( x, y );
 	}
 
-	protected void panBy( double dx, double dy ) {
+	public void panBy( double dx, double dy ) {
 		RectF rect = getBitmapRect();
 		mScrollRect.set( (float) dx, (float) dy, 0, 0 );
 		updateRect( rect, mScrollRect );
@@ -954,5 +964,39 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	@Override
 	public void dispose() {
 		clear();
+	}
+	
+	// for scale, scroll state
+	private float scale;
+	private float centerX , centerY;
+	private float scrollX , scrollY;
+	
+	public float getXScroll() {
+		float[] values = new float[9];
+		mSuppMatrix.getValues(values);
+		return values[Matrix.MTRANS_X];
+	}
+	
+	public float getYScroll() {
+		float[] values = new float[9];
+		mSuppMatrix.getValues(values);
+		return values[Matrix.MTRANS_Y];
+	}
+	
+	public float getScaleValue() {
+		return scale;
+	}
+	
+	public float[] getCenterScale() {
+		float[] result = new float[2];
+		result[0] = centerX;
+		result[1] = centerY;
+		return result;
+	}
+	
+	public void reset() {
+		mSuppMatrix.reset();
+		scrollX = 0;
+		scrollY = 0;
 	}
 }

@@ -27,6 +27,12 @@ public class ShoppieSharePref {
 	private static final String COUNT_LIKE = "count_like";
 	private static final String COUNT_SHARE = "count_share";
 	private static final String IS_CHOOSE_AVATAR = "choose_image_from_gallery";
+	private static final String IS_EDIT_COVER_SCROLLX = "edit_cover_scrollx";
+	private static final String IS_EDIT_COVER_SCROLLY = "edit_cover_scrolly";
+	private static final String IS_EDIT_COVER_SCALE = "edit_cover_scale";
+	private static final String IS_EDIT_COVER_SCALE_CENTERX = "edit_cover_scale_x";
+	private static final String IS_EDIT_COVER_SCALE_CENTERY = "edit_cover_scale_y";
+	private static final String IS_EDIT_COVER_URI = "edit_cover_uri";
 	// ================================================================
 	private static final String START_NUM = "num1";
 	private static final String LIKE_NUM = "like";
@@ -45,6 +51,54 @@ public class ShoppieSharePref {
 		return getBooleanValue(IS_CHOOSE_AVATAR);
 	}
 
+	public void setEditCoverScale(float scale) {
+		putFloatValue(IS_EDIT_COVER_SCALE, scale);
+	}
+	
+	public float getEditCoverScale() {
+		return getFloatValue(IS_EDIT_COVER_SCALE);
+	}
+	
+	public void setEditCoverScaleCenterX(float x) {
+		putFloatValue(IS_EDIT_COVER_SCALE_CENTERX, x);
+	}
+	
+	public float getEditCoverScaleCenterX() {
+		return getFloatValue(IS_EDIT_COVER_SCALE_CENTERX);
+	}
+	
+	public void setEditCoverScaleCenterY(float y) {
+		putFloatValue(IS_EDIT_COVER_SCALE_CENTERY, y);
+	}
+	
+	public float getEditCoverScaleCenterY() {
+		return getFloatValue(IS_EDIT_COVER_SCALE_CENTERY);
+	}
+	
+	public void setEditCoverUri(String uri) {
+		putStringValue(IS_EDIT_COVER_URI, uri);
+	}
+	
+	public String getEditCoverUri() {
+		return getStringValue(IS_EDIT_COVER_URI);
+	}
+	
+	public void setEditCoverScrollx(float scrollX) {
+		putFloatValue(IS_EDIT_COVER_SCROLLX, scrollX);
+	}
+	
+	public float getEditCoverScrollx() {
+		return getFloatValue(IS_EDIT_COVER_SCROLLX);
+	}
+	
+	public void setEditCoverScrolly(float scrollY) {
+		putFloatValue(IS_EDIT_COVER_SCROLLY, scrollY);
+	}
+	
+	public float getEditCoverScrolly() {
+		return getFloatValue(IS_EDIT_COVER_SCROLLY);
+	}
+	
 	public void setCountLike(int likeCount) {
 		putIntValue(COUNT_LIKE, likeCount);
 	}
