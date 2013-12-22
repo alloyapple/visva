@@ -202,11 +202,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 								merchantStoreItem = merchantStoreItems.get(i);
 							}
 						}
-						Log.e(TAG,
-								"merchantStoreItems "
-										+ merchantStoreItems.size()
-										+ " merchantStoreItem "
-										+ merchantStoreItem);
 						Intent intent = new Intent(getActivity(),
 								ActivityFavouriteBrandShow.class);
 						intent.putExtra(GlobalValue.MERCH_BRAND_ITEM,
@@ -251,11 +246,6 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// showToast(getActivity().getString(R.string.feedback_content));
-				// initShareItent(
-				// getActivity().getString(R.string.feedback_subject),
-				// getActivity().getString(R.string.feedback_content2),
-				// getActivity().getString(R.string.feedback_send_to));
 				mListener.onClickFeedback();
 			}
 		});
@@ -346,22 +336,11 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		int gender = mShopieSharePref.getGender();
-//		if (gender == 0)
-//			mImgAvatar.setImageResource(R.drawable.ic_male);
-//		else
-//			mImgAvatar.setImageResource(R.drawable.ic_female);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-//		Log.e(TAG, "gender "+mShopieSharePref.getGender());
-//		int gender = mShopieSharePref.getGender();
-//		if (gender == 0)
-//			mImgAvatar.setImageResource(R.drawable.ic_male);
-//		else
-//			mImgAvatar.setImageResource(R.drawable.ic_female);
 	}
 
 	public void onClickMainPersonalInfo(View v) {
@@ -675,14 +654,9 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		Log.d("orientation ", "orientation " + orientation);
-		// return Bitmap.createBitmap(BitmapFactory.decodeFile(filePath,
-		// options), 0, 0, reqHeight,
-		// reqWidth, mtx, true);
 
 		return decodeBitmap(BitmapFactory.decodeFile(filePath, options),
 				orientation);
-
 	}
 
 	private Bitmap decodeBitmap(Bitmap bitmap, int orientation) {

@@ -165,6 +165,21 @@ public class ShoppieDBProvider extends SQLiteOpenHelper {
 		return jsonDataObject;
 	}
 
+	public JsonDataObject getJsonDataByType(String type) {
+		SQLiteDatabase mdb = getReadableDatabase();
+		JsonDataObject jsonDataObject = null;
+		Cursor mCursor = mdb.query(TABLE_JSON, null, JSON_TYPE + " = ?",
+				new String[] { String.valueOf(type) }, null, null, null);
+		if (mCursor.moveToFirst()) {
+			jsonDataObject = new JsonDataObject(Integer.parseInt(mCursor
+					.getString(0)), mCursor.getString(1), mCursor.getString(2),
+					Integer.parseInt(mCursor.getString(3)));
+		}
+		mCursor.close();
+		mdb.close();
+		return jsonDataObject;
+	}
+
 	public JsonDataObject getJsonDataByData(String jsonData) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		JsonDataObject jsonDataObject = new JsonDataObject();

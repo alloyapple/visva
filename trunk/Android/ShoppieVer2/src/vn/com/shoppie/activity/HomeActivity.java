@@ -74,6 +74,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 	private ShoppieDBProvider mShoppieDBProvider;
 	private static ShoppieSharePref mShoppieSharePref;
 	private AlertDialog mAlertDialog;
+	public static final String CLASS_UNIQUE = "ActivityHome";
 
 	@Override
 	public int contentView() {
@@ -341,6 +342,8 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void requestToGetMerchantCategory() {
 		// TODO Auto-generated method stub
+		mGaTracker.sendEvent(GA_EVENT, this.getClass().getName().toString(),
+				"loadData", 0L);
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getMerchantCategoryValue();
 		AsyncHttpPost postCampaignCategory = new AsyncHttpPost(
@@ -381,6 +384,14 @@ public class HomeActivity extends VisvaAbstractActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_canhan:
+			super.mGaTracker.sendEvent(getString(R.string.ca_button),
+					getString(R.string.ac_press), "btn_left",
+					System.currentTimeMillis());
+			// overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+			GA_MAP_PARAMS.clear();
+			GA_MAP_PARAMS.put("method", "btnClicked");
+			GA_MAP_PARAMS.put("button", "layout_bottom_btn_left");
+			mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 			Intent intent = new Intent(HomeActivity.this,
 					PersonalInfoActivity.class);
 			intent.putExtra(GlobalValue.IS_SHOW_FAVOURITE, 0);
@@ -397,8 +408,23 @@ public class HomeActivity extends VisvaAbstractActivity {
 			} else {
 				showToast(getString(R.string.network_unvailable));
 			}
+			super.mGaTracker.sendEvent(getString(R.string.ca_button),
+					getString(R.string.ac_press), "btn_right",
+					System.currentTimeMillis());
+			// overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+			GA_MAP_PARAMS.clear();
+			GA_MAP_PARAMS.put("method", "btnClicked");
+			GA_MAP_PARAMS.put("button", "layout_bottom_btn_right");
+			mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 			break;
 		case R.id.checkin:
+			super.mGaTracker.sendEvent(getString(R.string.ca_button),
+					getString(R.string.ac_press), "btn_pie",
+					System.currentTimeMillis());
+			GA_MAP_PARAMS.clear();
+			GA_MAP_PARAMS.put("method", "btnClicked");
+			GA_MAP_PARAMS.put("button", "activity_home_btn_pie");
+			mGaTracker.send(GA_HIT_TYPE_BUTTON, GA_MAP_PARAMS);
 			onClickCheckin();
 			break;
 		default:
@@ -660,5 +686,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 					}
 				}, nameValuePairs, true);
 		postUpdateLuckyPie.execute(WebServiceConfig.URL_HISTORY_TRANSACTION);
+	}
+
+	// Analysis
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Send a screen view when the Activity is displayed to the user.
+		mGaTracker.sendView(CLASS_UNIQUE);
 	}
 }

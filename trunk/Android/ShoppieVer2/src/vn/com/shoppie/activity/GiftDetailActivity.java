@@ -73,7 +73,7 @@ public class GiftDetailActivity extends Activity {
 				.DisplayImage(
 						WebServiceConfig.HEAD_IMAGE + item.getGiftImage(),
 						findViewById(R.id.image), true, true, false, false,
-						false, false);
+						true, false);
 		mBtnGiftTransaction = (GiftTransactionButton) findViewById(R.id.btn_gift_transaction);
 		mBtnGiftTransaction.setOnClickListener(new View.OnClickListener() {
 
@@ -181,7 +181,7 @@ public class GiftDetailActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Log.e("adfdsfh", "adfdfjh ");
+
 						Session session = Session.getActiveSession();
 						if (session != null && session.isOpened()) {
 							Intent intent = new Intent(GiftDetailActivity.this,

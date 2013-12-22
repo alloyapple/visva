@@ -199,4 +199,30 @@ public final class ParameterFactory {
 		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
 		return data;
 	}
+
+	public static List<NameValuePair> getCustomerInfo(String custId) {
+		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("custId", custId));
+		return data;
+	}
+
+	public static List<NameValuePair> getCustomerLikedBrandInfo(String custId) {
+		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("custId", custId));
+		return data;
+	}
+
+	public static List<NameValuePair> getCustomerLikeProductInfo(String custId) {
+		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("custId", custId));
+		return data;
+	}
+
+	public static List<NameValuePair> getCheckIsFriend(String custId,
+			String facebookId) {
+		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("custId", custId));
+		data.add(new BasicNameValuePair("facebookId", facebookId));
+		return data;
+	}
 }

@@ -84,4 +84,5 @@ public final class GlobalValue {
 
 	public static final String MERCH_PRODUCT_ITEM = "merch_product_item";
 	public static final String MERCH_BRAND_ITEM = "merch_brand_item";
+	public static final String CUSTOMER_PRODUCT_ITEM="cust_product_item";
 }
