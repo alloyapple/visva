@@ -103,6 +103,11 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
+         <activity
+            android:name="vn.com.shoppie.activity.ActivityCustFavouriteProductShow"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
         <activity
             android:name="vn.com.shoppie.activity.ActivityWelcome"
             android:screenOrientation="portrait" >

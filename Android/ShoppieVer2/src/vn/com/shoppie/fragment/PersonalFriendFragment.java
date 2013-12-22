@@ -349,4 +349,10 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	public void setListener(IOnViewFriendDetail monVieFriendDetail) {
 		this.mListener = monVieFriendDetail;
 	}
+
+	@Override
+	public void onClickFriendDetail(FBUser friend) {
+		// TODO Auto-generated method stub
+		mListener.onClickViewFriendDetail(friend);
+	}
 }

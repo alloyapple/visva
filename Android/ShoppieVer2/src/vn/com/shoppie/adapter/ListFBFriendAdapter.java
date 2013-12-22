@@ -78,12 +78,14 @@ public class ListFBFriendAdapter extends BaseAdapter {
 
 		if (mListFriend.get(position).isJoinSP()) {
 			txtNumberPie.setVisibility(View.VISIBLE);
+			btnInvite.setVisibility(View.GONE);
 			txtNumberPie.setText(mListFriend.get(position).getNumberPie()
 					+ " pie");
 			convertView.setBackgroundColor(mContext.getResources().getColor(
 					R.color.white));
 
 		} else {
+			btnInvite.setVisibility(View.VISIBLE);
 			txtNumberPie.setText(0 + " pie");
 			convertView.setBackgroundResource(R.drawable.bg_friend_fb_only);
 		}
@@ -92,6 +94,15 @@ public class ListFBFriendAdapter extends BaseAdapter {
 
 		mImageLoader.DisplayImage(
 				mListFriend.get(position).getUserAvatarLink(), imgPhoto);
+		
+		convertView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				mListener.onClickFriendDetail(mListFriend.get(position));
+			}
+		});
 		return convertView;
 	}
 
@@ -102,7 +113,23 @@ public class ListFBFriendAdapter extends BaseAdapter {
 
 	public void updateFolderList(ArrayList<FBUser> mListFriend) {
 		this.mListFriend = mListFriend;
+		for(int i = 0;i < this.mListFriend.size();i++){
+			for(int j = i+1 ; j < this.mListFriend.size();j++){
+				if(this.mListFriend.get(i).getNumberPie() < this.mListFriend.get(j).getNumberPie())
+					swap(this.mListFriend,i,j);
+			}
+		}
 		notifyDataSetChanged();
+	}
+
+	private void swap(ArrayList<FBUser> mListFriend, int i, int j) {
+		// TODO Auto-generated method stub
+		FBUser user1 = mListFriend.get(i);
+		FBUser user2 = mListFriend.get(j);
+		mListFriend.remove(j);
+		mListFriend.add(j, user1);
+		mListFriend.remove(i);
+		mListFriend.add(i, user2);
 	}
 
 	public void addNewPhoto(FBUser friend) {
@@ -155,6 +182,7 @@ public class ListFBFriendAdapter extends BaseAdapter {
 
 	public interface InviteFriendJoinSPInterface {
 		public void inviteFriendJoinSp(FBUser friend);
+		public void onClickFriendDetail(FBUser friend);
 	}
 
 	public void setListener(

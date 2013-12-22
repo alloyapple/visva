@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class FavouriteAdapter extends BaseAdapter {
@@ -53,5 +52,12 @@ public class FavouriteAdapter extends BaseAdapter {
 		mImageLoader.DisplayImage(WebServiceConfig.HEAD_IMAGE+mFavouriteDataObjects.get(position).getImage_url(),iv);
 		iv.setContentDescription(this.mFavouriteDataObjects.get(position).getType());
 		return convertView;
+	}
+
+	public void updateBrandList(
+			ArrayList<FavouriteDataObject> favouriteBrandObjects) {
+		// TODO Auto-generated method stub
+		mFavouriteDataObjects.addAll(favouriteBrandObjects);
+		notifyDataSetChanged();
 	}
 }

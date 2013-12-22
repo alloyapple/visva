@@ -58,25 +58,33 @@ public final class WebServiceConfig {
 	public static final String URL_HISTORY_TRANSACTION = URL_SHOPPIE_HOME
 			+ "txnhistory_v2/format/json";
 	public static final String URL_FEEDBACK = URL_SHOPPIE_HOME
-			+ "/customerfeedback";
+			+ "/customerfeedback/json";
 	public static final String URL_GET_GIFT_LIST = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/allgifts/format/json";
 	public static final String URL_GET_GIFT_TRANSACTION_AVAILABLE = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/giftredeem_v2/format/json";
 	/** LIKE SAN PHAM custId=118&productId=1 */
 	public static final String URL_LIKE_PRODUCT = URL_SHOPPIE_HOME
-			+ "/likeproduct";
+			+ "/likeproduct/json";
 	/** UNLIKE SAN PHAM custId=118&productId=1 */
 	public static final String URL_UNLIKE_PRODUCT = URL_SHOPPIE_HOME
-			+ "/unlikeproduct";
+			+ "/unlikeproduct/format/json";
 	public static final String URL_LIKE_BRAND = URL_SHOPPIE_HOME
-			+ "/likecategory";
+			+ "/likecategory/format/json";
 	public static final String URL_UNLIKE_BRAND = URL_SHOPPIE_HOME
-			+ "/unlikecategory";
+			+ "/unlikecategory/json";
 
 	public static final String URL_PARAM_MOBILE = URL_SHOPPIE_HOME
 			+ "/params_mobile/format/json";
 
 	public static final String URL_UPDATE_INFO_USER = URL_SHOPPIE_HOME
 			+ "/customerupdate";
+	public static final String URL_CUSTOMER_INFO = URL_SHOPPIE_HOME
+			+ "/customerinfo/format/json";
+	public static final String URL_CUSTOMER_LIKE_BRAND_INFO = URL_SHOPPIE_HOME
+			+ "/getlikebrand/format/json";
+	public static final String URL_CUSTOMER_LIKE_PRODUCT_INFO = URL_SHOPPIE_HOME
+			+ "/getlikeproduct/format/json";
+	public static final String URL_CHECK_IS_FRIEND = URL_SHOPPIE_HOME
+			+ "/checkisfriend/format/json";
 	// GCM a. Thang
 	public static final String SENDER_ID1 = "AIzaSyD4keVrSodVstQl_91Md5c7INI4Xhmcl_4";
 	public static final String SENDER_ID = "622843213634";

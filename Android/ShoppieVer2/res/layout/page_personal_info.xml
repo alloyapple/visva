@@ -65,11 +65,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="vn.com.shoppie.fragment.HistoryTradeFragment" />
-        <fragment
+
+        <fragment
             android:id="@+id/layout_feedback_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="vn.com.shoppie.fragment.FeedbackFragment" />
+
+        <fragment
+            android:id="@+id/layout_friend_detail_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="vn.com.shoppie.fragment.PersonalFriendDetailFragment" />
     </RelativeLayout>
 
 </LinearLayout>

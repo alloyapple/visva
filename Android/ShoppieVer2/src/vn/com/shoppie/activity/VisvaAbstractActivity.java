@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
-import com.google.android.gms.internal.s;
 
 public abstract class VisvaAbstractActivity extends Activity implements
 		BroastcastListener {
