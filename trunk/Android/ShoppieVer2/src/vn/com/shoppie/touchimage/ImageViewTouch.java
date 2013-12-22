@@ -27,6 +27,7 @@ public class ImageViewTouch extends ImageViewTouchBase {
 	protected boolean mDoubleTapEnabled = true;
 	protected boolean mScaleEnabled = true;
 	protected boolean mScrollEnabled = true;
+	protected boolean isEnableEdit = false;
 	private OnImageViewTouchDoubleTapListener mDoubleTapListener;
 	private OnImageViewTouchSingleTapListener mSingleTapListener;
 	
@@ -95,6 +96,8 @@ public class ImageViewTouch extends ImageViewTouchBase {
 
 	@Override
 	public boolean onTouchEvent( MotionEvent event ) {
+		if(!isEnableEdit)
+			return true;
 		mScaleDetector.onTouchEvent( event );
 
 		if ( !mScaleDetector.isInProgress() ) {
@@ -309,6 +312,10 @@ public class ImageViewTouch extends ImageViewTouchBase {
 		
 	}
 
+	public void setEnableEdit(boolean enable) {
+		this.isEnableEdit = enable;
+	}
+	
 	public interface OnImageViewTouchDoubleTapListener {
 
 		void onDoubleTap();
