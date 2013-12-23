@@ -1,0 +1,442 @@
+android.support.v4.app.BackStackState
+android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.Fragment: Fragment()
+android.support.v4.app.Fragment$SavedState
+android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentActivity
+android.support.v4.app.FragmentActivity: FragmentActivity()
+android.support.v4.app.FragmentManagerState
+android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentState
+android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentTabHost
+android.support.v4.app.FragmentTabHost: FragmentTabHost(android.content.Context,android.util.AttributeSet)
+android.support.v4.app.FragmentTabHost$SavedState
+android.support.v4.app.FragmentTabHost$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.content.FileProvider
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
+android.support.v4.content.WakefulBroadcastReceiver
+android.support.v4.view.PagerTabStrip
+android.support.v4.view.PagerTabStrip: PagerTabStrip(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.PagerTabStrip$1: void onClick(android.view.View)
+android.support.v4.view.PagerTabStrip$2: void onClick(android.view.View)
+android.support.v4.view.PagerTitleStrip
+android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager
+android.support.v4.view.ViewPager: ViewPager(android.content.Context)
+android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager$LayoutParams
+android.support.v4.view.ViewPager$LayoutParams: ViewPager$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager$SavedState
+android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.DrawerLayout
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.DrawerLayout: DrawerLayout(android.content.Context,android.util.AttributeSet,int)
+android.support.v4.widget.DrawerLayout$LayoutParams
+android.support.v4.widget.DrawerLayout$LayoutParams: DrawerLayout$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.DrawerLayout$SavedState
+android.support.v4.widget.DrawerLayout$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.SlidingPaneLayout
+android.support.v4.widget.SlidingPaneLayout: SlidingPaneLayout(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.SlidingPaneLayout: SlidingPaneLayout(android.content.Context,android.util.AttributeSet,int)
+android.support.v4.widget.SlidingPaneLayout$LayoutParams
+android.support.v4.widget.SlidingPaneLayout$LayoutParams: SlidingPaneLayout$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.widget.SlidingPaneLayout$SavedState
+android.support.v4.widget.SlidingPaneLayout$SavedState: android.os.Parcelable$Creator CREATOR
+com.antonyt.infiniteviewpager.InfiniteViewPager
+com.antonyt.infiniteviewpager.InfiniteViewPager: InfiniteViewPager(android.content.Context)
+com.antonyt.infiniteviewpager.InfiniteViewPager: InfiniteViewPager(android.content.Context,android.util.AttributeSet)
+com.facebook.AccessToken: java.lang.Object writeReplace()
+com.facebook.AccessToken: void readObject(java.io.ObjectInputStream)
+com.facebook.AccessToken$SerializationProxyV1: java.lang.Object readResolve()
+com.facebook.AccessTokenSource: com.facebook.AccessTokenSource[] values()
+com.facebook.AccessTokenSource: com.facebook.AccessTokenSource valueOf(java.lang.String)
+com.facebook.AppEventsLogger$AccessTokenAppIdPair: java.lang.Object writeReplace()
+com.facebook.AppEventsLogger$AccessTokenAppIdPair$SerializationProxyV1: java.lang.Object readResolve()
+com.facebook.AppEventsLogger$AppEvent: java.lang.Object writeReplace()
+com.facebook.AppEventsLogger$AppEvent$SerializationProxyV1: java.lang.Object readResolve()
+com.facebook.AppEventsLogger$FlushBehavior: com.facebook.AppEventsLogger$FlushBehavior[] values()
+com.facebook.AppEventsLogger$FlushBehavior: com.facebook.AppEventsLogger$FlushBehavior valueOf(java.lang.String)
+com.facebook.AppEventsLogger$FlushReason: com.facebook.AppEventsLogger$FlushReason[] values()
+com.facebook.AppEventsLogger$FlushReason: com.facebook.AppEventsLogger$FlushReason valueOf(java.lang.String)
+com.facebook.AppEventsLogger$FlushResult: com.facebook.AppEventsLogger$FlushResult[] values()
+com.facebook.AppEventsLogger$FlushResult: com.facebook.AppEventsLogger$FlushResult valueOf(java.lang.String)
+com.facebook.AppEventsLogger$SuppressionTimeoutBehavior: com.facebook.AppEventsLogger$SuppressionTimeoutBehavior[] values()
+com.facebook.AppEventsLogger$SuppressionTimeoutBehavior: com.facebook.AppEventsLogger$SuppressionTimeoutBehavior valueOf(java.lang.String)
+com.facebook.AuthorizationClient$Result$Code: com.facebook.AuthorizationClient$Result$Code[] values()
+com.facebook.AuthorizationClient$Result$Code: com.facebook.AuthorizationClient$Result$Code valueOf(java.lang.String)
+com.facebook.FacebookRequestError$Category: com.facebook.FacebookRequestError$Category[] values()
+com.facebook.FacebookRequestError$Category: com.facebook.FacebookRequestError$Category valueOf(java.lang.String)
+com.facebook.HttpMethod: com.facebook.HttpMethod[] values()
+com.facebook.HttpMethod: com.facebook.HttpMethod valueOf(java.lang.String)
+com.facebook.LoggingBehavior: com.facebook.LoggingBehavior[] values()
+com.facebook.LoggingBehavior: com.facebook.LoggingBehavior valueOf(java.lang.String)
+com.facebook.LoginActivity
+com.facebook.LoginActivity: LoginActivity()
+com.facebook.NativeAppCallContentProvider
+com.facebook.Request$ParcelFileDescriptorWithMimeType
+com.facebook.Request$ParcelFileDescriptorWithMimeType: android.os.Parcelable$Creator CREATOR
+com.facebook.Response$PagingDirection: com.facebook.Response$PagingDirection[] values()
+com.facebook.Response$PagingDirection: com.facebook.Response$PagingDirection valueOf(java.lang.String)
+com.facebook.Session: java.lang.Object writeReplace()
+com.facebook.Session: void readObject(java.io.ObjectInputStream)
+com.facebook.Session$AuthorizationRequest: java.lang.Object writeReplace()
+com.facebook.Session$AuthorizationRequest: void readObject(java.io.ObjectInputStream)
+com.facebook.Session$AuthorizationRequest$AuthRequestSerializationProxyV1: java.lang.Object readResolve()
+com.facebook.Session$SerializationProxyV1: java.lang.Object readResolve()
+com.facebook.SessionDefaultAudience: com.facebook.SessionDefaultAudience[] values()
+com.facebook.SessionDefaultAudience: com.facebook.SessionDefaultAudience valueOf(java.lang.String)
+com.facebook.SessionLoginBehavior: com.facebook.SessionLoginBehavior[] values()
+com.facebook.SessionLoginBehavior: com.facebook.SessionLoginBehavior valueOf(java.lang.String)
+com.facebook.SessionState: com.facebook.SessionState[] values()
+com.facebook.SessionState: com.facebook.SessionState valueOf(java.lang.String)
+com.facebook.SessionState$Category: com.facebook.SessionState$Category[] values()
+com.facebook.SessionState$Category: com.facebook.SessionState$Category valueOf(java.lang.String)
+com.facebook.TestSession$Mode: com.facebook.TestSession$Mode[] values()
+com.facebook.TestSession$Mode: com.facebook.TestSession$Mode valueOf(java.lang.String)
+com.facebook.internal.SessionAuthorizationType: com.facebook.internal.SessionAuthorizationType[] values()
+com.facebook.internal.SessionAuthorizationType: com.facebook.internal.SessionAuthorizationType valueOf(java.lang.String)
+com.facebook.widget.FacebookDialog$OpenGraphActionDialogFeature: com.facebook.widget.FacebookDialog$OpenGraphActionDialogFeature[] values()
+com.facebook.widget.FacebookDialog$OpenGraphActionDialogFeature: com.facebook.widget.FacebookDialog$OpenGraphActionDialogFeature valueOf(java.lang.String)
+com.facebook.widget.FacebookDialog$PendingCall
+com.facebook.widget.FacebookDialog$PendingCall: android.os.Parcelable$Creator CREATOR
+com.facebook.widget.FacebookDialog$ShareDialogFeature: com.facebook.widget.FacebookDialog$ShareDialogFeature[] values()
+com.facebook.widget.FacebookDialog$ShareDialogFeature: com.facebook.widget.FacebookDialog$ShareDialogFeature valueOf(java.lang.String)
+com.facebook.widget.GiftTransactionButton
+com.facebook.widget.GiftTransactionButton: GiftTransactionButton(android.content.Context)
+com.facebook.widget.GiftTransactionButton: GiftTransactionButton(android.content.Context,android.util.AttributeSet)
+com.facebook.widget.GiftTransactionButton: GiftTransactionButton(android.content.Context,android.util.AttributeSet,int)
+com.facebook.widget.GiftTransactionButton$LoginClickListener: void onClick(android.view.View)
+com.facebook.widget.GiftTransactionButton$LoginClickListener$1: void onClick(android.content.DialogInterface,int)
+com.facebook.widget.GraphObjectAdapter$SectionAndItem$Type: com.facebook.widget.GraphObjectAdapter$SectionAndItem$Type[] values()
+com.facebook.widget.GraphObjectAdapter$SectionAndItem$Type: com.facebook.widget.GraphObjectAdapter$SectionAndItem$Type valueOf(java.lang.String)
+com.facebook.widget.LoginButton
+com.facebook.widget.LoginButton: LoginButton(android.content.Context)
+com.facebook.widget.LoginButton: LoginButton(android.content.Context,android.util.AttributeSet)
+com.facebook.widget.LoginButton: LoginButton(android.content.Context,android.util.AttributeSet,int)
+com.facebook.widget.LoginButton$LoginClickListener: void onClick(android.view.View)
+com.facebook.widget.LoginButton$LoginClickListener$1: void onClick(android.content.DialogInterface,int)
+com.facebook.widget.LoginTextView
+com.facebook.widget.LoginTextView: LoginTextView(android.content.Context)
+com.facebook.widget.LoginTextView: LoginTextView(android.content.Context,android.util.AttributeSet)
+com.facebook.widget.LoginTextView: LoginTextView(android.content.Context,android.util.AttributeSet,int)
+com.facebook.widget.LoginTextView$LoginClickListener: void onClick(android.view.View)
+com.facebook.widget.LoginTextView$LoginClickListener$1: void onClick(android.content.DialogInterface,int)
+com.facebook.widget.NoBGLoginButton
+com.facebook.widget.NoBGLoginButton: NoBGLoginButton(android.content.Context,android.util.AttributeSet)
+com.facebook.widget.NoBGLoginButton: NoBGLoginButton(android.content.Context,android.util.AttributeSet,int)
+com.facebook.widget.NoBGLoginButton$LoginClickListener: void onClick(android.view.View)
+com.facebook.widget.NoBGLoginButton$LoginClickListener$1: void onClick(android.content.DialogInterface,int)
+com.facebook.widget.PickerFragment$6: void onClick(android.view.View)
+com.facebook.widget.ProfilePictureView
+com.facebook.widget.ProfilePictureView: ProfilePictureView(android.content.Context,android.util.AttributeSet)
+com.facebook.widget.ProfilePictureView: ProfilePictureView(android.content.Context,android.util.AttributeSet,int)
+com.facebook.widget.ShareButton
+com.facebook.widget.ShareButton: ShareButton(android.content.Context)
+com.facebook.widget.ShareButton: ShareButton(android.content.Context,android.util.AttributeSet)
+com.facebook.widget.ShareButton: ShareButton(android.content.Context,android.util.AttributeSet,int)
+com.facebook.widget.ShareButton$LoginClickListener: void onClick(android.view.View)
+com.facebook.widget.ShareButton$LoginClickListener$1: void onClick(android.content.DialogInterface,int)
+com.facebook.widget.ViewLogin
+com.facebook.widget.ViewLogin: ViewLogin(android.content.Context,android.util.AttributeSet)
+com.facebook.widget.ViewLogin: ViewLogin(android.content.Context,android.util.AttributeSet,int)
+com.facebook.widget.ViewLogin$LoginClickListener: void onClick(android.view.View)
+com.facebook.widget.ViewLogin$LoginClickListener$1: void onClick(android.content.DialogInterface,int)
+com.facebook.widget.WebDialog$3: void onClick(android.view.View)
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values()
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String)
+com.google.analytics.tracking.android.CampaignTrackingReceiver
+com.google.analytics.tracking.android.CampaignTrackingReceiver: CampaignTrackingReceiver()
+com.google.analytics.tracking.android.CampaignTrackingService
+com.google.analytics.tracking.android.CampaignTrackingService: CampaignTrackingService(java.lang.String)
+com.google.analytics.tracking.android.CampaignTrackingService: CampaignTrackingService()
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values()
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String)
+com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field[] values()
+com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field valueOf(java.lang.String)
+com.google.android.gcm.GCMBaseIntentService
+com.google.android.gcm.GCMBaseIntentService: GCMBaseIntentService()
+com.google.android.gcm.GCMBaseIntentService: GCMBaseIntentService(java.lang.String[])
+com.google.android.gcm.GCMBaseIntentService: GCMBaseIntentService(java.lang.String,java.lang.String[])
+com.google.android.gcm.GCMBroadcastReceiver
+com.google.android.gcm.GCMBroadcastReceiver: GCMBroadcastReceiver()
+com.google.android.gms.analytics.internal.Command
+com.google.android.gms.analytics.internal.Command: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.SignInButton
+com.google.android.gms.common.SignInButton: SignInButton(android.content.Context,android.util.AttributeSet)
+com.google.android.gms.common.SignInButton: SignInButton(android.content.Context,android.util.AttributeSet,int)
+com.google.android.gms.common.SignInButton: void onClick(android.view.View)
+com.google.android.gms.common.images.ImageManager$b
+com.google.android.gms.games.Game
+com.google.android.gms.games.GameEntity
+com.google.android.gms.games.GameEntity: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.games.Player
+com.google.android.gms.games.PlayerEntity
+com.google.android.gms.games.PlayerEntity: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.games.multiplayer.Invitation
+com.google.android.gms.games.multiplayer.InvitationEntity
+com.google.android.gms.games.multiplayer.InvitationEntity: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.games.multiplayer.Participant
+com.google.android.gms.games.multiplayer.ParticipantEntity
+com.google.android.gms.games.multiplayer.ParticipantEntity: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.games.multiplayer.realtime.RealTimeMessage
+com.google.android.gms.games.multiplayer.realtime.RealTimeMessage: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.games.multiplayer.realtime.Room
+com.google.android.gms.games.multiplayer.realtime.RoomEntity
+com.google.android.gms.games.multiplayer.realtime.RoomEntity: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.internal.aa
+com.google.android.gms.internal.aa: aa(android.content.Context,android.util.AttributeSet)
+com.google.android.gms.internal.ae
+com.google.android.gms.internal.ag
+com.google.android.gms.internal.ai
+com.google.android.gms.internal.ak
+com.google.android.gms.internal.ak$a
+com.google.android.gms.internal.an$a
+com.google.android.gms.internal.aq
+com.google.android.gms.internal.aq$a
+com.google.android.gms.internal.aq$b
+com.google.android.gms.internal.at
+com.google.android.gms.internal.bb$5: void onClick(android.view.View)
+com.google.android.gms.internal.bf
+com.google.android.gms.internal.bg
+com.google.android.gms.internal.bw
+com.google.android.gms.internal.bx
+com.google.android.gms.internal.bz
+com.google.android.gms.internal.cf
+com.google.android.gms.internal.dz
+com.google.android.gms.internal.dz: dz(android.content.Context,android.util.AttributeSet)
+com.google.android.gms.internal.dz$a: void onClick(android.view.View)
+com.google.android.gms.internal.eb
+com.google.android.gms.internal.ed
+com.google.android.gms.internal.ef
+com.google.android.gms.internal.eq
+com.google.android.gms.internal.eq$a
+com.google.android.gms.internal.eq$b
+com.google.android.gms.internal.eq$b$a
+com.google.android.gms.internal.eq$b$b
+com.google.android.gms.internal.eq$c
+com.google.android.gms.internal.eq$d
+com.google.android.gms.internal.eq$e
+com.google.android.gms.internal.eq$g
+com.google.android.gms.internal.eq$h
+com.google.android.gms.internal.eq$i
+com.google.android.gms.internal.k
+com.google.android.gms.internal.o: void onClick(android.content.DialogInterface,int)
+com.google.android.gms.location.ActivityRecognitionResult
+com.google.android.gms.location.DetectedActivity
+com.google.android.gms.location.LocationRequest
+com.google.android.gms.maps.GoogleMapOptions
+com.google.android.gms.maps.MapView
+com.google.android.gms.maps.MapView: MapView(android.content.Context,android.util.AttributeSet)
+com.google.android.gms.maps.MapView: MapView(android.content.Context,android.util.AttributeSet,int)
+com.google.android.gms.maps.SupportMapFragment
+com.google.android.gms.maps.SupportMapFragment: SupportMapFragment()
+com.google.android.gms.maps.model.CameraPosition
+com.google.android.gms.maps.model.CircleOptions
+com.google.android.gms.maps.model.GroundOverlayOptions
+com.google.android.gms.maps.model.LatLng
+com.google.android.gms.maps.model.LatLngBounds
+com.google.android.gms.maps.model.MarkerOptions
+com.google.android.gms.maps.model.PolygonOptions
+com.google.android.gms.maps.model.PolylineOptions
+com.google.android.gms.maps.model.Tile
+com.google.android.gms.maps.model.TileOverlayOptions
+com.google.android.gms.maps.model.VisibleRegion
+com.google.android.gms.plus.PlusOneButton
+com.google.android.gms.plus.PlusOneButton: PlusOneButton(android.content.Context,android.util.AttributeSet)
+com.google.gson.FieldNamingPolicy: com.google.gson.FieldNamingPolicy[] values()
+com.google.gson.FieldNamingPolicy: com.google.gson.FieldNamingPolicy valueOf(java.lang.String)
+com.google.gson.LongSerializationPolicy: com.google.gson.LongSerializationPolicy[] values()
+com.google.gson.LongSerializationPolicy: com.google.gson.LongSerializationPolicy valueOf(java.lang.String)
+com.google.gson.internal.LazilyParsedNumber: java.lang.Object writeReplace()
+com.google.gson.internal.LinkedTreeMap: java.lang.Object writeReplace()
+com.google.gson.stream.JsonToken: com.google.gson.stream.JsonToken[] values()
+com.google.gson.stream.JsonToken: com.google.gson.stream.JsonToken valueOf(java.lang.String)
+com.touchmenotapps.carousel.simple.HorizontalCarouselLayout
+com.touchmenotapps.carousel.simple.HorizontalCarouselLayout: HorizontalCarouselLayout(android.content.Context,android.util.AttributeSet)
+com.touchmenotapps.carousel.simple.HorizontalCarouselLayout: HorizontalCarouselLayout(android.content.Context,android.util.AttributeSet,int)
+com.touchmenotapps.carousel.simple.VerticalCarouselLayout
+com.touchmenotapps.carousel.simple.VerticalCarouselLayout: VerticalCarouselLayout(android.content.Context,android.util.AttributeSet)
+com.touchmenotapps.carousel.simple.VerticalCarouselLayout: VerticalCarouselLayout(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.ActivityLogo
+vn.com.shoppie.ActivityLogo$4: void onClick(android.view.View)
+vn.com.shoppie.GCMIntentService
+vn.com.shoppie.GCMIntentService: GCMIntentService()
+vn.com.shoppie.activity.ActivityChangeUserInfo
+vn.com.shoppie.activity.ActivityChangeUserInfo: ActivityChangeUserInfo()
+vn.com.shoppie.activity.ActivityChangeUserInfo: void onClickBackBtn(android.view.View)
+vn.com.shoppie.activity.ActivityChangeUserInfo$4: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityFavouriteBrandShow
+vn.com.shoppie.activity.ActivityFavouriteBrandShow: ActivityFavouriteBrandShow()
+vn.com.shoppie.activity.ActivityFavouriteProductShow
+vn.com.shoppie.activity.ActivityFavouriteProductShow: ActivityFavouriteProductShow()
+vn.com.shoppie.activity.ActivityFavouriteProductShow$2: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityFavouriteProductShow$3: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityFavouriteProductShow$4: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityFavouriteProductShow$5: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityFavouriteProductShow$6: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityFavouriteProductShow$7: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityFeedBack
+vn.com.shoppie.activity.ActivityGiftTransaction
+vn.com.shoppie.activity.ActivityGiftTransaction: ActivityGiftTransaction()
+vn.com.shoppie.activity.ActivityGiftTransaction: void onClickBack(android.view.View)
+vn.com.shoppie.activity.ActivityGiftTransaction$1: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivityNotification
+vn.com.shoppie.activity.ActivityNotification: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivitySendMessage
+vn.com.shoppie.activity.ActivitySendMessage: void btnClicked(android.view.View)
+vn.com.shoppie.activity.ActivitySendMessage$1: void onClick(android.view.View)
+vn.com.shoppie.activity.ActivitySendMessage$2: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.activity.ActivityShoppie
+vn.com.shoppie.activity.ActivityShoppie: ActivityShoppie()
+vn.com.shoppie.activity.ActivityWebview
+vn.com.shoppie.activity.ActivityWebview: ActivityWebview()
+vn.com.shoppie.activity.ActivityWelcome
+vn.com.shoppie.activity.ActivityWelcome: ActivityWelcome()
+vn.com.shoppie.activity.CatelogyDetailActivity
+vn.com.shoppie.activity.CatelogyDetailActivity: CatelogyDetailActivity()
+vn.com.shoppie.activity.CatelogyDetailActivity: void onClickSearchActivity(android.view.View)
+vn.com.shoppie.activity.CatelogyDetailActivity: void onClickShowFavouritePersonal(android.view.View)
+vn.com.shoppie.activity.CatelogyDetailActivity$2: void onClick(android.view.View)
+vn.com.shoppie.activity.CollectionList
+vn.com.shoppie.activity.CollectionList: CollectionList()
+vn.com.shoppie.activity.CollectionList: void onCLickBackBtn(android.view.View)
+vn.com.shoppie.activity.GiftDetailActivity
+vn.com.shoppie.activity.GiftDetailActivity: GiftDetailActivity()
+vn.com.shoppie.activity.GiftDetailActivity: void onClickBack(android.view.View)
+vn.com.shoppie.activity.GiftDetailActivity$1: void onClick(android.view.View)
+vn.com.shoppie.activity.GiftDetailActivity$4: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.activity.HomeActivity
+vn.com.shoppie.activity.HomeActivity: HomeActivity()
+vn.com.shoppie.activity.HomeActivity: void onClick(android.view.View)
+vn.com.shoppie.activity.HomeActivity$3: void onClick(android.view.View)
+vn.com.shoppie.activity.HomeActivity$5: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.activity.HomeActivity$7: void onClick(int)
+vn.com.shoppie.activity.LoginActivity
+vn.com.shoppie.activity.LoginActivity: LoginActivity()
+vn.com.shoppie.activity.LoginActivity: void onClickRegister(android.view.View)
+vn.com.shoppie.activity.LoginActivity$5: void onClick(android.view.View)
+vn.com.shoppie.activity.LoginActivity$PendingAction: vn.com.shoppie.activity.LoginActivity$PendingAction[] values()
+vn.com.shoppie.activity.LoginActivity$PendingAction: vn.com.shoppie.activity.LoginActivity$PendingAction valueOf(java.lang.String)
+vn.com.shoppie.activity.PersonalInfoActivity
+vn.com.shoppie.activity.PersonalInfoActivity: PersonalInfoActivity()
+vn.com.shoppie.activity.PersonalInfoActivity: void onClickBackPersonal(android.view.View)
+vn.com.shoppie.activity.SearchActivity
+vn.com.shoppie.activity.SearchActivity: SearchActivity()
+vn.com.shoppie.activity.SearchActivity: void onClickBtnSearchMap(android.view.View)
+vn.com.shoppie.activity.SearchActivity: void onClickBtnBack(android.view.View)
+vn.com.shoppie.activity.SearchActivity$2: void onClick(android.view.View)
+vn.com.shoppie.activity.SettingPreference
+vn.com.shoppie.activity.VisvaAbstractActivity
+vn.com.shoppie.activity.VisvaAbstractActivity: VisvaAbstractActivity()
+vn.com.shoppie.activity.VisvaAbstractActivity: void onClickSearchActivity(android.view.View)
+vn.com.shoppie.activity.VisvaAbstractActivity: void onClickBtnSearch(android.view.View)
+vn.com.shoppie.activity.VisvaAbstractActivity$BaseActivityReceiver
+vn.com.shoppie.adapter.AdapterWelcomeImage$2: void onClick(android.view.View)
+vn.com.shoppie.adapter.AdapterWelcomeImage$6: void onClick(android.view.View)
+vn.com.shoppie.adapter.AdapterWelcomeImage$7: void onClick(android.view.View)
+vn.com.shoppie.adapter.CatelogyAdapter$1: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$1: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$2: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$3: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$4: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$5: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$6: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$7: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$8: void onClick(android.view.View)
+vn.com.shoppie.adapter.CollectionDetailAdapter$9: void onClick(android.view.View)
+vn.com.shoppie.adapter.GiftAdapter$1: void onClick(android.view.View)
+vn.com.shoppie.adapter.ListFBFriendAdapter$1: void onClick(android.view.View)
+vn.com.shoppie.adapter.holder.ItemNotification$1: void onClick(android.view.View)
+vn.com.shoppie.database.sobject.MerchProductItem
+vn.com.shoppie.database.sobject.MerchProductItem: android.os.Parcelable$Creator CREATOR
+vn.com.shoppie.database.sobject.MerchantStoreItem
+vn.com.shoppie.database.sobject.MerchantStoreItem: android.os.Parcelable$Creator CREATOR
+vn.com.shoppie.fragment.FeedbackFragment
+vn.com.shoppie.fragment.FeedbackFragment: FeedbackFragment()
+vn.com.shoppie.fragment.FeedbackFragment$1: void onClick(android.view.View)
+vn.com.shoppie.fragment.FeedbackFragment$2: void onClick(android.view.View)
+vn.com.shoppie.fragment.FragmentBasic: FragmentBasic()
+vn.com.shoppie.fragment.FragmentPersonalInfo
+vn.com.shoppie.fragment.FragmentPersonalInfo: FragmentPersonalInfo()
+vn.com.shoppie.fragment.FragmentPersonalInfo$1: void onClick(android.view.View)
+vn.com.shoppie.fragment.FragmentSupport
+vn.com.shoppie.fragment.FragmentSupport: FragmentSupport()
+vn.com.shoppie.fragment.HistoryTradeFragment
+vn.com.shoppie.fragment.HistoryTradeFragment: HistoryTradeFragment()
+vn.com.shoppie.fragment.MainPersonalInfoFragment
+vn.com.shoppie.fragment.MainPersonalInfoFragment: MainPersonalInfoFragment()
+vn.com.shoppie.fragment.MainPersonalInfoFragment$10: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$11: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$13: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$3: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$4: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$5: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$6: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$7: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$8: void onClick(android.view.View)
+vn.com.shoppie.fragment.MainPersonalInfoFragment$9: void onClick(android.view.View)
+vn.com.shoppie.fragment.PersonalFriendFragment
+vn.com.shoppie.fragment.PersonalFriendFragment: PersonalFriendFragment()
+vn.com.shoppie.fragment.SearchBrandDetailFragment
+vn.com.shoppie.fragment.SearchBrandDetailFragment: SearchBrandDetailFragment()
+vn.com.shoppie.fragment.SearchBrandDetailFragment$1: void onClick(android.view.View)
+vn.com.shoppie.fragment.SearchBrandFragment
+vn.com.shoppie.fragment.SearchBrandFragment: SearchBrandFragment()
+vn.com.shoppie.fragment.SearchMapFragment
+vn.com.shoppie.fragment.SearchMapFragment: SearchMapFragment()
+vn.com.shoppie.fragment.SearchResultFragment
+vn.com.shoppie.fragment.SearchResultFragment: SearchResultFragment()
+vn.com.shoppie.fragment.SearchResultFragment$1: void onClick(android.view.View)
+vn.com.shoppie.fragment.SearchResultFragment$2: void onClick(android.view.View)
+vn.com.shoppie.fragment.SearchResultFragment$3: void onClick(android.view.View)
+vn.com.shoppie.object.HorizontalListView
+vn.com.shoppie.object.HorizontalListView: HorizontalListView(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.object.MyCircleImageView
+vn.com.shoppie.object.MyCircleImageView: MyCircleImageView(android.content.Context)
+vn.com.shoppie.object.MyCircleImageView: MyCircleImageView(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.object.MyCircleImageView: MyCircleImageView(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.touchimage.ImageViewTouch
+vn.com.shoppie.touchimage.ImageViewTouch: ImageViewTouch(android.content.Context)
+vn.com.shoppie.touchimage.ImageViewTouch: ImageViewTouch(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.touchimage.ImageViewTouch: ImageViewTouch(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.touchimage.ImageViewTouchBase
+vn.com.shoppie.touchimage.ImageViewTouchBase: ImageViewTouchBase(android.content.Context)
+vn.com.shoppie.touchimage.ImageViewTouchBase: ImageViewTouchBase(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.touchimage.ImageViewTouchBase: ImageViewTouchBase(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.touchimage.ImageViewTouchBase$DisplayType: vn.com.shoppie.touchimage.ImageViewTouchBase$DisplayType[] values()
+vn.com.shoppie.touchimage.ImageViewTouchBase$DisplayType: vn.com.shoppie.touchimage.ImageViewTouchBase$DisplayType valueOf(java.lang.String)
+vn.com.shoppie.util.DialogUtility$1: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.util.DialogUtility$2: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.util.DialogUtility$3: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.util.DialogUtility$4: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.util.DialogUtility$5: void onClick(android.content.DialogInterface,int)
+vn.com.shoppie.view.MPager
+vn.com.shoppie.view.MPager: MPager(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.MPager: MPager(android.content.Context)
+vn.com.shoppie.view.MRelativeLayout
+vn.com.shoppie.view.MRelativeLayout: MRelativeLayout(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.MRelativeLayout: MRelativeLayout(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.view.MScrollView
+vn.com.shoppie.view.MScrollView: MScrollView(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.MagicTextView
+vn.com.shoppie.view.MagicTextView: MagicTextView(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.MyScrollView
+vn.com.shoppie.view.MyScrollView: MyScrollView(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.view.MyScrollView: MyScrollView(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.MyScrollView: MyScrollView(android.content.Context)
+vn.com.shoppie.view.MyTextView
+vn.com.shoppie.view.MyTextView: MyTextView(android.content.Context)
+vn.com.shoppie.view.MyTextView: MyTextView(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.view.MyTextView: MyTextView(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.OnItemClick: void onClick(int)
+vn.com.shoppie.view.PieView
+vn.com.shoppie.view.PieView: PieView(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.view.PieView: PieView(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.PieView: PieView(android.content.Context)
+vn.com.shoppie.view.pageindicator.CirclePageIndicator
+vn.com.shoppie.view.pageindicator.CirclePageIndicator: CirclePageIndicator(android.content.Context,android.util.AttributeSet)
+vn.com.shoppie.view.pageindicator.CirclePageIndicator: CirclePageIndicator(android.content.Context,android.util.AttributeSet,int)
+vn.com.shoppie.view.pageindicator.CirclePageIndicator$SavedState
+vn.com.shoppie.view.pageindicator.CirclePageIndicator$SavedState: android.os.Parcelable$Creator CREATOR
