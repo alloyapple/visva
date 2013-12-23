@@ -210,75 +210,50 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					pie.setLight();
 					pie1.setLight();
 					
+					float scaleSize = 1f;
 					if (getItem(position).getPieQty() > 99) {
-						MarginLayoutParams params = (MarginLayoutParams) count
-								.getLayoutParams();
-						params.width *= 1.25f;
-						params.height *= 1.25f;
-						count.setLayoutParams(params);
-
-						params = (MarginLayoutParams) count1.getLayoutParams();
-						params.width *= 1.25f;
-						params.height *= 1.25f;
-						count1.setLayoutParams(params);
-
-						View muatang = v.findViewById(R.id.muatang);
-						params = (MarginLayoutParams) muatang.getLayoutParams();
-						params.width *= 1.25f;
-						params.height *= 1.25f;
-						muatang.setLayoutParams(params);
-						
-						View muatang1 = v.findViewById(R.id.muatang1);
-						params = (MarginLayoutParams) muatang1.getLayoutParams();
-						params.width *= 1.25f;
-						params.height *= 1.25f;
-						muatang1.setLayoutParams(params);
-						
-						params = (MarginLayoutParams) pie.getLayoutParams();
-						params.width *= 1.25f;
-						params.height *= 1.25f;
-						pie.setLayoutParams(params);
-						
-						params = (MarginLayoutParams) pie1.getLayoutParams();
-						params.width *= 1.25f;
-						params.height *= 1.25f;
-						pie1.setLayoutParams(params);
+						scaleSize = 1.25f;
 					}
 					else if (getItem(position).getPieQty() > 999) {
+						scaleSize = 1.7f;
+					}
+					
+					if(scaleSize > 1) {
 						MarginLayoutParams params = (MarginLayoutParams) count
 								.getLayoutParams();
-						params.width *= 1.5f;
-						params.height *= 1.5f;
+						params.width *= scaleSize;
+						params.height *= scaleSize;
 						count.setLayoutParams(params);
 
 						params = (MarginLayoutParams) count1.getLayoutParams();
-						params.width *= 1.5f;
-						params.height *= 1.5f;
+						params.width *= scaleSize;
+						params.height *= scaleSize;
 						count1.setLayoutParams(params);
 
 						View muatang = v.findViewById(R.id.muatang);
 						params = (MarginLayoutParams) muatang.getLayoutParams();
-						params.width *= 1.5f;
-						params.height *= 1.5f;
+						params.width *= scaleSize;
+						params.height *= scaleSize;
 						muatang.setLayoutParams(params);
 						
 						View muatang1 = v.findViewById(R.id.muatang1);
 						params = (MarginLayoutParams) muatang1.getLayoutParams();
-						params.width *= 1.5f;
-						params.height *= 1.5f;
+						params.width *= scaleSize;
+						params.height *= scaleSize;
 						muatang1.setLayoutParams(params);
 						
 						params = (MarginLayoutParams) pie.getLayoutParams();
-						params.width *= 1.5f;
-						params.height *= 1.5f;
+						params.width *= scaleSize;
+						params.height *= scaleSize;
 						pie.setLayoutParams(params);
 						
 						params = (MarginLayoutParams) pie1.getLayoutParams();
-						params.width *= 1.5f;
-						params.height *= 1.5f;
+						params.width *= scaleSize;
+						params.height *= scaleSize;
 						pie1.setLayoutParams(params);
-					}
 
+					}
+					
 					Button likeBt = (Button) v.findViewById(R.id.like_click);
 					likeBt.setTag(getItem(position));
 					int resId = 0;
