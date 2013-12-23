@@ -139,6 +139,12 @@ public final class ParameterFactory {
 		return nameValuePairs;
 	}
 
+	public static List<NameValuePair> updateHistoryList(String custId) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("custId", custId));
+		return nameValuePairs;
+	}
+	
 	public static List<NameValuePair> getGiftList() {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		return nameValuePairs;

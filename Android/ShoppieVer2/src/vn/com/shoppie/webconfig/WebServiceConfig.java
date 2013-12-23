@@ -61,6 +61,7 @@ public final class WebServiceConfig {
 			+ "/customerfeedback/json";
 	public static final String URL_GET_GIFT_LIST = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/allgifts/format/json";
 	public static final String URL_GET_GIFT_TRANSACTION_AVAILABLE = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/giftredeem_v2/format/json";
+	public static final String URL_GET_GIFT_HISTORY_LIST = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/redeemtxnhist/format/json";
 	/** LIKE SAN PHAM custId=118&productId=1 */
 	public static final String URL_LIKE_PRODUCT = URL_SHOPPIE_HOME
 			+ "/likeproduct/json";
