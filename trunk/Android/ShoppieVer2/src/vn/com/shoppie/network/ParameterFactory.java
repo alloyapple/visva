@@ -145,6 +145,12 @@ public final class ParameterFactory {
 		return nameValuePairs;
 	}
 	
+	public static List<NameValuePair> requestCancelGift(String txnId) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("txnId", txnId));
+		return nameValuePairs;
+	}
+	
 	public static List<NameValuePair> getGiftList() {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		return nameValuePairs;
