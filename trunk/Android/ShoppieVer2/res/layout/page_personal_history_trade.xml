@@ -43,7 +43,8 @@
                 android:textSize="@dimen/personal_detail_info_text_size" />
 
             <vn.com.shoppie.view.MyTextView
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_personal_history_trade_gift_label"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/personal_history_trade_gift"

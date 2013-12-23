@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_corner_button"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:paddingRight="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/personal_history_trade_total"
+            android:textColor="@color/blue_text_color"
+            android:textSize="@dimen/personal_detail_info_text_size" />
+
+        <TextView
+            android:id="@+id/pie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:paddingRight="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/personal_history_trade_total"
+            android:textColor="@color/blue_text_color"
+            android:textSize="@dimen/personal_detail_info_text_size" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:paddingRight="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/personal_history_trade_total"
+            android:textColor="@color/blue_text_color"
+            android:textSize="@dimen/personal_detail_info_text_size" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center_vertical"
+            android:text="@string/personal_history_trade_total"
+            android:textColor="@color/blue_text_color"
+            android:textSize="@dimen/personal_detail_info_text_size" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Hủy đổi quà"
+        android:visibility="gone" />
+
+</LinearLayout>

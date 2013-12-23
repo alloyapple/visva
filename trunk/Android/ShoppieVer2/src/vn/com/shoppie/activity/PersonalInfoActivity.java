@@ -14,6 +14,7 @@ import vn.com.shoppie.database.sobject.HistoryTransactionList;
 import vn.com.shoppie.fragment.FeedbackFragment;
 import vn.com.shoppie.fragment.FragmentPersonalInfo;
 import vn.com.shoppie.fragment.FragmentSupport;
+import vn.com.shoppie.fragment.HistoryGiftFragment;
 import vn.com.shoppie.fragment.HistoryTradeFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment;
 import vn.com.shoppie.fragment.MainPersonalInfoFragment.MainPersonalInfoListener;
@@ -60,6 +61,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private static final String PERSONAL_FRIEND_FRAGMENT = "friend";
 	private static final String HELP_FRAGMENT = "favourite";
 	private static final String HISTORY_TRADE_FRAGMET = "history_trade";
+	private static final String HISTORY_GIFT_FRAGMET = "history_gift";
 	private static final String FRAGMENT_PERSONAL_INFO = "personal_info";
 	private static final String FEEDBACK_FRAGMENT = "feedback";
 	private static final String FRIEND_DETAIL_FRAGMENT = "friend_detail";
@@ -71,12 +73,14 @@ public class PersonalInfoActivity extends FragmentActivity implements
 	private static final int PERSONAL_INFO = 1005;
 	private static final int FEEDBACK = 1006;
 	private static final int FRIEND_DETAIL = 1007;
+	private static final int HISTORY_GIFT = 1008;
 	// ===========================Control Define==================
 	private FeedbackFragment mFeedbackFragment;
 	private MainPersonalInfoFragment mMainPersonalInfoFragment;
 	private PersonalFriendFragment mPersonalFriendFragment;
 	private FragmentPersonalInfo mFragmentPersonalInfo;
 	private HistoryTradeFragment mHistoryTradeFragment;
+	private HistoryGiftFragment mHistoryGiftFragment;
 	private FragmentSupport mHelpFragment;
 	private FragmentManager mFmManager;
 	private FragmentTransaction mTransaction;
@@ -260,6 +264,8 @@ public class PersonalInfoActivity extends FragmentActivity implements
 				.findFragmentById(R.id.layout_personal_info_fragment);
 		mHistoryTradeFragment = (HistoryTradeFragment) mFmManager
 				.findFragmentById(R.id.layout_personal_history_trade);
+		mHistoryGiftFragment = (HistoryGiftFragment) mFmManager
+				.findFragmentById(R.id.layout_personal_history_gift);
 		mFeedbackFragment = (FeedbackFragment) mFmManager
 				.findFragmentById(R.id.layout_feedback_fragment);
 		mFriendDetailFragment = (PersonalFriendDetailFragment) mFmManager
@@ -267,7 +273,9 @@ public class PersonalInfoActivity extends FragmentActivity implements
 
 		mTxtTitle = (MyTextView) findViewById(R.id.txt_title_fragment);
 		mTxtTitle.setLight();
-
+		mTxtTitle.setTextSize(getResources().getDimension(
+				R.dimen.actionbar_title_textsize));
+		
 		mMainPersonalInfoFragment.setListener(this);
 		mPersonalFriendFragment.setListener(this);
 
@@ -287,6 +295,11 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction.commit();
 	}
 
+	public void showHistoryGift() {
+		showFragment(HISTORY_GIFT);
+		mHistoryGiftFragment.updateListHistoryGift(String.valueOf(mShopieSharePref.getCustId()));
+	}
+	
 	private void showFragment(int fragment) {
 		// TODO Auto-generated method stub
 		switch (fragment) {
@@ -313,6 +326,14 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			addToSBackStack(HISTORY_TRADE_FRAGMET);
 			mTransaction.commit();
 			mTxtTitle.setText(getString(R.string.history_trade));
+			break;
+			
+		case HISTORY_GIFT:
+			mTransaction = hideFragment();
+			mTransaction.show(mHistoryGiftFragment);
+			addToSBackStack(HISTORY_GIFT_FRAGMET);
+			mTransaction.commit();
+			mTxtTitle.setText(getString(R.string.history_gift));
 			break;
 
 		case HELP:
@@ -358,6 +379,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		mTransaction.hide(mHelpFragment);
 		mTransaction.hide(mFragmentPersonalInfo);
 		mTransaction.hide(mHistoryTradeFragment);
+		mTransaction.hide(mHistoryGiftFragment);
 		mTransaction.hide(mFeedbackFragment);
 		mTransaction.hide(mFriendDetailFragment);
 		return mTransaction;
@@ -408,6 +430,10 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		} else if (currentView.equals(HISTORY_TRADE_FRAGMET)) {
 			mTransaction.show(mHistoryTradeFragment);
 			mTxtTitle.setText(getString(R.string.history_trade));
+			// mPersonalFriendFragment.
+		}else if (currentView.equals(HISTORY_GIFT_FRAGMET)) {
+			mTransaction.show(mHistoryGiftFragment);
+			mTxtTitle.setText(getString(R.string.history_gift));
 			// mPersonalFriendFragment.
 		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
 			mTransaction.show(mFragmentPersonalInfo);
@@ -489,6 +515,10 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		} else if (currentView.equals(HISTORY_TRADE_FRAGMET)) {
 			mTransaction.show(mHistoryTradeFragment);
 			mTxtTitle.setText(getString(R.string.history_trade));
+			// mPersonalFriendFragment.
+		} else if (currentView.equals(HISTORY_GIFT_FRAGMET)) {
+			mTransaction.show(mHistoryGiftFragment);
+			mTxtTitle.setText(getString(R.string.history_gift));
 			// mPersonalFriendFragment.
 		} else if (currentView.equals(FRAGMENT_PERSONAL_INFO)) {
 			mTransaction.show(mFragmentPersonalInfo);

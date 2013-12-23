@@ -112,6 +112,7 @@
     <string name="personal_favourite">Yêu thích</string>
     <string name="main_personal_info">Thông tin cá nhân</string>
     <string name="history_trade">Lịch sử giao dịch</string>
+    <string name="history_gift">Lịch sử đổi quà</string>
     <string name="gift">Đổi quà</string>
     <string name="personal_number_pie">Điểm tích lũy:</string>
     <string name="personal_favourite_category">Thương hiệu yêu thích</string>
@@ -159,6 +160,7 @@
     <string name="fb_share_name">Shoppie</string>
     <string name="fb_link">https://www.facebook.com/ShoppieVietnam?fref=ts</string>
 
+    <string name="gift_cancel_message">"Bạn có chắc chắn hủy đổi quà không?"</string>
     <string name="gift_type_1_header">"Bạn vừa chọn đổi "</string>
     <string name="gift_type_1_body">" vào "</string>
     <string name="gift_type_1_body1">". Mã giao dịch "</string>

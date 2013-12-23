@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/personal_info"
+            android:textSize="@dimen/actionbar_title_textsize"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
 
@@ -65,6 +66,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="vn.com.shoppie.fragment.HistoryTradeFragment" />
+        
+        <fragment
+            android:id="@+id/layout_personal_history_gift"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="vn.com.shoppie.fragment.HistoryGiftFragment" />
 
         <fragment
             android:id="@+id/layout_feedback_fragment"
