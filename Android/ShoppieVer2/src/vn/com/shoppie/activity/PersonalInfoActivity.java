@@ -282,6 +282,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			mTransaction = hideFragment();
 			mTransaction.show(mPersonalFriendFragment);
 			addToSBackStack(PERSONAL_FRIEND_FRAGMENT);
+			mPersonalFriendFragment.getFriends();
 		}
 		mTransaction.commit();
 	}
