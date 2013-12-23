@@ -178,13 +178,21 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 											.getOldPrice()) + " VNĐ"
 									: "");
 					
-					if(getItem(position).getOldPrice() <= 0) {
+					if(getItem(position).getPrice() <= 0) {
 						price.setVisibility(View.INVISIBLE);
 						priceGoc.setVisibility(View.INVISIBLE);
 						price1.setVisibility(View.INVISIBLE);
 						priceGoc1.setVisibility(View.INVISIBLE);
 						v.findViewById(R.id.price_label).setVisibility(View.INVISIBLE);
 						v.findViewById(R.id.price1_label).setVisibility(View.INVISIBLE);
+					}
+					else {
+						price.setVisibility(View.VISIBLE);
+						priceGoc.setVisibility(View.VISIBLE);
+						price1.setVisibility(View.VISIBLE);
+						priceGoc1.setVisibility(View.VISIBLE);
+						v.findViewById(R.id.price_label).setVisibility(View.VISIBLE);
+						v.findViewById(R.id.price1_label).setVisibility(View.VISIBLE);
 					}
 					
 					MyTextView count = (MyTextView) v.findViewById(R.id.count);

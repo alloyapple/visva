@@ -29,7 +29,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.ShoppieSharePref;
-import vn.com.shoppie.database.sobject.UserInfo;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;

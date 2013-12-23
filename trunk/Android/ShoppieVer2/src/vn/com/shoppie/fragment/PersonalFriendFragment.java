@@ -190,7 +190,8 @@ public class PersonalFriendFragment extends FragmentBasic implements
 							String url = "";
 							int numberPie = 0;
 							boolean isJoinSP = false;
-							if (users != null)
+							if (users != null) {
+								mListFriend.clear();
 								for (int i = 0; i < users.size(); i++) {
 									JSONObject jsonObject = users.get(i)
 											.getInnerJSONObject();
@@ -236,6 +237,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 											userId);
 									mListFriend.add(fbUser);
 								}
+							}
 							/* update list facebook friend */
 							mListFBFriendAdapter.updateFolderList(mListFriend);
 							if (mLinearProgressBar.getVisibility() == View.VISIBLE)

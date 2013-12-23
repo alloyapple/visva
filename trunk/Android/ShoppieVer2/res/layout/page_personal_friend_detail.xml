@@ -18,6 +18,13 @@
             android:contentDescription="@string/app_name"
             android:scaleType="fitXY" />
 
+        <View 
+            android:layout_width="@dimen/personal_avatar_cover_size"
+            android:layout_height="@dimen/personal_avatar_cover_size"
+            android:layout_marginLeft="@dimen/personal_avatar_cover_margin_left"
+            android:layout_marginTop="@dimen/personal_avatar_cover_margin_top"
+            android:background="@drawable/profile_image_cover"
+            />
 
         <ImageView
             android:id="@+id/img_effect_cover"

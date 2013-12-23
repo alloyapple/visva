@@ -88,7 +88,12 @@ public class GiftDetailActivity extends Activity {
 				if (adapter.getCount() > 0) {
 					storeId = listStore.get(currStoreId).getStoreId();
 				}
-
+				
+//				Log.d("Id", "MerchId" + ActivityGiftTransaction.currItem.getMerchId() + " storeId " + String.valueOf(storeId)
+//						+ " CustId " + mSharePref.getCustId() + " GiftId " + ActivityGiftTransaction.currItem.getGiftId()
+//						+ " RedeemQty " + ActivityGiftTransaction.currItem.getRedeemQty() + " pie " + pie[currId]
+//								+ " price " + price[currId]);
+				
 				if (mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId]) {
 					updateGiftListAvailable(
 							ActivityGiftTransaction.currItem.getMerchId(),
@@ -154,7 +159,7 @@ public class GiftDetailActivity extends Activity {
 							Gson gson = new Gson();
 							GiftRedeemItem redeemItem = gson.fromJson(
 									jsonObject.toString(), GiftRedeemItem.class);
-							showHelp(item.getGiftCatId());
+							showHelp(item.getGiftCatId() , String.valueOf(redeemItem.getTxnId()));
 						} catch (JSONException e) {
 							DialogUtility.alert(GiftDetailActivity.this, "Không thành công!");
 							e.printStackTrace();
@@ -194,9 +199,10 @@ public class GiftDetailActivity extends Activity {
 				});
 	}
 
-	private void showHelp(int type) {
+	private void showHelp(int type , String txn) {
 		String header = "";
 		String body = "";
+		String body1 = "";
 		String footer = "";
 		if (type == 1)
 			footer = getStringResource(R.string.gift_type_1_footer);
@@ -205,10 +211,11 @@ public class GiftDetailActivity extends Activity {
 		else if (type == 3)
 			footer = getStringResource(R.string.gift_type_3_footer);
 		body = getStringResource(R.string.gift_type_1_body);
+		body1 = getStringResource(R.string.gift_type_1_body1);
 		header = getStringResource(R.string.gift_type_1_header);
 
 		String time = convertTimeMail(Calendar.getInstance().getTimeInMillis());
-		String message = header + item.getGiftName() + body + time + footer;
+		String message = header + item.getGiftName() + body + time + body1 + txn + footer;
 
 		DialogUtility.alert(this, message);
 	}
@@ -297,8 +304,6 @@ public class GiftDetailActivity extends Activity {
 	}
 
 	private void requestGetMerchantStores(final String custId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getMerchantStores(custId);
 		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
