@@ -12,6 +12,7 @@ import vn.com.shoppie.adapter.GiftAdapter;
 import vn.com.shoppie.adapter.GiftAdapter.OnClickItem;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
+import vn.com.shoppie.database.sobject.GiftHistoryList;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftList;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -52,6 +53,7 @@ public class ActivityGiftTransaction extends Activity {
 		setContentView(R.layout.gift_activity);
 
 		init();
+//		updateListHistoryGift();
 	}
 
 	private void init() {
@@ -266,6 +268,43 @@ public class ActivityGiftTransaction extends Activity {
 		postGetGiftList.execute(WebServiceConfig.URL_GET_GIFT_LIST);
 	}
 
+	public void updateListHistoryGift() {
+		// TODO Auto-generated method stub
+		List<NameValuePair> nameValuePairs = ParameterFactory.updateHistoryList("123");
+		AsyncHttpPost postGetGiftList = new AsyncHttpPost(
+				ActivityGiftTransaction.this, new AsyncHttpResponseProcess(
+						ActivityGiftTransaction.this) {
+					@Override
+					public void processIfResponseSuccess(String response) {
+						try {
+							JSONObject jsonObject = new JSONObject(response);
+							Gson gson = new Gson();
+							GiftHistoryList giftList = gson.fromJson(
+									jsonObject.toString(), GiftHistoryList.class);
+							System.out.println(">>>>>>>>>>>>> " + giftList.getGifts().size());
+//							/** update to database */
+//							mShoppieDBProvider
+//									.deleteJsonData(GlobalValue.TYPE_GIFT);
+//							JsonDataObject jsonDataObject = new JsonDataObject(
+//									response, GlobalValue.TYPE_GIFT);
+//							mShoppieDBProvider.addNewJsonData(jsonDataObject);
+//							setData(giftList.getGifts());
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void processIfResponseFail() {
+						Log.e("failed ", "failed");
+						finish();
+					}
+				}, nameValuePairs, true);
+		postGetGiftList.execute(WebServiceConfig.URL_GET_GIFT_HISTORY_LIST);
+	}
+
+	
 	public void onClickBack(View v) {
 		this.finish();
 	}
