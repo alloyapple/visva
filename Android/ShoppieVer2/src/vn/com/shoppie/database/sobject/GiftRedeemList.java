@@ -2,18 +2,21 @@ package vn.com.shoppie.database.sobject;
 
 import java.util.ArrayList;
 
+import com.google.gson.annotations.SerializedName;
+
 public class GiftRedeemList {
-	private ArrayList<GiftRedeemItem> Result;
+	@SerializedName("Result")
+	private GiftRedeemItem Result;
 
 	public GiftRedeemList() {
 
 	}
 
-	public ArrayList<GiftRedeemItem> getResult() {
+	public GiftRedeemItem getResult() {
 		return Result;
 	}
 
-	public void setResult(ArrayList<GiftRedeemItem> result) {
+	public void setResult(GiftRedeemItem result) {
 		Result = result;
 	}
 

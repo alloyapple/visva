@@ -71,8 +71,11 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 				ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getIcon(), icon , true
 						, false , true , false , false , false);
 				
-			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getImage(), image , false, false ,false ,false,false);
+//			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getImage(), image , false, false ,false ,false,false);
 
+			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getImage(), image , false
+					, false , true , true , false , false);
+			
 			cacheView[position] = v;
 		}
 		

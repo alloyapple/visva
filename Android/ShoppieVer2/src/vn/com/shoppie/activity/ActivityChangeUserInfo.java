@@ -7,8 +7,14 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 
-import com.google.android.gcm.GCMRegistrar;
-
+import vn.com.shoppie.R;
+import vn.com.shoppie.constant.ShoppieSharePref;
+import vn.com.shoppie.network.AsyncHttpPost;
+import vn.com.shoppie.network.AsyncHttpResponseProcess;
+import vn.com.shoppie.network.ParameterFactory;
+import vn.com.shoppie.util.SUtil;
+import vn.com.shoppie.view.MyTextView;
+import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -21,20 +27,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import vn.com.shoppie.R;
-import vn.com.shoppie.constant.ShoppieSharePref;
-import vn.com.shoppie.network.AsyncHttpPost;
-import vn.com.shoppie.network.AsyncHttpResponseProcess;
-import vn.com.shoppie.network.ParameterFactory;
-import vn.com.shoppie.util.SUtil;
-import vn.com.shoppie.view.MyTextView;
-import vn.com.shoppie.webconfig.WebServiceConfig;
+
+import com.google.android.gcm.GCMRegistrar;
 
 @SuppressLint("SimpleDateFormat")
 public class ActivityChangeUserInfo extends Activity implements
@@ -90,22 +91,20 @@ public class ActivityChangeUserInfo extends Activity implements
 			gender.setSelection(0);
 		else
 			gender.setSelection(1);
-		address.setOnTouchListener(new View.OnTouchListener() {
-
+		address.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				showToast(getString(R.string.address_notice));
-				return false;
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus)
+					showToast(getString(R.string.address_notice));
 			}
 		});
-		phone.setOnTouchListener(new View.OnTouchListener() {
-
+		phone.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				showToast(getString(R.string.phone_notice));
-				return false;
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus)
+					showToast(getString(R.string.phone_notice));
 			}
 		});
 		birth.setOnTouchListener(new View.OnTouchListener() {

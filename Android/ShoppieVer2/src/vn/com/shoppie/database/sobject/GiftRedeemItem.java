@@ -1,13 +1,20 @@
 package vn.com.shoppie.database.sobject;
 
+import com.google.gson.annotations.SerializedName;
+
 public class GiftRedeemItem {
-	private int txnId;
+	@SerializedName("txnId")
+	private String txnId;
+	@SerializedName("merchName")
 	private String merchName;
+	@SerializedName("storeAddress")
 	private String storeAddress;
+	@SerializedName("giftName")
 	private String giftName;
+	@SerializedName("pieQty")
 	private int pieQty;
 
-	public GiftRedeemItem(int txnId, String merchName, String storeAddress,
+	public GiftRedeemItem(String txnId, String merchName, String storeAddress,
 			String giftName, int pieQty) {
 		super();
 		this.txnId = txnId;
@@ -17,11 +24,11 @@ public class GiftRedeemItem {
 		this.pieQty = pieQty;
 	}
 
-	public int getTxnId() {
+	public String getTxnId() {
 		return txnId;
 	}
 
-	public void setTxnId(int txnId) {
+	public void setTxnId(String txnId) {
 		this.txnId = txnId;
 	}
 
