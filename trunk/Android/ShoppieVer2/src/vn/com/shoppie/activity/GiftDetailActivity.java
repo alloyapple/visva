@@ -14,6 +14,7 @@ import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftRedeemItem;
+import vn.com.shoppie.database.sobject.GiftRedeemList;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.database.sobject.MerchantStoreList;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -154,12 +155,12 @@ public class GiftDetailActivity extends Activity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						try {
-//							System.out.println(response);
+							System.out.println(response);
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
-							GiftRedeemItem redeemItem = gson.fromJson(
-									jsonObject.toString(), GiftRedeemItem.class);
-							showHelp(item.getGiftCatId() , String.valueOf(redeemItem.getTxnId()));
+							GiftRedeemList redeem = gson.fromJson(
+									jsonObject.toString(), GiftRedeemList.class);
+							showHelp(item.getGiftCatId() , String.valueOf(redeem.getResult().getTxnId()));
 						} catch (JSONException e) {
 							DialogUtility.alert(GiftDetailActivity.this, "Không thành công!");
 							e.printStackTrace();

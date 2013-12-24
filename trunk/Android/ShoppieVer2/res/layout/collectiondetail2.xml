@@ -131,7 +131,7 @@
         android:paddingLeft="15dp"
         android:paddingTop="4dp"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/collection_item_count_textsize"
         android:textStyle="normal" />
 
     <vn.com.shoppie.view.MyTextView

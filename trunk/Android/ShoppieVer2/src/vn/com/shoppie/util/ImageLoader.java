@@ -135,11 +135,13 @@ public class ImageLoader {
 				defaultBitmap = BitmapFactory.decodeResource(
 						context.getResources(), stub_id);
 			}
+			MarginLayoutParams params = (MarginLayoutParams) imageView
+					.getLayoutParams();
 			setImageBitmap(
 					imageView,
 					ImageUtil.getInstance(context).getShapeBitmap(
 							defaultBitmap, topleft, topright, bottomleft,
-							bottomright));
+							bottomright , params.width, params.height));
 		}
 	}
 

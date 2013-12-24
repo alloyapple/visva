@@ -19,6 +19,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.os.Environment;
+import android.util.Log;
 
 public class ImageUtil {
 	public static int radius = 40;
@@ -138,6 +139,7 @@ public class ImageUtil {
 			return bitmap;
 		if(width != bitmap.getWidth())
 			radius /= (float)width / (float)bitmap.getWidth();
+		Log.d("Radius", ">>>>>>>>>>>>> radius " + radius + " " + width + " " + bitmap.getWidth());
 	    Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 	            bitmap.getHeight(), Config.ARGB_8888);
 	    Canvas canvas = new Canvas(output);
@@ -191,7 +193,7 @@ public class ImageUtil {
 	    canvas.drawPath(path, paint);
 	    paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 	    canvas.drawBitmap(bitmap, rect, rect, paint);
-	    canvas = null;
+//	    canvas = null;
 //	    bitmap.recycle();bitmap = null;
 	    return output;
 	}

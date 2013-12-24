@@ -13,6 +13,7 @@
 <dimen name="page_item_count_width">33dp</dimen>
 <dimen name="page_item_count_height">33dp</dimen>
 <dimen name="page_item_image_height">124dp</dimen>
+<dimen name="page_item_cover_height">201dp</dimen>
 <dimen name="page_item_catelogy_desc_margin_left">13dp</dimen>
 <dimen name="page_item_catelogy_desc_margin_top">13dp</dimen>
 <dimen name="page_item_catelogy_desc_textsize">18sp</dimen>
@@ -48,6 +49,7 @@
 <dimen name="collectiondetail_item_height">343dp</dimen>
 <dimen name="collectiondetail_item_type1_bottom">83dp</dimen>
 <dimen name="collectiondetail_item_type1_imgheight">260dp</dimen>
+<dimen name="collection_item_count_textsize">12sp</dimen>
 <dimen name="storedetail_item_width">260dp</dimen>
 <dimen name="storedetail_item_height">383dp</dimen>
 <dimen name="storedetail_item_image_height">260dp</dimen>

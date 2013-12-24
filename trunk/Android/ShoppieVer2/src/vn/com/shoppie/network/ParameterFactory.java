@@ -229,6 +229,13 @@ public final class ParameterFactory {
 		data.add(new BasicNameValuePair("custId", custId));
 		return data;
 	}
+	
+	public static List<NameValuePair> getCustomerLikeProductInfo(String custId , String facebookId) {
+		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+		data.add(new BasicNameValuePair("custId", custId));
+		data.add(new BasicNameValuePair("facebookId", facebookId));
+		return data;
+	}
 
 	public static List<NameValuePair> getCheckIsFriend(String custId,
 			String facebookId) {

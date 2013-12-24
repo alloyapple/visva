@@ -139,7 +139,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 				friend.getUserId());
 	}
 
-	private void checkIsShoppieFriend(String custId, String facebookId) {
+	private void checkIsShoppieFriend(String custId, final String facebookId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.getCheckIsFriend(
 				custId, facebookId);
@@ -155,7 +155,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 									CheckedFBFriend.class);
 							if (checkedFBFriend.getResult().size() > 0) {
 								checkFriendInfo(""
-										+ mShoppieSharePref.getCustId());
+										+ checkedFBFriend.getResult().get(0).getFriendId() , facebookId);
 								mFavouriteBrandList.setVisibility(View.VISIBLE);
 								mFavouriteProductList
 										.setVisibility(View.VISIBLE);
@@ -178,15 +178,14 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 
 	}
 
-	private void checkFriendInfo(String custId) {
+	private void checkFriendInfo(String custId , String facebookId) {
 		// TODO Auto-generated method stub
-		getCustomerLikeProductInfo(custId);
-		requestGetMerchantStores(custId);
-		getCustomerLikeBrandInfo(custId);
+		System.out.println("abcdefgh " + custId + " " + facebookId);
+		getCustomerLikeProductInfo(custId , facebookId);
+		requestGetMerchantStores(custId , facebookId);
 	}
 
-	private void requestGetMerchantStores(final String custId) {
-		// TODO Auto-generated method stub
+	private void requestGetMerchantStores(final String custId , final String facebookId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getMerchantStores(custId);
@@ -202,6 +201,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 										.parseInt(custId));
 						mShoppieDBProvider.addNewJsonData(jsonDataObject);
 						requestGetMerchantStoresFromDB();
+						getCustomerLikeBrandInfo(custId , facebookId);
 					}
 
 					@Override
@@ -212,10 +212,10 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
 	}
 
-	private void getCustomerLikeProductInfo(String custId) {
+	private void getCustomerLikeProductInfo(String custId , String facebookId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
-				.getCustomerLikedBrandInfo(custId);
+				.getCustomerLikeProductInfo(custId, facebookId);
 		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(getActivity(),
 				new AsyncHttpResponseProcess(getActivity()) {
 					@Override
@@ -258,10 +258,10 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 
 	}
 
-	private void getCustomerLikeBrandInfo(String custId) {
+	private void getCustomerLikeBrandInfo(String custId , String facebookId) {
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
-				.getCustomerLikeProductInfo(custId);
+				.getCustomerLikeProductInfo(custId , facebookId);
 		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(getActivity(),
 				new AsyncHttpResponseProcess(getActivity()) {
 					@Override
@@ -275,26 +275,27 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 									.fromJson(jsonObject.toString(),
 											CustomerLikeBrandList.class);
 							Log.e("adfdfjh "+mMerchantStoreItems.size(), "asddfh "+customerLikeBrandList.getResult().get(0).getMerchId());
+							ArrayList<FavouriteDataObject> data = new ArrayList<FavouriteDataObject>();
 							if (customerLikeBrandList.getResult().size() > 0) {
-								for (int i = 0; i < customerLikeBrandList
-										.getResult().size(); i++) {
-									for (int j = 0; j < mMerchantStoreItems
-											.size(); j++) {
-										MerchId merchId = customerLikeBrandList
-												.getResult().get(i);
+								for (int i = 0; i < customerLikeBrandList.getResult().size(); i++) {
+									boolean flag = true;
+									for (int j = 0; j < mMerchantStoreItems.size() && flag; j++) {
+										MerchId merchId = customerLikeBrandList.getResult().get(i);
 										if (merchId.getMerchId().equals(String.valueOf(
 												mMerchantStoreItems.get(j)
 														.getMerchId()))) {
-											favouriteBrandObjects
-													.add(mFavouriteBrandObjects
-															.get(j));
+//											favouriteBrandObjects
+//													.add(mFavouriteBrandObjects
+//															.get(j));
 											mFavouriteStoreItems.add(mMerchantStoreItems.get(j));
+											data.add(new FavouriteDataObject(mMerchantStoreItems.get(j).getMerchLogo(), "", ""));
+											flag = false;
 										}
 									}
 								}
 							}
 							mFavouriteBrandAdapter
-									.updateBrandList(favouriteBrandObjects);
+									.updateBrandList(data);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
