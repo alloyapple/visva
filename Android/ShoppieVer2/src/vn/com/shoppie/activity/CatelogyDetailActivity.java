@@ -510,22 +510,22 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 //									jsonObject.toString(),
 //									StatusUpdatePie.class);
 							
-							int count = mSharePref.getCountGetPieTime();
-							if (count < 5) {
-								hint.setOnTouchListener(new OnTouchListener() {
-
-									@Override
-									public boolean onTouch(View v, MotionEvent event) {
-										// TODO Auto-generated method stub
-										hint.setVisibility(View.GONE);
-										return false;
-									}
-								});
-								hint.setVisibility(View.VISIBLE);
-								hint.setText(R.string.hint_pie);
-							}
-							count++;
-							mSharePref.setCountGetPieTime(count);
+//							int count = mSharePref.getCountGetPieTime();
+//							if (count < 5) {
+//								hint.setOnTouchListener(new OnTouchListener() {
+//
+//									@Override
+//									public boolean onTouch(View v, MotionEvent event) {
+//										// TODO Auto-generated method stub
+//										hint.setVisibility(View.GONE);
+//										return false;
+//									}
+//								});
+//								hint.setVisibility(View.VISIBLE);
+//								hint.setText(R.string.hint_pie);
+//							}
+//							count++;
+//							mSharePref.setCountGetPieTime(count);
 							
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
