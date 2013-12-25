@@ -86,7 +86,8 @@ public class ListFBFriendAdapter extends BaseAdapter {
 
 		} else {
 			btnInvite.setVisibility(View.VISIBLE);
-			txtNumberPie.setText(0 + " pie");
+			txtNumberPie.setText("");
+//			txtNumberPie.setText(0 + " pie");
 			convertView.setBackgroundResource(R.drawable.bg_friend_fb_only);
 		}
 		btnInvite.setFocusable(false);

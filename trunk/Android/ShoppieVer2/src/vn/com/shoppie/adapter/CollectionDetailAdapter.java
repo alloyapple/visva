@@ -211,11 +211,14 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 					pie1.setLight();
 					
 					float scaleSize = 1f;
-					if (getItem(position).getPieQty() > 99) {
-						scaleSize = 1.25f;
+					if (getItem(position).getPieQty() > 9999) {
+						scaleSize = 1.45f;
 					}
 					else if (getItem(position).getPieQty() > 999) {
-						scaleSize = 1.7f;
+						scaleSize = 1.35f;
+					}
+					else if (getItem(position).getPieQty() > 999) {
+						scaleSize = 1.25f;
 					}
 					
 					if(scaleSize > 1) {
@@ -403,6 +406,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 									+ data.get(position).getProductImage(),
 							image, true, true, false, false, true, false);
 					isNeedUpdateImage[position] = false;
+					freeImage(position);
 				}
 			}
 			return v;

@@ -105,6 +105,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 		hint = (TextView) findViewById(R.id.hint);
 		int count = mSharePref.getLikeCount();
 		if (count < 3) {
+			hint.setText(R.string.hint_like);
 			hint.setOnTouchListener(new OnTouchListener() {
 
 				@Override
@@ -503,12 +504,30 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						try {
-							JSONObject jsonObject = new JSONObject(response);
-							Gson gson = new Gson();
-							StatusUpdatePie statusUpdatePie = gson.fromJson(
-									jsonObject.toString(),
-									StatusUpdatePie.class);
-						} catch (JSONException e) {
+//							JSONObject jsonObject = new JSONObject(response);
+//							Gson gson = new Gson();
+//							StatusUpdatePie statusUpdatePie = gson.fromJson(
+//									jsonObject.toString(),
+//									StatusUpdatePie.class);
+							
+							int count = mSharePref.getCountGetPieTime();
+							if (count < 5) {
+								hint.setOnTouchListener(new OnTouchListener() {
+
+									@Override
+									public boolean onTouch(View v, MotionEvent event) {
+										// TODO Auto-generated method stub
+										hint.setVisibility(View.GONE);
+										return false;
+									}
+								});
+								hint.setVisibility(View.VISIBLE);
+								hint.setText(R.string.hint_pie);
+							}
+							count++;
+							mSharePref.setCountGetPieTime(count);
+							
+						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}

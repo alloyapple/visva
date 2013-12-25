@@ -202,9 +202,12 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				View on1 = findViewById(R.id.indicator1);
+				MarginLayoutParams params1 = (MarginLayoutParams) on1.getLayoutParams();
+				
 				View on = findViewById(R.id.indicator);
 				MarginLayoutParams params = (MarginLayoutParams) on.getLayoutParams();
-				params.leftMargin = (int) ((arg0 + arg1) * (params.width * 4 / 3)); 
+				params.leftMargin = (int) ((arg0 + arg1) * (params.width + params1.rightMargin));
 				on.setLayoutParams(params);
 			}
 

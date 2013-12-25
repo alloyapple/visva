@@ -17,6 +17,7 @@ public class ShoppieSharePref {
 	private static final String GENDER = "gender";
 	private static final String BIRTHDAY = "birth";
 	private static final String COUNT_CHANGE_INFO_TIME = "count_change_info_time";
+	private static final String COUNT_GET_PIE_TIME = "count_get_pie_time";
 	private static final String CHECKIN_STATUS = "checkin_status";
 	private static final String VALUE_PARAM_MOBILE = "value_param_mobile";
 	private static final String VALUE_PARAM_SUPPORT_LINK = "value_param_mobile_link";
@@ -177,6 +178,14 @@ public class ShoppieSharePref {
 
 	public int getCoutnChangeInfoTime() {
 		return getIntValue(COUNT_CHANGE_INFO_TIME);
+	}
+	
+	public void setCountGetPieTime(int time) {
+		putIntValue(COUNT_GET_PIE_TIME, time);
+	}
+
+	public int getCountGetPieTime() {
+		return getIntValue(COUNT_GET_PIE_TIME);
 	}
 
 	public void setCustName(String name) {

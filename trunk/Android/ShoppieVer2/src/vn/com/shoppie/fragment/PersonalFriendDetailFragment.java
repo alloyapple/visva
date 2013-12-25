@@ -181,6 +181,10 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 	private void checkFriendInfo(String custId , String facebookId) {
 		// TODO Auto-generated method stub
 		System.out.println("abcdefgh " + custId + " " + facebookId);
+		if(mFavouriteProductAdapter != null)
+			mFavouriteProductAdapter.clear();
+		if(mFavouriteBrandAdapter != null)
+			mFavouriteBrandAdapter.clear();
 		getCustomerLikeProductInfo(custId , facebookId);
 		requestGetMerchantStores(custId , facebookId);
 	}
@@ -222,6 +226,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 					public void processIfResponseSuccess(String response) {
 
 						try {
+							mFavouriteProductObjects = new ArrayList<FavouriteDataObject>();
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
 							mCustomerLikeProductList = gson.fromJson(
@@ -239,6 +244,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 								mFavouriteProductObjects
 										.add(favouriteDataObject);
 							}
+//							mFavouriteProductAdapter.notifyDataSetChanged();
 							mFavouriteProductAdapter
 									.updateBrandList(mFavouriteProductObjects);
 						} catch (JSONException e) {

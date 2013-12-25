@@ -169,4 +169,7 @@
     <string name="gift_type_3_footer">". Vui lòng liên hệ với nhân viên thu ngân tại cơ sở đó để nhận quà."</string>
     <string name="gift_reject">"Số điểm của bạn chưa đủ. Mời bạn bè sử dụng Shoppie là cách dễ nhất để tích Pie đổi quà."</string>
     
+    <string name="hint_like">"Click Like để lưu trữ thông tin sản phẩm bạn muốn thử khi tới cửa hàng đó. Xem danh sách phía dưới"</string>
+    <string name="hint_pie">"Chức năng Tích Lũy tặng Pie hoạt động khi bạn ghé thăm cửa hàng - Khu vực Tích Lũy: Xung quanh quầy thu ngân"</string>
+    
 </resources>

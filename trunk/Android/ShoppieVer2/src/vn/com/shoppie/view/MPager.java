@@ -340,8 +340,13 @@ public class MPager extends RelativeLayout{
 		if(!isSlide)
 			return;
 		if(inoutMode == SLIDE_IN){
-			if(velocityX > 100)
-				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
+			if(velocityX > 100) {
+				if((!mAdapter.isCircle() && currentItem > 0)
+						|| mAdapter.isCircle())
+					mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
+				else
+					mScroller.startScroll((int) currentX, 0, -distanceX, 100 , 1200);
+			}
 			else if(currentX > 0.2f * distanceX)
 				mScroller.startScroll((int) currentX, 0, distanceX, 100 , 1200);
 			else
