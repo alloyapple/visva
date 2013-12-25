@@ -185,6 +185,10 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						priceGoc1.setVisibility(View.INVISIBLE);
 						v.findViewById(R.id.price_label).setVisibility(View.INVISIBLE);
 						v.findViewById(R.id.price1_label).setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.count).setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.count1).setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.muatang).setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.muatang1).setVisibility(View.INVISIBLE);
 					}
 					else {
 						price.setVisibility(View.VISIBLE);
@@ -193,6 +197,10 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						priceGoc1.setVisibility(View.VISIBLE);
 						v.findViewById(R.id.price_label).setVisibility(View.VISIBLE);
 						v.findViewById(R.id.price1_label).setVisibility(View.VISIBLE);
+						v.findViewById(R.id.count).setVisibility(View.VISIBLE);
+						v.findViewById(R.id.count1).setVisibility(View.VISIBLE);
+						v.findViewById(R.id.muatang).setVisibility(View.VISIBLE);
+						v.findViewById(R.id.muatang1).setVisibility(View.VISIBLE);
 					}
 					
 					MyTextView count = (MyTextView) v.findViewById(R.id.count);
