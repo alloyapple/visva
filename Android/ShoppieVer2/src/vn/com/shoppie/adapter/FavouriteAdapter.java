@@ -57,7 +57,13 @@ public class FavouriteAdapter extends BaseAdapter {
 	public void updateBrandList(
 			ArrayList<FavouriteDataObject> favouriteBrandObjects) {
 		// TODO Auto-generated method stub
+//		mFavouriteDataObjects.clear();
 		mFavouriteDataObjects.addAll(favouriteBrandObjects);
+		notifyDataSetChanged();
+	}
+	
+	public void clear() {
+		mFavouriteDataObjects.clear();
 		notifyDataSetChanged();
 	}
 }

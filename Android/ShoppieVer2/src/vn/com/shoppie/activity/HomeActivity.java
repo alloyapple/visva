@@ -491,13 +491,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 		int iTmp = sp.load(this, R.raw.pied, 1);
 		sp.play(iTmp, 1, 1, 0, 0, 1);
-		MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.pied); // in 2nd
-																	// param u
-																	// have to
-																	// pass
-																	// your
-																	// desire
-																	// ringtone
+		MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.pied);
 		if (mPlayer != null)
 			mPlayer.start();
 
@@ -608,6 +602,23 @@ public class HomeActivity extends VisvaAbstractActivity {
 			Log.e(TAG,
 					"getCheckinStatus " + mShoppieSharePref.getCheckinStatus());
 			if (mShoppieSharePref.getCheckinStatus() == 1) {
+				int count = mShoppieSharePref.getCountGetPieTime();
+				if (count < 5) {
+					hint.setOnTouchListener(new OnTouchListener() {
+
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							// TODO Auto-generated method stub
+							hint.setVisibility(View.GONE);
+							return false;
+						}
+					});
+					hint.setVisibility(View.VISIBLE);
+					hint.setText(R.string.hint_pie);
+				}
+				count++;
+				mShoppieSharePref.setCountGetPieTime(count);
+				
 				onFinish();
 				showPieAnimation(1);
 				mShoppieSharePref.setCheckinStatus(0);
