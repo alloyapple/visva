@@ -174,6 +174,9 @@ public class ActivityWelcome extends Activity implements LocationListener,
 								mShopieSharePref
 										.setParamTermLink(paramMobileItems
 												.get(2).getValue());
+								mShopieSharePref
+										.setParamSleepTime(Integer.parseInt(paramMobileItems
+												.get(3).getValue()));
 							}
 						} catch (Exception e) {
 						}

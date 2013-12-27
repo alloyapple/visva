@@ -1,12 +1,14 @@
 package vn.com.shoppie.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import vn.com.shoppie.AlarmReceiver;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.GlobalValue;
@@ -29,7 +31,9 @@ import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -153,8 +157,18 @@ public class HomeActivity extends VisvaAbstractActivity {
 		}
 		/** turn off bluetooth */
 		turnoffBluetooth();
+		setAlarm();
 	}
 
+	public void setAlarm(){
+		long time = mShoppieSharePref.getParamSleepTime() * 24 * 3600 * 1000;
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(this, "sleep_time_shoppie".hashCode(), intent, 0);
+
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + time , sender);
+    }
+	
 	private void getMerchantCategoryFromDB() {
 		// TODO Auto-generated method stub
 		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider

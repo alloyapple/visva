@@ -145,6 +145,7 @@
             </intent-filter>
         </receiver>
 
+        <receiver  android:process=":remote" android:name=".AlarmReceiver"></receiver>
         <service android:name=".GCMIntentService" />
 
         <!-- Goolge API Key -->
