@@ -16,7 +16,6 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
@@ -110,7 +109,8 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				public void onTextChanged(CharSequence s, int start,
 						int before, int count) {
 					// TODO Auto-generated method stub
-
+					friendId = s.toString();
+					mShopieSharePref.setFriendId(friendId);
 				}
 
 				@Override
@@ -123,8 +123,6 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				@Override
 				public void afterTextChanged(Editable s) {
 					// TODO Auto-generated method stub
-					friendId += s.toString();
-					mShopieSharePref.setFriendId(friendId);
 				}
 			});
 			

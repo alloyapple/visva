@@ -28,7 +28,7 @@ public final class WebServiceConfig {
 	/** SHOPPIE */
 	// public static final String URL_SHOPPIE_HOME =
 	// "http://ws.shoppie.com.vn/index.php/api/webservice/";
-	public static final String URL_SHOPPIE_HOME = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/";
+	public static final String URL_SHOPPIE_HOME = "http://ws.shoppie.com.vn/index.php/api/webservice/";
 
 	/** HOME PAGE & LOOKBOOK campaignId=15 */
 	public static final String URL_MERCHCAMPAIGNS = URL_SHOPPIE_HOME
@@ -59,10 +59,10 @@ public final class WebServiceConfig {
 			+ "txnhistory_v2/format/json";
 	public static final String URL_FEEDBACK = URL_SHOPPIE_HOME
 			+ "/customerfeedback/json";
-	public static final String URL_GET_GIFT_LIST = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/allgifts/format/json";
-	public static final String URL_GET_GIFT_TRANSACTION_AVAILABLE = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/giftredeem_v2/format/json";
-	public static final String URL_GET_GIFT_HISTORY_LIST = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/redeemtxnhist/format/json";
-	public static final String URL_REQUEST_CANCEL_GIFT = "http://210.211.117.90/shoppie.webservice/ci/index.php/api/webservice/cancelredeemtxn/format/json";
+	public static final String URL_GET_GIFT_LIST = "http://ws.shoppie.com.vn/index.php/api/webservice/allgifts/format/json";
+	public static final String URL_GET_GIFT_TRANSACTION_AVAILABLE = "http://ws.shoppie.com.vn/index.php/api/webservice/giftredeem_v2/format/json";
+	public static final String URL_GET_GIFT_HISTORY_LIST = "http://ws.shoppie.com.vn/index.php/api/webservice/redeemtxnhist/format/json";
+	public static final String URL_REQUEST_CANCEL_GIFT = "http://ws.shoppie.com.vn/index.php/api/webservice/cancelredeemtxn/format/json";
 	/** LIKE SAN PHAM custId=118&productId=1 */
 	public static final String URL_LIKE_PRODUCT = URL_SHOPPIE_HOME
 			+ "/likeproduct/json";
@@ -104,7 +104,7 @@ public final class WebServiceConfig {
 	public static final String FB_KEY = "facebook-credentials";
 
 	// Image header
-	public static final String HEAD_IMAGE = "http://210.211.117.90:8080/";
+	public static final String HEAD_IMAGE = "http://shoppie.com.vn:8080/";
 
 	// ===================== PARAMETER =======================//
 
