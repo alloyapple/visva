@@ -111,7 +111,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private static void generateNotification(Context context, String message,
 			String type, String pieQty) {
 		Log.e(TAG, "GMCmessage "+message);
-		if(message.contains(context.getString(R.string.message_contain_checkin))){
+		String _message = message.toLowerCase();
+		if(_message.contains(context.getString(R.string.message_contain_checkin1))||_message.contains(context.getString(R.string.message_contain_checkin2))||_message.contains(context.getString(R.string.message_contain_checkin3))){
 			mShoppieSharePref.setCheckinStatus(1);
 		}else
 			mShoppieSharePref.setCheckinStatus(0);

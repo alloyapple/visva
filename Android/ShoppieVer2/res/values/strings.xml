@@ -13,7 +13,9 @@
     <string name="hello_world">HelloShoppie</string>
     <string name="feedback">Feedback</string>
     <string name="empty" />
-    <string name="message_contain_checkin">tặng bạn</string>
+    <string name="message_contain_checkin1">tặng bạn</string>
+    <string name="message_contain_checkin2">bạn được tặng</string>
+    <string name="message_contain_checkin3">được tặng</string>
     <string name="ca_nhan">Cá nhân</string>
     <string name="doi_qua">ĐỔI QUÀ</string>
     <string name="noi_tich_diem">Nơi Tích Điểm</string>
