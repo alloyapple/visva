@@ -175,7 +175,6 @@ public class SearchMapFragment extends SupportMapFragment{
 			int colorValue = Color.rgb(Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Integer.parseInt(temp[2]));
 			return colorValue;			
 		} catch (Exception e) {
-			// TODO: handle exception
 			return 0xffff0000;
 		}
 	}

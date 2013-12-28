@@ -360,8 +360,18 @@ public class SearchActivity extends FragmentActivity implements
 					int position, long id) {
 				if(position > 0) {
 					setDataByIcon(iconDataList.get(position - 1), true);
-					mSearchMapFragment.updatePie(manageData.get(iconDataList
-							.get(position - 1)));
+					List<MerchantStoreItem> items = manageData.get(iconDataList
+							.get(position - 1));
+					Vector<MerchantStoreItem> tempData = new Vector<MerchantStoreItem>();
+					for (MerchantStoreItem merchantStoreItem : items) {
+						try {
+							Double.parseDouble(merchantStoreItem.getLatitude());
+							Double.parseDouble(merchantStoreItem.getLongtitude());
+							tempData.add(merchantStoreItem);
+						} catch (Exception e) {
+						}
+					}
+					mSearchMapFragment.updatePie(tempData);
 				}
 				else {
 					setDataByIcon(null, true);
@@ -501,6 +511,7 @@ public class SearchActivity extends FragmentActivity implements
 	private void requestGetMerchantStores(final String custId) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
+		System.out.println(">>>>>>>>>>>>>>>>>>> custId " + custId);
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getMerchantStores(custId);
 		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
@@ -550,7 +561,16 @@ public class SearchActivity extends FragmentActivity implements
 	}
 
 	public void setPieMap(List<MerchantStoreItem> data) {
-		mSearchMapFragment.updatePie(data);
+		Vector<MerchantStoreItem> tempData = new Vector<MerchantStoreItem>();
+		for (int i = 0; i < data.size() ; i++) {
+			try {
+				Double.parseDouble(data.get(i).getLatitude());
+				Double.parseDouble(data.get(i).getLongtitude());
+				tempData.add(data.get(i));
+			} catch (Exception e) {
+			}
+		}
+		mSearchMapFragment.updatePie(tempData);
 	}
 
 	public MerchantCategoryItem getCategoryByStore(MerchantStoreItem store) {

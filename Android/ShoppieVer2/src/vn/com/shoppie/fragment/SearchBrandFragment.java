@@ -67,7 +67,21 @@ public class SearchBrandFragment extends FragmentBasic {
 	}
 
 	public void setAdapter(Vector<MerchantStoreItem> data) {
+		Vector<MerchantStoreItem> headerData = new Vector<MerchantStoreItem>();
 		Location location = ((SearchActivity) getActivity()).getMyLocation();
+		
+		for(int i = 0 ; i < data.size() ; i++) {
+			try {
+				Double.parseDouble(data.get(i).getLatitude());
+			} catch (Exception e) {
+				headerData.add(data.get(i));
+			}
+		}
+		
+		for (MerchantStoreItem merchantStoreItem : headerData) {
+			data.remove(merchantStoreItem);
+		}
+		
 		if(location != null) {
 			for(int i = 0 ; i < data.size() ; i++) {
 				double lengthi = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
@@ -89,6 +103,7 @@ public class SearchBrandFragment extends FragmentBasic {
 				}
 			}
 		}
+		data.addAll(headerData);
 		adapter = new StoreAdapter(getActivity() , data , ((SearchActivity) getActivity()).getMyLocation());
 		listView.setAdapter(adapter);
 		nameList.clear();
