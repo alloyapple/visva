@@ -91,14 +91,19 @@ public class StoreAdapter extends BaseAdapter {
 		}
 		
 		holder.title.setText(getItem(position).getStoreName());
-		if(location != null) {
-			double length = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
-						new LatLng(Double.parseDouble(getItem(position).getLatitude()), Double.parseDouble(getItem(position).getLongtitude())));
-			holder.subTitle1.setText("Khoảng cách: " + fmt(length) + " km");
-		}
-		else {
+		try {
+			if(location != null) {
+				double length = Utils.calculationByDistance(new LatLng(location.getLatitude(), location.getLongitude()), 
+							new LatLng(Double.parseDouble(getItem(position).getLatitude()), Double.parseDouble(getItem(position).getLongtitude())));
+				holder.subTitle1.setText("Khoảng cách: " + fmt(length) + " km");
+			}
+			else {
+				holder.subTitle1.setText("Khoảng cách: ");
+			}
+		} catch (Exception e) {
 			holder.subTitle1.setText("Khoảng cách: ");
 		}
+		
 		
 		holder.subTitle2.setText(getItem(position).getStoreAddress());
 		holder.star.setText("+" + getItem(position).getPieQty());
