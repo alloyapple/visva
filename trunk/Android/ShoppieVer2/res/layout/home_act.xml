@@ -94,7 +94,8 @@
     <vn.com.shoppie.view.MyTextView
         android:id="@+id/hint"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
+        android:minHeight="@dimen/actionbar_height"
+        android:layout_height="wrap_content"
         android:background="#99000000" 
         android:gravity="center"
         android:textSize="20sp"
