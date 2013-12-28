@@ -448,6 +448,24 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 	private void setCheckIn(final boolean isChecked) {
 		if (isChecked) {
+			
+			int count = mShoppieSharePref.getCountGetPieTime();
+			if (count < 5) {
+				hint.setOnTouchListener(new OnTouchListener() {
+
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						// TODO Auto-generated method stub
+						hint.setVisibility(View.GONE);
+						return false;
+					}
+				});
+				hint.setVisibility(View.VISIBLE);
+				hint.setText(R.string.hint_pie);
+			}
+			count++;
+			mShoppieSharePref.setCountGetPieTime(count);
+
 			checkinCircle.setBackgroundResource(R.drawable.img_checkin_loading);
 			int angle = 36000000;
 			final RotateAnimation anim = new RotateAnimation(0, angle,
@@ -616,23 +634,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			Log.e(TAG,
 					"getCheckinStatus " + mShoppieSharePref.getCheckinStatus());
 			if (mShoppieSharePref.getCheckinStatus() == 1) {
-				int count = mShoppieSharePref.getCountGetPieTime();
-				if (count < 5) {
-					hint.setOnTouchListener(new OnTouchListener() {
-
-						@Override
-						public boolean onTouch(View v, MotionEvent event) {
-							// TODO Auto-generated method stub
-							hint.setVisibility(View.GONE);
-							return false;
-						}
-					});
-					hint.setVisibility(View.VISIBLE);
-					hint.setText(R.string.hint_pie);
-				}
-				count++;
-				mShoppieSharePref.setCountGetPieTime(count);
-				
+								
 				onFinish();
 				showPieAnimation(1);
 				mShoppieSharePref.setCheckinStatus(0);
