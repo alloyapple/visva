@@ -58,8 +58,9 @@ public class SearchBrandFragment extends FragmentBasic {
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
+				StoreAdapter storeAdapter = (StoreAdapter) listView.getAdapter();
 				SearchActivity act = (SearchActivity) getActivity();
-				act.onClickViewStoreDetail(adapter.getItem(position));
+				act.onClickViewStoreDetail(storeAdapter.getItem(position));
 			}
 		});
 
