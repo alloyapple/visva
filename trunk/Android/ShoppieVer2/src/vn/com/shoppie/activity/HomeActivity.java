@@ -733,7 +733,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			if(msg.what == 0) {
-				showPieAnimation(1);
+				showPieAnimation(msg.arg1);
 			}
 		}
 	};
