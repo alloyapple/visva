@@ -63,6 +63,12 @@ public class AsyncHttpPost extends AsyncHttpBase {
 			HttpPost httppost = new HttpPost(url);
 			httppost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
 			// httppost.setHeader("Content-Type", "multipart/form-data");
+			
+			System.out.println("Url " + url);
+			for (int i = 0; i < parameters.size(); i++) {
+				System.out.println("params " + parameters.get(i).getName() + " " + parameters.get(i).getValue());
+			}
+			
 			response = httpclient.execute(httppost);
 			statusCode = NETWORK_STATUS_OK;
 		} catch (Exception e) {

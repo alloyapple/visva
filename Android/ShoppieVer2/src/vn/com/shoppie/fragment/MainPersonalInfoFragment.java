@@ -365,11 +365,13 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 
 	public void updateUserInfo(FacebookUser user) {
 		// TODO Auto-generated method stub
-		mImageLoader.DisplayImage(user.getPicture().getData().getUrl(),
-				mImgAvatar);
-		mTxtUserName.setText(user.getName());
-		mTxtUserId.setText("ID: " + mShopieSharePref.getCustId());
-		mShopieSharePref.setImageAvatar(user.getPicture().getData().getUrl());
+		if(user != null) {
+			mImageLoader.DisplayImage(user.getPicture().getData().getUrl(),
+					mImgAvatar);
+			mTxtUserName.setText(user.getName());
+			mTxtUserId.setText("ID: " + mShopieSharePref.getCustId());
+			mShopieSharePref.setImageAvatar(user.getPicture().getData().getUrl());
+		}
 	}
 
 	public void updateShoppieUser(ShoppieUserInfo userInfo) {

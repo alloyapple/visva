@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import vn.com.shoppie.AlarmReceiver;
+import vn.com.shoppie.MyApplication;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.constant.GlobalValue;
@@ -44,6 +45,8 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -89,6 +92,9 @@ public class HomeActivity extends VisvaAbstractActivity {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public void onCreate() {
+		MyApplication myApp = (MyApplication) getApplication();
+		myApp._homeActivity = this;
+		
 		if (Build.VERSION.SDK_INT >= 11)
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
@@ -636,7 +642,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 			if (mShoppieSharePref.getCheckinStatus() == 1) {
 								
 				onFinish();
-				showPieAnimation(1);
+//				showPieAnimation(1);
 				mShoppieSharePref.setCheckinStatus(0);
 				if (mShoppieSharePref.getLoginType())
 					FacebookUtil.getInstance(self).publishLuckyPieInBackground(
@@ -722,4 +728,13 @@ public class HomeActivity extends VisvaAbstractActivity {
 		// Send a screen view when the Activity is displayed to the user.
 		mGaTracker.sendView(CLASS_UNIQUE);
 	}
+	
+	public Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if(msg.what == 0) {
+				showPieAnimation(1);
+			}
+		}
+	};
 }
