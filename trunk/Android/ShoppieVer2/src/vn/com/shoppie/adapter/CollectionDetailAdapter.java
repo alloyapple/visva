@@ -183,6 +183,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						priceGoc.setVisibility(View.INVISIBLE);
 						price1.setVisibility(View.INVISIBLE);
 						priceGoc1.setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.pie).setVisibility(View.INVISIBLE);
+						v.findViewById(R.id.pie1).setVisibility(View.INVISIBLE);
 						v.findViewById(R.id.price_label).setVisibility(View.INVISIBLE);
 						v.findViewById(R.id.price1_label).setVisibility(View.INVISIBLE);
 						v.findViewById(R.id.count).setVisibility(View.INVISIBLE);
@@ -195,6 +197,8 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 						priceGoc.setVisibility(View.VISIBLE);
 						price1.setVisibility(View.VISIBLE);
 						priceGoc1.setVisibility(View.VISIBLE);
+						v.findViewById(R.id.pie).setVisibility(View.VISIBLE);
+						v.findViewById(R.id.pie1).setVisibility(View.VISIBLE);
 						v.findViewById(R.id.price_label).setVisibility(View.VISIBLE);
 						v.findViewById(R.id.price1_label).setVisibility(View.VISIBLE);
 						v.findViewById(R.id.count).setVisibility(View.VISIBLE);

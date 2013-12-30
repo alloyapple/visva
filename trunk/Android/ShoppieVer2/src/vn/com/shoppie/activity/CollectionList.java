@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListCollectionAdapter;
+import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchCampaignItem;
 import vn.com.shoppie.database.sobject.MerchCampaignList;
@@ -58,6 +59,7 @@ public class CollectionList extends Activity {
 	public static int curId = 0;
 	public static boolean autoFinish = false;
 	private ShoppieDBProvider mShoppieDBProvider;
+	private ShoppieSharePref mSharePref;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class CollectionList extends Activity {
 
 	private void init() {
 		mShoppieDBProvider = new ShoppieDBProvider(this);
+		mSharePref = new ShoppieSharePref(this);
 		Bundle extras = getIntent().getExtras();
 		merchantId = extras.getString(KEY_MERCHANT_ID);
 		Log.d("MechanId", merchantId);
@@ -126,7 +129,7 @@ public class CollectionList extends Activity {
 					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_ID_KEY, ""
 							+ adapter.getItem(curId).getCampaignId());
 					intent.putExtra(CatelogyDetailActivity.CUSTOMER_ID_KEY,
-							"148");
+							"" + mSharePref.getCustId());
 					intent.putExtra(CatelogyDetailActivity.CAMPAIGN_NAME_KEY,
 							adapter.getItem(curId).getCampaignName());
 					intent.putExtra(CatelogyDetailActivity.LUCKY_PIE_KEY,
