@@ -120,7 +120,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		String _message = message.toLowerCase();
 		if(_message.contains(context.getString(R.string.message_contain_checkin1))||_message.contains(context.getString(R.string.message_contain_checkin2))||_message.contains(context.getString(R.string.message_contain_checkin3))){
 			mShoppieSharePref.setCheckinStatus(1);
-			openPieAnimate();
+			openPieAnimate(Integer.parseInt(pieQty));
 		}else
 			mShoppieSharePref.setCheckinStatus(0);
 		int icon = R.drawable.icon_launcher;
@@ -192,11 +192,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 		context.sendBroadcast(intent);
 	}
 	
-	public void openPieAnimate() {
+	public void openPieAnimate(int pie) {
 	   MyApplication myApp = (MyApplication) getApplication();
 	   if(myApp._homeActivity != null) {
 		   Message msg = new Message();
 		   msg.what = 0;
+		   msg.arg1 = pie;
 		   myApp._homeActivity.mHandler.sendMessage(msg);
 	   }
 	}
