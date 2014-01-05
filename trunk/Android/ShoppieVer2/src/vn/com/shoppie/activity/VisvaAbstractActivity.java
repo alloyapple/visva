@@ -10,6 +10,7 @@ import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.util.SBroastcastProvider;
 import vn.com.shoppie.util.SBroastcastProvider.BroastcastListener;
 import vn.com.shoppie.util.VisvaDialog;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.PopupPie;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -424,9 +425,9 @@ public abstract class VisvaAbstractActivity extends Activity implements
 
 	
 	protected void showLog() {
-		Log.i(Tag, "heap size: " + Debug.getNativeHeapSize());
-		Log.i(Tag, "heap size alloced: " + Debug.getNativeHeapAllocatedSize());
-		Log.i(Tag, "heap size free: " + Debug.getNativeHeapFreeSize());
+		log.i(Tag, "heap size: " + Debug.getNativeHeapSize());
+		log.i(Tag, "heap size alloced: " + Debug.getNativeHeapAllocatedSize());
+		log.i(Tag, "heap size free: " + Debug.getNativeHeapFreeSize());
 	}
 
 	// =======================UPDATE MY LOCATION==================//
@@ -446,7 +447,7 @@ public abstract class VisvaAbstractActivity extends Activity implements
 
 	@Override
 	public void onReceiveBroastcast(Context context, Intent intent) {
-		Log.v(TAG, "onReceiveBroastcast");
+		log.v(TAG, "onReceiveBroastcast");
 		String type = "", pieQty = "0";
 		if (intent.hasExtra(GlobalValue.EXTRA_TYPE))
 			type = intent.getStringExtra(GlobalValue.EXTRA_TYPE);

@@ -10,6 +10,7 @@ import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.ImageUtil;
 import vn.com.shoppie.util.Utils;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPagerAdapterBase;
 import vn.com.shoppie.view.MyTextView;
@@ -611,7 +612,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	}
 
 	private void closeDesc(final View v) {
-		Log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
+		log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
 		// if (v.getAnimation() != null)
 		// return;
 		// if (Build.VERSION.SDK_INT >= 11) {
@@ -777,7 +778,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 	}
 
 	private boolean ensureOpenSession() {
-		android.util.Log.e("adfdsfh", "afiun df ");
+		log.e("adfdsfh", "afiun df ");
 		Session.openActiveSession((Activity) context, true,
 				new Session.StatusCallback() {
 					@Override
@@ -793,7 +794,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 												.getActiveSession()) {
 											if (user != null) {
 												String name = user.getName();
-												android.util.Log.e(
+												log.e(
 														"name " + user.getId(),
 														"adfname "
 																+ user.getName());
@@ -809,7 +810,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 
 	private void onSessionStateChanged(final Session session,
 			SessionState state, Exception exception) {
-		android.util.Log.e("adfdf",
+		log.e("adfdf",
 				"adfd " + (session != null && session.isOpened()));
 		if (session != null && session.isOpened()) {
 			if (state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
@@ -823,7 +824,7 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										String name = user.getName();
-										android.util.Log.e(
+										log.e(
 												"name " + user.getId(),
 												"adfname " + user.getName());
 									}

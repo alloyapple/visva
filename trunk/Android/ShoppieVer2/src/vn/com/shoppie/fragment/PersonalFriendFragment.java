@@ -21,6 +21,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.network.ParserUtility;
 import vn.com.shoppie.object.FBUser;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -183,7 +184,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 						@Override
 						public void onCompleted(List<GraphUser> users,
 								Response response) {
-							// Log.e("user size", "user size "+users.size());
+							// log.e("user size", "user size "+users.size());
 							String userId = "";
 							String userName = "";
 							String userPicture = "";
@@ -278,7 +279,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_UPDATE_FRIENDS);
@@ -307,7 +308,7 @@ public class PersonalFriendFragment extends FragmentBasic implements
 	private void onSessionStateChanged(Session session, SessionState state,
 			Exception exception) {
 		if (state != null && state.isOpened()) {
-			Log.e("gdfsdaf", "adfdf");
+			log.e("gdfsdaf", "adfdf");
 			getUserData(session);
 		}
 	}

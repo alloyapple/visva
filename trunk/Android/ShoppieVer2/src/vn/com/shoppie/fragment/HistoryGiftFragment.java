@@ -14,6 +14,7 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.DialogUtility;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -62,7 +63,7 @@ public class HistoryGiftFragment extends FragmentBasic {
 					public void processIfResponseSuccess(String response) {
 						try {
 							JSONObject jsonObject = new JSONObject(response);
-//							System.out.println(">>>>>>>>>>>>> " + response);
+//							log.m(">>>>>>>>>>>>> " + response);
 							DialogUtility.alert(getActivity(), "Hủy quà thành công");
 							data.remove(item);
 							setData(data);
@@ -75,7 +76,7 @@ public class HistoryGiftFragment extends FragmentBasic {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, nameValuePairs, true);
 		postGetGiftList.execute(WebServiceConfig.URL_REQUEST_CANCEL_GIFT);
@@ -96,7 +97,7 @@ public class HistoryGiftFragment extends FragmentBasic {
 							GiftHistoryList giftList = gson.fromJson(
 									jsonObject.toString(), GiftHistoryList.class);
 							setData(giftList.getGifts());
-							System.out.println(">>>>>>>>>>>>> " + giftList.getGifts().size());
+							log.m(">>>>>>>>>>>>> " + giftList.getGifts().size());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -105,7 +106,7 @@ public class HistoryGiftFragment extends FragmentBasic {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, nameValuePairs, true);
 		postGetGiftList.execute(WebServiceConfig.URL_GET_GIFT_HISTORY_LIST);

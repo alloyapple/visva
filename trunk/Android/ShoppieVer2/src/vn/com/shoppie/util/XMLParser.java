@@ -41,13 +41,13 @@ public class XMLParser {
 			xml = xml.replaceAll("&#13;", "").replaceAll("\r\n", "").replaceAll("\r", "").replaceAll("\n", "");
 
 		}catch(UnknownHostException e){
-			Log.e("UnknownHost", url);
+			log.e("UnknownHost", url);
 		}catch (UnsupportedEncodingException e) {
-			Log.e("UnsupportedEncodingException", url);
+			log.e("UnsupportedEncodingException", url);
 		} catch (ClientProtocolException e) {
-			Log.e("ClientProtocolException", url);
+			log.e("ClientProtocolException", url);
 		} catch (IOException e) {
-			Log.e("IOException", url);
+			log.e("IOException", url);
 		}
 		// return XML
 		return xml;
@@ -85,13 +85,13 @@ public class XMLParser {
 			doc = db.parse(is);
 
 		} catch (ParserConfigurationException e) {
-			// Log.e("Error: ", e.getMessage());
+			// log.e("Error: ", e.getMessage());
 			return null;
 		} catch (SAXException e) {
-			// Log.e("Error: ", e.getMessage());
+			// log.e("Error: ", e.getMessage());
 			return null;
 		} catch (IOException e) {
-			// Log.e("Error: ", e.getMessage());
+			// log.e("Error: ", e.getMessage());
 			return null;
 		}
 		// return DOM

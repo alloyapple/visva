@@ -24,6 +24,7 @@ import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.util.FacebookUtil;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.view.MyTextView;
@@ -214,7 +215,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						CatelogyDetailActivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("like success ", "like success");
+						log.e("like success ", "like success");
 						MediaPlayer mPlayer = MediaPlayer.create(
 								CatelogyDetailActivity.this, R.raw.sound_like2);
 						if (mPlayer != null)
@@ -355,7 +356,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 						CatelogyDetailActivity.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.i(TAG, "response " + response);
+						log.i(TAG, "response " + response);
 						try {
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
@@ -403,7 +404,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);
@@ -535,7 +536,7 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

@@ -126,7 +126,7 @@ public class SUtilBitmap {
 					// }
 					CACHE_BITMAP.remove(key);
 				}
-				Log.e("RECYCLE BITMAP CACHE", i + " items");
+				log.e("RECYCLE BITMAP CACHE", i + " items");
 				// CACHE_BITMAP.clear();
 				System.gc();
 			}
@@ -151,7 +151,7 @@ public class SUtilBitmap {
 					// }
 					CACHE_HIGHT_BITMAP.remove(key);
 				}
-				Log.e("RECYCLE BITMAP CACHE", i + " items");
+				log.e("RECYCLE BITMAP CACHE", i + " items");
 				// CACHE_BITMAP.clear();
 				System.gc();
 			}
@@ -187,7 +187,7 @@ public class SUtilBitmap {
 		default:
 			break;
 		}
-		Log.d("mem load", currentMem + "");
+		log.d("mem load", currentMem + "");
 		try {
 			result = getBitmapNotCache(context, link, reqWidth, reqHeight);
 		} catch (OutOfMemoryError e) {
@@ -228,7 +228,7 @@ public class SUtilBitmap {
 	private String linkToMemory3(String link) {
 		InputStream in;
 		try {
-			Log.i("link image", link);
+			log.i("link image", link);
 			in = new java.net.URL(link).openStream(); // -->> IOException
 														// ':8080' -> ipv6
 			Bitmap bitmap = null;
@@ -256,7 +256,7 @@ public class SUtilBitmap {
 		try {
 			String path = link.replaceAll("http://web.shoppie.com.vn:8080", "");
 			URL url = new URL("http", "web.shoppie.com.vn", 8080, path);
-			Log.e("3", url.toString());
+			log.e("3", url.toString());
 			in = url.openStream();
 
 			Bitmap bitmap = null;
@@ -287,10 +287,10 @@ public class SUtilBitmap {
 	@SuppressWarnings("unused")
 	@Deprecated
 	private String linkToMemory(String link) {
-		Log.e("DOWNLOAD IMAGE", "Link: " + link);
+		log.e("DOWNLOAD IMAGE", "Link: " + link);
 		String filePath = "";
 		File file = new File(linkToPath(link));
-		// Log.e("full link", linkToPath(link));
+		// log.e("full link", linkToPath(link));
 		FileOutputStream fileOutput = null;
 		InputStream in = null;
 		try {
@@ -332,7 +332,7 @@ public class SUtilBitmap {
 			while ((bufferLength = inputStream.read(buffer)) > 0) {
 				fileOutput.write(buffer, 0, bufferLength);
 				downloadedSize += bufferLength;
-				// Log.i("Progress:", "downloadedSize:" + downloadedSize
+				// log.i("Progress:", "downloadedSize:" + downloadedSize
 				// + "totalSize:" + totalSize);
 			}
 
@@ -483,7 +483,7 @@ public class SUtilBitmap {
 			// int[] pids = { android.os.Process.myPid() };
 			// android.os.Debug.MemoryInfo myxMemInfo =
 			// activity_manager.getProcessMemoryInfo(pids)[0];
-			// Log.e(TAG, "dalvikPss (decoding) = " + myMemInfo.dalvikPss);
+			// log.e(TAG, "dalvikPss (decoding) = " + myMemInfo.dalvikPss);
 
 			return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
 
@@ -582,7 +582,7 @@ public class SUtilBitmap {
 			return;
 		if (currentMem > 0)
 			currentMem--;
-		Log.e("set mem", currentMem + "");
+		log.e("set mem", currentMem + "");
 		SettingPreference.setMem(context, currentMem);
 	}
 
@@ -625,13 +625,13 @@ public class SUtilBitmap {
 			if (!folderApp.isDirectory()) {
 				boolean success = folderApp.mkdirs();
 				if (!success) {
-					Log.e("create folder app", "Failed");
+					log.e("create folder app", "Failed");
 					folderApp = context.getDir("img", Context.MODE_PRIVATE);
 					if (!folderApp.exists()) {
 
 						success = folderApp.mkdirs();
 						if (!success) {
-							Log.e("create folder private-app", "Failed");
+							log.e("create folder private-app", "Failed");
 						}
 					}
 				}
@@ -644,7 +644,7 @@ public class SUtilBitmap {
 	 * convert url link to path of file on SDcard include /mnt/sdcard/
 	 * */
 	private String linkToPath(String link) {
-		// Log.e("Folder App", folderApp.getAbsolutePath());
+		// log.e("Folder App", folderApp.getAbsolutePath());
 		String filename = getFolderApp().getAbsolutePath() + File.separator + encodeLink(link);
 		// File file = new File(SDCardRoot, filename);
 		// return file.getAbsolutePath();
@@ -659,10 +659,10 @@ public class SUtilBitmap {
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
-				Log.e("Create temp file", file.getAbsolutePath());
+				log.e("Create temp file", file.getAbsolutePath());
 			} catch (IOException e) {
 
-				Log.e("ERROR: inputStreamToFile", "can not create new file");
+				log.e("ERROR: inputStreamToFile", "can not create new file");
 				e.printStackTrace();
 				return null;
 			}

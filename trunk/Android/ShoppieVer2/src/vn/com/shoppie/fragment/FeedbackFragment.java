@@ -14,6 +14,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -96,11 +97,11 @@ public class FeedbackFragment extends FragmentBasic {
 				reqHeight);
 		int width = options.outWidth;
 		int height = options.outHeight;
-		Log.d("width " + height, "width " + width);
+		log.d("width " + height, "width " + width);
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		Log.d("orientation ", "orientation " + orientation);
+		log.d("orientation ", "orientation " + orientation);
 		// return Bitmap.createBitmap(BitmapFactory.decodeFile(filePath,
 		// options), 0, 0, reqHeight,
 		// reqWidth, mtx, true);
@@ -168,7 +169,7 @@ public class FeedbackFragment extends FragmentBasic {
 						getActivity()) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("post success ", "post success");
+						log.e("post success ", "post success");
 						((PersonalInfoActivity)getActivity()).onClickBackPersonal(null);
 					}
 

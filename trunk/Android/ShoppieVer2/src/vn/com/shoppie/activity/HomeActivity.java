@@ -25,6 +25,7 @@ import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.util.FacebookUtil;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MPager;
 import vn.com.shoppie.view.MPager.OnPageChange;
 import vn.com.shoppie.view.MPager.OnStartExtend;
@@ -323,7 +324,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 			@Override
 			public void onClick(int pos) {
-				Log.d("OnClick", "Pos " + pos);
+				log.d("OnClick", "Pos " + pos);
 				Intent intent = new Intent(HomeActivity.this,
 						CollectionList.class);
 				intent.putExtra(CollectionList.KEY_MERCHANT_ID, ""
@@ -393,7 +394,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);
@@ -637,7 +638,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
-			Log.e(TAG,
+			log.e(TAG,
 					"getCheckinStatus " + mShoppieSharePref.getCheckinStatus());
 			if (mShoppieSharePref.getCheckinStatus() == 1) {
 								
@@ -714,7 +715,7 @@ public class HomeActivity extends VisvaAbstractActivity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

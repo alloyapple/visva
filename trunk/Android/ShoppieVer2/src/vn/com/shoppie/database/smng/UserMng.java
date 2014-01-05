@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import vn.com.shoppie.database.adbException;
 import vn.com.shoppie.database.adbManager;
 import vn.com.shoppie.database.sobject.User;
+import vn.com.shoppie.util.log;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -95,7 +96,7 @@ public class UserMng extends adbManager{
 	public ArrayList<User> getArrayObjectFromCursor(Cursor cursor) {
 		ArrayList<User> array = new ArrayList<User>();
 		if (cursor.getCount() == 0) {
-			Log.e(TAG, "cursor is null");
+			log.e(TAG, "cursor is null");
 			cursor.close();
 			return array;
 		}
@@ -121,7 +122,7 @@ public class UserMng extends adbManager{
 		cursor.moveToFirst();
 
 		if (cursor.getCount() == 0) {
-			Log.e(TAG, "cursor is null");
+			log.e(TAG, "cursor is null");
 			cursor.close();
 			return t;
 		}

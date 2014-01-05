@@ -8,6 +8,7 @@ import org.json.JSONException;
 import vn.com.shoppie.R;
 import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.util.VisvaDialog;
+import vn.com.shoppie.util.log;
 import android.app.Activity;
 import android.util.Log;
 
@@ -91,7 +92,7 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 			}
 
 			// Parser information
-			Log.i(TAG, "Webservice response : " + json);
+			log.i(TAG, "Webservice response : " + json);
 			// CommonInfo commonInfo = ParserUtility.parserCommonResponse(json);
 			// if (commonInfo.isSuccess()) {
 			processIfResponseSuccess(json);
@@ -118,13 +119,13 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 	 * @throws JSONException
 	 */
 	public void processIfResponseSuccess(String response) {
-		Log.i(TAG, "Process if response is success ===================");
+		log.i(TAG, "Process if response is success ===================");
 	}
 
 	/**
 	 * Interface function
 	 */
 	public void processIfResponseFail() {
-		// SmartLog.log(TAG, "Process if response is fail ===================");
+		// Smartlog.log(TAG, "Process if response is fail ===================");
 	}
 }

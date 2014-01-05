@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import vn.com.shoppie.database.adbManager;
 import vn.com.shoppie.database.sobject.Like;
+import vn.com.shoppie.util.log;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -80,7 +81,7 @@ public static final String TAG="Class: LikeMng";
 				break;
 			}
 		if (!hasField) {
-			Log.e(TAG, "not matching field to SELECT");
+			log.e(TAG, "not matching field to SELECT");
 			return array;
 		}
 		Cursor cursor = db.query(TABLE, COLUMNS, field + "='" + value
@@ -97,7 +98,7 @@ public static final String TAG="Class: LikeMng";
 	public ArrayList<Like> getArrayObjectFromCursor(Cursor cursor) {
 		ArrayList<Like> array = new ArrayList<Like>();
 		if(cursor.getCount()==0){
-			Log.e(TAG, "cursor is null");
+			log.e(TAG, "cursor is null");
 			cursor.close();
 			return array;
 		}
@@ -123,7 +124,7 @@ public static final String TAG="Class: LikeMng";
 		cursor.moveToFirst();
 		
 		if(cursor.getCount()==0){
-			Log.e(TAG, "cursor is null");
+			log.e(TAG, "cursor is null");
 			cursor.close();
 			return t;
 		}

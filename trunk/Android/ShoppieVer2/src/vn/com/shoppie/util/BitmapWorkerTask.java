@@ -126,7 +126,7 @@ public class BitmapWorkerTask extends AsyncTask<Object, Integer, Bitmap> {
 			final Bitmap bitmap = mCache.getBitmapFromMemCache(pathImage[0].toString());
 			if (bitmap != null) {
 				if (FLAG_DEBUG)
-					Log.i("getBitmap", "from Cache");
+					log.i("getBitmap", "from Cache");
 				holder.getImageView().setImageBitmap(bitmap);
 			} else {
 				holder.getImageView().setImageBitmap(null);
@@ -142,7 +142,7 @@ public class BitmapWorkerTask extends AsyncTask<Object, Integer, Bitmap> {
 			final Bitmap bitmap = mCache.getBitmapFromMemCache(pathImage[0].toString());
 			if (bitmap != null) {
 				if (FLAG_DEBUG)
-					Log.i("getBitmap", "from Cache");
+					log.i("getBitmap", "from Cache");
 				setImageBitmap(context, holder.getImageView(), bitmap);
 				// holder.getImageView().setImageBitmap(bitmap);
 			} else {
@@ -160,7 +160,7 @@ public class BitmapWorkerTask extends AsyncTask<Object, Integer, Bitmap> {
 			final Bitmap bitmap = mCache.getBitmapFromMemCache(pathImage[0].toString());
 			if (bitmap != null) {
 				if (FLAG_DEBUG)
-					Log.i("getBitmap", "from Cache");
+					log.i("getBitmap", "from Cache");
 				setImageBitmap(context, holder.getImageView(), bitmap);
 				// holder.getImageView().setImageBitmap(bitmap);
 			} else {
@@ -418,13 +418,13 @@ public class BitmapWorkerTask extends AsyncTask<Object, Integer, Bitmap> {
 			if (newApi) {
 				if (getBitmapFromMemCache(key) == null && bitmap != null) {
 					if (FLAG_DEBUG)
-						System.out.println("putImage");
+						log.m("putImage");
 					mMemoryCache.put(key, bitmap);
 				}
 			} else {
 				if (mMemoryCacheOld.size() > 150) {
 					if (FLAG_DEBUG)
-						Log.i("cache Bitmap Old", "recycled");
+						log.i("cache Bitmap Old", "recycled");
 					mMemoryCacheOld.clear();
 				}
 				if (!mMemoryCacheOld.containsKey(key) && bitmap != null)

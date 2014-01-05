@@ -1,5 +1,6 @@
 package vn.com.shoppie.touchimage;
 
+import vn.com.shoppie.util.log;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Rect;
@@ -117,7 +118,7 @@ public class ImageViewTouch extends ImageViewTouchBase {
 	protected void onZoomAnimationCompleted( float scale ) {
 
 		if( LOG_ENABLED ) {
-			Log.d( LOG_TAG, "onZoomAnimationCompleted. scale: " + scale + ", minZoom: " + getMinScale() );
+			log.d( LOG_TAG, "onZoomAnimationCompleted. scale: " + scale + ", minZoom: " + getMinScale() );
 		}
 
 		if ( scale < getMinScale() ) {
@@ -222,7 +223,7 @@ public class ImageViewTouch extends ImageViewTouchBase {
 
 		@Override
 		public boolean onDoubleTap( MotionEvent e ) {
-			Log.i( LOG_TAG, "onDoubleTap. double tap enabled? " + mDoubleTapEnabled );
+			log.i( LOG_TAG, "onDoubleTap. double tap enabled? " + mDoubleTapEnabled );
 			if ( mDoubleTapEnabled ) {
 				mUserScaled = true;
 				float scale = getScale();

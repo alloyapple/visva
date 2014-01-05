@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import vn.com.shoppie.database.adbException;
 import vn.com.shoppie.database.adbManager;
 import vn.com.shoppie.database.sobject.LinkPost;
+import vn.com.shoppie.util.log;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -97,7 +98,7 @@ public class LinkMng extends adbManager{
 	public ArrayList<LinkPost> getArrayObjectFromCursor(Cursor cursor) {
 		ArrayList<LinkPost> array = new ArrayList<LinkPost>();
 		if (cursor.getCount() == 0) {
-			Log.e(TAG, "cursor is null. Get data from network");
+			log.e(TAG, "cursor is null. Get data from network");
 			cursor.close();
 			return array;
 		}
@@ -123,7 +124,7 @@ public class LinkMng extends adbManager{
 		cursor.moveToFirst();
 
 		if (cursor.getCount() == 0) {
-			Log.e(TAG, "cursor is null. Get data from network");
+			log.e(TAG, "cursor is null. Get data from network");
 			cursor.close();
 			return t;
 		}

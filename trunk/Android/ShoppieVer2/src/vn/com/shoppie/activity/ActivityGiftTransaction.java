@@ -20,6 +20,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
@@ -262,7 +263,7 @@ public class ActivityGiftTransaction extends Activity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

@@ -19,6 +19,7 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.SUtil;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -155,7 +156,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 						try {
 							// JSONObject jsonObject = new JSONObject(response);
-							// Log.e("post success ", "post success " +
+							// log.e("post success ", "post success " +
 							// response);
 							Gson gson = new Gson();
 							List<ParamMobileItem> paramMobileItems = Arrays
@@ -269,7 +270,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 		// Get GCM registration id
 		regId = GCMRegistrar.getRegistrationId(this);
 		// writeRegId(regId, name, email);
-		Log.e("regId", "adufhd " + regId);
+		log.e("regId", "adufhd " + regId);
 
 		// Check if regid already presents
 		if (regId.equals("")) {
@@ -312,7 +313,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 		ActivityShoppie.myUser.custName = name;
 		SettingPreference.setUserName(ActivityWelcome.this, name);
 		// Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
-		// Log.e("user name", name);
+		// log.e("user name", name);
 		if (regId.equals("")) {
 			retreviveGcm();
 		}
@@ -375,7 +376,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 							Gson gson = new Gson();
 							UserInfo userInfo = gson.fromJson(
 									jsonObject.toString(), UserInfo.class);
-							Log.e("custId", "custId "
+							log.e("custId", "custId "
 									+ userInfo.getResult().getDataValue());
 							mShopieSharePref.setCustId(userInfo.getResult()
 									.getDataValue());
@@ -393,7 +394,7 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

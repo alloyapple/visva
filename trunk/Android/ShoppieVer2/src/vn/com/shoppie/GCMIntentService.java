@@ -10,6 +10,7 @@ import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.smng.GcmNotifyMng;
 import vn.com.shoppie.database.sobject.GcmNotify;
 import vn.com.shoppie.util.CommonUtilities;
+import vn.com.shoppie.util.log;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -40,7 +41,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 **/
 	@Override
 	protected void onRegistered(Context context, String registrationId) {
-		Log.i(TAG, "Device registered: regId = " + registrationId);
+		log.i(TAG, "Device registered: regId = " + registrationId);
 		CommonUtilities.displayMessage(context,
 				"Your device registred with GCM");
 		LoginActivity.regId = registrationId;
@@ -55,7 +56,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * */
 	@Override
 	protected void onUnregistered(Context context, String registrationId) {
-		Log.i(TAG, "Device unregistered");
+		log.i(TAG, "Device unregistered");
 		CommonUtilities.displayMessage(context,
 				getString(R.string.gcm_unregistered));
 		// ServerUtilities.unregister(context, registrationId);
@@ -66,11 +67,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * */
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Log.i(TAG, "Received service message");
+		log.i(TAG, "Received service message");
 		String message = intent.getExtras().getString(GlobalValue.EXTRA_MESSAGE);
 		// Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 		String type = intent.getExtras().getString(GlobalValue.EXTRA_TYPE);
 		String pieQty = intent.getExtras().getString(GlobalValue.EXTRA_PIE_QTY);
+		log.d("Pie", ">>>>>>>>>>>>>>>>> pie " + pieQty);
 		sendBroastCast(context, message, type, pieQty);
 		// CommonUtilities.displayMessage(context, intent);
 		// notifies user
@@ -82,7 +84,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * */
 	@Override
 	protected void onDeletedMessages(Context context, int total) {
-		Log.i(TAG, "Received deleted messages notification");
+		log.i(TAG, "Received deleted messages notification");
 		String message = getString(R.string.gcm_deleted, total);
 		CommonUtilities.displayMessage(context, message);
 		// notifies user
@@ -95,7 +97,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * */
 	@Override
 	public void onError(Context context, String errorId) {
-		Log.i(TAG, "Received error: " + errorId);
+		log.i(TAG, "Received error: " + errorId);
 		Toast.makeText(this, "Received error: ", Toast.LENGTH_SHORT).show();
 		CommonUtilities.displayMessage(context,
 				getString(R.string.gcm_error, errorId));
@@ -104,7 +106,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected boolean onRecoverableError(Context context, String errorId) {
 		// log message
-		Log.i(TAG, "Received recoverable error: " + errorId);
+		log.i(TAG, "Received recoverable error: " + errorId);
 		CommonUtilities.displayMessage(context,
 				getString(R.string.gcm_recoverable_error, errorId));
 		return super.onRecoverableError(context, errorId);
@@ -116,7 +118,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@SuppressWarnings("deprecation")
 	private void generateNotification(Context context, String message,
 			String type, String pieQty) {
-		Log.e(TAG, "GMCmessage "+message);
+		log.e(TAG, "GMCmessage "+message);
 		String _message = message.toLowerCase();
 		if(_message.contains(context.getString(R.string.message_contain_checkin1))||_message.contains(context.getString(R.string.message_contain_checkin2))||_message.contains(context.getString(R.string.message_contain_checkin3))){
 			mShoppieSharePref.setCheckinStatus(1);
@@ -178,7 +180,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notify.time = System.currentTimeMillis() + "";
 			gcmNotifyMng.insertNewTo(notify.getValues());
 		} catch (SQLException e) {
-			Log.e("SQL exception", "can not insert New gcm notify to db");
+			log.e("SQL exception", "can not insert New gcm notify to db");
 		}
 	}
 

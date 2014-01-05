@@ -10,6 +10,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 
@@ -64,9 +65,9 @@ public class AsyncHttpPost extends AsyncHttpBase {
 			httppost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
 			// httppost.setHeader("Content-Type", "multipart/form-data");
 			
-			System.out.println("Url " + url);
+			log.m("Url " + url);
 			for (int i = 0; i < parameters.size(); i++) {
-				System.out.println("params " + parameters.get(i).getName() + " " + parameters.get(i).getValue());
+				log.m("params " + parameters.get(i).getName() + " " + parameters.get(i).getValue());
 			}
 			
 			response = httpclient.execute(httppost);

@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import vn.com.shoppie.util.log;
 import android.util.Log;
 
 public class WiModelParser extends DefaultHandler {
@@ -30,11 +31,11 @@ public class WiModelParser extends DefaultHandler {
 			try {
 				parseXML();
 			} catch (ParserConfigurationException e) {
-				Log.e("ERR: WiModelParser line 33", e.getMessage());
+				log.e("ERR: WiModelParser line 33", e.getMessage());
 			} catch (SAXException e) {
-				Log.e("ERR: WiModelParser line 35", e.getMessage()+xml);
+				log.e("ERR: WiModelParser line 35", e.getMessage()+xml);
 			} catch (IOException e) {
-				Log.e("ERR: WiModelParser line 37", e.getMessage());
+				log.e("ERR: WiModelParser line 37", e.getMessage());
 			}
 	}
 

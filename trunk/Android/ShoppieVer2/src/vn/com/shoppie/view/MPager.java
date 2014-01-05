@@ -3,6 +3,7 @@ package vn.com.shoppie.view;
 import java.util.Calendar;
 
 import vn.com.shoppie.R;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MScrollView.OnReachBottom;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -318,11 +319,11 @@ public class MPager extends RelativeLayout{
 		if(isOpenMoveSlide) {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_UP:
-				Log.d("UP", "UP");
+				log.d("UP", "UP");
 				autoSlide((int) mVelocityTracker.getXVelocity());
 				return true;
 			case MotionEvent.ACTION_CANCEL:
-				Log.d("UP", "CANCEL");
+				log.d("UP", "CANCEL");
 				autoSlide((int) mVelocityTracker.getXVelocity());
 				return true;
 	
@@ -336,7 +337,7 @@ public class MPager extends RelativeLayout{
 	private void autoSlide(int velocityX) {
 		if(isAutoSlide)
 			return;
-		Log.d("Auto", "Slide " + currentX + " " + distanceX);
+		log.d("Auto", "Slide " + currentX + " " + distanceX);
 		if(!isSlide)
 			return;
 		if(inoutMode == SLIDE_IN){
@@ -375,7 +376,7 @@ public class MPager extends RelativeLayout{
 			return;
 		if(!isOpenMoveSlide)
 			return;
-		Log.d("Auto", "finishByFlying " + currentX + " " + distanceX);
+		log.d("Auto", "finishByFlying " + currentX + " " + distanceX);
 		int time = 1000;
 		if(inoutMode == SLIDE_IN){
 			if(!mAdapter.isCircle())
@@ -417,7 +418,7 @@ public class MPager extends RelativeLayout{
 		if(mScroller != null){
 			if(!mScroller.isFinished()){
 				if(mScroller.computeScrollOffset()){
-					Log.d("Computer", "Scroll >>>>>>>>>>>>>>>>>");
+					log.d("Computer", "Scroll >>>>>>>>>>>>>>>>>");
 					currentX = mScroller.getCurrX();
 					if(currentX >= distanceX){
 						currentX = distanceX;
@@ -568,7 +569,7 @@ public class MPager extends RelativeLayout{
 	
 	private void finishDrag(){
 		isFinishDrag = true;
-		Log.d("FinishDrag", ">>>>>>>>>>>>");
+		log.d("FinishDrag", ">>>>>>>>>>>>");
 		postDelayed(new Runnable() {
 			
 			@Override
@@ -615,7 +616,7 @@ public class MPager extends RelativeLayout{
 
 				isEnable = true;
 				isAutoSlide = false;
-				Log.d("CurrentItem", "" + currentItem);
+				log.d("CurrentItem", "" + currentItem);
 
 			}
 		}, 50);
@@ -654,7 +655,7 @@ public class MPager extends RelativeLayout{
 	}
 
 	public void updateSlideUpDown(int value) {
-		Log.d("Update", "Value " + value);
+		log.d("Update", "Value " + value);
 		float t = (float) (100 - value) / 100;
 		currentAngle = angleY * t;
 		currentX = -distance / 3 * t;
@@ -932,7 +933,7 @@ public class MPager extends RelativeLayout{
 
 		@Override
 		public boolean onDown(MotionEvent event) {
-			Log.d("OnDown", "OnDown");
+			log.d("OnDown", "OnDown");
 			if(isOpenSlide)
 				isOpenMoveSlide = true;
 			else{
@@ -945,7 +946,7 @@ public class MPager extends RelativeLayout{
 				downY 	= event.getY();
 			}
 			else{
-				Log.d("Touch", "Continue");
+				log.d("Touch", "Continue");
 				mScroller.abortAnimation();
 				isSlide = true;
 			}
@@ -966,7 +967,7 @@ public class MPager extends RelativeLayout{
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent event, float distanceX, float distanceY) {
 			scrollView.scroll((int) distanceY);
-			Log.d("distance", "" + distance);
+			log.d("distance", "" + distance);
 			if(distanceY < 0) {
 				isDown = true;
 				distance = 0;
@@ -1000,7 +1001,7 @@ public class MPager extends RelativeLayout{
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
 			int minSlide = mAdapter.getViewWidth() / 3;
-			Log.d("Fling", "" + velocityY);
+			log.d("Fling", "" + velocityY);
 			if(velocityY < -minSlide && scrollView.isReachBottom()){
 				isDown = true;
 				distance = 0;

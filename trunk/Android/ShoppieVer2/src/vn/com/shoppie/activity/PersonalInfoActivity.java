@@ -29,6 +29,7 @@ import vn.com.shoppie.object.FBUser;
 import vn.com.shoppie.object.FacebookUser;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.util.FacebookUtil;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Intent;
@@ -164,7 +165,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);
@@ -180,7 +181,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 
 		Session activeSession = Session.getActiveSession();
-		Log.e("adfdfh", "asdfdfk " + activeSession.getState().isOpened());
+		log.e("adfdfh", "asdfdfk " + activeSession.getState().isOpened());
 		if (activeSession.getState().isOpened()) {
 			Request infoRequest = Request.newMeRequest(activeSession,
 					new GraphUserCallback() {
@@ -337,7 +338,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 			break;
 
 		case HELP:
-			Log.e("asdfdfjh", "adfkdh ");
+			log.e("asdfdfjh", "adfkdh ");
 			mTransaction = hideFragment();
 			mTransaction.show(mHelpFragment);
 			addToSBackStack(HELP_FRAGMENT);
@@ -586,7 +587,7 @@ public class PersonalInfoActivity extends FragmentActivity implements
 						@Override
 						public void onCompleted(List<GraphUser> users,
 								Response response) {
-							// Log.e("user size", "user size "+users.size());
+							// log.e("user size", "user size "+users.size());
 							String userId = "";
 							String userName = "";
 							String userPicture = "";
