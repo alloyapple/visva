@@ -11,8 +11,6 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.GiftAdapter;
 import vn.com.shoppie.adapter.GiftAdapter.OnClickItem;
 import vn.com.shoppie.constant.ShoppieSharePref;
-import vn.com.shoppie.database.ShoppieDBProvider;
-import vn.com.shoppie.database.sobject.GiftHistoryList;
 import vn.com.shoppie.database.sobject.GiftItem;
 import vn.com.shoppie.database.sobject.GiftList;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -26,7 +24,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +40,6 @@ public class ActivityGiftTransaction extends Activity {
 	private LinearLayout content;
 	private GiftAdapter adapter;
 	private GiftAdapter adapter1;
-	private ShoppieDBProvider mShoppieDBProvider;
 	private ShoppieSharePref mSharePref;
 	
 	@Override
@@ -54,13 +50,10 @@ public class ActivityGiftTransaction extends Activity {
 		setContentView(R.layout.gift_activity);
 
 		init();
-//		updateListHistoryGift("123");
-//		requestCancelGift("903");
 	}
 
 	private void init() {
 		/** database */
-		mShoppieDBProvider = new ShoppieDBProvider(this);
 		mSharePref = new ShoppieSharePref(this);
 		listView = (ListView) findViewById(R.id.list);
 
@@ -69,29 +62,7 @@ public class ActivityGiftTransaction extends Activity {
 
 		content = (LinearLayout) findViewById(R.id.listcontent);
 
-//		updateGiftListAvailable("22", "99", "123", "30", "10", "275", "20000");
 	}
-
-	
-//	private void updateListGiftFromDB() {
-//		// TODO Auto-generated method stub
-//		JsonDataObject jsonDataObject = mShoppieDBProvider
-//				.getJsonData(GlobalValue.TYPE_GIFT);
-//		String merchantGift = jsonDataObject.getJsonData();
-//		if (merchantGift != null && !"".equals(merchantGift))
-//			try {
-//				JSONObject jsonObject = new JSONObject(merchantGift);
-//				Gson gson = new Gson();
-//				GiftList giftList = gson.fromJson(jsonObject.toString(),
-//						GiftList.class);
-//				setData(giftList.getGifts());
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		else
-//			showToast(getString(R.string.network_unvailable));
-//	}
 
 	private void showToast(String string) {
 		// TODO Auto-generated method stub
@@ -131,10 +102,8 @@ public class ActivityGiftTransaction extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-//					if(mSharePref.getCurrentBal() >= onTopItem.getMinPie()) {
-						currItem = onTopItem;
-						startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
-//					}
+					currItem = onTopItem;
+					startActivity(new Intent(getApplicationContext(), GiftDetailActivity.class));
 				}
 			});
 		}
@@ -196,7 +165,6 @@ public class ActivityGiftTransaction extends Activity {
 		});
 		
 		adapter = new GiftAdapter(this, item0 , GiftAdapter.TYPE_INVAI);
-		// listView.setAdapter(adapter);
 
 		if(item0.size() > 0) {
 			for (int i = 0; i < adapter.getCount(); i++) {
@@ -248,12 +216,6 @@ public class ActivityGiftTransaction extends Activity {
 							Gson gson = new Gson();
 							GiftList giftList = gson.fromJson(
 									jsonObject.toString(), GiftList.class);
-//							/** update to database */
-//							mShoppieDBProvider
-//									.deleteJsonData(GlobalValue.TYPE_GIFT);
-//							JsonDataObject jsonDataObject = new JsonDataObject(
-//									response, GlobalValue.TYPE_GIFT);
-//							mShoppieDBProvider.addNewJsonData(jsonDataObject);
 							setData(giftList.getGifts());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

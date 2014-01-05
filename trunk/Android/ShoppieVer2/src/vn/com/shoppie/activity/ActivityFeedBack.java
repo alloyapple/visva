@@ -15,9 +15,6 @@ public class ActivityFeedBack extends Activity{
 		setContentView(R.layout.feedback_act);
 		
 		RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-		View content = (View) findViewById(R.id.content);
-		
-		LayoutParams params1 = (LayoutParams) content.getLayoutParams();
 		
 		View cover = new View(getApplicationContext());
 		cover.setBackgroundResource(R.drawable.bg_center);

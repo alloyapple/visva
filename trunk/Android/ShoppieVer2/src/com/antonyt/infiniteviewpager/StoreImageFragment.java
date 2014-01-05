@@ -1,11 +1,8 @@
 package com.antonyt.infiniteviewpager;
 
-import vn.com.shoppie.adapter.CatelogyAdapter;
 import vn.com.shoppie.util.ImageLoader;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -31,7 +31,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Toast;
@@ -145,9 +144,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	}
 
 	private void checkParamMobile() {
-		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.getParamsMobile();
 		AsyncHttpPost postFeedback = new AsyncHttpPost(ActivityWelcome.this,
 				new AsyncHttpResponseProcess(ActivityWelcome.this) {
@@ -155,9 +151,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 					public void processIfResponseSuccess(String response) {
 
 						try {
-							// JSONObject jsonObject = new JSONObject(response);
-							// log.e("post success ", "post success " +
-							// response);
 							Gson gson = new Gson();
 							List<ParamMobileItem> paramMobileItems = Arrays
 									.asList(gson.fromJson(response,
@@ -312,8 +305,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 
 		ActivityShoppie.myUser.custName = name;
 		SettingPreference.setUserName(ActivityWelcome.this, name);
-		// Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
-		// log.e("user name", name);
 		if (regId.equals("")) {
 			retreviveGcm();
 		}
@@ -361,8 +352,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 			_gender = "Female";
 		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory
-		// .createRegisterSPAccount(deviceToken, bluetoothId, deviceId,
-		// latitude, longitude, custName);
 				.createRegisterSPAccount(deviceToken, bluetoothId, deviceId,
 						latitude, longitude, custName, custEmail, custAddress,
 						_gender, birthday, facebookid, deviceImei, AppVersion,
@@ -407,10 +396,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	public void checkNetwork() {
 		if (!SUtil.getInstance().isNetworkConnected(this)) {
 			showToast("Báº¡n hÃ£y báº­t máº¡ng Ä‘á»ƒ sá»­ dá»¥ng Shoppie!");
-			// Intent intent = new Intent(Intent.ACTION_MAIN);
-			// intent.setClassName("com.android.phone",
-			// "com.android.phone.NetworkSetting");
-			// startActivityForResult(intent, REQ_NETWORK);
 			return;
 		}
 
@@ -438,8 +423,6 @@ public class ActivityWelcome extends Activity implements LocationListener,
 	public void onLocationChanged(Location location) {
 		ActivityShoppie.myLocation = new LatLng(location.getLatitude(),
 				location.getLongitude());
-		// mLyTop.setText(location.getLatitude() + "-" +
-		// location.getLongitude());
 	}
 
 	@Override

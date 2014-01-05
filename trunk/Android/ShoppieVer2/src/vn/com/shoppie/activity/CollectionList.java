@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import vn.com.shoppie.R;
 import vn.com.shoppie.adapter.ListCollectionAdapter;
 import vn.com.shoppie.constant.ShoppieSharePref;
-import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchCampaignItem;
 import vn.com.shoppie.database.sobject.MerchCampaignList;
 import vn.com.shoppie.network.AsyncHttpPost;
@@ -25,13 +24,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -59,7 +56,6 @@ public class CollectionList extends Activity {
 	private static String listCampaignName[];
 	public static int curId = 0;
 	public static boolean autoFinish = false;
-	private ShoppieDBProvider mShoppieDBProvider;
 	private ShoppieSharePref mSharePref;
 
 	@Override
@@ -72,7 +68,6 @@ public class CollectionList extends Activity {
 	}
 
 	private void init() {
-		mShoppieDBProvider = new ShoppieDBProvider(this);
 		mSharePref = new ShoppieSharePref(this);
 		Bundle extras = getIntent().getExtras();
 		merchantId = extras.getString(KEY_MERCHANT_ID);

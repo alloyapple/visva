@@ -13,18 +13,11 @@ import vn.com.shoppie.view.OnItemClick;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.AlphaAnimation;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class CatelogyAdapter extends MPagerAdapterBase{
-	
-//	public static final String URL_HEADER = "http://shoppie.com.vn:8080/";
 	
 	private ArrayList<MerchantCategoryItem> data;
 	
@@ -71,8 +64,6 @@ public class CatelogyAdapter extends MPagerAdapterBase{
 				ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getIcon(), icon , true
 						, false , true , false , false , false);
 				
-//			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getImage(), image , false, false ,false ,false,false);
-
 			ImageLoader.getInstance(context).DisplayImage(WebServiceConfig.HEAD_IMAGE + data.get(position).getImage(), image , false
 					, false , true , true , false , false);
 			
