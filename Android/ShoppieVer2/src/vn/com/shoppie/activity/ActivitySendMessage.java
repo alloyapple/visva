@@ -64,7 +64,6 @@ public class ActivitySendMessage extends VisvaAbstractActivity {
 			}
 		});
 		lyTop.mTvTitle.setVisibility(View.INVISIBLE);
-		// lyTop.setText("Phản hồi tới shoppie");
 		lyTop.mBtnRight.setVisibility(View.INVISIBLE);
 
 		edtName = (EditText) findViewById(R.id.edt_name);
@@ -94,9 +93,6 @@ public class ActivitySendMessage extends VisvaAbstractActivity {
 			new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Discard Msg").setMessage("Message would be discarded?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-//					edtName.setText("");
-//					edtEmail.setText("");
-//					edtPhone.setText("");
 					edtContent.setText("");
 					ActivitySendMessage.this.finish();
 				}

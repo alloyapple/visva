@@ -8,7 +8,6 @@ import vn.com.shoppie.view.MPagerAdapterBase;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 public class StoreDetailAdapter extends MPagerAdapterBase {
 	private Context context;
@@ -18,10 +17,6 @@ public class StoreDetailAdapter extends MPagerAdapterBase {
 	public StoreDetailAdapter(Context context , Vector<MerchantStoreItem> data) {
 		this.context = context;
 		this.data = data;
-	}
-	
-	private void initCache(){
-		cacheView = new View[getCount()];
 	}
 	
 	@Override
@@ -36,10 +31,6 @@ public class StoreDetailAdapter extends MPagerAdapterBase {
 					(Context.LAYOUT_INFLATER_SERVICE);
 				v = inflater.inflate(R.layout.store_lookbook_item, null, false);
 				
-				TextView name = (TextView) v.findViewById(R.id.name);
-				TextView desc = (TextView) v.findViewById(R.id.desc);
-				TextView count = (TextView) v.findViewById(R.id.count);
-				View Image = v.findViewById(R.id.image);
 			}
 			cacheView[position] = v;
 			

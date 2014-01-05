@@ -24,7 +24,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -793,7 +792,6 @@ public class CollectionDetailAdapter extends MPagerAdapterBase {
 										if (session == Session
 												.getActiveSession()) {
 											if (user != null) {
-												String name = user.getName();
 												log.e(
 														"name " + user.getId(),
 														"adfname "

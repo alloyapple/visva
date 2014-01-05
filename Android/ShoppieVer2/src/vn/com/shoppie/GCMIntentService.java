@@ -1,9 +1,6 @@
 package vn.com.shoppie;
 
-import java.util.List;
-
 import vn.com.shoppie.activity.ActivityNotification;
-import vn.com.shoppie.activity.HomeActivity;
 import vn.com.shoppie.activity.LoginActivity;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
@@ -11,17 +8,14 @@ import vn.com.shoppie.database.smng.GcmNotifyMng;
 import vn.com.shoppie.database.sobject.GcmNotify;
 import vn.com.shoppie.util.CommonUtilities;
 import vn.com.shoppie.util.log;
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;

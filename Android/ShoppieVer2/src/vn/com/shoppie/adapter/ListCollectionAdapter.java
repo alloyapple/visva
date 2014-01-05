@@ -13,19 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 public class ListCollectionAdapter extends BaseAdapter{
 	private ArrayList<MerchCampaignItem> data;
 	private ShoppieDBProvider mShoppieDBProvider;
 	private Context context;
-	private View cacheView[];
 	
 	public ListCollectionAdapter(Context context , ArrayList<MerchCampaignItem> data){
 		this.context = context;
 		
 		this.data = data;
-		cacheView = new View[getCount()];
 		mShoppieDBProvider = new ShoppieDBProvider(context);
 	}
 	

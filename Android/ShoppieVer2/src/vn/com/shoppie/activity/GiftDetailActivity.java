@@ -13,7 +13,6 @@ import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.sobject.GiftItem;
-import vn.com.shoppie.database.sobject.GiftRedeemItem;
 import vn.com.shoppie.database.sobject.GiftRedeemList;
 import vn.com.shoppie.database.sobject.MerchantStoreItem;
 import vn.com.shoppie.database.sobject.MerchantStoreList;
@@ -30,14 +29,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -91,11 +88,6 @@ public class GiftDetailActivity extends Activity {
 					storeId = listStore.get(currStoreId).getStoreId();
 				}
 				
-//				log.d("Id", "MerchId" + ActivityGiftTransaction.currItem.getMerchId() + " storeId " + String.valueOf(storeId)
-//						+ " CustId " + mSharePref.getCustId() + " GiftId " + ActivityGiftTransaction.currItem.getGiftId()
-//						+ " RedeemQty " + ActivityGiftTransaction.currItem.getRedeemQty() + " pie " + pie[currId]
-//								+ " price " + price[currId]);
-				
 				if (mSharePref.getCurrentBal() >= item.getPiesNotArr()[currId]) {
 					updateGiftListAvailable(
 							ActivityGiftTransaction.currItem.getMerchId(),
@@ -118,8 +110,6 @@ public class GiftDetailActivity extends Activity {
 					+ " Pie";
 		}
 
-		// ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-		// android.R.layout.simple_spinner_item, text);
 		((Spinner) findViewById(R.id.spinner)).setAdapter(new MySpinnerAdapter(
 				text));
 		((Spinner) findViewById(R.id.spinner))

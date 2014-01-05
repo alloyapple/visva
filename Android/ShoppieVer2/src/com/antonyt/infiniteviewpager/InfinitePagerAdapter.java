@@ -3,7 +3,6 @@ package com.antonyt.infiniteviewpager;
 import vn.com.shoppie.util.log;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 

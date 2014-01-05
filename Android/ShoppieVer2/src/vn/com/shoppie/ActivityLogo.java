@@ -1,10 +1,6 @@
 package vn.com.shoppie;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import vn.com.shoppie.activity.ActivityWelcome;
-import vn.com.shoppie.activity.HomeActivity;
 import vn.com.shoppie.activity.LoginActivity;
 import vn.com.shoppie.activity.SettingPreference;
 import vn.com.shoppie.constant.GlobalValue;
@@ -13,20 +9,10 @@ import vn.com.shoppie.util.SceneAnimation.OnSceneAnimationListener;
 import vn.com.shoppie.util.log;
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;

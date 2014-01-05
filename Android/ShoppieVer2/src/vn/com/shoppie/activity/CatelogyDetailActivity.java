@@ -16,7 +16,6 @@ import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.database.ShoppieDBProvider;
 import vn.com.shoppie.database.sobject.MerchProductItem;
 import vn.com.shoppie.database.sobject.MerchProductList;
-import vn.com.shoppie.database.sobject.StatusUpdatePie;
 import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
@@ -36,7 +35,6 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -159,7 +157,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 			showToast(getString(R.string.network_unvailable));
 			finish();
 		}
-		// requestGetMerchProductFromDB();
 
 	}
 
@@ -257,9 +254,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	}
 
 	private void setAdapter(ArrayList<MerchProductItem> data) {
-		// if(adapter != null)
-		// adapter.recycle();
-
 		if(data.size() == 0)
 			finish();
 		
@@ -496,8 +490,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 	}
 	
 	private void updateLuckyPie(String campaignId, String custId) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		List<NameValuePair> nameValuePairs = ParameterFactory.updateLuckyPie(
 				campaignId, custId);
 		AsyncHttpPost postUpdateLuckyPie = new AsyncHttpPost(CatelogyDetailActivity.this,
@@ -510,23 +502,6 @@ public class CatelogyDetailActivity extends VisvaAbstractActivity {
 //							StatusUpdatePie statusUpdatePie = gson.fromJson(
 //									jsonObject.toString(),
 //									StatusUpdatePie.class);
-							
-//							int count = mSharePref.getCountGetPieTime();
-//							if (count < 5) {
-//								hint.setOnTouchListener(new OnTouchListener() {
-//
-//									@Override
-//									public boolean onTouch(View v, MotionEvent event) {
-//										// TODO Auto-generated method stub
-//										hint.setVisibility(View.GONE);
-//										return false;
-//									}
-//								});
-//								hint.setVisibility(View.VISIBLE);
-//								hint.setText(R.string.hint_pie);
-//							}
-//							count++;
-//							mSharePref.setCountGetPieTime(count);
 							
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
