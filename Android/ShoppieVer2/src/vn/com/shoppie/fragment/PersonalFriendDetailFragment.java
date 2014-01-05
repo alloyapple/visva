@@ -6,7 +6,9 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.google.gson.Gson;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.activity.ActivityCustFavouriteProductShow;
 import vn.com.shoppie.activity.ActivityFavouriteBrandShow;
@@ -30,6 +32,7 @@ import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.JsonDataObject;
 import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Intent;
@@ -171,7 +174,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, nameValuePairs, true);
 		postUpdateLuckyPie.execute(WebServiceConfig.URL_CHECK_IS_FRIEND);
@@ -180,7 +183,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 
 	private void checkFriendInfo(String custId , String facebookId) {
 		// TODO Auto-generated method stub
-		System.out.println("abcdefgh " + custId + " " + facebookId);
+		log.m("abcdefgh " + custId + " " + facebookId);
 		if(mFavouriteProductAdapter != null)
 			mFavouriteProductAdapter.clear();
 		if(mFavouriteBrandAdapter != null)
@@ -210,7 +213,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, nameValuePairs, true);
 		postGetMerchantProducts.execute(WebServiceConfig.URL_MERCHANT_STORES);
@@ -256,7 +259,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, nameValuePairs, true);
 		postUpdateLuckyPie
@@ -272,7 +275,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 				new AsyncHttpResponseProcess(getActivity()) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("adfdfh", "adsfkjd "+response);
+						log.e("adfdfh", "adsfkjd "+response);
 						try {
 							JSONObject jsonObject = new JSONObject(response);
 							ArrayList<FavouriteDataObject> favouriteBrandObjects = new ArrayList<FavouriteDataObject>();
@@ -280,7 +283,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 							CustomerLikeBrandList customerLikeBrandList = gson
 									.fromJson(jsonObject.toString(),
 											CustomerLikeBrandList.class);
-							Log.e("adfdfjh "+mMerchantStoreItems.size(), "asddfh "+customerLikeBrandList.getResult().get(0).getMerchId());
+							log.e("adfdfjh "+mMerchantStoreItems.size(), "asddfh "+customerLikeBrandList.getResult().get(0).getMerchId());
 							ArrayList<FavouriteDataObject> data = new ArrayList<FavouriteDataObject>();
 							if (customerLikeBrandList.getResult().size() > 0) {
 								for (int i = 0; i < customerLikeBrandList.getResult().size(); i++) {
@@ -310,7 +313,7 @@ public class PersonalFriendDetailFragment extends FragmentBasic {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, nameValuePairs, true);
 		postUpdateLuckyPie.execute(WebServiceConfig.URL_CUSTOMER_LIKE_BRAND_INFO);

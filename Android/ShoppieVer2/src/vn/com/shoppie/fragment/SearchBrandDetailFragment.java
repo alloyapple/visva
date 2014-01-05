@@ -14,6 +14,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.util.FacebookUtil;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -218,8 +219,8 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 				getActivity(), new AsyncHttpResponseProcess(getActivity()) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("like success ", "like success");
-						Log.e("like success ", "like success");
+						log.e("like success ", "like success");
+						log.e("like success ", "like success");
 
 						MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
 								R.raw.sound_like2);
@@ -255,7 +256,7 @@ public class SearchBrandDetailFragment extends FragmentBasic {
 				getActivity(), new AsyncHttpResponseProcess(getActivity()) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("like success ", "like success");
+						log.e("like success ", "like success");
 						MediaPlayer mPlayer = MediaPlayer.create(getActivity(),
 								R.raw.sound_like2);
 						if (mPlayer != null)

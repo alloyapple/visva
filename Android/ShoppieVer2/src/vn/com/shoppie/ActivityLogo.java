@@ -10,6 +10,7 @@ import vn.com.shoppie.activity.SettingPreference;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.util.SceneAnimation;
 import vn.com.shoppie.util.SceneAnimation.OnSceneAnimationListener;
+import vn.com.shoppie.util.log;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -151,7 +152,7 @@ public class ActivityLogo extends Activity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				Log.e("anim end", "start scene");
+				log.e("anim end", "start scene");
 				animShoppie.playConstant(1);
 			}
 		});
@@ -205,7 +206,7 @@ public class ActivityLogo extends Activity {
 				// startActivity(new Intent(ActivityLogo.this,
 				// ActivityWelcome.class));
 				// tvLaunch.startAnimation(animLogo);
-				Log.e("user id", SettingPreference.getUserID(ActivityLogo.this) + "");
+				log.e("user id", SettingPreference.getUserID(ActivityLogo.this) + "");
 				if (SettingPreference.getFirstUse(ActivityLogo.this)) {
 					startActivity(new Intent(ActivityLogo.this, ActivityWelcome.class));
 					// ActivityLogo.this.finish();

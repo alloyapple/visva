@@ -10,6 +10,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.content.Context;
 import android.util.Log;
@@ -68,7 +69,7 @@ public class AsyncHttpGet extends AsyncHttpBase {
 						combinedParams += paramString;
 					}
 				}
-				Log.i(TAG, "CombineParams : " + combinedParams);
+				log.i(TAG, "CombineParams : " + combinedParams);
 			}
 			HttpConnectionParams.setConnectionTimeout(params, WebServiceConfig.NETWORK_TIME_OUT);
 			HttpConnectionParams.setSoTimeout(params, WebServiceConfig.NETWORK_TIME_OUT);

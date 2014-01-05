@@ -139,7 +139,7 @@ public class ImageUtil {
 			return bitmap;
 		if(width != bitmap.getWidth())
 			radius /= (float)width / (float)bitmap.getWidth();
-		Log.d("Radius", ">>>>>>>>>>>>> radius " + radius + " " + width + " " + bitmap.getWidth());
+		log.d("Radius", ">>>>>>>>>>>>> radius " + radius + " " + width + " " + bitmap.getWidth());
 	    Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 	            bitmap.getHeight(), Config.ARGB_8888);
 	    Canvas canvas = new Canvas(output);

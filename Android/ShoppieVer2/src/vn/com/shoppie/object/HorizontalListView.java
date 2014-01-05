@@ -29,6 +29,7 @@ package vn.com.shoppie.object;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import vn.com.shoppie.util.log;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
@@ -477,7 +478,7 @@ public class HorizontalListView extends AdapterView<ListAdapter>{
 				}
 
 			}else{
-				Log.d("relache", "pass� in 2");
+				log.d("relache", "pass� in 2");
 				mOnItemMoveListener.onTouch(childSelected, event);
 
 				return true;

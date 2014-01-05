@@ -86,7 +86,7 @@ public class SceneAnimation {
 	 *            : 0/1
 	 * */
 	public void playConstant(final int pFrameNo) {
-		Log.e("PFrameNo", pFrameNo + "");
+		log.e("PFrameNo", pFrameNo + "");
 		mImageView.setVisibility(View.VISIBLE);
 		mImageView.postDelayed(new Runnable() {
 			public void run() {

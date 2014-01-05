@@ -1,5 +1,6 @@
 package com.antonyt.infiniteviewpager;
 
+import vn.com.shoppie.util.log;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -91,7 +92,7 @@ public class InfinitePagerAdapter extends PagerAdapter {
 
 	private void debug(String message) {
 		if (DEBUG) {
-			Log.d(TAG, message);
+			log.d(TAG, message);
 		}
 	}
 }

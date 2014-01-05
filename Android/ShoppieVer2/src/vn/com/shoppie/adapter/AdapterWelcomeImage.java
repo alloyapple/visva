@@ -11,6 +11,7 @@ import vn.com.shoppie.activity.ActivityWelcome;
 import vn.com.shoppie.constant.ShoppieSharePref;
 import vn.com.shoppie.util.SUtilBitmap;
 import vn.com.shoppie.util.SUtilText;
+import vn.com.shoppie.util.log;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
@@ -67,7 +68,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				v = inflater.inflate(R.layout.page_register, null);
 
 			} catch (OutOfMemoryError e) {
-				Log.e("out of memory", "wellcome Image Adapter");
+				log.e("out of memory", "wellcome Image Adapter");
 				return null;
 			}
 			
@@ -159,7 +160,7 @@ public class AdapterWelcomeImage extends PagerAdapter {
 				public boolean onTouch(View v, MotionEvent event) {
 					if (event.getAction() == MotionEvent.ACTION_DOWN) {
 						// TODO Auto-generated method stub
-						Log.e("txtDAte", "date " + birth.toString());
+						log.e("txtDAte", "date " + birth.toString());
 						long currentTime = System.currentTimeMillis();
 						Date myDate = new Date(currentTime);
 						String myDateStr = "";

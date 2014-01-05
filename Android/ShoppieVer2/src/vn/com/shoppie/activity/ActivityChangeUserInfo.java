@@ -13,6 +13,7 @@ import vn.com.shoppie.network.AsyncHttpPost;
 import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.SUtil;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.annotation.SuppressLint;
@@ -114,7 +115,7 @@ public class ActivityChangeUserInfo extends Activity implements
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					// TODO Auto-generated method stub
-					Log.e("txtDAte", "date " + birth.toString());
+					log.e("txtDAte", "date " + birth.toString());
 					long currentTime = System.currentTimeMillis();
 					Date myDate = new Date(currentTime);
 					String myDateStr = "";
@@ -230,7 +231,7 @@ public class ActivityChangeUserInfo extends Activity implements
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

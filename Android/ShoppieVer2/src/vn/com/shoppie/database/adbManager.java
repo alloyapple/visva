@@ -2,6 +2,7 @@ package vn.com.shoppie.database;
 
 import java.util.ArrayList;
 
+import vn.com.shoppie.util.log;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -177,7 +178,7 @@ public abstract class adbManager {
 			int value = db.update(TABLE, content, _id + "='" + id + "'", null);
 			return value;
 		} catch (SQLiteException e) {
-			android.util.Log.e("SQL Exception int edit", e.getMessage());
+			log.e("SQL Exception int edit", e.getMessage());
 		} finally {
 			if (db != null)
 				db.close();

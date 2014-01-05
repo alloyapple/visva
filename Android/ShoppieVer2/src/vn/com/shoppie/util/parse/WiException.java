@@ -1,5 +1,7 @@
 package vn.com.shoppie.util.parse;
 
+import vn.com.shoppie.util.log;
+
 @SuppressWarnings("serial")
 public class WiException extends Exception {
 	public static final int TYPE_DEFAULT = 0x00;
@@ -15,7 +17,7 @@ public class WiException extends Exception {
 	public WiException(int type, String message) {
 		this._exceptionType = type;
 		this._exceptionMessage = message;
-		System.out.println(message);
+		log.m(message);
 	}
 
 	public int getExcepType() {

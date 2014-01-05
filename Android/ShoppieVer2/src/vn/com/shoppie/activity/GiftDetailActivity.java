@@ -22,6 +22,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.DialogUtility;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Context;
@@ -90,7 +91,7 @@ public class GiftDetailActivity extends Activity {
 					storeId = listStore.get(currStoreId).getStoreId();
 				}
 				
-//				Log.d("Id", "MerchId" + ActivityGiftTransaction.currItem.getMerchId() + " storeId " + String.valueOf(storeId)
+//				log.d("Id", "MerchId" + ActivityGiftTransaction.currItem.getMerchId() + " storeId " + String.valueOf(storeId)
 //						+ " CustId " + mSharePref.getCustId() + " GiftId " + ActivityGiftTransaction.currItem.getGiftId()
 //						+ " RedeemQty " + ActivityGiftTransaction.currItem.getRedeemQty() + " pie " + pie[currId]
 //								+ " price " + price[currId]);
@@ -155,7 +156,7 @@ public class GiftDetailActivity extends Activity {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						try {
-							System.out.println(response);
+							log.m(response);
 							JSONObject jsonObject = new JSONObject(response);
 							Gson gson = new Gson();
 							GiftRedeemList redeem = gson.fromJson(
@@ -169,7 +170,7 @@ public class GiftDetailActivity extends Activity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);
@@ -330,7 +331,7 @@ public class GiftDetailActivity extends Activity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

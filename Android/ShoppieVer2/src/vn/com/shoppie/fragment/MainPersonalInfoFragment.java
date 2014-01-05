@@ -29,8 +29,8 @@ import vn.com.shoppie.object.MyCircleImageView;
 import vn.com.shoppie.object.ShoppieUserInfo;
 import vn.com.shoppie.touchimage.ImageViewTouch;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.log;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +42,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -344,7 +343,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 	}
 
 	public void onClickMainPersonalInfo(View v) {
-		Log.e("click ", "adfdfd ");
+		log.e("click ", "adfdfd ");
 	}
 
 	public interface MainPersonalInfoListener {
@@ -428,7 +427,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 
 	private void iniCoverImage() {
 		String imagePath = mShopieSharePref.getImageCover();
-		Log.d("Scale", "abc>>>>>>>>>>>>>> " + mShopieSharePref.getEditCoverScaleCenterX());
+		log.d("Scale", "abc>>>>>>>>>>>>>> " + mShopieSharePref.getEditCoverScaleCenterX());
 		File file = new File(imagePath);
 		if (file.exists()) {
 			Uri fileUri = Uri.fromFile(file);
@@ -442,7 +441,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				
 				@Override
 				public void run() {
-					Log.d("scale", "1>>>>>>>>>>>>> " + mShopieSharePref.getEditCoverScrollx() + " " + mShopieSharePref.getEditCoverScrolly());
+					log.d("scale", "1>>>>>>>>>>>>> " + mShopieSharePref.getEditCoverScrollx() + " " + mShopieSharePref.getEditCoverScrolly());
 					mImgCover.reset();
 					mImgCover.postScale(mShopieSharePref.getEditCoverScale(), mShopieSharePref.getEditCoverScaleCenterX(), 
 							mShopieSharePref.getEditCoverScaleCenterY());
@@ -455,7 +454,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 							mShopieSharePref.getEditCoverScrolly());
 //					mImgCover.postTranslate(4.9f , -54f);
 //					mImgCover.postTranslate(-345f, 328f);
-					Log.d("scale", "2>>>>>>>>>>>>> " + mImgCover.getXScroll() + " " + mImgCover.getYScroll());
+					log.d("scale", "2>>>>>>>>>>>>> " + mImgCover.getXScroll() + " " + mImgCover.getYScroll());
 					mImgCover.center(true, true);
 				}
 			}, 200);
@@ -472,7 +471,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		mShopieSharePref.setEditCoverScrolly(mImgCover.getYScroll());
 		isShowDoneBtn = false;
 		mImgCover.setEnableEdit(false);
-		Log.d("scale", ">>>>>>>>>>>>> " + mImgCover.getYScroll());
+		log.d("scale", ">>>>>>>>>>>>> " + mImgCover.getYScroll());
 	}
 	
 	private void pickImage() {
@@ -500,7 +499,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 							            mCapturedImageURI);
 							    startActivityForResult(intent, REQUEST_CODE_CAMERA);
 							} catch (Exception e) {
-							    Log.e("", "", e);
+							    log.e("", "", e);
 							}
 							break;
 
@@ -567,7 +566,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 			break;
 		case REQUEST_CODE_GALLERY:
 			if (resultCode == getActivity().RESULT_OK) {
-				Log.d("data", "cádfdfjh" + data);
+				log.d("data", "cádfdfjh" + data);
 				Uri uri = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
 				Cursor cursor = getActivity().getContentResolver().query(uri,
@@ -598,7 +597,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 					}
 
 				} else {
-					Log.d("test", "file don't exist !");
+					log.d("test", "file don't exist !");
 				}
 				mImgEditCover.setBackgroundResource(R.drawable.ic_edit_done_cover1);
 				isShowDoneBtn = true;
@@ -652,7 +651,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 				reqHeight);
 		int width = options.outWidth;
 		int height = options.outHeight;
-		Log.d("width " + height, "width " + width);
+		log.d("width " + height, "width " + width);
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
@@ -721,7 +720,7 @@ public class MainPersonalInfoFragment extends FragmentBasic {
 		// TODO Auto-generated method stub
 		ArrayList<JsonDataObject> jsonDataObject = mShoppieDBProvider
 				.getJsonData(GlobalValue.TYPE_MERCH_STORE);
-		Log.e(TAG, "jsonDataObject " + jsonDataObject.size());
+		log.e(TAG, "jsonDataObject " + jsonDataObject.size());
 		ArrayList<MerchantStoreItem> merchantStoreItems = new ArrayList<MerchantStoreItem>();
 		for (int i = 0; i < jsonDataObject.size(); i++) {
 			String merchantStores = jsonDataObject.get(i).getJsonData();

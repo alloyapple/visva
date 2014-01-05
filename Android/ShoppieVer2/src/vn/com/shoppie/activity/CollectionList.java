@@ -18,6 +18,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.util.ImageLoader;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.view.MyTextView;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
@@ -75,7 +76,7 @@ public class CollectionList extends Activity {
 		mSharePref = new ShoppieSharePref(this);
 		Bundle extras = getIntent().getExtras();
 		merchantId = extras.getString(KEY_MERCHANT_ID);
-		Log.d("MechanId", merchantId);
+		log.d("MechanId", merchantId);
 		customerId = extras.getString(KEY_CUSTOMER_ID);
 		iconLink = extras.getString(KEY_ICON);
 		title = extras.getString(KEY_TITLE);
@@ -122,7 +123,7 @@ public class CollectionList extends Activity {
 					curId = position - 1;
 					Intent intent = new Intent(CollectionList.this,
 							CatelogyDetailActivity.class);
-					Log.d("CPAID", "" + adapter.getItem(curId).getCampaignId());
+					log.d("CPAID", "" + adapter.getItem(curId).getCampaignId());
 
 					intent.putExtra(CatelogyDetailActivity.MERCH_ID_KEY,
 							merchantId);
@@ -230,7 +231,7 @@ public class CollectionList extends Activity {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

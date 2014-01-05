@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import vn.com.shoppie.database.adbManager;
 import vn.com.shoppie.database.sobject.Merchant;
+import vn.com.shoppie.util.log;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -76,7 +77,7 @@ public class MerchantMng extends adbManager {
 				break;
 			}
 		if (!hasField) {
-			Log.e(TAG, "not matching field to SELECT");
+			log.e(TAG, "not matching field to SELECT");
 			return array;
 		}
 		Cursor cursor = db.query(TABLE, COLUMNS, field + "='" + value + "'", null, null, null, adbManager._id);
@@ -92,7 +93,7 @@ public class MerchantMng extends adbManager {
 	public ArrayList<Merchant> getArrayObjectFromCursor(Cursor cursor) {
 		ArrayList<Merchant> array = new ArrayList<Merchant>();
 		if (cursor.getCount() == 0) {
-			Log.e(TAG, "cursor is null");
+			log.e(TAG, "cursor is null");
 			cursor.close();
 			return array;
 		}
@@ -118,7 +119,7 @@ public class MerchantMng extends adbManager {
 		cursor.moveToFirst();
 
 		if (cursor.getCount() == 0) {
-			Log.e(TAG, "cursor is null");
+			log.e(TAG, "cursor is null");
 			cursor.close();
 			return t;
 		}

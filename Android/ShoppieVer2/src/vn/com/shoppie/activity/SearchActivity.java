@@ -31,6 +31,7 @@ import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.network.ParameterFactory;
 import vn.com.shoppie.object.HorizontalListView;
 import vn.com.shoppie.object.JsonDataObject;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.graphics.Color;
 import android.location.Location;
@@ -183,6 +184,11 @@ public class SearchActivity extends FragmentActivity implements
 		View view = findViewById(R.id.actionbar_devider);
 		int colorValue = Color.rgb(red, green, blue);
 		view.setBackgroundColor(colorValue);
+	}
+	
+	public void setDeviderColor(int color) {
+		View view = findViewById(R.id.actionbar_devider);
+		view.setBackgroundColor(color);
 	}
 
 	// private void getMerchantCategoryFromDB() {
@@ -341,7 +347,7 @@ public class SearchActivity extends FragmentActivity implements
 	}
 
 	private void setIconAdapter(ArrayList<MerchantCategoryItem> catelogyList) {
-		Log.d("Category Color", "Color start");
+		log.d("Category Color", "Color start");
 		iconDataList.clear();
 		for (int i = 0; i < catelogyList.size(); i++) {
 			if(catelogyList.get(i).getMerchCatId() != 7 &&
@@ -436,7 +442,7 @@ public class SearchActivity extends FragmentActivity implements
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);
@@ -476,6 +482,7 @@ public class SearchActivity extends FragmentActivity implements
 
 	public void setDataByIcon(MerchantCategoryItem icon, boolean isUpdateMap) {
 		if(icon == null) {
+			setDeviderColor(0xff01B0F1);
 			Vector<MerchantStoreItem> result = new Vector<MerchantStoreItem>();
 			for (int i = 0; i < iconDataList.size(); i++) {
 				Vector<MerchantStoreItem> list = manageData.get(iconDataList.get(i));
@@ -497,13 +504,14 @@ public class SearchActivity extends FragmentActivity implements
 			setPieMap(manageData.get(icon));
 		}
 
+		
 		try {
 			String color = icon.getLineColor();
 			String temp[] = color.split(",");
 			setDeviderColor(Integer.parseInt(temp[0]),
 					Integer.parseInt(temp[1]), Integer.parseInt(temp[2]));
 		} catch (Exception e) {
-			setDeviderColor(0, 0, 0);
+			setDeviderColor(0xff01B0F1);
 		}
 
 	}
@@ -511,7 +519,7 @@ public class SearchActivity extends FragmentActivity implements
 	private void requestGetMerchantStores(final String custId) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		System.out.println(">>>>>>>>>>>>>>>>>>> custId " + custId);
+		log.m(">>>>>>>>>>>>>>>>>>> custId " + custId);
 		List<NameValuePair> nameValuePairs = ParameterFactory
 				.getMerchantStores(custId);
 		AsyncHttpPost postGetMerchantProducts = new AsyncHttpPost(
@@ -542,7 +550,7 @@ public class SearchActivity extends FragmentActivity implements
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 						finish();
 					}
 				}, nameValuePairs, true);

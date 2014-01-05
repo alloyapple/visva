@@ -11,6 +11,7 @@ import vn.com.shoppie.network.AsyncHttpResponseProcess;
 import vn.com.shoppie.network.NetworkUtility;
 import vn.com.shoppie.util.SUtil;
 import vn.com.shoppie.util.WakeLocker;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -88,13 +89,13 @@ public class LoginActivity extends ActivityShoppie {
 		@Override
 		public void onError(FacebookDialog.PendingCall pendingCall,
 				Exception error, Bundle data) {
-			Log.d("HelloFacebook", String.format("Error: %s", error.toString()));
+			log.d("HelloFacebook", String.format("Error: %s", error.toString()));
 		}
 
 		@Override
 		public void onComplete(FacebookDialog.PendingCall pendingCall,
 				Bundle data) {
-			Log.d("HelloFacebook", "Success!");
+			log.d("HelloFacebook", "Success!");
 		}
 	};
 
@@ -117,7 +118,7 @@ public class LoginActivity extends ActivityShoppie {
 				.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
 					@Override
 					public void onUserInfoFetched(GraphUser user) {
-						Log.e("usser", "adfhd " + user);
+						log.e("usser", "adfhd " + user);
 						if (NetworkUtility.getInstance(LoginActivity.this)
 								.isNetworkAvailable()) {
 							LoginActivity.this.user = user;
@@ -139,7 +140,7 @@ public class LoginActivity extends ActivityShoppie {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.e("adfd", "gegs");
+				log.e("adfd", "gegs");
 				register();
 			}
 		});
@@ -184,7 +185,7 @@ public class LoginActivity extends ActivityShoppie {
 		// Get GCM registration id
 		regId = GCMRegistrar.getRegistrationId(this);
 		// writeRegId(regId, name, email);
-		// Log.e("regId", regId);
+		// log.e("regId", regId);
 
 		// Check if regid already presents
 		if (regId.equals("")) {
@@ -222,7 +223,7 @@ public class LoginActivity extends ActivityShoppie {
 	}
 
 	public void onClickRegister(View v) {
-		Log.e("adkjfhd", "adkjfhd");
+		log.e("adkjfhd", "adkjfhd");
 		register();
 	}
 
@@ -232,7 +233,7 @@ public class LoginActivity extends ActivityShoppie {
 					@Override
 					public void processIfResponseSuccess(String response) {
 						/* check info response from server */
-						Log.e("response", "respone " + response);
+						log.e("response", "respone " + response);
 						// Intent intent = new Intent(LoginActivity.this,
 						// HomeActivity.class);
 						// startActivity(intent);
@@ -241,7 +242,7 @@ public class LoginActivity extends ActivityShoppie {
 
 					@Override
 					public void processIfResponseFail() {
-						Log.e("failed ", "failed");
+						log.e("failed ", "failed");
 					}
 				}, params, true);
 		String url = WebServiceConfig.URL_SHOPPIE_HOME
@@ -265,7 +266,7 @@ public class LoginActivity extends ActivityShoppie {
 		if (session == null || session.isClosed() || !session.isOpened()) {
 			uiHelper = new UiLifecycleHelper(this, callback);
 		} else {
-			Log.e("resume: session", "not null");
+			log.e("resume: session", "not null");
 			Request request = Request.newMeRequest(session,
 					new Request.GraphUserCallback() {
 						@Override
@@ -320,7 +321,7 @@ public class LoginActivity extends ActivityShoppie {
 						LoginActivity.this, true);
 			}
 		}
-		Log.e("regid " + regId + "  " + blueMac + "  " + emeil
+		log.e("regid " + regId + "  " + blueMac + "  " + emeil
 				+ " lat " + lat + " long " + lng, "he he name " + name);
 //		return SUtilXml.getInstance().registerAccount(
 //				LoginActivity.this, regId, blueMac, emeil, lat, lng,
@@ -368,7 +369,7 @@ public class LoginActivity extends ActivityShoppie {
 //				}
 //				if (blueMac == null || blueMac.equals(""))
 //					return ERR_BLUETOOTH_NULL;
-//				Log.e("regid " + regId + "  " + blueMac + "  " + emeil
+//				log.e("regid " + regId + "  " + blueMac + "  " + emeil
 //						+ " lat " + lat + " long " + lng, "he he name " + name);
 //				return SUtilXml.getInstance().registerAccount(
 //						LoginActivity.this, regId, blueMac, emeil, lat, lng,
@@ -379,31 +380,31 @@ public class LoginActivity extends ActivityShoppie {
 		
 //
 //			protected void onPostExecute(String result) {
-//				Log.e("result " + result, "he he name ");
+//				log.e("result " + result, "he he name ");
 //				registering = false;
 //				boolean startHome = true;
 //				if (result.equals(ERR_UNKNOWN)) {
 //					showToast("Register failed: code: " + result);
-//					// tvLog.setText("i don't known this ERROR!");
+//					// tvlog.setText("i don't known this ERROR!");
 //				} else if (result.equals(ERR_BLUETOOTH_NULL)) {
 //					showToast("Bluetooth NULL");
-//					// tvLog.setText("i can not get your bluetooth!");
+//					// tvlog.setText("i can not get your bluetooth!");
 //				} else if (result.equals(ERR_STILL_REGISTER)) {
 //					registering = true;
 //					showToast("still registering...");
-//					// tvLog.setText("You're registering. Don't try more!");
+//					// tvlog.setText("You're registering. Don't try more!");
 //				} else if (result.equals(ERR_SERVER)) {
 //					showToast("Reg faile: SERVER error");
-//					// tvLog.setText("Our server having some trouble. Try later!");
+//					// tvlog.setText("Our server having some trouble. Try later!");
 //				} else if (result.equals(ERR_DATABASE_ERR)) {
 //					showToast("Reg faile: DATABASE error");
-//					// tvLog.setText("What did you to my DATABASE???");
+//					// tvlog.setText("What did you to my DATABASE???");
 //				} else {
 //					SettingPreference.setFirstUse(getApplicationContext(),
 //							false);
 //					showToast("Register success: userId: " + result + " gcm: "
 //							+ regId + " blue: " + blueMac + " emeil: " + emeil);
-//					// tvLog.setText("Register success: \nuserId: " + result
+//					// tvlog.setText("Register success: \nuserId: " + result
 //					// + " \ngcm: " + regId + " \nblue: " + blueMac +
 //					// " \nemeil: " + emeil + " name: " + name);
 //					startHome = false;

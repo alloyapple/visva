@@ -3,6 +3,7 @@ package vn.com.shoppie.activity;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -12,6 +13,7 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.ShareButton;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
+
 import vn.com.shoppie.R;
 import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.constant.ShoppieSharePref;
@@ -24,6 +26,7 @@ import vn.com.shoppie.object.FavouriteDataObject;
 import vn.com.shoppie.util.FacebookUtil;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.Utils;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.content.Intent;
@@ -58,7 +61,7 @@ public class ActivityFavouriteProductShow extends Activity {
 		@Override
 		public void call(final Session session, final SessionState state,
 				final Exception exception) {
-			Log.e("Session change", session.isOpened() + "-" + state.toString());
+			log.e("Session change", session.isOpened() + "-" + state.toString());
 			onSessionStateChanged(session, state, exception);
 		}
 	};
@@ -200,7 +203,7 @@ public class ActivityFavouriteProductShow extends Activity {
 				MerchProductItem item = (MerchProductItem) v.getTag();
 				Session session = Session.getActiveSession();
 				boolean enableButtons = (session != null && session.isOpened());
-				Log.e("adfkjdhf", "enableButtons "+enableButtons);
+				log.e("adfkjdhf", "enableButtons "+enableButtons);
 				if (enableButtons) {
 					FacebookUtil.getInstance(ActivityFavouriteProductShow.this)
 							.publishShareDialog(item);
@@ -262,7 +265,7 @@ public class ActivityFavouriteProductShow extends Activity {
 		if (session == null || session.isClosed() || !session.isOpened()) {
 			uiHelper = new UiLifecycleHelper(this, callback);
 		} else {
-			Log.e("resume: session", "not null");
+			log.e("resume: session", "not null");
 			if (mShopieSharePref.getActionShareFB()) {
 				FacebookUtil.getInstance(ActivityFavouriteProductShow.this)
 						.publishShareDialog(mMerchProductItem);
@@ -330,7 +333,7 @@ public class ActivityFavouriteProductShow extends Activity {
 				new AsyncHttpResponseProcess(ActivityFavouriteProductShow.this) {
 					@Override
 					public void processIfResponseSuccess(String response) {
-						Log.e("like success ", "like success");
+						log.e("like success ", "like success");
 						MediaPlayer mPlayer = MediaPlayer.create(
 								ActivityFavouriteProductShow.this,
 								R.raw.sound_like2);
@@ -389,7 +392,7 @@ public class ActivityFavouriteProductShow extends Activity {
 	}
 
 	private boolean ensureOpenSession() {
-		android.util.Log.e("adfdsfh", "afiun df ");
+		log.e("adfdsfh", "afiun df ");
 		Session.openActiveSession(ActivityFavouriteProductShow.this, true,
 				new Session.StatusCallback() {
 					@Override
@@ -405,7 +408,7 @@ public class ActivityFavouriteProductShow extends Activity {
 												.getActiveSession()) {
 											if (user != null) {
 												String name = user.getName();
-												android.util.Log.e(
+												log.e(
 														"name " + user.getId(),
 														"adfname "
 																+ user.getName());
@@ -421,7 +424,7 @@ public class ActivityFavouriteProductShow extends Activity {
 
 	private void onSessionStateChanged(final Session session,
 			SessionState state, Exception exception) {
-		android.util.Log.e("adfdf",
+		log.e("adfdf",
 				"adfd " + (session != null && session.isOpened()));
 		if (session != null && session.isOpened()) {
 			if (state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
@@ -435,7 +438,7 @@ public class ActivityFavouriteProductShow extends Activity {
 								if (session == Session.getActiveSession()) {
 									if (user != null) {
 										String name = user.getName();
-										android.util.Log.e(
+										log.e(
 												"name " + user.getId(),
 												"adfname " + user.getName());
 									}
@@ -450,7 +453,7 @@ public class ActivityFavouriteProductShow extends Activity {
 	}
 
 	private void closeDesc(final View v) {
-		Log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
+		log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
 		// if (v.getAnimation() != null)
 		// return;
 		if (Build.VERSION.SDK_INT >= 11) {

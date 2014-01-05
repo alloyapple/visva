@@ -5,12 +5,12 @@ import vn.com.shoppie.constant.GlobalValue;
 import vn.com.shoppie.database.sobject.CustomerLikeProduct;
 import vn.com.shoppie.util.ImageLoader;
 import vn.com.shoppie.util.Utils;
+import vn.com.shoppie.util.log;
 import vn.com.shoppie.webconfig.WebServiceConfig;
 import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
@@ -21,6 +21,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -40,7 +41,7 @@ public class ActivityCustFavouriteProductShow extends Activity {
 		@Override
 		public void call(final Session session, final SessionState state,
 				final Exception exception) {
-			Log.e("Session change", session.isOpened() + "-" + state.toString());
+			log.e("Session change", session.isOpened() + "-" + state.toString());
 		}
 	};
 
@@ -197,7 +198,7 @@ public class ActivityCustFavouriteProductShow extends Activity {
 	}
 
 	private void closeDesc(final View v) {
-		Log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
+		log.d("ONClick", ">>>>>>>>>>>>>>>>>>>>> ");
 		// if (v.getAnimation() != null)
 		// return;
 		if (Build.VERSION.SDK_INT >= 11) {

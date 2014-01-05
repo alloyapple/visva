@@ -66,7 +66,7 @@ public class SUtilXml {
 			LinkPost linkPost = array.get(0);
 			xml = linkPost.xml;
 		}
-//		Log.e("new mechanism", xml.substring(0, 100));
+//		log.e("new mechanism", xml.substring(0, 100));
 		updateToDb(context, fullLink, params, listener);
 		return xml;
 	}
@@ -267,8 +267,8 @@ public class SUtilXml {
 			String xml;
 			// xml= EntityUtils.toString(responseEntity);
 			xml = EntityUtils.toString(responseEntity, "UTF-8");
-//			 System.out.println(xml);
-//			 Log.e("response post", "xml: "+xml+"");
+//			 log.m(xml);
+//			 log.e("response post", "xml: "+xml+"");
 			return xml;
 		}
 		return null;
@@ -283,11 +283,11 @@ public class SUtilXml {
 		try {
 			String value = pa.getXmlFromUrl(url);
 			if (!value.contains("error")) {
-				// System.out.println("XMLParse: "+value);
+				// log.m("XMLParse: "+value);
 				return value;
 			}
 		} catch (NullPointerException e) {
-			//Log.e("SUtilXML line 267", "null: " + url);
+			//log.e("SUtilXML line 267", "null: " + url);
 		}
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(url);
@@ -295,7 +295,7 @@ public class SUtilXml {
 
 		XMLParser parser = new XMLParser();
 		String xml = parser.getXmlFromHttpResponse(response);
-		// System.out.println("XMLParse from HTML response:"+xml);
+		// log.m("XMLParse from HTML response:"+xml);
 		return xml;
 	}
 
@@ -310,7 +310,7 @@ public class SUtilXml {
 		}
 		util.configBluetooth(false);
 		if (address == null) {
-			Log.e("address", "null");
+			log.e("address", "null");
 			return -1;
 		}
 		return registerAccount(context, util.getDeviceId(context), address);
@@ -352,19 +352,19 @@ public class SUtilXml {
 				return false;
 			}
 		} catch (NumberFormatException e) {
-			Log.e("SUtilXML:line 187: parse result error", xmlResult);
+			log.e("SUtilXML:line 187: parse result error", xmlResult);
 			return false;
 		} catch (SQLException e) {
-			Log.e("SUtilXML:line 190: SQL exception", xmlResult);
+			log.e("SUtilXML:line 190: SQL exception", xmlResult);
 			return false;
 		} catch (ClientProtocolException e) {
-			Log.e("SUtilXML:line 193: ClientProtocolException", xmlResult);
+			log.e("SUtilXML:line 193: ClientProtocolException", xmlResult);
 			return false;
 		} catch (IllegalArgumentException e) {
-			Log.e("SUtilXML:line 196: IllegalArgumentException", xmlResult);
+			log.e("SUtilXML:line 196: IllegalArgumentException", xmlResult);
 			return false;
 		} catch (IOException e) {
-			Log.e("SUtilXML:line 199: IOException", xmlResult);
+			log.e("SUtilXML:line 199: IOException", xmlResult);
 			return false;
 		}
 	}
@@ -397,7 +397,7 @@ public class SUtilXml {
 
 			int startIndex = xml.indexOf(tmp);
 			int endIndex = xml.indexOf("</dataValue>");
-			Log.e("xml", xml);
+			log.e("xml", xml);
 			userID = xml.substring(startIndex + tmp.length(), endIndex);
 			// UserMng userMng = new UserMng(context);
 			// userMng.delete(0);
@@ -405,13 +405,13 @@ public class SUtilXml {
 			return userID;
 
 		} catch (ClientProtocolException e) {
-			System.out.println(e.toString());
+			log.m(e.toString());
 			return LoginActivity.ERR_SERVER;
 		} catch (IOException e) {
-			System.out.println(e.toString());
+			log.m(e.toString());
 			return LoginActivity.ERR_SERVER;
 		} catch (SQLException e) {
-			Log.e("SUtilXML:line 191: SQL exception", userID);
+			log.e("SUtilXML:line 191: SQL exception", userID);
 			return LoginActivity.ERR_DATABASE_ERR;
 		}
 	}
@@ -437,9 +437,9 @@ public class SUtilXml {
 			ArrayList<ShoppieObject> data = new ArrayList<ShoppieObject>();
 			mng.parse(xml);
 			data = mng.getResultShoppieObject();
-			// System.out.println(data.size() + "");
+			// log.m(data.size() + "");
 			// for (ShoppieObject user : data) {
-			// System.out.println(((User) user).id);
+			// log.m(((User) user).id);
 			// }
 
 			try {
@@ -451,18 +451,18 @@ public class SUtilXml {
 				}
 				// SettingPreference.setUserID(context, Integer.valueOf(((User)
 				// data.get(0)).custId));
-//				System.out.println("User ID:" + ((User) data.get(0)).custId);
+//				log.m("User ID:" + ((User) data.get(0)).custId);
 				new UserMng(context).insertNewTo(user.getValues());
 				return userID;
 			} catch (SQLException e) {
-				System.out.println(e.toString());
+				log.m(e.toString());
 				return userID;
 			}
 		} catch (ClientProtocolException e) {
-			System.out.println(e.toString());
+			log.m(e.toString());
 			return userID;
 		} catch (IOException e) {
-			System.out.println(e.toString());
+			log.m(e.toString());
 			return userID;
 		}
 	}

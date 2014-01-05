@@ -65,7 +65,7 @@ public class ImageLoader {
 		} else {
 			v.setBackgroundDrawable(new BitmapDrawable(bitmap));
 		}
-		Log.d("Bitmap Size", "Bitmap Size w " + bitmap.getWidth() + " h "
+		log.d("Bitmap Size", "Bitmap Size w " + bitmap.getWidth() + " h "
 				+ bitmap.getHeight());
 	}
 
@@ -119,7 +119,7 @@ public class ImageLoader {
 						bitmap, topleft, topright, bottomleft, bottomright);
 				setImageBitmap(imageView, bmp);
 			} else {
-				Log.d("KeepSize", "NonKeepSize1");
+				log.d("KeepSize", "NonKeepSize1");
 				MarginLayoutParams params = (MarginLayoutParams) imageView
 						.getLayoutParams();
 				Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmap(
@@ -156,7 +156,7 @@ public class ImageLoader {
 						bitmap, topleft, topright, bottomleft, bottomright , ImageUtil.radius , bitmap.getWidth() , bitmap.getHeight() ,type);
 				setImageBitmap(imageView, bmp);
 			} else {
-				Log.d("KeepSize", "NonKeepSize1");
+				log.d("KeepSize", "NonKeepSize1");
 				MarginLayoutParams params = (MarginLayoutParams) imageView
 						.getLayoutParams();
 				Bitmap bmp = ImageUtil.getInstance(context).getShapeBitmapType(
@@ -421,7 +421,7 @@ public class ImageLoader {
 						setImageBitmap(photoToLoad.imageView, bmp);
 					}
 				} else {
-					Log.d("KeepSize", "NonKeepSize "
+					log.d("KeepSize", "NonKeepSize "
 							+ photoToLoad.roundCornerTopLeft
 							+ photoToLoad.roundCornerTopRight
 							+ photoToLoad.roundCornerBottomLeft
