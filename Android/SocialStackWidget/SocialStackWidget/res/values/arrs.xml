@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="function_list">
+        <item>My Accounts</item>
+        <item>Refresh Time</item>
+        <item>About</item>
+    </string-array>
+
+</resources>

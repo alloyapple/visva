@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Social StackWidget</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tap_to_signin">Tap to sign in</string>
+    <string name="loading">Loading...</string>
+    <string name="refresh_time_text">Choose refresh time to update social items</string>
+
+    <!-- facebook -->
+    <string name="facebook_app_id">207612872769343</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="permission_not_granted">permission not granted</string>
+    <string name="add_your_acc">Add Your Account</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="choose_category_type">Choose Category Type</string>
+    <string name="facebook_feed">Feed</string>
+    <string name="facebook_timeline">Timeline</string>
+
+    <!-- twitter -->
+    <string name="twitter_feed">My Home</string>
+    <string name="twitter_timeline">Timeline</string>
+
+    <!-- google plus -->
+    <string name="google_plus_feed">My Home</string>
+    <string name="google_plus_timeline">My Timeline</string>
+
+</resources>

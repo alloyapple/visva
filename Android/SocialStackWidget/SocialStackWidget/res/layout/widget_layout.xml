@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right" >
+
+        <Button
+            android:id="@+id/btn_setting"
+            android:layout_width="@dimen/btn_widget_opstins_size"
+            android:layout_height="@dimen/btn_widget_opstins_size"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_setting_2" />
+        <Button
+            android:id="@+id/btn_refresh"
+            android:layout_width="@dimen/btn_widget_opstins_size"
+            android:layout_height="@dimen/btn_widget_opstins_size"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/btn_setting"
+            android:background="@drawable/ic_refresh_1" />
+        <ProgressBar
+            android:id="@+id/progressBar_refresh"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:visibility="gone"
+            android:layout_toLeftOf="@+id/btn_setting" />
+
+
+    </RelativeLayout>
+
+    <StackView
+        android:id="@+id/stack_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:loopViews="true" />
+
+</LinearLayout>
