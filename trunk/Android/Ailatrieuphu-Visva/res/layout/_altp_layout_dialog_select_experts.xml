@@ -1,7 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout_wrap"
-    android:background="@drawable/_altp_bg_dialog" >
+    android:background="@drawable/_altp_bg_dialog_begin"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/dialog_help_experts_title"
@@ -33,9 +34,10 @@
 
         <TableLayout
             android:id="@+id/dialog_select_experts_container"
-            style="@style/layout_full_wrap" >
+            style="@style/layout_wrap"
+            android:layout_gravity="center" >
 
-            <TableRow style="@style/layout_full_wrap" >
+            <TableRow style="@style/layout_wrap" >
 
                 <ImageButton
                     android:id="@+id/dialog_select_experts_baochaungo"
@@ -60,7 +62,7 @@
                     android:contentDescription="@string/_content_description" />
             </TableRow>
 
-            <TableRow style="@style/layout_full_wrap" >
+            <TableRow style="@style/layout_wrap" >
 
                 <ImageButton
                     android:id="@+id/dialog_select_experts_khongminh"
@@ -88,13 +90,14 @@
 
     <Button
         android:id="@+id/_layout_dialog_help_experts_oki"
-        style="@style/layout_wrap"
+        android:layout_width="@dimen/button_dialog_width"
+        android:layout_height="@dimen/button_dialog_height"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/altp_btn_menu_"
         android:text="@string/_txt_btn_confirm_back"
         android:textColor="@color/color_txt_menu"
         android:textStyle="bold"
         android:visibility="gone" />
 
-</FrameLayout>
+</LinearLayout>

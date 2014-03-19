@@ -24,69 +24,103 @@
 
             <TableRow style="@style/layout_wrap" >
 
-                <TextView android:id="@+id/_layout_dialog_high_score_name_1"
+                <TextView
+                    style="@style/layout_wrap"
+                    android:text="Tên"
+                    android:textColor="@color/color_txt_menu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/layout_wrap"
+                    android:layout_marginLeft="64dp"
+                    android:text="Câu"
+                    android:textColor="@color/color_txt_menu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                style="@style/layout_wrap"
+                android:layout_marginTop="5dp" >
+
+                <TextView
+                    android:id="@+id/_layout_dialog_high_score_name_1"
                     style="@style/layout_wrap"
                     android:text="@string/_txt_name_default_1"
                     android:textColor="@color/color_txt_white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView android:id="@+id/_layout_dialog_high_score_score_1"
+                <TextView
+                    android:id="@+id/_layout_dialog_high_score_score_1"
                     style="@style/layout_wrap"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="64dp"
+                    android:maxLength="13"
                     android:text="@string/_txt_score_default"
                     android:textColor="@color/color_txt_white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </TableRow>
 
-            <TableRow style="@style/layout_wrap" >
+            <TableRow
+                style="@style/layout_wrap"
+                android:layout_marginTop="5dp" >
 
-                <TextView android:id="@+id/_layout_dialog_high_score_name_2"
+                <TextView
+                    android:id="@+id/_layout_dialog_high_score_name_2"
                     style="@style/layout_wrap"
                     android:text="@string/_txt_name_default_1"
                     android:textColor="@color/color_txt_white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView android:id="@+id/_layout_dialog_high_score_score_2"
+                <TextView
+                    android:id="@+id/_layout_dialog_high_score_score_2"
                     style="@style/layout_wrap"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="64dp"
+                    android:maxLength="13"
                     android:text="@string/_txt_score_default"
                     android:textColor="@color/color_txt_white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </TableRow>
 
-            <TableRow style="@style/layout_wrap" >
+            <TableRow
+                style="@style/layout_wrap"
+                android:layout_marginTop="5dp" >
 
-                <TextView android:id="@+id/_layout_dialog_high_score_name_3"
+                <TextView
+                    android:id="@+id/_layout_dialog_high_score_name_3"
                     style="@style/layout_wrap"
                     android:text="@string/_txt_name_default_1"
                     android:textColor="@color/color_txt_white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView android:id="@+id/_layout_dialog_high_score_score_3"
+                <TextView
+                    android:id="@+id/_layout_dialog_high_score_score_3"
                     style="@style/layout_wrap"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="64dp"
+                    android:maxLength="13"
                     android:text="@string/_txt_score_default"
                     android:textColor="@color/color_txt_white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </TableRow>
         </TableLayout>
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/_layout_dialog_high_score_btn_ok"
-        android:layout_width="@dimen/button_dialog_width"
-        android:layout_height="@dimen/button_dialog_height"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/altp_btn_menu_"
-        android:text="@string/_txt_btn_ok"
-        android:textColor="@color/color_txt_menu"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/_layout_dialog_high_score_btn_ok"
+            android:layout_width="@dimen/button_dialog_width"
+            android:layout_height="@dimen/button_dialog_height"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/altp_btn_menu_"
+            android:text="@string/_txt_btn_ok"
+            android:textColor="@color/color_txt_menu"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </FrameLayout>

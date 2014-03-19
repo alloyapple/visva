@@ -13,10 +13,11 @@
             android:id="@+id/_layout_main_game_txt_money"
             style="@style/layout_wrap"
             android:layout_alignParentLeft="true"
+            android:layout_gravity="left|top"
             android:layout_marginLeft="@dimen/text_money_margin_left"
             android:layout_marginTop="@dimen/layout_time_money_margin_top"
             android:gravity="center"
-            android:textColor="@color/color_txt_menu"
+            android:textColor="@color/color_txt_white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -25,7 +26,7 @@
             style="@style/layout_wrap"
             android:layout_alignParentRight="true"
             android:layout_gravity="right|top"
-            android:layout_marginRight="@dimen/text_time_margin_left"
+            android:layout_marginRight="@dimen/text_time_margin_right"
             android:layout_marginTop="@dimen/layout_time_money_margin_top"
             android:gravity="center"
             android:textColor="@color/color_txt_white"
