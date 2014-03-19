@@ -16,8 +16,8 @@
     <dimen name="button_support_width">70dp</dimen>
     <dimen name="button_support_height">70dp</dimen>
     <dimen name="layout_support_margin">50dp</dimen>
-    <dimen name="text_money_margin_left">95dp</dimen>
-    <dimen name="text_time_margin_left">110dp</dimen>
+    <dimen name="text_money_margin_left">110dp</dimen>
+    <dimen name="text_time_margin_right">110dp</dimen>
     <dimen name="layout_text_margin_top">250dp</dimen>
     <dimen name="text_margin_left">25dp</dimen>
     <dimen name="text_margin_top">25dp</dimen>

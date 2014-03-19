@@ -5,7 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="button_width">220dp</dimen>
     <dimen name="button_height">60dp</dimen>
-    <dimen name="button_text_size">22dp</dimen>
+    <dimen name="button_text_size">18dp</dimen>
     <dimen name="button_menu_margin_left">10dp</dimen>
     <dimen name="button_menu_margin_bottom">40dp</dimen>
     <dimen name="button_fb_width">50dp</dimen>
@@ -16,8 +16,8 @@
     <dimen name="button_support_width">65dp</dimen>
     <dimen name="button_support_height">65dp</dimen>
     <dimen name="layout_support_margin">65dp</dimen>
-    <dimen name="text_money_margin_left">90dp</dimen>
-    <dimen name="text_time_margin_left">95dp</dimen>
+    <dimen name="text_money_margin_left">95dp</dimen>
+    <dimen name="text_time_margin_right">95dp</dimen>
     <dimen name="layout_text_margin_top">0dp</dimen>
     <dimen name="text_margin_left">25dp</dimen>
     <dimen name="text_margin_top">18dp</dimen>

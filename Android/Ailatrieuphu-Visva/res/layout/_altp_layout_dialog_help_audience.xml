@@ -1,6 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/_altp_bg_dialog" >
+    style="@style/layout_full_wrap"
+    android:background="@drawable/_altp_bg_dialog_begin"
+    android:orientation="vertical" >
 
     <LinearLayout
         style="@style/layout_full_wrap"
@@ -19,6 +21,8 @@
 
         <LinearLayout
             style="@style/layout_full_wrap"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
@@ -29,6 +33,7 @@
                 <TextView
                     style="@style/layout_wrap"
                     android:text="@string/_txt_answer_a"
+                    android:textColor="@color/color_bg_white"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -48,7 +53,9 @@
                 <TextView
                     android:id="@+id/dialog_help_audience_rate_percent_a"
                     style="@style/layout_wrap"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/color_bg_white"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -59,6 +66,7 @@
                 <TextView
                     style="@style/layout_wrap"
                     android:text="@string/_txt_answer_b"
+                    android:textColor="@color/color_bg_white"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -78,7 +86,9 @@
                 <TextView
                     android:id="@+id/dialog_help_audience_rate_percent_b"
                     style="@style/layout_wrap"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/color_bg_white"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -89,6 +99,7 @@
                 <TextView
                     style="@style/layout_wrap"
                     android:text="@string/_txt_answer_c"
+                    android:textColor="@color/color_bg_white"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -108,7 +119,9 @@
                 <TextView
                     android:id="@+id/dialog_help_audience_rate_percent_c"
                     style="@style/layout_wrap"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/color_bg_white"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -119,6 +132,7 @@
                 <TextView
                     style="@style/layout_wrap"
                     android:text="@string/_txt_answer_d"
+                    android:textColor="@color/color_bg_white"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -138,14 +152,17 @@
                 <TextView
                     android:id="@+id/dialog_help_audience_rate_percent_d"
                     style="@style/layout_wrap"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/color_bg_white"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <Button
         android:id="@+id/_layout_dialog_help_audience_oki"
-        style="@style/layout_wrap"
+        android:layout_width="@dimen/button_dialog_width"
+        android:layout_height="@dimen/button_dialog_height"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="20dp"
         android:background="@drawable/altp_btn_menu_"
@@ -153,4 +170,4 @@
         android:textColor="@color/color_txt_menu"
         android:textStyle="bold" />
 
-</FrameLayout>
+</LinearLayout>

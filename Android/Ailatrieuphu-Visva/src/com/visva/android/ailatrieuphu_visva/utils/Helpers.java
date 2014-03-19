@@ -35,7 +35,9 @@ public class Helpers {
 			}
 		}
 	}
-
+	public static void stop_sound(MediaPlayer _sound) {
+	
+	}
 	public static String parse_seconds_to_time_string(int s) {
 		String t = "";
 		int min = s / 60;
