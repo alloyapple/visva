@@ -123,17 +123,21 @@ public class MenuActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			// onClickShareFaceBook();
+			onClickShareFaceBook();
 		}
 	};
+
+	private void onClickShareFaceBook() {
+
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		getWindow().clearFlags(
+				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		setContentView(R.layout._altp_layout_menu);
 		_btn_menu_begin = (Button) findViewById(R.id._layout_menu_btn_begin);
 		_btn_menu_begin.setOnClickListener(_listener_onclick_begin);
@@ -255,7 +259,8 @@ public class MenuActivity extends Activity {
 		_anim_begin = (AnimationDrawable) _btn_menu_begin.getBackground();
 		// _anim_begin.start();
 
-		creat_dialog_begin(this, _listener_onclick_oki_begin, _listener_onclick_dont_known_begin);
+		creat_dialog_begin(this, _listener_onclick_oki_begin,
+				_listener_onclick_dont_known_begin);
 		Helpers.releaseSound(_sound);
 		_sound = Helpers.playSound(this, R.raw._altp_sound_ready, false);
 	}
@@ -333,27 +338,38 @@ public class MenuActivity extends Activity {
 		_dialog_high_score.dismiss();
 	}
 
-	private void creat_dialog_begin(Context mContext, OnClickListener listener_oki, OnClickListener listener_dont_known) {
+	private void creat_dialog_begin(Context mContext,
+			OnClickListener listener_oki, OnClickListener listener_dont_known) {
 		_dialog_begin = new Dialog(mContext);
-		_dialog_begin.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_begin.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_begin.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_begin, null);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_begin_btn_ok);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_begin,
+				null);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_begin_btn_ok);
 		btn_oki.setOnClickListener(listener_oki);
-		Button btn_dont_known = (Button) dialog_view.findViewById(R.id._layout_dialog_begin_btn_dont_known);
+		Button btn_dont_known = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_begin_btn_dont_known);
 		btn_dont_known.setOnClickListener(listener_dont_known);
 		_dialog_begin.setContentView(dialog_view);
 		_dialog_begin.show();
 	}
 
-	private void creat_dialog_rule(Context mContext, OnClickListener listener_oki) {
+	private void creat_dialog_rule(Context mContext,
+			OnClickListener listener_oki) {
 		_dialog_rule = new Dialog(mContext);
-		_dialog_rule.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_rule.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_rule.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_rule, null);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_rule_btn_ok);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_rule,
+				null);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_rule_btn_ok);
 		btn_oki.setOnClickListener(listener_oki);
 		_dialog_rule.setContentView(dialog_view);
 		_dialog_rule.show();
@@ -361,36 +377,47 @@ public class MenuActivity extends Activity {
 
 	private void creat_dialog_highscore(Context mContext) {
 		_dialog_high_score = new Dialog(mContext);
-		_dialog_high_score.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_high_score.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_high_score.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		SharedPreferences preference = getSharedPreferences(Constant.PREFERENCE_NAME, 0);
+		SharedPreferences preference = getSharedPreferences(
+				Constant.PREFERENCE_NAME, 0);
 		String[] myName = new String[3];
 		int[] myScore = new int[3];
 		for (int i = 0; i < 3; i++) {
 			myName[i] = preference.getString(Constant.NAME_FIELD[i], "$@@$");
 			myScore[i] = preference.getInt(Constant.SCORE_FIELD[i], -1);
 		}
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_high_score, null);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_high_score_btn_ok);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(
+				R.layout._altp_layout_dialog_high_score, null);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_btn_ok);
 		btn_oki.setOnClickListener(_listener_onclick_oki_high_score);
 		TextView _txt_name[] = new TextView[3];
-		_txt_name[0] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_name_1);
-		_txt_name[1] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_name_2);
-		_txt_name[2] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_name_3);
+		_txt_name[0] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_name_1);
+		_txt_name[1] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_name_2);
+		_txt_name[2] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_name_3);
 
 		TextView _txt_score[] = new TextView[3];
-		_txt_score[0] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_score_1);
-		_txt_score[1] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_score_2);
-		_txt_score[2] = (TextView) dialog_view.findViewById(R.id._layout_dialog_high_score_score_3);
+		_txt_score[0] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_score_1);
+		_txt_score[1] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_score_2);
+		_txt_score[2] = (TextView) dialog_view
+				.findViewById(R.id._layout_dialog_high_score_score_3);
 
 		for (int i = 0; i < 3; i++) {
 			if (myName[i].equals(""))
-				_txt_name[i].setText((i+1)+".No name");
+				_txt_name[i].setText((i + 1) + ".No name");
 			else if (myName[i].equals("$@@$"))
 				_txt_name[i].setText("");
 			else
-				_txt_name[i].setText((i+1)+"."+myName[i]);
+				_txt_name[i].setText((i + 1) + "." + myName[i]);
 			if (myScore[i] > 0)
 				_txt_score[i].setText(myScore[i] + "");
 			else
@@ -402,12 +429,16 @@ public class MenuActivity extends Activity {
 
 	private void creat_dialog_options(Context mContext) {
 		_dialog_options = new Dialog(mContext);
-		_dialog_options.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		_dialog_options.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		_dialog_options.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext).getLayoutInflater();
-		View dialog_view = inflater.inflate(R.layout._altp_layout_dialog_options, null);
+		LayoutInflater inflater = (LayoutInflater) ((Activity) mContext)
+				.getLayoutInflater();
+		View dialog_view = inflater.inflate(
+				R.layout._altp_layout_dialog_options, null);
 		_dialog_options.setContentView(dialog_view);
-		Button btn_oki = (Button) dialog_view.findViewById(R.id._layout_dialog_options_btn_ok);
+		Button btn_oki = (Button) dialog_view
+				.findViewById(R.id._layout_dialog_options_btn_ok);
 		btn_oki.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -422,23 +453,28 @@ public class MenuActivity extends Activity {
 
 	private void creat_dialog_exit(Context mContext) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-		builder.setMessage(getResources().getString(R.string._txt_msg_dialog_exit));
-		builder.setPositiveButton(getResources().getString(R.string._txt_btn_ok), new DialogInterface.OnClickListener() {
+		builder.setMessage(getResources().getString(
+				R.string._txt_msg_dialog_exit));
+		builder.setPositiveButton(getResources()
+				.getString(R.string._txt_btn_ok),
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				finish();
-			}
-		});
-		builder.setNegativeButton(getResources().getString(R.string._txt_btn_cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						finish();
+					}
+				});
+		builder.setNegativeButton(
+				getResources().getString(R.string._txt_btn_cancel),
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
 
-			}
-		});
+					}
+				});
 		builder.create().show();
 	}
 

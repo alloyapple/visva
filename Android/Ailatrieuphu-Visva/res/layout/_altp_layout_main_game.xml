@@ -155,13 +155,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <vn.amobi.util.ads.AmobiAdView
-        android:id="@+id/small_main_menu_adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone" />
-
     <com.google.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
         android:id="@+id/main_adView"
@@ -169,7 +162,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="a1503be3530d135"
+        ads:adUnitId="a152655339774a2"
         android:keepScreenOn="true" />
 
 </RelativeLayout>

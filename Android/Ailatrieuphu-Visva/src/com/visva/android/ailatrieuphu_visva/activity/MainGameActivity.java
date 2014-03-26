@@ -2,10 +2,6 @@ package com.visva.android.ailatrieuphu_visva.activity;
 
 import java.util.Random;
 
-import vn.amobi.util.ads.AdEventInterface;
-import vn.amobi.util.ads.AmobiAdView;
-import vn.amobi.util.ads.AmobiAdView.WidgetSize;
-import vn.amobi.util.ads.notifications.AmobiPushAd;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -40,7 +36,7 @@ import com.visva.android.ailatrieuphu_visva.utils.Constant;
 import com.visva.android.ailatrieuphu_visva.utils.Helpers;
 
 @SuppressWarnings("deprecation")
-public class MainGameActivity extends Activity implements AdEventInterface {
+public class MainGameActivity extends Activity{
 	private static final int ID_DIALOG_CONFIRM_USE_50_50 = 0;
 	private static final int ID_DIALOG_CONFIRM_USE_AUDIENCE = 1;
 	private static final int ID_DIALOG_CONFIRM_USE_CALL = 2;
@@ -119,7 +115,6 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			if (!_is_help_calculating)
 				confirmSelectAnswer(0);
 		}
@@ -129,7 +124,6 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			if (!_is_help_calculating)
 				confirmSelectAnswer(1);
 		}
@@ -138,7 +132,6 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			if (!_is_help_calculating)
 				confirmSelectAnswer(2);
 		}
@@ -147,7 +140,6 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			if (!_is_help_calculating)
 				confirmSelectAnswer(3);
 		}
@@ -157,7 +149,6 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			onClickCancelSaveScore();
 		}
 	};
@@ -230,28 +221,12 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 			_db_conector.openDataBase();
 		}
 
-		// init ads
-		initAmobiAds();
-
 		// Look up the AdView as a resource and load a request.
 		layoutAds = (AdView) this.findViewById(R.id.main_adView);
 		refreshAdsMob();
 
 		new Thread(task_count_down_time).start();
 		toNextQuestion(_level);
-	}
-
-	private void initAmobiAds() {
-		// TODO Auto-generated method stub
-		AmobiAdView adView = (AmobiAdView) findViewById(R.id.small_main_menu_adView);
-		if (adView != null) {
-			adView.setEventListener(this);
-			adView.loadAd(WidgetSize.SMALL);
-			adView.setHideAfterClick(false);
-			adView.scheduleRefresh();
-		}
-		AmobiPushAd pushAd = new AmobiPushAd(this);
-		pushAd.sendRequest();
 	}
 
 	// refresh adsmobs after 30 seconds
@@ -270,6 +245,7 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 				Log.e("refresh ads", "refresh ads");
 				AdRequest adRequest = new AdRequest();
 				adRequest.setTesting(true);
+				adRequest.addTestDevice("F3A6064B3D913A7B7C1DB8113DA82F11");
 				layoutAds.refreshDrawableState();
 				layoutAds.loadAd(adRequest);
 				layoutAds.invalidate();
@@ -897,18 +873,6 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 			break;
 		}
 		return "0";
-	}
-
-	@Override
-	public void onAdViewClose() {
-		// TODO Auto-generated method stub
-		Log.e("onAdViewClose", "maingame");
-	}
-
-	@Override
-	public void onLoadAdError(ErrorCode arg0) {
-		// TODO Auto-generated method stub
-		Log.e("onLoadAdError", "maingame");
 	}
 
 	public void saveScore(String name, int score) {
