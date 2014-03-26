@@ -441,6 +441,7 @@ public class MainGameActivity extends Activity implements AdEventInterface {
 				if (_level == 15 && _correct_answer == _my_answer) {
 					_sound_effect = Helpers.playSound(getContext(), R.raw._altp_sound_win_level_14, false);
 					Helpers.wait_sound(_sound_effect);
+					creat_dialog_save_score(getContext());
 				}
 				if (_correct_answer == _my_answer) {
 					runOnUiThread(new Runnable() {
