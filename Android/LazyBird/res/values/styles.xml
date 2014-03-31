@@ -1,0 +1,11 @@
+<resources>
+    <style name="LazyBird"
+           parent="android:Theme.NoTitleBar">
+        <item name="android:panelFullBackground">@android:color/transparent</item>
+        <item name="android:typeface">normal</item>
+    </style>
+    <style name="LazyBirdDialog"
+           parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>

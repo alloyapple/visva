@@ -1,0 +1,31 @@
+<resources>
+    <color name="text_color_page1">#FF000000</color>
+    <color name="text_color_page2">#FF000000</color>
+    <color name="text_color_page3">#FF102846</color>
+    <color name="text_color_page4">#FF39214A</color>
+    <color name="text_color_page5">#FF2F2E11</color>
+    <color name="text_color_page6">#FF000000</color>
+    <color name="text_color_page7">#FF09312A</color>
+    <color name="text_color_page8">#FF17352C</color>
+    <color name="text_color_page9">#FF3E3E5B</color>
+    <color name="text_color_page10">#FF2F2E11</color>
+    <color name="text_color_page11">#FF11243A</color>
+    <color name="text_color_page12">#FF1D204C</color>
+    <color name="text_color_page13">#FF0C196D</color>
+    <color name="text_color_page14">#FF000000</color>
+    <color name="text_color_page15">#FF000000</color>
+    <color name="text_color_page16">#FF13214B</color>
+    <color name="text_color_page17">#FF213B5D</color>
+    <color name="text_color_page18">#FF071323</color>
+    <color name="text_color_page19">#FF000000</color>
+    <color name="text_color_page20">#FF0F191E</color>
+    <color name="text_color_page21">#FF15232B</color>
+    <color name="text_color_page22">#FFBFF7F7</color>
+    <color name="text_color_page23">#FF262421</color>
+    <color name="text_color_page24">#FF0C2504</color>
+    <color name="text_color_page25">#FF003A23</color>
+    <color name="text_color_page26">#FF000000</color>
+    <color name="text_color_page27">#FF2D2810</color>
+    <color name="text_color_page28">#FF000000</color>
+    <color name="text_color_page29">#FFFFC885</color>
+</resources>

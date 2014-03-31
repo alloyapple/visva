@@ -1,0 +1,1262 @@
+<resources>
+	<integer name="frame_x_page1">410</integer>
+	<integer name="frame_y_page1">16</integer>
+	<integer name="frame_x_page2">15</integer>
+	<integer name="frame_y_page2">56</integer>
+	<integer name="frame_x_page3">463</integer>
+	<integer name="frame_y_page3">27</integer>
+	<integer name="frame_x_page4">8</integer>
+	<integer name="frame_y_page4">35</integer>
+	<integer name="frame_x_page5">378</integer>
+	<integer name="frame_y_page5">527</integer>
+	<integer name="frame_x_page6">589</integer>
+	<integer name="frame_y_page6">101</integer>
+	<integer name="frame_x_page7">19</integer>
+	<integer name="frame_y_page7">119</integer>
+	<integer name="frame_x_page8">607</integer>
+	<integer name="frame_y_page8">71</integer>
+	<integer name="frame_x_page9">41</integer>
+	<integer name="frame_y_page9">424</integer>
+	<integer name="frame_x_page10">520</integer>
+	<integer name="frame_y_page10">136</integer>
+	<integer name="frame_x_page11">185</integer>
+	<integer name="frame_y_page11">27</integer>
+	<integer name="frame_x_page12">17</integer>
+	<integer name="frame_y_page12">26</integer>
+	<integer name="frame_x_page13">142</integer>
+	<integer name="frame_y_page13">529</integer>
+	<integer name="frame_x_page14">106</integer>
+	<integer name="frame_y_page14">15</integer>
+	<integer name="frame_x_page15">501</integer>
+	<integer name="frame_y_page15">90</integer>
+	<integer name="frame_x_page16">530</integer>
+	<integer name="frame_y_page16">145</integer>
+	<integer name="frame_x_page17">18</integer>
+	<integer name="frame_y_page17">27</integer>
+	<integer name="frame_x_page18">413</integer>
+	<integer name="frame_y_page18">19</integer>
+	<integer name="frame_x_page19">273</integer>
+	<integer name="frame_y_page19">16</integer>
+	<integer name="frame_x_page20">587</integer>
+	<integer name="frame_y_page20">230</integer>
+	<integer name="frame_x_page21">19</integer>
+	<integer name="frame_y_page21">462</integer>
+	<integer name="frame_x_page22">582</integer>
+	<integer name="frame_y_page22">368</integer>
+	<integer name="frame_x_page23">20</integer>
+	<integer name="frame_y_page23">19</integer>
+	<integer name="frame_x_page24">17</integer>
+	<integer name="frame_y_page24">139</integer>
+	<integer name="frame_x_page25">317</integer>
+	<integer name="frame_y_page25">15</integer>
+	<integer name="frame_x_page26">620</integer>
+	<integer name="frame_y_page26">53</integer>
+	<integer name="frame_x_page27">15</integer>
+	<integer name="frame_y_page27">320</integer>
+	<integer name="frame_x_page28">19</integer>
+	<integer name="frame_y_page28">544</integer>
+	<integer name="frame_x_page29">176</integer>
+	<integer name="frame_y_page29">650</integer>
+	<integer-array name="x_page1">
+		<item>0</item>
+		<item>6</item>
+		<item>14</item>
+		<item>31</item>
+		<item>54</item>
+		<item>168</item>
+	</integer-array>
+	<integer-array name="y_page1">
+		<item>0</item>
+		<item>35</item>
+		<item>70</item>
+		<item>105</item>
+		<item>140</item>
+		<item>177</item>
+	</integer-array>
+	<integer-array name="x_page2">
+		<item>0</item>
+		<item>18</item>
+		<item>42</item>
+		<item>74</item>
+		<item>144</item>
+	</integer-array>
+	<integer-array name="y_page2">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>113</item>
+		<item>150</item>
+	</integer-array>
+	<integer-array name="x_page3">
+		<item>0</item>
+		<item>6</item>
+		<item>19</item>
+		<item>18</item>
+		<item>42</item>
+		<item>77</item>
+		<item>112</item>
+		<item>144</item>
+	</integer-array>
+	<integer-array name="y_page3">
+		<item>0</item>
+		<item>36</item>
+		<item>72</item>
+		<item>111</item>
+		<item>150</item>
+		<item>187</item>
+		<item>223</item>
+		<item>260</item>
+	</integer-array>
+	<integer-array name="x_page4">
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>0</item>
+		<item>8</item>
+		<item>81</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>16</item>
+		<item>72</item>
+	</integer-array>
+	<integer-array name="y_page4">
+		<item>0</item>
+		<item>35</item>
+		<item>70</item>
+		<item>105</item>
+		<item>140</item>
+		<item>175</item>
+		<item>210</item>
+		<item>245</item>
+		<item>281</item>
+		<item>350</item>
+		<item>385</item>
+		<item>420</item>
+		<item>455</item>
+		<item>490</item>
+		<item>525</item>
+		<item>560</item>
+	</integer-array>
+	<integer-array name="x_page5">
+		<item>2</item>
+		<item>26</item>
+		<item>45</item>
+		<item>62</item>
+		<item>80</item>
+		<item>179</item>
+	</integer-array>
+	<integer-array name="y_page5">
+		<item>0</item>
+		<item>39</item>
+		<item>76</item>
+		<item>113</item>
+		<item>149</item>
+		<item>188</item>
+	</integer-array>
+	<integer-array name="x_page6">
+		<item>40</item>
+		<item>122</item>
+		<item>23</item>
+		<item>23</item>
+		<item>23</item>
+		<item>23</item>
+		<item>23</item>
+		<item>23</item>
+		<item>106</item>
+		<item>165</item>
+	</integer-array>
+	<integer-array name="y_page6">
+		<item>0</item>
+		<item>39</item>
+		<item>112</item>
+		<item>150</item>
+		<item>187</item>
+		<item>226</item>
+		<item>264</item>
+		<item>338</item>
+		<item>375</item>
+		<item>414</item>
+	</integer-array>
+	<integer-array name="x_page7">
+		<item>8</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>40</item>
+		<item>117</item>
+	</integer-array>
+	<integer-array name="y_page7">
+		<item>0</item>
+		<item>38</item>
+		<item>76</item>
+		<item>113</item>
+		<item>150</item>
+		<item>188</item>
+		<item>226</item>
+		<item>263</item>
+		<item>300</item>
+		<item>338</item>
+		<item>376</item>
+		<item>415</item>
+	</integer-array>
+	<integer-array name="x_page8">
+		<item>112</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>24</item>
+		<item>112</item>
+	</integer-array>
+	<integer-array name="y_page8">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>111</item>
+		<item>148</item>
+		<item>185</item>
+		<item>222</item>
+		<item>259</item>
+		<item>296</item>
+		<item>333</item>
+	</integer-array>
+	<integer-array name="x_page9">
+		<item>72</item>
+		<item>0</item>
+		<item>72</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>80</item>
+		<item>224</item>
+	</integer-array>
+	<integer-array name="y_page9">
+		<item>0</item>
+		<item>36</item>
+		<item>72</item>
+		<item>108</item>
+		<item>145</item>
+		<item>182</item>
+		<item>220</item>
+		<item>259</item>
+		<item>296</item>
+	</integer-array>
+	<integer-array name="x_page10">
+		<item>0</item>
+		<item>40</item>
+		<item>56</item>
+		<item>56</item>
+		<item>56</item>
+		<item>56</item>
+		<item>56</item>
+		<item>56</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="y_page10">
+		<item>0</item>
+		<item>37</item>
+		<item>111</item>
+		<item>148</item>
+		<item>185</item>
+		<item>224</item>
+		<item>260</item>
+		<item>299</item>
+		<item>373</item>
+		<item>410</item>
+		<item>448</item>
+	</integer-array>
+	<integer-array name="x_page11">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="y_page11">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>111</item>
+		<item>148</item>
+	</integer-array>
+	<integer-array name="x_page12">
+		<item>120</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>48</item>
+		<item>32</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>32</item>
+	</integer-array>
+	<integer-array name="y_page12">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>111</item>
+		<item>148</item>
+		<item>185</item>
+		<item>221</item>
+		<item>296</item>
+		<item>333</item>
+		<item>372</item>
+		<item>409</item>
+		<item>447</item>
+		<item>484</item>
+		<item>521</item>
+		<item>559</item>
+	</integer-array>
+	<integer-array name="x_page13">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>240</item>
+	</integer-array>
+	<integer-array name="y_page13">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>111</item>
+		<item>148</item>
+		<item>185</item>
+	</integer-array>
+	<integer-array name="x_page14">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>328</item>
+		<item>328</item>
+		<item>328</item>
+		<item>264</item>
+		<item>256</item>
+		<item>256</item>
+		<item>240</item>
+		<item>384</item>
+	</integer-array>
+	<integer-array name="y_page14">
+		<item>0</item>
+		<item>34</item>
+		<item>72</item>
+		<item>111</item>
+		<item>147</item>
+		<item>186</item>
+		<item>223</item>
+		<item>262</item>
+		<item>299</item>
+		<item>336</item>
+		<item>375</item>
+	</integer-array>
+	<integer-array name="x_page15">
+		<item>160</item>
+		<item>96</item>
+		<item>40</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>8</item>
+		<item>8</item>
+		<item>16</item>
+		<item>176</item>
+	</integer-array>
+	<integer-array name="y_page15">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>111</item>
+		<item>148</item>
+		<item>185</item>
+		<item>224</item>
+		<item>264</item>
+		<item>298</item>
+		<item>336</item>
+		<item>376</item>
+	</integer-array>
+	<integer-array name="x_page16">
+		<item>80</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="y_page16">
+		<item>0</item>
+		<item>35</item>
+		<item>72</item>
+		<item>109</item>
+		<item>146</item>
+		<item>183</item>
+		<item>220</item>
+		<item>259</item>
+		<item>297</item>
+		<item>335</item>
+		<item>373</item>
+		<item>413</item>
+	</integer-array>
+	<integer-array name="x_page17">
+		<item>152</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>8</item>
+		<item>80</item>
+	</integer-array>
+	<integer-array name="y_page17">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>111</item>
+		<item>148</item>
+		<item>185</item>
+		<item>222</item>
+		<item>258</item>
+		<item>294</item>
+		<item>330</item>
+		<item>363</item>
+		<item>401</item>
+		<item>436</item>
+		<item>473</item>
+		<item>509</item>
+		<item>545</item>
+		<item>581</item>
+		<item>618</item>
+		<item>655</item>
+		<item>695</item>
+	</integer-array>
+	<integer-array name="x_page18">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>8</item>
+		<item>0</item>
+		<item>72</item>
+		<item>72</item>
+		<item>72</item>
+		<item>72</item>
+		<item>72</item>
+		<item>72</item>
+		<item>72</item>
+	</integer-array>
+	<integer-array name="y_page18">
+		<item>0</item>
+		<item>35</item>
+		<item>71</item>
+		<item>108</item>
+		<item>145</item>
+		<item>181</item>
+		<item>217</item>
+		<item>253</item>
+		<item>290</item>
+		<item>327</item>
+		<item>364</item>
+		<item>400</item>
+	</integer-array>
+	<integer-array name="x_page19">
+		<item>16</item>
+		<item>16</item>
+		<item>40</item>
+		<item>88</item>
+		<item>420</item>
+		<item>378</item>
+		<item>342</item>
+		<item>359</item>
+		<item>351</item>
+		<item>350</item>
+		<item>350</item>
+		<item>351</item>
+		<item>385</item>
+	</integer-array>
+	<integer-array name="y_page19">
+		<item>0</item>
+		<item>36</item>
+		<item>75</item>
+		<item>112</item>
+		<item>388</item>
+		<item>425</item>
+		<item>463</item>
+		<item>500</item>
+		<item>535</item>
+		<item>574</item>
+		<item>612</item>
+		<item>648</item>
+		<item>689</item>
+	</integer-array>
+	<integer-array name="x_page20">
+		<item>64</item>
+		<item>40</item>
+		<item>16</item>
+		<item>128</item>
+		<item>0</item>
+		<item>0</item>
+		<item>40</item>
+		<item>0</item>
+		<item>0</item>
+		<item>32</item>
+		<item>48</item>
+		<item>48</item>
+		<item>72</item>
+		<item>120</item>
+	</integer-array>
+	<integer-array name="y_page20">
+		<item>0</item>
+		<item>36</item>
+		<item>73</item>
+		<item>110</item>
+		<item>149</item>
+		<item>189</item>
+		<item>228</item>
+		<item>261</item>
+		<item>298</item>
+		<item>336</item>
+		<item>373</item>
+		<item>411</item>
+		<item>449</item>
+		<item>487</item>
+	</integer-array>
+	<integer-array name="x_page21">
+		<item>216</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>760</item>
+		<item>0</item>
+		<item>752</item>
+		<item>0</item>
+		<item>640</item>
+		<item>224</item>
+	</integer-array>
+	<integer-array name="y_page21">
+		<item>0</item>
+		<item>36</item>
+		<item>72</item>
+		<item>108</item>
+		<item>144</item>
+		<item>144</item>
+		<item>180</item>
+		<item>180</item>
+		<item>218</item>
+		<item>218</item>
+		<item>254</item>
+	</integer-array>
+	<integer-array name="x_page22">
+		<item>48</item>
+		<item>16</item>
+		<item> 0</item>
+		<item> 0</item>
+		<item> 0</item>
+		<item> 0</item>
+		<item> 0</item>
+		<item> 0</item>
+		<item>80</item>
+	</integer-array>
+	<integer-array name="y_page22">
+		<item>0</item>
+		<item>36</item>
+		<item>73</item>
+		<item>111</item>
+		<item>148</item>
+		<item>185</item>
+		<item>224</item>
+		<item>260</item>
+		<item>299</item>
+	</integer-array>
+	<integer-array name="x_page23">
+		<item>32</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>64</item>
+	</integer-array>
+	<integer-array name="y_page23">
+		<item>0</item>
+		<item>37</item>
+		<item>74</item>
+		<item>111</item>
+		<item>148</item>
+		<item>188</item>
+	</integer-array>
+	<integer-array name="x_page24">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="y_page24">
+		<item>0</item>
+		<item>35</item>
+		<item>73</item>
+		<item>109</item>
+		<item>147</item>
+		<item>182</item>
+		<item>226</item>
+		<item>260</item>
+		<item>298</item>
+	</integer-array>
+	<integer-array name="x_page25">
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>8</item>
+		<item>48</item>
+		<item>112</item>
+		<item>192</item>
+	</integer-array>
+	<integer-array name="y_page25">
+		<item>0</item>
+		<item>35</item>
+		<item>71</item>
+		<item>108</item>
+		<item>145</item>
+		<item>183</item>
+		<item>223</item>
+		<item>260</item>
+		<item>296</item>
+	</integer-array>
+	<integer-array name="x_page26">
+		<item>64</item>
+		<item>48</item>
+		<item>16</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>8</item>
+		<item>16</item>
+		<item>30</item>
+		<item>46</item>
+		<item>54</item>
+	</integer-array>
+	<integer-array name="y_page26">
+		<item>0</item>
+		<item>35</item>
+		<item>72</item>
+		<item>110</item>
+		<item>150</item>
+		<item>185</item>
+		<item>223</item>
+		<item>261</item>
+		<item>298</item>
+		<item>335</item>
+		<item>373</item>
+	</integer-array>
+	<integer-array name="x_page27">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>446</item>
+		<item>704</item>
+		<item>472</item>
+		<item>688</item>
+		<item>498</item>
+		<item>425</item>
+		<item>398</item>
+	</integer-array>
+	<integer-array name="y_page27">
+		<item>0</item>
+		<item>35</item>
+		<item>71</item>
+		<item>109</item>
+		<item>146</item>
+		<item>184</item>
+		<item>219</item>
+		<item>258</item>
+		<item>298</item>
+		<item>334</item>
+		<item>260</item>
+		<item>260</item>
+		<item>297</item>
+		<item>297</item>
+		<item>335</item>
+		<item>372</item>
+		<item>410</item>
+	</integer-array>
+	<integer-array name="x_page28">
+		<item>128</item>
+		<item>0</item>
+		<item>808</item>
+		<item>0</item>
+		<item>800</item>
+		<item>0</item>
+		<item>0</item>
+		<item>216</item>
+	</integer-array>
+	<integer-array name="y_page28">
+		<item>0</item>
+		<item>35</item>
+		<item>35</item>
+		<item>72</item>
+		<item>72</item>
+		<item>109</item>
+		<item>147</item>
+		<item>185</item>
+	</integer-array>
+	<integer-array name="x_page29">
+		<item>0</item>
+	</integer-array>
+	<integer-array name="y_page29">
+		<item>0</item>
+	</integer-array>
+	<!-- data sound touch -->
+	<integer-array name="sound_id_page1">
+		<item>0</item>
+		<item>1</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page2">
+		<item>0</item>
+		<item>2</item>
+	</integer-array>
+	<integer-array name="sound_id_page3">
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page4">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page5">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page6">
+		<item>0</item>
+		<item>3</item>
+	</integer-array>
+	<integer-array name="sound_id_page7">
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page8">
+		<item>0</item>
+		<item>4</item>
+	</integer-array>
+	<integer-array name="sound_id_page9">
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page10">
+		<item>5</item>
+	</integer-array>
+	<integer-array name="sound_id_page11">
+		<item>0</item>
+		<item>6</item>
+	</integer-array>
+	<integer-array name="sound_id_page12">
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page13">
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page14">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page15">
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page16">
+		<item>7</item>
+	</integer-array>
+	<integer-array name="sound_id_page17">
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page18">
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page19">
+		<item>8</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page20">
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page21">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page22">
+		<item>9</item>
+	</integer-array>
+	<integer-array name="sound_id_page23">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page24">
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page25">
+		<item>0</item>
+		<item>10</item>
+		<item>11</item>
+	</integer-array>
+	<integer-array name="sound_id_page26">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page27">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page28">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<integer-array name="sound_id_page29">
+		<item>0</item>
+		<item>0</item>
+		<item>0</item>
+	</integer-array>
+	<string-array name="touch_area_page1">
+		<item>253 188 394 366;328 336 643 525</item>
+		<item>0 328 142 537</item>
+		<item>157 633 272 767;312 538 434 689</item>
+	</string-array>
+	<string-array name="touch_area_page2">
+		<item>685 0 827 264;608 264 867 570</item>
+		<item>867 347 1207 582;390 378 598 576;139 475 385 653</item>
+	</string-array>
+	<string-array name="touch_area_page3">
+		<item>114 72 574 760</item>
+	</string-array>
+	<string-array name="touch_area_page4">
+		<item>390 80 570 426</item>
+		<item>727 415 913 572</item>
+		<item>808 192 996 414</item>
+	</string-array>
+	<string-array name="touch_area_page5">
+		<item>660 68 886 268;366 260 744 482</item>
+		<item>796 310 892 482</item>
+		<item>892 254 975 406</item>
+	</string-array>
+	<string-array name="touch_area_page6">
+		<item>74 290 380 767</item>
+		<item>471 410 652 632;459 124 592 318;266 53 461 221;46 141 164 262
+		</item>
+	</string-array>
+	<string-array name="touch_area_page7">
+		<item>560 0 712 272;466 247 794 626</item>
+	</string-array>
+	<string-array name="touch_area_page8">
+		<item>478 120 648 378;406 378 648 675</item>
+		<item>0 272 128 545;233 104 344 312;175 331 350 502;366 250 485 346
+		</item>
+	</string-array>
+	<string-array name="touch_area_page9">
+		<item>274 93 764 324</item>
+		<item>90 0 183 153</item>
+	</string-array>
+	<string-array name="touch_area_page10">
+		<item>144 144 260 336;70 336 347 643</item>
+	</string-array>
+	<string-array name="touch_area_page11">
+		<item>887 318 1027 767;720 529 887 652</item>
+		<item>0 300 672 624</item>
+	</string-array>
+	<string-array name="touch_area_page12">
+		<item>586 30 727 208;526 208 708 388</item>
+		<item>507 598 613 713</item>
+	</string-array>
+	<string-array name="touch_area_page13">
+		<item>144 125 275 237;183 235 470 430</item>
+	</string-array>
+	<string-array name="touch_area_page14">
+		<item>215 113 370 352;269 253 323 572</item>
+		<item>831 252 1002 660</item>
+		<item>592 453 796 643</item>
+	</string-array>
+	<string-array name="touch_area_page15">
+		<item>136 137 613 660</item>
+	</string-array>
+	<string-array name="touch_area_page16">
+		<item>160 0 450 240;0 240 455 690</item>
+	</string-array>
+	<string-array name="touch_area_page17">
+		<item>521 73 697 375;440 375 850 655</item>
+	</string-array>
+	<string-array name="touch_area_page18">
+		<item>35 140 207 382;218 382 402 458;0 35 278 710</item>
+		<item>222 130 418 364;278 483 435 633</item>
+	</string-array>
+	<string-array name="touch_area_page19">
+		<item>154 64 368 483</item>
+		<item>370 398 511 665</item>
+		<item>579 250 690 464;727 230 818 406</item>
+	</string-array>
+	<string-array name="touch_area_page20">
+		<item>358 58 508 362;175 334 437 516;447 307 613 593</item>
+	</string-array>
+	<string-array name="touch_area_page21">
+		<item>597 113 770 378;556 378 696 724;304 335 954 600</item>
+		<item>0 115 304 467</item>
+	</string-array>
+	<string-array name="touch_area_page22">
+		<item>89 367 334 656</item>
+	</string-array>
+	<string-array name="touch_area_page23">
+		<item>336 314 640 613</item>
+		<item>89 451 251 761</item>
+		<item>700 407 949 595</item>
+	</string-array>
+	<string-array name="touch_area_page24">
+		<item>570 100 912 692</item>
+		<item>399 66 560 300</item>
+	</string-array>
+	<string-array name="touch_area_page25">
+		<item>137 117 318 450</item>
+		<item>400 494 810 670</item>
+	</string-array>
+	<string-array name="touch_area_page26">
+		<item>196 0 502 355;220 355 460 550;125 540 490 767</item>
+		<item>14 446 130 580</item>
+		<item>540 390 732 554</item>
+	</string-array>
+	<string-array name="touch_area_page27">
+		<item>335 5 507 497</item>
+		<item>590 200 712 368</item>
+		<item>705 327 788 570</item>
+		<item>538 394 672 616</item>
+	</string-array>
+	<string-array name="touch_area_page28">
+		<item>632 196 907 410;415 355 749 501;650 445 836 696</item>
+		<item>207 216 417 445;94 200 208 363</item>
+		<item>140 368 239 545</item>
+	</string-array>
+	<string-array name="touch_area_page29">
+		<item>290 34 578 342;316 342 560 435</item>
+		<item>550 156 760 565</item>
+		<item>232 346 378 638</item>
+	</string-array>
+	<!-- text pop up on each page -->
+    <string-array name="text_page1">
+        <item>75 115 370 60</item>
+        <item>0 265 225 60</item>
+        <item>50 510 225 60</item>
+    </string-array>
+    <string-array name="text_page2">
+        <item>315 255 360 60 </item>
+    </string-array>
+    <string-array name="text_page3">
+        <item>0 95 345 60</item>
+    </string-array>
+    <string-array name="text_page4">
+        <item>490 40 245 60</item>
+        <item>720 520 285 60</item>
+        <item>625 242 225 60</item>
+    </string-array>
+    <string-array name="text_page5">
+        <item>470 55 196 60</item>
+        <item>610 425 350 60</item>
+        <item>615 185 410 60</item>
+    </string-array>
+    <string-array name="text_page6">
+        <item>310 255 290 60</item>
+        <item>465 10 245 60</item>
+    </string-array>
+    <string-array name="text_page7">
+        <item>325 30 320 60</item>
+    </string-array>
+    <string-array name="text_page8">
+        <item>255 80 315 60</item>
+    </string-array>
+    <string-array name="text_page9">
+        <item>625 285 375 60</item>
+        <item>150 70 175 60</item>
+    </string-array>
+    <string-array name="text_page10">
+        <item>290 60 140 60</item>
+    </string-array>
+    <string-array name="text_page11">
+        <item>655 340 265 60</item>
+    </string-array>
+    <string-array name="text_page12">
+        <item>815 40 175 60</item>
+        <item>620 510 360 60</item>
+    </string-array>
+    <string-array name="text_page13">
+        <item>325 25 185 60</item>
+    </string-array>
+    <string-array name="text_page14">
+        <item>0 80 370 60</item>
+        <item>555 135 305 60</item>
+        <item>210 410 325 60</item>
+    </string-array>
+    <string-array name="text_page15">
+        <item>270 125 265 60</item>
+    </string-array>
+    <string-array name="text_page16">
+        <item>456 60 312 60</item>
+    </string-array>
+    <string-array name="text_page17">
+        <item>625 40 375 60</item>
+    </string-array>
+    <string-array name="text_page18">
+        <item>165 465 340 60</item>
+        <item>100 20 300 60</item>
+    </string-array>
+    <string-array name="text_page19">
+        <item>200 30 445 60</item>
+        <item>420 350 250 60</item>
+        <item>425 145 450 60</item>
+    </string-array>
+    <string-array name="text_page20">
+        <item>485 20 390 60</item>
+    </string-array>
+    <string-array name="text_page21">
+        <item>390 320 270 60</item>
+        <item>135 20 295 60</item>
+    </string-array>
+    <string-array name="text_page22"></string-array>
+    <string-array name="text_page23">
+        <item>510 290 250 60</item>
+        <item>185 645 215 60</item>
+        <item>695 486 240 60</item>
+    </string-array>
+    <string-array name="text_page24">
+        <item>685 395 315 60</item>
+        <item>135 55 365 60</item>
+    </string-array>
+    <string-array name="text_page25">
+        <item>25 45 148 60</item>
+        <item>405 400 273 60</item>
+    </string-array>
+    <string-array name="text_page26">
+        <item>35 65 235 60</item>
+    </string-array>
+    <string-array name="text_page27">
+        <item>115 32 245 60</item>
+        <item>720 165 230 60</item>
+        <item>705 405 290 60</item>
+        <item>345 525 420 60</item>
+    </string-array>
+    <string-array name="text_page28">
+        <item>528 135 372 60</item>
+        <item>172 142 342 60</item>
+        <item>160 542 266 60</item>
+    </string-array>
+    <string-array name="text_page29">
+        <item>118 22 240 60</item>
+        <item>590 80 320 60</item>
+        <item>32 250 303 60</item>
+    </string-array>
+	<!--animation blink eyes -->
+	<string-array name="anim_page1">
+		<item>265 230 126 71</item>
+		<item>310 540 58 33</item>
+	</string-array>
+	<string-array name="anim_page2">
+		<item>680 60 108 79</item>
+		<item>540 390 61 45</item>
+		<item>945 450 41 46</item>
+	</string-array>
+	<string-array name="anim_page3">
+		<item>240 205 218 171</item>
+	</string-array>
+	<string-array name="anim_page4">
+		<item>865 285 69 64</item>
+		<item>405 185 85 50</item>
+	</string-array>
+	<string-array name="anim_page5">
+		<item>895 245 40 39</item>
+		<item>725 110 79 84</item>
+	</string-array>
+	<string-array name="anim_page6">
+		<item>500 420 55 45</item>
+		<item>265 345 99 108</item>
+		<item>405 75 40 25</item>
+	</string-array>
+	<string-array name="anim_page7">
+		<item>835 280 60 48</item>
+		<item>595 100 104 62</item>
+	</string-array>
+	<string-array name="anim_page8">
+		<item>500 195 37 51</item>
+		<item>280 120 50 43</item>
+	</string-array>
+	<string-array name="anim_page9">
+		<item>625 190 45 69</item>
+	</string-array>
+	<string-array name="anim_page10">
+		<item>170 230 91 61</item>
+	</string-array>
+	<string-array name="anim_page11">
+		<item>875 460 99 99</item>
+	</string-array>
+	<string-array name="anim_page12">
+		<item>675 55 56 60</item>
+	</string-array>
+	<string-array name="anim_page13">
+		<item>180 165 26 35</item>
+	</string-array>
+	<string-array name="anim_page14">
+		<item>575 495 83 50</item>
+		<item>820 285 85 55</item>
+		<item>295 205 36 41</item>
+	</string-array>
+	<string-array name="anim_page15">
+		<item>170 245 45 58</item>
+	</string-array>
+	<string-array name="anim_page16">
+		<item>250 0 117 66</item>
+	</string-array>
+	<string-array name="anim_page17">
+		<item>550 150 106 69</item>
+	</string-array>
+	<string-array name="anim_page18">
+		<item>100 210 101 70</item>
+		<item>340 185 69 25</item>
+	</string-array>
+	<string-array name="anim_page19">
+		<item>180 130 85 58</item>
+		<item>425 620 172 87</item>
+		<item>750 244 40 20</item>
+	</string-array>
+	<string-array name="anim_page20">
+		<item>354 150 107 76</item>
+	</string-array>
+	<string-array name="anim_page21">
+		<item>634 165 46 56</item>
+		<item>190 160 45 35</item>
+		<item>160 188 47 36</item>
+	</string-array>
+	<string-array name="anim_page22">
+	</string-array>
+	<string-array name="anim_page23">
+		<item>360 355 70 56</item>
+	</string-array>
+	<string-array name="anim_page24">
+		<item>570 175 114 94</item>
+	</string-array>
+	<string-array name="anim_page25">
+		<item>180 200 94 58</item>
+	</string-array>
+	<string-array name="anim_page26">
+		<item>254 158 275 159</item>
+		<item>65 360 28 32</item>
+		<item>565 258 42 53</item>
+	</string-array>
+	<string-array name="anim_page27">
+		<item>350 80 100 60</item>
+		<item>660 210 45 47</item>
+		<item>624 408 26 30</item>
+	</string-array>
+	<string-array name="anim_page28">
+		<item>754 235 66 67</item>
+		<item>88 266 98 54</item>
+		<item>160 380 50 41</item>
+	</string-array>
+	<string-array name="anim_page29">
+		<item>666 430 50 53</item>
+		<item>280 105 144 108</item>
+		<item>615 260 81 52</item>
+	</string-array>
+    <string name="pivot_zoom_page4">488 298</string>
+    <string name="pivot_zoom_page6">303 180</string>
+    <string name="pivot_zoom_page8">196 263</string>
+    <string name="pivot_zoom_page14">519 363</string>
+    <string name="pivot_zoom_page22">260 384</string>
+    <string name="pivot_zoom_page25">164 206</string>
+	<integer name="is_zoom_page1">0</integer>
+	<integer name="is_zoom_page2">0</integer>
+	<integer name="is_zoom_page3">0</integer>
+	<integer name="is_zoom_page4">1</integer>
+	<integer name="is_zoom_page5">0</integer>
+	<integer name="is_zoom_page6">1</integer>
+	<integer name="is_zoom_page7">0</integer>
+	<integer name="is_zoom_page8">1</integer>
+	<integer name="is_zoom_page9">0</integer>
+	<integer name="is_zoom_page10">0</integer>
+	<integer name="is_zoom_page11">0</integer>
+	<integer name="is_zoom_page12">0</integer>
+	<integer name="is_zoom_page13">0</integer>
+	<integer name="is_zoom_page14">1</integer>
+	<integer name="is_zoom_page15">0</integer>
+	<integer name="is_zoom_page16">0</integer>
+	<integer name="is_zoom_page17">0</integer>
+	<integer name="is_zoom_page18">0</integer>
+	<integer name="is_zoom_page19">0</integer>
+	<integer name="is_zoom_page20">0</integer>
+	<integer name="is_zoom_page21">0</integer>
+	<integer name="is_zoom_page22">1</integer>
+	<integer name="is_zoom_page23">0</integer>
+	<integer name="is_zoom_page24">0</integer>
+	<integer name="is_zoom_page25">1</integer>
+	<integer name="is_zoom_page26">0</integer>
+	<integer name="is_zoom_page27">0</integer>
+	<integer name="is_zoom_page28">0</integer>
+	<integer name="is_zoom_page29">0</integer>
+</resources>

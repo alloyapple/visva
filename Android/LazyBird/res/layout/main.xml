@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@drawable/bg_main_menu">
+	<ImageButton android:id="@+id/btn_readToMe"
+		android:layout_width="105dp" android:layout_height="30dp"
+		android:layout_marginRight="5dp" android:layout_alignParentRight="true"
+		android:layout_marginTop="40dp" android:background="@drawable/btn_read_state" />
+	<ImageButton android:id="@+id/btn_readMyself"
+		android:layout_width="90dp" android:layout_height="55dp"
+		android:layout_alignParentRight="true" android:layout_below="@id/btn_readToMe"
+		android:layout_marginTop="47dp" android:layout_marginRight="22dp"
+		android:background="@drawable/btn_read_myself_state" />
+	<ImageButton android:id="@+id/btn_moreStories"
+		android:layout_width="80dp" android:layout_height="48dp"
+		android:layout_alignParentRight="true" android:layout_below="@id/btn_readMyself"
+		android:layout_marginTop="5dp" android:layout_marginRight="4dp"
+		android:background="@drawable/btn_more_story" />
+	<ImageButton android:id="@+id/btn_record"
+		android:layout_width="120dp" android:layout_height="40dp"
+		android:layout_marginRight="10dp" android:layout_alignParentRight="true"
+		android:layout_below="@id/btn_readMyself" android:layout_marginTop="74dp"
+		android:background="@drawable/btn_record_main_menu_state" />
+	<ImageButton android:id="@+id/btn_info"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginTop="5dp"
+	    android:background="@drawable/btn_info"
+	    android:layout_width="30dp"
+	    android:layout_height="30dp"/>
+</RelativeLayout>
+

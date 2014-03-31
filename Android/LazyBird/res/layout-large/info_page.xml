@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_info_page" >
+
+    <ImageView
+        android:id="@+id/id_text_the_end"
+        android:layout_width="129dp"
+        android:layout_height="39dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="35dip"
+        android:background="@drawable/btn_text_the_end" >
+    </ImageView>
+
+    <ImageButton
+        android:id="@+id/btn_ifp_house"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/btn_house" />
+
+    <ImageButton
+        android:id="@+id/btn_ifp_back"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/btn_drawable_ifp_back" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center"
+        android:layout_marginBottom="50dp"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/id_btn_review"
+                android:layout_width="117dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center|center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_drawable_review" >
+            </Button>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/id_btn_tell_a_friend"
+                android:layout_width="117dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center|center"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_drawable_tell_a_friend" >
+            </Button>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/id_btn_feedback"
+                android:layout_width="117dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center|center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_drawable_feedback" >
+            </Button>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/id_btn_more_ifp_stories"
+                android:layout_width="117dp"
+                android:layout_height="36dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center|center"
+                android:background="@drawable/btn_drawable_more_stories" >
+            </Button>
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>

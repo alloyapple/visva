@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Lazy Bird</string>
+	<string name="font_name_default">Papyrus</string>
+	<string name="font_name_times">times</string>
+	<string name="font_name_page14">MyriadPro-Regular</string>
+	<string-array name="str_page1">
+		<item>Hi everyone!</item>
+		<item>My name is Frank, but my flock calls me</item>
+		<item>the Lazy Bird. Honestly, I don\'t know why.</item>
+		<item>I guess they think that I don\'t like to do</item>
+		<item>things on my own, and I am much bigger</item>
+		<item>than everyone else.</item>
+	</string-array>
+	<string-array name="str_page2">
+		<item>Really, I am a very kind and soft</item>
+		<item>creature who will never lie or trick anyone.</item>
+		<item>I guess I just got used to this name,</item>
+		<item>and you guys may call me</item>
+		<item>the Lazy Bird too</item>
+	</string-array>
+	<string-array name="str_page3">
+		<item>I would like to tell you a story</item>
+		<item>which happened to me recently.</item>
+		<item>No one should know this, but you.</item>
+		<item>Deal? It absolutely changed my life.</item>
+		<item>In our flock, we say,</item>
+		<item>It was a real turnover</item>
+		<item>from the stinky feet</item>
+		<item>to the bright head.</item>
+	</string-array>
+	<string-array name="str_page4">
+		<item>It all started when</item>
+		<item>our entire flock</item>
+		<item>decided to fly to Hawaii.</item>
+		<item>You know the process</item>
+		<item>of packing suitcases,</item>
+		<item>towels, and swimsuits can</item>
+		<item>be very-very overwhelming,</item>
+		<item>and it takes such a long</item>
+		<item>time to boot.</item>
+		<item>My great idea was to give</item>
+		<item>a bag of candy to one of</item>
+		<item>my neighbors, and have</item>
+		<item>him pack my bag for me.</item>
+		<item>There is nothing wrong</item>
+		<item>with getting a little</item>
+		<item>help, right?</item>
+	</string-array>
+	<string-array name="str_page5">
+		<item>At the end of this tiring process of</item>
+		<item>watching him pack, I ended up with</item>
+		<item>the biggest suitcase in the history of</item>
+		<item>the whole flock, but I didn’t know this</item>
+		<item>until everybody burst out laughing.</item>
+		<item>It was embarrassing.</item>
+	</string-array>
+	<string-array name="str_page6">
+		<item>\"Do I have something on</item>
+		<item>my head?\"</item>
+		<item>I asked the other birds</item>
+		<item>as I was running around</item>
+		<item>looking for a brush.</item>
+		<item>\"Is something wrong with</item>
+		<item>my feathers?\"</item>
+		<item>But they were still laughing</item>
+		<item>and making funny</item>
+		<item>faces at me.</item>
+	</string-array>
+	<string-array name="str_page7">
+		<item>\"Ooh, I know! Now I get it!</item>
+		<item>It must be my T-shirt.</item>
+		<item>It is not good enough</item>
+		<item>for this trip. I need brighter</item>
+		<item>colors. Wait for a moment.</item>
+		<item>Don\’t worry. Everyone\’s</item>
+		<item>eyes are on me. It will just</item>
+		<item>take a few seconds. I will</item>
+		<item>change it pretty fast.</item>
+		<item>Hop-hap-tad and I am done!</item>
+		<item>Tra-ta-ta,</item>
+		<item>here I come\"</item>
+	</string-array>
+	<string-array name="str_page8">
+		<item>Hmmm…</item>
+		<item>but they were still</item>
+		<item>looking at me and laughing.</item>
+		<item>Do you know this laugh</item>
+		<item>when you cannot stop</item>
+		<item>and think you will pee</item>
+		<item>in your pants? That was it.</item>
+		<item>At this point, I didn’t have</item>
+		<item>any idea what was</item>
+		<item>going on.</item>
+	</string-array>
+	<string-array name="str_page9">
+		<item>Aha! I tracked them down. It took me a while but"</item>
+		<item>I figured it out. They were staring at my SUITCASE.</item>
+		<item>\"Are you serious right now?\" I asked them.</item>
+		<item>\"Guys, are you laughing at my suitcase? It is not FUNNY!!!
+		</item>
+		<item>I have only packed just the most important things for the trip.
+		</item>
+		<item>I brought three towels, four swimming shorts, some lotions,
+		</item>
+		<item>and just a couple bottles of sunscreen. One must be prepared
+		</item>
+		<item>in a tropical climate of course. Yes?</item>
+		<item>So stop laughing at me!!!\"</item>
+	</string-array>
+	<string-array name="str_page10">
+		<item>\"Fine, I can do it without you all.</item>
+		<item>You are guys just jealous!\"</item>
+		<item>I said angrily as I pulled my</item>
+		<item>suitcase behind me, took</item>
+		<item>a longer distance to run,</item>
+		<item>bravely jumped in the air,</item>
+		<item>and hia-a-a ended up with</item>
+		<item>my face in the dirt.</item>
+		<item>\"That was too fast for Hawaii,\"</item>
+		<item>I thought as I lay on the ground,</item>
+		<item>squashed by my suitcase.</item>
+	</string-array>
+	<string-array name="str_page11">
+		<item>Then I decided this way of traveling was not for me,</item>
+		<item>and plus I already was dirty, tired, and definitely</item>
+		<item>could not keep up with the speed of my flock.</item>
+		<item>So I needed to find a genius plan. I looked around</item>
+		<item>and saw an airplane which was just about to take off.</item>
+	</string-array>
+	<string-array name="str_page12">
+		<item>Ta-da!</item>
+		<item>A wonderful idea came</item>
+		<item>into my head: to sit on the top</item>
+		<item>of the airplane and enjoy my</item>
+		<item>flight. It meant no hard work,</item>
+		<item>and no sweaty armpits. My plan</item>
+		<item>worked perfectly!</item>
+		<item>We soon passed my</item>
+		<item>friends working hard flapping</item>
+		<item>their wings and sweating all</item>
+		<item>the way to Hawaii, while I</item>
+		<item>was singing songs, laying</item>
+		<item>down, and sunbathing on</item>
+		<item>the top of the airplane.</item>
+		<item>Wasn’t it a genius plan?</item>
+	</string-array>
+	<string-array name="str_page13">
+		<item>When my magical transportation landed, I was fresh and</item>
+		<item>full of energy. I hopped on the ground, and saw the</item>
+		<item>amazing island. Someone told me that there could be big</item>
+		<item>storms and hurricanes. So my next project was to build</item>
+		<item>a good and sturdy shelter just for me.</item>
+		<item>Who wants to be wet?</item>
+	</string-array>
+	<string-array name="str_page14">
+		<item>I looked around, and saw an ant\'s hill. It was a sight to see.
+		</item>
+		<item>\"This is exactly what I need,\" I exclaimed and went down into
+		</item>
+		<item>the main tunnel. \"Hi there, you big brave ant. I’ve heard from
+		</item>
+		<item>many birds that ants were the best</item>
+		<item>homebuilders in the entire world.</item>
+		<item>I have some sketches on the</item>
+		<item>sand. Would you mind building</item>
+		<item>it for me?\" For my part of the deal,</item>
+		<item>I promised to find them enough</item>
+		<item>food for dinner to feed the entire</item>
+		<item>ant\'s nest.</item>
+	</string-array>
+	<string-array name="str_page15">
+		<item>\"Perfect!\"</item>
+		<item>I thought to myself.</item>
+		<item>\"Everything is taken care of,</item>
+		<item>and now it is time for me to rest</item>
+		<item>after such a long and tiring flight.\"</item>
+		<item>While the ants were busy working</item>
+		<item>on my project, I unpacked my</item>
+		<item>suitcase, put my sunglasses and</item>
+		<item>sunscreen on, and set down to</item>
+		<item>enjoy my vacation. What could</item>
+		<item>be better?</item>
+	</string-array>
+	<string-array name="str_page16">
+		<item>But like it always</item>
+		<item>happens after a certain time,</item>
+		<item>I was getting hungry, and my</item>
+		<item>stomach started to make</item>
+		<item>angry noises, \"Brr-brr-brr-rr!\"</item>
+		<item>like an old unhappy motorcycle.</item>
+		<item>\"Ok-ok… I am going to catch</item>
+		<item>a fish, and will find a small piece</item>
+		<item>of bread. All left over food will</item>
+		<item>go for the ant\'s dinner. Just</item>
+		<item>stop making these strange</item>
+		<item>noises,\" I said to my stomach.</item>
+	</string-array>
+	<string-array name="str_page17">
+		<item>Mmm…</item>
+		<item>That was yummy-yummy in my</item>
+		<item>tummy. However, as you may</item>
+		<item>have guessed by now, I had eaten</item>
+		<item>everything. There was nothing left</item>
+		<item>but crumbs which obviously would </item>
+		<item>not be enough for the entire</item>
+		<item>hungry nest. \"I am too lazy to think</item>
+		<item>about those ants. It is impossible</item>
+		<item>to feed them all. I am just one</item>
+		<item>bird, and they are thousands.</item>
+		<item>They can work as a team,</item>
+		<item>and can find food pretty </item>
+		<item>fast. And if they’re still</item>
+		<item>hungry after that, then they</item>
+		<item>can eat these crumbs!\"</item>
+		<item>I thought while sitting</item>
+		<item>on the beach and</item>
+		<item>soaking my tootsies</item>
+		<item>in the salt water.</item>
+	</string-array>
+	<string-array name="str_page18">
+		<item>The ants were almost finished with my</item>
+		<item>project, and asked me to check it out.</item>
+		<item>It was impressive. My house looked much</item>
+		<item>better than I had expected. They even</item>
+		<item>had built me some furniture.</item>
+		<item>\"Do you like it?\" the ants asked me.</item>
+		<item>\"Oh yes, yes. I love it,\" I answered.</item>
+		<item>\"How is our dinner coming? We are</item>
+		<item>all ready to eat,\" and thousands of</item>
+		<item>ants were staring at me, looking at</item>
+		<item>each movement of my body.</item>
+		<item>Believe me guys, it was very strange.</item>
+	</string-array>
+	<string-array name="str_page19">
+		<item>\"What is it? Is it a big bag of potato chips,</item>
+		<item>or a whole apple, or maybe you have found</item>
+		<item>something sweet for us too. We worked hard,</item>
+		<item>and our stomachs are empty.</item>
+		<item>Where, where is it?\"</item>
+		<item>the ants were asking me,</item>
+		<item>and I felt a lot of pressure.</item>
+		<item>Some birds need to be</item>
+		<item>pushed, but not me. I am</item>
+		<item>a very gentle creature.</item>
+		<item>They were staring at me</item>
+		<item>with big opened eyes, and</item>
+		<item>waiting ... and waiting...</item>
+	</string-array>
+	<string-array name="str_page20">
+		<item>At this point, I was so</item>
+		<item>embarrassed and scared</item>
+		<item>that I couldn’t keep myself</item>
+		<item>from lying,</item>
+		<item>\"Hmm... I don\'t know. Let\’s</item>
+		<item>see, I got a lot of fruits. Do</item>
+		<item>you guys like fruits? How</item>
+		<item>about a huge piece of steak?</item>
+		<item>I have a big steak. You guys</item>
+		<item>have never seen a steak as</item>
+		<item>huge as the one I found</item>
+		<item>especially for you. Also I</item>
+		<item>found a big bag of</item>
+		<item>potato chips.\"</item>
+	</string-array>
+	<string-array name="str_page21">
+		<item>\"Where, where is it?\"</item>
+		<item>the small dots continued asking me.</item>
+		<item>\"It was right here. Do you see these</item>
+		<item>crumbs? It was here. I don\'t have any</item>
+		<item>idea what happened with your food,</item>
+		<item>but it was here</item>
+		<item>I am so sorry guys. It was probably a</item>
+		<item>hungry ghost</item>
+		<item>Thank you for the house. Bye,\"</item>
+		<item>I replied and ran as fast</item>
+		<item>as I could into my new bedroom.</item>
+	</string-array>
+	<string-array name="str_page22">
+		<item>I was very embarrassed</item>
+		<item>and kept thinking about</item>
+		<item>how they were going to sleep</item>
+		<item>with hungry bellies. Finally,</item>
+		<item>the night came, and I was</item>
+		<item>snoring in my cozy new bed</item>
+		<item>while outside of my house</item>
+		<item>the weather was getting</item>
+		<item>crazy and angry.</item>
+	</string-array>
+	<string-array name="str_page23">
+		<item>In the morning, I opened my eyes, and saw</item>
+		<item>how other birds from my flock were trying to</item>
+		<item>pull me out of the ocean. \"Where am I? What am</item>
+		<item>I doing here? How did my flock come here?</item>
+		<item>What happened?\" all these questions were</item>
+		<item>non-stop running through my head.</item>
+	</string-array>
+	<string-array name="str_page24">
+		<item>As it turned out,</item>
+		<item>while I was sleeping,</item>
+		<item>a hurricane destroyed</item>
+		<item>my house, and the strong</item>
+		<item>wind blew me right into the</item>
+		<item>ocean. But the other birds</item>
+		<item>saved me. They gave me a</item>
+		<item>warm blanket, and even</item>
+		<item>caught a fish for me.</item>
+	</string-array>
+	<string-array name="str_page25">
+		<item>\"Why did you build a house so close to the</item>
+		<item>ocean?\" my flock-mates asked me, \"It was</item>
+		<item>dangerous. We have a room for you. It is over</item>
+		<item>there,\" they said and pointed to a beautiful</item>
+		<item>bedroom. I was surprised, because they had</item>
+		<item>built a big closet for me. \"We thought you</item>
+		<item>would need a lot of space for your</item>
+		<item>huge suitcase,\" continued</item>
+		<item>members of my flock.</item>
+	</string-array>
+	<string-array name="str_page26">
+		<item>I am not a \"cry-baby\"</item>
+		<item>type of bird, but at</item>
+		<item>that moment, tears</item>
+		<item>were so strong in my</item>
+		<item>eyes that I couldn’t help</item>
+		<item>myself. I was full of lies,</item>
+		<item>and they were just nice</item>
+		<item>friends who always</item>
+		<item>loved me. I took a deep</item>
+		<item>breath, and told them</item>
+		<item>all that had happened.</item>
+	</string-array>
+	<string-array name="str_page27">
+		<item>\"It’s good you</item>
+		<item>finally saw why</item>
+		<item>we call you the</item>
+		<item>Lazy Bird. If you</item>
+		<item>keep being</item>
+		<item>so lazy, no one</item>
+		<item>will want to be</item>
+		<item>friends with you, </item>
+		<item>play, or even</item>
+		<item>talk with you.</item>
+		<item>You will</item>
+		<item>be lonely and sad.</item>
+		<item>But don’t</item>
+		<item>worry you still can</item>
+		<item>change everything. Now it is the</item>
+		<item>time to grow up and care about other</item>
+		<item>creatures as well,\" answered my family.</item>
+	</string-array>
+	<string-array name="str_page28">
+		<item>On the next day, I made</item>
+		<item>a huge big dinner for the ants</item>
+		<item>and told</item>
+		<item>them the whole story. They were</item>
+		<item>not mad at</item>
+		<item>me, and it made me feel better. Everybody</item>
+		<item>was happy, and from that day on I was a changed bird.</item>
+		<item>And guess what?</item>
+	</string-array>
+	<string-array name="str_page29">
+		<item>To do the right thing is such a pleasure!!!</item>
+	</string-array>
+	<string-array name="str_touch_page1">
+        <item>I love laying in my hammock!</item>
+        <item>I caught a fish</item>
+        <item>We need help!</item>
+    </string-array>
+    <string-array name="str_touch_page2">
+        <item>I am a super-dumper bird</item>
+        <item>NONE TEXT</item>
+    </string-array>
+    <string-array name="str_touch_page3">
+        <item>Can you keep a secret?</item>
+    </string-array>
+    <string-array name="str_touch_page4">
+        <item>I am so tired...</item>
+        <item>Such a fat suitcase!</item>
+        <item>More stuff...</item>
+    </string-array>
+    <string-array name="str_touch_page5">
+        <item>Come on!!!</item>
+        <item>Let\'s see how strong he is</item>
+        <item>Do you think he will make it?</item>
+    </string-array>
+    <string-array name="str_touch_page6">
+        <item>Do I look all right?</item>
+        <item>He is so funny;)</item>
+    </string-array>
+    <string-array name="str_touch_page7">
+        <item>Now I look amazing!</item>
+    </string-array>
+    <string-array name="str_touch_page8">
+        <item>Why do they laugh?</item>
+        <item>NONE TEXT</item>
+    </string-array>
+    <string-array name="str_touch_page9">
+        <item>A little push and I can fly</item>
+        <item>Hmmm...</item>
+    </string-array>
+    <string-array name="str_touch_page10">
+        <item>Oops...</item>
+    </string-array>
+    <string-array name="str_touch_page11">
+        <item>I have an IDEA!!!</item>
+        <item>NONE TEXT</item>
+    </string-array>
+    <string-array name="str_touch_page12">
+        <item>La-la-la-la</item>
+        <item>Where is the Lazy Bird?</item>
+    </string-array>
+    <string-array name="str_touch_page13">
+        <item>Huzzah!!!</item>
+    </string-array>
+    <string-array name="str_touch_page14">
+        <item>I need a huge bedroom!</item>
+        <item>Wow! Let\'s build it!</item>
+        <item>That is s big project...</item>
+    </string-array>
+    <string-array name="str_touch_page15">
+        <item>Am I cool bird?</item>
+    </string-array>
+    <string-array name="str_touch_page16">
+        <item>Uh!Oh!I am hungry</item>
+    </string-array>
+    <string-array name="str_touch_page17">
+        <item>That is enough for the ants. Don\'t you think? </item>
+    </string-array>
+    <string-array name="str_touch_page18">
+        <item>I am such a lucky bird!</item>
+        <item>We are HUNGRY!!!</item>
+    </string-array>
+    <string-array name="str_touch_page19">
+        <item>O-o-o!So many hungry ants</item>
+        <item>I\'m hungry too!</item>
+        <item>Something\'s up with my pants</item>
+    </string-array>
+    <string-array name="str_touch_page20">
+        <item>I need to think very quick</item>
+    </string-array>
+    <string-array name="str_touch_page21">
+        <item>run!run!run</item>
+        <item>Where is our food?</item>
+    </string-array>
+    <string-array name="str_touch_page22">
+        <item>NONE TEXT</item>
+    </string-array>
+    <string-array name="str_touch_page23">
+        <item>Am I dreaming?</item>
+        <item>I found him!</item>
+        <item>I got him bird</item>
+    </string-array>
+    <string-array name="str_touch_page24">
+        <item>I am so embarrassed</item>
+        <item>We worried about you...</item>
+    </string-array>
+    <string-array name="str_touch_page25">
+        <item>Wow!!!</item>
+        <item>I am a comfy bed</item>
+    </string-array>
+    <string-array name="str_touch_page26">
+        <item>I am so sorry!</item>
+        <item>NONE TEXT</item>
+        <item>NONE TEXT</item>
+    </string-array>
+    <string-array name="str_touch_page27">
+        <item>I can be better!</item>
+        <item>You can do it!</item>
+        <item>Promise to clean your room!</item>
+        <item>We believe in you!</item>
+    </string-array>
+    <string-array name="str_touch_page28">
+        <item>Huzzah! They are happy</item>
+        <item>Yummy! We got food!</item>
+        <item>This is my plate</item>
+    </string-array>
+    <string-array name="str_touch_page29">
+        <item>I got friends!!!</item>
+        <item>We are very happy!</item>
+        <item>I\'m ready to dance!</item>
+    </string-array>
+	<string name="feedback_email">bestkidstales@gmail.com</string> <!-- tatyanamir86@gmail.com -->
+	<string name="feedback_title">FEEDBACK:LazyBird</string>
+	<string name="feedback_content">[type feedback below]</string>
+	<string name="share_title">Check out Lazy Bird</string>
+	<string name="share_message">Hi,\nHuzzah!I found a great children\'s Book App
+		and wanted to recommend you to check it out.It\'s called Lazy Bird.It
+		has beautiful illustrations and a great story for kids.I am sure you
+		guys will enjoy it!You can download it from Google Play
+		here:https://play.google.com/store/apps/details?id=com.vvmaster.android.lazybird&amp;feature=search_result#?t=W251bGwsMSwxLDEsImNvbS52dm1hc3Rlci5hbmRyb2lkLmxhenliaXJkIl0.
+	</string>
+	 <string name="site_review">https://play.google.com/store/apps/details?id=com.vvmaster.android.lazybird&amp;feature=search_result#?t=W251bGwsMSwxLDEsImNvbS52dm1hc3Rlci5hbmRyb2lkLmxhenliaXJkIl0.</string>
+	<string name="timestamps_page1">3.171293 3.428622 4.120890 4.252851 4.453722
+		4.650381 5.404705 5.561385 5.666553 5.874395 6.094738 6.443682
+		6.740272 6.965790 7.712592 8.552407 8.713522 8.866409 9.054579
+		10.046627 10.187546 10.396638 10.577327 10.758248 10.886684 11.055653
+		11.180531 11.349280 11.606573 11.743436 11.851439 12.004440 12.121362
+		13.005318 13.468535 13.645680 13.862548 13.990095 14.264631 14.420421
+		14.658327</string>
+	<string name="timestamps_page2">0.500533 0.869704 1.275660 1.544384 1.942079
+		2.324442 2.653264 2.894614 3.123462 3.737549 3.962541 4.192426
+		4.457431 4.545543 4.648575 4.780417 6.090446 6.270454 6.615424
+		6.827439 6.992320 7.197431 7.438357 7.587594 7.731321 8.141484
+		8.752547 8.940292 9.041269 9.238507 9.467483 9.788647 10.021558
+		10.129892 10.266578</string>
+	<string name="timestamps_page3">0.308387 0.397232 0.538392 0.715161 0.883033
+		0.965301 1.129255 1.298414 1.509435 1.725183 1.979235 2.086252
+		2.297473 4.291368 4.373504 4.753269 4.914367 5.105230 5.590190
+		5.680376 6.291341 7.118264 7.250322 8.116037 8.265209 8.485503
+		9.596226 9.679294 9.733356 10.141415 10.246177 10.626306 10.759299
+		10.857332 11.104158 11.206304 12.245485 12.389377 12.479391 12.758315
+		13.434312 13.540427 13.634427 13.822321</string>
+	<string name="timestamps_page4">2.78 2.89 3.18 3.62 3.81 4.04 4.28 4.82 5.31 5.44
+		5.61 5.80 6.88 7.00 7.35 7.47 7.95 8.08 8.44 9.14 9.49 9.77 10.15
+		10.61 10.99 11.70 13.15 13.39 13.58 13.81 14.15 14.33 14.61 14.81
+		14.98 16.25 16.63 16.84 17.15 17.41 17.57 17.75 17.92 18.13 18.26
+		18.39 18.57 18.79 18.96 19.14 19.31 19.45 19.63 19.84 20.08 20.23
+		20.48 20.67 21.30 21.54 21.86 22.12 22.44 22.62 22.88 23.12 23.32
+		23.47</string>
+	<string name="timestamps_page5">0.99 1.12 1.34 1.47 1.69 1.84 2.49 2.87 3.14 3.38
+		3.54 4.41 4.56 4.80 4.97 5.21 5.44 5.77 6.00 6.36 6.52 6.77 7.02 7.29
+		7.40 8.15 8.37 8.67 8.85 9.07 9.30 9.54 9.94 10.28 10.46 11.71 11.85
+		12.21</string>
+	<string name="timestamps_page6">0.606746 0.731877 0.836726 0.935704 1.123697
+		1.264978 1.366927 2.177601 2.295782 2.592812 2.706635 2.867449
+		3.164519 3.380747 3.481953 3.671026 3.831770 3.968831 4.164005
+		4.261707 4.430923 5.401677 5.515790 5.731601 5.879770 5.997770
+		6.225944 7.359101 7.482875 7.643890 7.746016 7.913890 8.513942
+		8.649698 8.794641 9.209713 9.499971 9.667916</string>
+	<string name="timestamps_page7">0.499862 0.887771 1.146774 1.718234 1.930488
+		2.137759 2.302839 3.161793 3.278927 3.380426 3.537678 3.651539
+		5.277589 5.426492 5.528619 5.763928 5.853707 6.002833 6.152949
+		6.253889 7.492743 7.622603 7.771888 8.065820 9.650734 9.893938
+		10.043484 10.215751 10.690692 10.807701 11.796799 12.149948 12.353699
+		12.514799 12.656860 13.512037 13.605656 13.747557 13.936046 14.057698
+		14.305856 14.406653 18.636931 18.738001 18.855678 18.945961 19.169893
+		19.243757 19.964785 21.223616 21.309927 21.486609 21.755781 22.477459
+		23.461831 23.720736 23.897855</string>
+	<string name="timestamps_page8">0.81 1.82 2.07 2.28 2.47 2.66 2.86 3.00 3.16 3.32
+		4.39 4.53 4.67 4.79 4.96 5.48 5.78 5.93 6.07 6.40 6.54 6.71 6.94 7.07
+		7.33 7.54 7.67 8.60 8.73 8.96 9.76 9.88 10.09 10.29 10.42 10.55 10.79
+		11.01 11.24 11.49 11.70 11.8</string>
+	<string name="timestamps_page9">2.237253 3.639562 3.753551 3.940373 4.175491
+		5.134295 5.295319 5.417262 5.519380 5.722497 6.031466 6.157194
+		6.290451 6.400483 6.493211 7.465383 7.567312 7.712474 7.872327
+		8.155276 8.331376 10.125264 10.242342 10.352361 10.920348 11.123332
+		11.307055 11.640309 11.742286 12.721189 13.363102 13.484448 13.594574
+		13.833271 13.993223 14.208127 15.316352 15.414491 15.515051 15.735375
+		17.411273 17.505546 17.603500 17.912569 18.111992 18.348589 18.555553
+		18.669116 19.201207 19.405699 19.644415 19.828521 20.687490 20.776318
+		20.996358 21.353366 21.851351 22.022393 22.124225 22.755681 22.896171
+		23.515646 23.640442 23.746552 23.930274 24.079499 24.177288 24.640441
+		26.226452 26.372588 26.520510 26.794675 27.147457 27.652747 27.844518
+		28.020695 28.510224 28.624664 29.322341 30.171516 30.301633 30.536642
+		30.959109 31.195648</string>
+	<string name="timestamps_page10">1.296324 2.102330 2.247282 2.443350 2.651368
+		2.883458 3.044333 3.295425 4.021362 4.135333 4.217471 4.699303
+		5.154412 5.750369 5.848321 6.067302 6.554172 6.703448 6.852310
+		7.114149 7.267431 7.530221 7.773453 8.333412 8.455496 8.651368
+		8.909388 9.117410 9.321560 9.965653 10.317370 10.545503 10.670108
+		10.847375 11.133251 11.314432 12.441434 12.626039 12.822554 13.019457
+		13.199423 13.501508 13.641985 13.804440 15.789463 15.945090 16.023436
+		16.294469 16.461467 16.653428 17.285403 17.524497 17.606550 17.853497
+		18.026304 18.155483 18.323436 18.563485 19.045570 19.563302 19.723483
+		19.896388</string>
+	<string name="timestamps_page11">1.229433 1.500622 1.783133 2.141615 2.281316
+		2.607402 2.755194 3.412590 3.627417 3.858236 4.097555 4.909554
+		5.016330 5.283928 5.478697 5.709484 5.865338 6.215380 6.586651
+		6.785578 7.398449 7.569489 7.753477 7.932444 8.183563 8.322362
+		8.586227 8.708395 8.800517 8.939603 9.986471 10.448642 10.802415
+		11.263491 11.387568 11.654476 11.805362 12.044249 13.904488 14.044459
+		14.191504 14.836614 15.024385 15.239463 15.487404 16.200534 16.356563
+		16.572662 16.762399 16.938324 17.082581 17.201384</string>
+	<string name="timestamps_page12">1 2.10 2.21 2.61 3.05 3.32 3.61 3.74 4.35 4.51 4.71
+		4.88 5.12 5.88 6.01 6.21 6.61 6.84 7.09 7.26 8.01 8.15 8.36 8.67 8.91
+		9.28 9.51 9.92 10.17 11.03 11.21 11.57 11.86 13.53 13.66 13.93 14.11
+		14.30 14.63 14.91 15.29 15.45 15.90 16.05 16.42 16.61 16.65 17.03
+		17.23 17.39 17.62 18.36 18.60 18.84 19.21 20.78 21.19 21.21 21.73
+		22.02 22.39 22.57 22.72 23.01 23.20 24.14 24.79 25.10 25.47 25.49
+	</string>
+	<string name="timestamps_page13">1.17 1.28 1.42 2.01 3.05 3.83 3.95 4.22 4.43 4.56
+		4.89 5.08 6.03 6.41 6.76 6.91 7.07 7.50 7.63 7.78 7.98 8.76 10.01
+		10.40 10.64 11.06 11.25 11.46 11.58 11.84 12.05 12.20 12.51 13.74
+		13.87 14.01 14.21 14.75 14.88 15.06 15.34 15.58 15.91 16.14 16.49
+		17.27 17.57 17.83 19.09 19.28 19.50 19.65 19.82</string>
+	<string name="timestamps_page14">0.98 1.15 1.30 1.65 1.84 1.94 2.22 2.46 3.29 3.39
+		3.56 3.80 3.96 4.16 7.97 8.08 8.18 8.98 9.11 9.31 10.16 10.25 10.43
+		10.72 10.97 11.09 11.28 11.47 11.60 12.50 12.72 13.03 13.21 13.52
+		14.01 15.08 15.21 15.36 15.59 15.87 16.15 16.33 16.58 16.76 16.90
+		17.32 18.08 18.22 18.40 18.60 19.79 19.92 20.11 20.25 20.58 20.73
+		20.85 22.08 22.23 22.35 22.52 22.73 22.89 22.99 24.05 24.17 24.31
+		24.46 24.61 24.81 25.19 25.31 25.65 25.78 25.95 26.14 26.44 27.06
+		27.21 27.48 27.71 27.97 28.32 28.81 29.418</string>
+	<string name="timestamps_page15">0.722974 1.743192 1.879230 2.059064 2.289198
+		2.988104 3.281192 3.520387 3.785181 4.130244 4.520357 4.680091
+		4.805204 5.059036 5.250292 5.442200 5.548258 5.875136 6.113745
+		6.711822 6.837252 6.931183 7.114754 7.428238 7.678140 8.316188
+		9.556174 9.880955 9.978188 10.217318 10.364921 10.585345 10.999272
+		11.144267 11.238336 11.939375 12.216076 12.819289 12.991256 13.594151
+		14.094963 14.189256 14.861805 15.018182 15.273371 16.024205 16.219279
+		16.435150 16.728245 17.069226 17.347344 17.570266 21.275324 21.553263
+		21.674362 21.897203</string>
+	<string name="timestamps_page16">1.124213 1.714464 1.863418 2.004103 2.407513
+		3.092548 3.233617 3.480565 3.876501 4.894375 5.079530 5.259445
+		5.462211 6.615563 6.732497 6.975454 7.444246 7.813631 7.992667
+		8.254214 8.650253 9.782309 11.643510 11.757319 11.942658 12.126595
+		12.475571 13.980469 15.669500 15.811379 15.983515 16.089637 16.254476
+		16.430450 16.543720 17.068359 17.198741 17.355627 17.465623 17.723501
+		17.935448 18.076679 18.244633 19.270631 19.682628 19.862349 20.109316
+		20.657639 20.803346 20.947463 21.076625 21.241448 21.453208 22.447553
+		22.561532 22.863451 23.185269 23.346583 23.710664 24.686471 24.831467
+		24.952281 25.128604 25.367645</string>
+	<string name="timestamps_page17">0.779414 1.497541 1.727530 1.930588 3.130255
+		3.259443 3.541160 5.304546 6.411516 6.779473 6.998542 7.225497
+		7.443421 7.733401 7.955640 8.737450 8.964494 9.291199 9.499416
+		10.865624 11.031428 11.148504 11.364276 11.602521 11.891455 12.388508
+		12.885515 13.382382 13.655494 13.862468 14.034735 14.375430 14.620552
+		15.093344 15.566508 15.961630 17.385496 17.533461 17.693456 17.877744
+		18.073491 18.577424 18.718607 19.019602 19.230607 19.453480 20.927319
+		21.028453 21.337510 21.927578 22.064617 22.397296 22.592338 23.364546
+		23.504436 23.599225 23.786657 24.024601 24.411401 24.544466 24.814549
+		25.026526 26.214637 26.339393 26.457400 26.723586 26.903772 27.079848
+		27.517681 27.677725 27.830522 28.065820 28.757686 29.086586 30.135812
+		30.363544 31.145623 31.297520 31.532696 31.849483 32.028667 32.877809
+		33.038526 33.233561 33.382799 33.492227 33.711635 34.446390 34.563704
+		34.650438 34.915511 35.103507 35.334874 35.443435 35.838658 36.187509
+		36.601551 36.996796 37.458531 37.634566 37.739263 38.052214</string>
+	<string name="timestamps_page18">0.82 0.99 1.17 1.35 1.71 2.18 2.35 2.53 3.53 3.66
+		3.83 4.01 4.21 4.36 4.45 5.23 5.35 5.52 6.86 7.07 7.45 7.62 7.92 8.35
+		8.56 8.81 9.05 10.29 10.44 10.80 10.99 11.24 11.43 11.67 13.06 13.33
+		13.53 13.74 14.49 14.66 14.89 15.12 15.67 15.95 16.54 16.92 17.09
+		17.24 17.68 17.86 18.43 18.72 18.92 19.08 19.31 20.04 20.19 20.39
+		20.67 21.08 21.28 22.08 22.28 22.56 22.91 23.25 23.48 23.73 23.95
+		24.39 24.59 24.84 25.12 25.43 25.67 26.53 26.99 27.17 27.59 27.77
+		28.42 28.44 28.5</string>
+	<string name="timestamps_page19">0.7 0.97 1.12 2.16 2.34 2.50 2.82 3.30 3.58 3.99
+		4.49 5.56 5.89 6.06 6.92 8.76 9.25 9.81 10.03 10.62 11.42 11.66 12.52
+		12.67 12.85 14.32 14.54 14.81 15.40 15.61 15.77 16.05 16.29 17.14
+		17.75 18.22 18.33 19.18 19.44 19.73 19.94 20.13 21.17 21.61 21.80
+		22.05 22.33 22.47 22.63 23.66 24.02 24.24 24.54 24.72 25.12 25.72
+		25.93 26.18 26.72 26.88 27.11 27.31 27.42 27.90 29.17 29.46 29.57
+		29.83 30.05 30.22 30.43 30.59 31.45 32.30 32.58 32.95 33.28 33.39
+	</string>
+	<string name="timestamps_page20">1.18 1.29 1.52 2.02 2.19 2.31 2.65 3.40 3.61 4.36
+		4.50 5.07 5.45 5.61 5.81 6.13 7.58 8.29 8.42 8.56 9.15 9.29 9.83 10.01
+		10.31 10.56 10.79 10.90 11.47 11.64 11.87 12.11 12.21 12.72 12.93
+		13.07 13.24 13.53 13.73 13.91 14.40 14.54 14.73 14.95 15.21 16.17
+		16.28 16.62 16.72 17.34 17.60 17.74 18.04 18.25 18.55 18.69 18.86
+		19.04 19.19 19.65 20.75 20.85 21.58 22.72 22.88 23.02 23.19 24.52
+		25.19 25.33 25.42 25.60</string>
+	<string name="timestamps_page21">0.93 1.37 1.52 1.73 2.51 2.70 2.88 3.27 3.62 3.98
+		4.96 5.13 5.27 5.44 6.39 6.51 6.68 6.79 6.89 7.98 8.11 8.22 9.49 9.61
+		9.70 9.80 9.90 10.17 10.63 11.05 11.55 11.70 12.09 12.47 12.72 12.82
+		13.81 14.09 14.21 14.41 14.67 15.30 15.58 15.74 15.88 16.35 16.98
+		18.95 19.09 19.22 19.37 19.58 19.79 20.66 20.84 21.40 21.56 21.87
+		22.40 22.53 22.79 22.99 23.11 23.28 23.39 23.49</string>
+	<string name="timestamps_page22">0.69 0.82 1.15 1.39 1.48 2.91 3.03 3.31 3.62 3.86
+		4.11 4.35 4.51 4.72 5.12 5.32 5.43 6.84 7.53 7.66 7.79 8.43 8.54 8.68
+		8.80 9.33 9.58 9.74 9.94 10.27 10.79 11.06 11.40 11.59 11.70 12.37
+		12.78 13.21 13.44 14.08 14.63 14.78</string>
+	<string name="timestamps_page23">1.18 1.30 1.48 2.09 2.30 2.42 2.61 3.12 3.29 3.40
+		3.64 4.09 4.68 4.81 4.96 5.25 5.52 5.68 5.93 6.12 6.28 6.40 6.52 6.70
+		7.81 7.97 8.10 9.10 9.35 9.49 9.66 9.78 10.91 11.02 11.14 11.39 11.54
+		11.79 12.80 12.91 14.04 14.20 14.45 15.08 15.21 16.46 16.88 17.08
+		17.24</string>
+	<string name="timestamps_page24">0.66 0.77 0.91 1.12 1.96 2.07 2.22 2.36 3.09 3.19
+		3.81 4.18 4.32 5.22 5.40 5.55 5.67 6.31 6.47 6.63 6.90 7.13 7.38 8.48
+		8.59 8.79 8.97 9.35 9.52 10.76 10.94 11.23 11.38 11.61 11.77 11.95
+		12.28 12.66 12.89 13.14 13.27 13.43</string>
+	<string name="timestamps_page25">1.57 1.68 1.77 2.03 2.23 2.42 2.67 2.93 3.34 3.50
+		3.67 4.86 5.08 5.24 6.16 6.98 7.20 7.37 7.51 8.99 9.19 9.39 9.53 9.76
+		10.13 10.34 10.46 10.79 11.67 11.80 12.09 12.23 12.62 12.80 12.95
+		13.46 14.25 14.41 14.53 15.12 15.33 15.96 16.29 16.43 16.55 16.76
+		16.93 17.24 18.04 18.18 18.49 18.71 18.91 19.14 19.37 19.49 19.61
+		20.12 20.39 20.59 20.83 22.31 22.61 23.03 23.32 23.59</string>
+	<string name="timestamps_page26">0.72 0.82 1.03 1.24 1.44 1.72 1.99 2.18 3.03 3.15
+		3.61 3.78 4.64 4.97 5.16 5.41 5.86 6.07 6.19 6.72 6.90 7.17 7.42 7.73
+		8.96 9.09 9.23 9.44 9.59 10.11 10.25 10.96 11.14 11.25 11.47 11.86
+		12.00 12.28 12.51 13.49 13.72 13.84 13.95 14.09 14.87 15.21 15.34
+		15.52 15.69 15.80 16.04</string>
+	<string name="timestamps_page27">0.851046 0.990023 2.017678 2.310675 2.628127
+		2.889916 3.272531 3.463971 3.609002 3.854860 4.051032 4.277967
+		5.670913 5.787738 6.054017 6.234070 6.461024 6.707954 7.304540
+		7.728592 7.914786 8.203917 8.464759 8.617829 8.832597 9.168941
+		9.344883 10.258888 10.789942 10.929591 11.230683 11.403032 11.590944
+		12.667826 12.831745 13.059112 13.223628 13.619974 14.121454 15.337851
+		15.505926 15.882035 16.884900 17.225596 17.507984 17.798076 18.087976
+		19.481017 19.679470 19.853611 20.115866 20.272746 20.520069 20.683512
+		20.887779 21.366066 21.534506 21.730955 22.017167 22.268098 22.808149
+		23.172763 24.235035 24.579932 24.787612</string>
+	<string name="timestamps_page28">1.00 1.15 1.32 1.52 2.06 2.22 2.61 2.78 3.18 3.39
+		3.78 4.00 4.18 5.00 5.15 5.36 5.61 5.77 6.04 6.80 7.01 7.19 7.37 7.65
+		8.09 8.32 8.81 8.95 9.12 9.36 9.50 10.29 10.90 11.08 11.71 11.97 12.13
+		12.46 12.67 12.85 13.26 13.73 14.01 14.16 14.88 15.02 15.23</string>
+	<string name="timestamps_page29">0.984377 1.162527 1.373767 1.529698 1.815639
+		2.179657 2.405363 2.679668 2.890553 5.341562</string>
+	<!-- order timestamps animation -->
+	<string name="order_page1">0 1 0 2 0 1 0</string>
+	<string name="order_page2">0 1 0 2 0 3 0 1 0</string>
+	<string name="order_page3">0 1 0 1 0</string>
+	<string name="order_page4">0 1 0 2 0 2 0</string>
+	<string name="order_page5">0 1 0 2 0 2 0</string>
+	<string name="order_page6">0 1 0 2 0 3 0 2 0</string>
+	<string name="order_page7">0 1 0 2 0 2 0</string>
+	<string name="order_page8">0 1 0 2 0 2 0</string>
+	<string name="order_page9">0 1 0 1 0</string>
+	<string name="order_page10">0 1 0 1 0</string>
+	<string name="order_page11">0 1 0 1 0</string>
+	<string name="order_page12">0 1 0 1 0</string>
+	<string name="order_page13">0 1 0 1 0</string>
+	<string name="order_page14">0 1 0 2 0 3 0 2 0</string>
+	<string name="order_page15">0 1 0 1 0</string>
+	<string name="order_page16">0 1 0 1 0</string>
+	<string name="order_page17">0 1 0 1 0</string>
+	<string name="order_page18">0 1 0 2 0 2 0</string>
+	<string name="order_page19">0 1 0 2 0 3 0 2 0</string>
+	<string name="order_page20">0 1 0 1 0</string>
+	<string name="order_page21">0 1 0 2 0 1 0 3</string>
+	<string name="order_page22">0</string>
+	<string name="order_page23">0 1 0</string>
+	<string name="order_page24">0 1 0</string>
+	<string name="order_page25">0 1 0</string>
+	<string name="order_page26">0 1 0 2 0 1 0 3 0</string>
+	<string name="order_page27">0 1 0 2 0 1 0 3 0</string>
+	<string name="order_page28">0 1 0 2 0 1 0 3 0</string>
+	<string name="order_page29">0 1 0 2 0 3 0 2 0</string>
+	<!-- time animation -->
+	<string name="time_animation_page1">2.0 0.3 4.0 0.3 5.0 0.3 3.5</string>
+	<string name="time_animation_page2">2.0 0.3 3.5 0.3 4.5 0.3 3.5 0.3 4.0</string>
+	<string name="time_animation_page3">2.0 0.3 5.5 0.3 4.0</string>
+	<string name="time_animation_page4">1.5 0.3 3.5 0.3 4.0 0.3 3.0</string>
+	<string name="time_animation_page5">1.5 0.3 4.0 0.2 5.0 0.2 5.0</string>
+	<string name="time_animation_page6">1.5 0.2 4.0 0.2 4.0 0.2 3.8 0.2 4.0</string>
+	<string name="time_animation_page7">2.0 0.3 3.0 0.2 5.0 0.2 2.5</string>
+	<string name="time_animation_page8">1.5 0.2 3.5 0.3 3.0 0.2 3.0</string>
+	<string name="time_animation_page9">1.5 0.3 4.0 0.2 2.5</string>
+	<string name="time_animation_page10">2.0 0.2 3.5 0.3 4.0</string>
+	<string name="time_animation_page11">2.0 0.2 5.5 0.3 5.0</string>
+	<string name="time_animation_page12">2.5 0.2 5.0 0.3 3.5</string>
+	<string name="time_animation_page13">2.0 0.2 3.5 0.3 4.0</string>
+	<string name="time_animation_page14">2.0 0.2 3.5 0.2 3.2 0.2 4.5 0.2 4.0</string>
+	<string name="time_animation_page15">1.5 0.2 4.0 0.2 3.0</string>
+	<string name="time_animation_page16">2.0 0.2 4.0 0.3 2.5</string>
+	<string name="time_animation_page17">1.5 0.2 4.0 0.3 2.5</string>
+	<string name="time_animation_page18">2.0 0.3 4.0 0.2 2.2 0.2 2.0</string>
+	<string name="time_animation_page19">2.0 0.2 3.2 0.3 3.0 0.2 3.5 0.2 2.5</string>
+	<string name="time_animation_page20">1.5 0.2 3.8 0.3 4.0</string>
+	<string name="time_animation_page21">1.5 0.3 3.2 0.3 4.0 0.3 3.3 0.3 3.5</string>
+	<string name="time_animation_page22">1.0</string>
+	<string name="time_animation_page23">1.5 0.2 2.5</string>
+	<string name="time_animation_page24">1.5 0.2 2.5</string>
+	<string name="time_animation_page25">1.5 0.2 3.0</string>
+	<string name="time_animation_page26">1.5 0.3 3.2 0.3 2.5 0.3 3.5 0.3 2.5</string>
+	<string name="time_animation_page27">1.5 0.2 3.0 0.3 2.5 0.3 3.5 0.3 2.5</string>
+	<string name="time_animation_page28">1.5 0.3 3.2 0.3 2.8 0.3 3.5 0.3 2.5</string>
+	<string name="time_animation_page29">1.5 0.3 2.8 0.3 3.5 0.2 3.2 0.3 2.5</string>
+</resources>
