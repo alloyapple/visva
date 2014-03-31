@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    <com.mystictreegames.pagecurl.PageCurlView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/dcgpagecurlPageCurlView1"
+            android:background="@android:color/white">
+    </com.mystictreegames.pagecurl.PageCurlView>
+    <Button android:id="@+id/txt_info"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/btn_info"
+              android:layout_alignParentBottom="true"
+              android:layout_alignParentLeft="true"
+              android:layout_marginBottom="@dimen/backToMenu_marginBottom_default"
+              android:layout_marginLeft="@dimen/backToMenu_marginLeft_default"
+              android:gravity="center_horizontal"/>
+    <LinearLayout android:id="@+id/recordDim"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_alignParentBottom="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_marginRight="40dp"
+                  android:layout_marginBottom="20dp"
+                  android:background="@drawable/bg_rect_dim">
+        <CheckBox android:id="@+id/btn_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_record_state"
+                android:checked="false"
+                android:button="@null"/>
+        <CheckBox android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_play_state"
+                android:checked="false"
+                android:button="@null"/>
+        <Button android:id="@+id/btn_saveRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_save_record"/>
+        <Button android:id="@+id/btn_deleteRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_delete_record"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,31 @@
+<resources>
+    <dimen name="fontsize_page1">32px</dimen>
+    <dimen name="fontsize_page2">34px</dimen>
+    <dimen name="fontsize_page3">34px</dimen>
+    <dimen name="fontsize_page4">32px</dimen>
+    <dimen name="fontsize_page5">34px</dimen>
+    <dimen name="fontsize_page6">34px</dimen>
+    <dimen name="fontsize_page7">34px</dimen>
+    <dimen name="fontsize_page8">34px</dimen>
+    <dimen name="fontsize_page9">34px</dimen>
+    <dimen name="fontsize_page10">34px</dimen>
+    <dimen name="fontsize_page11">34px</dimen>
+    <dimen name="fontsize_page12">34px</dimen>
+    <dimen name="fontsize_page13">34px</dimen>
+    <dimen name="fontsize_page14">30px</dimen>
+    <dimen name="fontsize_page15">34px</dimen>
+    <dimen name="fontsize_page16">34px</dimen>
+    <dimen name="fontsize_page17">33px</dimen>
+    <dimen name="fontsize_page18">33px</dimen>
+    <dimen name="fontsize_page19">34px</dimen>
+    <dimen name="fontsize_page20">32px</dimen>
+    <dimen name="fontsize_page21">34px</dimen>
+    <dimen name="fontsize_page22">33px</dimen>
+    <dimen name="fontsize_page23">34px</dimen>
+    <dimen name="fontsize_page24">34px</dimen>
+    <dimen name="fontsize_page25">34px</dimen>
+    <dimen name="fontsize_page26">34px</dimen>
+    <dimen name="fontsize_page27">34px</dimen>
+    <dimen name="fontsize_page28">34px</dimen>
+    <dimen name="fontsize_page29">40px</dimen>
+</resources>
