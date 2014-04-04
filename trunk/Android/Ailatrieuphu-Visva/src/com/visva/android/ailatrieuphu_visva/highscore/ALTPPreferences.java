@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class ALTPPreferences {
-	private static final String SHOPIE_PREFERENCES = "SHOPIE_PREFERENCES";
+	private static final String ALTP_PREFERENCES = "SHOPIE_PREFERENCES";
 	public static final String[] KEY_NAME = { "NAME1", "NAME2", "NAME3",
 			"NAME4", "NAME5", "NAME6", "NAME7", "NAME8", "NAME9", "NAME10" };
 	public static final String[] KEY_SCORE = { "SCORE1", "SCORE2", "SCORE3",
 			"SCORE4", "SCORE5", "SCORE6", "SCORE7", "SCORE8", "SCORE9",
 			"SCORE10" };
+	public static final String KEY_OPTIONS_SOUND = "KEY_OPTIONS_SOUND";
+	public static final String KEY_EXIT_GAME="KEY_EXIT_GAME";
 	// ================================================================
 
 	private Context context;
@@ -47,34 +49,14 @@ public class ALTPPreferences {
 		return result;
 	}
 
-	public void setScores(int score[]) {
-		putIntValue("SCORE1", score[0]);
-		putIntValue("SCORE2", score[1]);
-		putIntValue("SCORE3", score[2]);
-		putIntValue("SCORE4", score[3]);
-		putIntValue("SCORE5", score[4]);
-		putIntValue("SCORE6", score[5]);
-		putIntValue("SCORE7", score[6]);
-		putIntValue("SCORE8", score[7]);
-		putIntValue("SCORE9", score[8]);
-		putIntValue("SCORE10", score[9]);
+	public static void putSoundEnable(Context context,boolean b){
+		putBooleanValue(context,KEY_OPTIONS_SOUND, b);
 	}
-
-	public int[] getScores() {
-		int result[] = new int[10];
-		result[0] = getIntValue("SCORE1");
-		result[1] = getIntValue("SCORE2");
-		result[2] = getIntValue("SCORE3");
-		result[3] = getIntValue("SCORE4");
-		result[4] = getIntValue("SCORE5");
-		result[5] = getIntValue("SCORE6");
-		result[6] = getIntValue("SCORE7");
-		result[7] = getIntValue("SCORE8");
-		result[8] = getIntValue("SCORE9");
-		result[9] = getIntValue("SCORE10");
-		return result;
+	
+	public static boolean getSoundEnable(Context context){
+		return getBooleanValue(context,KEY_OPTIONS_SOUND);
 	}
-
+	
 	// ======================== CORE FUNCTIONS ========================
 
 	/**
@@ -86,7 +68,7 @@ public class ALTPPreferences {
 	public void putLongValue(String key, long n) {
 		// SmartLog.log(TAG, "Set long integer value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putLong(key, n);
 		editor.commit();
@@ -101,7 +83,7 @@ public class ALTPPreferences {
 	public long getLongValue(String key) {
 		// SmartLog.log(TAG, "Get long integer value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		return pref.getLong(key, 0);
 	}
 
@@ -111,10 +93,10 @@ public class ALTPPreferences {
 	 * @param key
 	 * @param n
 	 */
-	public void putIntValue(String key, int n) {
+	public static void putIntValue(Context context,String key, int n) {
 		// SmartLog.log(TAG, "Set integer value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putInt(key, n);
 		editor.commit();
@@ -126,10 +108,10 @@ public class ALTPPreferences {
 	 * @param key
 	 * @return
 	 */
-	public int getIntValue(String key) {
+	public static int getIntValue(Context context,String key) {
 		// SmartLog.log(TAG, "Get integer value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		return pref.getInt(key, 0);
 	}
 
@@ -142,7 +124,7 @@ public class ALTPPreferences {
 	public void putStringValue(String key, String s) {
 		// SmartLog.log(TAG, "Set string value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putString(key, s);
 		editor.commit();
@@ -157,7 +139,7 @@ public class ALTPPreferences {
 	public String getStringValue(String key) {
 		// SmartLog.log(TAG, "Get string value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		return pref.getString(key, "");
 	}
 
@@ -171,7 +153,7 @@ public class ALTPPreferences {
 	public String getStringValue(String key, String defaultValue) {
 		// SmartLog.log(TAG, "Get string value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		return pref.getString(key, defaultValue);
 	}
 
@@ -181,10 +163,10 @@ public class ALTPPreferences {
 	 * @param key
 	 * @param s
 	 */
-	public void putBooleanValue(String key, Boolean b) {
+	public static void putBooleanValue(Context context,String key, Boolean b) {
 		// SmartLog.log(TAG, "Set boolean value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putBoolean(key, b);
 		editor.commit();
@@ -196,11 +178,11 @@ public class ALTPPreferences {
 	 * @param key
 	 * @return
 	 */
-	public boolean getBooleanValue(String key) {
+	public static boolean getBooleanValue(Context context,String key) {
 		// SmartLog.log(TAG, "Get boolean value");
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
-		return pref.getBoolean(key, false);
+				ALTP_PREFERENCES, 0);
+		return pref.getBoolean(key, true);
 	}
 
 	/**
@@ -210,8 +192,7 @@ public class ALTPPreferences {
 	 * @param s
 	 */
 	public void putFloatValue(String key, float f) {
-		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+		SharedPreferences pref = context.getSharedPreferences(ALTP_PREFERENCES, 0);
 		SharedPreferences.Editor editor = pref.edit();
 		editor.putFloat(key, f);
 		editor.commit();
@@ -225,7 +206,7 @@ public class ALTPPreferences {
 	 */
 	public float getFloatValue(String key) {
 		SharedPreferences pref = context.getSharedPreferences(
-				SHOPIE_PREFERENCES, 0);
+				ALTP_PREFERENCES, 0);
 		return pref.getFloat(key, 0.0f);
 	}
 }

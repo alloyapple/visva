@@ -13,6 +13,5 @@ public interface FacebookListener {
 			"http://farm4.staticflickr.com/3762/9311963639_0bd98734fe_o.png",
 			"http://farm4.staticflickr.com/3829/9311963397_cecc775c02_o.png" };
 
-	public void onFeedRequest(final String link, final String name,
-			final String captain, final String descript, final String pictureUrl);
+	public void onFeedRequest(final String link, final String name,final String captain, final String descript, final String pictureUrl);
 }

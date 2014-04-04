@@ -23,11 +23,15 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.visva.android.ailatrieuphu_visva.R;
 import com.visva.android.ailatrieuphu_visva.db.DBConnector;
+import com.visva.android.ailatrieuphu_visva.highscore.ALTPPreferences;
 import com.visva.android.ailatrieuphu_visva.utils.Constant;
 import com.visva.android.ailatrieuphu_visva.utils.Helpers;
 
@@ -41,7 +45,6 @@ public class MenuActivity extends Activity {
 	private Button _btn_menu_high_score;
 	private Button _btn_menu_options;
 	private Button _btn_menu_exit;
-	private Button _btn_facebook;
 	private AnimationDrawable _anim_begin;
 	private Boolean _is_begin;
 	private DBConnector _db_connector;
@@ -147,8 +150,6 @@ public class MenuActivity extends Activity {
 		_btn_menu_options.setOnClickListener(_listener_onclick_options);
 		_btn_menu_exit = (Button) findViewById(R.id._layout_menu_btn_exit);
 		_btn_menu_exit.setOnClickListener(_listener_onclick_exit);
-		_btn_facebook = (Button) findViewById(R.id._layout_menu_btn_facebook);
-		_btn_facebook.setOnClickListener(_listener_onclick_share_facebook);
 		// _anim_begin = (AnimationDrawable)
 		// _btn_menu_begin.getBackground().getCurrent();
 
@@ -158,7 +159,7 @@ public class MenuActivity extends Activity {
 		// _btn_menu_high_score.setTypeface(type);
 		// _btn_menu_options.setTypeface(type);
 		// _btn_menu_exit.setTypeface(type);
-
+		ALTPPreferences.putIntValue(this, ALTPPreferences.KEY_EXIT_GAME, 0);
 		_db_connector = new DBConnector(this);
 	}
 
@@ -437,6 +438,26 @@ public class MenuActivity extends Activity {
 		View dialog_view = inflater.inflate(
 				R.layout._altp_layout_dialog_options, null);
 		_dialog_options.setContentView(dialog_view);
+		final CheckBox check_box_sound = (CheckBox) dialog_view
+				.findViewById(R.id._layout_dialog_options_check_sound);
+		if (ALTPPreferences.getSoundEnable(this))
+			check_box_sound.setChecked(true);
+		else
+			check_box_sound.setChecked(false);
+		check_box_sound
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						ALTPPreferences.putBooleanValue(MenuActivity.this,
+								ALTPPreferences.KEY_OPTIONS_SOUND, isChecked);
+						if(!isChecked)
+							Helpers.releaseSound(_sound);
+						else
+							_sound = Helpers.playSound(MenuActivity.this, R.raw._altp_sound_background, true);
+					}
+				});
 		Button btn_oki = (Button) dialog_view
 				.findViewById(R.id._layout_dialog_options_btn_ok);
 		btn_oki.setOnClickListener(new OnClickListener() {
@@ -478,4 +499,10 @@ public class MenuActivity extends Activity {
 		builder.create().show();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ALTPPreferences.putIntValue(this, ALTPPreferences.KEY_EXIT_GAME, 1);
+		Helpers.releaseSound(_sound);
+	}
 }

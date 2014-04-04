@@ -69,15 +69,4 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/_layout_menu_btn_facebook"
-        android:layout_width="@dimen/button_fb_width"
-        android:layout_height="@dimen/button_fb_height"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/altp_btn_facebook_"
-        android:gravity="top|right" />
-
 </RelativeLayout>
