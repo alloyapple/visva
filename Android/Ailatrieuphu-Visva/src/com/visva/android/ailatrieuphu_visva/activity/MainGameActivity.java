@@ -27,14 +27,12 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.visva.android.ailatrieuphu_visva.R;
 import com.visva.android.ailatrieuphu_visva.db.DBConnector;
 import com.visva.android.ailatrieuphu_visva.db.Question;
+import com.visva.android.ailatrieuphu_visva.highscore.ALTPPreferences;
 import com.visva.android.ailatrieuphu_visva.utils.Constant;
 import com.visva.android.ailatrieuphu_visva.utils.Helpers;
 
@@ -92,26 +90,6 @@ public class MainGameActivity extends Activity {
 	private int _money = 0;
 
 	private AdView layoutAds;
-
-	// FaceBook
-	private UiLifecycleHelper uiHelper;
-	private Session.StatusCallback callback = new Session.StatusCallback() {
-		@Override
-		public void call(final Session session, final SessionState state,
-				final Exception exception) {
-			onSessionStateChange(session, state, exception);
-		}
-	};
-
-	private void onSessionStateChange(final Session session,
-			SessionState state, Exception exception) {
-		if (session != null && session.isOpened()) {
-			if (state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
-				Session.getActiveSession();
-			} else {
-			}
-		}
-	}
 
 	private OnClickListener _listener_onclick_help_50_50 = new OnClickListener() {
 
@@ -221,7 +199,8 @@ public class MainGameActivity extends Activity {
 					e.printStackTrace();
 				}
 			}
-			out_time();
+			if (ALTPPreferences.getIntValue(MainGameActivity.this, ALTPPreferences.KEY_EXIT_GAME) == 0)
+				out_time();
 		}
 	};
 	private TextView _txt_time;
@@ -236,9 +215,6 @@ public class MainGameActivity extends Activity {
 		getWindow().clearFlags(
 				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		setContentView(R.layout._altp_layout_main_game);
-		// Facebook
-		uiHelper = new UiLifecycleHelper(this, callback);
-		uiHelper.onCreate(savedInstanceState);
 		_btn_help_50_50 = (Button) findViewById(R.id._layout_main_game_btn_help_50_50);
 		_btn_help_50_50.setOnClickListener(_listener_onclick_help_50_50);
 		_btn_help_call_relatives = (Button) findViewById(R.id._layout_main_game_btn_help_call_relatives);
@@ -279,7 +255,7 @@ public class MainGameActivity extends Activity {
 
 	// refresh adsmobs after 30 seconds
 	private void refreshAdsMob() {
-		new CountDownTimer(12000, 10000) {
+		new CountDownTimer(12000, 60000) {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
@@ -311,34 +287,26 @@ public class MainGameActivity extends Activity {
 			_db_conector.close();
 			_db_conector = null;
 		}
-		uiHelper.onPause();
 		super.onPause();
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle bundle) {
 		super.onSaveInstanceState(bundle);
-		uiHelper.onSaveInstanceState(bundle);
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
-		uiHelper.onDestroy();
+		Helpers.releaseSound(_sound_bg);
+		Helpers.releaseSound(_sound_effect);
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		if (_db_conector == null) {
 			_db_conector = new DBConnector(this);
 			_db_conector.openDataBase();
-		}
-		uiHelper.onResume();
-		final Session session = Session.getActiveSession();
-		if (session == null || session.isClosed() || !session.isOpened()) {
-			uiHelper = new UiLifecycleHelper(this, callback);
 		}
 		super.onResume();
 	}
@@ -888,7 +856,6 @@ public class MainGameActivity extends Activity {
 				// TODO Auto-generated method stub
 				String name = _txtboxName.getText().toString();
 				saveScore(name, _level - 1);
-				Helpers.publishFeedDialog(MainGameActivity.this);
 			}
 		});
 		Button btn_dont_known = (Button) dialog_view
