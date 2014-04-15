@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.visva.android.flashlight.R;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 import com.visva.android.flashlight.common.Session;
 import com.visva.android.flashlight.utilities.ScreenUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class WarningLightActivity extends BaseActivity {
 	private ImageView imgUpLight;
@@ -21,6 +23,7 @@ public class WarningLightActivity extends BaseActivity {
 	private boolean _upLightActivated = true;
 	private Button _btnFeatures;
 	private TextView _tvLabel;
+	private AdView layoutAds;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -40,6 +43,11 @@ public class WarningLightActivity extends BaseActivity {
 		} else {
 			_tvLabel.setVisibility(View.GONE);
 		}
+		layoutAds = (AdView) this.findViewById(R.id.main_adView);
+        AdRequest adRequest = new AdRequest();
+        adRequest.setTesting(true);
+        layoutAds.loadAd(adRequest);
+        layoutAds.bringToFront();
 	}
 
 	private void detectResizeImageByScreen() {

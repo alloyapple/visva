@@ -2,10 +2,11 @@ package com.visva.android.flashlight.activities;
 
 import java.util.ArrayList;
 
+import org.codechimp.apprater.AppRater;
+
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +15,6 @@ import android.widget.LinearLayout;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.adapter.CustomAdapter;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.common.SaveVisibleLightSource;
@@ -23,6 +23,7 @@ import com.visva.android.flashlight.common.ScreenLightKey;
 import com.visva.android.flashlight.common.Session;
 import com.visva.android.flashlight.utilities.ScreenUtilities;
 import com.visva.android.flashlight.utilities.SwitchUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class FeatureActivity extends BaseActivity implements Key {
 
@@ -106,7 +107,6 @@ public class FeatureActivity extends BaseActivity implements Key {
 		this._lnFeature = (LinearLayout) findViewById(R.id.lnFeature);
 
 		visibleLightSource = _preferenceUtilities.getVisibleLightSources();
-		Log.d("KieuThang", "visibleLightSource "+visibleLightSource.length());
 		_lstVisibleLightSourcesId = SaveVisibleLightSource.getListVisibleSources(visibleLightSource);
 		for (int i = 0; i < _lstVisibleLightSourcesId.size(); i++) {
 			for (int j = 0; j < ScreenLightKey.lstScreenLight.size(); j++) {
@@ -195,8 +195,7 @@ public class FeatureActivity extends BaseActivity implements Key {
 			_preferenceUtilities.setScreenLightTurnOn(false);
 			_preferenceUtilities.setLedLightTurnOn(false);
 			_preferenceUtilities.setShowAppsLabel(true);
-			switchToActivity(APPS, AppsActivity.class);
-			finish();
+			AppRater.showRateDialog(this);
 			break;
 		case SETTING:
 			_preferenceUtilities.setScreenLightTurnOn(false);

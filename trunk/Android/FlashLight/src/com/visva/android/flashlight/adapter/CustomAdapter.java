@@ -15,9 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.activities.FeatureActivity;
 import com.visva.android.flashlight.common.ScreenLight;
+import com.visva.android.flashlightmaster.R;
 
 public class CustomAdapter {
 

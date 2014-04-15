@@ -11,7 +11,7 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.visva.android.flashlight.R;
+import com.visva.android.flashlightmaster.R;
 
 public class XImageView extends ImageView {
 

@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.ScreenLight;
+import com.visva.android.flashlightmaster.R;
 
 public class WidgetAdapter extends BaseAdapter {
 

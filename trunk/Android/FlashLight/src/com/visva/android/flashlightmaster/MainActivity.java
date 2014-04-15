@@ -1,4 +1,4 @@
-package com.visva.android.flashlight;
+package com.visva.android.flashlightmaster;
 
 import java.util.List;
 

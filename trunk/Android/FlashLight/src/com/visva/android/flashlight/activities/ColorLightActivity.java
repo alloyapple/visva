@@ -12,13 +12,13 @@ import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.common.Session;
 import com.visva.android.flashlight.gesture.ActivitySwipeDetector;
 import com.visva.android.flashlight.gesture.SwipeInterface;
 import com.visva.android.flashlight.utilities.ColorUtilities;
 import com.visva.android.flashlight.utilities.ScreenUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class ColorLightActivity extends BaseActivity implements SwipeInterface, Key {
     private LinearLayout _lightColorTouchLayout;

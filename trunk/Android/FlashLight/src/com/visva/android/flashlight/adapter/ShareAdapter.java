@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.Key;
+import com.visva.android.flashlightmaster.R;
 
 public class ShareAdapter extends BaseAdapter implements Key {
 
