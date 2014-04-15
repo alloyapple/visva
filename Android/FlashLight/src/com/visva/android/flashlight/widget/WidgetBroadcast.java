@@ -8,14 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
-import com.visva.android.flashlight.MainActivity;
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.utilities.CameraUtilities;
 import com.visva.android.flashlight.utilities.LEDUtilities;
 import com.visva.android.flashlight.utilities.PreferenceUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class WidgetBroadcast extends BroadcastReceiver implements Key {
 	public static boolean _ledActivated;
@@ -32,7 +30,6 @@ public class WidgetBroadcast extends BroadcastReceiver implements Key {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Toast.makeText(context, "aaa", Toast.LENGTH_LONG).show();
 		this._intent = intent;
 		_appWidgetManager = AppWidgetManager.getInstance(context);
 		this._pref = new PreferenceUtilities(context);

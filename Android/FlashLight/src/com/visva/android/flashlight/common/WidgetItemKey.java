@@ -2,7 +2,7 @@ package com.visva.android.flashlight.common;
 
 import java.util.ArrayList;
 
-import com.visva.android.flashlight.R;
+import com.visva.android.flashlightmaster.R;
 
 public class WidgetItemKey implements Key{
 	public static ArrayList<ScreenLight> lstWidgetItem = new ArrayList<ScreenLight>();

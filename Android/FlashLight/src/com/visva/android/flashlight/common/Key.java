@@ -1,6 +1,6 @@
 package com.visva.android.flashlight.common;
 
-import com.visva.android.flashlight.R;
+import com.visva.android.flashlightmaster.R;
 
 public interface Key {
 
@@ -37,7 +37,7 @@ public interface Key {
 
 	public static final String[] SHARES = new String[] { "Facebook", "Twitter", "Google+", "E-Mail" };
 	public static final String[] LIGHT_SOURCE = new String[] { "LED Light", "Screen Light", "Morse Code",
-			"Strobe Light", "Warning Lights", "Light Buld", "Color Light", "Police Lights","Apps" };
+			"Strobe Light", "Warning Lights", "Light Buld", "Color Light", "Police Lights", "Apps" };
 
 	public static final int[] IMAGE_IDS = new int[] { R.drawable.w_led_icon, R.drawable.w_screen_icon,
 			R.drawable.w_morse_icon, R.drawable.w_strobe_icon, R.drawable.w_warning_icon, R.drawable.w_bulb_icon,
@@ -47,7 +47,7 @@ public interface Key {
 			"10 minutes", "30 minutes", "No limit" };
 	public static final int[] LIGHT_TIMEOUT = new int[] { 20000, 60000, 300000, 600000, 1800000, -1 };
 
-	public static final String SCREEN_SELECTED = "screen_selected"; 
+	public static final String SCREEN_SELECTED = "screen_selected";
 	public static final String PLAY_SOUND = "play_sound";
 	public static final String DEFAULT_LIGHT_SOURCE = "default_light_source";
 	public static final String VISIBLE_LIGHT_SOURCE = "visible_light_source";

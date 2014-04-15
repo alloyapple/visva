@@ -5,7 +5,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-import com.visva.android.flashlight.R;
+import com.visva.android.flashlightmaster.R;
 
 public class SoundUtilities {
 

@@ -2,7 +2,7 @@ package com.visva.android.flashlight.common;
 
 import java.util.ArrayList;
 
-import com.visva.android.flashlight.R;
+import com.visva.android.flashlightmaster.R;
 
 public class ScreenLightKey implements Key {
 	public static ArrayList<ScreenLight> lstScreenLight = new ArrayList<ScreenLight>();
@@ -16,8 +16,8 @@ public class ScreenLightKey implements Key {
 		lstScreenLight.add(new ScreenLight("Light Bulb", LIGHT_BULD, R.drawable.w_bulb_icon));
 		lstScreenLight.add(new ScreenLight("Color Light", COLOR_LIGHT, R.drawable.w_color_icon));
 		lstScreenLight.add(new ScreenLight("Police Lights", POLICE_LIGHT, R.drawable.w_police_icon));
+		lstScreenLight.add(new ScreenLight("Apps", APPS, R.drawable.w_apps_rate));
 		lstScreenLight.add(new ScreenLight("Settings", SETTING, R.drawable.w_settings_icon));
-
 	}
 
 }

@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.adapter.WidgetAdapter;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.common.ScreenLight;
@@ -25,6 +24,7 @@ import com.visva.android.flashlight.utilities.PreferenceUtilities;
 import com.visva.android.flashlight.utilities.ScreenUtilities;
 import com.visva.android.flashlight.widget.TinyFlashLightWidgetProvider;
 import com.visva.android.flashlight.widget.UpdateWidgetService;
+import com.visva.android.flashlightmaster.R;
 
 public class TinyFlashLightWidgetActivity extends Activity implements Key {
 	private GridView _gvFeature;

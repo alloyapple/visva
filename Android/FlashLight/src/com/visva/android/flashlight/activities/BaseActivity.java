@@ -29,7 +29,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.adapter.ShareAdapter;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.common.OnShakeListener;
@@ -40,6 +39,7 @@ import com.visva.android.flashlight.utilities.LEDUtilities;
 import com.visva.android.flashlight.utilities.PreferenceUtilities;
 import com.visva.android.flashlight.utilities.ShareUtilities;
 import com.visva.android.flashlight.utilities.SoundUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class BaseActivity extends Activity implements Key {
 

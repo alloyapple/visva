@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -33,7 +32,6 @@ import android.widget.ToggleButton;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.adapter.VisibleLightSourcesAdapter;
 import com.visva.android.flashlight.adapter.VisibleLightSourcesViewHelper;
 import com.visva.android.flashlight.common.Key;
@@ -45,6 +43,7 @@ import com.visva.android.flashlight.common.ShakedListener;
 import com.visva.android.flashlight.utilities.CameraUtilities;
 import com.visva.android.flashlight.utilities.HardwareUtilities;
 import com.visva.android.flashlight.utilities.LEDUtilities;
+import com.visva.android.flashlightmaster.R;
 
 /**
  * @author KieuThang
@@ -147,34 +146,11 @@ public class SettingActivity extends BaseActivity implements Key {
             _tvLabel.setVisibility(View.GONE);
         }
 
-        refreshAdsMob();
         layoutAds = (AdView) this.findViewById(R.id.main_adView);
         AdRequest adRequest = new AdRequest();
         adRequest.setTesting(true);
         layoutAds.loadAd(adRequest);
         layoutAds.bringToFront();
-    }
-
-    private void refreshAdsMob() {
-        new CountDownTimer(12000, 20000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onFinish() {
-                AdRequest adRequest = new AdRequest();
-                adRequest.setTesting(true);
-                layoutAds.refreshDrawableState();
-                layoutAds.loadAd(adRequest);
-                layoutAds.invalidate();
-                layoutAds.bringToFront();
-                refreshAdsMob();
-            }
-        }.start();
     }
 
     @Override
@@ -378,7 +354,7 @@ public class SettingActivity extends BaseActivity implements Key {
 
     private void initSpinnerDefaultLightSource() {
         ArrayList<String> __lstLightSourceName = new ArrayList<String>();
-        for (int i = 0; i < _lstLightSources.size(); i++) {
+        for (int i = 0; i < _lstLightSources.size() - 1; i++) {
             __lstLightSourceName.add(_lstLightSources.get(i).getName());
         }
 

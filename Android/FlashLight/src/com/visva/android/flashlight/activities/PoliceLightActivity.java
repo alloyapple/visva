@@ -5,7 +5,6 @@ import java.util.TimerTask;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,9 +12,9 @@ import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.Session;
 import com.visva.android.flashlight.utilities.ScreenUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class PoliceLightActivity extends BaseActivity {
     private LinearLayout _policeLightLayout;
@@ -47,34 +46,11 @@ public class PoliceLightActivity extends BaseActivity {
         } else {
             _tvLabel.setVisibility(View.GONE);
         }
-        refreshAdsMob();
         layoutAds = (AdView) this.findViewById(R.id.main_adView);
         AdRequest adRequest = new AdRequest();
         adRequest.setTesting(true);
         layoutAds.loadAd(adRequest);
         layoutAds.bringToFront();
-    }
-
-    private void refreshAdsMob() {
-        new CountDownTimer(12000, 20000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onFinish() {
-                AdRequest adRequest = new AdRequest();
-                adRequest.setTesting(true);
-                layoutAds.refreshDrawableState();
-                layoutAds.loadAd(adRequest);
-                layoutAds.invalidate();
-                layoutAds.bringToFront();
-                refreshAdsMob();
-            }
-        }.start();
     }
 
     private void mapUIElement() {

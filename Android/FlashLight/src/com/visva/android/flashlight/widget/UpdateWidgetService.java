@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.utilities.PreferenceUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class UpdateWidgetService extends Service implements Key {
 

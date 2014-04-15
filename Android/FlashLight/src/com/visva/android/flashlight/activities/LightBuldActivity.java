@@ -1,7 +1,6 @@
 package com.visva.android.flashlight.activities;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -13,12 +12,12 @@ import android.widget.TextView;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.Session;
 import com.visva.android.flashlight.gesture.ActivitySwipeDetector;
 import com.visva.android.flashlight.gesture.SwipeInterface;
 import com.visva.android.flashlight.utilities.ColorUtilities;
 import com.visva.android.flashlight.utilities.ScreenUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class LightBuldActivity extends BaseActivity implements SwipeInterface {
 
@@ -60,33 +59,11 @@ public class LightBuldActivity extends BaseActivity implements SwipeInterface {
             _tvLabel.setVisibility(View.GONE);
         }
 
-        refreshAdsMob();
         layoutAds = (AdView) this.findViewById(R.id.main_adView);
         AdRequest adRequest = new AdRequest();
         adRequest.setTesting(true);
         layoutAds.loadAd(adRequest);
         layoutAds.bringToFront();
-    }
-
-    private void refreshAdsMob() {
-        new CountDownTimer(12000, 20000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                AdRequest adRequest = new AdRequest();
-                adRequest.setTesting(true);
-                layoutAds.refreshDrawableState();
-                layoutAds.loadAd(adRequest);
-                layoutAds.invalidate();
-                layoutAds.bringToFront();
-                refreshAdsMob();
-            }
-        }.start();
     }
 
     @Override

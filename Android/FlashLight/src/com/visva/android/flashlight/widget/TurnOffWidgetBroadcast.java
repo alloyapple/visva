@@ -5,11 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.activities.BaseActivity;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.utilities.CameraUtilities;
 import com.visva.android.flashlight.utilities.LEDUtilities;
+import com.visva.android.flashlightmaster.R;
 
 public class TurnOffWidgetBroadcast extends BroadcastReceiver implements Key {
 

@@ -12,10 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.activities.FeatureActivity;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.common.ScreenLight;
+import com.visva.android.flashlightmaster.R;
 
 public class FeatureAdapter extends BaseAdapter implements Key {
 

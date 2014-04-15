@@ -2,7 +2,6 @@ package com.visva.android.flashlight.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -23,10 +22,10 @@ import android.widget.ToggleButton;
 
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.utilities.CameraUtilities;
 import com.visva.android.flashlight.utilities.LEDUtilities;
 import com.visva.android.flashlight.utilities.MorseCodeConverter;
+import com.visva.android.flashlightmaster.R;
 
 public class MorseCodeActivity extends BaseActivity {
 
@@ -88,34 +87,11 @@ public class MorseCodeActivity extends BaseActivity {
 			_tvLabel.setVisibility(View.GONE);
 		}
 
-		refreshAdsMob();
         layoutAds = (AdView) this.findViewById(R.id.main_adView);
         AdRequest adRequest = new AdRequest();
         adRequest.setTesting(true);
         layoutAds.loadAd(adRequest);
         layoutAds.bringToFront();
-    }
-
-    private void refreshAdsMob() {
-        new CountDownTimer(12000, 20000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onFinish() {
-                AdRequest adRequest = new AdRequest();
-                adRequest.setTesting(true);
-                layoutAds.refreshDrawableState();
-                layoutAds.loadAd(adRequest);
-                layoutAds.invalidate();
-                layoutAds.bringToFront();
-                refreshAdsMob();
-            }
-        }.start();
     }
 
 	@Override

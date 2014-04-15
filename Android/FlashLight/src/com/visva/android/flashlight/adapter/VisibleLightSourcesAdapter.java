@@ -11,10 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.visva.android.flashlight.R;
 import com.visva.android.flashlight.common.Key;
 import com.visva.android.flashlight.common.SaveVisibleLightSource;
 import com.visva.android.flashlight.common.ScreenLight;
+import com.visva.android.flashlightmaster.R;
 
 public class VisibleLightSourcesAdapter extends BaseAdapter implements Key {
 	private LayoutInflater _inflater;
