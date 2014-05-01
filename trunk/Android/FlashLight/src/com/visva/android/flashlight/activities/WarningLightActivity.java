@@ -26,7 +26,8 @@ public class WarningLightActivity extends BaseActivity {
 	private AdView layoutAds;
 
 	/** Called when the activity is first created. */
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.warninglight);

@@ -54,33 +54,11 @@ public class ColorLightActivity extends BaseActivity implements SwipeInterface, 
             _tvLabel.setVisibility(View.GONE);
         }
 
-        refreshAdsMob();
         layoutAds = (AdView) this.findViewById(R.id.main_adView);
         AdRequest adRequest = new AdRequest();
         adRequest.setTesting(true);
         layoutAds.loadAd(adRequest);
         layoutAds.bringToFront();
-    }
-
-    private void refreshAdsMob() {
-        new CountDownTimer(12000, 20000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                AdRequest adRequest = new AdRequest();
-                adRequest.setTesting(true);
-                layoutAds.refreshDrawableState();
-                layoutAds.loadAd(adRequest);
-                layoutAds.invalidate();
-                layoutAds.bringToFront();
-                refreshAdsMob();
-            }
-        }.start();
     }
 
     @Override
