@@ -13,8 +13,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -247,36 +245,15 @@ public class MainGameActivity extends Activity {
 
 		// Look up the AdView as a resource and load a request.
 		layoutAds = (AdView) this.findViewById(R.id.main_adView);
-		refreshAdsMob();
-
+		AdRequest adRequest = new AdRequest();
+		adRequest.setTesting(true);
+		adRequest.addTestDevice("F3A6064B3D913A7B7C1DB8113DA82F11");
+		layoutAds.refreshDrawableState();
+		layoutAds.loadAd(adRequest);
+		layoutAds.invalidate();
+		layoutAds.bringToFront();
 		new Thread(task_count_down_time).start();
 		toNextQuestion(_level);
-	}
-
-	// refresh adsmobs after 30 seconds
-	private void refreshAdsMob() {
-		new CountDownTimer(12000, 60000) {
-
-			@Override
-			public void onTick(long millisUntilFinished) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onFinish() {
-				// Initiate a generic request to load it with an ad
-				Log.e("refresh ads", "refresh ads");
-				AdRequest adRequest = new AdRequest();
-				adRequest.setTesting(true);
-				adRequest.addTestDevice("F3A6064B3D913A7B7C1DB8113DA82F11");
-				layoutAds.refreshDrawableState();
-				layoutAds.loadAd(adRequest);
-				layoutAds.invalidate();
-				layoutAds.bringToFront();
-				refreshAdsMob();
-			}
-		}.start();
 	}
 
 	@Override
