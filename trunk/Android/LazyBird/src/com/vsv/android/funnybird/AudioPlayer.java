@@ -1,5 +1,10 @@
 package com.vsv.android.funnybird;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -10,16 +15,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.ArrayList;
-
-/**
- * Created by VV-MasteR team. Copyright 2012
- */
 public class AudioPlayer implements MediaPlayer.OnPreparedListener {
-	private static final String TAG = "*** AudioManager";
+	private static final String TAG = "VSV";
 
 	private static final String CURRENT_REC_PREFIX = "current_";
 	private static final String SAVED_REC_PREFIX = "user_";

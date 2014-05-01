@@ -17,11 +17,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.mystictreegames.pagecurl.PageCurlView;
 
@@ -64,7 +62,7 @@ public class StoryActionActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		// getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
 		super.onCreate(savedInstanceState);
-		Log.i("OnCreat", "true");
+		Log.i(TAG, "true");
 		// ExceptionHandler.register(getApplicationContext(),
 		// "http://crashes.vv-master.com/android-remote-stacktrace/server.php",
 		// "crashes", "!androidteam!");
@@ -235,14 +233,12 @@ public class StoryActionActivity extends Activity {
 
 	@Override
 	public void onStart() {
-		Log.i("OnStart", "true");
 		super.onStart();
 		FlurryAgent.onStartSession(this, PagesManager.FLURRY_KEY);
 	}
 
 	@Override
 	public void onResume() {
-		Log.i("OnResume", "true");
 		if (wakeLock != null)
 			wakeLock.acquire();
 		super.onResume();
@@ -261,7 +257,6 @@ public class StoryActionActivity extends Activity {
 
 	@Override
 	public void onPause() {
-		Log.i("OnPause", "true");
 		if (wakeLock != null)
 			wakeLock.release();
 		super.onPause();
@@ -277,14 +272,12 @@ public class StoryActionActivity extends Activity {
 
 	@Override
 	public void onStop() {
-		Log.i("OnCreat", "true");
 		super.onStop();
 		FlurryAgent.onEndSession(this);
 	}
 
 	@Override
 	public void onDestroy() {
-		Log.i("OnDestroy", "true");
 		System.gc();
 		mPageCurl.recycle();
 		super.onDestroy();
@@ -424,9 +417,7 @@ public class StoryActionActivity extends Activity {
 
 		}
 		if (keyCode == KeyEvent.KEYCODE_POWER) {
-			// Do something here...
-			Log.i("asbdhfbasn", "bshdbajsfnm am");
-			event.startTracking(); // Needed to track long presses
+			event.startTracking(); 
 			return true;
 		}
 		if (keyCode == KeyEvent.KEYCODE_CALL) {
@@ -438,8 +429,6 @@ public class StoryActionActivity extends Activity {
 
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_POWER) {
-			// do nothing but show a warning message
-			Toast.makeText(this, "you pressed the power button", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 
@@ -450,7 +439,6 @@ public class StoryActionActivity extends Activity {
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_POWER) {
 			// Do something here...
-			Log.i("asbdhfbasn", "bshdbajsfnm am");
 			return true;
 		}
 		return super.onKeyLongPress(keyCode, event);
