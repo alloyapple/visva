@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Lazy Bird</string>
+	<string name="app_name">Funny Bird</string>
 	<string name="font_name_default">Papyrus</string>
 	<string name="font_name_times">times</string>
 	<string name="font_name_page14">MyriadPro-Regular</string>
@@ -755,4 +755,7 @@
 	<string name="time_animation_page27">1.5 0.2 3.0 0.3 2.5 0.3 3.5 0.3 2.5</string>
 	<string name="time_animation_page28">1.5 0.3 3.2 0.3 2.8 0.3 3.5 0.3 2.5</string>
 	<string name="time_animation_page29">1.5 0.3 2.8 0.3 3.5 0.2 3.2 0.3 2.5</string>
+	
+	<string name="ads_unit_id1">a1536274ff970e3</string>
+	<string name="ads_unit_id2">a1536274ff970e3</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.vvmaster.android.lazybird;
+package com.vsv.android.funnybird;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;

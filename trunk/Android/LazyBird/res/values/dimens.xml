@@ -73,4 +73,16 @@
     <string name="number_text_page27">4</string>
     <string name="number_text_page28">3</string>
     <string name="number_text_page29">3</string>
+    
+    <!-- size -->
+    <dimen name="btn_read_to_me_width">100dp</dimen>
+    <dimen name="btn_read_to_me_height">50dp</dimen>
+    <dimen name="btn_read_to_me_margin_top">45dp</dimen>
+    <dimen name="btn_read_to_me_margin_left">30dp</dimen>
+    <dimen name="btn_read_it_myself_width">100dp</dimen>
+    <dimen name="btn_read_it_myself_height">50dp</dimen>
+    <dimen name="btn_read_it_myself_margin_bottom">20dp</dimen>
+    <dimen name="btn_read_it_myself_margin_right">80dp</dimen>
+    <dimen name="btn_record_the_voice_width">100dp</dimen>
+    <dimen name="btn_record_the_voice_height">50dp</dimen>
 </resources>

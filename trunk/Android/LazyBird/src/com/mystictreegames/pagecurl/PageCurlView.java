@@ -2,9 +2,7 @@ package com.mystictreegames.pagecurl;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import com.vvmaster.android.lazybird.PageData;
-import com.vvmaster.android.lazybird.PagesManager;
-import com.vvmaster.android.lazybird.R;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -12,10 +10,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Paint.Style;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextPaint;
@@ -26,15 +24,11 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 
-/**
- * 
- * @author Moritz 'Moss' Wundke (b.thax.dcg@gmail.com)
- * 
- */
-public class PageCurlView extends View {
-	/** Our Log tag */
-	private final static String TAG = "*** PageCurlView";
+import com.vsv.android.funnybird.PageData;
+import com.vsv.android.funnybird.PagesManager;
+import com.vsv.android.funnybird.R;
 
+public class PageCurlView extends View {
 	// Debug text paint stuff
 	private Paint mTextPaint;
 	private TextPaint mTextPaintShadow;

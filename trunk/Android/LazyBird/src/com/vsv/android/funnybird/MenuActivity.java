@@ -1,11 +1,11 @@
-package com.vvmaster.android.lazybird;
+package com.vsv.android.funnybird;
 
 import java.util.List;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -16,16 +16,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+
 import com.flurry.android.FlurryAgent;
 
 
 public class MenuActivity extends Activity {
-   // private static final String TAG = "*** MenuActivity";
-
     private int mStoryMode;
-	/*
-	 * manage activity running
-	 */
 	public ActivityManager actManager = null;
 	private List<RunningAppProcessInfo> runningProcInfo;
     /** Called when the activity is first created. */
@@ -61,14 +57,6 @@ public class MenuActivity extends Activity {
                 askLastReadPageAndStartStory();
             }
         });
-        final ImageButton btn_moreStories = (ImageButton)findViewById(R.id.btn_moreStories);
-        btn_moreStories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            	MoreStoriesActivity.startIt(MenuActivity.this, MoreStoriesActivity.MODE_MENU);
-				finish();
-            }
-        });
         final ImageButton btn_record = (ImageButton)findViewById(R.id.btn_record);
         btn_record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,19 +64,6 @@ public class MenuActivity extends Activity {
                 StoryActionActivity.startIt(MenuActivity.this, StoryActionActivity.MODE_RECORD, 0);
             }
         });
-        final ImageButton btn_info = (ImageButton)findViewById(R.id.btn_info);
-        btn_info.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(MenuActivity.this,
-						InfoPageActivity.class);
-				intent.putExtra("modeIntent", StoryActionActivity.MODE_MENU);
-				startActivity(intent);
-				finish();
-			}
-		});
     }
 
     @Override
