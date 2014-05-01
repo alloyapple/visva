@@ -1,18 +1,13 @@
-package com.vvmaster.android.lazybird;
+package com.vsv.android.funnybird;
+
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
-//import android.util.Log;
-//import android.util.Log;
 
-import java.util.ArrayList;
-
-/**
- * Created by VV-MasteR team. Copyright 2012
- */
 public class PageData {
 	public String mPageId;
 	public String[] mStrings;

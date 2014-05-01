@@ -1,10 +1,8 @@
-package com.vvmaster.android.lazybird;
+package com.vsv.android.funnybird;
 
 import android.app.Activity;
-//import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-//import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -15,16 +13,21 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.flurry.android.FlurryAgent;
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 import com.mystictreegames.pagecurl.PageCurlView;
 
-/**
- * Created by VV-MasteR team. Copyright 2012
- */
 public class StoryActionActivity extends Activity {
 	public static final int INFO_ACTIVITY = 0;
-	private static final String TAG = "*** StoryActionActivity";
+	private static final String TAG = "VSV";
 
 	public static final String EXTRA_MODE = "StoryActionActivity.mMode";
 	public static final String EXTRA_START_PAGE = "StoryActionActivity.startPage";
@@ -45,17 +48,21 @@ public class StoryActionActivity extends Activity {
 	public static final String SHARED_PREFS = "LazyBird.pref";
 	public static final String PREF_LAST_READ_PAGE = "StoryActionActivity.mLastReadpage";
 
-	private  PageCurlView mPageCurl;
-	private  PagesManager mPagesManager;
+	private PageCurlView mPageCurl;
+	private PagesManager mPagesManager;
 	private int mMode;
 	private AudioPlayer.OnTimestampListener mTimestampListener;
 	public static final int MODE_INFO = 1;
 	public static final int MODE_END = 2;
 	public static final int MODE_MENU = 3;
 
+	private AdView layoutAds1;
+	private AdView layoutAds2;
+
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-//		getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
+		// getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
 		super.onCreate(savedInstanceState);
 		Log.i("OnCreat", "true");
 		// ExceptionHandler.register(getApplicationContext(),
@@ -73,9 +80,8 @@ public class StoryActionActivity extends Activity {
 
 		// Run as full-screen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//		getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		// getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
 
 		setContentView(R.layout.story_action);
 
@@ -88,82 +94,69 @@ public class StoryActionActivity extends Activity {
 					mPageCurl.setHighlightedWordsCount(index);
 			}
 		};
-	
-			mPagesManager = new PagesManager(this);
+
+		mPagesManager = new PagesManager(this);
 
 		final AudioPlayer player = AudioPlayer.getInstance(this);
 
-		final Button btnInfo = (Button) findViewById(R.id.txt_info);
-		btnInfo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(StoryActionActivity.this,
-						InfoPageActivity.class);
-				intent.putExtra("modeIntent", MODE_INFO);
-				startActivityForResult(intent,
-						StoryActionActivity.INFO_ACTIVITY);
-			}
-		});
-		
-			mPageCurl = (PageCurlView) findViewById(R.id.dcgpagecurlPageCurlView1);
+		mPageCurl = (PageCurlView) findViewById(R.id.dcgpagecurlPageCurlView1);
 		createWakeLock();
 		mPageCurl.setPagesManager(mPagesManager, startPage);
-		mPageCurl
-				.setOnPageChangedListener(new PageCurlView.OnPageChangedListener() {
-					@Override
-					public void onChange(int foreground, int background) {
-						Log.d(TAG, "page onChange: foreground: " + foreground
-								+ " background: " + background);
+		mPageCurl.setOnPageChangedListener(new PageCurlView.OnPageChangedListener() {
+			@Override
+			public void onChange(int foreground, int background) {
+				Log.d(TAG, "page onChange: foreground: " + foreground + " background: " + background);
+				if (foreground == 4 ||foreground == 8 || foreground >= 26) {
+					layoutAds1.setVisibility(View.VISIBLE);
+					layoutAds2.setVisibility(View.GONE);
+				} else if(foreground == 12 || foreground == 16 || foreground == 20 ){
+					layoutAds1.setVisibility(View.GONE);
+					layoutAds2.setVisibility(View.GONE);
+				}else {
+					layoutAds1.setVisibility(View.GONE);
+					layoutAds2.setVisibility(View.VISIBLE);
+				}
+				final PageData pageData = mPagesManager.getPage(foreground);
+				if (!pageData.mIsZoom)
+					player.playPageFlip();
+				switch (mMode) {
+				case MODE_READ_TO_ME_ORIGINAL:
+				case MODE_READ_TO_ME_MYOWN: {
+					startPageReading(foreground);
+					break;
+				}
+				case MODE_RECORD: {
+					stopPlayingInRecordMode();
+					saveRecording();
+					resetRecording();
+				}
+				}
+			}
 
-						final PageData pageData = mPagesManager
-								.getPage(foreground);
-						if (!pageData.mIsZoom)
-							player.playPageFlip();
-						switch (mMode) {
-						case MODE_READ_TO_ME_ORIGINAL:
-						case MODE_READ_TO_ME_MYOWN: {
-							startPageReading(foreground);
-							break;
-						}
-						case MODE_RECORD: {
-							stopPlayingInRecordMode();
-							saveRecording();
-							resetRecording();
-						}
-						}
-						RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) btnInfo
-								.getLayoutParams();
-						params.setMargins(pageData.mBackToMenu_marginLeft,
-								params.topMargin, params.rightMargin,
-								pageData.mBackToMenu_marginBottom);
-						btnInfo.requestLayout();
-					}
+			@Override
+			public void onEnd() {
+				// TODO Auto-generated method stub
+				// Intent intent = new Intent(StoryActionActivity.this,
+				// InfoPageActivity.class);
+				// intent.putExtra("modeIntent", MODE_END);
+				// startActivityForResult(intent,
+				// StoryActionActivity.INFO_ACTIVITY);
+			}
 
-					@Override
-					public void onEnd() {
-						// TODO Auto-generated method stub
-						Intent intent = new Intent(StoryActionActivity.this,
-								InfoPageActivity.class);
-						intent.putExtra("modeIntent", MODE_END);
-						startActivityForResult(intent,
-								StoryActionActivity.INFO_ACTIVITY);
-					}
+			@Override
+			public void onTab(int idSound) {
+				// TODO Auto-generated method stub
+				player.playSoundTap(idSound);
+			}
 
-					@Override
-					public void onTab(int idSound) {
-						// TODO Auto-generated method stub
-						player.playSoundTap(idSound);
-					}
+			@Override
+			public void onNextZoom() {
+				// TODO Auto-generated method stub
+				AudioPlayer.getInstance(StoryActionActivity.this).stop();
+				player.playPageFlip();
 
-					@Override
-					public void onNextZoom() {
-						// TODO Auto-generated method stub
-						AudioPlayer.getInstance(StoryActionActivity.this)
-								.stop();
-						player.playPageFlip();
-
-					}
-				});
+			}
+		});
 
 		LinearLayout recordDim = (LinearLayout) findViewById(R.id.recordDim);
 		if (mMode == MODE_RECORD) {
@@ -172,30 +165,24 @@ public class StoryActionActivity extends Activity {
 			final CheckBox btn_play = (CheckBox) findViewById(R.id.btn_play);
 			final Button btn_saveRecord = (Button) findViewById(R.id.btn_saveRecord);
 			final Button btn_deleteRecord = (Button) findViewById(R.id.btn_deleteRecord);
-			btn_record
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						@Override
-						public void onCheckedChanged(
-								CompoundButton compoundButton, boolean b) {
-							if (b) {
-								stopPlayingInRecordMode();
-								btn_play.setEnabled(false);
-								player.startRecording(mPagesManager
-										.getPage(mPageCurl
-												.getCurrentPageIndex()).mPageId);
-							} else {
-								player.stopRecording();
-								setRecordControls(RecordControlsState.STATE_RECORD_FINISHED);
-							}
-						}
-					});
+			btn_record.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+					if (b) {
+						stopPlayingInRecordMode();
+						btn_play.setEnabled(false);
+						player.startRecording(mPagesManager.getPage(mPageCurl.getCurrentPageIndex()).mPageId);
+					} else {
+						player.stopRecording();
+						setRecordControls(RecordControlsState.STATE_RECORD_FINISHED);
+					}
+				}
+			});
 			btn_play.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				@Override
-				public void onCheckedChanged(CompoundButton compoundButton,
-						boolean b) {
+				public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 					if (b) {
-						player.playPage(mPagesManager.getPage(mPageCurl
-								.getCurrentPageIndex()).mPageId, true);
+						player.playPage(mPagesManager.getPage(mPageCurl.getCurrentPageIndex()).mPageId, true);
 					} else {
 						player.stop();
 					}
@@ -218,24 +205,31 @@ public class StoryActionActivity extends Activity {
 		} else {
 			recordDim.setVisibility(View.INVISIBLE);
 		}
+
+		layoutAds1 = (AdView) this.findViewById(R.id.first_adView);
+		AdRequest adRequest = new AdRequest();
+		adRequest.setTesting(true);
+		layoutAds1.loadAd(adRequest);
+		layoutAds1.bringToFront();
+
+		layoutAds2 = (AdView) this.findViewById(R.id.second_adView);
+		AdRequest adRequest2 = new AdRequest();
+		adRequest2.setTesting(true);
+		layoutAds2.loadAd(adRequest);
+		layoutAds2.bringToFront();
 	}
 
 	protected WakeLock wakeLock = null;
 
 	protected void createWakeLock() {
-
 		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK,
-				"lazy wakelock");
-
+		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "lazy wakelock");
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		savedInstanceState.putInt(EXTRA_MODE, mMode);
-		savedInstanceState.putInt(EXTRA_START_PAGE,
-				mPageCurl.getCurrentPageIndex());
-
+		savedInstanceState.putInt(EXTRA_START_PAGE, mPageCurl.getCurrentPageIndex());
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
@@ -252,7 +246,6 @@ public class StoryActionActivity extends Activity {
 		if (wakeLock != null)
 			wakeLock.acquire();
 		super.onResume();
-
 		switch (mMode) {
 		case MODE_READ_TO_ME_ORIGINAL:
 		case MODE_READ_TO_ME_MYOWN: {
@@ -305,14 +298,11 @@ public class StoryActionActivity extends Activity {
 
 	public static Typeface getTypeface(Context context, String typeface) {
 		if (mPapyrus == null)
-			mPapyrus = Typeface.createFromAsset(context.getAssets(),
-					"fonts/Papyrus.ttf");
+			mPapyrus = Typeface.createFromAsset(context.getAssets(), "fonts/Papyrus.ttf");
 		if (mMyriadPro == null)
-			mMyriadPro = Typeface.createFromAsset(context.getAssets(),
-					"fonts/MyriadPro-Regular.ttf");
+			mMyriadPro = Typeface.createFromAsset(context.getAssets(), "fonts/MyriadPro-Regular.ttf");
 		if (mTimes == null)
-			mTimes = Typeface.createFromAsset(context.getAssets(),
-					"fonts/times.ttf");
+			mTimes = Typeface.createFromAsset(context.getAssets(), "fonts/times.ttf");
 		if (typeface.equals("times"))
 			return mTimes;
 		else
@@ -392,8 +382,7 @@ public class StoryActionActivity extends Activity {
 		final AudioPlayer player = AudioPlayer.getInstance(this);
 
 		player.deleteRecording();
-		final PageData pageData = mPagesManager.getPage(mPageCurl
-				.getCurrentPageIndex());
+		final PageData pageData = mPagesManager.getPage(mPageCurl.getCurrentPageIndex());
 		player.setTimestampListener(pageData.mTimeStamps, mTimestampListener);
 		if (player.hasOwnRecording(pageData.mPageId)) {
 			setRecordControls(RecordControlsState.STATE_RECORD_SAVED);
@@ -410,8 +399,7 @@ public class StoryActionActivity extends Activity {
 	}
 
 	public static int getLastReadPage(Context ctx) {
-		SharedPreferences preferences = ctx.getSharedPreferences(SHARED_PREFS,
-				0);
+		SharedPreferences preferences = ctx.getSharedPreferences(SHARED_PREFS, 0);
 		return preferences.getInt(PREF_LAST_READ_PAGE, 0);
 	}
 
@@ -419,11 +407,11 @@ public class StoryActionActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		// super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == INFO_ACTIVITY) {
-			if (resultCode == InfoPageActivity.FINISH) {
-				finish();
-			}
-		}
+		// if (requestCode == INFO_ACTIVITY) {
+		// if (resultCode == InfoPageActivity.FINISH) {
+		// finish();
+		// }
+		// }
 	}
 
 	@Override
@@ -436,11 +424,11 @@ public class StoryActionActivity extends Activity {
 
 		}
 		if (keyCode == KeyEvent.KEYCODE_POWER) {
-	        // Do something here...
+			// Do something here...
 			Log.i("asbdhfbasn", "bshdbajsfnm am");
-	        event.startTracking(); // Needed to track long presses
-	        return true;
-	    }
+			event.startTracking(); // Needed to track long presses
+			return true;
+		}
 		if (keyCode == KeyEvent.KEYCODE_CALL) {
 			this.finish();
 			return true;
@@ -451,21 +439,21 @@ public class StoryActionActivity extends Activity {
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_POWER) {
 			// do nothing but show a warning message
-			Toast.makeText(this, "you pressed the power button",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "you pressed the power button", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 
 		return super.dispatchKeyEvent(event);
 	}
+
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-	    if (keyCode == KeyEvent.KEYCODE_POWER) {
-	        // Do something here...
-	    	Log.i("asbdhfbasn", "bshdbajsfnm am");
-	        return true;
-	    }
-	    return super.onKeyLongPress(keyCode, event);
+		if (keyCode == KeyEvent.KEYCODE_POWER) {
+			// Do something here...
+			Log.i("asbdhfbasn", "bshdbajsfnm am");
+			return true;
+		}
+		return super.onKeyLongPress(keyCode, event);
 	}
 
 }

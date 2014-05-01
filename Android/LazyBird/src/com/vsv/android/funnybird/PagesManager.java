@@ -1,14 +1,10 @@
-package com.vvmaster.android.lazybird;
+package com.vsv.android.funnybird;
 
 import android.content.Context;
 import android.graphics.Color;
 
 import java.util.ArrayList;
 
-/**
- * Created by VV-MasteR team.
- * Copyright 2012
- */
 public class PagesManager {
     final public static String FLURRY_KEY = "PTFBQ48H95DKXJ4JF6VJ";
     public static int PAGE_COUNT = 29;
