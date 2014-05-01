@@ -75,35 +75,12 @@ public class LEDLightActivity extends BaseActivity implements Key {
             _tvLabel.setVisibility(View.GONE);
         }
 
-//        refreshAdsMob();
         layoutAds = (AdView) this.findViewById(R.id.main_adView);
         AdRequest adRequest = new AdRequest();
         adRequest.setTesting(true);
         layoutAds.loadAd(adRequest);
         layoutAds.bringToFront();
     }
-
-//    private void refreshAdsMob() {
-//        new CountDownTimer(12000, 30000) {
-//
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//
-//            }
-//
-//            @SuppressWarnings("deprecation")
-//            @Override
-//            public void onFinish() {
-//                AdRequest adRequest = new AdRequest();
-//                adRequest.setTesting(true);
-//                layoutAds.refreshDrawableState();
-//                layoutAds.loadAd(adRequest);
-//                layoutAds.invalidate();
-//                layoutAds.bringToFront();
-//                refreshAdsMob();
-//            }
-//        }.start();
-//    }
 
     @Override
     protected void onStop() {
