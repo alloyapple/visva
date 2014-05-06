@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_options"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/bg_options"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@id/sound_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/option_layout_margin_top"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@id/lbl_player1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16.0dip"
+                android:background="@drawable/label_sound"
+                android:textColor="#ffffffff"
+                android:textSize="14.0sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <ImageView
+                android:id="@id/sound_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="21.0dip"
+                android:src="@drawable/on" />
+
+            <ImageView
+                android:id="@id/sound_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20.0dip"
+                android:src="@drawable/off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/gallows_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20.0dip"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@id/lbl_gallows"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/label_gallows"
+                android:textColor="#ffffffff"
+                android:textSize="14.0sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <ImageView
+                android:id="@id/show_gallows"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:src="@drawable/show" />
+
+            <ImageView
+                android:id="@id/hide_gallows"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:background="@drawable/hide"
+                android:src="@drawable/hide" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@id/back_options"
+        android:layout_width="@dimen/btn_option_width"
+        android:layout_height="@dimen/btn_option_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/btn_option_margin"
+        android:layout_marginLeft="@dimen/btn_option_margin"
+        android:background="@drawable/menu_back_images"
+        android:contentDescription="@string/app_name"
+        android:soundEffectsEnabled="false" />
+
+</RelativeLayout>
