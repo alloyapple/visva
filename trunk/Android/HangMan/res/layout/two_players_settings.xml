@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_two_player_menu"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@id/LinearLayout05"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/one_player_main_layout_top"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/one_player_main_layout_left"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@id/player_one_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/player_one_layout_margin_top" >
+
+            <TextView
+                android:id="@id/lbl_player1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/player_1"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/txt_player_1_text_size"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <LinearLayout
+                android:id="@id/LinearLayout01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10.0dip"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@id/txt_player_one"
+                    android:layout_width="125.0dip"
+                    android:layout_height="28.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5.0dip"
+                    android:background="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:hint="@string/player_1"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:maxLength="10"
+                    android:paddingBottom="2.0dip"
+                    android:paddingLeft="2.0dip"
+                    android:scrollHorizontally="true"
+                    android:textColor="#ffe6e5e3"
+                    android:textSize="@dimen/txt_player_1_text_size"
+                    android:textStyle="normal"
+                    android:typeface="serif" />
+
+                <ImageView
+                    android:id="@id/ImageView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_text_field"
+                    android:soundEffectsEnabled="false" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/player_two_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20.0dip" >
+
+            <TextView
+                android:id="@id/lbl_player2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/player_2"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/txt_player_1_text_size"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
+            <LinearLayout
+                android:id="@id/LinearLayout01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7.0dip"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@id/txt_player_two"
+                    android:layout_width="125.0dip"
+                    android:layout_height="28.0dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5.0dip"
+                    android:background="@android:color/transparent"
+                    android:gravity="bottom"
+                    android:maxLength="10"
+                    android:hint="@string/player_2"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
+                    android:lines="1"
+                    android:paddingBottom="2.0dip"
+                    android:paddingLeft="2.0dip"
+                    android:textColor="#ffe6e5e3"
+                    android:textSize="@dimen/txt_player_1_text_size"
+                    android:textStyle="normal"
+                    android:typeface="serif" />
+
+                <ImageView
+                    android:id="@id/ImageView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_text_field"
+                    android:soundEffectsEnabled="false" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@id/imgback"
+        android:layout_width="@dimen/btn_option_width"
+        android:layout_height="@dimen/btn_option_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/btn_option_margin"
+        android:layout_marginLeft="@dimen/btn_option_margin"
+        android:background="@drawable/menu_back_images"
+        android:contentDescription="@string/app_name"
+        android:soundEffectsEnabled="false" />
+
+    <ImageButton
+        android:id="@id/imgstart"
+        android:layout_width="@dimen/btn_option_width"
+        android:layout_height="@dimen/btn_option_height"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/btn_option_margin"
+        android:layout_marginRight="@dimen/btn_option_margin"
+        android:background="@drawable/start_button"
+        android:contentDescription="@string/app_name"
+        android:soundEffectsEnabled="false" />
+
+</RelativeLayout>

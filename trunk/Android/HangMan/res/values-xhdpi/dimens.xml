@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="adview_top_margin">22.0dip</dimen>
+    <dimen name="dialog_text_width">160.0dip</dimen>
+    <dimen name="two_player_label_top">15dp</dimen>
+    <dimen name="game_dialog_text_size">11.0sp</dimen>
+    <dimen name="game_player_text_bottom_margin">20.0dip</dimen>
+    <dimen name="dialog_smiley_bottom_margin">25.0dip</dimen>
+    <dimen name="game_dialog_icon_height">75.0dip</dimen>
+    <dimen name="dialog_height">230.0px</dimen>
+    <dimen name="dialog_width">300.0px</dimen>
+    <dimen name="continue_button_bottom_margin">13.0dip</dimen>
+    <dimen name="game_dialog_text_height">25.0dip</dimen>
+    <dimen name="player_status_top_margin_pro">22.0dip</dimen>
+    <dimen name="dialog_text_bottom_margin">50.0dip</dimen>
+    <dimen name="dialog_text_font_size">18.0sp</dimen>
+    <dimen name="dialog_bottom_margin">20.0dip</dimen>
+    <dimen name="game_board_top_margin">2.0dip</dimen>
+    <dimen name="enter_word_board_top">15.0dip</dimen>
+    <dimen name="enter_word_box_top">53.0dip</dimen>
+    <dimen name="first_row_top">7.0dip</dimen>
+    <dimen name="one_player_main_top">20.0dip</dimen>
+    <dimen name="two_player_main_top">25.0dip</dimen>
+    <dimen name="one_player_arrow_top">90.0dip</dimen>
+    <dimen name="two_player_arrow_one_top">40.0dip</dimen>
+    <dimen name="two_player_arrow_two_top">75.0dip</dimen>
+    <dimen name="image_left">35.0dip</dimen>
+    <dimen name="two_player_bottom_btns_top">142.0dip</dimen>
+    <dimen name="two_player_label_left">18.0dip</dimen>
+    <dimen name="start_left">135.0dip</dimen>
+    <dimen name="hangman_gallow_left">3.0dip</dimen>
+    <dimen name="game_board_word_top">20.0dip</dimen>
+    <dimen name="game_board_one_char_layout">14.0dip</dimen>
+    <dimen name="game_board_second_char_layout">12dp</dimen>
+    <dimen name="game_board_third_char_layout">15dp</dimen>
+    <dimen name="player_one_score_two_player_mode">20.0dip</dimen>
+    <dimen name="player_two_score_two_player_mode">45.0dip</dimen>
+    <dimen name="second_player_arrow_top">95.0dip</dimen>
+    <dimen name="hangman_left">-75.0dip</dimen>
+    <dimen name="two_p_mode_arrow_left">21.0dip</dimen>
+    <dimen name="right_leg_left">6.0dip</dimen>
+    <dimen name="one_p_mode_arrow_left">14.0dip</dimen>
+    <dimen name="one_p_arrow_left">105.0dip</dimen>
+    <dimen name="one_p_mode_one_p_score_top">18.0dip</dimen>
+    <dimen name="one_p_mode_two_p_score_top">10.0dip</dimen>
+    <dimen name="one_p_word_top">20.0dip</dimen>
+    <dimen name="line_one_top">-8.0dip</dimen>
+    <dimen name="line_three_top">-9.0dip</dimen>
+    <dimen name="line_two_top">-16.0dip</dimen>
+    <dimen name="second_row_top">5.0dip</dimen>
+    <dimen name="third_row_top">-2.0dip</dimen>
+    <dimen name="buttons_top">2.0dip</dimen>
+    <dimen name="dialog_ok_left_margin">15.0dip</dimen>
+    <dimen name="dialog_first_layer_left">25.0dip</dimen>
+    <dimen name="dialog_word_top">-5.0dip</dimen>
+    <dimen name="one_player_bottom_btns_top">10.0dip</dimen>
+    <dimen name="options_bottom_top">150.0dip</dimen>
+    <dimen name="hangman_score_layout_top">2.0dip</dimen>
+    <dimen name="gallows_top">0.0dip</dimen>
+    <dimen name="hangman_top">20.0dip</dimen>
+    <dimen name="score_board_text_size">22.0sp</dimen>
+
+    <!-- main menu -->
+    <dimen name="lines_top">120.0dip</dimen>
+    <dimen name="btn_size_width">220dp</dimen>
+    <dimen name="btn_size_height">60dp</dimen>
+    <dimen name="btn_margin_top">30dp</dimen>
+
+    <!-- one play menu setting -->
+    <dimen name="one_player_main_layout_top">200.0dp</dimen>
+    <dimen name="player_1_name_marginleft">50dp</dimen>
+    <dimen name="player_1_name_width">125dp</dimen>
+    <dimen name="player_1_name_height">28dp</dimen>
+    <dimen name="layout_player_1_margin_left">10dp</dimen>
+    <dimen name="player_2_name_marginleft">20dp</dimen>
+    <dimen name="txt_player_1_text_size">16sp</dimen>
+    <dimen name="btn_option_width">80dp</dimen>
+    <dimen name="btn_option_height">50dp</dimen>
+    <dimen name="btn_option_margin">25dp</dimen>
+    <dimen name="btn_word_list_margin_left">12dp</dimen>
+    <dimen name="btn_word_list_margin_top">20dp</dimen>
+    <dimen name="btn_word_list_width">90dp</dimen>
+    <dimen name="btn_word_list_height">30dp</dimen>
+    <dimen name="layout_word_list_margin_top">8dp</dimen>
+    <dimen name="btn_word_list_text_size">20sp</dimen>
+    
+     <!-- two player menu setting  -->
+    <dimen name="player_one_layout_margin_top">20dp</dimen>
+    <dimen name="one_player_main_layout_left">20dp</dimen>
+	
+	<!-- option setting  -->
+	<dimen name="option_layout_margin_top">200dp</dimen>
+</resources>

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_player_one"
+    android:gravity="top|center" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="800.0" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0px"
+            android:layout_weight="69.0"
+            android:gravity="center"
+            android:weightSum="480.0" >
+
+            <com.visva.android.hangman.ui.SMImageButton
+                android:id="@id/btn_menu_gameboard"
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="110.0"
+                android:background="@null"
+                android:src="@drawable/menu_button" />
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="2.0px"
+                android:layout_weight="260.0" />
+
+            <com.visva.android.hangman.ui.SMImageButton
+                android:id="@id/btn_new_gameboard"
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_gravity="right|center"
+                android:layout_weight="110.0"
+                android:background="@null"
+                android:src="@drawable/new_game_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0px"
+            android:layout_weight="375.0"
+            android:weightSum="480.0" >
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="30.0" />
+
+            <RelativeLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="270.0"
+                android:gravity="bottom|center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/gallow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gallows_anim_8" />
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/head_anim_8" />
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/left_arm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/armleft_anim_3" />
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/torso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/torso_anim_3" />
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/right_arm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/armright_anim_3" />
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/left_leg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/legleft_anim_3" />
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/right_leg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/legright_anim_3" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="30.0"
+                android:gravity="right|center" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/arrow_point" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="150.0"
+                android:orientation="vertical"
+                android:weightSum="3.0" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0px"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:weightSum="120.0" >
+
+                    <com.visva.android.hangman.ui.SMTextView
+                        android:id="@id/lbl_category"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.0px"
+                        android:layout_weight="45.0"
+                        android:gravity="bottom|center"
+                        android:text="Category"
+                        android:textColor="#ffdee66c"
+                        android:textSize="25.0sp" />
+
+                    <com.visva.android.hangman.ui.SMTextView
+                        android:id="@id/txt_category"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.0px"
+                        android:layout_weight="50.0"
+                        android:gravity="top|center"
+                        android:text="SAT"
+                        android:textSize="25.0sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0px"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/arrow_erase" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:weightSum="120.0" >
+
+                        <com.visva.android.hangman.ui.SMTextView
+                            android:id="@id/player1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.0px"
+                            android:layout_marginLeft="4.0dip"
+                            android:layout_marginRight="4.0dip"
+                            android:layout_weight="45.0"
+                            android:gravity="bottom|center"
+                            android:text="Player Name"
+                            android:textColor="#ffdee66c"
+                            android:textSize="25.0sp" />
+
+                        <com.visva.android.hangman.ui.SMTextView
+                            android:id="@id/player1_score"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0.0px"
+                            android:layout_weight="50.0"
+                            android:gravity="top|center"
+                            android:text="0"
+                            android:textSize="@dimen/score_board_text_size" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0px"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:weightSum="120.0" >
+
+                    <com.visva.android.hangman.ui.SMTextView
+                        android:id="@id/player2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.0px"
+                        android:layout_marginLeft="4.0dip"
+                        android:layout_marginRight="4.0dip"
+                        android:layout_weight="45.0"
+                        android:gravity="bottom|center"
+                        android:text="Computer"
+                        android:textColor="#ffdee66c"
+                        android:textSize="25.0sp" />
+
+                    <com.visva.android.hangman.ui.SMTextView
+                        android:id="@id/player2_score"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0.0px"
+                        android:layout_weight="50.0"
+                        android:gravity="top|center"
+                        android:text="0"
+                        android:textSize="@dimen/score_board_text_size" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0px"
+            android:layout_weight="20.0" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0px"
+            android:layout_weight="58.0"
+            android:gravity="center" >
+
+            <!-- ManhNT changed word layout -->
+
+            <LinearLayout
+                android:id="@id/word_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0px"
+            android:layout_weight="64.0"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:weightSum="480.0" >
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="450.0" >
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/a"
+                        android:tag="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/b"
+                        android:tag="2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_c"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/c"
+                        android:tag="3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_d"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/d"
+                        android:tag="4" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_e"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/e"
+                        android:tag="5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_f"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/f"
+                        android:tag="6" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/g"
+                        android:tag="7" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/h"
+                        android:tag="8" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_i"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/i"
+                        android:tag="9" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0px"
+            android:layout_weight="62.0"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_j"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/j"
+                    android:tag="10" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_k"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/k"
+                    android:tag="11" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_l"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/l"
+                    android:tag="12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_m"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/m"
+                    android:tag="13" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_n"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/n"
+                    android:tag="14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_o"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/o"
+                    android:tag="15" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/p"
+                    android:tag="16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_q"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/q"
+                    android:tag="17" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center" >
+
+                <com.visva.android.hangman.ui.SMImageView
+                    android:id="@id/char_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/r"
+                    android:tag="18" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0px"
+            android:layout_weight="60.0"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="480.0" >
+
+            <LinearLayout
+                android:layout_width="0.0px"
+                android:layout_height="fill_parent"
+                android:layout_weight="440.0" >
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/s"
+                        android:tag="19" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_t"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/t"
+                        android:tag="20" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_u"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/u"
+                        android:tag="21" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_v"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/v"
+                        android:tag="22" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_w"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/w"
+                        android:tag="23" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/x"
+                        android:tag="24" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_y"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/y"
+                        android:tag="25" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.0px"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:gravity="center" >
+
+                    <com.visva.android.hangman.ui.SMImageView
+                        android:id="@id/char_z"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/z"
+                        android:tag="26" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/adv_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</RelativeLayout>

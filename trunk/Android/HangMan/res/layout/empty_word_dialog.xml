@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/dialog_height"
+    android:background="@drawable/bg_dialog"
+    android:gravity="top|center"
+    android:orientation="vertical"
+    android:theme="@style/Theme.GameDialog" >
+
+    <ImageButton
+        android:id="@id/gamecontinue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="20.0dip"
+        android:layout_marginTop="20.0dip"
+        android:background="@android:color/transparent"
+        android:padding="5.0dip"
+        android:soundEffectsEnabled="false"
+        android:src="@drawable/ok" />
+
+    <TextView
+        android:id="@id/txtresult"
+        android:layout_width="@dimen/dialog_text_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5.0dip"
+        android:gravity="center"
+        android:lineSpacingExtra="4.0dip"
+        android:text="YOU MUST ENTER A WORD TO CONTINUE."
+        android:textColor="#ffdee66c"
+        android:textSize="@dimen/game_dialog_text_size"
+        android:textStyle="bold" />
+
+</LinearLayout>
