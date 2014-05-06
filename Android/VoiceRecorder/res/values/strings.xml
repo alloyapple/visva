@@ -1,0 +1,25 @@
+<resources>
+
+    <string name="app_name">Thu âm cuộc gọi</string>
+    <string name="title_section2">Số điện thoại</string>
+    <string name="title_section1">Cấu hình</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Cấu hình</string>
+    <string name="title_activity_main">Thu âm cuộc gọi</string>
+    <string name="title_section0">Tất cả</string>
+    <string name="top_banner_description">Top banner for the app, just for decoration</string>
+    <string name="label_activation_message">Hãy kích hoạt để sử dụng không giới hạn</string>
+    <string name="label_enter_phone">Hãy điền vào số điện thoại của bạn:*</string>
+    <string name="label_enter_activation_code">Hãy điền vào mã kích hoạt:*</string>
+    <string name="label_button_activation">Kích hoạt</string>
+    <string name="menu_help">Trợ giúp</string>
+    <string name="menu_active">Kích hoạt</string>
+	<string name="menu_option_del">Xóa</string>
+	<string name="label_voice_clear">Làm rõ tiếng, tăng (lần): </string>
+	<string name="label_seperator">-</string>
+	<string name="label_voice_del">Xóa cuộc hội thoại trên?               </string>
+	<string name="label_setting_incoming">Ghi âm cuộc gọi đến </string>
+	<string name="label_setting_outgoing">Ghi âm cuộc gọi đi</string>
+	<string name="btn_lbl_OK">OK</string>
+	<string name="btn_lbl_CANCEL">Hủy thay đổi</string>
+</resources>
