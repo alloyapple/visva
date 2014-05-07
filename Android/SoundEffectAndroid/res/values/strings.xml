@@ -1,0 +1,38 @@
+<resources>
+
+    <string name="app_name">Funny ChipMunk Voice</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">Funny ChipMunk Voice</string>
+    <string name="library">Library</string>
+    <string name="record">Record</string>
+    <string name="online">Online</string>
+    <string name="rename_file_record">Rename File Record</string>
+    <string name="play_chipmunk_activity">Play ChipMunk Style</string>
+    <string name="play_record_activity">Play &amp; Record</string>
+    <string name="prefs_live_correction">live_correction</string>
+    <string name="live_correction_summary">real time pitch-correction is enabled.</string>
+    <string name="live_correction_title">Enable Live Correction</string>
+    <string name="prefs_sample_rate">sample_rate</string>
+    <string name="sample_rate_default">22050 Hz (default)</string>
+    <string name="sample_rate_summary">Recording sample rate is device dependent.If you have troubles recording try changing this.</string>
+    <string name="sample_rate_title">Change Sample Rate</string>
+    <string name="sample_rate_dialog_title">Change Recording Sample Rate</string>
+    <string name="prefs_buffer_size">buffer_size</string>
+    <string name="buffer_size_default">1 (default)</string>
+    <string name="buffer_size_dialog_title">Change Buffer Size</string>
+    <string name="buffer_size_sumary">Recording buffer size is device dependent.If you have troubles recording try changing this.</string>
+    <string name="buffer_size_title">Change Buffer Size</string>
+    <string name="Hz44100">44100 Hz</string>
+    <string name="Hz22050">22050 Hz</string>
+    <string name="Hz11025">11025 Hz(default)</string>
+    <string name="Hz8000">8000 Hz</string>
+    <string name="buffer_1">1 (default)</string>
+    <string name="buffer_2">2</string>
+    <string name="buffer_4">4</string>
+    <string name="buffer_8">8</string>
+    <string name="buffer_16">16</string>
+    <string name="buffer_32">32</string>
+    <string name="adunit_id">a1534d7e1fcbb14</string>
+    <string name="view_my_record">View My Record</string>
+
+</resources>

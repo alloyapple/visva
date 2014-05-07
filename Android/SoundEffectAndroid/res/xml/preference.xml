@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Recording Settings" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/prefs_live_correction"
+            android:summary="@string/live_correction_summary"
+            android:title="@string/live_correction_title" />
+
+        <ListPreference
+            android:defaultValue="@string/Hz11025"
+            android:dialogTitle="@string/sample_rate_dialog_title"
+            android:entries="@array/sample_rate_lables"
+            android:entryValues="@array/sample_rate_values"
+            android:key="@string/prefs_sample_rate"
+            android:summary="@string/sample_rate_summary"
+            android:title="@string/sample_rate_title" />
+        <ListPreference
+            android:defaultValue="@string/buffer_1"
+            android:dialogTitle="@string/buffer_size_dialog_title"
+            android:entries="@array/buffer_size_lables"
+            android:entryValues="@array/buffer_size_values"
+            android:key="@string/prefs_buffer_size"
+            android:summary="@string/buffer_size_sumary"
+            android:title="@string/buffer_size_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
