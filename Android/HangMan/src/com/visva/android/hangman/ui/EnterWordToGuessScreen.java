@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.visva.android.hangman.R;
 import com.visva.android.hangman.definition.GlobalDef;
+import com.visva.android.hangman.ultis.GameSetting;
 import com.visva.android.hangman.ultis.SoundEffect;
 
 public class EnterWordToGuessScreen extends Activity implements GlobalDef {
@@ -163,7 +164,7 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
 			}
 		});
 	}
-	
+
 	public void initControl() {
 		btn_clear = (ImageButton) findViewById(R.id.clear_text);
 		btn_continue = (ImageButton) findViewById(R.id.btn_continue);
@@ -264,16 +265,14 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
 
 		switch (id) {
 		case DIALOG_ENTER_WORD_ALERT:
-			alertEnterWordDialog = new Dialog(this, R.style.Theme_GameDialog){
-				 @Override
-					public boolean onKeyDown(int keyCode, KeyEvent event) {
-					 	if(keyCode == KeyEvent.KEYCODE_BACK || 
-					 	  keyCode == KeyEvent.KEYCODE_SEARCH ||
-					 	  keyCode == KeyEvent.KEYCODE_MENU) {
-					 	  return true;
-					 	}
-					 	return super.onKeyDown(keyCode, event);
+			alertEnterWordDialog = new Dialog(this, R.style.Theme_GameDialog) {
+				@Override
+				public boolean onKeyDown(int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
+						return true;
 					}
+					return super.onKeyDown(keyCode, event);
+				}
 			};
 			alertEnterWordDialog.setContentView(R.layout.empty_word_dialog);
 			alertEnterWordDialog.setCancelable(false);
@@ -284,16 +283,14 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
 			alertContinueButtonOK.setOnClickListener(onContinueDialogOk);
 			return alertEnterWordDialog;
 		case DIALOG_CONFIRMATION:
-			confirmationDialog = new Dialog(this, R.style.Theme_CustomDialog){
-				 @Override
-					public boolean onKeyDown(int keyCode, KeyEvent event) {
-					 	if(keyCode == KeyEvent.KEYCODE_BACK || 
-					 	  keyCode == KeyEvent.KEYCODE_SEARCH ||
-					 	  keyCode == KeyEvent.KEYCODE_MENU) {
-					 	  return true;
-					 	}
-					 	return super.onKeyDown(keyCode, event);
+			confirmationDialog = new Dialog(this, R.style.Theme_CustomDialog) {
+				@Override
+				public boolean onKeyDown(int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
+						return true;
 					}
+					return super.onKeyDown(keyCode, event);
+				}
 			};
 			confirmationDialog.setContentView(R.layout.confirmation_dialog);
 			confirmationDialog.setCancelable(false);
@@ -303,16 +300,14 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
 			btnGameCancel.setOnClickListener(onGameCancel);
 			return confirmationDialog;
 		case DIALOG_NEW_WORD:
-			newWordDialog = new Dialog(this, R.style.Theme_CustomDialog){
-				 @Override
-					public boolean onKeyDown(int keyCode, KeyEvent event) {
-					 	if(keyCode == KeyEvent.KEYCODE_BACK || 
-					 	  keyCode == KeyEvent.KEYCODE_SEARCH ||
-					 	  keyCode == KeyEvent.KEYCODE_MENU) {
-					 	  return true;
-					 	}
-					 	return super.onKeyDown(keyCode, event);
+			newWordDialog = new Dialog(this, R.style.Theme_CustomDialog) {
+				@Override
+				public boolean onKeyDown(int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
+						return true;
 					}
+					return super.onKeyDown(keyCode, event);
+				}
 			};
 			newWordDialog.setContentView(R.layout.confirmation_dialog);
 			newWordDialog.setCancelable(false);
@@ -382,7 +377,11 @@ public class EnterWordToGuessScreen extends Activity implements GlobalDef {
 		@Override
 		public void onClick(View arg0) {
 			confirmationDialog.dismiss();
-			Intent _playSettingIntent = new Intent(EnterWordToGuessScreen.this, PlayerSettingsScreen.class);
+			Intent _playSettingIntent = null;
+			if (GameSetting._game_mode == ONE_PLAYER_MODE)
+				_playSettingIntent = new Intent(EnterWordToGuessScreen.this, PlayerSettingsScreen.class);
+			else
+				_playSettingIntent = new Intent(EnterWordToGuessScreen.this, TwoPlayerSettingScreen.class);
 			_playSettingIntent.putExtra(GAME_MODE, TWO_PLAYER_MODE);
 			startActivity(_playSettingIntent);
 			finish();

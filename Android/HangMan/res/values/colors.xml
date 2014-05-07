@@ -5,5 +5,6 @@
     <color name="txt_player_name_hint_color">#e7e7e7</color>
     <color name="font_default_color">#502c14</color>
     <color name="font_pressed_color">#d36002</color>
+    <color name="font_pressed_color2">#ffffff</color>
 
 </resources>

@@ -143,4 +143,17 @@ public class TwoPlayerSettingScreen extends Activity implements GlobalDef {
 		edt_player2.setTextColor(txtColor);
 		edt_player2.setHintTextColor(txtHintColor);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		Intent _mainMenuIntent = new Intent(TwoPlayerSettingScreen.this, MainMenuScreen.class);
+		startActivity(_mainMenuIntent);
+		finish();
+		super.onBackPressed();
+	}
 }
