@@ -13,8 +13,7 @@
         <LinearLayout
             android:id="@id/LinearLayout01"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_taopbar" >
+            android:layout_height="wrap_content" >
 
             <ImageButton
                 android:id="@id/btn_menu_gameboard"
