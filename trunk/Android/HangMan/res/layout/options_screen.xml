@@ -20,30 +20,34 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@id/lbl_player1"
+                android:id="@+id/lbl_sound"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="16.0dip"
-                android:background="@drawable/label_sound"
+                android:text="@string/sound"
                 android:textColor="#ffffffff"
                 android:textSize="14.0sp"
                 android:textStyle="bold"
                 android:typeface="serif" />
 
-            <ImageView
+            <TextView
                 android:id="@id/sound_on"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="21.0dip"
-                android:src="@drawable/on" />
+                android:layout_width="@dimen/options_btn_with"
+                android:layout_height="@dimen/options_btn_height"
+                android:layout_marginLeft="10.0dip"
+                android:background="@drawable/btn_word_list"
+                android:gravity="center"
+                android:text="@string/on" />
 
-            <ImageView
+            <TextView
                 android:id="@id/sound_off"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20.0dip"
-                android:src="@drawable/off" />
+                android:layout_width="@dimen/options_btn_with"
+                android:layout_height="@dimen/options_btn_height"
+                android:layout_marginLeft="5.0dip"
+                android:background="@drawable/btn_word_list"
+                android:gravity="center"
+                android:text="@string/off" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,26 +63,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/label_gallows"
+                android:text="@string/gallows"
                 android:textColor="#ffffffff"
                 android:textSize="14.0sp"
                 android:textStyle="bold"
                 android:typeface="serif" />
 
-            <ImageView
+            <TextView
                 android:id="@id/show_gallows"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/options_btn_with"
+                android:layout_height="@dimen/options_btn_height"
                 android:layout_marginLeft="10.0dip"
-                android:src="@drawable/show" />
+                android:background="@drawable/btn_word_list"
+                android:gravity="center"
+                android:text="@string/show" />
 
-            <ImageView
+            <TextView
                 android:id="@id/hide_gallows"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10.0dip"
-                android:background="@drawable/hide"
-                android:src="@drawable/hide" />
+                android:layout_width="@dimen/options_btn_with"
+                android:layout_height="@dimen/options_btn_height"
+                android:layout_marginLeft="5.0dip"
+                android:background="@drawable/btn_word_list"
+                android:gravity="center"
+                android:text="@string/hide" />
         </LinearLayout>
     </LinearLayout>
 

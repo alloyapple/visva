@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <public id="0x7f020002" name="a_disabled_lrg" type="drawable" />
     <public id="0x7f020003" name="a_lrg" type="drawable" />
     <public id="0x7f020005" name="a_right_lrg" type="drawable" />
@@ -79,7 +78,6 @@
     <public id="0x7f0200bc" name="i_lrg" type="drawable" />
     <public id="0x7f0200be" name="i_right_lrg" type="drawable" />
     <public id="0x7f0200c0" name="icon_free_lrg" type="drawable" />
-    <public id="0x7f0200c2" name="icon_pro_lrg" type="drawable" />
     <public id="0x7f0200c5" name="j_disabled_lrg" type="drawable" />
     <public id="0x7f0200c6" name="j_lrg" type="drawable" />
     <public id="0x7f0200c8" name="j_right_lrg" type="drawable" />
@@ -155,15 +153,6 @@
     <public id="0x7f020173" name="t_right_lrg" type="drawable" />
     <public id="0x7f020179" name="torso_anim_0_lrg" type="drawable" />
     <public id="0x7f02017b" name="torso_anim_1_lrg" type="drawable" />
-    <public id="0x7f02017d" name="torso_anim_2_lrg" type="drawable" />
-    <public id="0x7f02017f" name="torso_anim_3_lrg" type="drawable" />
-    <public id="0x7f020182" name="u_disabled_lrg" type="drawable" />
-    <public id="0x7f020183" name="u_lrg" type="drawable" />
-    <public id="0x7f020185" name="u_right_lrg" type="drawable" />
-    <public id="0x7f020188" name="v_disabled_lrg" type="drawable" />
-    <public id="0x7f020189" name="v_lrg" type="drawable" />
-    <public id="0x7f02018b" name="v_right_lrg" type="drawable" />
-    <public id="0x7f02018e" name="w_disabled_lrg" type="drawable" />
     <public id="0x7f020000" name="a" type="drawable" />
     <public id="0x7f020001" name="a_disabled" type="drawable" />
     <public id="0x7f020004" name="a_right" type="drawable" />
@@ -183,8 +172,6 @@
     <public id="0x7f020024" name="back" type="drawable" />
     <public id="0x7f020025" name="back_arrow" type="drawable" />
     <public id="0x7f020028" name="back_pressed" type="drawable" />
-    <public id="0x7f02002b" name="background_heading_free" type="drawable" />
-    <public id="0x7f02002c" name="background_heading_pro" type="drawable" />
     <public id="0x7f02002d" name="bg_dialog" type="drawable" />
     <public id="0x7f020033" name="bg_player_one" type="drawable" />
     <public id="0x7f020035" name="bg_player_two" type="drawable" />
@@ -342,15 +329,6 @@
     <public id="0x7f020178" name="torso_anim_0" type="drawable" />
     <public id="0x7f02017a" name="torso_anim_1" type="drawable" />
     <public id="0x7f02017c" name="torso_anim_2" type="drawable" />
-    <public id="0x7f02017e" name="torso_anim_3" type="drawable" />
-    <public id="0x7f020180" name="u" type="drawable" />
-    <public id="0x7f020181" name="u_disabled" type="drawable" />
-    <public id="0x7f020184" name="u_right" type="drawable" />
-    <public id="0x7f020186" name="v" type="drawable" />
-    <public id="0x7f020187" name="v_disabled" type="drawable" />
-    <public id="0x7f02018a" name="v_right" type="drawable" />
-    <public id="0x7f02018c" name="w" type="drawable" />
-    <public id="0x7f02018d" name="w_disabled" type="drawable" />
     <public id="0x7f02002f" name="bg_main_menu" type="drawable" />
     <public id="0x7f02003c" name="blank" type="drawable" />
     <public id="0x7f030000" name="appirater" type="layout" />

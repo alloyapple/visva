@@ -91,4 +91,6 @@
 	
 	<!-- option setting  -->
 	<dimen name="option_layout_margin_top">200dp</dimen>
+	<dimen name="options_btn_with">60dp</dimen>
+	<dimen name="options_btn_height">20dp</dimen>
 </resources>

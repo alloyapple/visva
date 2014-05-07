@@ -270,7 +270,7 @@ public class PlayerSettingsScreen extends Activity implements GlobalDef {
 	public void initControl() {
 		mFont = Typeface.createFromAsset(getAssets(), "fonts/SHOWG.TTF");
 		mFontDefaultColor = getResources().getColor(R.color.font_default_color);
-		mFontPressedColor = getResources().getColor(R.color.font_pressed_color);
+		mFontPressedColor = getResources().getColor(R.color.font_pressed_color2);
 		btn_back = (ImageButton) findViewById(R.id.imgback);
 		btn_start = (ImageButton) findViewById(R.id.imgstart);
 		lbl_player1 = (TextView) findViewById(R.id.lbl_player1);

@@ -123,7 +123,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		} else {
 			android.os.Process.killProcess(android.os.Process.myPid());
 			Intent data = new Intent();
-			data.putExtra("exit",RESULT_OK);
+			data.putExtra("exit", RESULT_OK);
 			finish();
 			return;
 		}
@@ -207,7 +207,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 		}
 	}
-	
+
 	public void getMapCharButtons() {
 		mCharButtons = new HashMap<Integer, ImageView>();
 		mCharButtons.put(CHAR_A, char_a);
@@ -274,7 +274,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			}
 		}
 	};
-	
+
 	public void resetAlphabetBoard() {
 		for (Integer num : mCharButtons.keySet()) {
 			Character c = ALPHABET[num - 1];
@@ -518,7 +518,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			String str_player2 = extras.getString(PLAYER2);
 			txt_category.setText(GameSetting.getCategoryName(word_list));
 			txt_player1.setText(str_player1);
-			txt_player2.setText(str_player2);	
+			txt_player2.setText(str_player2);
 			GamePreferences.setIntVal(this, WORD_LIST, word_list);
 			onNewGame();
 		}
@@ -539,10 +539,11 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			}
 			mChallenge = extras.getString(CHALLENGE);
 			txt_player1.setText(str_player1);
-			txt_player2.setText(str_player2);	
+			txt_player2.setText(str_player2);
 			onNewGame();
 		}
 	}
+
 	public void onNewGame() {
 		if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 			String categoryName = GameSetting.getCategoryName(word_list);
@@ -552,7 +553,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		}
 		mNumberOfTries = 0;
 		mChallenge = stringToUper(mChallenge);
-		Log.e("tag",mChallenge.toString());
+		Log.e("tag", mChallenge.toString());
 		char[] charArray = new char[mChallenge.length()];
 		Arrays.fill(charArray, '_');
 		mSolution = new String(charArray);
@@ -598,7 +599,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		return drawableId;
 
 	}
-	
+
 	public void drawHangman() {
 		switch (mNumberOfTries) {
 		case 1:
@@ -640,6 +641,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			break;
 		}
 	}
+
 	public void drawGallowns() {
 		int gall_owns = GamePreferences.getIntVal(this, GALL_OWNS, SHOW);
 		ImageView gallowns_layout = (ImageView) findViewById(R.id.gallow);
@@ -659,6 +661,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
+
 	public void drawTorso() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_torso);
 		ImageView im = (ImageView) findViewById(R.id.torso);
@@ -681,19 +684,20 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	}
 
 	public void drawRightLeg() {
-     	AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_leg);
- 		ImageView im = (ImageView) findViewById(R.id.right_leg);
- 		im.setBackgroundDrawable(drawable);
- 		im.post(drawable);
- 		im.invalidate();
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_leg);
+		ImageView im = (ImageView) findViewById(R.id.right_leg);
+		im.setBackgroundDrawable(drawable);
+		im.post(drawable);
+		im.invalidate();
 	}
 
 	public void drawLeftLeg() {
-    	AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_leg);
- 		ImageView im = (ImageView) findViewById(R.id.left_leg);
- 		im.setBackgroundDrawable(drawable);
- 		im.post(drawable);
+		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_leg);
+		ImageView im = (ImageView) findViewById(R.id.left_leg);
+		im.setBackgroundDrawable(drawable);
+		im.post(drawable);
 	}
+
 	public void onGameFnished() {
 		scoreCounter();
 		updateHighScore();
@@ -708,21 +712,19 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			// do nothing
 		}
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 
 		switch (id) {
 		case DIALOG_GAME_FINISHED:
-			gameFinishedDialog = new Dialog(this, R.style.Theme_GameDialog){
-			 @Override
+			gameFinishedDialog = new Dialog(this, R.style.Theme_GameDialog) {
+				@Override
 				public boolean onKeyDown(int keyCode, KeyEvent event) {
-				 	if(keyCode == KeyEvent.KEYCODE_BACK || 
-				 	  keyCode == KeyEvent.KEYCODE_SEARCH ||
-				 	  keyCode == KeyEvent.KEYCODE_MENU) {
-				 	  return true;
-				 	}
-				 	return super.onKeyDown(keyCode, event);
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
+						return true;
+					}
+					return super.onKeyDown(keyCode, event);
 				}
 			};
 			gameFinishedDialog.setContentView(R.layout.dialog_layout);
@@ -738,16 +740,14 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			gameFinishButtonOK.setOnClickListener(onGameFinishedDialogOk);
 			return gameFinishedDialog;
 		case DIALOG_CONFIRMATION:
-			confirmationDialog = new Dialog(this, R.style.Theme_CustomDialog){
-				 @Override
-					public boolean onKeyDown(int keyCode, KeyEvent event) {
-					 	if(keyCode == KeyEvent.KEYCODE_BACK || 
-					 	  keyCode == KeyEvent.KEYCODE_SEARCH ||
-					 	  keyCode == KeyEvent.KEYCODE_MENU) {
-					 	  return true;
-					 	}
-					 	return super.onKeyDown(keyCode, event);
+			confirmationDialog = new Dialog(this, R.style.Theme_CustomDialog) {
+				@Override
+				public boolean onKeyDown(int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
+						return true;
 					}
+					return super.onKeyDown(keyCode, event);
+				}
 			};
 			confirmationDialog.setContentView(R.layout.confirmation_dialog);
 			confirmationDialog.setCancelable(false);
@@ -757,16 +757,14 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			btnGameCancel.setOnClickListener(onGameCancel);
 			return confirmationDialog;
 		case DIALOG_NEW_WORD:
-			newWordDialog = new Dialog(this, R.style.Theme_CustomDialog){
-				 @Override
-					public boolean onKeyDown(int keyCode, KeyEvent event) {
-					 	if(keyCode == KeyEvent.KEYCODE_BACK || 
-					 	  keyCode == KeyEvent.KEYCODE_SEARCH ||
-					 	  keyCode == KeyEvent.KEYCODE_MENU) {
-					 	  return true;
-					 	}
-					 	return super.onKeyDown(keyCode, event);
+			newWordDialog = new Dialog(this, R.style.Theme_CustomDialog) {
+				@Override
+				public boolean onKeyDown(int keyCode, KeyEvent event) {
+					if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_MENU) {
+						return true;
 					}
+					return super.onKeyDown(keyCode, event);
+				}
 			};
 			newWordDialog.setContentView(R.layout.confirmation_dialog);
 			newWordDialog.setCancelable(false);
@@ -780,6 +778,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		}
 		return null;
 	}
+
 	private Button.OnClickListener onNewWordOk = new ImageButton.OnClickListener() {
 
 		@Override
@@ -811,7 +810,12 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		@Override
 		public void onClick(View arg0) {
 			confirmationDialog.dismiss();
-			Intent intentPlaySetting = new Intent(GameBoardScreen.this, PlayerSettingsScreen.class);
+			Intent intentPlaySetting = null;
+			if (GameSetting._game_mode == ONE_PLAYER_MODE) {
+				intentPlaySetting = new Intent(GameBoardScreen.this, PlayerSettingsScreen.class);
+			} else if (GameSetting._game_mode == TWO_PLAYER_MODE) {
+				intentPlaySetting = new Intent(GameBoardScreen.this, TwoPlayerSettingScreen.class);
+			}
 			intentPlaySetting.putExtra(GAME_MODE, GameSetting._game_mode);
 			startActivity(intentPlaySetting);
 			finish();
@@ -824,7 +828,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			confirmationDialog.dismiss();
 		}
 	};
-	
+
 	@Override
 	public void onBackPressed() {
 		showDialog(DIALOG_CONFIRMATION);
@@ -833,7 +837,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 	public boolean checkTextLong(String text) {
 		return text.length() > 10;
 	}
-	
+
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 
@@ -848,7 +852,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				txt_mess_dialog.setSingleLine();
 				txt_mess_dialog.setPadding(4, 0, 4, 0);
 			}
-			if(mGameCompleted == GAME_WON){
+			if (mGameCompleted == GAME_WON) {
 				if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 					txt_mess_dialog.setText(txt_player1.getText() + " WINS");
 				} else {
@@ -860,7 +864,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 				}
 				txt_word_dialog.setText("");
 				imgresult.setBackgroundResource(R.drawable.won_game);
-			}else if(mGameCompleted == GAME_OVER){
+			} else if (mGameCompleted == GAME_OVER) {
 				if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 					txt_mess_dialog.setText(txt_player1.getText() + " LOSES");
 				} else {
@@ -871,9 +875,9 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 					}
 				}
 				txt_word_dialog.setText("WORD: " + mChallenge);
-				Log.e("word_dialog",mChallenge.toString());
+				Log.e("word_dialog", mChallenge.toString());
 				imgresult.setBackgroundResource(R.drawable.loose_game);
-			}else{
+			} else {
 				// do nothing
 			}
 			break;
@@ -901,7 +905,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			if (GameSetting._game_mode == ONE_PLAYER_MODE) {
 				dismissDialog(DIALOG_GAME_FINISHED);
 				onNewGame();
-				Log.e("tag","button dialog OK is clicked");
+				Log.e("tag", "button dialog OK is clicked");
 			} else {
 				gameFinishedDialog.dismiss();
 				Intent intentEnterWords = new Intent(GameBoardScreen.this, EnterWordToGuessScreen.class);
@@ -923,6 +927,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		return str;
 
 	}
+
 	private void showAdvBanner() {
 		adView = new AdView(this, AdSize.BANNER, getString(R.string.ADMOB_PUBLISHER_ID));
 		LinearLayout layout = (LinearLayout) findViewById(R.id.adv_layout);
@@ -961,13 +966,13 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		mGameTimer.stop();
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		mGameTimer.start();
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		finish();
@@ -1011,14 +1016,14 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			}
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if(resultCode == Activity.RESULT_OK){
+		if (resultCode == Activity.RESULT_OK) {
 			finish();
 		}
 	}
-	
+
 }
