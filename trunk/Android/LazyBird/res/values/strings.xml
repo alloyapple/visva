@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Funny Bird</string>
+	<string name="app_name">Funny Bird Story</string>
 	<string name="font_name_default">Papyrus</string>
 	<string name="font_name_times">times</string>
 	<string name="font_name_page14">MyriadPro-Regular</string>
