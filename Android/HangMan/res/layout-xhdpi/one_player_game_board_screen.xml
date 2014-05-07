@@ -232,7 +232,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0.0px"
             android:layout_gravity="top"
-            android:layout_weight="58.0"
+            android:layout_weight="45.0"
             android:gravity="center" >
 
             <!-- ManhNT changed word layout -->
@@ -256,7 +256,7 @@
             <LinearLayout
                 android:layout_width="0.0px"
                 android:layout_height="fill_parent"
-                android:layout_weight="450.0" >
+                android:layout_weight="420.0" >
 
                 <LinearLayout
                     android:layout_width="0.0px"
