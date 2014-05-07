@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="sample_rate_lables">
+        <item>@string/Hz44100</item>
+        <item>@string/Hz22050</item>
+        <item>@string/Hz11025</item>
+        <item>@string/Hz8000</item>
+    </string-array>
+    <string-array name="sample_rate_values">
+        <item>@string/Hz44100</item>
+        <item>@string/Hz22050</item>
+        <item>@string/Hz11025</item>
+        <item>@string/Hz8000</item>
+    </string-array>
+    <string-array name="buffer_size_lables">
+        <item>@string/buffer_1</item>
+        <item>@string/buffer_2</item>
+        <item>@string/buffer_4</item>
+        <item>@string/buffer_8</item>
+        <item>@string/buffer_16</item>
+        <item>@string/buffer_32</item>
+    </string-array>
+    <string-array name="buffer_size_values">
+        <item>@string/buffer_1</item>
+        <item>@string/buffer_2</item>
+        <item>@string/buffer_4</item>
+        <item>@string/buffer_8</item>
+        <item>@string/buffer_16</item>
+        <item>@string/buffer_32</item>
+    </string-array>
+
+</resources>
