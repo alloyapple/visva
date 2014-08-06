@@ -24,6 +24,7 @@ public class SoundAnalyzer {
 	
 	final public static int NOISE = 1;
 	final public static int VOICE_LENGTH = 9;
+	
 	Stack<Integer> testVoice;
 	ArrayList<VoiceChunk> voices;
 	
