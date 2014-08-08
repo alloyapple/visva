@@ -21,7 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.visva.android.visvasdklibrary.R;
-import com.visva.android.visvasdklibrary.log.AllInOneLog;
+import com.visva.android.visvasdklibrary.log.AIOLog;
 import com.visva.android.visvasdklibrary.util.AllInOneConstant;
 import com.visva.android.visvasdklibrary.util.volley.IVolleyResponse;
 import com.visva.android.visvasdklibrary.util.volley.LruBitmapCache;
@@ -164,14 +164,14 @@ public class VolleyProvider {
 
             @Override
             public void onResponse(JSONObject response) {
-//                AllInOneLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
+            	AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
                 volleyResponse.onResponse(response);
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                AllInOneLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
+            	AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
             }
         })
         {
@@ -216,7 +216,7 @@ public class VolleyProvider {
             public void onResponse(JSONArray response) {
                 if(response == null)
                 	 volleyResponse.onErrorResponse(mContext.getString(R.string.result_not_found));;
-                AllInOneLog.d("requestJsonArrayFromURL onResponse="+response.toString());
+                AIOLog.d("requestJsonArrayFromURL onResponse="+response.toString());
                 volleyResponse.onResponse(response.toString());
             }
         }, new Response.ErrorListener() {
@@ -224,7 +224,7 @@ public class VolleyProvider {
             public void onErrorResponse(VolleyError error) {
                 if(error == null)
                     volleyResponse.onErrorResponse(mContext.getString(R.string.result_not_found));
-                AllInOneLog.d("requestJsonArrayFromURL onErrorResponse: " + error.getMessage());
+                AIOLog.d("requestJsonArrayFromURL onErrorResponse: " + error.getMessage());
             }
         });
 

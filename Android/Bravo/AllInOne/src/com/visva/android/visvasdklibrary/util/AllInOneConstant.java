@@ -16,7 +16,7 @@ public class AllInOneConstant {
     /**
      * set the TAG for all log in sdk
      */
-    public static final String TAG = "VisvaSDK";
+    public static final String TAG = "AIOLog";
 
     /**
      * constant value for location provider

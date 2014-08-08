@@ -7,8 +7,8 @@ import android.util.Log;
 
 
 /** Logging helper class. Refer to VolleyLog*/
-public class AllInOneLog {
-    public static String TAG = AllInOneLog.class.getSimpleName();
+public class AIOLog {
+    public static String TAG = AIOLog.class.getSimpleName();
 
     public static boolean DEBUG = true;
     public static boolean ASSERT = false;
@@ -125,7 +125,7 @@ public class AllInOneLog {
         // It will be at least two frames up, so start there.
         for (int i = 2; i < trace.length; i++) {
             Class<?> clazz = trace[i].getClass();
-            if (!clazz.equals(AllInOneLog.class)) {
+            if (!clazz.equals(AIOLog.class)) {
                 String callingClass = trace[i].getClassName();
                 callingClass = callingClass.substring(callingClass.lastIndexOf('.') + 1);
                 callingClass = callingClass.substring(callingClass.lastIndexOf('$') + 1);
@@ -135,10 +135,10 @@ public class AllInOneLog {
             }
         }
 //        if(LOG4J)
-//            return String.format(Locale.US, "%d:[%s][%d] %s: %s",
-//                System.currentTimeMillis(), TAG, Thread.currentThread().getId(), caller, msg);
+            return String.format(Locale.US, "%d:[%s][%d] %s: %s",
+                System.currentTimeMillis(), TAG, Thread.currentThread().getId(), caller, msg);
 //        else
-            return String.format(Locale.US, "[%d] %s: %s",
-                    Thread.currentThread().getId(), caller, msg);
+//            return String.format(Locale.US, "[%d] %s: %s",
+//                    Thread.currentThread().getId(), caller, msg);
     }
 }

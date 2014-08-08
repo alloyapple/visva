@@ -5,43 +5,43 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.visva.android.visvasdklibrary.log.AllInOneLog;
+import com.visva.android.visvasdklibrary.log.AIOLog;
 
 public class AllInOneService extends Service{
 
     @Override
     public IBinder onBind(Intent intent) {
-        AllInOneLog.d(" intent="+intent);
+        AIOLog.d(" intent="+intent);
         return mBinder;
     }
 
     @Override
     public void onCreate() {
-        AllInOneLog.d(" onCreate=");
+        AIOLog.d(" onCreate=");
         super.onCreate();
     }
 
     @Override
     public void onDestroy() {
-        AllInOneLog.d(" onDestroy=");
+        AIOLog.d(" onDestroy=");
         super.onDestroy();
     }
 
     @Override
     public void onRebind(Intent intent) {
-        AllInOneLog.d(" intent="+intent);
+        AIOLog.d(" intent="+intent);
         super.onRebind(intent);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        AllInOneLog.d(" intent="+intent);
+        AIOLog.d(" intent="+intent);
         return super.onStartCommand(intent, START_NOT_STICKY, startId);
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        AllInOneLog.d(" intent="+intent);
+        AIOLog.d(" intent="+intent);
         return super.onUnbind(intent);
     }
 
