@@ -12,7 +12,7 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 
 import com.visva.android.visvasdklibrary.R;
-import com.visva.android.visvasdklibrary.log.AllInOneLog;
+import com.visva.android.visvasdklibrary.log.AIOLog;
 
 public class AddressLoader {
     private Context mContext;
@@ -45,11 +45,11 @@ public class AddressLoader {
             try {
                 listAdd = geocoder.getFromLocation(loc.getLatitude(),loc.getLongitude(), 1);
             } catch (IOException ex) {
-                AllInOneLog.d("IOException occured when loading the address");
+                AIOLog.d("IOException occured when loading the address");
                 ex.printStackTrace();
                 return (mLocalContext.getString(R.string.IO_Exception_getFromLocation));
             } catch (IllegalArgumentException illegalException) {
-                AllInOneLog.d("Illegal Exception occured");
+                AIOLog.d("Illegal Exception occured");
                 String errorString = mLocalContext.getString(R.string.illegal_argument_exception, loc.getLatitude(),
                         loc.getLongitude());
                 illegalException.printStackTrace();
