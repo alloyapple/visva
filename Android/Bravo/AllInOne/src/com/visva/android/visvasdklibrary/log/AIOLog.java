@@ -14,7 +14,7 @@ public class AIOLog {
     public static boolean ASSERT = false;
 
 //    private static final String LOG_FILE_PATH = Environment.getDataDirectory() + File.separator + "/data/com.visva.android.visvasdklibrary/log";
-//    public static boolean LOG4J = true;
+//    public static boolean LOG4J = true; 
 //    private static Logger logger = null;
     
 //    static {
