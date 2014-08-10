@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/intro_background_2x" >
+
+    <LinearLayout
+        android:id="@+id/layout_login_regiter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_login_register_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/login_regiter_layout"
+        android:baselineAligned="true"
+        android:gravity="center|center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <LinearLayout
+            android:id="@+id/layout_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_login_register_height"
+            android:layout_weight="1"
+            android:background="@color/login_regiter_layout"
+            android:baselineAligned="true"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bravo_pin_2x"
+                android:contentDescription="@string/login" />
+
+            <TextView
+                android:id="@+id/text_login"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/layout_login_register_height"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:gravity="center|left"
+                android:text="@string/login"
+                android:textColor="@color/login_register_text"
+                android:textSize="@dimen/login_register_text_size" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_login_register_height"
+            android:background="@drawable/separate_y"
+            android:contentDescription="@string/login" />
+
+        <LinearLayout
+            android:id="@+id/layout_register"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_login_register_height"
+            android:layout_weight="1"
+            android:background="@color/login_regiter_layout"
+            android:baselineAligned="true"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/signup_icon_2x"
+                android:contentDescription="@string/login" />
+
+            <TextView
+                android:id="@+id/text_register"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/layout_login_register_height"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:gravity="center|left"
+                android:text="@string/register"
+                android:textColor="@color/login_register_text"
+                android:textSize="@dimen/login_register_text_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/icon_intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/icon_intro_margin_top"
+        android:background="@drawable/intro_logo_2x"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon_intro"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/text_intro_margin_left"
+        android:layout_marginTop="@dimen/text_intro_below_icon"
+        android:text="@string/splash_message"
+        android:textColor="@color/white"
+        android:textSize="@dimen/splash_message_size"
+        android:textStyle="bold" >
+    </TextView>
+
+</RelativeLayout>
