@@ -6,12 +6,12 @@ import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 
 /**
- * control bitmap while using volley. 
+ * control bitmap while using volley.
  * If bitmap is existed, volley will take it from cache.
  * else volley will take it from the url
  * 
  * @author kieu.thang
- *
+ * 
  */
 public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCache {
 

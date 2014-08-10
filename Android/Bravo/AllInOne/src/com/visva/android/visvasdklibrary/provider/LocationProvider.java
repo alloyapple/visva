@@ -11,17 +11,18 @@ import com.visva.android.visvasdklibrary.util.location.svc.LocationRequestManage
 
 @SuppressLint("HandlerLeak")
 public class LocationProvider {
-    private Context mContext;
+    private Context                 mContext;
 
-    /*singleton class*/
+    /* singleton class */
     private static LocationProvider mInstance;
 
-    private Handler mHandler;
-    private LocationRequestManager mLocationRequestManager;
+    private Handler                 mHandler;
+    private LocationRequestManager  mLocationRequestManager;
     private ILocationUpdateCallback mILocationUpdateCallback;
 
     /**
      * Volley constructor
+     * 
      * @param context
      */
     public LocationProvider(Context context) {
@@ -33,6 +34,7 @@ public class LocationProvider {
 
     /**
      * get instance of Volley singleton class
+     * 
      * @param context
      * @return instance
      */
@@ -49,12 +51,10 @@ public class LocationProvider {
                 super.handleMessage(msg);
                 switch (msg.what) {
                 case AllInOneConstant.MSG_REQUEST_LOCATION_GOOGLESERVICE:
-                    mLocationRequestManager
-                            .updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
+                    mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
                     break;
                 case AllInOneConstant.MSG_REQUEST_LOCATION_GPS:
-                    mLocationRequestManager
-                            .updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GPS);
+                    mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GPS);
                     break;
                 case AllInOneConstant.MSG_REQUEST_LOCATION_NETWORK:
                     mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_NETWORK);
@@ -64,8 +64,7 @@ public class LocationProvider {
                     mILocationUpdateCallback.onLocationUpdate(location);
                     break;
                 case AllInOneConstant.MSG_REQUEST_GET_ADDRESS:
-                    mLocationRequestManager
-                            .updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
+                    mLocationRequestManager.updateCurrentLocation(context, AllInOneConstant.GET_LOCATION_TYPE_GOOGLE_SERVICE);
                     break;
                 default:
                     break;

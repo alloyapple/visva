@@ -15,7 +15,7 @@ import com.visva.android.visvasdklibrary.R;
 import com.visva.android.visvasdklibrary.log.AIOLog;
 
 public class AddressLoader {
-    private Context mContext;
+    private Context  mContext;
     private TextView mAddress;
 
     public AddressLoader(Context context) {
@@ -43,7 +43,7 @@ public class AddressLoader {
             // Try to get an address for the current location. Catch IO or
             // network problems.
             try {
-                listAdd = geocoder.getFromLocation(loc.getLatitude(),loc.getLongitude(), 1);
+                listAdd = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
             } catch (IOException ex) {
                 AIOLog.d("IOException occured when loading the address");
                 ex.printStackTrace();

@@ -7,11 +7,11 @@ import android.os.IBinder;
 
 import com.visva.android.visvasdklibrary.log.AIOLog;
 
-public class AllInOneService extends Service{
+public class AllInOneService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        AIOLog.d(" intent="+intent);
+        AIOLog.d(" intent=" + intent);
         return mBinder;
     }
 
@@ -29,19 +29,19 @@ public class AllInOneService extends Service{
 
     @Override
     public void onRebind(Intent intent) {
-        AIOLog.d(" intent="+intent);
+        AIOLog.d(" intent=" + intent);
         super.onRebind(intent);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        AIOLog.d(" intent="+intent);
+        AIOLog.d(" intent=" + intent);
         return super.onStartCommand(intent, START_NOT_STICKY, startId);
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        AIOLog.d(" intent="+intent);
+        AIOLog.d(" intent=" + intent);
         return super.onUnbind(intent);
     }
 
