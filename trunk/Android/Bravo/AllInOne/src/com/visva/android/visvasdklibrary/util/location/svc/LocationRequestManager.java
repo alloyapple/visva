@@ -16,21 +16,21 @@ import com.visva.android.visvasdklibrary.provider.LocationProvider;
 import com.visva.android.visvasdklibrary.util.AllInOneConstant;
 
 public class LocationRequestManager {
-    private static final String TAG = "LocationRequestMananager->nobita";
-    private static final int MIN_TIME = 1000 * 30; //30 seconds
-    private static final int TWO_MINUTES = 1000 * 60 * 2; //recent location
-    private Context mContext;
-    private LocationManager mLocationManager;
-    private Location mLocation;
+    private static final String         TAG         = "LocationRequestMananager->nobita";
+    private static final int            MIN_TIME    = 1000 * 30;                         // 30 seconds
+    private static final int            TWO_MINUTES = 1000 * 60 * 2;                     // recent location
+    private Context                     mContext;
+    private LocationManager             mLocationManager;
+    private Location                    mLocation;
 
-    private int mMinTime;
-    private int mMinDistance;
+    private int                         mMinTime;
+    private int                         mMinDistance;
 
-    private LocationListener mLocationGPSListener;
-    private LocationListener mLocationNetworkListener;
+    private LocationListener            mLocationGPSListener;
+    private LocationListener            mLocationNetworkListener;
 
-    private ILocationChangedCallback mILocationChangedCallback;
-    private ILocationClientCallback mILocationClientCallback;
+    private ILocationChangedCallback    mILocationChangedCallback;
+    private ILocationClientCallback     mILocationClientCallback;
 
     private LocationClientConnectHelper mConnectionHelper;
 
@@ -50,7 +50,7 @@ public class LocationRequestManager {
         void onLocationConnectionChanged(Location location);
     }
 
-    public void updateCurrentLocation(final Context context,int type) {
+    public void updateCurrentLocation(final Context context, int type) {
         // already request
         if (mILocationChangedCallback != null) {
             return;
@@ -206,9 +206,9 @@ public class LocationRequestManager {
     private class LocationClientConnectHelper implements
             GooglePlayServicesClient.ConnectionCallbacks,
             GooglePlayServicesClient.OnConnectionFailedListener {
-        private static final String TAG_LOCATION = TAG + "LocationHelper";
-        private Context mContext;
-        private LocationClient mLocationClient;
+        private static final String     TAG_LOCATION = TAG + "LocationHelper";
+        private Context                 mContext;
+        private LocationClient          mLocationClient;
         private ILocationClientCallback mCallback;
 
         public LocationClientConnectHelper(Context context) {

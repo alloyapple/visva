@@ -1,15 +1,11 @@
 package com.visva.android.visvasdklibrary.provider;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -33,38 +29,40 @@ import com.visva.android.visvasdklibrary.util.volley.LruBitmapCache;
  * - get image from url
  * 
  * @author kieu.thang
- *
+ * 
  */
 public class VolleyProvider {
-    /*TAG attributes for add to queue to request string by volley*/
-    private static final String TAG_STRING_REQ = "req_string";
+    /* TAG attributes for add to queue to request string by volley */
+    private static final String   TAG_STRING_REQ      = "req_string";
 
-    /*TAG attributes for add to queue to request json object by volley*/
-    private static final String TAG_JSON_OBJECT_REQ = "req_json_object";
+    /* TAG attributes for add to queue to request json object by volley */
+    private static final String   TAG_JSON_OBJECT_REQ = "req_json_object";
 
-    /*TAG attributes for add to queue to request json array by volley*/
-    private static final String TAG_JSON_ARRAY_REQ = "req_json_array";
+    /* TAG attributes for add to queue to request json array by volley */
+    private static final String   TAG_JSON_ARRAY_REQ  = "req_json_array";
 
-    /*volley class*/
-    private RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
+    /* volley class */
+    private RequestQueue          mRequestQueue;
+    private ImageLoader           mImageLoader;
 
-    /*singleton class*/
+    /* singleton class */
     private static VolleyProvider mInstance;
-    private Context mContext;
+    private Context               mContext;
 
     /**
      * Volley constructor
+     * 
      * @param context
      */
     public VolleyProvider(Context context) {
         super();
         mContext = context;
-        
+
     }
 
     /**
      * get instance of Volley singleton class
+     * 
      * @param context
      * @return instance
      */
@@ -76,6 +74,7 @@ public class VolleyProvider {
 
     /**
      * volley methods
+     * 
      * @return
      */
     public RequestQueue getRequestQueue() {
@@ -94,8 +93,7 @@ public class VolleyProvider {
     public ImageLoader getImageLoader() {
         getRequestQueue();
         if (mImageLoader == null) {
-            mImageLoader = new ImageLoader(this.mRequestQueue,
-                    new LruBitmapCache());
+            mImageLoader = new ImageLoader(this.mRequestQueue, new LruBitmapCache());
         }
         return this.mImageLoader;
     }
@@ -113,6 +111,7 @@ public class VolleyProvider {
 
     /**
      * cancel pending request
+     * 
      * @param tag
      * 
      * @return null
@@ -126,8 +125,10 @@ public class VolleyProvider {
     /**
      * using Volley to request string from url
      * 
-     * @param url the link url
-     * @param volleyResponse the reponse from url
+     * @param url
+     *            the link url
+     * @param volleyResponse
+     *            the reponse from url
      * 
      * @return null
      */
@@ -136,14 +137,14 @@ public class VolleyProvider {
 
             @Override
             public void onResponse(String response) {
-//                AllInOneLog.d("requestStringFromURL onResponse=" + response);
+                AIOLog.d("requestStringFromURL onResponse=" + response);
                 volleyResponse.onResponse(response);
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-//                AllInOneLog.d("requestStringFromURL onErrorResponse=" + error.getMessage());
+                AIOLog.d("requestStringFromURL onErrorResponse=" + error.getMessage());
             }
         });
 
@@ -152,7 +153,7 @@ public class VolleyProvider {
     }
 
     /**
-     * request Jsonobject from URL 
+     * request Jsonobject from URL
      * 
      * @param url
      * @param volleyResponse
@@ -164,40 +165,40 @@ public class VolleyProvider {
 
             @Override
             public void onResponse(JSONObject response) {
-            	AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
+                AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
                 volleyResponse.onResponse(response);
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-            	AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
+                AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
             }
-        })
-        {
-
-            /**
-             * Passing some request headers
-             * 
-              */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "Androidhive");
-                params.put("email", "abc@androidhive.info");
-                params.put("pass", "password123");
-
-                return params;
-            }
-
-        };
+        });
+        // {
+        //
+        // /**
+        // * Passing some request headers
+        // *
+        // */
+        // @Override
+        // public Map<String, String> getHeaders() throws AuthFailureError {
+        // HashMap<String, String> headers = new HashMap<String, String>();
+        // headers.put("Content-Type", "application/json");
+        // return headers;
+        // }
+        //
+        // @Override
+        // protected Map<String, String> getParams() {
+        // Map<String, String> params = new HashMap<String, String>();
+        // params.put("name", "Androidhive");
+        // params.put("email", "abc@androidhive.info");
+        // params.put("pass", "password123");
+        //
+        // return params;
+        // }
+        //
+        // };
 
         // Adding request to request queue
         VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq, TAG_JSON_OBJECT_REQ);
@@ -214,15 +215,16 @@ public class VolleyProvider {
         JsonArrayRequest req = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                if(response == null)
-                	 volleyResponse.onErrorResponse(mContext.getString(R.string.result_not_found));;
-                AIOLog.d("requestJsonArrayFromURL onResponse="+response.toString());
+                if (response == null)
+                    volleyResponse.onErrorResponse(mContext.getString(R.string.result_not_found));
+
+                AIOLog.d("requestJsonArrayFromURL onResponse=" + response.toString());
                 volleyResponse.onResponse(response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(error == null)
+                if (error == null)
                     volleyResponse.onErrorResponse(mContext.getString(R.string.result_not_found));
                 AIOLog.d("requestJsonArrayFromURL onErrorResponse: " + error.getMessage());
             }
