@@ -3,6 +3,10 @@
 
     <string name="app_name">Bravo</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+
+    <!-- Login/Register -->
+    <string name="splash_message">The shop app that\'s taking the world by storm!</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 
 </resources>

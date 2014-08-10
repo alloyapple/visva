@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <!-- Login/Register -->
+    <color name="login_regiter_layout">#eeeeee</color>
+    <color name="login_register_text">#575757</color>
+
+</resources>
