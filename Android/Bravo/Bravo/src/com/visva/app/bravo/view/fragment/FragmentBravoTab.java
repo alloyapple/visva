@@ -11,7 +11,7 @@ public class FragmentBravoTab extends FragmentBasic {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_login,
+		View root = (ViewGroup) inflater.inflate(R.layout.page_bravo_tab,
 				null);
 		return root;
 	}
