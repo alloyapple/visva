@@ -8,21 +8,20 @@ import android.view.ViewGroup;
 import com.visva.app.bravo.R;
 
 public class FragmentBravoRegister extends FragmentBasic {
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View root = (ViewGroup) inflater.inflate(
-				R.layout.page_fragment_bravo_register, null);
-		return root;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_bravo_register, null);
+        return root;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
