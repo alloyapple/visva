@@ -8,5 +8,8 @@
     <!-- Login/Register -->
     <color name="login_regiter_layout">#eeeeee</color>
     <color name="login_register_text">#575757</color>
+    <color name="home_background">#262E35</color>
+    <color name="actionbar_background">#458DAD</color>
+    <color name="actionbar_item_background">#99367895</color>
 
 </resources>

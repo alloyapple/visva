@@ -2,7 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/home_background"
     android:orientation="vertical" >
-    
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height"
+        android:background="@color/actionbar_background"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:layout_width="@dimen/actionbar_height"
+            android:layout_height="@dimen/actionbar_height"
+            android:background="@drawable/ic_back"
+            android:contentDescription="@string/app_name"
+            android:onClick="onClickBackPersonal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+            android:id="@+id/fragment_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentLogin" />
+
+        <fragment
+            android:id="@+id/fragment_register"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentRegister" />
+
+        <fragment
+            android:id="@+id/fragment_bravo_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentRegisterUserInfo" />
+
+        <fragment
+            android:id="@+id/fragment_bravo_register"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentBravoRegister" />
+    </RelativeLayout>
 
 </LinearLayout>
