@@ -20,5 +20,6 @@
     <dimen name="height_btn_tab">49dp</dimen>
     <dimen name="width_btn_bravo">64dp</dimen>
     <dimen name="height_btn_bravo">54dp</dimen>
+    <dimen name="height_title_home">60dp</dimen>
 
 </resources>
