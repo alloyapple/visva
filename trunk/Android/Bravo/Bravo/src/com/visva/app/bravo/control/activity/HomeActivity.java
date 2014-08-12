@@ -83,27 +83,27 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
         case R.id.btn_home:
             hideTabButton();
             showFragment(FRAGMENT_HOME_TAB_ID);
-            btnHome.setBackgroundResource(R.drawable.bt_home_tab_selected);
+            btnHome.setBackgroundResource(R.drawable.tab_home_on);
             break;
         case R.id.btn_network:
             hideTabButton();
             showFragment(FRAGMENT_NETWORK_TAB_ID);
-            btnNetwork.setBackgroundResource(R.drawable.bt_network_tab_selected);
+            btnNetwork.setBackgroundResource(R.drawable.tab_feed_on);
             break;
         case R.id.btn_bravo:
             hideTabButton();
             showFragment(FRAGMENT_BRAVO_TAB_ID);
-            btnBravo.setBackgroundResource(R.drawable.bt_bravo_tab_selected);
+            btnBravo.setBackgroundResource(R.drawable.tab_bravo_on);
             break;
         case R.id.btn_search:
             hideTabButton();
             showFragment(FRAGMENT_SEARCH_TAB_ID);
-            btnSearch.setBackgroundResource(R.drawable.bt_search_tab_selected);
+            btnSearch.setBackgroundResource(R.drawable.tab_search_on);
             break;
         case R.id.btn_mydata:
             hideTabButton();
             showFragment(FRAGMENT_MYDATA_TAB_ID);
-            btnMyData.setBackgroundResource(R.drawable.bt_mydata_tab_selected);
+            btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
             break;
         default:
             break;
@@ -147,11 +147,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
     }
 
     public void hideTabButton() {
-        btnHome.setBackgroundResource(R.drawable.bt_home_tab_unselected);
-        btnHome.setBackgroundResource(R.drawable.bt_home_tab_unselected);
-        btnBravo.setBackgroundResource(R.drawable.bt_bravo_tab_selected);
-        btnSearch.setBackgroundResource(R.drawable.bt_search_tab_unselected);
-        btnMyData.setBackgroundResource(R.drawable.bt_mydata_tab_unselected);
+        btnHome.setBackgroundResource(R.drawable.tab_home_off);
+        btnNetwork.setBackgroundResource(R.drawable.tab_feed_off);
+        btnBravo.setBackgroundResource(R.drawable.tab_bravo_off);
+        btnSearch.setBackgroundResource(R.drawable.tab_search_off);
+        btnMyData.setBackgroundResource(R.drawable.tab_mydata_off);
     }
 
     private void showFragment(int fragment) {
