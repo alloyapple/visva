@@ -5,55 +5,92 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/bottom_box"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/footer_height"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/tab_background"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="5" >
+        android:layout_height="@dimen/height_btn_bravo"
+        android:layout_alignParentBottom="true" >
 
-        <Button
-            android:id="@+id/btn_home"
+        <LinearLayout
+            android:id="@+id/bottom_box"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bt_home_tab"
-            android:onClick="onClick" />
+            android:layout_height="@dimen/footer_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/tab_background"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="5" >
 
-        <Button
-            android:id="@+id/btn_network"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bt_network_tab"
-            android:onClick="onClick" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/btn_home"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bt_home_tab_selected"
+                    android:onClick="onClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/btn_network"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bt_network_tab_unselected"
+                    android:onClick="onClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bt_search_tab_unselected"
+                    android:onClick="onClick" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/btn_mydata"
+                    android:layout_width="@dimen/width_btn_tab"
+                    android:layout_height="@dimen/height_btn_tab"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bt_mydata_tab_unselected"
+                    android:onClick="onClick" />
+            </FrameLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_bravo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bt_bravo_tab"
+            android:layout_width="@dimen/width_btn_bravo"
+            android:layout_height="@dimen/height_btn_bravo"
+            android:layout_gravity="center"
+            android:background="@drawable/bt_bravo_tab_unselected"
             android:onClick="onClick" />
-
-        <Button
-            android:id="@+id/btn_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bt_search_tab"
-            android:onClick="onClick" />
-
-        <Button
-            android:id="@+id/btn_mydata"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bt_mydata_tab"
-            android:onClick="onClick" />
-    </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
