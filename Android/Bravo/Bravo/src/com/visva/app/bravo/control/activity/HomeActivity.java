@@ -3,8 +3,6 @@ package com.visva.app.bravo.control.activity;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -49,10 +47,6 @@ public class HomeActivity extends VisvaAbstractActivity {
         super.onDestroy();
     }
 
-    private void updatePieToSPServer() {
-
-    }
-
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
@@ -64,15 +58,4 @@ public class HomeActivity extends VisvaAbstractActivity {
     protected void onStart() {
         super.onStart();
     }
-
-    public Handler mHandler = new Handler() {
-                                @Override
-                                public void handleMessage(Message msg) {
-                                    switch (msg.what) {
-
-                                    default:
-                                        break;
-                                    }
-                                }
-                            };
 }
