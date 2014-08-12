@@ -5,6 +5,41 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+            android:id="@+id/fragment_home_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentHomeTab" />
+
+        <fragment
+            android:id="@+id/fragment_network_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentNetworkTab" />
+
+        <fragment
+            android:id="@+id/fragment_bravo_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentBravoTab" />
+
+        <fragment
+            android:id="@+id/fragment_search_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentSearchTab" />
+
+        <fragment
+            android:id="@+id/fragment_mydata_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.visva.app.bravo.view.fragment.FragmentMyDataTab" />
+    </RelativeLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_bravo"
