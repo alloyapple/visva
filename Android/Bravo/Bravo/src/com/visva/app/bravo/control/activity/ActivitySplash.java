@@ -26,7 +26,7 @@ public class ActivitySplash extends VisvaAbstractActivity {
     @Override
     public void onCreate() {
         mLoginRegisterLayout = (LinearLayout) findViewById(R.id.layout_login_regiter);
-        mTextFlashIntro = (TextView) findViewById(R.id.text_flash_intro);
+        //mTextFlashIntro = (TextView) findViewById(R.id.text_flash_intro);
         mLoginLayout = (LinearLayout) findViewById(R.id.layout_login);
         mLoginLayout.setOnClickListener(new View.OnClickListener() {
 
