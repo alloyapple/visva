@@ -18,9 +18,9 @@ public class FragmentHomeTab extends FragmentBasic {
             Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_home_tab,
                 null);
-        listviewRecentPost = (ListView) root.findViewById(R.id.listview_recent_post);
-        adapterRecentPost = new AdapterRecentPost(getActivity());
-        listviewRecentPost.setAdapter(adapterRecentPost);
+//        listviewRecentPost = (ListView) root.findViewById(R.id.listview_recent_post);
+//        adapterRecentPost = new AdapterRecentPost(getActivity());
+//        listviewRecentPost.setAdapter(adapterRecentPost);
         return root;
     }
 
