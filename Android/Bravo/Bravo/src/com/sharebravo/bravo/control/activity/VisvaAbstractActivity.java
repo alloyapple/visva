@@ -1,4 +1,4 @@
-package com.visva.app.bravo.control.activity;
+package com.sharebravo.bravo.control.activity;
 
 import java.lang.reflect.Method;
 
@@ -12,8 +12,8 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.sharebravo.bravo.R;
 import com.visva.android.visvasdklibrary.log.AIOLog;
-import com.visva.app.bravo.R;
 
 public abstract class VisvaAbstractActivity extends Activity {
     private LinearLayout container;

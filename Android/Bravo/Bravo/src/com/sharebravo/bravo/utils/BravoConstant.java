@@ -1,4 +1,4 @@
-package com.visva.app.bravo.utils;
+package com.sharebravo.bravo.utils;
 
 public class BravoConstant {
     /* Login-Register */

@@ -1,4 +1,4 @@
-package com.visva.app.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment;
 
 import android.support.v4.app.Fragment;
 

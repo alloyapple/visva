@@ -1,4 +1,4 @@
-package com.visva.app.bravo.view.adapter;
+package com.sharebravo.bravo.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.visva.app.bravo.R;
+import com.sharebravo.bravo.R;
 
 public class AdapterRecentPost extends BaseAdapter {
     private final int DEFAULT_ITEM_NUMBER = 10;

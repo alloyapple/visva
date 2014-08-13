@@ -1,4 +1,4 @@
-package com.visva.app.bravo.control.activity;
+package com.sharebravo.bravo.control.activity;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.utils.BravoConstant;
 import com.visva.android.visvasdklibrary.log.AIOLog;
-import com.visva.app.bravo.R;
-import com.visva.app.bravo.utils.BravoConstant;
 
 public class ActivitySplash extends VisvaAbstractActivity {
 
@@ -26,7 +26,7 @@ public class ActivitySplash extends VisvaAbstractActivity {
     @Override
     public void onCreate() {
         mLoginRegisterLayout = (LinearLayout) findViewById(R.id.layout_login_regiter);
-        //mTextFlashIntro = (TextView) findViewById(R.id.text_flash_intro);
+        mTextFlashIntro = (TextView) findViewById(R.id.text_flash_intro);
         mLoginLayout = (LinearLayout) findViewById(R.id.layout_login);
         mLoginLayout.setOnClickListener(new View.OnClickListener() {
 
