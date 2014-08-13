@@ -20,7 +20,7 @@
             android:background="@drawable/back_navigation_button"
             android:gravity="center"
             android:onClick="onClickBackPersonal"
-            android:paddingLeft="15dp"
+            android:paddingLeft="@dimen/back_btn_margin_left"
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="@dimen/com_facebook_loginview_text_size" />
