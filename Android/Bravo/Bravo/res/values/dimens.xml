@@ -25,5 +25,10 @@
     <dimen name="height_btn_bravo">53dp</dimen>
     <dimen name="height_title_home">60dp</dimen>
     <dimen name="height_recent_post_title">30dp</dimen>
+    <dimen name="height_shadow_top">4dp</dimen>
+    <dimen name="height_notification_button">40dp</dimen>
+    <dimen name="height_network_search">56dp</dimen>
+    <dimen name="height_searchbar">40dp</dimen>
+    <dimen name="search_icon">25dp</dimen>
 
 </resources>
