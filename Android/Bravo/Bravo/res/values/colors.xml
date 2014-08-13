@@ -4,6 +4,7 @@
     <!-- Common -->
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="grey">#c8c7cc</color>
 
     <!-- Login/Register -->
     <color name="login_regiter_layout">#eeeeee</color>
