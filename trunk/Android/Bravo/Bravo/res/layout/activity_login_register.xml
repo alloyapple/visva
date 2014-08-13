@@ -34,25 +34,25 @@
             android:id="@+id/fragment_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.visva.app.bravo.view.fragment.FragmentLogin" />
+            class="com.sharebravo.bravo.view.fragment.FragmentLogin" />
 
         <fragment
             android:id="@+id/fragment_register"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.visva.app.bravo.view.fragment.FragmentRegister" />
+            class="com.sharebravo.bravo.view.fragment.FragmentRegister" />
 
         <fragment
             android:id="@+id/fragment_bravo_user_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.visva.app.bravo.view.fragment.FragmentRegisterUserInfo" />
+            class="com.sharebravo.bravo.view.fragment.FragmentRegisterUserInfo" />
 
         <fragment
             android:id="@+id/fragment_bravo_register"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.visva.app.bravo.view.fragment.FragmentBravoRegister" />
+            class="com.sharebravo.bravo.view.fragment.FragmentBravoRegister" />
     </RelativeLayout>
 
 </LinearLayout>

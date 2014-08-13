@@ -1,4 +1,4 @@
-package com.visva.app.bravo.control.activity;
+package com.sharebravo.bravo.control.activity;
 
 import java.util.ArrayList;
 
@@ -11,13 +11,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.visva.app.bravo.MyApplication;
-import com.visva.app.bravo.R;
-import com.visva.app.bravo.view.fragment.FragmentBravoTab;
-import com.visva.app.bravo.view.fragment.FragmentHomeTab;
-import com.visva.app.bravo.view.fragment.FragmentMyDataTab;
-import com.visva.app.bravo.view.fragment.FragmentNetworkTab;
-import com.visva.app.bravo.view.fragment.FragmentSearchTab;
+import com.sharebravo.bravo.MyApplication;
+import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.view.fragment.FragmentBravoTab;
+import com.sharebravo.bravo.view.fragment.FragmentHomeTab;
+import com.sharebravo.bravo.view.fragment.FragmentMyDataTab;
+import com.sharebravo.bravo.view.fragment.FragmentNetworkTab;
+import com.sharebravo.bravo.view.fragment.FragmentSearchTab;
 
 public class HomeActivity extends VisvaAbstractFragmentActivity {
 

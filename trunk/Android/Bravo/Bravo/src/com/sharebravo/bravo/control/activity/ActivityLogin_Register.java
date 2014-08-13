@@ -1,4 +1,4 @@
-package com.visva.app.bravo.control.activity;
+package com.sharebravo.bravo.control.activity;
 
 import java.util.ArrayList;
 
@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.visva.app.bravo.R;
-import com.visva.app.bravo.view.fragment.FragmentBravoRegister;
-import com.visva.app.bravo.view.fragment.FragmentLogin;
-import com.visva.app.bravo.view.fragment.FragmentRegister;
-import com.visva.app.bravo.view.fragment.FragmentRegisterUserInfo;
+import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.view.fragment.FragmentBravoRegister;
+import com.sharebravo.bravo.view.fragment.FragmentLogin;
+import com.sharebravo.bravo.view.fragment.FragmentRegister;
+import com.sharebravo.bravo.view.fragment.FragmentRegisterUserInfo;
 
 public class ActivityLogin_Register extends FragmentActivity {
 

@@ -1,4 +1,4 @@
-package com.visva.app.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.visva.app.bravo.R;
-import com.visva.app.bravo.view.adapter.AdapterRecentPost;
+import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
 
 public class FragmentHomeTab extends FragmentBasic {
-    private ListView            listviewRecentPost = null;
+    private ListView          listviewRecentPost = null;
     private AdapterRecentPost adapterRecentPost  = null;
 
     @Override
