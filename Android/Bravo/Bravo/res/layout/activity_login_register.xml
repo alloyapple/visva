@@ -9,15 +9,28 @@
         android:id="@+id/actionbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbar_height"
-        android:background="@color/actionbar_background"
+        android:background="@drawable/green_button"
         android:orientation="vertical" >
 
-        <ImageButton
-            android:layout_width="@dimen/actionbar_height"
-            android:layout_height="@dimen/actionbar_height"
-            android:background="@drawable/ic_back"
-            android:contentDescription="@string/app_name"
-            android:onClick="onClickBackPersonal" />
+        <TextView
+            android:layout_width="@dimen/back_btn_width"
+            android:layout_height="@dimen/back_btn_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/back_navigation_button"
+            android:gravity="center"
+            android:onClick="onClickBackPersonal"
+            android:paddingLeft="15dp"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/com_facebook_loginview_text_size" />
+
+        <ImageView
+            android:layout_width="@dimen/ic_small_intro_width"
+            android:layout_height="@dimen/ic_small_intro_heght"
+            android:layout_centerInParent="true"
+            android:background="@drawable/intro_logo"
+            android:contentDescription="@string/invalid_integer_id" />
     </RelativeLayout>
 
     <RelativeLayout

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.visva.android.visvasdklibrary.log.AIOLog;
 import com.visva.app.bravo.R;
 
 public abstract class VisvaAbstractActivity extends Activity {
@@ -20,21 +21,18 @@ public abstract class VisvaAbstractActivity extends Activity {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
         try {
             Class strictModeClass = Class.forName("android.os.StrictMode");
-            Class strictModeThreadPolicyClass = Class
-                    .forName("android.os.StrictMode$ThreadPolicy");
-            Object laxPolicy = strictModeThreadPolicyClass.getField("LAX").get(
-                    null);
-            Method method_setThreadPolicy = strictModeClass.getMethod(
-                    "setThreadPolicy", strictModeThreadPolicyClass);
+            Class strictModeThreadPolicyClass = Class.forName("android.os.StrictMode$ThreadPolicy");
+            Object laxPolicy = strictModeThreadPolicyClass.getField("LAX").get(null);
+            Method method_setThreadPolicy = strictModeClass.getMethod("setThreadPolicy", strictModeThreadPolicyClass);
             method_setThreadPolicy.invoke(null, laxPolicy);
         } catch (Exception e) {
-
+            AIOLog.d("exception =" + e.getMessage());
         }
+
         setContentView(R.layout.abstract_activity);
         init();
         onCreate();
@@ -67,8 +65,7 @@ public abstract class VisvaAbstractActivity extends Activity {
     public abstract void onCreate();
 
     protected void hideKeyboard() {
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     /**
@@ -102,8 +99,7 @@ public abstract class VisvaAbstractActivity extends Activity {
      * @param context
      * @param cla
      */
-    public void gotoActivityForResult(Context context, Class<?> cla,
-            int requestCode) {
+    public void gotoActivityForResult(Context context, Class<?> cla, int requestCode) {
         Intent intent = new Intent(context, cla);
         startActivityForResult(intent, requestCode);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -131,8 +127,7 @@ public abstract class VisvaAbstractActivity extends Activity {
      * @param bundle
      * @param requestCode
      */
-    public void gotoActivityForResult(Context context, Class<?> cla,
-            Bundle bundle, int requestCode) {
+    public void gotoActivityForResult(Context context, Class<?> cla, Bundle bundle, int requestCode) {
         Intent intent = new Intent(context, cla);
         intent.putExtras(bundle);
         startActivityForResult(intent, requestCode);
@@ -192,7 +187,6 @@ public abstract class VisvaAbstractActivity extends Activity {
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
     }
 
@@ -214,38 +208,32 @@ public abstract class VisvaAbstractActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // TODO Auto-generated method stub
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestart() {
-        // TODO Auto-generated method stub
         super.onRestart();
     }
 
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        // TODO Auto-generated method stub
         super.onActivityResult(arg0, arg1, arg2);
     }
 
     @Override
     public void onBackPressed() {
-        // TODO Auto-generated method stub
         super.onBackPressed();
         finish();
     }
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
-        // TODO Auto-generated method stub
         super.onLowMemory();
     }
 
