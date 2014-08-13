@@ -9,6 +9,14 @@
     <string name="splash_message">The shop app that\'s taking the world by storm!</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+
+    <string name="label_recent_post">Recent Posts</string>
+    <string name="btn_notification">Notifications</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_setting">Settings</string>
+    <string name="hint_search_friends">Search for friends</string>
+    <string name="hint_search_spot">Search for spots</string>
+
     <string name="sign_up_facebook">Sign up with Facebook</string>
     <string name="sign_up_twitter">Sign up with Twitter</string>
     <string name="sign_up_4square">Sign up with Foursquare</string>
