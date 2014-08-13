@@ -5,6 +5,8 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="grey">#c8c7cc</color>
+    <color name="grey_2">#bcbcbc</color>
+    <color name="grey_3">#575757</color>
 
     <!-- Login/Register -->
     <color name="login_regiter_layout">#eeeeee</color>

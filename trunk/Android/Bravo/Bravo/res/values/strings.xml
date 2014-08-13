@@ -21,5 +21,10 @@
     <string name="sign_up_twitter">Sign up with Twitter</string>
     <string name="sign_up_4square">Sign up with Foursquare</string>
     <string name="sign_up_bravo">Sign up with Bravo!</string>
+    <string name="login_facebook">Login with Facebook</string>
+    <string name="login_twitter">Login with Twitter</string>
+    <string name="login_4square">Login with Foursquare</string>
+    <string name="login_bravo">Login with Bravo!</string>
+    <string name="or">or</string>
 
 </resources>
