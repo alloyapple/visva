@@ -13,6 +13,7 @@
         android:baselineAligned="true"
         android:gravity="center|center_horizontal"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="2" >
 
         <LinearLayout
@@ -86,6 +87,7 @@
         android:contentDescription="@string/app_name" />
 
     <TextView
+        android:id="@+id/text_flash_intro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/icon_intro"
@@ -95,7 +97,8 @@
         android:text="@string/splash_message"
         android:textColor="@color/white"
         android:textSize="@dimen/splash_message_size"
-        android:textStyle="bold" >
+        android:textStyle="bold"
+        android:visibility="gone" >
     </TextView>
 
 </RelativeLayout>

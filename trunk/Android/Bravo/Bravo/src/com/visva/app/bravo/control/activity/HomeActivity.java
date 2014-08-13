@@ -55,7 +55,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
 
     @Override
     public int contentView() {
-        // TODO Auto-generated method stub
         return R.layout.activity_home;
     }
 
@@ -66,9 +65,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
         myApp._homeActivity = this;
 
         if (Build.VERSION.SDK_INT >= 11)
-            getWindow().setFlags(
-                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         initializeUITab();
         initializeFragments();
     }
@@ -116,7 +113,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
     }
 

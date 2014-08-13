@@ -35,7 +35,7 @@ public class ActivityLogin_Register extends FragmentActivity {
     private FragmentRegisterUserInfo mFragmentRegisterUserInfo;
 
     // ======================Variable Define===============
-    private ArrayList<String>        backstack                      = new ArrayList<String>();
+    private ArrayList<String>        mBackstack                      = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,25 +103,25 @@ public class ActivityLogin_Register extends FragmentActivity {
     }
 
     public void addToSBackStack(String tag) {
-        int index = backstack.lastIndexOf(tag);
+        int index = mBackstack.lastIndexOf(tag);
         if (index == -1) {
-            backstack.add(tag);
+            mBackstack.add(tag);
             return;
         }
         try {
-            if (!backstack.get(index - 1).equals(
-                    backstack.get(backstack.size() - 1))) {
-                backstack.add(tag);
+            if (!mBackstack.get(index - 1).equals(
+                    mBackstack.get(mBackstack.size() - 1))) {
+                mBackstack.add(tag);
                 return;
             }
         } catch (IndexOutOfBoundsException e) {
-
+            
         }
         try {
-            ArrayList<String> subStack = new ArrayList<String>(backstack);
+            ArrayList<String> subStack = new ArrayList<String>(mBackstack);
             for (int i = 0; i < subStack.size(); i++) {
                 if (i > index) {
-                    backstack.remove(index);
+                    mBackstack.remove(index);
                 }
             }
         } catch (IndexOutOfBoundsException e) {
