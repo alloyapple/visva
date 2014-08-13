@@ -9,7 +9,7 @@
         android:id="@+id/actionbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbar_height"
-        android:background="@drawable/green_button"
+        android:background="@drawable/navigation_background"
         android:orientation="vertical" >
 
         <TextView
@@ -24,13 +24,6 @@
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="@dimen/com_facebook_loginview_text_size" />
-
-        <ImageView
-            android:layout_width="@dimen/ic_small_intro_width"
-            android:layout_height="@dimen/ic_small_intro_heght"
-            android:layout_centerInParent="true"
-            android:background="@drawable/intro_logo"
-            android:contentDescription="@string/invalid_integer_id" />
     </RelativeLayout>
 
     <RelativeLayout
