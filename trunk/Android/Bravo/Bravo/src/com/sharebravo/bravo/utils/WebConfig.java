@@ -31,7 +31,7 @@ public class WebConfig {
     public static final String URL_GET_TIMELINE                     = "https://dev1.sharebravo.com/api/user/{User_ID}/timeline?User_ID={str}&Access_Token={str}&params=JSON_Encoded(Start:{int})";
     public static final String URL_GET_RANK                         = "https://dev1.sharebravo.com/api/rank?User_ID={str}&Access_Token={str}";
 
-    public static final String URL_PUT_BRAVO                       = "https://dev1.sharebravo.com/api/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
+    public static final String URL_POST_BRAVO                       = "https://dev1.sharebravo.com/api/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_BRAVO_SNS                   = "https://dev1.sharebravo.com/api/bravo/{str}/sns?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_COMMENT                     = "https://dev1.sharebravo.com/api/comment?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_SPOTS                       = "https://dev1.sharebravo.com/api/spot?User_ID={str}&Access_Token={str}";
@@ -52,5 +52,5 @@ public class WebConfig {
     public static final String URL_DELETE_NOTIFICATION              = "https://dev1.sharebravo.com/api/user/{User_ID}/notifications/{Type}?User_ID={str}&Access_Token={str}";
     public static final String URL_DELETE_SNS                       = "https://dev1.sharebravo.com/api/user/{User_ID}/sns/{SNS_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_DELETE_USER                      = "https://dev.sharebravo.com/user/{User_ID}?User_ID={str}&Access_Token={str}";
-    public static final String URL_POST_BRAVO                       = "https://dev1.sharebravo.com/api/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
+   // public static final String URL_POST_BRAVO                       = "https://dev1.sharebravo.com/api/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
 }
