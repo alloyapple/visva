@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layout_input_email_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,46 +13,29 @@
         android:background="@drawable/input_background"
         android:orientation="vertical" >
 
-        <RelativeLayout
-            android:id="@+id/layout_user_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp" >
-
-            <ImageView
-                android:id="@+id/img_user_picture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/user_picture_default" />
-
-            <ImageView
-                android:id="@+id/img_picture_choose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/setting_take_picture_icon" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/text_new_user_register"
+        <EditText
+            android:id="@+id/edittext_input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_toRightOf="@id/layout_user_picture"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:text="New User Registration"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
             android:textColor="@color/black" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_2" />
+
         <EditText
-            android:id="@+id/edittext_input_user_name"
+            android:id="@+id/edittext_input_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/layout_user_picture"
-            android:layout_below="@id/text_new_user_register"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:hint="User name"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:textColor="@color/black" />
 
         <ImageView
@@ -60,7 +43,7 @@
             android:layout_height="1dp"
             android:layout_marginBottom="5dp"
             android:background="@color/grey_2" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_bravo_login"
@@ -68,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/white_button"
-        android:text="Done" />
+        android:text="Login" />
 
     <TextView
         android:id="@+id/text_forgot_password"
@@ -76,6 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="By signing up,you agree to the Terms of Service." />
+        android:text="Forgot password?" />
 
 </LinearLayout>
