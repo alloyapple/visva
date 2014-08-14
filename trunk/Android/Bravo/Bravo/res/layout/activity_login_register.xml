@@ -53,6 +53,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="com.sharebravo.bravo.view.fragment.FragmentBravoRegister" />
+
+        <fragment
+            android:id="@+id/fragment_bravo_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.sharebravo.bravo.view.fragment.FragmentBravoLogin" />
     </RelativeLayout>
 
 </LinearLayout>

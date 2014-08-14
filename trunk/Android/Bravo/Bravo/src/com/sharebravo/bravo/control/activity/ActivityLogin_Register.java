@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.view.fragment.FragmentBravoLogin;
 import com.sharebravo.bravo.view.fragment.FragmentBravoRegister;
 import com.sharebravo.bravo.view.fragment.FragmentLogin;
 import com.sharebravo.bravo.view.fragment.FragmentRegister;
@@ -17,10 +18,11 @@ import com.sharebravo.bravo.view.fragment.FragmentRegisterUserInfo;
 public class ActivityLogin_Register extends FragmentActivity {
 
     // ======================Constant Define===============
-    private static final String      FRAGMENT_BRAVO_REGISTER   = "bravo_register";
-    private static final String      FRAGMENT_LOGIN            = "login";
-    private static final String      FRAGMENT_REGISTER         = "register";
-    private static final String      FRIEND_REGISTER_USER_INFO = "register_user_info";
+    private static final String      FRAGMENT_BRAVO_REGISTER     = "bravo_register";
+    private static final String      FRAGMENT_LOGIN              = "login";
+    private static final String      FRAGMENT_REGISTER           = "register";
+    private static final String      FRAGMENT_REGISTER_USER_INFO = "register_user_info";
+    private static final String      FRAGMENT_BRAVO_LOGIN        = "bravo_login";
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -29,9 +31,10 @@ public class ActivityLogin_Register extends FragmentActivity {
     private FragmentLogin            mFragmentLogin;
     private FragmentRegister         mFragmentRegister;
     private FragmentRegisterUserInfo mFragmentRegisterUserInfo;
+    private FragmentBravoLogin       mFragmentBravoLogin;
 
     // ======================Variable Define===============
-    private ArrayList<String>        mBackstack                = new ArrayList<String>();
+    private ArrayList<String>        mBackstack                  = new ArrayList<String>();
     private int                      mAccessType;
 
     @Override
@@ -50,11 +53,12 @@ public class ActivityLogin_Register extends FragmentActivity {
         mFragmentLogin = (FragmentLogin) mFmManager.findFragmentById(R.id.fragment_login);
         mFragmentRegister = (FragmentRegister) mFmManager.findFragmentById(R.id.fragment_register);
         mFragmentRegisterUserInfo = (FragmentRegisterUserInfo) mFmManager.findFragmentById(R.id.fragment_bravo_user_info);
+        mFragmentBravoLogin = (FragmentBravoLogin) mFmManager.findFragmentById(R.id.fragment_bravo_login);
 
         mTransaction = hideFragment();
         mAccessType = getIntent().getExtras().getInt(BravoConstant.ACCESS_TYPE);
         if (mAccessType == BravoConstant.FRAGMENT_LOGIN_ID)
-            showFragment(BravoConstant.FRAGMENT_LOGIN_ID);
+            showFragment(BravoConstant.FRAGMENT_REGISTER_USER_INFO_ID);
         else
             showFragment(BravoConstant.FRAGMENT_REGISTER_ID);
     }
@@ -86,7 +90,13 @@ public class ActivityLogin_Register extends FragmentActivity {
         case BravoConstant.FRAGMENT_REGISTER_USER_INFO_ID:
             mTransaction = hideFragment();
             mTransaction.show(mFragmentRegisterUserInfo);
-            addToSBackStack(FRIEND_REGISTER_USER_INFO);
+            addToSBackStack(FRAGMENT_REGISTER_USER_INFO);
+            mTransaction.commit();
+            break;
+        case BravoConstant.FRAGMENT_BRAVO_LOGIN_ID:
+            mTransaction = hideFragment();
+            mTransaction.show(mFragmentBravoLogin);
+            addToSBackStack(FRAGMENT_BRAVO_LOGIN);
             mTransaction.commit();
             break;
         default:
@@ -100,6 +110,7 @@ public class ActivityLogin_Register extends FragmentActivity {
         mTransaction.hide(mFragmentLogin);
         mTransaction.hide(mFragmentRegister);
         mTransaction.hide(mFragmentRegisterUserInfo);
+        mTransaction.hide(mFragmentBravoLogin);
         return mTransaction;
     }
 
