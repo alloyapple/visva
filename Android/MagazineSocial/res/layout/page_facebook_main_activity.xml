@@ -1,0 +1,70 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- Framelayout to display Fragments -->
+
+    <FrameLayout
+        android:id="@+id/facebook_fragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <!-- Listview to display slider menu -->
+
+    <LinearLayout
+        android:id="@+id/right_slide_menu"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@color/list_background"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/right_slide_menu_profile"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" 
+            android:visibility="gone">
+
+            <com.facebook.widget.ProfilePictureView
+                android:id="@+id/profile_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/avatar_shadow"
+                android:gravity="center_vertical"
+                android:padding="2sp"
+                facebook:preset_size="small" />
+
+
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/profile_icon"
+                android:gravity="center_vertical"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                android:paddingRight="2dp"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textColor="@color/list_item_title" 
+                android:singleLine = "true"/>
+        </RelativeLayout>
+        
+        <View
+            android:id="@+id/seperator"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:layout_marginBottom="5dip"
+            android:background="#ffcccccc" />
+
+        <ListView
+            android:id="@+id/right_slide_menu_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp"
+            android:listSelector="@drawable/list_selector" />
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name = "view_type_items">
+        <item>List View</item>
+        <item>Flip View</item>
+    </array>
+    <array name = "fb_fuction_items">
+        <item>News Feed</item>
+        <item>News Feed Photos</item>
+        <item>News Feed Links</item>
+        <item>My Timeline</item>
+        <item>Tagged Me Photos</item>
+        <item>Groups</item>
+        <item>Pages</item>
+        <item>Friends</item>
+        <item>Friend Groups</item>
+        <!-- <item>Friend Albums</item> -->
+        <item>Log out</item>
+    </array>
+    
+    <array name="fb_function_icons">
+        <item>@drawable/ic_fb_news_feeds</item>
+        <item>@drawable/ic_fb_news_feed_photos</item>
+        <item>@drawable/ic_fb_news_feed_links</item>
+        <item>@drawable/ic_fb_my_timeline</item>
+        <item>@drawable/ic_fb_tagged_me_photos</item>
+        <item>@drawable/ic_fb_groups</item>
+        <item>@drawable/ic_fb_pages</item>
+        <item>@drawable/ic_fb_friends</item>
+        <item>@drawable/ic_fb_friend_groups</item>
+        <!-- <item>@drawable/ic_fb_friend_albums</item> -->
+        <item>@drawable/ic_logout</item>
+    </array>
+    
+    <array name = "tw_fuction_items">
+        <item>Your Timeline</item>
+        <item>Your Timeline Links</item>
+        <item>Your Tweets</item>
+        <item>Your Favorites</item>
+        <item>Tweets Mentioning You</item>
+        <item>Saved Searches</item>
+        <item>Your List</item>
+        <item>List You Follow</item>
+        <item>Lists Following You</item>
+        <item>People You Follow</item>
+        <item>People Following you</item>
+        <item>Log out</item>
+    </array>
+    
+    <array name="tw_function_icons">
+        <item>@drawable/ic_tw_your_timeline</item>
+        <item>@drawable/ic_tw_your_timeline_links</item>
+        <item>@drawable/ic_tw_your_tweets</item>
+        <item>@drawable/ic_tw_your_favorites</item>
+        <item>@drawable/ic_tw_mentioning_you</item>
+        <item>@drawable/ic_tw_saved_searchs</item>
+        <item>@drawable/ic_tw_your_lists</item>
+        <item>@drawable/ic_tw_list_you_follow</item>
+        <item>@drawable/ic_tw_list_following_you</item>
+        <item>@drawable/ic_tw_pepole_you_follow</item>
+        <item>@drawable/ic_tw_people_following_you</item>
+        <item>@drawable/ic_logout</item>
+    </array>
+    
+    <array name = "fb_login_permission">
+    	<item>user_about_me</item>
+    	<item>user_activities</item>
+    	<item>user_birthday</item>
+    	<item>user_checkins</item>
+    	<item>user_education_history</item>
+    	<item>user_events</item>
+    	<item>user_groups</item>
+    	<item>user_hometown</item>
+    	<item>user_interests</item>
+    	<item>user_likes</item>
+    	<item>user_location</item>
+    	<item>user_notes</item>
+    	<item>user_online_presence</item>
+    	<item>user_photo_video_tags</item>
+    	<item>user_photos</item>
+    	<item>user_relationships</item>
+    	<item>user_relationship_details</item>
+    	<item>user_religion_politics</item>
+    	<item>user_status</item>
+    	<item>user_videos</item>
+    	<item>user_website</item>
+    	<item>user_work_history</item>
+    	<item>email</item>
+    	<item>read_friendlists</item>
+    	<item>read_insights</item>
+    	<item>read_mailbox</item>
+    	<item>read_requests</item>
+    	<item>read_stream</item>
+    	<item>xmpp_login</item>
+    	<item>ads_management</item>
+    	<item>create_event</item>
+    	<item>manage_friendlists</item>
+    	<item>manage_notifications</item>
+    	<item>offline_access</item>
+    	<item>publish_checkins</item>
+    	<item>publish_stream</item>
+    	<item>rsvp_event</item>
+    	<item>sms</item>
+    </array>	
+</resources>

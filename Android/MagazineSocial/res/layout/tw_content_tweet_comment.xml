@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/top_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        layout="@layout/tw_content_comment_header" />
+
+    <View
+        android:id="@id/seperator01"
+        android:layout_width="fill_parent"
+        android:layout_height="1.0dip"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#ffcccccc" />
+
+    <LinearLayout
+        android:id="@+id/content_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:orientation="horizontal"
+        android:paddingTop="10dip"
+        android:weightSum="5" >
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@id/img_profile_picture"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/icon_profile_black"
+            android:gravity="center_horizontal"
+            android:padding="1sp" />
+
+        <!-- start Body content -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/txt_time_post_ago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:text="dfsdf asddfas"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="#ffb3b3b3" />
+
+                <RelativeLayout
+                    android:id="@+id/titleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/txt_time_post_ago" >
+
+                    <TextView
+                        android:id="@+id/txt_profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:ellipsize="marquee"
+                        android:fontFamily="sans-serif-condensed"
+                        android:singleLine="true"
+                        android:text="Name Profile"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/img_small_tw_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@id/txt_profile_name"
+                        android:src="@drawable/mini_twitter" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txt_content_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="body content" />
+            <!-- Start bottom layout of body content -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/txt_favourite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/paper_button_selector"
+                    android:drawableLeft="@drawable/star_mini_button_selector"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="#ffb3b3b3" />
+
+                <TextView
+                    android:id="@+id/txt_retweet_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dip"
+                    android:layout_toRightOf="@id/txt_favourite"
+                    android:background="@drawable/paper_button_selector"
+                    android:drawableLeft="@drawable/mini_retweet"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="#ffb3b3b3" />
+
+                <ImageButton
+                    android:id="@+id/img_human"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dip"
+                    android:background="@drawable/paper_button_selector"
+                    android:src="@drawable/mini_humanoid" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/seperator02"
+        android:layout_width="fill_parent"
+        android:layout_height="1.0dip"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#ffcccccc" />
+
+    <LinearLayout
+        android:id="@+id/layout_Mentions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="sans-serif-condensed"
+            android:singleLine="true"
+            android:text="@string/twitter_mention_user"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_mention_users"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="sans-serif-condensed"
+            android:singleLine="true"
+            android:text="@string/twitter_mention_user"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </LinearLayout>
+<!--  
+    <LinearLayout
+        android:id="@+id/layout_In_Response"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="sans-serif-condensed"
+            android:singleLine="true"
+            android:text="@string/twitter_response_to"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/layout_in_response_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" >
+
+            <ImageView
+                android:id="@+id/img_response_to_profile_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/icon_profile_black"
+                android:padding="1sp" />
+
+            <LinearLayout
+                android:id="@+id/layout_in_response_content_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/img_response_to_profile_picture"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/txt_user_response_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fontFamily="sans-serif-condensed"
+                    android:singleLine="true"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_text_content_response_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fontFamily="sans-serif-condensed"
+                    android:singleLine="true"
+                    android:text="content"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+-->
+    <LinearLayout
+        android:id="@+id/list_comment_container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="5dip"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/txt_text_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="marquee"
+            android:fontFamily="sans-serif-condensed"
+            android:singleLine="true"
+            android:text="@string/twitter_comment_text"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progress_comment_loading"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.samsung.android.alwayssocial.view.PullAndLoadListView
+            android:id="@+id/list_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1" />
+  
+        <View
+            android:id="@+id/separator03"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:layout_margin="10dip"
+            android:layout_weight="0"
+            android:background="#ffcccccc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dip"
+            android:layout_marginLeft="10dip"
+            android:layout_weight="0"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:layout_width="42dip"
+                android:layout_height="42dip"
+                android:layout_weight="0" >
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/profile_picture_bottom_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/avatar_shadow" />
+
+                <ImageView
+                    android:id="@+id/img_small_tw_icon"
+                    android:layout_width="14dip"
+                    android:layout_height="14dip"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="1dip"
+                    android:background="@drawable/ic_twitter"
+                    android:singleLine="true" />
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/edit_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dip"
+                android:layout_weight="1"
+                android:background="@drawable/input_field"
+                android:maxLines="4" />
+
+            <Button
+                android:id="@+id/btn_send_comment"
+                style="@style/ButtonDone"
+                android:layout_width="57dip"
+                android:layout_height="40dip"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="10dip"
+                android:layout_weight="0"
+                android:enabled="true"
+                android:gravity="center"
+                android:text="@string/send_button" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
