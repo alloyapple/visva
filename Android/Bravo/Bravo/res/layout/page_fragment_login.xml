@@ -130,11 +130,12 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_bravo_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
         android:background="@drawable/green_button" >
 
         <ImageView
@@ -148,10 +149,10 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/btn_login_bravo"
             android:gravity="center"
             android:text="@string/login_bravo"
-            android:layout_centerVertical="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white"
             android:textStyle="bold" />
