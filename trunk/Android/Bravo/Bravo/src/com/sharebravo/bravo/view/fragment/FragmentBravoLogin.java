@@ -10,13 +10,11 @@ import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.model.user.BravoUser;
-import com.sharebravo.bravo.view.fragment.FragmentRegister.IShowPageBravoRegister;
 
 public class FragmentBravoLogin extends FragmentBasic {
     // ===================Constant Define ==========================
     // ===================Class Define =============================
-    private IShowPageForgotPassword iShowPageForgotPassword;
+    private IShowPageForgotPassword mListener;
     // ===================Variable Define ==========================
     private Button                  mBtnBravoLogin;
     private TextView                mTextForgotPassword;
@@ -39,7 +37,7 @@ public class FragmentBravoLogin extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                iShowPageForgotPassword.showPageForgotPassword();
+                mListener.showPageForgotPassword();
             }
         });
         return root;
@@ -60,6 +58,6 @@ public class FragmentBravoLogin extends FragmentBasic {
     }
 
     public void setListener(IShowPageForgotPassword iShowPageForgotPassword) {
-        this.iShowPageForgotPassword = iShowPageForgotPassword;
+        this.mListener = iShowPageForgotPassword;
     }
 }
