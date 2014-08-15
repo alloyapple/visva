@@ -1,5 +1,10 @@
 package com.sharebravo.bravo.model.response;
 
-public class ObGetSpotSearch {
+import java.util.ArrayList;
 
+public class ObGetSpotSearch {
+    ArrayList<Spot> data = new ArrayList<Spot>();
+    public ObGetSpotSearch() {
+        // TODO Auto-generated constructor stub
+    }
 }
