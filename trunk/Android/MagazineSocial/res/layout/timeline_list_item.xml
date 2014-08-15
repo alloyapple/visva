@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popover_outside"
+    android:orientation="vertical" 
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
+
+        <com.facebook.widget.ProfilePictureView
+            android:id="@+id/user_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dip"
+            android:background="@drawable/avatar_shadow"
+            android:gravity="center_horizontal"
+            android:padding="1sp"
+            facebook:preset_size="small" />
+
+        <LinearLayout
+            android:id="@+id/right_pane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/posted_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titleLayout"
+                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                    android:textColor="#ffb3b3b3"
+                    android:textStyle="italic" />
+
+                <RelativeLayout
+                    android:id="@+id/titleLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true">
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:ellipsize="marquee"
+                        android:fontFamily="sans-serif-condensed"
+                        android:singleLine="true"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/facebook_ic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@id/username"
+                        android:src="@drawable/mini_ic_facebook" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <com.samsung.android.alwayssocial.view.ExpandableTextView
+                    android:id="@+id/text_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text=""
+                    android:textAppearance="@android:style/TextAppearance.Holo.Small"/>
+            </LinearLayout>
+
+            <!-- <LinearLayout
+                android:id="@+id/like_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/text_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/paper_button_selector"
+                    android:drawableLeft="@drawable/like_button_selector"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="#ffb3b3b3" />
+
+                <TextView
+                    android:id="@+id/text_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/paper_button_selector"
+                    android:drawableLeft="@drawable/comment_button_selector"
+                    android:drawablePadding="1dp"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="#ffb3b3b3" />
+            </LinearLayout> -->
+        </LinearLayout>
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:id="@+id/layout_media"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/media_capion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Test"
+            android:layout_marginLeft="6dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+            android:textStyle="normal" />
+
+        <!-- <ImageView
+            android:id="@+id/media_summary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/media_capion"
+            android:layout_centerInParent="true"
+            /> -->
+            
+            <com.samsung.android.alwayssocial.view.DynamicImageView
+                android:id="@+id/media_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/media_capion"
+                android:background="@drawable/avatar_shadow"
+                android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/video_play_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_action_play_over_video" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.samsung.android.alwayssocial.view.ExpandableTextView
+            android:id="@+id/link_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:text=""
+            android:layout_marginLeft="10dp"
+            android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+            android:textStyle="normal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <!-- <TextView
+                android:id="@+id/link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/link_avatar"
+                android:maxLength="100"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="@color/gray_dark_text" /> -->
+
+			<com.samsung.android.alwayssocial.view.ExpandableTextView
+                android:id="@+id/link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/link_avatar"
+                android:layout_marginLeft="10dp"
+                android:visibility="visible"/>
+			
+            <com.samsung.android.alwayssocial.view.DynamicImageView
+                android:id="@+id/link_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/avatar_shadow"
+                android:src="@drawable/avatar_shadow"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/like_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp" >
+
+        <TextView
+            android:id="@+id/text_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/paper_button_selector"
+            android:drawableLeft="@drawable/like_button_selector"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textColor="#ffb3b3b3"
+            android:text="Like" />
+
+        <TextView
+            android:id="@+id/text_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/paper_button_selector"
+            android:drawableLeft="@drawable/comment_button_selector"
+            android:drawablePadding="1dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textColor="#ffb3b3b3"
+            android:text="Comment" />
+    </LinearLayout>
+    
+</LinearLayout>

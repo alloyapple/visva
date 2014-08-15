@@ -1,0 +1,64 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="@null" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="30dp" >
+
+        <com.facebook.widget.ProfilePictureView
+            android:id="@+id/user_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/avatar_shadow"
+            android:gravity="center_horizontal"
+            android:padding="1sp"
+            facebook:preset_size="small" />
+
+        <LinearLayout
+            android:id="@+id/contents_detail_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/user_avatar"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/contents_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textSize="@dimen/personal_friend_name_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/contents_pubtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:textColor="@color/grey_text_ago"
+                    android:textSize="@dimen/personal_friend_name_text_size" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/contents_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

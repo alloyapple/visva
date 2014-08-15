@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <com.facebook.widget.LoginButton
+                android:id="@+id/login_fb_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:onClick="onClickFacebookLoginButton"
+                android:gravity="center" >
+            </com.facebook.widget.LoginButton>
+
+            <Button
+                android:id="@+id/login_twitter_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/twitter_login_button" />
+
+            <Button
+                android:id="@+id/login_google_plus_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="onClickGooglePlusLoginButton"
+                android:background="@drawable/google_plus_login_button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp" >
+
+            <Button
+                android:id="@+id/login_intstargram_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:onClick="onClickInstargramLoginButton"
+                android:background="@drawable/instargram_login_button" />
+
+            <Button
+                android:id="@+id/login_linked_in_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="onClickLinkedInLoginButton"
+                android:background="@drawable/linked_in_login_button" />
+            <Button
+                android:id="@+id/login_flickr_in_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

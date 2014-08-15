@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- (c) 2013 Flipboard Inc, All Rights Reserved. -->
+<!-- Author: Geert Weening (geert@flipboard.com) -->
+
+<resources>
+	<color name="grey_text_ago">#ffaaaaaa</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="settings_bg">#FF010101</color>
+    <color name="black">#FF000000</color>
+    <color name="gray_dark_text">#FF2D2D2D</color>
+    <color name="gray_light_text_bg">#FFFAFAFA</color>
+    <color name="gray_light_text">#FF878787</color>
+    <color name="background_light">#FFF7F7F7</color>
+    <color name="drawer_list_item_divider">#3d4043</color>
+    <color name="fragment_dark_gray_bg">#FF444444</color>
+    <color name="text_only_title_color">#404040</color>
+    <color name="text_only_subtitle_color">#838383</color>
+    <color name="text_only_body_color">#404040</color>
+    <color name="image_text_title_color">#404040</color>
+    <color name="image_text_body_color">#5c5c5c</color>
+    <color name="image_text_author_color">#626262</color>
+    <color name="no_crop_no_overlay_bg_color">#202123</color>
+    <color name="dark_slate_gray">#2F4F4F</color>
+	<color name="gray_2">#AFAFAF</color>
+	<color name="gray_1">#C0C0C0</color>
+	<color name="blue_twiter">#0E72B5</color>
+
+    <!--  Here and now setting color -->
+    <color name="line_under_gridview">#FF212428</color>
+    <color name="category_bg">#FF21313D</color>
+    
+    <color name="shadow_color">#FF000000</color>
+    <color name="outglow_color">#FF000000</color>
+    <color name="home_background">#262E35</color>
+    <color name="agree_color">#dce1e5</color>
+    <color name="home_background">#262E35</color>
+    
+    <!-- right slide menu -->
+    <color name="list_item_title">#fff</color>
+    <color name="list_background">#303030</color>
+    <color name="list_background_pressed">#992416</color>
+    <color name="list_divider">#272727</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="counter_text_color">#c5c4c4</color>
+    
+        
+</resources>

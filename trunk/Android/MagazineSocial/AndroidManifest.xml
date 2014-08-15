@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.samsung.android.alwayssocial"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:maxSdkVersion="18"
+        android:minSdkVersion="17"
+        android:targetSdkVersion="17"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="sstream.app.StoryProvider.WRITE.PERMISSION" />
+
+    <application
+        android:name="com.samsung.android.alwayssocial.app.AlwaysSocialAppImpl"
+        android:allowBackup="true"
+        android:icon="@drawable/icon_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.samsung.android.alwayssocial.activity.AlwaysActivity"
+            android:icon="@drawable/icon_launcher"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="t4jsample"
+                    android:scheme="oauth" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.samsung.android.alwayssocial.activity.WebAuthActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.samsung.android.alwayssocial.activity.FacebookMainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.samsung.android.alwayssocial.activity.TwitterMainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.samsung.android.alwayssocial.activity.FacebookSecondPageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:scheme="magazinesocial" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.samsung.android.alwayssocial.activity.TwitterSecondPageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <service
+            android:name="com.samsung.android.alwayssocial.service.AlwaysService"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.samsung.android.alwayssocial.service.AlwaysService.SERVICE_START" />
+                <action android:name="com.samsung.android.alwayssocial.service.AlwaysService.SERVICE_STOP" />
+                <action android:name="com.samsung.android.alwayssocial.service.AlwaysService.BIND_ACTION" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.samsung.android.alwayssocial.receiver.AlwaysBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="com.samsung.android.app.lounge.action.CHANGE_CATEGORY" />
+                <action android:name="sstream.app.broadcast.SEND_UPDATE" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

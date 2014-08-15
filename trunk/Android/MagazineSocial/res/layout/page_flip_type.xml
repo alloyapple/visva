@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <com.aphidmobile.flip.FlipViewController
+        android:id="@+id/fragment_flip_controller"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+    </com.aphidmobile.flip.FlipViewController>
+
+    <RelativeLayout
+        android:id="@+id/fragment_flip_progress_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:id="@+id/fragment_flip_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/fragment_flip_empty_data">
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"            
+            android:text="@+id/no_data"/>
+    </RelativeLayout>
+
+</LinearLayout>

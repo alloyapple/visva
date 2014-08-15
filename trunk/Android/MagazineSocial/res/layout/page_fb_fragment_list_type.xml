@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/more_list_top_area"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/more_list_back_icon"
+            android:layout_width="28dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/seperator01"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="1.0dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="#ffcccccc" />
+
+    <LinearLayout
+        android:id="@+id/content_body"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:orientation="horizontal"
+        android:paddingTop="10dip" >
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="42dip"
+            android:layout_height="42dip"
+            android:background="@drawable/avatar_shadow" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dip"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/txt_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="Nature Social"
+                    android:textSize="@dimen/personal_friend_name_text_size"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/img_small_fb_icon"
+                    android:layout_width="14dip"
+                    android:layout_height="14dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5.0dip"
+                    android:layout_marginRight="@dimen/small_icon_margin_right"
+                    android:background="@drawable/ic_facebook"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/time_post_ago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dip"
+                    android:singleLine="true"
+                    android:text="3 days ago"
+                    android:textColor="@color/grey_text_ago"
+                    android:textSize="@dimen/personal_friend_name_text_size" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_content_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="comnet mengask kaskd magazine abc monet" />
+
+            <LinearLayout
+                android:id="@+id/like_group_view_button"
+                android:layout_width="wrap_content"
+                android:layout_height="32dip"
+                android:layout_marginTop="4dip"
+                android:background="@drawable/paperbutton_mini_default_button"
+                android:orientation="horizontal"
+                android:paddingLeft="4.0dip"
+                android:paddingRight="4.0dip" >
+
+                <ImageView
+                    android:id="@+id/like_button_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/selector_mini_like" />
+
+                <TextView
+                    android:id="@+id/like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3.0dip"
+                    android:maxLines="1"
+                    android:text="234"
+                    android:textColor="@color/grey_text_ago"
+                    android:textSize="@dimen/num_like_button_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:visibility="gone"
+        android:id="@+id/separator02"
+        android:layout_width="fill_parent"
+        android:layout_height="1.0dip"
+        android:layout_margin="10dip"
+        android:background="#ffcccccc" />
+
+    <TextView
+        android:id="@+id/txt_comments_label"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:paddingBottom="8dip"
+        android:singleLine="true"
+        android:text="@string/comment_label"
+        android:textSize="@dimen/personal_friend_name_text_size"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/list_comment_container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dip"
+        android:orientation="vertical" >
+
+        <com.samsung.android.alwayssocial.object.PullAndLoadListView
+            android:id="@+id/always_fragment_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+        </com.samsung.android.alwayssocial.object.PullAndLoadListView>
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/separator03"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:layout_margin="10dip"
+            android:layout_weight="0"
+            android:background="#ffcccccc" />
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dip"
+            android:layout_marginLeft="10dip"
+            android:layout_weight="0"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:layout_width="42dip"
+                android:layout_height="42dip"
+                android:layout_weight="0" >
+
+                <ImageView
+                    android:id="@+id/profile_picture_bottom_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/avatar_shadow" />
+
+                <ImageView
+                    android:id="@+id/img_small_fb_bottom_comment"
+                    android:layout_width="14dip"
+                    android:layout_height="14dip"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="1dip"
+                    android:background="@drawable/ic_facebook"
+                    android:singleLine="true" />
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/edit_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dip"
+                android:layout_weight="1"
+                android:background="@drawable/input_field"
+                android:maxLines="4" />
+
+            <Button
+                android:id="@+id/btn_send_comment"
+                style="@style/ButtonDone"
+                android:layout_width="57dip"
+                android:layout_height="40dip"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dip"
+                android:layout_marginRight="10dip"
+                android:layout_weight="0"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="@string/send_button" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

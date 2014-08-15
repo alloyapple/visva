@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flip="http://schemas.android.com/apk/res-auto"
+    android:id="@id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <ImageButton
+        android:id="@id/more_list_back_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/back_button_header_selector" />
+
+    <ImageButton
+        android:id="@+id/img_header_retweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/retweet_button_header_selector" />
+            
+    <ImageButton
+        android:id="@+id/img_header_comment_twitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/img_header_retweet"
+        android:background="@drawable/comment_button_header_selector" />
+    
+    <ImageButton
+        android:id="@+id/img_header_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/img_header_comment_twitter"
+        android:background="@drawable/star_button_header_selector" />
+
+</RelativeLayout>
