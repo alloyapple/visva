@@ -28,8 +28,8 @@ import com.facebook.widget.LoginTextView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.user.BravoUser;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
-import com.visva.android.visvasdklibrary.log.AIOLog;
 
 public class FragmentRegister extends FragmentBasic {
     // ====================Constant Define=================

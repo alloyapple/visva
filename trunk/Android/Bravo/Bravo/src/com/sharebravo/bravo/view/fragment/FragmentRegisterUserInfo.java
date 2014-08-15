@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.user.BravoUser;
-import com.visva.android.visvasdklibrary.log.AIOLog;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 
 public class FragmentRegisterUserInfo extends FragmentBasic {
     // ====================Constant Define=================
