@@ -36,7 +36,7 @@ public class ActivitySplash extends VisvaAbstractActivity {
                 Intent loginIntent = new Intent(ActivitySplash.this, ActivityLogin_Register.class);
                 loginIntent.putExtra(BravoConstant.ACCESS_TYPE, BravoConstant.FRAGMENT_LOGIN_ID);
                 startActivity(loginIntent);
-
+                finish();
             }
         });
         mRegisterLayout = (LinearLayout) findViewById(R.id.layout_register);
@@ -48,7 +48,7 @@ public class ActivitySplash extends VisvaAbstractActivity {
                 Intent loginIntent = new Intent(ActivitySplash.this, ActivityLogin_Register.class);
                 loginIntent.putExtra(BravoConstant.ACCESS_TYPE, BravoConstant.FRAGMENT_REGISTER_ID);
                 startActivity(loginIntent);
-
+                finish();
             }
         });
 

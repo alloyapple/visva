@@ -2,7 +2,100 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
-    
+
+    <RelativeLayout
+        android:id="@+id/layout_input_email_pass"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_user_info_height"
+        android:layout_margin="10dp"
+        android:background="@drawable/input_background"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/layout_user_picture"
+            android:layout_width="@dimen/img_user_picture_width"
+            android:layout_height="@dimen/img_user_picture_height"
+            android:layout_centerVertical="true" >
+
+            <ImageView
+                android:id="@+id/img_user_picture"
+                android:layout_width="@dimen/img_user_picture_width"
+                android:layout_height="@dimen/img_user_picture_height"
+                android:background="@drawable/user_picture_default"
+                android:contentDescription="@string/text_new_user_registration"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/img_picture_choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/setting_take_picture_icon"
+                android:contentDescription="@string/text_user_name" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_seperate_x"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/seperate_x_margin"
+            android:layout_toRightOf="@id/layout_user_picture"
+            android:background="@color/grey_2"
+            android:contentDescription="@string/done" />
+
+        <EditText
+            android:id="@+id/edittext_input_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/img_seperate_x"
+            android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+            android:layout_toRightOf="@id/layout_user_picture"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:hint="@string/text_user_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/text_new_user_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/edittext_input_user_name"
+            android:layout_marginBottom="@dimen/text_new_user_registration_margin_bottom"
+            android:layout_marginLeft="@dimen/text_new_user_registration_margin_left"
+            android:layout_toRightOf="@id/layout_user_picture"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:text="@string/text_new_user_registration"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_bravo_done_register"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_done_registration_height"
+        android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
+        android:layout_marginRight="@dimen/btn_done_registration_margin_left_right"
+        android:layout_marginTop="@dimen/btn_done_registration_margin_top"
+        android:background="@drawable/white_button"
+        android:text="@string/done"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="@dimen/text_sign_up_term_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_sign_up_term_margin_top"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/sign_up_term"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/grey_4" />
 
 </LinearLayout>

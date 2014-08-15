@@ -12,7 +12,7 @@
         android:background="@drawable/navigation_background"
         android:orientation="vertical" >
 
-        <TextView
+        <Button
             android:layout_width="@dimen/back_btn_width"
             android:layout_height="@dimen/back_btn_height"
             android:layout_centerVertical="true"

@@ -15,21 +15,14 @@
             android:layout_height="1dp"
             android:background="@color/grey" />
 
-        <ImageView
-            android:id="@+id/ic_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/list_image_view_margin_left"
-            android:background="@drawable/facebook_logo"
-            android:contentDescription="@string/sign_up_facebook" />
-
-        <TextView
+        <com.facebook.widget.LoginTextView
+            android:id="@+id/text_facebook_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_facebook"
+            android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
+            android:drawableLeft="@drawable/facebook_logo"
             android:gravity="center"
             android:text="@string/sign_up_facebook"
             android:textAppearance="?android:attr/textAppearanceLarge"
