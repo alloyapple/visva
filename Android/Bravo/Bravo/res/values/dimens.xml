@@ -38,6 +38,7 @@
     <dimen name="btn_done_registration_margin_left_right">10dp</dimen>
     <dimen name="text_sign_up_term_margin_top">20dp</dimen>
     <dimen name="text_sign_up_term_width">250dp</dimen>
+    <dimen name="layout_user_info_register_height">320dp</dimen>
 
     <!-- Home Screen -->
     <dimen name="footer_height">49dp</dimen>

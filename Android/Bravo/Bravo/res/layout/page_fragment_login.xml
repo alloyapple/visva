@@ -64,7 +64,7 @@
             android:background="@color/grey" />
 
         <TextView
-            android:id="@+id/text_4square_loginr"
+            android:id="@+id/text_4square_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
