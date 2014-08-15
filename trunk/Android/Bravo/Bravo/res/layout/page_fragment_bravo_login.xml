@@ -17,41 +17,55 @@
             android:id="@+id/edittext_input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+            android:layout_marginTop="30dp"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:hint="Email Address"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey_2" />
+            android:layout_marginTop="10dp"
+            android:background="@color/grey_2"
+            android:contentDescription="@string/email_address" />
 
         <EditText
             android:id="@+id/edittext_input_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:hint="Password"
+            android:hint="@string/pass_word"
             android:inputType="textPassword"
+            android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/grey_2" />
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey_2"
+            android:contentDescription="@string/pass_word" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_bravo_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="@dimen/btn_done_registration_height"
+        android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
+        android:layout_marginRight="@dimen/btn_done_registration_margin_left_right"
+        android:layout_marginTop="@dimen/btn_done_registration_margin_top"
         android:background="@drawable/white_button"
-        android:text="Login" />
+        android:text="@string/login"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_forgot_password"
@@ -59,6 +73,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Forgot password?" />
+        android:text="@string/forgot_password"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/grey_4" />
 
 </LinearLayout>
