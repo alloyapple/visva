@@ -22,6 +22,7 @@ import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.view.fragment.FragmentBravoLogin;
 import com.sharebravo.bravo.view.fragment.FragmentBravoRegister;
+import com.sharebravo.bravo.view.fragment.FragmentForgotPassword;
 import com.sharebravo.bravo.view.fragment.FragmentLogin;
 import com.sharebravo.bravo.view.fragment.FragmentLogin.IShowPageBravoLogin;
 import com.sharebravo.bravo.view.fragment.FragmentRegister;
@@ -37,6 +38,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     private static final String      FRAGMENT_REGISTER           = "register";
     private static final String      FRAGMENT_REGISTER_USER_INFO = "register_user_info";
     private static final String      FRAGMENT_BRAVO_LOGIN        = "bravo_login";
+    private static final String      FRAGMENT_FORGOT_PASSWORD       = "forgot_password";
     private final String             PENDING_ACTION_BUNDLE_KEY   = "com.sharebravo.bravo:PendingAction";
 
     // ======================Class Define==================
@@ -47,6 +49,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     private FragmentRegister         mFragmentRegister;
     private FragmentRegisterUserInfo mFragmentRegisterUserInfo;
     private FragmentBravoLogin       mFragmentBravoLogin;
+    private FragmentForgotPassword   mFragmentForgotPassword;
 
     // ======================Variable Define===============
     private ArrayList<String>        mBackstack                  = new ArrayList<String>();
@@ -86,6 +89,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         mFragmentRegister = (FragmentRegister) mFmManager.findFragmentById(R.id.fragment_register);
         mFragmentRegisterUserInfo = (FragmentRegisterUserInfo) mFmManager.findFragmentById(R.id.fragment_bravo_user_info);
         mFragmentBravoLogin = (FragmentBravoLogin) mFmManager.findFragmentById(R.id.fragment_bravo_login);
+        mFragmentForgotPassword = (FragmentForgotPassword)mFmManager.findFragmentById(R.id.fragment_forgot_password);
 
         /* set listener for all fragments */
         mFragmentLogin.setListener(this);
@@ -135,6 +139,12 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             addToSBackStack(FRAGMENT_BRAVO_LOGIN);
             mTransaction.commit();
             break;
+        case BravoConstant.FRAGMENT_FORGOT_PASSWORD:
+            mTransaction = hideFragment();
+            mTransaction.show(mFragmentForgotPassword);
+            addToSBackStack(FRAGMENT_FORGOT_PASSWORD);
+            mTransaction.commit();
+            break;
         default:
             break;
         }
@@ -147,6 +157,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         mTransaction.hide(mFragmentRegister);
         mTransaction.hide(mFragmentRegisterUserInfo);
         mTransaction.hide(mFragmentBravoLogin);
+        mTransaction.hide(mFragmentForgotPassword);
         return mTransaction;
     }
 

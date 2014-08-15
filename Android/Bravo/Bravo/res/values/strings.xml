@@ -22,6 +22,10 @@
     <string name="pick_image">Pick An Image</string>
     <string name="text_new_user_registration">New User Registration</string>
     <string name="text_user_name">Name</string>
+    <string name="email_address">Email address</string>
+    <string name="pass_word">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login">Login</string>
     <string name="done">Done</string>
     <string name="sign_up_term">By signing up,you agree to the Terms of Service.</string>
 
