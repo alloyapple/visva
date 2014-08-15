@@ -21,7 +21,7 @@ public class FragmentRegister extends FragmentBasic {
     // ====================Variable Define=================
     private Button                 mBtnBravoRegister;
     private IShowPageBravoRegister mListener;
-    private LoginTextView          mTextViewFacebookLogin;
+    private LoginTextView          mTextViewFacebookRegister;
     private UiLifecycleHelper      mUiLifecycleHelper;
     private Session.StatusCallback mFacebookCallback;
 
@@ -38,8 +38,8 @@ public class FragmentRegister extends FragmentBasic {
         });
 
         /* facebook */
-        mTextViewFacebookLogin = (LoginTextView) root.findViewById(R.id.text_facebook_register);
-        mTextViewFacebookLogin.setUserInfoChangedCallback(new LoginTextView.UserInfoChangedCallback() {
+        mTextViewFacebookRegister = (LoginTextView) root.findViewById(R.id.text_facebook_register);
+        mTextViewFacebookRegister.setUserInfoChangedCallback(new LoginTextView.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser user) {
                 AIOLog.e("user:" + user);

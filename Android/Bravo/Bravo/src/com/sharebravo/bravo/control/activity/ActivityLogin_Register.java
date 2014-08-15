@@ -95,6 +95,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         /* set listener for all fragments */
         mFragmentLogin.setListener(this);
         mFragmentRegister.setListener(this);
+        mFragmentBravoLogin.setListener(this);
 
         mTransaction = hideFragment();
         mAccessType = getIntent().getExtras().getInt(BravoConstant.ACCESS_TYPE);
