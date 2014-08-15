@@ -8,7 +8,7 @@ public class ObGetComment {
     String           userID;
     String           fullName;
     String           profileImgUrl;
-    ArrayList<SNSID> snsList     = new ArrayList<SNSID>();
+    ArrayList<SNS> snsList     = new ArrayList<SNS>();
     String           commentText;
     DateObject       dateCreated = new DateObject();
 

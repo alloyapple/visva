@@ -8,7 +8,7 @@ public class ObGetBravo {
     String            userID;
     String            fullName;
     String            profileImgUrl;
-    ArrayList<SNSID>  snsList   = new ArrayList<SNSID>();
+    ArrayList<SNS>  snsList   = new ArrayList<SNS>();
     ArrayList<String> bravoPics = new ArrayList<String>();
     int               totalBravoPics;
     int               totalBravoComments;
@@ -36,11 +36,11 @@ public class ObGetBravo {
 
 }
 
-class SNSID {
+class SNS {
     String foreignSNS;
     String foreignID;
 
-    public SNSID() {
+    public SNS() {
         // TODO Auto-generated constructor stub
     }
 }

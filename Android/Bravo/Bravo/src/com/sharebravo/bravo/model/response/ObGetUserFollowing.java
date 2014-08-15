@@ -1,5 +1,11 @@
 package com.sharebravo.bravo.model.response;
 
-public class ObGetUserFollowing {
+import java.util.ArrayList;
 
+public class ObGetUserFollowing {
+    ArrayList<User> data = new ArrayList<User>();
+
+    public ObGetUserFollowing() {
+        // TODO Auto-generated constructor stub
+    }
 }
