@@ -24,7 +24,7 @@
             android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
             android:drawableLeft="@drawable/facebook_logo"
             android:gravity="center"
-            android:text="@string/sign_up_facebook"
+            android:text="@string/login_facebook"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
             android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
             android:drawableLeft="@drawable/twitter_logo"
             android:gravity="center"
-            android:text="@string/sign_up_twitter"
+            android:text="@string/login_twitter"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -72,7 +72,7 @@
             android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
             android:drawableLeft="@drawable/foursquare_logo"
             android:gravity="center"
-            android:text="@string/sign_up_4square"
+            android:text="@string/login_4square"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textStyle="bold" />

@@ -7,8 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
-import com.visva.android.visvasdklibrary.log.AIOLog;
 
 public class ActivitySplash extends VisvaAbstractActivity {
 

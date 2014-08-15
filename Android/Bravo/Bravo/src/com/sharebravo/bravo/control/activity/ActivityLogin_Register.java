@@ -19,19 +19,19 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.user.BravoUser;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.view.fragment.FragmentBravoLogin;
+import com.sharebravo.bravo.view.fragment.FragmentBravoLogin.IShowPageForgotPassword;
 import com.sharebravo.bravo.view.fragment.FragmentBravoRegister;
 import com.sharebravo.bravo.view.fragment.FragmentForgotPassword;
 import com.sharebravo.bravo.view.fragment.FragmentLogin;
-import com.sharebravo.bravo.view.fragment.FragmentBravoLogin.IShowPageForgotPassword;
 import com.sharebravo.bravo.view.fragment.FragmentLogin.IShowPageBravoLogin;
 import com.sharebravo.bravo.view.fragment.FragmentRegister;
 import com.sharebravo.bravo.view.fragment.FragmentRegister.IShowPageBravoRegister;
 import com.sharebravo.bravo.view.fragment.FragmentRegisterUserInfo;
-import com.visva.android.visvasdklibrary.log.AIOLog;
 
-public class ActivityLogin_Register extends FragmentActivity implements IShowPageBravoLogin, IShowPageBravoRegister,IShowPageForgotPassword {
+public class ActivityLogin_Register extends FragmentActivity implements IShowPageBravoLogin, IShowPageBravoRegister, IShowPageForgotPassword {
 
     // ======================Constant Define===============
     private static final String      FRAGMENT_BRAVO_REGISTER     = "bravo_register";
@@ -39,7 +39,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     private static final String      FRAGMENT_REGISTER           = "register";
     private static final String      FRAGMENT_REGISTER_USER_INFO = "register_user_info";
     private static final String      FRAGMENT_BRAVO_LOGIN        = "bravo_login";
-    private static final String      FRAGMENT_FORGOT_PASSWORD       = "forgot_password";
+    private static final String      FRAGMENT_FORGOT_PASSWORD    = "forgot_password";
     private final String             PENDING_ACTION_BUNDLE_KEY   = "com.sharebravo.bravo:PendingAction";
 
     // ======================Class Define==================
@@ -66,8 +66,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         /* facebook api */
         mFacebookCallback = new Session.StatusCallback() {
             @Override
-            public void call(Session session, SessionState state,
-                    Exception exception) {
+            public void call(Session session, SessionState state, Exception exception) {
                 onSessionStateChange(session, state, exception);
             }
         };
@@ -78,7 +77,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             mPendingAction = PendingAction.valueOf(name);
         }
 
-        /* intialize fragments */
+        /* initialize fragments */
         initializeFragments(savedInstanceState);
 
     }
@@ -90,7 +89,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         mFragmentRegister = (FragmentRegister) mFmManager.findFragmentById(R.id.fragment_register);
         mFragmentRegisterUserInfo = (FragmentRegisterUserInfo) mFmManager.findFragmentById(R.id.fragment_bravo_user_info);
         mFragmentBravoLogin = (FragmentBravoLogin) mFmManager.findFragmentById(R.id.fragment_bravo_login);
-        mFragmentForgotPassword = (FragmentForgotPassword)mFmManager.findFragmentById(R.id.fragment_forgot_password);
+        mFragmentForgotPassword = (FragmentForgotPassword) mFmManager.findFragmentById(R.id.fragment_forgot_password);
 
         /* set listener for all fragments */
         mFragmentLogin.setListener(this);

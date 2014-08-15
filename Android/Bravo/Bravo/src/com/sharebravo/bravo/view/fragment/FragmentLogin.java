@@ -9,6 +9,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import br.com.condesales.EasyFoursquareAsync;
+import br.com.condesales.listeners.AccessTokenRequestListener;
+import br.com.condesales.listeners.ImageRequestListener;
+import br.com.condesales.listeners.UserInfoRequestListener;
+import br.com.condesales.models.User;
 
 import com.facebook.AppEventsLogger;
 import com.facebook.Session;
@@ -28,10 +35,10 @@ import com.facebook.widget.LoginTextView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.user.BravoUser;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
-import com.visva.android.visvasdklibrary.log.AIOLog;
 
-public class FragmentLogin extends FragmentBasic {
+public class FragmentLogin extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener {
     // ====================Constant Define=================
     public static final int        TW_LOGIN_ERROR   = -1;
     public static final int        TW_LOGIN_SUCCESS = 0;
@@ -46,6 +53,7 @@ public class FragmentLogin extends FragmentBasic {
     private IShowPageBravoLogin    mListener;
     private static RequestToken    mTwitterRequestToken;
     protected static Twitter       mTwitter;
+    private EasyFoursquareAsync    mEasyFoursquareAsync;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,21 +103,31 @@ public class FragmentLogin extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(homeIntent);
-                getActivity().finish();
+                // Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                // startActivity(homeIntent);
+                // getActivity().finish();
+                onClickLogin4Square();
             }
         });
+
         return root;
     }
 
+    private void onClickLogin4Square() {
+        // TODO Auto-generated method stub
+        /* 4square api */
+        // ask for access
+        mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
+        mEasyFoursquareAsync.requestAccess(this);
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /* facebook api */
         mFacebookCallback = new Session.StatusCallback() {
             @Override
-            public void call(final Session session, final SessionState state,
-                    final Exception exception) {
+            public void call(final Session session, final SessionState state, final Exception exception) {
             }
         };
         mUiLifecycleHelper = new UiLifecycleHelper(getActivity(), mFacebookCallback);
@@ -234,12 +252,12 @@ public class FragmentLogin extends FragmentBasic {
                                           AIOLog.d("handleMessage msg.what = " + msg.what);
                                           switch (msg.what) {
                                           case TW_LOGIN_ERROR:
-//                                              mTwitterLoginButton.setEnabled(true);
-//                                              mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button);
+                                              // mTwitterLoginButton.setEnabled(true);
+                                              // mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button);
                                               break;
                                           case TW_LOGIN_SUCCESS:
-//                                              mTwitterLoginButton.setEnabled(true);
-//                                              mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button_inactive);
+                                              // mTwitterLoginButton.setEnabled(true);
+                                              // mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button_inactive);
                                               break;
                                           default:
                                               break;
@@ -248,4 +266,44 @@ public class FragmentLogin extends FragmentBasic {
                                       }
 
                                   };
+
+    @Override
+    public void onError(String errorMsg) {
+        // Do something with the error message
+        Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onImageFetched(Bitmap bmp) {
+
+    }
+
+    @Override
+    public void onAccessGrant(String accessToken) {
+        AIOLog.d("accessToken: "+accessToken);
+        // with the access token you can perform any request to foursquare.
+        mEasyFoursquareAsync.getUserInfo(new UserInfoRequestListener() {
+
+            @Override
+            public void onError(String errorMsg) {
+                // Some error getting user info
+                Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onUserInfoFetched(User user) {
+                // OWww. did i already got user!?
+                // if (user.getBitmapPhoto() == null) {
+                // UserImageRequest request = new UserImageRequest(getActivity(), getActivity());
+                // request.execute(user.getPhoto());
+                // } else {
+                // userImage.setImageBitmap(user.getBitmapPhoto());
+                // }
+                // userName.setText(user.getFirstName() + " " + user.getLastName());
+                // viewSwitcher.showNext();
+                // Toast.makeText(MainActivity.this, "Got it!", Toast.LENGTH_LONG).show();
+                AIOLog.d("user 4square:" + user);
+            }
+        });
+    }
 }

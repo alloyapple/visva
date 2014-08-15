@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.sharebravo.bravo.R;
-import com.visva.android.visvasdklibrary.log.AIOLog;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 
 public abstract class VisvaAbstractActivity extends Activity {
     private LinearLayout container;
