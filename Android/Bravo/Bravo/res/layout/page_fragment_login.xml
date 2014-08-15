@@ -15,23 +15,16 @@
             android:layout_height="1dp"
             android:background="@color/grey" />
 
-        <ImageView
-            android:id="@+id/ic_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/list_image_view_margin_left"
-            android:background="@drawable/facebook_logo"
-            android:contentDescription="@string/sign_up_facebook" />
-
-        <TextView
+        <com.facebook.widget.LoginTextView
+            android:id="@+id/text_facebook_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_facebook"
+            android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
+            android:drawableLeft="@drawable/facebook_logo"
             android:gravity="center"
-            android:text="@string/login_facebook"
+            android:text="@string/sign_up_facebook"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -46,23 +39,16 @@
             android:layout_height="1dp"
             android:background="@color/grey" />
 
-        <ImageView
-            android:id="@+id/ic_twitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/list_image_view_margin_left"
-            android:background="@drawable/twitter_logo"
-            android:contentDescription="@string/sign_up_twitter" />
-
         <TextView
+            android:id="@+id/text_twitter_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_twitter"
+            android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
+            android:drawableLeft="@drawable/twitter_logo"
             android:gravity="center"
-            android:text="@string/login_twitter"
+            android:text="@string/sign_up_twitter"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -77,23 +63,16 @@
             android:layout_height="1dp"
             android:background="@color/grey" />
 
-        <ImageView
-            android:id="@+id/ic_4square"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/list_image_view_margin_left"
-            android:background="@drawable/foursquare_logo"
-            android:contentDescription="@string/sign_up_bravo" />
-
         <TextView
+            android:id="@+id/text_4square_loginr"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_4square"
+            android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
+            android:drawableLeft="@drawable/foursquare_logo"
             android:gravity="center"
-            android:text="@string/login_4square"
+            android:text="@string/sign_up_4square"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:textStyle="bold" />

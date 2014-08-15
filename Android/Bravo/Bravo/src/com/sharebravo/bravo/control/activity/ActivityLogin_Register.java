@@ -24,13 +24,14 @@ import com.sharebravo.bravo.view.fragment.FragmentBravoLogin;
 import com.sharebravo.bravo.view.fragment.FragmentBravoRegister;
 import com.sharebravo.bravo.view.fragment.FragmentForgotPassword;
 import com.sharebravo.bravo.view.fragment.FragmentLogin;
+import com.sharebravo.bravo.view.fragment.FragmentBravoLogin.IShowPageForgotPassword;
 import com.sharebravo.bravo.view.fragment.FragmentLogin.IShowPageBravoLogin;
 import com.sharebravo.bravo.view.fragment.FragmentRegister;
 import com.sharebravo.bravo.view.fragment.FragmentRegister.IShowPageBravoRegister;
 import com.sharebravo.bravo.view.fragment.FragmentRegisterUserInfo;
 import com.visva.android.visvasdklibrary.log.AIOLog;
 
-public class ActivityLogin_Register extends FragmentActivity implements IShowPageBravoLogin, IShowPageBravoRegister {
+public class ActivityLogin_Register extends FragmentActivity implements IShowPageBravoLogin, IShowPageBravoRegister,IShowPageForgotPassword {
 
     // ======================Constant Define===============
     private static final String      FRAGMENT_BRAVO_REGISTER     = "bravo_register";
@@ -324,5 +325,10 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     public void showPageUserInfo(BravoUser bravoUser) {
         showFragment(BravoConstant.FRAGMENT_REGISTER_USER_INFO_ID);
         mFragmentRegisterUserInfo.updateUserInfo(bravoUser);
+    }
+
+    @Override
+    public void showPageForgotPassword() {
+        showFragment(BravoConstant.FRAGMENT_FORGOT_PASSWORD);
     }
 }

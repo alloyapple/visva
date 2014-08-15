@@ -38,7 +38,7 @@ public class FragmentRegister extends FragmentBasic {
         });
 
         /* facebook */
-        mTextViewFacebookLogin = (LoginTextView) root.findViewById(R.id.text_facebook_login);
+        mTextViewFacebookLogin = (LoginTextView) root.findViewById(R.id.text_facebook_register);
         mTextViewFacebookLogin.setUserInfoChangedCallback(new LoginTextView.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser user) {
