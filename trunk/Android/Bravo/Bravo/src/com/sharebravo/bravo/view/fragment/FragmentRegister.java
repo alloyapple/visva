@@ -1,6 +1,5 @@
 package com.sharebravo.bravo.view.fragment;
 
-import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -31,7 +30,6 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginTextView;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.control.activity.WebAuthActivity;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -59,6 +57,14 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_register, container);
         mResgisterType = BravoConstant.NO_REGISTER_SNS;
+
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+        builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+        Configuration configuration = builder.build();
+
+        TwitterFactory factory = new TwitterFactory(configuration);
+        mTwitter = factory.getInstance();
         initializeView(root);
         return root;
     }
@@ -150,37 +156,28 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
             AIOLog.d("isTwitterLogined");
             final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
             // if()
-            
+
             Thread thread = new Thread(new Runnable() {
 
                 @Override
                 public void run() {
                     try {
-                        if (mTwitter == null || mTwitter.getRateLimitStatus("application") == null) {
+                        if (mTwitter == null || mTwitterRequestToken == null) {
                             AIOLog.d("mTwitter is null");
                             return;
                         }
                         AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
                         if (accessToken != null) {
-                            // Log in successfully
-                            RateLimitStatus rateLimit = mTwitter.getRateLimitStatus("application").get("/application/rate_limit_status");
-                            if(rateLimit == null){
-                                AIOLog.d("rateLimit is null");
-                            }
-                            AIOLog.d("Application Remaining RateLimit =" + rateLimit.getRemaining());
-                            int limitRate = rateLimit.getRemaining();
-                            if (limitRate >= 10) { 
-                                long userID = accessToken.getUserId();
-                                AIOLog.d("userID = " + userID);
-                                twitter4j.User user = mTwitter.showUser(userID);
-                                AIOLog.d("Twitter OAuth Token = " + accessToken.getToken() + " username = " + user.getName());
-                                if (user != null) {
-                                    BravoUser _bravoUser = new BravoUser();
-                                    _bravoUser.mUserEmail = user.getName();
-                                    _bravoUser.mUserName = user.getName();
-                                    _bravoUser.mUserId = user.getId() + "";
-                                    mListener.showPageUserInfo(_bravoUser);
-                                }
+                            long userID = accessToken.getUserId();
+                            AIOLog.d("userID = " + userID);
+                            twitter4j.User user = mTwitter.showUser(userID);
+                            AIOLog.d("Twitter OAuth Token = " + accessToken.getToken() + " username = " + user.getName());
+                            if (user != null) {
+                                BravoUser _bravoUser = new BravoUser();
+                                _bravoUser.mUserEmail = user.getName();
+                                _bravoUser.mUserName = user.getName();
+                                _bravoUser.mUserId = user.getId() + "";
+                                mListener.showPageUserInfo(_bravoUser);
                             }
                         }
                     }
@@ -197,16 +194,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
      * twitter login and authen
      */
     private void onClickTwitterLoginButton() {
-        // if not -> come to log in function
-        ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
-        builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
-        Configuration configuration = builder.build();
-
-        TwitterFactory factory = new TwitterFactory(configuration);
-        mTwitter = factory.getInstance();
-        if (!isTwitterLoggedInAlready())
-        {
+        if (!isTwitterLoggedInAlready()) {
             Thread thread = new Thread(new Runnable() {
 
                 @Override
@@ -226,8 +214,11 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
             });
             thread.start();
         } else {
-            Intent intent = new Intent(getActivity(), HomeActivity.class);
-            startActivity(intent);
+            BravoUser _braBravoUser = new BravoUser();
+            _braBravoUser.mUserEmail = "kane";
+            _braBravoUser.mUserId = "kane";
+            _braBravoUser.mUserName = "kane";
+            mListener.showPageUserInfo(_braBravoUser);
         }
     }
 
