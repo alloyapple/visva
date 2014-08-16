@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPostBravo {
+public class PaPostComment {
     String  bravoType;
     String  spotID;
     String  timeZone;
@@ -10,7 +10,7 @@ public class PaPostBravo {
     String  fsAccessToken;
     int[]   image;
 
-    public PaPostBravo() {
+    public PaPostComment() {
         // TODO Auto-generated constructor stub
     }
 }
