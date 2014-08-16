@@ -1,9 +1,9 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPostForgot {
-    String userID;
+public class PaGetUserFollower {
+    int start;
 
-    public PaPostForgot() {
+    public PaGetUserFollower() {
         // TODO Auto-generated constructor stub
     }
 }

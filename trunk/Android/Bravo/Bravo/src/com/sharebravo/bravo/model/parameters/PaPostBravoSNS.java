@@ -1,9 +1,11 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPostForgot {
+public class PaPostBravoSNS {
     String userID;
+    String bravoID;
+    String commentText;
 
-    public PaPostForgot() {
+    public PaPostBravoSNS() {
         // TODO Auto-generated constructor stub
     }
 }
