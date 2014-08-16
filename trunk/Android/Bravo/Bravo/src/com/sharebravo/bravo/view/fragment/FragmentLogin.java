@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment;
 
+import twitter4j.RateLimitStatus;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -7,13 +8,9 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,16 +29,16 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginTextView;
+import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.control.activity.WebAuthActivity;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 
 public class FragmentLogin extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener {
     // ====================Constant Define=================
-    public static final int        TW_LOGIN_ERROR   = -1;
-    public static final int        TW_LOGIN_SUCCESS = 0;
     // ====================Class Define====================
     // ====================Variable Define=================
     private LoginTextView          mTextViewFacebookLogin;
@@ -55,15 +52,24 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     protected static Twitter       mTwitter;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
 
+    private static int             mLoginType = BravoConstant.NO_LOGIN_SNS;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_login, container);
+        mLoginType = BravoConstant.NO_LOGIN_SNS;
+        initializeView(root);
+        return root;
+    }
+
+    private void initializeView(View root) {
         mLayoutBravoLogin = (RelativeLayout) root.findViewById(R.id.layout_bravo_login);
         mLayoutBravoLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                mLoginType = BravoConstant.LOGIN_BRAVO;
                 mListener.showPageBravoLogin();
             }
         });
@@ -73,6 +79,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         mTextViewFacebookLogin.setUserInfoChangedCallback(new LoginTextView.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser user) {
+                mLoginType = BravoConstant.LOGIN_FACEBOOK;
                 AIOLog.e("user:" + user);
                 if (user == null)
                     return;
@@ -84,6 +91,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(homeIntent);
                 getActivity().finish();
+                mLoginType = BravoConstant.NO_LOGIN_SNS;
             }
         });
 
@@ -93,6 +101,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
             @Override
             public void onClick(View v) {
+                mLoginType = BravoConstant.LOGIN_TWITTER;
                 onClickTwitterLoginButton();
             }
         });
@@ -103,24 +112,19 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
             @Override
             public void onClick(View v) {
-                // Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                // startActivity(homeIntent);
-                // getActivity().finish();
+                mLoginType = BravoConstant.LOGIN_4SQUARE;
                 onClickLogin4Square();
             }
         });
-
-        return root;
     }
 
     private void onClickLogin4Square() {
-        // TODO Auto-generated method stub
         /* 4square api */
         // ask for access
         mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
         mEasyFoursquareAsync.requestAccess(this);
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,66 +141,54 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     @Override
     public void onResume() {
         super.onResume();
+        // facebook
         Session session = Session.getActiveSession();
         boolean isActivedSession = session.isOpened();
         AIOLog.d("isActivedSession=" + isActivedSession);
-        // Call the 'activateApp' method to log an app event for use in
-        // analytics and advertising reporting. Do so in
-        // the onResume methods of the primary Activities that an app may be
-        // launched into.
         AppEventsLogger.activateApp(getActivity());
-        // if (isTwitterLoggedInAlready()) {
-        // mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button_inactive);
-        // } else {
-        // mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button);
-        // }
 
-        // Twitter Login
-        // Get call back from Twitter side
-        Uri uri = getActivity().getIntent().getData();
-        if (uri != null && uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_URL)) {
-            // oAuth verifier
-            final String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
-            AIOLog.d("verifier = " + verifier);
+        AIOLog.d("mLoginType:"+mLoginType);
+        if (isTwitterLoggedInAlready()) {
+            AIOLog.d("isTwitterLogined");
+            final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
+            // if()
+            if (mTwitter == null) {
+                AIOLog.d("mTwitter is null");
+            }
             Thread thread = new Thread(new Runnable() {
 
                 @Override
                 public void run() {
-                    int loginResult = TW_LOGIN_ERROR;
                     try {
                         AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
                         if (accessToken != null)
                         {
                             // Log in successfully
-                            loginResult = TW_LOGIN_SUCCESS;
-                            // AlwaysSocialAppImpl.getInstance().getAlwaysSharePrefs().putBooleanValue(TwitterConstant.PREF_KEY_TWITTER_LOGIN, true);
-                            // AlwaysSocialAppImpl.getInstance().getAlwaysSharePrefs().putStringValue(TwitterConstant.PREF_KEY_TWITTER_OAUTH_TOKEN, accessToken.getToken());
-                            // AlwaysSocialAppImpl.getInstance().getAlwaysSharePrefs().putStringValue(TwitterConstant.PREF_KEY_TWITTER_OAUTH_SECRET, accessToken.getTokenSecret());
-                            // RateLimitStatus rateLimit = mTwitter.getRateLimitStatus("application").get("/application/rate_limit_status");
-                            // Log.d(TAG, "Application Remaining RateLimit =" + rateLimit.getRemaining());
-                            // int limitRate = rateLimit.getRemaining();
-                            // if (limitRate >= 20) {
-                            // long userID = accessToken.getUserId();
-                            // Log.d(TAG, "userID = " + userID);
-                            // twitter4j.User user = mTwitter.showUser(userID);
-                            // Log.d(TAG, "Twitter OAuth Token = " + accessToken.getToken() + " username = " + user.getName());
-                            // SocialUserObject loggedInUser = new SocialUserObject(Long.toString(user.getId()), user.getName(), user.getBiggerProfileImageURL());
-                            // AlwaysSocialAppImpl.getInstance().setLoggedInUser(GlobalConstant.SOCIAL_TYPE_TWITTER, loggedInUser);
-                            // }
+                            RateLimitStatus rateLimit = mTwitter.getRateLimitStatus("application").get("/application/rate_limit_status");
+                            AIOLog.d("Application Remaining RateLimit =" + rateLimit.getRemaining());
+                            int limitRate = rateLimit.getRemaining();
+                            if (limitRate >= 20) {
+                                long userID = accessToken.getUserId();
+                                AIOLog.d("userID = " + userID);
+                                twitter4j.User user = mTwitter.showUser(userID);
+                                AIOLog.d("Twitter OAuth Token = " + accessToken.getToken() + " username = " + user.getName());
+                                Toast.makeText(getActivity(), "Hello "+user.getName(), Toast.LENGTH_SHORT).show();
+                                if (user != null) {
+                                    Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                                    startActivity(homeIntent);
+                                    getActivity().finish();
+                                }
+                            }
                         }
                     }
                     catch (TwitterException e) {
                         AIOLog.d("Error Twitter OAuth Token = " + e.getMessage());
-                        loginResult = TW_LOGIN_ERROR;
                     }
-                    mHandler.sendEmptyMessage(loginResult);
                 }
             });
-
             thread.start();
-            // mTwitterLoginButton.setEnabled(false);
-            // mViewType = AlwaysSocialAppImpl.getInstance().getViewType();
         }
+
     }
 
     public interface IShowPageBravoLogin {
@@ -207,7 +199,10 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         this.mListener = iShowPageBravoLogin;
     }
 
-    public void onClickTwitterLoginButton() {
+    /**
+     * twitter login and authen
+     */
+    private void onClickTwitterLoginButton() {
         // if not -> come to log in function
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
@@ -216,18 +211,21 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
         TwitterFactory factory = new TwitterFactory(configuration);
         mTwitter = factory.getInstance();
-        if (!isTwitterLoggedInAlready())
-        {
+        AIOLog.d("isTwitterLoggedInAlready:" + isTwitterLoggedInAlready());
+        if (!isTwitterLoggedInAlready()) {
+
             Thread thread = new Thread(new Runnable() {
 
                 @Override
                 public void run() {
                     try {
                         mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_URL);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL()));
+                        if (getActivity() == null)
+                            return;
+                        Intent intent = new Intent(getActivity(), WebAuthActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        getActivity().startActivity(intent);
-                        getActivity().finish();
+                        intent.putExtra("URL", mTwitterRequestToken.getAuthenticationURL());
+                        getActivity().startActivityForResult(intent, 0);
                     } catch (TwitterException e) {
                         e.printStackTrace();
                     }
@@ -241,32 +239,15 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     }
 
     private boolean isTwitterLoggedInAlready() {
+        int _loginType = MyApplication.getInstance().getBravoSharePrefs().getIntValue(BravoConstant.LOGIN_SNS_TYPE);
+        if (_loginType == mLoginType)
+            return true;
         return false;
     }
 
-    @SuppressLint("HandlerLeak")
-    public final Handler mHandler = new Handler() {
-
-                                      @Override
-                                      public void handleMessage(Message msg) {
-                                          AIOLog.d("handleMessage msg.what = " + msg.what);
-                                          switch (msg.what) {
-                                          case TW_LOGIN_ERROR:
-                                              // mTwitterLoginButton.setEnabled(true);
-                                              // mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button);
-                                              break;
-                                          case TW_LOGIN_SUCCESS:
-                                              // mTwitterLoginButton.setEnabled(true);
-                                              // mTwitterLoginButton.setBackgroundResource(R.drawable.twitter_login_button_inactive);
-                                              break;
-                                          default:
-                                              break;
-                                          }
-                                          super.handleMessage(msg);
-                                      }
-
-                                  };
-
+    /**
+     * foursquare login
+     */
     @Override
     public void onError(String errorMsg) {
         // Do something with the error message
@@ -280,7 +261,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
     @Override
     public void onAccessGrant(String accessToken) {
-        AIOLog.d("accessToken: "+accessToken);
+        AIOLog.d("accessToken: " + accessToken);
         // with the access token you can perform any request to foursquare.
         mEasyFoursquareAsync.getUserInfo(new UserInfoRequestListener() {
 
@@ -299,10 +280,13 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 // } else {
                 // userImage.setImageBitmap(user.getBitmapPhoto());
                 // }
-                // userName.setText(user.getFirstName() + " " + user.getLastName());
-                // viewSwitcher.showNext();
-                // Toast.makeText(MainActivity.this, "Got it!", Toast.LENGTH_LONG).show();
                 AIOLog.d("user 4square:" + user);
+                if (user == null)
+                    return;
+                Toast.makeText(getActivity(), "Hello " + user.getFirstName() + " " + user.getLastName(), Toast.LENGTH_SHORT).show();
+                AIOLog.d("user: " + user.getFirstName());
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(homeIntent);
             }
         });
     }

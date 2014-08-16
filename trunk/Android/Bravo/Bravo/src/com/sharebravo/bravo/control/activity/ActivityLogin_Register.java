@@ -331,4 +331,12 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     public void showPageForgotPassword() {
         showFragment(BravoConstant.FRAGMENT_FORGOT_PASSWORD);
     }
+    
+    @Override
+    protected void onNewIntent(Intent intent) {
+        AIOLog.d("onNewIntent");
+        super.onNewIntent(intent);
+    }
+    
+    
 }
