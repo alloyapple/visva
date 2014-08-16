@@ -1,10 +1,10 @@
 package com.sharebravo.bravo.model.response;
 
 
-public class ObPostComment {
-    String commentID;
+public class ObPostSpot {
+   String spotID;
 
-    public ObPostComment() {
+    public ObPostSpot() {
         // TODO Auto-generated constructor stub
     }
 }
