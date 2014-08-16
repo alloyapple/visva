@@ -1,6 +1,9 @@
 package com.sharebravo.bravo.utils;
 
 public class WebConfig {
+    // Network time out: 60s
+    public static int          NETWORK_TIME_OUT                     = 60000;
+    // Server api
     public static final String URL_GET_NOTIFICATION                 = "https://dev1.sharebravo.com/api/notification/{Action_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_NOTIFICATION_SEARCH          = "https://dev1.sharebravo.com/api/notification?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
     public static final String URL_GET_BLOCKING_CHECK               = "https://dev1.sharebravo.com/api/user/{User_ID}/blocking/{User_ID}?User_ID={str}&Access_Token={str}";
@@ -52,5 +55,5 @@ public class WebConfig {
     public static final String URL_DELETE_NOTIFICATION              = "https://dev1.sharebravo.com/api/user/{User_ID}/notifications/{Type}?User_ID={str}&Access_Token={str}";
     public static final String URL_DELETE_SNS                       = "https://dev1.sharebravo.com/api/user/{User_ID}/sns/{SNS_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_DELETE_USER                      = "https://dev.sharebravo.com/user/{User_ID}?User_ID={str}&Access_Token={str}";
-   // public static final String URL_POST_BRAVO                       = "https://dev1.sharebravo.com/api/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
+    // public static final String URL_POST_BRAVO = "https://dev1.sharebravo.com/api/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
 }
