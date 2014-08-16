@@ -44,6 +44,11 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
+         <activity
+            android:name="com.sharebravo.bravo.control.activity.WebAuthActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name" >
+        </activity>
         <activity
             android:name="com.sharebravo.bravo.control.activity.HomeActivity"
             android:label="@string/app_name"
