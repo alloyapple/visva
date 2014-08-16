@@ -1,5 +1,5 @@
 package com.sharebravo.bravo.model.response;
 
-public class ObPostSpots {
+public class ObPutNotification {
 
 }
