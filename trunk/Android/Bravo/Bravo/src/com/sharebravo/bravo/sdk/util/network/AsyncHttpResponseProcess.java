@@ -80,7 +80,7 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
         String json = "";
         try {
             // Get json response
-            long current = System.currentTimeMillis();
+            // long current = System.currentTimeMillis();
             json = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
             if (json == null) {

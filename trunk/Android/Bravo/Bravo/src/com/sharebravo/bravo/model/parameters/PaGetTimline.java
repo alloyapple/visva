@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetTimline {
+public class PaGetTimline extends BasicParameter{
     int    start;
     String maxBravoID;
 

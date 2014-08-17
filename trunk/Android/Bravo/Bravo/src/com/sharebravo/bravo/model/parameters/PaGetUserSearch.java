@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetUserSearch {
+public class PaGetUserSearch extends BasicParameter{
     int    start;
     String fullName;
     String foreignSNS;

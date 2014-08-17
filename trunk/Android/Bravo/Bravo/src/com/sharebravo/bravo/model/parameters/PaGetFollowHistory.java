@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetFollowHistory {
+public class PaGetFollowHistory extends BasicParameter{
     int    start;
     String maxFollowID;
 

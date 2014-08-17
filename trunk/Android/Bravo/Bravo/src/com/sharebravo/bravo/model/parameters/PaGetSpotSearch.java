@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetSpotSearch {
+public class PaGetSpotSearch extends BasicParameter{
     int     start;
     String  type;
     String  genre;

@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutBravo {
+public class PaPutBravo extends BasicParameter{
     int[]   image;
     boolean isPrivate;
 

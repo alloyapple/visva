@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutBlocking {
+public class PaPutBlocking extends BasicParameter{
     String userID;
 
     public PaPutBlocking() {

@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPostForgot {
+public class PaPostForgot extends BasicParameter{
     String userID;
 
     public PaPostForgot() {

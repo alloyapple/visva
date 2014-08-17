@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPostComment {
+public class PaPostComment extends BasicParameter{
     String  bravoType;
     String  spotID;
     String  timeZone;

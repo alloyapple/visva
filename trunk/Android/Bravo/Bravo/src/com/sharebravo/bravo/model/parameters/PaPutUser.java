@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutUser {
+public class PaPutUser extends BasicParameter{
     String  fullName;
     String  timeZone;
     String  aboutMe;

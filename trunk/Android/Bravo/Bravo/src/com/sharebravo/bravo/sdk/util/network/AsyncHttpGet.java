@@ -21,7 +21,6 @@ import com.sharebravo.bravo.utils.WebConfig;
  * @author Visva
  */
 public class AsyncHttpGet extends AsyncHttpBase {
-    private static final String TAG = "AsyncHttpGet";
 
     /**
      * Constructor
@@ -45,15 +44,6 @@ public class AsyncHttpGet extends AsyncHttpBase {
     protected String request(String url) {
         try {
             HttpParams params = new BasicHttpParams();
-            // Lemon commented 19/04/2012
-            // if (parameters != null) {
-            // Iterator<NameValuePair> it = parameters.iterator();
-            // while (it.hasNext()) {
-            // NameValuePair nv = it.next();
-            // params.setParameter(nv.getName(), nv.getValue());
-            // }
-            // }
-
             // Bind param direct to URL
 
             String combinedParams = "";
@@ -72,14 +62,10 @@ public class AsyncHttpGet extends AsyncHttpBase {
             }
             HttpConnectionParams.setConnectionTimeout(params, WebConfig.NETWORK_TIME_OUT);
             HttpConnectionParams.setSoTimeout(params, WebConfig.NETWORK_TIME_OUT);
-            // Lemon commented 19/04/2012
+
             HttpClient httpclient = createHttpClient(url, params);
-            // DefaultHttpClient httpclient = new DefaultHttpClient();
             HttpGet httpget = new HttpGet(url + combinedParams);
-            HttpGet httpget1 = new HttpGet(url + combinedParams);
-            response = httpclient.execute(httpget1);
-            // Lemon added
-            // httpclient.getConnectionManager().shutdown();
+            response = httpclient.execute(httpget);
             statusCode = NETWORK_STATUS_OK;
         } catch (Exception e) {
             statusCode = NETWORK_STATUS_ERROR;

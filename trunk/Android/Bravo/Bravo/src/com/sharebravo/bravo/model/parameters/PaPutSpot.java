@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutSpot {
+public class PaPutSpot extends BasicParameter{
     String spotName;
     String spotFID;
     String spotSource;

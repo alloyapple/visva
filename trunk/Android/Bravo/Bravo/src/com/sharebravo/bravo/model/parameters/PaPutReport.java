@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutReport {
+public class PaPutReport extends BasicParameter{
     String foreignID;
     String reportType;
     String userID;

@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutNotification {
+public class PaPutNotification extends BasicParameter{
     String type;
 
     public PaPutNotification() {
