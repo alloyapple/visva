@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPostBravoSNS {
+public class PaPostBravoSNS extends BasicParameter{
     String userID;
     String bravoID;
     String commentText;

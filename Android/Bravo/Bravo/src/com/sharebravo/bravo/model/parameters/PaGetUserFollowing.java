@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetUserFollowing {
+public class PaGetUserFollowing extends BasicParameter{
     int start;
 
     public PaGetUserFollowing() {

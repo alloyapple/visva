@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetSpotHistory {
+public class PaGetSpotHistory extends BasicParameter {
     int start;
 
     public PaGetSpotHistory() {

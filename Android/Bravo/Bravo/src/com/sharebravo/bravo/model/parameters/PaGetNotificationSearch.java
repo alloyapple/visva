@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetNotificationSearch {
+public class PaGetNotificationSearch extends BasicParameter {
     int start;
     int posPic;
 

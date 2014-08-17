@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetUserTimeline {
+public class PaGetUserTimeline extends BasicParameter{
     int    start;
     String location;
 

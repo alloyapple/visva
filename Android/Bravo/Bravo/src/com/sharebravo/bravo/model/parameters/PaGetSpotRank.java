@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetSpotRank {
+public class PaGetSpotRank extends BasicParameter{
     int start;
 
     public PaGetSpotRank() {

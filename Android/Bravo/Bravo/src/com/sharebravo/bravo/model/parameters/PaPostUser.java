@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPostUser {
+public class PaPostUser extends BasicParameter{
     String authMethod;
     String fullName;
     String email;

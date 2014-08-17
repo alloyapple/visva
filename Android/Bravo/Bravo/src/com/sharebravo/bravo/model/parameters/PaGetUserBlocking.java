@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetUserBlocking {
+public class PaGetUserBlocking extends BasicParameter{
     int start;
 
     public PaGetUserBlocking() {

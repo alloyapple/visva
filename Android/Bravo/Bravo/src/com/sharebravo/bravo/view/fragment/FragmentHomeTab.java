@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
 
 public class FragmentHomeTab extends FragmentBasic {
-    private ListView          listviewRecentPost = null;
-    private AdapterRecentPost adapterRecentPost  = null;
+//    private ListView          listviewRecentPost = null;
+//    private AdapterRecentPost adapterRecentPost  = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

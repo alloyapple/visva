@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutFollowing {
+public class PaPutFollowing extends BasicParameter{
     String userID;
 
     public PaPutFollowing() {

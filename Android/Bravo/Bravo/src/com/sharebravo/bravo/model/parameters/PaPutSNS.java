@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaPutSNS {
+public class PaPutSNS extends BasicParameter{
     String foreignID;
     String foreignSNS;
     String foreignAccessToken;

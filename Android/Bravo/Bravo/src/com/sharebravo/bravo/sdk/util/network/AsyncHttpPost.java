@@ -60,6 +60,7 @@ public class AsyncHttpPost extends AsyncHttpBase {
             HttpClient httpclient = createHttpClient(url, params);
 
             HttpPost httppost = new HttpPost(url);
+            httppost.setHeader("Authorization", "Bearer " + "bravouser@dev1.sharebravo.com");
             httppost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
             // httppost.setHeader("Content-Type", "multipart/form-data");
 

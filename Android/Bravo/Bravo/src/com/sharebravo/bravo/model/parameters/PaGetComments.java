@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.model.parameters;
 
-public class PaGetComments {
+public class PaGetComments extends BasicParameter {
     int start;
 
     public PaGetComments() {
