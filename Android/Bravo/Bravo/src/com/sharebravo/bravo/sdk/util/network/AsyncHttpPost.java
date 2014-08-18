@@ -10,10 +10,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import android.content.Context;
-
-import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.WebConfig;
+
+import android.content.Context;
 
 /**
  * AsyncHttpGet makes http post request based on AsyncTask
@@ -55,19 +54,14 @@ public class AsyncHttpPost extends AsyncHttpBase {
     protected String request(String url) {
         try {
             HttpParams params = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(params, WebConfig.NETWORK_TIME_OUT);
-            HttpConnectionParams.setSoTimeout(params, WebConfig.NETWORK_TIME_OUT);
+            HttpConnectionParams.setConnectionTimeout(params,
+                    WebConfig.NETWORK_TIME_OUT);
+            HttpConnectionParams.setSoTimeout(params,
+                    WebConfig.NETWORK_TIME_OUT);
             HttpClient httpclient = createHttpClient(url, params);
 
             HttpPost httppost = new HttpPost(url);
-            httppost.setHeader("Authorization", "Bearer " + "bravouser@dev1.sharebravo.com");
             httppost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
-            // httppost.setHeader("Content-Type", "multipart/form-data");
-
-            AIOLog.v("Url " + url);
-            for (int i = 0; i < parameters.size(); i++) {
-                AIOLog.d("params " + parameters.get(i).getName() + " " + parameters.get(i).getValue());
-            }
 
             response = httpclient.execute(httppost);
             statusCode = NETWORK_STATUS_OK;
