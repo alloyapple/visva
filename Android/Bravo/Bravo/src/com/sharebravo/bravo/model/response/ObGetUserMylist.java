@@ -2,6 +2,8 @@ package com.sharebravo.bravo.model.response;
 
 import java.util.ArrayList;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ObGetUserMylist {
     ArrayList<UserInfo> data = new ArrayList<UserInfo>();
 
@@ -11,8 +13,11 @@ public class ObGetUserMylist {
 }
 
 class UserInfo {
+    @SerializedName("Date_Created")
     String            bravoID;
+    @SerializedName("Date_Created")
     String            userID;
+    @SerializedName("Date_Created")
     ArrayList<SNS>    snsList     = new ArrayList<SNS>();
     String            profileImgUrl;
     String            spotID;
