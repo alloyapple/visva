@@ -13,8 +13,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.sharebravo.bravo.model.parameters.BasicParameter;
 
-public class VolleyUtils {
+public class VolleyGsonUtils {
 
     public static JsonObjectRequest getRequest(String url) {
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -145,7 +147,9 @@ public class VolleyUtils {
 
     }
 
-    public void parseGETRequest(String url) {
-        
+    public void parseGETRequest(String url, Class<BasicParameter> cl) {
+        Gson gson = new Gson();
+        gson.fromJson(getRequest(url).toString(), cl);
+
     }
 }
