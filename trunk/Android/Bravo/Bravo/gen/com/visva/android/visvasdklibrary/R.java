@@ -18,7 +18,7 @@ public final class R {
 		public static final int action_settings = 0x7f070054;
 	}
 	public static final class layout {
-		public static final int activity_main = 0x7f030003;
+		public static final int activity_main = 0x7f030004;
 	}
 	public static final class menu {
 		public static final int main = 0x7f0c0000;
