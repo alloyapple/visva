@@ -3,7 +3,7 @@ package com.sharebravo.bravo.model.response;
 import com.google.gson.annotations.SerializedName;
 
 public class ObGetFollowingCheck {
-    @SerializedName("Valid")
+    @SerializedName("valid")
     int valid;
 
     public ObGetFollowingCheck() {

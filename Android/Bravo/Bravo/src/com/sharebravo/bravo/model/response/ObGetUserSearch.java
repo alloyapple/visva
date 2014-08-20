@@ -15,17 +15,17 @@ public class ObGetUserSearch {
 class UserSearch {
     @SerializedName("User_ID")
     String         userID;
-    @SerializedName("Bravo_ID")
+    @SerializedName("SNS_List")
     ArrayList<SNS> snsList = new ArrayList<SNS>();
-    @SerializedName("Bravo_ID")
+    @SerializedName("Full_Name")
     String         fullName;
-    @SerializedName("Bravo_ID")
+    @SerializedName("Profile_Img_URL")
     String         profileImgUrl;
-    @SerializedName("Bravo_ID")
+    @SerializedName("Is_Blocking")
     boolean        isBlocking;
-    @SerializedName("Bravo_ID")
+    @SerializedName("Is_Following")
     boolean        isFollowing;
-    @SerializedName("Bravo_ID")
+    @SerializedName("Is_Followed")
     boolean        isFollowed;
 
     public UserSearch() {
