@@ -39,7 +39,9 @@
     <dimen name="text_sign_up_term_margin_top">20dp</dimen>
     <dimen name="text_sign_up_term_width">250dp</dimen>
     <dimen name="layout_user_info_register_height">320dp</dimen>
+    <!-- .. -->
 
+    <dimen name="margin_normal">10dp</dimen>
     <!-- Home Screen -->
     <dimen name="footer_height">49dp</dimen>
     <dimen name="width_btn_tab">64dp</dimen>
@@ -53,5 +55,9 @@
     <dimen name="height_network_search">56dp</dimen>
     <dimen name="height_searchbar">40dp</dimen>
     <dimen name="search_icon">25dp</dimen>
+    <dimen name="size_avatar_recent_post">50dp</dimen>
+    <dimen name="height_recent_post_item">200dp</dimen>
+    <dimen name="height_image_recent_post">160dp</dimen>
+    <dimen name="height_text_area_recent_post">40dp</dimen>
 
 </resources>
