@@ -1,10 +1,10 @@
 package com.sharebravo.bravo.sdk.util.network2;
 
-import com.sharebravo.bravo.utils.WebConfig;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 
 public class UrlFactory {
     public static String get_notification() {
-        String url = WebConfig.URL_GET_NOTIFICATION;
+        String url = BravoWebServiceConfig.URL_GET_NOTIFICATION;
         return url;
     }
 

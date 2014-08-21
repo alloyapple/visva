@@ -50,6 +50,7 @@
     <string name="sign_up_term">By signing up,you agree to the Terms of Service.</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="email_not_valid">kane@gmail.com</string>
 
     <!-- Home -->
     <string name="label_recent_post">Recent Posts</string>

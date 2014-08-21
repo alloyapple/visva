@@ -1,5 +1,8 @@
 package com.sharebravo.bravo.sdk.provider;
 
+import java.io.InputStream;
+import java.util.HashMap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,8 +21,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.AIOConstants;
+import com.sharebravo.bravo.sdk.util.volley.ExtHttpClientStack;
 import com.sharebravo.bravo.sdk.util.volley.IVolleyResponse;
 import com.sharebravo.bravo.sdk.util.volley.LruBitmapCache;
+import com.sharebravo.bravo.sdk.util.volley.SslHttpClient;
 import com.sharebravo.bravo.utils.BravoConstant;
 
 /**
@@ -234,4 +240,58 @@ public class VolleyProvider {
         VolleyProvider.getInstance(mContext).addToRequestQueue(req, TAG_JSON_ARRAY_REQ);
     }
 
+    /**
+     * 
+     * @param url
+     *            the link url request to server
+     * @param params
+     *            parameters add to url
+     * @param volleyResponse
+     *            interface to callback to response from server side
+     * @return null
+     */
+    public void requestToPostDataToServerWithSSL(String url, HashMap<String, String> params, final IVolleyResponse volleyResponse) {
+        InputStream keyStore = mContext.getResources().openRawResource(R.raw.bravoandroid);
+        RequestQueue queue = Volley.newRequestQueue(mContext, new ExtHttpClientStack(new SslHttpClient(keyStore, AIOConstants.BRAVO_CRT_PASS, /* 44401 */
+                AIOConstants.HTTPS_PORT)));
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
+                volleyResponse.onResponse(response);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
+            }
+        });
+        // {
+        //
+        // /**
+        // * Passing some request headers
+        // *
+        // */
+        // @Override
+        // public Map<String, String> getHeaders() throws AuthFailureError {
+        // HashMap<String, String> headers = new HashMap<String, String>();
+        // headers.put("Content-Type", "application/json");
+        // return headers;
+        // }
+        //
+        // @Override
+        // protected Map<String, String> getParams() {
+        // Map<String, String> params = new HashMap<String, String>();
+        // params.put("username", "bravouser");
+        // params.put("ssh", "bravouser@dev1.sharebravo.com");
+        // params.put("password", "m4k1y0k0!#%");
+        // return params;
+        // }
+        //
+        // };
+        queue.add(jsonObjReq);
+        VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq);
+    }
 }

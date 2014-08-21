@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.utils;
 
-public class WebConfig {
+public class BravoWebServiceConfig {
     // Network time out: 60s
     public static int          NETWORK_TIME_OUT                     = 60000;
     // Server api
@@ -52,7 +52,7 @@ public class WebConfig {
     public static final String URL_POST_SPOTS                       = URL_BRAVO_BASE + "/spot?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_USER                        = URL_BRAVO_BASE
                                                                             + "/user?params={JSON_Encoded(Full_Name:str, Email:str, Password:str, Time_Zone:str,...)}";
-    public static final String URL_POST_FORGOT                      = URL_BRAVO_BASE + "/forgot?params={JSON_Encoded(Email:str)}";
+    public static final String URL_POST_FORGOT                      = URL_BRAVO_BASE + "/forgot?";
     public static final String URL_PUT_BLOCKING                     = URL_BRAVO_BASE + "/user/{User_ID}/blocking?User_ID={str}&Access_Token={str}";
     public static final String URL_PUT_FOLLOWING                    = URL_BRAVO_BASE + "/user/{User_ID}/following?User_ID={str}&Access_Token={str}";
     public static final String URL_PUT_MYLIST                       = URL_BRAVO_BASE + "/user/{User_ID}/mylist?User_ID={str}&Access_Token={str}";
