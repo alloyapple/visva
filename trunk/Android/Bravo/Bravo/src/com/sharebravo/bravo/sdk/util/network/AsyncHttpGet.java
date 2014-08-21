@@ -13,7 +13,7 @@ import org.apache.http.params.HttpParams;
 import android.content.Context;
 
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.utils.WebConfig;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 
 /**
  * AsyncHttpGet makes http get request based on AsyncTask
@@ -60,8 +60,8 @@ public class AsyncHttpGet extends AsyncHttpBase {
                 }
                 AIOLog.d("CombineParams : " + combinedParams);
             }
-            HttpConnectionParams.setConnectionTimeout(params, WebConfig.NETWORK_TIME_OUT);
-            HttpConnectionParams.setSoTimeout(params, WebConfig.NETWORK_TIME_OUT);
+            HttpConnectionParams.setConnectionTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
+            HttpConnectionParams.setSoTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
 
             HttpClient httpclient = createHttpClient(url, params);
             HttpGet httpget = new HttpGet(url + combinedParams);

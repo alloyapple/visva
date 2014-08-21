@@ -10,7 +10,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import com.sharebravo.bravo.utils.WebConfig;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 
 import android.content.Context;
 
@@ -55,9 +55,9 @@ public class AsyncHttpPost extends AsyncHttpBase {
         try {
             HttpParams params = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(params,
-                    WebConfig.NETWORK_TIME_OUT);
+                    BravoWebServiceConfig.NETWORK_TIME_OUT);
             HttpConnectionParams.setSoTimeout(params,
-                    WebConfig.NETWORK_TIME_OUT);
+                    BravoWebServiceConfig.NETWORK_TIME_OUT);
             HttpClient httpclient = createHttpClient(url, params);
 
             HttpPost httppost = new HttpPost(url);
