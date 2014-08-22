@@ -69,7 +69,6 @@ public class FragmentForgotPassword extends FragmentBasic {
                         AIOLog.d("errorResponse:" + errorObject.toString());
                     }
                 });
-
     }
 
     private boolean checkValidateEmail(String email) {
