@@ -95,10 +95,6 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 bravoUser.mUserEmail = user.getLink();
                 bravoUser.mUserId = user.getId();
                 bravoUser.mUserName = user.getName();
-
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(homeIntent);
-                getActivity().finish();
                 mLoginType = BravoConstant.NO_LOGIN_SNS;
             }
         });

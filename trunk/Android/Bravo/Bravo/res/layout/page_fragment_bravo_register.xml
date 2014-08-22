@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
         android:layout_margin="10dp"
+        android:background="@drawable/input_background"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -52,7 +52,7 @@
                 android:contentDescription="@string/done" />
 
             <EditText
-                android:id="@+id/edittext_input_user_name"
+                android:id="@+id/edittext_input_user_name_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/img_seperate_x"
@@ -68,7 +68,7 @@
                 android:id="@+id/text_new_user_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/edittext_input_user_name"
+                android:layout_above="@id/edittext_input_user_name_register"
                 android:layout_marginBottom="@dimen/text_new_user_registration_margin_bottom"
                 android:layout_marginLeft="@dimen/text_new_user_registration_margin_left"
                 android:layout_toRightOf="@id/layout_user_picture"
@@ -87,7 +87,7 @@
             android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/edittext_input_email"
+                android:id="@+id/edittext_input_email_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
@@ -107,7 +107,7 @@
                 android:contentDescription="@string/email_address" />
 
             <EditText
-                android:id="@+id/edittext_input_pass"
+                android:id="@+id/edittext_input_pass_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
