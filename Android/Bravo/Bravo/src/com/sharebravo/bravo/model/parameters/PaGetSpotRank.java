@@ -1,23 +1,24 @@
 package com.sharebravo.bravo.model.parameters;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
-public class PaGetSpotRank extends BasicParameter{
+public class PaGetSpotRank extends BaseParameter {
     int start;
 
-    public PaGetSpotRank() {
+    public PaGetSpotRank(String userID, String accessToken) {
+        super(userID, accessToken);
         // TODO Auto-generated constructor stub
     }
 
     @Override
-    public List<NameValuePair> createNameValuePair() {
+    public HashMap<String, String> creatParamHashMap() {
         // TODO Auto-generated method stub
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("Start", String.valueOf(start)));
-        return nameValuePairs;
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("Start", String.valueOf(start));
+        parentParams.put("params", new JSONObject(params).toString());
+
+        return parentParams;
     }
 }

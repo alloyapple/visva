@@ -182,30 +182,6 @@ public class VolleyProvider {
                 AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
             }
         });
-        // {
-        //
-        // /**
-        // * Passing some request headers
-        // *
-        // */
-        // @Override
-        // public Map<String, String> getHeaders() throws AuthFailureError {
-        // HashMap<String, String> headers = new HashMap<String, String>();
-        // headers.put("Content-Type", "application/json");
-        // return headers;
-        // }
-        //
-        // @Override
-        // protected Map<String, String> getParams() {
-        // Map<String, String> params = new HashMap<String, String>();
-        // params.put("name", "Androidhive");
-        // params.put("email", "abc@androidhive.info");
-        // params.put("pass", "password123");
-        //
-        // return params;
-        // }
-        //
-        // };
 
         // Adding request to request queue
         VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq, TAG_JSON_OBJECT_REQ);
@@ -269,29 +245,7 @@ public class VolleyProvider {
                 AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
             }
         });
-        // {
-        //
-        // /**
-        // * Passing some request headers
-        // *
-        // */
-        // @Override
-        // public Map<String, String> getHeaders() throws AuthFailureError {
-        // HashMap<String, String> headers = new HashMap<String, String>();
-        // headers.put("Content-Type", "application/json");
-        // return headers;
-        // }
-        //
-        // @Override
-        // protected Map<String, String> getParams() {
-        // Map<String, String> params = new HashMap<String, String>();
-        // params.put("username", "bravouser");
-        // params.put("ssh", "bravouser@dev1.sharebravo.com");
-        // params.put("password", "m4k1y0k0!#%");
-        // return params;
-        // }
-        //
-        // };
+        
         queue.add(jsonObjReq);
         VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq);
     }

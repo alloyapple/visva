@@ -1,26 +1,30 @@
 package com.sharebravo.bravo.model.parameters;
 
-import java.util.List;
+import java.util.HashMap;
 
-import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
-public class PaPostComment extends BasicParameter{
-    String  bravoType;
-    String  spotID;
-    String  timeZone;
-    boolean isPrivate;
-    String  snsPost;
-    String  fsUserID;
-    String  fsAccessToken;
-    int[]   image;
+public class PaPostComment extends BaseParameter{
+    String userID;
+    String bravoID;
+    String commentText;
+    
 
-    public PaPostComment() {
+    public PaPostComment(String userID, String accessToken) {
+        super(userID, accessToken);
         // TODO Auto-generated constructor stub
     }
 
     @Override
-    public List<NameValuePair> createNameValuePair() {
+    public HashMap<String, String> creatParamHashMap() {
         // TODO Auto-generated method stub
-        return null;
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("User_ID", userID);
+        params.put("Bravo_ID", bravoID);
+        params.put("Comment_Text", bravoID);
+        parentParams.put("params", new JSONObject(params).toString());
+
+        return parentParams;
     }
+   
 }
