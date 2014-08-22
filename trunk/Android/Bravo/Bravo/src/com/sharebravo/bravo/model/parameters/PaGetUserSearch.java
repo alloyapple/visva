@@ -1,12 +1,15 @@
 package com.sharebravo.bravo.model.parameters;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
-public class PaGetUserSearch extends BasicParameter{
+public class PaGetUserSearch extends BaseParameter {
+    public PaGetUserSearch(String userID, String accessToken) {
+        super(userID, accessToken);
+        // TODO Auto-generated constructor stub
+    }
+
     int    start;
     String fullName;
     String foreignSNS;
@@ -16,22 +19,21 @@ public class PaGetUserSearch extends BasicParameter{
     String password;
     String authMethod;
 
-    public PaGetUserSearch() {
-        // TODO Auto-generated constructor stub
+    @Override
+    public HashMap<String, String> creatParamHashMap() {
+        // TODO Auto-generated method stub
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("Start", String.valueOf(start));
+        params.put("Full_Name", fullName);
+        params.put("Foreign_SNS", foreignSNS);
+        params.put("Foreign_ID", foreignID);
+        params.put("Foreign_Access_Tool", foreignAccessTool);
+        params.put("Email", email);
+        params.put("Password", password);
+        params.put("Auth_Method", authMethod);
+        parentParams.put("params", new JSONObject(params).toString());
+
+        return parentParams;
     }
 
-    @Override
-    public List<NameValuePair> createNameValuePair() {
-        // TODO Auto-generated method stub
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("Start", String.valueOf(start)));
-        nameValuePairs.add(new BasicNameValuePair("Full_Name", fullName));
-        nameValuePairs.add(new BasicNameValuePair("Foreign_SNS", foreignSNS));
-        nameValuePairs.add(new BasicNameValuePair("Foreign_ID", foreignID));
-        nameValuePairs.add(new BasicNameValuePair("Foreign_Access_Tool", foreignAccessTool));
-        nameValuePairs.add(new BasicNameValuePair("Email", email));
-        nameValuePairs.add(new BasicNameValuePair("Password", password));
-        nameValuePairs.add(new BasicNameValuePair("Auth_Method", authMethod));
-        return nameValuePairs;
-    }
 }

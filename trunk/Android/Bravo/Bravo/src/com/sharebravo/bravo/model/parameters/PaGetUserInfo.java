@@ -4,22 +4,19 @@ import java.util.HashMap;
 
 import org.json.JSONObject;
 
-public class PaPostBravoSNS extends BaseParameter {
-    public PaPostBravoSNS(String userID, String accessToken) {
+public class PaGetUserInfo extends BaseParameter {
+    int start;
+
+    public PaGetUserInfo(String userID, String accessToken) {
         super(userID, accessToken);
         // TODO Auto-generated constructor stub
     }
-
-    String snsPost;
-    String postPic;
 
     @Override
     public HashMap<String, String> creatParamHashMap() {
         // TODO Auto-generated method stub
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("SNS_Post", snsPost);
-        params.put("Post_Pic", postPic);
-
+        params.put("Start", String.valueOf(start));
         parentParams.put("params", new JSONObject(params).toString());
 
         return parentParams;

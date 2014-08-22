@@ -1,25 +1,26 @@
 package com.sharebravo.bravo.model.parameters;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
-public class PaGetNotificationSearch extends BasicParameter {
+public class PaGetNotificationSearch extends BaseParameter {
     int start;
-    int posPic;
+    int postPic;
 
-    public PaGetNotificationSearch() {
+    public PaGetNotificationSearch(String userID, String accessToken) {
+        super(userID, accessToken);
         // TODO Auto-generated constructor stub
     }
 
     @Override
-    public List<NameValuePair> createNameValuePair() {
+    public HashMap<String, String> creatParamHashMap() {
         // TODO Auto-generated method stub
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("Start", String.valueOf(start)));
-        nameValuePairs.add(new BasicNameValuePair("Post_pic", String.valueOf(posPic)));
-        return nameValuePairs;
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("Start", String.valueOf(start));
+        params.put("Post_pic", String.valueOf(postPic));
+        parentParams.put("params", new JSONObject(params).toString());
+
+        return parentParams;
     }
 }

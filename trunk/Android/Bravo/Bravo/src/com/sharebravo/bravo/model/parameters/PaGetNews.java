@@ -2,8 +2,9 @@ package com.sharebravo.bravo.model.parameters;
 
 import java.util.HashMap;
 
-public class PaPutFollowing extends BaseParameter{
-    public PaPutFollowing(String userID, String accessToken) {
+public class PaGetNews extends BaseParameter {
+
+    public PaGetNews(String userID, String accessToken) {
         super(userID, accessToken);
         // TODO Auto-generated constructor stub
     }

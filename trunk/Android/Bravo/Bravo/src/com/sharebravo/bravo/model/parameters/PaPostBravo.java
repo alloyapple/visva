@@ -1,12 +1,14 @@
 package com.sharebravo.bravo.model.parameters;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
-public class PaPostBravo extends BasicParameter {
+public class PaPostBravo extends BaseParameter {
+    public PaPostBravo(String userID, String accessToken) {
+        super(userID, accessToken);
+        // TODO Auto-generated constructor stub
+    }
     String  bravoType;
     String  spotID;
     String  timeZone;
@@ -15,23 +17,21 @@ public class PaPostBravo extends BasicParameter {
     String  fsUserID;
     String  fsAccessToken;
     int[]   image;
-
-    public PaPostBravo() {
-        // TODO Auto-generated constructor stub
-    }
-
     @Override
-    public List<NameValuePair> createNameValuePair() {
+    public HashMap<String, String> creatParamHashMap() {
         // TODO Auto-generated method stub
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("Bravo_type", bravoType));
-        nameValuePairs.add(new BasicNameValuePair("Spot_ID", spotID));
-        nameValuePairs.add(new BasicNameValuePair("Time_Zone", timeZone));
-        nameValuePairs.add(new BasicNameValuePair("Is_Private", isPrivate ? "TRUE" : "FALSE"));
-        nameValuePairs.add(new BasicNameValuePair("SNS_Post", snsPost));
-        nameValuePairs.add(new BasicNameValuePair("FS_User_IS", fsUserID));
-        nameValuePairs.add(new BasicNameValuePair("FS_Access_Token", fsAccessToken));
-        nameValuePairs.add(new BasicNameValuePair("images", spotID));
-        return nameValuePairs;
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("Bravo_type", bravoType);
+        params.put("Spot_ID", spotID);
+        params.put("Time_Zone", timeZone);
+        params.put("Is_Private", isPrivate ? "TRUE" : "FALSE");
+        params.put("SNS_Post", snsPost);
+        params.put("FS_User_IS", fsUserID);
+        params.put("FS_Access_Token", fsAccessToken);
+        params.put("images", spotID);
+        parentParams.put("params", new JSONObject(params).toString());
+
+        return parentParams;
     }
+
 }

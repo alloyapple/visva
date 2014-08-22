@@ -1,19 +1,18 @@
 package com.sharebravo.bravo.model.parameters;
 
-import java.util.List;
+import java.util.HashMap;
 
-import org.apache.http.NameValuePair;
-
-public class PaPutBlocking extends BasicParameter{
-    String userID;
-
-    public PaPutBlocking() {
+public class PaPutBlocking extends BaseParameter{
+    public PaPutBlocking(String userID, String accessToken) {
+        super(userID, accessToken);
         // TODO Auto-generated constructor stub
     }
 
     @Override
-    public List<NameValuePair> createNameValuePair() {
+    public HashMap<String, String> creatParamHashMap() {
         // TODO Auto-generated method stub
-        return null;
+        return parentParams;
     }
+
+   
 }

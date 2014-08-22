@@ -1,10 +1,15 @@
 package com.sharebravo.bravo.model.parameters;
 
-import java.util.List;
+import java.util.HashMap;
 
-import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
-public class PaPostUser extends BasicParameter{
+public class PaPostUser extends BaseParameter {
+    public PaPostUser(String userID, String accessToken) {
+        super(userID, accessToken);
+        // TODO Auto-generated constructor stub
+    }
+
     String authMethod;
     String fullName;
     String email;
@@ -14,13 +19,21 @@ public class PaPostUser extends BasicParameter{
     String locale;
     String apnsToken;
 
-    public PaPostUser() {
-        // TODO Auto-generated constructor stub
+    @Override
+    public HashMap<String, String> creatParamHashMap() {
+        // TODO Auto-generated method stub
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("Auth_Method", authMethod);
+        params.put("Full_Name", fullName);
+        params.put("Email", email);
+        params.put("Foreign_ID", foreignID);
+        params.put("Password", password);
+        params.put("Time_Zone", timeZone);
+        params.put("Locale", locale);
+        params.put("APNS_Token", apnsToken);
+        parentParams.put("params", new JSONObject(params).toString());
+
+        return parentParams;
     }
 
-    @Override
-    public List<NameValuePair> createNameValuePair() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
