@@ -49,14 +49,15 @@ public class FragmentForgotPassword extends FragmentBasic {
         if (checkValidateEmail(email)) {
             requestToCheckForgotPassword(email);
         } else
-            mEditTextEmailForgot.setError(getString(R.string.email_not_valid));
+            mEditTextEmailForgot.setError(getString(R.string.email_not_valid)); 
     }
 
     private void requestToCheckForgotPassword(String email) {
         AIOLog.d("email:=" + email);
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("Email", email);
-        VolleyProvider.getInstance(getActivity()).requestToPostDataToServerWithSSL(BravoWebServiceConfig.URL_POST_FORGOT, params,
+        String url="https://dev1.sharebravo.com/api/user?Email=tinvukkkk@gmail.com&Locale=en&Password=12345678&Time_Zone=Asia/Ho_Chi_Minh&Full_Name=Vukhactin&Auth_Method=Bravo";
+        VolleyProvider.getInstance(getActivity()).requestToGetDataFromServerWithSSL(url, null,
                 new IVolleyResponse() {
 
                     @Override
