@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_notification_button"
             android:layout_marginLeft="3dp"
-            android:background="@drawable/back_navigation_button"
+            android:background="@drawable/back_button"
             android:paddingLeft="20dp"
             android:paddingRight="12dp"
             android:text="@string/btn_back"

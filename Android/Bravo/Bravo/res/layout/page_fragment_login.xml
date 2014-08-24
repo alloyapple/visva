@@ -115,7 +115,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
-        android:background="@drawable/green_button" >
+        android:background="@drawable/bt_green">
 
         <ImageView
             android:id="@+id/btn_login_bravo"

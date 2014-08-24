@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/input_background"
+        android:background="@drawable/input_name_pass_bg"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -102,6 +102,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/grey_2"
                 android:contentDescription="@string/email_address" />
@@ -123,6 +125,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/grey_2"
                 android:contentDescription="@string/pass_word" />
@@ -136,7 +140,7 @@
         android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
         android:layout_marginRight="@dimen/btn_done_registration_margin_left_right"
         android:layout_marginTop="@dimen/btn_done_registration_margin_top"
-        android:background="@drawable/white_button"
+        android:background="@drawable/bt_white"
         android:text="@string/done"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />

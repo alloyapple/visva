@@ -36,11 +36,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/layout_login_register_height"
                 android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="5dp"
                 android:gravity="center|left"
                 android:text="@string/login"
-                android:textColor="@color/login_register_text"
-                android:textSize="@dimen/login_register_text_size" />
+                android:textSize="@dimen/login_register_text_size"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <ImageView
@@ -69,11 +69,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/layout_login_register_height"
                 android:layout_gravity="center"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="5dp"
                 android:gravity="center|left"
                 android:text="@string/register"
-                android:textColor="@color/login_register_text"
-                android:textSize="@dimen/login_register_text_size" />
+                android:textSize="@dimen/login_register_text_size"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
