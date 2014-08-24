@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <fragment
             android:id="@+id/fragment_home_tab"
@@ -38,12 +39,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="com.sharebravo.bravo.view.fragment.FragmentMyDataTab" />
+
+        <fragment
+            android:id="@+id/fragment_recent_post_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail" />
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/tab_host"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_btn_bravo"
-        android:layout_alignParentBottom="true" >
+        android:layout_height="@dimen/height_btn_bravo" >
 
         <LinearLayout
             android:id="@+id/bottom_box"
@@ -128,4 +135,4 @@
             android:onClick="onClick" />
     </FrameLayout>
 
-</RelativeLayout>
+</LinearLayout>
