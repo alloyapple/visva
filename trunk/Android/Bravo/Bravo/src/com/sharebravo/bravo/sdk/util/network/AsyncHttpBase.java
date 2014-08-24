@@ -145,9 +145,9 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
                 } finally {
                     in.close();
                 }
-//                KeyStore trustStore = KeyStore.getInstance(KeyStore
-//                        .getDefaultType());
-//                trustStore.load(null, null);
+                // KeyStore trustStore = KeyStore.getInstance(KeyStore
+                // .getDefaultType());
+                // trustStore.load(null, null);
 
                 SSLSocketFactory sf = new MySSLSocketFactory(trustStore);
                 sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);

@@ -11,7 +11,7 @@ import android.provider.Settings;
 /**
  * NetworkUtility checks available network
  * 
- * @author Lemon
+ * @author Visva
  */
 public final class NetworkUtility {
 	private Context context = null;

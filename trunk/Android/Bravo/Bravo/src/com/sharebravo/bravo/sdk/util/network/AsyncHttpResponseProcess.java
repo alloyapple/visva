@@ -15,7 +15,7 @@ import com.sharebravo.bravo.sdk.util.VisvaDialog;
 /**
  * AsyncHttpResponseProcess: process server response
  * 
- * @author Lemon
+ * @author Visva
  */
 public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 	private static final String TAG = "AsyncHttpResponseProcess";

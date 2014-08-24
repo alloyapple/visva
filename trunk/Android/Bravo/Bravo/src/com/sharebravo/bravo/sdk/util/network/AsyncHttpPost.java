@@ -17,7 +17,7 @@ import android.content.Context;
 /**
  * AsyncHttpGet makes http post request based on AsyncTask
  * 
- * @author Lemon
+ * @author Visva
  */
 public class AsyncHttpPost extends AsyncHttpBase {
     /**

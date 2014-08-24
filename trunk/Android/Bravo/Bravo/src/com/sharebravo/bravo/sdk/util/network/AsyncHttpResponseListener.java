@@ -5,7 +5,7 @@ import org.apache.http.HttpResponse;
 /**
  * Predefine some http listener methods
  * 
- * @author Lemon
+ * @author Visva
  */
 public interface AsyncHttpResponseListener {
 	/**
