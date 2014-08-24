@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_user_info_height"
         android:layout_margin="10dp"
-        android:background="@drawable/input_background"
+        android:background="@drawable/input_name_pass_bg"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -83,7 +83,7 @@
         android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
         android:layout_marginRight="@dimen/btn_done_registration_margin_left_right"
         android:layout_marginTop="@dimen/btn_done_registration_margin_top"
-        android:background="@drawable/white_button"
+        android:background="@drawable/bt_white"
         android:text="@string/done"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
