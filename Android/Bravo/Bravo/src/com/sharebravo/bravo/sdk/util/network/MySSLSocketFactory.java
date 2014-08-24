@@ -20,7 +20,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 /**
  * MySSLSocketFactory class supports making https connections
  * 
- * @author Lemon
+ * @author Visva
  */
 public class MySSLSocketFactory extends SSLSocketFactory {
 	SSLContext sslContext = SSLContext.getInstance("TLS");
