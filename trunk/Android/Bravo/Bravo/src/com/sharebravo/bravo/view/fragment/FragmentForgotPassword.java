@@ -1,6 +1,10 @@
 package com.sharebravo.bravo.view.fragment;
 
 import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +16,9 @@ import android.widget.EditText;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.provider.VolleyProvider;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.sdk.util.volley.IVolleyResponse;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
@@ -49,27 +56,28 @@ public class FragmentForgotPassword extends FragmentBasic {
         if (checkValidateEmail(email)) {
             requestToCheckForgotPassword(email);
         } else
-            mEditTextEmailForgot.setError(getString(R.string.email_not_valid)); 
+            mEditTextEmailForgot.setError(getString(R.string.email_not_valid));
     }
 
     private void requestToCheckForgotPassword(String email) {
         AIOLog.d("email:=" + email);
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("Email", email);
-        String url="https://dev1.sharebravo.com/api/user?Email=tinvukkkk@gmail.com&Locale=en&Password=12345678&Time_Zone=Asia/Ho_Chi_Minh&Full_Name=Vukhactin&Auth_Method=Bravo";
-        VolleyProvider.getInstance(getActivity()).requestToGetDataFromServerWithSSL(url, null,
-                new IVolleyResponse() {
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Email", email);
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPost postForgotPassword = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response " + response);
+            }
 
-                    @Override
-                    public void onResponse(Object responseObject) {
-                        AIOLog.d("data:" + responseObject.toString());
-                    }
-
-                    @Override
-                    public void onErrorResponse(Object errorObject) {
-                        AIOLog.d("errorResponse:" + errorObject.toString());
-                    }
-                });
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postForgotPassword.execute(BravoWebServiceConfig.URL_POST_FORGOT);
     }
 
     private boolean checkValidateEmail(String email) {

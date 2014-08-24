@@ -50,8 +50,8 @@ public class BravoWebServiceConfig {
     public static final String URL_POST_BRAVO_SNS                   = URL_BRAVO_BASE + "/bravo/{str}/sns?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_COMMENT                     = URL_BRAVO_BASE + "/comment?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_SPOTS                       = URL_BRAVO_BASE + "/spot?User_ID={str}&Access_Token={str}";
-    public static final String URL_POST_USER                        = URL_BRAVO_BASE + "/user?";
-    public static final String URL_POST_FORGOT                      = URL_BRAVO_BASE + "/forgot?";
+    public static final String URL_POST_USER                        = URL_BRAVO_BASE + "/user";
+    public static final String URL_POST_FORGOT                      = URL_BRAVO_BASE + "/forgot";
     public static final String URL_PUT_BLOCKING                     = URL_BRAVO_BASE + "/user/{User_ID}/blocking?User_ID={str}&Access_Token={str}";
     public static final String URL_PUT_FOLLOWING                    = URL_BRAVO_BASE + "/user/{User_ID}/following?User_ID={str}&Access_Token={str}";
     public static final String URL_PUT_MYLIST                       = URL_BRAVO_BASE + "/user/{User_ID}/mylist?User_ID={str}&Access_Token={str}";
