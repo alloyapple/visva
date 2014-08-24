@@ -14,33 +14,18 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_notification_button"
             android:layout_marginLeft="3dp"
-            android:background="@drawable/bt_green"
-            android:paddingLeft="12dp"
+            android:background="@drawable/back_navigation_button"
+            android:paddingLeft="20dp"
             android:paddingRight="12dp"
-            android:text="@string/btn_notification"
+            android:text="@string/btn_back"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" >
         </Button>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_recent_post_title"
-        android:background="@drawable/label_recent_post"
-        android:gravity="center_vertical" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/label_recent_post"
-            android:textColor="#2B2B2B"
-            android:textStyle="bold" />
-    </LinearLayout>
-
     <com.sharebravo.bravo.view.lib.PullAndLoadListView
-        android:id="@+id/listview_recent_post"
+        android:id="@+id/listview_recent_post_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </com.sharebravo.bravo.view.lib.PullAndLoadListView>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center|center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/height_post_detail_1"
+        android:gravity="center|center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/btn_call_spot"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_post_detail_1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/postn_detail_button_call_spot_layout"
+            android:baselineAligned="true"
+            android:gravity="center"
+            android:text="@string/btn_call_spot"
+            android:textColor="@color/postn_detail_button_call_spot_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_login_register_height"
+            android:background="@drawable/separate_y"
+            android:contentDescription="@string/login" />
+
+        <Button
+            android:id="@+id/btn_view_map"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_post_detail_1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/postn_detail_button_call_spot_layout"
+            android:gravity="center"
+            android:text="@string/btn_view_map"
+            android:textColor="@color/postn_detail_button_call_spot_text" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/separate_x"
+        android:contentDescription="@string/login" />
+
+</LinearLayout>

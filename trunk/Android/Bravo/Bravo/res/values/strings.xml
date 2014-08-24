@@ -51,6 +51,8 @@
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="email_not_valid">kane@gmail.com</string>
+    <!-- +++++ -->
+
 
     <!-- Home -->
     <string name="label_recent_post">Recent Posts</string>
@@ -59,6 +61,20 @@
     <string name="btn_setting">Settings</string>
     <string name="hint_search_friends">Search for friends</string>
     <string name="hint_search_spot">Search for spots</string>
+    <!-- +++++ -->
+
+
+    <!-- Post Detail -->
+    <string name="btn_call_spot">Call Spot</string>
+    <string name="btn_view_map">View Map</string>
+    <string name="btn_follow">Follow</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_share">Share</string>
+    <string name="hint_input_comment">Write a comment ...</string>
+    <string name="report_inapp_bravo">Report inappropriate bravo</string>
+    <string name="btn_post">Post</string>
+    <!-- +++++ -->
+
 
     <!-- GCM strings -->
     <string name="gcm_registered">From GCM: device successfully registered!</string>

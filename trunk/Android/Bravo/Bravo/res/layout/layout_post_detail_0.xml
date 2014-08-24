@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_post_content_area" >
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/height_post_content_area" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_text_area_recent_post"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:background="#2F000000"
+        android:gravity="center_vertical"
+        android:text="This is my post ..."
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</FrameLayout>

@@ -17,41 +17,48 @@ import com.sharebravo.bravo.view.fragment.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.FragmentMyDataTab;
 import com.sharebravo.bravo.view.fragment.FragmentNetworkTab;
+import com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail;
 import com.sharebravo.bravo.view.fragment.FragmentSearchTab;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity {
+public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener {
 
     // ======================Constant Define===============
-    private static final String FRAGMENT_HOME_TAB       = "home_tab";
-    private static final String FRAGMENT_NETWORK_TAB    = "network_tab";
-    private static final String FRAGMENT_BRAVO_TAB      = "bravo_tab";
-    private static final String FRAGMENT_SEARCH_TAB     = "search_tab";
-    private static final String FRAGMENT_MYDATA_TAB     = "mydata_tab";
+    private static final String      FRAGMENT_HOME_TAB                  = "home_tab";
+    private static final String      FRAGMENT_NETWORK_TAB               = "network_tab";
+    private static final String      FRAGMENT_BRAVO_TAB                 = "bravo_tab";
+    private static final String      FRAGMENT_SEARCH_TAB                = "search_tab";
+    private static final String      FRAGMENT_MYDATA_TAB                = "mydata_tab";
 
-    private static final int    FRAGMENT_BASE_ID        = 1000;
-    private static final int    FRAGMENT_HOME_TAB_ID    = FRAGMENT_BASE_ID + 1;
-    private static final int    FRAGMENT_NETWORK_TAB_ID = FRAGMENT_BASE_ID + 2;
-    private static final int    FRAGMENT_BRAVO_TAB_ID   = FRAGMENT_BASE_ID + 3;
-    private static final int    FRAGMENT_SEARCH_TAB_ID  = FRAGMENT_BASE_ID + 4;
-    private static final int    FRAGMENT_MYDATA_TAB_ID  = FRAGMENT_BASE_ID + 5;
+    private static final String      FRAGMENT_RECENT_POST_DETAIL   = "post_detail";
+    private static final String      FRAGMENT_MAP_VIEW_TAB              = "map_view";
+
+    private static final int         FRAGMENT_BASE_ID                   = 1000;
+    private static final int         FRAGMENT_HOME_TAB_ID               = FRAGMENT_BASE_ID + 1;
+    private static final int         FRAGMENT_NETWORK_TAB_ID            = FRAGMENT_BASE_ID + 2;
+    private static final int         FRAGMENT_BRAVO_TAB_ID              = FRAGMENT_BASE_ID + 3;
+    private static final int         FRAGMENT_SEARCH_TAB_ID             = FRAGMENT_BASE_ID + 4;
+    private static final int         FRAGMENT_MYDATA_TAB_ID             = FRAGMENT_BASE_ID + 5;
+    private static final int         FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
+    private static final int         FRAGMENT_MAP_VIEW_ID               = FRAGMENT_BASE_ID + 7;
 
     // ======================Class Define==================
-    private FragmentManager     mFmManager;
-    private FragmentTransaction mTransaction;
-    private FragmentHomeTab     mFragmentHomeTab;
-    private FragmentNetworkTab  mFragmentNetworkTab;
-    private FragmentBravoTab    mFragmentBravoTab;
-    private FragmentSearchTab   mFragmentSearchTab;
-    private FragmentMyDataTab   mFragmentMyDataTab;
+    private FragmentManager          mFmManager;
+    private FragmentTransaction      mTransaction;
+    private FragmentHomeTab          mFragmentHomeTab;
+    private FragmentNetworkTab       mFragmentNetworkTab;
+    private FragmentBravoTab         mFragmentBravoTab;
+    private FragmentSearchTab        mFragmentSearchTab;
+    private FragmentMyDataTab        mFragmentMyDataTab;
+    private FragmentRecentPostDetail mFragmentRecentPostDetail;
 
-    private Button              btnHome;
-    private Button              btnNetwork;
-    private Button              btnBravo;
-    private Button              btnSearch;
-    private Button              btnMyData;
+    private Button                   btnHome;
+    private Button                   btnNetwork;
+    private Button                   btnBravo;
+    private Button                   btnSearch;
+    private Button                   btnMyData;
 
     // ======================Variable Define===============
-    private ArrayList<String>   backstack               = new ArrayList<String>();
+    private ArrayList<String>        backstack                          = new ArrayList<String>();
 
     @Override
     public int contentView() {
@@ -129,6 +136,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
         mFragmentBravoTab = (FragmentBravoTab) mFmManager.findFragmentById(R.id.fragment_bravo_tab);
         mFragmentSearchTab = (FragmentSearchTab) mFmManager.findFragmentById(R.id.fragment_search_tab);
         mFragmentMyDataTab = (FragmentMyDataTab) mFmManager.findFragmentById(R.id.fragment_mydata_tab);
+        mFragmentRecentPostDetail = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_recent_post_detail);
 
         mTransaction = hideFragment();
         showFragment(FRAGMENT_HOME_TAB_ID);
@@ -183,6 +191,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
             mTransaction.show(mFragmentMyDataTab);
             addToSBackStack(FRAGMENT_MYDATA_TAB);
             mTransaction.commit();
+            break;
+        case FRAGMENT_RECENT_POST_DETAIL_ID:
+            mTransaction = hideFragment();
+            mTransaction.show(mFragmentRecentPostDetail);
+            addToSBackStack(FRAGMENT_RECENT_POST_DETAIL);
+            mTransaction.commit();
+            break;
         default:
             break;
         }
@@ -195,6 +210,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
         mTransaction.hide(mFragmentBravoTab);
         mTransaction.hide(mFragmentSearchTab);
         mTransaction.hide(mFragmentMyDataTab);
+        mTransaction.hide(mFragmentRecentPostDetail);
         return mTransaction;
     }
 
@@ -222,5 +238,19 @@ public class HomeActivity extends VisvaAbstractFragmentActivity {
             }
         } catch (IndexOutOfBoundsException e) {
         }
+    }
+
+    @Override
+    public void goToRecentPostDetail() {
+        // TODO Auto-generated method stub
+        hideTabButton();
+        showFragment(FRAGMENT_RECENT_POST_DETAIL_ID);
+        // btnHome.setBackgroundResource(R.drawable.tab_home_on);
+    }
+
+    @Override
+    public void goToMapView() {
+        // TODO Auto-generated method stub
+
     }
 }

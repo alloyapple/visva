@@ -56,8 +56,21 @@
     <dimen name="height_searchbar">40dp</dimen>
     <dimen name="search_icon">25dp</dimen>
     <dimen name="size_avatar_recent_post">50dp</dimen>
-    <dimen name="height_recent_post_item">200dp</dimen>
+    <dimen name="height_recent_post_item">140dp</dimen>
     <dimen name="height_image_recent_post">160dp</dimen>
     <dimen name="height_text_area_recent_post">40dp</dimen>
+
+    <!-- Post Detail Screen -->
+    <dimen name="height_post_content_area">180dp</dimen>
+    <dimen name="height_text_content_area">70dp</dimen>
+    <dimen name="height_post_detail_1">50dp</dimen>
+    <dimen name="height_post_detail_2">60dp</dimen>
+    <dimen name="avatar_size_detail_post">50dp</dimen>
+    <dimen name="height_btn_follow">50dp</dimen>
+    <dimen name="size_follow_icon">50dp</dimen>
+    <dimen name="height_btn_save">50dp</dimen>
+    <dimen name="height_input_comment">56dp</dimen>
+    <dimen name="height_row_comment_content">50dp</dimen>
+    <!-- Home Tab -->
 
 </resources>

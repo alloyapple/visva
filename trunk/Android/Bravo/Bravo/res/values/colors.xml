@@ -15,5 +15,13 @@
     <color name="home_background">#262E35</color>
     <color name="actionbar_background">#458DAD</color>
     <color name="actionbar_item_background">#99367895</color>
+    <!-- Home -->
+
+    <color name="dark_slate_gray">#2F4F4F</color>
+    <color name="gray_2">#AFAFAF</color>
+    <color name="gray_1">#C0C0C0</color>
+    <!-- Post Detail -->
+    <color name="postn_detail_button_call_spot_layout">#eeeeee</color>
+    <color name="postn_detail_button_call_spot_text">#575757</color>
 
 </resources>

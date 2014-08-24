@@ -1,18 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/height_recent_post_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_width="@dimen/size_avatar_recent_post"
-        android:layout_height="@dimen/height_recent_post_item" >
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/height_recent_post_item"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="@dimen/size_avatar_recent_post"
+            android:layout_height="@dimen/size_avatar_recent_post"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/user_picture_default" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="My Friend"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aug 18"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/height_recent_post_item" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_text_area_recent_post"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:background="#2F000000"
+                    android:gravity="center_vertical"
+                    android:text="This is my post ..."
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
