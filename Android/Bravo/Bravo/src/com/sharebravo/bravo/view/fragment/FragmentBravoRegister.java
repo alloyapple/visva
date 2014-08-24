@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -27,20 +31,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.provider.VolleyProvider;
-import com.sharebravo.bravo.sdk.util.volley.IVolleyResponse;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
 
 public class FragmentBravoRegister extends FragmentBasic {
     // ====================Constant Define=================
-    private static final int REQUEST_CODE_CAMERA  = 1001;
-    private static final int REQUEST_CODE_GALLERY = 1002;
+    private static final int REQUEST_CODE_CAMERA  = 1003;
+    private static final int REQUEST_CODE_GALLERY = 1004;
     // ====================Class Define====================
-    private BravoUser        mBravoUser;
     private EmailValidator   mEmailValidator;
     // ====================Variable Define=================
     private EditText         mEditTextUserName;
@@ -67,9 +70,9 @@ public class FragmentBravoRegister extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 onClickRegisterBravoUser();
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(homeIntent);
-                getActivity().finish();
+                // Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                // startActivity(homeIntent);
+                // getActivity().finish();
             }
         });
 
@@ -106,41 +109,48 @@ public class FragmentBravoRegister extends FragmentBasic {
             _bravoUser.mUserEmail = email;
             _bravoUser.mUserName = name;
             _bravoUser.mUserPassWord = password;
-            _bravoUser.mTimeZone = TimeZone.getDefault().toString();
+            _bravoUser.mTimeZone = TimeZone.getDefault().getID();
             Locale current = getResources().getConfiguration().locale;
             _bravoUser.mLocale = current.toString();
             _bravoUser.mAuthenMethod = "No";
             _bravoUser.mForeign_Id = "No";
-            _bravoUser.mAPNsToken = "abc3579ajfg";
+            AIOLog.d("mTimeZone " + _bravoUser.mTimeZone);
             requestToPostBravoUser(_bravoUser);
         } else
             mEditTextUserEmail.setError(getString(R.string.email_not_valid));
-
     }
 
+    /**
+     * request to register user to bravo server by bravo account
+     * 
+     * @param bravoUser
+     */
     private void requestToPostBravoUser(BravoUser bravoUser) {
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("Auth_Method", bravoUser.mAuthenMethod);
-        params.put("Full_Name", bravoUser.mUserName);
-        params.put("Email", bravoUser.mUserEmail);
-        params.put("Foreign_ID", bravoUser.mForeign_Id);
-        params.put("Password", bravoUser.mUserPassWord);
-        params.put("Time_Zone", bravoUser.mTimeZone);
-        params.put("Locale", bravoUser.mLocale);
-        params.put("APNS_Token", bravoUser.mAPNsToken);
-        VolleyProvider.getInstance(getActivity()).requestToPostDataToServerWithSSL(BravoWebServiceConfig.URL_POST_USER, params,
-                new IVolleyResponse() {
+        
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Auth_Method", "Bravo");
+        subParams.put("Full_Name", bravoUser.mUserName);
+        subParams.put("Email", bravoUser.mUserEmail);
+        subParams.put("Foreign_ID", bravoUser.mForeign_Id);
+        subParams.put("Password", bravoUser.mUserPassWord);
+        subParams.put("Time_Zone", bravoUser.mTimeZone);
+        subParams.put("Locale", bravoUser.mLocale);
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
 
-                    @Override
-                    public void onResponse(Object responseObject) {
-                        AIOLog.d("post User:" + responseObject.toString());
-                    }
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response " + response);
+            }
 
-                    @Override
-                    public void onErrorResponse(Object errorObject) {
-                        AIOLog.d("errorResponse:" + errorObject.toString());
-                    }
-                });
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(BravoWebServiceConfig.URL_POST_USER);
     }
 
     private boolean checkValidateEmail(String email) {

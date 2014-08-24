@@ -1,7 +1,11 @@
 package com.sharebravo.bravo.sdk.provider;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +31,7 @@ import com.sharebravo.bravo.sdk.util.volley.IVolleyResponse;
 import com.sharebravo.bravo.sdk.util.volley.LruBitmapCache;
 import com.sharebravo.bravo.sdk.util.volley.SslHttpClient;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.StringUtility;
 
 /**
  * volley provider supports all methods of volley library includes:
@@ -228,11 +233,12 @@ public class VolleyProvider {
      * @return null
      */
     public void requestToPostDataToServerWithSSL(String url, HashMap<String, String> params, final IVolleyResponse volleyResponse) {
+        String _url = makeLinkFromUrlAndParam(url, params);
         InputStream keyStore = mContext.getResources().openRawResource(R.raw.bravoandroid);
         RequestQueue queue = Volley.newRequestQueue(mContext, new ExtHttpClientStack(new SslHttpClient(keyStore, AIOConstants.BRAVO_CRT_PASS, /* 44401 */
         AIOConstants.HTTPS_PORT)));
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
-
+  
             @Override
             public void onResponse(JSONObject response) {
                 AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
@@ -245,11 +251,11 @@ public class VolleyProvider {
                 AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
             }
         });
-        
+
         queue.add(jsonObjReq);
         VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq);
     }
-    
+
     /**
      * 
      * @param url
@@ -261,47 +267,49 @@ public class VolleyProvider {
      * @return null
      */
     public void requestToGetDataFromServerWithSSL(String url, HashMap<String, String> params, final IVolleyResponse volleyResponse) {
+        AIOLog.d("requestToGetDataFromServerWithSSL " + url);
+        String _url = makeLinkFromUrlAndParam(url, params);
         InputStream keyStore = mContext.getResources().openRawResource(R.raw.bravoandroid);
         RequestQueue queue = Volley.newRequestQueue(mContext, new ExtHttpClientStack(new SslHttpClient(keyStore, AIOConstants.BRAVO_CRT_PASS, /* 44401 */
         AIOConstants.HTTPS_PORT)));
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET, _url, new JSONObject(params), new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
+                AIOLog.d("requestJsonObjectFromURL =" + response.toString());
                 volleyResponse.onResponse(response);
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                AIOLog.d("requestJsonObjectFromURL onErrorResponse=" + error.getMessage());
+                AIOLog.d("error =" + error.getMessage());
             }
         });
-        // {
-        //
-        // /**
-        // * Passing some request headers
-        // *
-        // */
-        // @Override
-        // public Map<String, String> getHeaders() throws AuthFailureError {
-        // HashMap<String, String> headers = new HashMap<String, String>();
-        // headers.put("Content-Type", "application/json");
-        // return headers;
-        // }
-        //
-        // @Override
-        // protected Map<String, String> getParams() {
-        // Map<String, String> params = new HashMap<String, String>();
-        // params.put("username", "bravouser");
-        // params.put("ssh", "bravouser@dev1.sharebravo.com");
-        // params.put("password", "m4k1y0k0!#%");
-        // return params;
-        // }
-        //
-        // };
+        AIOLog.d("jsonObjReq url:" + jsonObjReq.getUrl());
         queue.add(jsonObjReq);
         VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq);
+    }
+
+    private String makeLinkFromUrlAndParam(String url, HashMap<String, String> params) {
+        String _url = url;
+        Iterator<Map.Entry<String, String>> entries = params.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<String, String> entry = entries.next();
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            String paramStr  = null;
+            try {
+                paramStr = URLEncoder.encode(entry.getKey() + "=" + entry.getValue() + "&", "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            _url += paramStr;
+        }
+        if (params.size() > 0)
+            _url = _url.subSequence(0, _url.length() - 3).toString();
+        if (StringUtility.isEmpty(_url))
+            return null;
+        else
+            return _url;
     }
 }
