@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.view.fragment;
 
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 public class FragmentBasic extends Fragment {
     protected Object mData      = null;
@@ -26,5 +27,9 @@ public class FragmentBasic extends Fragment {
 
     protected boolean isDataChanged() {
         return dataChange;
+    }
+    
+    protected void showToast(String string) {
+        Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
     }
 }

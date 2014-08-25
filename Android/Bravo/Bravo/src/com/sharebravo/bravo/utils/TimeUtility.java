@@ -114,8 +114,7 @@ public class TimeUtility {
     private final static long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
 
     private static long getDateToLong(Date date) {
-        return Date.UTC(date.getYear(), date.getMonth(), date.getDate(), 0, 0,
-                0);
+        return Date.UTC(date.getYear(), date.getMonth(), date.getDate(), 0, 0, 0);
     }
 
     public static int getSignedDiffInDays(Date beginDate, Date endDate) {

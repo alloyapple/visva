@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
@@ -30,12 +31,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.model.response.ObPostUserFailed;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
 
@@ -70,9 +77,6 @@ public class FragmentBravoRegister extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 onClickRegisterBravoUser();
-                // Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                // startActivity(homeIntent);
-                // getActivity().finish();
             }
         });
 
@@ -126,7 +130,7 @@ public class FragmentBravoRegister extends FragmentBasic {
      * @param bravoUser
      */
     private void requestToPostBravoUser(BravoUser bravoUser) {
-        
+
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Auth_Method", "Bravo");
         subParams.put("Full_Name", bravoUser.mUserName);
@@ -142,7 +146,36 @@ public class FragmentBravoRegister extends FragmentBasic {
         AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("response " + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPostUserFailed obPostUserFailed;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
+                            BravoConstant.REGISTER_TYPE_BRAVO);
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO, response);
+                    Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                    getActivity().startActivity(homeIntent);
+                    getActivity().finish();
+                } else {
+                    obPostUserFailed = gson.fromJson(response.toString(), ObPostUserFailed.class);
+                    showToast(obPostUserFailed.error);
+                }
             }
 
             @Override

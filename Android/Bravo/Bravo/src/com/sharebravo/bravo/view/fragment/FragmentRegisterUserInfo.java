@@ -3,6 +3,12 @@ package com.sharebravo.bravo.view.fragment;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -23,10 +29,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.model.response.ObPostUserFailed;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
 
 public class FragmentRegisterUserInfo extends FragmentBasic {
     // ====================Constant Define=================
@@ -49,9 +65,10 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(homeIntent);
-                getActivity().finish();
+                if (!StringUtility.isEmpty(mEditTextUserName))
+                    requestToPostBravoUserbySNS(mBravoUser);
+                else
+                    mEditTextUserName.setError(getActivity().getResources().getString(R.string.username_not_valid));
             }
         });
         mEditTextUserName = (EditText) root.findViewById(R.id.edittext_input_user_name);
@@ -65,6 +82,73 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
             }
         });
         return root;
+    }
+
+    private void requestToPostBravoUserbySNS(BravoUser bravoUser) {
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Auth_Method", bravoUser.mAuthenMethod);
+        subParams.put("Full_Name", bravoUser.mUserName);
+        subParams.put("Email", bravoUser.mUserEmail);
+        subParams.put("Foreign_ID", bravoUser.mForeign_Id);
+        subParams.put("Password", bravoUser.mUserPassWord);
+        subParams.put("Time_Zone", bravoUser.mTimeZone);
+        subParams.put("Locale", bravoUser.mLocale);
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPostUserFailed obPostUserFailed;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    if (mBravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_FACEBOOK) {
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_FACEBOOK, response);
+                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
+                                BravoConstant.REGISTER_TYPE_FACEBOOK);
+                    } else if (mBravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_TWITTER) {
+                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
+                                BravoConstant.REGISTER_TYPE_TWITTER);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER, response);
+                    } else if (mBravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_FOURSQUARE) {
+                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
+                                BravoConstant.REGISTER_TYPE_FOURSQUARE);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE, response);
+                    }
+                    Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                    getActivity().startActivity(homeIntent);
+                    getActivity().finish();
+                } else {
+                    obPostUserFailed = gson.fromJson(response.toString(), ObPostUserFailed.class);
+                    showToast(obPostUserFailed.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(BravoWebServiceConfig.URL_POST_USER);
+
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.sharebravo.bravo.utils;
 
-import java.util.Set;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -12,10 +10,32 @@ import android.content.SharedPreferences;
  */
 public class BravoSharePrefs {
     // ================================================================
-    private Context context;
+    private Context               mContext;
+    
+    /* singleton class */
+    private static BravoSharePrefs mInstance;
 
+    /**
+     * BravoSharePrefs constructor
+     * 
+     * @param context
+     */
     public BravoSharePrefs(Context context) {
-        this.context = context;
+        super();
+        mContext = context;
+
+    }
+
+    /**
+     * get instance of BravoSharePrefs singleton class
+     * 
+     * @param context
+     * @return instance
+     */
+    public static synchronized BravoSharePrefs getInstance(Context context) {
+        if (mInstance == null)
+            mInstance = new BravoSharePrefs(context);
+        return mInstance;
     }
 
     // ======================== CORE FUNCTIONS ========================
@@ -28,7 +48,7 @@ public class BravoSharePrefs {
      */
     public void putLongValue(String key, long n) {
         // SmartLog.log(TAG, "Set long integer value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putLong(key, n);
         editor.commit();
@@ -42,7 +62,7 @@ public class BravoSharePrefs {
      */
     public long getLongValue(String key) {
         // SmartLog.log(TAG, "Get long integer value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         return pref.getLong(key, 0);
     }
 
@@ -54,7 +74,7 @@ public class BravoSharePrefs {
      */
     public void putIntValue(String key, int n) {
         // SmartLog.log(TAG, "Set integer value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt(key, n);
         editor.commit();
@@ -68,7 +88,7 @@ public class BravoSharePrefs {
      */
     public int getIntValue(String key) {
         // SmartLog.log(TAG, "Get integer value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         return pref.getInt(key, 0);
     }
 
@@ -80,7 +100,7 @@ public class BravoSharePrefs {
      */
     public void putStringValue(String key, String s) {
         // SmartLog.log(TAG, "Set string value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, s);
         editor.commit();
@@ -94,7 +114,7 @@ public class BravoSharePrefs {
      */
     public String getStringValue(String key) {
         // SmartLog.log(TAG, "Get string value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         return pref.getString(key, "");
     }
 
@@ -107,7 +127,7 @@ public class BravoSharePrefs {
      */
     public String getStringValue(String key, String defaultValue) {
         // SmartLog.log(TAG, "Get string value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         return pref.getString(key, defaultValue);
     }
 
@@ -119,7 +139,7 @@ public class BravoSharePrefs {
      */
     public void putBooleanValue(String key, Boolean b) {
         // SmartLog.log(TAG, "Set boolean value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean(key, b);
         editor.commit();
@@ -133,7 +153,7 @@ public class BravoSharePrefs {
      */
     public boolean getBooleanValue(String key) {
         // SmartLog.log(TAG, "Get boolean value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         return pref.getBoolean(key, false);
     }
 
@@ -144,7 +164,7 @@ public class BravoSharePrefs {
      * @param s
      */
     public void putFloatValue(String key, float f) {
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putFloat(key, f);
         editor.commit();
@@ -157,25 +177,13 @@ public class BravoSharePrefs {
      * @return
      */
     public float getFloatValue(String key) {
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         return pref.getFloat(key, 0.0f);
-    }
-
-    public void putStringSet(String key, Set<String> s) {
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putStringSet(key, s);
-        editor.commit();
-    }
-
-    public Set<String> getStringSet(String key) {
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
-        return pref.getStringSet(key, null);
     }
 
     public void remove(String key) {
         // SmartLog.log(TAG, "Set boolean value");
-        SharedPreferences pref = context.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
+        SharedPreferences pref = mContext.getSharedPreferences(BravoConstant.BRAVO_PREFERENCE, 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove(key);
         editor.commit();
