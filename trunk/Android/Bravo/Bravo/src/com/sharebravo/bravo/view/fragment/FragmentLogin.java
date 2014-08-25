@@ -51,7 +51,8 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     protected static Twitter       mTwitter;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
 
-    private static int             mLoginType = BravoConstant.NO_LOGIN_SNS;
+    private static int             mLoginType       = BravoConstant.NO_LOGIN_SNS;
+    private int                    mClickRegisterFB = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,13 +90,18 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
             public void onUserInfoFetched(GraphUser user) {
                 mLoginType = BravoConstant.LOGIN_FACEBOOK;
                 AIOLog.e("user:" + user);
+                mClickRegisterFB++;
+                if (mClickRegisterFB < 2)
+                    return;
                 if (user == null)
                     return;
                 BravoUser bravoUser = new BravoUser();
                 bravoUser.mUserEmail = user.getLink();
                 bravoUser.mUserId = user.getId();
                 bravoUser.mUserName = user.getName();
-                mLoginType = BravoConstant.NO_LOGIN_SNS;
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(homeIntent);
+                getActivity().finish();
             }
         });
 
@@ -207,7 +213,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
      */
     private void onClickTwitterLoginButton() {
         AIOLog.d("isTwitterLoggedInAlready:" + isTwitterLoggedInAlready());
-        if (mTwitter == null){
+        if (mTwitter == null) {
             AIOLog.e("mTwitter is null");
             return;
         }

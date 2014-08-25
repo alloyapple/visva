@@ -3,6 +3,8 @@ package com.sharebravo.bravo.utils;
 public class BravoWebServiceConfig {
     // Network time out: 60s
     public static int          NETWORK_TIME_OUT                     = 60000;
+    public static int          STATUS_RESPONSE_DATA_SUCCESS         = 0x1;
+    public static int          STATUS_RESPONSE_DATA_ERROR           = 0x2;
     // Server api
     public static final String URL_BRAVO_BASE                       = "https://dev1.sharebravo.com/api";
     public static final String URL_GET_NOTIFICATION                 = URL_BRAVO_BASE + "/notification/{Action_ID}?User_ID={str}&Access_Token={str}";

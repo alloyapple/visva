@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 
 public class ActivitySplash extends VisvaAbstractActivity {
 
@@ -52,14 +53,21 @@ public class ActivitySplash extends VisvaAbstractActivity {
             }
         });
 
+        final int registerType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE);
         /* create time handle to show flash screen */
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
                 AIOLog.d("out of post delayed time");
-                mLoginRegisterLayout.setVisibility(View.VISIBLE);
-                mTextFlashIntro.setVisibility(View.VISIBLE);
+                if (registerType >= 1) {
+                    Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    mLoginRegisterLayout.setVisibility(View.VISIBLE);
+                    mTextFlashIntro.setVisibility(View.VISIBLE);
+                }
             }
         }, TIME_SHOW_SPLASH);
     }

@@ -1,5 +1,8 @@
 package com.sharebravo.bravo.view.fragment;
 
+import java.util.Locale;
+import java.util.TimeZone;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -52,6 +55,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
     protected static Twitter       mTwitter;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
     private static int             mResgisterType;
+    private int                    mClickRegisterFB = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,13 +90,23 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
             @Override
             public void onUserInfoFetched(GraphUser user) {
                 mResgisterType = BravoConstant.REGISTER_FACEBOOK;
+                mClickRegisterFB++;
+                if (mClickRegisterFB < 2)
+                    return;
                 AIOLog.e("user:" + user);
                 if (user == null)
                     return;
                 BravoUser bravoUser = new BravoUser();
-                bravoUser.mUserEmail = user.getLink();
+                bravoUser.mUserEmail = "no_account" + System.currentTimeMillis() + "@nomail.com";
                 bravoUser.mUserId = user.getId();
                 bravoUser.mUserName = user.getName();
+                bravoUser.mAuthenMethod = "Facebook";
+                bravoUser.mTimeZone = TimeZone.getDefault().getID();
+                Locale current = getResources().getConfiguration().locale;
+                bravoUser.mLocale = current.toString();
+                bravoUser.mForeign_Id = "No";
+                bravoUser.mUserPassWord = "No";
+                bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_FACEBOOK;
                 mListener.showPageUserInfo(bravoUser);
             }
         });
@@ -174,9 +188,16 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
                             AIOLog.d("Twitter OAuth Token = " + accessToken.getToken() + " username = " + user.getName());
                             if (user != null) {
                                 BravoUser _bravoUser = new BravoUser();
-                                _bravoUser.mUserEmail = user.getName();
+                                _bravoUser.mUserEmail = "no_account" + System.currentTimeMillis() + "@nomail.com";
                                 _bravoUser.mUserName = user.getName();
                                 _bravoUser.mUserId = user.getId() + "";
+                                _bravoUser.mAuthenMethod = "Twitter";
+                                _bravoUser.mTimeZone = TimeZone.getDefault().getID();
+                                Locale current = getResources().getConfiguration().locale;
+                                _bravoUser.mLocale = current.toString();
+                                _bravoUser.mForeign_Id = "No";
+                                _bravoUser.mUserPassWord = "No";
+                                _bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_TWITTER;
                                 mListener.showPageUserInfo(_bravoUser);
                             }
                         }
@@ -270,9 +291,16 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
                 Toast.makeText(getActivity(), "Hello " + user.getFirstName() + " " + user.getLastName(), Toast.LENGTH_SHORT).show();
                 AIOLog.d("user: " + user.getFirstName());
                 BravoUser bravoUser = new BravoUser();
-                bravoUser.mUserEmail = user.getFirstName();
+                bravoUser.mUserEmail = "no_account" + System.currentTimeMillis() + "@nomail.com";
                 bravoUser.mUserId = String.valueOf(user.getId());
                 bravoUser.mUserName = user.getFirstName() + " " + user.getLastName();
+                bravoUser.mAuthenMethod = "FourSquare";
+                bravoUser.mTimeZone = TimeZone.getDefault().getID();
+                Locale current = getResources().getConfiguration().locale;
+                bravoUser.mLocale = current.toString();
+                bravoUser.mForeign_Id = "No";
+                bravoUser.mUserPassWord = "No";
+                bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_FOURSQUARE;
                 mListener.showPageUserInfo(bravoUser);
             }
         });

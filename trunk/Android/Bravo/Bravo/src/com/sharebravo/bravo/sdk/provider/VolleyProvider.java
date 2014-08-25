@@ -233,7 +233,6 @@ public class VolleyProvider {
      * @return null
      */
     public void requestToPostDataToServerWithSSL(String url, HashMap<String, String> params, final IVolleyResponse volleyResponse) {
-        String _url = makeLinkFromUrlAndParam(url, params);
         InputStream keyStore = mContext.getResources().openRawResource(R.raw.bravoandroid);
         RequestQueue queue = Volley.newRequestQueue(mContext, new ExtHttpClientStack(new SslHttpClient(keyStore, AIOConstants.BRAVO_CRT_PASS, /* 44401 */
         AIOConstants.HTTPS_PORT)));

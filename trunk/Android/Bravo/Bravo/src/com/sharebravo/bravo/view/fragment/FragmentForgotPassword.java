@@ -13,13 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.response.ObPostForgot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.provider.VolleyProvider;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
-import com.sharebravo.bravo.sdk.util.volley.IVolleyResponse;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
 
@@ -70,6 +71,14 @@ public class FragmentForgotPassword extends FragmentBasic {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response " + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPostForgot obPostForgot = gson.fromJson(response.toString(), ObPostForgot.class);
+                AIOLog.d("obPostForgot.status:"+obPostForgot.status); 
+                if (obPostForgot.status == BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS) {
+                    showToast(getActivity().getResources().getString(R.string.check_in_your_email_and_change_pass_word));
+                } else {
+                   showToast(obPostForgot.error);
+                }
             }
 
             @Override

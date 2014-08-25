@@ -16,4 +16,5 @@ public class BravoUser {
     public String mTimeZone;
     public String mLocale;
     public String mAPNsToken;
+    public int    mRegisterType;
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ObPostForgot {
+public class ObPostUserFailed {
     @SerializedName("data")
     public ArrayList<Data> data;
     @SerializedName("status")
@@ -12,10 +12,18 @@ public class ObPostForgot {
     @SerializedName("error")
     public String          error;
 
-    public ObPostForgot() {
+    public ObPostUserFailed() {
 
     }
 
     class Data {
+        @SerializedName("User_ID")
+        String User_ID;
+        @SerializedName("Access_Token")
+        String Access_Token;
+
+        public Data() {
+
+        }
     }
 }

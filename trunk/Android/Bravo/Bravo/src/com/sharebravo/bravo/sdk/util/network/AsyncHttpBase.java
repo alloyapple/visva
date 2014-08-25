@@ -31,6 +31,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -41,6 +42,7 @@ import com.sharebravo.bravo.R;
  * 
  * @author Visva
  */
+@SuppressLint("DefaultLocale")
 public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
     // Network status
 

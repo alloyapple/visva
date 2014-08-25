@@ -18,7 +18,6 @@ package com.sharebravo.bravo.sdk.util.volley;
 
 import java.io.InputStream;
 import java.security.KeyStore;
-import java.security.cert.CertificateFactory;
 
 import khandroid.ext.apache.http.client.params.ClientPNames;
 import khandroid.ext.apache.http.conn.ClientConnectionManager;
@@ -101,7 +100,6 @@ public class SslHttpClient extends DefaultHttpClient {
     @SuppressWarnings("deprecation")
     private SslSocketFactory newSslSocketFactory() {
         try {
-            CertificateFactory cf = CertificateFactory.getInstance("X.509");
             
             // Get the raw resource, which contains the keystore with your trusted certificates (root and any intermediate certs)
             InputStream in = MyApplication.getInstance().getApplicationContext().getResources().openRawResource(R.raw.bravoandroid);
