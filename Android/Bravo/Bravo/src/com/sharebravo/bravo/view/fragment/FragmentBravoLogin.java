@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.model.response.ObPostUserFailed;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
-import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
 
