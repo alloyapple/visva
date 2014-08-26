@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/list_sns_margin_top"
-        android:background="@drawable/color_button"
-        android:focusable="true" >
+        android:background="@drawable/color_button" >
 
         <TextView
             android:layout_width="match_parent"
@@ -27,10 +26,9 @@
             android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
             android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
             android:drawableLeft="@drawable/facebook_logo"
-            android:drawablePadding="@dimen/sns_login_text_view_padding_left"
             android:gravity="center"
             android:text="@string/login_facebook"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/size_login_text"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -55,10 +53,9 @@
             android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
             android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
             android:drawableLeft="@drawable/twitter_logo"
-            android:drawablePadding="@dimen/sns_login_text_view_padding_left"
             android:gravity="center"
             android:text="@string/login_twitter"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+             android:textSize="@dimen/size_login_text"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -85,7 +82,7 @@
             android:drawableLeft="@drawable/foursquare_logo"
             android:gravity="center"
             android:text="@string/login_4square"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/size_login_text"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -122,29 +119,22 @@
 
     <RelativeLayout
         android:id="@+id/layout_bravo_login"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
-        android:background="@drawable/bt_green" >
-
-        <ImageView
-            android:id="@+id/btn_login_bravo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/bravo_logo"
-            android:contentDescription="@string/sign_up_bravo" />
+        android:background="@drawable/green_button" >
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/btn_login_bravo"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/bravo_logo"
             android:gravity="center"
             android:text="@string/login_bravo"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/size_login_text"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>
