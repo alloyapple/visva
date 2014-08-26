@@ -7,73 +7,85 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_sns_height"
-        android:layout_marginTop="@dimen/list_sns_margin_top" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/list_sns_margin_top"
+        android:background="@drawable/color_button"
+        android:focusable="true" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#DAD9DC" />
 
         <com.facebook.widget.LoginTextView
             android:id="@+id/text_facebook_login"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
+            android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+            android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
+            android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
             android:drawableLeft="@drawable/facebook_logo"
+            android:drawablePadding="@dimen/sns_login_text_view_padding_left"
             android:gravity="center"
             android:text="@string/login_facebook"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_sns_height" >
+        android:layout_height="wrap_content"
+        android:background="@drawable/color_button" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#DAD9DC" />
 
         <TextView
             android:id="@+id/text_twitter_login"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
+            android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+            android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
+            android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
             android:drawableLeft="@drawable/twitter_logo"
+            android:drawablePadding="@dimen/sns_login_text_view_padding_left"
             android:gravity="center"
             android:text="@string/login_twitter"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_sns_height" >
+        android:layout_height="wrap_content"
+        android:background="@drawable/color_button" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/grey" />
+            android:background="#DAD9DC" />
 
         <TextView
             android:id="@+id/text_4square_login"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/facebook_login_text_view_margin_left"
+            android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+            android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
+            android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
             android:drawableLeft="@drawable/foursquare_logo"
             android:gravity="center"
             android:text="@string/login_4square"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -115,7 +127,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
-        android:background="@drawable/bt_green">
+        android:background="@drawable/bt_green" >
 
         <ImageView
             android:id="@+id/btn_login_bravo"
@@ -132,7 +144,7 @@
             android:layout_toRightOf="@id/btn_login_bravo"
             android:gravity="center"
             android:text="@string/login_bravo"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>
