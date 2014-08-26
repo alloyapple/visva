@@ -21,7 +21,8 @@
                 android:id="@+id/layout_user_picture"
                 android:layout_width="@dimen/img_user_picture_width"
                 android:layout_height="@dimen/img_user_picture_height"
-                android:layout_centerVertical="true" >
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp" >
 
                 <ImageView
                     android:id="@+id/img_user_picture"
@@ -57,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/img_seperate_x"
                 android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+                android:layout_marginRight="@dimen/edittext_user_name_margin_left"
                 android:layout_toRightOf="@id/layout_user_picture"
                 android:background="@color/white"
                 android:gravity="center_vertical"
@@ -72,10 +74,10 @@
                 android:layout_marginBottom="@dimen/text_new_user_registration_margin_bottom"
                 android:layout_marginLeft="@dimen/text_new_user_registration_margin_left"
                 android:layout_toRightOf="@id/layout_user_picture"
-                android:background="@color/white"
+                android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:text="@string/text_new_user_registration"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceMediumInverse"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -91,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+                android:layout_marginRight="@dimen/edittext_user_name_margin_left"
                 android:layout_marginTop="30dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
@@ -113,6 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+                android:layout_marginRight="@dimen/edittext_user_name_margin_left"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
@@ -151,6 +155,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/text_sign_up_term_margin_top"
         android:gravity="center"
+        android:textStyle="bold"
         android:text="@string/sign_up_term"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/grey_4" />

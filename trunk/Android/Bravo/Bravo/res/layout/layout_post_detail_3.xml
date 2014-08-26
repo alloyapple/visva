@@ -18,7 +18,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_follow_icon"
-            android:background="@drawable/white_button"
+            android:background="@drawable/bt_white"
             android:gravity="center"
             android:text="@string/btn_follow" />
     </LinearLayout>
