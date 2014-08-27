@@ -31,7 +31,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_SPOT_RANK                    = URL_BRAVO_BASE + "/spot/{Spot_ID}/rank?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_TSURETE                      = URL_BRAVO_BASE + "/bravo/{Bravo_ID}/tsurete?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_USER_INFO                    = URL_BRAVO_BASE + "/user/{User_ID}?User_ID={str}&Access_Token={str}";
-    public static final String URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT = URL_BRAVO_BASE + "/user/{User_ID}?Email={str}&Password={str}";
+    public static final String URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT = URL_BRAVO_BASE + "/user";
     public static final String URL_GET_USER_BLOCKING                = URL_BRAVO_BASE + "/user/{User_ID}/blocking?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_USER_FOLLOWING               = URL_BRAVO_BASE + "/user/{User_ID}/following?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_USER_FLOWER                  = URL_BRAVO_BASE + "/user/{User_ID}/followers?User_ID={str}&Access_Token={str}";

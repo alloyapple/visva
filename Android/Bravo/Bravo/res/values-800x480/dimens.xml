@@ -43,6 +43,7 @@
     <dimen name="text_sign_up_term_margin_top">20dp</dimen>
     <dimen name="text_sign_up_term_width">250dp</dimen>
     <dimen name="layout_user_info_register_height">320dp</dimen>
+    <dimen name="btn_login_bravo_height">148dp</dimen>
     <!-- .. -->
 
     <dimen name="margin_normal">10dp</dimen>

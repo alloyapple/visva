@@ -67,7 +67,7 @@ public class AsyncHttpGet extends AsyncHttpBase {
             HttpGet httpget1 = new HttpGet(url + combinedParams);
             response = httpclient.execute(httpget1);
             statusCode = NETWORK_STATUS_OK;
-        } catch (Exception e) {
+        } catch (Exception e) { 
             statusCode = NETWORK_STATUS_ERROR;
             e.printStackTrace();
         }

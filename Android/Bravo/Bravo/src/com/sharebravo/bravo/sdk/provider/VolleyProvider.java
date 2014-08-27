@@ -1,8 +1,6 @@
 package com.sharebravo.bravo.sdk.provider;
 
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -45,13 +43,16 @@ import com.sharebravo.bravo.utils.StringUtility;
  */
 public class VolleyProvider {
     /* TAG attributes for add to queue to request string by volley */
-    private static final String   TAG_STRING_REQ      = "req_string";
+    private static final String   TAG_STRING_REQ               = "req_string";
 
     /* TAG attributes for add to queue to request json object by volley */
-    private static final String   TAG_JSON_OBJECT_REQ = "req_json_object";
+    private static final String   TAG_JSON_OBJECT_REQ          = "req_json_object";
+
+    /* TAG attributes for add to queue to request json object by volley with ssl */
+    private static final String   TAG_JSON_OBJECT_REQ_WITH_SSL = "req_json_object_with_ssl";
 
     /* TAG attributes for add to queue to request json array by volley */
-    private static final String   TAG_JSON_ARRAY_REQ  = "req_json_array";
+    private static final String   TAG_JSON_ARRAY_REQ           = "req_json_array";
 
     /* volley class */
     private RequestQueue          mRequestQueue;
@@ -237,7 +238,7 @@ public class VolleyProvider {
         RequestQueue queue = Volley.newRequestQueue(mContext, new ExtHttpClientStack(new SslHttpClient(keyStore, AIOConstants.BRAVO_CRT_PASS, /* 44401 */
         AIOConstants.HTTPS_PORT)));
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
-  
+
             @Override
             public void onResponse(JSONObject response) {
                 AIOLog.d("requestJsonObjectFromURL onResponse=" + response.toString());
@@ -287,21 +288,17 @@ public class VolleyProvider {
         });
         AIOLog.d("jsonObjReq url:" + jsonObjReq.getUrl());
         queue.add(jsonObjReq);
-        VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq);
+        VolleyProvider.getInstance(mContext).addToRequestQueue(jsonObjReq, TAG_JSON_OBJECT_REQ_WITH_SSL);
     }
 
     private String makeLinkFromUrlAndParam(String url, HashMap<String, String> params) {
-        String _url = url;
+        String _url = url + "?";
         Iterator<Map.Entry<String, String>> entries = params.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, String> entry = entries.next();
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-            String paramStr  = null;
-            try {
-                paramStr = URLEncoder.encode(entry.getKey() + "=" + entry.getValue() + "&", "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            String paramStr = null;
+            paramStr = entry.getKey() + "=" + entry.getValue() + "&";
             _url += paramStr;
         }
         if (params.size() > 0)
