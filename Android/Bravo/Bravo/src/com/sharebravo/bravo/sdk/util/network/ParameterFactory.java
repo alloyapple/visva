@@ -26,4 +26,12 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("Password", passWord));
         return parameters;
     }
+
+    public static List<NameValuePair> createSubParamsGetNewsBravoItems(String userID, String accessToken, String startPoint) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("User_ID", userID));
+        parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
+        parameters.add(new BasicNameValuePair("params", startPoint));
+        return parameters;
+    }
 }
