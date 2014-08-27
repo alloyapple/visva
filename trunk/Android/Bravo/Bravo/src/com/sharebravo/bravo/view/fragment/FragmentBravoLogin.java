@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +14,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.ObPostUserSuccess;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
+import com.sharebravo.bravo.utils.StringUtility;
 
 public class FragmentBravoLogin extends FragmentBasic {
     // ===================Constant Define ==========================
@@ -72,13 +80,28 @@ public class FragmentBravoLogin extends FragmentBasic {
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Email", email);
         subParams.put("Password", passWord);
-        JSONObject jsonObject = new JSONObject(subParams);
-        String subParamsStr = jsonObject.toString();
-        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        // JSONObject jsonObject = new JSONObject(subParams);
+        // String subParamsStr = jsonObject.toString();
+
+        String userId = getUserIdFromUserBravoInfo();
+        String url = BravoWebServiceConfig.URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT + "/" + userId;
+        List<NameValuePair> params = ParameterFactory.createSubParamsLoginBravoAccount(email, passWord);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {
-                
+                AIOLog.d("requestToLoginByBravoAccount:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetUserInfo obGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
+                if (obGetUserInfo == null) {
+                    showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
+                } else if (StringUtility.isEmpty(obGetUserInfo.data.New_Access_Token)) {
+                    showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
+                } else {
+                    showToast("Hello " + obGetUserInfo.data.Full_Name);
+                    Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                    startActivity(homeIntent);
+                    getActivity().finish();
+                }
             }
 
             @Override
@@ -86,7 +109,16 @@ public class FragmentBravoLogin extends FragmentBasic {
                 AIOLog.d("response error");
             }
         }, params, true);
-        getLoginRequest.execute(BravoWebServiceConfig.URL_GET_USER_INFO);
+        getLoginRequest.execute(url);
+    }
+
+    private String getUserIdFromUserBravoInfo() {
+        String userBravoInfo = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO);
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        ObPostUserSuccess obPostUserSuccess = gson.fromJson(userBravoInfo.toString(), ObPostUserSuccess.class);
+        if (obPostUserSuccess == null)
+            return "";
+        return obPostUserSuccess.data.User_ID;
     }
 
     private boolean isValidEmail_PassWord(String email, String passWord) {
@@ -94,11 +126,11 @@ public class FragmentBravoLogin extends FragmentBasic {
             if (passWord.length() >= 8)
                 return true;
             else {
-                showToast(getActivity().getResources().getString(R.string.password_not_valid));
+                mEditTextPassWord.setError(getActivity().getResources().getString(R.string.password_not_valid));
                 return false;
             }
         else {
-            showToast(getActivity().getResources().getString(R.string.email_not_valid));
+            mEditTextUserEmail.setError(getActivity().getResources().getString(R.string.email_not_valid));
             return false;
         }
     }

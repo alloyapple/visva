@@ -14,11 +14,11 @@ public class ObPostUserSuccess {
 
     }
 
-    class Data {
+    public class Data {
         @SerializedName("User_ID")
-        String User_ID;
+        public String User_ID;
         @SerializedName("Access_Token")
-        String Access_Token;
+        public String Access_Token;
 
         public Data() {
 

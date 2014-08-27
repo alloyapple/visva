@@ -1,47 +1,52 @@
 package com.sharebravo.bravo.model.response;
 
-import java.util.ArrayList;
-
 import com.google.gson.annotations.SerializedName;
 
 public class ObGetUserInfo {
-    @SerializedName("USer_ID")
-    String              userID;
-    @SerializedName("Access_Token")
-    String              accessToken;
-    @SerializedName("SNS_List")
-    ArrayList<SNS>      snsList    = new ArrayList<SNS>();
-    @SerializedName("Full_Name")
-    String              fullName;
-    @SerializedName("About_Me")
-    String              aboutMe;
-    @SerializedName("Profile_Img_URL")
-    String              profileImgUrl;
-    @SerializedName("Cover_Img_URL")
-    String              coverImgUrl;
-    @SerializedName("Allow_Bravo")
-    boolean             allowBravo;
-    @SerializedName("Install_Age")
-    int                 installAge;
-    @SerializedName("Total_Bravo")
-    int                 totalBravo;
-    @SerializedName("Received_Bravo")
-    int                 receivedBravo;
-    @SerializedName("Badge_Num")
-    int                 badgeNum;
-    @SerializedName("Bravo_Rank")
-    ArrayList<RankSpot> bravoRank  = new ArrayList<RankSpot>();
-    @SerializedName("Total_Follower")
-    int                 totalFollower;
-    @SerializedName("Followers")
-    ArrayList<User>     followers  = new ArrayList<User>();
-    @SerializedName("Total_Following")
-    int                 totalFollowing;
-    @SerializedName("Followings")
-    ArrayList<Follow>   followings = new ArrayList<Follow>();
-    @SerializedName("is_My_List_Privte")
-    boolean             isMylistPrivate;
-    @SerializedName("Total_My_List")
-    int                 totalMylist;
 
+    @SerializedName("status")
+    public int  status;
+    @SerializedName("data")
+    public Data data;
+
+    public class Data {
+        @SerializedName("User_ID")
+        public String User_ID;
+        @SerializedName("New_Access_Token")
+        public String New_Access_Token;
+        // @SerializedName("SNS_List")
+        // ArrayList<SNS> SNS_List = new ArrayList<SNS>();
+        @SerializedName("Full_Name")
+        public String Full_Name;
+        // @SerializedName("About_Me")
+        // public String About_Me;
+        // @SerializedName("Profile_Img_URL")
+        // public String Profile_Img_URL;
+        // @SerializedName("Cover_Img_URL")
+        // public String Cover_Img_URL;
+        // @SerializedName("Allow_Bravo")
+        // public boolean Allow_Bravo;
+        // @SerializedName("Install_Age")
+        // public int Install_Age;
+        // @SerializedName("Total_Bravo")
+        // public int Total_Bravo;
+        // @SerializedName("Received_Bravo")
+        // public int Received_Bravo;
+        // @SerializedName("Badge_Num")
+        // public int Badge_Num;
+        // @SerializedName("Bravo_Rank")
+        // ArrayList<RankSpot> Bravo_Rank = new ArrayList<RankSpot>();
+        // @SerializedName("Total_Follower")
+        // public int Total_Follower;
+        // @SerializedName("Followers")
+        // ArrayList<User> Followers = new ArrayList<User>();
+        // @SerializedName("Total_Following")
+        // public int Total_Following;
+        // @SerializedName("Followings")
+        // ArrayList<Follow> Followings = new ArrayList<Follow>();
+        // @SerializedName("is_My_List_Privte")
+        // public boolean is_My_List_Privte;
+        // @SerializedName("Total_My_List")
+        // public int Total_My_List;
+    }
 }

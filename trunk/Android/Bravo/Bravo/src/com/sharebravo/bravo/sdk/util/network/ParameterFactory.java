@@ -13,4 +13,17 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("params", subParams));
         return parameters;
     }
+
+    public static List<NameValuePair> createSubParamsAllowBravoDataOnly() {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("Allow_Bravo_Only", "1".toString()));
+        return parameters;
+    }
+
+    public static List<NameValuePair> createSubParamsLoginBravoAccount(String email, String passWord) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("Email", email));
+        parameters.add(new BasicNameValuePair("Password", passWord));
+        return parameters;
+    }
 }

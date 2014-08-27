@@ -146,6 +146,7 @@ public class FragmentBravoRegister extends FragmentBasic {
         AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {
+                AIOLog.d("response postRegister by bravo:===>" + response);
                 JSONObject jsonObject = null;
 
                 try {
