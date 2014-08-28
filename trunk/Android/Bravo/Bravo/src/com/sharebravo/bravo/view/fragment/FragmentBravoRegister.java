@@ -116,7 +116,7 @@ public class FragmentBravoRegister extends FragmentBasic {
             _bravoUser.mTimeZone = TimeZone.getDefault().getID();
             Locale current = getResources().getConfiguration().locale;
             _bravoUser.mLocale = current.toString();
-            _bravoUser.mAuthenMethod = "No";
+            _bravoUser.mAuthenMethod = "Bravo";
             _bravoUser.mForeign_Id = "No";
             AIOLog.d("mTimeZone " + _bravoUser.mTimeZone);
             requestToPostBravoUser(_bravoUser);
@@ -132,7 +132,7 @@ public class FragmentBravoRegister extends FragmentBasic {
     private void requestToPostBravoUser(BravoUser bravoUser) {
 
         HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Auth_Method", "Bravo");
+        subParams.put("Auth_Method", bravoUser.mAuthenMethod);
         subParams.put("Full_Name", bravoUser.mUserName);
         subParams.put("Email", bravoUser.mUserEmail);
         subParams.put("Foreign_ID", bravoUser.mForeign_Id);

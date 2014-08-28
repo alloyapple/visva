@@ -23,6 +23,8 @@ import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.models.User;
 
 import com.facebook.AppEventsLogger;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -36,7 +38,7 @@ import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 
-public class FragmentLogin extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener {
+public class FragmentLogin extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener, LoginTextView.UserInfoChangedCallback {
     // ====================Constant Define=================
     // ====================Class Define====================
     // ====================Variable Define=================
@@ -51,8 +53,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     protected static Twitter       mTwitter;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
 
-    private static int             mLoginType       = BravoConstant.NO_LOGIN_SNS;
-    private int                    mClickRegisterFB = 0;
+    private static int             mLoginType = BravoConstant.NO_LOGIN_SNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,25 +86,15 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
         /* facebook */
         mTextViewFacebookLogin = (LoginTextView) root.findViewById(R.id.text_facebook_login);
-        mTextViewFacebookLogin.setUserInfoChangedCallback(new LoginTextView.UserInfoChangedCallback() {
+        mTextViewFacebookLogin.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onUserInfoFetched(GraphUser user) {
+            public void onClick(View v) {
                 mLoginType = BravoConstant.LOGIN_FACEBOOK;
-                AIOLog.e("user:" + user);
-                mClickRegisterFB++;
-                if (mClickRegisterFB < 2)
-                    return;
-                if (user == null)
-                    return;
-                BravoUser bravoUser = new BravoUser();
-                bravoUser.mUserEmail = user.getLink();
-                bravoUser.mUserId = user.getId();
-                bravoUser.mUserName = user.getName();
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(homeIntent);
-                getActivity().finish();
+                onClickTextViewFacebookLogin();
             }
         });
+        mTextViewFacebookLogin.setUserInfoChangedCallback(this);
 
         /* twitter */
         mTextViewTwitterLogin = (TextView) root.findViewById(R.id.text_twitter_login);
@@ -128,13 +119,6 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         });
     }
 
-    private void onClickLogin4Square() {
-        /* 4square api */
-        // ask for access
-        mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
-        mEasyFoursquareAsync.requestAccess(this);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +126,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         mFacebookCallback = new Session.StatusCallback() {
             @Override
             public void call(final Session session, final SessionState state, final Exception exception) {
+                AIOLog.d("session callback login:" + session + "state: " + state);
             }
         };
         mUiLifecycleHelper = new UiLifecycleHelper(getActivity(), mFacebookCallback);
@@ -288,6 +273,13 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     /**
      * foursquare login
      */
+    private void onClickLogin4Square() {
+        /* 4square api */
+        // ask for access
+        mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
+        mEasyFoursquareAsync.requestAccess(this);
+    }
+
     @Override
     public void onError(String errorMsg) {
         // Do something with the error message
@@ -329,5 +321,54 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 startActivity(homeIntent);
             }
         });
+    }
+
+    /**
+     * facebook login
+     */
+
+    @Override
+    public void onUserInfoFetched(GraphUser user) {
+        AIOLog.d("user at login facebook:" + user);
+        if (mLoginType == BravoConstant.LOGIN_FACEBOOK)
+            onFacebookUserConnected(user);
+    }
+
+    private void onFacebookUserConnected(GraphUser user) {
+        if (user == null)
+            return;
+        BravoUser bravoUser = new BravoUser();
+        bravoUser.mUserEmail = user.getLink();
+        bravoUser.mUserId = user.getId();
+        bravoUser.mUserName = user.getName();
+        Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+        startActivity(homeIntent);
+        getActivity().finish();
+    }
+
+    public void onClickTextViewFacebookLogin() {
+        Session session = Session.getActiveSession();
+        if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
+            mTextViewFacebookLogin.onClickLoginFb();
+        } else {
+            AIOLog.d("request user info:" + session);
+            requestUserFacebookInfo(session);
+        }
+    }
+
+    private void requestUserFacebookInfo(Session activeSession) {
+        Request infoRequest = Request.newMeRequest(activeSession, new com.facebook.Request.GraphUserCallback() {
+
+            @Override
+            public void onCompleted(GraphUser user, Response response) {
+                AIOLog.d("requestUserFacebookInfo:" + user);
+                onFacebookUserConnected(user);
+            }
+
+        });
+        Bundle params = new Bundle();
+        params.putString("fields", "id, name, picture");
+        infoRequest.setParameters(params);
+        infoRequest.executeAsync();
     }
 }

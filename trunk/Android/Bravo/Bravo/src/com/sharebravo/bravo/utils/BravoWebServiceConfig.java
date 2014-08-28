@@ -13,6 +13,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_BLOCKING_CHECK               = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/blocking/{User_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_BRAVO                        = URL_BRAVO_BASE + "/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
+    public static final String URL_GET_ALL_BRAVO                    = URL_BRAVO_BASE + "/bravo";
     public static final String URL_GET_BRAVO_SEARCH                 = URL_BRAVO_BASE
                                                                             + "/bravo?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
     public static final String URL_GET_COMMENT                      = URL_BRAVO_BASE + "/comment/{Comment_ID}?User_ID={str}&Access_Token={str}";
@@ -22,7 +23,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_MYLIST_ITEM                  = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylist/{Bravo_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_NEWS                         = URL_BRAVO_BASE + "/news/{News_ID}?User_ID={str}&Access_Token={str}";
-    public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                             /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
+    public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                            /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
     public static final String URL_GET_SPOT                         = URL_BRAVO_BASE + "/spot/{Spot_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_SPOT_SEARCH                  = URL_BRAVO_BASE
                                                                             + "/spot?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";

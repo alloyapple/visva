@@ -23,23 +23,23 @@ import com.sharebravo.bravo.view.fragment.FragmentSearchTab;
 public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener {
 
     // ======================Constant Define===============
-    private static final String      FRAGMENT_HOME_TAB                  = "home_tab";
-    private static final String      FRAGMENT_NETWORK_TAB               = "network_tab";
-    private static final String      FRAGMENT_BRAVO_TAB                 = "bravo_tab";
-    private static final String      FRAGMENT_SEARCH_TAB                = "search_tab";
-    private static final String      FRAGMENT_MYDATA_TAB                = "mydata_tab";
+    private static final String      FRAGMENT_HOME_TAB              = "home_tab";
+    private static final String      FRAGMENT_NETWORK_TAB           = "network_tab";
+    private static final String      FRAGMENT_BRAVO_TAB             = "bravo_tab";
+    private static final String      FRAGMENT_SEARCH_TAB            = "search_tab";
+    private static final String      FRAGMENT_MYDATA_TAB            = "mydata_tab";
 
-    private static final String      FRAGMENT_RECENT_POST_DETAIL   = "post_detail";
-    private static final String      FRAGMENT_MAP_VIEW_TAB              = "map_view";
+    private static final String      FRAGMENT_RECENT_POST_DETAIL    = "post_detail";
+    private static final String      FRAGMENT_MAP_VIEW_TAB          = "map_view";
 
-    private static final int         FRAGMENT_BASE_ID                   = 1000;
-    private static final int         FRAGMENT_HOME_TAB_ID               = FRAGMENT_BASE_ID + 1;
-    private static final int         FRAGMENT_NETWORK_TAB_ID            = FRAGMENT_BASE_ID + 2;
-    private static final int         FRAGMENT_BRAVO_TAB_ID              = FRAGMENT_BASE_ID + 3;
-    private static final int         FRAGMENT_SEARCH_TAB_ID             = FRAGMENT_BASE_ID + 4;
-    private static final int         FRAGMENT_MYDATA_TAB_ID             = FRAGMENT_BASE_ID + 5;
+    private static final int         FRAGMENT_BASE_ID               = 1000;
+    private static final int         FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
+    private static final int         FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
+    private static final int         FRAGMENT_BRAVO_TAB_ID          = FRAGMENT_BASE_ID + 3;
+    private static final int         FRAGMENT_SEARCH_TAB_ID         = FRAGMENT_BASE_ID + 4;
+    private static final int         FRAGMENT_MYDATA_TAB_ID         = FRAGMENT_BASE_ID + 5;
     private static final int         FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
-    private static final int         FRAGMENT_MAP_VIEW_ID               = FRAGMENT_BASE_ID + 7;
+    private static final int         FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -58,7 +58,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private Button                   btnMyData;
 
     // ======================Variable Define===============
-    private ArrayList<String>        backstack                          = new ArrayList<String>();
+    private ArrayList<String>        backstack                      = new ArrayList<String>();
 
     @Override
     public int contentView() {
