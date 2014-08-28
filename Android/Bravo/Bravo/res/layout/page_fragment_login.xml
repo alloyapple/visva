@@ -108,13 +108,13 @@
             android:textColor="@color/grey_3"
             android:textStyle="bold" />
 
-        <ImageView
+      <!--   <ImageView
             android:layout_width="@dimen/layout_or_seperate_width"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/layout_or_margin_left"
             android:background="@drawable/border"
-            android:contentDescription="@string/sign_up_bravo" />
+            android:contentDescription="@string/sign_up_bravo" /> -->
     </RelativeLayout>
 
     <RelativeLayout
