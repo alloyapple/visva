@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_text_area_recent_post"
         android:layout_gravity="bottom"
-        android:background="#80000000"
+        android:background="@drawable/bg_cover"
         android:gravity="left|center"
         android:paddingLeft="10dp"
         android:text="This is my post ..."
