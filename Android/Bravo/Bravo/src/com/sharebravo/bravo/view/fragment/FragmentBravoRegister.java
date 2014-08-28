@@ -171,6 +171,7 @@ public class FragmentBravoRegister extends FragmentBasic {
                             BravoConstant.REGISTER_TYPE_BRAVO);
                     BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO, response);
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     getActivity().startActivity(homeIntent);
                     getActivity().finish();
                 } else {

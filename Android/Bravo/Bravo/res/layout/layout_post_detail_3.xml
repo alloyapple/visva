@@ -11,14 +11,14 @@
         android:orientation="horizontal" >
 
         <ImageView
-            android:layout_width="@dimen/size_follow_icon"
-            android:layout_height="@dimen/size_follow_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/follow_icon" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_follow_icon"
-            android:background="@drawable/bt_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_follow"
             android:gravity="center"
             android:text="@string/btn_follow" />
     </LinearLayout>

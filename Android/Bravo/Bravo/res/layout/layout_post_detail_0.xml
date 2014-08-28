@@ -5,7 +5,8 @@
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/height_post_content_area" />
+        android:layout_height="@dimen/height_post_content_area"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:layout_width="match_parent"

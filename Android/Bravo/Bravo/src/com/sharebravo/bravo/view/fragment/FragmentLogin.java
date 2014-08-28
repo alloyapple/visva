@@ -170,6 +170,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
                             if (user != null) {
                                 Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(homeIntent);
                                 getActivity().finish();
                             }
@@ -250,6 +251,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                             _bravoUser.mUserName = user.getName();
                             _bravoUser.mUserId = user.getId() + "";
                             Intent intent = new Intent(getActivity(), HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                     }
@@ -318,6 +320,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 Toast.makeText(getActivity(), "Hello " + user.getFirstName() + " " + user.getLastName(), Toast.LENGTH_SHORT).show();
                 AIOLog.d("user: " + user.getFirstName());
                 Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homeIntent);
             }
         });
@@ -342,6 +345,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         bravoUser.mUserId = user.getId();
         bravoUser.mUserName = user.getName();
         Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
         getActivity().finish();
     }
