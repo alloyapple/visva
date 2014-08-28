@@ -85,14 +85,25 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
     }
 
     private void requestToPostBravoUserbySNS(BravoUser bravoUser) {
+        AIOLog.d("==================================");
+        AIOLog.d("bravoUser.mAuthenMethod=>"+bravoUser.mAuthenMethod);
+        AIOLog.d("bravoUser.mUserName=>"+bravoUser.mUserName);
+        AIOLog.d("bravoUser.mUserEmail=>"+bravoUser.mUserEmail);
+        AIOLog.d("bravoUser.mUserPassWord=>"+bravoUser.mUserPassWord);
+        AIOLog.d("bravoUser.mTimeZone=>"+bravoUser.mTimeZone);
+        AIOLog.d("bravoUser.mLocale=>"+bravoUser.mLocale);
+        AIOLog.d("bravoUser.mForeign_Id=>"+bravoUser.mForeign_Id);
+        AIOLog.d("==================================");
+        AIOLog.d("==================================");
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Auth_Method", bravoUser.mAuthenMethod);
         subParams.put("Full_Name", bravoUser.mUserName);
         subParams.put("Email", bravoUser.mUserEmail);
-        subParams.put("Foreign_ID", bravoUser.mForeign_Id);
         subParams.put("Password", bravoUser.mUserPassWord);
         subParams.put("Time_Zone", bravoUser.mTimeZone);
         subParams.put("Locale", bravoUser.mLocale);
+        subParams.put("Foreign_ID", bravoUser.mForeign_Id);
+        subParams.put("APNS_Token", "abcdef12345");
         JSONObject jsonObject = new JSONObject(subParams);
         String subParamsStr = jsonObject.toString();
 
@@ -100,6 +111,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
         AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse:" + response);
                 JSONObject jsonObject = null;
 
                 try {

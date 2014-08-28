@@ -1,10 +1,8 @@
 package com.sharebravo.bravo.view.fragment;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,7 +36,7 @@ public class FragmentHomeTab extends FragmentBasic {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_home_tab, null);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_home_tab, container);
 
         intializeView(root);
 
@@ -49,13 +47,10 @@ public class FragmentHomeTab extends FragmentBasic {
     }
 
     private void requestNewsItemsOnBravoServer() {
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Start", String.valueOf(0));
-        JSONObject jsonObject = new JSONObject(subParams);
         String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity());
         String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity());
-        String url = BravoWebServiceConfig.URL_GET_NEWS_SEARCH;
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(userId, accessToken, jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {

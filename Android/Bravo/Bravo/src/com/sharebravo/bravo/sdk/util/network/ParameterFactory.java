@@ -34,4 +34,19 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("params", startPoint));
         return parameters;
     }
+
+    /**
+     * get recent post
+     * 
+     * @param userID
+     * @param accessToken
+     * @param startPoint
+     * @return
+     */
+    public static List<NameValuePair> createSubParamsGetAllBravoItems(String userID, String accessToken) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("User_ID", userID));
+        parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
+        return parameters;
+    }
 }

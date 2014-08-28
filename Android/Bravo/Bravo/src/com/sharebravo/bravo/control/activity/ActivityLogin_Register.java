@@ -105,8 +105,9 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     }
 
     private void showFragment(int fragment) {
+        if(mTransaction == null || mTransaction.isEmpty())
+            return;
         switch (fragment) {
-
         case BravoConstant.FRAGMENT_BRAVO_REGISTER_ID:
             mTransaction = hideFragment();
             mTransaction.show(mFragmentBravoRegister);
@@ -331,12 +332,11 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     public void showPageForgotPassword() {
         showFragment(BravoConstant.FRAGMENT_FORGOT_PASSWORD);
     }
-    
+
     @Override
     protected void onNewIntent(Intent intent) {
         AIOLog.d("onNewIntent");
         super.onNewIntent(intent);
     }
-    
-    
+
 }
