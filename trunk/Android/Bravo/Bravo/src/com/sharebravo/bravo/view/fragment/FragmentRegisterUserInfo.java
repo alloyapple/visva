@@ -146,6 +146,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                         BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE, response);
                     }
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                    
                     getActivity().startActivity(homeIntent);
                     getActivity().finish();
                 } else {

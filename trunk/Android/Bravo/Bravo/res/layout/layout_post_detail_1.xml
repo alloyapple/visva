@@ -18,11 +18,10 @@
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/postn_detail_button_call_spot_layout"
+            android:background="@drawable/color_button"
             android:baselineAligned="true"
             android:gravity="center"
-            android:text="@string/btn_call_spot"
-            android:textColor="@color/postn_detail_button_call_spot_text" />
+            android:text="@string/btn_call_spot" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -36,16 +35,16 @@
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/postn_detail_button_call_spot_layout"
+            android:background="@drawable/color_button"
             android:gravity="center"
             android:text="@string/btn_view_map"
             android:textColor="@color/postn_detail_button_call_spot_text" />
     </LinearLayout>
 
-    <ImageView
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/separate_x"
+        android:background="@drawable/"
         android:contentDescription="@string/login" />
 
 </LinearLayout>
