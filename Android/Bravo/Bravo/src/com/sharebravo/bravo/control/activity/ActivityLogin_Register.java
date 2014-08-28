@@ -105,7 +105,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     }
 
     private void showFragment(int fragment) {
-        if(mTransaction == null || mTransaction.isEmpty())
+        if (mTransaction == null || mTransaction.isEmpty())
             return;
         switch (fragment) {
         case BravoConstant.FRAGMENT_BRAVO_REGISTER_ID:
@@ -224,6 +224,8 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             mTransaction.show(mFragmentRegister);
         } else if (currentView.equals(FRAGMENT_REGISTER_USER_INFO)) {
             mTransaction.show(mFragmentRegisterUserInfo);
+        } else if (currentView.equals(FRAGMENT_LOGIN) || currentView.equals(FRAGMENT_REGISTER) ) {
+            finish();
         }
         mTransaction.commitAllowingStateLoss();
     }

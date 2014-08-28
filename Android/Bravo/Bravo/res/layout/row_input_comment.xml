@@ -9,7 +9,7 @@
         android:layout_height="@dimen/height_input_comment"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:background="@drawable/input_user_login"
+        android:background="@drawable/bg_write_cmt"
         android:hint="@string/hint_input_comment"
         android:paddingLeft="10dp" >
     </EditText>
