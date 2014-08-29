@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ObGetUserFollowHistory {
     ArrayList<Follow> data = new ArrayList<Follow>();
+
     public ObGetUserFollowHistory() {
         // TODO Auto-generated constructor stub
     }
@@ -25,9 +26,9 @@ class Follow {
     @SerializedName("Following_SNS_List")
     ArrayList<SNS> followingSNSList = new ArrayList<SNS>();
     @SerializedName("Action")
-    String         action; //add or remove
+    String         action;                                 // add or remove
     @SerializedName("Date_Created")
-    DateObject     dateCreated;
+    Date_Created   Date_Created;
 
     public Follow() {
         // TODO Auto-generated constructor stub

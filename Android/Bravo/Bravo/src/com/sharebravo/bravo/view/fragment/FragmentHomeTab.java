@@ -11,8 +11,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObPostUserFailed;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -59,6 +63,9 @@ public class FragmentHomeTab extends FragmentBasic {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + obGetAllBravoRecentPosts);
             }
 
             @Override
