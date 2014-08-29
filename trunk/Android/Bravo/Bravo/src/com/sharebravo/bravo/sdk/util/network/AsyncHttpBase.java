@@ -143,7 +143,7 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
                 try {
                     // Initialize the keystore with the provided trusted certificates.
                     // Also provide the password of the keystore
-                    trustStore.load(in, "bravoandroid@#".toCharArray());
+                    trustStore.load(in, context.getString(R.string.mykeystore_password).toCharArray());
                 } finally {
                     in.close();
                 }
@@ -157,13 +157,10 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
                 HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
 
                 SchemeRegistry registry = new SchemeRegistry();
-                registry.register(new Scheme("http", PlainSocketFactory
-                        .getSocketFactory(), 80));
+                registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
                 registry.register(new Scheme("https", sf, 443));
 
-                ClientConnectionManager ccm = new ThreadSafeClientConnManager(
-                        params, registry);
-
+                ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
                 return new DefaultHttpClient(ccm, params);
             } catch (Exception e) {
                 return new DefaultHttpClient(params);
@@ -186,12 +183,10 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
                 return new java.security.cert.X509Certificate[] {};
             }
 
-            public void checkClientTrusted(X509Certificate[] chain,
-                    String authType) throws CertificateException {
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
-            public void checkServerTrusted(X509Certificate[] chain,
-                    String authType) throws CertificateException {
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
         } };
 
@@ -199,8 +194,7 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
         try {
             SSLContext sc = SSLContext.getInstance("TLS");
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection
-                    .setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -214,8 +208,7 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
      * @return
      * @throws IOException
      */
-    public static HttpsURLConnection openSConnection(String url)
-            throws IOException {
+    public static HttpsURLConnection openSConnection(String url) throws IOException {
         URL theURL = new URL(url);
         trustAllHosts();
         HttpsURLConnection https = (HttpsURLConnection) theURL.openConnection();

@@ -17,6 +17,8 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
@@ -47,8 +49,10 @@ public class FragmentHomeTab extends FragmentBasic {
     }
 
     private void requestNewsItemsOnBravoServer() {
-        String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity());
-        String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity());
+        String _preKeySessionRegisteredByBravo = BravoSharePrefs.getInstance(getActivity()).getStringValue(
+                BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO);
+        String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByBravo);
+        String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity(), BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO);
         String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {

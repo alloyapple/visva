@@ -183,7 +183,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
                                 Locale current = getResources().getConfiguration().locale;
                                 _bravoUser.mLocale = current.toString();
                                 _bravoUser.mForeign_Id = String.valueOf(user.getId());
-                                _bravoUser.mUserPassWord = accessToken.getTokenSecret();
+                                _bravoUser.mUserPassWord = accessToken.getToken();
                                 _bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_TWITTER;
                                 mListener.showPageUserInfo(_bravoUser);
                             }
@@ -234,7 +234,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
 
         TwitterFactory factory = new TwitterFactory(configuration);
         mTwitter = factory.getInstance();
-        
+
         if (isTwitterLoggedInAlready()) {
             AIOLog.d("isTwitterLogined");
             final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
@@ -260,7 +260,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
                                 _bravoUser.mUserEmail = "no_tw_account" + System.currentTimeMillis() + "@nomail.com";
                                 _bravoUser.mUserName = user.getName();
                                 _bravoUser.mUserId = user.getId() + "";
-                                _bravoUser.mAuthenMethod = "Twitter";
+                                _bravoUser.mAuthenMethod = "Twitter";  
                                 _bravoUser.mTimeZone = TimeZone.getDefault().getID();
                                 Locale current = getResources().getConfiguration().locale;
                                 _bravoUser.mLocale = current.toString();
@@ -291,13 +291,11 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
      */
     @Override
     public void onError(String errorMsg) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onImageFetched(Bitmap bmp) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -329,7 +327,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
                 bravoUser.mUserEmail = "no_4q_account" + System.currentTimeMillis() + "@nomail.com";
                 bravoUser.mUserId = String.valueOf(user.getId());
                 bravoUser.mUserName = user.getFirstName() + " " + user.getLastName();
-                bravoUser.mAuthenMethod = "4Square";
+                bravoUser.mAuthenMethod = "Foursquare";
                 bravoUser.mTimeZone = TimeZone.getDefault().getID();
                 Locale current = getResources().getConfiguration().locale;
                 bravoUser.mLocale = current.toString();
