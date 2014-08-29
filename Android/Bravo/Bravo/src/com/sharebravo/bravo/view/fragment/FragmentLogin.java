@@ -1,5 +1,14 @@
 package com.sharebravo.bravo.view.fragment;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -30,13 +39,25 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginTextView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.control.activity.WebAuthActivity;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.ObPostUserFailed;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
 
 public class FragmentLogin extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener, LoginTextView.UserInfoChangedCallback {
     // ====================Constant Define=================
@@ -91,7 +112,20 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
             @Override
             public void onClick(View v) {
                 mLoginType = BravoConstant.LOGIN_FACEBOOK;
-                onClickTextViewFacebookLogin();
+                String _preKeySessionRegisteredByFacebook = BravoSharePrefs.getInstance(getActivity()).getStringValue(
+                        BravoConstant.PREF_KEY_SESSION_REGISTER_BY_FACEBOOK);
+                AIOLog.d("_preKeySessionRegisteredByFacebook:" + _preKeySessionRegisteredByFacebook);
+                if (!StringUtility.isEmpty(_preKeySessionRegisteredByFacebook)) {
+
+                    // login bravo by bravo userID and access token of facebook
+                    String userID = BravoUtils.getUserIdFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByFacebook);
+                    String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByFacebook);
+                    onLoginBravoBySNS(userID, accessToken);
+                } else {
+
+                    // register bravo by access token of facebook
+                    onClickTextViewFacebookLogin();
+                }
             }
         });
         mTextViewFacebookLogin.setUserInfoChangedCallback(this);
@@ -103,7 +137,18 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
             @Override
             public void onClick(View v) {
                 mLoginType = BravoConstant.LOGIN_TWITTER;
-                onClickTwitterLoginButton();
+                String _preKeySessionRegisteredByTwitter = BravoSharePrefs.getInstance(getActivity()).getStringValue(
+                        BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER);
+                AIOLog.d("_preKeySessionRegisteredByTwitter:" + _preKeySessionRegisteredByTwitter);
+                if (!StringUtility.isEmpty(_preKeySessionRegisteredByTwitter)) {
+
+                    // login bravo by bravo userID and access token of facebook
+                    String userID = BravoUtils.getUserIdFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByTwitter);
+                    String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByTwitter);
+                    onLoginBravoBySNS(userID, accessToken);
+                } else {
+                    onClickTwitterLoginButton();
+                }
             }
         });
 
@@ -114,7 +159,18 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
             @Override
             public void onClick(View v) {
                 mLoginType = BravoConstant.LOGIN_4SQUARE;
-                onClickLogin4Square();
+                String _preKeySessionRegisteredBy4Square = BravoSharePrefs.getInstance(getActivity()).getStringValue(
+                        BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE);
+                AIOLog.d("_preKeySessionRegisteredByTwitter:" + _preKeySessionRegisteredBy4Square);
+                if (!StringUtility.isEmpty(_preKeySessionRegisteredBy4Square)) {
+
+                    // login bravo by bravo userID and access token of facebook
+                    String userID = BravoUtils.getUserIdFromUserBravoInfo(getActivity(), _preKeySessionRegisteredBy4Square);
+                    String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity(), _preKeySessionRegisteredBy4Square);
+                    onLoginBravoBySNS(userID, accessToken);
+                } else {
+                    onClickLogin4Square();
+                }
             }
         });
     }
@@ -167,13 +223,21 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                             twitter4j.User user = mTwitter.showUser(userID);
 
                             AIOLog.d("Twitter OAuth Token = " + accessToken.getToken() + " username = " + user.getName());
+                            BravoUser _bravoUser = new BravoUser();
+                            _bravoUser.mUserEmail = "no_tw_account" + System.currentTimeMillis() + "@nomail.com";
+                            _bravoUser.mUserName = user.getName();
+                            _bravoUser.mUserId = user.getId() + "";
+                            _bravoUser.mAuthenMethod = "Twitter";
+                            _bravoUser.mTimeZone = TimeZone.getDefault().getID();
+                            Locale current = getResources().getConfiguration().locale;
+                            _bravoUser.mLocale = current.toString();
+                            _bravoUser.mForeign_Id = String.valueOf(user.getId());
+                            _bravoUser.mUserPassWord = accessToken.getToken();
+                            _bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_TWITTER;
 
-                            if (user != null) {
-                                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(homeIntent);
-                                getActivity().finish();
-                            }
+
+                            requestToPostBravoUserbySNS(_bravoUser);
+
                         }
                     }
                     catch (TwitterException e) {
@@ -192,6 +256,40 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
     public void setListener(IShowPageBravoLogin iShowPageBravoLogin) {
         this.mListener = iShowPageBravoLogin;
+    }
+
+    /**
+     * login bravo by sns after authen
+     * 
+     * @param userID
+     * @param accessToken
+     */
+    private void onLoginBravoBySNS(String userID, String accessToken) {
+        String url = BravoWebServiceConfig.URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT + "/" + userID;
+        List<NameValuePair> params = ParameterFactory.createSubParamsLoginBySNS(userID, accessToken);
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("requestToLoginByBravoAccount:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetUserInfo obGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
+                if (obGetUserInfo == null) {
+                    showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
+                } else if (StringUtility.isEmpty(obGetUserInfo.data.New_Access_Token)) {
+                    showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
+                } else {
+                    Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                    startActivity(homeIntent);
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getLoginRequest.execute(url);
     }
 
     /**
@@ -294,7 +392,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     }
 
     @Override
-    public void onAccessGrant(String accessToken) {
+    public void onAccessGrant(final String accessToken) {
         AIOLog.d("accessToken: " + accessToken);
         // with the access token you can perform any request to foursquare.
         mEasyFoursquareAsync.getUserInfo(new UserInfoRequestListener() {
@@ -317,11 +415,21 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 AIOLog.d("user 4square:" + user);
                 if (user == null)
                     return;
+                BravoUser bravoUser = new BravoUser();
+                bravoUser.mUserEmail = "no_4q_account" + System.currentTimeMillis() + "@nomail.com";
+                bravoUser.mUserId = String.valueOf(user.getId());
+                bravoUser.mUserName = user.getFirstName() + " " + user.getLastName();
+                bravoUser.mAuthenMethod = "Foursquare";
+                bravoUser.mTimeZone = TimeZone.getDefault().getID();
+                Locale current = getResources().getConfiguration().locale;
+                bravoUser.mLocale = current.toString();
+                bravoUser.mForeign_Id = String.valueOf(user.getId());
+                bravoUser.mUserPassWord = accessToken;
+                bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_FOURSQUARE;
                 Toast.makeText(getActivity(), "Hello " + user.getFirstName() + " " + user.getLastName(), Toast.LENGTH_SHORT).show();
-                AIOLog.d("user: " + user.getFirstName());
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(homeIntent);
+
+                requestToPostBravoUserbySNS(bravoUser);
+
             }
         });
     }
@@ -338,16 +446,24 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     }
 
     private void onFacebookUserConnected(GraphUser user) {
+        AIOLog.d("user:" + user);
         if (user == null)
             return;
+        Session session = Session.getActiveSession();
         BravoUser bravoUser = new BravoUser();
-        bravoUser.mUserEmail = user.getLink();
+        bravoUser.mUserEmail = "no_account" + System.currentTimeMillis() + "@nomail.com";
         bravoUser.mUserId = user.getId();
         bravoUser.mUserName = user.getName();
-        Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(homeIntent);
-        getActivity().finish();
+        bravoUser.mAuthenMethod = "Facebook";
+        bravoUser.mTimeZone = TimeZone.getDefault().getID();
+        Locale current = getResources().getConfiguration().locale;
+        bravoUser.mLocale = current.toString();
+        bravoUser.mForeign_Id = user.getId();
+        bravoUser.mUserPassWord = session.getAccessToken();
+        bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_FACEBOOK;
+
+        requestToPostBravoUserbySNS(bravoUser);
+
     }
 
     public void onClickTextViewFacebookLogin() {
@@ -374,5 +490,88 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         params.putString("fields", "id, name, picture");
         infoRequest.setParameters(params);
         infoRequest.executeAsync();
+    }
+
+    private void requestToPostBravoUserbySNS(final BravoUser bravoUser) {
+        AIOLog.d("bravoUser:" + bravoUser);
+        if (bravoUser == null)
+            return;
+        AIOLog.d("==================================");
+        AIOLog.d("bravoUser.mAuthenMethod=>" + bravoUser.mAuthenMethod);
+        AIOLog.d("bravoUser.mUserName=>" + bravoUser.mUserName);
+        AIOLog.d("bravoUser.mUserEmail=>" + bravoUser.mUserEmail);
+        AIOLog.d("bravoUser.mUserPassWord=>" + bravoUser.mUserPassWord);
+        AIOLog.d("bravoUser.mTimeZone=>" + bravoUser.mTimeZone);
+        AIOLog.d("bravoUser.mLocale=>" + bravoUser.mLocale);
+        AIOLog.d("bravoUser.mForeign_Id=>" + bravoUser.mForeign_Id);
+        AIOLog.d("==================================");
+        AIOLog.d("==================================");
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Auth_Method", bravoUser.mAuthenMethod);
+        subParams.put("Full_Name", bravoUser.mUserName);
+        subParams.put("Email", bravoUser.mUserEmail);
+        subParams.put("Password", bravoUser.mUserPassWord);
+        subParams.put("Time_Zone", bravoUser.mTimeZone);
+        subParams.put("Locale", bravoUser.mLocale);
+        subParams.put("Foreign_ID", bravoUser.mForeign_Id);
+        subParams.put("APNS_Token", "abcdef12345");
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse:" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPostUserFailed obPostUserFailed;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    if (bravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_FACEBOOK) {
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_FACEBOOK, response);
+                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
+                                BravoConstant.REGISTER_TYPE_FACEBOOK);
+                    } else if (bravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_TWITTER) {
+                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
+                                BravoConstant.REGISTER_TYPE_TWITTER);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER, response);
+                    } else if (bravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_FOURSQUARE) {
+                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
+                                BravoConstant.REGISTER_TYPE_FOURSQUARE);
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE, response);
+                    }
+                    Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    getActivity().startActivity(homeIntent);
+                    getActivity().finish();
+                } else {
+                    obPostUserFailed = gson.fromJson(response.toString(), ObPostUserFailed.class);
+                    showToast(obPostUserFailed.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(BravoWebServiceConfig.URL_POST_USER);
+
     }
 }

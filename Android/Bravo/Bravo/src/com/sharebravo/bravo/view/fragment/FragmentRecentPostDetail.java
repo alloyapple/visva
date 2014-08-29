@@ -21,7 +21,6 @@ public class FragmentRecentPostDetail extends FragmentBasic {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // TODO Auto-generated method stub
             
         }};
 

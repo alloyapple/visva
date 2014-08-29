@@ -9,6 +9,7 @@
     <string name="result_not_found">Result not found</string>
     <string name="network_unvailable">Network is not available</string>
     <string name="failed_to_conect_server">Failed to connect to server</string>
+    <string name="mykeystore_password">bravoandroid@#</string>
 
     <!-- Location provider -->
     <string name="invalid_action">Invalid intent action %1$s</string>
