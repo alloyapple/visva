@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class ObGetNews {
     @SerializedName("News_ID")
-    String     newsId;
+    String       newsId;
     @SerializedName("News_Content")
-    String     newsContent;
+    String       newsContent;
     @SerializedName("News_Date")
-    DateObject newsDate    = new DateObject();
+    Date_Created newsDate;
     @SerializedName("Date_Created")
-    DateObject dateCreated = new DateObject();
+    Date_Created dateCreated;
 
     public ObGetNews() {
         // TODO Auto-generated constructor stub

@@ -1,87 +1,82 @@
 package com.sharebravo.bravo.model.response;
 
-import java.util.ArrayList;
-
 import com.google.gson.annotations.SerializedName;
 
 public class ObGetBravo {
     @SerializedName("Bravo_ID")
-    String            bravoID;
-    @SerializedName("Bravo_Type")
-    String            bravoType;
+    public String       Bravo_ID;
     @SerializedName("User_ID")
-    String            userID;
+    public String       User_ID;
     @SerializedName("Full_Name")
-    String            fullName;
+    public String       Full_Name;
     @SerializedName("Profile_Img_URL")
-    String            profileImgUrl;
-    @SerializedName("SNS_List")
-    ArrayList<SNS>    snsList   = new ArrayList<SNS>();
-    @SerializedName("Bravo_Pics")
-    ArrayList<String> bravoPics = new ArrayList<String>();
+    public String       Profile_Img_URL;
+    // @SerializedName("SNS_List")
+    // ArrayList<SNS> SNS_List = new ArrayList<SNS>();
+    // @SerializedName("Bravo_Pics")
+    // ArrayList<String> Bravo_Pics = new ArrayList<String>();
     @SerializedName("Total_Bravo_Pics")
-    int               totalBravoPics;
+    public int          Total_Bravo_Pics;
     @SerializedName("Total_Comments")
-    int               totalComments;
+    public int          Total_Comments;
     @SerializedName("Spot_ID")
-    String            spotId;
+    public String       Spot_ID;
     @SerializedName("Spot_Name")
-    String            spotName;
+    public String       Spot_Name;
     @SerializedName("Spot_PID")
-    String            spotPID;
+    public String       Spot_PID;
     @SerializedName("Spot_Source")
-    String            spotSource;
+    public String       Spot_Source;
     @SerializedName("Spot_Longitude")
-    float             spotLongitude;
+    public float        Spot_Longitude;
     @SerializedName("Spot_Latitude")
-    float             spotLatitude;
+    public float        Spot_Latitude;
     @SerializedName("Spot_Type")
-    String            spotType;
+    public String       Spot_Type;
     @SerializedName("Spot_Genre")
-    String            spotGenre;
+    public String       Spot_Genre;
     @SerializedName("Spot_Address")
-    String            spotAddress;
+    public String       Spot_Address;
     @SerializedName("Spot_Phone")
-    String            spotPhone;
+    public String       Spot_Phone;
     @SerializedName("Spot_Price")
-    String            spotPrice;
+    public String       Spot_Price;
     @SerializedName("Total_Saved_Users")
-    String            totalSavedUsers;
+    public int          Total_Saved_Users;
     @SerializedName("Is_Private")
-    boolean           isPrivate;
+    public boolean      Is_Private;
     @SerializedName("Is_Tsurete")
-    boolean           isTsurete;
+    public int          Is_Tsurete;
     @SerializedName("Total_Tsurete")
-    int               totalTsurete;
+    public int          Total_Tsurete;
     @SerializedName("Time_Zone")
-    String            timeZone;
+    public String       Time_Zone;
     @SerializedName("Date_Created")
-    DateObject        dateCreated;
+    public Date_Created Date_Created;
 
     public ObGetBravo() {
-        // TODO Auto-generated constructor stub
+        
     }
-
 }
 
 class SNS {
     @SerializedName("Foreign_SNS")
-    String foreignSNS;
+    public String foreignSNS;
     @SerializedName("Foreign_ID")
-    String foreignID;
+    public String foreignID;
 
     public SNS() {
         // TODO Auto-generated constructor stub
     }
 }
 
-class DateObject {
+class Date_Created {
     @SerializedName("sec")
-    int sec;
+    public int sec;
     @SerializedName("usec")
-    int usec;
+    public int usec;
 
-    public DateObject() {
+    public Date_Created() {
         // TODO Auto-generated constructor stub
     }
 }

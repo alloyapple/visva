@@ -32,7 +32,7 @@ class SpotHistory {
     @SerializedName("Is_Tsurete")
     boolean           isTsurete;
     @SerializedName("Date_Created")
-    DateObject        dateCreate;
+    Date_Created      Date_Created;
 
     public SpotHistory() {
         // TODO Auto-generated constructor stub
