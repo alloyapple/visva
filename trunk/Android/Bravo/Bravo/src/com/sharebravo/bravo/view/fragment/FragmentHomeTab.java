@@ -56,7 +56,7 @@ public class FragmentHomeTab extends FragmentBasic {
         String _preKeySessionRegisteredByBravo = BravoSharePrefs.getInstance(getActivity()).getStringValue(
                 BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO);
         String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByBravo);
-        String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity(), BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO);
+        String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByBravo);
         String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
