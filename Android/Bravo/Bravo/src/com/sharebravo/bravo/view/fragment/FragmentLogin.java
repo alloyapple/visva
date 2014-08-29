@@ -235,7 +235,6 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                             _bravoUser.mUserPassWord = accessToken.getToken();
                             _bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_TWITTER;
 
-
                             requestToPostBravoUserbySNS(_bravoUser);
 
                         }
@@ -265,6 +264,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
      * @param accessToken
      */
     private void onLoginBravoBySNS(String userID, String accessToken) {
+        AIOLog.d("userID:" + userID + ", accessToken:" + accessToken);
         String url = BravoWebServiceConfig.URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT + "/" + userID;
         List<NameValuePair> params = ParameterFactory.createSubParamsLoginBySNS(userID, accessToken);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
@@ -274,8 +274,6 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetUserInfo obGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
                 if (obGetUserInfo == null) {
-                    showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
-                } else if (StringUtility.isEmpty(obGetUserInfo.data.New_Access_Token)) {
                     showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
                 } else {
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
