@@ -34,7 +34,8 @@ public class FragmentHomeTab extends FragmentBasic {
 
                                                                    @Override
                                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                       mHomeActionListener.goToRecentPostDetail();
+                                                                       mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
+                                                                               .get(position));
                                                                    }
                                                                };
 

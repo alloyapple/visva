@@ -21,7 +21,7 @@ public class FragmentMapView extends FragmentBasic {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
-            mHomeActionListener.goToRecentPostDetail();
+            //mHomeActionListener.goToRecentPostDetail();
         }};
 
     @Override
