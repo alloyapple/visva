@@ -45,6 +45,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail" />
+
+        <fragment
+            android:id="@+id/fragment_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment" />
     </RelativeLayout>
 
     <FrameLayout

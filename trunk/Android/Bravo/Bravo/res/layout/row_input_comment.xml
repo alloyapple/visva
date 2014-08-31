@@ -5,6 +5,7 @@
     android:orientation="horizontal" >
 
     <EditText
+        android:id="@+id/textbox_comment"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_input_comment"
         android:layout_margin="10dp"
@@ -15,6 +16,7 @@
     </EditText>
 
     <Button
+        android:id="@+id/btn_submit_comment"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/height_input_comment"
         android:layout_marginBottom="10dp"
