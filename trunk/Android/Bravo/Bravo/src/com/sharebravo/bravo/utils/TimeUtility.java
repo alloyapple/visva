@@ -1,10 +1,11 @@
 package com.sharebravo.bravo.utils;
 
-import android.annotation.SuppressLint;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import android.annotation.SuppressLint;
 
 /**
  * 
@@ -36,10 +37,7 @@ public class TimeUtility {
     }
 
     public static String formatTimeStr(int hour, int minute) {
-
-        return (hour < 10 ? hour + "0" : hour + "") + ":"
-                + (minute < 10 ? minute + "0" : minute + "");
-
+        return (hour < 10 ? hour + "0" : hour + "") + ":" + (minute < 10 ? minute + "0" : minute + "");
     }
 
     public static int compareDate(String dateFormat, String dateA, String dateB) {
@@ -57,9 +55,7 @@ public class TimeUtility {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return result;
-
     }
 
     public static Calendar getDatePart(Date date) {
@@ -88,45 +84,7 @@ public class TimeUtility {
         return daysBetween;
     }
 
-    /**
-     * This method also assumes endDate >= startDate
-     **/
-    public static int getDaysBetween(String format, String startDateStr,
-            String endDateStr) {
-
-        try {
-            SimpleDateFormat inputFormat = new SimpleDateFormat(format);
-
-            Date startDate = inputFormat.parse(startDateStr);
-            Date endDate = inputFormat.parse(endDateStr);
-
-            long beginMS = getDateToLong(startDate);
-            long endMS = getDateToLong(endDate);
-            long diff = Math.abs((beginMS - endMS) / (MILLISECS_PER_DAY));
-            return (int) diff;
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return 0;
-        }
-    }
-
     private final static long MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
-
-    private static long getDateToLong(Date date) {
-        return Date.UTC(date.getYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-    }
-
-    public static int getSignedDiffInDays(Date beginDate, Date endDate) {
-        long beginMS = getDateToLong(beginDate);
-        long endMS = getDateToLong(endDate);
-        long diff = (endMS - beginMS) / (MILLISECS_PER_DAY);
-        return (int) diff;
-    }
-
-    public static int getUnsignedDiffInDays(Date beginDate, Date endDate) {
-        return Math.abs(getSignedDiffInDays(beginDate, endDate));
-    }
 
     public static boolean isDateAfter(String inputDate) {
 
@@ -136,9 +94,6 @@ public class TimeUtility {
         year = Integer.parseInt(newStr[0]);
         month = Integer.parseInt(newStr[1]);
         day = Integer.parseInt(newStr[2]);
-        // SmartLog.log("TimeUtility", "DateCompare : " + year + ":" + month +
-        // ":"
-        // + day);
         Calendar cal = Calendar.getInstance();
         Calendar currentcal = Calendar.getInstance();
         cal.set(year, month, day);
@@ -151,13 +106,11 @@ public class TimeUtility {
             result = false;
         else
             result = true;
-
         return result;
     }
 
     public static String formatToSimple(Date input) {
-
-        final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        final SimpleDateFormat df = new SimpleDateFormat("MMM dd");
         String dateStr = df.format(input);
         return dateStr;
     }
@@ -170,6 +123,33 @@ public class TimeUtility {
     public static String getDateExpiry(int num) {
         long expiryTime = System.currentTimeMillis() + num * MILLISECS_PER_DAY;
         return formatToSimple(new Date(expiryTime));
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String convertToDateTime(long createdTime) {
+        String returnDate;
+        long _millesTime = 1000 * createdTime;
+        Date date = new Date(_millesTime);
+        String createdDateStr = formatToSimple(date);
+        long deltaTime = (System.currentTimeMillis() - _millesTime) / 1000;
+        if (deltaTime < 60)
+            returnDate = deltaTime + "s";
+        else if (deltaTime >= 60 && deltaTime < 3600)
+        {
+            int deltaMinute = (int) deltaTime / 60; 
+            returnDate = deltaMinute + "m";
+        } else if (deltaTime >= 3600 && deltaTime < (3600 * 24)) {
+            int deltaHour = (int) deltaTime / 3600;
+            returnDate = deltaHour + "h";
+        }
+        // else if (deltaTime >= (3600 * 24) && deltaTime < (5 * 3600 * 24)) {
+        // int deltaDays = (int) deltaTime / (3600 * 24);
+        // returnDate = deltaDays + "d";
+        // }
+        else {
+            returnDate = createdDateStr;
+        }
+        return returnDate;
     }
 
 }

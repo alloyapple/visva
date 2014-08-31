@@ -18,6 +18,7 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.provider.VolleyProvider;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.utils.TimeUtility;
 
 public class AdapterRecentPost extends BaseAdapter {
     private final int             DEFAULT_ITEM_NUMBER       = 10;
@@ -105,7 +106,7 @@ public class AdapterRecentPost extends BaseAdapter {
             if (createdTime == 0) {
                 holder._recentPostTime.setText("Unknown");
             } else {
-                String createdTimeConvertStr = BravoUtils.convertToDateTime(createdTime);
+                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
                 holder._recentPostTime.setText(createdTimeConvertStr);
                 AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);

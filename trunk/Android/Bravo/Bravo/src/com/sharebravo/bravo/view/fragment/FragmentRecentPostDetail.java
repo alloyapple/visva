@@ -52,23 +52,23 @@ public class FragmentRecentPostDetail extends FragmentBasic {
             }
         });
         btnCallSpot = (Button) root.findViewById(R.id.btn_call_spot);
-        btnCallSpot.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-
-            }
-        });
+        // btnCallSpot.setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // // TODO Auto-generated method stub
+        //
+        // }
+        // });
         btnViewMap = (Button) root.findViewById(R.id.btn_view_map);
-        btnViewMap.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_MAP_VIEW_ID);
-            }
-        });
+        // btnViewMap.setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // // TODO Auto-generated method stub
+        // mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_MAP_VIEW_ID);
+        // }
+        // });
 
         return root;
     }
