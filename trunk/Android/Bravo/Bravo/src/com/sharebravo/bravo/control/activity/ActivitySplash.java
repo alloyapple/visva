@@ -37,7 +37,7 @@ public class ActivitySplash extends VisvaAbstractActivity {
                 Intent loginIntent = new Intent(ActivitySplash.this, ActivityLogin_Register.class);
                 loginIntent.putExtra(BravoConstant.ACCESS_TYPE, BravoConstant.FRAGMENT_LOGIN_ID);
                 startActivity(loginIntent);
-                // finish();
+                //finish();
             }
         });
         mRegisterLayout = (LinearLayout) findViewById(R.id.layout_register);
@@ -49,7 +49,7 @@ public class ActivitySplash extends VisvaAbstractActivity {
                 Intent loginIntent = new Intent(ActivitySplash.this, ActivityLogin_Register.class);
                 loginIntent.putExtra(BravoConstant.ACCESS_TYPE, BravoConstant.FRAGMENT_REGISTER_ID);
                 startActivity(loginIntent);
-                // finish();
+                //finish();
             }
         });
 
@@ -60,14 +60,14 @@ public class ActivitySplash extends VisvaAbstractActivity {
             @Override
             public void run() {
                 AIOLog.d("out of post delayed time");
-                if (registerType >= 1) {
-                    Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    mLoginRegisterLayout.setVisibility(View.VISIBLE);
-                    mTextFlashIntro.setVisibility(View.VISIBLE);
-                }
+                // if (registerType >= 1) {
+                // Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
+                // startActivity(intent);
+                // finish();
+                // } else {
+                mLoginRegisterLayout.setVisibility(View.VISIBLE);
+                mTextFlashIntro.setVisibility(View.VISIBLE);
+                // }
             }
         }, TIME_SHOW_SPLASH);
     }

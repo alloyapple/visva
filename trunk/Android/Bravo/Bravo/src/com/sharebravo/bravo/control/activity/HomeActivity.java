@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.FragmentMyDataTab;
@@ -32,14 +33,14 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_RECENT_POST_DETAIL    = "post_detail";
     private static final String      FRAGMENT_MAP_VIEW_TAB          = "map_view";
 
-    private static final int         FRAGMENT_BASE_ID               = 1000;
-    private static final int         FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
-    private static final int         FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
-    private static final int         FRAGMENT_BRAVO_TAB_ID          = FRAGMENT_BASE_ID + 3;
-    private static final int         FRAGMENT_SEARCH_TAB_ID         = FRAGMENT_BASE_ID + 4;
-    private static final int         FRAGMENT_MYDATA_TAB_ID         = FRAGMENT_BASE_ID + 5;
-    private static final int         FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
-    private static final int         FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
+    public static final int         FRAGMENT_BASE_ID               = 1000;
+    public static final int         FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
+    public static final int         FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
+    public static final int         FRAGMENT_BRAVO_TAB_ID          = FRAGMENT_BASE_ID + 3;
+    public static final int         FRAGMENT_SEARCH_TAB_ID         = FRAGMENT_BASE_ID + 4;
+    public static final int         FRAGMENT_MYDATA_TAB_ID         = FRAGMENT_BASE_ID + 5;
+    public static final int         FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
+    public static final int         FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -215,6 +216,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     public void addToSBackStack(String tag) {
+
         int index = backstack.lastIndexOf(tag);
         if (index == -1) {
             backstack.add(tag);
@@ -249,8 +251,31 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToMapView() {
+    public void goToBack() {
         // TODO Auto-generated method stub
+        AIOLog.d("mBackstack=" + backstack);
+        try {
+            backstack.remove(backstack.size() - 1);
+            if (backstack.size() == 0) {
+                super.onBackPressed();
+                return;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            super.onBackPressed();
+            return;
+        }
+        String currentView = backstack.get(backstack.size() - 1);
+        mTransaction = hideFragment();
+        // if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
+        mTransaction.show(mFragmentHomeTab);
+        // }
+        mTransaction.commitAllowingStateLoss();
 
+    }
+
+    @Override
+    public void goToFragment(int fragmentID) {
+        // TODO Auto-generated method stub
+        showFragment(fragmentID);
     }
 }
