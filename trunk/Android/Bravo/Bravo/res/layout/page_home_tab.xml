@@ -16,9 +16,7 @@
             android:layout_marginLeft="3dp"
             android:background="@drawable/bt_notification"
             android:text="@string/btn_notification"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            android:textStyle="bold" >
+            android:textColor="#FFFFFF" >
         </Button>
     </LinearLayout>
 
