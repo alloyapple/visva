@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.FragmentHomeTab;
@@ -33,14 +34,14 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_RECENT_POST_DETAIL    = "post_detail";
     private static final String      FRAGMENT_MAP_VIEW_TAB          = "map_view";
 
-    public static final int         FRAGMENT_BASE_ID               = 1000;
-    public static final int         FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
-    public static final int         FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
-    public static final int         FRAGMENT_BRAVO_TAB_ID          = FRAGMENT_BASE_ID + 3;
-    public static final int         FRAGMENT_SEARCH_TAB_ID         = FRAGMENT_BASE_ID + 4;
-    public static final int         FRAGMENT_MYDATA_TAB_ID         = FRAGMENT_BASE_ID + 5;
-    public static final int         FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
-    public static final int         FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
+    public static final int          FRAGMENT_BASE_ID               = 1000;
+    public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
+    public static final int          FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
+    public static final int          FRAGMENT_BRAVO_TAB_ID          = FRAGMENT_BASE_ID + 3;
+    public static final int          FRAGMENT_SEARCH_TAB_ID         = FRAGMENT_BASE_ID + 4;
+    public static final int          FRAGMENT_MYDATA_TAB_ID         = FRAGMENT_BASE_ID + 5;
+    public static final int          FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
+    public static final int          FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -243,8 +244,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToRecentPostDetail() {
-        // TODO Auto-generated method stub
+    public void goToRecentPostDetail(ObGetBravo obGetBravo) {
         hideTabButton();
         showFragment(FRAGMENT_RECENT_POST_DETAIL_ID);
         // btnHome.setBackgroundResource(R.drawable.tab_home_on);
