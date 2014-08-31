@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -98,6 +96,7 @@ public class FragmentBravoLogin extends FragmentBasic {
                 } else if (StringUtility.isEmpty(obGetUserInfo.data.New_Access_Token)) {
                     showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
                 } else {
+                    showToast("Hello " + obGetUserInfo.data.Full_Name);
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                     homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(homeIntent);

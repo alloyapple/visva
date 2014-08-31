@@ -19,9 +19,9 @@ class TimeLine {
     @SerializedName("User_ID")
     String            userID;
     @SerializedName("SNS_List")
-    ArrayList<SNS>    snsList   = new ArrayList<SNS>();
+    ArrayList<SNS>    snsList     = new ArrayList<SNS>();
     @SerializedName("Bravo_Pics")
-    ArrayList<String> bravoPics = new ArrayList<String>();
+    ArrayList<String> bravoPics   = new ArrayList<String>();
     @SerializedName("Total_Bravo_Pics")
     int               totalBravoPics;
     @SerializedName("Total_Bravo_Comments")
@@ -59,5 +59,5 @@ class TimeLine {
     @SerializedName("Time_Zone")
     String            timeZone;
     @SerializedName("Date_Created")
-    Date_Created      Date_Created;
+    DateObject        dateCreated = new DateObject();
 }

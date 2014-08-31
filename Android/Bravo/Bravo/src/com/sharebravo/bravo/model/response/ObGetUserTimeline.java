@@ -22,9 +22,9 @@ class UserTimeLine {
     @SerializedName("Profile_Img_Url")
     String            profileImgUrl;
     @SerializedName("SNS_List")
-    ArrayList<SNS>    snsList   = new ArrayList<SNS>();
+    ArrayList<SNS>    snsList     = new ArrayList<SNS>();
     @SerializedName("Bravo_Pics")
-    ArrayList<String> bravoPics = new ArrayList<String>();
+    ArrayList<String> bravoPics   = new ArrayList<String>();
     @SerializedName("Total_Bravo_Pics")
     int               totalBravoPics;
     @SerializedName("Total_Bravo_Comments")
@@ -54,7 +54,7 @@ class UserTimeLine {
     @SerializedName("Total_Saved_Users")
     int               totalSavedUsers;
     @SerializedName("Date_Created")
-    Date_Created      Date_Created;
+    DateObject        dateCreated = new DateObject();
 
     public UserTimeLine() {
         // TODO Auto-generated constructor stub
