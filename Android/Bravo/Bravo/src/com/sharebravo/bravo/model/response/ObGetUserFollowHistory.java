@@ -3,6 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetUserFollowHistory {
     ArrayList<Follow> data = new ArrayList<Follow>();
@@ -27,7 +28,7 @@ class Follow {
     @SerializedName("Action")
     String         action; //add or remove
     @SerializedName("Date_Created")
-    DateObject     dateCreated;
+    Date_Created     Date_Created;
 
     public Follow() {
         // TODO Auto-generated constructor stub

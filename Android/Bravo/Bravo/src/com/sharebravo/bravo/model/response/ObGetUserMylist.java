@@ -3,6 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetUserMylist {
     ArrayList<UserInfo> data = new ArrayList<UserInfo>();
@@ -54,7 +55,7 @@ class UserInfo {
     @SerializedName("Effective_Date")
     String            effectiveDate;
     @SerializedName("Date_Created")
-    DateObject        dateCreated = new DateObject();
+    Date_Created        dateCreated = new Date_Created();
 
     public UserInfo() {
         // TODO Auto-generated constructor stub

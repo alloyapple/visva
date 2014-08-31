@@ -10,11 +10,13 @@
         android:layout_margin="10dp"
         android:orientation="horizontal" >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/img_recent_post_user_avatar"
             android:layout_width="@dimen/size_avatar_recent_post"
             android:layout_height="@dimen/size_avatar_recent_post"
             android:layout_marginRight="10dp"
-            android:src="@drawable/user_picture_default" />
+            android:src="@drawable/user_picture_default" >
+        </com.android.volley.toolbox.NetworkImageView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,6 +28,7 @@
                 android:layout_height="wrap_content" >
 
                 <TextView
+                    android:id="@+id/text_recent_post_user_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -34,6 +37,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_recent_post_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Aug 18"
@@ -45,11 +49,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <ImageView
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/img_post_recent"
                     android:layout_width="fill_parent"
-                    android:layout_height="@dimen/height_recent_post_item" />
+                    android:scaleType="fitXY"
+                    android:layout_height="@dimen/height_recent_post_item" >
+                </com.android.volley.toolbox.NetworkImageView>
 
                 <TextView
+                    android:id="@+id/text_recent_post_spot_name"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_text_area_recent_post"
                     android:layout_gravity="bottom"

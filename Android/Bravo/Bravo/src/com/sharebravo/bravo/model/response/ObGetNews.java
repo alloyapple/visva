@@ -8,9 +8,9 @@ public class ObGetNews {
     @SerializedName("News_Content")
     String     newsContent;
     @SerializedName("News_Date")
-    DateObject newsDate    = new DateObject();
+    Date_Created newsDate    = new Date_Created();
     @SerializedName("Date_Created")
-    DateObject dateCreated = new DateObject();
+    Date_Created dateCreated = new Date_Created();
 
     public ObGetNews() {
         // TODO Auto-generated constructor stub

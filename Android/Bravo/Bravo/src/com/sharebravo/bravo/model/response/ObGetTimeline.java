@@ -3,6 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetTimeline {
     ArrayList<TimeLine> data = new ArrayList<TimeLine>();
@@ -59,5 +60,5 @@ class TimeLine {
     @SerializedName("Time_Zone")
     String            timeZone;
     @SerializedName("Date_Created")
-    DateObject        dateCreated = new DateObject();
+    Date_Created        Date_Created = new Date_Created();
 }
