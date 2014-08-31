@@ -2,7 +2,12 @@ package com.sharebravo.bravo.view.adapter;
 
 import java.util.ArrayList;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObGetBravo;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -20,6 +25,8 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
     private ArrayList<String>  commentsData = new ArrayList<String>();
     private DetailPostListener listener;
+    private ObGetBravo         bravoObj     = null;
+    private ImageLoader        mImageLoader = null;
 
     public AdapterRecentPostDetail(Context context) {
         // TODO Auto-generated constructor stub
@@ -48,17 +55,23 @@ public class AdapterRecentPostDetail extends BaseAdapter {
         return position;
     }
 
-    ImageView imagePost;
-    TextView  contentPost;
-    Button    btnCallSpot;
-    Button    btnViewMap;
-    Button    btnFollow;
-    ImageView followIcon;
-    boolean   isFollowing;
-    Button    btnSave;
-    Button    btnShare;
-    EditText  textboxComment;
-    Button    btnSubmitComment;
+    public void setBravoOb(ObGetBravo obj) {
+        this.bravoObj = obj;
+    }
+
+    NetworkImageView imagePost;
+    TextView         contentPost;
+    ImageView        userAvatar;
+    TextView         txtUserName;
+    Button           btnCallSpot;
+    Button           btnViewMap;
+    Button           btnFollow;
+    ImageView        followIcon;
+    boolean          isFollowing;
+    Button           btnSave;
+    Button           btnShare;
+    EditText         textboxComment;
+    Button           btnSubmitComment;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -67,9 +80,16 @@ public class AdapterRecentPostDetail extends BaseAdapter {
         {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.layout_post_detail_header, null, false);
-            imagePost = (ImageView) convertView.findViewById(R.id.image_post_detail);
-            imagePost.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sample1));
+            String imgSpotUrl = bravoObj.Last_Pic;
+            imagePost = (NetworkImageView) convertView.findViewById(R.id.image_post_detail);
+            // imagePost.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sample1));
+            imagePost.setImageUrl(imgSpotUrl, mImageLoader);
             contentPost = (TextView) convertView.findViewById(R.id.content_post_detail);
+            contentPost.setText(bravoObj.Spot_Name);
+            userAvatar = (ImageView) convertView.findViewById(R.id.img_avatar);
+            
+            txtUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
+            txtUserName.setText(bravoObj.Full_Name);
             btnCallSpot = (Button) convertView.findViewById(R.id.btn_call_spot);
             btnCallSpot.setOnClickListener(new OnClickListener() {
 
@@ -108,7 +128,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             textboxComment = (EditText) convertView.findViewById(R.id.textbox_comment);
             btnSubmitComment = (Button) convertView.findViewById(R.id.btn_submit_comment);
             btnSubmitComment.setOnClickListener(new OnClickListener() {
-                
+
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
@@ -129,7 +149,14 @@ public class AdapterRecentPostDetail extends BaseAdapter {
         return convertView;
     }
 
+    public void updateCommentList() {
+        notifyDataSetChanged();
+    }
+
     class ViewHolderComment {
+    }
+
+    class ViewHolderHeader {
     }
 
 }

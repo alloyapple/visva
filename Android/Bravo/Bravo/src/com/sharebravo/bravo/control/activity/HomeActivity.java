@@ -278,6 +278,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void goToRecentPostDetail(ObGetBravo obGetBravo) {
         hideTabButton();
+        mFragmentRecentPostDetail.setBravoOb(obGetBravo);
         showFragment(FRAGMENT_RECENT_POST_DETAIL_ID);
         // btnHome.setBackgroundResource(R.drawable.tab_home_on);
     }
