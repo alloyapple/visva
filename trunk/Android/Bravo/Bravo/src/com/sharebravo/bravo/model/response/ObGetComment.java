@@ -6,21 +6,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class ObGetComment {
     @SerializedName("Comment_ID")
-    String         commentID;
+    String           commentID;
     @SerializedName("Bravo_ID")
-    String         bravoID;
+    String           bravoID;
     @SerializedName("User_ID")
-    String         userID;
+    String           userID;
     @SerializedName("Full_Name")
-    String         fullName;
+    String           fullName;
     @SerializedName("Profile_Img_URL")
-    String         profileImgUrl;
+    String           profileImgUrl;
     @SerializedName("SNS_List")
-    ArrayList<SNS> snsList = new ArrayList<SNS>();
+    ArrayList<SNS> snsList     = new ArrayList<SNS>();
     @SerializedName("Comment_Text")
-    String         commentText;
+    String           commentText;
     @SerializedName("Date_Created")
-    Date_Created   dateCreated;
+    DateObject       dateCreated = new DateObject();
 
     public ObGetComment() {
         // TODO Auto-generated constructor stub

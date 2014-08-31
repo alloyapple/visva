@@ -23,55 +23,60 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
  * @author Visva
  */
 public class MySSLSocketFactory extends SSLSocketFactory {
-    SSLContext sslContext = SSLContext.getInstance("TLS");
+	SSLContext sslContext = SSLContext.getInstance("TLS");
 
-    /**
-     * Constructor
-     * 
-     * @param truststore
-     * @throws NoSuchAlgorithmException
-     * @throws KeyManagementException
-     * @throws KeyStoreException
-     * @throws UnrecoverableKeyException
-     */
-    public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException,
-            UnrecoverableKeyException {
-        super(truststore);
+	/**
+	 * Constructor
+	 * 
+	 * @param truststore
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyManagementException
+	 * @throws KeyStoreException
+	 * @throws UnrecoverableKeyException
+	 */
+	public MySSLSocketFactory(KeyStore truststore)
+			throws NoSuchAlgorithmException, KeyManagementException,
+			KeyStoreException, UnrecoverableKeyException {
+		super(truststore);
 
-        TrustManager tm = new X509TrustManager() {
-            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
+		TrustManager tm = new X509TrustManager() {
+			public void checkClientTrusted(X509Certificate[] chain,
+					String authType) throws CertificateException {
+			}
 
-            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
+			public void checkServerTrusted(X509Certificate[] chain,
+					String authType) throws CertificateException {
+			}
 
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-        };
+			public X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+		};
 
-        sslContext.init(null, new TrustManager[] { tm }, null);
-    }
+		sslContext.init(null, new TrustManager[] { tm }, null);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.apache.http.conn.ssl.SSLSocketFactory#createSocket(java.net.Socket,
-     * java.lang.String, int, boolean)
-     */
-    @Override
-    public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
-        return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.http.conn.ssl.SSLSocketFactory#createSocket(java.net.Socket,
+	 * java.lang.String, int, boolean)
+	 */
+	@Override
+	public Socket createSocket(Socket socket, String host, int port,
+			boolean autoClose) throws IOException, UnknownHostException {
+		return sslContext.getSocketFactory().createSocket(socket, host, port,
+				autoClose);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.http.conn.ssl.SSLSocketFactory#createSocket()
-     */
-    @Override
-    public Socket createSocket() throws IOException {
-        return sslContext.getSocketFactory().createSocket();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.apache.http.conn.ssl.SSLSocketFactory#createSocket()
+	 */
+	@Override
+	public Socket createSocket() throws IOException {
+		return sslContext.getSocketFactory().createSocket();
+	}
 }

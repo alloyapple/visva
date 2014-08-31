@@ -54,7 +54,7 @@ class UserInfo {
     @SerializedName("Effective_Date")
     String            effectiveDate;
     @SerializedName("Date_Created")
-    Date_Created        Date_Created;
+    DateObject        dateCreated = new DateObject();
 
     public UserInfo() {
         // TODO Auto-generated constructor stub

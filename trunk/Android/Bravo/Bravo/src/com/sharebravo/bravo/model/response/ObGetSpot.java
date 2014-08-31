@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ObGetSpot {
     ArrayList<Spot> data = new ArrayList<Spot>();
-
     public ObGetSpot() {
         // TODO Auto-generated constructor stub
     }
@@ -14,39 +13,39 @@ public class ObGetSpot {
 
 class Spot {
     @SerializedName("Spot_ID")
-    String       spotID;
+    String     spotID;
     @SerializedName("Spot_Name")
-    String       spotName;
+    String     spotName;
     @SerializedName("Spot_Source")
-    String       spotSource;
+    String     spotSource;
     @SerializedName("Spot_FID")
-    String       spotFID;
+    String     spotFID;
     @SerializedName("Spot_Longitude")
-    float        spotLongitude;
+    float      spotLongitude;
     @SerializedName("Spot_Latitude")
-    float        spotLatitude;
+    float      spotLatitude;
     @SerializedName("Spot_Type")
-    String       spotType;
+    String     spotType;
     @SerializedName("Spot_Genre")
-    String       spotGenre;
+    String     spotGenre;
     @SerializedName("Spot_Address")
-    String       spotAddress;
+    String     spotAddress;
     @SerializedName("Spot_Phone")
-    String       spotPhone;
+    String     spotPhone;
     @SerializedName("Spot_Price")
-    String       spotPrice;
+    String     spotPrice;
     @SerializedName("Last_Pic")
-    String       lastPic;
+    String     lastPic;
     @SerializedName("Last_Pic_Bravo_ID")
-    String       lastPicBravoID;
+    String     lastPicBravoID;
     @SerializedName("Last_Pic_User_ID")
-    String       lastPicUserID;
+    String     lastPicUserID;
     @SerializedName("Total_Bravo")
-    int          totalBravo;
+    int        totalBravo;
     @SerializedName("Unique_Users")
-    int          uniqueUsers;
+    int        uniqueUsers;
     @SerializedName("Date_Created")
-    Date_Created dateCreated;
+    DateObject dateCreated = new DateObject();
 
     public Spot() {
         // TODO Auto-generated constructor stub

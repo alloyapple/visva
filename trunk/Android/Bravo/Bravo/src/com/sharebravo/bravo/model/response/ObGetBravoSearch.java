@@ -48,7 +48,7 @@ class SearchItem {
     @SerializedName("Total_Saved_Users")
     int        totalSavedUsers;
     @SerializedName("Date_Created")
-    Date_Created dateCreated;
+    DateObject dateCreated;
 
     public SearchItem() {
         // TODO Auto-generated constructor stub
