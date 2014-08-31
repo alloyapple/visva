@@ -159,8 +159,8 @@ public class VolleyProvider {
             public void onErrorResponse(VolleyError error) {
                 AIOLog.d("requestStringFromURL onErrorResponse=" + error.getMessage());
             }
+            
         });
-
         // Adding request to request queue
         VolleyProvider.getInstance(mContext).addToRequestQueue(strReq, TAG_STRING_REQ);
     }

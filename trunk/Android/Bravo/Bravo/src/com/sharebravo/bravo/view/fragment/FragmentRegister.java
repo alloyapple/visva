@@ -183,7 +183,7 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
                                 Locale current = getResources().getConfiguration().locale;
                                 _bravoUser.mLocale = current.toString();
                                 _bravoUser.mForeign_Id = String.valueOf(user.getId());
-                                _bravoUser.mUserPassWord = accessToken.getTokenSecret();
+                                _bravoUser.mUserPassWord = accessToken.getToken() + "," + accessToken.getTokenSecret();
                                 _bravoUser.mRegisterType = BravoConstant.REGISTER_TYPE_TWITTER;
                                 mListener.showPageUserInfo(_bravoUser);
                             }

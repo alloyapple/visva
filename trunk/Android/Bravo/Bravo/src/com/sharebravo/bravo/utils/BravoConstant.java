@@ -45,16 +45,16 @@ public class BravoConstant {
     public static final int     FRAGMENT_REGISTER_ID                  = FRAGMENT_LOGIN_ID + 1;
     public static final int     FRAGMENT_REGISTER_USER_INFO_ID        = FRAGMENT_REGISTER_ID + 1;
     public static final int     FRAGMENT_BRAVO_LOGIN_ID               = FRAGMENT_REGISTER_USER_INFO_ID + 1;
-    public static final int     FRAGMENT_FORGOT_PASSWORD              = FRAGMENT_BRAVO_LOGIN_ID + 1;
+    public static final int     FRAGMENT_FORGOT_PASSWORD              = FRAGMENT_BRAVO_LOGIN_ID + 1; 
 
     /* Twitter key and api */
     public static final String  BRAVO_PREFERENCE                      = "BRAVO_PREFERENCE";
-    public final static String  TWITTER_CONSUMER_KEY                  = "hmouxtO1RpTRj8zXI0REdlesH";
-    public final static String  TWITTER_CONSUMER_SECRET               = "cPsBinH5CyWQBUpFcXZRz2QkXoeeec94erGXBdHrpl7TZmlwch";
-    public static final String  TWITTER_CALLBACK_URL                  = "bravo://connect";
+    public final static String  TWITTER_CONSUMER_KEY                  = "he2yZnLcQgPTWEtNQXbCA";
+    public final static String  TWITTER_CONSUMER_SECRET               = "N1ykxuPu0VhCsgM5AZ8k2Rq9tJmVCE5HVtyZcbg";
+    public static final String  TWITTER_CALLBACK_URL                  = "http://localhost/sign-in-with-twitter/";
     // public static final String TWITTER_ACCESS_TOKEN = "490386183-ChIDIftcjtoAqfcLJBxoUDuNqRiCHTNuXDwIG8by";
     // public static final String TWITTER_ACCESS_TOKEN_SECRET = " RFKrxNEAlUqO84CZ8ZkhSUwOXI10ahuempi8R31husKN3";
-
+ 
     // Twitter oauth urls
     public static final String  URL_TWITTER_AUTH                      = "auth_url";
     public static final String  URL_TWITTER_OAUTH_VERIFIER            = "oauth_verifier";

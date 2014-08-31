@@ -45,7 +45,7 @@ class Spot {
     @SerializedName("Unique_Users")
     int        uniqueUsers;
     @SerializedName("Date_Created")
-    DateObject dateCreated = new DateObject();
+    Date_Created dateCreated = new Date_Created();
 
     public Spot() {
         // TODO Auto-generated constructor stub

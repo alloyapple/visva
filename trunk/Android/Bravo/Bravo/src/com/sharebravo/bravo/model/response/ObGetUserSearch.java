@@ -3,6 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetUserSearch {
     ArrayList<UserSearch> data = new ArrayList<UserSearch>();

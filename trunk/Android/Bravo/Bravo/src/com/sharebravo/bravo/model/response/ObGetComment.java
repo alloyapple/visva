@@ -3,6 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetComment {
     @SerializedName("Comment_ID")
@@ -20,7 +21,7 @@ public class ObGetComment {
     @SerializedName("Comment_Text")
     String           commentText;
     @SerializedName("Date_Created")
-    DateObject       dateCreated = new DateObject();
+    Date_Created       dateCreated = new Date_Created();
 
     public ObGetComment() {
         // TODO Auto-generated constructor stub

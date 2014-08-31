@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -23,16 +26,17 @@ import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 
 public class FragmentHomeTab extends FragmentBasic {
-    private PullAndLoadListView listviewRecentPost      = null;
-    private AdapterRecentPost   adapterRecentPost       = null;
-    private HomeActionListener  mHomeActionListener     = null;
-    private OnItemClickListener recentPostClickListener = new OnItemClickListener() {
+    private PullAndLoadListView      mListviewRecentPost       = null;
+    private AdapterRecentPost        mAdapterRecentPost        = null;
+    private HomeActionListener       mHomeActionListener       = null;
+    private ObGetAllBravoRecentPosts mObGetAllBravoRecentPosts = null;
+    private OnItemClickListener      iRecentPostClickListener  = new OnItemClickListener() {
 
-                                                            @Override
-                                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                mHomeActionListener.goToRecentPostDetail();
-                                                            }
-                                                        };
+                                                                   @Override
+                                                                   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                       mHomeActionListener.goToRecentPostDetail();
+                                                                   }
+                                                               };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +59,17 @@ public class FragmentHomeTab extends FragmentBasic {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                mObGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetAllBravoRecentPosts);
+                if (mObGetAllBravoRecentPosts == null)
+                    return;
+                else {
+                    AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
+                    mAdapterRecentPost.updateRecentPostList(mObGetAllBravoRecentPosts);
+                    if (mListviewRecentPost.getVisibility() == View.GONE)
+                        mListviewRecentPost.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -67,11 +82,11 @@ public class FragmentHomeTab extends FragmentBasic {
     }
 
     private void intializeView(View root) {
-        listviewRecentPost = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post);
-        adapterRecentPost = new AdapterRecentPost(getActivity());
-        listviewRecentPost.setAdapter(adapterRecentPost);
-        listviewRecentPost.setOnItemClickListener(recentPostClickListener);
-
+        mListviewRecentPost = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post);
+        mAdapterRecentPost = new AdapterRecentPost(getActivity(), mObGetAllBravoRecentPosts);
+        mListviewRecentPost.setAdapter(mAdapterRecentPost);
+        mListviewRecentPost.setOnItemClickListener(iRecentPostClickListener);
+        mListviewRecentPost.setVisibility(View.GONE);
     }
 
     @Override

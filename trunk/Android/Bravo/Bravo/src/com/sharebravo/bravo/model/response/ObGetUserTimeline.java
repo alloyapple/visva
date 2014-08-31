@@ -3,6 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetUserTimeline {
     ArrayList<UserTimeLine> data = new ArrayList<UserTimeLine>();
@@ -54,7 +55,7 @@ class UserTimeLine {
     @SerializedName("Total_Saved_Users")
     int               totalSavedUsers;
     @SerializedName("Date_Created")
-    DateObject        dateCreated = new DateObject();
+    Date_Created        Date_Created = new Date_Created();
 
     public UserTimeLine() {
         // TODO Auto-generated constructor stub

@@ -3,6 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetSpotHistory {
     ArrayList<SpotHistory> data = new ArrayList<SpotHistory>();
@@ -32,7 +33,7 @@ class SpotHistory {
     @SerializedName("Is_Tsurete")
     boolean           isTsurete;
     @SerializedName("Date_Created")
-    DateObject        dateCreate;
+    Date_Created      Date_Created;
 
     public SpotHistory() {
         // TODO Auto-generated constructor stub
