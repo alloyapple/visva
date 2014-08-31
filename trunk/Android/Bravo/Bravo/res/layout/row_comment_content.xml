@@ -1,49 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/height_row_comment_content"
-    android:orientation="horizontal" >
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="@dimen/height_row_comment_content"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="@dimen/avatar_size_detail_post"
-            android:layout_height="@dimen/avatar_size_detail_post"
-            android:src="@drawable/user_picture_default" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_row_comment_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="My Friend"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="This is comment" />
-        </LinearLayout>
-    </LinearLayout>
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/comment_date"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/devider_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Aug 8"
-        android:textStyle="bold" />
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="@dimen/avatar_size_detail_post"
+                android:layout_height="@dimen/avatar_size_detail_post"
+                android:src="@drawable/user_picture_default" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_row_comment_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="My Friend"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="This is comment" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Aug 8"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </LinearLayout>

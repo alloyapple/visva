@@ -19,6 +19,7 @@ import android.widget.Button;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -45,6 +46,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     Button                          btnViewMap;
     Button                          btnCallSpot;
 
+    ObGetBravo                      bravoObj;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -67,6 +70,12 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             }
         });
         return root;
+    }
+
+    public void setBravoOb(ObGetBravo obj) {
+        this.bravoObj = obj;
+        adapterRecentPostDetail.setBravoOb(bravoObj);
+        adapterRecentPostDetail.updateCommentList();
     }
 
     private void requestGetComnents() {

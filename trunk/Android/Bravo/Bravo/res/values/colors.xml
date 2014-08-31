@@ -24,5 +24,6 @@
     <color name="postn_detail_button_call_spot_layout">#eeeeee</color>
     <color name="postn_detail_button_call_spot_text">#575757</color>
     <color name="click_color">#d9d9d9</color>
+    <color name="devider_color">#d9d9d9</color>
 
 </resources>
