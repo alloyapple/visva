@@ -23,7 +23,7 @@ public class BravoUtils {
             return "";
         return obPostUserSuccess.data.User_ID;
     }
-    
+
     public static String getAccessTokenFromUserBravoInfo(Context context) {
         String userBravoInfo = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO);
         Gson gson = new GsonBuilder().serializeNulls().create();
@@ -31,44 +31,6 @@ public class BravoUtils {
         if (obPostUserSuccess == null)
             return "";
         return obPostUserSuccess.data.Access_Token;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    public static String convertToDateTime(long createdTime) {
-        String returnDate;
-        String createdDateStr = convertTime(createdTime);
-        long deltaTime = (System.currentTimeMillis() - createdTime) / 1000;
-        if (deltaTime < 60)
-            returnDate = deltaTime + " seconds ago";
-        else if (deltaTime >= 60 && deltaTime < 3600)
-        {
-            int deltaMinute = (int) deltaTime / 60;
-            returnDate = deltaMinute + " minutes ago ";
-        } else if (deltaTime >= 3600 && deltaTime < (3600 * 24)) {
-            int deltaHour = (int) deltaTime / 3600;
-            returnDate = deltaHour + " hours ago";
-        }
-        // else if (deltaTime >= (3600 * 24) && deltaTime < (3 * 3600 * 24)) {
-        // int deltaDays = (int) deltaTime / (3600 * 24);
-        // returnDate = deltaDays + " days ago";
-        // }
-        else {
-            returnDate = createdDateStr;
-        }
-
-        return returnDate;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private static String convertTime(long createdTime) {
-        String returnDate = "";
-        Date date = new Date(createdTime);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-//        calendar.setTimeInMillis(createdTime);
-        AIOLog.d("adklfjd " + calendar.get(Calendar.DAY_OF_MONTH)+", adfdf:"+createdTime) ;
-        returnDate += calendar.get(Calendar.DAY_OF_MONTH) + " " + getMonthShortName(calendar.get(Calendar.MONTH) + 1);
-        return returnDate;
     }
 
     /**
@@ -88,8 +50,7 @@ public class BravoUtils {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM");
                 simpleDateFormat.setCalendar(calendar);
                 monthName = simpleDateFormat.format(calendar.getTime());
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 if (e != null)
                     e.printStackTrace();
             }
