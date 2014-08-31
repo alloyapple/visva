@@ -32,7 +32,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_MYDATA_TAB            = "mydata_tab";
 
     private static final String      FRAGMENT_RECENT_POST_DETAIL    = "post_detail";
-    private static final String      FRAGMENT_MAP_VIEW_TAB          = "map_view";
+    private static final String      FRAGMENT_MAP_VIEW              = "map_view";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -52,6 +52,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentSearchTab        mFragmentSearchTab;
     private FragmentMyDataTab        mFragmentMyDataTab;
     private FragmentRecentPostDetail mFragmentRecentPostDetail;
+    private FragmentRecentPostDetail mFragmentMapView;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -139,6 +140,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentSearchTab = (FragmentSearchTab) mFmManager.findFragmentById(R.id.fragment_search_tab);
         mFragmentMyDataTab = (FragmentMyDataTab) mFmManager.findFragmentById(R.id.fragment_mydata_tab);
         mFragmentRecentPostDetail = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_recent_post_detail);
+        mFragmentMapView = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_map_view);
 
         mTransaction = hideFragment();
         showFragment(FRAGMENT_HOME_TAB_ID);
@@ -200,6 +202,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             addToSBackStack(FRAGMENT_RECENT_POST_DETAIL);
             mTransaction.commit();
             break;
+        case FRAGMENT_MAP_VIEW_ID:
+            mTransaction = hideFragment();
+            mTransaction.show(mFragmentMapView);
+            addToSBackStack(FRAGMENT_MAP_VIEW);
+            mTransaction.commit();
+            break;
         default:
             break;
         }
@@ -213,6 +221,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentSearchTab);
         mTransaction.hide(mFragmentMyDataTab);
         mTransaction.hide(mFragmentRecentPostDetail);
+        mTransaction.hide(mFragmentMapView);
         return mTransaction;
     }
 
