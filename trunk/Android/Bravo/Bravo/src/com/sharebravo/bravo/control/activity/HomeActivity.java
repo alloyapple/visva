@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
@@ -17,6 +19,7 @@ import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.FragmentHomeTab;
+import com.sharebravo.bravo.view.fragment.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.FragmentMyDataTab;
 import com.sharebravo.bravo.view.fragment.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail;
@@ -52,13 +55,18 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentSearchTab        mFragmentSearchTab;
     private FragmentMyDataTab        mFragmentMyDataTab;
     private FragmentRecentPostDetail mFragmentRecentPostDetail;
-    private FragmentRecentPostDetail mFragmentMapView;
+    private FragmentMapView          mFragmentMapView;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
     private Button                   btnBravo;
     private Button                   btnSearch;
     private Button                   btnMyData;
+
+    private TextView                 txtHome;
+    private TextView                 txtNetwork;
+    private TextView                 txtSearch;
+    private TextView                 txtMyData;
 
     // ======================Variable Define===============
     private ArrayList<String>        backstack                      = new ArrayList<String>();
@@ -91,26 +99,31 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             hideTabButton();
             showFragment(FRAGMENT_HOME_TAB_ID);
             btnHome.setBackgroundResource(R.drawable.tab_home_on);
+            txtHome.setTextColor(Color.WHITE);
             break;
         case R.id.btn_network:
             hideTabButton();
             showFragment(FRAGMENT_NETWORK_TAB_ID);
             btnNetwork.setBackgroundResource(R.drawable.tab_feed_on);
+            txtNetwork.setTextColor(Color.WHITE);
             break;
         case R.id.btn_bravo:
             hideTabButton();
             showFragment(FRAGMENT_BRAVO_TAB_ID);
             btnBravo.setBackgroundResource(R.drawable.tab_bravo_on);
+            
             break;
         case R.id.btn_search:
             hideTabButton();
             showFragment(FRAGMENT_SEARCH_TAB_ID);
             btnSearch.setBackgroundResource(R.drawable.tab_search_on);
+            txtSearch.setTextColor(Color.WHITE);
             break;
         case R.id.btn_mydata:
             hideTabButton();
             showFragment(FRAGMENT_MYDATA_TAB_ID);
             btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
+            txtMyData.setTextColor(Color.WHITE);
             break;
         default:
             break;
@@ -140,7 +153,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentSearchTab = (FragmentSearchTab) mFmManager.findFragmentById(R.id.fragment_search_tab);
         mFragmentMyDataTab = (FragmentMyDataTab) mFmManager.findFragmentById(R.id.fragment_mydata_tab);
         mFragmentRecentPostDetail = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_recent_post_detail);
-        mFragmentMapView = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_map_view);
+        mFragmentMapView = (FragmentMapView) mFmManager.findFragmentById(R.id.fragment_map_view);
 
         mTransaction = hideFragment();
         showFragment(FRAGMENT_HOME_TAB_ID);
@@ -152,6 +165,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         btnBravo = (Button) findViewById(R.id.btn_bravo);
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnMyData = (Button) findViewById(R.id.btn_mydata);
+
+        txtHome = (TextView) findViewById(R.id.txtview_home);
+        txtNetwork = (TextView) findViewById(R.id.txtview_network);
+        txtSearch = (TextView) findViewById(R.id.txtview_search);
+        txtMyData = (TextView) findViewById(R.id.txtview_mydata);
     }
 
     public void hideTabButton() {
@@ -160,6 +178,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         btnBravo.setBackgroundResource(R.drawable.tab_bravo_off);
         btnSearch.setBackgroundResource(R.drawable.tab_search_off);
         btnMyData.setBackgroundResource(R.drawable.tab_mydata_off);
+
+        txtHome.setTextColor(getResources().getColor(R.color.click_color));
+        txtNetwork.setTextColor(getResources().getColor(R.color.click_color));
+        txtSearch.setTextColor(getResources().getColor(R.color.click_color));
+        txtMyData.setTextColor(getResources().getColor(R.color.click_color));
     }
 
     private void showFragment(int fragment) {

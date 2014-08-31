@@ -66,7 +66,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 mHomeActionListener.goToBack();
             }
         });
-<<<<<<< .mine
         return root;
     }
 
@@ -87,27 +86,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             }
         }, params, true);
         getLoginRequest.execute(url);
-=======
-        btnCallSpot = (Button) root.findViewById(R.id.btn_call_spot);
-        // btnCallSpot.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // // TODO Auto-generated method stub
-        //
-        // }
-        // });
-        btnViewMap = (Button) root.findViewById(R.id.btn_view_map);
-        // btnViewMap.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // // TODO Auto-generated method stub
-        // mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_MAP_VIEW_ID);
-        // }
-        // });
->>>>>>> .r1009
-
     }
 
     @Override
@@ -131,19 +109,19 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToShare() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void goToSave() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void goToSubmitComment() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }
