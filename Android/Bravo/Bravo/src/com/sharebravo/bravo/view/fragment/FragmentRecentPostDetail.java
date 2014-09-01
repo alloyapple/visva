@@ -26,7 +26,6 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
-import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPostDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
@@ -82,8 +81,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     }
 
     private void requestGetComnents() {
-        String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity());
-        String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity());
+        String userId = "";
+        String accessToken = "";
         String bravoID = bravoObj.Bravo_ID;
         String url = BravoWebServiceConfig.URL_GET_COMMENTS.replace("{Bravo_ID}", bravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetComments(userId, accessToken);

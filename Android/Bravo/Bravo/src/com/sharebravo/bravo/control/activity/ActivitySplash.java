@@ -53,21 +53,21 @@ public class ActivitySplash extends VisvaAbstractActivity {
             }
         });
 
-        final int registerType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE);
+        final int registerType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         /* create time handle to show flash screen */
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
                 AIOLog.d("out of post delayed time");
-                if (registerType >= 1) {
-                    Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
+//                if (registerType > 0) {
+//                    Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                } else {
                     mLoginRegisterLayout.setVisibility(View.VISIBLE);
                     mTextFlashIntro.setVisibility(View.VISIBLE);
-                }
+//                }
             }
         }, TIME_SHOW_SPLASH);
     }
