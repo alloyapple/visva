@@ -3,6 +3,8 @@ package com.sharebravo.bravo.utils;
 public class BravoConstant {
     /* Login-Register */
     public static final String  ACCESS_TYPE                           = "access_type";
+    public static final int     STATUS_SUCCESS                        = 1;
+    public static final int     STATUS_FAILED                         = 0;
     /* request type */
     public static final int     REGISTER_TYPE_FACEBOOK                = 1;
     public static final int     REGISTER_TYPE_TWITTER                 = 2;
@@ -45,7 +47,7 @@ public class BravoConstant {
     public static final int     FRAGMENT_REGISTER_ID                  = FRAGMENT_LOGIN_ID + 1;
     public static final int     FRAGMENT_REGISTER_USER_INFO_ID        = FRAGMENT_REGISTER_ID + 1;
     public static final int     FRAGMENT_BRAVO_LOGIN_ID               = FRAGMENT_REGISTER_USER_INFO_ID + 1;
-    public static final int     FRAGMENT_FORGOT_PASSWORD              = FRAGMENT_BRAVO_LOGIN_ID + 1; 
+    public static final int     FRAGMENT_FORGOT_PASSWORD              = FRAGMENT_BRAVO_LOGIN_ID + 1;
 
     /* Twitter key and api */
     public static final String  BRAVO_PREFERENCE                      = "BRAVO_PREFERENCE";
@@ -54,7 +56,7 @@ public class BravoConstant {
     public static final String  TWITTER_CALLBACK_URL                  = "http://localhost/sign-in-with-twitter/";
     // public static final String TWITTER_ACCESS_TOKEN = "490386183-ChIDIftcjtoAqfcLJBxoUDuNqRiCHTNuXDwIG8by";
     // public static final String TWITTER_ACCESS_TOKEN_SECRET = " RFKrxNEAlUqO84CZ8ZkhSUwOXI10ahuempi8R31husKN3";
- 
+
     // Twitter oauth urls
     public static final String  URL_TWITTER_AUTH                      = "auth_url";
     public static final String  URL_TWITTER_OAUTH_VERIFIER            = "oauth_verifier";
