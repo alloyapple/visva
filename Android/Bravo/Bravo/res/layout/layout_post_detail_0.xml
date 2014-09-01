@@ -3,12 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_post_content_area" >
 
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/image_post_detail"
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/height_post_content_area"
-        android:scaleType="fitXY" >
-    </com.android.volley.toolbox.NetworkImageView>
+        android:layout_height="@dimen/height_post_content_area" >
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/image_post_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitXY" >
+        </com.android.volley.toolbox.NetworkImageView>
+
+        <fragment
+            android:id="@+id/img_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.sharebravo.bravo.view.fragment.FragmentMapView" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/content_post_detail"

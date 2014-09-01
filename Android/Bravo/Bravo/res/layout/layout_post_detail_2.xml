@@ -6,11 +6,11 @@
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/img_avatar"
-        android:layout_width="@dimen/avatar_size_detail_post"
-        android:layout_height="@dimen/avatar_size_detail_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/user_picture_default" />
+        android:src="@drawable/home_default_avatar" />
 
     <TextView
         android:id="@+id/txt_user_name"

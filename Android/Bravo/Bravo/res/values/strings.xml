@@ -79,7 +79,11 @@
     <string name="btn_share">Share</string>
     <string name="hint_input_comment">Write a comment ...</string>
     <string name="report_inapp_bravo">Report inappropriate bravo</string>
+    <string name="report_inapp_dialog_title">Report inappropriate content</string>
+    <string name="report_inapp_dialog_content">Would you like to report Bravo for inappropriate content?</string>
     <string name="btn_post">Post</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
     <!-- +++++ -->
 
 

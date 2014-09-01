@@ -55,6 +55,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.FragmentMapView" />
+
+            <fragment
+                android:id="@+id/fragment_user_post_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.FragmentUserPostProfile" />
         </RelativeLayout>
 
         <FrameLayout
