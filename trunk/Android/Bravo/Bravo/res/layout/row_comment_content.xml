@@ -21,7 +21,8 @@
             android:layout_weight="1"
             android:orientation="horizontal" >
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/img_avatar_comment"
                 android:layout_width="@dimen/avatar_size_detail_post"
                 android:layout_height="@dimen/avatar_size_detail_post"
                 android:src="@drawable/user_picture_default" />
@@ -33,6 +34,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/txtview_user_name_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -41,6 +43,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/txtview_comment_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -49,7 +52,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/comment_date"
+            android:id="@+id/comment_txtview_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

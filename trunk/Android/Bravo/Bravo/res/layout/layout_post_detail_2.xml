@@ -4,7 +4,7 @@
     android:layout_height="@dimen/height_post_detail_2"
     android:orientation="horizontal" >
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/img_avatar"
         android:layout_width="@dimen/avatar_size_detail_post"
         android:layout_height="@dimen/avatar_size_detail_post"
