@@ -4,20 +4,74 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:drawableLeft="@drawable/report_icon"
-        android:drawablePadding="10dp"
-        android:text="@string/report_inapp_bravo"
-        android:textStyle="bold" />
+        android:orientation="vertical" >
 
-    <ImageView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devider_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/textbox_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_write_cmt"
+                android:hint="@string/hint_input_comment"
+                android:paddingLeft="10dp" >
+            </EditText>
+
+            <Button
+                android:id="@+id/btn_submit_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/comment_submit"
+                android:text="@string/btn_post"
+                android:textColor="@color/white"
+                android:textStyle="bold" >
+            </Button>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/devider_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/powered_by_foursquare" />
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/btn_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/report_icon"
+            android:drawablePadding="10dp"
+            android:text="@string/report_inapp_bravo"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/powered_by_foursquare" />
+    </LinearLayout>
 
 </LinearLayout>

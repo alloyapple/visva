@@ -27,7 +27,7 @@
     </RelativeLayout>
 
     <com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView
-        android:id="@+id/listview_recent_post_detail"
+        android:id="@+id/listview_user_post_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"
