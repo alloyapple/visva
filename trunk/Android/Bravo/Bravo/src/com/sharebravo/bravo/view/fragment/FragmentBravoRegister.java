@@ -35,14 +35,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.model.response.ObPostUserFailed;
 import com.sharebravo.bravo.model.user.BravoUser;
+import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
 
@@ -165,17 +165,18 @@ public class FragmentBravoRegister extends FragmentBasic {
                     e1.printStackTrace();
                 }
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPostUserFailed obPostUserFailed;
+                ObGetLoginedUser obPostUserFailed;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
-                            BravoConstant.REGISTER_TYPE_BRAVO);
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO, response);
+                    /* save data to share preferences */
+                    BravoUtils.saveResponseToSharePreferences(getActivity(), BravoConstant.REGISTER_BY_BRAVO_ACC, response);
+
+                    /* go to home screen */
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                     homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    getActivity().startActivity(homeIntent);
+                    startActivity(homeIntent);
                     getActivity().finish();
                 } else {
-                    obPostUserFailed = gson.fromJson(response.toString(), ObPostUserFailed.class);
+                    obPostUserFailed = gson.fromJson(response.toString(), ObGetLoginedUser.class);
                     showToast(obPostUserFailed.error);
                 }
             }

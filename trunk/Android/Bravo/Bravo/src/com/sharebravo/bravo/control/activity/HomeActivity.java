@@ -81,6 +81,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onCreate() {
         MyApplication myApp = (MyApplication) getApplication();
         myApp._homeActivity = this;
+        
 
         if (Build.VERSION.SDK_INT >= 11)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
@@ -139,7 +140,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         super.onResume();
     }
 
-    // Analysis
     @Override
     protected void onStart() {
         super.onStart();
@@ -301,7 +301,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         String currentView = backstack.get(backstack.size() - 1);
         mTransaction = hideFragment();
         // if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
-        mTransaction.show(mFragmentHomeTab);
+        mTransaction.show(mFragmentHomeTab); 
         // }
         mTransaction.commitAllowingStateLoss();
 

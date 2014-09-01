@@ -5,11 +5,7 @@ public class BravoConstant {
     public static final String  ACCESS_TYPE                           = "access_type";
     public static final int     STATUS_SUCCESS                        = 1;
     public static final int     STATUS_FAILED                         = 0;
-    /* request type */
-    public static final int     REGISTER_TYPE_FACEBOOK                = 1;
-    public static final int     REGISTER_TYPE_TWITTER                 = 2;
-    public static final int     REGISTER_TYPE_FOURSQUARE              = 3;
-    public static final int     REGISTER_TYPE_BRAVO                   = 4;
+
     /**
      * set the value to show the log for sdk
      */
@@ -63,25 +59,37 @@ public class BravoConstant {
     public static final String  URL_TWITTER_OAUTH_TOKEN               = "oauth_token";
 
     /* share preferences key */
+    public static final String  PREF_KEY_TWITTER_USER_ID              = "pref_key_twitter_user_id";
     public static final String  PREF_KEY_TWITTER_OAUTH_TOKEN          = "pref_key_twitter_oauth_token";
     public static final String  PREF_KEY_TWITTER_OAUTH_VERIFIER       = "pref_key_twitter_oauth_verifier";
+
+    public static final String  PREF_KEY_SESSION_LOGIN_BY_BRAVO       = "pref_key_session_login_by_bravo";
+    public static final String  PREF_KEY_SESSION_LOGIN_BY_FACEBOOK    = "pref_key_session_login_by_facebook";
+    public static final String  PREF_KEY_SESSION_LOGIN_BY_4SQUARE     = "pref_key_session_login_by_4square";
+    public static final String  PREF_KEY_SESSION_LOGIN_BY_TWITTER     = "pref_key_session_login_by_twitter";
     public static final String  PREF_KEY_SESSION_REGISTER_BY_BRAVO    = "pref_key_session_register_by_bravo";
     public static final String  PREF_KEY_SESSION_REGISTER_BY_FACEBOOK = "pref_key_session_register_by_facebook";
     public static final String  PREF_KEY_SESSION_REGISTER_BY_TWITTER  = "pref_key_session_register_by_twitter";
     public static final String  PREF_KEY_SESSION_REGISTER_BY_4SQUARE  = "pref_key_session_register_by_4square";
-    public static final String  PREF_KEY_SESSION_REGISTER_TYPE        = "pref_key_session_register_type";
+    public static final String  PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE = "pref_key_session_login_bravo_via_type";
 
     /* SNS Login, Register */
     public static final String  LOGIN_SNS_TYPE                        = "login_sns_type";
     public static final String  REGISTER_SNS_TYPE                     = "register_sns_type";
     public static final int     NO_LOGIN_SNS                          = 1;
-    public static final int     LOGIN_FACEBOOK                        = NO_LOGIN_SNS + 1;
-    public static final int     LOGIN_TWITTER                         = LOGIN_FACEBOOK + 1;
-    public static final int     LOGIN_4SQUARE                         = LOGIN_TWITTER + 1;
-    public static final int     LOGIN_BRAVO                           = LOGIN_4SQUARE + 1;
-    public static final int     NO_REGISTER_SNS                       = LOGIN_BRAVO + 1;
-    public static final int     REGISTER_FACEBOOK                     = NO_REGISTER_SNS + 1;
-    public static final int     REGISTER_TWITTER                      = REGISTER_FACEBOOK + 1;
-    public static final int     REGISTER_4SQUARE                      = REGISTER_TWITTER + 1;
-    public static final int     REGISTER_BRAVO                        = REGISTER_4SQUARE + 1;
+    public static final int     LOGIN_BY_BRAVO_ACC                    = NO_LOGIN_SNS + 1;
+    public static final int     LOGIN_BY_FACEBOOK                     = LOGIN_BY_BRAVO_ACC + 1;
+    public static final int     LOGIN_BY_TWITTER                      = LOGIN_BY_FACEBOOK + 1;
+    public static final int     LOGIN_BY_4SQUARE                      = LOGIN_BY_TWITTER + 1;
+    public static final int     NO_REGISTER_SNS                       = LOGIN_BY_4SQUARE + 1;
+    public static final int     REGISTER_BY_FACEBOOK                  = NO_REGISTER_SNS + 1;
+    public static final int     REGISTER_BY_TWITTER                   = REGISTER_BY_FACEBOOK + 1;
+    public static final int     REGISTER_BY_4SQUARE                   = REGISTER_BY_TWITTER + 1;
+    public static final int     REGISTER_BY_BRAVO_ACC                 = REGISTER_BY_4SQUARE + 1;
+
+    /* SNS type */
+    public static final String  FACEBOOK                              = "Facebook";
+    public static final String  FOURSQUARE                            = "Foursquare";
+    public static final String  TWITTER                               = "Twitter";
+    public static final String  BRAVO                                 = "Bravo";
 }

@@ -15,13 +15,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 
@@ -30,6 +34,8 @@ public class FragmentHomeTab extends FragmentBasic {
     private AdapterRecentPost        mAdapterRecentPost        = null;
     private HomeActionListener       mHomeActionListener       = null;
     private ObGetAllBravoRecentPosts mObGetAllBravoRecentPosts = null;
+    private SessionLogin             mSessionLogin             = null;
+    private int                      mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
     private OnItemClickListener      iRecentPostClickListener  = new OnItemClickListener() {
 
                                                                    @Override
@@ -47,14 +53,21 @@ public class FragmentHomeTab extends FragmentBasic {
         intializeView(root);
 
         /* request news */
-        requestNewsItemsOnBravoServer();
+        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
+        requestNewsItemsOnBravoServer(mSessionLogin);
         return root;
 
     }
 
-    private void requestNewsItemsOnBravoServer() {
-        String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity());
-        String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity());
+    private void requestNewsItemsOnBravoServer(SessionLogin sessionLogin) {
+        String userId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+        AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
+        if (StringUtility.isEmpty(sessionLogin.userID) || StringUtility.isEmpty(sessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
         String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {

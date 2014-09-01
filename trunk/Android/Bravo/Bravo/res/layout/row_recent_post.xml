@@ -52,7 +52,7 @@
                 <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/img_post_recent"
                     android:layout_width="fill_parent"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_height="@dimen/height_recent_post_item" >
                 </com.android.volley.toolbox.NetworkImageView>
 
@@ -64,7 +64,6 @@
                     android:background="@drawable/bg_home_cover"
                     android:gravity="left|center"
                     android:paddingLeft="10dp"
-                    android:text="This is my post ..."
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </FrameLayout>

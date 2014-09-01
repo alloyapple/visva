@@ -24,6 +24,7 @@ import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
 
@@ -77,8 +78,6 @@ public class FragmentBravoLogin extends FragmentBasic {
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Email", email);
         subParams.put("Password", passWord);
-        // JSONObject jsonObject = new JSONObject(subParams);
-        // String subParamsStr = jsonObject.toString();
 
         String url = BravoWebServiceConfig.URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT;
         List<NameValuePair> params = ParameterFactory.createSubParamsLoginBravoAccount(email, passWord);
@@ -94,6 +93,10 @@ public class FragmentBravoLogin extends FragmentBasic {
                     showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
                 } else {
                     showToast("Hello " + obGetUserInfoWithBravoAccount.data.get(0).Full_Name);
+                    /* save data to share preferences */
+                    BravoUtils.saveResponseToSharePreferences(getActivity(), BravoConstant.LOGIN_BY_BRAVO_ACC, response);
+
+                    /* go to home screen */
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
                     homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(homeIntent);

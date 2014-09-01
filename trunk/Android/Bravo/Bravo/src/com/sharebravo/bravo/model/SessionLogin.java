@@ -1,11 +1,23 @@
 package com.sharebravo.bravo.model;
 
 public class SessionLogin {
-    String userID;
-    String accessToken;
-    String aPNSTockens;
+    public String userID;
+    public String accessToken;
+    public String aPNSTockens;
 
     public SessionLogin() {
-        // TODO Auto-generated constructor stub
     }
+
+    public String getUserId() {
+        return userID;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getAPNsToken() {
+        return aPNSTockens;
+    }
+
 }

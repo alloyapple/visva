@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.model.response;
+package com.sharebravo.bravo.model.user;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -33,14 +33,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.model.response.ObPostUserFailed;
 import com.sharebravo.bravo.model.user.BravoUser;
+import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
-import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 
@@ -86,13 +85,13 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
 
     private void requestToPostBravoUserbySNS(BravoUser bravoUser) {
         AIOLog.d("==================================");
-        AIOLog.d("bravoUser.mAuthenMethod=>"+bravoUser.mAuthenMethod);
-        AIOLog.d("bravoUser.mUserName=>"+bravoUser.mUserName);
-        AIOLog.d("bravoUser.mUserEmail=>"+bravoUser.mUserEmail);
-        AIOLog.d("bravoUser.mUserPassWord=>"+bravoUser.mUserPassWord);
-        AIOLog.d("bravoUser.mTimeZone=>"+bravoUser.mTimeZone);
-        AIOLog.d("bravoUser.mLocale=>"+bravoUser.mLocale);
-        AIOLog.d("bravoUser.mForeign_Id=>"+bravoUser.mForeign_Id);
+        AIOLog.d("bravoUser.mAuthenMethod=>" + bravoUser.mAuthenMethod);
+        AIOLog.d("bravoUser.mUserName=>" + bravoUser.mUserName);
+        AIOLog.d("bravoUser.mUserEmail=>" + bravoUser.mUserEmail);
+        AIOLog.d("bravoUser.mUserPassWord=>" + bravoUser.mUserPassWord);
+        AIOLog.d("bravoUser.mTimeZone=>" + bravoUser.mTimeZone);
+        AIOLog.d("bravoUser.mLocale=>" + bravoUser.mLocale);
+        AIOLog.d("bravoUser.mForeign_Id=>" + bravoUser.mForeign_Id);
         AIOLog.d("==================================");
         AIOLog.d("==================================");
         HashMap<String, String> subParams = new HashMap<String, String>();
@@ -130,27 +129,17 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     e1.printStackTrace();
                 }
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPostUserFailed obPostUserFailed;
+                ObGetLoginedUser obPostUserFailed;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    if (mBravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_FACEBOOK) {
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_FACEBOOK, response);
-                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
-                                BravoConstant.REGISTER_TYPE_FACEBOOK);
-                    } else if (mBravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_TWITTER) {
-                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
-                                BravoConstant.REGISTER_TYPE_TWITTER);
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER, response);
-                    } else if (mBravoUser.mRegisterType == BravoConstant.REGISTER_TYPE_FOURSQUARE) {
-                        BravoSharePrefs.getInstance(getActivity()).putIntValue(BravoConstant.PREF_KEY_SESSION_REGISTER_TYPE,
-                                BravoConstant.REGISTER_TYPE_FOURSQUARE);
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE, response);
-                    }
+                    /* save data to share preferences */
+                    BravoUtils.saveResponseToSharePreferences(getActivity(), mBravoUser.mRegisterType, response);
+
+                    /* go to home screen */
                     Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                    
                     getActivity().startActivity(homeIntent);
                     getActivity().finish();
                 } else {
-                    obPostUserFailed = gson.fromJson(response.toString(), ObPostUserFailed.class);
+                    obPostUserFailed = gson.fromJson(response.toString(), ObGetLoginedUser.class);
                     showToast(obPostUserFailed.error);
                 }
             }
