@@ -7,21 +7,21 @@ import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
 
 public class ObGetComment {
     @SerializedName("Comment_ID")
-    String           commentID;
+    public String           commentID;
     @SerializedName("Bravo_ID")
-    String           bravoID;
+    public String           bravoID;
     @SerializedName("User_ID")
-    String           userID;
+    public String           userID;
     @SerializedName("Full_Name")
-    String           fullName;
+    public String           fullName;
     @SerializedName("Profile_Img_URL")
-    String           profileImgUrl;
+    public String           profileImgUrl;
     @SerializedName("SNS_List")
-    ArrayList<SNS> snsList     = new ArrayList<SNS>();
+    public ArrayList<SNS> snsList     = new ArrayList<SNS>();
     @SerializedName("Comment_Text")
-    String           commentText;
+    public String           commentText;
     @SerializedName("Date_Created")
-    Date_Created       dateCreated = new Date_Created();
+    public Date_Created       dateCreated = new Date_Created();
 
     public ObGetComment() {
         // TODO Auto-generated constructor stub

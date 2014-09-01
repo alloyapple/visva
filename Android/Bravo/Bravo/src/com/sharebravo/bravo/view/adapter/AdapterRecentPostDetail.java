@@ -7,7 +7,10 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetBravo;
+import com.sharebravo.bravo.model.response.ObGetComment;
+import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.view.adapter.AdapterRecentPost.ViewHolder;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -23,10 +26,11 @@ import android.widget.TextView;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
-    private ArrayList<String>  commentsData = new ArrayList<String>();
+    private ArrayList<String>  commentsData   = new ArrayList<String>();
     private DetailPostListener listener;
-    private ObGetBravo         bravoObj     = null;
-    private ImageLoader        mImageLoader = null;
+    private ObGetBravo         bravoObj       = null;
+    private ObGetComments      mObGetComments = null;
+    private ImageLoader        mImageLoader   = null;
 
     public AdapterRecentPostDetail(Context context) {
         // TODO Auto-generated constructor stub
@@ -61,7 +65,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
 
     NetworkImageView imagePost;
     TextView         contentPost;
-    ImageView        userAvatar;
+    NetworkImageView userAvatar;
     TextView         txtUserName;
     Button           btnCallSpot;
     Button           btnViewMap;
@@ -86,8 +90,8 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             imagePost.setImageUrl(imgSpotUrl, mImageLoader);
             contentPost = (TextView) convertView.findViewById(R.id.content_post_detail);
             contentPost.setText(bravoObj.Spot_Name);
-            userAvatar = (ImageView) convertView.findViewById(R.id.img_avatar);
-            
+            userAvatar = (NetworkImageView) convertView.findViewById(R.id.img_avatar);
+
             txtUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
             txtUserName.setText(bravoObj.Full_Name);
             btnCallSpot = (Button) convertView.findViewById(R.id.btn_call_spot);
@@ -140,13 +144,29 @@ public class AdapterRecentPostDetail extends BaseAdapter {
         {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.layout_post_detail_footer, null, false);
-
         } else {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_comment_content, null, false);
+            int index = position - 1;
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.row_comment_content, null, false);
+            }
+            ViewHolderComment holderComment = new ViewHolderComment();
+            holderComment.mAvatarComment = (NetworkImageView) convertView.findViewById(R.id.img_avatar_comment);
+            holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
+            holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
+            holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
+            ObGetComment comment = mObGetComments.data.get(index);
+            holderComment.mAvatarComment.setImageUrl(comment.profileImgUrl, mImageLoader);
+            holderComment.mUserNameComment.setText(comment.fullName);
+            holderComment.mCommentContent.setText(comment.commentText);
         }
 
         return convertView;
+    }
+
+    public void updateAllCommentList(ObGetComments objGetComments) {
+        mObGetComments = objGetComments;
+        notifyDataSetChanged();
     }
 
     public void updateCommentList() {
@@ -154,6 +174,10 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     }
 
     class ViewHolderComment {
+        NetworkImageView mAvatarComment;
+        TextView         mUserNameComment;
+        TextView         mCommentContent;
+        TextView         mCommentDate;
     }
 
     class ViewHolderHeader {

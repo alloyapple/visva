@@ -17,7 +17,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_BRAVO_SEARCH                 = URL_BRAVO_BASE
                                                                             + "/bravo?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
     public static final String URL_GET_COMMENT                      = URL_BRAVO_BASE + "/comment/{Comment_ID}?User_ID={str}&Access_Token={str}";
-    public static final String URL_GET_COMMENTS                     = URL_BRAVO_BASE + "/bravo/{Bravo_ID}/comments?User_ID={str}&Access_Token={str}";
+    public static final String URL_GET_COMMENTS                     = URL_BRAVO_BASE + "/bravo/{Bravo_ID}/comments";
     public static final String URL_GET_FOLLOWING_CHECK              = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/following/{User_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_MYLIST_ITEM                  = URL_BRAVO_BASE

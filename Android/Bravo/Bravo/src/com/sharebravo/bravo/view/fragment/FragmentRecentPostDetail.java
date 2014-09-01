@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 
-import android.R.integer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,10 +15,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObGetBravo;
+import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -47,6 +49,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     Button                          btnCallSpot;
 
     ObGetBravo                      bravoObj;
+    ObGetComments                   mObGetComments;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,12 +84,24 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private void requestGetComnents() {
         String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity());
         String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity());
-        String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        String bravoID = bravoObj.Bravo_ID;
+        String url = BravoWebServiceConfig.URL_GET_BRAVO.replace("{Bravo_ID}", bravoID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetComments(userId, accessToken);
+        AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                mObGetComments = gson.fromJson(response.toString(), ObGetComments.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
+                if (mObGetComments == null)
+                    return;
+                else {
+                    AIOLog.d("size of recent post list: " + mObGetComments.data.size());
+                    adapterRecentPostDetail.updateAllCommentList(mObGetComments);
+                    if (listviewRecentPostDetail.getVisibility() == View.GONE)
+                        listviewRecentPostDetail.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -94,18 +109,29 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 AIOLog.d("response error");
             }
         }, params, true);
-        getLoginRequest.execute(url);
+        getCommentsRequest.execute(url);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            requestGetComnents();
+        }
+    }
+    
 
     @Override
     public void goToCallSpot() {
         // TODO Auto-generated method stub
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "0973398403"));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + bravoObj.Spot_Phone));
         startActivity(intent);
     }
 
