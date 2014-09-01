@@ -24,7 +24,7 @@
             android:text="@string/btn_call_spot" />
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="@dimen/layout_login_register_height"
             android:background="@color/devider_color"
             android:contentDescription="@string/login" />
@@ -43,7 +43,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
         android:background="@color/devider_color"
         android:contentDescription="@string/login" />
 

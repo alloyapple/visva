@@ -1,19 +1,6 @@
 package com.sharebravo.bravo.view.adapter;
 
-import java.util.ArrayList;
-
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
-import com.sharebravo.bravo.model.response.ObGetBravo;
-import com.sharebravo.bravo.model.response.ObGetComment;
-import com.sharebravo.bravo.model.response.ObGetComments;
-import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPost.ViewHolder;
-
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,9 +11,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.response.ObGetBravo;
+import com.sharebravo.bravo.model.response.ObGetComment;
+import com.sharebravo.bravo.model.response.ObGetComments;
+import com.sharebravo.bravo.sdk.provider.VolleyProvider;
+
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
-    private ArrayList<String>  commentsData   = new ArrayList<String>();
+    // private ArrayList<String> commentsData = new ArrayList<String>();
     private DetailPostListener listener;
     private ObGetBravo         bravoObj       = null;
     private ObGetComments      mObGetComments = null;
@@ -35,6 +30,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     public AdapterRecentPostDetail(Context context) {
         // TODO Auto-generated constructor stub
         this.mContext = context;
+        mImageLoader = VolleyProvider.getInstance(mContext).getImageLoader();
     }
 
     public void setListener(DetailPostListener listener) {
@@ -44,7 +40,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return commentsData.size() + 6;
+        return (mObGetComments == null) ? 0 : mObGetComments.data.size() + 3;
     }
 
     @Override
@@ -72,10 +68,11 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     Button           btnFollow;
     ImageView        followIcon;
     boolean          isFollowing;
-    Button           btnSave;
-    Button           btnShare;
     EditText         textboxComment;
     Button           btnSubmitComment;
+    TextView         btnSave;
+    TextView         btnShare;
+    boolean          isSave;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -86,12 +83,13 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             convertView = inflater.inflate(R.layout.layout_post_detail_header, null, false);
             String imgSpotUrl = bravoObj.Last_Pic;
             imagePost = (NetworkImageView) convertView.findViewById(R.id.image_post_detail);
+
             // imagePost.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sample1));
             imagePost.setImageUrl(imgSpotUrl, mImageLoader);
             contentPost = (TextView) convertView.findViewById(R.id.content_post_detail);
             contentPost.setText(bravoObj.Spot_Name);
             userAvatar = (NetworkImageView) convertView.findViewById(R.id.img_avatar);
-
+            userAvatar.setDefaultImageResId(R.drawable.user_picture_default);
             txtUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
             txtUserName.setText(bravoObj.Full_Name);
             btnCallSpot = (Button) convertView.findViewById(R.id.btn_call_spot);
@@ -121,6 +119,27 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                     // TODO Auto-generated method stub
                     isFollowing = !isFollowing;
                     followIcon.setImageResource(isFollowing ? R.drawable.following_icon : R.drawable.follow_icon);
+                    btnFollow.setText(isFollowing ? "Following" : "Follow");
+                }
+            });
+            btnSave = (TextView) convertView.findViewById(R.id.btn_save);
+            btnSave.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    isSave = !isSave;
+                    btnSave.setCompoundDrawablesWithIntrinsicBounds(isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0, 0);
+
+                }
+            });
+            btnShare = (TextView) convertView.findViewById(R.id.btn_share);
+            btnShare.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    listener.goToShare();
                 }
             });
 
@@ -156,6 +175,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
             holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
             ObGetComment comment = mObGetComments.data.get(index);
+            holderComment.mAvatarComment.setDefaultImageResId(R.drawable.user_picture_default);
             holderComment.mAvatarComment.setImageUrl(comment.profileImgUrl, mImageLoader);
             holderComment.mUserNameComment.setText(comment.fullName);
             holderComment.mCommentContent.setText(comment.commentText);

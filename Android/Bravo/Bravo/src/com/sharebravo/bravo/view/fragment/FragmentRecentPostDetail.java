@@ -85,7 +85,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String userId = BravoUtils.getUserIdFromUserBravoInfo(getActivity());
         String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity());
         String bravoID = bravoObj.Bravo_ID;
-        String url = BravoWebServiceConfig.URL_GET_BRAVO.replace("{Bravo_ID}", bravoID);
+        String url = BravoWebServiceConfig.URL_GET_COMMENTS.replace("{Bravo_ID}", bravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetComments(userId, accessToken);
         AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
@@ -126,7 +126,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             requestGetComnents();
         }
     }
-    
 
     @Override
     public void goToCallSpot() {
@@ -144,7 +143,12 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToShare() {
         // TODO Auto-generated method stub
-
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = "Bravo Share";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"subject");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
     @Override
