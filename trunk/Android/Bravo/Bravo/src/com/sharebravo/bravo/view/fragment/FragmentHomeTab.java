@@ -34,8 +34,9 @@ public class FragmentHomeTab extends FragmentBasic {
 
                                                                    @Override
                                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                       AIOLog.d("position:" + position);
                                                                        mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
-                                                                               .get(position));
+                                                                               .get(position - 1));
                                                                    }
                                                                };
 

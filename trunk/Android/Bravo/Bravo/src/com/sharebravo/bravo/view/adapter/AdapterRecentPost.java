@@ -2,6 +2,7 @@ package com.sharebravo.bravo.view.adapter;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
 public class AdapterRecentPost extends BaseAdapter {
-    private final int             DEFAULT_ITEM_NUMBER       = 10;
     private ArrayList<ObGetBravo> mObGetAllBravoRecentPosts = new ArrayList<ObGetBravo>();
     private ImageLoader           mImageLoader              = null;
 
@@ -38,7 +38,7 @@ public class AdapterRecentPost extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return DEFAULT_ITEM_NUMBER;
+        return mObGetAllBravoRecentPosts.size();
     }
 
     @Override
@@ -51,6 +51,7 @@ public class AdapterRecentPost extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -65,9 +66,9 @@ public class AdapterRecentPost extends BaseAdapter {
         holder._recentPostSpotName = (TextView) convertView.findViewById(R.id.text_recent_post_spot_name);
         holder._userAvatar = (NetworkImageView) convertView.findViewById(R.id.img_recent_post_user_avatar);
         holder._userName = (TextView) convertView.findViewById(R.id.text_recent_post_user_name);
-        AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size());
-        if (mObGetAllBravoRecentPosts.size() >= 1) {
-            ObGetBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
+        AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
+        if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
+            ObGetBravo obGetBravo = mObGetAllBravoRecentPosts.get(position); 
 
             if (StringUtility.isEmpty(obGetBravo.Full_Name)) {
                 holder._userName.setText("Unknown");
@@ -95,8 +96,7 @@ public class AdapterRecentPost extends BaseAdapter {
                 holder._recentPostImage.setVisibility(View.VISIBLE);
                 holder._recentPostImage.setImageUrl(imgSpotUrl, mImageLoader);
             }
-            // holder._recentPostImage.setErrorImageResId(R.drawable.user_picture_default);
-            // holder._recentPostImage.setDefaultImageResId(R.drawable.user_picture_default);
+            
             long createdTime = 0;
             if (obGetBravo.Date_Created == null)
                 createdTime = 0;
@@ -110,8 +110,6 @@ public class AdapterRecentPost extends BaseAdapter {
                 AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
             }
-            // AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.getDateCreated().getSec());
-            // String recentPostSpotTime= obGetBravo.Date_Created.sec;
         }
         return convertView;
     }
