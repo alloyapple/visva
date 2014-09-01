@@ -8,10 +8,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
@@ -24,6 +26,7 @@ import com.sharebravo.bravo.view.fragment.FragmentMyDataTab;
 import com.sharebravo.bravo.view.fragment.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail;
 import com.sharebravo.bravo.view.fragment.FragmentSearchTab;
+import com.sharebravo.bravo.view.fragment.FragmentUserPostProfile;
 
 public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener {
 
@@ -36,6 +39,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     private static final String      FRAGMENT_RECENT_POST_DETAIL    = "post_detail";
     private static final String      FRAGMENT_MAP_VIEW              = "map_view";
+    private static final String      FRAGMENT_USER_POST_PROFILE     = "user_post_profile";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -45,6 +49,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_MYDATA_TAB_ID         = FRAGMENT_BASE_ID + 5;
     public static final int          FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
     public static final int          FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
+    public static final int          FRAGMENT_USER_POST_PROFILE_ID  = FRAGMENT_BASE_ID + 8;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -56,6 +61,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentMyDataTab        mFragmentMyDataTab;
     private FragmentRecentPostDetail mFragmentRecentPostDetail;
     private FragmentMapView          mFragmentMapView;
+    private FragmentUserPostProfile  mFragmentUserPostProfile;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -154,6 +160,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentMyDataTab = (FragmentMyDataTab) mFmManager.findFragmentById(R.id.fragment_mydata_tab);
         mFragmentRecentPostDetail = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_recent_post_detail);
         mFragmentMapView = (FragmentMapView) mFmManager.findFragmentById(R.id.fragment_map_view);
+        mFragmentUserPostProfile = (FragmentUserPostProfile) mFmManager.findFragmentById(R.id.fragment_user_post_profile);
 
         mTransaction = hideFragment();
         showFragment(FRAGMENT_HOME_TAB_ID);
@@ -231,6 +238,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             addToSBackStack(FRAGMENT_MAP_VIEW);
             mTransaction.commit();
             break;
+        case FRAGMENT_USER_POST_PROFILE_ID:
+            mTransaction = hideFragment();
+            addToSBackStack(FRAGMENT_USER_POST_PROFILE);
+            mTransaction.show(mFragmentUserPostProfile);
+
+            mTransaction.commit();
+            break;
         default:
             break;
         }
@@ -245,6 +259,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentMyDataTab);
         mTransaction.hide(mFragmentRecentPostDetail);
         mTransaction.hide(mFragmentMapView);
+        mTransaction.hide(mFragmentUserPostProfile);
         return mTransaction;
     }
 
@@ -288,6 +303,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToBack() {
         // TODO Auto-generated method stub
         AIOLog.d("mBackstack=" + backstack);
+
+        String currentView = backstack.get(backstack.size() - 1);
         try {
             backstack.remove(backstack.size() - 1);
             if (backstack.size() == 0) {
@@ -298,11 +315,21 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             super.onBackPressed();
             return;
         }
-        String currentView = backstack.get(backstack.size() - 1);
         mTransaction = hideFragment();
+<<<<<<< .mine
+        Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
+        if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
+            mTransaction.show(mFragmentHomeTab);
+        } else if (currentView.equals(FRAGMENT_USER_POST_PROFILE)) {
+            mTransaction.show(mFragmentRecentPostDetail);
+        } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
+            mTransaction.show(mFragmentRecentPostDetail);
+        }
+=======
         // if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
         mTransaction.show(mFragmentHomeTab); 
         // }
+>>>>>>> .r1020
         mTransaction.commitAllowingStateLoss();
 
     }
@@ -310,6 +337,23 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void goToFragment(int fragmentID) {
         // TODO Auto-generated method stub
+        hideTabButton();
         showFragment(fragmentID);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        switch (keyCode) {
+        case KeyEvent.KEYCODE_BACK:
+            goToBack();
+            break;
+
+        default:
+            break;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
 }
