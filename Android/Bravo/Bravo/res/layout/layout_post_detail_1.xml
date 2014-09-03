@@ -21,7 +21,8 @@
             android:background="@drawable/color_button"
             android:baselineAligned="true"
             android:gravity="center"
-            android:text="@string/btn_call_spot" />
+            android:text="@string/btn_call_spot"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="1dp"
@@ -38,7 +39,8 @@
             android:background="@drawable/color_button"
             android:gravity="center"
             android:text="@string/btn_view_map"
-            android:textColor="@color/postn_detail_button_call_spot_text" />
+            android:textColor="@color/postn_detail_button_call_spot_text"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout

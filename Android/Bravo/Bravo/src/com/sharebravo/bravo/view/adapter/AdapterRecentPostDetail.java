@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.view.adapter;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,14 +12,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
-import com.sharebravo.bravo.sdk.provider.VolleyProvider;
+import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.utils.StringUtility;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
@@ -31,7 +32,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     public AdapterRecentPostDetail(Context context) {
         // TODO Auto-generated constructor stub
         this.mContext = context;
-        mImageLoader = VolleyProvider.getInstance(mContext).getImageLoader();
+        mImageLoader = new ImageLoader(mContext);
     }
 
     public void setListener(DetailPostListener listener) {
@@ -60,21 +61,22 @@ public class AdapterRecentPostDetail extends BaseAdapter {
         this.bravoObj = obj;
     }
 
-    NetworkImageView imagePost;
-    TextView         contentPost;
-    NetworkImageView userAvatar;
-    TextView         txtUserName;
-    Button           btnCallSpot;
-    Button           btnViewMap;
-    Button           btnFollow;
-    ImageView        followIcon;
-    boolean          isFollowing;
-    EditText         textboxComment;
-    Button           btnSubmitComment;
-    TextView         btnSave;
-    TextView         btnShare;
-    boolean          isSave;
-    TextView         btnReport;
+    ImageView imagePost;
+    TextView  contentPost;
+    ImageView userAvatar;
+    TextView  txtUserName;
+    Button    btnCallSpot;
+    Button    btnViewMap;
+    Button    btnFollow;
+    ImageView followIcon;
+    boolean   isFollowing;
+    EditText  textboxComment;
+    Button    btnSubmitComment;
+    TextView  btnSave;
+    TextView  btnShare;
+    boolean   isSave;
+    TextView  btnReport;
+    Fragment mapFragment;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -86,7 +88,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 convertView = inflater.inflate(R.layout.layout_post_detail_header, null, false);
                 imagePost = (NetworkImageView) convertView.findViewById(R.id.image_post_detail);
                 contentPost = (TextView) convertView.findViewById(R.id.content_post_detail);
-                userAvatar = (NetworkImageView) convertView.findViewById(R.id.img_avatar);
+                userAvatar = (ImageView) convertView.findViewById(R.id.img_avatar);
                 txtUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
                 btnCallSpot = (Button) convertView.findViewById(R.id.btn_call_spot);
                 btnViewMap = (Button) convertView.findViewById(R.id.btn_view_map);
@@ -96,11 +98,13 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
             }
             String imgSpotUrl = bravoObj.Last_Pic;
-
-            // imagePost.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.sample1));
-            imagePost.setImageUrl(imgSpotUrl, mImageLoader);
+            if (StringUtility.isEmpty(imgSpotUrl)) {
+                imagePost.setImageResource(R.drawable.user_picture_default);
+            } else {
+                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost);
+            }
             contentPost.setText(bravoObj.Spot_Name);
-            userAvatar.setDefaultImageResId(R.drawable.user_picture_default);
+            // userAvatar.setDefaultImageResId(R.drawable.user_picture_default);
             userAvatar.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -203,8 +207,14 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             } else
                 holderComment = (ViewHolderComment) convertView.getTag();
             ObGetComment comment = mObGetComments.data.get(index);
-            holderComment.mAvatarComment.setDefaultImageResId(R.drawable.user_picture_default);
-            holderComment.mAvatarComment.setImageUrl(comment.profileImgUrl, mImageLoader);
+
+            String profile_img_url = comment.profileImgUrl;
+
+            if (StringUtility.isEmpty(profile_img_url)) {
+                holderComment.mAvatarComment.setImageResource(R.drawable.home_default_avatar);
+            } else {
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.home_default_avatar, holderComment.mAvatarComment);
+            }
             holderComment.mUserNameComment.setText(comment.fullName);
             holderComment.mCommentContent.setText(comment.commentText);
 
