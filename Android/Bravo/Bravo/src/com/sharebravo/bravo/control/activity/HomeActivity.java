@@ -20,6 +20,7 @@ import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.FragmentHomeTab;
+import com.sharebravo.bravo.view.fragment.FragmentHomeTab.IShowPageHomeNotification;
 import com.sharebravo.bravo.view.fragment.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.FragmentMyDataTab;
 import com.sharebravo.bravo.view.fragment.FragmentNetworkTab;
@@ -27,7 +28,7 @@ import com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail;
 import com.sharebravo.bravo.view.fragment.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.FragmentUserPostProfile;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener {
+public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener,IShowPageHomeNotification {
 
     // ======================Constant Define===============
     private static final String      FRAGMENT_HOME_TAB              = "home_tab";
@@ -128,6 +129,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case R.id.btn_mydata:
             hideTabButton();
             showFragment(FRAGMENT_MYDATA_TAB_ID);
+            mFragmentMyDataTab.getUserInfo();
             btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
             txtMyData.setTextColor(Color.WHITE);
             break;
@@ -340,6 +342,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
         return super.onKeyDown(keyCode, event);
 
+    }
+
+    @Override
+    public void showPageHomeNotification() {
+        
     }
 
 }
