@@ -8,15 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.provider.VolleyProvider;
+import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
@@ -32,7 +31,7 @@ public class AdapterRecentPost extends BaseAdapter {
 
         if (obGetAllBravoRecentPosts != null)
             mObGetAllBravoRecentPosts = obGetAllBravoRecentPosts.data;
-        mImageLoader = VolleyProvider.getInstance(mContext).getImageLoader();
+        mImageLoader = new ImageLoader(mContext);
 
     }
 
@@ -61,10 +60,10 @@ public class AdapterRecentPost extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.row_recent_post, null);
 
         holder = new ViewHolder();
-        holder._recentPostImage = (NetworkImageView) convertView.findViewById(R.id.img_post_recent);
+        holder._recentPostImage = (ImageView) convertView.findViewById(R.id.img_post_recent);
         holder._recentPostTime = (TextView) convertView.findViewById(R.id.text_recent_post_time);
         holder._recentPostSpotName = (TextView) convertView.findViewById(R.id.text_recent_post_spot_name);
-        holder._userAvatar = (NetworkImageView) convertView.findViewById(R.id.img_recent_post_user_avatar);
+        holder._userAvatar = (ImageView) convertView.findViewById(R.id.img_recent_post_user_avatar);
         holder._userName = (TextView) convertView.findViewById(R.id.text_recent_post_user_name);
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
         if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
@@ -82,19 +81,16 @@ public class AdapterRecentPost extends BaseAdapter {
             if (StringUtility.isEmpty(profile_img_url)) {
                 holder._userAvatar.setImageResource(R.drawable.user_picture_default);
             } else {
-                holder._userAvatar.setImageUrl(profile_img_url, mImageLoader);
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default,  holder._userAvatar);
             }
             // set observer to view
-            holder._userAvatar.setErrorImageResId(R.drawable.user_picture_default);
-            holder._userAvatar.setDefaultImageResId(R.drawable.user_picture_default);
-
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
             String imgSpotUrl = obGetBravo.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
             } else {
                 holder._recentPostImage.setVisibility(View.VISIBLE);
-                holder._recentPostImage.setImageUrl(imgSpotUrl, mImageLoader);
+                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default,  holder._recentPostImage);
             }
             
             long createdTime = 0;
@@ -115,9 +111,9 @@ public class AdapterRecentPost extends BaseAdapter {
     }
 
     class ViewHolder {
-        NetworkImageView _userAvatar;
+        ImageView _userAvatar;
         TextView         _userName;
-        NetworkImageView _recentPostImage;
+        ImageView _recentPostImage;
         TextView         _recentPostTime;
         TextView         _recentPostSpotName;
     }

@@ -61,6 +61,7 @@ public class AsyncHttpGet extends AsyncHttpBase {
             }
             HttpConnectionParams.setConnectionTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
             HttpConnectionParams.setSoTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
+            
             // Lemon commented 19/04/2012
             HttpClient httpclient = createHttpClient(url, params);
             AIOLog.e("GET URL executed  : " + url + combinedParams);

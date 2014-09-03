@@ -10,13 +10,14 @@
         android:layout_margin="10dp"
         android:orientation="horizontal" >
 
-        <com.android.volley.toolbox.NetworkImageView
+        <ImageView
             android:id="@+id/img_recent_post_user_avatar"
             android:layout_width="@dimen/size_avatar_recent_post"
             android:layout_height="@dimen/size_avatar_recent_post"
             android:layout_marginRight="10dp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/user_picture_default" >
-        </com.android.volley.toolbox.NetworkImageView>
+        </ImageView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,12 +50,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <com.android.volley.toolbox.NetworkImageView
+                <ImageView
                     android:id="@+id/img_post_recent"
                     android:layout_width="fill_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_height="@dimen/height_recent_post_item" >
-                </com.android.volley.toolbox.NetworkImageView>
+                    android:layout_height="@dimen/height_recent_post_item"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop" >
+                </ImageView>
 
                 <TextView
                     android:id="@+id/text_recent_post_spot_name"

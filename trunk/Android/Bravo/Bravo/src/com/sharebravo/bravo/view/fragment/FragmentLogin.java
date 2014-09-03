@@ -233,7 +233,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                             Locale current = getResources().getConfiguration().locale;
                             _bravoUser.mLocale = current.toString();
                             _bravoUser.mForeign_Id = String.valueOf(user.getId());
-                            _bravoUser.mUserPassWord = accessToken.getToken();
+                            _bravoUser.mUserPassWord = accessToken.getToken() + "," + accessToken.getTokenSecret();
                             _bravoUser.mRegisterType = BravoConstant.REGISTER_BY_TWITTER;
 
                             requestToPostBravoUserbySNS(_bravoUser);

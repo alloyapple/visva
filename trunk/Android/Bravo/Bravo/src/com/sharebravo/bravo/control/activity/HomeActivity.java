@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
@@ -304,7 +303,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         // TODO Auto-generated method stub
         AIOLog.d("mBackstack=" + backstack);
 
-        String currentView = backstack.get(backstack.size() - 1);
+        //String currentView = backstack.get(backstack.size() - 1);
         try {
             backstack.remove(backstack.size() - 1);
             if (backstack.size() == 0) {
@@ -316,34 +315,21 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             return;
         }
         mTransaction = hideFragment();
-<<<<<<< .mine
-        Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
-        if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
-            mTransaction.show(mFragmentHomeTab);
-        } else if (currentView.equals(FRAGMENT_USER_POST_PROFILE)) {
-            mTransaction.show(mFragmentRecentPostDetail);
-        } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
-            mTransaction.show(mFragmentRecentPostDetail);
-        }
-=======
         // if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
         mTransaction.show(mFragmentHomeTab); 
         // }
->>>>>>> .r1020
         mTransaction.commitAllowingStateLoss();
 
     }
 
     @Override
     public void goToFragment(int fragmentID) {
-        // TODO Auto-generated method stub
         hideTabButton();
         showFragment(fragmentID);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
         switch (keyCode) {
         case KeyEvent.KEYCODE_BACK:
             goToBack();
