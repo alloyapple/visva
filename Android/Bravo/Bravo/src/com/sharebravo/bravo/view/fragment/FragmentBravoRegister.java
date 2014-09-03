@@ -45,6 +45,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
+import com.sharebravo.bravo.utils.StringUtility;
 
 public class FragmentBravoRegister extends FragmentBasic {
     // ====================Constant Define=================
@@ -76,7 +77,12 @@ public class FragmentBravoRegister extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                onClickRegisterBravoUser();
+                if (!StringUtility.isEmpty(mEditTextUserName)) {
+                    onClickRegisterBravoUser();
+                }
+                else {
+                    mEditTextUserName.setError(getActivity().getResources().getString(R.string.username_not_valid));
+                }
             }
         });
 
@@ -108,7 +114,7 @@ public class FragmentBravoRegister extends FragmentBasic {
         String email = mEditTextUserEmail.getText().toString();
         String password = mEditTextPassWord.getText().toString();
         String name = mEditTextUserName.getText().toString();
-        if (checkValidateEmail(email)) {
+        if (isValidEmail_PassWord(email, password)) {
             BravoUser _bravoUser = new BravoUser();
             _bravoUser.mUserEmail = email;
             _bravoUser.mUserName = name;
@@ -187,14 +193,6 @@ public class FragmentBravoRegister extends FragmentBasic {
             }
         }, params, true);
         postRegister.execute(BravoWebServiceConfig.URL_POST_USER);
-    }
-
-    private boolean checkValidateEmail(String email) {
-        if (mEmailValidator.validate(email))
-            return true;
-        else {
-            return false;
-        }
     }
 
     private void pickImage() {
@@ -381,5 +379,19 @@ public class FragmentBravoRegister extends FragmentBasic {
         }
 
         return inSampleSize;
+    }
+
+    private boolean isValidEmail_PassWord(String email, String passWord) {
+        if (mEmailValidator.validate(email))
+            if (passWord.length() >= 8)
+                return true;
+            else {
+                mEditTextPassWord.setError(getActivity().getResources().getString(R.string.password_not_valid));
+                return false;
+            }
+        else {
+            mEditTextUserEmail.setError(getActivity().getResources().getString(R.string.email_not_valid));
+            return false;
+        }
     }
 }
