@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
@@ -87,7 +88,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onCreate() {
         MyApplication myApp = (MyApplication) getApplication();
         myApp._homeActivity = this;
-        
 
         if (Build.VERSION.SDK_INT >= 11)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
@@ -241,9 +241,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             break;
         case FRAGMENT_USER_POST_PROFILE_ID:
             mTransaction = hideFragment();
-            addToSBackStack(FRAGMENT_USER_POST_PROFILE);
-            mTransaction.show(mFragmentUserPostProfile);
 
+            mTransaction.show(mFragmentUserPostProfile);
+            addToSBackStack(FRAGMENT_USER_POST_PROFILE);
             mTransaction.commit();
             break;
         default:
@@ -305,7 +305,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         // TODO Auto-generated method stub
         AIOLog.d("mBackstack=" + backstack);
 
-        //String currentView = backstack.get(backstack.size() - 1);
+        String currentView = backstack.get(backstack.size() - 1);
         try {
             backstack.remove(backstack.size() - 1);
             if (backstack.size() == 0) {
@@ -317,9 +317,15 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             return;
         }
         mTransaction = hideFragment();
-        // if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
-        mTransaction.show(mFragmentHomeTab); 
-        // }
+
+        Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
+        if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
+            mTransaction.show(mFragmentHomeTab);
+        } else if (currentView.equals(FRAGMENT_USER_POST_PROFILE)) {
+            mTransaction.show(mFragmentRecentPostDetail);
+        } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
+            mTransaction.show(mFragmentRecentPostDetail);
+        }
         mTransaction.commitAllowingStateLoss();
 
     }
@@ -340,7 +346,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         default:
             break;
         }
-        return super.onKeyDown(keyCode, event);
+        // return super.onKeyDown(keyCode, event);
+        return false;
 
     }
 
