@@ -63,7 +63,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 null);
         mHomeActionListener = (HomeActivity) getActivity();
         listviewRecentPostDetail = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post_detail);
-        adapterRecentPostDetail = new AdapterRecentPostDetail(getActivity());
+        adapterRecentPostDetail = new AdapterRecentPostDetail(getActivity(),this);
         adapterRecentPostDetail.setListener(this);
         listviewRecentPostDetail.setFooterDividersEnabled(false);
         listviewRecentPostDetail.setAdapter(adapterRecentPostDetail);
@@ -193,7 +193,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
-                onCallSpot();
+                
             }
         });
         Button btnOK = (Button) dialog_view.findViewById(R.id.btn_call_spot_yes);
@@ -203,6 +203,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
+                onCallSpot();
             }
         });
         dialog.setContentView(dialog_view);

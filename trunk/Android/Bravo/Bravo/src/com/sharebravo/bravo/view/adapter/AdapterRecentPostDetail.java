@@ -2,6 +2,7 @@ package com.sharebravo.bravo.view.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,7 @@ import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
@@ -28,11 +30,16 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     private ObGetBravo         bravoObj       = null;
     private ObGetComments      mObGetComments = null;
     private ImageLoader        mImageLoader   = null;
+    Fragment                   fragment;
+    FragmentTransaction        transaction;
 
-    public AdapterRecentPostDetail(Context context) {
+    public AdapterRecentPostDetail(Context context, Fragment fragment) {
         // TODO Auto-generated constructor stub
         this.mContext = context;
         mImageLoader = new ImageLoader(mContext);
+        this.fragment = fragment;
+        transaction = fragment.getChildFragmentManager().beginTransaction();
+        
     }
 
     public void setListener(DetailPostListener listener) {
@@ -76,7 +83,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     TextView  btnShare;
     boolean   isSave;
     TextView  btnReport;
-    Fragment mapFragment;
+    Fragment  mapFragment = new Fragment();
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -86,7 +93,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.layout_post_detail_header, null, false);
-                imagePost = (NetworkImageView) convertView.findViewById(R.id.image_post_detail);
+                imagePost = (ImageView) convertView.findViewById(R.id.image_post_detail);
                 contentPost = (TextView) convertView.findViewById(R.id.content_post_detail);
                 userAvatar = (ImageView) convertView.findViewById(R.id.img_avatar);
                 txtUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
@@ -96,11 +103,17 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnFollow = (Button) convertView.findViewById(R.id.btn_follow);
                 btnSave = (TextView) convertView.findViewById(R.id.btn_save);
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
+                transaction.add(R.id.img_map, mapFragment);
+                transaction.hide(mapFragment);
+                transaction.commit();
             }
             String imgSpotUrl = bravoObj.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 imagePost.setImageResource(R.drawable.user_picture_default);
+                //transaction.commit();
             } else {
+                
+
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost);
             }
             contentPost.setText(bravoObj.Spot_Name);
