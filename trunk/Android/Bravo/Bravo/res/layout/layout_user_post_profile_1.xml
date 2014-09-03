@@ -10,10 +10,10 @@
         android:layout_height="@dimen/height_post_detail_1"
         android:gravity="center|center_horizontal"
         android:orientation="horizontal"
-        android:weightSum="2" >
+        android:weightSum="3" >
 
         <Button
-            android:id="@+id/btn_call_spot"
+            android:id="@+id/btn_bravos"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
@@ -21,7 +21,7 @@
             android:background="@drawable/color_button"
             android:baselineAligned="true"
             android:gravity="center"
-            android:text="@string/btn_call_spot"
+            android:text="@string/btn_bravos"
             android:textStyle="bold" />
 
         <ImageView
@@ -31,14 +31,32 @@
             android:contentDescription="@string/login" />
 
         <Button
-            android:id="@+id/btn_view_map"
+            android:id="@+id/btn_followings"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/color_button"
             android:gravity="center"
-            android:text="@string/btn_view_map"
+            android:text="@string/btn_followings"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="@dimen/layout_login_register_height"
+            android:background="@color/devider_color"
+            android:contentDescription="@string/login" />
+
+        <Button
+            android:id="@+id/btn_fans"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_post_detail_1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:gravity="center"
+            android:text="@string/btn_fans"
+            android:textColor="@color/postn_detail_button_call_spot_text"
             android:textStyle="bold" />
     </LinearLayout>
 

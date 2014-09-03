@@ -89,6 +89,14 @@
     <string name="share_on_line">Share on Line</string>
     <string name="share_cancel">Cancel</string>
     <!-- +++++ -->
+    
+     <!-- Use profile -->
+    <string name="btn_bravos">Bravos</string>
+    <string name="btn_followings">Following</string>
+    <string name="btn_fans">Fans</string>
+    <string name="btn_bravo_map">Bravo Map</string>
+    <string name="btn_block">Block</string>
+    <!-- +++++ -->
 
 
     <!-- GCM strings -->

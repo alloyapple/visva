@@ -14,7 +14,7 @@
             android:scaleType="fitXY" >
         </com.android.volley.toolbox.NetworkImageView>
 
-        <fragment
+        <fragment 
             android:id="@+id/img_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
