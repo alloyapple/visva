@@ -95,6 +95,7 @@
         android:layout_below="@id/icon_intro"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/text_intro_margin_left"
+        android:layout_marginRight="@dimen/text_intro_margin_left"
         android:layout_marginTop="@dimen/text_intro_below_icon"
         android:text="@string/splash_message"
         android:textColor="@color/white"

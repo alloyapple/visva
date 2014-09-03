@@ -27,7 +27,7 @@
     <string name="no_address_found">No address found for location</string>
 
     <!-- Login/Register -->
-    <string name="splash_message">The shop app that\'s taking the world by storm!</string>
+    <string name="splash_message">The shop app \nthat\'s taking the \nworld by storm!</string>
     <string name="reset_password">Reset password</string>
     <string name="register">Register</string>
     <string name="sign_up_facebook">Sign up with Facebook</string>

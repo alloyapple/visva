@@ -4,20 +4,19 @@
     android:layout_height="@dimen/height_post_detail_2"
     android:orientation="horizontal" >
 
-    <com.android.volley.toolbox.NetworkImageView
+    <ImageView
         android:id="@+id/img_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/home_default_avatar" />
+        android:background="@drawable/home_default_avatar" />
 
     <TextView
         android:id="@+id/txt_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Test User"
         android:textColor="@color/black"
         android:textStyle="bold" />
 
