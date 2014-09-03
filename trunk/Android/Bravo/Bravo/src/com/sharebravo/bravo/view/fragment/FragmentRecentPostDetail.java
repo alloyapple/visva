@@ -7,15 +7,18 @@ import org.apache.http.NameValuePair;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -140,15 +143,21 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         showDialogCallSpot();
     }
 
+    public void onCallSpot() {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + bravoObj.Spot_Phone));
+        startActivity(intent);
+    }
+
     @Override
     public void goToShare() {
         // TODO Auto-generated method stub
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        String shareBody = "Bravo Share";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        // Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        // sharingIntent.setType("text/plain");
+        // String shareBody = "Bravo Share";
+        // sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject");
+        // sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        // startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        showDialogShare();
     }
 
     @Override
@@ -170,21 +179,122 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     }
 
     public void showDialogCallSpot() {
-        Dialog dialog = new Dialog(getActivity());
+        final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_call_spot, null);
+        TextView content = (TextView) dialog_view.findViewById(R.id.call_spot_dialog_content);
+        content.setText("Call " + bravoObj.Spot_Name + "?");
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_call_spot_no);
+        btnCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+                onCallSpot();
+            }
+        });
+        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_call_spot_yes);
+        btnOK.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
         dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialog.show();
+    }
+
+    public void showDialogShare() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_goto_share, null);
+        Button btnShareFacebook = (Button) dialog_view.findViewById(R.id.btn_share_facebook);
+        btnShareFacebook.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+
+            }
+        });
+        Button btnShareTwitter = (Button) dialog_view.findViewById(R.id.btn_share_twitter);
+        btnShareTwitter.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+        Button btnShareLine = (Button) dialog_view.findViewById(R.id.btn_share_line);
+        btnShareLine.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+        Button btnShareCancel = (Button) dialog_view.findViewById(R.id.btn_share_cancel);
+        btnShareCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
         dialog.show();
     }
 
     public void showDialogReport() {
-        Dialog dialog = new Dialog(getActivity());
+        final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_report, null);
+        Button btnOk = (Button) dialog_view.findViewById(R.id.btn_report_yes);
+        btnOk.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_report_no);
+        btnCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
         dialog.setContentView(dialog_view);
         dialog.show();
     }
