@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,21 +31,23 @@ import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 
 public class FragmentHomeTab extends FragmentBasic {
-    private PullAndLoadListView      mListviewRecentPost       = null;
-    private AdapterRecentPost        mAdapterRecentPost        = null;
-    private HomeActionListener       mHomeActionListener       = null;
-    private ObGetAllBravoRecentPosts mObGetAllBravoRecentPosts = null;
-    private SessionLogin             mSessionLogin             = null;
-    private int                      mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
-    private OnItemClickListener      iRecentPostClickListener  = new OnItemClickListener() {
+    private PullAndLoadListView       mListviewRecentPost       = null;
+    private AdapterRecentPost         mAdapterRecentPost        = null;
+    private HomeActionListener        mHomeActionListener       = null;
+    private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
+    private SessionLogin              mSessionLogin             = null;
+    private Button                    mBtnHomeNotification      = null;
+    private IShowPageHomeNotification mListener                 = null;
+    private int                       mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
+    private OnItemClickListener       iRecentPostClickListener  = new OnItemClickListener() {
 
-                                                                   @Override
-                                                                   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                       AIOLog.d("position:" + position);
-                                                                       mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
-                                                                               .get(position - 1));
-                                                                   }
-                                                               };
+                                                                    @Override
+                                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                        AIOLog.d("position:" + position);
+                                                                        mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
+                                                                                .get(position - 1));
+                                                                    }
+                                                                };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,6 +100,15 @@ public class FragmentHomeTab extends FragmentBasic {
     }
 
     private void intializeView(View root) {
+        mBtnHomeNotification = (Button) root.findViewById(R.id.btn_home_notification);
+        mBtnHomeNotification.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // show home notification tab
+                mListener.showPageHomeNotification();
+            }
+        });
         mListviewRecentPost = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post);
         mAdapterRecentPost = new AdapterRecentPost(getActivity(), mObGetAllBravoRecentPosts);
         mListviewRecentPost.setAdapter(mAdapterRecentPost);
@@ -113,5 +125,13 @@ public class FragmentHomeTab extends FragmentBasic {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    public interface IShowPageHomeNotification {
+        public void showPageHomeNotification();
+    }
+
+    public void setListener(IShowPageHomeNotification iShowPageHomeNotification) {
+        this.mListener = iShowPageHomeNotification;
     }
 }
