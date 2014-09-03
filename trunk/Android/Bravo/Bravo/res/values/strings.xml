@@ -84,6 +84,10 @@
     <string name="btn_post">Post</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
+    <string name="share_on_facebook">Share on Facebook</string>
+    <string name="share_on_twitter">Share on Twitter</string>
+    <string name="share_on_line">Share on Line</string>
+    <string name="share_cancel">Cancel</string>
     <!-- +++++ -->
 
 
