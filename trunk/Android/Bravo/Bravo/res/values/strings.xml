@@ -98,6 +98,7 @@
     <string name="btn_fans">Fans</string>
     <string name="btn_bravo_map">Bravo Map</string>
     <string name="btn_block">Block</string>
+    <string name="get_user_info_error">Cannot get user info</string>
     <!-- +++++ -->
 
 
