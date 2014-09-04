@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoTab extends FragmentBasic {
 	@Override

@@ -64,6 +64,7 @@
     <!-- Home -->
     <string name="label_recent_post">Recent Posts</string>
     <string name="btn_notification">Notifications</string>
+    <string name="btn_close">Close</string>
     <string name="btn_back">Back</string>
     <string name="btn_setting">Settings</string>
     <string name="hint_search_friends">Search for friends</string>
@@ -89,13 +90,19 @@
     <string name="share_on_line">Share on Line</string>
     <string name="share_cancel">Cancel</string>
     <!-- +++++ -->
-    
-     <!-- Use profile -->
+
+
+    <!-- Use profile -->
     <string name="btn_bravos">Bravos</string>
     <string name="btn_followings">Following</string>
     <string name="btn_fans">Fans</string>
     <string name="btn_bravo_map">Bravo Map</string>
     <string name="btn_block">Block</string>
+    <!-- +++++ -->
+
+
+    <!-- Home Notification -->
+    <string name="get_notification_error">cannot get notification</string>
     <!-- +++++ -->
 
 

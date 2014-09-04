@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.login_register;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -39,6 +39,7 @@ import com.sharebravo.bravo.control.activity.WebAuthActivity;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentRegister extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener,
         LoginTextView.UserInfoChangedCallback {

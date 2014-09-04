@@ -1,11 +1,13 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.home;
+
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentHomeNotification extends FragmentBasic{
+public class FragmentSetting extends FragmentBasic{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

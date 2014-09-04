@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.home;
 
 import java.util.List;
 
@@ -34,6 +34,7 @@ import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPostDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
 
 public class FragmentRecentPostDetail extends FragmentBasic implements DetailPostListener {

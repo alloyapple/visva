@@ -21,7 +21,7 @@ import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail;
+import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;

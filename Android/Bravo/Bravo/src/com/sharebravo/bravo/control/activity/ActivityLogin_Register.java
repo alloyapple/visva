@@ -21,15 +21,15 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.view.fragment.FragmentBravoLogin;
-import com.sharebravo.bravo.view.fragment.FragmentBravoLogin.IShowPageForgotPassword;
-import com.sharebravo.bravo.view.fragment.FragmentBravoRegister;
-import com.sharebravo.bravo.view.fragment.FragmentForgotPassword;
-import com.sharebravo.bravo.view.fragment.FragmentLogin;
-import com.sharebravo.bravo.view.fragment.FragmentLogin.IShowPageBravoLogin;
-import com.sharebravo.bravo.view.fragment.FragmentRegister;
-import com.sharebravo.bravo.view.fragment.FragmentRegister.IShowPageBravoRegister;
-import com.sharebravo.bravo.view.fragment.FragmentRegisterUserInfo;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentBravoLogin;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentBravoRegister;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentForgotPassword;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentLogin;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentRegister;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentRegisterUserInfo;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentBravoLogin.IShowPageForgotPassword;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentLogin.IShowPageBravoLogin;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentRegister.IShowPageBravoRegister;
 
 public class ActivityLogin_Register extends FragmentActivity implements IShowPageBravoLogin, IShowPageBravoRegister, IShowPageForgotPassword {
 

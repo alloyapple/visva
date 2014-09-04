@@ -18,49 +18,55 @@
                 android:id="@+id/fragment_home_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentHomeTab" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentHomeTab" />
 
             <fragment
                 android:id="@+id/fragment_network_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentNetworkTab" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab" />
 
             <fragment
                 android:id="@+id/fragment_bravo_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentBravoTab" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentBravoTab" />
 
             <fragment
                 android:id="@+id/fragment_search_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentSearchTab" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentSearchTab" />
 
             <fragment
                 android:id="@+id/fragment_mydata_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentMyDataTab" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentMyDataTab" />
 
             <fragment
                 android:id="@+id/fragment_recent_post_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail" />
 
             <fragment
                 android:id="@+id/fragment_map_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentMapView" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentMapView" />
 
             <fragment
                 android:id="@+id/fragment_user_post_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.FragmentUserPostProfile" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentUserPostProfile" />
+
+            <fragment
+                android:id="@+id/fragment_home_notification"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification" />
         </RelativeLayout>
 
         <FrameLayout
