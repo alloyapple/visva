@@ -34,37 +34,37 @@
             android:id="@+id/fragment_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.sharebravo.bravo.view.fragment.FragmentLogin" />
+            class="com.sharebravo.bravo.view.fragment.login_register.FragmentLogin" />
 
         <fragment
             android:id="@+id/fragment_register"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.sharebravo.bravo.view.fragment.FragmentRegister" />
+            class="com.sharebravo.bravo.view.fragment.login_register.FragmentRegister" />
 
         <fragment
             android:id="@+id/fragment_bravo_user_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.sharebravo.bravo.view.fragment.FragmentRegisterUserInfo" />
+            class="com.sharebravo.bravo.view.fragment.login_register.FragmentRegisterUserInfo" />
 
         <fragment
             android:id="@+id/fragment_bravo_register"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.sharebravo.bravo.view.fragment.FragmentBravoRegister" />
+            class="com.sharebravo.bravo.view.fragment.login_register.FragmentBravoRegister" />
 
         <fragment
             android:id="@+id/fragment_bravo_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.sharebravo.bravo.view.fragment.FragmentBravoLogin" />
+            class="com.sharebravo.bravo.view.fragment.login_register.FragmentBravoLogin" />
 
         <fragment
             android:id="@+id/fragment_forgot_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.sharebravo.bravo.view.fragment.FragmentForgotPassword" />
+            class="com.sharebravo.bravo.view.fragment.login_register.FragmentForgotPassword" />
     </RelativeLayout>
 
 </LinearLayout>

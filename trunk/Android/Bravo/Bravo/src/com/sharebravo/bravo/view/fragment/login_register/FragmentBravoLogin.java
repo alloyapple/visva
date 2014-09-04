@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.login_register;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +27,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoLogin extends FragmentBasic {
     // ===================Constant Define ==========================

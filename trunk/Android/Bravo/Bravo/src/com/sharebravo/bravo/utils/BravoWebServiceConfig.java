@@ -7,7 +7,7 @@ public class BravoWebServiceConfig {
     public static int          STATUS_RESPONSE_DATA_ERROR           = 0x2;
     // Server api
     public static final String URL_BRAVO_BASE                       = "https://dev1.sharebravo.com/api";
-    public static final String URL_GET_NOTIFICATION                 = URL_BRAVO_BASE + "/notification/{Action_ID}?User_ID={str}&Access_Token={str}";
+    public static final String URL_GET_NOTIFICATION                 = URL_BRAVO_BASE + "/notification";
     public static final String URL_GET_NOTIFICATION_SEARCH          = URL_BRAVO_BASE
                                                                             + "/notification?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
     public static final String URL_GET_BLOCKING_CHECK               = URL_BRAVO_BASE

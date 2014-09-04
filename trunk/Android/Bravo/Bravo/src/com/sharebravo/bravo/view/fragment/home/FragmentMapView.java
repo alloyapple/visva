@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.home;
 
 import com.google.android.gms.maps.SupportMapFragment;
 

@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.login_register;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +58,7 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentLogin extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener, LoginTextView.UserInfoChangedCallback {
     // ====================Constant Define=================

@@ -19,17 +19,18 @@ import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.view.fragment.FragmentBravoTab;
-import com.sharebravo.bravo.view.fragment.FragmentHomeTab;
-import com.sharebravo.bravo.view.fragment.FragmentHomeTab.IShowPageHomeNotification;
-import com.sharebravo.bravo.view.fragment.FragmentMapView;
-import com.sharebravo.bravo.view.fragment.FragmentMyDataTab;
-import com.sharebravo.bravo.view.fragment.FragmentNetworkTab;
-import com.sharebravo.bravo.view.fragment.FragmentRecentPostDetail;
-import com.sharebravo.bravo.view.fragment.FragmentSearchTab;
-import com.sharebravo.bravo.view.fragment.FragmentUserPostProfile;
+import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
+import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
+import com.sharebravo.bravo.view.fragment.home.FragmentMyDataTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
+import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentUserPostProfile;
+import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener,IShowPageHomeNotification {
+public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification {
 
     // ======================Constant Define===============
     private static final String      FRAGMENT_HOME_TAB              = "home_tab";
@@ -42,6 +43,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_MAP_VIEW              = "map_view";
     private static final String      FRAGMENT_USER_POST_PROFILE     = "user_post_profile";
 
+    private static final String      FRAGMENT_HOME_NOTIFICATION     = "notification";
+
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
     public static final int          FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
@@ -51,6 +54,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
     public static final int          FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
     public static final int          FRAGMENT_USER_POST_PROFILE_ID  = FRAGMENT_BASE_ID + 8;
+    public static final int          FRAGMENT_HOME_NOTIFICATION_ID  = FRAGMENT_USER_POST_PROFILE_ID + 1;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -63,6 +67,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentRecentPostDetail mFragmentRecentPostDetail;
     private FragmentMapView          mFragmentMapView;
     private FragmentUserPostProfile  mFragmentUserPostProfile;
+    private FragmentHomeNotification mFragmentHomeNotification;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -162,6 +167,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentRecentPostDetail = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_recent_post_detail);
         mFragmentMapView = (FragmentMapView) mFmManager.findFragmentById(R.id.fragment_map_view);
         mFragmentUserPostProfile = (FragmentUserPostProfile) mFmManager.findFragmentById(R.id.fragment_user_post_profile);
+        mFragmentHomeNotification = (FragmentHomeNotification) mFmManager.findFragmentById(R.id.fragment_home_notification);
+
+        mFragmentHomeTab.setListener(this);
 
         mTransaction = hideFragment();
         showFragment(FRAGMENT_HOME_TAB_ID);
@@ -246,6 +254,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             addToSBackStack(FRAGMENT_USER_POST_PROFILE);
             mTransaction.commit();
             break;
+        case FRAGMENT_HOME_NOTIFICATION_ID:
+            mTransaction = hideFragment();
+
+            mTransaction.show(mFragmentHomeNotification);
+            addToSBackStack(FRAGMENT_HOME_NOTIFICATION);
+            mTransaction.commit();
+            break;
         default:
             break;
         }
@@ -261,6 +276,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentRecentPostDetail);
         mTransaction.hide(mFragmentMapView);
         mTransaction.hide(mFragmentUserPostProfile);
+        mTransaction.hide(mFragmentHomeNotification);
         return mTransaction;
     }
 
@@ -302,7 +318,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToBack() {
-        // TODO Auto-generated method stub
         AIOLog.d("mBackstack=" + backstack);
 
         String currentView = backstack.get(backstack.size() - 1);
@@ -353,7 +368,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void showPageHomeNotification() {
-        
+        goToFragment(FRAGMENT_HOME_NOTIFICATION_ID);
+        mFragmentHomeNotification.onRequestListHomeNotification();
     }
 
 }

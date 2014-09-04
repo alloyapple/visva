@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment;
+package com.sharebravo.bravo.view.fragment.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.view.adapter.AdapterUserPostProfile;
 import com.sharebravo.bravo.view.adapter.UserPostProfileListener;
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
 
 public class FragmentUserPostProfile extends FragmentBasic implements UserPostProfileListener {
