@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -49,12 +53,30 @@ public class FragmentMyDataTab extends FragmentBasic {
             userId = "";
             accessToken = "";
         }
-        String url = BravoWebServiceConfig.URL_GET_USER_INFO;
+        String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + userId;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("get user info at my data:" + response);
+                if (StringUtility.isEmpty(response))
+                    return;
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetUserInfo obGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
+                if (obGetUserInfo == null) {
+                    AIOLog.e("obGetUserInfo is null");
+                } else {
+                    switch (obGetUserInfo.status) {
+                    case BravoConstant.STATUS_FAILED:
+                        showToast(getActivity().getResources().getString(R.string.get_user_info_error));
+                        break;
+                    case BravoConstant.STATUS_SUCCESS:
+
+                        break;
+                    default:
+                        break;
+                    }
+                }
             }
 
             @Override
