@@ -21,6 +21,7 @@ import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
+import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentMyDataTab;
@@ -30,7 +31,7 @@ import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentUserPostProfile;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification {
+public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification,IClosePageHomeNotification {
 
     // ======================Constant Define===============
     private static final String      FRAGMENT_HOME_TAB              = "home_tab";
@@ -170,7 +171,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentHomeNotification = (FragmentHomeNotification) mFmManager.findFragmentById(R.id.fragment_home_notification);
 
         mFragmentHomeTab.setListener(this);
-
+        mFragmentHomeNotification.setListener(this);
+        
         mTransaction = hideFragment();
         showFragment(FRAGMENT_HOME_TAB_ID);
     }
@@ -370,6 +372,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void showPageHomeNotification() {
         goToFragment(FRAGMENT_HOME_NOTIFICATION_ID);
         mFragmentHomeNotification.onRequestListHomeNotification();
+    }
+
+    @Override
+    public void closePageHomeNotification() {
+        goToFragment(FRAGMENT_HOME_TAB_ID);
     }
 
 }

@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,12 +28,31 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
-public class FragmentHomeNotification extends FragmentBasic{
+public class FragmentHomeNotification extends FragmentBasic {
+    private ListView mListViewNotifications;
+    private TextView mTextNoNotifications;
+    private Button   mBtnCloseNotifications;
+    private IClosePageHomeNotification iClosePageHomeNotification;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_home_notification, container);
+
+        initializeView(root);
         return root;
+    }
+
+    private void initializeView(View root) {
+        mListViewNotifications = (ListView) root.findViewById(R.id.listview_home_notification);
+        mTextNoNotifications = (TextView) root.findViewById(R.id.text_no_notification);
+        mBtnCloseNotifications = (Button) root.findViewById(R.id.btn_home_close_notification);
+        mBtnCloseNotifications.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                iClosePageHomeNotification.closePageHomeNotification();
+            }
+        });
     }
 
     public void onRequestListHomeNotification() {
@@ -49,19 +71,30 @@ public class FragmentHomeNotification extends FragmentBasic{
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("get notification:" + response);
-                if(StringUtility.isEmpty(response))
-                        return;
+                if (StringUtility.isEmpty(response))
+                    return;
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetNotification obGetNotification = gson.fromJson(response.toString(), ObGetNotification.class);
-                if(obGetNotification == null){
+                if (obGetNotification == null) {
                     AIOLog.e("obGetNotification is null");
                     return;
                 }
-                AIOLog.d("obGetNotification status:"+obGetNotification.status);
-                if(BravoConstant.STATUS_SUCCESS == obGetNotification.status){
-                    
-                }else{
+                AIOLog.d("obGetNotification status:" + obGetNotification.status);
+                switch (obGetNotification.status) {
+                case BravoConstant.STATUS_SUCCESS:
+                    if (obGetNotification.data == null || obGetNotification.data.size() <= 0) {
+                        mTextNoNotifications.setVisibility(View.VISIBLE);
+                        mListViewNotifications.setVisibility(View.GONE);
+                    } else {
+                        mTextNoNotifications.setVisibility(View.GONE);
+                        mListViewNotifications.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case BravoConstant.STATUS_FAILED:
                     showToast(getActivity().getResources().getString(R.string.get_notification_error));
+                    break;
+                default:
+                    break;
                 }
             }
 
@@ -71,5 +104,13 @@ public class FragmentHomeNotification extends FragmentBasic{
             }
         }, params, true);
         getLoginRequest.execute(url);
+    }
+    
+    public interface IClosePageHomeNotification {
+        public void closePageHomeNotification();
+    }
+
+    public void setListener(IClosePageHomeNotification iClosePageHomeNotification) {
+        this.iClosePageHomeNotification = iClosePageHomeNotification;
     }
 }
