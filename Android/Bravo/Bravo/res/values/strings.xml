@@ -103,6 +103,7 @@
 
     <!-- Home Notification -->
     <string name="get_notification_error">cannot get notification</string>
+    <string name="no_notifications">No notifications</string>
     <!-- +++++ -->
 
 
