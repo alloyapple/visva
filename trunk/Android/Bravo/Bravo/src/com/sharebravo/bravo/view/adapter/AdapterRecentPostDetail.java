@@ -22,7 +22,6 @@ import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
@@ -127,7 +126,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
-                    listener.goToFragment(HomeActivity.FRAGMENT_USER_POST_PROFILE_ID);
+                    listener.goToFragment(HomeActivity.FRAGMENT_USER_DATA_TAB_ID);
                 }
             });
 
