@@ -1,10 +1,13 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,8 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
+import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
+import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 
 public class FragmentHomeTab extends FragmentBasic {
     private PullAndLoadListView       mListviewRecentPost       = null;
@@ -115,6 +120,24 @@ public class FragmentHomeTab extends FragmentBasic {
         mListviewRecentPost.setAdapter(mAdapterRecentPost);
         mListviewRecentPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewRecentPost.setVisibility(View.GONE);
+        /* load more old items */
+        mListviewRecentPost.setOnLoadMoreListener(new IOnLoadMoreListener() {
+
+            @Override
+            public void onLoadMore() {
+                AIOLog.d("IOnLoadMoreListener");
+            }
+        });
+
+        /* on refresh new items */
+        /* load more old items */
+        mListviewRecentPost.setOnRefreshListener(new IOnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                AIOLog.d("IOnRefreshListener");
+            }
+        });
     }
 
     @Override
