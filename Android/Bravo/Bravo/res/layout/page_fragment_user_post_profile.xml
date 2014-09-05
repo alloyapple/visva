@@ -24,6 +24,20 @@
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="@dimen/com_facebook_loginview_text_size" />
+
+        <Button
+            android:id="@+id/btn_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="3dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bt_notification"
+            android:text="@string/btn_setting"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" >
+        </Button>
     </RelativeLayout>
 
     <com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView
