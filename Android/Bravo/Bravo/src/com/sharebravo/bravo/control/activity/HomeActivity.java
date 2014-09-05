@@ -204,68 +204,50 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     private void showFragment(int fragment) {
+        mTransaction = hideFragment();
         switch (fragment) {
-
         case FRAGMENT_HOME_TAB_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentHomeTab);
             addToSBackStack(FRAGMENT_HOME_TAB);
-            mTransaction.commit();
             break;
 
         case FRAGMENT_NETWORK_TAB_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentNetworkTab);
             addToSBackStack(FRAGMENT_NETWORK_TAB);
-            mTransaction.commit();
             break;
         case FRAGMENT_BRAVO_TAB_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentBravoTab);
             addToSBackStack(FRAGMENT_BRAVO_TAB);
-            mTransaction.commit();
             break;
         case FRAGMENT_SEARCH_TAB_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentSearchTab);
             addToSBackStack(FRAGMENT_SEARCH_TAB);
-            mTransaction.commit();
             break;
         case FRAGMENT_MYDATA_TAB_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentMyDataTab);
             addToSBackStack(FRAGMENT_MYDATA_TAB);
-            mTransaction.commit();
             break;
         case FRAGMENT_RECENT_POST_DETAIL_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentRecentPostDetail);
             addToSBackStack(FRAGMENT_RECENT_POST_DETAIL);
-            mTransaction.commit();
             break;
         case FRAGMENT_MAP_VIEW_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentMapView);
             addToSBackStack(FRAGMENT_MAP_VIEW);
-            mTransaction.commit();
             break;
         case FRAGMENT_USER_POST_PROFILE_ID:
-            mTransaction = hideFragment();
-
             mTransaction.show(mFragmentUserPostProfile);
             addToSBackStack(FRAGMENT_USER_POST_PROFILE);
-            mTransaction.commit();
             break;
         case FRAGMENT_HOME_NOTIFICATION_ID:
-            mTransaction = hideFragment();
-
             mTransaction.show(mFragmentHomeNotification);
             addToSBackStack(FRAGMENT_HOME_NOTIFICATION);
-            mTransaction.commit();
             break;
         default:
             break;
         }
+        mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        mTransaction.commit();
     }
 
     public FragmentTransaction hideFragment() {
