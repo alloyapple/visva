@@ -1,9 +1,9 @@
 package com.sharebravo.bravo.control.activity;
 
-import com.sharebravo.bravo.model.response.ObGetBravo;
+import com.sharebravo.bravo.model.response.ObBravo;
 
 public interface HomeActionListener {
-    public void goToRecentPostDetail(ObGetBravo obGetBravo);
+    public void goToRecentPostDetail(ObBravo obGetBravo);
 
     public void goToFragment(int fragmentID);
 

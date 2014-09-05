@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ObGetAllBravoRecentPosts {
     @SerializedName("data")
-    public ArrayList<ObGetBravo> data;
+    public ArrayList<ObBravo> data;
     @SerializedName("status")
     public int                   status;
 

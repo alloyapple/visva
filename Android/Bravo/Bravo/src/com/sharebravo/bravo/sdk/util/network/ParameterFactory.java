@@ -63,4 +63,15 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
         return parameters;
     }
+    public static List<NameValuePair> createSubParamsGetBravo(String userID, String accessToken) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("User_ID", userID));
+        parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
+        return parameters;
+    }
+    public static List<NameValuePair> createSubParamsPutFollow(String userIDFollow) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("params", userIDFollow));
+        return parameters;
+    }
 }

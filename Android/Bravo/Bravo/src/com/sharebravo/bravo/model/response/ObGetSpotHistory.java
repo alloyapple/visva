@@ -3,7 +3,7 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharebravo.bravo.model.response.ObGetBravo.SNS;
+import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetSpotHistory {
     ArrayList<SpotHistory> data = new ArrayList<SpotHistory>();
