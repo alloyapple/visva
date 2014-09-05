@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -84,6 +85,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     boolean   isSave;
     TextView  btnReport;
     Fragment  mapFragment = new Fragment();
+    FrameLayout layoutMapview = null;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -103,17 +105,19 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnFollow = (Button) convertView.findViewById(R.id.btn_follow);
                 btnSave = (TextView) convertView.findViewById(R.id.btn_save);
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
-                transaction.add(R.id.img_map, mapFragment);
-                transaction.hide(mapFragment);
-                transaction.commit();
+                layoutMapview =(FrameLayout) convertView.findViewById(R.id.layout_map_img);
+//                transaction.add(R.id.img_map, mapFragment);
+//                transaction.hide(mapFragment);
+//                transaction.commit();
             }
             String imgSpotUrl = bravoObj.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 imagePost.setImageResource(R.drawable.user_picture_default);
                 //transaction.commit();
+                layoutMapview.setVisibility(View.VISIBLE);
             } else {
                 
-
+                layoutMapview.setVisibility(View.GONE);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost);
             }
             contentPost.setText(bravoObj.Spot_Name);
