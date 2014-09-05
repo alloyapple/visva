@@ -187,6 +187,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             }
         } catch (IndexOutOfBoundsException e) {
         }
+        AIOLog.d("mBackstack size:" + mBackstack.size());
     }
 
     public void onClickBackPersonal(View v) {
@@ -224,9 +225,8 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             mTransaction.show(mFragmentRegister);
         } else if (currentView.equals(FRAGMENT_REGISTER_USER_INFO)) {
             mTransaction.show(mFragmentRegisterUserInfo);
-        } else if (currentView.equals(FRAGMENT_LOGIN) || currentView.equals(FRAGMENT_REGISTER) ) {
-            finish();
         }
+        AIOLog.d("currentView:" + currentView);
         mTransaction.commitAllowingStateLoss();
     }
 

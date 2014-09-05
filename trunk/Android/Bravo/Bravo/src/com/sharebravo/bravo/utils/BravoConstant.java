@@ -47,8 +47,8 @@ public class BravoConstant {
 
     /* Twitter key and api */
     public static final String  BRAVO_PREFERENCE                      = "BRAVO_PREFERENCE";
-    public final static String  TWITTER_CONSUMER_KEY                  = "hmouxtO1RpTRj8zXI0REdlesH";
-    public final static String  TWITTER_CONSUMER_SECRET               = "cPsBinH5CyWQBUpFcXZRz2QkXoeeec94erGXBdHrpl7TZmlwch"; 
+    public final static String  TWITTER_CONSUMER_KEY                  = "he2yZnLcQgPTWEtNQXbCA";
+    public final static String  TWITTER_CONSUMER_SECRET               = "N1ykxuPu0VhCsgM5AZ8k2Rq9tJmVCE5HVtyZcbg"; 
     public static final String  TWITTER_CALLBACK_URL                  = "https://sharebravo.com/auth/callback"; 
     // public static final String TWITTER_ACCESS_TOKEN = "490386183-ChIDIftcjtoAqfcLJBxoUDuNqRiCHTNuXDwIG8by";
     // public static final String TWITTER_ACCESS_TOKEN_SECRET = " RFKrxNEAlUqO84CZ8ZkhSUwOXI10ahuempi8R31husKN3";
