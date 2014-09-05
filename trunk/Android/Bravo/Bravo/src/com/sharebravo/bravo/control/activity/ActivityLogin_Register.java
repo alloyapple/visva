@@ -110,8 +110,6 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             return;
         int fragmentAnimationType = 1;
         mTransaction = hideFragment(fragmentAnimationType);
-        // mTransaction.setCustomAnimations(R.anim.slide_in_right,R.anim.slide_in_left);
-        // mTransaction.setCustomAnimations(0, R.anim.slide_in_right);
         switch (fragment) {
         case BravoConstant.FRAGMENT_BRAVO_REGISTER_ID:
             mTransaction.show(mFragmentBravoRegister);
@@ -151,7 +149,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         if (fragmentAnimationType == 1)
             mTransaction.setCustomAnimations(R.anim.slide_in_right,R.anim.fade_in);
         else
-            mTransaction.setCustomAnimations(R.anim.fade_out, R.anim.slide_in_left);
+            mTransaction.setCustomAnimations(R.anim.fade_in, R.anim.slide_in_left);
         mTransaction.hide(mFragmentBravoRegister);
         mTransaction.hide(mFragmentLogin);
         mTransaction.hide(mFragmentRegister);
