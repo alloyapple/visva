@@ -1,13 +1,10 @@
 package com.sharebravo.bravo.view.fragment.home;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 
 import android.os.Bundle;
-import android.os.RemoteException;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
