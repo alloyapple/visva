@@ -53,7 +53,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_user_post_profile, null);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_user_profile, null);
 
         initializeView(root);
         return root;
@@ -76,13 +76,13 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 mHomeActionListener.goToBack();
             }
         });
-//        mBtnSettings.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                iShowPageSettings.showPageSettings();
-//            }
-//        });
+        mBtnSettings.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                iShowPageSettings.showPageSettings();
+            }
+        });
     }
 
     @Override
