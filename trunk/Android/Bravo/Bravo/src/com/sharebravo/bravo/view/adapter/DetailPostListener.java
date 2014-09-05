@@ -9,8 +9,10 @@ public interface DetailPostListener {
 
     public void goToSave();
 
-    public void goToSubmitComment();
+    public void goToSubmitComment(String commentText);
 
     public void goToReport();
+
+    public void goToFollow(boolean isFollow);
 
 }

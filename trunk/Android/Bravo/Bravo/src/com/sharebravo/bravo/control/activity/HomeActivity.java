@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.model.response.ObGetBravo;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
@@ -309,7 +309,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToRecentPostDetail(ObGetBravo obGetBravo) {
+    public void goToRecentPostDetail(ObBravo obGetBravo) {
         AIOLog.d("obGetBravo:" + obGetBravo);
         hideTabButton();
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);

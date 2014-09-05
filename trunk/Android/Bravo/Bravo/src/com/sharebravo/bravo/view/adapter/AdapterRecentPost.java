@@ -13,14 +13,14 @@ import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
-import com.sharebravo.bravo.model.response.ObGetBravo;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
 public class AdapterRecentPost extends BaseAdapter {
-    private ArrayList<ObGetBravo> mObGetAllBravoRecentPosts = new ArrayList<ObGetBravo>();
+    private ArrayList<ObBravo> mObGetAllBravoRecentPosts = new ArrayList<ObBravo>();
     private ImageLoader           mImageLoader              = null;
 
     private Context               mContext;
@@ -68,7 +68,7 @@ public class AdapterRecentPost extends BaseAdapter {
         holder._totalComment = (TextView) convertView.findViewById(R.id.text_total_spot_comment);
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
         if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
-            ObGetBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
+            ObBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
 
             if (StringUtility.isEmpty(obGetBravo.Full_Name)) {
                 holder._userName.setText("Unknown");

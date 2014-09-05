@@ -38,9 +38,10 @@ public class FragmentHomeTab extends FragmentBasic {
     private AdapterRecentPost         mAdapterRecentPost        = null;
     private HomeActionListener        mHomeActionListener       = null;
     private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
-    private SessionLogin              mSessionLogin             = null;
+   
     private Button                    mBtnHomeNotification      = null;
     private IShowPageHomeNotification mListener                 = null;
+    private SessionLogin              mSessionLogin             = null;
     private int                       mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
     private OnItemClickListener       iRecentPostClickListener  = new OnItemClickListener() {
 
@@ -98,6 +99,7 @@ public class FragmentHomeTab extends FragmentBasic {
                 AIOLog.d("response error");
             }
         }, params, true);
+      
         getLoginRequest.execute(url);
 
     }
