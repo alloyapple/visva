@@ -21,11 +21,11 @@
             android:layout_weight="1"
             android:orientation="horizontal" >
 
-            <com.android.volley.toolbox.NetworkImageView
+            <ImageView
                 android:id="@+id/img_avatar_comment"
-                android:layout_width="@dimen/avatar_size_detail_post"
-                android:layout_height="@dimen/avatar_size_detail_post"
-                android:src="@drawable/user_picture_default" />
+                android:layout_width="@dimen/size_post_avatar"
+                android:layout_height="@dimen/size_post_avatar"
+                android:contentDescription="@string/app_name" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -38,7 +38,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="My Friend"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -46,8 +45,7 @@
                     android:id="@+id/txtview_comment_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="This is comment" />
+                    android:layout_gravity="center_vertical" />
             </LinearLayout>
         </LinearLayout>
 

@@ -71,6 +71,7 @@
     <dimen name="height_post_detail_1">50dp</dimen>
     <dimen name="height_post_detail_2">60dp</dimen>
     <dimen name="avatar_size_detail_post">50dp</dimen>
+    <dimen name="size_post_avatar">50dp</dimen>
     <dimen name="height_btn_follow">50dp</dimen>
     <dimen name="size_follow_icon">50dp</dimen>
     <dimen name="height_btn_save">50dp</dimen>
