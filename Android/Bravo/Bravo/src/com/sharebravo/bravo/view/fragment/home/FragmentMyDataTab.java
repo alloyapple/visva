@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -27,10 +27,27 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentMyDataTab extends FragmentBasic {
+
+    private Button            mBtnSettings;
+    private IShowPageSettings iShowPageSettings;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_mydata_tab, null);
+
+        initializeView(root);
         return root;
+    }
+
+    private void initializeView(View root) {
+        mBtnSettings = (Button) root.findViewById(R.id.btn_settings);
+        mBtnSettings.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                iShowPageSettings.showPageSettings();
+            }
+        });
     }
 
     @Override
@@ -86,5 +103,13 @@ public class FragmentMyDataTab extends FragmentBasic {
         }, params, true);
         getLoginRequest.execute(url);
 
+    }
+
+    public interface IShowPageSettings {
+        public void showPageSettings();
+    }
+
+    public void setListener(IShowPageSettings ÌShowPageSettings) {
+        this.iShowPageSettings = ÌShowPageSettings;
     }
 }

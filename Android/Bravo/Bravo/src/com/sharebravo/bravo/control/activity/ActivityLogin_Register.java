@@ -96,7 +96,8 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         mFragmentRegister.setListener(this);
         mFragmentBravoLogin.setListener(this);
 
-        mTransaction = hideFragment();
+        int fragmentAnimationType = 1;
+        mTransaction = hideFragment(fragmentAnimationType);
         mAccessType = getIntent().getExtras().getInt(BravoConstant.ACCESS_TYPE);
         if (mAccessType == BravoConstant.FRAGMENT_LOGIN_ID)
             showFragment(BravoConstant.FRAGMENT_LOGIN_ID);
@@ -107,53 +108,50 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     private void showFragment(int fragment) {
         if (mTransaction == null || mTransaction.isEmpty())
             return;
+        int fragmentAnimationType = 1;
+        mTransaction = hideFragment(fragmentAnimationType);
+        // mTransaction.setCustomAnimations(R.anim.slide_in_right,R.anim.slide_in_left);
+        // mTransaction.setCustomAnimations(0, R.anim.slide_in_right);
         switch (fragment) {
         case BravoConstant.FRAGMENT_BRAVO_REGISTER_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentBravoRegister);
             addToSBackStack(FRAGMENT_BRAVO_REGISTER);
-            mTransaction.commit();
             break;
 
         case BravoConstant.FRAGMENT_LOGIN_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentLogin);
             addToSBackStack(FRAGMENT_LOGIN);
-            mTransaction.commit();
             break;
 
         case BravoConstant.FRAGMENT_REGISTER_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentRegister);
             addToSBackStack(FRAGMENT_REGISTER);
-            mTransaction.commit();
             break;
 
         case BravoConstant.FRAGMENT_REGISTER_USER_INFO_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentRegisterUserInfo);
             addToSBackStack(FRAGMENT_REGISTER_USER_INFO);
-            mTransaction.commit();
             break;
         case BravoConstant.FRAGMENT_BRAVO_LOGIN_ID:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentBravoLogin);
             addToSBackStack(FRAGMENT_BRAVO_LOGIN);
-            mTransaction.commit();
             break;
         case BravoConstant.FRAGMENT_FORGOT_PASSWORD:
-            mTransaction = hideFragment();
             mTransaction.show(mFragmentForgotPassword);
             addToSBackStack(FRAGMENT_FORGOT_PASSWORD);
-            mTransaction.commit();
             break;
         default:
             break;
         }
+        mTransaction.commit();
     }
 
-    public FragmentTransaction hideFragment() {
+    public FragmentTransaction hideFragment(int fragmentAnimationType) {
         mTransaction = mFmManager.beginTransaction();
+        if (fragmentAnimationType == 1)
+            mTransaction.setCustomAnimations(R.anim.slide_in_right,R.anim.fade_in);
+        else
+            mTransaction.setCustomAnimations(R.anim.fade_out, R.anim.slide_in_left);
         mTransaction.hide(mFragmentBravoRegister);
         mTransaction.hide(mFragmentLogin);
         mTransaction.hide(mFragmentRegister);
@@ -214,7 +212,8 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             return;
         }
         String currentView = mBackstack.get(mBackstack.size() - 1);
-        mTransaction = hideFragment();
+        int fragmentAnimationType = 0;
+        mTransaction = hideFragment(fragmentAnimationType);
         if (currentView.equals(FRAGMENT_BRAVO_LOGIN)) {
             mTransaction.show(mFragmentBravoLogin);
         } else if (currentView.equals(FRAGMENT_BRAVO_REGISTER)) {

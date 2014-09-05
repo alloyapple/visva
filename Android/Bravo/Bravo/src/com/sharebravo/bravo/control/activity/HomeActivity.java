@@ -25,13 +25,16 @@ import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePa
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentMyDataTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentMyDataTab.IShowPageSettings;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentSetting;
 import com.sharebravo.bravo.view.fragment.home.FragmentUserPostProfile;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification,IClosePageHomeNotification {
+public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification, IClosePageHomeNotification,
+        IShowPageSettings {
 
     // ======================Constant Define===============
     private static final String      FRAGMENT_HOME_TAB              = "home_tab";
@@ -45,6 +48,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_USER_POST_PROFILE     = "user_post_profile";
 
     private static final String      FRAGMENT_HOME_NOTIFICATION     = "notification";
+    private static final String      FRAGMENT_SETTINGS              = "settings";
+    private static final String      FRAGMENT_UPDATE_USER_INFO      = "update_user_info";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -56,6 +61,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
     public static final int          FRAGMENT_USER_POST_PROFILE_ID  = FRAGMENT_BASE_ID + 8;
     public static final int          FRAGMENT_HOME_NOTIFICATION_ID  = FRAGMENT_USER_POST_PROFILE_ID + 1;
+    public static final int          FRAGMENT_SETTINGS_ID           = FRAGMENT_HOME_NOTIFICATION_ID + 1;
+    public static final int          FRAGMENT_UPDATE_USER_INFO_ID   = FRAGMENT_SETTINGS_ID + 1;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -69,6 +76,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentMapView          mFragmentMapView;
     private FragmentUserPostProfile  mFragmentUserPostProfile;
     private FragmentHomeNotification mFragmentHomeNotification;
+    private FragmentSetting          mFragmentSetting;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -169,10 +177,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentMapView = (FragmentMapView) mFmManager.findFragmentById(R.id.fragment_map_view);
         mFragmentUserPostProfile = (FragmentUserPostProfile) mFmManager.findFragmentById(R.id.fragment_user_post_profile);
         mFragmentHomeNotification = (FragmentHomeNotification) mFmManager.findFragmentById(R.id.fragment_home_notification);
+        mFragmentSetting = (FragmentSetting) mFmManager.findFragmentById(R.id.fragment_settings);
 
         mFragmentHomeTab.setListener(this);
         mFragmentHomeNotification.setListener(this);
-        
+        mFragmentMyDataTab.setListener(this);
+
         mTransaction = hideFragment();
         showFragment(FRAGMENT_HOME_TAB_ID);
     }
@@ -243,6 +253,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentHomeNotification);
             addToSBackStack(FRAGMENT_HOME_NOTIFICATION);
             break;
+        case FRAGMENT_SETTINGS_ID:
+            mTransaction.show(mFragmentSetting);
+            addToSBackStack(FRAGMENT_SETTINGS);
+            break;
         default:
             break;
         }
@@ -261,6 +275,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentMapView);
         mTransaction.hide(mFragmentUserPostProfile);
         mTransaction.hide(mFragmentHomeNotification);
+        mTransaction.hide(mFragmentSetting);
         return mTransaction;
     }
 
@@ -359,6 +374,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void closePageHomeNotification() {
         goToFragment(FRAGMENT_HOME_TAB_ID);
+    }
+
+    @Override
+    public void showPageSettings() {
+        goToFragment(FRAGMENT_SETTINGS_ID);
     }
 
 }
