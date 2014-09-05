@@ -65,9 +65,10 @@ public class AdapterRecentPost extends BaseAdapter {
         holder._recentPostSpotName = (TextView) convertView.findViewById(R.id.text_recent_post_spot_name);
         holder._userAvatar = (ImageView) convertView.findViewById(R.id.img_recent_post_user_avatar);
         holder._userName = (TextView) convertView.findViewById(R.id.text_recent_post_user_name);
+        holder._totalComment = (TextView) convertView.findViewById(R.id.text_total_spot_comment);
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
         if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
-            ObGetBravo obGetBravo = mObGetAllBravoRecentPosts.get(position); 
+            ObGetBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
 
             if (StringUtility.isEmpty(obGetBravo.Full_Name)) {
                 holder._userName.setText("Unknown");
@@ -81,18 +82,20 @@ public class AdapterRecentPost extends BaseAdapter {
             if (StringUtility.isEmpty(profile_img_url)) {
                 holder._userAvatar.setImageResource(R.drawable.user_picture_default);
             } else {
-                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default,  holder._userAvatar);
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holder._userAvatar);
             }
             // set observer to view
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
             String imgSpotUrl = obGetBravo.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
+                holder._recentPostSpotName.setBackgroundResource(R.drawable.recent_post_none_img);
             } else {
                 holder._recentPostImage.setVisibility(View.VISIBLE);
-                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default,  holder._recentPostImage);
+                holder._recentPostSpotName.setBackgroundResource(R.drawable.bg_home_cover);
+                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, holder._recentPostImage);
             }
-            
+
             long createdTime = 0;
             if (obGetBravo.Date_Created == null)
                 createdTime = 0;
@@ -106,16 +109,24 @@ public class AdapterRecentPost extends BaseAdapter {
                 AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
             }
+            AIOLog.d("obGetBravo.Total_Comments: " + obGetBravo.Total_Comments + "  holder._totalComment : "+  holder._totalComment);
+            if (obGetBravo.Total_Comments <= 0) {
+                holder._totalComment.setVisibility(View.GONE);
+            } else {
+                holder._totalComment.setVisibility(View.VISIBLE);
+                holder._totalComment.setText(obGetBravo.Total_Comments+"");
+            }
         }
         return convertView;
     }
 
     class ViewHolder {
         ImageView _userAvatar;
-        TextView         _userName;
+        TextView  _userName;
         ImageView _recentPostImage;
-        TextView         _recentPostTime;
-        TextView         _recentPostSpotName;
+        TextView  _recentPostTime;
+        TextView  _recentPostSpotName;
+        TextView  _totalComment;
     }
 
     public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
