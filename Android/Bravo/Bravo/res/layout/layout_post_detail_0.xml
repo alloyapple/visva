@@ -7,18 +7,23 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/height_post_content_area" >
 
-        <com.android.volley.toolbox.NetworkImageView
+        <ImageView
             android:id="@+id/image_post_detail"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="fitXY" >
-        </com.android.volley.toolbox.NetworkImageView>
+        </ImageView>
 
-        <fragment 
-            android:id="@+id/img_map"
+        <FrameLayout android:id="@+id/layout_map_img"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            class="com.sharebravo.bravo.view.fragment.home.FragmentMapView" />
+            android:layout_height="match_parent" >
+
+            <fragment
+                android:id="@+id/img_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentMapView" />
+        </FrameLayout>
     </FrameLayout>
 
     <TextView
