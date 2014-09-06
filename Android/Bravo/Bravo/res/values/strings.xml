@@ -73,6 +73,12 @@
     <!-- +++++ -->
 
 
+    <!-- Setttings -->
+    <string name="delete_account_title">Delete my account!</string>
+    <string name="delete_account_msg">Do you want to delete your account?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <!-- Post Detail -->
     <string name="btn_call_spot">Call Spot</string>
     <string name="btn_view_map">View Map</string>

@@ -1,12 +1,36 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.Calendar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.ActivitySplash;
+import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObDeleteFollowing;
+import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentSetting extends FragmentBasic {
@@ -16,6 +40,7 @@ public class FragmentSetting extends FragmentBasic {
     // =======================Variable Define==============
     private TextView           mTextTermOfUse;
     private TextView           mTextUpdateUserInfo;
+    private TextView           mTextDeleteMyAccount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,6 +53,15 @@ public class FragmentSetting extends FragmentBasic {
     private void initializeView(View root) {
         mTextTermOfUse = (TextView) root.findViewById(R.id.text_term_of_use);
         mTextUpdateUserInfo = (TextView) root.findViewById(R.id.text_edit_profile);
+        mTextDeleteMyAccount = (TextView) root.findViewById(R.id.text_delete_account);
+
+        mTextDeleteMyAccount.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showDialogToDeleteMyAccount();
+            }
+        });
 
         mTextUpdateUserInfo.setOnClickListener(new View.OnClickListener() {
 
@@ -53,4 +87,49 @@ public class FragmentSetting extends FragmentBasic {
         this.iShowPageTermOfUse = iShowPageTermOfUse;
     }
 
+    private void showDialogToDeleteMyAccount() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.delete_account_title);
+        builder.setMessage(getActivity().getString(R.string.delete_account_msg));
+        builder.setPositiveButton(getActivity().getResources().getString(R.string.yes), new OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestToDeleteMyAccount();
+                return;
+            }
+        });
+        builder.setNegativeButton(getActivity().getResources().getString(R.string.no), new OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+        builder.show();
+    }
+
+    private void requestToDeleteMyAccount() {
+        int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin sessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
+        String userId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                BravoUtils.clearSession();
+                // Intent splashIntent = new Intent(getActivity(), ActivitySplash.class);
+                // getActivity().startActivity(splashIntent);
+                // getActivity().finish();
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, null, true);
+        deleteAccount.execute(url);
+    }
 }

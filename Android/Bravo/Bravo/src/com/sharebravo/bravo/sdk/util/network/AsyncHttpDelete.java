@@ -4,17 +4,14 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-
 import android.content.Context;
+
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 
 /**
  * AsyncHttpGet makes http post request based on AsyncTask

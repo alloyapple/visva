@@ -228,4 +228,8 @@ public class BravoUtils {
         return inSampleSize;
     }
 
+    public static void clearSession() {
+        
+    }
+
 }
