@@ -73,6 +73,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.home.FragmentUpdateUserInfo" />
+            <fragment
+                android:id="@+id/fragment_term_of_use"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentTermOfUse" />
         </RelativeLayout>
 
         <FrameLayout

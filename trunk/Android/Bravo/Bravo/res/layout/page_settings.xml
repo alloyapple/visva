@@ -217,9 +217,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="60dp"
             android:orientation="vertical" >
 
             <TextView
@@ -374,6 +374,54 @@
                 android:layout_below="@id/toggle_btn_bravo_notifications"
                 android:background="#DAD9DC" />
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DAD9DC" />
+
+            <TextView
+                android:id="@+id/text_term_of_use"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                android:text="Term Of Use"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DAD9DC" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DAD9DC" />
+
+            <TextView
+                android:id="@+id/text_delete_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                android:text="Delete my account"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DAD9DC" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>
