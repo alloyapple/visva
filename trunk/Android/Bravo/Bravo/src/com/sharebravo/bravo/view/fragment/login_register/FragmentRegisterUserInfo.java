@@ -1,7 +1,6 @@
 package com.sharebravo.bravo.view.fragment.login_register;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -243,9 +239,9 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = checkOrientation(fileUri);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    bmp = decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
                 }
             }
@@ -270,9 +266,9 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                 Uri fileUri = null;
                 if (file.exists()) {
                     fileUri = Uri.fromFile(file);
-                    int orientation = checkOrientation(fileUri);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    bmp = decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
 
                 } else {
@@ -284,81 +280,4 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
             return;
         }
     }
-
-    /**
-     * rotate image to have the exact orientation
-     * 
-     * @param fileUri
-     * @return
-     */
-    private int checkOrientation(Uri fileUri) {
-        int rotate = 0;
-        String imagePath = fileUri.getPath();
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(imagePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Since API Level 5
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-        case ExifInterface.ORIENTATION_ROTATE_270:
-            rotate = 270;
-            break;
-        case ExifInterface.ORIENTATION_ROTATE_180:
-            rotate = 180;
-            break;
-        case ExifInterface.ORIENTATION_ROTATE_90:
-            rotate = 90;
-            break;
-        }
-        return rotate;
-    }
-
-    private Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth, int reqHeight, int orientation) {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        Matrix mtx = new Matrix();
-        mtx.postRotate(orientation);
-        BitmapFactory.decodeFile(filePath, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        return decodeBitmap(BitmapFactory.decodeFile(filePath, options), orientation);
-    }
-
-    private Bitmap decodeBitmap(Bitmap bitmap, int orientation) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        Matrix mtx = new Matrix();
-        mtx.postRotate(orientation);
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, mtx, true);
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-
-        return inSampleSize;
-    }
-
 }

@@ -8,7 +8,7 @@
         android:layout_height="@dimen/height_post_content_area" >
 
         <ImageView
-            android:id="@+id/image_post_detail"
+            android:id="@+id/img_user_cover"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@color/click_color"
@@ -17,7 +17,7 @@
         </ImageView>
 
         <ImageButton
-            android:id="@+id/btn_imge_cover"
+            android:id="@+id/btn_img_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -43,8 +43,10 @@
         android:layout_marginLeft="10dp" >
 
         <ImageButton
+            android:id="@+id/img_user_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:background="@drawable/btn_user_avatar_profile"
             android:contentDescription="@string/app_name" />
 
@@ -55,7 +57,7 @@
             android:layout_gravity="bottom"
             android:layout_marginLeft="10dp"
             android:textColor="@color/white"
-            android:text="User Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
     </LinearLayout>
 
