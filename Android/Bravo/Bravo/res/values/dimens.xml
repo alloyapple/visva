@@ -78,6 +78,7 @@
     <dimen name="height_btn_save">50dp</dimen>
     <dimen name="height_input_comment">56dp</dimen>
     <dimen name="height_row_comment_content">50dp</dimen>
-    <!-- Home Tab -->
+    <!-- User Data Tab -->
+    <string name="text_user_data_name_size">20dp]</string>
 
 </resources>

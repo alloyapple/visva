@@ -12,17 +12,36 @@
         android:orientation="horizontal"
         android:weightSum="3" >
 
-        <Button
-            android:id="@+id/btn_bravos"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/color_button"
-            android:baselineAligned="true"
             android:gravity="center"
-            android:text="@string/btn_bravos"
-            android:textStyle="bold" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/text_total_bravos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_button"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:text="@string/total_0_bravo"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_button"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:text="@string/btn_bravos"
+                android:textColor="@color/grey_2"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="1dp"
@@ -30,16 +49,37 @@
             android:background="@color/devider_color"
             android:contentDescription="@string/login" />
 
-        <Button
-            android:id="@+id/btn_followings"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/color_button"
             android:gravity="center"
-            android:text="@string/btn_followings"
-            android:textStyle="bold" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/text_total_following"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_button"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:text="@string/total_0_following"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_followings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/color_button"
+                android:gravity="center"
+                android:text="@string/btn_followings"
+                android:textColor="@color/grey_2"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="1dp"
@@ -47,17 +87,37 @@
             android:background="@color/devider_color"
             android:contentDescription="@string/login" />
 
-        <Button
-            android:id="@+id/btn_fans"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/color_button"
             android:gravity="center"
-            android:text="@string/btn_fans"
-            android:textColor="@color/postn_detail_button_call_spot_text"
-            android:textStyle="bold" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/text_total_fans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/color_button"
+                android:baselineAligned="true"
+                android:gravity="center"
+                android:text="@string/total_0_fan"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_fans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/color_button"
+                android:gravity="center"
+                android:text="@string/btn_fans"
+                android:textColor="@color/grey_2"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

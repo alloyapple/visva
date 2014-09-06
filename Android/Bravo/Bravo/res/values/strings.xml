@@ -9,6 +9,7 @@
     <string name="result_not_found">Result not found</string>
     <string name="network_unvailable">Network is not available</string>
     <string name="failed_to_conect_server">Failed to connect to server</string>
+    <string name="unknown">Unknown</string>
 
     <!-- Location provider -->
     <string name="invalid_action">Invalid intent action %1$s</string>
@@ -94,11 +95,16 @@
 
     <!-- Use profile -->
     <string name="btn_bravos">Bravos</string>
+    <string name="total_0_bravo">0</string>
     <string name="btn_followings">Following</string>
+    <string name="total_0_following">0</string>
     <string name="btn_fans">Fans</string>
+    <string name="total_0_fan">0</string>
     <string name="btn_bravo_map">Bravo Map</string>
     <string name="btn_block">Block</string>
     <string name="get_user_info_error">Cannot get user info</string>
+    <string name="take_picture_of_cover">Take a Picture of cover</string>
+    <string name="choose_from_library">Choose from Library</string>
     <!-- +++++ -->
 
 
