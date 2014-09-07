@@ -12,7 +12,7 @@ public class FragmentCoverImage extends FragmentBasic {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View root = (ViewGroup) inflater.inflate(R.layout.page_bravo_tab,
+		View root = (ViewGroup) inflater.inflate(R.layout.page_cover_image,
 				null);
 		return root;
 	}

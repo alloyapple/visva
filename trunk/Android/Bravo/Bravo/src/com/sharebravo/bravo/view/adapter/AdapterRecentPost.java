@@ -82,7 +82,7 @@ public class AdapterRecentPost extends BaseAdapter {
             if (StringUtility.isEmpty(profile_img_url)) {
                 holder._userAvatar.setImageResource(R.drawable.user_picture_default);
             } else {
-                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holder._userAvatar);
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holder._userAvatar,true);
             }
             // set observer to view
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
@@ -93,7 +93,7 @@ public class AdapterRecentPost extends BaseAdapter {
             } else {
                 holder._recentPostImage.setVisibility(View.VISIBLE);
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.bg_home_cover);
-                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, holder._recentPostImage);
+                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, holder._recentPostImage,false);
             }
 
             long createdTime = 0;

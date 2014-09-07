@@ -141,7 +141,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
                 }
             } else {
                 AIOLog.d("userCoverImgUrl:" + userCoverImgUrl);
-                mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover);
+                mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover,false);
                 btnImgCover.setVisibility(View.GONE);
             }
 
@@ -152,7 +152,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
                 else
                     imgUserAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
             } else {
-                mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar);
+                mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar,true);
             }
 
             imgUserCover.setOnClickListener(new View.OnClickListener() {

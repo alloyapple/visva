@@ -37,6 +37,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.widget.ImageView;
 
+import com.google.android.gms.internal.is;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.util.imageloader.FileCache;
 import com.sharebravo.bravo.sdk.util.imageloader.MemoryCache;
@@ -58,7 +59,7 @@ public class ImageLoader {
 
     int stub_id = R.drawable.ic_launcher;
 
-    public void DisplayImage(String url, int loader, ImageView imageView) {
+    public void DisplayImage(String url, int loader, ImageView imageView, boolean isCorner) {
         stub_id = loader;
         imageViews.put(imageView, url);
         Bitmap bitmap = memoryCache.get(url);
@@ -66,21 +67,21 @@ public class ImageLoader {
             imageView.setImageBitmap(bitmap);
         else
         {
-            queuePhoto(url, imageView);
+            queuePhoto(url, imageView, isCorner);
             imageView.setImageResource(loader);
         }
     }
 
-    private void queuePhoto(String url, ImageView imageView) {
+    private void queuePhoto(String url, ImageView imageView, boolean isCorner) {
         PhotoToLoad p = new PhotoToLoad(url, imageView);
-        executorService.submit(new PhotosLoader(p));
+        executorService.submit(new PhotosLoader(p, isCorner));
     }
 
-    private Bitmap getBitmap(String url) {
+    private Bitmap getBitmap(String url, boolean isCorner) {
         File f = fileCache.getFile(url);
 
         // from SD cache
-        Bitmap b = decodeFile(f);
+        Bitmap b = decodeFile(f, isCorner);
         if (b != null)
             return b;
 
@@ -114,7 +115,7 @@ public class ImageLoader {
             OutputStream os = new FileOutputStream(f);
             Utils.CopyStream(is, os);
             os.close();
-            bitmap = decodeFile(f);
+            bitmap = decodeFile(f, isCorner);
             return bitmap;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -123,7 +124,7 @@ public class ImageLoader {
     }
 
     // decodes image and scales it to reduce memory consumption
-    private Bitmap decodeFile(File f) {
+    private Bitmap decodeFile(File f, boolean isCorner) {
         try {
             // decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -145,7 +146,8 @@ public class ImageLoader {
             // decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            return getRoundedCornerBitmap(BitmapFactory.decodeStream(new FileInputStream(f), null, o2), 50);
+            return isCorner ? getRoundedCornerBitmap(BitmapFactory.decodeStream(new FileInputStream(f), null, o2), 50) : BitmapFactory.decodeStream(
+                    new FileInputStream(f), null, o2);
         } catch (FileNotFoundException e) {
         }
         return null;
@@ -165,16 +167,18 @@ public class ImageLoader {
 
     class PhotosLoader implements Runnable {
         PhotoToLoad photoToLoad;
+        boolean     isCorner;
 
-        PhotosLoader(PhotoToLoad photoToLoad) {
+        PhotosLoader(PhotoToLoad photoToLoad, boolean isCorner) {
             this.photoToLoad = photoToLoad;
+            this.isCorner = isCorner;
         }
 
         @Override
         public void run() {
             if (imageViewReused(photoToLoad))
                 return;
-            Bitmap bmp = getBitmap(photoToLoad.url);
+            Bitmap bmp = getBitmap(photoToLoad.url, isCorner);
 
             memoryCache.put(photoToLoad.url, bmp);
             if (imageViewReused(photoToLoad))
