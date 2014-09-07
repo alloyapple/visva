@@ -48,8 +48,8 @@ public class BravoConstant {
     /* Twitter key and api */
     public static final String  BRAVO_PREFERENCE                      = "BRAVO_PREFERENCE";
     public final static String  TWITTER_CONSUMER_KEY                  = "he2yZnLcQgPTWEtNQXbCA";
-    public final static String  TWITTER_CONSUMER_SECRET               = "N1ykxuPu0VhCsgM5AZ8k2Rq9tJmVCE5HVtyZcbg"; 
-    public static final String  TWITTER_CALLBACK_URL                  = "https://sharebravo.com/auth/callback"; 
+    public final static String  TWITTER_CONSUMER_SECRET               = "N1ykxuPu0VhCsgM5AZ8k2Rq9tJmVCE5HVtyZcbg";
+    public static final String  TWITTER_CALLBACK_URL                  = "https://sharebravo.com/auth/callback";
     // public static final String TWITTER_ACCESS_TOKEN = "490386183-ChIDIftcjtoAqfcLJBxoUDuNqRiCHTNuXDwIG8by";
     // public static final String TWITTER_ACCESS_TOKEN_SECRET = " RFKrxNEAlUqO84CZ8ZkhSUwOXI10ahuempi8R31husKN3";
 
@@ -73,6 +73,9 @@ public class BravoConstant {
     public static final String  PREF_KEY_SESSION_REGISTER_BY_TWITTER  = "pref_key_session_register_by_twitter";
     public static final String  PREF_KEY_SESSION_REGISTER_BY_4SQUARE  = "pref_key_session_register_by_4square";
     public static final String  PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE = "pref_key_session_login_bravo_via_type";
+
+    public static final String  PREF_KEY_USER_AVATAR                  = "pref_key_user_avatar";
+    public static final String  PREF_KEY_USER_COVER                   = "pref_key_user_cover";
 
     /* SNS Login, Register */
     public static final String  LOGIN_SNS_TYPE                        = "login_sns_type";

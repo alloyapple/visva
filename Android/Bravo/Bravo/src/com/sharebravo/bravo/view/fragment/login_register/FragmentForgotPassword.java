@@ -32,6 +32,7 @@ public class FragmentForgotPassword extends FragmentBasic {
     // ====================Variable Define=================
     private EditText       mEditTextEmailForgot;
     private Button         mBtnResetPassword;
+    private boolean        isEmailNotVaid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +44,18 @@ public class FragmentForgotPassword extends FragmentBasic {
 
     private void initializeView(View root) {
         mEditTextEmailForgot = (EditText) root.findViewById(R.id.edittext_input_email_reset_pw);
+        mEditTextEmailForgot.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if(isEmailNotVaid){
+                    isEmailNotVaid = false;
+                    mEditTextEmailForgot.setText("");
+                    mEditTextEmailForgot.setHint(getString(R.string.email_address));
+                    mEditTextEmailForgot.setHintTextColor(getActivity().getResources().getColor(R.color.black));
+                }
+            }
+        });
         mBtnResetPassword = (Button) root.findViewById(R.id.btn_reset_password);
         mBtnResetPassword.setOnClickListener(new View.OnClickListener() {
 
@@ -57,8 +70,13 @@ public class FragmentForgotPassword extends FragmentBasic {
         String email = mEditTextEmailForgot.getText().toString();
         if (checkValidateEmail(email)) {
             requestToCheckForgotPassword(email);
-        } else
-            mEditTextEmailForgot.setError(getString(R.string.email_not_valid));
+        } else {
+            isEmailNotVaid = true;
+            mEditTextEmailForgot.setText("");
+            mEditTextEmailForgot.setHint(getString(R.string.email_not_valid));
+            mEditTextEmailForgot.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+        }
+
     }
 
     private void requestToCheckForgotPassword(String email) {
@@ -74,11 +92,11 @@ public class FragmentForgotPassword extends FragmentBasic {
                 AIOLog.d("response " + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObPostForgot obPostForgot = gson.fromJson(response.toString(), ObPostForgot.class);
-                AIOLog.d("obPostForgot.status:"+obPostForgot.status); 
+                AIOLog.d("obPostForgot.status:" + obPostForgot.status);
                 if (obPostForgot.status == BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS) {
                     showToast(getActivity().getResources().getString(R.string.check_in_your_email_and_change_pass_word));
                 } else {
-                   showToast(obPostForgot.error);
+                    showToast(obPostForgot.error);
                 }
             }
 
