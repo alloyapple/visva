@@ -6,10 +6,15 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -46,6 +51,7 @@ public class FragmentHomeTab extends FragmentBasic {
     private IShowPageHomeNotification mListener                 = null;
     private SessionLogin              mSessionLogin             = null;
     private int                       mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
+    private boolean                   isNoFirstTime = false;
     private OnItemClickListener       iRecentPostClickListener  = new OnItemClickListener() {
 
                                                                     @Override
@@ -66,6 +72,11 @@ public class FragmentHomeTab extends FragmentBasic {
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         requestNewsItemsOnBravoServer(mSessionLogin);
+        isNoFirstTime = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME);
+        if (!isNoFirstTime) {
+            showDialogWelcome();
+            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME,true);
+        }
         return root;
 
     }
@@ -146,6 +157,33 @@ public class FragmentHomeTab extends FragmentBasic {
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
             }
         });
+    }
+
+
+    public void showDialogWelcome() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_welcome, null);
+        Button btnStart = (Button) dialog_view.findViewById(R.id.btn_start);
+        btnStart.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialog.show();
     }
 
     private void onPullDownToRefreshBravoItems(ObBravo obBravo, final boolean isPulDownToRefresh) {

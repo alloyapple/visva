@@ -59,6 +59,7 @@ public class BravoConstant {
     public static final String  URL_TWITTER_OAUTH_TOKEN               = "oauth_token";
 
     /* share preferences key */
+    public static final String  PREF_KEY_BRAVO_FISRT_TIME             = "pref_key_bravo_first_time";
     public static final String  PREF_KEY_TWITTER_USER_ID              = "pref_key_twitter_user_id";
     public static final String  PREF_KEY_TWITTER_OAUTH_TOKEN          = "pref_key_twitter_oauth_token";
     public static final String  PREF_KEY_TWITTER_OAUTH_VERIFIER       = "pref_key_twitter_oauth_verifier";
