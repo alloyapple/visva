@@ -10,7 +10,9 @@
     <string name="network_unvailable">Network is not available</string>
     <string name="failed_to_conect_server">Failed to connect to server</string>
     <string name="unknown">Unknown</string>
-
+    <string name="welcome">Welcome to Bravo!</string>
+    <string name="welcome_content">First let\' take a look\n at the latest post on Bravo!</string>
+    <string name="btn_start">Start</string>
     <!-- Location provider -->
     <string name="invalid_action">Invalid intent action %1$s</string>
     <string name="invalid_integer_id">Invalid integer request ID: %1$s</string>
@@ -99,7 +101,7 @@
     <string name="dialog_stop_following_msg">Stop following this user?</string>
     <string name="dialog_report_oki_content_1 ">You have submitted a report for inappropriate content.</string>
     <string name="dialog_report_oki_content_2">Thank you for your report.</string>
-     <string name="dialog_report_close">Close</string>
+    <string name="dialog_report_close">Close</string>
     <!-- +++++ -->
 
 
