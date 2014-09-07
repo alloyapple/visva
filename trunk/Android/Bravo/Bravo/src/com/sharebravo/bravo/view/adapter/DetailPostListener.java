@@ -7,7 +7,7 @@ public interface DetailPostListener {
 
     public void goToShare();
 
-    public void goToSave();
+    public void goToSave(boolean isSave);
 
     public void goToSubmitComment(String commentText);
 
@@ -16,5 +16,7 @@ public interface DetailPostListener {
     public void goToFollow(boolean isFollow);
     
     public void goToUserDataTab(String useId);
+
+    public void goToCoverImage();
 
 }

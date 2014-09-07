@@ -74,4 +74,9 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("params", userIDFollow));
         return parameters;
     }
+    public static List<NameValuePair> createSubParamsPutMyListItem(String bravoId) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("params", bravoId));
+        return parameters;
+    }
 }
