@@ -3,7 +3,6 @@ package com.sharebravo.bravo.view.adapter;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +27,8 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
+import com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover;
+import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
@@ -36,18 +37,21 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     private ObBravo            bravoObj           = null;
     private ObGetComments      mObGetComments     = null;
     private ImageLoader        mImageLoader       = null;
-    Fragment                   fragment;
-    FragmentTransaction        transaction;
+    FragmentRecentPostDetail   fragment;
+    // FragmentTransaction transaction;
     private SessionLogin       mSessionLogin      = null;
     private int                mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
 
-    public AdapterRecentPostDetail(Context context, Fragment fragment) {
+    public AdapterRecentPostDetail(Context context, FragmentRecentPostDetail fragment) {
         // TODO Auto-generated constructor stub
         this.mContext = context;
         mImageLoader = new ImageLoader(mContext);
         this.fragment = fragment;
         mLoginBravoViaType = BravoSharePrefs.getInstance(context).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(context, mLoginBravoViaType);
+        fragmentTransaction = fragment.getChildFragmentManager().beginTransaction();
+        mapFragment = new FragmentMapViewCover();
+        
     }
 
     public void setListener(DetailPostListener listener) {
@@ -74,25 +78,27 @@ public class AdapterRecentPostDetail extends BaseAdapter {
 
     public void setBravoOb(ObBravo obj) {
         this.bravoObj = obj;
+        mapFragment.setCordinate(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
     }
 
-    ImageView   imagePost;
-    TextView    contentPost;
-    ImageView   userAvatar;
-    TextView    txtUserName;
-    Button      btnCallSpot;
-    Button      btnViewMap;
-    Button      btnFollow;
-    ImageView   followIcon;
-    boolean     isFollowing   = false;
-    EditText    textboxComment;
-    Button      btnSubmitComment;
-    TextView    btnSave;
-    TextView    btnShare;
-    boolean     isSave;
-    TextView    btnReport;
-    Fragment    mapFragment   = new Fragment();
-    FrameLayout layoutMapview = null;
+    ImageView            imagePost;
+    TextView             contentPost;
+    ImageView            userAvatar;
+    TextView             txtUserName;
+    Button               btnCallSpot;
+    Button               btnViewMap;
+    Button               btnFollow;
+    ImageView            followIcon;
+    boolean              isFollowing   = false;
+    EditText             textboxComment;
+    Button               btnSubmitComment;
+    TextView             btnSave;
+    TextView             btnShare;
+    boolean              isSave;
+    TextView             btnReport;
+    FragmentMapViewCover mapFragment;
+    FrameLayout          layoutMapview = null;
+    FragmentTransaction  fragmentTransaction;
 
     // ViewHolderComment holderComment = new ViewHolderComment();
 
@@ -116,8 +122,14 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
 
             }
+
+            fragmentTransaction.add(R.id.img_map, mapFragment);
+//            fragmentTransaction.show(mapFragment);
+//            mapFragment.setCordinate(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
+//            fragmentTransaction.commit();
+
             imagePost.setOnClickListener(new OnClickListener() {
-                
+
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
@@ -130,14 +142,14 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             } else {
 
                 layoutMapview.setVisibility(View.GONE);
-                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost,false);
+                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, false);
             }
             contentPost.setText(bravoObj.Spot_Name);
             String avatarUrl = bravoObj.Profile_Img_URL;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 userAvatar.setBackgroundResource(R.drawable.user_picture_default);
             } else {
-                mImageLoader.DisplayImage(avatarUrl, R.drawable.user_picture_default, userAvatar,true);
+                mImageLoader.DisplayImage(avatarUrl, R.drawable.user_picture_default, userAvatar, true);
             }
             userAvatar.setOnClickListener(new OnClickListener() {
 
@@ -192,7 +204,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-geinerated method stub
-                  listener.goToSave(!isSave);
+                    listener.goToSave(!isSave);
                 }
             });
             btnSave.setCompoundDrawablesWithIntrinsicBounds(isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0, 0);
@@ -251,14 +263,21 @@ public class AdapterRecentPostDetail extends BaseAdapter {
              * else
              * holderComment = (ViewHolderComment) convertView.getTag();
              */
-            ObGetComment comment = mObGetComments.data.get(index);
+            final ObGetComment comment = mObGetComments.data.get(index);
 
             String profile_img_url = comment.profileImgUrl;
+            holderComment.mAvatarComment.setOnClickListener(new OnClickListener() {
 
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    listener.goToUserDataTab(comment.userID);
+                }
+            });
             if (StringUtility.isEmpty(profile_img_url)) {
                 holderComment.mAvatarComment.setBackgroundResource(R.drawable.user_picture_default);
             } else {
-                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holderComment.mAvatarComment,true);
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holderComment.mAvatarComment, true);
             }
             if (comment.fullName != null)
                 holderComment.mUserNameComment.setText(comment.fullName);

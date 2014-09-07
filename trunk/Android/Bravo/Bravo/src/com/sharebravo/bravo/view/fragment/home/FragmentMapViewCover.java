@@ -23,12 +23,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
 
-public class FragmentMapView extends SupportMapFragment {
-    public static final int  MAKER_BY_LOCATION_SPOT = 0;
-    public static final int  MAKER_BY_LOCATION_USER = 1;
+public class FragmentMapViewCover extends SupportMapFragment {
+
     private GoogleMap        map;
     private Marker           curMarker              = null;
-    private int              typeMaker;
     private double           mLat, mLong;
 
     private View             mOriginalContentView;
@@ -41,9 +39,7 @@ public class FragmentMapView extends SupportMapFragment {
         mOriginalContentView = super.onCreateView(inflater, parent, savedInstanceState);
         mTouchView = new TouchableWrapper(getActivity());
         mTouchView.addView(mOriginalContentView);
-        if (typeMaker == MAKER_BY_LOCATION_SPOT) {
-            changeLocation(mLat, mLong);
-        }
+        changeLocation(mLat, mLong);
         return mTouchView;
     }
 
@@ -51,12 +47,16 @@ public class FragmentMapView extends SupportMapFragment {
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        if (!hidden) {
-            if (typeMaker == MAKER_BY_LOCATION_SPOT) {
-                changeLocation(mLat, mLong);
-            } else if (typeMaker == MAKER_BY_LOCATION_USER){
-            }
-        }
+//        if (!hidden) {
+//            changeLocation(mLat, mLong);
+//        }
+    }
+
+    @Override
+    public View getView() {
+        // TODO Auto-generated method stub
+        changeLocation(mLat, mLong);
+        return super.getView();
     }
 
     public void changeLocation(double latitude, double longitute) {
@@ -99,9 +99,7 @@ public class FragmentMapView extends SupportMapFragment {
         addMaker(mLat, mLong, "");
     }
 
-    private void refreshMarker(Marker marker) {
 
-    }
 
     public int getPixelByDp(int dp) {
         Resources r = getResources();
@@ -120,14 +118,6 @@ public class FragmentMapView extends SupportMapFragment {
         // adding marker
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
-    }
-
-    public int getTypeMaker() {
-        return typeMaker;
-    }
-
-    public void setTypeMaker(int typeMaker) {
-        this.typeMaker = typeMaker;
     }
 
     public void setCordinate(String _lat, String _long) {

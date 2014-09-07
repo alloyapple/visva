@@ -326,4 +326,10 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             return;
         }
     }
+
+    @Override
+    public void goToFragment(int fragmentID) {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToFragment(fragmentID);
+    }
 }

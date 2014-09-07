@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,7 +78,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     // ObGetComments mObGetComments;
     private SessionLogin            mSessionLogin            = null;
     private int                     mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
-
+//    FragmentMapViewCover mapFragment   = new FragmentMapViewCover();
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -99,6 +101,10 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         });
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
+//        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.img_map, mapFragment);
+//        fragmentTransaction.show(mapFragment);
+//        fragmentTransaction.commit();
         // mFragementImageMap = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.img_map);
         // if (mFragementImageMap == null) {
         // FragmentManager fragmentManager = getFragmentManager();
@@ -556,6 +562,10 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToFragment(int fragmentID) {
+        if (fragmentID == HomeActivity.FRAGMENT_MAP_VIEW_ID) {
+            mHomeActionListener.goToMapView(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
+            return;
+        }
         mHomeActionListener.goToFragment(fragmentID);
     }
 

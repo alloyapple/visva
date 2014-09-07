@@ -331,7 +331,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         AIOLog.d("obGetBravo:" + obGetBravo);
         hideTabButton();
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);
-        showFragment(FRAGMENT_RECENT_POST_DETAIL_ID); 
+        showFragment(FRAGMENT_RECENT_POST_DETAIL_ID);
         // btnHome.setBackgroundResource(R.drawable.tab_home_on);
     }
 
@@ -340,6 +340,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         AIOLog.d("mBackstack=" + backstack);
 
         String currentView = backstack.get(backstack.size() - 1);
+        String previousView = null;
+        if (backstack.size() - 2 > 0)
+            previousView = backstack.get(backstack.size() - 2);
         try {
             backstack.remove(backstack.size() - 1);
             if (backstack.size() == 0) {
@@ -355,12 +358,19 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
         if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
             mTransaction.show(mFragmentHomeTab);
-        } else if (currentView.equals(FRAGMENT_USER_DATA_TAB)) {
+        } else if (currentView.equals(FRAGMENT_USER_DATA_TAB) && previousView != null && previousView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
             mTransaction.show(mFragmentRecentPostDetail);
         } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
-            mTransaction.show(mFragmentRecentPostDetail);
+            if (previousView != null && previousView.equals(FRAGMENT_RECENT_POST_DETAIL))
+                mTransaction.show(mFragmentRecentPostDetail);
+            else if (previousView != null && previousView.equals(FRAGMENT_USER_DATA_TAB))
+                mTransaction.show(mFragmentUserDataTab);
         } else if (currentView.equals(FRAGMENT_COVER_IMAGE)) {
             mTransaction.show(mFragmentRecentPostDetail);
+        } else if (currentView.equals(FRAGMENT_SETTINGS)) {
+            mTransaction.show(mFragmentUserDataTab);
+        } else if (currentView.equals(FRAGMENT_TERM_OF_USE)) {
+            mTransaction.show(mFragmentSetting);
         }
         mTransaction.commitAllowingStateLoss();
 
@@ -412,6 +422,14 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToUserData(String userId) {
         showFragment(FRAGMENT_USER_DATA_TAB_ID);
         mFragmentUserDataTab.getUserInfo(userId);
+    }
+
+    @Override
+    public void goToMapView(String lat, String log) {
+        // TODO Auto-generated method stub
+        mFragmentMapView.setCordinate(lat, log);
+        mFragmentMapView.setTypeMaker(FragmentMapView.MAKER_BY_LOCATION_SPOT);
+        showFragment(FRAGMENT_MAP_VIEW_ID);
     }
 
 }
