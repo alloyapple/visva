@@ -22,7 +22,7 @@
                 android:id="@+id/img_map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentMapView" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover" />
         </FrameLayout>
     </FrameLayout>
 

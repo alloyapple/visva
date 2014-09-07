@@ -25,7 +25,6 @@
                 android:layout_marginLeft="3dp"
                 android:background="@drawable/back_button"
                 android:gravity="center"
-                android:onClick="onClickBackPersonal"
                 android:paddingLeft="@dimen/back_btn_margin_left"
                 android:text="@string/back"
                 android:textColor="@color/white"
@@ -43,8 +42,8 @@
                 android:id="@+id/text_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Account"
                 android:textColor="@color/grey_3"
                 android:textStyle="bold" />
@@ -58,8 +57,8 @@
                 android:id="@+id/text_edit_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Edit profile"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -137,7 +136,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_1"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/facebook_logo"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
@@ -150,7 +150,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_1" />
+                android:layout_below="@id/text_separatte_1"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_2"
@@ -164,7 +170,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_2"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/twitter_logo"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
@@ -177,7 +184,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_2" />
+                android:layout_below="@id/text_separatte_2"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_3"
@@ -191,7 +204,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_3"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/foursquare_logo"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
@@ -204,7 +218,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_3" />
+                android:layout_below="@id/text_separatte_3"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_4"
@@ -228,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
                 android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="Share"
+                android:text="Notifications"
                 android:textColor="@color/grey_3"
                 android:textStyle="bold" />
 
@@ -244,7 +264,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_5"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:text="Comment Notifications"
@@ -257,7 +278,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/text_separatte_5"
-                android:enabled="true" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:enabled="true"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_6"
@@ -271,7 +298,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_6"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:text="Follow Notifications"
@@ -284,7 +312,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/text_separatte_6"
-                android:enabled="true" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:enabled="true"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_7"
@@ -298,7 +332,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_7"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:text="Favourite Notifications"
@@ -311,7 +346,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/text_separatte_7"
-                android:enabled="true" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:enabled="true"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_8"
@@ -325,7 +366,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_8"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:text="Total Bravo Notifications"
@@ -338,7 +380,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/text_separatte_8"
-                android:enabled="true" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:enabled="true"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_9"
@@ -352,7 +400,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_9"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:text="Bravo Notifications"
@@ -365,7 +414,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/text_separatte_9"
-                android:enabled="true" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/switch_btn"
+                android:enabled="true"
+                android:textOff="@null"
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/text_separatte_10"
@@ -378,8 +433,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginBottom="30dp"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical" >
 
             <TextView
@@ -391,8 +446,8 @@
                 android:id="@+id/text_term_of_use"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Term Of Use"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
@@ -403,24 +458,13 @@
                 android:background="#DAD9DC" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
-
-            <TextView
                 android:id="@+id/text_delete_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                android:layout_marginTop="10dp"
                 android:text="Delete my account"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
         </LinearLayout>
     </LinearLayout>
 
