@@ -239,7 +239,6 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
         if (isTwitterLoggedInAlready()) {
             AIOLog.d("isTwitterLogined");
             final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
-            // if()
 
             Thread thread = new Thread(new Runnable() {
 

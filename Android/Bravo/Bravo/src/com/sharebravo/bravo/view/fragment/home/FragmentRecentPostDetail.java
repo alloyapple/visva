@@ -29,15 +29,13 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObDeleteFollowing;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObDeleteFollowing;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObPostComment;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
-import com.sharebravo.bravo.model.user.BravoUser;
-import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -58,6 +56,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private PullAndLoadListView     listviewRecentPostDetail = null;
     private AdapterRecentPostDetail adapterRecentPostDetail  = null;
     private HomeActionListener      mHomeActionListener      = null;
+    
 
     // private SupportMapFragment mFragementImageMap = null;
     private Button                  btnBack;
@@ -73,15 +72,14 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     Button                          btnCallSpot;
 
     ObBravo                         bravoObj;
-//    ObGetComments                   mObGetComments;
+    // ObGetComments mObGetComments;
     private SessionLogin            mSessionLogin            = null;
     private int                     mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab,
-                null);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab, container);
         mHomeActionListener = (HomeActivity) getActivity();
         listviewRecentPostDetail = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post_detail);
         adapterRecentPostDetail = new AdapterRecentPostDetail(getActivity(), this);
@@ -94,7 +92,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -119,7 +116,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     }
 
     private void requestGetComments() {
-//        mObGetComments = null;
+        // mObGetComments = null;
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         String bravoID = bravoObj.Bravo_ID;
@@ -195,13 +192,10 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetFollowingCheck obGetFollowCheck;
                 obGetFollowCheck = gson.fromJson(response.toString(), ObGetFollowingCheck.class);
-                // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
-
+                
                 if (obGetFollowCheck == null)
                     return;
                 else {
-                    // AIOLog.d("size of recent post list: " + mObGetComments.data.size());
-
                     adapterRecentPostDetail.updateFollowing(obGetFollowCheck.valid == 1 ? true : false);
                     requestGetComments();
                 }
@@ -360,7 +354,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
            // requestGetBravo();
@@ -370,7 +363,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToCallSpot() {
-        // TODO Auto-generated method stub
         // Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + bravoObj.Spot_Phone));
         // startActivity(intent);
         showDialogCallSpot();
@@ -383,19 +375,16 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToShare() {
-        // TODO Auto-generated method stub
         showDialogShare();
     }
 
     @Override
     public void goToSave() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void goToFragment(int fragmentID) {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToFragment(fragmentID);
     }
 
@@ -412,7 +401,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
 
             }
@@ -422,7 +410,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
                 onCallSpot();
             }
@@ -486,7 +473,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
 
             }
@@ -496,7 +482,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
@@ -505,7 +490,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
@@ -514,7 +498,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
@@ -541,7 +524,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
@@ -550,7 +532,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
@@ -560,13 +541,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToReport() {
-        // TODO Auto-generated method stub
         showDialogReport();
     }
 
     @Override
     public void goToFollow(boolean isFollow) {
-        // TODO Auto-generated method stub
         if (isFollow)
             requestToPutFollow(bravoObj);
         else
@@ -575,7 +554,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToSubmitComment(String commentText) {
-        // TODO Auto-generated method stub
         requestToPostComment(commentText);
+    }
+
+    @Override
+    public void goToUserDataTab(String useId) {
+        mHomeActionListener.goToUserData(useId);
     }
 }

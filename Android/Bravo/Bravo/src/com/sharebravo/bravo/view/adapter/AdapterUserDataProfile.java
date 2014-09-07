@@ -29,6 +29,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
     public AdapterUserDataProfile(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
+        mImageLoader = new ImageLoader(mContext);
     }
 
     public void setListener(UserPostProfileListener _listener) {
@@ -135,10 +136,11 @@ public class AdapterUserDataProfile extends BaseAdapter {
                     imgUserCover.setImageBitmap(mUserCoverBitmap);
                     btnImgCover.setVisibility(View.GONE);
                 } else {
-                    imgUserCover.setBackgroundResource(R.color.click_color);
                     btnImgCover.setVisibility(View.VISIBLE);
+                    imgUserCover.setBackgroundResource(R.color.click_color);
                 }
             } else {
+                AIOLog.d("userCoverImgUrl:" + userCoverImgUrl);
                 mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover);
                 btnImgCover.setVisibility(View.GONE);
             }

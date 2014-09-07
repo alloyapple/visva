@@ -3,6 +3,7 @@ package com.sharebravo.bravo.view.adapter;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +33,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
     // private ArrayList<String> commentsData = new ArrayList<String>();
     private DetailPostListener listener;
-    private ObBravo         bravoObj           = null;
+    private ObBravo            bravoObj           = null;
     private ObGetComments      mObGetComments     = null;
     private ImageLoader        mImageLoader       = null;
     Fragment                   fragment;
@@ -97,7 +98,6 @@ public class AdapterRecentPostDetail extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         if (position == 0) // post content
         {
             if (convertView == null) {
@@ -115,7 +115,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
 
-           }
+            }
             String imgSpotUrl = bravoObj.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
@@ -135,8 +135,8 @@ public class AdapterRecentPostDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    listener.goToFragment(HomeActivity.FRAGMENT_USER_DATA_TAB_ID);
+                    AIOLog.d("bravoObj.User_ID:" + bravoObj.User_ID);
+                    listener.goToUserDataTab(bravoObj.User_ID);
                 }
             });
 
@@ -258,7 +258,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             else
                 holderComment.mUserNameComment.setText("Unknown");
             holderComment.mCommentContent.setText(comment.commentText);
-            
+
             long createdTime = 0;
             if (comment.dateCreated == null)
                 createdTime = 0;
@@ -272,7 +272,6 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
             }
-            
 
         }
 

@@ -13,11 +13,11 @@ public class ObGetRank {
 
 class RankSpot {
     @SerializedName("Spot_ID")
-    String spotID;
+    String Spot_ID;
     @SerializedName("Spot_Name")
-    String spotName;
-    @SerializedName("Total_Bravo")
-    int    totalBravo;
+    String Spot_Name;
+    @SerializedName("Total")
+    int    Total;
 
     public RankSpot() {
         // TODO Auto-generated constructor stub
