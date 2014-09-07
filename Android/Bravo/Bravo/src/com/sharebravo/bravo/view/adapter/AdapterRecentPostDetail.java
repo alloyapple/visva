@@ -113,7 +113,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
 
-            }
+           }
             String imgSpotUrl = bravoObj.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
