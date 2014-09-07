@@ -96,6 +96,7 @@
     <string name="share_on_twitter">Share on Twitter</string>
     <string name="share_on_line">Share on Line</string>
     <string name="share_cancel">Cancel</string>
+    <string name="dialog_stop_following_msg">Stop following this user?</string>
     <!-- +++++ -->
 
 
