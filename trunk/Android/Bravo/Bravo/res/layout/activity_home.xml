@@ -73,7 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.home.FragmentUpdateUserInfo" />
-            <fragment
+
+            <fragment
                 android:id="@+id/fragment_term_of_use"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -205,5 +206,11 @@
         android:layout_gravity="center|bottom"
         android:background="@drawable/bt_bravo_tab_unselected"
         android:onClick="onClick" />
+
+    <fragment
+        android:id="@+id/fragment_cover_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.sharebravo.bravo.view.fragment.home.FragmentCoverImage" />
 
 </FrameLayout>
