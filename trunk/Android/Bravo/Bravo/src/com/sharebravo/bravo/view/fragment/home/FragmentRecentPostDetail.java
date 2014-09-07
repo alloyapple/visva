@@ -202,7 +202,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 else {
                     // AIOLog.d("size of recent post list: " + mObGetComments.data.size());
 
-                    adapterRecentPostDetail.updateFollowing(obGetFollowCheck.valid == 0 ? true : false);
+                    adapterRecentPostDetail.updateFollowing(obGetFollowCheck.valid == 1 ? true : false);
                     requestGetComments();
                 }
             }
@@ -436,7 +436,44 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         window.setAttributes(lp);
         dialog.show();
     }
+    public void showDialogStopFollowing() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_stop_following, null);
+//        TextView content = (TextView) dialog_view.findViewById(R.id.stop_following_dialog_content);
+//        content.setText("Call " + bravoObj.Spot_Name + "?");
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_stop_following_no);
+        btnCancel.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+
+            }
+        });
+        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_stop_following_yes);
+        btnOK.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+               requestDeleteFollow(bravoObj);
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialog.show();
+    }
     public void showDialogShare() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -532,7 +569,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         if (isFollow)
             requestToPutFollow(bravoObj);
         else
-            requestDeleteFollow(bravoObj);
+            showDialogStopFollowing();
     }
 
     @Override

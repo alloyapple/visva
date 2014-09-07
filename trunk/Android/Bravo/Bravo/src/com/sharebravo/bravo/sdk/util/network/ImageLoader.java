@@ -70,7 +70,7 @@ public class ImageLoader {
     }
 
     private Bitmap getBitmap(String url) {
-        File f = fileCache.getFile(url);
+        File f = fileCache.getFile(url); 
 
         // from SD cache
         Bitmap b = decodeFile(f);
