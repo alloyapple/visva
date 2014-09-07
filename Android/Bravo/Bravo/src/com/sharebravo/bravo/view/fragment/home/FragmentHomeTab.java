@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,6 +103,8 @@ public class FragmentHomeTab extends FragmentBasic {
                     return;
                 else {
                     AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
+                    ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
+                    mObGetAllBravoRecentPosts.data = obBravos;
                     mAdapterRecentPost.updateRecentPostList(mObGetAllBravoRecentPosts);
                     if (mListviewRecentPost.getVisibility() == View.GONE)
                         mListviewRecentPost.setVisibility(View.VISIBLE);
@@ -141,6 +144,8 @@ public class FragmentHomeTab extends FragmentBasic {
                 int size = mObGetAllBravoRecentPosts.data.size();
                 if (size > 0)
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
+                else
+                    mListviewRecentPost.onLoadMoreComplete();
                 AIOLog.d("IOnLoadMoreListener");
             }
         });
@@ -155,6 +160,8 @@ public class FragmentHomeTab extends FragmentBasic {
                 int size = mObGetAllBravoRecentPosts.data.size();
                 if (size > 0)
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
+                else
+                    mListviewRecentPost.onRefreshComplete();
             }
         });
     }
@@ -217,16 +224,17 @@ public class FragmentHomeTab extends FragmentBasic {
                 }
 
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                mObGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetAllBravoRecentPosts);
-                if (mObGetAllBravoRecentPosts == null)
+                ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + obGetAllBravoRecentPosts);
+                if (obGetAllBravoRecentPosts == null)
                     return;
                 else {
-                    AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
-                    int reponseSize = mObGetAllBravoRecentPosts.data.size();
+                    AIOLog.d("size of recent post list: " + obGetAllBravoRecentPosts.data.size());
+                    int reponseSize = obGetAllBravoRecentPosts.data.size();
                     if (reponseSize <= 0)
                         return;
-                    mAdapterRecentPost.updatePullDownLoadMorePostList(mObGetAllBravoRecentPosts, isPulDownToRefresh);
+                    updatePullDownLoadMorePostList(obGetAllBravoRecentPosts, isPulDownToRefresh);
+                    mAdapterRecentPost.updatePullDownLoadMorePostList(obGetAllBravoRecentPosts, isPulDownToRefresh);
                     if (mListviewRecentPost.getVisibility() == View.GONE)
                         mListviewRecentPost.setVisibility(View.VISIBLE);
                 }
@@ -262,5 +270,28 @@ public class FragmentHomeTab extends FragmentBasic {
 
     public void setListener(IShowPageHomeNotification iShowPageHomeNotification) {
         this.mListener = iShowPageHomeNotification;
+    }
+
+    private void updatePullDownLoadMorePostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isPulDownToRefresh) {
+        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
+        if (mObGetAllBravoRecentPosts == null){
+            mObGetAllBravoRecentPosts = new ObGetAllBravoRecentPosts();
+            mObGetAllBravoRecentPosts.data = new ArrayList<ObBravo>();
+        }
+        if (isPulDownToRefresh)
+            mObGetAllBravoRecentPosts.data.addAll(0, newObBravos);
+        else
+            mObGetAllBravoRecentPosts.data.addAll(newObBravos);
+    }
+
+    private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
+        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
+        for (ObBravo obBravo : bravoItems) {
+            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+            } else
+                obBravos.add(obBravo);
+        }
+        return obBravos;
     }
 }
