@@ -39,6 +39,8 @@ public class FragmentBravoLogin extends FragmentBasic {
     private EditText                mEditTextUserEmail;
     private EditText                mEditTextPassWord;
     private TextView                mTextForgotPassword;
+    private boolean                 isUsernamenotValid;
+    private boolean                 isPasswordnotValid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +75,30 @@ public class FragmentBravoLogin extends FragmentBasic {
 
         mEditTextUserEmail = (EditText) root.findViewById(R.id.edittext_input_email);
         mEditTextPassWord = (EditText) root.findViewById(R.id.edittext_input_pass);
+        mEditTextPassWord.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isPasswordnotValid) {
+                    isPasswordnotValid = false;
+                    mEditTextPassWord.setText("");
+                    mEditTextPassWord.setHint(getString(R.string.pass_word));
+                    mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.black));
+                }
+            }
+        });
+        mEditTextUserEmail.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isUsernamenotValid) {
+                    isUsernamenotValid = false;
+                    mEditTextUserEmail.setText("");
+                    mEditTextUserEmail.setHint(getString(R.string.email_address));
+                    mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.black));
+                }
+            }
+        });
     }
 
     private void requestToLoginByBravoAccount(String email, String passWord) {
@@ -118,11 +144,17 @@ public class FragmentBravoLogin extends FragmentBasic {
             if (passWord.length() >= 8)
                 return true;
             else {
-                mEditTextPassWord.setError(getActivity().getResources().getString(R.string.password_not_valid));
+                isPasswordnotValid = true;
+                mEditTextPassWord.setText("");
+                mEditTextPassWord.setHint(getString(R.string.password_not_valid));
+                mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.red));
                 return false;
             }
         else {
-            mEditTextUserEmail.setError(getActivity().getResources().getString(R.string.email_not_valid));
+            isUsernamenotValid = true;
+            mEditTextUserEmail.setText("");
+            mEditTextUserEmail.setHint(getString(R.string.email_not_valid));
+            mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.red));
             return false;
         }
     }

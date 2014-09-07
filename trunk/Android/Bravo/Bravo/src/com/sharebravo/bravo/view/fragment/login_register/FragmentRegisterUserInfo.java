@@ -9,18 +9,21 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +38,8 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
@@ -74,7 +79,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                pickImage();
+                showDialogChooseImage();
             }
         });
         return root;
@@ -171,44 +176,67 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
             mEditTextUserName.setText(mBravoUser.mUserName);
     }
 
-    private void pickImage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.pick_image);
-        builder.setItems(R.array.image_choose_type_array, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                case 0:
-                    // when user click camera to get image
-                    try {
-                        String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
-                        ContentValues values = new ContentValues();
-                        values.put(MediaStore.Images.Media.TITLE, fileName);
-                        mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
-                        startActivityForResult(intent, REQUEST_CODE_CAMERA);
-                    } catch (Exception e) {
-                        AIOLog.e("exception:" + e.getMessage());
-                    }
-                    break;
+    private void showDialogChooseImage() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
+        btnTakeAPicture.setOnClickListener(new OnClickListener() {
 
-                case 1:
-                    // when user click gallery to get image
-                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
-                    break;
-
-                default:
-                    break;
+            @Override
+            public void onClick(View v) {
+                // when user click camera to get image
+                try {
+                    String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                } catch (Exception e) {
+                    AIOLog.e("exception:" + e.getMessage());
                 }
+                dialog.dismiss();
+
             }
         });
-        builder.show();
+        Button btnChooseFromLibrary = (Button) dialog_view.findViewById(R.id.btn_choose_from_library);
+        btnChooseFromLibrary.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // when user click gallery to get image
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
+                dialog.dismiss();
+            }
+        });
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_choose_picture_cancel);
+        btnCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
     }
 
     @SuppressWarnings("static-access")
-    @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        AIOLog.d("requestCode:" + requestCode + ", resultCode:" + resultCode + ", data:" + data);
         switch (requestCode) {
         case REQUEST_CODE_CAMERA:
             if (resultCode == getActivity().RESULT_OK) {
@@ -219,8 +247,10 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     Bitmap photo = (Bitmap) data.getExtras().get("data");
                     if (photo == null)
                         return;
-                    mImgUserPicture.setImageBitmap(photo);
-                    return;
+                    else {
+                        mImgUserPicture.setImageBitmap(photo);
+                        return;
+                    }
                 }
 
                 String[] projection = { MediaStore.Images.Media.DATA };
@@ -241,6 +271,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
                 }
@@ -268,9 +299,9 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
-
                 } else {
                     AIOLog.d("file don't exist !");
                 }

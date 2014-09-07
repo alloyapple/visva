@@ -3,6 +3,7 @@
 
     <!-- Common -->
     <color name="white">#ffffff</color>
+    <color name="red">#F16745</color>
     <color name="black">#000000</color>
     <color name="grey">#c8c7cc</color>
     <color name="grey_2">#bcbcbc</color>

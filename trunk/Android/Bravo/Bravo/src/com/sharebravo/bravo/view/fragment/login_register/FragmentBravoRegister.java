@@ -1,7 +1,6 @@
 package com.sharebravo.bravo.view.fragment.login_register;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -12,21 +11,21 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,6 +41,7 @@ import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
@@ -50,8 +50,8 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoRegister extends FragmentBasic {
     // ====================Constant Define=================
-    private static final int REQUEST_CODE_CAMERA  = 1003;
-    private static final int REQUEST_CODE_GALLERY = 1004;
+    private static final int REQUEST_CODE_CAMERA  = 3003;
+    private static final int REQUEST_CODE_GALLERY = 3004;
     // ====================Class Define====================
     private EmailValidator   mEmailValidator;
     // ====================Variable Define=================
@@ -62,6 +62,9 @@ public class FragmentBravoRegister extends FragmentBasic {
     private ImageView        mImgChoosePicture;
     private ImageView        mImgUserPicture;
     private Uri              mCapturedImageURI;
+    private boolean          isUserNameNotValid;
+    private boolean          isUserEmailNotValid;
+    private boolean          isPasswordNotValid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +85,10 @@ public class FragmentBravoRegister extends FragmentBasic {
                     onClickRegisterBravoUser();
                 }
                 else {
-                    mEditTextUserName.setError(getActivity().getResources().getString(R.string.username_not_valid));
+                    isUserNameNotValid = true;
+                    mEditTextUserName.setText("");
+                    mEditTextUserName.setHint(getString(R.string.username_not_valid));
+                    mEditTextUserName.setHintTextColor(getActivity().getResources().getColor(R.color.red));
                 }
             }
         });
@@ -94,11 +100,47 @@ public class FragmentBravoRegister extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                pickImage();
+                showDialogChooseImage();
             }
         });
         mEditTextUserEmail = (EditText) root.findViewById(R.id.edittext_input_email_register);
         mEditTextPassWord = (EditText) root.findViewById(R.id.edittext_input_pass_register);
+        mEditTextUserEmail.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isUserEmailNotValid || mEditTextUserEmail.getText().length() == 0) {
+                    isUserEmailNotValid = false;
+                    mEditTextUserEmail.setText("");
+                    mEditTextUserEmail.setHint(getString(R.string.email_address));
+                    mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.black));
+                }
+            }
+        });
+        mEditTextPassWord.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isPasswordNotValid || mEditTextPassWord.getText().length() == 0) {
+                    isPasswordNotValid = false;
+                    mEditTextPassWord.setText("");
+                    mEditTextPassWord.setHint(getString(R.string.pass_word));
+                    mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.black));
+                }
+            }
+        });
+        mEditTextUserName.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isUserNameNotValid || mEditTextUserName.getText().length() == 0) {
+                    isUserNameNotValid = false; 
+                    mEditTextUserName.setText("");
+                    mEditTextUserName.setHint(getString(R.string.text_user_name));
+                    mEditTextUserName.setHintTextColor(getActivity().getResources().getColor(R.color.black));
+                }
+            }
+        });
     }
 
     @Override
@@ -127,8 +169,7 @@ public class FragmentBravoRegister extends FragmentBasic {
             _bravoUser.mForeign_Id = "No";
             AIOLog.d("mTimeZone " + _bravoUser.mTimeZone);
             requestToPostBravoUser(_bravoUser);
-        } else
-            mEditTextUserEmail.setError(getString(R.string.email_not_valid));
+        }
     }
 
     /**
@@ -196,44 +237,67 @@ public class FragmentBravoRegister extends FragmentBasic {
         postRegister.execute(BravoWebServiceConfig.URL_POST_USER);
     }
 
-    private void pickImage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.pick_image);
-        builder.setItems(R.array.image_choose_type_array, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                case 0:
-                    // when user click camera to get image
-                    try {
-                        String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
-                        ContentValues values = new ContentValues();
-                        values.put(MediaStore.Images.Media.TITLE, fileName);
-                        mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
-                        startActivityForResult(intent, REQUEST_CODE_CAMERA);
-                    } catch (Exception e) {
-                        AIOLog.e("exception:" + e.getMessage());
-                    }
-                    break;
+    private void showDialogChooseImage() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
+        btnTakeAPicture.setOnClickListener(new OnClickListener() {
 
-                case 1:
-                    // when user click gallery to get image
-                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
-                    break;
-
-                default:
-                    break;
+            @Override
+            public void onClick(View v) {
+                // when user click camera to get image
+                try {
+                    String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                } catch (Exception e) {
+                    AIOLog.e("exception:" + e.getMessage());
                 }
+                dialog.dismiss();
+
             }
         });
-        builder.show();
+        Button btnChooseFromLibrary = (Button) dialog_view.findViewById(R.id.btn_choose_from_library);
+        btnChooseFromLibrary.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // when user click gallery to get image
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
+                dialog.dismiss();
+            }
+        });
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_choose_picture_cancel);
+        btnCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
     }
 
     @SuppressWarnings("static-access")
-    @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        AIOLog.d("requestCode:" + requestCode + ", resultCode:" + resultCode + ", data:" + data);
         switch (requestCode) {
         case REQUEST_CODE_CAMERA:
             if (resultCode == getActivity().RESULT_OK) {
@@ -244,8 +308,10 @@ public class FragmentBravoRegister extends FragmentBasic {
                     Bitmap photo = (Bitmap) data.getExtras().get("data");
                     if (photo == null)
                         return;
-                    mImgUserPicture.setImageBitmap(photo);
-                    return;
+                    else {
+                        mImgUserPicture.setImageBitmap(photo);
+                        return;
+                    }
                 }
 
                 String[] projection = { MediaStore.Images.Media.DATA };
@@ -264,9 +330,10 @@ public class FragmentBravoRegister extends FragmentBasic {
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = checkOrientation(fileUri);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    bmp = decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
+                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
                 }
             }
@@ -291,11 +358,11 @@ public class FragmentBravoRegister extends FragmentBasic {
                 Uri fileUri = null;
                 if (file.exists()) {
                     fileUri = Uri.fromFile(file);
-                    int orientation = checkOrientation(fileUri);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    bmp = decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
+                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
-
                 } else {
                     AIOLog.d("file don't exist !");
                 }
@@ -306,92 +373,22 @@ public class FragmentBravoRegister extends FragmentBasic {
         }
     }
 
-    /**
-     * rotate image to have the exact orientation
-     * 
-     * @param fileUri
-     * @return
-     */
-    private int checkOrientation(Uri fileUri) {
-        int rotate = 0;
-        String imagePath = fileUri.getPath();
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(imagePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Since API Level 5
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-        switch (orientation) {
-        case ExifInterface.ORIENTATION_ROTATE_270:
-            rotate = 270;
-            break;
-        case ExifInterface.ORIENTATION_ROTATE_180:
-            rotate = 180;
-            break;
-        case ExifInterface.ORIENTATION_ROTATE_90:
-            rotate = 90;
-            break;
-        }
-        return rotate;
-    }
-
-    private Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth, int reqHeight, int orientation) {
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        Matrix mtx = new Matrix();
-        mtx.postRotate(orientation);
-        BitmapFactory.decodeFile(filePath, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        return decodeBitmap(BitmapFactory.decodeFile(filePath, options), orientation);
-    }
-
-    private Bitmap decodeBitmap(Bitmap bitmap, int orientation) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        Matrix mtx = new Matrix();
-        mtx.postRotate(orientation);
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, mtx, true);
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-        }
-
-        return inSampleSize;
-    }
-
     private boolean isValidEmail_PassWord(String email, String passWord) {
         if (mEmailValidator.validate(email))
             if (passWord.length() >= 8)
                 return true;
             else {
-                mEditTextPassWord.setError(getActivity().getResources().getString(R.string.password_not_valid));
+                isPasswordNotValid = true;
+                mEditTextPassWord.setText("");
+                mEditTextPassWord.setHint(getString(R.string.password_not_valid));
+                mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.red));
                 return false;
             }
         else {
-            mEditTextUserEmail.setError(getActivity().getResources().getString(R.string.email_not_valid));
+            isUserEmailNotValid = true;
+            mEditTextUserEmail.setText("");
+            mEditTextUserEmail.setHint(getString(R.string.email_not_valid));
+            mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.red));
             return false;
         }
     }
