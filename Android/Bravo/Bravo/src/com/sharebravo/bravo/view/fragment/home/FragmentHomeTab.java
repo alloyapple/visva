@@ -1,8 +1,10 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -38,7 +41,7 @@ public class FragmentHomeTab extends FragmentBasic {
     private AdapterRecentPost         mAdapterRecentPost        = null;
     private HomeActionListener        mHomeActionListener       = null;
     private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
-   
+
     private Button                    mBtnHomeNotification      = null;
     private IShowPageHomeNotification mListener                 = null;
     private SessionLogin              mSessionLogin             = null;
@@ -99,7 +102,7 @@ public class FragmentHomeTab extends FragmentBasic {
                 AIOLog.d("response error");
             }
         }, params, true);
-      
+
         getLoginRequest.execute(url);
 
     }
@@ -124,6 +127,9 @@ public class FragmentHomeTab extends FragmentBasic {
 
             @Override
             public void onLoadMore() {
+                int size = mObGetAllBravoRecentPosts.data.size();
+                if (size > 0)
+                    onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
                 AIOLog.d("IOnLoadMoreListener");
             }
         });
@@ -135,11 +141,73 @@ public class FragmentHomeTab extends FragmentBasic {
             @Override
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
+                int size = mObGetAllBravoRecentPosts.data.size();
+                if (size > 0)
+                    onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
             }
         });
     }
 
-    @Override
+    private void onPullDownToRefreshBravoItems(ObBravo obBravo, final boolean isPulDownToRefresh) {
+        AIOLog.d("obBravo.bravoId:" + obBravo.Bravo_ID);
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        if (isPulDownToRefresh)
+            subParams.put("Min_Bravo_ID", obBravo.Bravo_ID);
+        else
+            subParams.put("Max_Bravo_ID", obBravo.Bravo_ID);
+        subParams.put("View_Deleted_Users", "0");
+        subParams.put("Global", "TRUE");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        AIOLog.d("mUserId:" + mSessionLogin.userID + ", mAccessToken:" + mSessionLogin.accessToken);
+        if (StringUtility.isEmpty(mSessionLogin.userID) || StringUtility.isEmpty(mSessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
+        String url = BravoWebServiceConfig.URL_GET_BRAVO_SEARCH;
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("onLoadMoreBravoItems:" + response);
+                if (isPulDownToRefresh) {
+                    mListviewRecentPost.onRefreshComplete();
+                } else {
+                    mListviewRecentPost.onLoadMoreComplete();
+                }
+
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                mObGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetAllBravoRecentPosts);
+                if (mObGetAllBravoRecentPosts == null)
+                    return;
+                else {
+                    AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
+                    int reponseSize = mObGetAllBravoRecentPosts.data.size();
+                    if (reponseSize <= 0)
+                        return;
+                    mAdapterRecentPost.updatePullDownLoadMorePostList(mObGetAllBravoRecentPosts, isPulDownToRefresh);
+                    if (mListviewRecentPost.getVisibility() == View.GONE)
+                        mListviewRecentPost.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.e("response error");
+                if (isPulDownToRefresh) {
+                    mListviewRecentPost.onRefreshComplete();
+                } else {
+                    mListviewRecentPost.onLoadMoreComplete();
+                }
+            }
+        }, params, true);
+        AIOLog.e("url: " + url);
+        getPullDown_LoadMoreRequest.execute(url);
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mHomeActionListener = (HomeActionListener) getActivity();

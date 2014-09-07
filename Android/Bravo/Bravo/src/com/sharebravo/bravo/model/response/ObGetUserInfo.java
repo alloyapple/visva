@@ -28,16 +28,16 @@ public class ObGetUserInfo {
         public int                 Allow_Bravo;
         @SerializedName("Install_Age")
         public int                 Install_Age;
-        @SerializedName("Total_Bravo")
-        public int                 Total_Bravo;
+        @SerializedName("Total_Bravos")
+        public int                 Total_Bravos;
         @SerializedName("Received_Bravo")
         public int                 Received_Bravo;
         @SerializedName("Badge_Num")
         public int                 Badge_Num;
         @SerializedName("Bravo_Rank")
         public ArrayList<RankSpot> Bravo_Rank;
-        @SerializedName("Total_Follower")
-        public int                 Total_Follower;
+        @SerializedName("Total_Followers")
+        public int                 Total_Followers;
         @SerializedName("Followers")
         public ArrayList<Follower>     Followers;
         @SerializedName("Total_Following")
