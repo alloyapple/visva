@@ -24,6 +24,7 @@ import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
+import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
@@ -52,6 +53,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_SETTINGS              = "settings";
     private static final String      FRAGMENT_UPDATE_USER_INFO      = "update_user_info";
     private static final String      FRAGMENT_TERM_OF_USE           = "term_of_use";
+    private static final String      FRAGMENT_COVER_IMAGE           = "cover_image";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -65,6 +67,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_SETTINGS_ID           = FRAGMENT_HOME_NOTIFICATION_ID + 1;
     public static final int          FRAGMENT_UPDATE_USER_INFO_ID   = FRAGMENT_SETTINGS_ID + 1;
     public static final int          FRAGMENT_TERM_OF_USE_ID        = FRAGMENT_UPDATE_USER_INFO_ID + 1;
+    public static final int          FRAGMENT_COVER_IMAGE_ID        = FRAGMENT_TERM_OF_USE_ID + 1;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -80,6 +83,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentSetting          mFragmentSetting;
     private FragmentUpdateUserInfo   mFragmentUpdateUserInfo;
     private FragmentTermOfUse        mFragmentTermOfUse;
+    private FragmentCoverImage       mFragmentCoverImage;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -182,6 +186,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentSetting = (FragmentSetting) mFmManager.findFragmentById(R.id.fragment_settings);
         mFragmentUpdateUserInfo = (FragmentUpdateUserInfo) mFmManager.findFragmentById(R.id.fragment_update_user_info);
         mFragmentTermOfUse = (FragmentTermOfUse) mFmManager.findFragmentById(R.id.fragment_term_of_use);
+        mFragmentCoverImage = (FragmentCoverImage) mFmManager.findFragmentById(R.id.fragment_cover_image);
 
         mFragmentHomeTab.setListener(this);
         mFragmentHomeNotification.setListener(this);
@@ -266,6 +271,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentTermOfUse);
             addToSBackStack(FRAGMENT_TERM_OF_USE);
             break;
+        case FRAGMENT_COVER_IMAGE_ID:
+            mTransaction.show(mFragmentCoverImage);
+            addToSBackStack(FRAGMENT_COVER_IMAGE);
+            break;
         default:
             break;
         }
@@ -286,6 +295,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentSetting);
         mTransaction.hide(mFragmentUpdateUserInfo);
         mTransaction.hide(mFragmentTermOfUse);
+        mTransaction.hide(mFragmentCoverImage);
         return mTransaction;
     }
 
@@ -348,6 +358,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } else if (currentView.equals(FRAGMENT_USER_DATA_TAB)) {
             mTransaction.show(mFragmentRecentPostDetail);
         } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
+            mTransaction.show(mFragmentRecentPostDetail);
+        } else if (currentView.equals(FRAGMENT_COVER_IMAGE)) {
             mTransaction.show(mFragmentRecentPostDetail);
         }
         mTransaction.commitAllowingStateLoss();

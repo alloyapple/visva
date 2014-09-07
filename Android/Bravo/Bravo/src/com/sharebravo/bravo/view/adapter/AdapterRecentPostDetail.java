@@ -116,6 +116,14 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
 
             }
+            imagePost.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    listener.goToCoverImage();
+                }
+            });
             String imgSpotUrl = bravoObj.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
@@ -183,13 +191,12 @@ public class AdapterRecentPostDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    isSave = !isSave;
-                    btnSave.setCompoundDrawablesWithIntrinsicBounds(isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0, 0);
-                    btnSave.setText(isSave ? "Saved" : "Save");
+                    // TODO Auto-geinerated method stub
+                  listener.goToSave(!isSave);
                 }
             });
-
+            btnSave.setCompoundDrawablesWithIntrinsicBounds(isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0, 0);
+            btnSave.setText(isSave ? "Saved" : "Save");
             btnShare.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -285,6 +292,11 @@ public class AdapterRecentPostDetail extends BaseAdapter {
 
     public void updateFollowing(boolean isFollow) {
         this.isFollowing = isFollow;
+        notifyDataSetChanged();
+    }
+
+    public void updateSave(boolean isSave) {
+        this.isSave = isSave;
         notifyDataSetChanged();
     }
 

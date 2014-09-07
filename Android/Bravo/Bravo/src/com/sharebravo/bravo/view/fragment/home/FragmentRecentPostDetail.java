@@ -30,12 +30,24 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
+<<<<<<< .mine
+import com.sharebravo.bravo.model.response.ObDeleteMylist;
+=======
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
+>>>>>>> .r1056
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
+import com.sharebravo.bravo.model.response.ObGetMylistItem;
 import com.sharebravo.bravo.model.response.ObPostComment;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
+<<<<<<< .mine
+import com.sharebravo.bravo.model.response.ObPutMyList;
+import com.sharebravo.bravo.model.response.ObPutReport;
+import com.sharebravo.bravo.model.user.BravoUser;
+import com.sharebravo.bravo.model.user.ObGetLoginedUser;
+=======
+>>>>>>> .r1056
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -165,10 +177,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                     return;
                 else {
                     // AIOLog.d("size of recent post list: " + mObGetComments.data.size());
-//                    bravoObj = obGetBravo.data;
-//                    adapterRecentPostDetail.setBravoOb(bravoObj);
+                    // bravoObj = obGetBravo.data;
+                    // adapterRecentPostDetail.setBravoOb(bravoObj);
                     // requestGetComments();
                     requestGetFollowingCheck();
+                    requestGetMyListItem();
                 }
             }
 
@@ -302,6 +315,179 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         putFollow.execute(url);
     }
 
+    private void requestGetMyListItem() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_GET_MYLIST_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", bravoObj.Bravo_ID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
+        AsyncHttpGet getMyListItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("requestFollowingCheck:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetMylistItem obGetMylistItem;
+                obGetMylistItem = gson.fromJson(response.toString(), ObGetMylistItem.class);
+                // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
+
+                if (obGetMylistItem == null)
+                    return;
+                else {
+                    adapterRecentPostDetail.updateSave(obGetMylistItem.valid == 1 ? true : false);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getMyListItemRequest.execute(url);
+    }
+
+    private void requestDeleteMyListItem(ObBravo obBravo) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{Bravo_ID}", bravoObj.Bravo_ID);
+        AsyncHttpDelete deleteMyListItem = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObDeleteMylist obDeleteMylist;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    adapterRecentPostDetail.updateSave(false);
+                } else {
+                    obDeleteMylist = gson.fromJson(response.toString(), ObDeleteMylist.class);
+                    showToast(obDeleteMylist.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, null, true);
+        AIOLog.d(url);
+        deleteMyListItem.execute(url);
+    }
+
+    private void requestToPutMyListItem(ObBravo obBravo) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Bravo_ID", obBravo.Bravo_ID);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putMyListItem = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPutMyList obPutMyList;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    adapterRecentPostDetail.updateSave(true);
+                } else {
+                    obPutMyList = gson.fromJson(response.toString(), ObPutMyList.class);
+                    showToast(obPutMyList.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putMyListItem.execute(url);
+    }
+
+    private void requestToPutReport(ObBravo obBravo) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Foreign_ID", obBravo.User_ID);
+        subParams.put("Report_Type", "bravo");
+        subParams.put("User_ID", userId);
+        subParams.put("Detail", "");
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_REPORT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putReport = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putReport :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPutReport obPutReport;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    showDialogReportOk();
+                } else {
+                    obPutReport = gson.fromJson(response.toString(), ObPutReport.class);
+                    showToast(obPutReport.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putReport.execute(url);
+    }
+
     private void requestToPostComment(String commentText) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
@@ -356,7 +542,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-           // requestGetBravo();
+            // requestGetBravo();
             requestGetBravo();
         }
     }
@@ -379,11 +565,14 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     }
 
     @Override
+<<<<<<< .mine
+=======
     public void goToSave() {
 
     }
 
     @Override
+>>>>>>> .r1056
     public void goToFragment(int fragmentID) {
         mHomeActionListener.goToFragment(fragmentID);
     }
@@ -424,14 +613,13 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         window.setAttributes(lp);
         dialog.show();
     }
+
     public void showDialogStopFollowing() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_stop_following, null);
-//        TextView content = (TextView) dialog_view.findViewById(R.id.stop_following_dialog_content);
-//        content.setText("Call " + bravoObj.Spot_Name + "?");
         Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_stop_following_no);
         btnCancel.setOnClickListener(new OnClickListener() {
 
@@ -449,7 +637,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
-               requestDeleteFollow(bravoObj);
+                requestDeleteFollow(bravoObj);
             }
         });
         dialog.setContentView(dialog_view);
@@ -462,6 +650,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         window.setAttributes(lp);
         dialog.show();
     }
+
     public void showDialogShare() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -513,6 +702,27 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         dialog.show();
     }
 
+    public void showDialogReportOk() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_report_ok, null);
+        Button btnReportClose = (Button) dialog_view.findViewById(R.id.btn_report_close);
+        btnReportClose.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(dialog_view);
+
+        dialog.show();
+    }
+
     public void showDialogReport() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -525,6 +735,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                requestToPutReport(bravoObj);
             }
         });
         Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_report_no);
@@ -556,9 +767,27 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     public void goToSubmitComment(String commentText) {
         requestToPostComment(commentText);
     }
+<<<<<<< .mine
+
+    @Override
+    public void goToSave(boolean isSave) {
+        // TODO Auto-generated method stub
+        if (isSave)
+            requestToPutMyListItem(bravoObj);
+        else
+            requestDeleteMyListItem(bravoObj);
+    }
+
+    @Override
+    public void goToCoverImage() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_COVER_IMAGE_ID);
+    }
+=======
 
     @Override
     public void goToUserDataTab(String useId) {
         mHomeActionListener.goToUserData(useId);
     }
+>>>>>>> .r1056
 }
