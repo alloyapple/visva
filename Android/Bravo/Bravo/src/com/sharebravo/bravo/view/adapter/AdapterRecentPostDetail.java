@@ -20,11 +20,13 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.utils.TimeUtility;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
     private Context            mContext;
@@ -256,6 +258,21 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             else
                 holderComment.mUserNameComment.setText("Unknown");
             holderComment.mCommentContent.setText(comment.commentText);
+            
+            long createdTime = 0;
+            if (comment.dateCreated == null)
+                createdTime = 0;
+            else
+                createdTime = comment.dateCreated.getSec();
+            if (createdTime == 0) {
+                holderComment.mCommentDate.setText("Unknown");
+            } else {
+                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+                holderComment.mCommentDate.setText(createdTimeConvertStr);
+                AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
+                AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
+            }
+            
 
         }
 

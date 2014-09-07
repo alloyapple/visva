@@ -168,8 +168,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                     return;
                 else {
                     // AIOLog.d("size of recent post list: " + mObGetComments.data.size());
-                    bravoObj = obGetBravo.data;
-                    adapterRecentPostDetail.setBravoOb(bravoObj);
+//                    bravoObj = obGetBravo.data;
+//                    adapterRecentPostDetail.setBravoOb(bravoObj);
                     // requestGetComments();
                     requestGetFollowingCheck();
                 }
@@ -363,6 +363,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
+           // requestGetBravo();
             requestGetBravo();
         }
     }
