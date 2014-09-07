@@ -14,5 +14,7 @@ public interface DetailPostListener {
     public void goToReport();
 
     public void goToFollow(boolean isFollow);
+    
+    public void goToUserDataTab(String useId);
 
 }

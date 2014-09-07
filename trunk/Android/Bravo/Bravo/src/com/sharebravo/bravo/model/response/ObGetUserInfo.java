@@ -14,12 +14,10 @@ public class ObGetUserInfo {
     public class Data {
         @SerializedName("User_ID")
         public String              User_ID;
-        @SerializedName("New_Access_Token")
-        public String              New_Access_Token;
         @SerializedName("Full_Name")
         public String              Full_Name;
-        @SerializedName("SNS_List")
-        public ArrayList<SNS_List> SNS_List;
+        // @SerializedName("SNS_List")
+        // public ArrayList<SNS_List> SNS_List;
         @SerializedName("About_Me")
         public String              About_Me;
         @SerializedName("Profile_Img_URL")
@@ -37,15 +35,15 @@ public class ObGetUserInfo {
         @SerializedName("Badge_Num")
         public int                 Badge_Num;
         @SerializedName("Bravo_Rank")
-        ArrayList<RankSpot>        Bravo_Rank = new ArrayList<RankSpot>();
+        public ArrayList<RankSpot> Bravo_Rank;
         @SerializedName("Total_Follower")
         public int                 Total_Follower;
         @SerializedName("Followers")
-        ArrayList<User>            Followers  = new ArrayList<User>();
+        public ArrayList<Follower>     Followers;
         @SerializedName("Total_Following")
         public int                 Total_Following;
-        @SerializedName("Followings")
-        ArrayList<Follow>          Followings = new ArrayList<Follow>();
+        @SerializedName("Following")
+        ArrayList<Follow>          Following = new ArrayList<Follow>();
         @SerializedName("is_My_List_Privte")
         public boolean             is_My_List_Privte;
         @SerializedName("Total_My_List")
@@ -53,9 +51,25 @@ public class ObGetUserInfo {
     }
 
     public class SNS_List {
-        @SerializedName("Foreign_SNS")
-        public String Foreign_SNS;
-        @SerializedName("Foreign_ID")
-        public String Foreign_ID;
+        // @SerializedName("Foreign_SNS")
+        // public String Foreign_SNS;
+        // @SerializedName("Foreign_ID")
+        // public String Foreign_ID;
+    }
+
+    public class Follower {
+
+        @SerializedName("User_ID")
+        public String User_ID; 
+        // @SerializedName("SNS_List")
+        // public ArrayList<SNS> SNS_List;
+        @SerializedName("Full_Name")
+        public String Full_Name;
+        @SerializedName("Profile_Img_URL")
+        public String Profile_Img_URL;
+
+        public Follower() {
+        }
+
     }
 }

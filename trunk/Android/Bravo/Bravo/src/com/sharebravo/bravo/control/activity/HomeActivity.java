@@ -36,7 +36,7 @@ import com.sharebravo.bravo.view.fragment.home.FragmentUserDataTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentUserDataTab.IShowPageSettings;
 
 public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification, IClosePageHomeNotification,
-        IShowPageSettings,IShowPageTermOfUse {
+        IShowPageSettings, IShowPageTermOfUse {
 
     // ======================Constant Define===============
     private static final String      FRAGMENT_HOME_TAB              = "home_tab";
@@ -394,6 +394,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void showPageTermOfUse() {
         showFragment(FRAGMENT_TERM_OF_USE_ID);
+    }
+
+    @Override
+    public void goToUserData(String userId) {
+        showFragment(FRAGMENT_USER_DATA_TAB_ID);
+        mFragmentUserDataTab.getUserInfo(userId);
     }
 
 }

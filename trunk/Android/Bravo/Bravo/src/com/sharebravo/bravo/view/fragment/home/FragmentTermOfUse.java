@@ -23,14 +23,14 @@ public class FragmentTermOfUse extends FragmentBasic {
     // ============================Variable Define =====================
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_term_of_use, null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_term_of_use, container);
         mWebView = (WebView) root.findViewById(R.id.web_support);
-        mWebView.loadUrl("https://www.google.co.uk/");
+        mWebView.setWebViewClient(new MyWebViewClient());
+        mWebView.loadUrl("https://www.google.co.uk/"); 
         WebSettings webSettings = mWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        return root;
+        webSettings.setJavaScriptEnabled(true); 
+        return root; 
     }
 
     @Override

@@ -7,5 +7,7 @@ public interface HomeActionListener {
 
     public void goToFragment(int fragmentID);
 
+    public void goToUserData(String userId);
+
     public void goToBack();
 }

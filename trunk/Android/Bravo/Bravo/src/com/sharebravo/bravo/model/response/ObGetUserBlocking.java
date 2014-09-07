@@ -3,28 +3,25 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetUserBlocking {
     ArrayList<User> data = new ArrayList<User>();
 
     public ObGetUserBlocking() {
-        // TODO Auto-generated constructor stub
     }
 
 }
 
 class User {
-    @SerializedName("USer_ID")
-    String         userID;
-    @SerializedName("SNS_List")
-    ArrayList<SNS> snsList = new ArrayList<SNS>();
+    @SerializedName("User_ID")
+    public String         User_ID;
+//    @SerializedName("SNS_List")
+//    public ArrayList<SNS> SNS_List;
     @SerializedName("Full_Name")
-    String         fullName;
+    public String         Full_Name;
     @SerializedName("Profile_Img_URL")
-    String         profileImgUrl;
+    public String         Profile_Img_URL;
 
     public User() {
-        // TODO Auto-generated constructor stub
     }
 }

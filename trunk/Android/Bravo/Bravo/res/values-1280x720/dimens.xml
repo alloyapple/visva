@@ -9,7 +9,6 @@
     <dimen name="sns_login_text_view_margin_bottom">5dp</dimen>
     <dimen name="sns_login_text_view_margin_left">30dp</dimen>
     <dimen name="sns_login_text_view_padding_left">6dp</dimen>
-    
     <dimen name="splash_message_size">30sp</dimen>
     <dimen name="login_register_text_size">16sp</dimen>
     <dimen name="layout_login_register_height">50dp</dimen>
@@ -78,5 +77,9 @@
     <dimen name="height_input_comment">56dp</dimen>
     <dimen name="height_row_comment_content">50dp</dimen>
     <!-- Home Tab -->
+
+
+    <!-- User data -->
+    <dimen name="user_data_avatar_width_heght">100dp</dimen>
 
 </resources>

@@ -73,7 +73,6 @@ public class ObBravo {
         public String foreignID;
 
         public SNS() {
-            // TODO Auto-generated constructor stub
         }
     }
 
