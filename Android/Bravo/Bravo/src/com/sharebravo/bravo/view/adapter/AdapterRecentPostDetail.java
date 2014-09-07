@@ -130,14 +130,14 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             } else {
 
                 layoutMapview.setVisibility(View.GONE);
-                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost);
+                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost,false);
             }
             contentPost.setText(bravoObj.Spot_Name);
             String avatarUrl = bravoObj.Profile_Img_URL;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 userAvatar.setBackgroundResource(R.drawable.user_picture_default);
             } else {
-                mImageLoader.DisplayImage(avatarUrl, R.drawable.user_picture_default, userAvatar);
+                mImageLoader.DisplayImage(avatarUrl, R.drawable.user_picture_default, userAvatar,true);
             }
             userAvatar.setOnClickListener(new OnClickListener() {
 
@@ -256,9 +256,9 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             String profile_img_url = comment.profileImgUrl;
 
             if (StringUtility.isEmpty(profile_img_url)) {
-                holderComment.mAvatarComment.setBackgroundResource(R.drawable.home_default_avatar);
+                holderComment.mAvatarComment.setBackgroundResource(R.drawable.user_picture_default);
             } else {
-                mImageLoader.DisplayImage(profile_img_url, R.drawable.home_default_avatar, holderComment.mAvatarComment);
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holderComment.mAvatarComment,true);
             }
             if (comment.fullName != null)
                 holderComment.mUserNameComment.setText(comment.fullName);
