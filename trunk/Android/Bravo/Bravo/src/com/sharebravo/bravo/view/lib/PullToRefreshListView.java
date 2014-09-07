@@ -87,7 +87,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
 	protected void init(Context context) {
 		// Load all of the animations we need in code rather than through XML
-		mFlipAnimation = new RotateAnimation(0, -180, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+		mFlipAnimation = new RotateAnimation(0, -150, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
 		mFlipAnimation.setInterpolator(new LinearInterpolator());
 		mFlipAnimation.setDuration(250);
 		mFlipAnimation.setFillAfter(true);

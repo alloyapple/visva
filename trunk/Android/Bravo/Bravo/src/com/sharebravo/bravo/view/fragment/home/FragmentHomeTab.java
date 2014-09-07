@@ -12,10 +12,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -37,12 +37,13 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
+import com.sharebravo.bravo.view.adapter.AdapterRecentPost.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
 import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 
-public class FragmentHomeTab extends FragmentBasic {
+public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
     private PullAndLoadListView       mListviewRecentPost       = null;
     private AdapterRecentPost         mAdapterRecentPost        = null;
     private HomeActionListener        mHomeActionListener       = null;
@@ -133,6 +134,7 @@ public class FragmentHomeTab extends FragmentBasic {
         });
         mListviewRecentPost = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post);
         mAdapterRecentPost = new AdapterRecentPost(getActivity(), mObGetAllBravoRecentPosts);
+        mAdapterRecentPost.setListener(this);
         mListviewRecentPost.setAdapter(mAdapterRecentPost);
         mListviewRecentPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewRecentPost.setVisibility(View.GONE);
@@ -175,7 +177,7 @@ public class FragmentHomeTab extends FragmentBasic {
         View dialog_view = inflater.inflate(R.layout.dialog_welcome, null);
         Button btnStart = (Button) dialog_view.findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new OnClickListener() {
-
+ 
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -293,5 +295,10 @@ public class FragmentHomeTab extends FragmentBasic {
                 obBravos.add(obBravo);
         }
         return obBravos;
+    }
+
+    @Override
+    public void onClickUserAvatar(String userId) {
+        mHomeActionListener.goToUserData(userId);
     }
 }

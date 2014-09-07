@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
@@ -25,6 +25,8 @@ public class AdapterRecentPost extends BaseAdapter {
 
     private Context            mContext;
     private LayoutInflater     mLayoutInflater;
+    
+    private IClickUserAvatar iClickUserAvatar;
 
     public AdapterRecentPost(Context context, ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
         this.mContext = context;
@@ -68,7 +70,7 @@ public class AdapterRecentPost extends BaseAdapter {
         holder._totalComment = (TextView) convertView.findViewById(R.id.text_total_spot_comment);
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
         if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
-            ObBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
+            final ObBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
 
             if (StringUtility.isEmpty(obGetBravo.Full_Name)) {
                 holder._userName.setText("Unknown");
@@ -84,6 +86,14 @@ public class AdapterRecentPost extends BaseAdapter {
             } else {
                 mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holder._userAvatar, true);
             }
+            holder._userAvatar.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    iClickUserAvatar.onClickUserAvatar(obGetBravo.User_ID);
+                }
+            });
+
             // set observer to view
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
             String imgSpotUrl = obGetBravo.Last_Pic;
@@ -153,5 +163,13 @@ public class AdapterRecentPost extends BaseAdapter {
                 obBravos.add(obBravo);
         }
         return obBravos;
+    }
+    
+    public interface IClickUserAvatar {
+        public void onClickUserAvatar(String userId);
+    }
+
+    public void setListener(IClickUserAvatar iClickUserAvatar) {
+        this.iClickUserAvatar = iClickUserAvatar;
     }
 }
