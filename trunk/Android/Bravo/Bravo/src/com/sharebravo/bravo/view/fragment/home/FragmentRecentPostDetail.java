@@ -30,24 +30,19 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
-<<<<<<< .mine
 import com.sharebravo.bravo.model.response.ObDeleteMylist;
-=======
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
->>>>>>> .r1056
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObGetMylistItem;
 import com.sharebravo.bravo.model.response.ObPostComment;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
-<<<<<<< .mine
+
 import com.sharebravo.bravo.model.response.ObPutMyList;
 import com.sharebravo.bravo.model.response.ObPutReport;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
-=======
->>>>>>> .r1056
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -565,14 +560,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     }
 
     @Override
-<<<<<<< .mine
-=======
-    public void goToSave() {
-
-    }
-
-    @Override
->>>>>>> .r1056
     public void goToFragment(int fragmentID) {
         mHomeActionListener.goToFragment(fragmentID);
     }
@@ -767,7 +754,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     public void goToSubmitComment(String commentText) {
         requestToPostComment(commentText);
     }
-<<<<<<< .mine
 
     @Override
     public void goToSave(boolean isSave) {
@@ -783,11 +769,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         // TODO Auto-generated method stub
         mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_COVER_IMAGE_ID);
     }
-=======
+
 
     @Override
     public void goToUserDataTab(String useId) {
         mHomeActionListener.goToUserData(useId);
     }
->>>>>>> .r1056
+
 }
