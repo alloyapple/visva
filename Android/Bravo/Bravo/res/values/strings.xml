@@ -97,6 +97,9 @@
     <string name="share_on_line">Share on Line</string>
     <string name="share_cancel">Cancel</string>
     <string name="dialog_stop_following_msg">Stop following this user?</string>
+    <string name="dialog_report_oki_content_1 ">You have submitted a report for inappropriate content.</string>
+    <string name="dialog_report_oki_content_2">Thank you for your report.</string>
+     <string name="dialog_report_close">Close</string>
     <!-- +++++ -->
 
 
