@@ -21,10 +21,10 @@ import com.sharebravo.bravo.utils.TimeUtility;
 
 public class AdapterRecentPost extends BaseAdapter {
     private ArrayList<ObBravo> mObGetAllBravoRecentPosts = new ArrayList<ObBravo>();
-    private ImageLoader           mImageLoader              = null;
+    private ImageLoader        mImageLoader              = null;
 
-    private Context               mContext;
-    private LayoutInflater        mLayoutInflater;
+    private Context            mContext;
+    private LayoutInflater     mLayoutInflater;
 
     public AdapterRecentPost(Context context, ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
         this.mContext = context;
@@ -109,12 +109,12 @@ public class AdapterRecentPost extends BaseAdapter {
                 AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
             }
-            AIOLog.d("obGetBravo.Total_Comments: " + obGetBravo.Total_Comments + "  holder._totalComment : "+  holder._totalComment);
+            AIOLog.d("obGetBravo.Total_Comments: " + obGetBravo.Total_Comments + "  holder._totalComment : " + holder._totalComment);
             if (obGetBravo.Total_Comments <= 0) {
                 holder._totalComment.setVisibility(View.GONE);
             } else {
                 holder._totalComment.setVisibility(View.VISIBLE);
-                holder._totalComment.setText(obGetBravo.Total_Comments+"");
+                holder._totalComment.setText(obGetBravo.Total_Comments + "");
             }
         }
         return convertView;
@@ -131,8 +131,27 @@ public class AdapterRecentPost extends BaseAdapter {
 
     public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + obGetAllBravoRecentPosts.data.size());
-        mObGetAllBravoRecentPosts = obGetAllBravoRecentPosts.data;
+        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
+        mObGetAllBravoRecentPosts = newObBravos;
         notifyDataSetChanged();
     }
 
+    public void updatePullDownLoadMorePostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isPulDownToRefresh) {
+        ArrayList<ObBravo> newObBravos = obGetAllBravoRecentPosts.data;
+        if (isPulDownToRefresh)
+            mObGetAllBravoRecentPosts.addAll(0, newObBravos);
+        else
+            mObGetAllBravoRecentPosts.addAll(newObBravos);
+    }
+
+    public ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
+        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
+        for (ObBravo obBravo : bravoItems) {
+            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+            } else
+                obBravos.add(obBravo);
+        }
+        return obBravos;
+    }
 }

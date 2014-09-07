@@ -30,19 +30,16 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObDeleteMylist;
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
+import com.sharebravo.bravo.model.response.ObDeleteMylist;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObGetMylistItem;
 import com.sharebravo.bravo.model.response.ObPostComment;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
-
 import com.sharebravo.bravo.model.response.ObPutMyList;
 import com.sharebravo.bravo.model.response.ObPutReport;
-import com.sharebravo.bravo.model.user.BravoUser;
-import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -63,7 +60,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private PullAndLoadListView     listviewRecentPostDetail = null;
     private AdapterRecentPostDetail adapterRecentPostDetail  = null;
     private HomeActionListener      mHomeActionListener      = null;
-    
 
     // private SupportMapFragment mFragementImageMap = null;
     private Button                  btnBack;
@@ -71,7 +67,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
                                                                  @Override
                                                                  public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                     // TODO Auto-generated method stub
 
                                                                  }
                                                              };
@@ -200,7 +195,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetFollowingCheck obGetFollowCheck;
                 obGetFollowCheck = gson.fromJson(response.toString(), ObGetFollowingCheck.class);
-                
+
                 if (obGetFollowCheck == null)
                     return;
                 else {
@@ -757,7 +752,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToSave(boolean isSave) {
-        // TODO Auto-generated method stub
         if (isSave)
             requestToPutMyListItem(bravoObj);
         else
@@ -766,14 +760,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToCoverImage() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_COVER_IMAGE_ID);
     }
-
 
     @Override
     public void goToUserDataTab(String useId) {
         mHomeActionListener.goToUserData(useId);
     }
-
 }

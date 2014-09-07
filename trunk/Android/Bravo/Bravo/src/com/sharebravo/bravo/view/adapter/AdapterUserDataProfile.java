@@ -76,17 +76,14 @@ public class AdapterUserDataProfile extends BaseAdapter {
     }
 
     private void loadingUserBlockInfo(View convertView, int position) {
-        // TODO Auto-generated method stub
 
     }
 
     private void loadingUserFollowInfo(View convertView, int position) {
-        // TODO Auto-generated method stub
 
     }
 
     private void loadingUserFavouriteInfo(View convertView, int position) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -100,25 +97,26 @@ public class AdapterUserDataProfile extends BaseAdapter {
         TextView textTotalFollowing = (TextView) convertView.findViewById(R.id.text_total_following);
         TextView textTotalFans = (TextView) convertView.findViewById(R.id.text_total_fans);
 
-        int totalBravos = mObGetUserInfo.data.Total_Bravo;
+        int totalBravos = mObGetUserInfo.data.Total_Bravos;
+        AIOLog.d("totalBravos:" + totalBravos);
         if (totalBravos <= 0)
             textTotalBravos.setText(0 + "");
         else
             textTotalBravos.setText(totalBravos + "");
 
         int totalFollowing = mObGetUserInfo.data.Total_Following;
+        AIOLog.d("totalFollowing:" + totalFollowing);
         if (totalFollowing <= 0)
             textTotalFollowing.setText(0 + "");
         else
             textTotalFollowing.setText(totalFollowing + "");
 
-        int totalFans = mObGetUserInfo.data.Total_Follower;
+        int totalFans = mObGetUserInfo.data.Total_Followers;
+        AIOLog.d("totalFans:" + totalFans);
         if (totalFans <= 0)
             textTotalFans.setText(0 + "");
         else
             textTotalFans.setText(totalBravos + "");
-
-        // return convertView;
     }
 
     private void loadingUserImageInfo(View convertView, int position) {
@@ -131,26 +129,30 @@ public class AdapterUserDataProfile extends BaseAdapter {
         AIOLog.d("mObGetUserInfo.data:" + mObGetUserInfo);
         if (mObGetUserInfo != null) {
             String userCoverImgUrl = mObGetUserInfo.data.Cover_Img_URL;
+            AIOLog.d("userCoverImgUrl:" + userCoverImgUrl);
             if (StringUtility.isEmpty(userCoverImgUrl)) {
                 if (mUserCoverBitmap != null) {
                     imgUserCover.setImageBitmap(mUserCoverBitmap);
                     btnImgCover.setVisibility(View.GONE);
                 } else {
+                    imgUserCover.setImageBitmap(null);
                     btnImgCover.setVisibility(View.VISIBLE);
                     imgUserCover.setBackgroundResource(R.color.click_color);
                 }
             } else {
-                AIOLog.d("userCoverImgUrl:" + userCoverImgUrl);
                 mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover,false);
                 btnImgCover.setVisibility(View.GONE);
             }
 
             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
+            AIOLog.d("userAvatarUrl:" + userAvatarUrl);
             if (StringUtility.isEmpty(userAvatarUrl)) {
                 if (mUserAvatarBitmap != null)
                     imgUserAvatar.setImageBitmap(mUserAvatarBitmap);
-                else
+                else {
+                    imgUserAvatar.setImageBitmap(null);
                     imgUserAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
+                }
             } else {
                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar,true);
             }
@@ -175,13 +177,13 @@ public class AdapterUserDataProfile extends BaseAdapter {
                 }
             });
             String userName = mObGetUserInfo.data.Full_Name;
+            AIOLog.d("userName:" + userName);
             if (StringUtility.isEmpty(userName)) {
                 textUserName.setText(mContext.getResources().getString(R.string.unknown));
             } else {
                 textUserName.setText(userName);
             }
         }
-
     }
 
     public void updateUserProfile(ObGetUserInfo obGetUserInfo, boolean isMyData) {
