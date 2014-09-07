@@ -5,12 +5,15 @@ import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
@@ -88,7 +91,15 @@ public class AdapterUserDataProfile extends BaseAdapter {
     }
 
     private void loadingUserBravoMapInfo(View convertView, int position) {
+        Button btnBravoMap = (Button) convertView.findViewById(R.id.btn_bravo_map);
+        btnBravoMap.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                mListener.goToFragment(HomeActivity.FRAGMENT_MAP_VIEW_ID);
+            }
+        });
     }
 
     private void loadingUserBravos_FollowingInfo(View convertView, int position) {
@@ -140,7 +151,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
                     imgUserCover.setBackgroundResource(R.color.click_color);
                 }
             } else {
-                mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover,false);
+                mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover, false);
                 btnImgCover.setVisibility(View.GONE);
             }
 
@@ -154,7 +165,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
                     imgUserAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
                 }
             } else {
-                mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar,true);
+                mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar, true);
             }
 
             imgUserCover.setOnClickListener(new View.OnClickListener() {

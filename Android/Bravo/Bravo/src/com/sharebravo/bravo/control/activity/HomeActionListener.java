@@ -9,5 +9,7 @@ public interface HomeActionListener {
 
     public void goToUserData(String userId);
 
+    public void goToMapView(String lat, String log);
+
     public void goToBack();
 }

@@ -31,9 +31,9 @@ public class ObBravo {
     @SerializedName("Spot_Source")
     public String        Spot_Source;
     @SerializedName("Spot_Longitude")
-    public float         Spot_Longitude;
+    public String         Spot_Longitude;
     @SerializedName("Spot_Latitude")
-    public float         Spot_Latitude;
+    public String         Spot_Latitude;
     @SerializedName("Spot_Type")
     public String        Spot_Type;
     @SerializedName("Spot_Genre")

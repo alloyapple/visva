@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.internal.mh;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
@@ -28,11 +32,13 @@ public class FragmentSetting extends FragmentBasic {
     private TextView           mTextTermOfUse;
     private TextView           mTextUpdateUserInfo;
     private TextView           mTextDeleteMyAccount;
+    private Button             btnBack;
+    private HomeActionListener mHomeActionListener = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_settings, container);
-
+        mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
         return root;
     }
@@ -62,6 +68,15 @@ public class FragmentSetting extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 iShowPageTermOfUse.showPageTermOfUse();
+            }
+        });
+        btnBack = (Button) root.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                mHomeActionListener.goToBack();
             }
         });
     }
