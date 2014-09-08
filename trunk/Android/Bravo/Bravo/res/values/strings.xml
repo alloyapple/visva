@@ -85,6 +85,7 @@
     <string name="btn_call_spot">Call Spot</string>
     <string name="btn_view_map">View Map</string>
     <string name="btn_follow">Follow</string>
+    <string name="btn_favorites">Favorites</string>
     <string name="btn_save">Save</string>
     <string name="btn_share">Share</string>
     <string name="hint_input_comment">Write a comment ...</string>

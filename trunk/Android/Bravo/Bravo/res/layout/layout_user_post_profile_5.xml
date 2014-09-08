@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_favourites"
+    android:id="@+id/layout_block"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -17,31 +17,18 @@
             android:id="@+id/icon_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/follow_icon"
+            android:background="@drawable/block_icon"
             android:contentDescription="@string/app_name" />
 
         <Button
-            android:id="@+id/btn_favorites"
+            android:id="@+id/btn_block"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/icon_follow"
             android:background="@drawable/bt_follow"
             android:gravity="center"
-            android:text="@string/btn_favorites"
+            android:text="@string/btn_block"
             android:textColor="@color/black"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/total_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:text="0"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

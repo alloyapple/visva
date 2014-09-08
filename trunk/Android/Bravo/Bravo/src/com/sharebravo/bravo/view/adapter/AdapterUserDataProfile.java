@@ -1,7 +1,10 @@
 package com.sharebravo.bravo.view.adapter;
 
+import java.io.File;
+
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
@@ -17,18 +21,19 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 
 public class AdapterUserDataProfile extends BaseAdapter {
-    private static final int        USER_AVATAR_ID    = 2003;
-    private static final int        USER_COVER_ID     = 2004;
-    private FragmentActivity        mContext          = null;
-    private UserPostProfileListener mListener         = null;
-    private boolean                 isMyData          = false;
-    private ObGetUserInfo           mObGetUserInfo    = null;
-    private ImageLoader             mImageLoader      = null;
-    private Bitmap                  mUserAvatarBitmap = null;
-    private Bitmap                  mUserCoverBitmap  = null;
+    public static final int         USER_AVATAR_ID = 2003;
+    public static final int         USER_COVER_ID  = 2004;
+    private FragmentActivity        mContext       = null;
+    private UserPostProfileListener mListener      = null;
+    private boolean                 isMyData       = false;
+    private ObGetUserInfo           mObGetUserInfo = null;
+    private ImageLoader             mImageLoader   = null;
 
     public AdapterUserDataProfile(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
@@ -58,6 +63,8 @@ public class AdapterUserDataProfile extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (position == 0) {
             convertView = makeLayoutForUserBasicInfo(convertView, position);
+        }else{
+            
         }
         return convertView;
     }
@@ -79,15 +86,56 @@ public class AdapterUserDataProfile extends BaseAdapter {
     }
 
     private void loadingUserBlockInfo(View convertView, int position) {
-
+        LinearLayout layoutBlock = (LinearLayout) convertView.findViewById(R.id.layout_block);
+        Button btnBlock = (Button) convertView.findViewById(R.id.btn_block);
+        if (isMyData) {
+            layoutBlock.setVisibility(View.GONE);
+        } else {
+            layoutBlock.setVisibility(View.VISIBLE);
+        }
+        btnBlock.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+    
     }
 
     private void loadingUserFollowInfo(View convertView, int position) {
 
+        LinearLayout layoutFollow = (LinearLayout) convertView.findViewById(R.id.layout_follow);
+        Button btnFollow = (Button) convertView.findViewById(R.id.btn_following);
+        if (isMyData) {
+            layoutFollow.setVisibility(View.GONE);
+        } else {
+            layoutFollow.setVisibility(View.VISIBLE);
+        }
+        btnFollow.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 
     private void loadingUserFavouriteInfo(View convertView, int position) {
-
+        LinearLayout layoutFavourites = (LinearLayout) convertView.findViewById(R.id.layout_favourites);
+        Button btnFavourites = (Button) convertView.findViewById(R.id.btn_favorites);
+        TextView totalFavourites = (TextView) convertView.findViewById(R.id.total_favorite);
+        if (isMyData) {
+            layoutFavourites.setVisibility(View.VISIBLE);
+            int totalMyList = mObGetUserInfo.data.Total_My_List;
+            if (totalMyList <= 0) {
+                totalFavourites.setText(0 + "");
+            } else {
+                totalFavourites.setText(totalMyList);
+            }
+        } else {
+            layoutFavourites.setVisibility(View.GONE);
+        }
     }
 
     private void loadingUserBravoMapInfo(View convertView, int position) {
@@ -96,7 +144,6 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mListener.goToFragment(HomeActivity.FRAGMENT_MAP_VIEW_ID);
             }
         });
@@ -142,8 +189,13 @@ public class AdapterUserDataProfile extends BaseAdapter {
             String userCoverImgUrl = mObGetUserInfo.data.Cover_Img_URL;
             AIOLog.d("userCoverImgUrl:" + userCoverImgUrl);
             if (StringUtility.isEmpty(userCoverImgUrl)) {
-                if (mUserCoverBitmap != null) {
-                    imgUserCover.setImageBitmap(mUserCoverBitmap);
+                String coverImagePath = BravoSharePrefs.getInstance(mContext).getStringValue(BravoConstant.PREF_KEY_USER_COVER);
+                File file = new File(coverImagePath);
+                if (!StringUtility.isEmpty(coverImagePath) && file.exists() && isMyData) {
+                    Uri fileUri = Uri.fromFile(file);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
+                    Bitmap coverBitmap = BravoUtils.decodeSampledBitmapFromFile(coverImagePath, 100, 100, orientation);
+                    imgUserCover.setImageBitmap(coverBitmap);
                     btnImgCover.setVisibility(View.GONE);
                 } else {
                     imgUserCover.setImageBitmap(null);
@@ -157,10 +209,15 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
+            String avatarImgPath = BravoSharePrefs.getInstance(mContext).getStringValue(BravoConstant.PREF_KEY_USER_AVATAR);
             if (StringUtility.isEmpty(userAvatarUrl)) {
-                if (mUserAvatarBitmap != null)
-                    imgUserAvatar.setImageBitmap(mUserAvatarBitmap);
-                else {
+                File file = new File(avatarImgPath);
+                if (!StringUtility.isEmpty(avatarImgPath) && file.exists() && isMyData) {
+                    Uri fileUri = Uri.fromFile(file);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
+                    Bitmap avatarBitmap = BravoUtils.decodeSampledBitmapFromFile(avatarImgPath, 100, 100, orientation);
+                    imgUserAvatar.setImageBitmap(avatarBitmap);
+                } else {
                     imgUserAvatar.setImageBitmap(null);
                     imgUserAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
                 }
@@ -205,12 +262,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setUserImage(Bitmap photo, int userImageType) {
-        AIOLog.d("userImageType: " + userImageType + ", photo:" + photo);
-        if (USER_AVATAR_ID == userImageType)
-            mUserAvatarBitmap = photo;
-        else
-            mUserCoverBitmap = photo;
+    public void setUserImage(int userImageType) {
         notifyDataSetChanged();
     }
 }
