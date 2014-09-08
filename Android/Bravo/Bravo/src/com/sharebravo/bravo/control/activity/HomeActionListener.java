@@ -9,6 +9,8 @@ public interface HomeActionListener {
 
     public void goToUserData(String userId);
 
+    public void goToShare(ObBravo bravoObj, int shareType);
+
     public void goToMapView(String lat, String log);
 
     public void goToBack();

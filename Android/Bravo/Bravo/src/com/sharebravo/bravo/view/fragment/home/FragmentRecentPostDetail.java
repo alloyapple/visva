@@ -655,6 +655,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                mHomeActionListener.goToShare(bravoObj, FragmentShare.SHARE_ON_FACEBOOK);
 
             }
         });
@@ -664,6 +665,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                mHomeActionListener.goToShare(bravoObj, FragmentShare.SHARE_ON_TWITTER);
             }
         });
         Button btnShareLine = (Button) dialog_view.findViewById(R.id.btn_share_line);
@@ -672,6 +674,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                mHomeActionListener.goToShare(bravoObj, FragmentShare.SHARE_ON_LINE);
             }
         });
         Button btnShareCancel = (Button) dialog_view.findViewById(R.id.btn_share_cancel);
