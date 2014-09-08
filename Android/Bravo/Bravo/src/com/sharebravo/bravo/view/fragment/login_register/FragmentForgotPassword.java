@@ -86,7 +86,7 @@ public class FragmentForgotPassword extends FragmentBasic {
         JSONObject jsonObject = new JSONObject(subParams);
         String subParamsStr = jsonObject.toString();
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPost postForgotPassword = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpPost postForgotPassword = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response " + response);

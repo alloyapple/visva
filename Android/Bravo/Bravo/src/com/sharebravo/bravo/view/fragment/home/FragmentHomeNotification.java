@@ -20,6 +20,7 @@ import com.sharebravo.bravo.model.response.ObGetNotification;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.AsyncUI;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -29,15 +30,15 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentHomeNotification extends FragmentBasic {
-    private ListView mListViewNotifications;
-    private TextView mTextNoNotifications;
-    private Button   mBtnCloseNotifications;
+    private ListView                   mListViewNotifications;
+    private TextView                   mTextNoNotifications;
+    private Button                     mBtnCloseNotifications;
     private IClosePageHomeNotification iClosePageHomeNotification;
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_home_notification, container);
-
         initializeView(root);
         return root;
     }
@@ -47,7 +48,7 @@ public class FragmentHomeNotification extends FragmentBasic {
         mTextNoNotifications = (TextView) root.findViewById(R.id.text_no_notification);
         mBtnCloseNotifications = (Button) root.findViewById(R.id.btn_home_close_notification);
         mBtnCloseNotifications.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
                 iClosePageHomeNotification.closePageHomeNotification();
@@ -67,7 +68,7 @@ public class FragmentHomeNotification extends FragmentBasic {
         }
         String url = BravoWebServiceConfig.URL_GET_NOTIFICATION;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("get notification:" + response);
@@ -105,7 +106,7 @@ public class FragmentHomeNotification extends FragmentBasic {
         }, params, true);
         getLoginRequest.execute(url);
     }
-    
+
     public interface IClosePageHomeNotification {
         public void closePageHomeNotification();
     }

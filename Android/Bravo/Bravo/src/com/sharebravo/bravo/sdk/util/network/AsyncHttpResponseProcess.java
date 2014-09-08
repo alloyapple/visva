@@ -18,13 +18,16 @@ import com.sharebravo.bravo.sdk.util.VisvaDialog;
  * @author Visva
  */
 public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
-    private static final String TAG = "AsyncHttpResponseProcess";
+    private static final String TAG       = "AsyncHttpResponseProcess";
 
     private Activity            context;
     private VisvaDialog         progressDialog;
+//    private boolean             isLoading = false;
+    AsyncUI                     asyncUI;
 
-    public AsyncHttpResponseProcess(Activity context) {
+    public AsyncHttpResponseProcess(Activity context, AsyncUI asyncUI) {
         this.context = context;
+        this.asyncUI = asyncUI;
     }
 
     @Override
@@ -37,11 +40,13 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
         } catch (Exception e) {
 
         }
+        //asyncUI.before();
     }
 
     @Override
     public void after(int statusCode, HttpResponse response) {
         // Process server response
+       // asyncUI.after();
         if (progressDialog != null)
 
         {
@@ -122,4 +127,12 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
     public void processIfResponseFail() {
         // SmartLog.log(TAG, "Process if response is fail ===================");
     }
+
+//    public boolean isLoading() {
+//        return isLoading;
+//    }
+//
+//    public void setLoading(boolean isLoading) {
+//        this.isLoading = isLoading;
+//    }
 }
