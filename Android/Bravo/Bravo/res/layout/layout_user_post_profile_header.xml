@@ -11,6 +11,9 @@
     <include layout="@layout/layout_user_post_profile_2" />
 
     <include layout="@layout/layout_user_post_profile_3" />
-    <include layout="@layout/layout_user_post_profile_4" />
+
+    <include layout="@layout/layout_user_post_profile_4" />
+
+    <include layout="@layout/layout_user_post_profile_5" />
 
 </LinearLayout>

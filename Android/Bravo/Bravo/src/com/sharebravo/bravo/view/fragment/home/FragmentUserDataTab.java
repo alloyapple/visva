@@ -161,6 +161,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         AIOLog.d("BravoConstant.STATUS_SUCCESS");
                         AIOLog.d("BravoConstant.data" + obGetUserInfo.data);
                         mAdapterUserDataProfile.updateUserProfile(obGetUserInfo, isMyData);
+                        
+                        
                         break;
                     default:
                         break;
@@ -263,7 +265,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     if (photo == null)
                         return;
                     else {
-                        mAdapterUserDataProfile.setUserImage(photo, mUserImageType);
+                        mAdapterUserDataProfile.setUserImage(mUserImageType);
                         return;
                     }
                 }
@@ -283,12 +285,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(capturedImageFilePath);
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
-                    Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    // mImgUserPicture.setImageBitmap(bmp);
-                    mAdapterUserDataProfile.setUserImage(bmp, mUserImageType);
+                    if(AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType){
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
+                    }else{
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_COVER, imagePath);
+                    }
+                    mAdapterUserDataProfile.setUserImage(mUserImageType);
                 }
             }
             break;
@@ -309,14 +311,13 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 cursor.close();
 
                 File file = new File(imagePath);
-                Uri fileUri = null;
                 if (file.exists()) {
-                    fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    // mImgUserPicture.setImageBitmap(bmp);
-                    mAdapterUserDataProfile.setUserImage(bmp, mUserImageType);
+                    if(AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType){
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
+                    }else{
+                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_COVER, imagePath);
+                    }
+                    mAdapterUserDataProfile.setUserImage(mUserImageType);
                 } else {
                     AIOLog.d("file don't exist !");
                 }
