@@ -33,7 +33,7 @@
     <dimen name="img_user_picture_height">100dp</dimen>
     <dimen name="layout_user_info_height">120dp</dimen>
     <dimen name="seperate_x_margin">15dp</dimen>
-    <dimen name="edittext_user_name_margin_left">20dp</dimen>
+    <dimen name="edittext_user_name_margin_left">15dp</dimen>
     <dimen name="text_new_user_registration_margin_left">10dp</dimen>
     <dimen name="text_new_user_registration_margin_bottom">10dp</dimen>
     <dimen name="btn_done_registration_height">50dp</dimen>

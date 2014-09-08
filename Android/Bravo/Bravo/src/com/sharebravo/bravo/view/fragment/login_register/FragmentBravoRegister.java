@@ -81,13 +81,25 @@ public class FragmentBravoRegister extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
+                if (StringUtility.isEmpty(mEditTextPassWord)) {
+                    isPasswordNotValid = true;
+                    mEditTextPassWord.setText("");
+                    mEditTextPassWord.setHint(getString(R.string.password_is_empty));
+                    mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                }
+                if (StringUtility.isEmpty(mEditTextUserEmail)) {
+                    isUserEmailNotValid = true;
+                    mEditTextUserEmail.setText("");
+                    mEditTextUserEmail.setHint(getString(R.string.email_is_empty));
+                    mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                }
                 if (!StringUtility.isEmpty(mEditTextUserName)) {
                     onClickRegisterBravoUser();
                 }
                 else {
                     isUserNameNotValid = true;
                     mEditTextUserName.setText("");
-                    mEditTextUserName.setHint(getString(R.string.username_not_valid));
+                    mEditTextUserName.setHint(getString(R.string.username_is_empty));
                     mEditTextUserName.setHintTextColor(getActivity().getResources().getColor(R.color.red));
                 }
             }
@@ -134,7 +146,7 @@ public class FragmentBravoRegister extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 if (isUserNameNotValid || mEditTextUserName.getText().length() == 0) {
-                    isUserNameNotValid = false; 
+                    isUserNameNotValid = false;
                     mEditTextUserName.setText("");
                     mEditTextUserName.setHint(getString(R.string.text_user_name));
                     mEditTextUserName.setHintTextColor(getActivity().getResources().getColor(R.color.black));
@@ -191,7 +203,7 @@ public class FragmentBravoRegister extends FragmentBasic {
         String subParamsStr = jsonObject.toString();
 
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response postRegister by bravo:===>" + response);

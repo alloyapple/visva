@@ -1,10 +1,13 @@
 package com.sharebravo.bravo.view.fragment.home;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -17,10 +20,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -31,6 +34,8 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -117,7 +122,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
      * 
      * @param foreignUserId
      */
-    public void getUserInfo(String foreignUserId) {
+    public void getUserInfo(final String foreignUserId) {
         int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
         String userId = _sessionLogin.userID;
@@ -142,7 +147,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
         String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + checkingUserId;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("get user info at my data:" + response);
@@ -161,8 +166,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         AIOLog.d("BravoConstant.STATUS_SUCCESS");
                         AIOLog.d("BravoConstant.data" + obGetUserInfo.data);
                         mAdapterUserDataProfile.updateUserProfile(obGetUserInfo, isMyData);
-                        
-                        
+
+                        requestUserDataTimeLine(foreignUserId);
                         break;
                     default:
                         break;
@@ -179,8 +184,56 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     }
 
+    private void requestUserDataTimeLine(String checkingUserId) {
+        AIOLog.d("checkingUserId:" + checkingUserId);
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsStr = subParamsJson.toString();
+
+        int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin sessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
+        String myUserId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+
+        AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
+        String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE;
+        String _userId = checkingUserId;
+        if (StringUtility.isEmpty(_userId))
+            _userId = myUserId;
+        url = url.replace("{User_ID}", _userId);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(myUserId, accessToken, subParamsStr);
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), asyncUI) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + obGetAllBravoRecentPosts);
+                if (obGetAllBravoRecentPosts == null)
+                    return;
+                else {
+                    AIOLog.d("size of recent post list: " + obGetAllBravoRecentPosts.data.size());
+                    ArrayList<ObBravo> obBravos = obGetAllBravoRecentPosts.data;
+                    obGetAllBravoRecentPosts.data = obBravos;
+                    mAdapterUserDataProfile.updateRecentPostList(obGetAllBravoRecentPosts);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d("request user time line:" + url);
+        getLoginRequest.execute(url);
+
+    }
+
     public interface IShowPageSettings {
         public void showPageSettings();
+
+        public void onClickUserAvatar(String userId);
     }
 
     public void setListener(IShowPageSettings ÌShowPageSettings) {
@@ -285,9 +338,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(capturedImageFilePath);
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
-                    if(AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType){
+                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
                         BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
-                    }else{
+                    } else {
                         BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_COVER, imagePath);
                     }
                     mAdapterUserDataProfile.setUserImage(mUserImageType);
@@ -312,9 +365,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
                 File file = new File(imagePath);
                 if (file.exists()) {
-                    if(AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType){
+                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
                         BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
-                    }else{
+                    } else {
                         BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_COVER, imagePath);
                     }
                     mAdapterUserDataProfile.setUserImage(mUserImageType);
@@ -330,7 +383,11 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToFragment(int fragmentID) {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToFragment(fragmentID);
+    }
+
+    @Override
+    public void onClickUserAvatar(String userId) {
+        // mHomeActionListener.goToUserData(userId);
     }
 }

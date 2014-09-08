@@ -61,8 +61,10 @@
                 android:layout_marginRight="@dimen/edittext_user_name_margin_left"
                 android:layout_toRightOf="@id/layout_user_picture"
                 android:background="@color/white"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:hint="@string/text_user_name"
+                android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
 
@@ -77,8 +79,8 @@
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:text="@string/text_new_user_registration"
-                android:textSize="@dimen/size_user_name_text_register"
                 android:textColor="@color/black"
+                android:textSize="@dimen/size_user_name_text_register"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -155,9 +157,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/text_sign_up_term_margin_top"
         android:gravity="center"
-        android:textStyle="bold"
         android:text="@string/sign_up_term"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/grey_4" />
+        android:textColor="@color/grey_4"
+        android:textStyle="bold" />
 
 </LinearLayout>

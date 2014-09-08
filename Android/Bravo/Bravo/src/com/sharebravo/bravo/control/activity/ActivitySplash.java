@@ -60,7 +60,7 @@ public class ActivitySplash extends VisvaAbstractActivity {
             @Override
             public void run() {
                 AIOLog.d("out of post delayed time");
-                if (registerType > 0) {
+                if (registerType > 1) {
                     Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
