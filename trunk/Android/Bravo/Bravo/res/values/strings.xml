@@ -53,9 +53,11 @@
     <string name="sign_up_term">By signing up,you agree to\n the Terms of Service.</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
-    <string name="email_not_valid">user email is not valid</string>
-    <string name="password_not_valid">Password not valid</string>
-    <string name="username_not_valid">User name not valid</string>
+    <string name="email_is_empty">Please enter your Email address</string>
+    <string name="email_not_valid">Please enter a valid Email address</string>
+    <string name="password_is_empty">Please enter your Password</string>
+    <string name="password_not_valid">Your password must be at least 8 characters.</string>
+    <string name="username_is_empty">Please enter your Name</string>
     <string name="username_password_not_valid">User name or password not correct</string>
     <string name="home_tab">Home</string>
     <string name="network_tab">Network</string>

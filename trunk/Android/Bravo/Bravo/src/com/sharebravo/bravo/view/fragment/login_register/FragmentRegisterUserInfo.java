@@ -69,7 +69,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                 if (!StringUtility.isEmpty(mEditTextUserName))
                     requestToPostBravoUserbySNS(mBravoUser);
                 else
-                    mEditTextUserName.setError(getActivity().getResources().getString(R.string.username_not_valid));
+                    mEditTextUserName.setError(getActivity().getResources().getString(R.string.username_is_empty));
             }
         });
         mEditTextUserName = (EditText) root.findViewById(R.id.edittext_input_user_name);

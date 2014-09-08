@@ -4,4 +4,6 @@ public interface UserPostProfileListener {
     public void requestUserImageType(int userImageType);
 
     public void goToFragment(int fragmentID);
+    
+    public void onClickUserAvatar(String userId);
 }

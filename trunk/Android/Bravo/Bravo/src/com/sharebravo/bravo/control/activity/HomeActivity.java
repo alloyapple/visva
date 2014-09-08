@@ -12,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +20,11 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
+import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
-import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
@@ -376,7 +375,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 mTransaction.show(mFragmentRecentPostDetail);
             else if (previousView != null && previousView.equals(FRAGMENT_USER_DATA_TAB))
                 mTransaction.show(mFragmentUserDataTab);
-        } else if (currentView.equals(FRAGMENT_COVER_IMAGE)||currentView.equals(FRAGMENT_SHARE)) {
+        } else if (currentView.equals(FRAGMENT_COVER_IMAGE) || currentView.equals(FRAGMENT_SHARE)) {
             mTransaction.show(mFragmentRecentPostDetail);
         } else if (currentView.equals(FRAGMENT_SETTINGS)) {
             mTransaction.show(mFragmentUserDataTab);
@@ -437,15 +436,19 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToMapView(String lat, String log) {
-        // TODO Auto-generated method stub
         mFragmentMapView.setCordinate(lat, log);
         mFragmentMapView.setTypeMaker(FragmentMapView.MAKER_BY_LOCATION_SPOT);
         showFragment(FRAGMENT_MAP_VIEW_ID);
     }
 
     @Override
+    public void onClickUserAvatar(String userId) {
+        showFragment(FRAGMENT_USER_DATA_TAB_ID);
+        mFragmentUserDataTab.getUserInfo(userId);
+    }
+
+    @Override
     public void goToShare(ObBravo bravoObj, int shareType) {
-        // TODO Auto-generated method stub
         mFragmentShare.setData(bravoObj, shareType);
         showFragment(FRAGMENT_SHARE_ID);
     }

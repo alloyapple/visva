@@ -1,7 +1,6 @@
 package com.sharebravo.bravo.view.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -3,6 +3,7 @@ package com.sharebravo.bravo.view.fragment.home;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.internal.mh;
+import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.ActivitySplash;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
@@ -117,14 +119,14 @@ public class FragmentSetting extends FragmentBasic {
         String userId = sessionLogin.userID;
         String accessToken = sessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);
-                BravoUtils.clearSession();
-                // Intent splashIntent = new Intent(getActivity(), ActivitySplash.class);
-                // getActivity().startActivity(splashIntent);
-                // getActivity().finish();
+                BravoUtils.clearSession(MyApplication.getInstance().getApplicationContext());
+                Intent splashIntent = new Intent(getActivity(), ActivitySplash.class);
+                getActivity().startActivity(splashIntent);
+                getActivity().finish();
             }
 
             @Override

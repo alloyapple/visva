@@ -40,8 +40,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_USER_SEARCH                  = URL_BRAVO_BASE
                                                                             + "/user?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
     public static final String URL_GET_USER_MYLIST                  = URL_BRAVO_BASE + "/user/{User_ID}/mylist?User_ID={str}&Access_Token={str}";
-    public static final String URL_GET_USER_TIMELINE                = URL_BRAVO_BASE
-                                                                            + "/user/{User_ID}/history?User_ID={str}&Access_Token={str}&params=JSON_Encoded(Start:{int})";
+    public static final String URL_GET_USER_TIMELINE                = URL_BRAVO_BASE + "/user/{User_ID}/history";
 
     public static final String URL_GET_TIMELINE                     = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/timeline?User_ID={str}&Access_Token={str}&params=JSON_Encoded(Start:{int})";
