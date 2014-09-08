@@ -108,7 +108,7 @@ public class FragmentBravoLogin extends FragmentBasic {
 
         String url = BravoWebServiceConfig.URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT;
         List<NameValuePair> params = ParameterFactory.createSubParamsLoginBravoAccount(email, passWord);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestToLoginByBravoAccount:" + response);

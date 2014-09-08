@@ -56,6 +56,8 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
     protected HttpResponse              response;
     protected boolean                   isShowWaitingDialog;
     protected int                       statusCode;
+    
+   
 
     /**
      * Constructor
@@ -238,4 +240,5 @@ public class AsyncHttpBase extends AsyncTask<String, Integer, String> {
         URL theURL = new URL(url);
         return (HttpURLConnection) theURL.openConnection();
     }
+
 }

@@ -93,7 +93,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
         }
         String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestBravoNews:" + response);
@@ -215,7 +215,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
         }
         String url = BravoWebServiceConfig.URL_GET_BRAVO_SEARCH;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("onLoadMoreBravoItems:" + response);

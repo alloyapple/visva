@@ -269,7 +269,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         AIOLog.d("userID:" + userID + ", accessToken:" + accessToken);
         String url = BravoWebServiceConfig.URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT + "/" + userID;
         List<NameValuePair> params = ParameterFactory.createSubParamsLoginBySNS(userID, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestToLoginByBravoAccount:" + response);
@@ -483,7 +483,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         String subParamsStr = jsonObject.toString();
 
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("reponse:" + response);
