@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_background"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/back_button"
+            android:gravity="center"
+            android:paddingLeft="@dimen/back_btn_margin_left"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/com_facebook_loginview_text_size" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/txtbox_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+        android:layout_marginRight="@dimen/edittext_user_name_margin_left"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/input_user_login"
+        android:hint="@string/email_address"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black" />
+
+    <RelativeLayout
+        android:id="@+id/layout_bravo_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
+        android:background="@drawable/green_button" >
+
+        <TextView
+            android:id="@+id/btn_share"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</LinearLayout>
