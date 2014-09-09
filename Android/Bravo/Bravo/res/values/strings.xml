@@ -82,6 +82,23 @@
     <string name="delete_account_msg">Do you want to delete your account?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="account">Account</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="friends">Friends</string>
+    <string name="share_with_friends">Share with friends</string>
+    <string name="share">Share</string>
+    <string name="post_on_facebook">Post on Facebook</string>
+    <string name="post_on_twitter">Post on Twitter</string>
+    <string name="post_on_foursquare">Post on Foursquare</string>
+    <string name="notifications">Notifications</string>
+    <string name="comment_notifications">Comment Notifications</string>
+    <string name="follow_notifications">Follow Notifications</string>
+    <string name="favourite_notifications">Favourite Notifications</string>
+    <string name="total_bravo_notifications">Total Bravo Notifications</string>
+    <string name="bravo_notifications">Bravo Notifications</string>
+    <string name="term_of_use">Term Of Use</string>
+    <string name="delete_my_account">Delete my account</string>
+    <string name="about_yourself">About yourself.</string>
 
     <!-- Post Detail -->
     <string name="btn_call_spot">Call Spot</string>

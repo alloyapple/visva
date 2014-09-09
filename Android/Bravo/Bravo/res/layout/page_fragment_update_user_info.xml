@@ -2,7 +2,117 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
-    
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_background"
+        android:orientation="vertical" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/back_button"
+            android:gravity="center"
+            android:onClick="onClickBackPersonal"
+            android:paddingLeft="@dimen/back_btn_margin_left"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/com_facebook_loginview_text_size" />
+
+        <Button
+            android:id="@+id/btn_done_update_user_profile"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bt_notification"
+            android:gravity="center"
+            android:text="@string/done"
+            android:textColor="@color/white"
+            android:textSize="@dimen/com_facebook_loginview_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_update_user_name_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_user_info_height"
+        android:layout_margin="10dp"
+        android:background="@drawable/input_name_pass_bg"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/layout_user_picture"
+            android:layout_width="@dimen/layout_user_picture_width"
+            android:layout_height="@dimen/layout_user_picture_height"
+            android:layout_centerVertical="true" >
+
+            <ImageView
+                android:id="@+id/img_user_picture"
+                android:layout_width="@dimen/img_user_picture_width"
+                android:layout_height="@dimen/img_user_picture_height"
+                android:background="@drawable/user_picture_default"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/text_new_user_registration"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/img_picture_choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/setting_take_picture_icon"
+                android:contentDescription="@string/text_user_name" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/img_seperate_x"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/seperate_x_margin"
+            android:layout_toRightOf="@id/layout_user_picture"
+            android:background="@color/grey_2"
+            android:contentDescription="@string/done" />
+
+        <EditText
+            android:id="@+id/edittext_input_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/img_seperate_x"
+            android:layout_marginLeft="@dimen/edittext_user_name_margin_left"
+            android:layout_toRightOf="@id/layout_user_picture"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:hint="@string/text_user_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_input_email_pass"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_user_info_height"
+        android:layout_margin="10dp"
+        android:background="@drawable/input_name_pass_bg"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/edit_text_update_your_self"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@color/white"
+            android:hint="@string/about_yourself"
+            android:maxLines="4" >
+        </EditText>
+    </RelativeLayout>
 
 </LinearLayout>

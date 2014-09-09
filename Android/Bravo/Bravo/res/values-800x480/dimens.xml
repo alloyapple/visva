@@ -31,6 +31,8 @@
     <dimen name="btn_sign_up_bravo_margin_up">15dp</dimen>
     <dimen name="img_user_picture_width">100dp</dimen>
     <dimen name="img_user_picture_height">100dp</dimen>
+    <dimen name="layout_user_picture_width">120dp</dimen>
+    <dimen name="layout_user_picture_height">120dp</dimen>
     <dimen name="layout_user_info_height">120dp</dimen>
     <dimen name="seperate_x_margin">15dp</dimen>
     <dimen name="edittext_user_name_margin_left">15dp</dimen>

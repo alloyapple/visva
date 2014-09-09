@@ -34,7 +34,7 @@ public class FragmentSetting extends FragmentBasic {
     private TextView           mTextTermOfUse;
     private TextView           mTextUpdateUserInfo;
     private TextView           mTextDeleteMyAccount;
-    private Button             btnBack;
+    private Button             mBtnBack;
     private HomeActionListener mHomeActionListener = null;
 
     @Override
@@ -62,7 +62,7 @@ public class FragmentSetting extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                showToast("This feature is comming soon");
+                mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_UPDATE_USER_INFO_ID);
             }
         });
         mTextTermOfUse.setOnClickListener(new View.OnClickListener() {
@@ -72,12 +72,11 @@ public class FragmentSetting extends FragmentBasic {
                 iShowPageTermOfUse.showPageTermOfUse();
             }
         });
-        btnBack = (Button) root.findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        mBtnBack = (Button) root.findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -120,7 +119,7 @@ public class FragmentSetting extends FragmentBasic {
         String accessToken = sessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
 
-        AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
+        AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);
