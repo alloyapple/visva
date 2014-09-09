@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -38,25 +39,25 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentUpdateUserInfo extends FragmentBasic {
     // =======================Constant Define==============
-    private static final int   REQUEST_CODE_CAMERA            = 4001;
-    private static final int   REQUEST_CODE_GALLERY           = 4002;
-    private static final int   CHANGE_USER_INFO_TYPE_IMAGE    = 0X01;
-    private static final int   CHANGE_USER_INFO_TYPE_ABOUT_ME = 0X02;
+    private static final int REQUEST_CODE_CAMERA            = 4001;
+    private static final int REQUEST_CODE_GALLERY           = 4002;
+    private static final int CHANGE_USER_INFO_TYPE_IMAGE    = 0X01;
+    private static final int CHANGE_USER_INFO_TYPE_ABOUT_ME = 0X02;
     // =======================Class Define=================
     // =======================Variable Define==============
-    private EditText           mEditTextUserName;
-    private EditText           mEditTextUserDescription;
-    private ImageView          mImgChoosePicture;
-    private ImageView          mImgUserPicture;
-    private Uri                mCapturedImageURI;
-    private Button             mBtnBack;
-    private Button             mBtnDone;
+    private EditText         mEditTextUserName;
+    private EditText         mEditTextUserDescription;
+    private ImageView        mImgChoosePicture;
+    private ImageView        mImgUserPicture;
+    private Uri              mCapturedImageURI;
+    private Button           mBtnBack;
+    private Button           mBtnDone;
 
-    private int                mLoginBravoViaType;
-    private SessionLogin       mSessionLogin;
-    private ObGetUserInfo      mObGetUserInfo;
-    private ImageLoader        mImageLoader;
-    private int            mChangeUserInfoType;
+    private int              mLoginBravoViaType;
+    private SessionLogin     mSessionLogin;
+    private ObGetUserInfo    mObGetUserInfo;
+    private ImageLoader      mImageLoader;
+    private int              mChangeUserInfoType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     }
 
     private void initializeData() {
+        mHomeActionListener = (HomeActivity) getActivity();
         mImageLoader = new ImageLoader(getActivity());
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
@@ -161,21 +163,21 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
      */
     private void onDoneUpdateUserInfo() {
         showToast("Click done");
-        if(mChangeUserInfoType == CHANGE_USER_INFO_TYPE_ABOUT_ME){
+        if (mChangeUserInfoType == CHANGE_USER_INFO_TYPE_ABOUT_ME) {
             putUpdateUserProfile();
-        }else if(mChangeUserInfoType == CHANGE_USER_INFO_TYPE_IMAGE){
+        } else if (mChangeUserInfoType == CHANGE_USER_INFO_TYPE_IMAGE) {
             postUpdateUserProfile();
         }
     }
 
     private void postUpdateUserProfile() {
         // TODO Auto-generated method stub
-        
+
     }
 
     private void putUpdateUserProfile() {
         // TODO Auto-generated method stub
-        
+
     }
 
     private void showDialogChooseImage() {

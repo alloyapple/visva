@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
@@ -25,6 +26,7 @@ public class FragmentShare extends FragmentBasic {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_share, container);
+        mHomeActionListener = (HomeActivity) getActivity();
         mTxtShare = (TextView) root.findViewById(R.id.btn_share);
         mTxtboxShare = (EditText) root.findViewById(R.id.txtbox_share);
         mBtnBack = (Button) root.findViewById(R.id.btn_back);

@@ -23,6 +23,7 @@ import android.widget.Button;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
@@ -69,6 +70,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         intializeView(root);
 
         /* request news */
+        mHomeActionListener = (HomeActivity) getActivity();
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         requestNewsItemsOnBravoServer(mSessionLogin);

@@ -1,13 +1,21 @@
 package com.sharebravo.bravo.view.fragment.setting;
 
+import java.util.Calendar;
+
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -97,27 +105,27 @@ public class FragmentSetting extends FragmentBasic {
         this.iShowPageTermOfUse = iShowPageTermOfUse;
     }
 
-    private void showDialogToDeleteMyAccount() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.delete_account_title);
-        builder.setMessage(getActivity().getString(R.string.delete_account_msg));
-        builder.setPositiveButton(getActivity().getResources().getString(R.string.yes), new OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                requestToDeleteMyAccount();
-                return;
-            }
-        });
-        builder.setNegativeButton(getActivity().getResources().getString(R.string.no), new OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return;
-            }
-        });
-        builder.show();
-    }
+//    private void showDialogToDeleteMyAccount() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setTitle(R.string.delete_account_title);
+//        builder.setMessage(getActivity().getString(R.string.delete_account_msg));
+//        builder.setPositiveButton(getActivity().getResources().getString(R.string.yes), new OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                requestToDeleteMyAccount();
+//                return;
+//            }
+//        });
+//        builder.setNegativeButton(getActivity().getResources().getString(R.string.no), new OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                return;
+//            }
+//        });
+//        builder.show();
+//    }
 
     private void requestToDeleteMyAccount() {
         int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
@@ -142,5 +150,43 @@ public class FragmentSetting extends FragmentBasic {
             }
         }, null, true);
         deleteAccount.execute(url);
+    }
+    
+    private void showDialogToDeleteMyAccount() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_delete_my_account, null);
+        Button btnConfirmNo = (Button) dialog_view.findViewById(R.id.btn_delete_confirm_no);
+        btnConfirmNo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                return;
+            }
+        });
+        Button btnYes = (Button) dialog_view.findViewById(R.id.btn_delete_confirm_yes);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                requestToDeleteMyAccount();
+                return;
+            }
+        });
+        
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
     }
 }

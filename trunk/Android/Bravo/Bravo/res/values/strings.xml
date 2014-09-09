@@ -78,8 +78,8 @@
 
 
     <!-- Setttings -->
-    <string name="delete_account_title">Delete my account!</string>
-    <string name="delete_account_msg">Do you want to delete your account?</string>
+    <string name="delete_account_title">Are you sure you want to delete your account?</string>
+    <string name="delete_account_msg">If you choose to continue,all your Bravo data will be permanently deleted.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="account">Account</string>

@@ -9,11 +9,11 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
 
 public class FragmentBasic extends Fragment {
-    protected Object          mData      = null;
-    private boolean           dataChange = false;
-    private VisvaDialog       mProgressDialog;
-    public int                mNumLoading = 0;
-    public HomeActionListener mHomeActionListener;
+    protected Object             mData       = null;
+    protected HomeActionListener mHomeActionListener;
+    private boolean              dataChange  = false;
+    private VisvaDialog          mProgressDialog;
+    public int                   mNumLoading = 0;
 
     public FragmentBasic() {
         mHomeActionListener = (HomeActivity) getActivity();
