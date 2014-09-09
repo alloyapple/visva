@@ -5,6 +5,7 @@ public class BravoWebServiceConfig {
     public static int          NETWORK_TIME_OUT                     = 60000;
     public static int          STATUS_RESPONSE_DATA_SUCCESS         = 0x1;
     public static int          STATUS_RESPONSE_DATA_ERROR           = 0x2;
+    public static final String URL_BRAVO_RULE                       = "https://dev1.sharebravo.com/rule";
     // Server api
     public static final String URL_BRAVO_BASE                       = "https://dev1.sharebravo.com/api";
     public static final String URL_GET_NOTIFICATION                 = URL_BRAVO_BASE + "/notification";

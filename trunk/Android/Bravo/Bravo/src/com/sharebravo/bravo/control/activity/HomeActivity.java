@@ -29,13 +29,13 @@ import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
-import com.sharebravo.bravo.view.fragment.home.FragmentSetting;
-import com.sharebravo.bravo.view.fragment.home.FragmentSetting.IShowPageTermOfUse;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
-import com.sharebravo.bravo.view.fragment.home.FragmentTermOfUse;
-import com.sharebravo.bravo.view.fragment.home.FragmentUpdateUserInfo;
-import com.sharebravo.bravo.view.fragment.home.FragmentUserDataTab;
-import com.sharebravo.bravo.view.fragment.home.FragmentUserDataTab.IShowPageSettings;
+import com.sharebravo.bravo.view.fragment.setting.FragmentSetting;
+import com.sharebravo.bravo.view.fragment.setting.FragmentTermOfUse;
+import com.sharebravo.bravo.view.fragment.setting.FragmentUpdateUserInfo;
+import com.sharebravo.bravo.view.fragment.setting.FragmentSetting.IShowPageTermOfUse;
+import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab;
+import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab.IShowPageSettings;
 
 public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification, IClosePageHomeNotification,
         IShowPageSettings, IShowPageTermOfUse {

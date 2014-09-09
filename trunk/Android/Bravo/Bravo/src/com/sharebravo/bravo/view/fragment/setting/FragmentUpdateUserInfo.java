@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment.home;
+package com.sharebravo.bravo.view.fragment.setting;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -42,7 +42,7 @@
                 android:id="@+id/fragment_user_data_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentUserDataTab" />
+                class="com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab" />
 
             <fragment
                 android:id="@+id/fragment_recent_post_detail"
@@ -66,19 +66,19 @@
                 android:id="@+id/fragment_settings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentSetting" />
+                class="com.sharebravo.bravo.view.fragment.setting.FragmentSetting" />
 
             <fragment
                 android:id="@+id/fragment_update_user_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentUpdateUserInfo" />
+                class="com.sharebravo.bravo.view.fragment.setting.FragmentUpdateUserInfo" />
 
             <fragment
                 android:id="@+id/fragment_term_of_use"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentTermOfUse" />
+                class="com.sharebravo.bravo.view.fragment.setting.FragmentTermOfUse" />
         </RelativeLayout>
 
         <FrameLayout

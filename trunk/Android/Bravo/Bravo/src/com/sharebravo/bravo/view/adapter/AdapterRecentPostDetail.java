@@ -1,7 +1,6 @@
 package com.sharebravo.bravo.view.adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +25,6 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
-import com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 
 public class AdapterRecentPostDetail extends BaseAdapter {
