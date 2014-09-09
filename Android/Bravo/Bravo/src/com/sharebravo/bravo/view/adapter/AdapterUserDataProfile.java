@@ -239,7 +239,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
             if (totalMyList <= 0) {
                 totalFavourites.setText(0 + "");
             } else {
-                totalFavourites.setText(totalMyList);
+                totalFavourites.setText(""+totalMyList);
             }
         } else {
             layoutFavourites.setVisibility(View.GONE);

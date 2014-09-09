@@ -58,6 +58,8 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/following?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_PUT_MYLIST                       = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylist?User_ID={User_ID}&Access_Token={Access_Token}";
+    /*public static final String URL_PUT_MYLIST                       = URL_BRAVO_BASE
+            + "/user/{User_ID}/mylist?User_ID={User_ID}&Access_Token={Access_Token}";*/
     public static final String URL_PUT_NOTIFICATION                 = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/notifications?User_ID={str}&Access_Token={str}";
     public static final String URL_PUT_REPORT                       = URL_BRAVO_BASE + "/report?User_ID={User_ID}&Access_Token={Access_Token}";
@@ -72,6 +74,8 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/following/{User_ID_Other}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_MYLIST                    = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylist/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
+ /*   public static final String URL_DELETE_MYLIST                    = URL_BRAVO_BASE
+            + "/user/{User_ID}/mylist/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";*/
     public static final String URL_DELETE_NOTIFICATION              = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/notifications/{Type}?User_ID={str}&Access_Token={str}";
     public static final String URL_DELETE_SNS                       = URL_BRAVO_BASE

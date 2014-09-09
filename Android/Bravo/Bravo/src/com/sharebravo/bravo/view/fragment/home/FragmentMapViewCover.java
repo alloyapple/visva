@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 
 public class FragmentMapViewCover extends SupportMapFragment {
     public static double        mLat, mLong;
@@ -40,7 +41,6 @@ public class FragmentMapViewCover extends SupportMapFragment {
         mOriginalContentView = super.onCreateView(inflater, parent, savedInstanceState);
         mTouchView = new TouchableWrapper(getActivity());
         mTouchView.addView(mOriginalContentView);
-        changeLocation(mLat, mLong);
         return mTouchView;
     }
 
@@ -50,13 +50,8 @@ public class FragmentMapViewCover extends SupportMapFragment {
         super.onHiddenChanged(hidden);
     }
 
-    @Override
-    public View getView() {
-        // TODO Auto-generated method stub
-        return super.getView();
-    }
-
     public void changeLocation(double latitude, double longitute) {
+        AIOLog.d("changeLocation:" + "-------------------------------");
         if (map == null)
             map = getMap();
 
@@ -126,6 +121,7 @@ public class FragmentMapViewCover extends SupportMapFragment {
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
 
         // adding marker
+        getMap().clear();
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
     }
