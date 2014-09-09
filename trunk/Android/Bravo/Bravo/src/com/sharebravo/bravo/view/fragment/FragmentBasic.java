@@ -4,44 +4,46 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
 
 public class FragmentBasic extends Fragment {
-    protected Object    mData      = null;
-    private boolean     dataChange = false;
-    private VisvaDialog progressDialog;
-    public int          numLoading = 0;
+    protected Object          mData      = null;
+    private boolean           dataChange = false;
+    private VisvaDialog       mProgressDialog;
+    public int                mNumLoading = 0;
+    public HomeActionListener mHomeActionListener;
 
     public FragmentBasic() {
-        // TODO Auto-generated constructor stub
+        mHomeActionListener = (HomeActivity) getActivity();
     }
 
     public void before() {
         // Show waiting dialog during connection
-
-        if (numLoading == 0) {
+        if (mNumLoading == 0) {
             try {
                 Log.d(getClass().toString(), "progress");
-                progressDialog = new VisvaDialog(getActivity());
-                progressDialog.show();
-                progressDialog.setCancelable(false);
+                mProgressDialog = new VisvaDialog(getActivity());
+                mProgressDialog.show();
+                mProgressDialog.setCancelable(false);
             } catch (Exception e) {
 
             }
         }
 
-        numLoading++;
+        mNumLoading++;
     }
 
     public void after() {
         // Process server response
-        numLoading--;
+        mNumLoading--;
 
-        if (numLoading == 0) {
-            if (progressDialog != null)
+        if (mNumLoading == 0) {
+            if (mProgressDialog != null)
             {
-                progressDialog.dismiss();
-                progressDialog = null;
+                mProgressDialog.dismiss();
+                mProgressDialog = null;
             }
         }
 

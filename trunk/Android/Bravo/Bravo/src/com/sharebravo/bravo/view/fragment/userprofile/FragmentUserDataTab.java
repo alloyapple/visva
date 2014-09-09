@@ -31,8 +31,6 @@ import android.widget.Button;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActionListener;
-import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
@@ -60,7 +58,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private IShowPageSettings      iShowPageSettings;
     private PullAndLoadListView    mListViewUserPostProfile = null;
     private AdapterUserDataProfile mAdapterUserDataProfile  = null;
-    private HomeActionListener     mHomeActionListener      = null;
     private Button                 mBtnBack;
     private boolean                isMyData                 = false;
     private static int             mUserImageType;
@@ -83,7 +80,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     private void initializeView(View root) {
         mBtnSettings = (Button) root.findViewById(R.id.btn_settings);
-        mHomeActionListener = (HomeActivity) getActivity();
         mListViewUserPostProfile = (PullAndLoadListView) root.findViewById(R.id.listview_user_post_profile);
         mAdapterUserDataProfile = new AdapterUserDataProfile(getActivity());
         mAdapterUserDataProfile.setListener(this);

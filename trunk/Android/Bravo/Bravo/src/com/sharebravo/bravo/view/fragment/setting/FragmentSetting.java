@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivitySplash;
-import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -32,10 +31,10 @@ public class FragmentSetting extends FragmentBasic {
     private IShowPageTermOfUse iShowPageTermOfUse;
     // =======================Variable Define==============
     private TextView           mTextTermOfUse;
+    private TextView           mTextShareWithFriends;
     private TextView           mTextUpdateUserInfo;
     private TextView           mTextDeleteMyAccount;
     private Button             mBtnBack;
-    private HomeActionListener mHomeActionListener = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class FragmentSetting extends FragmentBasic {
     private void initializeView(View root) {
         mTextTermOfUse = (TextView) root.findViewById(R.id.text_term_of_use);
         mTextUpdateUserInfo = (TextView) root.findViewById(R.id.text_edit_profile);
+        mTextShareWithFriends = (TextView) root.findViewById(R.id.text_share_friends);
         mTextDeleteMyAccount = (TextView) root.findViewById(R.id.text_delete_account);
 
         mTextDeleteMyAccount.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +78,13 @@ public class FragmentSetting extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 mHomeActionListener.goToBack();
+            }
+        });
+        mTextShareWithFriends.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_SHARE_WITH_FRIENDS_ID);
             }
         });
     }

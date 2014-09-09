@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActionListener;
-import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
@@ -18,26 +16,22 @@ public class FragmentShare extends FragmentBasic {
     public static final int SHARE_ON_FACEBOOK = 0;
     public static final int SHARE_ON_TWITTER  = 1;
     public static final int SHARE_ON_LINE     = 2;
-    private int             shareType;
-    ObBravo                 mBravo;
-    TextView                txtShare;
-    EditText                txtboxShare;
-    Button                  btnBack;
-    private HomeActionListener mHomeActionListener = null;
+    private int             mShareType;
+    private ObBravo         mBravo;
+    private TextView        mTxtShare;
+    private EditText        mTxtboxShare;
+    private Button          mBtnBack;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        mHomeActionListener = (HomeActivity) getActivity();
-        View root = (ViewGroup) inflater.inflate(R.layout.page_share,
-                null);
-        txtShare = (TextView) root.findViewById(R.id.btn_share);
-        txtboxShare = (EditText) root.findViewById(R.id.txtbox_share);
-        btnBack = (Button) root.findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new View.OnClickListener() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = (ViewGroup) inflater.inflate(R.layout.page_share, container);
+        mTxtShare = (TextView) root.findViewById(R.id.btn_share);
+        mTxtboxShare = (EditText) root.findViewById(R.id.txtbox_share);
+        mBtnBack = (Button) root.findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -51,24 +45,23 @@ public class FragmentShare extends FragmentBasic {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            switch (shareType) {
+            switch (mShareType) {
             case SHARE_ON_FACEBOOK:
-                txtShare.setText(getResources().getString(R.string.share_on_facebook));
+                mTxtShare.setText(getResources().getString(R.string.share_on_facebook));
                 break;
             case SHARE_ON_TWITTER:
-                txtShare.setText(getResources().getString(R.string.share_on_twitter));
+                mTxtShare.setText(getResources().getString(R.string.share_on_twitter));
                 break;
             case SHARE_ON_LINE:
-                txtShare.setText(getResources().getString(R.string.share_on_line));
+                mTxtShare.setText(getResources().getString(R.string.share_on_line));
                 break;
 
             default:
                 break;
             }
-            txtboxShare.setText("Share " + mBravo.Spot_Name + " Bravos");
+            mTxtboxShare.setText("Share " + mBravo.Spot_Name + " Bravos");
         }
     }
 
@@ -78,7 +71,7 @@ public class FragmentShare extends FragmentBasic {
     }
 
     public void setData(ObBravo bravo, int shareType) {
-        this.shareType = shareType;
+        this.mShareType = shareType;
         mBravo = bravo;
     }
 }

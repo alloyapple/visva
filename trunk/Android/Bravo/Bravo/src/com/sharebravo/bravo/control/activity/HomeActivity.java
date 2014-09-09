@@ -31,6 +31,7 @@ import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
 import com.sharebravo.bravo.view.fragment.setting.FragmentSetting;
+import com.sharebravo.bravo.view.fragment.setting.FragmentShareWithFriends;
 import com.sharebravo.bravo.view.fragment.setting.FragmentTermOfUse;
 import com.sharebravo.bravo.view.fragment.setting.FragmentUpdateUserInfo;
 import com.sharebravo.bravo.view.fragment.setting.FragmentSetting.IShowPageTermOfUse;
@@ -56,6 +57,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_TERM_OF_USE           = "term_of_use";
     private static final String      FRAGMENT_COVER_IMAGE           = "cover_image";
     private static final String      FRAGMENT_SHARE                 = "page_share";
+    private static final String      FRAGMENT_SHARE_WITH_FRIENDS    = "page_settings_share_with_friends";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -71,6 +73,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_TERM_OF_USE_ID        = FRAGMENT_UPDATE_USER_INFO_ID + 1;
     public static final int          FRAGMENT_COVER_IMAGE_ID        = FRAGMENT_TERM_OF_USE_ID + 1;
     public static final int          FRAGMENT_SHARE_ID              = FRAGMENT_COVER_IMAGE_ID + 1;
+    public static final int          FRAGMENT_SHARE_WITH_FRIENDS_ID = FRAGMENT_SHARE_ID + 1;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -88,6 +91,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentTermOfUse        mFragmentTermOfUse;
     private FragmentCoverImage       mFragmentCoverImage;
     private FragmentShare            mFragmentShare;
+    private FragmentShareWithFriends mFragmentShareWithFriends;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -192,6 +196,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentTermOfUse = (FragmentTermOfUse) mFmManager.findFragmentById(R.id.fragment_term_of_use);
         mFragmentCoverImage = (FragmentCoverImage) mFmManager.findFragmentById(R.id.fragment_cover_image);
         mFragmentShare = (FragmentShare) mFmManager.findFragmentById(R.id.fragment_share);
+        mFragmentShareWithFriends = (FragmentShareWithFriends) mFmManager.findFragmentById(R.id.fragment_share_with_friends);
 
         mFragmentHomeTab.setListener(this);
         mFragmentHomeNotification.setListener(this);
@@ -284,6 +289,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentShare);
             addToSBackStack(FRAGMENT_SHARE);
             break;
+        case FRAGMENT_SHARE_WITH_FRIENDS_ID:
+            mTransaction.show(mFragmentShareWithFriends);
+            addToSBackStack(FRAGMENT_SHARE_WITH_FRIENDS);
+            break;
         default:
             break;
         }
@@ -306,6 +315,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentTermOfUse);
         mTransaction.hide(mFragmentCoverImage);
         mTransaction.hide(mFragmentShare);
+        mTransaction.hide(mFragmentShareWithFriends);
         return mTransaction;
     }
 
@@ -380,9 +390,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentRecentPostDetail);
         } else if (currentView.equals(FRAGMENT_SETTINGS)) {
             mTransaction.show(mFragmentUserDataTab);
-        } else if (currentView.equals(FRAGMENT_TERM_OF_USE) ||currentView.equals(FRAGMENT_UPDATE_USER_INFO)) {
-            mTransaction.show(mFragmentSetting);
-        } 
+        } else if (currentView.equals(FRAGMENT_TERM_OF_USE) || currentView.equals(FRAGMENT_UPDATE_USER_INFO)
+                || currentView.equals(FRAGMENT_SHARE_WITH_FRIENDS)) {
+            mTransaction.show(mFragmentSetting); 
+        }
         mTransaction.commitAllowingStateLoss();
 
     }
