@@ -13,13 +13,13 @@
         android:orientation="vertical" >
 
         <Button
+            android:id="@+id/btn_back_update_user_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dp"
             android:background="@drawable/back_button"
             android:gravity="center"
-            android:onClick="onClickBackPersonal"
             android:paddingLeft="@dimen/back_btn_margin_left"
             android:text="@string/back"
             android:textColor="@color/white"

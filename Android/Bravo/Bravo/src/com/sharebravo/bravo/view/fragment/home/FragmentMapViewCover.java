@@ -1,6 +1,5 @@
 package com.sharebravo.bravo.view.fragment.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;

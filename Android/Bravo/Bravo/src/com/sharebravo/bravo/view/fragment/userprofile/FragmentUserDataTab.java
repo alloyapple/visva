@@ -123,7 +123,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
      * @param foreignUserId
      */
     public void getUserInfo(final String foreignUserId) {
-        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        final int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
         String userId = _sessionLogin.userID;
         String accessToken = _sessionLogin.accessToken;
@@ -147,7 +147,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
         String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + checkingUserId;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
+        AsyncHttpGet getUserInfoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
 
             @Override
             public void processIfResponseSuccess(String response) {
@@ -168,6 +168,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         AIOLog.d("BravoConstant.data" + obGetUserInfo.data);
                         mAdapterUserDataProfile.updateUserProfile(obGetUserInfo, isMyData);
 
+                        BravoUtils.saveUserProfileToSharePreferences(getActivity(), _loginBravoViaType, response);
                         requestUserDataTimeLine(foreignUserId);
                         break;
                     default:
@@ -181,8 +182,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 AIOLog.d("response error");
             }
         }, params, true);
-        getLoginRequest.execute(url);
-
+        getUserInfoRequest.execute(url);
     }
 
     private void requestUserDataTimeLine(String checkingUserId) {
@@ -203,8 +203,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         if (StringUtility.isEmpty(_userId))
             _userId = myUserId;
         url = url.replace("{User_ID}", _userId);
+        
         List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(myUserId, accessToken, subParamsStr);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getUserDataTimeLineRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestBravoNews:" + response);
@@ -227,7 +228,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             }
         }, params, true);
         AIOLog.d("request user time line:" + url);
-        getLoginRequest.execute(url);
+        getUserDataTimeLineRequest.execute(url);
 
     }
 
