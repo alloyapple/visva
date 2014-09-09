@@ -17,7 +17,7 @@
             android:id="@+id/icon_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_favorites"
+            android:background="@drawable/bravo_map"
             android:contentDescription="@string/app_name" />
 
         <Button
