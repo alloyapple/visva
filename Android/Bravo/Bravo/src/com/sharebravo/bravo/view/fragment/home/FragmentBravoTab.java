@@ -9,21 +9,19 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoTab extends FragmentBasic {
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View root = (ViewGroup) inflater.inflate(R.layout.page_bravo_tab,
-				null);
-		return root;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = (ViewGroup) inflater.inflate(R.layout.page_bravo_tab, container);
+        return root;
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

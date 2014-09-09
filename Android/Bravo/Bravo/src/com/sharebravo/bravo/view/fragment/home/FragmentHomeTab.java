@@ -23,7 +23,6 @@ import android.widget.Button;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
@@ -46,7 +45,6 @@ import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private PullAndLoadListView       mListviewRecentPost       = null;
     private AdapterRecentPost         mAdapterRecentPost        = null;
-    private HomeActionListener        mHomeActionListener       = null;
     private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
 
     private Button                    mBtnHomeNotification      = null;
@@ -257,7 +255,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mHomeActionListener = (HomeActionListener) getActivity();
     }
 
     @Override

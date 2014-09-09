@@ -60,7 +60,6 @@ import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
 public class FragmentRecentPostDetail extends FragmentBasic implements DetailPostListener {
     private PullAndLoadListView     listviewRecentPostDetail = null;
     private AdapterRecentPostDetail adapterRecentPostDetail  = null;
-    private HomeActionListener      mHomeActionListener      = null;
 
     // private SupportMapFragment mFragementImageMap = null;
     private Button                  btnBack;
