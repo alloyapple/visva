@@ -10,15 +10,32 @@
         android:background="@drawable/navigation_background"
         android:gravity="center_vertical" >
 
-        <Button
-            android:id="@+id/btn_home_notification"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:background="@drawable/bt_notification"
-            android:text="@string/btn_notification"
-            android:textColor="#FFFFFF" >
-        </Button>
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/btn_home_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/bt_notification"
+                android:text="@string/btn_notification"
+                android:textColor="#FFFFFF" >
+            </Button>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:background="@drawable/icon_notification"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
