@@ -1,9 +1,14 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -23,7 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
 
-public class FragmentMapView extends SupportMapFragment {
+public class FragmentMapView extends SupportMapFragment implements LocationListener {
     public static final int  MAKER_BY_LOCATION_SPOT = 0;
     public static final int  MAKER_BY_LOCATION_USER = 1;
     private GoogleMap        map;
@@ -33,6 +38,8 @@ public class FragmentMapView extends SupportMapFragment {
 
     private View             mOriginalContentView;
     private TouchableWrapper mTouchView;
+    Location                 location               = null;
+    LocationManager          locationManager        = null;
 
     // private HomeActionListener mHomeActionListener = null;
     //
@@ -44,6 +51,22 @@ public class FragmentMapView extends SupportMapFragment {
         if (typeMaker == MAKER_BY_LOCATION_SPOT) {
             changeLocation(mLat, mLong);
         }
+        locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
+
+        // Creating a criteria object to retrieve provider
+        Criteria criteria = new Criteria();
+
+        // Getting the name of the best provider
+        String provider = locationManager.getBestProvider(criteria, true);
+
+        // Getting Current Location
+        location = locationManager.getLastKnownLocation(provider);
+
+        if (location != null) {
+            onLocationChanged(location);
+        }
+
+        locationManager.requestLocationUpdates(provider, 20000, 0, this);
         return mTouchView;
     }
 
@@ -55,6 +78,10 @@ public class FragmentMapView extends SupportMapFragment {
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
             } else if (typeMaker == MAKER_BY_LOCATION_USER) {
+                double latitude = location.getLatitude();
+                // Getting longitude
+                double longitude = location.getLongitude();
+                changeLocation(latitude, longitude);
             }
         }
     }
@@ -96,7 +123,7 @@ public class FragmentMapView extends SupportMapFragment {
                 return true;
             }
         });
-        addMaker(mLat, mLong, "");
+        addMaker(latitude, longitute, "");
     }
 
     public int getPixelByDp(int dp) {
@@ -114,6 +141,7 @@ public class FragmentMapView extends SupportMapFragment {
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
 
         // adding marker
+        getMap().clear();
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
     }
@@ -155,5 +183,34 @@ public class FragmentMapView extends SupportMapFragment {
             getLocationOnScreen(location);
             return lastX + location[0];
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location arg0) {
+        // TODO Auto-generated method stub
+        double latitude = location.getLatitude();
+
+        // Getting longitude
+        double longitude = location.getLongitude();
+        if (typeMaker == MAKER_BY_LOCATION_USER)
+            changeLocation(latitude, longitude);
+    }
+
+    @Override
+    public void onProviderDisabled(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onProviderEnabled(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+        // TODO Auto-generated method stub
+
     }
 }

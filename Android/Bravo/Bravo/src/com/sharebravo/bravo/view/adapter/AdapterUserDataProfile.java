@@ -252,7 +252,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                mListener.goToFragment(HomeActivity.FRAGMENT_MAP_VIEW_ID);
+                mListener.goToMapView();
             }
         });
     }

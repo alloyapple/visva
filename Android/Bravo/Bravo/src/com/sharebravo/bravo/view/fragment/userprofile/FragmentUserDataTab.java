@@ -47,6 +47,7 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterUserDataProfile;
 import com.sharebravo.bravo.view.adapter.UserPostProfileListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
 
 public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener {
@@ -199,7 +200,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         if (StringUtility.isEmpty(_userId))
             _userId = myUserId;
         url = url.replace("{User_ID}", _userId);
-        
+
         List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(myUserId, accessToken, subParamsStr);
         AsyncHttpGet getUserDataTimeLineRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
@@ -387,5 +388,11 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     @Override
     public void onClickUserAvatar(String userId) {
         // mHomeActionListener.goToUserData(userId);
+    }
+
+    @Override
+    public void goToMapView() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToMapView(null, null, FragmentMapView.MAKER_BY_LOCATION_USER);
     }
 }
