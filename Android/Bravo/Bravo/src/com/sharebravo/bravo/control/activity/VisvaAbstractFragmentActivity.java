@@ -20,7 +20,6 @@ public abstract class VisvaAbstractFragmentActivity extends FragmentActivity {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
         try {

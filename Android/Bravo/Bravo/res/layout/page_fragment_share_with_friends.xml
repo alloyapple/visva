@@ -19,7 +19,6 @@
             android:layout_marginLeft="3dp"
             android:background="@drawable/back_button"
             android:gravity="center"
-            android:onClick="onClickBackPersonal"
             android:paddingLeft="@dimen/back_btn_margin_left"
             android:text="@string/back"
             android:textColor="@color/white"
