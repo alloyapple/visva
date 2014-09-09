@@ -51,6 +51,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPostDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
@@ -109,7 +110,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        adapterRecentPostDetail.updateMapView();
+        // adapterRecentPostDetail.updateMapView();
     }
 
     public void setBravoOb(ObBravo obj) {
@@ -117,8 +118,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         FragmentMapViewCover.mLat = Double.parseDouble(bravoObj.Spot_Latitude);
         FragmentMapViewCover.mLong = Double.parseDouble(bravoObj.Spot_Longitude);
         adapterRecentPostDetail.setBravoOb(bravoObj);
-        adapterRecentPostDetail.updateCommentList();
-        
+        adapterRecentPostDetail.notifyDataSetChanged();
+
     }
 
     private void requestGetComments() {
@@ -166,10 +167,17 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetBravo obGetBravo;
                 obGetBravo = gson.fromJson(response.toString(), ObGetBravo.class);
-                // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
+                AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo);
                 if (obGetBravo == null)
                     return;
                 else {
+                    String Last_Pic = bravoObj.Last_Pic;
+                    bravoObj = obGetBravo.data;
+                    bravoObj.Last_Pic = Last_Pic;
+                    adapterRecentPostDetail.setBravoOb(bravoObj);
+                    adapterRecentPostDetail.updateMapView();
+                    adapterRecentPostDetail.notifyDataSetChanged();
+
                 }
             }
 
@@ -530,10 +538,10 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            // requestGetBravo();
             requestGetBravo();
             requestGetFollowingCheck();
             requestGetMyListItem();
+
         }
     }
 
@@ -767,7 +775,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToCoverImage() {
-        mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_COVER_IMAGE_ID);
+        mHomeActionListener.goToCoverImage(bravoObj);
     }
 
     @Override

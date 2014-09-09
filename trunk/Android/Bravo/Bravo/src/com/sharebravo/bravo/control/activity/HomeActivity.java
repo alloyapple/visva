@@ -348,8 +348,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void goToBack() {
         AIOLog.d("mBackstack=" + backstack);
-
-        String currentView = backstack.get(backstack.size() - 1);
+        String currentView = null;
+        if (backstack.size() - 1 > 0)
+            currentView = backstack.get(backstack.size() - 1);
         String previousView = null;
         if (backstack.size() - 2 > 0)
             previousView = backstack.get(backstack.size() - 2);
@@ -451,6 +452,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToShare(ObBravo bravoObj, int shareType) {
         mFragmentShare.setData(bravoObj, shareType);
         showFragment(FRAGMENT_SHARE_ID);
+    }
+
+    @Override
+    public void goToCoverImage(ObBravo obGetBravo) {
+        // TODO Auto-generated method stub
+        mFragmentCoverImage.setObBravo(obGetBravo);
+        showFragment(FRAGMENT_COVER_IMAGE_ID);
     }
 
 }

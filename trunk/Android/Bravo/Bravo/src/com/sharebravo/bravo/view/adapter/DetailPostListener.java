@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.adapter;
 
+
 public interface DetailPostListener {
     public void goToCallSpot();
 
