@@ -269,7 +269,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             addToSBackStack(FRAGMENT_SETTINGS);
             break;
         case FRAGMENT_UPDATE_USER_INFO_ID:
-            mTransaction.show(mFragmentSetting);
+            mTransaction.show(mFragmentUpdateUserInfo);
             addToSBackStack(FRAGMENT_UPDATE_USER_INFO);
             break;
         case FRAGMENT_TERM_OF_USE_ID:

@@ -27,6 +27,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoLogin extends FragmentBasic {
@@ -59,6 +60,20 @@ public class FragmentBravoLogin extends FragmentBasic {
             public void onClick(View v) {
                 String email = mEditTextUserEmail.getText().toString();
                 String passWord = mEditTextPassWord.getText().toString();
+                if(StringUtility.isEmpty(email)){
+                    isUsernamenotValid = true;
+                    mEditTextUserEmail.setText("");
+                    mEditTextUserEmail.setHint(getString(R.string.email_is_empty));
+                    mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                    return;
+                }
+                if(StringUtility.isEmpty(passWord)){
+                    isPasswordnotValid = true;
+                    mEditTextPassWord.setText("");
+                    mEditTextPassWord.setHint(getString(R.string.password_is_empty));
+                    mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                    return;
+                }
                 if (isValidEmail_PassWord(email, passWord)) {
                     requestToLoginByBravoAccount(email, passWord);
                 }

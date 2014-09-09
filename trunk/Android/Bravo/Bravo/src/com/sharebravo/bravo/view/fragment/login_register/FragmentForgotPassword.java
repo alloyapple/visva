@@ -23,6 +23,7 @@ import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.EmailValidator;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentForgotPassword extends FragmentBasic {
@@ -45,10 +46,10 @@ public class FragmentForgotPassword extends FragmentBasic {
     private void initializeView(View root) {
         mEditTextEmailForgot = (EditText) root.findViewById(R.id.edittext_input_email_reset_pw);
         mEditTextEmailForgot.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
-                if(isEmailNotVaid){
+                if (isEmailNotVaid) {
                     isEmailNotVaid = false;
                     mEditTextEmailForgot.setText("");
                     mEditTextEmailForgot.setHint(getString(R.string.email_address));
@@ -68,7 +69,12 @@ public class FragmentForgotPassword extends FragmentBasic {
 
     private void onClickResetPassword() {
         String email = mEditTextEmailForgot.getText().toString();
-        if (checkValidateEmail(email)) {
+        if (StringUtility.isEmpty(email)) {
+            isEmailNotVaid = true;
+            mEditTextEmailForgot.setText("");
+            mEditTextEmailForgot.setHint(getString(R.string.email_is_empty));
+            mEditTextEmailForgot.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+        } else if (checkValidateEmail(email)) {
             requestToCheckForgotPassword(email);
         } else {
             isEmailNotVaid = true;
@@ -86,7 +92,7 @@ public class FragmentForgotPassword extends FragmentBasic {
         JSONObject jsonObject = new JSONObject(subParams);
         String subParamsStr = jsonObject.toString();
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPost postForgotPassword = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
+        AsyncHttpPost postForgotPassword = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response " + response);

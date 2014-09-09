@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Account"
+                android:text="@string/account"
                 android:textColor="@color/grey_3"
                 android:textStyle="bold" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Edit profile"
+                android:text="@string/edit_profile"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
                 android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="Friends"
+                android:text="@string/friends"
                 android:textColor="@color/grey_3"
                 android:textStyle="bold" />
 
@@ -95,9 +95,9 @@
                 android:id="@+id/text_share_friends"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="Share with friends"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/share_with_friends"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
                 android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="Share"
+                android:text="@string/share"
                 android:textColor="@color/grey_3"
                 android:textStyle="bold" />
 
@@ -141,7 +141,7 @@
                 android:drawableLeft="@drawable/facebook_logo"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Post on Facebook"
+                android:text="@string/post_on_facebook"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -155,8 +155,9 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:enabled="true"
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_2"
@@ -175,7 +176,7 @@
                 android:drawableLeft="@drawable/twitter_logo"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Post on Twitter"
+                android:text="@string/post_on_twitter"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -189,8 +190,9 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:enabled="true"
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_3"
@@ -209,7 +211,7 @@
                 android:drawableLeft="@drawable/foursquare_logo"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Post on Foursquare"
+                android:text="@string/post_on_foursquare"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -223,8 +225,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_4"
@@ -248,7 +250,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
                 android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="Notifications"
+                android:text="@string/notifications"
                 android:textColor="@color/grey_3"
                 android:textStyle="bold" />
 
@@ -264,11 +266,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_separatte_5"
+                android:layout_centerVertical="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Comment Notifications"
+                android:text="@string/comment_notifications"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -282,9 +285,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
+                android:checked="true"
                 android:enabled="true"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_6"
@@ -302,7 +306,7 @@
                 android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Follow Notifications"
+                android:text="@string/follow_notifications"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -316,9 +320,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
+                android:checked="true"
                 android:enabled="true"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_7"
@@ -336,7 +341,7 @@
                 android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Favourite Notifications"
+                android:text="@string/favourite_notifications"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -350,9 +355,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
+                android:checked="true"
                 android:enabled="true"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_8"
@@ -370,7 +376,7 @@
                 android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Total Bravo Notifications"
+                android:text="@string/total_bravo_notifications"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -384,9 +390,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
+                android:checked="true"
                 android:enabled="true"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_9"
@@ -404,7 +411,7 @@
                 android:layout_marginTop="10dp"
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
-                android:text="Bravo Notifications"
+                android:text="@string/bravo_notifications"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -418,9 +425,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/switch_btn"
+                android:checked="true"
                 android:enabled="true"
-                android:textOff="@null"
-                android:textOn="@null" />
+                android:textOff=""
+                android:textOn="" />
 
             <TextView
                 android:id="@+id/text_separatte_10"
@@ -448,7 +456,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Term Of Use"
+                android:text="@string/term_of_use"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -462,9 +470,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Delete my account"
+                android:layout_marginBottom="10dp"
+                android:text="@string/delete_my_account"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DAD9DC" />
         </LinearLayout>
     </LinearLayout>
 
