@@ -51,25 +51,23 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mObGetAllBravoRecentPosts.size();
+        return mObGetAllBravoRecentPosts.size() + 1;
     }
 
     @Override
     public Object getItem(int position) {
-        // if (position > 0)
-        return mObGetAllBravoRecentPosts.get(position);
-        // return null;
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return position + 1;
+        return position;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (position == 0) {
-            convertView = makeLayoutForUserBasicInfo(convertView, parent);
+            convertView = makeLayoutForUserBasicInfo(convertView, position);
         } else {
             convertView = makeLayoutForUserHistoryTimeLine(position, convertView, parent);
         }
@@ -80,7 +78,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_recent_post, parent, false);
+            convertView = inflater.inflate(R.layout.row_recent_post, null);
         }
 
         holder = new ViewHolder();
@@ -94,28 +92,19 @@ public class AdapterUserDataProfile extends BaseAdapter {
         if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
             final ObBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
 
-            if (StringUtility.isEmpty(mObGetUserInfo.data.Full_Name)) {
+            if (StringUtility.isEmpty(obGetBravo.Full_Name)) {
                 holder._userName.setText("Unknown");
             } else
-                holder._userName.setText(mObGetUserInfo.data.Full_Name);
+                holder._userName.setText(obGetBravo.Full_Name);
             holder._recentPostSpotName.setText(obGetBravo.Spot_Name);
 
-            String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
-            AIOLog.d("userAvatarUrl:" + userAvatarUrl);
-            String avatarImgPath = BravoSharePrefs.getInstance(mContext).getStringValue(BravoConstant.PREF_KEY_USER_AVATAR);
-            if (StringUtility.isEmpty(userAvatarUrl)) {
-                File file = new File(avatarImgPath);
-                if (!StringUtility.isEmpty(avatarImgPath) && file.exists() && isMyData) {
-                    Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap avatarBitmap = BravoUtils.decodeSampledBitmapFromFile(avatarImgPath, 100, 100, orientation);
-                    holder._userAvatar.setImageBitmap(avatarBitmap);
-                } else {
-                    holder._userAvatar.setImageBitmap(null);
-                    holder._userAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
-                }
+            String profile_img_url = obGetBravo.Profile_Img_URL;
+
+            AIOLog.d("obGetBravo.Profile_Img_URL: " + obGetBravo.Profile_Img_URL);
+            if (StringUtility.isEmpty(profile_img_url)) {
+                holder._userAvatar.setImageResource(R.drawable.user_picture_default);
             } else {
-                mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, holder._userAvatar, true);
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holder._userAvatar, true);
             }
             holder._userAvatar.setOnClickListener(new View.OnClickListener() {
 
@@ -172,9 +161,8 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
     public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + obGetAllBravoRecentPosts.data.size());
-        // ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
-        // AIOLog.d("removeIncorrectBravoItems=>newObBravos:" + newObBravos.size());
-        mObGetAllBravoRecentPosts = obGetAllBravoRecentPosts.data;
+        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
+        mObGetAllBravoRecentPosts = newObBravos;
         notifyDataSetChanged();
     }
 
@@ -189,23 +177,23 @@ public class AdapterUserDataProfile extends BaseAdapter {
         return obBravos;
     }
 
-    private View makeLayoutForUserBasicInfo(View convertView, ViewGroup parent) {
+    private View makeLayoutForUserBasicInfo(View convertView, int position) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.layout_user_post_profile_header, parent, false);
+            convertView = inflater.inflate(R.layout.layout_user_post_profile_header, null, false);
         }
         if (mObGetUserInfo != null) {
-            loadingUserImageInfo(convertView);
-            loadingUserBravos_FollowingInfo(convertView);
-            loadingUserBravoMapInfo(convertView);
-            loadingUserFavouriteInfo(convertView);
-            loadingUserFollowInfo(convertView);
-            loadingUserBlockInfo(convertView);
+            loadingUserImageInfo(convertView, position);
+            loadingUserBravos_FollowingInfo(convertView, position);
+            loadingUserBravoMapInfo(convertView, position);
+            loadingUserFavouriteInfo(convertView, position);
+            loadingUserFollowInfo(convertView, position);
+            loadingUserBlockInfo(convertView, position);
         }
         return convertView;
     }
 
-    private void loadingUserBlockInfo(View convertView) {
+    private void loadingUserBlockInfo(View convertView, int position) {
         LinearLayout layoutBlock = (LinearLayout) convertView.findViewById(R.id.layout_block);
         Button btnBlock = (Button) convertView.findViewById(R.id.btn_block);
         if (isMyData) {
@@ -223,7 +211,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
     }
 
-    private void loadingUserFollowInfo(View convertView) {
+    private void loadingUserFollowInfo(View convertView, int position) {
 
         LinearLayout layoutFollow = (LinearLayout) convertView.findViewById(R.id.layout_follow);
         Button btnFollow = (Button) convertView.findViewById(R.id.btn_following);
@@ -241,26 +229,24 @@ public class AdapterUserDataProfile extends BaseAdapter {
         });
     }
 
-    private void loadingUserFavouriteInfo(View convertView) {
+    private void loadingUserFavouriteInfo(View convertView, int position) {
         LinearLayout layoutFavourites = (LinearLayout) convertView.findViewById(R.id.layout_favourites);
         Button btnFavourites = (Button) convertView.findViewById(R.id.btn_favorites);
         TextView totalFavourites = (TextView) convertView.findViewById(R.id.total_favorite);
-        totalFavourites.setText("2");
-        AIOLog.d("totalFavourites:" + totalFavourites + ", mObGetUserInfo.data.Total_My_List:" + mObGetUserInfo.data.Total_My_List);
         if (isMyData) {
             layoutFavourites.setVisibility(View.VISIBLE);
             int totalMyList = mObGetUserInfo.data.Total_My_List;
             if (totalMyList <= 0) {
                 totalFavourites.setText(0 + "");
             } else {
-                totalFavourites.setText(totalMyList + "");
+                totalFavourites.setText(totalMyList);
             }
         } else {
             layoutFavourites.setVisibility(View.GONE);
         }
     }
 
-    private void loadingUserBravoMapInfo(View convertView) {
+    private void loadingUserBravoMapInfo(View convertView, int position) {
         Button btnBravoMap = (Button) convertView.findViewById(R.id.btn_bravo_map);
         btnBravoMap.setOnClickListener(new OnClickListener() {
 
@@ -271,7 +257,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
         });
     }
 
-    private void loadingUserBravos_FollowingInfo(View convertView) {
+    private void loadingUserBravos_FollowingInfo(View convertView, int position) {
 
         TextView textTotalBravos = (TextView) convertView.findViewById(R.id.text_total_bravos);
         TextView textTotalFollowing = (TextView) convertView.findViewById(R.id.text_total_following);
@@ -299,7 +285,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
             textTotalFans.setText(totalBravos + "");
     }
 
-    private void loadingUserImageInfo(View convertView) {
+    private void loadingUserImageInfo(View convertView, int position) {
 
         ImageView imgUserCover = (ImageView) convertView.findViewById(R.id.img_user_cover);
         ImageView imgUserAvatar = (ImageView) convertView.findViewById(R.id.img_user_avatar);

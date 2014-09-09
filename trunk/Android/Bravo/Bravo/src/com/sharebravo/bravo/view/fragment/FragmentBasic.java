@@ -1,17 +1,50 @@
 package com.sharebravo.bravo.view.fragment;
 
-import com.sharebravo.bravo.sdk.util.network.AsyncUI;
-
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.sharebravo.bravo.sdk.util.VisvaDialog;
+
 public class FragmentBasic extends Fragment {
-    protected Object mData      = null;
-    private boolean  dataChange = false;
-    public AsyncUI   asyncUI;
+    protected Object    mData      = null;
+    private boolean     dataChange = false;
+    private VisvaDialog progressDialog;
+    public int          numLoading = 0;
+
     public FragmentBasic() {
         // TODO Auto-generated constructor stub
-        asyncUI = new AsyncUI(getActivity());
+    }
+
+    public void before() {
+        // Show waiting dialog during connection
+
+        if (numLoading == 0) {
+            try {
+                Log.d(getClass().toString(), "progress");
+                progressDialog = new VisvaDialog(getActivity());
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+            } catch (Exception e) {
+
+            }
+        }
+
+        numLoading++;
+    }
+
+    public void after() {
+        // Process server response
+        numLoading--;
+
+        if (numLoading == 0) {
+            if (progressDialog != null)
+            {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+        }
+
     }
 
     public void refreshUI() {

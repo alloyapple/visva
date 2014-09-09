@@ -119,7 +119,11 @@ public class FragmentSetting extends FragmentBasic {
         String userId = sessionLogin.userID;
         String accessToken = sessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+<<<<<<< .mine
+        AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
+=======
         AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), asyncUI) {
+>>>>>>> .r1075
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);

@@ -54,7 +54,7 @@ public class FragmentMapView extends SupportMapFragment {
         if (!hidden) {
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
-            } else if (typeMaker == MAKER_BY_LOCATION_USER){
+            } else if (typeMaker == MAKER_BY_LOCATION_USER) {
             }
         }
     }
@@ -97,10 +97,6 @@ public class FragmentMapView extends SupportMapFragment {
             }
         });
         addMaker(mLat, mLong, "");
-    }
-
-    private void refreshMarker(Marker marker) {
-
     }
 
     public int getPixelByDp(int dp) {

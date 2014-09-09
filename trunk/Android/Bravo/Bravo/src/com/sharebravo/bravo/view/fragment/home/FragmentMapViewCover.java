@@ -1,10 +1,12 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,10 +26,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
 
 public class FragmentMapViewCover extends SupportMapFragment {
-
+    public static double        mLat, mLong;
     private GoogleMap        map;
-    private Marker           curMarker              = null;
-    private double           mLat, mLong;
+    private Marker           curMarker = null;
+    // private double mLat, mLong;
 
     private View             mOriginalContentView;
     private TouchableWrapper mTouchView;
@@ -47,15 +49,11 @@ public class FragmentMapViewCover extends SupportMapFragment {
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-//        if (!hidden) {
-//            changeLocation(mLat, mLong);
-//        }
     }
 
     @Override
     public View getView() {
         // TODO Auto-generated method stub
-        changeLocation(mLat, mLong);
         return super.getView();
     }
 
@@ -96,10 +94,23 @@ public class FragmentMapViewCover extends SupportMapFragment {
                 return true;
             }
         });
-        addMaker(mLat, mLong, "");
+        addMaker(latitude, longitute, "");
     }
 
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
 
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewStateRestored(savedInstanceState);
+        Log.e(getClass().toString(), "MapView onViewStateRestored...............");
+
+    }
 
     public int getPixelByDp(int dp) {
         Resources r = getResources();
@@ -118,11 +129,6 @@ public class FragmentMapViewCover extends SupportMapFragment {
         // adding marker
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
-    }
-
-    public void setCordinate(String _lat, String _long) {
-        mLat = Double.parseDouble(_lat);
-        mLong = Double.parseDouble(_long);
     }
 
     public class TouchableWrapper extends FrameLayout {

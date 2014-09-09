@@ -109,7 +109,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
         String subParamsStr = jsonObject.toString();
 
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("reponse:" + response);

@@ -78,8 +78,9 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     // ObGetComments mObGetComments;
     private SessionLogin            mSessionLogin            = null;
     private int                     mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
-//    FragmentMapViewCover mapFragment   = new FragmentMapViewCover();
-    
+
+    // FragmentMapViewCover mapFragment = new FragmentMapViewCover();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -101,26 +102,24 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         });
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-//        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-//        fragmentTransaction.add(R.id.img_map, mapFragment);
-//        fragmentTransaction.show(mapFragment);
-//        fragmentTransaction.commit();
-        // mFragementImageMap = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.img_map);
-        // if (mFragementImageMap == null) {
-        // FragmentManager fragmentManager = getFragmentManager();
-        // FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        // mFragementImageMap = SupportMapFragment.newInstance();
-        // fragmentTransaction.replace(R.id.img_map, mFragementImageMap).commit();
-        // }
-        // mFragementImageMap =(FragmentMapView) findFragmentById(R.id.img_map);
 
         return root;
     }
 
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        adapterRecentPostDetail.updateMapView();
+    }
+
     public void setBravoOb(ObBravo obj) {
         this.bravoObj = obj;
+        FragmentMapViewCover.mLat = Double.parseDouble(bravoObj.Spot_Latitude);
+        FragmentMapViewCover.mLong = Double.parseDouble(bravoObj.Spot_Longitude);
         adapterRecentPostDetail.setBravoOb(bravoObj);
         adapterRecentPostDetail.updateCommentList();
+        
     }
 
     private void requestGetComments() {
@@ -130,7 +129,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String bravoID = bravoObj.Bravo_ID;
         String url = BravoWebServiceConfig.URL_GET_COMMENTS.replace("{Bravo_ID}", bravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetComments(userId, accessToken);
-        AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestGetComments:" + response);
@@ -161,7 +160,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String bravoID = bravoObj.Bravo_ID;
         String url = BravoWebServiceConfig.URL_GET_BRAVO.replace("{Bravo_ID}", bravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 // AIOLog.d("requestBravoNews:" + response);
@@ -172,12 +171,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 if (obGetBravo == null)
                     return;
                 else {
-                    // AIOLog.d("size of recent post list: " + mObGetComments.data.size());
-                    // bravoObj = obGetBravo.data;
-                    // adapterRecentPostDetail.setBravoOb(bravoObj);
-                    // requestGetComments();
-                    requestGetFollowingCheck();
-                    requestGetMyListItem();
                 }
             }
 
@@ -194,7 +187,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", bravoObj.User_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);
@@ -223,7 +216,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
                 .replace("{User_ID_Other}", bravoObj.User_ID);
-        AsyncHttpDelete deleteFollow = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpDelete deleteFollow = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);
@@ -271,7 +264,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
         String url = BravoWebServiceConfig.URL_PUT_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putFollow = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpPut putFollow = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);
@@ -316,7 +309,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_MYLIST_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", bravoObj.Bravo_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getMyListItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getMyListItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);
@@ -345,7 +338,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
                 .replace("{Bravo_ID}", bravoObj.Bravo_ID);
-        AsyncHttpDelete deleteMyListItem = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpDelete deleteMyListItem = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);
@@ -393,7 +386,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
         String url = BravoWebServiceConfig.URL_PUT_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putMyListItem = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpPut putMyListItem = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);
@@ -444,7 +437,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
         String url = BravoWebServiceConfig.URL_PUT_REPORT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putReport = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpPut putReport = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putReport :===>" + response);
@@ -494,7 +487,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
         String url = BravoWebServiceConfig.URL_POST_COMMENT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPost postComment = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpPost postComment = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putFollow :===>" + response);
@@ -540,6 +533,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         if (!hidden) {
             // requestGetBravo();
             requestGetBravo();
+            requestGetFollowingCheck();
+            requestGetMyListItem();
         }
     }
 
