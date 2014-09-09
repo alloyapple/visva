@@ -203,11 +203,7 @@ public class FragmentBravoRegister extends FragmentBasic {
         String subParamsStr = jsonObject.toString();
 
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-<<<<<<< .mine
         AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
-=======
-        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), asyncUI) {
->>>>>>> .r1075
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response postRegister by bravo:===>" + response);
