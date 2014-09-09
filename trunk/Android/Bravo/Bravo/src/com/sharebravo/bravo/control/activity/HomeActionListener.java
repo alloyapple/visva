@@ -13,7 +13,7 @@ public interface HomeActionListener {
 
     public void goToShare(ObBravo bravoObj, int shareType);
 
-    public void goToMapView(String lat, String log);
+    public void goToMapView(String lat, String log, int locationType);
 
     public void goToBack();
 }

@@ -564,7 +564,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToFragment(int fragmentID) {
         if (fragmentID == HomeActivity.FRAGMENT_MAP_VIEW_ID) {
-            mHomeActionListener.goToMapView(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
+            mHomeActionListener.goToMapView(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude, FragmentMapView.MAKER_BY_LOCATION_SPOT);
             return;
         }
         mHomeActionListener.goToFragment(fragmentID);

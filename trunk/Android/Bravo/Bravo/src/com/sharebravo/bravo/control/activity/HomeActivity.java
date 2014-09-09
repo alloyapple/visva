@@ -390,10 +390,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentRecentPostDetail);
         } else if (currentView.equals(FRAGMENT_SETTINGS)) {
             mTransaction.show(mFragmentUserDataTab);
+
         } else if (currentView.equals(FRAGMENT_TERM_OF_USE) || currentView.equals(FRAGMENT_UPDATE_USER_INFO)
                 || currentView.equals(FRAGMENT_SHARE_WITH_FRIENDS)) {
             mTransaction.show(mFragmentSetting); 
         }
+
         mTransaction.commitAllowingStateLoss();
 
     }
@@ -447,9 +449,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToMapView(String lat, String log) {
-        mFragmentMapView.setCordinate(lat, log);
-        mFragmentMapView.setTypeMaker(FragmentMapView.MAKER_BY_LOCATION_SPOT);
+    public void goToMapView(String lat, String log, int locationType) {
+        if (lat != null && log != null)
+            mFragmentMapView.setCordinate(lat, log);
+        mFragmentMapView.setTypeMaker(locationType);
         showFragment(FRAGMENT_MAP_VIEW_ID);
     }
 
