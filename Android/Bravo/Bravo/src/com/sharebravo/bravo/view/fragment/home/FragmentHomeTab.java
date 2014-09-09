@@ -43,7 +43,7 @@ import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
 import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 
-public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
+public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private PullAndLoadListView       mListviewRecentPost       = null;
     private AdapterRecentPost         mAdapterRecentPost        = null;
     private HomeActionListener        mHomeActionListener       = null;
@@ -53,7 +53,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
     private IShowPageHomeNotification mListener                 = null;
     private SessionLogin              mSessionLogin             = null;
     private int                       mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
-    private boolean                   isNoFirstTime = false;
+    private boolean                   isNoFirstTime             = false;
     private OnItemClickListener       iRecentPostClickListener  = new OnItemClickListener() {
 
                                                                     @Override
@@ -77,7 +77,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
         isNoFirstTime = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME);
         if (!isNoFirstTime) {
             showDialogWelcome();
-            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME,true);
+            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME, true);
         }
         return root;
 
@@ -93,7 +93,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
         }
         String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestBravoNews:" + response);
@@ -168,7 +168,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
         });
     }
 
-
     public void showDialogWelcome() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -177,7 +176,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
         View dialog_view = inflater.inflate(R.layout.dialog_welcome, null);
         Button btnStart = (Button) dialog_view.findViewById(R.id.btn_start);
         btnStart.setOnClickListener(new OnClickListener() {
- 
+
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -215,7 +214,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
         }
         String url = BravoWebServiceConfig.URL_GET_BRAVO_SEARCH;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("onLoadMoreBravoItems:" + response);
@@ -276,7 +275,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar{
 
     private void updatePullDownLoadMorePostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isPulDownToRefresh) {
         ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
-        if (mObGetAllBravoRecentPosts == null){
+        if (mObGetAllBravoRecentPosts == null) {
             mObGetAllBravoRecentPosts = new ObGetAllBravoRecentPosts();
             mObGetAllBravoRecentPosts.data = new ArrayList<ObBravo>();
         }

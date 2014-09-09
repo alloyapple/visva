@@ -48,9 +48,8 @@ public class AdapterRecentPostDetail extends BaseAdapter {
         this.fragment = fragment;
         mLoginBravoViaType = BravoSharePrefs.getInstance(context).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(context, mLoginBravoViaType);
-        fragmentTransaction = fragment.getChildFragmentManager().beginTransaction();
-        mapFragment = new FragmentMapViewCover();
-        
+       // fragmentTransaction = fragment.getChildFragmentManager().beginTransaction();
+
     }
 
     public void setListener(DetailPostListener listener) {
@@ -77,7 +76,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
 
     public void setBravoOb(ObBravo obj) {
         this.bravoObj = obj;
-        mapFragment.setCordinate(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
+
     }
 
     ImageView            imagePost;
@@ -95,11 +94,9 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     TextView             btnShare;
     boolean              isSave;
     TextView             btnReport;
-    FragmentMapViewCover mapFragment;
+   // FragmentMapViewCover mapFragment;
     FrameLayout          layoutMapview = null;
-    FragmentTransaction  fragmentTransaction;
-
-    // ViewHolderComment holderComment = new ViewHolderComment();
+   // FragmentTransaction  fragmentTransaction;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -119,13 +116,15 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnSave = (TextView) convertView.findViewById(R.id.btn_save);
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
+//                mapFragment = (FragmentMapViewCover) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
+//                if (mapFragment == null) {
+//                    mapFragment = new FragmentMapViewCover();
+//                    fragmentTransaction.add(R.id.img_map, mapFragment).commit();
+//                }
+          }
 
-            }
-
-            fragmentTransaction.add(R.id.img_map, mapFragment);
-//            fragmentTransaction.show(mapFragment);
-//            mapFragment.setCordinate(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
-//            fragmentTransaction.commit();
+            // fragmentTransaction.show(mapFragment);
+            // mapFragment.setCordinate(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
 
             imagePost.setOnClickListener(new OnClickListener() {
 
@@ -311,6 +310,12 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     public void updateFollowing(boolean isFollow) {
         this.isFollowing = isFollow;
         notifyDataSetChanged();
+    }
+
+    public void updateMapView() {
+       // mapFragment.setCordinate(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
+        // notifyDataSetChanged();
+       // mapFragment.changeLocation();
     }
 
     public void updateSave(boolean isSave) {

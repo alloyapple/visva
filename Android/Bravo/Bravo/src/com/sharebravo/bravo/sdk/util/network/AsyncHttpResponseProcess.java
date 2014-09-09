@@ -11,6 +11,7 @@ import android.util.Log;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.util.DialogUtility;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
+import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 /**
  * AsyncHttpResponseProcess: process server response
@@ -18,41 +19,31 @@ import com.sharebravo.bravo.sdk.util.VisvaDialog;
  * @author Visva
  */
 public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
-    private static final String TAG       = "AsyncHttpResponseProcess";
+    private static final String TAG = "AsyncHttpResponseProcess";
 
     private Activity            context;
-    private VisvaDialog         progressDialog;
-//    private boolean             isLoading = false;
-    AsyncUI                     asyncUI;
+    FragmentBasic               asyncUI;
+//    boolean                     isShowUI;
+//    boolean                     isDismissUI;
 
-    public AsyncHttpResponseProcess(Activity context, AsyncUI asyncUI) {
+    public AsyncHttpResponseProcess(Activity context, FragmentBasic asyncUI/*, boolean isShowUI, boolean isDismissUI*/) {
         this.context = context;
         this.asyncUI = asyncUI;
+//        this.isShowUI = isShowUI;
+//        this.isDismissUI = isDismissUI;
     }
 
     @Override
     public void before() {
         // Show waiting dialog during connection
-        try {
-            progressDialog = new VisvaDialog(context);
-            progressDialog.show();
-            progressDialog.setCancelable(false);
-        } catch (Exception e) {
-
-        }
-        //asyncUI.before();
+        asyncUI.before();
     }
 
     @Override
     public void after(int statusCode, HttpResponse response) {
         // Process server response
-       // asyncUI.after();
-        if (progressDialog != null)
 
-        {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
+        asyncUI.after();
 
         switch (statusCode) {
         case AsyncHttpBase.NETWORK_STATUS_OFF:
@@ -128,11 +119,11 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
         // SmartLog.log(TAG, "Process if response is fail ===================");
     }
 
-//    public boolean isLoading() {
-//        return isLoading;
-//    }
-//
-//    public void setLoading(boolean isLoading) {
-//        this.isLoading = isLoading;
-//    }
+    // public boolean isLoading() {
+    // return isLoading;
+    // }
+    //
+    // public void setLoading(boolean isLoading) {
+    // this.isLoading = isLoading;
+    // }
 }

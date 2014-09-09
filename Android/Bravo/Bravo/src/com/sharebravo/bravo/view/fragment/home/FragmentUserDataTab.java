@@ -147,7 +147,11 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
         String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + checkingUserId;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
+<<<<<<< .mine
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
+=======
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), asyncUI) {
+>>>>>>> .r1075
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("get user info at my data:" + response);

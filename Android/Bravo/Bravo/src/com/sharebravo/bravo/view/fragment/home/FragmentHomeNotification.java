@@ -20,7 +20,6 @@ import com.sharebravo.bravo.model.response.ObGetNotification;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
-import com.sharebravo.bravo.sdk.util.network.AsyncUI;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -34,7 +33,6 @@ public class FragmentHomeNotification extends FragmentBasic {
     private TextView                   mTextNoNotifications;
     private Button                     mBtnCloseNotifications;
     private IClosePageHomeNotification iClosePageHomeNotification;
-    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +66,7 @@ public class FragmentHomeNotification extends FragmentBasic {
         }
         String url = BravoWebServiceConfig.URL_GET_NOTIFICATION;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(),asyncUI) {
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("get notification:" + response);
