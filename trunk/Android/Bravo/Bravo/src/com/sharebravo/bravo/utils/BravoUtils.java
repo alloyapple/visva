@@ -228,6 +228,11 @@ public class BravoUtils {
         return inSampleSize;
     }
 
+    /**
+     * clear session to delete user profile data
+     * 
+     * @param context
+     */
     public static void clearSession(Context context) {
         BravoSharePrefs.getInstance(context).putIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE, BravoConstant.NO_LOGIN_SNS);
 
@@ -241,4 +246,81 @@ public class BravoUtils {
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_TWITTER, "");
     }
 
+    /**
+     * save data to share preference to check type of login/register to bravo server
+     * 
+     * @param mRegisterType
+     * @param response
+     */
+    public static void saveUserProfileToSharePreferences(Context context, int mRegisterType, String response) {
+        switch (mRegisterType) {
+        case BravoConstant.REGISTER_BY_FACEBOOK:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FACEBOOK_REGISTER, response);
+            break;
+        case BravoConstant.REGISTER_BY_TWITTER:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_TWITTER_REGISTER, response);
+            break;
+        case BravoConstant.REGISTER_BY_4SQUARE:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FOURSQUARE_REGISTER, response);
+            break;
+        case BravoConstant.REGISTER_BY_BRAVO_ACC:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_BRAVO_REGISTER, response);
+            break;
+        case BravoConstant.LOGIN_BY_4SQUARE:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FOURSQUARE_LOGIN, response);
+            break;
+        case BravoConstant.LOGIN_BY_BRAVO_ACC:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_BRAVO_LOGIN, response);
+            break;
+        case BravoConstant.LOGIN_BY_FACEBOOK:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FACEBOOK_LOGIN, response);
+            break;
+        case BravoConstant.LOGIN_BY_TWITTER:
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_TWITTER_LOGIN, response);
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
+     * save data to share preference to check type of login/register to bravo server
+     * 
+     * @param mRegisterType
+     * @param response
+     */
+    public static String getUserProfileInfo(Context context, int mRegisterType) {
+        String userProfileJsonStr;
+        switch (mRegisterType) {
+        case BravoConstant.REGISTER_BY_FACEBOOK:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FACEBOOK_REGISTER);
+            break;
+        case BravoConstant.REGISTER_BY_TWITTER:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_TWITTER_REGISTER);
+            break;
+        case BravoConstant.REGISTER_BY_4SQUARE:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context)
+                    .getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FOURSQUARE_REGISTER);
+            break;
+        case BravoConstant.REGISTER_BY_BRAVO_ACC:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_BRAVO_REGISTER);
+            break;
+        case BravoConstant.LOGIN_BY_4SQUARE:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FOURSQUARE_LOGIN);
+            break;
+        case BravoConstant.LOGIN_BY_BRAVO_ACC:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_BRAVO_LOGIN);
+            break;
+        case BravoConstant.LOGIN_BY_FACEBOOK:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_FACEBOOK_LOGIN);
+            break;
+        case BravoConstant.LOGIN_BY_TWITTER:
+            userProfileJsonStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SESSION_USER_INFO_VIA_TWITTER_LOGIN);
+            break;
+        default:
+            userProfileJsonStr = "";
+            break;
+        }
+        return userProfileJsonStr;
+    }
 }
