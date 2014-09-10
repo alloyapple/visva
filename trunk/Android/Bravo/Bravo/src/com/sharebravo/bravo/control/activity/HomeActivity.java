@@ -470,7 +470,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToCoverImage(ObBravo obGetBravo) {
-        // TODO Auto-generated method stub
         mFragmentCoverImage.setObBravo(obGetBravo);
         showFragment(FRAGMENT_COVER_IMAGE_ID);
     }
