@@ -1,16 +1,9 @@
 package com.sharebravo.bravo.view.fragment.setting;
 
-import java.util.Calendar;
-
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
@@ -31,6 +25,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentSetting extends FragmentBasic {
@@ -42,14 +37,40 @@ public class FragmentSetting extends FragmentBasic {
     private TextView           mTextShareWithFriends;
     private TextView           mTextUpdateUserInfo;
     private TextView           mTextDeleteMyAccount;
+    private ToggleButton       mToggleBtnPostOnFacebook;
+    private ToggleButton       mToggleBtnPostOnTwitter;
+    private ToggleButton       mToggleBtnPostOnFourSquare;
+    private ToggleButton       mToggleBtnCommentNotifications;
+    private ToggleButton       mToggleBtnFollowNotifications;
+    private ToggleButton       mToggleBtnFavouriteNotifications;
+    private ToggleButton       mToggleBtnTotalBravoNotifications;
+    private ToggleButton       mToggleBtnBravoNotifications;
     private Button             mBtnBack;
+    private SessionLogin       mSessionLogin      = null;
+    private int                mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_settings, container);
         mHomeActionListener = (HomeActivity) getActivity();
+        
         initializeView(root);
+        initializeData();
         return root;
+    }
+
+    private void initializeData() {
+        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
+        
+        String sessionFacebookLoginStr = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_FACEBOOK);
+        String sessionFacebookRegisterStr = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_FACEBOOK);
+        if(!StringUtility.isEmpty(sessionFacebookRegisterStr) || !StringUtility.isEmpty(sessionFacebookLoginStr)){
+            mToggleBtnPostOnFacebook.setChecked(true);
+        }else{
+            mToggleBtnPostOnFacebook.setChecked(false);
+        }
+        
     }
 
     private void initializeView(View root) {
@@ -57,6 +78,14 @@ public class FragmentSetting extends FragmentBasic {
         mTextUpdateUserInfo = (TextView) root.findViewById(R.id.text_edit_profile);
         mTextShareWithFriends = (TextView) root.findViewById(R.id.text_share_friends);
         mTextDeleteMyAccount = (TextView) root.findViewById(R.id.text_delete_account);
+        mToggleBtnBravoNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_bravo_notifications);
+        mToggleBtnCommentNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_comment_notifications);
+        mToggleBtnFavouriteNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_favourite_notifications);
+        mToggleBtnFollowNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_follow_notifications);
+        mToggleBtnPostOnFacebook = (ToggleButton) root.findViewById(R.id.toggle_btn_post_on_facebook);
+        mToggleBtnPostOnFourSquare = (ToggleButton) root.findViewById(R.id.toggle_btn_post_on_4square);
+        mToggleBtnPostOnTwitter = (ToggleButton) root.findViewById(R.id.toggle_btn_post_on_twitter);
+        mToggleBtnTotalBravoNotifications = (ToggleButton) root.findViewById(R.id.toggle_btn_total_bravo_notifications);
 
         mTextDeleteMyAccount.setOnClickListener(new View.OnClickListener() {
 
@@ -89,7 +118,7 @@ public class FragmentSetting extends FragmentBasic {
             }
         });
         mTextShareWithFriends.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
                 mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_SHARE_WITH_FRIENDS_ID);
@@ -104,28 +133,6 @@ public class FragmentSetting extends FragmentBasic {
     public void setListener(IShowPageTermOfUse iShowPageTermOfUse) {
         this.iShowPageTermOfUse = iShowPageTermOfUse;
     }
-
-//    private void showDialogToDeleteMyAccount() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        builder.setTitle(R.string.delete_account_title);
-//        builder.setMessage(getActivity().getString(R.string.delete_account_msg));
-//        builder.setPositiveButton(getActivity().getResources().getString(R.string.yes), new OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                requestToDeleteMyAccount();
-//                return;
-//            }
-//        });
-//        builder.setNegativeButton(getActivity().getResources().getString(R.string.no), new OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                return;
-//            }
-//        });
-//        builder.show();
-//    }
 
     private void requestToDeleteMyAccount() {
         int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
@@ -151,7 +158,7 @@ public class FragmentSetting extends FragmentBasic {
         }, null, true);
         deleteAccount.execute(url);
     }
-    
+
     private void showDialogToDeleteMyAccount() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -177,7 +184,7 @@ public class FragmentSetting extends FragmentBasic {
                 return;
             }
         });
-        
+
         dialog.setContentView(dialog_view);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
