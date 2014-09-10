@@ -83,6 +83,11 @@ public class BravoConstant {
     public static final String  PREF_KEY_SESSION_USER_INFO_VIA_TWITTER_REGISTER    = "pref_key_session_user_login_via_TWITTER_REGISTER";
     public static final String  PREF_KEY_SESSION_USER_INFO_VIA_FOURSQUARE_REGISTER = "pref_key_session_user_login_via_FOURSQUARE_REGISTER";
 
+    /* share preference key to post on sns */
+    public static final String  PREF_KEY_POST_ON_FACEBOOK                          = "pref_key_POST_ON_FACEBOOK";
+    public static final String  PREF_KEY_POST_ON_TWITTER                           = "pref_key_POST_ON_TWITTER";
+    public static final String  PREF_KEY_POST_ON_FOURSQUARE                        = "pref_key_POST_ON_FOURSQUARE";
+
     public static final String  PREF_KEY_USER_AVATAR                               = "pref_key_user_avatar";
     public static final String  PREF_KEY_USER_COVER                                = "pref_key_user_cover";
 

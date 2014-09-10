@@ -65,27 +65,33 @@ public class BravoUtils {
         switch (mRegisterType) {
         case BravoConstant.REGISTER_BY_FACEBOOK:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_FACEBOOK, response);
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
             break;
         case BravoConstant.REGISTER_BY_TWITTER:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER, response);
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, true);
             break;
         case BravoConstant.REGISTER_BY_4SQUARE:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE, response);
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, true);
             break;
         case BravoConstant.REGISTER_BY_BRAVO_ACC:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_BRAVO, response);
             break;
         case BravoConstant.LOGIN_BY_4SQUARE:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_4SQUARE, response);
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, true);
             break;
         case BravoConstant.LOGIN_BY_BRAVO_ACC:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_BRAVO, response);
             break;
         case BravoConstant.LOGIN_BY_FACEBOOK:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_FACEBOOK, response);
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
             break;
         case BravoConstant.LOGIN_BY_TWITTER:
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_TWITTER, response);
+            BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, true);
             break;
         default:
             break;
