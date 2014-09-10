@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -56,7 +58,69 @@ public class FragmentSetting extends FragmentBasic {
         
         initializeView(root);
         initializeData();
+        handlerToggleBtnEvents();
         return root;
+    }
+
+    private void handlerToggleBtnEvents() {
+        mToggleBtnPostOnFacebook.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                
+            }
+        });
+        mToggleBtnPostOnFourSquare.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                
+            }
+        });
+        mToggleBtnPostOnFourSquare.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                
+            }
+        });
+        
+        mToggleBtnBravoNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_NOTIFICATIONS, isChecked);
+            }
+        });
+        
+        mToggleBtnCommentNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_COMMENT_NOTIFICATIONS, isChecked);
+            }
+        });
+        mToggleBtnFavouriteNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FAVOURITE_NOTIFICATIONS, isChecked);
+            }
+        });
+        mToggleBtnFollowNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOLLOW_NOTIFICATIONS, isChecked);     
+            }
+        });
+        mToggleBtnTotalBravoNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TOTAL_BRAVO_NOTIFICATIONS, isChecked);                
+            }
+        });
     }
 
     private void initializeData() {
@@ -69,6 +133,20 @@ public class FragmentSetting extends FragmentBasic {
             mToggleBtnPostOnFacebook.setChecked(true);
         }else{
             mToggleBtnPostOnFacebook.setChecked(false);
+        }
+        String sessionTwitterLoginStr = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_TWITTER);
+        String sessionTwitterRegisterStr = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER);
+        if(!StringUtility.isEmpty(sessionTwitterLoginStr) || !StringUtility.isEmpty(sessionTwitterRegisterStr)){
+            mToggleBtnPostOnTwitter.setChecked(true);
+        }else{
+            mToggleBtnPostOnTwitter.setChecked(false);
+        }
+        String sessionFourSquareLoginStr = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_4SQUARE);
+        String sessionFourSquareRegisterStr = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_SESSION_REGISTER_BY_4SQUARE);
+        if(!StringUtility.isEmpty(sessionFourSquareLoginStr) || !StringUtility.isEmpty(sessionFourSquareRegisterStr)){
+            mToggleBtnPostOnFourSquare.setChecked(true);
+        }else{
+            mToggleBtnPostOnFourSquare.setChecked(false);
         }
         
     }
