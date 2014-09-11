@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.fgsecure.ujoolt.app.view.MyCustomMapView
+        android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:apiKey="@string/hoang_win8"
+        android:clickable="true" >
+    </com.fgsecure.ujoolt.app.view.MyCustomMapView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <include layout="@layout/layout_inactive_filter" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <include layout="@layout/layout_active_filter" />
+    </LinearLayout>
+
+    <!-- layout contain seatch bar -->
+
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.fgsecure.ujoolt.app.view.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <include layout="@layout/search_bar" />
+            </LinearLayout>
+        </com.fgsecure.ujoolt.app.view.SearchView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_setting"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.fgsecure.ujoolt.app.view.SettingView
+            android:id="@+id/setting_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <include
+                    android:id="@+id/l_setting"
+                    layout="@layout/layout_setting" />
+            </LinearLayout>
+        </com.fgsecure.ujoolt.app.view.SettingView>
+    </LinearLayout>
+
+    <!-- layout contain jolt screen view -->
+
+    <LinearLayout
+        android:id="@+id/layout_jolt_screen"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.fgsecure.ujoolt.app.view.JoltView
+            android:id="@+id/jolt_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <include
+                android:id="@+id/l_jolt_screen"
+                layout="@layout/layout_jolt_screen" />
+        </com.fgsecure.ujoolt.app.view.JoltView>
+    </LinearLayout>
+
+    <!-- layout login -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.fgsecure.ujoolt.app.view.LoginView
+            android:id="@+id/login_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <include layout="@layout/layout_login" />
+            </LinearLayout>
+        </com.fgsecure.ujoolt.app.view.LoginView>
+    </LinearLayout>
+
+    <!-- layout contain information view -->
+
+    <com.fgsecure.ujoolt.app.view.InformationView
+        android:id="@+id/information_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <include layout="@layout/layout_information_jolter" />
+        </LinearLayout>
+    </com.fgsecure.ujoolt.app.view.InformationView>
+
+    <!-- layout contain avatar view -->
+
+    <include layout="@layout/page_show_avatar" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <include layout="@layout/layout_nickrejolt" />
+    </LinearLayout>
+
+    <include layout="@layout/page_tutorial" />
+
+</FrameLayout>

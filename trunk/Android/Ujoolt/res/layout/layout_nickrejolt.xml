@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/layoutListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/whoRejolt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="4dp"
+            android:text="Qui a rejolt"
+            android:textSize="13dp" />
+
+        <ScrollView
+            android:id="@+id/ScrollView11"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fillViewport="true" >
+
+            <!-- <ScrollView -->
+            <!-- android:id="@+id/parentTableListView" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="124dp" -->
+            <!-- android:fillViewport="true" > -->
+
+            <LinearLayout
+                android:id="@+id/parentTableListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:orientation="vertical" >
+
+                <TableLayout
+                    android:id="@+id/viewRejolt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:stretchColumns="*" >
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+        <!-- information -->
+    </LinearLayout>
+
+</LinearLayout>

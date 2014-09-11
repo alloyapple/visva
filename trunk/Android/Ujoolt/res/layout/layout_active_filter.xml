@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_active_filter"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_filter"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/lblFilterActive"
+            style="@style/text_view_filter"
+            android:layout_marginTop="10dp"
+            android:text="FILTRES" />
+
+        <LinearLayout
+            android:id="@+id/layout_my_jolt"
+            style="@style/linear_layout_filter" >
+
+            <ImageView
+                android:id="@+id/img_filter_my_jolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_filter_active_jolt_mine" />
+
+            <TextView
+                android:id="@+id/txt_filter_my_jolt"
+                style="@style/text_view_filter"
+                android:layout_gravity="center_horizontal"
+                android:text="Mes Jolts" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_facebook_jolt"
+            style="@style/linear_layout_filter" >
+
+            <ImageView
+                android:id="@+id/img_filter_facebook_jolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_filter_active_jolt_facebook" />
+
+            <TextView
+                android:id="@+id/txt_filter_facebook_jolt"
+                style="@style/text_view_filter"
+                android:text="Facebook" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_instagram_jolt"
+            style="@style/linear_layout_filter" >
+
+            <ImageView
+                android:id="@+id/img_filter_instagram_jolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_filter_active_jolt_instagram" />
+
+            <TextView
+                android:id="@+id/txt_filter_instagram_jolt"
+                style="@style/text_view_filter"
+                android:text="Instagram" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_recent_jolt"
+            style="@style/linear_layout_filter" >
+
+            <ImageView
+                android:id="@+id/img_filter_recent_jolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_filter_active_jolt_recently" />
+
+            <TextView
+                android:id="@+id/txt_filter_recent_jolt"
+                style="@style/text_view_filter"
+                android:layout_gravity="center_horizontal"
+                android:text="Récents" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_social_jolt"
+            style="@style/linear_layout_filter" >
+
+            <ImageView
+                android:id="@+id/img_filter_social_jolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_filter_active_jolt_social" />
+
+            <TextView
+                android:id="@+id/txt_filter_social_jolt"
+                style="@style/text_view_filter"
+                android:text="Jolts Social" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_favourite_jolt"
+            style="@style/linear_layout_filter" >
+
+            <ImageView
+                android:id="@+id/img_filter_favourite_jolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_filter_active_jolt_favourite" />
+
+            <TextView
+                android:id="@+id/txt_filter_favourite_jolt"
+                style="@style/text_view_filter"
+                android:text="Favoris" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_top_jolt"
+            style="@style/linear_layout_filter" >
+
+            <ImageView
+                android:id="@+id/img_filter_top_jolt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_filter_active_jolt_top" />
+
+            <TextView
+                android:id="@+id/txt_filter_top_jolt"
+                style="@style/text_view_filter"
+                android:text="Top Jolts" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_filter_close"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_close" />
+    </LinearLayout>
+
+</LinearLayout>
