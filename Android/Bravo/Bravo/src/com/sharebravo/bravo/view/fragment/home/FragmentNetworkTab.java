@@ -8,11 +8,16 @@ import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +26,8 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObGetTimeline;
+import com.sharebravo.bravo.model.response.ObGetUserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -30,8 +37,9 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPost.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterPostList;
+import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterUserSearchList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
@@ -39,18 +47,22 @@ import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 
 public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvatar {
     private PullAndLoadListView      mListviewPost            = null;
-    private AdapterRecentPost        mAdapterPost             = null;
+    private PullAndLoadListView      mListviewUser            = null;
+    private AdapterPostList        mAdapterPost             = null;
+    private AdapterUserSearchList          mAdapterUser             = null;
     private HomeActionListener       mHomeActionListener      = null;
-    private ObGetAllBravoRecentPosts mObGetAllBravoPostSearch = null;
+    private ObGetAllBravoRecentPosts mObGetTimelineBravo      = null;
 
     private SessionLogin             mSessionLogin            = null;
+    private LinearLayout             layoutSearch             = null;
     private int                      mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+    private EditText                 textboxSearch            = null;
     private OnItemClickListener      iRecentPostClickListener = new OnItemClickListener() {
 
                                                                   @Override
                                                                   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                       AIOLog.d("position:" + position);
-                                                                      mHomeActionListener.goToRecentPostDetail(mObGetAllBravoPostSearch.data
+                                                                      mHomeActionListener.goToRecentPostDetail(mObGetTimelineBravo.data
                                                                               .get(position - 1));
                                                                   }
                                                               };
@@ -64,6 +76,22 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         /* request news */
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
+        layoutSearch = (LinearLayout) root.findViewById(R.id.layout_search);
+        textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_network);
+        textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView arg0, int actionId, KeyEvent arg2) {
+                // TODO Auto-generated method stub
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String keySearch = textboxSearch.getEditableText().toString();
+                    if (!keySearch.equals(""))
+                        requestUserSearch(mSessionLogin, keySearch);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         return root;
 
@@ -74,36 +102,42 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestNewsItemsOnBravoServer(mSessionLogin);
+            layoutSearch.setVisibility(View.GONE);
+            mListviewPost.setVisibility(View.GONE);
+            mListviewUser.setVisibility(View.GONE);
+            requestGetTimeLine(mSessionLogin);
+           
         }
     }
 
-    private void requestNewsItemsOnBravoServer(SessionLogin sessionLogin) {
-        String userId = sessionLogin.userID;
-        String accessToken = sessionLogin.accessToken;
+    private void requestUserSearch(SessionLogin sessionLogin, String keyName) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
         AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
         if (StringUtility.isEmpty(sessionLogin.userID) || StringUtility.isEmpty(sessionLogin.accessToken)) {
             userId = "";
             accessToken = "";
         }
-        String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        subParams.put("Full_Name", keyName);
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_SEARCH.replace("{User_ID}", userId);
+        List<NameValuePair> params = ParameterFactory.createSubParamsUserSearch(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("requestBravoNews:" + response);
+                // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                mObGetAllBravoPostSearch = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetAllBravoPostSearch);
-                if (mObGetAllBravoPostSearch == null)
+                ObGetUserSearch obGetUserSearch;
+                obGetUserSearch = gson.fromJson(response.toString(), ObGetUserSearch.class);
+                AIOLog.d("obGetTimeline:" + obGetUserSearch);
+                if (obGetUserSearch == null) {
                     return;
+                }
                 else {
-                    AIOLog.d("size of recent post list: " + mObGetAllBravoPostSearch.data.size());
-                    ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(mObGetAllBravoPostSearch.data);
-                    mObGetAllBravoPostSearch.data = obBravos;
-                    mAdapterPost.updateRecentPostList(mObGetAllBravoPostSearch);
-                    if (mListviewPost.getVisibility() == View.GONE)
-                        mListviewPost.setVisibility(View.VISIBLE);
+                    mAdapterUser.updateUserList(obGetUserSearch.data);
                 }
             }
 
@@ -112,16 +146,67 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 AIOLog.d("response error");
             }
         }, params, true);
+        getTimeline.execute(url);
+    }
 
-        getLoginRequest.execute(url);
+    private void requestGetTimeLine(SessionLogin sessionLogin) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
+        if (StringUtility.isEmpty(sessionLogin.userID) || StringUtility.isEmpty(sessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
 
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_TIMELINE.replace("{User_ID}", userId);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                // AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetTimeline obGetTimeline;
+                obGetTimeline = gson.fromJson(response.toString(), ObGetTimeline.class);
+                AIOLog.d("obGetTimeline:" + obGetTimeline);
+                if (obGetTimeline == null || obGetTimeline.data.size() == 0) {
+                    layoutSearch.setVisibility(View.VISIBLE);
+                    mListviewPost.setVisibility(View.GONE);
+                    mListviewUser.setVisibility(View.VISIBLE);
+                    mAdapterUser.updateUserList(null);
+                    return;
+                }
+                else {
+                    ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetTimeline.data);
+//                    mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
+//                    mObGetTimelineBravo.data = obBravos;
+                    mAdapterPost.updateRecentPostList(obBravos);
+                    mListviewUser.setVisibility(View.GONE);
+                    layoutSearch.setVisibility(View.GONE);
+                    mListviewPost.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getTimeline.execute(url);
     }
 
     private void intializeView(View root) {
         mListviewPost = (PullAndLoadListView) root.findViewById(R.id.listview_post);
-        mAdapterPost = new AdapterRecentPost(getActivity(), mObGetAllBravoPostSearch);
+        mListviewUser = (PullAndLoadListView) root.findViewById(R.id.listview_user);
+        mAdapterPost = new AdapterPostList(getActivity(), mObGetTimelineBravo);
+        mAdapterUser = new AdapterUserSearchList(getActivity());
+        mAdapterUser.setListener(this);
         mAdapterPost.setListener(this);
         mListviewPost.setAdapter(mAdapterPost);
+        mListviewUser.setAdapter(mAdapterUser);
         mListviewPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewPost.setVisibility(View.GONE);
         /* load more old items */
@@ -129,9 +214,9 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
 
             @Override
             public void onLoadMore() {
-                int size = mObGetAllBravoPostSearch.data.size();
+                int size = mObGetTimelineBravo.data.size();
                 if (size > 0)
-                    onPullDownToRefreshBravoItems(mObGetAllBravoPostSearch.data.get(size - 1), false);
+                    onPullDownToRefreshBravoItems(mObGetTimelineBravo.data.get(size - 1), false);
                 else
                     mListviewPost.onLoadMoreComplete();
                 AIOLog.d("IOnLoadMoreListener");
@@ -145,11 +230,28 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
             @Override
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
-                int size = mObGetAllBravoPostSearch.data.size();
+                int size = mObGetTimelineBravo.data.size();
                 if (size > 0)
-                    onPullDownToRefreshBravoItems(mObGetAllBravoPostSearch.data.get(0), true);
+                    onPullDownToRefreshBravoItems(mObGetTimelineBravo.data.get(0), true);
                 else
                     mListviewPost.onRefreshComplete();
+            }
+        });
+        mListviewUser.setOnLoadMoreListener(new IOnLoadMoreListener() {
+
+            @Override
+            public void onLoadMore() {
+                AIOLog.d("IOnLoadMoreListener");
+            }
+        });
+
+        /* on refresh new items */
+        /* load more old items */
+        mListviewUser.setOnRefreshListener(new IOnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                AIOLog.d("IOnRefreshListener");
             }
         });
     }
@@ -158,11 +260,9 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         AIOLog.d("obBravo.bravoId:" + obBravo.Bravo_ID);
         HashMap<String, String> subParams = new HashMap<String, String>();
         if (isPulDownToRefresh)
-            subParams.put("Min_Bravo_ID", obBravo.Bravo_ID);
+            subParams.put("Start", "0");
         else
             subParams.put("Max_Bravo_ID", obBravo.Bravo_ID);
-        subParams.put("View_Deleted_Users", "0");
-        subParams.put("Global", "TRUE");
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String userId = mSessionLogin.userID;
@@ -172,12 +272,12 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
             userId = "";
             accessToken = "";
         }
-        String url = BravoWebServiceConfig.URL_GET_BRAVO_SEARCH;
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(userId, accessToken, subParamsJsonStr);
+        String url = BravoWebServiceConfig.URL_GET_TIMELINE.replace("{User_ID}", userId);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("onLoadMoreBravoItems:" + response);
+                AIOLog.d("onLoadMoreTimeline:" + response);
                 if (isPulDownToRefresh) {
                     mListviewPost.onRefreshComplete();
                 } else {
@@ -185,17 +285,19 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 }
 
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + obGetAllBravoRecentPosts);
-                if (obGetAllBravoRecentPosts == null)
+                ObGetTimeline obGetTimeline;
+                obGetTimeline = gson.fromJson(response.toString(), ObGetTimeline.class);
+                AIOLog.d("obGetTimeline:" + obGetTimeline);
+                if (obGetTimeline == null)
                     return;
                 else {
-                    AIOLog.d("size of recent post list: " + obGetAllBravoRecentPosts.data.size());
-                    int reponseSize = obGetAllBravoRecentPosts.data.size();
+                    AIOLog.d("size of recent post list: " + obGetTimeline.data.size());
+                    int reponseSize = obGetTimeline.data.size();
                     if (reponseSize <= 0)
                         return;
-                    updatePullDownLoadMorePostList(obGetAllBravoRecentPosts, isPulDownToRefresh);
-                    mAdapterPost.updatePullDownLoadMorePostList(obGetAllBravoRecentPosts, isPulDownToRefresh);
+                   
+                    ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
+                    mAdapterPost.updatePullDownLoadMorePostList(newObBravos, isPulDownToRefresh);
                     if (mListviewPost.getVisibility() == View.GONE)
                         mListviewPost.setVisibility(View.VISIBLE);
                 }
@@ -229,17 +331,17 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         public void showPageHomeNotification();
     }
 
-    private void updatePullDownLoadMorePostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isPulDownToRefresh) {
-        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
-        if (mObGetAllBravoPostSearch == null) {
-            mObGetAllBravoPostSearch = new ObGetAllBravoRecentPosts();
-            mObGetAllBravoPostSearch.data = new ArrayList<ObBravo>();
-        }
-        if (isPulDownToRefresh)
-            mObGetAllBravoPostSearch.data.addAll(0, newObBravos);
-        else
-            mObGetAllBravoPostSearch.data.addAll(newObBravos);
-    }
+//    private void updatePullDownLoadMorePostList(ObGetTimeline obGetTimeline, boolean isPulDownToRefresh) {
+//        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
+//        if (mObGetTimelineBravo == null) {
+//            mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
+//            mObGetTimelineBravo.data = new ArrayList<ObBravo>();
+//        }
+//        if (isPulDownToRefresh)
+//            mObGetTimelineBravo.data.addAll(0, newObBravos);
+//        else
+//            mObGetTimelineBravo.data.addAll(newObBravos);
+//    }
 
     private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
         ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();

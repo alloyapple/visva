@@ -6,14 +6,19 @@ import com.google.gson.annotations.SerializedName;
 import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetUserTimeline {
-    ArrayList<UserTimeLine> data = new ArrayList<UserTimeLine>();
+    @SerializedName("data")
+    public ArrayList<ObBravo> data;
+    @SerializedName("status")
+    public int                status;
+    @SerializedName("error")
+    public String error;
 
     public ObGetUserTimeline() {
         // TODO Auto-generated constructor stub
     }
 }
 
-class UserTimeLine {
+/*class UserTimeLine {
     @SerializedName("Brovo_ID")
     String            bravoID;
     @SerializedName("User_ID")
@@ -60,4 +65,4 @@ class UserTimeLine {
     public UserTimeLine() {
         // TODO Auto-generated constructor stub
     }
-}
+}*/

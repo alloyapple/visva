@@ -36,8 +36,8 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPost;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPost.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterPostList;
+import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
@@ -45,7 +45,7 @@ import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 
 public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private PullAndLoadListView       mListviewRecentPost       = null;
-    private AdapterRecentPost         mAdapterRecentPost        = null;
+    private AdapterPostList         mAdapterRecentPost        = null;
     private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
 
     private Button                    mBtnHomeNotification      = null;
@@ -112,7 +112,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                     AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
                     ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
                     mObGetAllBravoRecentPosts.data = obBravos;
-                    mAdapterRecentPost.updateRecentPostList(mObGetAllBravoRecentPosts);
+                    mAdapterRecentPost.updateRecentPostList(obBravos);
                     if (mListviewRecentPost.getVisibility() == View.GONE)
                         mListviewRecentPost.setVisibility(View.VISIBLE);
                 }
@@ -139,7 +139,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             }
         });
         mListviewRecentPost = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post);
-        mAdapterRecentPost = new AdapterRecentPost(getActivity(), mObGetAllBravoRecentPosts);
+        mAdapterRecentPost = new AdapterPostList(getActivity(), mObGetAllBravoRecentPosts);
         mAdapterRecentPost.setListener(this);
         mListviewRecentPost.setAdapter(mAdapterRecentPost);
         mListviewRecentPost.setOnItemClickListener(iRecentPostClickListener);
@@ -241,7 +241,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                     if (reponseSize <= 0)
                         return;
                     updatePullDownLoadMorePostList(obGetAllBravoRecentPosts, isPulDownToRefresh);
-                    mAdapterRecentPost.updatePullDownLoadMorePostList(obGetAllBravoRecentPosts, isPulDownToRefresh);
+                    mAdapterRecentPost.updatePullDownLoadMorePostList(mObGetAllBravoRecentPosts.data, isPulDownToRefresh);
                     if (mListviewRecentPost.getVisibility() == View.GONE)
                         mListviewRecentPost.setVisibility(View.VISIBLE);
                 }

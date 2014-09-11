@@ -21,10 +21,13 @@ import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
+import com.sharebravo.bravo.view.fragment.home.FragmentFollower;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
+import com.sharebravo.bravo.view.fragment.home.FragmentFollowing;
+import com.sharebravo.bravo.view.fragment.home.FragmentHistory;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
@@ -59,6 +62,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_COVER_IMAGE           = "cover_image";
     private static final String      FRAGMENT_SHARE                 = "page_share";
     private static final String      FRAGMENT_SHARE_WITH_FRIENDS    = "page_settings_share_with_friends";
+    private static final String      FRAGMENT_HISTORY               = "page_history";
+    private static final String      FRAGMENT_FOLOWING              = "page_following";
+    private static final String      FRAGMENT_FOLLOWER              = "page_follower";
     private static final String      FRAGMENT_FAVOURITE             = "favourite";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
@@ -69,14 +75,17 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_USER_DATA_TAB_ID      = FRAGMENT_BASE_ID + 5;
     public static final int          FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
     public static final int          FRAGMENT_MAP_VIEW_ID           = FRAGMENT_BASE_ID + 7;
-    public static final int          FRAGMENT_HOME_NOTIFICATION_ID  = FRAGMENT_MAP_VIEW_ID + 1;
-    public static final int          FRAGMENT_SETTINGS_ID           = FRAGMENT_HOME_NOTIFICATION_ID + 1;
-    public static final int          FRAGMENT_UPDATE_USER_INFO_ID   = FRAGMENT_SETTINGS_ID + 1;
-    public static final int          FRAGMENT_TERM_OF_USE_ID        = FRAGMENT_UPDATE_USER_INFO_ID + 1;
-    public static final int          FRAGMENT_COVER_IMAGE_ID        = FRAGMENT_TERM_OF_USE_ID + 1;
-    public static final int          FRAGMENT_SHARE_ID              = FRAGMENT_COVER_IMAGE_ID + 1;
-    public static final int          FRAGMENT_SHARE_WITH_FRIENDS_ID = FRAGMENT_SHARE_ID + 1;
-    public static final int          FRAGMENT_FAVOURITE_ID          = FRAGMENT_SHARE_WITH_FRIENDS_ID + 1;
+    public static final int          FRAGMENT_HOME_NOTIFICATION_ID  = FRAGMENT_BASE_ID + 8;
+    public static final int          FRAGMENT_SETTINGS_ID           = FRAGMENT_BASE_ID + 9;
+    public static final int          FRAGMENT_UPDATE_USER_INFO_ID   = FRAGMENT_BASE_ID + 10;
+    public static final int          FRAGMENT_TERM_OF_USE_ID        = FRAGMENT_BASE_ID + 11;
+    public static final int          FRAGMENT_COVER_IMAGE_ID        = FRAGMENT_BASE_ID + 12;
+    public static final int          FRAGMENT_SHARE_ID              = FRAGMENT_BASE_ID + 13;
+    public static final int          FRAGMENT_SHARE_WITH_FRIENDS_ID = FRAGMENT_BASE_ID + 14;
+    public static final int          FRAGMENT_HISTORY_ID            = FRAGMENT_BASE_ID + 15;
+    public static final int          FRAGMENT_FOLLOWING_ID          = FRAGMENT_BASE_ID + 16;
+    public static final int          FRAGMENT_FOLLOWER_ID           = FRAGMENT_BASE_ID + 17;
+    public static final int          FRAGMENT_FAVOURITE_ID          = FRAGMENT_BASE_ID + 18;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -95,6 +104,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentCoverImage       mFragmentCoverImage;
     private FragmentShare            mFragmentShare;
     private FragmentShareWithFriends mFragmentShareWithFriends;
+
+    private FragmentHistory          mFragmentHistory;
+    private FragmentFollowing        mFragmentFollowing;
+    private FragmentFollower         mFragmentFollower;
     private FragmentFavourite        mFragmentFavourite;
 
     private Button                   btnHome;
@@ -201,6 +214,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentCoverImage = (FragmentCoverImage) mFmManager.findFragmentById(R.id.fragment_cover_image);
         mFragmentShare = (FragmentShare) mFmManager.findFragmentById(R.id.fragment_share);
         mFragmentShareWithFriends = (FragmentShareWithFriends) mFmManager.findFragmentById(R.id.fragment_share_with_friends);
+
+        mFragmentHistory = (FragmentHistory) mFmManager.findFragmentById(R.id.fragment_history);
+        mFragmentFollowing = (FragmentFollowing) mFmManager.findFragmentById(R.id.fragment_following);
+        mFragmentFollower = (FragmentFollower) mFmManager.findFragmentById(R.id.fragment_follower);
         mFragmentFavourite = (FragmentFavourite) mFmManager.findFragmentById(R.id.fragment_favourite);
 
         mFragmentHomeTab.setListener(this);
@@ -298,6 +315,20 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentShareWithFriends);
             addToSBackStack(FRAGMENT_SHARE_WITH_FRIENDS);
             break;
+
+        case FRAGMENT_HISTORY_ID:
+            mTransaction.show(mFragmentHistory);
+            addToSBackStack(FRAGMENT_HISTORY);
+            break;
+        case FRAGMENT_FOLLOWING_ID:
+            mTransaction.show(mFragmentFollowing);
+            addToSBackStack(FRAGMENT_FOLOWING);
+            break;
+        case FRAGMENT_FOLLOWER_ID:
+            mTransaction.show(mFragmentFollower);
+            addToSBackStack(FRAGMENT_FOLLOWER);
+            break;
+
         case FRAGMENT_FAVOURITE_ID:
             mTransaction.show(mFragmentFavourite);
             addToSBackStack(FRAGMENT_FAVOURITE);
@@ -325,7 +356,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentCoverImage);
         mTransaction.hide(mFragmentShare);
         mTransaction.hide(mFragmentShareWithFriends);
+
+        mTransaction.hide(mFragmentHistory);
+        mTransaction.hide(mFragmentFollowing);
+        mTransaction.hide(mFragmentFollower);
         mTransaction.hide(mFragmentFavourite);
+
         return mTransaction;
     }
 
@@ -403,6 +439,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } else if (currentView.equals(FRAGMENT_TERM_OF_USE) || currentView.equals(FRAGMENT_UPDATE_USER_INFO)
                 || currentView.equals(FRAGMENT_SHARE_WITH_FRIENDS)) {
             mTransaction.show(mFragmentSetting);
+        } else if (currentView.equals(FRAGMENT_HISTORY) || currentView.equals(FRAGMENT_FOLOWING) || currentView.equals(FRAGMENT_FOLLOWER)
+                || currentView.equals(FRAGMENT_FAVOURITE)) {
+            mTransaction.show(mFragmentUserDataTab);
+        } else if (currentView.equals(FRAGMENT_HOME_TAB) || currentView.equals(FRAGMENT_NETWORK_TAB) || currentView.equals(FRAGMENT_BRAVO_TAB)
+                || currentView.equals(FRAGMENT_SEARCH_TAB) || currentView.equals(FRAGMENT_USER_DATA_TAB)) {
+            super.onBackPressed();
+            return;
         }
 
         mTransaction.commitAllowingStateLoss();
@@ -481,6 +524,28 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToCoverImage(ObBravo obGetBravo) {
         mFragmentCoverImage.setObBravo(obGetBravo);
         showFragment(FRAGMENT_COVER_IMAGE_ID);
+    }
+
+    @Override
+    public void goToUserTimeLine(String foreignID, String foreignName) {
+        // TODO Auto-generated method stub
+        mFragmentHistory.setForeignID(foreignID);
+        mFragmentHistory.setForeignName(foreignName);
+        showFragment(FRAGMENT_HISTORY_ID);
+    }
+
+    @Override
+    public void goToUsergFollowing(String foreignID) {
+        // TODO Auto-generated method stub
+        mFragmentFollowing.setForeignID(foreignID);
+        showFragment(FRAGMENT_FOLLOWING_ID);
+    }
+
+    @Override
+    public void goToUsergFollower(String foreignID) {
+        // TODO Auto-generated method stub
+        mFragmentFollower.setForeignID(foreignID);
+        showFragment(FRAGMENT_FOLLOWER_ID);
     }
 
 }

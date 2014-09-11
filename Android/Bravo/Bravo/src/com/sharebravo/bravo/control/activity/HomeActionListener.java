@@ -15,5 +15,11 @@ public interface HomeActionListener {
 
     public void goToMapView(String lat, String log, int locationType);
 
+    public void goToUserTimeLine(String foreignID, String foreignName);
+
+    public void goToUsergFollowing(String foreignID);
+
+    public void goToUsergFollower(String foreignID);
+
     public void goToBack();
 }

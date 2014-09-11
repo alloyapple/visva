@@ -6,7 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetUserFollowHistory {
-    ArrayList<Follow> data = new ArrayList<Follow>();
+    @SerializedName("data")
+    public ArrayList<Follow> data = new ArrayList<Follow>();
     public ObGetUserFollowHistory() {
         // TODO Auto-generated constructor stub
     }
@@ -14,21 +15,21 @@ public class ObGetUserFollowHistory {
 
 class Follow {
     @SerializedName("Follow_ID")
-    String         followID;
+    public String         followID;
     @SerializedName("Follower_ID")
-    String         followerID;
+    public String         followerID;
     @SerializedName("Follow_Name")
-    String         followName;
+    public String         followName;
     @SerializedName("Follow_SNS_List")
-    ArrayList<SNS> followSNSList    = new ArrayList<SNS>();
+    public ArrayList<SNS> followSNSList    = new ArrayList<SNS>();
     @SerializedName("Following_ID")
-    String         followingID;
+    public String         followingID;
     @SerializedName("Following_SNS_List")
-    ArrayList<SNS> followingSNSList = new ArrayList<SNS>();
+    public ArrayList<SNS> followingSNSList = new ArrayList<SNS>();
     @SerializedName("Action")
-    String         action; //add or remove
+    public String         action; //add or remove
     @SerializedName("Date_Created")
-    Date_Created     Date_Created;
+    public Date_Created     Date_Created;
 
     public Follow() {
         // TODO Auto-generated constructor stub

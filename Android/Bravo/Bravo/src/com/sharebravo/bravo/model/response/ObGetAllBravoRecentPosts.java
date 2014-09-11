@@ -8,7 +8,9 @@ public class ObGetAllBravoRecentPosts {
     @SerializedName("data")
     public ArrayList<ObBravo> data;
     @SerializedName("status")
-    public int                   status;
+    public int                status;
+    @SerializedName("error")
+    public String             error;
 
     public ObGetAllBravoRecentPosts() {
 

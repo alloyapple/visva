@@ -7,14 +7,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,10 +40,17 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObDeleteFollowing;
+import com.sharebravo.bravo.model.response.ObGetBlockingCheck;
+import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.ObGetUserTimeline;
+import com.sharebravo.bravo.model.response.ObPutBlocking;
+import com.sharebravo.bravo.model.response.ObPutFollowing;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -51,7 +64,7 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
 
-public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener {
+public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener, LocationListener {
     private static final int       REQUEST_CODE_CAMERA      = 2001;
     private static final int       REQUEST_CODE_GALLERY     = 2002;
 
@@ -59,6 +72,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private Button                 mBtnSettings;
     private IShowPageSettings      iShowPageSettings;
     private PullAndLoadListView    mListViewUserPostProfile = null;
+    private ObGetUserInfo          obGetUserInfo;
     private AdapterUserDataProfile mAdapterUserDataProfile  = null;
     private Button                 mBtnBack;
     private boolean                isMyData                 = false;
@@ -71,13 +85,37 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
                                                                 }
                                                             };
+    private SessionLogin           mSessionLogin            = null;
+    private int                    mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+    private String                 foreignID                = "";
+    Location                       location                 = null;
+    LocationManager                locationManager          = null;
+    double                         mLat, mLong;
+    String                         provider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_user_profile, null);
-
+        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
+        locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
+
+        // Creating a criteria object to retrieve provider
+        Criteria criteria = new Criteria();
+
+        // Getting the name of the best provider
+        provider = locationManager.getBestProvider(criteria, true);
+
+        // Getting Current Location
+        location = locationManager.getLastKnownLocation(provider);
+
+        if (location != null) {
+            onLocationChanged(location);
+        }
+
+        locationManager.requestLocationUpdates(provider, 20000, 0, this);
         return root;
     }
 
@@ -116,12 +154,28 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         super.onResume();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            location = locationManager.getLastKnownLocation(provider);
+
+            if (location != null) {
+                onLocationChanged(location);
+            }
+
+            locationManager.requestLocationUpdates(provider, 20000, 0, this);
+        }
+    }
+
     /**
      * get user info to show on user data tab
      * 
      * @param foreignUserId
      */
     public void getUserInfo(final String foreignUserId) {
+
         final int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
         String userId = _sessionLogin.userID;
@@ -138,10 +192,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             mBtnSettings.setVisibility(View.VISIBLE);
             isMyData = true;
             checkingUserId = userId;
+            foreignID = userId;
         } else {
             isMyData = false;
             mBtnBack.setVisibility(View.VISIBLE);
             mBtnSettings.setVisibility(View.GONE);
+            this.foreignID = foreignUserId;
         }
 
         String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + checkingUserId;
@@ -154,7 +210,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 if (StringUtility.isEmpty(response))
                     return;
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetUserInfo obGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
+                obGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
                 if (obGetUserInfo == null) {
                     AIOLog.e("obGetUserInfo is null");
                 } else {
@@ -168,7 +224,10 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         mAdapterUserDataProfile.updateUserProfile(obGetUserInfo, isMyData);
 
                         BravoUtils.saveUserProfileToSharePreferences(getActivity(), _loginBravoViaType, response);
-                        requestUserDataTimeLine(foreignUserId);
+                        requestGetUserTimeLine(foreignID);
+                        requestGetBlockingCheck();
+                        requestGetFollowingCheck();
+
                         break;
                     default:
                         break;
@@ -184,40 +243,35 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         getUserInfoRequest.execute(url);
     }
 
-    private void requestUserDataTimeLine(String checkingUserId) {
-        AIOLog.d("checkingUserId:" + checkingUserId);
+    private void requestGetUserTimeLine(String checkingUserId) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        if (StringUtility.isEmpty(mSessionLogin.userID) || StringUtility.isEmpty(mSessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Start", "0");
+        // subParams.put("Location", String.valueOf(mLat)+","+String.valueOf(mLong));
         JSONObject subParamsJson = new JSONObject(subParams);
-        String subParamsStr = subParamsJson.toString();
-
-        int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
-        SessionLogin sessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
-        String myUserId = sessionLogin.userID;
-        String accessToken = sessionLogin.accessToken;
-
-        AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
-        String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE;
-        String _userId = checkingUserId;
-        if (StringUtility.isEmpty(_userId))
-            _userId = myUserId;
-        url = url.replace("{User_ID}", _userId);
-
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(myUserId, accessToken, subParamsStr);
-        AsyncHttpGet getUserDataTimeLineRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", checkingUserId);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("requestBravoNews:" + response);
+                // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + obGetAllBravoRecentPosts);
-                if (obGetAllBravoRecentPosts == null)
+                ObGetUserTimeline obGetUserTimeline;
+                obGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
+                AIOLog.d("obGetUserTimeline:" + obGetUserTimeline);
+                if (obGetUserTimeline == null || obGetUserTimeline.data.size() == 0) {
+                    mAdapterUserDataProfile.updateRecentPostList(null);
                     return;
+                }
                 else {
-                    AIOLog.d("size of recent post list: " + obGetAllBravoRecentPosts.data.size());
-                    ArrayList<ObBravo> obBravos = obGetAllBravoRecentPosts.data;
-                    obGetAllBravoRecentPosts.data = obBravos;
-                    mAdapterUserDataProfile.updateRecentPostList(obGetAllBravoRecentPosts);
+                    // ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetUserTimeline.data);
+                    mAdapterUserDataProfile.updateRecentPostList(obGetUserTimeline.data);
                 }
             }
 
@@ -226,9 +280,250 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 AIOLog.d("response error");
             }
         }, params, true);
-        AIOLog.d("request user time line:" + url);
-        getUserDataTimeLineRequest.execute(url);
+        getTimeline.execute(url);
 
+    }
+
+    private void requestGetFollowingCheck() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", foreignID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
+        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("requestFollowingCheck:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetFollowingCheck obGetFollowCheck;
+                obGetFollowCheck = gson.fromJson(response.toString(), ObGetFollowingCheck.class);
+
+                if (obGetFollowCheck == null)
+                    return;
+                else {
+                    mAdapterUserDataProfile.updateFollow(obGetFollowCheck.valid == 1 ? true : false);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getFollowingCheckRequest.execute(url);
+    }
+
+    private void requestDeleteFollow() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{User_ID_Other}", foreignID);
+        AsyncHttpDelete deleteFollow = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObDeleteFollowing obDeleteFollowing;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    mAdapterUserDataProfile.updateFollow(false);
+                } else {
+                    obDeleteFollowing = gson.fromJson(response.toString(), ObDeleteFollowing.class);
+                    showToast(obDeleteFollowing.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, null, true);
+        AIOLog.d(url);
+        deleteFollow.execute(url);
+    }
+
+    private void requestToPutFollow() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("User_ID", foreignID);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putFollow = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPutFollowing obPutFollowing;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    mAdapterUserDataProfile.updateFollow(true);
+                } else {
+                    obPutFollowing = gson.fromJson(response.toString(), ObPutFollowing.class);
+                    showToast(obPutFollowing.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putFollow.execute(url);
+    }
+
+    private void requestGetBlockingCheck() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_GET_BLOCKING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", foreignID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
+        AsyncHttpGet getBkockingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("requestFollowingCheck:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetBlockingCheck obGetBlockingCheck;
+                obGetBlockingCheck = gson.fromJson(response.toString(), ObGetBlockingCheck.class);
+
+                if (obGetBlockingCheck == null)
+                    return;
+                else {
+                    mAdapterUserDataProfile.updateBlock(obGetBlockingCheck.valid == 1 ? true : false);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getBkockingCheckRequest.execute(url);
+    }
+
+    private void requestDeleteBlock() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_BLOCKING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{User_ID_Other}", foreignID);
+        AsyncHttpDelete deleteBlock = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObDeleteFollowing obDeleteFollowing;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    mAdapterUserDataProfile.updateBlock(false);
+                } else {
+                    obDeleteFollowing = gson.fromJson(response.toString(), ObDeleteFollowing.class);
+                    showToast(obDeleteFollowing.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, null, true);
+        AIOLog.d(url);
+        deleteBlock.execute(url);
+    }
+
+    private void requestToPutBlock() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("User_ID", foreignID);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_BLOCKING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putBlock = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPutBlocking obPutBlocking;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    mAdapterUserDataProfile.updateBlock(true);
+                } else {
+                    obPutBlocking = gson.fromJson(response.toString(), ObPutBlocking.class);
+                    showToast(obPutBlocking.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putBlock.execute(url);
     }
 
     public interface IShowPageSettings {
@@ -245,6 +540,52 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     public void requestUserImageType(int userImageType) {
         mUserImageType = userImageType;
         showDialogChooseImage(userImageType);
+    }
+
+    public void showDialogStopFollowing() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_stop_following, null);
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_stop_following_no);
+        btnCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+
+            }
+        });
+        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_stop_following_yes);
+        btnOK.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+                requestDeleteFollow();
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialog.show();
+    }
+
+    public void getUserFollowHistory() {
+    }
+
+    public void getUserUserFollowing() {
+    }
+
+    public void getUserFollower() {
     }
 
     private void showDialogChooseImage(int userImageType) {
@@ -397,7 +738,82 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     @Override
+    public void goToFollow(boolean isFollow) {
+        // TODO Auto-generated method stub
+        if (isFollow)
+            requestToPutFollow();
+        else
+            showDialogStopFollowing();
+    }
+
+    @Override
+    public void goToBlock(boolean isBlock) {
+        // TODO Auto-generated method stub
+        if (isBlock)
+            requestToPutBlock();
+        else
+            requestDeleteBlock();
+    }
+
+    private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
+        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
+        for (ObBravo obBravo : bravoItems) {
+            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+            } else
+                obBravos.add(obBravo);
+        }
+        return obBravos;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        // TODO Auto-generated method stub
+        mLat = location.getLatitude();
+
+        // Getting longitude
+        mLong = location.getLongitude();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void goToUserTimeline() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToUserTimeLine(foreignID, obGetUserInfo.data.Full_Name);
+    }
+
+    @Override
+    public void goToUserFollowing() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToUsergFollowing(foreignID);
+    }
+
+    @Override
+    public void goToUserFollower() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToUsergFollower(foreignID);
+    }
+
+    @Override
     public void goToFravouriteView(int fragmentId) {
         mHomeActionListener.goToFragment(fragmentId);
     }
+
 }

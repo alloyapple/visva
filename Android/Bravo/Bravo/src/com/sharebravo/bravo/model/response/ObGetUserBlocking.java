@@ -1,8 +1,10 @@
 package com.sharebravo.bravo.model.response;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
+import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetUserBlocking {
     ArrayList<User> data = new ArrayList<User>();
@@ -10,18 +12,17 @@ public class ObGetUserBlocking {
     public ObGetUserBlocking() {
     }
 
-}
+    public class User {
+        @SerializedName("User_ID")
+        public String               User_ID;
+        @SerializedName("SNS_List")
+        public HashMap<String, SNS> SNS_List;
+        @SerializedName("Full_Name")
+        public String               Full_Name;
+        @SerializedName("Profile_Img_URL")
+        public String               Profile_Img_URL;
 
-class User {
-    @SerializedName("User_ID")
-    public String         User_ID;
-//    @SerializedName("SNS_List")
-//    public ArrayList<SNS> SNS_List;
-    @SerializedName("Full_Name")
-    public String         Full_Name;
-    @SerializedName("Profile_Img_URL")
-    public String         Profile_Img_URL;
-
-    public User() {
+        public User() {
+        }
     }
 }
