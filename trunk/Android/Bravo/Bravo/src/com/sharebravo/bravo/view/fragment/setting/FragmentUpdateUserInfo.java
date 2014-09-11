@@ -1,17 +1,26 @@
 package com.sharebravo.bravo.view.fragment.setting;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,19 +38,23 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentUpdateUserInfo extends FragmentBasic {
     // =======================Constant Define==============
-    private static final int REQUEST_CODE_CAMERA            = 4001;
-    private static final int REQUEST_CODE_GALLERY           = 4002;
-    private static final int CHANGE_USER_INFO_TYPE_IMAGE    = 0X01;
-    private static final int CHANGE_USER_INFO_TYPE_ABOUT_ME = 0X02;
+    private static final int REQUEST_CODE_CAMERA  = 4001;
+    private static final int REQUEST_CODE_GALLERY = 4002;
     // =======================Class Define=================
     // =======================Variable Define==============
     private EditText         mEditTextUserName;
@@ -56,12 +69,16 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     private SessionLogin     mSessionLogin;
     private ObGetUserInfo    mObGetUserInfo;
     private ImageLoader      mImageLoader;
-    private int              mChangeUserInfoType;
+    private boolean          isChangeImage;
+    private boolean          isChangeText;
+    private Bitmap           mUserProfileImg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_update_user_info, container);
 
+        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         initializeData();
         initializeView(root);
         return root;
@@ -70,10 +87,11 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
-            
+        if (!hidden) {
+            getUserInfo();
         }
     }
+
     private void initializeData() {
         mHomeActionListener = (HomeActivity) getActivity();
         mImageLoader = new ImageLoader(getActivity());
@@ -113,48 +131,181 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                 String userDescription = mEditTextUserDescription.getText().toString();
                 if (mObGetUserInfo != null) {
                     if (!mObGetUserInfo.data.Full_Name.equals(userName))
-                        mChangeUserInfoType = CHANGE_USER_INFO_TYPE_ABOUT_ME;
+                        isChangeText = true;
                     if (!mObGetUserInfo.data.About_Me.equals(userDescription))
-                        mChangeUserInfoType = CHANGE_USER_INFO_TYPE_ABOUT_ME;
+                        isChangeText = true;
                 }
-                if (CHANGE_USER_INFO_TYPE_ABOUT_ME > 0)
-                    onDoneUpdateUserInfo();
+                mObGetUserInfo.data.Full_Name = userName;
+                mObGetUserInfo.data.About_Me = userDescription;
+                if (isChangeImage)
+                    postUpdateUserProfile(mObGetUserInfo, mUserProfileImg);
+                else if (isChangeText)
+                    putUpdateUserProfile(mObGetUserInfo);
                 else
                     mHomeActionListener.goToBack();
             }
 
         });
-        if (mObGetUserInfo != null) {
-            mEditTextUserName.setText(mObGetUserInfo.data.Full_Name);
-            String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
-            AIOLog.d("userAvatarUrl:" + userAvatarUrl);
-            if (StringUtility.isEmpty(userAvatarUrl)) {
-                mImgUserPicture.setImageBitmap(null);
-                mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
-            } else {
-                mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, mImgUserPicture, true);
-            }
+
+    }
+
+    /**
+     * get user info to show on user data tab
+     * 
+     * 
+     */
+    private void getUserInfo() {
+        if (mSessionLogin == null) {
+            mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+            mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         }
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        AIOLog.d("mUserId:" + mSessionLogin.userID + ", mAccessToken:" + mSessionLogin.accessToken);
+
+        String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + userId;
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
+        AsyncHttpGet getUserInfoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("get user info at my data:" + response);
+                if (StringUtility.isEmpty(response))
+                    return;
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                mObGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
+                if (mObGetUserInfo == null) {
+                    AIOLog.e("obGetUserInfo is null");
+                } else {
+                    switch (mObGetUserInfo.status) {
+                    case BravoConstant.STATUS_FAILED:
+                        showToast(getActivity().getResources().getString(R.string.get_user_info_error));
+                        break;
+                    case BravoConstant.STATUS_SUCCESS:
+                        AIOLog.d("BravoConstant.STATUS_SUCCESS");
+                        AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
+                        if (mObGetUserInfo != null) {
+                            mEditTextUserName.setText(mObGetUserInfo.data.Full_Name);
+                            if (!StringUtility.isEmpty(mObGetUserInfo.data.About_Me))
+                                mEditTextUserDescription.setText(mObGetUserInfo.data.About_Me);
+                            else
+                                mEditTextUserDescription.setText("");
+                            String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
+                            AIOLog.d("userAvatarUrl:" + userAvatarUrl);
+                            if (StringUtility.isEmpty(userAvatarUrl)) {
+                                mImgUserPicture.setImageBitmap(null);
+                                mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
+                            } else {
+                                mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, mImgUserPicture, true);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getUserInfoRequest.execute(url);
     }
 
     /**
      * on click done update user info
      */
-    private void onDoneUpdateUserInfo() {
-        showToast("Click done");
-        if (mChangeUserInfoType == CHANGE_USER_INFO_TYPE_ABOUT_ME) {
-            putUpdateUserProfile();
-        } else if (mChangeUserInfoType == CHANGE_USER_INFO_TYPE_IMAGE) {
-            postUpdateUserProfile();
+    private void postUpdateUserProfile(ObGetUserInfo obGetUserInfo, Bitmap userAvatarBmp) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        options.inSampleSize = 1;
+        options.inPurgeable = true;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        userAvatarBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        // bitmap object
+        byte byteImage_photo[] = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        byte imageByte[] = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+        if (bitmap == null)
+            AIOLog.d("bitmap:" + bitmap);
+        mImgUserPicture.setImageBitmap(bitmap);
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Profile_Img", encodedImage);
+        subParams.put("Cover_Img", "");
+        subParams.put("Profile_Img_Del", "1");
+        subParams.put("Cover_Img_Del", "0");
+        subParams.put("About_Me", mObGetUserInfo.data.About_Me);
+        subParams.put("UserId", userId);
+
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        AIOLog.d("encodedImage:" + encodedImage);
+        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPostImage postRegister = new AsyncHttpPostImage(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after uploading image:" + response);
+                /* go to home screen */
+                mHomeActionListener.goToBack();
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(putUserUrl);
+
     }
 
-    private void postUpdateUserProfile() {
+    private void putUpdateUserProfile(ObGetUserInfo obGetUserInfo) {
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
 
-    }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Full_Name", mObGetUserInfo.data.Full_Name);
+        subParams.put("About_Me", mObGetUserInfo.data.About_Me);
 
-    private void putUpdateUserProfile() {
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
 
+        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPut postRegister = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after uploading image:" + response);
+                /* go to home screen */
+                mHomeActionListener.goToBack();
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(putUserUrl);
+    
     }
 
     private void showDialogChooseImage() {
@@ -229,7 +380,8 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                     if (photo == null)
                         return;
                     else {
-                        mChangeUserInfoType = CHANGE_USER_INFO_TYPE_IMAGE;
+                        isChangeImage = true;
+                        mUserProfileImg = photo;
                         mImgUserPicture.setImageBitmap(photo);
                         return;
                     }
@@ -254,8 +406,9 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    isChangeImage = true;
+                    mUserProfileImg = bmp;
                     mImgUserPicture.setImageBitmap(bmp);
-                    mChangeUserInfoType = CHANGE_USER_INFO_TYPE_IMAGE;
                 }
             }
             break;
@@ -282,8 +435,9 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    isChangeImage = true;
+                    mUserProfileImg = bmp;
                     mImgUserPicture.setImageBitmap(bmp);
-                    mChangeUserInfoType = CHANGE_USER_INFO_TYPE_IMAGE;
                 } else {
                     AIOLog.d("file don't exist !");
                 }
