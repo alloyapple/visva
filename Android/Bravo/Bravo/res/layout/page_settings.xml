@@ -131,7 +131,7 @@
                 android:layout_below="@id/text_share"
                 android:background="#DAD9DC" />
 
-            <com.facebook.widget.LoginTextView
+            <TextView
                 android:id="@+id/text_post_on_facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <ToggleButton
+            <com.facebook.widget.ToggleButtonLogin
                 android:id="@+id/toggle_btn_post_on_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
