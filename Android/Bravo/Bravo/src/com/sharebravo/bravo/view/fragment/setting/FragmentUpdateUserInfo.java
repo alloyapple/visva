@@ -3,7 +3,6 @@ package com.sharebravo.bravo.view.fragment.setting;
 import java.io.File;
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -69,23 +68,12 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        AIOLog.d("activity:" + activity);
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            
+        }
     }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        AIOLog.d("onDetach:");
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        AIOLog.d("savedInstanceState:");
-    }
-
     private void initializeData() {
         mHomeActionListener = (HomeActivity) getActivity();
         mImageLoader = new ImageLoader(getActivity());
@@ -140,18 +128,9 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
             mEditTextUserName.setText(mObGetUserInfo.data.Full_Name);
             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
-            String avatarImgPath = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_USER_AVATAR);
             if (StringUtility.isEmpty(userAvatarUrl)) {
-                File file = new File(avatarImgPath);
-                if (!StringUtility.isEmpty(avatarImgPath) && file.exists()) {
-                    Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap avatarBitmap = BravoUtils.decodeSampledBitmapFromFile(avatarImgPath, 100, 100, orientation);
-                    mImgUserPicture.setImageBitmap(avatarBitmap);
-                } else {
-                    mImgUserPicture.setImageBitmap(null);
-                    mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
-                }
+                mImgUserPicture.setImageBitmap(null);
+                mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
             } else {
                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, mImgUserPicture, true);
             }
@@ -171,12 +150,10 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     }
 
     private void postUpdateUserProfile() {
-        // TODO Auto-generated method stub
 
     }
 
     private void putUpdateUserProfile() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -276,7 +253,6 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
                     mChangeUserInfoType = CHANGE_USER_INFO_TYPE_IMAGE;
@@ -305,7 +281,6 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                     fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
                     mChangeUserInfoType = CHANGE_USER_INFO_TYPE_IMAGE;

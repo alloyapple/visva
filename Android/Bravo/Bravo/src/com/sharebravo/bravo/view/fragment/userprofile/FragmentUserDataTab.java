@@ -553,9 +553,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
-
             }
         });
         Button btnOK = (Button) dialog_view.findViewById(R.id.btn_stop_following_yes);
@@ -563,7 +561,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
                 requestDeleteFollow();
             }
@@ -680,11 +677,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(capturedImageFilePath);
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
-                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
-                    } else {
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_COVER, imagePath);
-                    }
                     mAdapterUserDataProfile.setUserImage(mUserImageType);
                 }
             }
@@ -707,11 +699,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
                 File file = new File(imagePath);
                 if (file.exists()) {
-                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
-                    } else {
-                        BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_COVER, imagePath);
-                    }
                     mAdapterUserDataProfile.setUserImage(mUserImageType);
                 } else {
                     AIOLog.d("file don't exist !");
@@ -739,7 +726,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToFollow(boolean isFollow) {
-        // TODO Auto-generated method stub
         if (isFollow)
             requestToPutFollow();
         else
@@ -768,46 +754,38 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void onLocationChanged(Location location) {
-        // TODO Auto-generated method stub
         mLat = location.getLatitude();
-
         // Getting longitude
         mLong = location.getLongitude();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void goToUserTimeline() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToUserTimeLine(foreignID, obGetUserInfo.data.Full_Name);
     }
 
     @Override
     public void goToUserFollowing() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToUsergFollowing(foreignID);
     }
 
     @Override
     public void goToUserFollower() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToUsergFollower(foreignID);
     }
 
