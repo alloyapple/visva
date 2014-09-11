@@ -29,7 +29,7 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterFavourite;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPost.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterFavourite.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;

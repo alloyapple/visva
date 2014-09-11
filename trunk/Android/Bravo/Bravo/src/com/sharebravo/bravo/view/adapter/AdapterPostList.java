@@ -19,32 +19,32 @@ import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
-public class AdapterRecentPost extends BaseAdapter {
-    private ArrayList<ObBravo> mObGetAllBravoRecentPosts = new ArrayList<ObBravo>();
-    private ImageLoader        mImageLoader              = null;
+public class AdapterPostList extends BaseAdapter {
+    private ArrayList<ObBravo> mObPostsList = new ArrayList<ObBravo>();
+    private ImageLoader        mImageLoader = null;
 
     private Context            mContext;
     private LayoutInflater     mLayoutInflater;
-    
-    private IClickUserAvatar iClickUserAvatar;
 
-    public AdapterRecentPost(Context context, ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
+    private IClickUserAvatar   iClickUserAvatar;
+
+    public AdapterPostList(Context context, ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
         this.mContext = context;
 
         if (obGetAllBravoRecentPosts != null)
-            mObGetAllBravoRecentPosts = obGetAllBravoRecentPosts.data;
+            mObPostsList = obGetAllBravoRecentPosts.data;
         mImageLoader = new ImageLoader(mContext);
 
     }
 
     @Override
     public int getCount() {
-        return mObGetAllBravoRecentPosts.size();
+        return mObPostsList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mObGetAllBravoRecentPosts.get(position);
+        return mObPostsList.get(position);
     }
 
     @Override
@@ -68,9 +68,9 @@ public class AdapterRecentPost extends BaseAdapter {
         holder._userAvatar = (ImageView) convertView.findViewById(R.id.img_recent_post_user_avatar);
         holder._userName = (TextView) convertView.findViewById(R.id.text_recent_post_user_name);
         holder._totalComment = (TextView) convertView.findViewById(R.id.text_total_spot_comment);
-        AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
-        if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
-            final ObBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
+        AIOLog.d("mObPostsList.size():" + mObPostsList.size() + ", position:" + position);
+        if (mObPostsList.size() > 0 && position < mObPostsList.size()) {
+            final ObBravo obGetBravo = mObPostsList.get(position);
 
             if (StringUtility.isEmpty(obGetBravo.Full_Name)) {
                 holder._userName.setText("Unknown");
@@ -139,19 +139,19 @@ public class AdapterRecentPost extends BaseAdapter {
         TextView  _totalComment;
     }
 
-    public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
-        AIOLog.d("mObGetAllBravoRecentPosts.size():" + obGetAllBravoRecentPosts.data.size());
-        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
-        mObGetAllBravoRecentPosts = newObBravos;
+    public void updateRecentPostList(ArrayList<ObBravo> bravoItems) {
+        AIOLog.d("mObPostsList.size():" + bravoItems.size());
+        // ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(bravoItems);
+        mObPostsList = bravoItems;
         notifyDataSetChanged();
     }
 
-    public void updatePullDownLoadMorePostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isPulDownToRefresh) {
-        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
+    public void updatePullDownLoadMorePostList(ArrayList<ObBravo> bravoItems, boolean isPulDownToRefresh) {
+        // ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(bravoItems);
         if (isPulDownToRefresh)
-            mObGetAllBravoRecentPosts.addAll(0, newObBravos);
+            mObPostsList.addAll(0, bravoItems);
         else
-            mObGetAllBravoRecentPosts.addAll(newObBravos);
+            mObPostsList.addAll(bravoItems);
     }
 
     public ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
@@ -164,7 +164,9 @@ public class AdapterRecentPost extends BaseAdapter {
         }
         return obBravos;
     }
-    
+
+   
+
     public interface IClickUserAvatar {
         public void onClickUserAvatar(String userId);
     }

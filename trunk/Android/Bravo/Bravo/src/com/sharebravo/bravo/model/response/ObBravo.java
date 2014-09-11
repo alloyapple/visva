@@ -44,7 +44,6 @@ public class ObBravo {
     public String        Spot_Phone;
     @SerializedName("Spot_Price")
     public String        Spot_Price;
-
     @SerializedName("Last_Pic")
     public String        Last_Pic;
     @SerializedName("Last_Pic_User_ID")

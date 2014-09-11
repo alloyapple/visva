@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
@@ -51,7 +50,6 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPostDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
@@ -205,7 +203,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                     return;
                 else {
                     adapterRecentPostDetail.updateFollowing(obGetFollowCheck.valid == 1 ? true : false);
-                    requestGetComments();
                 }
             }
 
@@ -540,6 +537,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             requestGetBravo();
             requestGetFollowingCheck();
             requestGetMyListItem();
+            requestGetComments();
 
         }
     }
