@@ -85,6 +85,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.setting.FragmentShareWithFriends" />
+
+            <fragment
+                android:id="@+id/fragment_favourite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.userprofile.FragmentFavourite" />
         </RelativeLayout>
 
         <FrameLayout

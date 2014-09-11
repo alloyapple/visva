@@ -31,10 +31,11 @@ import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
 import com.sharebravo.bravo.view.fragment.setting.FragmentSetting;
+import com.sharebravo.bravo.view.fragment.setting.FragmentSetting.IShowPageTermOfUse;
 import com.sharebravo.bravo.view.fragment.setting.FragmentShareWithFriends;
 import com.sharebravo.bravo.view.fragment.setting.FragmentTermOfUse;
 import com.sharebravo.bravo.view.fragment.setting.FragmentUpdateUserInfo;
-import com.sharebravo.bravo.view.fragment.setting.FragmentSetting.IShowPageTermOfUse;
+import com.sharebravo.bravo.view.fragment.userprofile.FragmentFavourite;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab.IShowPageSettings;
 
@@ -58,6 +59,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_COVER_IMAGE           = "cover_image";
     private static final String      FRAGMENT_SHARE                 = "page_share";
     private static final String      FRAGMENT_SHARE_WITH_FRIENDS    = "page_settings_share_with_friends";
+    private static final String      FRAGMENT_FAVOURITE             = "favourite";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -74,6 +76,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_COVER_IMAGE_ID        = FRAGMENT_TERM_OF_USE_ID + 1;
     public static final int          FRAGMENT_SHARE_ID              = FRAGMENT_COVER_IMAGE_ID + 1;
     public static final int          FRAGMENT_SHARE_WITH_FRIENDS_ID = FRAGMENT_SHARE_ID + 1;
+    public static final int          FRAGMENT_FAVOURITE_ID          = FRAGMENT_SHARE_WITH_FRIENDS_ID + 1;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -92,6 +95,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentCoverImage       mFragmentCoverImage;
     private FragmentShare            mFragmentShare;
     private FragmentShareWithFriends mFragmentShareWithFriends;
+    private FragmentFavourite        mFragmentFavourite;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -197,6 +201,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentCoverImage = (FragmentCoverImage) mFmManager.findFragmentById(R.id.fragment_cover_image);
         mFragmentShare = (FragmentShare) mFmManager.findFragmentById(R.id.fragment_share);
         mFragmentShareWithFriends = (FragmentShareWithFriends) mFmManager.findFragmentById(R.id.fragment_share_with_friends);
+        mFragmentFavourite = (FragmentFavourite) mFmManager.findFragmentById(R.id.fragment_favourite);
 
         mFragmentHomeTab.setListener(this);
         mFragmentHomeNotification.setListener(this);
@@ -293,6 +298,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentShareWithFriends);
             addToSBackStack(FRAGMENT_SHARE_WITH_FRIENDS);
             break;
+        case FRAGMENT_FAVOURITE_ID:
+            mTransaction.show(mFragmentFavourite);
+            addToSBackStack(FRAGMENT_FAVOURITE);
+            break;
         default:
             break;
         }
@@ -316,6 +325,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentCoverImage);
         mTransaction.hide(mFragmentShare);
         mTransaction.hide(mFragmentShareWithFriends);
+        mTransaction.hide(mFragmentFavourite);
         return mTransaction;
     }
 
@@ -388,12 +398,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 mTransaction.show(mFragmentUserDataTab);
         } else if (currentView.equals(FRAGMENT_COVER_IMAGE) || currentView.equals(FRAGMENT_SHARE)) {
             mTransaction.show(mFragmentRecentPostDetail);
-        } else if (currentView.equals(FRAGMENT_SETTINGS)) {
+        } else if (currentView.equals(FRAGMENT_SETTINGS) || currentView.equals(FRAGMENT_FAVOURITE)) {
             mTransaction.show(mFragmentUserDataTab);
-
         } else if (currentView.equals(FRAGMENT_TERM_OF_USE) || currentView.equals(FRAGMENT_UPDATE_USER_INFO)
                 || currentView.equals(FRAGMENT_SHARE_WITH_FRIENDS)) {
-            mTransaction.show(mFragmentSetting); 
+            mTransaction.show(mFragmentSetting);
         }
 
         mTransaction.commitAllowingStateLoss();

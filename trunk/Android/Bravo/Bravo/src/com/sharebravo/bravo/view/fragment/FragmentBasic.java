@@ -74,4 +74,8 @@ public class FragmentBasic extends Fragment {
     protected void showToast(String string) {
         Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
     }
+    
+    protected void onClickGoToFragment(){
+        
+    }
 }

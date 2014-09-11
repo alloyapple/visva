@@ -8,4 +8,6 @@ public interface UserPostProfileListener {
     public void goToMapView();
 
     public void onClickUserAvatar(String userId);
+
+    public void goToFravouriteView(int fragmentId);
 }

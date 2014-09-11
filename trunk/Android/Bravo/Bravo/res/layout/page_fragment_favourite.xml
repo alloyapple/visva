@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_background"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/back_button"
+            android:gravity="center"
+            android:paddingLeft="@dimen/back_btn_margin_left"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/com_facebook_loginview_text_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recent_post_title"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/btn_sort_by_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bt_follow"
+            android:padding="15dp"
+            android:text="@string/sore_by_location" />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/devider_color"
+            android:contentDescription="@string/login" />
+
+        <Button
+            android:id="@+id/btn_sort_by_date"
+            android:layout_width="0dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bt_follow"
+            android:padding="15dp"
+            android:text="@string/sore_by_date" >
+        </Button>
+    </LinearLayout>
+
+    <com.sharebravo.bravo.view.lib.PullAndLoadListView
+        android:id="@+id/listview_fragment_favourite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.sharebravo.bravo.view.lib.PullAndLoadListView>
+
+</LinearLayout>

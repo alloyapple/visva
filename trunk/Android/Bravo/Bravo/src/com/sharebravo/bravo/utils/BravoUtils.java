@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.utils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.model.user.ObPostUserSuccess;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -250,7 +252,7 @@ public class BravoUtils {
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_BRAVO, "");
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_FACEBOOK, "");
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_TWITTER, "");
-        
+
         BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME, false);
     }
 
@@ -330,5 +332,16 @@ public class BravoUtils {
             break;
         }
         return userProfileJsonStr;
+    }
+
+    public static ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
+        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
+        for (ObBravo obBravo : bravoItems) {
+            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+            } else
+                obBravos.add(obBravo);
+        }
+        return obBravos;
     }
 }

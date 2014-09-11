@@ -389,12 +389,15 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void onClickUserAvatar(String userId) {
-        // mHomeActionListener.goToUserData(userId);
     }
 
     @Override
     public void goToMapView() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToMapView(null, null, FragmentMapView.MAKER_BY_LOCATION_USER);
+    }
+
+    @Override
+    public void goToFravouriteView(int fragmentId) {
+        mHomeActionListener.goToFragment(fragmentId);
     }
 }
