@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_register"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/linear_layout_row_loggin_regiter"
+        android:layout_marginTop="40dp" >
+
+        <TextView
+            android:id="@+id/lblRegisterUser"
+            style="@style/text_view_left_login_register"
+            android:text="Pseudo" />
+
+        <EditText
+            android:id="@+id/txtRegisterUser"
+            style="@style/edit_text_right_loggin_regiter"
+            android:hint="User name"
+            android:imeOptions="actionNext" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/linear_layout_row_loggin_regiter" >
+
+        <TextView
+            android:id="@+id/lblRegisterMail"
+            style="@style/text_view_left_login_register"
+            android:text="E-mail" />
+
+        <EditText
+            android:id="@+id/txtRegisterMail"
+            style="@style/edit_text_right_loggin_regiter"
+            android:hint="xxxxxx@gmail.com"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/linear_layout_row_loggin_regiter" >
+
+        <TextView
+            android:id="@+id/lblRegisterPassword"
+            style="@style/text_view_left_login_register"
+            android:text="Mot de pass" />
+
+        <EditText
+            android:id="@+id/txtRegisterPassword"
+            style="@style/edit_text_right_loggin_regiter"
+            android:hint="******"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/linear_layout_row_loggin_regiter" >
+
+        <TextView
+            android:id="@+id/lblRegisterPassword2"
+            style="@style/text_view_left_login_register"
+            android:text="Retapez" />
+
+        <EditText
+            android:id="@+id/txtRegisterPassword2"
+            style="@style/edit_text_right_loggin_regiter"
+            android:hint="******"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btnCancelRegister"
+            style="@style/button_login_register"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="A" />
+
+        <Button
+            android:id="@+id/btnConfirmRegister"
+            style="@style/button_login_register"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="B" />
+    </LinearLayout>
+
+</LinearLayout>

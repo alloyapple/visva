@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android:visibility="gone" -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchLayout2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="60dp"
+    android:orientation="horizontal"
+    android:visibility="invisible" >
+
+    <Button
+        android:id="@+id/search_by_location2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="85dp"
+        android:background="@drawable/ic_lieu_on" />
+
+    <Button
+        android:id="@+id/search_by_jolt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_jolt_off" />
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- The 1st state of button -->
+    <item android:drawable="@drawable/ic_shoot_video" android:state_focused="true" android:state_pressed="false"/>
+    <!-- The 2rd state of button -->
+    <item android:drawable="@drawable/ic_shoot_video_1" android:state_focused="true" android:state_pressed="true"/>
+    <item android:drawable="@drawable/ic_shoot_video_2" android:state_focused="false" android:state_pressed="true"/>
+    <!-- The 3th state of button -->
+    <item android:drawable="@drawable/ic_shoot_video"/>
+
+</selector>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <SurfaceView
+        android:id="@+id/cameraView"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="left|top" >
+    </SurfaceView>
+
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right|top"
+        android:gravity="right"
+        android:orientation="horizontal" >
+		<TextView 
+		    android:id="@+id/txt_time"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="00:00"
+		    android:textSize="20dp"
+		    android:textColor="#ff0000"/>
+        <RelativeLayout
+            android:id="@+id/flBtnContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@drawable/bottom" >
+
+            <Button
+                android:id="@+id/camera_mode_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/ic_camera_photo_off" />
+
+            <Button
+                android:id="@+id/camera_type_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/camera_mode_video"
+                android:background="@drawable/ic_object_dynamic" />
+
+            <Button
+                android:id="@+id/camera_recoding_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/camera_type_video"
+                android:background="@drawable/btn_video_record" />
+
+            <Button
+                android:id="@+id/flash_mode_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/camera_recoding_video"
+                android:background="@drawable/ic_flash" />
+
+            <Button
+                android:id="@+id/gallery_camera_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/flash_mode_video"
+                android:background="@drawable/ic_gallery" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearVideo2"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@drawable/bottom"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/ibUse_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_btn_validate"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/ibRetake_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_btn_cross"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

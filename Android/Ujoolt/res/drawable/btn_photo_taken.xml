@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  <!--  The 1st state of button -->
+  <item android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/ic_shoot_photo"/>
+  <!--  The 2rd state of button -->
+  <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/ic_shoot_photo_press"/>
+  <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/ic_shoot_photo_press"/>
+  <!--  The 3th state of button -->
+  <item  android:drawable="@drawable/ic_shoot_photo"/>
+</selector>
