@@ -16,6 +16,7 @@ import android.widget.Button;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
@@ -39,28 +40,29 @@ import com.sharebravo.bravo.view.lib.undoadapter.ContextualUndoAdapter;
 public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar {
     // =======================Constant Define==============
     // =======================Class Define=================
-    private SessionLogin               mSessionLogin             = null;
-    private ObGetAllBravoRecentPosts   mObGetAllBravoRecentPosts = null;
-    private AdapterFavourite           mAdapterFavourite;
-    private ContextualUndoAdapter      mContextualUndoAdapter    = null;
+    private SessionLogin             mSessionLogin             = null;
+    private ObGetAllBravoRecentPosts mObGetAllBravoRecentPosts = null;
+    private AdapterFavourite         mAdapterFavourite;
     // =======================Variable Define==============
-    private Button                     mBtnSortByLocation;
-    private Button                     mBtnSortByDate;
-    private PullAndLoadListView        mFavouriteListView;
-    private OnItemClickListener        iRecentPostClickListener  = new OnItemClickListener() {
+    private Button                   mBtnSortByLocation;
+    private Button                   mBtnSortByDate;
+    private Button                   mBtnBack;
+    private PullAndLoadListView      mFavouriteListView;
+    private OnItemClickListener      iRecentPostClickListener  = new OnItemClickListener() {
 
-                                                                     @Override
-                                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                         AIOLog.d("position:" + position);
-                                                                         mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
-                                                                                 .get(position - 1));
-                                                                     }
-                                                                 };
+                                                                   @Override
+                                                                   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                       AIOLog.d("position:" + position);
+                                                                       mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
+                                                                               .get(position - 1));
+                                                                   }
+                                                               };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_favourite, container);
 
+        mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
 
         return root;
@@ -98,7 +100,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
                     ArrayList<ObBravo> obBravos = BravoUtils.removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
                     mObGetAllBravoRecentPosts.data = obBravos;
-//                    mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts);
+                    mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts);
                     if (mFavouriteListView.getVisibility() == View.GONE)
                         mFavouriteListView.setVisibility(View.VISIBLE);
                 }
@@ -115,18 +117,26 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
     }
 
     private void initializeView(View root) {
+        mBtnBack = (Button) root.findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                mHomeActionListener.goToBack();
+            }
+        });
         mBtnSortByDate = (Button) root.findViewById(R.id.btn_sort_by_date);
         mBtnSortByLocation = (Button) root.findViewById(R.id.btn_sort_by_location);
         mFavouriteListView = (PullAndLoadListView) root.findViewById(R.id.listview_fragment_favourite);
         mAdapterFavourite = new AdapterFavourite(getActivity(), mObGetAllBravoRecentPosts);
-        mContextualUndoAdapter = new ContextualUndoAdapter(mAdapterFavourite, R.layout.row_recent_post, R.id.undo_row_undobutton);
+        // mContextualUndoAdapter = new ContextualUndoAdapter(mAdapterFavourite, R.layout.row_recent_post, R.id.undo_row_undobutton);
         // mAdapterFavourite.setListener(this);
-        mContextualUndoAdapter.setAbsListView(mFavouriteListView);
-        mFavouriteListView.setAdapter(mContextualUndoAdapter);
-        mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
-        
-//        mFavouriteListView.setAdapter(mAdapterFavourite);
-        mFavouriteListView.setOnItemClickListener(iRecentPostClickListener);
+        // mContextualUndoAdapter.setAbsListView(mFavouriteListView);
+        mFavouriteListView.setAdapter(mAdapterFavourite);
+        // mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
+
+        // mFavouriteListView.setAdapter(mAdapterFavourite);
+        // mFavouriteListView.setOnItemClickListener(iRecentPostClickListener);
         mFavouriteListView.setVisibility(View.GONE);
         /* load more old items */
         mFavouriteListView.setOnLoadMoreListener(new IOnLoadMoreListener() {
@@ -172,7 +182,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
     public void onClickUserAvatar(String userId) {
 
     }
-    
+
     private class MyDeleteItemCallback implements ContextualUndoAdapter.DeleteItemCallback {
 
         @Override

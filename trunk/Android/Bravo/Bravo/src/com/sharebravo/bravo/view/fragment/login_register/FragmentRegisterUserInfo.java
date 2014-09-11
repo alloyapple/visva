@@ -38,8 +38,6 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
-import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
@@ -271,7 +269,6 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
                 }
@@ -299,7 +296,6 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mImgUserPicture.setImageBitmap(bmp);
                 } else {

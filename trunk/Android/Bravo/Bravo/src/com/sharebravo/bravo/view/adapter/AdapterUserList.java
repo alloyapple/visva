@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObGetUserBlocking.User;
-import com.sharebravo.bravo.model.response.UserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
@@ -53,13 +52,13 @@ public class AdapterUserList extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup arg2) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         ViewHolder holder;
         if (mLayoutInflater == null)
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
        // if (convertView == null)
-            convertView = mLayoutInflater.inflate(R.layout.row_user_list, null);
+            convertView = mLayoutInflater.inflate(R.layout.row_user_list, parent);
 
         holder = new ViewHolder();
         holder._userAvatar = (ImageView) convertView.findViewById(R.id.image_user_search);

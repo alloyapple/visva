@@ -1,11 +1,8 @@
 package com.sharebravo.bravo.view.adapter;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +20,6 @@ import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
-import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.utils.BravoSharePrefs;
-import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
@@ -80,7 +74,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
         // if (convertView == null) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_recent_post, null);
+        convertView = inflater.inflate(R.layout.row_recent_post, parent);
         // }
 
         holder = new ViewHolder();
@@ -261,6 +255,10 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
+                if (mObGetUserInfo == null)
+                    return;
+                if (mObGetUserInfo.data.Total_My_List <= 0)
+                    return;
                 mListener.goToFravouriteView(HomeActivity.FRAGMENT_FAVOURITE_ID);
             }
         });
@@ -286,7 +284,6 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mListener.goToUserTimeline();
             }
         });
@@ -294,7 +291,6 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mListener.goToUserFollowing();
             }
         });
@@ -302,7 +298,6 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mListener.goToUserFollower();
             }
         });
@@ -340,19 +335,9 @@ public class AdapterUserDataProfile extends BaseAdapter {
             String userCoverImgUrl = mObGetUserInfo.data.Cover_Img_URL;
             AIOLog.d("userCoverImgUrl:" + userCoverImgUrl);
             if (StringUtility.isEmpty(userCoverImgUrl)) {
-                String coverImagePath = BravoSharePrefs.getInstance(mContext).getStringValue(BravoConstant.PREF_KEY_USER_COVER);
-                File file = new File(coverImagePath);
-                if (!StringUtility.isEmpty(coverImagePath) && file.exists() && isMyData) {
-                    Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap coverBitmap = BravoUtils.decodeSampledBitmapFromFile(coverImagePath, 100, 100, orientation);
-                    imgUserCover.setImageBitmap(coverBitmap);
-                    btnImgCover.setVisibility(View.GONE);
-                } else {
-                    imgUserCover.setImageBitmap(null);
-                    btnImgCover.setVisibility(View.VISIBLE);
-                    imgUserCover.setBackgroundResource(R.color.click_color);
-                }
+                imgUserCover.setImageBitmap(null);
+                btnImgCover.setVisibility(View.VISIBLE);
+                imgUserCover.setBackgroundResource(R.color.click_color);
             } else {
                 mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover, false);
                 btnImgCover.setVisibility(View.GONE);
@@ -360,18 +345,9 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
-            String avatarImgPath = BravoSharePrefs.getInstance(mContext).getStringValue(BravoConstant.PREF_KEY_USER_AVATAR);
             if (StringUtility.isEmpty(userAvatarUrl)) {
-                File file = new File(avatarImgPath);
-                if (!StringUtility.isEmpty(avatarImgPath) && file.exists() && isMyData) {
-                    Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap avatarBitmap = BravoUtils.decodeSampledBitmapFromFile(avatarImgPath, 100, 100, orientation);
-                    imgUserAvatar.setImageBitmap(avatarBitmap);
-                } else {
-                    imgUserAvatar.setImageBitmap(null);
-                    imgUserAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
-                }
+                imgUserAvatar.setImageBitmap(null);
+                imgUserAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
             } else {
                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar, true);
             }

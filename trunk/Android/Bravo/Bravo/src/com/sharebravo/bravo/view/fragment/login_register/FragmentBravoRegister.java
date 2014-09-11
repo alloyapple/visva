@@ -3,8 +3,6 @@ package com.sharebravo.bravo.view.fragment.login_register;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +43,7 @@ import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -295,11 +294,13 @@ public class FragmentBravoRegister extends FragmentBasic {
         String accessToken = _sessionLogin.accessToken;
 
         HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Profile_Img", md5(userId) + encodedImage);
-        subParams.put("Cover_Img", md5(userId) + encodedImage);
+        subParams.put("Profile_Img", encodedImage);
+        subParams.put("Cover_Img", "");
         subParams.put("Profile_Img_Del", "0");
         subParams.put("Cover_Img_Del", "0");
         subParams.put("About_Me", "xxxxx");
+        subParams.put("UserId", userId);
+
         JSONObject jsonObject = new JSONObject(subParams);
         String subParamsStr = jsonObject.toString();
 
@@ -307,15 +308,15 @@ public class FragmentBravoRegister extends FragmentBasic {
         String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
         AIOLog.d("putUserUrl:" + putUserUrl);
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpPostImage postRegister = new AsyncHttpPostImage(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("reponse after uploading image:" + response);
                 /* go to home screen */
-                // Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                // homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // startActivity(homeIntent);
-                // getActivity().finish();
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(homeIntent);
+                getActivity().finish();
             }
 
             @Override
@@ -423,7 +424,6 @@ public class FragmentBravoRegister extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mUserAvatarBitmap = bmp;
                     mImgUserPicture.setImageBitmap(bmp);
@@ -453,7 +453,6 @@ public class FragmentBravoRegister extends FragmentBasic {
                     fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_USER_AVATAR, imagePath);
                     bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
                     mUserAvatarBitmap = bmp;
                     mImgUserPicture.setImageBitmap(bmp);
@@ -486,24 +485,5 @@ public class FragmentBravoRegister extends FragmentBasic {
             mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.red));
             return false;
         }
-    }
-
-    public String md5(String s) {
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
-
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 }
