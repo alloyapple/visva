@@ -87,6 +87,24 @@
                 class="com.sharebravo.bravo.view.fragment.setting.FragmentShareWithFriends" />
 
             <fragment
+                android:id="@+id/fragment_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentHistory" />
+
+            <fragment
+                android:id="@+id/fragment_following"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentFollowing" />
+
+            <fragment
+                android:id="@+id/fragment_follower"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentFollower" />
+
+            <fragment
                 android:id="@+id/fragment_favourite"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

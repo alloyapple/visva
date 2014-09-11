@@ -10,7 +10,7 @@
         android:background="@drawable/navigation_background"
         android:gravity="center_vertical" >
 
-        <Button
+        <Button android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
@@ -20,17 +20,10 @@
         </Button>
     </LinearLayout>
 
-    <LinearLayout
+    <com.sharebravo.bravo.view.lib.PullAndLoadListView
+        android:id="@+id/listview_follower"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_network_search"
-        android:background="@drawable/search_background" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/box_search" >
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="match_parent" >
+    </com.sharebravo.bravo.view.lib.PullAndLoadListView>
 
 </LinearLayout>
