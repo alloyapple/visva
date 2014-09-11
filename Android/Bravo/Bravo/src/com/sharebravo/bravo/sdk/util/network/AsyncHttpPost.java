@@ -2,6 +2,9 @@ package com.sharebravo.bravo.sdk.util.network;
 
 import java.util.List;
 
+import khandroid.ext.apache.http.entity.mime.HttpMultipartMode;
+import khandroid.ext.apache.http.entity.mime.MultipartEntity;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -10,9 +13,10 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-
 import android.content.Context;
+
+import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 
 /**
  * AsyncHttpGet makes http post request based on AsyncTask
@@ -53,12 +57,19 @@ public class AsyncHttpPost extends AsyncHttpBase {
     @Override
     protected String request(String url) {
         try {
+            String boundary = "*****";
             HttpParams params = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
             HttpConnectionParams.setSoTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
             HttpClient httpclient = createHttpClient(url, params);
             
             HttpPost httppost = new HttpPost(url);
+            MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+            
+            AIOLog.d("parameters:"+parameters.size());
+            for(int i = 0 ;i<parameters.size();i++){
+                AIOLog.d("parameters.get(i): "+parameters.get(i));
+            }
             httppost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
             response = httpclient.execute(httppost);
             statusCode = NETWORK_STATUS_OK;

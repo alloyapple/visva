@@ -210,7 +210,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
         TwitterFactory factory = new TwitterFactory(configuration);
         mTwitter = factory.getInstance();
-        
+
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
 
@@ -386,31 +386,31 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         super.onResume();
 
         AIOLog.d("isTwitterLogined");
-        final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
-        // if()
-        if (mTwitter == null) {
-            AIOLog.d("mTwitter is null");
-        }
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    if (mTwitter == null) {
-                        AIOLog.d("mTwitter is null");
-                        return;
-                    }
-                    AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
-                    if (accessToken != null) {
-                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, true);
-                    }
-                }
-                catch (TwitterException e) {
-                    AIOLog.d("Error Twitter OAuth Token = " + e.getMessage());
-                }
-            }
-        });
-        thread.start();
+        // final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
+        // // if()
+        // if (mTwitter == null) {
+        // AIOLog.d("mTwitter is null");
+        // }
+        // Thread thread = new Thread(new Runnable() {
+        //
+        // @Override
+        // public void run() {
+        // try {
+        // if (mTwitter == null) {
+        // AIOLog.d("mTwitter is null");
+        // return;
+        // }
+        // AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
+        // if (accessToken != null) {
+        // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, true);
+        // }
+        // }
+        // catch (TwitterException e) {
+        // AIOLog.d("Error Twitter OAuth Token = " + e.getMessage());
+        // }
+        // }
+        // });
+        // thread.start();
     }
 
     @Override
