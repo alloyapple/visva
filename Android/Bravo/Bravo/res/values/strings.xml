@@ -137,6 +137,10 @@
     <string name="get_user_info_error">Cannot get user info</string>
     <string name="take_picture_of_cover">Take a Picture of cover</string>
     <string name="choose_from_library">Choose from Library</string>
+    <string name="sore_by_location">Sort by location</string>
+    <string name="sore_by_date">Sort by date</string>
+    <string name="delete">Delete</string>
+    <string name="tap_to_undo">Tap to undo</string>
     <!-- +++++ -->
 
 

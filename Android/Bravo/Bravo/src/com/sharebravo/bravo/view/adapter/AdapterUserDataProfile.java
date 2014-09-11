@@ -78,7 +78,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_recent_post, null);
+            convertView = inflater.inflate(R.layout.row_recent_post, parent);
         }
 
         holder = new ViewHolder();
@@ -239,11 +239,18 @@ public class AdapterUserDataProfile extends BaseAdapter {
             if (totalMyList <= 0) {
                 totalFavourites.setText(0 + "");
             } else {
-                totalFavourites.setText(""+totalMyList);
+                totalFavourites.setText("" + totalMyList);
             }
         } else {
             layoutFavourites.setVisibility(View.GONE);
         }
+        btnFavourites.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mListener.goToFravouriteView(HomeActivity.FRAGMENT_FAVOURITE_ID);
+            }
+        });
     }
 
     private void loadingUserBravoMapInfo(View convertView, int position) {
