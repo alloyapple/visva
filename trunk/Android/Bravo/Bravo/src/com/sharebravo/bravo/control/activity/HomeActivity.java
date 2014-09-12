@@ -173,6 +173,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             showFragment(FRAGMENT_SEARCH_TAB_ID);
             btnSearch.setBackgroundResource(R.drawable.tab_search_on);
             txtSearch.setTextColor(Color.WHITE);
+            Toast.makeText(this, "This feature is coming soon", Toast.LENGTH_SHORT).show();
             break;
         case R.id.btn_mydata:
             hideTabButton();
