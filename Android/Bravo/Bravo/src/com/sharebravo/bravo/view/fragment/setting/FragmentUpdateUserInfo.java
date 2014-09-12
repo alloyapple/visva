@@ -179,23 +179,29 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                 } else {
                     switch (mObGetUserInfo.status) {
                     case BravoConstant.STATUS_FAILED:
+                        
                         showToast(getActivity().getResources().getString(R.string.get_user_info_error));
                         break;
                     case BravoConstant.STATUS_SUCCESS:
-                        AIOLog.d("BravoConstant.STATUS_SUCCESS");
+                        
                         AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
                         if (mObGetUserInfo != null) {
+                            
                             mEditTextUserName.setText(mObGetUserInfo.data.Full_Name);
                             if (!StringUtility.isEmpty(mObGetUserInfo.data.About_Me))
+                                
                                 mEditTextUserDescription.setText(mObGetUserInfo.data.About_Me);
                             else
                                 mEditTextUserDescription.setText("");
+                            
                             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
                             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
                             if (StringUtility.isEmpty(userAvatarUrl)) {
+                                
                                 mImgUserPicture.setImageBitmap(null);
                                 mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
                             } else {
+                                
                                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, mImgUserPicture, true);
                             }
                         }
@@ -233,11 +239,6 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        byte imageByte[] = Base64.decode(encodedImage, Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-        if (bitmap == null)
-            AIOLog.d("bitmap:" + bitmap);
-        mImgUserPicture.setImageBitmap(bitmap);
         int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
         String userId = _sessionLogin.userID;
