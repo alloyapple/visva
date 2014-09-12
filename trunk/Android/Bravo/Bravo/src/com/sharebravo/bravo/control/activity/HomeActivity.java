@@ -161,10 +161,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             txtNetwork.setTextColor(Color.WHITE);
             break;
         case R.id.btn_bravo:
-            hideTabButton();
-            showFragment(FRAGMENT_BRAVO_TAB_ID);
-            btnBravo.setBackgroundResource(R.drawable.tab_bravo_on);
-
+            // hideTabButton();
+            // showFragment(FRAGMENT_BRAVO_TAB_ID);
+            // btnBravo.setBackgroundResource(R.drawable.tab_bravo_on);
+            Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
+            startActivity(bravoIntent);
+            overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
             break;
         case R.id.btn_search:
             hideTabButton();
