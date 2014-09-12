@@ -3,7 +3,6 @@ package com.sharebravo.bravo.model.response;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetUserTimeline {
     @SerializedName("data")
@@ -14,7 +13,6 @@ public class ObGetUserTimeline {
     public String error;
 
     public ObGetUserTimeline() {
-        // TODO Auto-generated constructor stub
     }
 }
 

@@ -11,11 +11,12 @@
         android:gravity="center_vertical" >
 
         <Button
+            android:id="@+id/btn_bravo_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:background="@drawable/back_button"
-            android:text="@string/btn_back"
+            android:background="@drawable/bt_close"
+            android:text="@string/btn_close"
             android:textColor="#FFFFFF" >
         </Button>
     </LinearLayout>
@@ -26,10 +27,24 @@
         android:background="@drawable/search_background" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/box_search" >
+            android:background="@drawable/box_search"
+            android:gravity="center_vertical" >
+
+            <Button
+                android:layout_width="@dimen/search_icon"
+                android:layout_height="@dimen/search_icon"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/icon_search" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/hint_search_spot" />
         </LinearLayout>
     </LinearLayout>
 
