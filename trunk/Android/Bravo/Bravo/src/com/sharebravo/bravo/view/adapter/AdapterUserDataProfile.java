@@ -72,10 +72,10 @@ public class AdapterUserDataProfile extends BaseAdapter {
     private View makeLayoutForUserHistoryTimeLine(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        // if (convertView == null) {
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_recent_post, parent);
-        // }
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.row_recent_post, parent);
+        }
 
         holder = new ViewHolder();
         holder._recentPostImage = (ImageView) convertView.findViewById(R.id.img_post_recent);

@@ -48,8 +48,8 @@ import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvatar {
     private PullAndLoadListView      mListviewPost            = null;
     private PullAndLoadListView      mListviewUser            = null;
-    private AdapterPostList        mAdapterPost             = null;
-    private AdapterUserSearchList          mAdapterUser             = null;
+    private AdapterPostList          mAdapterPost             = null;
+    private AdapterUserSearchList    mAdapterUser             = null;
     private HomeActionListener       mHomeActionListener      = null;
     private ObGetAllBravoRecentPosts mObGetTimelineBravo      = null;
 
@@ -106,7 +106,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
             mListviewPost.setVisibility(View.GONE);
             mListviewUser.setVisibility(View.GONE);
             requestGetTimeLine(mSessionLogin);
-           
+
         }
     }
 
@@ -181,8 +181,8 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 }
                 else {
                     ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetTimeline.data);
-//                    mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
-//                    mObGetTimelineBravo.data = obBravos;
+                    // mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
+                    // mObGetTimelineBravo.data = obBravos;
                     mAdapterPost.updateRecentPostList(obBravos);
                     mListviewUser.setVisibility(View.GONE);
                     layoutSearch.setVisibility(View.GONE);
@@ -295,7 +295,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                     int reponseSize = obGetTimeline.data.size();
                     if (reponseSize <= 0)
                         return;
-                   
+
                     ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
                     mAdapterPost.updatePullDownLoadMorePostList(newObBravos, isPulDownToRefresh);
                     if (mListviewPost.getVisibility() == View.GONE)
@@ -331,17 +331,17 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         public void showPageHomeNotification();
     }
 
-//    private void updatePullDownLoadMorePostList(ObGetTimeline obGetTimeline, boolean isPulDownToRefresh) {
-//        ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
-//        if (mObGetTimelineBravo == null) {
-//            mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
-//            mObGetTimelineBravo.data = new ArrayList<ObBravo>();
-//        }
-//        if (isPulDownToRefresh)
-//            mObGetTimelineBravo.data.addAll(0, newObBravos);
-//        else
-//            mObGetTimelineBravo.data.addAll(newObBravos);
-//    }
+    // private void updatePullDownLoadMorePostList(ObGetTimeline obGetTimeline, boolean isPulDownToRefresh) {
+    // ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
+    // if (mObGetTimelineBravo == null) {
+    // mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
+    // mObGetTimelineBravo.data = new ArrayList<ObBravo>();
+    // }
+    // if (isPulDownToRefresh)
+    // mObGetTimelineBravo.data.addAll(0, newObBravos);
+    // else
+    // mObGetTimelineBravo.data.addAll(newObBravos);
+    // }
 
     private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
         ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
