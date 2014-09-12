@@ -1,6 +1,8 @@
 package com.sharebravo.bravo.view.fragment.userprofile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -24,6 +27,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,9 +51,11 @@ import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.ObGetUserTimeline;
 import com.sharebravo.bravo.model.response.ObPutBlocking;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
+import com.sharebravo.bravo.model.response.ObUserImagePost;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
@@ -72,7 +78,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private Button                 mBtnSettings;
     private IShowPageSettings      iShowPageSettings;
     private PullAndLoadListView    mListViewUserPostProfile = null;
-    private ObGetUserInfo          obGetUserInfo;
+    private ObGetUserInfo          mObGetUserInfo;
     private AdapterUserDataProfile mAdapterUserDataProfile  = null;
     private Button                 mBtnBack;
     private boolean                isMyData                 = false;
@@ -210,20 +216,19 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 if (StringUtility.isEmpty(response))
                     return;
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                obGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
-                if (obGetUserInfo == null) {
+                mObGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
+                if (mObGetUserInfo == null) {
                     AIOLog.e("obGetUserInfo is null");
                 } else {
-                    switch (obGetUserInfo.status) {
+                    switch (mObGetUserInfo.status) {
                     case BravoConstant.STATUS_FAILED:
                         showToast(getActivity().getResources().getString(R.string.get_user_info_error));
                         break;
                     case BravoConstant.STATUS_SUCCESS:
                         AIOLog.d("BravoConstant.STATUS_SUCCESS");
-                        AIOLog.d("BravoConstant.data" + obGetUserInfo.data);
-                        mAdapterUserDataProfile.updateUserProfile(obGetUserInfo, isMyData);
+                        AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
+                        mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
 
-                        BravoUtils.saveUserProfileToSharePreferences(getActivity(), _loginBravoViaType, response);
                         requestGetUserTimeLine(foreignID);
                         requestGetBlockingCheck();
                         requestGetFollowingCheck();
@@ -657,7 +662,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     if (photo == null)
                         return;
                     else {
-                        mAdapterUserDataProfile.setUserImage(mUserImageType);
+                        postUpdateUserProfile(photo, mUserImageType);
                         return;
                     }
                 }
@@ -677,7 +682,11 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(capturedImageFilePath);
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
-                    mAdapterUserDataProfile.setUserImage(mUserImageType);
+                    Uri fileUri = Uri.fromFile(file);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
+                    Bitmap bmp;
+                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    postUpdateUserProfile(bmp, mUserImageType);
                 }
             }
             break;
@@ -699,7 +708,11 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
                 File file = new File(imagePath);
                 if (file.exists()) {
-                    mAdapterUserDataProfile.setUserImage(mUserImageType);
+                    Uri fileUri = Uri.fromFile(file);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
+                    Bitmap bmp;
+                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    postUpdateUserProfile(bmp, mUserImageType);
                 } else {
                     AIOLog.d("file don't exist !");
                 }
@@ -734,7 +747,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToBlock(boolean isBlock) {
-        // TODO Auto-generated method stub
         if (isBlock)
             requestToPutBlock();
         else
@@ -776,7 +788,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToUserTimeline() {
-        mHomeActionListener.goToUserTimeLine(foreignID, obGetUserInfo.data.Full_Name);
+        mHomeActionListener.goToUserTimeLine(foreignID, mObGetUserInfo.data.Full_Name);
     }
 
     @Override
@@ -792,6 +804,73 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     @Override
     public void goToFravouriteView(int fragmentId) {
         mHomeActionListener.goToFragment(fragmentId);
+    }
+
+    /**
+     * on click done update user info
+     */
+    private void postUpdateUserProfile(Bitmap userAvatarBmp, int userImageType) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 1;
+        options.inPurgeable = true;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        userAvatarBmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+        byte byteImage_photo[] = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        if (AdapterUserDataProfile.USER_AVATAR_ID == userImageType) {
+            subParams.put("Profile_Img", encodedImage);
+            subParams.put("Cover_Img", "");
+        } else {
+            subParams.put("Profile_Img", "");
+            subParams.put("Cover_Img", encodedImage);
+        }
+        subParams.put("Profile_Img_Del", "1");
+        subParams.put("Cover_Img_Del", "0");
+        subParams.put("About_Me", "");
+        subParams.put("UserId", userId);
+
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        AIOLog.d("encodedImage:" + encodedImage);
+        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPostImage postRegister = new AsyncHttpPostImage(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after uploading image:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObUserImagePost obUserImagePost = gson.fromJson(response.toString(), ObUserImagePost.class);
+                if (obUserImagePost == null)
+                    return;
+                if (BravoConstant.STATUS_SUCCESS == obUserImagePost.status) {
+                    mObGetUserInfo.data.Profile_Img_URL = obUserImagePost.data.Profile_Img_URL;
+                    mObGetUserInfo.data.Cover_Img_URL = obUserImagePost.data.Cover_Img_URL;
+                    mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData); 
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(putUserUrl);
+
     }
 
 }

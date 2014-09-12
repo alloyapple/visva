@@ -90,8 +90,8 @@ public class AsyncHttpPostImage extends AsyncHttpBase {
             coverdata = Base64.decode(modelRequestImage.Cover_Img, Base64.DEFAULT);
             profileData = Base64.decode(modelRequestImage.Profile_Img, Base64.DEFAULT);
 
-            profileBab = new ByteArrayBody(profileData, "image/jpeg", md5(modelRequestImage.UserId) + ".profile.jpg");
-            coverBab = new ByteArrayBody(coverdata, "image/jpeg", md5(modelRequestImage.UserId) + ".cover.jpg");
+            profileBab = new ByteArrayBody(profileData, "image/png", md5(modelRequestImage.UserId) + ".profile.jpg");
+            coverBab = new ByteArrayBody(coverdata, "image/png", md5(modelRequestImage.UserId) + ".cover.jpg");
 
             MultipartEntity reqEntity = new MultipartEntity(
                     HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));

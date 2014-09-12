@@ -42,8 +42,12 @@ public class FragmentBasic extends Fragment {
         if (mNumLoading == 0) {
             if (mProgressDialog != null)
             {
-                mProgressDialog.dismiss();
-                mProgressDialog = null;
+                try {
+                    mProgressDialog.dismiss();
+                    mProgressDialog = null;
+                } catch (Exception e) {
+
+                }
             }
         }
 
@@ -74,8 +78,8 @@ public class FragmentBasic extends Fragment {
     protected void showToast(String string) {
         Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
     }
-    
-    protected void onClickGoToFragment(){
-        
+
+    protected void onClickGoToFragment() {
+
     }
 }

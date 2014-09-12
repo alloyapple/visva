@@ -4,52 +4,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/actionbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/navigation_background"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="3dp"
-            android:background="@drawable/back_button"
-            android:gravity="center"
-            android:paddingLeft="@dimen/back_btn_margin_left"
-            android:text="@string/back"
-            android:textColor="@color/white"
-            android:textSize="@dimen/com_facebook_loginview_text_size" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_network_search"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_background" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/search_background" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/box_search"
             android:gravity="center_vertical" >
 
-            <Button
+            <ImageButton
                 android:layout_width="@dimen/search_icon"
                 android:layout_height="@dimen/search_icon"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/icon_search" />
 
             <EditText
+                android:id="@+id/txtbox_search_network"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_search_friends" />
+                android:hint="@string/hint_search_friends"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" />
         </LinearLayout>
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.sharebravo.bravo.view.lib.PullAndLoadListView
+            android:id="@+id/listview_user"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.sharebravo.bravo.view.lib.PullAndLoadListView>
+    </FrameLayout>
 
 </LinearLayout>

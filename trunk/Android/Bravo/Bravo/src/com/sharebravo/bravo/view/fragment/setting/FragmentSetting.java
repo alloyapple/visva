@@ -48,7 +48,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     // =======================Class Define=================
     private IShowPageTermOfUse     iShowPageTermOfUse;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
-    private SessionLogin           mSessionLogin      = null;
     // =======================Variable Define==============
     private TextView               mTextTermOfUse;
     private TextView               mTextShareWithFriends;
@@ -64,7 +63,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     private ToggleButton           mToggleBtnBravoNotifications;
     private Button                 mBtnBack;
 
-    private int                    mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
     private static RequestToken    mTwitterRequestToken;
     private UiLifecycleHelper      mUiLifecycleHelper;
     private Session.StatusCallback mFacebookCallback;
@@ -209,9 +207,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
         TwitterFactory factory = new TwitterFactory(configuration);
         mTwitter = factory.getInstance();
-
-        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
-        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
 
         boolean isPostOnFacebook = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK);
         if (isPostOnFacebook) {
