@@ -60,14 +60,14 @@ public class ActivitySplash extends VisvaAbstractActivity {
             @Override
             public void run() {
                 AIOLog.d("out of post delayed time");
-//                if (registerType > 1) {
-//                    Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                } else {
+                if (registerType > 1) {
+                    Intent intent = new Intent(ActivitySplash.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
                     mLoginRegisterLayout.setVisibility(View.VISIBLE);
                     mTextFlashIntro.setVisibility(View.VISIBLE);
-//                }
+                }
             }
         }, TIME_SHOW_SPLASH);
     }
