@@ -1,13 +1,32 @@
 package com.sharebravo.bravo.control.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
@@ -17,23 +36,34 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.user.BravoUser;
+import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentBravoLogin;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentBravoLogin.IShowPageForgotPassword;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentBravoRegister;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentForgotPassword;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentLogin;
-import com.sharebravo.bravo.view.fragment.login_register.FragmentRegister;
-import com.sharebravo.bravo.view.fragment.login_register.FragmentRegisterUserInfo;
-import com.sharebravo.bravo.view.fragment.login_register.FragmentBravoLogin.IShowPageForgotPassword;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentLogin.IShowPageBravoLogin;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentRegister;
 import com.sharebravo.bravo.view.fragment.login_register.FragmentRegister.IShowPageBravoRegister;
+import com.sharebravo.bravo.view.fragment.login_register.FragmentRegisterUserInfo;
 
 public class ActivityLogin_Register extends FragmentActivity implements IShowPageBravoLogin, IShowPageBravoRegister, IShowPageForgotPassword {
 
     // ======================Constant Define===============
+    public static final int          TWITTER_TYPE_LOGIN          = 1;
+    public static final int          TWITTER_TYPE_REGISTER       = 2;
     private static final String      FRAGMENT_BRAVO_REGISTER     = "bravo_register";
     private static final String      FRAGMENT_LOGIN              = "login";
     private static final String      FRAGMENT_REGISTER           = "register";
@@ -58,6 +88,9 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     private Session.StatusCallback   mFacebookCallback;
     private int                      mAccessType;
     private PendingAction            mPendingAction              = PendingAction.NONE;
+    private static RequestToken      mTwitterRequestToken;
+    protected static Twitter         mTwitter;
+    private static int               mTwitterType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +112,57 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
 
         /* initialize fragments */
         initializeFragments(savedInstanceState);
+
+        /**
+         * This if conditions is tested once is
+         * redirected from twitter page. Parse the uri to get oAuth
+         * Verifier
+         * */
+        if (!isTwitterLoggedInAlready()) {
+            Uri uri = getIntent().getData();
+            if (uri != null && uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_URL)) {
+                // oAuth verifier
+                String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
+
+                try {
+                    // Get the access token
+                    AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
+
+                    BravoSharePrefs.getInstance(this).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_TOKEN, accessToken.getToken());
+                    BravoSharePrefs.getInstance(this).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET,
+                            accessToken.getTokenSecret());
+                    BravoSharePrefs.getInstance(this).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, true);
+                    Log.e("Twitter OAuth Token", "> " + accessToken.getToken());
+
+                    // Getting user details from twitter
+                    long userID = accessToken.getUserId();
+                    twitter4j.User user = mTwitter.showUser(userID);
+
+                    BravoUser _bravoUser = new BravoUser();
+                    _bravoUser.mUserEmail = "no_tw_account" + System.currentTimeMillis() + "@nomail.com";
+                    _bravoUser.mUserName = user.getName();
+                    _bravoUser.mUserId = user.getId() + "";
+                    _bravoUser.mAuthenMethod = BravoConstant.TWITTER;
+                    _bravoUser.mTimeZone = TimeZone.getDefault().getID();
+                    Locale current = getResources().getConfiguration().locale;
+                    _bravoUser.mLocale = current.toString();
+                    _bravoUser.mForeign_Id = String.valueOf(user.getId());
+                    _bravoUser.mUserPassWord = accessToken.getToken() + "," + accessToken.getTokenSecret();
+                    _bravoUser.mRegisterType = BravoConstant.REGISTER_BY_TWITTER;
+
+                    AIOLog.d("accessToken.getTokenSecret():" + accessToken.getTokenSecret() + ",accessToken.getToken():" + accessToken.getToken());
+                    if (mTwitterType == TWITTER_TYPE_REGISTER) {
+                        showFragment(BravoConstant.FRAGMENT_REGISTER_USER_INFO_ID);
+                        mFragmentRegisterUserInfo.updateUserInfo(_bravoUser);
+                    } else if (mTwitterType == TWITTER_TYPE_LOGIN) {
+                        requestToPostBravoUserbySNS(_bravoUser);
+                    }
+                } catch (Exception e) {
+                    // Check log for login errors
+                    Log.e("Twitter Login Error", "> " + e.getMessage());
+                }
+            }
+        }
 
     }
 
@@ -147,7 +231,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     public FragmentTransaction hideFragment(int fragmentAnimationType) {
         mTransaction = mFmManager.beginTransaction();
         if (fragmentAnimationType == 1)
-            mTransaction.setCustomAnimations(R.anim.slide_in_right,R.anim.fade_in);
+            mTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.fade_in);
         else
             mTransaction.setCustomAnimations(R.anim.fade_in, R.anim.slide_in_left);
         mTransaction.hide(mFragmentBravoRegister);
@@ -255,7 +339,6 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         mUiLifecycleHelper.onResume();
 
@@ -338,4 +421,174 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         super.onNewIntent(intent);
     }
 
+    /**
+     * Check user already logged in your application using twitter Login flag is
+     * fetched from Shared Preferences
+     * */
+    private boolean isTwitterLoggedInAlready() {
+        // return twitter login status from Shared Preferences
+        return BravoSharePrefs.getInstance(this).getBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN);
+    }
+
+    /**
+     * twitter login and authen
+     */
+    private void requestToGetTwitterUserInfo() {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+        builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+        builder.setUseSSL(true);
+
+        String access_token = BravoSharePrefs.getInstance(this).getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_TOKEN);
+        String access_token_secret = BravoSharePrefs.getInstance(this).getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET);
+        AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+
+        mTwitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+        try {
+            mTwitter.verifyCredentials();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long userID = accessToken.getUserId();
+        twitter4j.User user = null;
+        try {
+            user = mTwitter.showUser(userID);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        if (user == null){
+            AIOLog.e("user twitter is null");
+            return;
+        }
+        BravoUser _bravoUser = new BravoUser();
+        _bravoUser.mUserEmail = "no_tw_account" + System.currentTimeMillis() + "@nomail.com";
+        _bravoUser.mUserName = user.getName();
+        _bravoUser.mUserId = user.getId() + "";
+        _bravoUser.mAuthenMethod = BravoConstant.TWITTER;
+        _bravoUser.mTimeZone = TimeZone.getDefault().getID();
+        Locale current = getResources().getConfiguration().locale;
+        _bravoUser.mLocale = current.toString();
+        _bravoUser.mForeign_Id = String.valueOf(user.getId());
+        _bravoUser.mUserPassWord = accessToken.getToken() + "," + accessToken.getTokenSecret();
+        _bravoUser.mRegisterType = BravoConstant.REGISTER_BY_TWITTER;
+
+        AIOLog.d("accessToken.getTokenSecret():" + accessToken.getTokenSecret() + ",accessToken.getToken():" + accessToken.getToken());
+        if (mTwitterType == TWITTER_TYPE_REGISTER) {
+            showFragment(BravoConstant.FRAGMENT_REGISTER_USER_INFO_ID);
+            mFragmentRegisterUserInfo.updateUserInfo(_bravoUser);
+        } else if (mTwitterType == TWITTER_TYPE_LOGIN) {
+            requestToPostBravoUserbySNS(_bravoUser);
+        }
+    }
+
+    @Override
+    public void clickTwitterRegister(int twitterType) {
+        mTwitterType = twitterType;
+        // Check if already logged in
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        if (!isTwitterLoggedInAlready()) {
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+            builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+            Configuration configuration = builder.build();
+
+            TwitterFactory factory = new TwitterFactory(configuration);
+            mTwitter = factory.getInstance();
+
+            try {
+                mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_URL);
+                this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL())));
+                finish();
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // user already logged into twitter
+            requestToGetTwitterUserInfo();
+            Toast.makeText(this, "Already Logged into twitter", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void requestToPostBravoUserbySNS(final BravoUser bravoUser) {
+        AIOLog.d("bravoUser:" + bravoUser);
+        if (bravoUser == null)
+            return;
+        AIOLog.d("==================================");
+        AIOLog.d("bravoUser.mAuthenMethod=>" + bravoUser.mAuthenMethod);
+        AIOLog.d("bravoUser.mUserName=>" + bravoUser.mUserName);
+        AIOLog.d("bravoUser.mUserEmail=>" + bravoUser.mUserEmail);
+        AIOLog.d("bravoUser.mUserPassWord=>" + bravoUser.mUserPassWord);
+        AIOLog.d("bravoUser.mTimeZone=>" + bravoUser.mTimeZone);
+        AIOLog.d("bravoUser.mLocale=>" + bravoUser.mLocale);
+        AIOLog.d("bravoUser.mForeign_Id=>" + bravoUser.mForeign_Id);
+        AIOLog.d("==================================");
+        AIOLog.d("==================================");
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Auth_Method", bravoUser.mAuthenMethod);
+        subParams.put("Full_Name", bravoUser.mUserName);
+        subParams.put("Email", bravoUser.mUserEmail);
+        subParams.put("Password", bravoUser.mUserPassWord);
+        subParams.put("Time_Zone", bravoUser.mTimeZone);
+        subParams.put("Locale", bravoUser.mLocale);
+        subParams.put("Foreign_ID", bravoUser.mForeign_Id);
+        subParams.put("APNS_Token", "abcdef12345");
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPost postRegister = new AsyncHttpPost(ActivityLogin_Register.this, new AsyncHttpResponseProcess(ActivityLogin_Register.this,
+                mFragmentBravoLogin) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse:" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetLoginedUser obPostUserFailed;
+
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    /* save data */
+                    BravoUtils.saveResponseToSharePreferences(ActivityLogin_Register.this, bravoUser.mRegisterType, response);
+
+                    /* go to home screen */
+                    Intent homeIntent = new Intent(ActivityLogin_Register.this, HomeActivity.class);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homeIntent);
+                    finish();
+                } else {
+                    obPostUserFailed = gson.fromJson(response.toString(), ObGetLoginedUser.class);
+                    AIOLog.e("obPostUserFailed.error:" + obPostUserFailed.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(BravoWebServiceConfig.URL_POST_USER);
+    }
 }

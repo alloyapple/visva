@@ -77,21 +77,21 @@ public class WebAuthActivity extends Activity {
             Log.d(TAG, "shouldOverrideUrlLoading = " + url);
             if (url.startsWith(BravoConstant.TWITTER_CALLBACK_URL))
             {
-                Uri uri = Uri.parse(url);
-                String verifier = uri.getQueryParameter("oauth_verifier");
-                
-                /*save oauth_verifier to share preferences*/
-                MyApplication.getInstance().getBravoSharePrefs().putIntValue(BravoConstant.LOGIN_SNS_TYPE, BravoConstant.LOGIN_BY_TWITTER);
-                MyApplication.getInstance().getBravoSharePrefs().putIntValue(BravoConstant.REGISTER_SNS_TYPE, BravoConstant.REGISTER_BY_TWITTER);
-                MyApplication.getInstance().getBravoSharePrefs().putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER, verifier);
-                Intent intent = new Intent();
-                intent.setData(uri);
-                intent.putExtra(BravoConstant.LOGIN_SNS_TYPE, BravoConstant.LOGIN_BY_TWITTER);
-                setResult(RESULT_OK, intent);
-                if (mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
-                context.finish();
+//                Uri uri = Uri.parse(url);
+//                String verifier = uri.getQueryParameter("oauth_verifier");
+//                
+//                /*save oauth_verifier to share preferences*/
+//                MyApplication.getInstance().getBravoSharePrefs().putIntValue(BravoConstant.LOGIN_SNS_TYPE, BravoConstant.LOGIN_BY_TWITTER);
+//                MyApplication.getInstance().getBravoSharePrefs().putIntValue(BravoConstant.REGISTER_SNS_TYPE, BravoConstant.REGISTER_BY_TWITTER);
+//                MyApplication.getInstance().getBravoSharePrefs().putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER, verifier);
+//                Intent intent = new Intent();
+//                intent.setData(uri);
+//                intent.putExtra(BravoConstant.LOGIN_SNS_TYPE, BravoConstant.LOGIN_BY_TWITTER);
+//                setResult(RESULT_OK, intent);
+//                if (mProgressDialog.isShowing()) {
+//                    mProgressDialog.dismiss();
+//                }
+//                context.finish();
                 return true;
             }
             return true;

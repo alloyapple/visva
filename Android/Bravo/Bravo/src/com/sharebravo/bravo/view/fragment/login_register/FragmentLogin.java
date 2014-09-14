@@ -9,13 +9,6 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -41,10 +34,9 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginTextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.ActivityLogin_Register;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.control.activity.WebAuthActivity;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
@@ -63,6 +55,7 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 public class FragmentLogin extends FragmentBasic implements AccessTokenRequestListener, ImageRequestListener, LoginTextView.UserInfoChangedCallback {
     // ====================Constant Define=================
     // ====================Class Define====================
+    private IShowPageBravoLogin    mListener;
     // ====================Variable Define=================
     private LoginTextView          mTextViewFacebookLogin;
     private TextView               mTextViewTwitterLogin;
@@ -70,9 +63,6 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
     private UiLifecycleHelper      mUiLifecycleHelper;
     private Session.StatusCallback mFacebookCallback;
     private RelativeLayout         mLayoutBravoLogin;
-    private IShowPageBravoLogin    mListener;
-    private static RequestToken    mTwitterRequestToken;
-    protected static Twitter       mTwitter;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
 
     private static int             mLoginType = BravoConstant.NO_LOGIN_SNS;
@@ -82,14 +72,6 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
 
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_login, container);
         mLoginType = BravoConstant.NO_LOGIN_SNS;
-
-        ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
-        builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
-        Configuration configuration = builder.build();
-
-        TwitterFactory factory = new TwitterFactory(configuration);
-        mTwitter = factory.getInstance();
 
         initializeView(root);
         return root;
@@ -148,7 +130,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                     String accessToken = BravoUtils.getAccessTokenFromUserBravoInfo(getActivity(), _preKeySessionRegisteredByTwitter, mLoginType);
                     onLoginBravoBySNS(userID, accessToken, mLoginType);
                 } else {
-                    onClickTwitterLoginButton();
+                    mListener.clickTwitterRegister(ActivityLogin_Register.TWITTER_TYPE_LOGIN);
                 }
             }
         });
@@ -199,60 +181,13 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         AIOLog.d("isActivedSession=" + isActivedSession);
         AppEventsLogger.activateApp(getActivity());
 
-        AIOLog.d("mLoginType:" + mLoginType);
-        if (isTwitterLoggedInAlready()) {
-            AIOLog.d("isTwitterLogined");
-            final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
-            // if()
-            if (mTwitter == null) {
-                AIOLog.d("mTwitter is null");
-            }
-            Thread thread = new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        if (mTwitter == null) {
-                            AIOLog.d("mTwitter is null");
-                            return;
-                        }
-                        AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
-                        if (accessToken != null) {
-
-                            long userID = accessToken.getUserId();
-                            BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_TWITTER_USER_ID, String.valueOf(userID));
-                            AIOLog.d("userID = " + userID);
-                            twitter4j.User user = mTwitter.showUser(userID);
-
-                            AIOLog.d("Twitter OAuth Token = " + accessToken.getToken() + " username = " + user.getName());
-                            BravoUser _bravoUser = new BravoUser();
-                            _bravoUser.mUserEmail = "no_tw_account" + System.currentTimeMillis() + "@nomail.com";
-                            _bravoUser.mUserName = user.getName();
-                            _bravoUser.mUserId = user.getId() + "";
-                            _bravoUser.mAuthenMethod = "Twitter";
-                            _bravoUser.mTimeZone = TimeZone.getDefault().getID();
-                            Locale current = getResources().getConfiguration().locale;
-                            _bravoUser.mLocale = current.toString();
-                            _bravoUser.mForeign_Id = String.valueOf(user.getId());
-                            _bravoUser.mUserPassWord = accessToken.getToken() + "," + accessToken.getTokenSecret();
-                            _bravoUser.mRegisterType = BravoConstant.REGISTER_BY_TWITTER;
-
-                            requestToPostBravoUserbySNS(_bravoUser);
-
-                        }
-                    }
-                    catch (TwitterException e) {
-                        AIOLog.d("Error Twitter OAuth Token = " + e.getMessage());
-                    }
-                }
-            });
-            thread.start();
-        }
 
     }
 
     public interface IShowPageBravoLogin {
         public void showPageBravoLogin();
+        
+        public void clickTwitterRegister(int twitterType);
     }
 
     public void setListener(IShowPageBravoLogin iShowPageBravoLogin) {
@@ -296,44 +231,6 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
         getLoginRequest.execute(url);
     }
 
-    /**
-     * twitter login and authen
-     */
-    private void onClickTwitterLoginButton() {
-        AIOLog.d("isTwitterLoggedInAlready:" + isTwitterLoggedInAlready());
-        if (mTwitter == null) {
-            AIOLog.e("mTwitter is null");
-            return;
-        }
-        if (!isTwitterLoggedInAlready()) {
-
-            Thread thread = new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_URL);
-                        if (getActivity() == null)
-                            return;
-                        Intent intent = new Intent(getActivity(), WebAuthActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        intent.putExtra("URL", mTwitterRequestToken.getAuthenticationURL());
-                        getActivity().startActivityForResult(intent, 0);
-                    } catch (TwitterException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            thread.start();
-        }
-    }
-
-    private boolean isTwitterLoggedInAlready() {
-        int _loginType = MyApplication.getInstance().getBravoSharePrefs().getIntValue(BravoConstant.LOGIN_SNS_TYPE);
-        if (_loginType == mLoginType)
-            return true;
-        return false;
-    }
 
     /**
      * foursquare login
