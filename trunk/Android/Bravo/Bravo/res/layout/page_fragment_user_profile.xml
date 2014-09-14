@@ -32,7 +32,7 @@
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="3dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/bt_notification"
+            android:background="@drawable/bt_setting"
             android:text="@string/btn_setting"
             android:layout_centerVertical="true"
             android:textColor="#FFFFFF"

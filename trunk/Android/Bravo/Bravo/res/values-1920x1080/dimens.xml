@@ -63,7 +63,7 @@
     <dimen name="height_recent_post_item">140dp</dimen>
     <dimen name="height_image_recent_post">160dp</dimen>
     <dimen name="height_text_area_recent_post">40dp</dimen>
-
+    <dimen name="height_text_area_detail_post">80dp</dimen>
     <!-- Post Detail Screen -->
     <dimen name="height_post_content_area">240dp</dimen>
     <dimen name="height_text_content_area">70dp</dimen>

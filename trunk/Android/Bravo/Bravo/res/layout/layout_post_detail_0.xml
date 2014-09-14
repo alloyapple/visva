@@ -11,10 +11,12 @@
             android:id="@+id/image_post_detail"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scaleType="centerCrop" android:contentDescription="@string/app_name">
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop" >
         </ImageView>
 
-        <FrameLayout android:id="@+id/layout_map_img"
+        <FrameLayout
+            android:id="@+id/layout_map_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
@@ -26,16 +28,64 @@
         </FrameLayout>
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/content_post_detail"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_text_area_recent_post"
+        android:layout_height="@dimen/height_text_area_detail_post"
         android:layout_gravity="bottom"
         android:background="@drawable/bg_cover"
-        android:gravity="left|center"
-        android:paddingLeft="10dp"
-        android:text="This is my post ..."
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_text_area_detail_post"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/content_post_detail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_text_area_recent_post"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtView_like_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@drawable/love_icon"
+                    android:drawablePadding="3dp"
+                    android:text="0"
+                    android:textColor="@color/white" />
+
+                <TextView android:id="@+id/txtView_comment_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:drawableLeft="@drawable/feed_comment"
+                    android:drawablePadding="3dp"
+                    android:text="0"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_picture_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/setting_take_picture_icon"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
 
 </FrameLayout>

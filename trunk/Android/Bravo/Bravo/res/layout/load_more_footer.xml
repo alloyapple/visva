@@ -21,7 +21,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
-    <!-- <View
+ <!--    <View
         android:id="@+id/top_line"
         android:layout_width="fill_parent"
         android:layout_height="0.5dp"

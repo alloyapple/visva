@@ -9,6 +9,7 @@
     <color name="grey_2">#bcbcbc</color>
     <color name="grey_3">#575757</color>
     <color name="grey_4">#aaaaaa</color>
+    <color name="divider_listview">#d7d7d7</color>
 
     <!-- Login/Register -->
     <color name="login_regiter_layout">#eeeeee</color>
