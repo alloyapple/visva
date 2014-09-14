@@ -253,7 +253,11 @@ public class BravoUtils {
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_FACEBOOK, "");
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BY_TWITTER, "");
 
+        BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_TOKEN, "");
+        BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET, "");
+
         BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME, false);
+        BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, false);
     }
 
     /**

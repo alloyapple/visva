@@ -49,9 +49,7 @@ public class BravoConstant {
     public static final String  BRAVO_PREFERENCE                                   = "BRAVO_PREFERENCE";
     public final static String  TWITTER_CONSUMER_KEY                               = "he2yZnLcQgPTWEtNQXbCA";
     public final static String  TWITTER_CONSUMER_SECRET                            = "N1ykxuPu0VhCsgM5AZ8k2Rq9tJmVCE5HVtyZcbg";
-    public static final String  TWITTER_CALLBACK_URL                               = "https://sharebravo.com/auth/callback";
-    // public static final String TWITTER_ACCESS_TOKEN = "490386183-ChIDIftcjtoAqfcLJBxoUDuNqRiCHTNuXDwIG8by";
-    // public static final String TWITTER_ACCESS_TOKEN_SECRET = " RFKrxNEAlUqO84CZ8ZkhSUwOXI10ahuempi8R31husKN3";
+    public static final String  TWITTER_CALLBACK_URL                               = "oauth://bravoconnect";
 
     // Twitter oauth urls
     public static final String  URL_TWITTER_AUTH                                   = "auth_url";
@@ -62,7 +60,8 @@ public class BravoConstant {
     public static final String  PREF_KEY_BRAVO_FISRT_TIME                          = "pref_key_bravo_first_time";
     public static final String  PREF_KEY_TWITTER_USER_ID                           = "pref_key_twitter_user_id";
     public static final String  PREF_KEY_TWITTER_OAUTH_TOKEN                       = "pref_key_twitter_oauth_token";
-    public static final String  PREF_KEY_TWITTER_OAUTH_VERIFIER                    = "pref_key_twitter_oauth_verifier";
+    public static final String  PREF_KEY_TWITTER_OAUTH_SCRET                       = "pref_key_twitter_oauth_scret";
+    public static final String  PREF_KEY_TWITTER_LOGIN                             = "pref_key_twitter_login";
 
     public static final String  PREF_KEY_SESSION_LOGIN_BY_BRAVO                    = "pref_key_session_login_by_bravo";
     public static final String  PREF_KEY_SESSION_LOGIN_BY_FACEBOOK                 = "pref_key_session_login_by_facebook";
