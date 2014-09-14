@@ -65,7 +65,7 @@
     <dimen name="height_recent_post_item">140dp</dimen>
     <dimen name="height_image_recent_post">160dp</dimen>
     <dimen name="height_text_area_recent_post">40dp</dimen>
-
+    <dimen name="height_text_area_detail_post">80dp</dimen>
     <!-- Post Detail Screen -->
     <dimen name="height_post_content_area">240dp</dimen>
     <dimen name="height_text_content_area">70dp</dimen>
@@ -78,7 +78,7 @@
     <dimen name="height_btn_save">50dp</dimen>
     <dimen name="height_input_comment">56dp</dimen>
     <dimen name="height_row_comment_content">50dp</dimen>
-    <!-- User Data Tab -->
+    <!-- User Data Tab -->
     <string name="text_user_data_name_size">20dp]</string>
 
 </resources>

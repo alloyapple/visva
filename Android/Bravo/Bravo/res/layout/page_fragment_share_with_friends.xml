@@ -7,7 +7,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/navigation_background" >
+        android:background="@drawable/navigation_background"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/back_button"
+            android:text="@string/btn_back"
+            android:textColor="#FFFFFF" >
+        </Button>
     </LinearLayout>
 
     <LinearLayout
@@ -44,6 +55,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+
+        <com.sharebravo.bravo.view.lib.PullAndLoadListView
+            android:id="@+id/listview_post"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.sharebravo.bravo.view.lib.PullAndLoadListView>
 
         <com.sharebravo.bravo.view.lib.PullAndLoadListView
             android:id="@+id/listview_user"
