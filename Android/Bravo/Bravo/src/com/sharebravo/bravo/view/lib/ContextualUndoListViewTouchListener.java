@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.sharebravo.bravo.view.lib.undoadapter;
+package com.sharebravo.bravo.view.lib;
 
 import android.graphics.Rect;
 import android.view.MotionEvent;

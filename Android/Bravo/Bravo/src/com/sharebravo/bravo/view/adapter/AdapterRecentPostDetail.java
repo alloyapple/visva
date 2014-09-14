@@ -91,6 +91,8 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     EditText             textboxComment;
     Button               btnSubmitComment;
     TextView             btnSave;
+    TextView             txtLikeNumber;
+    TextView             txtCommentNumber;
     TextView             btnShare;
     boolean              isSave;
     TextView             btnReport;
@@ -116,6 +118,8 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnFollow = (Button) convertView.findViewById(R.id.btn_follow);
                 btnSave = (TextView) convertView.findViewById(R.id.btn_save);
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
+                txtLikeNumber = (TextView) convertView.findViewById(R.id.txtView_like_number);
+                txtCommentNumber = (TextView) convertView.findViewById(R.id.txtView_comment_number);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
                 mapFragment = (FragmentMapViewCover) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
                 if (mapFragment == null) {
@@ -139,6 +143,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 layoutMapview.setVisibility(View.INVISIBLE);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, false);
             }
+            txtCommentNumber.setText(""+bravoObj.Total_Comments);
             contentPost.setText(bravoObj.Spot_Name);
             String avatarUrl = bravoObj.Profile_Img_URL;
             AIOLog.d("obGetBravo.Profile_Img_URL: " + bravoObj.Profile_Img_URL);

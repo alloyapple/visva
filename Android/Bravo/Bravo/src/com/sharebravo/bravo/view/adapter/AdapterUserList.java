@@ -58,7 +58,7 @@ public class AdapterUserList extends BaseAdapter {
         if (mLayoutInflater == null)
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
        // if (convertView == null)
-            convertView = mLayoutInflater.inflate(R.layout.row_user_list, parent);
+            convertView = mLayoutInflater.inflate(R.layout.row_user_list, null);
 
         holder = new ViewHolder();
         holder._userAvatar = (ImageView) convertView.findViewById(R.id.image_user_search);

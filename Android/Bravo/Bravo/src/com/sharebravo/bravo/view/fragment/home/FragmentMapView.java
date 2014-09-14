@@ -14,8 +14,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +30,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 
 public class FragmentMapView extends SupportMapFragment implements LocationListener {
     public static final int  MAKER_BY_LOCATION_SPOT = 0;
@@ -40,12 +45,14 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
     private TouchableWrapper mTouchView;
     Location                 location               = null;
     LocationManager          locationManager        = null;
+    Button                   btnBack                = null;
+    HomeActionListener       mHomeActionListener    = null;
 
     // private HomeActionListener mHomeActionListener = null;
     //
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        mOriginalContentView = super.onCreateView(inflater, parent, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mOriginalContentView = super.onCreateView(inflater, container, savedInstanceState);
         mTouchView = new TouchableWrapper(getActivity());
         mTouchView.addView(mOriginalContentView);
         if (typeMaker == MAKER_BY_LOCATION_SPOT) {
@@ -67,7 +74,19 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
         }
 
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
-        return mTouchView;
+        mHomeActionListener = (HomeActivity) getActivity();
+        LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
+        btnBack = (Button) mView.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                mHomeActionListener.goToBack();
+            }
+        });
+        mView.addView(mTouchView);
+        return mView;
     }
 
     @Override
@@ -77,7 +96,7 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
         if (!hidden) {
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
-            } else if (typeMaker == MAKER_BY_LOCATION_USER) {
+            } else if (typeMaker == MAKER_BY_LOCATION_USER && location != null) {
                 double latitude = location.getLatitude();
                 // Getting longitude
                 double longitude = location.getLongitude();
@@ -188,10 +207,10 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
     @Override
     public void onLocationChanged(Location arg0) {
         // TODO Auto-generated method stub
-        double latitude = location.getLatitude();
+        double latitude = arg0.getLatitude();
 
         // Getting longitude
-        double longitude = location.getLongitude();
+        double longitude = arg0.getLongitude();
         if (typeMaker == MAKER_BY_LOCATION_USER)
             changeLocation(latitude, longitude);
     }
