@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
@@ -19,6 +20,7 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
+import com.sharebravo.bravo.model.response.ObGetLiked;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -36,6 +38,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     private ObBravo            bravoObj           = null;
     private ObGetComments      mObGetComments     = null;
     private ImageLoader        mImageLoader       = null;
+    private ObGetLiked         mObGetLiked        = new ObGetLiked();
     FragmentRecentPostDetail   fragment;
     // FragmentTransaction transaction;
     private SessionLogin       mSessionLogin      = null;
@@ -97,8 +100,17 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     boolean              isSave;
     TextView             btnReport;
     FragmentMapViewCover mapFragment;
+    Button               btnLiked;
+    ImageView            iconLiked;
+    TextView             txtNumberLiked;
+    Button               btnSaved;
+    ImageView            iconSaved;
+    TextView             txtNumberSaved;
     FrameLayout          layoutMapview = null;
     FragmentTransaction  fragmentTransaction;
+    ImageView            btnChooseImage;
+    LinearLayout         layoutLiked;
+    LinearLayout         layoutSaved;
     boolean              isShowMap     = false;
 
     @Override
@@ -121,12 +133,32 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 txtLikeNumber = (TextView) convertView.findViewById(R.id.txtView_like_number);
                 txtCommentNumber = (TextView) convertView.findViewById(R.id.txtView_comment_number);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
+                btnLiked = (Button) convertView.findViewById(R.id.btn_liked);
+                iconLiked = (ImageView) convertView.findViewById(R.id.icon_liked);
+                txtNumberLiked = (TextView) convertView.findViewById(R.id.total_liked);
+                layoutLiked = (LinearLayout) convertView.findViewById(R.id.layout_liked);
+
+                btnSaved = (Button) convertView.findViewById(R.id.btn_saved);
+                iconSaved = (ImageView) convertView.findViewById(R.id.icon_saved);
+                txtNumberSaved = (TextView) convertView.findViewById(R.id.total_saved);
+                layoutSaved = (LinearLayout) convertView.findViewById(R.id.layout_saved);
+
+                btnChooseImage = (ImageView) convertView.findViewById(R.id.img_picture_choose);
+
                 mapFragment = (FragmentMapViewCover) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
                 if (mapFragment == null) {
                     mapFragment = new FragmentMapViewCover();
                     fragmentTransaction.add(R.id.img_map, mapFragment).commit();
                 }
             }
+            btnChooseImage.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    // TODO Auto-generated method stub
+                    listener.choosePicture();
+                }
+            });
             imagePost.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -143,7 +175,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 layoutMapview.setVisibility(View.INVISIBLE);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, false);
             }
-            txtCommentNumber.setText(""+bravoObj.Total_Comments);
+            txtCommentNumber.setText("" + bravoObj.Total_Comments);
             contentPost.setText(bravoObj.Spot_Name);
             String avatarUrl = bravoObj.Profile_Img_URL;
             AIOLog.d("obGetBravo.Profile_Img_URL: " + bravoObj.Profile_Img_URL);
@@ -195,10 +227,14 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             {
                 followIcon.setVisibility(View.GONE);
                 btnFollow.setVisibility(View.GONE);
+                layoutLiked.setVisibility(View.VISIBLE);
+                layoutSaved.setVisibility(View.VISIBLE);
             }
             else {
                 followIcon.setVisibility(View.VISIBLE);
                 btnFollow.setVisibility(View.VISIBLE);
+                layoutLiked.setVisibility(View.GONE);
+                layoutSaved.setVisibility(View.GONE);
             }
             btnSave.setOnClickListener(new OnClickListener() {
 
@@ -327,6 +363,15 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     }
 
     public void updateCommentList() {
+        notifyDataSetChanged();
+    }
+
+    public ObGetLiked getmObGetLiked() {
+        return mObGetLiked;
+    }
+
+    public void updateLikedandSaved(ObGetLiked mObGetLiked) {
+        this.mObGetLiked = mObGetLiked;
         notifyDataSetChanged();
     }
 

@@ -1,22 +1,29 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -65,7 +72,10 @@ public class FragmentCoverImage extends FragmentBasic {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-
+                Bitmap bitmap = Bitmap.createBitmap(coverImage.getWidth(), coverImage.getHeight(), Bitmap.Config.RGB_565);
+                Canvas canvas = new Canvas(bitmap);
+                coverImage.draw(canvas);
+                saveImage(bitmap);
             }
         });
         btnClose = (Button) root.findViewById(R.id.btn_close_cover);
@@ -213,5 +223,28 @@ public class FragmentCoverImage extends FragmentBasic {
         dialog.setContentView(dialog_view);
 
         dialog.show();
+    }
+
+    public void saveImage(final Bitmap finalBitmap) {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/bravo_image");
+        myDir.mkdirs();
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        String fname = "Bravo-" + mObBravo.Bravo_ID + ".png";
+        File file = new File(myDir, fname);
+        if (file.exists())
+            file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getActivity(), "Bravo Saved", Toast.LENGTH_LONG).show();
     }
 }

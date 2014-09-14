@@ -362,6 +362,15 @@ public class AdapterUserDataProfile extends BaseAdapter {
                     }
                 }
             });
+            btnImgCover.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (isMyData) {
+                        mListener.requestUserImageType(USER_COVER_ID);
+                    }
+                }
+            });
 
             imgUserAvatar.setOnClickListener(new View.OnClickListener() {
 

@@ -1,6 +1,5 @@
 package com.sharebravo.bravo.view.adapter;
 
-
 public interface DetailPostListener {
     public void goToCallSpot();
 
@@ -15,9 +14,11 @@ public interface DetailPostListener {
     public void goToReport();
 
     public void goToFollow(boolean isFollow);
-    
+
     public void goToUserDataTab(String useId);
 
     public void goToCoverImage();
+
+    public void choosePicture();
 
 }

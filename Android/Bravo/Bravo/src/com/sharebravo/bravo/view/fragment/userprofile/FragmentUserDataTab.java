@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
@@ -228,7 +229,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         AIOLog.d("BravoConstant.STATUS_SUCCESS");
                         AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
                         mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
-
+                        mListViewUserPostProfile.resetHeader();
+                        mListViewUserPostProfile.setSelection(1);
                         requestGetUserTimeLine(foreignID);
                         requestGetBlockingCheck();
                         requestGetFollowingCheck();
@@ -395,6 +397,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 ObPutFollowing obPutFollowing;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
                     mAdapterUserDataProfile.updateFollow(true);
+                    showDialogFollowingOK();
                 } else {
                     obPutFollowing = gson.fromJson(response.toString(), ObPutFollowing.class);
                     showToast(obPutFollowing.error);
@@ -588,6 +591,35 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     public void getUserFollower() {
+    }
+
+    public void showDialogFollowingOK() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_following, null);
+        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
+        TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
+        txtContent.setText(getActivity().getResources().getString(R.string.content_following).replace("%s%", mObGetUserInfo.data.Full_Name));
+        btnOK.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialog.show();
     }
 
     private void showDialogChooseImage(int userImageType) {
@@ -860,7 +892,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 if (BravoConstant.STATUS_SUCCESS == obUserImagePost.status) {
                     mObGetUserInfo.data.Profile_Img_URL = obUserImagePost.data.Profile_Img_URL;
                     mObGetUserInfo.data.Cover_Img_URL = obUserImagePost.data.Cover_Img_URL;
-                    mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData); 
+                    mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
                 }
             }
 

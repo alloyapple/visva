@@ -23,7 +23,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_MYLIST_ITEM                  = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylist/{Bravo_ID}";
     public static final String URL_GET_NEWS                         = URL_BRAVO_BASE + "/news/{News_ID}?User_ID={str}&Access_Token={str}";
-    public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                            /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
+    public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                          /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
     public static final String URL_GET_SPOT                         = URL_BRAVO_BASE + "/spot/{Spot_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_SPOT_SEARCH                  = URL_BRAVO_BASE
                                                                             + "/spot?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
@@ -54,7 +54,8 @@ public class BravoWebServiceConfig {
     public static final String URL_POST_SPOTS                       = URL_BRAVO_BASE + "/spot?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_USER                        = URL_BRAVO_BASE + "/user";
     public static final String URL_POST_FORGOT                      = URL_BRAVO_BASE + "/forgot";
-    public static final String URL_PUT_BLOCKING                     = URL_BRAVO_BASE + "/user/{User_ID}/blocking?User_ID={User_ID}&Access_Token={Access_Token}";
+    public static final String URL_PUT_BLOCKING                     = URL_BRAVO_BASE
+                                                                            + "/user/{User_ID}/blocking?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_PUT_FOLLOWING                    = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/following?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_PUT_MYLIST                       = URL_BRAVO_BASE
@@ -73,7 +74,8 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/blocking/{User_ID_Other}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_BRAVO_PIC                 = URL_BRAVO_BASE
                                                                             + "/bravo/{Bravo_ID}/pic/{Pic_Index}?User_ID={str}&Access_Token={str}";
-    public static final String URL_DELETE_COMMENT                   = URL_BRAVO_BASE + "/comment/{Comment_ID}?User_ID={str}&Access_ToUser_IDken={str}";
+    public static final String URL_DELETE_COMMENT                   = URL_BRAVO_BASE
+                                                                            + "/comment/{Comment_ID}?User_ID={str}&Access_ToUser_IDken={str}";
     public static final String URL_DELETE_FOLLOWING                 = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/following/{User_ID_Other}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_MYLIST                    = URL_BRAVO_BASE
@@ -88,4 +90,14 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/sns/{SNS_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_DELETE_USER                      = "https://dev.sharebravo.com/user/{User_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
     // public static final String URL_POST_BRAVO = URL_BRAVO_BASE+"/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
+
+    public static final String URL_GET_LIKED_SAVED                  = URL_BRAVO_BASE + "/spot/{Spot_ID}?User_ID={str}&Access_Token={str}";
+    public static final String URL_PUT_LIKE                         = URL_BRAVO_BASE
+                                                                            + "/user/{User_ID}/mylikelist?User_ID={User_ID}&Access_Token={Access_Token}";
+    public static final String URL_DELETE_LIKE                      = URL_BRAVO_BASE
+                                                                            + "/user/{User_ID}/mylikelist/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
+    public static final String URL_GET_LIKED_LIST                   = URL_BRAVO_BASE
+                                                                            + "/user/{Spot_ID}/liking?User_ID={User_ID}&Access_Token={Access_Token}";
+    public static final String URL_GET_SAVE_LIST                    = URL_BRAVO_BASE
+                                                                            + "/user/{Spot_ID}/saving?User_ID={User_ID}&Access_Token={Access_Token}";
 }

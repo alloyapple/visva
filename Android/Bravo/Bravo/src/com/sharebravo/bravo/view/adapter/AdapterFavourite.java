@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.FloatMath;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,10 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
 public class AdapterFavourite extends BaseAdapter {
+    private boolean            isSortByDate              = true;
     private ArrayList<ObBravo> mObGetAllBravoRecentPosts = new ArrayList<ObBravo>();
     private ImageLoader        mImageLoader              = null;
-
+    private double             mLat, mLong;
     private Context            mContext;
     private LayoutInflater     mLayoutInflater;
 
@@ -105,19 +107,24 @@ public class AdapterFavourite extends BaseAdapter {
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.bg_home_cover);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, holder._recentPostImage, false);
             }
-
-            long createdTime = 0;
-            if (obGetBravo.Date_Created == null)
-                createdTime = 0;
-            else
-                createdTime = obGetBravo.Date_Created.getSec();
-            if (createdTime == 0) {
-                holder._recentPostTime.setText("Unknown");
+            if (isSortByDate) {
+                long createdTime = 0;
+                if (obGetBravo.Date_Created == null)
+                    createdTime = 0;
+                else
+                    createdTime = obGetBravo.Date_Created.getSec();
+                if (createdTime == 0) {
+                    holder._recentPostTime.setText("Unknown");
+                } else {
+                    String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+                    holder._recentPostTime.setText(createdTimeConvertStr);
+                    AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
+                    AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
+                }
             } else {
-                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
-                holder._recentPostTime.setText(createdTimeConvertStr);
-                AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
-                AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
+                Double distance = gps2m((float) mLat, (float) mLong, (float) obGetBravo.Spot_Latitude, (float) obGetBravo.Spot_Longitude);
+                String result = String.format("%.1f", distance);
+                holder._recentPostTime.setText(result+"km");
             }
             AIOLog.d("obGetBravo.Total_Comments: " + obGetBravo.Total_Comments + "  holder._totalComment : " + holder._totalComment);
             if (obGetBravo.Total_Comments <= 0) {
@@ -139,7 +146,10 @@ public class AdapterFavourite extends BaseAdapter {
         TextView  _totalComment;
     }
 
-    public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
+    public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isSortByDate, Double _lat, Double _long) {
+        this.isSortByDate = isSortByDate;
+        mLat = _lat;
+        mLong = _long;
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + obGetAllBravoRecentPosts.data.size());
         ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
         mObGetAllBravoRecentPosts = newObBravos;
@@ -176,5 +186,21 @@ public class AdapterFavourite extends BaseAdapter {
     public void remove(int position) {
         mObGetAllBravoRecentPosts.remove(position);
         notifyDataSetChanged();
+    }
+
+    private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
+        float pk = (float) (180 / 3.14169);
+
+        float a1 = lat_a / pk;
+        float a2 = lng_a / pk;
+        float b1 = lat_b / pk;
+        float b2 = lng_b / pk;
+
+        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
+        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
+        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
+        double tt = Math.acos(t1 + t2 + t3);
+
+        return 6366000 * tt / 1000;
     }
 }
