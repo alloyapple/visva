@@ -3,7 +3,6 @@ package com.sharebravo.bravo.view.fragment.userprofile;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -35,16 +34,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
 import com.sharebravo.bravo.model.response.ObGetBlockingCheck;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
@@ -163,7 +161,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
             location = locationManager.getLastKnownLocation(provider);
@@ -606,9 +603,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
-
             }
         });
         dialog.setContentView(dialog_view);
@@ -783,17 +778,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             requestToPutBlock();
         else
             requestDeleteBlock();
-    }
-
-    private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
-        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
-        for (ObBravo obBravo : bravoItems) {
-            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
-                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
-            } else
-                obBravos.add(obBravo);
-        }
-        return obBravos;
     }
 
     @Override

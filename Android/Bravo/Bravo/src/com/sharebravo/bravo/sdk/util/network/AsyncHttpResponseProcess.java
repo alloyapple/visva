@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.util.DialogUtility;
-import com.sharebravo.bravo.sdk.util.VisvaDialog;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 /**
