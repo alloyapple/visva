@@ -40,10 +40,10 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterFavourite;
 import com.sharebravo.bravo.view.adapter.AdapterFavourite.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sharebravo.bravo.view.lib.ContextualUndoAdapter;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
 import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
-import com.sharebravo.bravo.view.lib.ContextualUndoAdapter;
 
 public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar, LocationListener {
     // =======================Constant Define==============

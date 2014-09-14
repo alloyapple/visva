@@ -1,7 +1,5 @@
 package com.sharebravo.bravo.sdk.util.network;
 
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,16 +82,5 @@ public class ParserUtility {
 		} catch (JSONException e) {
 			return false;
 		}
-	}
-
-	public static String JsonDateToDate(String jsonDate) {
-		// "/Date(1321867151710)/"
-		int idx1 = jsonDate.indexOf("(");
-		int idx2 = jsonDate.indexOf(")");
-		String s = jsonDate.substring(idx1 + 1, idx2);
-		long l = Long.valueOf(s);
-		Date result = new Date(l);
-		int Year = result.getYear() + 1900;
-		return result.getDate() + "/" + result.getMonth() + "/" + Year;
 	}
 }
