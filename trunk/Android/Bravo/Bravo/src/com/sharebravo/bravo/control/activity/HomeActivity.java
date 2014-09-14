@@ -439,6 +439,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentRecentPostDetail);
         } else if (currentView.equals(FRAGMENT_SETTINGS) || currentView.equals(FRAGMENT_FAVOURITE)) {
             mTransaction.show(mFragmentUserDataTab);
+            mFragmentUserDataTab.getUserInfo("");
         } else if (currentView.equals(FRAGMENT_TERM_OF_USE) || currentView.equals(FRAGMENT_UPDATE_USER_INFO)
                 || currentView.equals(FRAGMENT_SHARE_WITH_FRIENDS)) {
             mTransaction.show(mFragmentSetting);

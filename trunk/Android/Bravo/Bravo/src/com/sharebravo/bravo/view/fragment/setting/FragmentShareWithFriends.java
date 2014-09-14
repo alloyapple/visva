@@ -64,7 +64,6 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
 
             @Override
             public boolean onEditorAction(TextView arg0, int actionId, KeyEvent arg2) {
-                // TODO Auto-generated method stub
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String keySearch = textboxSearch.getEditableText().toString();
                     if (!keySearch.equals(""))
@@ -80,8 +79,21 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
+            }
+        });
+        mListviewUser.setOnLoadMoreListener(new IOnLoadMoreListener() {
+
+            @Override
+            public void onLoadMore() {
+                mListviewUser.onLoadMoreComplete();
+            }
+        });
+        mListviewUser.setOnRefreshListener(new IOnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                mListviewUser.onRefreshComplete();
             }
         });
         return root;
