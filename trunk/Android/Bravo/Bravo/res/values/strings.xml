@@ -105,6 +105,8 @@
     <string name="btn_view_map">View Map</string>
     <string name="btn_follow">Follow</string>
     <string name="btn_favorites">Favorites</string>
+    <string name="btn_liked">Liked</string>
+    <string name="btn_saved">Saved</string>
     <string name="btn_save">Save</string>
     <string name="btn_share">Share</string>
     <string name="hint_input_comment">Write a comment ...</string>
@@ -122,6 +124,8 @@
     <string name="dialog_report_oki_content_1 ">You have submitted a report for inappropriate content.</string>
     <string name="dialog_report_oki_content_2">Thank you for your report.</string>
     <string name="dialog_report_close">Close</string>
+    <string name="btn_ok">OK</string>
+    <string name="content_following">You are following %s%</string>
     <!-- +++++ -->
 
 
@@ -169,5 +173,10 @@
     <string name="pull_to_refresh_release_label">Release to refresh&#8230;</string>
     <string name="pull_to_refresh_refreshing_label">Loading&#8230;</string>
     <string name="pull_to_refresh_tap_label">Tap to refresh&#8230;</string>
+    <!-- Search Tab -->
+    <string name="text_quick_search">Local Bravos</string>
+    <string name="text_local_bravo">Local Bravos</string>
+    <string name="text_around_me">Around me</string>
+    <string name="text_people_following">People I\'m following</string>
 
 </resources>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,52 +12,36 @@
         android:background="@drawable/all_corner"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/stop_following_dialog_content"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="20dp"
-            android:text="@string/dialog_stop_following_msg"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp"
+            android:background="@drawable/flower_loop"
+            android:contentDescription="@string/app_name" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/devider_color"
-            android:contentDescription="@string/login" />
-
-        <LinearLayout
+        <TextView android:id="@+id/txt_following_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/content_following"
+            android:textColor="@color/black" />
 
-            <Button
-                android:id="@+id/btn_stop_following_no"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bottom_left_corner_button"
-                android:padding="15dp"
-                android:text="@string/btn_no" />
-
-            <ImageView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/devider_color"
-                android:contentDescription="@string/login" />
-
-            <Button
-                android:id="@+id/btn_stop_following_yes"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bottom_right_corner_button"
-                android:padding="15dp"
-                android:text="@string/btn_yes" >
-            </Button>
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_start"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="@string/btn_ok"
+            android:textColor="@color/white" />
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

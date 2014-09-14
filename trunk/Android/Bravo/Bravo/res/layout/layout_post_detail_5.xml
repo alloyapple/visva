@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_liked"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal" >
 
         <ImageView
-            android:id="@+id/icon_bravo_map"
+            android:id="@+id/icon_liked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_bravo_map"
+            android:background="@drawable/ic_btn_like"
             android:contentDescription="@string/app_name" />
 
         <Button
-            android:id="@+id/btn_bravo_map"
+            android:id="@+id/btn_liked"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icon_liked"
             android:background="@drawable/bt_follow"
             android:gravity="center"
-            android:text="@string/btn_bravo_map"
+            android:text="@string/btn_liked"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/total_liked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="0"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"
             android:textStyle="bold" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

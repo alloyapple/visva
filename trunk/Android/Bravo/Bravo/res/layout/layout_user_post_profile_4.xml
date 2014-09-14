@@ -17,14 +17,14 @@
             android:id="@+id/icon_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bravo_map"
+            android:background="@drawable/icon_favorites_off"
             android:contentDescription="@string/app_name" />
 
         <Button
             android:id="@+id/btn_favorites"
-            android:layout_toRightOf="@id/icon_follow"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/icon_follow"
             android:background="@drawable/bt_follow"
             android:gravity="center"
             android:text="@string/btn_favorites"
@@ -37,9 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
             android:text="0"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginRight="20dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </RelativeLayout>

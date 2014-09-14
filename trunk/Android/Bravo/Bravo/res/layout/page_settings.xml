@@ -1,484 +1,491 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/actionbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/navigation_background"
         android:orientation="vertical" >
 
-        <RelativeLayout
-            android:id="@+id/actionbar"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/navigation_background"
-            android:orientation="vertical" >
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/back_button"
+            android:gravity="center"
+            android:paddingLeft="@dimen/back_btn_margin_left"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/com_facebook_loginview_text_size" />
+    </RelativeLayout>
 
-            <Button
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
-                android:background="@drawable/back_button"
-                android:gravity="center"
-                android:paddingLeft="@dimen/back_btn_margin_left"
-                android:text="@string/back"
-                android:textColor="@color/white"
-                android:textSize="@dimen/com_facebook_loginview_text_size" />
-        </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:background="@color/white"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/text_account"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/account"
-                android:textColor="@color/grey_3"
-                android:textStyle="bold" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
+                <TextView
+                    android:id="@+id/text_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/account"
+                    android:textColor="@color/grey_3"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/text_edit_profile"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_edit_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/edit_profile"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DAD9DC" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/edit_profile"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical" >
 
-            <TextView
+                <TextView
+                    android:id="@+id/text_friends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                    android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                    android:text="@string/friends"
+                    android:textColor="@color/grey_3"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_share_friends"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/share_with_friends"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DAD9DC" />
+            </LinearLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/text_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                    android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                    android:text="@string/share"
+                    android:textColor="@color/grey_3"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_separatte_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/text_share"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_post_on_facebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/facebook_logo"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/post_on_facebook"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <com.facebook.widget.ToggleButtonLogin
+                    android:id="@+id/toggle_btn_post_on_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:enabled="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/text_post_on_facebook"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_post_on_twitter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_2"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/twitter_logo"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/post_on_twitter"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_btn_post_on_twitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_2"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:enabled="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/toggle_btn_post_on_twitter"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_post_on_4square"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_3"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/foursquare_logo"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/post_on_foursquare"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_btn_post_on_4square"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_3"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/toggle_btn_post_on_4square"
+                    android:background="#DAD9DC" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/text_notification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
+                    android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
+                    android:text="@string/notifications"
+                    android:textColor="@color/grey_3"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/text_separatte_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/text_notification"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_comment_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_5"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/comment_notifications"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_btn_comment_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_5"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/toggle_btn_comment_notifications"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_follow_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_6"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/follow_notifications"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_btn_follow_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_6"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/toggle_btn_follow_notifications"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_favourite_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_7"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/favourite_notifications"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_btn_favourite_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_7"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/toggle_btn_favourite_notifications"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_total_bravo_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_8"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/total_bravo_notifications"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_btn_total_bravo_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_8"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_9"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/toggle_btn_total_bravo_notifications"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_bravo_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_separatte_9"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/bravo_notifications"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ToggleButton
+                    android:id="@+id/toggle_btn_bravo_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/text_separatte_9"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/switch_btn"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <TextView
+                    android:id="@+id/text_separatte_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/toggle_btn_bravo_notifications"
+                    android:background="#DAD9DC" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_term_of_use"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/term_of_use"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DAD9DC" />
+
+                <TextView
+                    android:id="@+id/text_delete_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/delete_my_account"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DAD9DC" />
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/text_friends"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="@string/friends"
-                android:textColor="@color/grey_3"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_share_friends"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/share_with_friends"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/text_share"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="@string/share"
-                android:textColor="@color/grey_3"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/text_separatte_1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/text_share"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_post_on_facebook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_1"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/facebook_logo"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/post_on_facebook"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <com.facebook.widget.ToggleButtonLogin
-                android:id="@+id/toggle_btn_post_on_facebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_1"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:enabled="true"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/text_post_on_facebook"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_post_on_twitter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_2"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/twitter_logo"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/post_on_twitter"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <ToggleButton
-                android:id="@+id/toggle_btn_post_on_twitter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_2"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:enabled="true"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/toggle_btn_post_on_twitter"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_post_on_4square"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_3"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/foursquare_logo"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/post_on_foursquare"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <ToggleButton
-                android:id="@+id/toggle_btn_post_on_4square"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_3"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/toggle_btn_post_on_4square"
-                android:background="#DAD9DC" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/text_notification"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
-                android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                android:text="@string/notifications"
-                android:textColor="@color/grey_3"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/text_separatte_5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/text_notification"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_comment_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_5"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/comment_notifications"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <ToggleButton
-                android:id="@+id/toggle_btn_comment_notifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_5"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:checked="true"
-                android:enabled="true"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_6"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/toggle_btn_comment_notifications"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_follow_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_6"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/follow_notifications"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <ToggleButton
-                android:id="@+id/toggle_btn_follow_notifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_6"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:checked="true"
-                android:enabled="true"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_7"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/toggle_btn_follow_notifications"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_favourite_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_7"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/favourite_notifications"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <ToggleButton
-                android:id="@+id/toggle_btn_favourite_notifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_7"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:checked="true"
-                android:enabled="true"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_8"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/toggle_btn_favourite_notifications"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_total_bravo_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_8"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/total_bravo_notifications"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <ToggleButton
-                android:id="@+id/toggle_btn_total_bravo_notifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_8"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:checked="true"
-                android:enabled="true"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_9"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/toggle_btn_total_bravo_notifications"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_bravo_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_separatte_9"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="15dp"
-                android:gravity="center_vertical"
-                android:text="@string/bravo_notifications"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <ToggleButton
-                android:id="@+id/toggle_btn_bravo_notifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/text_separatte_9"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/switch_btn"
-                android:checked="true"
-                android:enabled="true"
-                android:textOff=""
-                android:textOn="" />
-
-            <TextView
-                android:id="@+id/text_separatte_10"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/toggle_btn_bravo_notifications"
-                android:background="#DAD9DC" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_term_of_use"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/term_of_use"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
-
-            <TextView
-                android:id="@+id/text_delete_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/delete_my_account"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DAD9DC" />
-        </LinearLayout>
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
