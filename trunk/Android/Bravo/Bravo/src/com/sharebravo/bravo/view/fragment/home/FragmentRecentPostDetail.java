@@ -1,5 +1,7 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.io.File;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,10 +10,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +40,7 @@ import com.sharebravo.bravo.model.response.ObDeleteMylist;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
+import com.sharebravo.bravo.model.response.ObGetLiked;
 import com.sharebravo.bravo.model.response.ObGetMylistItem;
 import com.sharebravo.bravo.model.response.ObPostComment;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
@@ -56,6 +63,10 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
 
 public class FragmentRecentPostDetail extends FragmentBasic implements DetailPostListener {
+    private static final int        REQUEST_CODE_CAMERA      = 2001;
+    private static final int        REQUEST_CODE_GALLERY     = 2002;
+
+    private Uri                     mCapturedImageURI        = null;
     private PullAndLoadListView     listviewRecentPostDetail = null;
     private AdapterRecentPostDetail adapterRecentPostDetail  = null;
 
@@ -112,8 +123,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     public void setBravoOb(ObBravo obj) {
         this.bravoObj = obj;
-        FragmentMapViewCover.mLat = Double.parseDouble(bravoObj.Spot_Latitude);
-        FragmentMapViewCover.mLong = Double.parseDouble(bravoObj.Spot_Longitude);
+        FragmentMapViewCover.mLat = bravoObj.Spot_Latitude;
+        FragmentMapViewCover.mLong = bravoObj.Spot_Longitude;
         adapterRecentPostDetail.setBravoOb(bravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
 
@@ -292,6 +303,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 ObPutFollowing obPutFollowing;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
                     adapterRecentPostDetail.updateFollowing(true);
+                    showDialogFollowingOK();
                 } else {
                     obPutFollowing = gson.fromJson(response.toString(), ObPutFollowing.class);
                     showToast(obPutFollowing.error);
@@ -334,6 +346,33 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             }
         }, params, true);
         getMyListItemRequest.execute(url);
+    }
+
+    private void requestGetLiked() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_GET_LIKED_SAVED.replace("{Spot_ID}", bravoObj.Bravo_ID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
+        AsyncHttpGet getLikedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("getLikedRequest:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetLiked obGetLiked;
+                obGetLiked = gson.fromJson(response.toString(), ObGetLiked.class);
+                if (obGetLiked == null)
+                    return;
+                else {
+                    adapterRecentPostDetail.updateLikedandSaved(obGetLiked);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getLikedRequest.execute(url);
     }
 
     private void requestDeleteMyListItem(ObBravo obBravo) {
@@ -562,7 +601,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToFragment(int fragmentID) {
         if (fragmentID == HomeActivity.FRAGMENT_MAP_VIEW_ID) {
-            mHomeActionListener.goToMapView(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude, FragmentMapView.MAKER_BY_LOCATION_SPOT);
+            mHomeActionListener.goToMapView(String.valueOf(bravoObj.Spot_Latitude), String.valueOf(bravoObj.Spot_Longitude),
+                    FragmentMapView.MAKER_BY_LOCATION_SPOT);
             return;
         }
         mHomeActionListener.goToFragment(fragmentID);
@@ -717,6 +757,93 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         dialog.show();
     }
 
+    public void showDialogFollowingOK() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_following, null);
+        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
+        TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
+        txtContent.setText(getActivity().getResources().getString(R.string.content_following).replace("%s%", bravoObj.Full_Name));
+        btnOK.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialog.show();
+    }
+
+    private void showDialogChooseImage() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
+        btnTakeAPicture.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // when user click camera to get image
+                try {
+                    String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                } catch (Exception e) {
+                    AIOLog.e("exception:" + e.getMessage());
+                }
+                dialog.dismiss();
+
+            }
+        });
+        Button btnChooseFromLibrary = (Button) dialog_view.findViewById(R.id.btn_choose_from_library);
+        btnChooseFromLibrary.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // when user click gallery to get image
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
+                dialog.dismiss();
+            }
+        });
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_choose_picture_cancel);
+        btnCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
+    }
+
     public void showDialogReport() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -742,6 +869,81 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         });
         dialog.setContentView(dialog_view);
         dialog.show();
+    }
+
+    @SuppressWarnings("static-access")
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        AIOLog.d("requestCode:" + requestCode + ", resultCode:" + resultCode + ", data:" + data);
+        switch (requestCode) {
+        case REQUEST_CODE_CAMERA:
+            if (resultCode == getActivity().RESULT_OK) {
+                if (mCapturedImageURI == null) {
+                    AIOLog.d("mCapturedImageURI is null");
+                    if (data == null || data.getExtras() == null)
+                        return;
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    if (photo == null)
+                        return;
+                    else {
+                        // postUpdateUserProfile(photo, mUserImageType);
+                        return;
+                    }
+                }
+
+                String[] projection = { MediaStore.Images.Media.DATA };
+                Cursor cursor = getActivity().getContentResolver().query(mCapturedImageURI, projection, null, null, null);
+                if (cursor == null) {
+                    AIOLog.d("cursor is null");
+                    return;
+                }
+                int column_index_data = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+
+                // THIS IS WHAT YOU WANT!
+                String capturedImageFilePath = cursor.getString(column_index_data);
+
+                File file = new File(capturedImageFilePath);
+                String imagePath = capturedImageFilePath;
+                if (file.exists()) {
+                    Uri fileUri = Uri.fromFile(file);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
+                    // Bitmap bmp;
+                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    // postUpdateUserProfile(bmp, mUserImageType);
+                }
+            }
+            break;
+        case REQUEST_CODE_GALLERY:
+            if (resultCode == getActivity().RESULT_OK) {
+                AIOLog.d("data=" + data);
+                if (data == null) {
+                    AIOLog.d("Opps!Can not get data from gallery.");
+                    return;
+                }
+
+                Uri uri = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String imagePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                File file = new File(imagePath);
+                if (file.exists()) {
+                    Uri fileUri = Uri.fromFile(file);
+                    int orientation = BravoUtils.checkOrientation(fileUri);
+                    // Bitmap bmp;
+                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    // postUpdateUserProfile(bmp, mUserImageType);
+                } else {
+                    AIOLog.d("file don't exist !");
+                }
+            }
+            break;
+        default:
+            return;
+        }
     }
 
     @Override
@@ -778,5 +980,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToUserDataTab(String useId) {
         mHomeActionListener.goToUserData(useId);
+    }
+
+    @Override
+    public void choosePicture() {
+        // TODO Auto-generated method stub
+        showDialogChooseImage();
     }
 }

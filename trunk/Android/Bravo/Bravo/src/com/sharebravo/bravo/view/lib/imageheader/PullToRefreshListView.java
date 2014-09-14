@@ -99,7 +99,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // header
-        mRefreshView = (RelativeLayout) mInflater.inflate(R.layout.pull_to_refresh_header, this, false);
+        mRefreshView = (RelativeLayout) mInflater.inflate(R.layout.pull_to_refresh_header_cover, this, false);
         mRefreshViewText = (TextView) mRefreshView.findViewById(R.id.pull_to_refresh_text);
         mRefreshViewImage = (ImageView) mRefreshView.findViewById(R.id.pull_to_refresh_image);
         mRefreshViewProgress = (ProgressBar) mRefreshView.findViewById(R.id.pull_to_refresh_progress);
@@ -126,13 +126,13 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         // have to ask super to attach to window, otherwise it won't scroll in jelly bean.
 
         super.onAttachedToWindow();
-
+        resetHeader();
+        setSelection(1);
     }
 
     @Override
     public void setAdapter(ListAdapter adapter) {
         super.setAdapter(adapter);
-
         setSelection(1);
     }
 
@@ -249,7 +249,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     /**
      * Resets the header to the original state.
      */
-    private void resetHeader() {
+    public void resetHeader() {
         if (mRefreshState != TAP_TO_REFRESH) {
             mRefreshState = TAP_TO_REFRESH;
             resetHeaderPaddingToOriginalSize();
@@ -289,7 +289,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         // "Release to refresh..." and flip the arrow drawable.
         if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL && mRefreshState != REFRESHING) {
             if (firstVisibleItem == 0) {
-                mRefreshViewImage.setVisibility(View.VISIBLE);
+                // mRefreshViewImage.setVisibility(View.VISIBLE);
                 if ((mRefreshView.getBottom() >= mRefreshViewHeight + 20 || mRefreshView.getTop() >= 0) && mRefreshState != RELEASE_TO_REFRESH) {
                     // mRefreshViewText.setText(R.string.pull_to_refresh_release_label);
                     mRefreshViewImage.clearAnimation();
@@ -317,11 +317,12 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         if (mOnScrollListener != null) {
             mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
         }
+        
     }
 
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         mCurrentScrollState = scrollState;
-        mRefreshViewText.setVisibility(View.VISIBLE);
+        // mRefreshViewText.setVisibility(View.VISIBLE);
         if (mCurrentScrollState == SCROLL_STATE_IDLE) {
             mBounceHack = false;
         }
@@ -337,7 +338,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         mRefreshViewImage.setVisibility(View.GONE);
         // We need this hack, otherwise it will keep the previous drawable.
         mRefreshViewImage.setImageDrawable(null);
-        mRefreshViewProgress.setVisibility(View.VISIBLE);
+        // mRefreshViewProgress.setVisibility(View.VISIBLE);
 
         // Set refresh view text to the refreshing label
         // mRefreshViewText.setText(R.string.pull_to_refresh_refreshing_label);

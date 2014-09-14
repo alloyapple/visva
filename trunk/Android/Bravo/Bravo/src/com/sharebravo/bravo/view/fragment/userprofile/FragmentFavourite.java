@@ -1,13 +1,21 @@
 package com.sharebravo.bravo.view.fragment.userprofile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
+import android.app.Activity;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -37,7 +45,7 @@ import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
 import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 import com.sharebravo.bravo.view.lib.ContextualUndoAdapter;
 
-public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar {
+public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar, LocationListener {
     // =======================Constant Define==============
     // =======================Class Define=================
     private SessionLogin             mSessionLogin             = null;
@@ -46,6 +54,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
     // =======================Variable Define==============
     private Button                   mBtnSortByLocation;
     private Button                   mBtnSortByDate;
+    private Double                   mLat, mLong;
     private Button                   mBtnBack;
     private PullAndLoadListView      mFavouriteListView;
     private OnItemClickListener      iRecentPostClickListener  = new OnItemClickListener() {
@@ -57,25 +66,30 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                                                                                .get(position - 1));
                                                                    }
                                                                };
+    private boolean                  isSortByDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_favourite, container);
-
         mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
-
+        initLocation();
         return root;
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden)
-            requestUserFavouriteData();
+        if (!hidden) {
+            initLocation();
+            requestUserFavouriteSortByDate();
+            isSortByDate = true;
+            mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_2);
+            mBtnSortByLocation.setBackgroundResource(R.drawable.btn_save_1);
+        }
     }
 
-    private void requestUserFavouriteData() {
+    private void requestUserFavouriteSortByDate() {
         int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
         String userId = mSessionLogin.userID;
@@ -85,9 +99,14 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
             userId = "";
             accessToken = "";
         }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        // subParams.put("Location", String.valueOf(mLat)+","+String.valueOf(mLong));
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_USER_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetFavorites(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getGetFavourites = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestBravoNews:" + response);
@@ -100,7 +119,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
                     ArrayList<ObBravo> obBravos = BravoUtils.removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
                     mObGetAllBravoRecentPosts.data = obBravos;
-                    mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts);
+                    mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, true, mLat, mLong);
                     if (mFavouriteListView.getVisibility() == View.GONE)
                         mFavouriteListView.setVisibility(View.VISIBLE);
                 }
@@ -112,14 +131,60 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
             }
         }, params, true);
 
-        getLoginRequest.execute(url);
+        getGetFavourites.execute(url);
+
+    }
+
+    private void requestUserFavouriteSortByLocation() {
+        int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        AIOLog.d("mUserId:" + mSessionLogin.userID + ", mAccessToken:" + mSessionLogin.accessToken);
+        if (StringUtility.isEmpty(mSessionLogin.userID) || StringUtility.isEmpty(mSessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        subParams.put("Location", mLat + "," + mLong);
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetFavorites(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getGetFavourites = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                mObGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetAllBravoRecentPosts);
+                if (mObGetAllBravoRecentPosts == null)
+                    return;
+                else {
+                    AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
+                    ArrayList<ObBravo> obBravos = BravoUtils.removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
+                    mObGetAllBravoRecentPosts.data = obBravos;
+                    mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, false, mLat, mLong);
+                    if (mFavouriteListView.getVisibility() == View.GONE)
+                        mFavouriteListView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+
+        getGetFavourites.execute(url);
 
     }
 
     private void initializeView(View root) {
         mBtnBack = (Button) root.findViewById(R.id.btn_back);
         mBtnBack.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
                 mHomeActionListener.goToBack();
@@ -166,6 +231,32 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     mFavouriteListView.onRefreshComplete();
             }
         });
+        mBtnSortByDate.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                if (!isSortByDate) {
+                    isSortByDate = true;
+                    mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_2);
+                    mBtnSortByLocation.setBackgroundResource(R.drawable.btn_save_1);
+                    requestUserFavouriteSortByDate();
+                }
+            }
+        });
+        mBtnSortByLocation.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                if (isSortByDate) {
+                    isSortByDate = false;
+                    mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_1);
+                    mBtnSortByLocation.setBackgroundResource(R.drawable.btn_save_2);
+                    requestUserFavouriteSortByLocation();
+                }
+            }
+        });
     }
 
     private void onPullDownToRefreshBravoItems(ObBravo obBravo, boolean b) {
@@ -190,5 +281,47 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
             mAdapterFavourite.remove(position);
             mAdapterFavourite.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        // TODO Auto-generated method stub
+        mLat = location.getLatitude();
+        mLong = location.getLongitude();
+    }
+
+    public void initLocation() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
+        // Creating a criteria object to retrieve provider
+        Criteria criteria = new Criteria();
+        // Getting the name of the best provider
+        String provider = locationManager.getBestProvider(criteria, true);
+        // Getting Current Location
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location != null) {
+            onLocationChanged(location);
+        }
+        locationManager.requestLocationUpdates(provider, 20000, 0, this);
+        mLat = location.getLatitude();
+        mLong = location.getLongitude();
+
+    }
+
+    @Override
+    public void onProviderDisabled(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onProviderEnabled(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+        // TODO Auto-generated method stub
+
     }
 }
