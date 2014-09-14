@@ -5,20 +5,26 @@ import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class FragmentTermOfUse extends FragmentBasic {
 
-    private WebView mWebView;
+    private WebView            mWebView;
+    private Button             btnBack;
+    private HomeActionListener mHomeActionListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,6 +34,16 @@ public class FragmentTermOfUse extends FragmentBasic {
         mWebView.loadUrl(BravoWebServiceConfig.URL_BRAVO_RULE);
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        btnBack = (Button) root.findViewById(R.id.btn_back);
+        mHomeActionListener = (HomeActivity) getActivity();
+        btnBack.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                mHomeActionListener.goToBack();
+            }
+        });
         return root;
     }
 

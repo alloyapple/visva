@@ -11,7 +11,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetUserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -38,17 +41,18 @@ import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
 import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
 
 public class FragmentShareWithFriends extends FragmentBasic implements IClickUserAvatar {
-    private PullAndLoadListView      mListviewUser            = null;
-    private AdapterUserSearchList    mAdapterUser             = null;
-    private HomeActionListener       mHomeActionListener      = null;
+    private PullAndLoadListView   mListviewUser       = null;
+    private AdapterUserSearchList mAdapterUser        = null;
+    private HomeActionListener    mHomeActionListener = null;
 
-    private SessionLogin             mSessionLogin            = null;
-    private int                      mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
-    private EditText                 textboxSearch            = null;
+    private SessionLogin          mSessionLogin       = null;
+    private int                   mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private EditText              textboxSearch       = null;
+    private Button                btnBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_network_tab, container);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_share_with_friends, container);
 
         intializeView(root);
 
@@ -70,7 +74,16 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
                 return false;
             }
         });
+        btnBack = (Button) root.findViewById(R.id.btn_back);
+        mHomeActionListener = (HomeActivity) getActivity();
+        btnBack.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                mHomeActionListener.goToBack();
+            }
+        });
         return root;
 
     }
@@ -119,7 +132,6 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
         getTimeline.execute(url);
     }
 
-
     private void intializeView(View root) {
         mListviewUser = (PullAndLoadListView) root.findViewById(R.id.listview_user);
         mAdapterUser = new AdapterUserSearchList(getActivity());
@@ -144,7 +156,6 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
             }
         });
     }
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

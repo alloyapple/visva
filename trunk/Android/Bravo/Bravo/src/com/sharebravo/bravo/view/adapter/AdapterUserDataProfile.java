@@ -72,10 +72,10 @@ public class AdapterUserDataProfile extends BaseAdapter {
     private View makeLayoutForUserHistoryTimeLine(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_recent_post, parent);
-        }
+        // if (convertView == null) {
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.row_recent_post, null);
+        // }
 
         holder = new ViewHolder();
         holder._recentPostImage = (ImageView) convertView.findViewById(R.id.img_post_recent);
@@ -91,7 +91,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
             if (mObGetUserInfo.data.Full_Name == null || StringUtility.isEmpty(mObGetUserInfo.data.Full_Name)) {
                 holder._userName.setText("Unknown");
             } else
-                holder._userName.setText(mObGetUserInfo.data.Full_Name);
+                holder._userName.setText(mObGetUserInfo == null ? "" : mObGetUserInfo.data.Full_Name);
             holder._recentPostSpotName.setText(obGetBravo.Spot_Name);
 
             String profile_img_url = obGetBravo.Profile_Img_URL;
@@ -349,6 +349,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
                 imgUserAvatar.setImageBitmap(null);
                 imgUserAvatar.setBackgroundResource(R.drawable.btn_user_avatar_profile);
             } else {
+                imgUserAvatar.setBackgroundDrawable(null);
                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar, true);
             }
 

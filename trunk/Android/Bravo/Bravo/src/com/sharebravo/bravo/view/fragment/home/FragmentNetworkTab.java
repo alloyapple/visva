@@ -181,8 +181,8 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 }
                 else {
                     ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetTimeline.data);
-                    // mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
-                    // mObGetTimelineBravo.data = obBravos;
+                    mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
+                    mObGetTimelineBravo.data = obBravos;
                     mAdapterPost.updateRecentPostList(obBravos);
                     mListviewUser.setVisibility(View.GONE);
                     layoutSearch.setVisibility(View.GONE);
@@ -207,6 +207,11 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         mAdapterPost.setListener(this);
         mListviewPost.setAdapter(mAdapterPost);
         mListviewUser.setAdapter(mAdapterUser);
+
+        // mListviewPost.setFooterDividersEnabled(false);
+        // mListviewUser.setFooterDividersEnabled(false);
+        // mListviewUser.setHeaderDividersEnabled(false);
+        // mListviewPost.setHeaderDividersEnabled(false);
         mListviewPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewPost.setVisibility(View.GONE);
         /* load more old items */

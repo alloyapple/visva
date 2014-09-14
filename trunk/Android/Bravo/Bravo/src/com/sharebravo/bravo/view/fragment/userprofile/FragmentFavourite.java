@@ -35,7 +35,7 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
 import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
-import com.sharebravo.bravo.view.lib.undoadapter.ContextualUndoAdapter;
+import com.sharebravo.bravo.view.lib.ContextualUndoAdapter;
 
 public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar {
     // =======================Constant Define==============

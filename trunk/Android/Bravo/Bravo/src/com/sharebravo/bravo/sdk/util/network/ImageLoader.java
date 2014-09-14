@@ -37,7 +37,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.widget.ImageView;
 
-import com.google.android.gms.internal.is;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.util.imageloader.FileCache;
 import com.sharebravo.bravo.sdk.util.imageloader.MemoryCache;
@@ -146,8 +145,10 @@ public class ImageLoader {
             // decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            return isCorner ? getRoundedCornerBitmap(BitmapFactory.decodeStream(new FileInputStream(f), null, o2), 50) : BitmapFactory.decodeStream(
-                    new FileInputStream(f), null, o2);
+            return isCorner ? getRoundedCornerBitmap(BitmapFactory.decodeStream(new FileInputStream(f), null, o2), (int) (12 * width_tmp / 180.f))
+                    : BitmapFactory
+                            .decodeStream(
+                                    new FileInputStream(f), null, o2);
         } catch (FileNotFoundException e) {
         }
         return null;
