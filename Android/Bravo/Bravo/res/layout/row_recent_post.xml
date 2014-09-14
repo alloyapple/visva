@@ -65,8 +65,10 @@
                     android:layout_height="@dimen/height_text_area_recent_post"
                     android:layout_gravity="bottom"
                     android:background="@drawable/bg_home_cover"
+                    android:ellipsize="end"
                     android:gravity="left|center"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </FrameLayout>

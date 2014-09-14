@@ -28,40 +28,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/recent_post_title"
         android:gravity="center_vertical" >
 
         <Button
             android:id="@+id/btn_sort_by_location"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_btn_save"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:layout_weight="1"
-            android:background="@drawable/bt_follow"
-            android:padding="15dp"
+            android:background="@drawable/btn_save"
             android:text="@string/sore_by_location" />
-
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/devider_color"
-            android:contentDescription="@string/login" />
 
         <Button
             android:id="@+id/btn_sort_by_date"
             android:layout_width="0dp"
+            android:layout_height="@dimen/height_btn_save"
             android:layout_marginBottom="3dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bt_follow"
+            android:background="@drawable/btn_share"
             android:padding="15dp"
             android:text="@string/sore_by_date" >
         </Button>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/devider_color" />
 
     <com.sharebravo.bravo.view.lib.PullAndLoadListView
         android:id="@+id/listview_fragment_favourite"

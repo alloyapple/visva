@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:drawableLeft="@drawable/love_icon"
+                    android:drawableLeft="@drawable/icon_like"
                     android:drawablePadding="3dp"
                     android:text="0"
                     android:textColor="@color/white" />

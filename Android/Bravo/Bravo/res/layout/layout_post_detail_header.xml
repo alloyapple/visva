@@ -14,4 +14,8 @@
 
     <include layout="@layout/layout_post_detail_4" />
 
+    <include layout="@layout/layout_post_detail_5" />
+
+    <include layout="@layout/layout_post_detail_6" />
+
 </LinearLayout>
