@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.sharebravo.bravo.sdk.log.AIOLog;
+
 import android.annotation.SuppressLint;
 
 /**
@@ -131,12 +133,18 @@ public class TimeUtility {
         long _millesTime = 1000 * createdTime;
         Date date = new Date(_millesTime);
         String createdDateStr = formatToSimple(date);
-        long deltaTime = (System.currentTimeMillis() - _millesTime) / 1000;
+        AIOLog.d("currentTimeMillis:" + System.currentTimeMillis() + ",_millesTime:" + _millesTime);
+        long deltaTime = 0;
+        if (System.currentTimeMillis() > _millesTime) {
+            deltaTime = (System.currentTimeMillis() - _millesTime) / 1000;
+        } else {
+            deltaTime = (_millesTime - System.currentTimeMillis()) / 1000;
+        }
         if (deltaTime < 60)
-            returnDate = deltaTime + "s";
+            returnDate = deltaTime + "s"; 
         else if (deltaTime >= 60 && deltaTime < 3600)
         {
-            int deltaMinute = (int) deltaTime / 60; 
+            int deltaMinute = (int) deltaTime / 60;
             returnDate = deltaMinute + "m";
         } else if (deltaTime >= 3600 && deltaTime < (3600 * 24)) {
             int deltaHour = (int) deltaTime / 3600;

@@ -56,7 +56,7 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
         mTouchView = new TouchableWrapper(getActivity());
         mTouchView.addView(mOriginalContentView);
         if (typeMaker == MAKER_BY_LOCATION_SPOT) {
-            changeLocation(mLat, mLong);
+            //changeLocation(mLat, mLong);
         }
         locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
 
