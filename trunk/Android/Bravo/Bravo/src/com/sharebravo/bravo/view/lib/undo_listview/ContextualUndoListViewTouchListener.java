@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.sharebravo.bravo.view.lib;
+package com.sharebravo.bravo.view.lib.undo_listview;
 
 import android.graphics.Rect;
 import android.view.MotionEvent;

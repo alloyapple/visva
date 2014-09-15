@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.sharebravo.bravo.view.lib;
+package com.sharebravo.bravo.view.lib.undo_listview;
+
+import static com.nineoldandroids.view.ViewHelper.setAlpha;
+import static com.nineoldandroids.view.ViewHelper.setTranslationX;
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,13 +35,6 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static com.nineoldandroids.view.ViewHelper.setAlpha;
-import static com.nineoldandroids.view.ViewHelper.setTranslationX;
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 /**
  * Warning: a stable id for each item in the adapter is required. The decorated
@@ -110,6 +110,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     @Override
     public void onViewSwiped(View dismissView, int dismissPosition) {
+        AIOLog.d("dismissView:" + dismissView);
         ContextualUndoView contextualUndoView = (ContextualUndoView) dismissView;
         if (contextualUndoView.isContentDisplayed()) {
             restoreViewPosition(contextualUndoView);

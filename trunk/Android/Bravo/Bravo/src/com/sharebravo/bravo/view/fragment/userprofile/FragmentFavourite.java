@@ -40,10 +40,10 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterFavourite;
 import com.sharebravo.bravo.view.adapter.AdapterFavourite.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.ContextualUndoAdapter;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
 import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
+import com.sharebravo.bravo.view.lib.undo_listview.ContextualUndoAdapter;
 
 public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar, LocationListener {
     // =======================Constant Define==============
@@ -67,6 +67,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                                                                    }
                                                                };
     private boolean                  isSortByDate;
+    private ContextualUndoAdapter    mContextualUndoAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,9 +117,10 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                 if (mObGetAllBravoRecentPosts == null)
                     return;
                 else {
-                    AIOLog.d("size of recent post list: " + mObGetAllBravoRecentPosts.data.size());
-                    ArrayList<ObBravo> obBravos = BravoUtils.removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
-                    mObGetAllBravoRecentPosts.data = obBravos;
+                    AIOLog.d("size of recent post list by date: " + mObGetAllBravoRecentPosts.data.size());
+                    // ArrayList<ObBravo> obBravos = BravoUtils.removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
+                    // mObGetAllBravoRecentPosts.data = obBravos;
+                    AIOLog.d("mAdapterFavourite:" + mAdapterFavourite);
                     mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, true, mLat, mLong);
                     if (mFavouriteListView.getVisibility() == View.GONE)
                         mFavouriteListView.setVisibility(View.VISIBLE);
@@ -194,14 +196,13 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
         mBtnSortByLocation = (Button) root.findViewById(R.id.btn_sort_by_location);
         mFavouriteListView = (PullAndLoadListView) root.findViewById(R.id.listview_fragment_favourite);
         mAdapterFavourite = new AdapterFavourite(getActivity(), mObGetAllBravoRecentPosts);
-        // mContextualUndoAdapter = new ContextualUndoAdapter(mAdapterFavourite, R.layout.row_recent_post, R.id.undo_row_undobutton);
-        // mAdapterFavourite.setListener(this);
-        // mContextualUndoAdapter.setAbsListView(mFavouriteListView);
-        mFavouriteListView.setAdapter(mAdapterFavourite);
-        // mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
-
-        // mFavouriteListView.setAdapter(mAdapterFavourite);
-        // mFavouriteListView.setOnItemClickListener(iRecentPostClickListener);
+        mContextualUndoAdapter = new ContextualUndoAdapter(mAdapterFavourite, R.layout.undo_row, R.id.undo_row_undobutton);
+        mAdapterFavourite.setListener(this);
+        mContextualUndoAdapter.setAbsListView(mFavouriteListView);
+        mFavouriteListView.setAdapter(mContextualUndoAdapter);
+        mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
+        //
+        mFavouriteListView.setOnItemClickListener(iRecentPostClickListener);
         mFavouriteListView.setVisibility(View.GONE);
         /* load more old items */
         mFavouriteListView.setOnLoadMoreListener(new IOnLoadMoreListener() {
@@ -235,7 +236,6 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 if (!isSortByDate) {
                     isSortByDate = true;
                     mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_2);
@@ -248,7 +248,6 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 if (isSortByDate) {
                     isSortByDate = false;
                     mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_1);
@@ -279,7 +278,6 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
         @Override
         public void deleteItem(int position) {
             mAdapterFavourite.remove(position);
-            mAdapterFavourite.notifyDataSetChanged();
         }
     }
 
@@ -302,6 +300,8 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
             onLocationChanged(location);
         }
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
+        if (location == null)
+            return;
         mLat = location.getLatitude();
         mLong = location.getLongitude();
 

@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.sharebravo.bravo.view.lib;
+package com.sharebravo.bravo.view.lib.undo_listview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 @SuppressLint("ViewConstructor")
-public class ContextualUndoView extends FrameLayout {
+public class ContextualUndoView extends LinearLayout {
 
 	private View mUndoView;
 	private View mContentView;

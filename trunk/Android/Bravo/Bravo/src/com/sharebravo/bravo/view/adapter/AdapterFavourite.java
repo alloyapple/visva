@@ -124,7 +124,7 @@ public class AdapterFavourite extends BaseAdapter {
             } else {
                 Double distance = gps2m((float) mLat, (float) mLong, (float) obGetBravo.Spot_Latitude, (float) obGetBravo.Spot_Longitude);
                 String result = String.format("%.1f", distance);
-                holder._recentPostTime.setText(result+"km");
+                holder._recentPostTime.setText(result + "km");
             }
             AIOLog.d("obGetBravo.Total_Comments: " + obGetBravo.Total_Comments + "  holder._totalComment : " + holder._totalComment);
             if (obGetBravo.Total_Comments <= 0) {
@@ -148,8 +148,10 @@ public class AdapterFavourite extends BaseAdapter {
 
     public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isSortByDate, Double _lat, Double _long) {
         this.isSortByDate = isSortByDate;
-        mLat = _lat;
-        mLong = _long;
+        if (!isSortByDate) {
+            mLat = _lat;
+            mLong = _long;
+        }
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + obGetAllBravoRecentPosts.data.size());
         ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetAllBravoRecentPosts.data);
         mObGetAllBravoRecentPosts = newObBravos;
