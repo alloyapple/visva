@@ -26,7 +26,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
@@ -513,7 +512,6 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         } else {
             // user already logged into twitter
             requestToGetTwitterUserInfo();
-            Toast.makeText(this, "Already Logged into twitter", Toast.LENGTH_LONG).show();
         }
     }
 

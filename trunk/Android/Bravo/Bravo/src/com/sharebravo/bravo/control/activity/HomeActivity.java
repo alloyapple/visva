@@ -2,12 +2,24 @@ package com.sharebravo.bravo.control.activity;
 
 import java.util.ArrayList;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,15 +31,17 @@ import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentFollower;
+import com.sharebravo.bravo.view.fragment.home.FragmentFollowing;
+import com.sharebravo.bravo.view.fragment.home.FragmentHistory;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
-import com.sharebravo.bravo.view.fragment.home.FragmentFollowing;
-import com.sharebravo.bravo.view.fragment.home.FragmentHistory;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
@@ -120,7 +134,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private TextView                 txtNetwork;
     private TextView                 txtSearch;
     private TextView                 txtMyData;
-
+    private static RequestToken      mTwitterRequestToken;
+    protected static Twitter         mTwitter;
+    protected ProgressDialog         pDialog;
+    private static ObBravo           mObBravo;
+    private static String            mSharedSnsText;
     // ======================Variable Define===============
     private ArrayList<String>        backstack                      = new ArrayList<String>();
 
@@ -139,6 +157,48 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         initializeUITab();
         initializeFragments();
+
+        /**
+         * This if conditions is tested once is
+         * redirected from twitter page. Parse the uri to get oAuth
+         * Verifier
+         * */
+        if (!isTwitterLoggedInAlready()) {
+            Uri uri = getIntent().getData();
+            if (uri != null && uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_URL)) {
+                // oAuth verifier
+                String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
+
+                try {
+                    // Get the access token
+                    AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
+
+                    BravoSharePrefs.getInstance(this).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_TOKEN, accessToken.getToken());
+                    BravoSharePrefs.getInstance(this).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET,
+                            accessToken.getTokenSecret());
+                    BravoSharePrefs.getInstance(this).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, true);
+                    Log.e("Twitter OAuth Token", "> " + accessToken.getToken());
+
+                    // Getting user details from twitter
+                    long userID = accessToken.getUserId();
+                    twitter4j.User user = mTwitter.showUser(userID);
+                    if (user == null) {
+                        AIOLog.e("user twitter to share is null");
+                        return;
+                    }
+                    // Check for blank text
+                    if (mSharedSnsText.trim().length() > 0) {
+                        new UpdateTwitterStatus().execute(mSharedSnsText);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please enter status message", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    // Check log for login errors
+                    Log.e("Twitter Login Error", "> " + e.getMessage());
+                }
+            }
+        }
+
     }
 
     protected void onActivityResult(int req, int res, Intent data) {
@@ -532,7 +592,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToUserTimeLine(String foreignID, String foreignName) {
-        // TODO Auto-generated method stub
         mFragmentHistory.setForeignID(foreignID);
         mFragmentHistory.setForeignName(foreignName);
         showFragment(FRAGMENT_HISTORY_ID);
@@ -540,16 +599,173 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToUsergFollowing(String foreignID) {
-        // TODO Auto-generated method stub
         mFragmentFollowing.setForeignID(foreignID);
         showFragment(FRAGMENT_FOLLOWING_ID);
     }
 
     @Override
     public void goToUsergFollower(String foreignID) {
-        // TODO Auto-generated method stub
         mFragmentFollower.setForeignID(foreignID);
         showFragment(FRAGMENT_FOLLOWER_ID);
     }
 
+    @Override
+    public void shareSNSViaTwitter(ObBravo obBravo, String sharedText) {
+        // Check if already logged in
+        mObBravo = obBravo;
+        mSharedSnsText = sharedText;
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        if (!isTwitterLoggedInAlready()) {
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+            builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+            Configuration configuration = builder.build();
+
+            TwitterFactory factory = new TwitterFactory(configuration);
+            mTwitter = factory.getInstance();
+
+            try {
+                mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_URL);
+                this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL())));
+                finish();
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // user already logged into twitter
+            requestToGetTwitterUserInfo(obBravo, sharedText);
+        }
+    }
+
+    private void requestToGetTwitterUserInfo(ObBravo obBravo, String sharedText) {
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+        builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+        builder.setUseSSL(true);
+
+        String access_token = BravoSharePrefs.getInstance(this).getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_TOKEN);
+        String access_token_secret = BravoSharePrefs.getInstance(this).getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET);
+        AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+
+        mTwitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+        try {
+            mTwitter.verifyCredentials();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long userID = accessToken.getUserId();
+        twitter4j.User user = null;
+        try {
+            user = mTwitter.showUser(userID);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        if (user == null) {
+            AIOLog.e("user twitter is null");
+            return;
+        }
+        // Call update status function
+        // Get the status from EditText
+
+        // Check for blank text
+        if (sharedText.trim().length() > 0) {
+            // update status
+            new UpdateTwitterStatus().execute(sharedText);
+        } else {
+            // EditText is empty
+            Toast.makeText(getApplicationContext(),
+                    "Please enter status message", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+        AIOLog.d("accessToken.getTokenSecret():" + accessToken.getTokenSecret() + ",accessToken.getToken():" + accessToken.getToken());
+
+    }
+
+    /**
+     * Check user already logged in your application using twitter Login flag is
+     * fetched from Shared Preferences
+     * */
+    private boolean isTwitterLoggedInAlready() {
+        // return twitter login status from Shared Preferences
+        return BravoSharePrefs.getInstance(this).getBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN);
+    }
+
+    /**
+     * Function to update status
+     * */
+    class UpdateTwitterStatus extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(HomeActivity.this);
+            pDialog.setMessage("Updating to twitter...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        /**
+         * getting Places JSON
+         * */
+        protected String doInBackground(String... args) {
+            Log.d("Tweet Text", "> " + args[0]);
+            String status = args[0];
+            try {
+                ConfigurationBuilder builder = new ConfigurationBuilder();
+                builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
+                builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
+
+                // Access Token
+                String access_token = BravoSharePrefs.getInstance(HomeActivity.this).getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_TOKEN);
+                String access_token_secret = BravoSharePrefs.getInstance(HomeActivity.this)
+                        .getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET);
+
+                AccessToken accessToken = new AccessToken(access_token, access_token_secret);
+                Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
+
+                // Update status
+                twitter4j.Status response = twitter.updateStatus(status);
+
+                Log.d("Status", "> " + response.getText());
+            } catch (TwitterException e) {
+                // Error in updating status
+                Log.d("Twitter Update Error", e.getMessage());
+            }
+            return null;
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog and show
+         * the data in UI Always use runOnUiThread(new Runnable()) to update UI
+         * from background thread, otherwise you will get error
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after getting all products
+            pDialog.dismiss();
+            // updating UI from Background Thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "Status tweeted successfully", Toast.LENGTH_SHORT)
+                            .show();
+                    // Clearing EditText field
+                }
+            });
+        }
+    }
 }
