@@ -19,7 +19,9 @@ public class FragmentShare extends FragmentBasic {
     public static final int SHARE_ON_LINE     = 2;
     private int             mShareType;
     private ObBravo         mBravo;
-    private TextView        mTxtShare;
+    private TextView        mTxtShareFacebook;
+    private TextView        mTxtShareTwitter;
+    private TextView        mTxtShareLine;
     private EditText        mTxtboxShare;
     private Button          mBtnBack;
 
@@ -27,7 +29,10 @@ public class FragmentShare extends FragmentBasic {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_share, container);
         mHomeActionListener = (HomeActivity) getActivity();
-        mTxtShare = (TextView) root.findViewById(R.id.btn_share);
+        mTxtShareFacebook = (TextView) root.findViewById(R.id.btn_share_facebook);
+        mTxtShareTwitter = (TextView) root.findViewById(R.id.btn_share_twitter);
+        mTxtShareLine = (TextView) root.findViewById(R.id.btn_share_line);
+
         mTxtboxShare = (EditText) root.findViewById(R.id.txtbox_share);
         mBtnBack = (Button) root.findViewById(R.id.btn_back);
         mBtnBack.setOnClickListener(new View.OnClickListener() {
@@ -35,6 +40,31 @@ public class FragmentShare extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 mHomeActionListener.goToBack();
+            }
+        });
+
+        mTxtShareFacebook.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        mTxtShareTwitter.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String textShare = mTxtboxShare.getText().toString();
+                mHomeActionListener.shareSNSViaTwitter(mBravo, textShare);
+            }
+        });
+        mTxtShareLine.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
             }
         });
         return root;
@@ -51,13 +81,19 @@ public class FragmentShare extends FragmentBasic {
         if (!hidden) {
             switch (mShareType) {
             case SHARE_ON_FACEBOOK:
-                mTxtShare.setText(getResources().getString(R.string.share_on_facebook));
+                mTxtShareFacebook.setVisibility(View.VISIBLE);
+                mTxtShareTwitter.setVisibility(View.GONE);
+                mTxtShareLine.setVisibility(View.GONE);
                 break;
             case SHARE_ON_TWITTER:
-                mTxtShare.setText(getResources().getString(R.string.share_on_twitter));
+                mTxtShareFacebook.setVisibility(View.GONE);
+                mTxtShareTwitter.setVisibility(View.VISIBLE);
+                mTxtShareLine.setVisibility(View.GONE);
                 break;
             case SHARE_ON_LINE:
-                mTxtShare.setText(getResources().getString(R.string.share_on_line));
+                mTxtShareFacebook.setVisibility(View.GONE);
+                mTxtShareTwitter.setVisibility(View.GONE);
+                mTxtShareLine.setVisibility(View.VISIBLE);
                 break;
 
             default:

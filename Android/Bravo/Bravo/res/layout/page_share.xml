@@ -48,14 +48,39 @@
         android:layout_marginTop="@dimen/layout_sign_up_bravo_margin_top"
         android:background="@drawable/green_button" >
 
-        <TextView
-            android:id="@+id/btn_share"
+        <com.facebook.widget.LoginTextView
+            android:id="@+id/btn_share_facebook"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:padding="10dp"
+            android:text="@string/share_on_facebook"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_share_twitter"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/share_on_twitter"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_share_line"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/share_on_line"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>

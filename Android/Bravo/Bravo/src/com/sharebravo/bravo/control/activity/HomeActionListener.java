@@ -22,4 +22,6 @@ public interface HomeActionListener {
     public void goToUsergFollower(String foreignID);
 
     public void goToBack();
+
+    public void shareSNSViaTwitter(ObBravo mBravo, String sharedText);
 }
