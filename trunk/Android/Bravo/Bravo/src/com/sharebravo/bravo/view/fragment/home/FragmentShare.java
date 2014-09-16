@@ -8,9 +8,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginTextView;
+import com.facebook.widget.LoginTextView.UserInfoChangedCallback;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.utils.FacebookUtil;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentShare extends FragmentBasic {
@@ -19,17 +28,19 @@ public class FragmentShare extends FragmentBasic {
     public static final int SHARE_ON_LINE     = 2;
     private int             mShareType;
     private ObBravo         mBravo;
-    private TextView        mTxtShareFacebook;
+    private LoginTextView   mTxtShareFacebook;
     private TextView        mTxtShareTwitter;
     private TextView        mTxtShareLine;
     private EditText        mTxtboxShare;
     private Button          mBtnBack;
+    private boolean         isSharedTextEmpty;
+    private boolean         isClickFacebook;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_share, container);
         mHomeActionListener = (HomeActivity) getActivity();
-        mTxtShareFacebook = (TextView) root.findViewById(R.id.btn_share_facebook);
+        mTxtShareFacebook = (LoginTextView) root.findViewById(R.id.btn_share_facebook);
         mTxtShareTwitter = (TextView) root.findViewById(R.id.btn_share_twitter);
         mTxtShareLine = (TextView) root.findViewById(R.id.btn_share_line);
 
@@ -43,12 +54,45 @@ public class FragmentShare extends FragmentBasic {
             }
         });
 
+        mTxtboxShare.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isSharedTextEmpty) {
+                    isSharedTextEmpty = false;
+                    mTxtboxShare.setText("");
+                    mTxtboxShare.setHint("");
+                    mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.black));
+                }
+            }
+        });
         mTxtShareFacebook.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+                Session session = Session.getActiveSession();
+                if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
+                    mTxtShareFacebook.onClickLoginFb();
+                } else {
+                    AIOLog.d("request user info:" + session);
+                    if (StringUtility.isEmpty(mTxtboxShare)) {
+                        isSharedTextEmpty = true;
+                        mTxtboxShare.setText("");
+                        mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
+                        mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                    } else {
+                        isClickFacebook = true;
+                        requestUserFacebookInfo(session);
+                    }
+                }
+            }
+        });
+        mTxtShareFacebook.setUserInfoChangedCallback(new UserInfoChangedCallback() {
 
+            @Override
+            public void onUserInfoFetched(GraphUser user) {
+                if (isClickFacebook)
+                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mTxtboxShare.getText().toString());
             }
         });
         mTxtShareTwitter.setOnClickListener(new View.OnClickListener() {
@@ -56,18 +100,41 @@ public class FragmentShare extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 String textShare = mTxtboxShare.getText().toString();
-                mHomeActionListener.shareSNSViaTwitter(mBravo, textShare);
+                if (StringUtility.isEmpty(textShare)) {
+                    isSharedTextEmpty = true;
+                    mTxtboxShare.setText("");
+                    mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
+                    mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                } else {
+                    mHomeActionListener.shareSNSViaTwitter(mBravo, textShare);
+                }
             }
         });
         mTxtShareLine.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-
+                showToast("This feature is comming soon!");
             }
         });
         return root;
+    }
+
+    private void requestUserFacebookInfo(Session activeSession) {
+        Request infoRequest = Request.newMeRequest(activeSession, new com.facebook.Request.GraphUserCallback() {
+
+            @Override
+            public void onCompleted(GraphUser user, Response response) {
+                AIOLog.d("requestUserFacebookInfo:" + user);
+                // onFacebookUserConnected(user);
+                FacebookUtil.getInstance(getActivity()).publishShareInBackground(mTxtboxShare.getText().toString());
+            }
+
+        });
+        Bundle params = new Bundle();
+        params.putString("fields", "id, name, picture");
+        infoRequest.setParameters(params);
+        infoRequest.executeAsync();
     }
 
     @Override

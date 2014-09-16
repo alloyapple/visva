@@ -165,7 +165,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
          * */
         if (!isTwitterLoggedInAlready()) {
             Uri uri = getIntent().getData();
-            if (uri != null && uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_URL)) {
+            if (uri != null && uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL)) {
                 // oAuth verifier
                 String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
 
@@ -628,7 +628,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTwitter = factory.getInstance();
 
             try {
-                mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_URL);
+                mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_HOME_URL);
                 this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL())));
                 finish();
             } catch (TwitterException e) {
@@ -760,10 +760,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            "Status tweeted successfully", Toast.LENGTH_SHORT)
-                            .show();
-                    // Clearing EditText field
+                    Toast.makeText(getApplicationContext(), "Status tweeted successfully", Toast.LENGTH_SHORT).show();
+                    goToBack();
                 }
             });
         }
