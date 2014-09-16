@@ -12,6 +12,7 @@
     <string name="unknown">Unknown</string>
     <string name="welcome">Welcome to Bravo!</string>
     <string name="welcome_content">First let\' take a look\n at the latest post on Bravo!</string>
+    <string name="picture_share_fb">https://c4.staticflickr.com/4/3923/15229819096_db573bc162_t.jpg</string>
     <string name="btn_start">Start</string>
     <!-- Location provider -->
     <string name="invalid_action">Invalid intent action %1$s</string>
@@ -57,6 +58,7 @@
     <string name="email_not_valid">Please enter a valid Email address</string>
     <string name="password_is_empty">Please enter your Password</string>
     <string name="password_not_valid">Your password must be at least 8 characters.</string>
+    <string name="sharedtext_is_empty">Please enter text to share.</string>
     <string name="username_is_empty">Please enter your Name</string>
     <string name="username_password_not_valid">User name or password not correct</string>
     <string name="home_tab">Home</string>

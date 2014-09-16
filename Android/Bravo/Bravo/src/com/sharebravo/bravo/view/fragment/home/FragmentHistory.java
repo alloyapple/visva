@@ -71,7 +71,6 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -100,7 +99,6 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetUserTimeLine(foreignID);
@@ -175,7 +173,6 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     @Override
     public void onLocationChanged(Location location) {
-        // TODO Auto-generated method stub
         mLat = location.getLatitude();
 
         // Getting longitude
@@ -184,19 +181,16 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
 
     }
 

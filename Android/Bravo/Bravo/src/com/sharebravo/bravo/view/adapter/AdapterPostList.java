@@ -152,6 +152,7 @@ public class AdapterPostList extends BaseAdapter {
             mObPostsList.addAll(0, bravoItems);
         else
             mObPostsList.addAll(bravoItems);
+        notifyDataSetChanged();
     }
 
     public ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {

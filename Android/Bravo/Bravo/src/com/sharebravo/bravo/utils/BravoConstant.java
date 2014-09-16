@@ -50,6 +50,7 @@ public class BravoConstant {
     public final static String  TWITTER_CONSUMER_KEY                               = "he2yZnLcQgPTWEtNQXbCA";
     public final static String  TWITTER_CONSUMER_SECRET                            = "N1ykxuPu0VhCsgM5AZ8k2Rq9tJmVCE5HVtyZcbg";
     public static final String  TWITTER_CALLBACK_URL                               = "oauth://bravoconnect";
+    public static final String  TWITTER_CALLBACK_HOME_URL                          = "oauth://bravoconnecthome";
 
     // Twitter oauth urls
     public static final String  URL_TWITTER_AUTH                                   = "auth_url";
