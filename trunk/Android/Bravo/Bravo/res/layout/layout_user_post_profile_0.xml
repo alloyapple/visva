@@ -1,64 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_post_content_area" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <FrameLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/height_post_content_area" >
 
-        <ImageView
-            android:id="@+id/img_user_cover"
+        <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/click_color"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitXY" >
-        </ImageView>
+            android:layout_height="@dimen/height_post_content_area" >
 
-        <ImageButton
-            android:id="@+id/btn_img_cover"
+            <ImageView
+                android:id="@+id/img_user_cover"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/click_color"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitXY" >
+            </ImageView>
+
+            <ImageButton
+                android:id="@+id/btn_img_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/icon_camera_cover"
+                android:contentDescription="@string/app_name" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/user_profile_cover"
+            android:gravity="left|center"
+            android:paddingLeft="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/icon_camera_cover"
-            android:contentDescription="@string/app_name" />
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp" >
+
+            <ImageButton
+                android:id="@+id/img_user_avatar"
+                android:layout_width="@dimen/user_data_avatar_width_heght"
+                android:layout_height="@dimen/user_data_avatar_width_heght"
+                android:background="@drawable/btn_user_avatar_profile"
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/txt_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
     </FrameLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/user_profile_cover"
-        android:gravity="left|center"
-        android:paddingLeft="10dp"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
-
-    <LinearLayout
+        android:id="@+id/txt_profile_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|bottom"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp" >
+        android:layout_margin="10dp"
+        android:textColor="@color/grey" >
+    </TextView>
 
-        <ImageButton
-            android:id="@+id/img_user_avatar"
-            android:layout_width="@dimen/user_data_avatar_width_heght"
-            android:layout_height="@dimen/user_data_avatar_width_heght"
-            android:scaleType="fitXY"
-            android:background="@drawable/btn_user_avatar_profile"
-            android:contentDescription="@string/app_name" />
-
-        <TextView
-            android:id="@+id/txt_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

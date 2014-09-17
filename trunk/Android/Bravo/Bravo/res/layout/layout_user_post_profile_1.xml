@@ -7,13 +7,19 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/devider_color"
+        android:contentDescription="@string/login" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="@dimen/height_post_detail_1"
         android:gravity="center|center_horizontal"
         android:orientation="horizontal"
         android:weightSum="3" >
 
         <LinearLayout
-            android:id="@+id/layout_total_bravo"
+            android:id="@+id/btn_bravos"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
@@ -51,8 +57,8 @@
             android:contentDescription="@string/login" />
 
         <LinearLayout
+            android:id="@+id/btn_followings"
             android:layout_width="0dp"
-            android:id="@+id/layout_following"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -72,7 +78,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/btn_followings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -90,11 +95,11 @@
             android:contentDescription="@string/login" />
 
         <LinearLayout
+            android:id="@+id/btn_fans"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_post_detail_1"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:id="@+id/layout_fans"
             android:background="@drawable/color_button"
             android:gravity="center"
             android:orientation="vertical" >
@@ -111,7 +116,6 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/btn_fans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
