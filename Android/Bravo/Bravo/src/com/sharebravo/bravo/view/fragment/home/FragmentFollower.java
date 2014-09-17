@@ -124,7 +124,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         mAdapterUserList.setListener(this);
         mListviewFollower = (PullAndLoadListView) root.findViewById(R.id.listview_follower);
         mListviewFollower.setAdapter(mAdapterUserList);
-
+        mListviewFollower.onRefreshComplete();
     }
 
     @Override

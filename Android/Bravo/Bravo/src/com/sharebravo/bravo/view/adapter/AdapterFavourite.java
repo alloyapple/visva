@@ -186,7 +186,8 @@ public class AdapterFavourite extends BaseAdapter {
     }
 
     public void remove(int position) {
-        mObGetAllBravoRecentPosts.remove(position);
+        if (position < mObGetAllBravoRecentPosts.size())
+            mObGetAllBravoRecentPosts.remove(position);
         notifyDataSetChanged();
     }
 

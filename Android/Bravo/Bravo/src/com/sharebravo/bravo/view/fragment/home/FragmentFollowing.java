@@ -58,7 +58,6 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -72,11 +71,11 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetUserFollowing(mSessionLogin);
         }
+        mListviewFollowing.setVisibility(View.GONE);
     }
 
     private void requestGetUserFollowing(SessionLogin sessionLogin) {
@@ -109,6 +108,7 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
                 else {
                     mAdapterUserList.updateUserList(mObGetUserFollowing.data);
                 }
+                mListviewFollowing.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -124,7 +124,7 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
         mAdapterUserList.setListener(this);
         mListviewFollowing = (PullAndLoadListView) root.findViewById(R.id.listview_following);
         mListviewFollowing.setAdapter(mAdapterUserList);
-
+        mListviewFollowing.onRefreshComplete();
     }
 
     @Override

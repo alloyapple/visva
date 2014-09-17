@@ -206,7 +206,6 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
 
     @Override
     public void onLocationChanged(Location arg0) {
-        // TODO Auto-generated method stub
         double latitude = arg0.getLatitude();
 
         // Getting longitude
@@ -217,7 +216,6 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
 
     @Override
     public void onProviderDisabled(String arg0) {
-        // TODO Auto-generated method stub
 
     }
 
