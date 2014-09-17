@@ -276,25 +276,27 @@ public class AdapterUserDataProfile extends BaseAdapter {
     }
 
     private void loadingUserBravos_FollowingInfo(View convertView, int position) {
-
+        LinearLayout layoutTotalBravos = (LinearLayout) convertView.findViewById(R.id.layout_total_bravo);
         TextView textTotalBravos = (TextView) convertView.findViewById(R.id.text_total_bravos);
+        LinearLayout layoutTotalFollowing = (LinearLayout) convertView.findViewById(R.id.layout_following);
         TextView textTotalFollowing = (TextView) convertView.findViewById(R.id.text_total_following);
+        LinearLayout layoutTotalFans = (LinearLayout) convertView.findViewById(R.id.layout_fans);
         TextView textTotalFans = (TextView) convertView.findViewById(R.id.text_total_fans);
-        textTotalBravos.setOnClickListener(new OnClickListener() {
+        layoutTotalBravos.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 mListener.goToUserTimeline();
             }
         });
-        textTotalFollowing.setOnClickListener(new OnClickListener() {
+        layoutTotalFollowing.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 mListener.goToUserFollowing();
             }
         });
-        textTotalFans.setOnClickListener(new OnClickListener() {
+        layoutTotalFans.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
