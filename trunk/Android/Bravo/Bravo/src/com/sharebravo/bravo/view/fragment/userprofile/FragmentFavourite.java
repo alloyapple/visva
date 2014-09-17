@@ -122,6 +122,15 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     // mObGetAllBravoRecentPosts.data = obBravos;
                     AIOLog.d("mAdapterFavourite:" + mAdapterFavourite);
                     mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, true, mLat, mLong);
+                    
+                    //mAdapterFavourite = new AdapterFavourite(getActivity(), mObGetAllBravoRecentPosts);
+                    if (mObGetAllBravoRecentPosts != null)
+                        mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
+                                R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate);
+//                    mAdapterFavourite.setListener(get);
+                    mContextualUndoAdapter.setAbsListView(mFavouriteListView);
+                    mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
+                    mFavouriteListView.setAdapter(mContextualUndoAdapter);
                     if (mFavouriteListView.getVisibility() == View.GONE)
                         mFavouriteListView.setVisibility(View.VISIBLE);
                 }
@@ -168,6 +177,13 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     ArrayList<ObBravo> obBravos = BravoUtils.removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
                     mObGetAllBravoRecentPosts.data = obBravos;
                     mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, false, mLat, mLong);
+                    if (mObGetAllBravoRecentPosts != null)
+                        mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
+                                R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate);
+//                    mAdapterFavourite.setListener(get);
+                    mContextualUndoAdapter.setAbsListView(mFavouriteListView);
+                    mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
+                    mFavouriteListView.setAdapter(mContextualUndoAdapter);
                     if (mFavouriteListView.getVisibility() == View.GONE)
                         mFavouriteListView.setVisibility(View.VISIBLE);
                 }
@@ -196,7 +212,12 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
         mBtnSortByLocation = (Button) root.findViewById(R.id.btn_sort_by_location);
         mFavouriteListView = (PullAndLoadListView) root.findViewById(R.id.listview_fragment_favourite);
         mAdapterFavourite = new AdapterFavourite(getActivity(), mObGetAllBravoRecentPosts);
-        mContextualUndoAdapter = new ContextualUndoAdapter(mAdapterFavourite, R.layout.undo_row, R.id.undo_row_undobutton);
+        if (mObGetAllBravoRecentPosts != null)
+            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
+                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate);
+        else
+            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, null,
+                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate);
         mAdapterFavourite.setListener(this);
         mContextualUndoAdapter.setAbsListView(mFavouriteListView);
         mFavouriteListView.setAdapter(mContextualUndoAdapter);

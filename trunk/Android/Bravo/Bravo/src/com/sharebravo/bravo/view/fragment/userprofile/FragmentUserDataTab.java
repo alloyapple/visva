@@ -132,6 +132,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         mListViewUserPostProfile.setFooterDividersEnabled(false);
         mListViewUserPostProfile.setAdapter(mAdapterUserDataProfile);
         mListViewUserPostProfile.setOnItemClickListener(onItemClick);
+        mListViewUserPostProfile.onRefreshComplete();
         mBtnBack = (Button) root.findViewById(R.id.btn_back);
         mBtnBack.setOnClickListener(new OnClickListener() {
 
@@ -171,6 +172,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
             locationManager.requestLocationUpdates(provider, 20000, 0, this);
         }
+        mListViewUserPostProfile.setVisibility(View.GONE);
     }
 
     /**
@@ -231,7 +233,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         requestGetUserTimeLine(foreignID);
                         requestGetBlockingCheck();
                         requestGetFollowingCheck();
-
                         break;
                     default:
                         break;
@@ -264,7 +265,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                // AIOLog.d("requestBravoNews:" + response);
+                AIOLog.d("requestBravoNews:" + response);
+                mListViewUserPostProfile.setVisibility(View.VISIBLE);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetUserTimeline obGetUserTimeline;
                 obGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
@@ -277,6 +279,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     // ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetUserTimeline.data);
                     mAdapterUserDataProfile.updateRecentPostList(obGetUserTimeline.data);
                 }
+                mListViewUserPostProfile.setVisibility(View.VISIBLE);
             }
 
             @Override

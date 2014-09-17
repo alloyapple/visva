@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 
 /*Copyright (C) 2011 Johan Nilsson <http://markupartist.com>
 
@@ -119,7 +120,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
         measureView(mRefreshView);
         mRefreshViewHeight = mRefreshView.getMeasuredHeight();
-
+        mRefreshView.setVisibility(View.GONE);
     }
 
     @Override
@@ -198,6 +199,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             }
             break;
         case MotionEvent.ACTION_DOWN:
+            mRefreshView.setVisibility(View.VISIBLE);
             mLastMotionY = y;
             break;
         case MotionEvent.ACTION_MOVE:
@@ -222,7 +224,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
                 // Calculate the padding to apply, we divide by 1.7 to
                 // simulate a more resistant effect during pull.
                 int topPadding = (int) (((historicalY - mLastMotionY) - mRefreshViewHeight) / 1.7);
-
+                AIOLog.d("topPadding:" + topPadding);
                 mRefreshView.setPadding(mRefreshView.getPaddingLeft(),
                         topPadding, mRefreshView.getPaddingRight(),
                         mRefreshView.getPaddingBottom());
@@ -263,6 +265,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             // Hide progress bar and arrow.
             mRefreshViewImage.setVisibility(View.GONE);
             mRefreshViewProgress.setVisibility(View.GONE);
+            mRefreshViewText.setVisibility(View.GONE);
+            mRefreshView.setVisibility(View.GONE);
         }
     }
 

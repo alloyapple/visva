@@ -1,30 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
     android:background="@color/white"
     android:orientation="horizontal"
     android:weightSum="5" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/layout_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#33333333"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingRight="8dp" >
+
+        <!--
+        <TextView
+            android:id="@+id/undo_row_texttv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/delete"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="#ffffff" />
+        -->
+
+        <Button
+            android:id="@+id/undo_row_undobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:drawableLeft="@drawable/ic_undo"
+            android:paddingRight="8dp"
+            android:text="@string/tap_to_undo"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="800dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_toLeftOf="@id/layout_delete"
         android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/img_recent_post_user_avatar"
-            android:layout_width="@dimen/size_avatar_recent_post"
-            android:layout_height="@dimen/size_avatar_recent_post"
-            android:layout_marginRight="10dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/user_picture_default" >
-        </ImageView>
-
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/layout_picture"
+            android:layout_width="800dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -85,45 +117,17 @@
                 android:textColor="@color/grey_3"
                 android:textStyle="bold" />
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="4"
-        android:background="#33333333"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingRight="8dp" >
+        <ImageView
+            android:id="@+id/img_recent_post_user_avatar"
+            android:layout_width="@dimen/size_avatar_recent_post"
+            android:layout_height="@dimen/size_avatar_recent_post"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/layout_picture"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/user_picture_default"
+            android:visibility="gone" >
+        </ImageView>
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/undo_row_texttv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="@string/delete"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="#ffffff" />
-
-        <Button
-            android:id="@+id/undo_row_undobutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:drawableLeft="@drawable/ic_undo"
-            android:padding="10dp"
-            android:paddingRight="8dp"
-            android:text="@string/tap_to_undo"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
