@@ -37,6 +37,7 @@ import com.facebook.model.GraphUser;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -149,9 +150,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static String            mSharedSnsText;
     // ======================Variable Define===============
     private ArrayList<String>        backstack                      = new ArrayList<String>();
+    private ArrayList<Integer>        backstackID                      = new ArrayList<Integer>();
+
     private UiLifecycleHelper        mUiLifecycleHelper;
     private Session.StatusCallback   mFacebookCallback;
     private PendingAction            mPendingAction                 = PendingAction.NONE;
+
 
     @Override
     public int contentView() {
@@ -512,7 +516,32 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } catch (IndexOutOfBoundsException e) {
         }
     }
+    public void addToSBackStackID(int ID) {
 
+        int index = backstackID.lastIndexOf(ID);
+        if (index == -1) {
+            backstackID.add(ID);
+            return;
+        }
+        try {
+            if (!backstackID.get(index - 1).equals(
+                    backstackID.get(backstackID.size() - 1))) {
+                backstackID.add(ID);
+                return;
+            }
+        } catch (IndexOutOfBoundsException e) {
+
+        }
+        try {
+            ArrayList<Integer> subStack = new ArrayList<Integer>(backstackID);
+            for (int i = 0; i < subStack.size(); i++) {
+                if (i > index) {
+                    backstackID.remove(index);
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+        }
+    }
     @Override
     public void goToRecentPostDetail(ObBravo obGetBravo) {
         AIOLog.d("obGetBravo:" + obGetBravo);
@@ -646,13 +675,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToCoverImage(ObBravo obGetBravo) {
         mFragmentCoverImage.setObBravo(obGetBravo);
         showFragment(FRAGMENT_COVER_IMAGE_ID);
-    }
-
-    @Override
-    public void goToUserTimeLine(String foreignID, String foreignName) {
-        mFragmentHistory.setForeignID(foreignID);
-        mFragmentHistory.setForeignName(foreignName);
-        showFragment(FRAGMENT_HISTORY_ID);
     }
 
     @Override
@@ -837,7 +859,18 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
     }
 
+    @Override
+    public void goToUserTimeLine(ObGetUserInfo userInfo) {
+        // TODO Auto-generated method stub
+        mFragmentHistory.setmUserInfo(userInfo);
+
+        showFragment(FRAGMENT_HISTORY_ID);
+    }
+
+ 
+
     private enum PendingAction {
         NONE, POST_PHOTO, POST_STATUS_UPDATE
     }
+
 }

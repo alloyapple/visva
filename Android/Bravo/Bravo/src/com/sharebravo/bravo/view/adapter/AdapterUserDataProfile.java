@@ -94,7 +94,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
                 holder._userName.setText(mObGetUserInfo == null ? "" : mObGetUserInfo.data.Full_Name);
             holder._recentPostSpotName.setText(obGetBravo.Spot_Name);
 
-            String profile_img_url = obGetBravo.Profile_Img_URL;
+            String profile_img_url = mObGetUserInfo == null ? "" : mObGetUserInfo.data.Profile_Img_URL;
 
             AIOLog.d("obGetBravo.Profile_Img_URL: " + obGetBravo.Profile_Img_URL);
             if (StringUtility.isEmpty(profile_img_url)) {
@@ -276,33 +276,66 @@ public class AdapterUserDataProfile extends BaseAdapter {
     }
 
     private void loadingUserBravos_FollowingInfo(View convertView, int position) {
-        LinearLayout layoutTotalBravos = (LinearLayout) convertView.findViewById(R.id.layout_total_bravo);
+
         TextView textTotalBravos = (TextView) convertView.findViewById(R.id.text_total_bravos);
-        LinearLayout layoutTotalFollowing = (LinearLayout) convertView.findViewById(R.id.layout_following);
+
         TextView textTotalFollowing = (TextView) convertView.findViewById(R.id.text_total_following);
-        LinearLayout layoutTotalFans = (LinearLayout) convertView.findViewById(R.id.layout_fans);
+
         TextView textTotalFans = (TextView) convertView.findViewById(R.id.text_total_fans);
-        layoutTotalBravos.setOnClickListener(new OnClickListener() {
+        LinearLayout btnTotalBravos = (LinearLayout) convertView.findViewById(R.id.btn_bravos);
+        btnTotalBravos.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                // TODO Auto-generated method stub
                 mListener.goToUserTimeline();
             }
         });
-        layoutTotalFollowing.setOnClickListener(new OnClickListener() {
+
+        /*
+         * textTotalBravos.setOnClickListener(new OnClickListener() {
+         * 
+         * @Override
+         * public void onClick(View v) {
+         * mListener.goToUserTimeline();
+         * }
+         * });
+         */
+        LinearLayout btnTotalFollowings = (LinearLayout) convertView.findViewById(R.id.btn_followings);
+        btnTotalFollowings.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                // TODO Auto-generated method stub
                 mListener.goToUserFollowing();
             }
         });
-        layoutTotalFans.setOnClickListener(new OnClickListener() {
+
+        // textTotalFollowing.setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // mListener.goToUserFollowing();
+        // }
+        // });
+        LinearLayout btnTotalFans = (LinearLayout) convertView.findViewById(R.id.btn_fans);
+        btnTotalFans.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                // TODO Auto-generated method stub
                 mListener.goToUserFollower();
             }
         });
+        /*
+         * textTotalFans.setOnClickListener(new OnClickListener() {
+         * 
+         * @Override
+         * public void onClick(View v) {
+         * mListener.goToUserFollower();
+         * }
+         * });
+         */
         int totalBravos = mObGetUserInfo.data.Total_Bravos;
         AIOLog.d("totalBravos:" + totalBravos);
         if (totalBravos <= 0)
@@ -331,6 +364,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
         ImageView imgUserAvatar = (ImageView) convertView.findViewById(R.id.img_user_avatar);
         ImageView btnImgCover = (ImageView) convertView.findViewById(R.id.btn_img_cover);
         TextView textUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
+        TextView textProfileMsg = (TextView) convertView.findViewById(R.id.txt_profile_message);
 
         AIOLog.d("mObGetUserInfo.data:" + mObGetUserInfo);
         if (mObGetUserInfo != null) {
@@ -389,6 +423,14 @@ public class AdapterUserDataProfile extends BaseAdapter {
                 textUserName.setText(mContext.getResources().getString(R.string.unknown));
             } else {
                 textUserName.setText(userName);
+            }
+            String profileMsg = "Hello";
+            AIOLog.d("userName:" + profileMsg);
+            if (StringUtility.isEmpty(profileMsg)) {
+                textProfileMsg.setVisibility(View.GONE);
+            } else {
+                textProfileMsg.setVisibility(View.VISIBLE);
+                textProfileMsg.setText(profileMsg);
             }
         }
     }

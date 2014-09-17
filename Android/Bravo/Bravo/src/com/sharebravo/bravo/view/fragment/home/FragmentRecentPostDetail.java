@@ -353,7 +353,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_LIKED_SAVED.replace("{Spot_ID}", bravoObj.Bravo_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getLikedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getLikedSavedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("getLikedRequest:" + response);
@@ -372,7 +372,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 AIOLog.d("response error");
             }
         }, params, true);
-        getLikedRequest.execute(url);
+        getLikedSavedRequest.execute(url);
     }
 
     private void requestDeleteMyListItem(ObBravo obBravo) {
@@ -577,6 +577,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             requestGetFollowingCheck();
             requestGetMyListItem();
             requestGetComments();
+            requestGetLiked();
 
         }
     }

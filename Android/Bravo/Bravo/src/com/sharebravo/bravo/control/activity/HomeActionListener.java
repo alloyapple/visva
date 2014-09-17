@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.control.activity;
 
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 
 public interface HomeActionListener {
     public void goToRecentPostDetail(ObBravo obGetBravo);
@@ -15,7 +16,7 @@ public interface HomeActionListener {
 
     public void goToMapView(String lat, String log, int locationType);
 
-    public void goToUserTimeLine(String foreignID, String foreignName);
+    public void goToUserTimeLine(ObGetUserInfo userInfo);
 
     public void goToUsergFollowing(String foreignID);
 

@@ -167,7 +167,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                // AIOLog.d("requestBravoNews:" + response);
+                AIOLog.d("obGetTimeline:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetTimeline obGetTimeline;
                 obGetTimeline = gson.fromJson(response.toString(), ObGetTimeline.class);
@@ -181,6 +181,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 }
                 else {
                     ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetTimeline.data);
+                    addUserBravoLastPic(obBravos);
                     mObGetTimelineBravo = new ObGetAllBravoRecentPosts();
                     mObGetTimelineBravo.data = obBravos;
                     mAdapterPost.updateRecentPostList(obBravos);
@@ -347,6 +348,14 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     // else
     // mObGetTimelineBravo.data.addAll(newObBravos);
     // }
+    public void addUserBravoLastPic(ArrayList<ObBravo> bravoItems) {
+        if (bravoItems == null)
+            return;
+        for (int i = 0; i < bravoItems.size(); i++) {
+            bravoItems.get(i).Last_Pic = bravoItems.get(i).Bravo_Pics.size() > 0 ? bravoItems.get(i).Bravo_Pics.get(0) : "";
+
+        }
+    }
 
     private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
         ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
