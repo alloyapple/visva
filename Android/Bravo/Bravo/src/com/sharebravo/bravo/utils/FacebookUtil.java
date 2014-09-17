@@ -1,8 +1,5 @@
 package com.sharebravo.bravo.utils;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -11,9 +8,10 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
+import com.facebook.Request.Callback;
 import com.facebook.RequestAsyncTask;
+import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.sharebravo.bravo.R;
@@ -32,7 +30,7 @@ public class FacebookUtil {
         return mInstance;
     }
 
-    public void publishShareInBackground(String sharedText) {
+    public void publishShareInBackground(String sharedText, final Callback callback) {
         AIOLog.d("sharedText" + sharedText);
         String message = sharedText;
         String name = mContext.getString(R.string.app_name);
@@ -44,48 +42,25 @@ public class FacebookUtil {
         _postParameter.putString("picture", pic);
         _postParameter.putString("description", message);
 
-        final List<String> PERMISSIONS = Arrays.asList("publish_stream");
-
-        if (Session.getActiveSession() != null) {
-            List<String> sessionPermission = Session.getActiveSession() .getPermissions();
-            if (!sessionPermission.containsAll(PERMISSIONS)) {
-                NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(mContext, PERMISSIONS);
-                Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
-            }
-        }
+        // final List<String> PERMISSIONS = Arrays.asList("publish_stream");
+        //
+        // if (Session.getActiveSession() != null) {
+        // List<String> sessionPermission = Session.getActiveSession().getPermissions();
+        // if (!sessionPermission.containsAll(PERMISSIONS)) {
+        // NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(mContext, PERMISSIONS);
+        // Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
+        // }
+        // }
 
         Request request = new Request(Session.getActiveSession(), "feed", _postParameter, HttpMethod.POST);
-        RequestAsyncTask task = new RequestAsyncTask(request);
-        task.execute();
-    }
+        request.setCallback(new Callback() {
 
-    public void publishLikeProductInBackground(String userName) {
-        // String message = mContext.getString(R.string.fb_like_product, userName, merchProductItem.getProductName());
-        // String name = mContext.getString(R.string.fb_share_name);
-        // String link = mContext.getString(R.string.fb_link);
-        // String pic = mContext.getString(R.string.fb_picture);
-        final Bundle _postParameter = new Bundle();
-        _postParameter.putString("name", "");
-        _postParameter.putString("link", "");
-        _postParameter.putString("picture", "");
-        _postParameter.putString("description", "");
-
-        final List<String> PERMISSIONS = Arrays.asList("publish_stream");
-
-        if (Session.getActiveSession() != null) {
-            List<String> sessionPermission = Session.getActiveSession()
-                    .getPermissions();
-            if (!sessionPermission.containsAll(PERMISSIONS)) {
-                NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(
-                        mContext, PERMISSIONS);
-
-                Session.getActiveSession().requestNewPublishPermissions(
-                        reauthRequest);
+            @Override
+            public void onCompleted(Response response) {
+                callback.onCompleted(response);
+                AIOLog.d("response:" + response);
             }
-        }
-        Request request = new Request(Session.getActiveSession(), "feed",
-                _postParameter, HttpMethod.POST);
-
+        });
         RequestAsyncTask task = new RequestAsyncTask(request);
         task.execute();
     }
@@ -138,16 +113,13 @@ public class FacebookUtil {
                             // When the story is posted, echo the success
                             // and the post Id.
                             final String name = "";
-                            Toast.makeText(mContext, "Invited " + name,
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Invited " + name, Toast.LENGTH_SHORT).show();
                         } else if (error instanceof FacebookOperationCanceledException) {
                             // User clicked the "x" button
-                            Toast.makeText(mContext, "Publish cancelled",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Publish cancelled", Toast.LENGTH_SHORT).show();
                         } else {
                             // Generic, ex: network error
-                            Toast.makeText(mContext, "Error posting story",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Error posting story", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).build();

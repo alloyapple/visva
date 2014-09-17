@@ -1,5 +1,8 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.Arrays;
+import java.util.List;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Request;
+import com.facebook.Request.Callback;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginTextView;
 import com.facebook.widget.LoginTextView.UserInfoChangedCallback;
@@ -18,23 +26,28 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.FacebookUtil;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentShare extends FragmentBasic {
-    public static final int SHARE_ON_FACEBOOK = 0;
-    public static final int SHARE_ON_TWITTER  = 1;
-    public static final int SHARE_ON_LINE     = 2;
-    private int             mShareType;
-    private ObBravo         mBravo;
-    private LoginTextView   mTxtShareFacebook;
-    private TextView        mTxtShareTwitter;
-    private TextView        mTxtShareLine;
-    private EditText        mTxtboxShare;
-    private Button          mBtnBack;
-    private boolean         isSharedTextEmpty;
-    private boolean         isClickFacebook;
+    public static final int        SHARE_ON_FACEBOOK = 0;
+    public static final int        SHARE_ON_TWITTER  = 1;
+    public static final int        SHARE_ON_LINE     = 2;
+    private int                    mShareType;
+    private ObBravo                mBravo;
+    private LoginTextView          mTxtShareFacebook;
+    private TextView               mTxtShareTwitter;
+    private TextView               mTxtShareLine;
+    private EditText               mTxtboxShare;
+    private Button                 mBtnBack;
+    private boolean                isSharedTextEmpty;
+    private UiLifecycleHelper      mUiLifecycleHelper;
+    private Session.StatusCallback mFacebookCallback;
+    private boolean                isClickFacebook;
+
+    // private boolean isClickFacebook;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,18 +83,30 @@ public class FragmentShare extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                Session session = Session.getActiveSession();
-                if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
-                    mTxtShareFacebook.onClickLoginFb();
+                String textShare = mTxtboxShare.getText().toString();
+                if (StringUtility.isEmpty(textShare)) {
+                    isSharedTextEmpty = true;
+                    mTxtboxShare.setText("");
+                    mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
+                    mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
                 } else {
-                    AIOLog.d("request user info:" + session);
-                    if (StringUtility.isEmpty(mTxtboxShare)) {
-                        isSharedTextEmpty = true;
-                        mTxtboxShare.setText("");
-                        mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
-                        mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                    isClickFacebook = true;
+                    Session session = Session.getActiveSession();
+                    AIOLog.d("getActiveSession=>" + session);
+                    if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
+                        mTxtShareFacebook.onClickLoginFb();
                     } else {
-                        isClickFacebook = true;
+                        // isClickFacebook = true;
+                        final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+
+                        if (Session.getActiveSession() != null) {
+                            List<String> sessionPermission = Session.getActiveSession().getPermissions();
+                            if (!sessionPermission.containsAll(PERMISSIONS)) {
+                                NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(getActivity(), PERMISSIONS);
+                                Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
+                            }
+                        }
+                        mTxtShareFacebook.setPublishPermissions(PERMISSIONS);
                         requestUserFacebookInfo(session);
                     }
                 }
@@ -91,8 +116,18 @@ public class FragmentShare extends FragmentBasic {
 
             @Override
             public void onUserInfoFetched(GraphUser user) {
-                if (isClickFacebook)
-                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mTxtboxShare.getText().toString());
+                AIOLog.d("user at share facebook:" + user);
+                if (isClickFacebook && user != null)
+                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mTxtboxShare.getText().toString(), new Callback() {
+
+                        @Override
+                        public void onCompleted(Response response) {
+                            Toast.makeText(getActivity(), "share facebook successfully", Toast.LENGTH_SHORT).show();
+                            isClickFacebook = false;
+                            mHomeActionListener.goToBack();
+                        }
+                    });
+
             }
         });
         mTxtShareTwitter.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +141,7 @@ public class FragmentShare extends FragmentBasic {
                     mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
                     mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
                 } else {
-                    mHomeActionListener.shareSNSViaTwitter(mBravo, textShare);
+                    mHomeActionListener.shareViaSNS(BravoConstant.TWITTER, mBravo, textShare);
                 }
             }
         });
@@ -121,13 +156,23 @@ public class FragmentShare extends FragmentBasic {
     }
 
     private void requestUserFacebookInfo(Session activeSession) {
+        AIOLog.d("activeSession:" + activeSession);
         Request infoRequest = Request.newMeRequest(activeSession, new com.facebook.Request.GraphUserCallback() {
 
             @Override
             public void onCompleted(GraphUser user, Response response) {
                 AIOLog.d("requestUserFacebookInfo:" + user);
                 // onFacebookUserConnected(user);
-                FacebookUtil.getInstance(getActivity()).publishShareInBackground(mTxtboxShare.getText().toString());
+                if (user != null)
+                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mTxtboxShare.getText().toString(), new Callback() {
+
+                        @Override
+                        public void onCompleted(Response response) {
+                            Toast.makeText(getActivity(), "share facebook successfully", Toast.LENGTH_SHORT).show();
+                            isClickFacebook = false;
+                            mHomeActionListener.goToBack();
+                        }
+                    });
             }
 
         });
@@ -140,6 +185,16 @@ public class FragmentShare extends FragmentBasic {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /* facebook api */
+        mFacebookCallback = new Session.StatusCallback() {
+            @Override
+            public void call(final Session session, final SessionState state, final Exception exception) {
+                AIOLog.d("session callback login:" + session + "state: " + state);
+            }
+        };
+        mUiLifecycleHelper = new UiLifecycleHelper(getActivity(), mFacebookCallback);
+        mUiLifecycleHelper.onCreate(savedInstanceState);
     }
 
     @Override

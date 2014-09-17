@@ -23,5 +23,5 @@ public interface HomeActionListener {
 
     public void goToBack();
 
-    public void shareSNSViaTwitter(ObBravo mBravo, String sharedText);
+    public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 }

@@ -16,6 +16,7 @@
             android:layout_width="@dimen/size_avatar_recent_post"
             android:layout_height="@dimen/size_avatar_recent_post"
             android:layout_marginRight="10dp"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/app_name"
             android:src="@drawable/user_picture_default" >
         </ImageView>

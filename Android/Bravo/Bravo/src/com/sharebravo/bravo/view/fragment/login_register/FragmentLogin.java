@@ -107,7 +107,7 @@ public class FragmentLogin extends FragmentBasic implements AccessTokenRequestLi
                     onLoginBravoBySNS(userID, accessToken, mLoginType);
                 } else {
                     // register bravo by access token of facebook
-                    onClickTextViewFacebookLogin();
+                    onClickTextViewFacebookLogin(); 
                 }
             }
         });
