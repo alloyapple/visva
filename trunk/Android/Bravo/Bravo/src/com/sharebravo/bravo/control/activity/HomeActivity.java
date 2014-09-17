@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +28,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObBravo;
@@ -60,6 +67,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         IShowPageSettings, IShowPageTermOfUse {
 
     // ======================Constant Define===============
+    private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
     private static final String      FRAGMENT_HOME_TAB              = "home_tab";
     private static final String      FRAGMENT_NETWORK_TAB           = "network_tab";
     private static final String      FRAGMENT_BRAVO_TAB             = "bravo_tab";
@@ -141,6 +149,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static String            mSharedSnsText;
     // ======================Variable Define===============
     private ArrayList<String>        backstack                      = new ArrayList<String>();
+    private UiLifecycleHelper        mUiLifecycleHelper;
+    private Session.StatusCallback   mFacebookCallback;
+    private PendingAction            mPendingAction                 = PendingAction.NONE;
 
     @Override
     public int contentView() {
@@ -152,6 +163,17 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onCreate() {
         MyApplication myApp = (MyApplication) getApplication();
         myApp._homeActivity = this;
+
+        /* facebook api */
+        mFacebookCallback = new Session.StatusCallback() {
+            @Override
+            public void call(final Session session, final SessionState state, final Exception exception) {
+                AIOLog.d("session callback login:" + session + "state: " + state);
+            }
+        };
+        Bundle bundle = getIntent().getExtras();
+        mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
+        mUiLifecycleHelper.onCreate(bundle);
 
         if (Build.VERSION.SDK_INT >= 11)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
@@ -201,11 +223,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     }
 
-    protected void onActivityResult(int req, int res, Intent data) {
-        super.onActivityResult(req, res, data);
-
-    }
-
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.btn_home:
@@ -247,18 +264,59 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
     }
 
-    protected void onDestroy() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mUiLifecycleHelper.onSaveInstanceState(outState);
+
+        outState.putString(PENDING_ACTION_BUNDLE_KEY, mPendingAction.name());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mUiLifecycleHelper.onActivityResult(requestCode, resultCode, data, null);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mUiLifecycleHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
+        mUiLifecycleHelper.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-    }
+        mUiLifecycleHelper.onResume();
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        // Call the 'activateApp' method to log an app event for use in
+        // analytics and advertising reporting. Do so in
+        // the onResume methods of the primary Activities that an app may be
+        // launched into.
+
+        final Session session = Session.getActiveSession();
+        if (session == null || session.isClosed() || !session.isOpened()) {
+            mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
+        } else {
+            AIOLog.e("resume: session", "not null");
+            Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+                @Override
+                public void onCompleted(GraphUser user, Response response) {
+                    if (session == Session.getActiveSession()) {
+                        if (user != null) {
+                        }
+                    }
+                }
+            });
+            request.executeAsync();
+        }
+
     }
 
     private void initializeFragments() {
@@ -610,10 +668,22 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void shareSNSViaTwitter(ObBravo obBravo, String sharedText) {
-        // Check if already logged in
+    public void shareViaSNS(String snsType, ObBravo obBravo, String sharedText) {
         mObBravo = obBravo;
         mSharedSnsText = sharedText;
+        // Check if already logged in
+        if (BravoConstant.TWITTER.equals(snsType)) {
+            shareViaTwitter();
+        } else if (BravoConstant.FACEBOOK.equals(snsType)) {
+            shareViaFacebook();
+        }
+    }
+
+    private void shareViaFacebook() {
+
+    }
+
+    private void shareViaTwitter() {
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -636,7 +706,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             }
         } else {
             // user already logged into twitter
-            requestToGetTwitterUserInfo(obBravo, sharedText);
+            requestToGetTwitterUserInfo(mObBravo, mSharedSnsText);
         }
     }
 
@@ -762,8 +832,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Status tweeted successfully", Toast.LENGTH_SHORT).show();
                     goToBack();
-                }
+                } 
             });
         }
+    }
+
+    private enum PendingAction {
+        NONE, POST_PHOTO, POST_STATUS_UPDATE
     }
 }

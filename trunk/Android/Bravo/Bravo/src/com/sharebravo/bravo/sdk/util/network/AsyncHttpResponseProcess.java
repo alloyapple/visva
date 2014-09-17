@@ -22,14 +22,15 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 
     private Activity            context;
     FragmentBasic               asyncUI;
-//    boolean                     isShowUI;
-//    boolean                     isDismissUI;
 
-    public AsyncHttpResponseProcess(Activity context, FragmentBasic asyncUI/*, boolean isShowUI, boolean isDismissUI*/) {
+    // boolean isShowUI;
+    // boolean isDismissUI;
+
+    public AsyncHttpResponseProcess(Activity context, FragmentBasic asyncUI/* , boolean isShowUI, boolean isDismissUI */) {
         this.context = context;
         this.asyncUI = asyncUI;
-//        this.isShowUI = isShowUI;
-//        this.isDismissUI = isDismissUI;
+        // this.isShowUI = isShowUI;
+        // this.isDismissUI = isDismissUI;
     }
 
     @Override
@@ -58,8 +59,10 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
             processHttpResponse(response);
             break;
         default:
-            DialogUtility.alert(context,
-                    context.getString(R.string.failed_to_conect_server));
+            try {
+                DialogUtility.alert(context, context.getString(R.string.failed_to_conect_server));
+            } catch (Exception e) {
+            }
             break;
         }
     }
