@@ -265,7 +265,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("requestBravoNews:" + response);
+                AIOLog.d("obGetUserTimeline:" + response);
                 mListViewUserPostProfile.setVisibility(View.VISIBLE);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetUserTimeline obGetUserTimeline;
@@ -807,7 +807,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToUserTimeline() {
-        mHomeActionListener.goToUserTimeLine(foreignID, mObGetUserInfo.data.Full_Name);
+        mHomeActionListener.goToUserTimeLine(mObGetUserInfo);
     }
 
     @Override
