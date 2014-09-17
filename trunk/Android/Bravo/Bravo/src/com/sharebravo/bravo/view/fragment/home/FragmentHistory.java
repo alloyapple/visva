@@ -26,6 +26,7 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.ObGetUserTimeline;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -52,8 +53,9 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
     private SessionLogin        mSessionLogin       = null;
 
     private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
-    private String              foreignID           = "";
-    private String              foreignName         = "";
+
+    private ObGetUserInfo       mUserInfo           = null;
+
     Location                    location            = null;
     LocationManager             locationManager     = null;
     double                      mLat, mLong;
@@ -101,7 +103,7 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetUserTimeLine(foreignID);
+            requestGetUserTimeLine(mUserInfo.data.User_ID);
         }
     }
 
@@ -155,16 +157,16 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     }
 
-    private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
-        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
-        for (ObBravo obBravo : bravoItems) {
-            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
-                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
-            } else
-                obBravos.add(obBravo);
-        }
-        return obBravos;
-    }
+    // private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
+    // ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
+    // for (ObBravo obBravo : bravoItems) {
+    // if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+    // AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+    // } else
+    // obBravos.add(obBravo);
+    // }
+    // return obBravos;
+    // }
 
     @Override
     public void onClickUserAvatar(String userId) {
@@ -194,27 +196,20 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     }
 
-    public String getForeignID() {
-        return foreignID;
-    }
-
-    public void setForeignID(String foreignID) {
-        this.foreignID = foreignID;
-    }
-
-    public String getForeignName() {
-        return foreignName;
-    }
-
-    public void setForeignName(String foreignName) {
-        this.foreignName = foreignName;
-    }
-
     public void addUserNameBravoItems(ArrayList<ObBravo> bravoItems) {
         if (bravoItems == null)
             return;
         for (int i = 0; i < bravoItems.size(); i++) {
-            bravoItems.get(i).Full_Name = foreignName;
+            bravoItems.get(i).Profile_Img_URL = mUserInfo.data.Profile_Img_URL;
+            bravoItems.get(i).Full_Name = mUserInfo.data.Full_Name;
         }
+    }
+
+    public ObGetUserInfo getmUserInfo() {
+        return mUserInfo;
+    }
+
+    public void setmUserInfo(ObGetUserInfo mUserInfo) {
+        this.mUserInfo = mUserInfo;
     }
 }
