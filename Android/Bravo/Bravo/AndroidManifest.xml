@@ -19,13 +19,14 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <!-- Creates a custom permission so only this app can receive its messages. -->
-    <permission
+   <!--  <permission
         android:name="com.androidhive.pushnotifications.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature" /> -->
 
-    <uses-permission android:name="com.androidhive.pushnotifications.permission.C2D_MESSAGE" />
+  <!--   <uses-permission android:name="com.androidhive.pushnotifications.permission.C2D_MESSAGE" /> -->
 
     <!-- This app has permission to register and receive data message. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -34,13 +35,16 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <!--
-         <permission
-        android:name="com.sharebravo.bravo.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
+  <!--   <uses-permission android:name="com.com.sharebravo.bravo.MAPS_RECEIVE" />
+    <uses-permission android:name="com.com.sharebravo.bravo.permission.C2D_MESSAGE" />
 
-    <uses-permission android:name="com.sharebravo.bravo.permission.MAPS_RECEIVE" />
-    -->
+    <permission
+        android:name="com.com.sharebravo.bravo.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="com.com.sharebravo.bravo.C2D_MESSAGE"
+        android:protectionLevel="signature" /> -->
+
     <application
         android:name="com.sharebravo.bravo.MyApplication"
         android:allowBackup="true"
