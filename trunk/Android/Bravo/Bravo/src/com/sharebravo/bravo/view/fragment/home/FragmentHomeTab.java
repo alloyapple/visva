@@ -259,8 +259,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                     int reponseSize = obGetAllBravoRecentPosts.data.size();
                     if (reponseSize <= 0)
                         return;
-                    updatePullDownLoadMorePostList(obGetAllBravoRecentPosts, isPulDownToRefresh);
-                    mAdapterRecentPost.updatePullDownLoadMorePostList(mObGetAllBravoRecentPosts.data, isPulDownToRefresh);
+                    mAdapterRecentPost.updatePullDownLoadMorePostList(obGetAllBravoRecentPosts.data, isPulDownToRefresh);
                     if (mListviewRecentPost.getVisibility() == View.GONE)
                         mListviewRecentPost.setVisibility(View.VISIBLE);
                 }
