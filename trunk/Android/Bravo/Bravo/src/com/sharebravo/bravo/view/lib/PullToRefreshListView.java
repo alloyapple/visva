@@ -287,6 +287,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         child.measure(childWidthSpec, childHeightSpec);
     }
 
+    @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // When the refresh view is completely visible, change the text to say
         // "Release to refresh..." and flip the arrow drawable.
