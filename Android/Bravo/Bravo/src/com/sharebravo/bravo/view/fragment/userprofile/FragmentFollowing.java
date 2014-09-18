@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment.home;
+package com.sharebravo.bravo.view.fragment.userprofile;
 
 import java.util.HashMap;
 import java.util.List;
