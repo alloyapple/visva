@@ -36,14 +36,16 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
+import com.sharebravo.bravo.model.response.ObDeleteLike;
 import com.sharebravo.bravo.model.response.ObDeleteMylist;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
-import com.sharebravo.bravo.model.response.ObGetLiked;
 import com.sharebravo.bravo.model.response.ObGetMylistItem;
+import com.sharebravo.bravo.model.response.ObGetSpot;
 import com.sharebravo.bravo.model.response.ObPostComment;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
+import com.sharebravo.bravo.model.response.ObPutLike;
 import com.sharebravo.bravo.model.response.ObPutMyList;
 import com.sharebravo.bravo.model.response.ObPutReport;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -363,19 +365,20 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private void requestGetLiked() {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_LIKED_SAVED.replace("{Spot_ID}", mBravoObj.Bravo_ID);
+        String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", mBravoObj.Spot_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
         AsyncHttpGet getLikedSavedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("getLikedRequest:" + response);
+                AIOLog.d("ObGetSpot:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetLiked obGetLiked;
-                obGetLiked = gson.fromJson(response.toString(), ObGetLiked.class);
-                if (obGetLiked == null)
+                ObGetSpot mObGetSpot;
+                mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
+                if (mObGetSpot == null)
                     return;
                 else {
-                    adapterRecentPostDetail.updateLikedandSaved(obGetLiked);
+                    AIOLog.e("Spot.data"+ mObGetSpot.data);
+                    adapterRecentPostDetail.updateLikedandSaved(mObGetSpot.data);
                 }
             }
 
@@ -478,6 +481,98 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         }, params, true);
         AIOLog.d(url);
         putMyListItem.execute(url);
+    }
+    private void requestDeleteLike(ObBravo obBravo) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_LIKE.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{Bravo_ID}", obBravo.Bravo_ID);
+        AsyncHttpDelete deleteLike = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObDeleteLike mObDeleteLike;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    adapterRecentPostDetail.updateLike(false);
+                } else {
+                    mObDeleteLike = gson.fromJson(response.toString(), ObDeleteLike.class);
+                    showToast(mObDeleteLike.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, null, true);
+        AIOLog.d(url);
+        deleteLike.execute(url);
+    }
+
+    private void requestToPutLike(ObBravo obBravo) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Bravo_ID", obBravo.Bravo_ID);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_LIKE.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putLikeItem = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPutLike mObPutLike;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    adapterRecentPostDetail.updateLike(true);
+                } else {
+                    mObPutLike = gson.fromJson(response.toString(), ObPutLike.class);
+                    showToast(mObPutLike.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putLikeItem.execute(url);
     }
 
     private void requestToPutReport(ObBravo obBravo) {
@@ -590,7 +685,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             requestGetMyListItem();
             requestGetComments();
             requestGetLiked();
-
         }
     }
 
@@ -989,5 +1083,26 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void choosePicture() {
         showDialogChooseImage();
+    }
+
+    @Override
+    public void goToLiked() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToLiked(mBravoObj.Spot_ID);
+    }
+
+    @Override
+    public void goToSaved() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToSaved(mBravoObj.Spot_ID);
+    }
+
+    @Override
+    public void goToLike(boolean isLike) {
+        // TODO Auto-generated method stub
+        if (isLike)
+            requestToPutLike(mBravoObj);
+        else
+            requestDeleteLike(mBravoObj);
     }
 }

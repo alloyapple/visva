@@ -16,6 +16,8 @@ public interface HomeActionListener {
 
     public void goToMapView(String lat, String log, int locationType);
 
+    public void goToMapView(String foreignID, int locationType);
+
     public void goToUserTimeLine(ObGetUserInfo userInfo);
 
     public void goToUsergFollowing(String foreignID);
@@ -23,6 +25,10 @@ public interface HomeActionListener {
     public void goToUsergFollower(String foreignID);
 
     public void goToBack();
+
+    public void goToLiked(String mSpotID);
+
+    public void goToSaved(String mSpotID);
 
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 }

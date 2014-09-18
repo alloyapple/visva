@@ -20,7 +20,7 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
-import com.sharebravo.bravo.model.response.ObGetLiked;
+import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -38,7 +38,7 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     private ObBravo            bravoObj           = null;
     private ObGetComments      mObGetComments     = null;
     private ImageLoader        mImageLoader       = null;
-    private ObGetLiked         mObGetLiked        = new ObGetLiked();
+    private Spot               mSpot              = null;
     FragmentRecentPostDetail   fragment;
     // FragmentTransaction transaction;
     private SessionLogin       mSessionLogin      = null;
@@ -94,13 +94,16 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     EditText             textboxComment;
     Button               btnSubmitComment;
     TextView             btnSave;
-    TextView             txtLikeNumber;
+    TextView             txtLikedNumber;
     TextView             txtCommentNumber;
     TextView             btnShare;
+    boolean              isLiked;
+    TextView             btnLike;
     boolean              isSave;
     TextView             btnReport;
     FragmentMapViewCover mapFragment;
     Button               btnLiked;
+
     ImageView            iconLiked;
     TextView             txtNumberLiked;
     Button               btnSaved;
@@ -130,7 +133,8 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 btnFollow = (Button) convertView.findViewById(R.id.btn_follow);
                 btnSave = (TextView) convertView.findViewById(R.id.btn_save);
                 btnShare = (TextView) convertView.findViewById(R.id.btn_share);
-                txtLikeNumber = (TextView) convertView.findViewById(R.id.txtView_like_number);
+                btnLike = (TextView) convertView.findViewById(R.id.btn_like);
+                txtLikedNumber = (TextView) convertView.findViewById(R.id.txtView_like_number);
                 txtCommentNumber = (TextView) convertView.findViewById(R.id.txtView_comment_number);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
                 btnLiked = (Button) convertView.findViewById(R.id.btn_liked);
@@ -174,6 +178,16 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             } else {
                 layoutMapview.setVisibility(View.INVISIBLE);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, false);
+            }
+            if (mSpot != null) {
+                txtLikedNumber.setText("" + mSpot.Total_Liked_Users);
+                txtNumberLiked.setText("" + mSpot.Total_Liked_Users);
+                txtNumberSaved.setText("" + mSpot.Total_Saved_Users);
+            }
+            else {
+                txtLikedNumber.setText("0");
+                txtNumberLiked.setText("0");
+                txtNumberSaved.setText("0");
             }
             txtCommentNumber.setText("" + bravoObj.Total_Comments);
             contentPost.setText(bravoObj.Spot_Name);
@@ -236,6 +250,11 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                 layoutLiked.setVisibility(View.GONE);
                 layoutSaved.setVisibility(View.GONE);
             }
+            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+                btnSave.setBackgroundResource(R.drawable.btn_save);
+            } else {
+                btnSave.setBackgroundResource(R.drawable.btn_save2);
+            }
             btnSave.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -244,14 +263,52 @@ public class AdapterRecentPostDetail extends BaseAdapter {
                     listener.goToSave(!isSave);
                 }
             });
-            btnSave.setCompoundDrawablesWithIntrinsicBounds(isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0, 0);
+            btnSave.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
             btnSave.setText(isSave ? "Saved" : "Save");
+            btnLike.setBackgroundResource(R.drawable.btn_like2);
+            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+                btnLike.setVisibility(View.GONE);
+            } else {
+                btnLike.setVisibility(View.VISIBLE);
+            }
+            btnLike.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-geinerated method stub
+                    listener.goToLike(!isLiked);
+                }
+            });
+            btnLike.setCompoundDrawablesWithIntrinsicBounds(0, isLiked ? R.drawable.icon_like : R.drawable.icon_like, 0, 0);
+            btnLike.setText(isLiked ? "Liked" : "Like");
+            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+                btnShare.setBackgroundResource(R.drawable.btn_share);
+            } else {
+                btnShare.setBackgroundResource(R.drawable.btn_share2);
+            }
+
             btnShare.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
                     listener.goToShare();
+                }
+            });
+            btnLiked.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    listener.goToLiked();
+                }
+            });
+            btnSaved.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    listener.goToSaved();
                 }
             });
 
@@ -288,7 +345,6 @@ public class AdapterRecentPostDetail extends BaseAdapter {
             int index = position - 1;
             // if (convertView == null) {
             ViewHolderComment holderComment = new ViewHolderComment();
-
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.row_comment_content, null, false);
             holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
@@ -352,7 +408,6 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     }
 
     public void updateMapView() {
-        // mapFragment.setCordinate(bravoObj.Spot_Latitude, bravoObj.Spot_Longitude);
         notifyDataSetChanged();
         mapFragment.changeLocation(FragmentMapViewCover.mLat, FragmentMapViewCover.mLong);
     }
@@ -362,16 +417,21 @@ public class AdapterRecentPostDetail extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void updateLike(boolean isLiked) {
+        this.isLiked = isLiked;
+        notifyDataSetChanged();
+    }
+
     public void updateCommentList() {
         notifyDataSetChanged();
     }
 
-    public ObGetLiked getmObGetLiked() {
-        return mObGetLiked;
+    public Spot getSpot() {
+        return mSpot;
     }
 
-    public void updateLikedandSaved(ObGetLiked mObGetLiked) {
-        this.mObGetLiked = mObGetLiked;
+    public void updateLikedandSaved(Spot mSpot) {
+        this.mSpot = mSpot;
         notifyDataSetChanged();
     }
 

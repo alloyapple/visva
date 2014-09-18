@@ -47,6 +47,8 @@ import com.sharebravo.bravo.view.fragment.home.FragmentFollower;
 import com.sharebravo.bravo.view.fragment.home.FragmentFollowing;
 import com.sharebravo.bravo.view.fragment.home.FragmentHistory;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
+import com.sharebravo.bravo.view.fragment.home.FragmentLiked;
+import com.sharebravo.bravo.view.fragment.home.FragmentSaved;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
@@ -89,6 +91,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_FOLOWING              = "page_following";
     private static final String      FRAGMENT_FOLLOWER              = "page_follower";
     private static final String      FRAGMENT_FAVOURITE             = "favourite";
+    private static final String      FRAGMENT_LIKED                 = "liked";
+    private static final String      FRAGMENT_SAVED                 = "saved";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -109,6 +113,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_FOLLOWING_ID          = FRAGMENT_BASE_ID + 16;
     public static final int          FRAGMENT_FOLLOWER_ID           = FRAGMENT_BASE_ID + 17;
     public static final int          FRAGMENT_FAVOURITE_ID          = FRAGMENT_BASE_ID + 18;
+    public static final int          FRAGMENT_LIKED_ID              = FRAGMENT_BASE_ID + 19;
+    public static final int          FRAGMENT_SAVED_ID              = FRAGMENT_BASE_ID + 20;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -132,6 +138,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentFollowing        mFragmentFollowing;
     private FragmentFollower         mFragmentFollower;
     private FragmentFavourite        mFragmentFavourite;
+    private FragmentLiked            mFragmentLiked;
+    private FragmentSaved            mFragmentSaved;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -150,12 +158,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static String            mSharedSnsText;
     // ======================Variable Define===============
     private ArrayList<String>        backstack                      = new ArrayList<String>();
-    private ArrayList<Integer>        backstackID                      = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackID                    = new ArrayList<Integer>();
 
     private UiLifecycleHelper        mUiLifecycleHelper;
     private Session.StatusCallback   mFacebookCallback;
     private PendingAction            mPendingAction                 = PendingAction.NONE;
-
 
     @Override
     public int contentView() {
@@ -344,6 +351,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentFollowing = (FragmentFollowing) mFmManager.findFragmentById(R.id.fragment_following);
         mFragmentFollower = (FragmentFollower) mFmManager.findFragmentById(R.id.fragment_follower);
         mFragmentFavourite = (FragmentFavourite) mFmManager.findFragmentById(R.id.fragment_favourite);
+        mFragmentLiked = (FragmentLiked) mFmManager.findFragmentById(R.id.fragment_liked);
+        mFragmentSaved = (FragmentSaved) mFmManager.findFragmentById(R.id.fragment_saved);
 
         mFragmentHomeTab.setListener(this);
         mFragmentHomeNotification.setListener(this);
@@ -458,6 +467,15 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentFavourite);
             addToSBackStack(FRAGMENT_FAVOURITE);
             break;
+        case FRAGMENT_LIKED_ID:
+            mTransaction.show(mFragmentLiked);
+            addToSBackStack(FRAGMENT_LIKED);
+            break;
+
+        case FRAGMENT_SAVED_ID:
+            mTransaction.show(mFragmentSaved);
+            addToSBackStack(FRAGMENT_SAVED);
+            break;
         default:
             break;
         }
@@ -481,6 +499,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentCoverImage);
         mTransaction.hide(mFragmentShare);
         mTransaction.hide(mFragmentShareWithFriends);
+        mTransaction.hide(mFragmentLiked);
+        mTransaction.hide(mFragmentSaved);
 
         mTransaction.hide(mFragmentHistory);
         mTransaction.hide(mFragmentFollowing);
@@ -516,6 +536,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } catch (IndexOutOfBoundsException e) {
         }
     }
+
     public void addToSBackStackID(int ID) {
 
         int index = backstackID.lastIndexOf(ID);
@@ -542,6 +563,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } catch (IndexOutOfBoundsException e) {
         }
     }
+
     @Override
     public void goToRecentPostDetail(ObBravo obGetBravo) {
         AIOLog.d("obGetBravo:" + obGetBravo);
@@ -854,7 +876,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Status tweeted successfully", Toast.LENGTH_SHORT).show();
                     goToBack();
-                } 
+                }
             });
         }
     }
@@ -867,10 +889,29 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         showFragment(FRAGMENT_HISTORY_ID);
     }
 
- 
-
     private enum PendingAction {
         NONE, POST_PHOTO, POST_STATUS_UPDATE
+    }
+
+    @Override
+    public void goToMapView(String foreignID, int locationType) {
+        mFragmentMapView.setForeignID(foreignID);
+        mFragmentMapView.setTypeMaker(locationType);
+        showFragment(FRAGMENT_MAP_VIEW_ID);
+    }
+
+    @Override
+    public void goToLiked(String mSpotID) {
+        // TODO Auto-generated method stub
+        mFragmentLiked.setSpotID(mSpotID);
+        showFragment(FRAGMENT_LIKED_ID);
+    }
+
+    @Override
+    public void goToSaved(String mSpotID) {
+        // TODO Auto-generated method stub
+        mFragmentSaved.setSpotID(mSpotID);
+        showFragment(FRAGMENT_SAVED_ID);
     }
 
 }

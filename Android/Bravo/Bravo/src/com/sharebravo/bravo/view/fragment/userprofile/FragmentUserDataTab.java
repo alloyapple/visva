@@ -11,7 +11,6 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -21,10 +20,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -72,7 +67,7 @@ import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
-public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener, LocationListener {
+public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener {
     private static final int       REQUEST_CODE_CAMERA      = 2001;
     private static final int       REQUEST_CODE_GALLERY     = 2002;
     private static final int       CROP_FROM_CAMERA         = 2003;
@@ -97,9 +92,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private SessionLogin           mSessionLogin            = null;
     private int                    mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
     private String                 foreignID                = "";
-    Location                       location                 = null;
-    LocationManager                locationManager          = null;
-    double                         mLat, mLong;
+
     String                         provider;
 
     @Override
@@ -109,22 +102,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
-        locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
-
-        // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
-
-        // Getting the name of the best provider
-        provider = locationManager.getBestProvider(criteria, true);
-
-        // Getting Current Location
-        location = locationManager.getLastKnownLocation(provider);
-
-        if (location != null) {
-            onLocationChanged(location);
-        }
-
-        locationManager.requestLocationUpdates(provider, 20000, 0, this);
         return root;
     }
 
@@ -185,13 +162,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            location = locationManager.getLastKnownLocation(provider);
-
-            if (location != null) {
-                onLocationChanged(location);
-            }
-
-            locationManager.requestLocationUpdates(provider, 20000, 0, this);
         }
         mListViewUserPostProfile.setVisibility(View.GONE);
     }
@@ -277,7 +247,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         }
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Start", "0");
-        // subParams.put("Location", String.valueOf(mLat)+","+String.valueOf(mLong));
+        // subParams.put("Location", String.valueOf(mLat) + "," + String.valueOf(mLong));
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", checkingUserId);
@@ -788,7 +758,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToMapView() {
-        mHomeActionListener.goToMapView(null, null, FragmentMapView.MAKER_BY_LOCATION_USER);
+        mHomeActionListener.goToMapView(mObGetUserInfo.data.User_ID, FragmentMapView.MAKER_BY_LOCATION_USER);
     }
 
     @Override
@@ -805,27 +775,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             requestToPutBlock();
         else
             requestDeleteBlock();
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        mLat = location.getLatitude();
-        mLong = location.getLongitude();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override

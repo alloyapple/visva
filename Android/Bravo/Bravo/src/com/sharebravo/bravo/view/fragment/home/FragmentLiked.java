@@ -32,19 +32,18 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterUserList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
-import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
+import com.sharebravo.bravo.view.lib.PullAndLoadListView;
 
-public class FragmentFollower extends FragmentBasic implements IClickUserAvatar {
-    private XListView mListviewFollower   = null;
+public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
+    private PullAndLoadListView mListviewUser       = null;
 
     private AdapterUserList     mAdapterUserList    = null;
 
     private HomeActionListener  mHomeActionListener = null;
-    private ObGetUsersList     mObGetUserFollower  = null;
+    private ObGetUsersList      mObGetUserLiked  = null;
 
     private SessionLogin        mSessionLogin       = null;
-    private String              foreignID           = "";
+    private String              mSpotID             = null;
     private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     Button                      btnBack             = null;
 
@@ -59,6 +58,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
             @Override
             public void onClick(View v) {
+                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -72,13 +72,14 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
     @Override
     public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetUserFollowing(mSessionLogin);
+            requestGetLiked(mSessionLogin);
         }
     }
 
-    private void requestGetUserFollowing(SessionLogin sessionLogin) {
+    private void requestGetLiked(SessionLogin sessionLogin) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
@@ -91,7 +92,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         subParams.put("Start", "0");
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
-        String url = BravoWebServiceConfig.URL_GET_USER_FLOWER.replace("{User_ID}", foreignID);
+        String url = BravoWebServiceConfig.URL_GET_LIKED_LIST.replace("{Spot_ID}", mSpotID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
@@ -99,14 +100,14 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
                 // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
 
-                mObGetUserFollower = gson.fromJson(response.toString(), ObGetUsersList.class);
-                AIOLog.d("mObGetUserFollowing:" + mObGetUserFollower);
-                if (mObGetUserFollower == null || mObGetUserFollower.data.size() == 0) {
+                mObGetUserLiked = gson.fromJson(response.toString(), ObGetUsersList.class);
+                AIOLog.d("mObGetUserFollowing:" + mObGetUserLiked);
+                if (mObGetUserLiked == null || mObGetUserLiked.data.size() == 0) {
 
                     return;
                 }
                 else {
-                    mAdapterUserList.updateUserList(mObGetUserFollower.data);
+                    mAdapterUserList.updateUserList(mObGetUserLiked.data);
                 }
             }
 
@@ -121,21 +122,9 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     private void intializeView(View root) {
         mAdapterUserList = new AdapterUserList(getActivity());
         mAdapterUserList.setListener(this);
-        mListviewFollower = (XListView) root.findViewById(R.id.listview_user);
-        mListviewFollower.setAdapter(mAdapterUserList);
-        onStopPullAndLoadListView();
-        mListviewFollower.setXListViewListener(new IXListViewListener() {
-            
-            @Override
-            public void onRefresh() {
-                onStopPullAndLoadListView();
-            }
-            
-            @Override
-            public void onLoadMore() {
-                onStopPullAndLoadListView();
-            }
-        });
+        mListviewUser = (PullAndLoadListView) root.findViewById(R.id.listview_user);
+        mListviewUser.setAdapter(mAdapterUserList);
+        mListviewUser.onRefreshComplete();
     }
 
     @Override
@@ -143,16 +132,12 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         mHomeActionListener.goToUserData(userId);
     }
 
-    public String getForeignID() {
-        return foreignID;
+
+    public String getSpotID() {
+        return mSpotID;
     }
 
-    public void setForeignID(String foreignID) {
-        this.foreignID = foreignID;
-    }
-    
-    private void onStopPullAndLoadListView() {
-        mListviewFollower.stopRefresh();
-        mListviewFollower.stopLoadMore();
+    public void setSpotID(String mSpotID) {
+        this.mSpotID = mSpotID;
     }
 }
