@@ -220,7 +220,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
-        dialog.show();
+        dialog.show(); 
     }
 
     private void onPullDownToRefreshBravoItems(ObBravo obBravo, final boolean isPulDownToRefresh) {

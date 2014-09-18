@@ -32,10 +32,11 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterUserList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
-    private PullAndLoadListView mListviewUser       = null;
+    private XListView mListviewUser       = null;
 
     private AdapterUserList     mAdapterUserList    = null;
 
@@ -122,11 +123,22 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
     private void intializeView(View root) {
         mAdapterUserList = new AdapterUserList(getActivity());
         mAdapterUserList.setListener(this);
-        mListviewUser = (PullAndLoadListView) root.findViewById(R.id.listview_user);
+        mListviewUser = (XListView) root.findViewById(R.id.listview_user);
         mListviewUser.setAdapter(mAdapterUserList);
-        mListviewUser.onRefreshComplete();
-    }
+        mListviewUser.setXListViewListener(new IXListViewListener() {
 
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onStopPullAndLoadListView();
+            }
+        });
+    }
+    
     @Override
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
@@ -139,5 +151,10 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
 
     public void setSpotID(String mSpotID) {
         this.mSpotID = mSpotID;
+    }
+    
+    private void onStopPullAndLoadListView() {
+        mListviewUser.stopRefresh();
+        mListviewUser.stopLoadMore();
     }
 }
