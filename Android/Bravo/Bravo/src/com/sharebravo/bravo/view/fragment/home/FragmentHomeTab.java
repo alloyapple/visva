@@ -39,12 +39,11 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
-import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
-    private PullAndLoadListView       mListviewRecentPost       = null;
+    private XListView       mListviewRecentPost       = null;
     private AdapterPostList         mAdapterRecentPost        = null;
     private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
 
@@ -138,30 +137,43 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                 mListener.showPageHomeNotification();
             }
         });
-        mListviewRecentPost = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post);
+        mListviewRecentPost = (XListView) root.findViewById(R.id.listview_recent_post);
         mAdapterRecentPost = new AdapterPostList(getActivity(), mObGetAllBravoRecentPosts);
         mAdapterRecentPost.setListener(this);
         mListviewRecentPost.setAdapter(mAdapterRecentPost);
         mListviewRecentPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewRecentPost.setVisibility(View.GONE);
-        /* load more old items */
-        mListviewRecentPost.setOnLoadMoreListener(new IOnLoadMoreListener() {
-
-            @Override
-            public void onLoadMore() {
-                int size = mObGetAllBravoRecentPosts.data.size();
-                if (size > 0)
-                    onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
-                else
-                    mListviewRecentPost.onLoadMoreComplete();
-                AIOLog.d("IOnLoadMoreListener");
-            }
-        });
-
-        /* on refresh new items */
-        /* load more old items */
-        mListviewRecentPost.setOnRefreshListener(new IOnRefreshListener() {
-
+//        /* load more old items */
+//        mListviewRecentPost.setOnLoadMoreListener(new IOnLoadMoreListener() {
+//
+//            @Override
+//            public void onLoadMore() {
+//                int size = mObGetAllBravoRecentPosts.data.size();
+//                if (size > 0)
+//                    onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
+//                else
+//                    mListviewRecentPost.onLoadMoreComplete();
+//                AIOLog.d("IOnLoadMoreListener");
+//            }
+//        });
+//
+//        /* on refresh new items */
+//        /* load more old items */
+//        mListviewRecentPost.setOnRefreshListener(new IOnRefreshListener() {
+//
+//            @Override
+//            public void onRefresh() {
+//                AIOLog.d("IOnRefreshListener");
+//                int size = mObGetAllBravoRecentPosts.data.size();
+//                if (size > 0)
+//                    onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
+//                else
+//                    mListviewRecentPost.onRefreshComplete();
+//            }
+//        });
+//        
+        mListviewRecentPost.setXListViewListener(new IXListViewListener() {
+            
             @Override
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
@@ -169,7 +181,18 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                 if (size > 0)
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
                 else
-                    mListviewRecentPost.onRefreshComplete();
+                    onStopPullAndLoadListView();
+            }
+            
+            @Override
+            public void onLoadMore() {
+                int size = mObGetAllBravoRecentPosts.data.size();
+                if (size > 0)
+                    onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
+                else
+                    onStopPullAndLoadListView();
+                AIOLog.d("IOnLoadMoreListener");
+                
             }
         });
     }
@@ -224,11 +247,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("onLoadMoreBravoItems:" + response);
-                if (isPulDownToRefresh) {
-                    mListviewRecentPost.onRefreshComplete();
-                } else {
-                    mListviewRecentPost.onLoadMoreComplete();
-                }
+                onStopPullAndLoadListView();
 
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
@@ -250,11 +269,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             @Override
             public void processIfResponseFail() {
                 AIOLog.e("response error");
-                if (isPulDownToRefresh) {
-                    mListviewRecentPost.onRefreshComplete();
-                } else {
-                    mListviewRecentPost.onLoadMoreComplete();
-                }
+               onStopPullAndLoadListView();
             }
         }, params, true);
         AIOLog.e("url: " + url);
@@ -304,5 +319,10 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     @Override
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
+    }
+    
+    private void onStopPullAndLoadListView() {
+        mListviewRecentPost.stopRefresh();
+        mListviewRecentPost.stopLoadMore();
     }
 }

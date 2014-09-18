@@ -69,7 +69,8 @@ import com.sharebravo.bravo.view.adapter.AdapterUserDataProfile;
 import com.sharebravo.bravo.view.adapter.UserPostProfileListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
-import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener, LocationListener {
     private static final int       REQUEST_CODE_CAMERA      = 2001;
@@ -79,7 +80,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private Uri                    mCapturedImageURI        = null;
     private Button                 mBtnSettings;
     private IShowPageSettings      iShowPageSettings;
-    private PullAndLoadListView    mListViewUserPostProfile = null;
+    private XListView              mListViewUserPostProfile = null;
     private ObGetUserInfo          mObGetUserInfo;
     private AdapterUserDataProfile mAdapterUserDataProfile  = null;
     private Button                 mBtnBack;
@@ -127,15 +128,32 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         return root;
     }
 
+    private void onStopPullAndLoadListView() {
+        mListViewUserPostProfile.stopRefresh();
+        mListViewUserPostProfile.stopLoadMore();
+    }
+
     private void initializeView(View root) {
         mBtnSettings = (Button) root.findViewById(R.id.btn_settings);
-        mListViewUserPostProfile = (PullAndLoadListView) root.findViewById(R.id.listview_user_post_profile);
+        mListViewUserPostProfile = (XListView) root.findViewById(R.id.listview_user_post_profile);
         mAdapterUserDataProfile = new AdapterUserDataProfile(getActivity());
         mAdapterUserDataProfile.setListener(this);
         mListViewUserPostProfile.setFooterDividersEnabled(false);
         mListViewUserPostProfile.setAdapter(mAdapterUserDataProfile);
         mListViewUserPostProfile.setOnItemClickListener(onItemClick);
-        mListViewUserPostProfile.onRefreshComplete();
+        onStopPullAndLoadListView();
+        mListViewUserPostProfile.setXListViewListener(new IXListViewListener() {
+
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onStopPullAndLoadListView();
+            }
+        });
         mBtnBack = (Button) root.findViewById(R.id.btn_back);
         mBtnBack.setOnClickListener(new OnClickListener() {
 
@@ -231,11 +249,10 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         AIOLog.d("BravoConstant.STATUS_SUCCESS");
                         AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
                         mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
-                        mListViewUserPostProfile.resetHeader();
-                        mListViewUserPostProfile.setSelection(1);
                         requestGetUserTimeLine(foreignID);
                         requestGetBlockingCheck();
                         requestGetFollowingCheck();
+                        onStopPullAndLoadListView();
                         break;
                     default:
                         break;
@@ -696,7 +713,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         return;
                     else {
                         cropImageFromUri(data.getData());
-//                        postUpdateUserProfile(photo, mUserImageType);
+                        // postUpdateUserProfile(photo, mUserImageType);
                         return;
                     }
                 }
@@ -714,15 +731,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 String capturedImageFilePath = cursor.getString(column_index_data);
 
                 File file = new File(capturedImageFilePath);
-                String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    
                     cropImageFromUri(fileUri);
-//                    int orientation = BravoUtils.checkOrientation(fileUri);
-//                    Bitmap bmp;
-//                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-//                    postUpdateUserProfile(bmp, mUserImageType);
                 }
             }
             break;
@@ -745,12 +756,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(imagePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-
                     cropImageFromUri(fileUri);
-                    // int orientation = BravoUtils.checkOrientation(fileUri);
-                    // Bitmap bmp;
-                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    // postUpdateUserProfile(bmp, mUserImageType);
                 } else {
                     AIOLog.d("file don't exist !");
                 }
@@ -804,7 +810,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     @Override
     public void onLocationChanged(Location location) {
         mLat = location.getLatitude();
-        // Getting longitude
         mLong = location.getLongitude();
     }
 
@@ -911,13 +916,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     private void cropImageFromUri(Uri uri) {
-        // final ArrayList<CropOption> cropOptions = new
-        // ArrayList<CropOption>();
         AIOLog.d("uri:" + uri);
         Intent intent = new Intent("com.android.camera.action.CROP");
-
         intent.setType("image/*");
-
         List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
 
         int size = list.size();

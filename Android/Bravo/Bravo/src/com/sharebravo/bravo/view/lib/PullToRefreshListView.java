@@ -13,6 +13,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -55,10 +56,12 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     protected LayoutInflater      mInflater;
 
     // header
-    private RelativeLayout        mRefreshView;
+    private LinearLayout          mRefreshView;
+    private RelativeLayout        mHeaderView;
     private TextView              mRefreshViewText;
     private ImageView             mRefreshViewImage;
     private ProgressBar           mRefreshViewProgress;
+    private TextView              mRefreshViewLastUpdated;
 
     protected int                 mCurrentScrollState;
     protected int                 mRefreshState;
@@ -101,11 +104,18 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // header
-        mRefreshView = (RelativeLayout) mInflater.inflate(R.layout.pull_to_refresh_header, this, false);
-        mRefreshViewText = (TextView) mRefreshView.findViewById(R.id.pull_to_refresh_text);
-        mRefreshViewImage = (ImageView) mRefreshView.findViewById(R.id.pull_to_refresh_image);
-        mRefreshViewProgress = (ProgressBar) mRefreshView.findViewById(R.id.pull_to_refresh_progress);
+        // mRefreshView = (RelativeLayout) mInflater.inflate(R.layout.pull_to_refresh_header, this, false);
+        // mRefreshViewText = (TextView) mRefreshView.findViewById(R.id.pull_to_refresh_text);
+        // mRefreshViewImage = (ImageView) mRefreshView.findViewById(R.id.pull_to_refresh_image);
+        // mRefreshViewProgress = (ProgressBar) mRefreshView.findViewById(R.id.pull_to_refresh_progress);
         // mRefreshViewLastUpdated = (TextView) mRefreshView.findViewById(R.id.pull_to_refresh_updated_at);
+
+        mRefreshView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.ptr_header, this, false);
+        mHeaderView = (RelativeLayout) mRefreshView.findViewById(R.id.ptr_id_header);
+        mRefreshViewText = (TextView) mHeaderView.findViewById(R.id.ptr_id_text);
+        mRefreshViewLastUpdated = (TextView) mHeaderView.findViewById(R.id.ptr_id_last_updated);
+        mRefreshViewImage = (ImageView) mHeaderView.findViewById(R.id.ptr_id_image);
+        mRefreshViewProgress = (ProgressBar) mHeaderView.findViewById(R.id.ptr_id_spinner);
 
         mRefreshViewImage.setMinimumHeight(50);
         mRefreshView.setOnClickListener(new OnClickRefreshListener());
@@ -114,11 +124,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         mRefreshState = TAP_TO_REFRESH;
 
         addHeaderView(mRefreshView);
-        setDivider(new ColorDrawable(0xffd7d7d7));
-        setDividerHeight(1);
+        // setDivider(new ColorDrawable(0xffd7d7d7));
+        // setDividerHeight(1);
         super.setOnScrollListener(this);
 
-        measureView(mRefreshView);
+        // measureView(mRefreshView);
         mRefreshViewHeight = mRefreshView.getMeasuredHeight();
         mRefreshView.setVisibility(View.GONE);
     }
@@ -184,8 +194,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
                 setVerticalScrollBarEnabled(true);
             }
             if (getFirstVisiblePosition() == 0 && mRefreshState != REFRESHING) {
-                if ((mRefreshView.getBottom() >= mRefreshViewHeight || mRefreshView
-                        .getTop() >= 0) && mRefreshState == RELEASE_TO_REFRESH) {
+                if (mRefreshState == RELEASE_TO_REFRESH) {
                     // Initiate the refresh
                     mRefreshState = REFRESHING;
                     prepareForRefresh();
@@ -291,6 +300,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // When the refresh view is completely visible, change the text to say
         // "Release to refresh..." and flip the arrow drawable.
+        AIOLog.d("firstVisibleItem:" + firstVisibleItem + ",visibleItemCount:" + visibleItemCount + ",totalItemCount" + totalItemCount);
         if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL && mRefreshState != REFRESHING) {
             if (firstVisibleItem == 0) {
                 mRefreshViewImage.setVisibility(View.VISIBLE);

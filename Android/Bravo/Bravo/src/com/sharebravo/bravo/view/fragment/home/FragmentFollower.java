@@ -32,10 +32,11 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterUserList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentFollower extends FragmentBasic implements IClickUserAvatar {
-    private PullAndLoadListView mListviewFollower   = null;
+    private XListView mListviewFollower   = null;
 
     private AdapterUserList     mAdapterUserList    = null;
 
@@ -58,7 +59,6 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -72,7 +72,6 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetUserFollowing(mSessionLogin);
@@ -122,9 +121,21 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     private void intializeView(View root) {
         mAdapterUserList = new AdapterUserList(getActivity());
         mAdapterUserList.setListener(this);
-        mListviewFollower = (PullAndLoadListView) root.findViewById(R.id.listview_follower);
+        mListviewFollower = (XListView) root.findViewById(R.id.listview_follower);
         mListviewFollower.setAdapter(mAdapterUserList);
-        mListviewFollower.onRefreshComplete();
+        onStopPullAndLoadListView();
+        mListviewFollower.setXListViewListener(new IXListViewListener() {
+            
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+            
+            @Override
+            public void onLoadMore() {
+                onStopPullAndLoadListView();
+            }
+        });
     }
 
     @Override
@@ -138,5 +149,10 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
     public void setForeignID(String foreignID) {
         this.foreignID = foreignID;
+    }
+    
+    private void onStopPullAndLoadListView() {
+        mListviewFollower.stopRefresh();
+        mListviewFollower.stopLoadMore();
     }
 }

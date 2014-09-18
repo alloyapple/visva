@@ -26,13 +26,13 @@
             android:textSize="@dimen/com_facebook_loginview_text_size" />
     </RelativeLayout>
 
-    <com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView
+    <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_recent_post_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" >
-    </com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView>
+    </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
 </LinearLayout>

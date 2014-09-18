@@ -45,17 +45,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.sharebravo.bravo.view.lib.PullAndLoadListView
+        <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
             android:id="@+id/listview_post"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-        </com.sharebravo.bravo.view.lib.PullAndLoadListView>
+        </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
-        <com.sharebravo.bravo.view.lib.PullAndLoadListView
+        <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
             android:id="@+id/listview_user"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-        </com.sharebravo.bravo.view.lib.PullAndLoadListView>
+        </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
     </FrameLayout>
 
 </LinearLayout>
