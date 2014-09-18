@@ -90,19 +90,19 @@
                 android:id="@+id/fragment_history"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentHistory" />
+                class="com.sharebravo.bravo.view.fragment.userprofile.FragmentHistory" />
 
             <fragment
                 android:id="@+id/fragment_following"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentFollowing" />
+                class="com.sharebravo.bravo.view.fragment.userprofile.FragmentFollowing" />
 
             <fragment
                 android:id="@+id/fragment_follower"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentFollower" />
+                class="com.sharebravo.bravo.view.fragment.userprofile.FragmentFollower" />
 
             <fragment
                 android:id="@+id/fragment_favourite"
