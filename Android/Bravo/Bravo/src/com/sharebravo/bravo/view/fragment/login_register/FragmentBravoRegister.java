@@ -14,8 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.gms.internal.da;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
@@ -58,6 +61,7 @@ public class FragmentBravoRegister extends FragmentBasic {
     // ====================Constant Define=================
     private static final int REQUEST_CODE_CAMERA  = 3003;
     private static final int REQUEST_CODE_GALLERY = 3004;
+    private static final int CROP_FROM_CAMERA     = 3005;
     // ====================Class Define====================
     private EmailValidator   mEmailValidator;
     // ====================Variable Define=================
@@ -400,8 +404,9 @@ public class FragmentBravoRegister extends FragmentBasic {
                     if (photo == null)
                         return;
                     else {
-                        mUserAvatarBitmap = photo;
-                        mImgUserPicture.setImageBitmap(photo);
+                        cropImageFromUri(data.getData());
+//                        mUserAvatarBitmap = photo;
+//                        mImgUserPicture.setImageBitmap(photo);
                         return;
                     }
                 }
@@ -422,12 +427,13 @@ public class FragmentBravoRegister extends FragmentBasic {
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    mUserAvatarBitmap = bmp;
-                    mImgUserPicture.setImageBitmap(bmp);
-                    mUserAvatarBitmap = bmp;
+                    cropImageFromUri(fileUri);
+//                    int orientation = BravoUtils.checkOrientation(fileUri);
+//                    Bitmap bmp;
+//                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+//                    mUserAvatarBitmap = bmp;
+//                    mImgUserPicture.setImageBitmap(bmp);
+//                    mUserAvatarBitmap = bmp;
                 }
             }
             break;
@@ -451,14 +457,26 @@ public class FragmentBravoRegister extends FragmentBasic {
                 Uri fileUri = null;
                 if (file.exists()) {
                     fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    mUserAvatarBitmap = bmp;
-                    mImgUserPicture.setImageBitmap(bmp);
-                    mUserAvatarBitmap = bmp;
+                    cropImageFromUri(fileUri);
+//                    int orientation = BravoUtils.checkOrientation(fileUri);
+//                    Bitmap bmp;
+//                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+//                    mUserAvatarBitmap = bmp;
+//                    mImgUserPicture.setImageBitmap(bmp);
+//                    mUserAvatarBitmap = bmp;
                 } else {
                     AIOLog.d("file don't exist !");
+                }
+            }
+            break;
+        case CROP_FROM_CAMERA:
+            if (resultCode == getActivity().RESULT_OK) {
+                Bundle extras = data.getExtras();
+
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data");
+                    mUserAvatarBitmap = photo;
+                    mImgUserPicture.setImageBitmap(photo);
                 }
             }
             break;
@@ -484,6 +502,38 @@ public class FragmentBravoRegister extends FragmentBasic {
             mEditTextUserEmail.setHint(getString(R.string.email_not_valid));
             mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.red));
             return false;
+        }
+    }
+
+    private void cropImageFromUri(Uri uri) {
+        // final ArrayList<CropOption> cropOptions = new
+        // ArrayList<CropOption>();
+        AIOLog.d("uri:" + uri);
+        Intent intent = new Intent("com.android.camera.action.CROP");
+
+        intent.setType("image/*");
+
+        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+
+        int size = list.size();
+        AIOLog.d("size:" + size);
+        if (size == 0) {
+            showToast("Can not crop image");
+            return;
+        } else {
+            intent.setData(uri);
+            intent.putExtra("outputX", 500);
+            intent.putExtra("outputY", 500);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+            if (size >= 1) {
+                Intent i = new Intent(intent);
+                ResolveInfo res = list.get(0);
+                i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                startActivityForResult(i, CROP_FROM_CAMERA);
+            }
         }
     }
 }

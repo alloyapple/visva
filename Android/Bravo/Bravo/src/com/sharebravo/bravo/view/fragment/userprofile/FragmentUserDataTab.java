@@ -13,8 +13,10 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -72,6 +74,7 @@ import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
 public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener, LocationListener {
     private static final int       REQUEST_CODE_CAMERA      = 2001;
     private static final int       REQUEST_CODE_GALLERY     = 2002;
+    private static final int       CROP_FROM_CAMERA         = 2003;
 
     private Uri                    mCapturedImageURI        = null;
     private Button                 mBtnSettings;
@@ -692,7 +695,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     if (photo == null)
                         return;
                     else {
-                        postUpdateUserProfile(photo, mUserImageType);
+                        cropImageFromUri(data.getData());
+//                        postUpdateUserProfile(photo, mUserImageType);
                         return;
                     }
                 }
@@ -713,10 +717,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    postUpdateUserProfile(bmp, mUserImageType);
+                    
+                    cropImageFromUri(fileUri);
+//                    int orientation = BravoUtils.checkOrientation(fileUri);
+//                    Bitmap bmp;
+//                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+//                    postUpdateUserProfile(bmp, mUserImageType);
                 }
             }
             break;
@@ -739,12 +745,24 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(imagePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    postUpdateUserProfile(bmp, mUserImageType);
+
+                    cropImageFromUri(fileUri);
+                    // int orientation = BravoUtils.checkOrientation(fileUri);
+                    // Bitmap bmp;
+                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    // postUpdateUserProfile(bmp, mUserImageType);
                 } else {
                     AIOLog.d("file don't exist !");
+                }
+            }
+            break;
+        case CROP_FROM_CAMERA:
+            if (resultCode == getActivity().RESULT_OK) {
+                Bundle extras = data.getExtras();
+
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data");
+                    postUpdateUserProfile(photo, mUserImageType);
                 }
             }
             break;
@@ -892,4 +910,35 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     }
 
+    private void cropImageFromUri(Uri uri) {
+        // final ArrayList<CropOption> cropOptions = new
+        // ArrayList<CropOption>();
+        AIOLog.d("uri:" + uri);
+        Intent intent = new Intent("com.android.camera.action.CROP");
+
+        intent.setType("image/*");
+
+        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+
+        int size = list.size();
+        AIOLog.d("size:" + size);
+        if (size == 0) {
+            showToast("Can not crop image");
+            return;
+        } else {
+            intent.setData(uri);
+            intent.putExtra("outputX", 500);
+            intent.putExtra("outputY", 500);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+            if (size >= 1) {
+                Intent i = new Intent(intent);
+                ResolveInfo res = list.get(0);
+                i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                startActivityForResult(i, CROP_FROM_CAMERA);
+            }
+        }
+    }
 }

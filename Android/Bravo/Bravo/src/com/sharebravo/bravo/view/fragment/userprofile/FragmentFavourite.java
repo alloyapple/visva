@@ -122,12 +122,12 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     // mObGetAllBravoRecentPosts.data = obBravos;
                     AIOLog.d("mAdapterFavourite:" + mAdapterFavourite);
                     mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, true, mLat, mLong);
-                    
-                    //mAdapterFavourite = new AdapterFavourite(getActivity(), mObGetAllBravoRecentPosts);
+
+                    // mAdapterFavourite = new AdapterFavourite(getActivity(), mObGetAllBravoRecentPosts);
                     if (mObGetAllBravoRecentPosts != null)
                         mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
                                 R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate);
-//                    mAdapterFavourite.setListener(get);
+                    // mAdapterFavourite.setListener(get);
                     mContextualUndoAdapter.setAbsListView(mFavouriteListView);
                     mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
                     mFavouriteListView.setAdapter(mContextualUndoAdapter);
@@ -180,7 +180,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     if (mObGetAllBravoRecentPosts != null)
                         mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
                                 R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate);
-//                    mAdapterFavourite.setListener(get);
+                    // mAdapterFavourite.setListener(get);
                     mContextualUndoAdapter.setAbsListView(mFavouriteListView);
                     mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
                     mFavouriteListView.setAdapter(mContextualUndoAdapter);
@@ -226,6 +226,28 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
         mFavouriteListView.setOnItemClickListener(iRecentPostClickListener);
         mFavouriteListView.setVisibility(View.GONE);
         /* load more old items */
+        // mFavouriteListView.setXListViewListener(new IXListViewListener() {
+        //
+        // @Override
+        // public void onRefresh() {
+        // int size = mObGetAllBravoRecentPosts.data.size();
+        // if (size > 0)
+        // onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), true);
+        // else
+        // mFavouriteListView.stopRefresh();
+        // AIOLog.d("IOnLoadMoreListener");
+        // }
+        //
+        // @Override
+        // public void onLoadMore() {
+        // AIOLog.d("IOnRefreshListener");
+        // int size = mObGetAllBravoRecentPosts.data.size();
+        // if (size > 0)
+        // onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), false);
+        // else
+        // mFavouriteListView.stopLoadMore();
+        // }
+        // });
         mFavouriteListView.setOnLoadMoreListener(new IOnLoadMoreListener() {
 
             @Override
