@@ -11,6 +11,8 @@ import android.util.Log;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.util.DialogUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
+import com.sharebravo.bravo.view.fragment.IUISync;
 
 /**
  * AsyncHttpResponseProcess: process server response
@@ -21,12 +23,19 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
     private static final String TAG = "AsyncHttpResponseProcess";
 
     private Activity            context;
-    FragmentBasic               asyncUI;
+    IUISync                     asyncUI;
 
     // boolean isShowUI;
     // boolean isDismissUI;
 
     public AsyncHttpResponseProcess(Activity context, FragmentBasic asyncUI/* , boolean isShowUI, boolean isDismissUI */) {
+        this.context = context;
+        this.asyncUI = asyncUI;
+        // this.isShowUI = isShowUI;
+        // this.isDismissUI = isDismissUI;
+    }
+
+    public AsyncHttpResponseProcess(Activity context, FragmentMapBasic asyncUI/* , boolean isShowUI, boolean isDismissUI */) {
         this.context = context;
         this.asyncUI = asyncUI;
         // this.isShowUI = isShowUI;

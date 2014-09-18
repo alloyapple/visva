@@ -1,21 +1,21 @@
 package com.sharebravo.bravo.view.fragment;
 
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.SupportMapFragment;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
 
-public class FragmentBasic extends Fragment implements IUISync{
+public class FragmentMapBasic extends SupportMapFragment implements IUISync{
     protected Object             mData       = null;
     protected HomeActionListener mHomeActionListener;
     private boolean              dataChange  = false;
     private VisvaDialog          mProgressDialog;
     public int                   mNumLoading = 0;
 
-    public FragmentBasic() {
+    public FragmentMapBasic() {
         mHomeActionListener = (HomeActivity) getActivity();
     }
 

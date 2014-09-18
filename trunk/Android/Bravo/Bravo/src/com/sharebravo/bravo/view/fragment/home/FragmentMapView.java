@@ -1,5 +1,12 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -24,20 +31,36 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObGetSpotTimeline;
+import com.sharebravo.bravo.model.response.ObGetSpotTimeline.SpotTimeline;
+import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 
-public class FragmentMapView extends SupportMapFragment implements LocationListener {
+public class FragmentMapView extends FragmentMapBasic implements LocationListener {
     public static final int  MAKER_BY_LOCATION_SPOT = 0;
     public static final int  MAKER_BY_LOCATION_USER = 1;
+
     private GoogleMap        map;
     private Marker           curMarker              = null;
+
     private int              typeMaker;
     private double           mLat, mLong;
 
@@ -47,16 +70,19 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
     LocationManager          locationManager        = null;
     Button                   btnBack                = null;
     HomeActionListener       mHomeActionListener    = null;
+    private SessionLogin     mSessionLogin          = null;
+    private String           foreignID              = null;
+    private int              mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
 
-    // private HomeActionListener mHomeActionListener = null;
-    //
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mOriginalContentView = super.onCreateView(inflater, container, savedInstanceState);
         mTouchView = new TouchableWrapper(getActivity());
         mTouchView.addView(mOriginalContentView);
+        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         if (typeMaker == MAKER_BY_LOCATION_SPOT) {
-            //changeLocation(mLat, mLong);
+            // changeLocation(mLat, mLong);
         }
         locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
 
@@ -73,7 +99,9 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
             onLocationChanged(location);
         }
 
-        locationManager.requestLocationUpdates(provider, 20000, 0, this);
+        // locationManager.requestLocationUpdates(provider, 20000, 0, this);
+        // LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         mHomeActionListener = (HomeActivity) getActivity();
         LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
         btnBack = (Button) mView.findViewById(R.id.btn_back);
@@ -96,20 +124,56 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
         if (!hidden) {
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
-            } else if (typeMaker == MAKER_BY_LOCATION_USER && location != null) {
-                double latitude = location.getLatitude();
-                // Getting longitude
-                double longitude = location.getLongitude();
-                changeLocation(latitude, longitude);
+            } else if (typeMaker == MAKER_BY_LOCATION_USER) {
+                requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
             }
         }
     }
 
-    public void changeLocation(double latitude, double longitute) {
+    private void requestGetUserTimeLine(String checkingUserId, final double latitude, final double longitude) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        if (StringUtility.isEmpty(mSessionLogin.userID) || StringUtility.isEmpty(mSessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Location", String.valueOf(mLat) + "," + String.valueOf(mLong));
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", checkingUserId);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("obGetUserTimeline:" + response);
+
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetSpotTimeline mObGetSpotTimeline;
+                mObGetSpotTimeline = gson.fromJson(response.toString(), ObGetSpotTimeline.class);
+                AIOLog.d("mObGetSpotTimeline:" + mObGetSpotTimeline);
+                if (mObGetSpotTimeline == null || mObGetSpotTimeline.data.size() == 0) {
+                    return;
+                } else {
+                    changeLocation(mObGetSpotTimeline.data, latitude, longitude);
+                }
+
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getTimeline.execute(url);
+
+    }
+
+    public void changeLocation(double latitude, double longitude) {
         if (map == null)
             map = getMap();
 
-        LatLng latLng = new LatLng(latitude, longitute);
+        LatLng latLng = new LatLng(latitude, longitude);
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         map.animateCamera(CameraUpdateFactory.zoomTo(14));
         map.setMyLocationEnabled(true);
@@ -142,7 +206,55 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
                 return true;
             }
         });
-        addMaker(latitude, longitute, "");
+        getMap().clear();
+        addMaker(latitude, longitude, "");
+    }
+
+    public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
+        if (map == null)
+            map = getMap();
+
+        LatLng latLng = new LatLng(latitude, longitude);
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        map.animateCamera(CameraUpdateFactory.zoomTo(14));
+        map.setMyLocationEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(false);
+        map.getUiSettings().setMyLocationButtonEnabled(true);
+        map.getUiSettings().setCompassEnabled(true);
+        map.getUiSettings().setRotateGesturesEnabled(true);
+        map.getUiSettings().setZoomGesturesEnabled(true);
+        map.setOnMapClickListener(new OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng arg0) {
+                // TODO Auto-generated method stub
+                if (curMarker != null) {
+                }
+            }
+        });
+        map.setOnMarkerClickListener(new OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // TODO Auto-generated method stub
+
+                if (curMarker != null) {
+
+                }
+                else {
+
+                }
+                return true;
+            }
+        });
+        getMap().clear();
+        addMaker(latitude, longitude, "");
+        if (data == null)
+            return;
+
+        for (int i = 0; i < data.size(); i++) {
+            addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "");
+        }
     }
 
     public int getPixelByDp(int dp) {
@@ -154,13 +266,9 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
     private Marker addMaker(double latitude, double longitute, String name) {
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
-
         // Changing marker icon
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.nearby_icon);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
-
-        // adding marker
-        getMap().clear();
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
     }
@@ -206,12 +314,7 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
 
     @Override
     public void onLocationChanged(Location arg0) {
-        double latitude = arg0.getLatitude();
-
-        // Getting longitude
-        double longitude = arg0.getLongitude();
-        if (typeMaker == MAKER_BY_LOCATION_USER)
-            changeLocation(latitude, longitude);
+        location = arg0;
     }
 
     @Override
@@ -230,4 +333,13 @@ public class FragmentMapView extends SupportMapFragment implements LocationListe
         // TODO Auto-generated method stub
 
     }
+
+    public String getForeignID() {
+        return foreignID;
+    }
+
+    public void setForeignID(String foreignID) {
+        this.foreignID = foreignID;
+    }
+
 }

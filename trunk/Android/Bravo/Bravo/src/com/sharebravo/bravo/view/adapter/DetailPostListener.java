@@ -8,6 +8,7 @@ public interface DetailPostListener {
     public void goToShare();
 
     public void goToSave(boolean isSave);
+    public void goToLike(boolean isLike);
 
     public void goToSubmitComment(String commentText);
 
@@ -18,6 +19,10 @@ public interface DetailPostListener {
     public void goToUserDataTab(String useId);
 
     public void goToCoverImage();
+
+    public void goToLiked();
+
+    public void goToSaved();
 
     public void choosePicture();
 
