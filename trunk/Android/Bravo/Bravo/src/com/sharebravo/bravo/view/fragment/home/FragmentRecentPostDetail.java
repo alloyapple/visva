@@ -60,17 +60,17 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.adapter.AdapterRecentPostDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentRecentPostDetail extends FragmentBasic implements DetailPostListener {
     private static final int        REQUEST_CODE_CAMERA      = 2001;
     private static final int        REQUEST_CODE_GALLERY     = 2002;
 
     private Uri                     mCapturedImageURI        = null;
-    private PullAndLoadListView     listviewRecentPostDetail = null;
+    private XListView               listviewRecentPostDetail = null;
     private AdapterRecentPostDetail adapterRecentPostDetail  = null;
 
-    // private SupportMapFragment mFragementImageMap = null;
     private Button                  btnBack;
     private OnItemClickListener     onItemClick              = new OnItemClickListener() {
 
@@ -79,27 +79,36 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
                                                                  }
                                                              };
-    Button                          btnViewMap;
-    Button                          btnCallSpot;
-
-    ObBravo                         bravoObj;
-    // ObGetComments mObGetComments;
+    private Button                  mBtnViewMap;
+    private Button                  mBtnCallSpot;
+    private ObBravo                 mBravoObj;
     private SessionLogin            mSessionLogin            = null;
     private int                     mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
 
     // FragmentMapViewCover mapFragment = new FragmentMapViewCover();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab, container);
         mHomeActionListener = (HomeActivity) getActivity();
-        listviewRecentPostDetail = (PullAndLoadListView) root.findViewById(R.id.listview_recent_post_detail);
+        listviewRecentPostDetail = (XListView) root.findViewById(R.id.listview_recent_post_detail);
         adapterRecentPostDetail = new AdapterRecentPostDetail(getActivity(), this);
         adapterRecentPostDetail.setListener(this);
         listviewRecentPostDetail.setFooterDividersEnabled(false);
         listviewRecentPostDetail.setAdapter(adapterRecentPostDetail);
         listviewRecentPostDetail.setOnItemClickListener(onItemClick);
+        listviewRecentPostDetail.setXListViewListener(new IXListViewListener() {
+
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onStopPullAndLoadListView();
+            }
+        });
         btnBack = (Button) root.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new OnClickListener() {
 
@@ -116,25 +125,28 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
-        // adapterRecentPostDetail.updateMapView();
     }
 
     public void setBravoOb(ObBravo obj) {
-        this.bravoObj = obj;
-        FragmentMapViewCover.mLat = bravoObj.Spot_Latitude;
-        FragmentMapViewCover.mLong = bravoObj.Spot_Longitude;
-        adapterRecentPostDetail.setBravoOb(bravoObj);
+        this.mBravoObj = obj;
+        FragmentMapViewCover.mLat = mBravoObj.Spot_Latitude;
+        FragmentMapViewCover.mLong = mBravoObj.Spot_Longitude;
+        adapterRecentPostDetail.setBravoOb(mBravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
 
+    }
+
+    private void onStopPullAndLoadListView() {
+        listviewRecentPostDetail.stopRefresh();
+        listviewRecentPostDetail.stopLoadMore();
     }
 
     private void requestGetComments() {
         // mObGetComments = null;
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String bravoID = bravoObj.Bravo_ID;
+        String bravoID = mBravoObj.Bravo_ID;
         String url = BravoWebServiceConfig.URL_GET_COMMENTS.replace("{Bravo_ID}", bravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetComments(userId, accessToken);
         AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
@@ -165,7 +177,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private void requestGetBravo() {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String bravoID = bravoObj.Bravo_ID;
+        String bravoID = mBravoObj.Bravo_ID;
         String url = BravoWebServiceConfig.URL_GET_BRAVO.replace("{Bravo_ID}", bravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
         AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
@@ -179,10 +191,10 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
                 if (obGetBravo == null)
                     return;
                 else {
-                    String Last_Pic = bravoObj.Last_Pic;
-                    bravoObj = obGetBravo.data;
-                    bravoObj.Last_Pic = Last_Pic;
-                    adapterRecentPostDetail.setBravoOb(bravoObj);
+                    String Last_Pic = mBravoObj.Last_Pic;
+                    mBravoObj = obGetBravo.data;
+                    mBravoObj.Last_Pic = Last_Pic;
+                    adapterRecentPostDetail.setBravoOb(mBravoObj);
                     adapterRecentPostDetail.updateMapView();
                     adapterRecentPostDetail.notifyDataSetChanged();
 
@@ -200,7 +212,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private void requestGetFollowingCheck() {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", bravoObj.User_ID);
+        String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", mBravoObj.User_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
         AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
@@ -229,7 +241,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{User_ID_Other}", bravoObj.User_ID);
+                .replace("{User_ID_Other}", mBravoObj.User_ID);
         AsyncHttpDelete deleteFollow = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
@@ -322,7 +334,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private void requestGetMyListItem() {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_MYLIST_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", bravoObj.Bravo_ID);
+        String url = BravoWebServiceConfig.URL_GET_MYLIST_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", mBravoObj.Bravo_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
         AsyncHttpGet getMyListItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
@@ -351,7 +363,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     private void requestGetLiked() {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_LIKED_SAVED.replace("{Spot_ID}", bravoObj.Bravo_ID);
+        String url = BravoWebServiceConfig.URL_GET_LIKED_SAVED.replace("{Spot_ID}", mBravoObj.Bravo_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
         AsyncHttpGet getLikedSavedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
@@ -379,7 +391,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{Bravo_ID}", bravoObj.Bravo_ID);
+                .replace("{Bravo_ID}", mBravoObj.Bravo_ID);
         AsyncHttpDelete deleteMyListItem = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
@@ -524,7 +536,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         String accessToken = mSessionLogin.accessToken;
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("User_ID", mSessionLogin.userID);
-        subParams.put("Bravo_ID", bravoObj.Bravo_ID);
+        subParams.put("Bravo_ID", mBravoObj.Bravo_ID);
         subParams.put("Comment_Text", commentText);
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
@@ -584,13 +596,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void goToCallSpot() {
-        // Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + bravoObj.Spot_Phone));
-        // startActivity(intent);
         showDialogCallSpot();
     }
 
     public void onCallSpot() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + bravoObj.Spot_Phone));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mBravoObj.Spot_Phone));
         startActivity(intent);
     }
 
@@ -602,7 +612,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToFragment(int fragmentID) {
         if (fragmentID == HomeActivity.FRAGMENT_MAP_VIEW_ID) {
-            mHomeActionListener.goToMapView(String.valueOf(bravoObj.Spot_Latitude), String.valueOf(bravoObj.Spot_Longitude),
+            mHomeActionListener.goToMapView(String.valueOf(mBravoObj.Spot_Latitude), String.valueOf(mBravoObj.Spot_Longitude),
                     FragmentMapView.MAKER_BY_LOCATION_SPOT);
             return;
         }
@@ -616,7 +626,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_call_spot, null);
         TextView content = (TextView) dialog_view.findViewById(R.id.call_spot_dialog_content);
-        content.setText("Call " + bravoObj.Spot_Name + "?");
+        content.setText("Call " + mBravoObj.Spot_Name + "?");
         Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_call_spot_no);
         btnCancel.setOnClickListener(new OnClickListener() {
 
@@ -657,7 +667,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
 
             }
@@ -667,9 +676,8 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
-                requestDeleteFollow(bravoObj);
+                requestDeleteFollow(mBravoObj);
             }
         });
         dialog.setContentView(dialog_view);
@@ -695,8 +703,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mHomeActionListener.goToShare(bravoObj, FragmentShare.SHARE_ON_FACEBOOK);
-
+                mHomeActionListener.goToShare(mBravoObj, FragmentShare.SHARE_ON_FACEBOOK);
             }
         });
         Button btnShareTwitter = (Button) dialog_view.findViewById(R.id.btn_share_twitter);
@@ -705,7 +712,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mHomeActionListener.goToShare(bravoObj, FragmentShare.SHARE_ON_TWITTER);
+                mHomeActionListener.goToShare(mBravoObj, FragmentShare.SHARE_ON_TWITTER);
             }
         });
         Button btnShareLine = (Button) dialog_view.findViewById(R.id.btn_share_line);
@@ -714,7 +721,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mHomeActionListener.goToShare(bravoObj, FragmentShare.SHARE_ON_LINE);
+                mHomeActionListener.goToShare(mBravoObj, FragmentShare.SHARE_ON_LINE);
             }
         });
         Button btnShareCancel = (Button) dialog_view.findViewById(R.id.btn_share_cancel);
@@ -733,7 +740,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
-
         dialog.show();
     }
 
@@ -748,7 +754,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
 
             }
@@ -766,12 +771,11 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         View dialog_view = inflater.inflate(R.layout.dialog_following, null);
         Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
         TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
-        txtContent.setText(getActivity().getResources().getString(R.string.content_following).replace("%s%", bravoObj.Full_Name));
+        txtContent.setText(getActivity().getResources().getString(R.string.content_following).replace("%s%", mBravoObj.Full_Name));
         btnOK.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
 
             }
@@ -780,7 +784,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
         lp.copyFrom(window.getAttributes());
-        // This makes the dialog take up the full width
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
@@ -857,7 +860,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                requestToPutReport(bravoObj);
+                requestToPutReport(mBravoObj);
             }
         });
         Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_report_no);
@@ -955,7 +958,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToFollow(boolean isFollow) {
         if (isFollow)
-            requestToPutFollow(bravoObj);
+            requestToPutFollow(mBravoObj);
         else
             showDialogStopFollowing();
     }
@@ -968,14 +971,14 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
     @Override
     public void goToSave(boolean isSave) {
         if (isSave)
-            requestToPutMyListItem(bravoObj);
+            requestToPutMyListItem(mBravoObj);
         else
-            requestDeleteMyListItem(bravoObj);
+            requestDeleteMyListItem(mBravoObj);
     }
 
     @Override
     public void goToCoverImage() {
-        mHomeActionListener.goToCoverImage(bravoObj);
+        mHomeActionListener.goToCoverImage(mBravoObj);
     }
 
     @Override
@@ -985,7 +988,6 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
     @Override
     public void choosePicture() {
-        // TODO Auto-generated method stub
         showDialogChooseImage();
     }
 }

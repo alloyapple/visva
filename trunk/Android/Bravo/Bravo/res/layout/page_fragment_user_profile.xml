@@ -41,12 +41,12 @@
         </Button>
     </RelativeLayout>
 
-    <com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView
+    <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_user_post_profile"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" >
-    </com.sharebravo.bravo.view.lib.imageheader.PullAndLoadListView>
+    </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
 </LinearLayout>

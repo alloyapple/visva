@@ -15,8 +15,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.gson.Gson;
@@ -40,27 +40,28 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, LocationListener {
-    private PullAndLoadListView mListviewHistory    = null;
+    private XListView          mListviewHistory    = null;
 
-    private AdapterPostList     mAdapterPost        = null;
+    private AdapterPostList    mAdapterPost        = null;
 
-    private HomeActionListener  mHomeActionListener = null;
-    private ObGetUserTimeline   mObGetUserTimeline  = null;
+    private HomeActionListener mHomeActionListener = null;
+    private ObGetUserTimeline  mObGetUserTimeline  = null;
 
-    private SessionLogin        mSessionLogin       = null;
+    private SessionLogin       mSessionLogin       = null;
 
-    private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
 
-    private ObGetUserInfo       mUserInfo           = null;
+    private ObGetUserInfo      mUserInfo           = null;
 
-    Location                    location            = null;
-    LocationManager             locationManager     = null;
-    double                      mLat, mLong;
-    String                      provider;
-    Button                      btnBack             = null;
+    Location                   location            = null;
+    LocationManager            locationManager     = null;
+    double                     mLat, mLong;
+    String                     provider;
+    Button                     btnBack             = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -152,21 +153,26 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
     private void intializeView(View root) {
         mAdapterPost = new AdapterPostList(getActivity(), null);
         mAdapterPost.setListener(this);
-        mListviewHistory = (PullAndLoadListView) root.findViewById(R.id.listview_history);
+        mListviewHistory = (XListView) root.findViewById(R.id.listview_history);
         mListviewHistory.setAdapter(mAdapterPost);
+        mListviewHistory.setXListViewListener(new IXListViewListener() {
 
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onStopPullAndLoadListView();
+            }
+        });
     }
 
-    // private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
-    // ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
-    // for (ObBravo obBravo : bravoItems) {
-    // if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
-    // AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
-    // } else
-    // obBravos.add(obBravo);
-    // }
-    // return obBravos;
-    // }
+    private void onStopPullAndLoadListView() {
+        mListviewHistory.stopRefresh();
+        mListviewHistory.stopLoadMore();
+    }
 
     @Override
     public void onClickUserAvatar(String userId) {

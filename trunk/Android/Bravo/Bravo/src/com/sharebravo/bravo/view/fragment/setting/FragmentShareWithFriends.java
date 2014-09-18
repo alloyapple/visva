@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,12 +36,11 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterUserSearchList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView.IOnLoadMoreListener;
-import com.sharebravo.bravo.view.lib.PullToRefreshListView.IOnRefreshListener;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentShareWithFriends extends FragmentBasic implements IClickUserAvatar {
-    private PullAndLoadListView   mListviewUser       = null;
+    private XListView             mListviewUser       = null;
     private AdapterUserSearchList mAdapterUser        = null;
     private HomeActionListener    mHomeActionListener = null;
 
@@ -82,22 +81,7 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
                 mHomeActionListener.goToBack();
             }
         });
-        mListviewUser.setOnLoadMoreListener(new IOnLoadMoreListener() {
-
-            @Override
-            public void onLoadMore() {
-                mListviewUser.onLoadMoreComplete();
-            }
-        });
-        mListviewUser.setOnRefreshListener(new IOnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                mListviewUser.onRefreshComplete();
-            }
-        });
         return root;
-
     }
 
     @Override
@@ -145,26 +129,23 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
     }
 
     private void intializeView(View root) {
-        mListviewUser = (PullAndLoadListView) root.findViewById(R.id.listview_user);
+        mListviewUser = (XListView) root.findViewById(R.id.listview_user);
         mAdapterUser = new AdapterUserSearchList(getActivity());
         mAdapterUser.setListener(this);
         mListviewUser.setAdapter(mAdapterUser);
 
-        mListviewUser.setOnLoadMoreListener(new IOnLoadMoreListener() {
-
-            @Override
-            public void onLoadMore() {
-                AIOLog.d("IOnLoadMoreListener");
-            }
-        });
-
-        /* on refresh new items */
-        /* load more old items */
-        mListviewUser.setOnRefreshListener(new IOnRefreshListener() {
-
+        mListviewUser.setXListViewListener(new IXListViewListener() {
+            
             @Override
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
+                onStopPullAndLoadListView();
+            }
+            
+            @Override
+            public void onLoadMore() {
+                AIOLog.d("IOnLoadMoreListener");
+                onStopPullAndLoadListView();
             }
         });
     }
@@ -186,5 +167,10 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
     @Override
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
+    }
+    
+    private void onStopPullAndLoadListView() {
+        mListviewUser.stopRefresh();
+        mListviewUser.stopLoadMore();
     }
 }

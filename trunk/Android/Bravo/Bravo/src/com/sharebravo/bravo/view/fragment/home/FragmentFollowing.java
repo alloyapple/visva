@@ -9,8 +9,8 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.gson.Gson;
@@ -32,20 +32,21 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterUserList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.lib.PullAndLoadListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar {
-    private PullAndLoadListView mListviewFollowing  = null;
+    private XListView          mListviewFollowing  = null;
 
-    private AdapterUserList     mAdapterUserList    = null;
+    private AdapterUserList    mAdapterUserList    = null;
 
-    private HomeActionListener  mHomeActionListener = null;
-    private ObGetUserFollowing  mObGetUserFollowing = null;
+    private HomeActionListener mHomeActionListener = null;
+    private ObGetUserFollowing mObGetUserFollowing = null;
 
-    private SessionLogin        mSessionLogin       = null;
-    private String              foreignID           = "";
-    private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
-    Button                      btnBack             = null;
+    private SessionLogin       mSessionLogin       = null;
+    private String             foreignID           = "";
+    private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    Button                     btnBack             = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,9 +123,21 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
     private void intializeView(View root) {
         mAdapterUserList = new AdapterUserList(getActivity());
         mAdapterUserList.setListener(this);
-        mListviewFollowing = (PullAndLoadListView) root.findViewById(R.id.listview_following);
+        mListviewFollowing = (XListView) root.findViewById(R.id.listview_following);
         mListviewFollowing.setAdapter(mAdapterUserList);
-        mListviewFollowing.onRefreshComplete();
+        onStopPullAndLoadListView();
+        mListviewFollowing.setXListViewListener(new IXListViewListener() {
+
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onStopPullAndLoadListView();
+            }
+        });
     }
 
     @Override
@@ -138,5 +151,10 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
 
     public void setForeignID(String foreignID) {
         this.foreignID = foreignID;
+    }
+
+    private void onStopPullAndLoadListView() {
+        mListviewFollowing.stopRefresh();
+        mListviewFollowing.stopLoadMore();
     }
 }

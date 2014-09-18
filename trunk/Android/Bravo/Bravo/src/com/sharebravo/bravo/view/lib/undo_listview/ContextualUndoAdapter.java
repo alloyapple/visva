@@ -320,8 +320,10 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
         private void deleteCurrentItem() {
             ContextualUndoView contextualUndoView = (ContextualUndoView) mDismissView;
-            int position = getAbsListView().getPositionForView(contextualUndoView);
-            mDeleteItemCallback.deleteItem(position);
+            if (getAbsListView() != null) {
+                int position = getAbsListView().getPositionForView(contextualUndoView);
+                mDeleteItemCallback.deleteItem(position);
+            }
         }
     }
 
