@@ -7,18 +7,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_btn_save"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        android:weightSum="2" >
+        android:orientation="horizontal" >
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/height_btn_save"
             android:layout_weight="1"
-            android:background="@drawable/btn_save"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/btn_save"
@@ -26,27 +24,35 @@
                 android:layout_height="@dimen/height_btn_save"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/save_bravo_off"
-                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/save_bravo_off"
                 android:gravity="center"
                 android:text="@string/btn_save"
                 android:textColor="@color/black" />
         </LinearLayout>
 
-        <!--
-             <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="@dimen/height_btn_save"
-            android:background="@drawable/separate_y"
-            android:contentDescription="@string/login" />
-        -->
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/btn_like"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_btn_save"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/icon_like"
+                android:gravity="center"
+                android:text="@string/btn_save"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="@dimen/height_btn_save"
             android:layout_weight="1"
-            android:background="@drawable/btn_share"
-            android:orientation="vertical" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/btn_share"
@@ -54,8 +60,7 @@
                 android:layout_height="@dimen/height_btn_save"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/share_icon_press"
-                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/share_icon_press"
                 android:gravity="center"
                 android:text="@string/btn_share"
                 android:textColor="@color/black" />
