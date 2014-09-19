@@ -34,7 +34,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:gravity="center"
-            android:text="@string/delete_account_msg"
+            android:text="@string/delete_bravo_info_text"
             android:textColor="@color/grey_3" />
 
         <LinearLayout

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        android:text="@string/report_inapp_dialog_title"
+        android:text="@string/report_alert_title"
         android:textColor="@color/black"
         android:textStyle="bold" />
 
@@ -24,7 +24,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/report_inapp_dialog_content"
+        android:text="@string/report_alert_text_for_bravo"
         android:textColor="@color/black" />
 
     <LinearLayout
