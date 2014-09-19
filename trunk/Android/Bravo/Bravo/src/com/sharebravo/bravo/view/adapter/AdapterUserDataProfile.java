@@ -186,6 +186,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
         // }
         if (mObGetUserInfo != null) {
             loadingUserImageInfo(convertView, position);
+            loadingUserProfileMessageInfo(convertView, position);
             loadingUserBravos_FollowingInfo(convertView, position);
             loadingUserBravoMapInfo(convertView, position);
             loadingUserFavouriteInfo(convertView, position);
@@ -193,6 +194,17 @@ public class AdapterUserDataProfile extends BaseAdapter {
             loadingUserBlockInfo(convertView, position);
         }
         return convertView;
+    }
+
+    private void loadingUserProfileMessageInfo(View convertView, int position) {
+        TextView textProfileMessage = (TextView) convertView.findViewById(R.id.txt_profile_message);
+        String profileMessage = mObGetUserInfo.data.About_Me;
+        if (StringUtility.isEmpty(profileMessage)) {
+            textProfileMessage.setVisibility(View.GONE);
+        } else {
+            textProfileMessage.setVisibility(View.VISIBLE);
+            textProfileMessage.setText(profileMessage);
+        }
     }
 
     private void loadingUserBlockInfo(View convertView, int position) {
