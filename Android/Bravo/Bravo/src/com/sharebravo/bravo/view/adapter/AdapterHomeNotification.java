@@ -25,7 +25,6 @@ public class AdapterHomeNotification extends BaseAdapter {
     private LayoutInflater          mLayoutInflater;
 
     private IClickUserAvatar        iClickUserAvatar;
-   
 
     public AdapterHomeNotification(Context context) {
         // TODO Auto-generated constructor stub
@@ -53,8 +52,6 @@ public class AdapterHomeNotification extends BaseAdapter {
         return arg0;
     }
 
-    public String userID;
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
@@ -71,7 +68,7 @@ public class AdapterHomeNotification extends BaseAdapter {
         Notification mNo = mNotificationList.get(position);
         String urlAvatar = "";
         String userName = "Unknow";
-        userID = "";
+        String userID = "";
         if (mNo.Notification_Type.equals("comment")) {
             userName = mNo.Last_Commenter_Name;
             urlAvatar = mNo.Last_Commenter_Pic;
@@ -81,6 +78,7 @@ public class AdapterHomeNotification extends BaseAdapter {
             urlAvatar = mNo.Notification_Users.get(0).Profile_Img_URL;
             userID = mNo.Notification_Users.get(0).User_ID;
         }
+        final String userIDClick = userID;
         holder._userName.setText(userName);
 
         if (StringUtility.isEmpty(urlAvatar)) {
@@ -93,7 +91,7 @@ public class AdapterHomeNotification extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                iClickUserAvatar.onClickUserAvatar(userID);
+                iClickUserAvatar.onClickUserAvatar(userIDClick);
             }
         });
         String notificationContent = "";
