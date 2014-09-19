@@ -34,6 +34,7 @@ import com.sharebravo.bravo.view.adapter.AdapterUserList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 
 public class FragmentSaved extends FragmentBasic implements IClickUserAvatar {
     private XListView          mListviewUser       = null;
@@ -122,6 +123,7 @@ public class FragmentSaved extends FragmentBasic implements IClickUserAvatar {
         mAdapterUserList.setListener(this);
         mListviewUser = (XListView) root.findViewById(R.id.listview_user);
         mListviewUser.setAdapter(mAdapterUserList);
+
         mListviewUser.setXListViewListener(new IXListViewListener() {
 
             @Override

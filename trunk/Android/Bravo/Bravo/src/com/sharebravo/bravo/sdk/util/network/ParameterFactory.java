@@ -35,6 +35,14 @@ public final class ParameterFactory {
         return parameters;
     }
 
+    public static List<NameValuePair> createSubParamsGetNotificationSearch(String userID, String accessToken, String param) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("User_ID", userID));
+        parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
+        parameters.add(new BasicNameValuePair("params", param));
+        return parameters;
+    }
+
     /**
      * get recent post
      * 
@@ -63,38 +71,44 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
         return parameters;
     }
+
     public static List<NameValuePair> createSubParamsGetBravo(String userID, String accessToken) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("User_ID", userID));
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
         return parameters;
     }
+
     public static List<NameValuePair> createSubParamsPutFollow(String userIDFollow) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("params", userIDFollow));
         return parameters;
     }
+
     public static List<NameValuePair> createSubParamsPutMyListItem(String bravoId) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("params", bravoId));
         return parameters;
     }
-    public static List<NameValuePair> createSubParamsGetTimeLine(String userID, String accessToken,String subParams) {
+
+    public static List<NameValuePair> createSubParamsGetTimeLine(String userID, String accessToken, String subParams) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("User_ID", userID));
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
-        parameters.add(new BasicNameValuePair("params", subParams)); 
-        
+        parameters.add(new BasicNameValuePair("params", subParams));
+
         return parameters;
     }
-    public static List<NameValuePair> createSubParamsGetFavorites(String userID, String accessToken,String subParams) {
+
+    public static List<NameValuePair> createSubParamsGetFavorites(String userID, String accessToken, String subParams) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("User_ID", userID));
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
-        parameters.add(new BasicNameValuePair("params", subParams)); 
-        
+        parameters.add(new BasicNameValuePair("params", subParams));
+
         return parameters;
     }
+
     public static List<NameValuePair> createSubParamsUserSearch(String userID, String accessToken, String subParams) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("User_ID", userID));
@@ -103,5 +117,5 @@ public final class ParameterFactory {
 
         return parameters;
     }
-    
+
 }

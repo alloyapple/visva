@@ -36,17 +36,19 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
-    private XListView mListviewUser       = null;
 
-    private AdapterUserList     mAdapterUserList    = null;
+    private XListView          mListviewUser       = null;
 
-    private HomeActionListener  mHomeActionListener = null;
-    private ObGetUsersList      mObGetUserLiked  = null;
 
-    private SessionLogin        mSessionLogin       = null;
-    private String              mSpotID             = null;
-    private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
-    Button                      btnBack             = null;
+    private AdapterUserList    mAdapterUserList    = null;
+
+    private HomeActionListener mHomeActionListener = null;
+    private ObGetUsersList     mObGetUserLiked     = null;
+
+    private SessionLogin       mSessionLogin       = null;
+    private String             mSpotID             = null;
+    private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    Button                     btnBack             = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,7 +145,6 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
     }
-
 
     public String getSpotID() {
         return mSpotID;

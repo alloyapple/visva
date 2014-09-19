@@ -36,11 +36,13 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
@@ -169,12 +171,18 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         return R.layout.activity_home;
     }
 
+    String userId;
+    String accessToken;
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate() {
         MyApplication myApp = (MyApplication) getApplication();
         myApp._homeActivity = this;
-
+        final int _loginBravoViaType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(this, _loginBravoViaType);
+        userId = _sessionLogin.userID;
+        accessToken = _sessionLogin.accessToken;
         /* facebook api */
         mFacebookCallback = new Session.StatusCallback() {
             @Override
@@ -266,7 +274,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case R.id.btn_mydata:
             hideTabButton();
             showFragment(FRAGMENT_USER_DATA_TAB_ID);
-            mFragmentUserDataTab.getUserInfo("");
+            mFragmentUserDataTab.setForeignID(userId);
             btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
             txtMyData.setTextColor(Color.WHITE);
             break;
@@ -669,8 +677,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToUserData(String userId) {
+        mFragmentUserDataTab.setForeignID(userId);
         showFragment(FRAGMENT_USER_DATA_TAB_ID);
-        mFragmentUserDataTab.getUserInfo(userId);
     }
 
     @Override
@@ -683,8 +691,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void onClickUserAvatar(String userId) {
+        mFragmentUserDataTab.setForeignID(userId);
         showFragment(FRAGMENT_USER_DATA_TAB_ID);
-        mFragmentUserDataTab.getUserInfo(userId);
+
     }
 
     @Override
@@ -885,7 +894,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToUserTimeLine(ObGetUserInfo userInfo) {
         // TODO Auto-generated method stub
         mFragmentHistory.setmUserInfo(userInfo);
-
         showFragment(FRAGMENT_HISTORY_ID);
     }
 

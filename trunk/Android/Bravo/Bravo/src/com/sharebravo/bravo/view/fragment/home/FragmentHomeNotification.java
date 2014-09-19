@@ -1,8 +1,10 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +17,9 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObGetNotification;
+import com.sharebravo.bravo.model.response.ObGetNotificationSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -26,18 +29,21 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.view.adapter.AdapterHomeNotification;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
-public class FragmentHomeNotification extends FragmentBasic {
+public class FragmentHomeNotification extends FragmentBasic implements com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar {
     private ListView                   mListViewNotifications;
     private TextView                   mTextNoNotifications;
     private Button                     mBtnCloseNotifications;
     private IClosePageHomeNotification iClosePageHomeNotification;
+    private AdapterHomeNotification    mAdapterHomeNotification;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_home_notification, container);
         initializeView(root);
+        mHomeActionListener =(HomeActivity) getActivity();
         return root;
     }
 
@@ -52,6 +58,9 @@ public class FragmentHomeNotification extends FragmentBasic {
                 iClosePageHomeNotification.closePageHomeNotification();
             }
         });
+        mAdapterHomeNotification = new AdapterHomeNotification(getActivity());
+        mAdapterHomeNotification.setListener(this);
+        mListViewNotifications.setAdapter(mAdapterHomeNotification);
     }
 
     public void onRequestListHomeNotification() {
@@ -64,29 +73,36 @@ public class FragmentHomeNotification extends FragmentBasic {
             userId = "";
             accessToken = "";
         }
-        String url = BravoWebServiceConfig.URL_GET_NOTIFICATION;
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        // subParams.put("Full_Name", keyName);
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_NOTIFICATION_SEARCH;
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetNotificationSearch(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getNotificationSearch = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("get notification:" + response);
                 if (StringUtility.isEmpty(response))
                     return;
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetNotification obGetNotification = gson.fromJson(response.toString(), ObGetNotification.class);
-                if (obGetNotification == null) {
+                ObGetNotificationSearch mObGetNotificationSearch = gson.fromJson(response.toString(), ObGetNotificationSearch.class);
+                if (mObGetNotificationSearch == null) {
                     AIOLog.e("obGetNotification is null");
                     return;
                 }
-                AIOLog.d("obGetNotification status:" + obGetNotification.status);
-                switch (obGetNotification.status) {
+                AIOLog.d("obGetNotification status:" + mObGetNotificationSearch.status);
+                switch (mObGetNotificationSearch.status) {
                 case BravoConstant.STATUS_SUCCESS:
-                    if (obGetNotification.data == null || obGetNotification.data.size() <= 0) {
+                    if (mObGetNotificationSearch.data == null || mObGetNotificationSearch.data.size() <= 0) {
                         mTextNoNotifications.setVisibility(View.VISIBLE);
                         mListViewNotifications.setVisibility(View.GONE);
+
                     } else {
                         mTextNoNotifications.setVisibility(View.GONE);
                         mListViewNotifications.setVisibility(View.VISIBLE);
+                        mAdapterHomeNotification.updateNotificationList(mObGetNotificationSearch.data);
                     }
                     break;
                 case BravoConstant.STATUS_FAILED:
@@ -102,7 +118,7 @@ public class FragmentHomeNotification extends FragmentBasic {
                 AIOLog.d("response error");
             }
         }, params, true);
-        getLoginRequest.execute(url);
+        getNotificationSearch.execute(url);
     }
 
     public interface IClosePageHomeNotification {
@@ -111,5 +127,11 @@ public class FragmentHomeNotification extends FragmentBasic {
 
     public void setListener(IClosePageHomeNotification iClosePageHomeNotification) {
         this.iClosePageHomeNotification = iClosePageHomeNotification;
+    }
+
+    @Override
+    public void onClickUserAvatar(String userId) {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToUserData(userId);
     }
 }

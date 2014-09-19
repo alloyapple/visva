@@ -3,6 +3,7 @@ package com.sharebravo.bravo.view.fragment.userprofile;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
 import com.sharebravo.bravo.model.response.ObGetBlockingCheck;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
@@ -162,6 +164,10 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            getUserInfo(foreignID);
+            requestGetUserTimeLine(foreignID);
+            requestGetBlockingCheck();
+            requestGetFollowingCheck();
         }
         mListViewUserPostProfile.setVisibility(View.GONE);
     }
@@ -184,17 +190,14 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         }
 
         String checkingUserId = foreignUserId;
-        if (StringUtility.isEmpty(foreignUserId)) {
+        if (foreignUserId.equals(userId)) {
             mBtnBack.setVisibility(View.GONE);
             mBtnSettings.setVisibility(View.VISIBLE);
             isMyData = true;
-            checkingUserId = userId;
-            foreignID = userId;
         } else {
             isMyData = false;
             mBtnBack.setVisibility(View.VISIBLE);
             mBtnSettings.setVisibility(View.GONE);
-            this.foreignID = foreignUserId;
         }
 
         String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + checkingUserId;
@@ -219,9 +222,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         AIOLog.d("BravoConstant.STATUS_SUCCESS");
                         AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
                         mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
-                        requestGetUserTimeLine(foreignID);
-                        requestGetBlockingCheck();
-                        requestGetFollowingCheck();
                         onStopPullAndLoadListView();
                         break;
                     default:
@@ -267,6 +267,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 }
                 else {
                     // ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetUserTimeline.data);
+                    addUserBravoLastPic(obGetUserTimeline.data);
                     mAdapterUserDataProfile.updateRecentPostList(obGetUserTimeline.data);
                 }
                 mListViewUserPostProfile.setVisibility(View.VISIBLE);
@@ -279,6 +280,15 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         }, params, true);
         getTimeline.execute(url);
 
+    }
+
+    public void addUserBravoLastPic(ArrayList<ObBravo> bravoItems) {
+        if (bravoItems == null)
+            return;
+        for (int i = 0; i < bravoItems.size(); i++) {
+            bravoItems.get(i).Last_Pic = bravoItems.get(i).Bravo_Pics.size() > 0 ? bravoItems.get(i).Bravo_Pics.get(0) : "";
+
+        }
     }
 
     private void requestGetFollowingCheck() {
@@ -890,5 +900,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 startActivityForResult(i, CROP_FROM_CAMERA);
             }
         }
+    }
+
+    public void setForeignID(String foreignID) {
+        this.foreignID = foreignID;
     }
 }

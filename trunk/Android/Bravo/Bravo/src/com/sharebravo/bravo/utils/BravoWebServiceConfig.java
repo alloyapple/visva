@@ -11,7 +11,7 @@ public class BravoWebServiceConfig {
     public static final String URL_BRAVO_BASE                       = "https://dev1.sharebravo.com/api";
     public static final String URL_GET_NOTIFICATION                 = URL_BRAVO_BASE + "/notification";
     public static final String URL_GET_NOTIFICATION_SEARCH          = URL_BRAVO_BASE
-                                                                            + "/notification?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
+                                                                            + "/notification";
     public static final String URL_GET_BLOCKING_CHECK               = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/blocking/{User_ID_Other}";
     public static final String URL_GET_BRAVO                        = URL_BRAVO_BASE + "/bravo/{Bravo_ID}";
@@ -92,7 +92,7 @@ public class BravoWebServiceConfig {
     public static final String URL_DELETE_USER                      = "https://dev.sharebravo.com/user/{User_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
     // public static final String URL_POST_BRAVO = URL_BRAVO_BASE+"/bravo/{Bravo_ID}?User_ID={str}&Access_Token={str}";
 
-//    public static final String URL_GET_LIKED_SAVED                  = URL_BRAVO_BASE + "/spot/{Spot_ID}";
+    // public static final String URL_GET_LIKED_SAVED = URL_BRAVO_BASE + "/spot/{Spot_ID}";
     public static final String URL_PUT_LIKE                         = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylikelist?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_LIKE                      = URL_BRAVO_BASE
