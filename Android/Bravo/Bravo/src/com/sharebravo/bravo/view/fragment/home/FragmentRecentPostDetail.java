@@ -81,8 +81,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
 
                                                                  }
                                                              };
-    private Button                  mBtnViewMap;
-    private Button                  mBtnCallSpot;
+
     private ObBravo                 mBravoObj;
     private SessionLogin            mSessionLogin            = null;
     private int                     mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
