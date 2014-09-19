@@ -78,7 +78,7 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/search_near_bravo_icon"
             android:drawablePadding="10dp"
-            android:text="@string/text_local_bravo"
+            android:text="@string/search_quick_near_bravo"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -96,7 +96,7 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/nearby_icon_1"
             android:drawablePadding="10dp"
-            android:text="@string/text_around_me"
+            android:text="@string/search_quick_around"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -114,7 +114,7 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/people_icon_1"
             android:drawablePadding="10dp"
-            android:text="@string/text_people_following"
+            android:text="@string/search_quick_following"
             android:textColor="@color/black"
             android:textStyle="bold" />
         <TextView

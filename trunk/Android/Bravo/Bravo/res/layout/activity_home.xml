@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
-                        android:text="@string/home_tab"
+                        android:text="@string/tab_home"
                         android:textColor="@color/white" />
                 </FrameLayout>
 
@@ -180,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
-                        android:text="@string/network_tab"
+                        android:text="@string/tab_feed"
                         android:textColor="@color/click_color" />
                 </FrameLayout>
 
@@ -209,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
-                        android:text="@string/search_tab"
+                        android:text="@string/tab_search"
                         android:textColor="@color/click_color" />
                 </FrameLayout>
 
@@ -232,7 +232,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
-                        android:text="@string/mydata_tab"
+                        android:text="@string/tab_mydata"
                         android:textColor="@color/click_color" />
                 </FrameLayout>
             </LinearLayout>

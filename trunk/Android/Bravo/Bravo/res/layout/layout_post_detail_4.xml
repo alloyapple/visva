@@ -26,7 +26,7 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/save_bravo_off"
                 android:gravity="center"
-                android:text="@string/btn_save"
+                android:text="@string/save_pics_button"
                 android:textColor="@color/black" />
         </LinearLayout>
 
@@ -44,7 +44,7 @@
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/icon_like"
                 android:gravity="center"
-                android:text="@string/btn_save"
+                android:text="@string/save_pics_button"
                 android:textColor="@color/black" />
         </LinearLayout>
 
