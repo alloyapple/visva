@@ -26,7 +26,7 @@
         android:background="@drawable/search_background" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/box_search"
@@ -43,11 +43,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_search_spot" />
+                android:hint="@string/hint_search_spot"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_quicksearch_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -117,10 +120,17 @@
             android:text="@string/search_quick_following"
             android:textColor="@color/black"
             android:textStyle="bold" />
-        <TextView
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#DAD9DC" />
     </LinearLayout>
+
+    <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
+        android:id="@+id/listview_result_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
 </LinearLayout>
