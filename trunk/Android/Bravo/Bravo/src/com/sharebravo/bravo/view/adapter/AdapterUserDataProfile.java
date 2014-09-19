@@ -74,7 +74,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
         // if (convertView == null) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_recent_post, null);
+        convertView = inflater.inflate(R.layout.row_recent_post, parent);
         // }
 
         holder = new ViewHolder();
@@ -299,7 +299,6 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mListener.goToUserTimeline();
             }
         });
@@ -318,7 +317,6 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mListener.goToUserFollowing();
             }
         });

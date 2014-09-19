@@ -36,7 +36,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.android.gms.internal.da;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
@@ -405,8 +404,6 @@ public class FragmentBravoRegister extends FragmentBasic {
                         return;
                     else {
                         cropImageFromUri(data.getData());
-//                        mUserAvatarBitmap = photo;
-//                        mImgUserPicture.setImageBitmap(photo);
                         return;
                     }
                 }
@@ -424,16 +421,9 @@ public class FragmentBravoRegister extends FragmentBasic {
                 String capturedImageFilePath = cursor.getString(column_index_data);
 
                 File file = new File(capturedImageFilePath);
-                String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
                     cropImageFromUri(fileUri);
-//                    int orientation = BravoUtils.checkOrientation(fileUri);
-//                    Bitmap bmp;
-//                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-//                    mUserAvatarBitmap = bmp;
-//                    mImgUserPicture.setImageBitmap(bmp);
-//                    mUserAvatarBitmap = bmp;
                 }
             }
             break;
@@ -458,12 +448,12 @@ public class FragmentBravoRegister extends FragmentBasic {
                 if (file.exists()) {
                     fileUri = Uri.fromFile(file);
                     cropImageFromUri(fileUri);
-//                    int orientation = BravoUtils.checkOrientation(fileUri);
-//                    Bitmap bmp;
-//                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-//                    mUserAvatarBitmap = bmp;
-//                    mImgUserPicture.setImageBitmap(bmp);
-//                    mUserAvatarBitmap = bmp;
+                    // int orientation = BravoUtils.checkOrientation(fileUri);
+                    // Bitmap bmp;
+                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    // mUserAvatarBitmap = bmp;
+                    // mImgUserPicture.setImageBitmap(bmp);
+                    // mUserAvatarBitmap = bmp;
                 } else {
                     AIOLog.d("file don't exist !");
                 }
@@ -522,8 +512,8 @@ public class FragmentBravoRegister extends FragmentBasic {
             return;
         } else {
             intent.setData(uri);
-            intent.putExtra("outputX", 500);
-            intent.putExtra("outputY", 500);
+            intent.putExtra("outputX", 1000);
+            intent.putExtra("outputY", 1000);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);

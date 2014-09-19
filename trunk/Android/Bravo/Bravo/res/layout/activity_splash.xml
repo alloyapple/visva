@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bravo_pin_2x"
-                android:contentDescription="@string/login" />
+                android:contentDescription="@string/intro_login" />
 
             <TextView
                 android:id="@+id/text_login"
@@ -38,7 +38,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:gravity="center|left"
-                android:text="@string/login"
+                android:text="@string/intro_login"
                 android:textColor="#575757"
                 android:textSize="@dimen/login_register_text_size"
                 android:textStyle="bold" />
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/layout_login_register_height"
             android:background="@drawable/separate_y"
-            android:contentDescription="@string/login" />
+            android:contentDescription="@string/intro_login" />
 
         <LinearLayout
             android:id="@+id/layout_register"
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/signup_icon_2x"
-                android:contentDescription="@string/login" />
+                android:contentDescription="@string/intro_login" />
 
             <TextView
                 android:id="@+id/text_register"
@@ -72,7 +72,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:gravity="center|left"
-                android:text="@string/register"
+                android:text="@string/intro_signup"
                 android:textColor="#575757"
                 android:textSize="@dimen/login_register_text_size"
                 android:textStyle="bold" />
@@ -97,7 +97,7 @@
         android:layout_marginLeft="@dimen/text_intro_margin_left"
         android:layout_marginRight="@dimen/text_intro_margin_left"
         android:layout_marginTop="@dimen/text_intro_below_icon"
-        android:text="@string/splash_message"
+        android:text="@string/intro_logo_label"
         android:textColor="@color/white"
         android:textSize="@dimen/splash_message_size"
         android:textStyle="bold"

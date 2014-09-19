@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment.home;
+package com.sharebravo.bravo.view.fragment.userprofile;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +31,7 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.ObPutReport;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
@@ -42,12 +42,13 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.view.adapter.AdapterUserDataProfile;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.touchview.TouchImageView;
 
-public class FragmentCoverImage extends FragmentBasic {
+public class FragmentViewImage extends FragmentBasic {
     TouchImageView             coverImage;
-    private ObBravo            mObBravo;
+    private ObGetUserInfo      mObGetUserInfo;
     private ImageLoader        mImageLoader        = null;
     Button                     btnClose            = null;
     TextView                   btnDownload         = null;
@@ -55,13 +56,14 @@ public class FragmentCoverImage extends FragmentBasic {
     private SessionLogin       mSessionLogin       = null;
     private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     private HomeActionListener mHomeActionListener = null;
+    private String             mImageUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mHomeActionListener = (HomeActivity) getActivity();
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-        View root = (ViewGroup) inflater.inflate(R.layout.page_cover_image, container);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_view_image, container);
         coverImage = (TouchImageView) root.findViewById(R.id.img_cover);
         mImageLoader = new ImageLoader(getActivity());
         btnDownload = (TextView) root.findViewById(R.id.btn_download);
@@ -94,11 +96,11 @@ public class FragmentCoverImage extends FragmentBasic {
         return root;
     }
 
-    private void requestToPutReport(ObBravo obBravo) {
+    private void requestToPutReport(ObGetUserInfo obGetUserInfo) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Foreign_ID", obBravo.User_ID);
+        subParams.put("Foreign_ID", mObGetUserInfo.data.User_ID);
         subParams.put("Report_Type", "bravo");
         subParams.put("User_ID", userId);
         subParams.put("Detail", "");
@@ -149,7 +151,7 @@ public class FragmentCoverImage extends FragmentBasic {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            mImageLoader.DisplayImage(mObBravo.Last_Pic, R.drawable.user_picture_default, coverImage, false);
+            mImageLoader.DisplayImage(mImageUrl, R.drawable.user_picture_default, coverImage, false);
         }
     }
 
@@ -163,12 +165,16 @@ public class FragmentCoverImage extends FragmentBasic {
         super.onResume();
     }
 
-    public ObBravo getObBravo() {
-        return mObBravo;
+    public ObGetUserInfo getObUserInfo() {
+        return mObGetUserInfo;
     }
 
-    public void setObBravo(ObBravo mObBravo) {
-        this.mObBravo = mObBravo;
+    public void setObGetUserInfo(ObGetUserInfo obGetUserInfo, int userImageType) {
+        this.mObGetUserInfo = obGetUserInfo;
+        if (AdapterUserDataProfile.USER_AVATAR_ID == userImageType)
+            this.mImageUrl = mObGetUserInfo.data.Profile_Img_URL;
+        else
+            this.mImageUrl = mObGetUserInfo.data.Cover_Img_URL;
     }
 
     public void showDialogReport() {
@@ -183,7 +189,7 @@ public class FragmentCoverImage extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                requestToPutReport(mObBravo);
+                requestToPutReport(mObGetUserInfo);
             }
         });
         Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_report_no);
@@ -209,7 +215,6 @@ public class FragmentCoverImage extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
 
             }
@@ -226,7 +231,7 @@ public class FragmentCoverImage extends FragmentBasic {
         Random generator = new Random();
         int n = 10000;
         n = generator.nextInt(n);
-        String fname = "Bravo-" + mObBravo.Bravo_ID + ".png";
+        String fname = "Bravo-" + mObGetUserInfo.data.User_ID + ".png";
         File file = new File(myDir, fname);
         if (file.exists())
             file.delete();

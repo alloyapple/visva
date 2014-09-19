@@ -31,9 +31,9 @@
     <string name="no_address_found">No address found for location</string>
 
     <!-- Login/Register -->
-    <string name="splash_message">The shop app \nthat\'s taking the \nworld by storm!</string>
+    <string name="intro_logo_label">The shop app \nthat\'s taking the \nworld by storm!</string>
     <string name="reset_password">Reset password</string>
-    <string name="register">Register</string>
+    <string name="intro_signup">Register</string>
     <string name="sign_up_facebook">Sign up with Facebook</string>
     <string name="sign_up_twitter">Sign up with Twitter</string>
     <string name="sign_up_4square">Sign up with Foursquare</string>
@@ -49,7 +49,7 @@
     <string name="email_address">Email address</string>
     <string name="pass_word">Password</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="login">Login</string>
+    <string name="intro_login">Login</string>
     <string name="done">Done</string>
     <string name="sign_up_term">By signing up,you agree to\n the Terms of Service.</string>
     <string name="cancel">Cancel</string>
@@ -163,12 +163,13 @@
     <string name="btn_bravo_map">Bravo Map</string>
     <string name="btn_block">Block</string>
     <string name="get_user_info_error">Cannot get user info</string>
-    <string name="take_picture_of_cover">Take a Picture of cover</string>
+    <string name="profile_action_take_cover_pic">Take a Picture of cover</string>
     <string name="choose_from_library">Choose from Library</string>
     <string name="sore_by_location">Sort by location</string>
     <string name="sore_by_date">Sort by date</string>
     <string name="delete">Delete</string>
     <string name="tap_to_undo">Tap to undo</string>
+    <string name="profile_action_zoom_pic">Zoom a Picture</string>
     <!-- +++++ -->
 
 

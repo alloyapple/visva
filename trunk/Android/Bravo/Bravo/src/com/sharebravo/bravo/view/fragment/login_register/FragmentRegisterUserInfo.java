@@ -10,8 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -47,6 +49,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
     // ====================Constant Define=================
     private static final int REQUEST_CODE_CAMERA  = 1001;
     private static final int REQUEST_CODE_GALLERY = 1002;
+    private static final int CROP_FROM_CAMERA     = 1003;
     // ====================Class Define====================
     private BravoUser        mBravoUser;
     // ====================Variable Define=================
@@ -55,6 +58,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
     private ImageView        mImgChoosePicture;
     private ImageView        mImgUserPicture;
     private Uri              mCapturedImageURI;
+    private Bitmap           mUserAvatarBitmap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,7 +111,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
         String subParamsStr = jsonObject.toString();
 
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
+        AsyncHttpPost postRegister = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("reponse:" + response);
@@ -180,6 +184,8 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnZoomAPicture = (Button) dialog_view.findViewById(R.id.btn_zoom_a_picture);
+        btnZoomAPicture.setVisibility(View.GONE);
         Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
         btnTakeAPicture.setOnClickListener(new OnClickListener() {
 
@@ -246,7 +252,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     if (photo == null)
                         return;
                     else {
-                        mImgUserPicture.setImageBitmap(photo);
+                        cropImageFromUri(data.getData());
                         return;
                     }
                 }
@@ -262,15 +268,10 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
 
                 // THIS IS WHAT YOU WANT!
                 String capturedImageFilePath = cursor.getString(column_index_data);
-
                 File file = new File(capturedImageFilePath);
-                String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    mImgUserPicture.setImageBitmap(bmp);
+                    cropImageFromUri(fileUri);
                 }
             }
             break;
@@ -294,17 +295,54 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                 Uri fileUri = null;
                 if (file.exists()) {
                     fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    mImgUserPicture.setImageBitmap(bmp);
+                    cropImageFromUri(fileUri);
                 } else {
                     AIOLog.d("file don't exist !");
                 }
             }
             break;
+        case CROP_FROM_CAMERA:
+            if (resultCode == getActivity().RESULT_OK) {
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data");
+                    mUserAvatarBitmap = photo;
+                    mImgUserPicture.setImageBitmap(photo);
+                }
+            }
+            break;
         default:
             return;
+        }
+    }
+
+    private void cropImageFromUri(Uri uri) {
+        AIOLog.d("uri:" + uri);
+        Intent intent = new Intent("com.android.camera.action.CROP");
+
+        intent.setType("image/*");
+
+        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+
+        int size = list.size();
+        AIOLog.d("size:" + size);
+        if (size == 0) {
+            showToast("Can not crop image");
+            return;
+        } else {
+            intent.setData(uri);
+            intent.putExtra("outputX", 1000);
+            intent.putExtra("outputY", 1000);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+            if (size >= 1) {
+                Intent i = new Intent(intent);
+                ResolveInfo res = list.get(0);
+                i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                startActivityForResult(i, CROP_FROM_CAMERA);
+            }
         }
     }
 }

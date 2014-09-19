@@ -28,7 +28,7 @@
             android:layout_width="1dp"
             android:layout_height="@dimen/layout_login_register_height"
             android:background="@color/devider_color"
-            android:contentDescription="@string/login" />
+            android:contentDescription="@string/intro_login" />
 
         <Button
             android:id="@+id/btn_view_map"
@@ -46,6 +46,6 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/devider_color"
-        android:contentDescription="@string/login" />
+        android:contentDescription="@string/intro_login" />
 
 </LinearLayout>

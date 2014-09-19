@@ -179,29 +179,29 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                 } else {
                     switch (mObGetUserInfo.status) {
                     case BravoConstant.STATUS_FAILED:
-                        
+
                         showToast(getActivity().getResources().getString(R.string.get_user_info_error));
                         break;
                     case BravoConstant.STATUS_SUCCESS:
-                        
+
                         AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
                         if (mObGetUserInfo != null) {
-                            
+
                             mEditTextUserName.setText(mObGetUserInfo.data.Full_Name);
                             if (!StringUtility.isEmpty(mObGetUserInfo.data.About_Me))
-                                
+
                                 mEditTextUserDescription.setText(mObGetUserInfo.data.About_Me);
                             else
                                 mEditTextUserDescription.setText("");
-                            
+
                             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
                             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
                             if (StringUtility.isEmpty(userAvatarUrl)) {
-                                
+
                                 mImgUserPicture.setImageBitmap(null);
                                 mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
                             } else {
-                                
+
                                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, mImgUserPicture, true);
                             }
                         }
@@ -306,7 +306,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
             }
         }, params, true);
         postRegister.execute(putUserUrl);
-    
+
     }
 
     private void showDialogChooseImage() {
@@ -315,6 +315,8 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnZoomAPicture = (Button) dialog_view.findViewById(R.id.btn_zoom_a_picture);
+        btnZoomAPicture.setVisibility(View.GONE);
         Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
         btnTakeAPicture.setOnClickListener(new OnClickListener() {
 
