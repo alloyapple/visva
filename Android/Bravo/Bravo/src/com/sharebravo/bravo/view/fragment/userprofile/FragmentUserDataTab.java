@@ -547,7 +547,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     @Override
     public void requestUserImageType(int userImageType) {
         mUserImageType = userImageType;
-        showDialogChooseImage(userImageType);
+        showDialogChooseImage(userImageType, mObGetUserInfo);
     }
 
     public void showDialogStopFollowing() {
@@ -620,12 +620,30 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         dialog.show();
     }
 
-    private void showDialogChooseImage(int userImageType) {
+    private void showDialogChooseImage(final int userImageType, ObGetUserInfo obGetUserInfo) {
+        String imageProfileUrl = obGetUserInfo.data.Profile_Img_URL;
+        String imageCoverUrl = obGetUserInfo.data.Cover_Img_URL;
+
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnZoomAPicture = (Button) dialog_view.findViewById(R.id.btn_zoom_a_picture);
+
+        if ((AdapterUserDataProfile.USER_AVATAR_ID == userImageType && StringUtility.isEmpty(imageProfileUrl))
+                || (AdapterUserDataProfile.USER_COVER_ID == userImageType && StringUtility.isEmpty(imageCoverUrl))) {
+            btnZoomAPicture.setVisibility(View.GONE);
+        }
+        btnZoomAPicture.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                mHomeActionListener.goToViewImage(mObGetUserInfo, userImageType);
+            }
+        });
+
         Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
         btnTakeAPicture.setOnClickListener(new OnClickListener() {
 
@@ -644,7 +662,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     AIOLog.e("exception:" + e.getMessage());
                 }
                 dialog.dismiss();
-
             }
         });
         Button btnChooseFromLibrary = (Button) dialog_view.findViewById(R.id.btn_choose_from_library);
@@ -692,8 +709,11 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     if (photo == null)
                         return;
                     else {
-                        cropImageFromUri(data.getData());
-                        // postUpdateUserProfile(photo, mUserImageType);
+                        if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
+                            cropImageFromUri(data.getData());
+                        } else {
+                            postUpdateUserProfile(photo, mUserImageType);
+                        }
                         return;
                     }
                 }
@@ -713,7 +733,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(capturedImageFilePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    cropImageFromUri(fileUri);
+                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType)
+                        cropImageFromUri(fileUri);
+                    else {
+                        int orientation = BravoUtils.checkOrientation(fileUri);
+                        // Bitmap bitmap = BravoUtils.decodeBitmap(BitmapFactory.decodeFile(pathName, opts), orientation);
+                    }
                 }
             }
             break;
@@ -726,8 +751,14 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 }
 
                 Uri uri = data.getData();
+                if (uri == null)
+                    return;
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                if (getActivity().getContentResolver() == null)
+                    return;
                 Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
+                if (cursor == null)
+                    return;
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imagePath = cursor.getString(columnIndex);
@@ -745,7 +776,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         case CROP_FROM_CAMERA:
             if (resultCode == getActivity().RESULT_OK) {
                 Bundle extras = data.getExtras();
-
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
                     postUpdateUserProfile(photo, mUserImageType);
@@ -887,8 +917,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             return;
         } else {
             intent.setData(uri);
-            intent.putExtra("outputX", 500);
-            intent.putExtra("outputY", 500);
+            intent.putExtra("outputX", 1000);
+            intent.putExtra("outputY", 1000);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);

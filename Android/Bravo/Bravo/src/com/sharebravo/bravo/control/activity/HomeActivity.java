@@ -66,6 +66,7 @@ import com.sharebravo.bravo.view.fragment.userprofile.FragmentFollower;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentFollowing;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentHistory;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab;
+import com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab.IShowPageSettings;
 
 public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification, IClosePageHomeNotification,
@@ -95,6 +96,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_FAVOURITE             = "favourite";
     private static final String      FRAGMENT_LIKED                 = "liked";
     private static final String      FRAGMENT_SAVED                 = "saved";
+    private static final String      FRAGMENT_VIEW_IMAGE            = "view_image";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -117,6 +119,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_FAVOURITE_ID          = FRAGMENT_BASE_ID + 18;
     public static final int          FRAGMENT_LIKED_ID              = FRAGMENT_BASE_ID + 19;
     public static final int          FRAGMENT_SAVED_ID              = FRAGMENT_BASE_ID + 20;
+    public static final int          FRAGMENT_VIEW_IMAGE_ID         = FRAGMENT_BASE_ID + 21;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -135,6 +138,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentCoverImage       mFragmentCoverImage;
     private FragmentShare            mFragmentShare;
     private FragmentShareWithFriends mFragmentShareWithFriends;
+    private FragmentViewImage        mFragmentViewImage;
 
     private FragmentHistory          mFragmentHistory;
     private FragmentFollowing        mFragmentFollowing;
@@ -354,6 +358,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentCoverImage = (FragmentCoverImage) mFmManager.findFragmentById(R.id.fragment_cover_image);
         mFragmentShare = (FragmentShare) mFmManager.findFragmentById(R.id.fragment_share);
         mFragmentShareWithFriends = (FragmentShareWithFriends) mFmManager.findFragmentById(R.id.fragment_share_with_friends);
+        mFragmentViewImage = (FragmentViewImage) mFmManager.findFragmentById(R.id.fragment_view_image);
 
         mFragmentHistory = (FragmentHistory) mFmManager.findFragmentById(R.id.fragment_history);
         mFragmentFollowing = (FragmentFollowing) mFmManager.findFragmentById(R.id.fragment_following);
@@ -484,6 +489,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentSaved);
             addToSBackStack(FRAGMENT_SAVED);
             break;
+        case FRAGMENT_VIEW_IMAGE_ID:
+            mTransaction.show(mFragmentViewImage);
+            addToSBackStack(FRAGMENT_VIEW_IMAGE);
+            break;
         default:
             break;
         }
@@ -509,6 +518,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentShareWithFriends);
         mTransaction.hide(mFragmentLiked);
         mTransaction.hide(mFragmentSaved);
+        mTransaction.hide(mFragmentViewImage);
 
         mTransaction.hide(mFragmentHistory);
         mTransaction.hide(mFragmentFollowing);
@@ -621,7 +631,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 || currentView.equals(FRAGMENT_SHARE_WITH_FRIENDS)) {
             mTransaction.show(mFragmentSetting);
         } else if (currentView.equals(FRAGMENT_HISTORY) || currentView.equals(FRAGMENT_FOLOWING) || currentView.equals(FRAGMENT_FOLLOWER)
-                || currentView.equals(FRAGMENT_FAVOURITE)) {
+                || currentView.equals(FRAGMENT_VIEW_IMAGE)) {
             mTransaction.show(mFragmentUserDataTab);
         } else if (currentView.equals(FRAGMENT_HOME_TAB) || currentView.equals(FRAGMENT_NETWORK_TAB) || currentView.equals(FRAGMENT_BRAVO_TAB)
                 || currentView.equals(FRAGMENT_SEARCH_TAB) || currentView.equals(FRAGMENT_USER_DATA_TAB)) {
@@ -910,16 +920,19 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToLiked(String mSpotID) {
-        // TODO Auto-generated method stub
         mFragmentLiked.setSpotID(mSpotID);
         showFragment(FRAGMENT_LIKED_ID);
     }
 
     @Override
     public void goToSaved(String mSpotID) {
-        // TODO Auto-generated method stub
         mFragmentSaved.setSpotID(mSpotID);
         showFragment(FRAGMENT_SAVED_ID);
     }
 
+    @Override
+    public void goToViewImage(ObGetUserInfo obGetUserInfo, int userImageType) {
+        mFragmentViewImage.setObGetUserInfo(obGetUserInfo, userImageType);
+        showFragment(FRAGMENT_VIEW_IMAGE_ID);
+    }
 }

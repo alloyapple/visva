@@ -69,7 +69,7 @@
         android:layout_marginRight="@dimen/btn_done_registration_margin_left_right"
         android:layout_marginTop="@dimen/btn_done_registration_margin_top"
         android:background="@drawable/bt_white"
-        android:text="@string/login"
+        android:text="@string/intro_login"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 

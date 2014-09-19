@@ -109,16 +109,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.userprofile.FragmentFavourite" />
-             <fragment
+
+            <fragment
                 android:id="@+id/fragment_liked"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.home.FragmentLiked" />
-              <fragment
+
+            <fragment
                 android:id="@+id/fragment_saved"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.home.FragmentSaved" />
+
+            <fragment
+                android:id="@+id/fragment_view_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage" />
         </RelativeLayout>
 
         <FrameLayout

@@ -210,7 +210,7 @@ public class BravoUtils {
         return decodeBitmap(BitmapFactory.decodeFile(filePath, options), orientation);
     }
 
-    private static Bitmap decodeBitmap(Bitmap bitmap, int orientation) {
+    public static Bitmap decodeBitmap(Bitmap bitmap, int orientation) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Matrix mtx = new Matrix();

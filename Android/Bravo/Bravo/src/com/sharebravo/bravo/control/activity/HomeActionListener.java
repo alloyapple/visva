@@ -8,6 +8,8 @@ public interface HomeActionListener {
 
     public void goToCoverImage(ObBravo obGetBravo);
 
+    public void goToViewImage(ObGetUserInfo obGetUserInfo, int userImageType);
+
     public void goToFragment(int fragmentID);
 
     public void goToUserData(String userId);

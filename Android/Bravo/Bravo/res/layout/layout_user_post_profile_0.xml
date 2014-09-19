@@ -18,7 +18,7 @@
                 android:layout_height="fill_parent"
                 android:background="@color/click_color"
                 android:contentDescription="@string/app_name"
-                android:scaleType="fitXY" >
+                android:scaleType="centerCrop" >
             </ImageView>
 
             <ImageButton
