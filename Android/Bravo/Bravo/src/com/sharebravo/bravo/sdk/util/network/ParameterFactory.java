@@ -114,8 +114,13 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("User_ID", userID));
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
         parameters.add(new BasicNameValuePair("params", subParams));
-
         return parameters;
     }
-
+    public static List<NameValuePair> createSubParamsRequest(String userID, String accessToken, String subParams) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("User_ID", userID));
+        parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
+        parameters.add(new BasicNameValuePair("params", subParams));
+        return parameters;
+    }
 }
