@@ -337,6 +337,8 @@ public class FragmentBravoRegister extends FragmentBasic {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnZoomAPicture = (Button) dialog_view.findViewById(R.id.btn_zoom_a_picture);
+        btnZoomAPicture.setVisibility(View.GONE);
         Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
         btnTakeAPicture.setOnClickListener(new OnClickListener() {
 
