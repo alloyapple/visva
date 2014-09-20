@@ -27,7 +27,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                          /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
     public static final String URL_GET_SPOT                         = URL_BRAVO_BASE + "/spot/{Spot_ID}";
     public static final String URL_GET_SPOT_SEARCH                  = URL_BRAVO_BASE
-                                                                            + "/spot?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params}";
+                                                                            + "/spot";
     public static final String URL_GET_SPOT_HISTORY                 = URL_BRAVO_BASE + "/spot/{Spot_ID}/history?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_SPOT_RANK                    = URL_BRAVO_BASE + "/spot/{Spot_ID}/rank?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_TSURETE                      = URL_BRAVO_BASE + "/bravo/{Bravo_ID}/tsurete?User_ID={str}&Access_Token={str}";

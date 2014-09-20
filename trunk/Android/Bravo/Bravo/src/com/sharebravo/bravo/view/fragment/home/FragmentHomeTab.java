@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -61,6 +62,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                                                                                 .get(position - 1));
                                                                     }
                                                                 };
+    private TextView                  mNotificationIcon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -135,6 +137,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             public void onClick(View v) {
                 // show home notification tab
                 mListener.showPageHomeNotification();
+                mNotificationIcon.setVisibility(View.GONE);
             }
         });
         mListviewRecentPost = (XListView) root.findViewById(R.id.listview_recent_post);
@@ -143,6 +146,38 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mListviewRecentPost.setAdapter(mAdapterRecentPost);
         mListviewRecentPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewRecentPost.setVisibility(View.GONE);
+
+        mNotificationIcon = (TextView) root.findViewById(R.id.notification_icon);
+        // /* load more old items */
+        // mListviewRecentPost.setOnLoadMoreListener(new IOnLoadMoreListener() {
+        //
+        // @Override
+        // public void onLoadMore() {
+        // int size = mObGetAllBravoRecentPosts.data.size();
+        // if (size > 0)
+        // onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
+        // else
+        // mListviewRecentPost.onLoadMoreComplete();
+        // AIOLog.d("IOnLoadMoreListener");
+        // }
+        // });
+        //
+        // /* on refresh new items */
+        // /* load more old items */
+        // mListviewRecentPost.setOnRefreshListener(new IOnRefreshListener() {
+        //
+        // @Override
+        // public void onRefresh() {
+        // AIOLog.d("IOnRefreshListener");
+        // int size = mObGetAllBravoRecentPosts.data.size();
+        // if (size > 0)
+        // onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
+        // else
+        // mListviewRecentPost.onRefreshComplete();
+        // }
+        // });
+        //
+
         mListviewRecentPost.setXListViewListener(new IXListViewListener() {
 
             @Override

@@ -15,8 +15,8 @@ public class ObGetSpot {
     }
 
     public class Spot {
-//        @SerializedName("Spot_ID")
-//        public String       Spot_ID;
+        @SerializedName("Spot_ID")
+        public String       Spot_ID;
         @SerializedName("Spot_Name")
         public String       Spot_Name;
         @SerializedName("Spot_Source")
