@@ -1,6 +1,8 @@
 package com.sharebravo.bravo.view.fragment.login_register;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +18,12 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,12 +38,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.user.BravoUser;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
@@ -87,7 +95,7 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
         return root;
     }
 
-    private void requestToPostBravoUserbySNS(BravoUser bravoUser) {
+    private void requestToPostBravoUserbySNS(final BravoUser bravoUser) {
         AIOLog.d("==================================");
         AIOLog.d("bravoUser.mAuthenMethod=>" + bravoUser.mAuthenMethod);
         AIOLog.d("bravoUser.mUserName=>" + bravoUser.mUserName);
@@ -138,10 +146,15 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                     /* save data to share preferences */
                     BravoUtils.saveResponseToSharePreferences(getActivity(), mBravoUser.mRegisterType, response);
 
-                    /* go to home screen */
-                    Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                    getActivity().startActivity(homeIntent);
-                    getActivity().finish();
+                    if (mUserAvatarBitmap != null) {
+                        requestToPostUserWithAvatarImage(bravoUser, mUserAvatarBitmap);
+                    } else {
+                        /* go to home screen */
+                        Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(homeIntent);
+                        getActivity().finish();
+                    }
                 } else {
                     obPostUserFailed = gson.fromJson(response.toString(), ObGetLoginedUser.class);
                     showToast(obPostUserFailed.error);
@@ -344,5 +357,72 @@ public class FragmentRegisterUserInfo extends FragmentBasic {
                 startActivityForResult(i, CROP_FROM_CAMERA);
             }
         }
+    }
+    
+    private void requestToPostUserWithAvatarImage(BravoUser bravoUser, Bitmap userAvatarBmp) {
+        if (userAvatarBmp == null) {
+            /* go to home screen */
+            Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+            getActivity().finish();
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        options.inSampleSize = 1;
+        options.inPurgeable = true;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        userAvatarBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        // bitmap object
+        byte byteImage_photo[] = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        byte imageByte[] = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+        if (bitmap == null)
+            AIOLog.d("bitmap:" + bitmap);
+        mImgUserPicture.setImageBitmap(bitmap);
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Profile_Img", encodedImage);
+        subParams.put("Cover_Img", "");
+        subParams.put("Profile_Img_Del", "0");
+        subParams.put("Cover_Img_Del", "0");
+        subParams.put("About_Me", "xxxxx");
+        subParams.put("UserId", userId);
+
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        AIOLog.d("encodedImage:" + encodedImage);
+        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPostImage postRegister = new AsyncHttpPostImage(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after uploading image:" + response);
+                /* go to home screen */
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(homeIntent);
+                getActivity().finish();
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(putUserUrl);
+
     }
 }

@@ -193,7 +193,7 @@ public class BravoUtils {
         return rotate;
     }
 
-    public static Bitmap decodeSampledBitmapFromFile(String filePath, int reqWidth, int reqHeight, int orientation) {
+    public static Bitmap decodeBitmapFromFile(String filePath, int reqWidth, int reqHeight, int orientation) {
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -203,6 +203,23 @@ public class BravoUtils {
 
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+
+        return decodeBitmap(BitmapFactory.decodeFile(filePath, options), orientation);
+    }
+    
+    public static Bitmap decodedBitmapFromFile(String filePath, int orientation) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        Matrix mtx = new Matrix();
+        mtx.postRotate(orientation);
+        BitmapFactory.decodeFile(filePath, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = 2;
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;

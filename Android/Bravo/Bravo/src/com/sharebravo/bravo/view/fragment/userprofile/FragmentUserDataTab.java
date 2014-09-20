@@ -737,7 +737,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         cropImageFromUri(fileUri);
                     else {
                         int orientation = BravoUtils.checkOrientation(fileUri);
-                        // Bitmap bitmap = BravoUtils.decodeBitmap(BitmapFactory.decodeFile(pathName, opts), orientation);
+                        Bitmap bitmap = BravoUtils.decodeBitmapFromFile(capturedImageFilePath, 1000, 1000, orientation);
+                        postUpdateUserProfile(bitmap, mUserImageType);
                     }
                 }
             }
@@ -767,8 +768,15 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(imagePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    cropImageFromUri(fileUri);
+                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
+                        cropImageFromUri(fileUri);
+                    } else {
+                        int orientation = BravoUtils.checkOrientation(fileUri);
+                        Bitmap bitmap = BravoUtils.decodeBitmapFromFile(imagePath, 1000, 1000, orientation);
+                        postUpdateUserProfile(bitmap, mUserImageType);
+                    }
                 } else {
+
                     AIOLog.d("file don't exist !");
                 }
             }
@@ -845,7 +853,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         options.inSampleSize = 1;
         options.inPurgeable = true;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userAvatarBmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        userAvatarBmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
         byte byteImage_photo[] = baos.toByteArray();
         String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);

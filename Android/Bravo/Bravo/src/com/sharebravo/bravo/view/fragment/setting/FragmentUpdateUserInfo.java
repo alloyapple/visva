@@ -408,7 +408,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    bmp = BravoUtils.decodeBitmapFromFile(imagePath, 100, 100, orientation);
                     isChangeImage = true;
                     mUserProfileImg = bmp;
                     mImgUserPicture.setImageBitmap(bmp);
@@ -437,7 +437,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                     fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bmp;
-                    bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
+                    bmp = BravoUtils.decodeBitmapFromFile(imagePath, 100, 100, orientation);
                     isChangeImage = true;
                     mUserProfileImg = bmp;
                     mImgUserPicture.setImageBitmap(bmp);
