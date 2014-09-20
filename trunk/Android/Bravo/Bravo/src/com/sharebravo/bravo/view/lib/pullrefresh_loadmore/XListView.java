@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 
 public class XListView extends ListView implements OnScrollListener {
 
@@ -214,7 +215,7 @@ public class XListView extends ListView implements OnScrollListener {
         }
         int height = mFooterView.getBottomMargin() + (int) delta;
         if (mEnablePullLoad && !mPullLoading) {
-            if (height > PULL_LOAD_MORE_DELTA) { 
+            if (height > PULL_LOAD_MORE_DELTA) {
                 mFooterView.setState(XListViewFooter.STATE_READY);
             } else {
                 mFooterView.setState(XListViewFooter.STATE_NORMAL);
@@ -238,6 +239,7 @@ public class XListView extends ListView implements OnScrollListener {
         if (mListViewListener != null) {
             mListViewListener.onLoadMore();
         }
+        AIOLog.d("mTotalItemCount=>" + mTotalItemCount);
     }
 
     @Override
@@ -327,23 +329,23 @@ public class XListView extends ListView implements OnScrollListener {
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // send to user's listener
         mTotalItemCount = totalItemCount;
-        if (mScrollListener != null) {
-            mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-        }
-        
+         if (mScrollListener != null) {
+         mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+         }
+
         if (visibleItemCount < totalItemCount) {
-            
+
             boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+            AIOLog.d("totalItemCount:" + totalItemCount + ", getSelectedItemPosition=>" + getSelectedItemId());
             if (mEnablePullLoad && !mPullLoading && loadMore) {
                 mFooterView.setVisibility(View.VISIBLE);
                 mFooterView.show();
                 updateFooterHeight(PULL_LOAD_MORE_DELTA);
                 startLoadMore();
-                // mIsLoadingMore = true;
                 mEnablePullLoad = false;
-                setSelection(totalItemCount);
+                setSelection(totalItemCount - 2);
             }
-            
+
         } else {
             if (mFooterView != null)
                 mFooterView.hide();
