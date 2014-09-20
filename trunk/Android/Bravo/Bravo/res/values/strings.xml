@@ -205,7 +205,8 @@
     <string name="search_quick_around">Around me</string>
     <string name="search_quick_following">People I\'m following</string>
     <string name="search_quick_header">Quick spot search</string>
-
+    <string name="search_result_nothing">Unable to find your spot?\nYou can easily add it!</string>
+    
     <!-- Pull To Refresh -->
     <string name="pull_refresh_pull_down">Pull down to update...</string>
     <string name="pull_refresh_release">Release to update...</string>

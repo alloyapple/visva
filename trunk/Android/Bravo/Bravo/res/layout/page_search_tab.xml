@@ -11,6 +11,7 @@
         android:gravity="center_vertical" >
 
         <Button
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
@@ -39,6 +40,7 @@
                 android:background="@drawable/icon_search" />
 
             <EditText
+                android:id="@+id/txtbox_search_spot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -60,9 +62,10 @@
             android:id="@+id/text_quick_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:background="@drawable/color_button"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="@string/text_quick_search"
             android:textColor="@color/grey_3"
             android:textStyle="bold" />
@@ -76,11 +79,12 @@
             android:id="@+id/text_local_bravo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:background="@drawable/color_button"
             android:drawableLeft="@drawable/search_near_bravo_icon"
             android:drawablePadding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="@string/search_quick_near_bravo"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -94,11 +98,12 @@
             android:id="@+id/text_around_me"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:background="@drawable/color_button"
             android:drawableLeft="@drawable/nearby_icon_1"
             android:drawablePadding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="@string/search_quick_around"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -112,11 +117,12 @@
             android:id="@+id/text_people_following"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:background="@drawable/color_button"
             android:drawableLeft="@drawable/people_icon_1"
             android:drawablePadding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="@string/search_quick_following"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -132,5 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
+
+    <!-- <include layout="@layout/layout_search_result_footer" /> -->
 
 </LinearLayout>
