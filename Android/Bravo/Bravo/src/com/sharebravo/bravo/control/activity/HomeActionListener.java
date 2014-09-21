@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.control.activity;
 
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 
 public interface HomeActionListener {
@@ -31,6 +32,14 @@ public interface HomeActionListener {
     public void goToLiked(String mSpotID);
 
     public void goToSaved(String mSpotID);
+
+    public void goToSpotDetail(Spot mSpot);
+
+    public void goToAddSpot();
+
+    public void goToInputMySpot();
+
+    public void goToLocateMySpot();
 
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 }

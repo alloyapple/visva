@@ -29,9 +29,9 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover;
-import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
+import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 
-public class AdapterRecentPostDetail extends BaseAdapter {
+public class AdapterBravoDetail extends BaseAdapter {
     private Context            mContext;
     // private ArrayList<String> commentsData = new ArrayList<String>();
     private DetailPostListener listener;
@@ -39,12 +39,12 @@ public class AdapterRecentPostDetail extends BaseAdapter {
     private ObGetComments      mObGetComments     = null;
     private ImageLoader        mImageLoader       = null;
     private Spot               mSpot              = null;
-    FragmentRecentPostDetail   fragment;
+    FragmentBravoDetail   fragment;
     // FragmentTransaction transaction;
     private SessionLogin       mSessionLogin      = null;
     private int                mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
 
-    public AdapterRecentPostDetail(Context context, FragmentRecentPostDetail fragment) {
+    public AdapterBravoDetail(Context context, FragmentBravoDetail fragment) {
         // TODO Auto-generated constructor stub
         this.mContext = context;
         mImageLoader = new ImageLoader(mContext);

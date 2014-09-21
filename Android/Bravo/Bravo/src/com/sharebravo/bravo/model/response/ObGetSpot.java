@@ -24,9 +24,9 @@ public class ObGetSpot {
         @SerializedName("Spot_FID")
         public String       Spot_FID;
         @SerializedName("Spot_Longitude")
-        public double        Spot_Longitude;
+        public double       Spot_Longitude;
         @SerializedName("Spot_Latitude")
-        public double        Spot_Latitude;
+        public double       Spot_Latitude;
         @SerializedName("Spot_Type")
         public String       Spot_Type;
         @SerializedName("Spot_Genre")
@@ -53,6 +53,7 @@ public class ObGetSpot {
         public int          Total_Saved_Users;
         @SerializedName("Date_Created")
         public Date_Created Date_Created = new Date_Created();
+        public String       Spot_Icon;
 
         public Spot() {
             // TODO Auto-generated constructor stub
