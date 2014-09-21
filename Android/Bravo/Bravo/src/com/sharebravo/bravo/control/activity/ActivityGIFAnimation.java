@@ -1,10 +1,9 @@
-package com.sharebravo.bravo.view.lib.gifanimation;
+package com.sharebravo.bravo.control.activity;
 
 import java.io.InputStream;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Movie;
 import android.os.Bundle;
@@ -15,18 +14,21 @@ import com.sharebravo.bravo.R;
 
 public class ActivityGIFAnimation extends Activity {
     private static final long TIME_TO_FINISH = 14500;
+    private Movie             mMovie;
+    private InputStream       mInputStream   = null;
+    private long              mMovieStart;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(new GIFView(this));
+        // setContentView(R.layout.activity_splash);
+
+        mInputStream = getResources().openRawResource(R.drawable.bravo_jump);
+        mMovie = Movie.decodeStream(mInputStream);
     }
 
     private class GIFView extends View {
-
-        private Movie       mMovie;
-        private InputStream mInputStream = null;
-        private long        mMovieStart;
 
         public GIFView(Context context) {
             super(context);
@@ -42,12 +44,9 @@ public class ActivityGIFAnimation extends Activity {
                 mMovieStart = now;
             }
             int relTime = (int) ((now - mMovieStart) % mMovie.duration());
-            Log.d("KieuThang", "relTime1:" + relTime + ", movie1.duration():"
-                    + mMovie.duration() + ", moviestart1:" + mMovieStart);
+            Log.d("KieuThang", "relTime1:" + relTime + ", movie1.duration():" + mMovie.duration() + ", moviestart1:" + mMovieStart);
             if (relTime > TIME_TO_FINISH) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                // finish();
+                finish();
             }
             mMovie.setTime(relTime);
             mMovie.draw(canvas, 0, 80);

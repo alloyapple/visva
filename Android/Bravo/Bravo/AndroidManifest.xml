@@ -115,13 +115,6 @@
                     android:host="bravoconnecthome"
                     android:scheme="oauth" />
             </intent-filter>
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
 
         </activity>
         <activity
@@ -133,7 +126,7 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation"
+            android:name="com.sharebravo.bravo.control.activity.ActivityGIFAnimation"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

@@ -45,7 +45,6 @@ public class AdapterBravoDetail extends BaseAdapter {
     private int                mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
 
     public AdapterBravoDetail(Context context, FragmentBravoDetail fragment) {
-        // TODO Auto-generated constructor stub
         this.mContext = context;
         mImageLoader = new ImageLoader(mContext);
         this.fragment = fragment;
@@ -61,25 +60,21 @@ public class AdapterBravoDetail extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return ((mObGetComments == null || mObGetComments.data == null || mObGetComments.data.size() == 0) ? 0 : mObGetComments.data.size()) + 2;
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     public void setBravoOb(ObBravo obj) {
         this.bravoObj = obj;
-
     }
 
     ImageView            imagePost;
@@ -159,7 +154,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View arg0) {
-                    // TODO Auto-generated method stub
                     listener.choosePicture();
                 }
             });
@@ -167,11 +161,13 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToCoverImage();
                 }
             });
-            String imgSpotUrl = bravoObj.Last_Pic;
+            String imgSpotUrl = null;
+            if(bravoObj.Bravo_Pics .size() >0)
+                imgSpotUrl = bravoObj.Bravo_Pics.get(0);
+            
             AIOLog.d("bravoObj.Last_Pic: " + bravoObj.Last_Pic);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
@@ -213,7 +209,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToCallSpot();
                 }
             });
@@ -222,7 +217,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToFragment(HomeActivity.FRAGMENT_MAP_VIEW_ID);
                 }
             });
@@ -231,7 +225,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToFollow(!isFollowing);
                 }
             });
@@ -259,7 +252,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-geinerated method stub
                     listener.goToSave(!isSave);
                 }
             });
@@ -275,7 +267,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-geinerated method stub
                     listener.goToLike(!isLiked);
                 }
             });
@@ -291,7 +282,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToShare();
                 }
             });
@@ -299,7 +289,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToLiked();
                 }
             });
@@ -307,7 +296,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToSaved();
                 }
             });
@@ -315,18 +303,15 @@ public class AdapterBravoDetail extends BaseAdapter {
         }
         else if (position == getCount() - 1) // post content
         {
-            // if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.layout_post_detail_footer, null, false);
             textboxComment = (EditText) convertView.findViewById(R.id.textbox_comment);
             btnSubmitComment = (Button) convertView.findViewById(R.id.btn_submit_comment);
             btnReport = (TextView) convertView.findViewById(R.id.btn_report);
-            // }
             btnSubmitComment.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     String commentText = textboxComment.getEditableText().toString();
                     if (!commentText.equals(""))
                         listener.goToSubmitComment(commentText);
@@ -336,7 +321,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToReport();
                 }
             });
@@ -363,7 +347,6 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToUserDataTab(comment.userID);
                 }
             });

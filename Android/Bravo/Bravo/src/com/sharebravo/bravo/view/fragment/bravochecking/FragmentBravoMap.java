@@ -46,6 +46,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
+import com.sharebravo.bravo.control.activity.ActivityGIFAnimation;
 import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
@@ -61,7 +62,6 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
-import com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation;
 
 public class FragmentBravoMap extends FragmentMapBasic implements LocationListener {
     public static final int       MAKER_BY_LOCATION_SPOT            = 0;
@@ -154,10 +154,10 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                getActivity().finish();
-                Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
+                // getActivity().finish();
+                // Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
+                // intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                // startActivity(intent);
             }
         });
         Button btnBravoAlertNo = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_no);
