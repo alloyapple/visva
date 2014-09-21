@@ -11,12 +11,12 @@
         android:gravity="center_vertical" >
 
         <Button
-            android:id="@+id/btn_bravo_close"
+            android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:background="@drawable/bt_close"
-            android:text="@string/btn_close"
+            android:text="@string/close"
             android:textColor="#FFFFFF" >
         </Button>
     </LinearLayout>
@@ -27,25 +27,35 @@
         android:background="@drawable/search_background" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/box_search"
             android:gravity="center_vertical" >
 
-            <Button
+            <ImageButton
                 android:layout_width="@dimen/search_icon"
                 android:layout_height="@dimen/search_icon"
                 android:layout_marginLeft="10dp"
+                android:contentDescription="@string/app_name"
                 android:background="@drawable/icon_search" />
 
             <EditText
+                android:id="@+id/txtbox_search_spot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_search_spot" />
+                android:hint="@string/hint_search_spot"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" />
         </LinearLayout>
     </LinearLayout>
+
+    <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
+        android:id="@+id/listview_bravo_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
 </LinearLayout>

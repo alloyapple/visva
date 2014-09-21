@@ -43,17 +43,16 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
-import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
-import com.sharebravo.bravo.view.fragment.home.FragmentLiked;
-import com.sharebravo.bravo.view.fragment.home.FragmentSaved;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
+import com.sharebravo.bravo.view.fragment.home.FragmentLiked;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail;
+import com.sharebravo.bravo.view.fragment.home.FragmentSaved;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
 import com.sharebravo.bravo.view.fragment.setting.FragmentSetting;
@@ -66,8 +65,8 @@ import com.sharebravo.bravo.view.fragment.userprofile.FragmentFollower;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentFollowing;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentHistory;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab;
-import com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab.IShowPageSettings;
+import com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage;
 
 public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification, IClosePageHomeNotification,
         IShowPageSettings, IShowPageTermOfUse {
@@ -76,7 +75,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
     private static final String      FRAGMENT_HOME_TAB              = "home_tab";
     private static final String      FRAGMENT_NETWORK_TAB           = "network_tab";
-    private static final String      FRAGMENT_BRAVO_TAB             = "bravo_tab";
     private static final String      FRAGMENT_SEARCH_TAB            = "search_tab";
     private static final String      FRAGMENT_USER_DATA_TAB         = "user_data_tab";
 
@@ -101,7 +99,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
     public static final int          FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
-    public static final int          FRAGMENT_BRAVO_TAB_ID          = FRAGMENT_BASE_ID + 3;
     public static final int          FRAGMENT_SEARCH_TAB_ID         = FRAGMENT_BASE_ID + 4;
     public static final int          FRAGMENT_USER_DATA_TAB_ID      = FRAGMENT_BASE_ID + 5;
     public static final int          FRAGMENT_RECENT_POST_DETAIL_ID = FRAGMENT_BASE_ID + 6;
@@ -126,7 +123,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentTransaction      mTransaction;
     private FragmentHomeTab          mFragmentHomeTab;
     private FragmentNetworkTab       mFragmentNetworkTab;
-    private FragmentBravoTab         mFragmentBravoTab;
     private FragmentSearchTab        mFragmentSearchTab;
     private FragmentUserDataTab      mFragmentUserDataTab;
     private FragmentRecentPostDetail mFragmentRecentPostDetail;
@@ -273,7 +269,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             showFragment(FRAGMENT_SEARCH_TAB_ID);
             btnSearch.setBackgroundResource(R.drawable.tab_search_on);
             txtSearch.setTextColor(Color.WHITE);
-            Toast.makeText(this, "This feature is coming soon", Toast.LENGTH_SHORT).show();
             break;
         case R.id.btn_mydata:
             hideTabButton();
@@ -346,7 +341,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFmManager = getSupportFragmentManager();
         mFragmentHomeTab = (FragmentHomeTab) mFmManager.findFragmentById(R.id.fragment_home_tab);
         mFragmentNetworkTab = (FragmentNetworkTab) mFmManager.findFragmentById(R.id.fragment_network_tab);
-        mFragmentBravoTab = (FragmentBravoTab) mFmManager.findFragmentById(R.id.fragment_bravo_tab);
         mFragmentSearchTab = (FragmentSearchTab) mFmManager.findFragmentById(R.id.fragment_search_tab);
         mFragmentUserDataTab = (FragmentUserDataTab) mFmManager.findFragmentById(R.id.fragment_user_data_tab);
         mFragmentRecentPostDetail = (FragmentRecentPostDetail) mFmManager.findFragmentById(R.id.fragment_recent_post_detail);
@@ -413,10 +407,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case FRAGMENT_NETWORK_TAB_ID:
             mTransaction.show(mFragmentNetworkTab);
             addToSBackStack(FRAGMENT_NETWORK_TAB);
-            break;
-        case FRAGMENT_BRAVO_TAB_ID:
-            mTransaction.show(mFragmentBravoTab);
-            addToSBackStack(FRAGMENT_BRAVO_TAB);
             break;
         case FRAGMENT_SEARCH_TAB_ID:
             mTransaction.show(mFragmentSearchTab);
@@ -504,7 +494,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction = mFmManager.beginTransaction();
         mTransaction.hide(mFragmentHomeTab);
         mTransaction.hide(mFragmentNetworkTab);
-        mTransaction.hide(mFragmentBravoTab);
         mTransaction.hide(mFragmentSearchTab);
         mTransaction.hide(mFragmentUserDataTab);
         mTransaction.hide(mFragmentRecentPostDetail);
@@ -633,7 +622,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } else if (currentView.equals(FRAGMENT_HISTORY) || currentView.equals(FRAGMENT_FOLOWING) || currentView.equals(FRAGMENT_FOLLOWER)
                 || currentView.equals(FRAGMENT_VIEW_IMAGE)) {
             mTransaction.show(mFragmentUserDataTab);
-        } else if (currentView.equals(FRAGMENT_HOME_TAB) || currentView.equals(FRAGMENT_NETWORK_TAB) || currentView.equals(FRAGMENT_BRAVO_TAB)
+        } else if (currentView.equals(FRAGMENT_HOME_TAB) || currentView.equals(FRAGMENT_NETWORK_TAB)
                 || currentView.equals(FRAGMENT_SEARCH_TAB) || currentView.equals(FRAGMENT_USER_DATA_TAB)) {
             super.onBackPressed();
             return;

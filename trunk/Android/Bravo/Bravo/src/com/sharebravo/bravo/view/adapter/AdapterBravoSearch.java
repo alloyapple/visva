@@ -2,6 +2,7 @@ package com.sharebravo.bravo.view.adapter;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -15,19 +16,21 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 
-public class AdapterSearchSpotResult extends BaseAdapter {
+@SuppressLint("InflateParams")
+public class AdapterBravoSearch extends BaseAdapter {
     private FragmentActivity mContext     = null;
     private ImageLoader      mImageLoader = null;
     private ArrayList<Spot>  mSpots       = new ArrayList<Spot>();
+    private LayoutInflater   mLayoutInflater;
 
-    public AdapterSearchSpotResult(FragmentActivity fragmentActivity) {
+    public AdapterBravoSearch(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
         mImageLoader = new ImageLoader(mContext);
     }
 
     @Override
     public int getCount() {
-        return mSpots.size() + 1;
+        return mSpots.size();
     }
 
     @Override
@@ -42,20 +45,18 @@ public class AdapterSearchSpotResult extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parentView) {
-        if (position == getCount() - 1) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.layout_search_result_footer, parentView);
-        } else {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_search_spot_result, parentView);
-            ViewHolder holder = new ViewHolder();
-            holder.spotAvatar = (ImageView) convertView.findViewById(R.id.img_avatar_spot);
-            holder.spotName = (TextView) convertView.findViewById(R.id.txt_spot_name);
-            holder.numberBravos = (TextView) convertView.findViewById(R.id.text_number_bravo);
+        if (mLayoutInflater == null)
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null)
+            convertView = mLayoutInflater.inflate(R.layout.row_search_spot_result, null);
+        ViewHolder holder = new ViewHolder();
+        holder.spotAvatar = (ImageView) convertView.findViewById(R.id.img_avatar_spot);
+        holder.spotName = (TextView) convertView.findViewById(R.id.txt_spot_name);
+        holder.numberBravos = (TextView) convertView.findViewById(R.id.text_number_bravo);
+        if (mSpots.size() > 0 && position < mSpots.size()) {
             holder.spotName.setText(mSpots.get(position).Spot_Name);
             holder.numberBravos.setText(mSpots.get(position).Total_Bravos + " Bravos");
         }
-
         return convertView;
     }
 
