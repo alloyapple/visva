@@ -248,7 +248,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
             }
         });
         getMap().clear();
-        addMaker(latitude, longitude, "");
+//        addMaker(latitude, longitude, "");
         if (data == null)
             return;
 

@@ -9,7 +9,7 @@ import com.sharebravo.bravo.model.response.ObBravo.SNS;
 public class ObGetSpotHistory {
     @SerializedName("data")
     public ArrayList<SpotHistory> data = new ArrayList<SpotHistory>();
-    @SerializedName("error")
+    @SerializedName("status")
     public int                    status;
     @SerializedName("error")
     public String                 error;
@@ -35,7 +35,7 @@ public class ObGetSpotHistory {
         @SerializedName("Total_Comments")
         public int                  totalComments;
         @SerializedName("Is_Tsurete")
-        public boolean              isTsurete;
+        public int              isTsurete;
         @SerializedName("Date_Created")
         public Date_Created         Date_Created;
 

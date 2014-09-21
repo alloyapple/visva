@@ -41,6 +41,7 @@ import com.sharebravo.bravo.model.response.ObDeleteMylist;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
+import com.sharebravo.bravo.model.response.ObGetLikeItem;
 import com.sharebravo.bravo.model.response.ObGetMylistItem;
 import com.sharebravo.bravo.model.response.ObGetSpot;
 import com.sharebravo.bravo.model.response.ObPostComment;
@@ -66,25 +67,25 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentBravoDetail extends FragmentBasic implements DetailPostListener {
-    private static final int        REQUEST_CODE_CAMERA      = 2001;
-    private static final int        REQUEST_CODE_GALLERY     = 2002;
+    private static final int    REQUEST_CODE_CAMERA      = 2001;
+    private static final int    REQUEST_CODE_GALLERY     = 2002;
 
-    private Uri                     mCapturedImageURI        = null;
-    private XListView               listviewRecentPostDetail = null;
-    private AdapterBravoDetail adapterRecentPostDetail  = null;
+    private Uri                 mCapturedImageURI        = null;
+    private XListView           listviewRecentPostDetail = null;
+    private AdapterBravoDetail  adapterRecentPostDetail  = null;
 
-    private Button                  btnBack;
-    private OnItemClickListener     onItemClick              = new OnItemClickListener() {
+    private Button              btnBack;
+    private OnItemClickListener onItemClick              = new OnItemClickListener() {
 
-                                                                 @Override
-                                                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                             @Override
+                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                                                                 }
-                                                             };
+                                                             }
+                                                         };
 
-    private ObBravo                 mBravoObj;
-    private SessionLogin            mSessionLogin            = null;
-    private int                     mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+    private ObBravo             mBravoObj;
+    private SessionLogin        mSessionLogin            = null;
+    private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
 
     // FragmentMapViewCover mapFragment = new FragmentMapViewCover();
 
@@ -361,6 +362,35 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         getMyListItemRequest.execute(url);
     }
 
+    private void requestGetLikeItem() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_GET_LIKE_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", mBravoObj.Bravo_ID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
+        AsyncHttpGet getLikeItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("requestLikingCheck:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetLikeItem mObGetLikeItem;
+                mObGetLikeItem = gson.fromJson(response.toString(), ObGetLikeItem.class);
+                // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
+
+                if (mObGetLikeItem == null)
+                    return;
+                else {
+                    adapterRecentPostDetail.updateLike(mObGetLikeItem.valid == 1 ? true : false);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getLikeItemRequest.execute(url);
+    }
+
     private void requestGetLiked() {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
@@ -376,7 +406,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 if (mObGetSpot == null)
                     return;
                 else {
-                    AIOLog.e("Spot.data"+ mObGetSpot.data);
+                    AIOLog.e("Spot.data" + mObGetSpot.data);
                     adapterRecentPostDetail.updateLikedandSaved(mObGetSpot.data);
                 }
             }
@@ -481,6 +511,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         AIOLog.d(url);
         putMyListItem.execute(url);
     }
+
     private void requestDeleteLike(ObBravo obBravo) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
@@ -684,6 +715,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
             requestGetMyListItem();
             requestGetComments();
             requestGetLiked();
+            requestGetLikeItem();
         }
     }
 

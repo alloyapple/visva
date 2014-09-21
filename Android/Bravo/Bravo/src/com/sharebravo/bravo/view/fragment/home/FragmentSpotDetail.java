@@ -1,8 +1,10 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -25,10 +27,10 @@ import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObGetBravo;
-import com.sharebravo.bravo.model.response.ObGetComments;
+import com.sharebravo.bravo.model.response.ObGetSpot;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
+import com.sharebravo.bravo.model.response.ObGetSpotHistory;
+import com.sharebravo.bravo.model.response.ObGetSpotRank;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -37,6 +39,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterSpotDetail;
 import com.sharebravo.bravo.view.adapter.DetailSpotListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
@@ -57,19 +60,16 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
                                                        }
                                                    };
 
-    private ObBravo             mBravoObj;
     private SessionLogin        mSessionLogin      = null;
     private int                 mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
-
-    // FragmentMapViewCover mapFragment = new FragmentMapViewCover();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab, container);
         mHomeActionListener = (HomeActivity) getActivity();
         listviewContent = (XListView) root.findViewById(R.id.listview_recent_post_detail);
-        mAdapter = new AdapterSpotDetail(getActivity());
-        // mAdapter.setListener(this);
+        mAdapter = new AdapterSpotDetail(getActivity(), this);
+        mAdapter.setListener(this);
         listviewContent.setFooterDividersEnabled(false);
         listviewContent.setAdapter(mAdapter);
         listviewContent.setOnItemClickListener(onItemClick);
@@ -104,42 +104,61 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         super.onResume();
     }
 
-    public void setBravoOb(ObBravo obj) {
-        this.mBravoObj = obj;
-        FragmentMapViewCover.mLat = mBravoObj.Spot_Latitude;
-        FragmentMapViewCover.mLong = mBravoObj.Spot_Longitude;
-        mAdapter.notifyDataSetChanged();
-
-    }
-
     private void onStopPullAndLoadListView() {
         listviewContent.stopRefresh();
         listviewContent.stopLoadMore();
     }
 
-
-    private void requestGetBravo() {
+    private void requestGetSpotHistory(String spotID) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String bravoID = mBravoObj.Bravo_ID;
-        String url = BravoWebServiceConfig.URL_GET_BRAVO.replace("{Bravo_ID}", bravoID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_SPOT_HISTORY.replace("{Spot_ID}", spotID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getSpotHistoryRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("ObGetSpotHistory:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetSpotHistory mObGetSpotHistory;
+                mObGetSpotHistory = gson.fromJson(response.toString(), ObGetSpotHistory.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetSpotHistory);
+                if (mObGetSpotHistory == null)
+                    return;
+                else {
+                    mAdapter.updatSpotHistory(mObGetSpotHistory.data);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getSpotHistoryRequest.execute(url);
+    }
+
+    private void requestGetSpot(String spotID) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", spotID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken);
         AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetBravo obGetBravo;
-                obGetBravo = gson.fromJson(response.toString(), ObGetBravo.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo);
-                if (obGetBravo == null)
+                ObGetSpot mObGetSpot;
+                mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetSpot);
+                if (mObGetSpot == null)
                     return;
                 else {
-                    String Last_Pic = mBravoObj.Last_Pic;
-                    mBravoObj = obGetBravo.data;
-                    mBravoObj.Last_Pic = Last_Pic;
-                    // mAdapter.updateMapView();
-                    mAdapter.notifyDataSetChanged();
+                    mAdapter.updateMapView();
+                    mAdapter.updatSpot(mObGetSpot.data);
 
                 }
             }
@@ -152,11 +171,47 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         getBravoRequest.execute(url);
     }
 
+    private void requestGetSpotRank(String spotID) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", "0");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_SPOT_RANK.replace("{Spot_ID}", spotID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getSpotRankRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                // AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetSpotRank mObGetSpotRank;
+                mObGetSpotRank = gson.fromJson(response.toString(), ObGetSpotRank.class);
+                AIOLog.d("mObGetSpotRank:" + mObGetSpotRank);
+                if (mObGetSpotRank == null)
+                    return;
+                else {
+
+                    // mAdapter.updateMapView();
+                    mAdapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getSpotRankRequest.execute(url);
+    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-           // requestGetBravo();
+            requestGetSpot(mSpot.Spot_ID);
+            requestGetSpotHistory(mSpot.Spot_ID);
         }
     }
 
@@ -166,14 +221,14 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     }
 
     public void onCallSpot() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mBravoObj.Spot_Phone));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mSpot.Spot_Phone));
         startActivity(intent);
     }
 
     @Override
     public void goToFragment(int fragmentID) {
         if (fragmentID == HomeActivity.FRAGMENT_MAP_VIEW_ID) {
-            mHomeActionListener.goToMapView(String.valueOf(mBravoObj.Spot_Latitude), String.valueOf(mBravoObj.Spot_Longitude),
+            mHomeActionListener.goToMapView(String.valueOf(mSpot.Spot_Latitude), String.valueOf(mSpot.Spot_Longitude),
                     FragmentMapView.MAKER_BY_LOCATION_SPOT);
             return;
         }
@@ -187,7 +242,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_call_spot, null);
         TextView content = (TextView) dialog_view.findViewById(R.id.call_spot_dialog_content);
-        content.setText("Call " + mBravoObj.Spot_Name + "?");
+        content.setText("Call " + mSpot.Spot_Name + "?");
         Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_call_spot_no);
         btnCancel.setOnClickListener(new OnClickListener() {
 
@@ -217,22 +272,26 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         dialog.show();
     }
 
-    @Override
-    public void goToCoverImage() {
-        mHomeActionListener.goToCoverImage(mBravoObj);
-    }
-
-    @Override
-    public void goToUserDataTab(String useId) {
-        mHomeActionListener.goToUserData(useId);
-    }
-
     public Spot getSpot() {
         return mSpot;
     }
 
     public void setSpot(Spot mSpot) {
         this.mSpot = mSpot;
+        FragmentMapCover.mLat = mSpot.Spot_Latitude;
+        FragmentMapCover.mLong = mSpot.Spot_Longitude;
+        mAdapter.updatSpot(mSpot);
+    }
+
+    @Override
+    public void tapToBravo() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void goToUserDataTab(String useId) {
+        mHomeActionListener.goToUserData(useId);
     }
 
 }

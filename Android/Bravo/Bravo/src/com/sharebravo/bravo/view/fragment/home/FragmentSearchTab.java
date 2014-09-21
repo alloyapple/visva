@@ -76,7 +76,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
                                                                     @Override
                                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                        mHomeActionListener.goToSpotDetail(mObGetSpotSearch.data.get(position));
+                                                                        if (position < mAdapter.getCount())
+                                                                            mHomeActionListener.goToSpotDetail(mObGetSpotSearch.data
+                                                                                    .get(position - 1));
                                                                     }
                                                                 };
 
@@ -92,7 +94,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String keySearch = textboxSearch.getEditableText().toString();
                     if (!keySearch.equals(""))
-                        requestSpotSearch(keySearch);
+                        onSearch(keySearch);
                     return true;
                 }
                 return false;
@@ -238,9 +240,11 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         }
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Start", "0");
-        // subParams.put("Location", (float)location.getLatitude() + "," + (float)location.getLongitude());
+        subParams.put("Location", (float) location.getLatitude() + "," + (float) location.getLongitude());
         if (mode == SEARCH_LOCAL_BRAVO)
             subParams.put("Global", "TRUE");
+        if (mode == SEARCH_LOCAL_BRAVO_KEY || mode == SEARCH_PEOPLE_FOLLOWING_KEY)
+            subParams.put("Name", nameSpot);
         JSONObject subParamsJson = new JSONObject(subParams);
 
         String subParamsJsonStr = subParamsJson.toString();
@@ -367,6 +371,19 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             }
         }
         return location;
+    }
+
+    public void onSearch(String key) {
+        if (mMode == SEARCH_FOR_SPOT) {
+            requestSpotSearch(key);
+        } else if (mMode == SEARCH_LOCAL_BRAVO) {
+            requestBravoSearch(key, SEARCH_LOCAL_BRAVO_KEY);
+        }
+        else if (mMode == SEARCH_ARROUND_ME) {
+        }
+        else if (mMode == SEARCH_PEOPLE_FOLLOWING) {
+            requestBravoSearch(key, SEARCH_PEOPLE_FOLLOWING_KEY);
+        }
     }
 
     @Override
