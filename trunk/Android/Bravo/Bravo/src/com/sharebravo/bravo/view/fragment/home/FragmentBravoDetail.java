@@ -59,19 +59,19 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.view.adapter.AdapterRecentPostDetail;
+import com.sharebravo.bravo.view.adapter.AdapterBravoDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
-public class FragmentRecentPostDetail extends FragmentBasic implements DetailPostListener {
+public class FragmentBravoDetail extends FragmentBasic implements DetailPostListener {
     private static final int        REQUEST_CODE_CAMERA      = 2001;
     private static final int        REQUEST_CODE_GALLERY     = 2002;
 
     private Uri                     mCapturedImageURI        = null;
     private XListView               listviewRecentPostDetail = null;
-    private AdapterRecentPostDetail adapterRecentPostDetail  = null;
+    private AdapterBravoDetail adapterRecentPostDetail  = null;
 
     private Button                  btnBack;
     private OnItemClickListener     onItemClick              = new OnItemClickListener() {
@@ -93,7 +93,7 @@ public class FragmentRecentPostDetail extends FragmentBasic implements DetailPos
         View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab, container);
         mHomeActionListener = (HomeActivity) getActivity();
         listviewRecentPostDetail = (XListView) root.findViewById(R.id.listview_recent_post_detail);
-        adapterRecentPostDetail = new AdapterRecentPostDetail(getActivity(), this);
+        adapterRecentPostDetail = new AdapterBravoDetail(getActivity(), this);
         adapterRecentPostDetail.setListener(this);
         listviewRecentPostDetail.setFooterDividersEnabled(false);
         listviewRecentPostDetail.setAdapter(adapterRecentPostDetail);

@@ -42,7 +42,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.view.adapter.AdapterUserDataProfile;
+import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.touchview.TouchImageView;
 
@@ -171,7 +171,7 @@ public class FragmentViewImage extends FragmentBasic {
 
     public void setObGetUserInfo(ObGetUserInfo obGetUserInfo, int userImageType) {
         this.mObGetUserInfo = obGetUserInfo;
-        if (AdapterUserDataProfile.USER_AVATAR_ID == userImageType)
+        if (AdapterUserDetail.USER_AVATAR_ID == userImageType)
             this.mImageUrl = mObGetUserInfo.data.Profile_Img_URL;
         else
             this.mImageUrl = mObGetUserInfo.data.Cover_Img_URL;

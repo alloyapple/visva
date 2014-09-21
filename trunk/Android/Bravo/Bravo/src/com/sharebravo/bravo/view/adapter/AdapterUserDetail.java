@@ -23,7 +23,7 @@ import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
-public class AdapterUserDataProfile extends BaseAdapter {
+public class AdapterUserDetail extends BaseAdapter {
     public static final int         USER_AVATAR_ID = 2003;
     public static final int         USER_COVER_ID  = 2004;
     private FragmentActivity        mContext       = null;
@@ -35,7 +35,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
     private boolean                 isFollowing    = false;
     private boolean                 isBlocked      = true;
 
-    public AdapterUserDataProfile(FragmentActivity fragmentActivity) {
+    public AdapterUserDetail(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
         mImageLoader = new ImageLoader(mContext);
     }
@@ -74,7 +74,7 @@ public class AdapterUserDataProfile extends BaseAdapter {
 
         // if (convertView == null) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_recent_post, parent);
+        convertView = inflater.inflate(R.layout.row_recent_post, null);
         // }
 
         holder = new ViewHolder();

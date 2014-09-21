@@ -62,7 +62,7 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterUserDataProfile;
+import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
 import com.sharebravo.bravo.view.adapter.UserPostProfileListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
@@ -79,7 +79,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private IShowPageSettings      iShowPageSettings;
     private XListView              mListViewUserPostProfile = null;
     private ObGetUserInfo          mObGetUserInfo;
-    private AdapterUserDataProfile mAdapterUserDataProfile  = null;
+    private AdapterUserDetail mAdapterUserDataProfile  = null;
     private Button                 mBtnBack;
     private boolean                isMyData                 = false;
     private static int             mUserImageType;
@@ -115,7 +115,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private void initializeView(View root) {
         mBtnSettings = (Button) root.findViewById(R.id.btn_settings);
         mListViewUserPostProfile = (XListView) root.findViewById(R.id.listview_user_post_profile);
-        mAdapterUserDataProfile = new AdapterUserDataProfile(getActivity());
+        mAdapterUserDataProfile = new AdapterUserDetail(getActivity());
         mAdapterUserDataProfile.setListener(this);
         mListViewUserPostProfile.setFooterDividersEnabled(false);
         mListViewUserPostProfile.setAdapter(mAdapterUserDataProfile);
@@ -631,8 +631,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
         Button btnZoomAPicture = (Button) dialog_view.findViewById(R.id.btn_zoom_a_picture);
 
-        if ((AdapterUserDataProfile.USER_AVATAR_ID == userImageType && StringUtility.isEmpty(imageProfileUrl))
-                || (AdapterUserDataProfile.USER_COVER_ID == userImageType && StringUtility.isEmpty(imageCoverUrl))) {
+        if ((AdapterUserDetail.USER_AVATAR_ID == userImageType && StringUtility.isEmpty(imageProfileUrl))
+                || (AdapterUserDetail.USER_COVER_ID == userImageType && StringUtility.isEmpty(imageCoverUrl))) {
             btnZoomAPicture.setVisibility(View.GONE);
         }
         btnZoomAPicture.setOnClickListener(new View.OnClickListener() {
@@ -709,7 +709,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     if (photo == null)
                         return;
                     else {
-                        if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
+                        if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType) {
                             cropImageFromUri(data.getData());
                         } else {
                             postUpdateUserProfile(photo, mUserImageType);
@@ -733,7 +733,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(capturedImageFilePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType)
+                    if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType)
                         cropImageFromUri(fileUri);
                     else {
                         int orientation = BravoUtils.checkOrientation(fileUri);
@@ -768,7 +768,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(imagePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    if (AdapterUserDataProfile.USER_AVATAR_ID == mUserImageType) {
+                    if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType) {
                         cropImageFromUri(fileUri);
                     } else {
                         int orientation = BravoUtils.checkOrientation(fileUri);
@@ -869,7 +869,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         String accessToken = _sessionLogin.accessToken;
 
         HashMap<String, String> subParams = new HashMap<String, String>();
-        if (AdapterUserDataProfile.USER_AVATAR_ID == userImageType) {
+        if (AdapterUserDetail.USER_AVATAR_ID == userImageType) {
             subParams.put("Profile_Img", encodedImage);
             subParams.put("Cover_Img", "");
         } else {
