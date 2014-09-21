@@ -42,7 +42,7 @@
                 android:id="@+id/fragment_recent_post_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentRecentPostDetail" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail" />
 
             <fragment
                 android:id="@+id/fragment_map_view"
@@ -121,6 +121,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage" />
+
+            <fragment
+                android:id="@+id/fragment_spot_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail" />
+
+            <fragment
+                android:id="@+id/fragment_input_myspot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot" />
+            <fragment
+                android:id="@+id/fragment_locate_myspot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                class="com.sharebravo.bravo.view.fragment.home.FragmentLocateMySpot" />
         </RelativeLayout>
 
         <FrameLayout
@@ -260,5 +277,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="com.sharebravo.bravo.view.fragment.home.FragmentShare" />
+
+    <fragment
+        android:id="@+id/fragment_add_myspot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.sharebravo.bravo.view.fragment.home.FragmentAddMySpot" />
 
 </FrameLayout>
