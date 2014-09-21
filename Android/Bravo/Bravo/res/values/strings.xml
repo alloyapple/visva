@@ -222,6 +222,9 @@
     <string name="error_alert_insert_mylist">Unable to add mylist.</string>
     <string name="confirm_near_store">Found one close match.  Add this shop?</string>
     <string name="confirm_search_store">Did you mean one of these shops?</string>
+    <string name="bravo_action_alert_title">Are you sure you want to Bravo this spot?</string>
+    <string name="bravo_action_alert_no">No</string>
+    <string name="bravo_action_alert_yes">Yes</string>
 
     <!-- Version Manager -->
     <string name="update_now">Update Now</string>

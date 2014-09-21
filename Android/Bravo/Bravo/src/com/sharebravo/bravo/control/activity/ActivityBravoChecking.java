@@ -22,7 +22,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     private static final String     FRAGMENT_BRAVO_TAB             = "bravo_tab";
 
     public static final int         FRAGMENT_BASE_ID               = 1000;
-    public static final int         FRAGMENT_BRAVO_TAB_ID          = FRAGMENT_BASE_ID + 1;
+    public static final int         FRAGMENT_BRAVO_SEARCH_ID          = FRAGMENT_BASE_ID + 1;
     public static final int         FRAGMENT_BRAVO_MAP_ID          = FRAGMENT_BASE_ID + 2;
     public static final int         FRAGMENT_BRAVO_RETURN_SPOTS_ID = FRAGMENT_BASE_ID + 3;
     // ======================Class Define==================
@@ -49,7 +49,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
     }
 
@@ -59,14 +58,13 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spot);
         mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
 
-        showFragment(FRAGMENT_BRAVO_TAB_ID);
-        Toast.makeText(this, "This feature is coming soon", Toast.LENGTH_SHORT).show();
+        showFragment(FRAGMENT_BRAVO_SEARCH_ID);
     }
 
     private void showFragment(int fragmentID) {
         mTransaction = hideFragment();
         switch (fragmentID) {
-        case FRAGMENT_BRAVO_TAB_ID:
+        case FRAGMENT_BRAVO_SEARCH_ID:
             mTransaction.show(mFragmentBravoSearch);
             addToSBackStack(FRAGMENT_BRAVO_TAB);
             break;
@@ -79,7 +77,8 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
             addToSBackStack(FRAGMENT_BRAVO_RETURN_SPOTS);
             break;
         }
-
+        mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        mTransaction.commit();
     }
 
     private void addToSBackStack(String tag) {
@@ -138,7 +137,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void goToMapView(String foreignID, int locationType) {
-        // TODO Auto-generated method stub
 
     }
 
