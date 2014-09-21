@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center|center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/height_post_detail_1"
+        android:gravity="center|center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/btn_call_spot"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_post_detail_1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:baselineAligned="true"
+            android:gravity="center"
+            android:text="@string/btn_call_spot"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="@dimen/layout_login_register_height"
+            android:background="@color/devider_color"
+            android:contentDescription="@string/intro_login" />
+
+        <Button
+            android:id="@+id/btn_view_map"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_post_detail_1"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/color_button"
+            android:gravity="center"
+            android:text="@string/btn_view_map"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/devider_color"
+        android:contentDescription="@string/intro_login" />
+
+</LinearLayout>

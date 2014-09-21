@@ -206,7 +206,7 @@
     <string name="search_quick_following">People I\'m following</string>
     <string name="search_quick_header">Quick spot search</string>
     <string name="search_result_nothing">Unable to find your spot?\nYou can easily add it!</string>
-    
+
     <!-- Pull To Refresh -->
     <string name="pull_refresh_pull_down">Pull down to update...</string>
     <string name="pull_refresh_release">Release to update...</string>
@@ -229,5 +229,14 @@
     <string name="new_version_avaiable">There is a newer version. Would you like to update now?</string>
     <string name="server_error">Server Error</string>
     <string name="no_internet">No internet connection</string>
+    <string name="confirm_bravo_spot">Are you sure you want to Bravo this spot?</string>
+    <string name="msg_please_locate_your_spot">Please locate your spot on the map.</string>
+    <!-- my Spot -->
+    <string name="title_name">Name</string>
+    <string name="title_category">Categroy</string>
+    <string name="title_genre">Genre</string>
+    <string name="title_adress">Address</string>
+    <string name="input_hint_my_spot">Please enter your</string>
+    <string name="btn_add">Add</string>
 
 </resources>
