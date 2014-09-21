@@ -8,4 +8,6 @@
 
     <include layout="@layout/layout_spot_detail_1" />
 
+    <include layout="@layout/layout_spot_detail_2" />
+
 </LinearLayout>

@@ -7,16 +7,24 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/height_post_content_area" >
 
+        <ImageView
+            android:id="@+id/image_cover_spot"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop" >
+        </ImageView>
+
         <FrameLayout
-            android:id="@+id/layout_map_img"
+            android:id="@+id/layout_map_cover_spot"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
             <fragment
-                android:id="@+id/spot_map"
+                android:id="@+id/myspot_map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentMapCover" />
         </FrameLayout>
     </FrameLayout>
 
@@ -34,7 +42,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/content_post_detail"
+                android:id="@+id/txt_spot_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_text_area_recent_post"
                 android:ellipsize="end"
@@ -46,7 +54,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtView_like_number"
+            android:id="@+id/txtView_bravo_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
