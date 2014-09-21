@@ -12,59 +12,47 @@
         android:layout_marginRight="10dp"
         android:orientation="horizontal" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/btn_left"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_btn_save"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="horizontal" >
+            android:background="@android:color/transparent"
+            android:drawablePadding="0dp"
+            android:drawableTop="@drawable/save_bravo_off"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:text="@string/save_pics_button"
+            android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_btn_save"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/save_bravo_off"
-                android:gravity="center"
-                android:text="@string/save_pics_button"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/btn_middle"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_btn_save"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="horizontal" >
+            android:background="@android:color/transparent"
+            android:drawablePadding="0dp"
+            android:drawableTop="@drawable/icon_like"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:text="@string/save_pics_button"
+            android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/btn_like"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_btn_save"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/icon_like"
-                android:gravity="center"
-                android:text="@string/save_pics_button"
-                android:textColor="@color/black" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/btn_right"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_btn_save"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/btn_share"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_btn_save"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/share_icon_press"
-                android:gravity="center"
-                android:text="@string/btn_share"
-                android:textColor="@color/black" />
-        </LinearLayout>
+            android:background="@android:color/transparent"
+            android:drawablePadding="0dp"
+            android:drawableTop="@drawable/share_icon_press"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:text="@string/btn_share"
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </LinearLayout>

@@ -200,7 +200,7 @@
     <string name="pull_to_refresh_tap_label">Tap to refresh&#8230;</string>
 
     <!-- Search Tab -->
-    <string name="text_quick_search">Local Bravos</string>
+    <string name="text_quick_search">Quick spot search</string>
     <string name="search_quick_near_bravo">Local Bravos</string>
     <string name="search_quick_around">Around me</string>
     <string name="search_quick_following">People I\'m following</string>
@@ -241,5 +241,7 @@
     <string name="title_adress">Address</string>
     <string name="input_hint_my_spot">Please enter your</string>
     <string name="btn_add">Add</string>
+    <string name="btn_tap_to_bravo">Tap here to Bravo!</string>
+    <string name="btn_more_detail_spot">More Detail On Forsquare</string>
 
 </resources>

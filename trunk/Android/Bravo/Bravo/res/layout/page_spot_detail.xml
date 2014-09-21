@@ -30,9 +30,7 @@
         android:id="@+id/listview_spot_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="beforeDescendants"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" >
+        android:descendantFocusability="beforeDescendants" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
 </LinearLayout>
