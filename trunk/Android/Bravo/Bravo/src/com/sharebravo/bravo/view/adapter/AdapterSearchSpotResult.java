@@ -49,7 +49,7 @@ public class AdapterSearchSpotResult extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parentView) {
         if (position == getCount() - 1) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.layout_search_result_footer, parentView);
+            convertView = inflater.inflate(R.layout.layout_search_result_footer, null);
             btnAddSpot = (TextView) convertView.findViewById(R.id.text_find_nothing);
             btnAddSpot.setOnClickListener(new OnClickListener() {
 
@@ -62,7 +62,7 @@ public class AdapterSearchSpotResult extends BaseAdapter {
 
         } else {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_search_spot_result, parentView);
+            convertView = inflater.inflate(R.layout.row_search_spot_result, null);
             ViewHolder holder = new ViewHolder();
             holder.spotAvatar = (ImageView) convertView.findViewById(R.id.img_avatar_spot);
             holder.spotName = (TextView) convertView.findViewById(R.id.txt_spot_name);
