@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.bravochecking;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +9,14 @@ import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Movie;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,6 +28,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -54,26 +61,32 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
+import com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation;
 
 public class FragmentBravoMap extends FragmentMapBasic implements LocationListener {
-    public static final int       MAKER_BY_LOCATION_SPOT = 0;
-    public static final int       MAKER_BY_LOCATION_USER = 1;
+    public static final int       MAKER_BY_LOCATION_SPOT            = 0;
+    public static final int       MAKER_BY_LOCATION_USER            = 1;
+
+    public static final int       REQUEST_SHOW_BRAVO_JUMP_ANIMATION = 6001;
 
     private GoogleMap             mGoogleMap;
-    private Marker                mCurMarker             = null;
+    private Marker                mCurMarker                        = null;
 
     private int                   mTypeMaker;
     private double                mLat, mLong;
 
     private View                  mOriginalContentView;
     private TouchableWrapper      mTouchView;
-    Location                      location               = null;
-    LocationManager               locationManager        = null;
-    private Button                mBtnBack               = null;
-    private BravoCheckingListener mBravoCheckingListener = null;
-    private SessionLogin          mSessionLogin          = null;
-    private String                foreignID              = null;
-    private int                   mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
+    private Location              mLocation                         = null;
+    private LocationManager       mLocationManager                  = null;
+    private Button                mBtnBack                          = null;
+    private BravoCheckingListener mBravoCheckingListener            = null;
+    private SessionLogin          mSessionLogin                     = null;
+    private String                foreignID                         = null;
+    private int                   mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
+    private Movie                 mMovie                            = null;
+    private InputStream           mInputStream                      = null;
+    private long                  mMovieStart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,22 +98,22 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         if (mTypeMaker == MAKER_BY_LOCATION_SPOT) {
             // changeLocation(mLat, mLong);
         }
-        locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
 
         // Creating a criteria object to retrieve provider
         Criteria criteria = new Criteria();
 
         // Getting the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
+        String provider = mLocationManager.getBestProvider(criteria, true);
 
         // Getting Current Location
-        location = locationManager.getLastKnownLocation(provider);
+        mLocation = mLocationManager.getLastKnownLocation(provider);
 
-        if (location != null) {
-            onLocationChanged(location);
+        if (mLocation != null) {
+            onLocationChanged(mLocation);
         }
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         mBravoCheckingListener = (ActivityBravoChecking) getActivity();
         LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
         mBtnBack = (Button) mView.findViewById(R.id.btn_back);
@@ -123,9 +136,52 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             if (mTypeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
             } else if (mTypeMaker == MAKER_BY_LOCATION_USER) {
-                requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
+                requestGetUserTimeLine(foreignID, mLocation.getLatitude(), mLocation.getLongitude());
             }
+            showDialogBravoConfirm();
         }
+    }
+
+    private void showDialogBravoConfirm() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_bravo_confirm, null);
+        Button btnBravoAlertYes = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_yes);
+        btnBravoAlertYes.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            }
+        });
+        Button btnBravoAlertNo = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_no);
+        btnBravoAlertNo.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        dialog.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void requestGetUserTimeLine(String checkingUserId, final double latitude, final double longitude) {
@@ -260,7 +316,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
         // Changing marker icon
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.nearby_icon);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
@@ -307,7 +363,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
 
     @Override
     public void onLocationChanged(Location arg0) {
-        location = arg0;
+        mLocation = arg0;
     }
 
     @Override
