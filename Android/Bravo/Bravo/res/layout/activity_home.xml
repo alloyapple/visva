@@ -27,12 +27,6 @@
                 class="com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab" />
 
             <fragment
-                android:id="@+id/fragment_bravo_tab"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentBravoTab" />
-
-            <fragment
                 android:id="@+id/fragment_search_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

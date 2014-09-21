@@ -9,11 +9,13 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;
-import com.sharebravo.bravo.view.fragment.home.FragmentBravoTab;
+import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
 
-public class ActivityBravoChecking extends VisvaAbstractFragmentActivity {
+public class ActivityBravoChecking extends VisvaAbstractFragmentActivity implements BravoCheckingListener {
     // ======================Constant Define===============
     private static final String     FRAGMENT_BRAVO_MAP             = "bravo_map";
     private static final String     FRAGMENT_BRAVO_RETURN_SPOTS    = "return_spots";
@@ -28,7 +30,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity {
     private FragmentTransaction     mTransaction;
     private FragmentBravoMap        mFragmentBravoMap;
     private FragmentBravoReturnSpot mFragmentBravoReturnSpots;
-    private FragmentBravoTab        mFragmentBravoTab;
+    private FragmentBravoSearch     mFragmentBravoSearch;
 
     // ======================Variable Define===============
     private ArrayList<String>       mBackstack                     = new ArrayList<String>();
@@ -45,11 +47,17 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity {
         initializeFragments();
     }
 
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+    }
+
     private void initializeFragments() {
         mFmManager = getSupportFragmentManager();
         mFragmentBravoMap = (FragmentBravoMap) mFmManager.findFragmentById(R.id.fragment_bravo_map);
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spot);
-        mFragmentBravoTab = (FragmentBravoTab) mFmManager.findFragmentById(R.id.fragment_bravo_tab);
+        mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
 
         showFragment(FRAGMENT_BRAVO_TAB_ID);
         Toast.makeText(this, "This feature is coming soon", Toast.LENGTH_SHORT).show();
@@ -59,7 +67,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity {
         mTransaction = hideFragment();
         switch (fragmentID) {
         case FRAGMENT_BRAVO_TAB_ID:
-            mTransaction.show(mFragmentBravoTab);
+            mTransaction.show(mFragmentBravoSearch);
             addToSBackStack(FRAGMENT_BRAVO_TAB);
             break;
         case FRAGMENT_BRAVO_MAP_ID:
@@ -105,7 +113,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity {
         mTransaction = mFmManager.beginTransaction();
         mTransaction.hide(mFragmentBravoMap);
         mTransaction.hide(mFragmentBravoReturnSpots);
-        mTransaction.hide(mFragmentBravoTab);
+        mTransaction.hide(mFragmentBravoSearch);
         return mTransaction;
     }
 
@@ -113,5 +121,52 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(0, R.anim.slide_out_up);
+    }
+
+    @Override
+    public void goToFragment(int fragmentID) {
+        showFragment(fragmentID);
+    }
+
+    @Override
+    public void goToMapView(Spot spot, int locationType) {
+        AIOLog.d("spot:" + spot + ", locationType" + locationType);
+        AIOLog.d("" + spot.Spot_Latitude + ",longt:" + spot.Spot_Longitude);
+        mFragmentBravoMap.setBravoSpot(spot);
+        goToFragment(FRAGMENT_BRAVO_MAP_ID);
+    }
+
+    @Override
+    public void goToMapView(String foreignID, int locationType) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void goToBack() {
+        AIOLog.d("mBackstack=" + mBackstack);
+        String currentView = null;
+        if (mBackstack.size() - 1 > 0)
+            currentView = mBackstack.get(mBackstack.size() - 1);
+        try {
+            mBackstack.remove(mBackstack.size() - 1);
+            if (mBackstack.size() == 0) {
+                super.onBackPressed();
+                return;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            super.onBackPressed();
+            return;
+        }
+        mTransaction = hideFragment();
+
+        Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
+        if (currentView.equals(FRAGMENT_BRAVO_MAP)) {
+            mTransaction.show(mFragmentBravoSearch);
+        } else if (currentView.equals(FRAGMENT_BRAVO_TAB)) {
+            onBackPressed();
+            return;
+        }
+        mTransaction.commitAllowingStateLoss();
     }
 }
