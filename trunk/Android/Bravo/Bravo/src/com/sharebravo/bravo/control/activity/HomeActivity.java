@@ -644,13 +644,25 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
         if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
             mTransaction.show(mFragmentHomeTab);
-        } else if (currentView.equals(FRAGMENT_USER_DATA_TAB) && previousView != null && previousView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
-            mTransaction.show(mFragmentRecentPostDetail);
+        } else if (currentView.equals(FRAGMENT_USER_DATA_TAB) && previousView != null) {
+            if (previousView.equals(FRAGMENT_RECENT_POST_DETAIL))
+                mTransaction.show(mFragmentRecentPostDetail);
+            else if (previousView.equals(FRAGMENT_HOME_TAB)) {
+                mTransaction.show(mFragmentHomeTab);
+            }
+            else if (previousView.equals(FRAGMENT_NETWORK_TAB)) {
+                mTransaction.show(mFragmentNetworkTab);
+            } else if (previousView.equals(FRAGMENT_SPOT_DETAIL)) {
+                mTransaction.show(mFragmentSpotDetail);
+            }
+
         } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
             if (previousView != null && previousView.equals(FRAGMENT_RECENT_POST_DETAIL))
                 mTransaction.show(mFragmentRecentPostDetail);
             else if (previousView != null && previousView.equals(FRAGMENT_USER_DATA_TAB))
                 mTransaction.show(mFragmentUserDataTab);
+            else if (previousView != null && previousView.equals(FRAGMENT_SPOT_DETAIL))
+                mTransaction.show(mFragmentSpotDetail);
         } else if (currentView.equals(FRAGMENT_COVER_IMAGE) || currentView.equals(FRAGMENT_SHARE)) {
             mTransaction.show(mFragmentRecentPostDetail);
         } else if (currentView.equals(FRAGMENT_SETTINGS) || currentView.equals(FRAGMENT_FAVOURITE)) {
@@ -672,7 +684,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } else if (currentView.equals(FRAGMENT_LOCATE_MYSPOT)) {
             mTransaction.show(mFragmentInputMySpot);
         } else if (currentView.equals(FRAGMENT_HOME_TAB) || currentView.equals(FRAGMENT_NETWORK_TAB)
-                || currentView.equals(FRAGMENT_SEARCH_TAB) || currentView.equals(FRAGMENT_USER_DATA_TAB)) {
+                || currentView.equals(FRAGMENT_SEARCH_TAB)) {
             super.onBackPressed();
             return;
         }

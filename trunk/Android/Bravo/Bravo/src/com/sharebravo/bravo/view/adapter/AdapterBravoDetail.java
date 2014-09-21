@@ -39,7 +39,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     private ObGetComments      mObGetComments     = null;
     private ImageLoader        mImageLoader       = null;
     private Spot               mSpot              = null;
-    FragmentBravoDetail   fragment;
+    FragmentBravoDetail        fragment;
     // FragmentTransaction transaction;
     private SessionLogin       mSessionLogin      = null;
     private int                mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
@@ -88,12 +88,12 @@ public class AdapterBravoDetail extends BaseAdapter {
     boolean              isFollowing   = false;
     EditText             textboxComment;
     Button               btnSubmitComment;
-    TextView             btnSave;
+    TextView             btnLeft;
     TextView             txtLikedNumber;
     TextView             txtCommentNumber;
-    TextView             btnShare;
+    TextView             btnRight;
     boolean              isLiked;
-    TextView             btnLike;
+    TextView             btnMiddle;
     boolean              isSave;
     TextView             btnReport;
     FragmentMapViewCover mapFragment;
@@ -126,9 +126,9 @@ public class AdapterBravoDetail extends BaseAdapter {
                 btnViewMap = (Button) convertView.findViewById(R.id.btn_view_map);
                 followIcon = (ImageView) convertView.findViewById(R.id.icon_follow);
                 btnFollow = (Button) convertView.findViewById(R.id.btn_follow);
-                btnSave = (TextView) convertView.findViewById(R.id.btn_save);
-                btnShare = (TextView) convertView.findViewById(R.id.btn_share);
-                btnLike = (TextView) convertView.findViewById(R.id.btn_like);
+                btnLeft = (TextView) convertView.findViewById(R.id.btn_left);
+                btnRight = (TextView) convertView.findViewById(R.id.btn_right);
+                btnMiddle = (TextView) convertView.findViewById(R.id.btn_middle);
                 txtLikedNumber = (TextView) convertView.findViewById(R.id.txtView_like_number);
                 txtCommentNumber = (TextView) convertView.findViewById(R.id.txtView_comment_number);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_img);
@@ -150,6 +150,7 @@ public class AdapterBravoDetail extends BaseAdapter {
                     fragmentTransaction.add(R.id.img_map, mapFragment).commit();
                 }
             }
+
             btnChooseImage.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -236,49 +237,61 @@ public class AdapterBravoDetail extends BaseAdapter {
                 btnFollow.setVisibility(View.GONE);
                 layoutLiked.setVisibility(View.VISIBLE);
                 layoutSaved.setVisibility(View.VISIBLE);
+                btnChooseImage.setVisibility(View.VISIBLE);
             }
             else {
                 followIcon.setVisibility(View.VISIBLE);
                 btnFollow.setVisibility(View.VISIBLE);
                 layoutLiked.setVisibility(View.GONE);
                 layoutSaved.setVisibility(View.GONE);
+                btnChooseImage.setVisibility(View.GONE);
             }
             if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
-                btnSave.setBackgroundResource(R.drawable.btn_save);
+                btnLeft.setBackgroundResource(R.drawable.btn_save);
             } else {
-                btnSave.setBackgroundResource(R.drawable.btn_save2);
+                btnLeft.setBackgroundResource(R.drawable.btn_save2);
             }
-            btnSave.setOnClickListener(new OnClickListener() {
+            btnLeft.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+                        listener.goToSave(!isSave);
+                    } else {
+                        listener.goToLike(!isLiked);
+                    }
+                }
+            });
+            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+                btnLeft.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
+                btnLeft.setText(isSave ? "Saved" : "Save");
+            } else {
+                btnLeft.setCompoundDrawablesWithIntrinsicBounds(0, isLiked ? R.drawable.icon_like : R.drawable.icon_like_off, 0, 0);
+                btnLeft.setText(isLiked ? "Liked" : "Like");
+            }
+            btnMiddle.setBackgroundResource(R.drawable.btn_like2);
+            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+                btnMiddle.setVisibility(View.GONE);
+            } else {
+                btnMiddle.setVisibility(View.VISIBLE);
+            }
+            btnMiddle.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
+            btnMiddle.setText(isSave ? "Saved" : "Save");
+            btnMiddle.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     listener.goToSave(!isSave);
                 }
             });
-            btnSave.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
-            btnSave.setText(isSave ? "Saved" : "Save");
-            btnLike.setBackgroundResource(R.drawable.btn_like2);
-            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
-                btnLike.setVisibility(View.GONE);
-            } else {
-                btnLike.setVisibility(View.VISIBLE);
-            }
-            btnLike.setOnClickListener(new OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    listener.goToLike(!isLiked);
-                }
-            });
-            btnLike.setCompoundDrawablesWithIntrinsicBounds(0, isLiked ? R.drawable.icon_like : R.drawable.icon_like, 0, 0);
-            btnLike.setText(isLiked ? "Liked" : "Like");
             if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
-                btnShare.setBackgroundResource(R.drawable.btn_share);
+                btnRight.setBackgroundResource(R.drawable.btn_share);
             } else {
-                btnShare.setBackgroundResource(R.drawable.btn_share2);
+                btnRight.setBackgroundResource(R.drawable.btn_share2);
             }
 
-            btnShare.setOnClickListener(new OnClickListener() {
+            btnRight.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {

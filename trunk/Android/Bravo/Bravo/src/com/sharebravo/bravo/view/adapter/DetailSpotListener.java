@@ -5,8 +5,7 @@ public interface DetailSpotListener {
 
     public void goToFragment(int framentID);
 
+    public void tapToBravo();
+
     public void goToUserDataTab(String useId);
-
-    public void goToCoverImage();
-
 }

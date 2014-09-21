@@ -23,13 +23,15 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/following/{User_ID_Other}";
     public static final String URL_GET_MYLIST_ITEM                  = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylist/{Bravo_ID}";
+    public static final String URL_GET_LIKE_ITEM                    = URL_BRAVO_BASE
+                                                                            + "/user/{User_ID}/mylikelist/{Bravo_ID}";
     public static final String URL_GET_NEWS                         = URL_BRAVO_BASE + "/news/{News_ID}?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                          /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
     public static final String URL_GET_SPOT                         = URL_BRAVO_BASE + "/spot/{Spot_ID}";
     public static final String URL_GET_SPOT_SEARCH                  = URL_BRAVO_BASE
                                                                             + "/spot";
-    public static final String URL_GET_SPOT_HISTORY                 = URL_BRAVO_BASE + "/spot/{Spot_ID}/history?User_ID={str}&Access_Token={str}";
-    public static final String URL_GET_SPOT_RANK                    = URL_BRAVO_BASE + "/spot/{Spot_ID}/rank?User_ID={str}&Access_Token={str}";
+    public static final String URL_GET_SPOT_HISTORY                 = URL_BRAVO_BASE + "/spot/{Spot_ID}/history";
+    public static final String URL_GET_SPOT_RANK                    = URL_BRAVO_BASE + "/spot/{Spot_ID}/rank";
     public static final String URL_GET_TSURETE                      = URL_BRAVO_BASE + "/bravo/{Bravo_ID}/tsurete?User_ID={str}&Access_Token={str}";
     public static final String URL_GET_USER_INFO                    = URL_BRAVO_BASE + "/user";
     public static final String URL_GET_USER_INFO_WITH_BRAVO_ACCOUNT = URL_BRAVO_BASE + "/user";
