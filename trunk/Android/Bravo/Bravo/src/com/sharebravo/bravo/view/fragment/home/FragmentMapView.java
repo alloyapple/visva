@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -81,27 +83,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         mTouchView.addView(mOriginalContentView);
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-        if (typeMaker == MAKER_BY_LOCATION_SPOT) {
-            // changeLocation(mLat, mLong);
-        }
-        locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
 
-        // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
-
-        // Getting the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        // Getting Current Location
-        location = locationManager.getLastKnownLocation(provider);
-
-        if (location != null) {
-            onLocationChanged(location);
-        }
-
-        // locationManager.requestLocationUpdates(provider, 20000, 0, this);
-        // LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         mHomeActionListener = (HomeActivity) getActivity();
         LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
         btnBack = (Button) mView.findViewById(R.id.btn_back);
@@ -125,6 +107,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
             } else if (typeMaker == MAKER_BY_LOCATION_USER) {
+                location = getLocation();
                 requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
             }
         }
@@ -152,7 +135,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
                 ObGetSpotTimeline mObGetSpotTimeline;
                 mObGetSpotTimeline = gson.fromJson(response.toString(), ObGetSpotTimeline.class);
                 AIOLog.d("mObGetSpotTimeline:" + mObGetSpotTimeline);
-                if (mObGetSpotTimeline == null || mObGetSpotTimeline.data.size() == 0) {
+                if (mObGetSpotTimeline == null) {
                     return;
                 } else {
                     changeLocation(mObGetSpotTimeline.data, latitude, longitude);
@@ -248,7 +231,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
             }
         });
         getMap().clear();
-//        addMaker(latitude, longitude, "");
+        // addMaker(latitude, longitude, "");
         if (data == null)
             return;
 
@@ -340,6 +323,65 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
     public void setForeignID(String foreignID) {
         this.foreignID = foreignID;
+    }
+
+    boolean canGetLocation;
+
+    public Location getLocation() {
+
+        locationManager = (LocationManager) getActivity()
+                .getSystemService(Context.LOCATION_SERVICE);
+
+        // getting GPS status
+        boolean isGPSEnabled = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // getting network status
+        boolean isNetworkEnabled = locationManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (!isGPSEnabled && !isNetworkEnabled) {
+            // no network provider is enabled
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+            return null;
+        } else {
+            canGetLocation = true;
+            if (isNetworkEnabled) {
+                locationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        0,
+                        0, this);
+                // Log.d("activity", "LOC Network Enabled");
+                if (locationManager != null) {
+                    location = locationManager
+                            .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    if (location != null) {
+                        return location;
+                    }
+                }
+            }
+            // if GPS Enabled get lat/long using GPS Services
+            if (isGPSEnabled) {
+                if (location == null) {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            0,
+                            0, this);
+                    // Log.d("activity", "RLOC: GPS Enabled");
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (location != null) {
+                            // Log.d("activity", "RLOC: loc by GPS");
+
+                            return location;
+                        }
+                    }
+                }
+            }
+        }
+        return location;
     }
 
 }
