@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/height_post_content_area" >
+
+        <ImageView
+            android:id="@+id/image_post_detail"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop" >
+        </ImageView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_text_area_return_spot"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_cover" >
+
+            <ImageView
+                android:id="@+id/img_picture_choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/setting_take_picture_icon"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/txtView_spot_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:text="@string/text_spot_name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignBaseline="@id/img_picture_choose"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_return_spot"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_done_registration_height"
+        android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
+        android:layout_marginRight="@dimen/btn_done_registration_margin_left_right"
+        android:layout_marginTop="@dimen/btn_done_registration_margin_top"
+        android:background="@drawable/bt_white"
+        android:text="@string/return_to_spots"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
+        android:layout_marginTop="@dimen/btn_done_registration_margin_top" >
+
+        <TextView
+            android:id="@+id/text_share_return_spots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_return_spot_share_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_share_return_spots"
+            android:background="@drawable/facebook_logo" />
+
+        <Button
+            android:id="@+id/btn_return_spot_share_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_share_return_spots"
+            android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
+            android:layout_toRightOf="@id/btn_return_spot_share_facebook"
+            android:background="@drawable/twitter_logo" />
+
+        <Button
+            android:id="@+id/btn_return_spot_share_foursquare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_share_return_spots"
+            android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
+            android:layout_toRightOf="@id/btn_return_spot_share_twitter"
+            android:background="@drawable/foursquare_icon" />
+    </RelativeLayout>
+
+</LinearLayout>

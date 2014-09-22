@@ -22,7 +22,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     private static final String     FRAGMENT_BRAVO_TAB             = "bravo_tab";
 
     public static final int         FRAGMENT_BASE_ID               = 1000;
-    public static final int         FRAGMENT_BRAVO_SEARCH_ID          = FRAGMENT_BASE_ID + 1;
+    public static final int         FRAGMENT_BRAVO_SEARCH_ID       = FRAGMENT_BASE_ID + 1;
     public static final int         FRAGMENT_BRAVO_MAP_ID          = FRAGMENT_BASE_ID + 2;
     public static final int         FRAGMENT_BRAVO_RETURN_SPOTS_ID = FRAGMENT_BASE_ID + 3;
     // ======================Class Define==================
@@ -75,7 +75,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         case FRAGMENT_BRAVO_RETURN_SPOTS_ID:
             mTransaction.show(mFragmentBravoReturnSpots);
             addToSBackStack(FRAGMENT_BRAVO_RETURN_SPOTS);
-            break;
         }
         mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         mTransaction.commit();
@@ -166,5 +165,11 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
             return;
         }
         mTransaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void goToReturnSpotFragment(Spot _spot) {
+        mFragmentBravoReturnSpots.setBravoSpot(_spot);
+        goToFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID);
     }
 }

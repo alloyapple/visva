@@ -80,5 +80,8 @@
     <dimen name="height_row_comment_content">50dp</dimen>
     <!-- User Data Tab -->
     <string name="text_user_data_name_size">20dp]</string>
+    
+     <!-- Bravo Tab -->
+    <dimen name="height_text_area_return_spot">50dp</dimen>
 
 </resources>

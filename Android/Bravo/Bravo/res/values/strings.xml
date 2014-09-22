@@ -225,6 +225,8 @@
     <string name="bravo_action_alert_title">Are you sure you want to Bravo this spot?</string>
     <string name="bravo_action_alert_no">No</string>
     <string name="bravo_action_alert_yes">Yes</string>
+    <string name="return_to_spots">Return to Spots</string>
+     <string name="text_spot_name">Cộng CaPhe</string>
 
     <!-- Version Manager -->
     <string name="update_now">Update Now</string>
