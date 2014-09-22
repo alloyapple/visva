@@ -613,6 +613,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToRecentPostDetail(ObBravo obGetBravo) {
+        if(obGetBravo == null)
+            return;
         AIOLog.d("obGetBravo:" + obGetBravo);
         hideTabButton();
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);
@@ -988,26 +990,22 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToSpotDetail(Spot mSpot) {
-        // TODO Auto-generated method stub
         mFragmentSpotDetail.setSpot(mSpot);
         showFragment(FRAGMENT_SPOT_DETAIL_ID);
     }
 
     @Override
     public void goToAddSpot() {
-        // TODO Auto-generated method stub
         showFragment(FRAGMENT_ADD_MYSPOT_ID);
     }
 
     @Override
     public void goToInputMySpot() {
-        // TODO Auto-generated method stub
         showFragment(FRAGMENT_INPUT_MYSPOT_ID);
     }
 
     @Override
     public void goToLocateMySpot() {
-        // TODO Auto-generated method stub
         showFragment(FRAGMENT_LOCATE_MYSPOT_ID);
     }
 }

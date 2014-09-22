@@ -231,13 +231,14 @@ public class AdapterBravoDetail extends BaseAdapter {
             });
             followIcon.setImageResource(isFollowing ? R.drawable.following_icon : R.drawable.follow_icon);
             btnFollow.setText(isFollowing ? "Following" : "Follow");
-            if (bravoObj.User_ID.equals(mSessionLogin.userID))
+            if (mSessionLogin.userID.equals(bravoObj.User_ID))
             {
                 followIcon.setVisibility(View.GONE);
                 btnFollow.setVisibility(View.GONE);
                 layoutLiked.setVisibility(View.VISIBLE);
                 layoutSaved.setVisibility(View.VISIBLE);
                 btnChooseImage.setVisibility(View.VISIBLE);
+                btnLeft.setBackgroundResource(R.drawable.btn_save);
             }
             else {
                 followIcon.setVisibility(View.VISIBLE);
@@ -245,24 +246,20 @@ public class AdapterBravoDetail extends BaseAdapter {
                 layoutLiked.setVisibility(View.GONE);
                 layoutSaved.setVisibility(View.GONE);
                 btnChooseImage.setVisibility(View.GONE);
-            }
-            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
-                btnLeft.setBackgroundResource(R.drawable.btn_save);
-            } else {
                 btnLeft.setBackgroundResource(R.drawable.btn_save2);
             }
             btnLeft.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+                    if (mSessionLogin.userID.equals(bravoObj.User_ID)) {
                         listener.goToSave(!isSave);
                     } else {
                         listener.goToLike(!isLiked);
                     }
                 }
             });
-            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+            if (mSessionLogin.userID.equals(bravoObj.User_ID)) {
                 btnLeft.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
                 btnLeft.setText(isSave ? "Saved" : "Save");
             } else {
@@ -270,7 +267,7 @@ public class AdapterBravoDetail extends BaseAdapter {
                 btnLeft.setText(isLiked ? "Liked" : "Like");
             }
             btnMiddle.setBackgroundResource(R.drawable.btn_like2);
-            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+            if (mSessionLogin.userID.equals(bravoObj.User_ID)) {
                 btnMiddle.setVisibility(View.GONE);
             } else {
                 btnMiddle.setVisibility(View.VISIBLE);
@@ -285,7 +282,7 @@ public class AdapterBravoDetail extends BaseAdapter {
                 }
             });
 
-            if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
+            if (mSessionLogin.userID.equals(bravoObj.User_ID)) {
                 btnRight.setBackgroundResource(R.drawable.btn_share);
             } else {
                 btnRight.setBackgroundResource(R.drawable.btn_share2);

@@ -45,8 +45,8 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvatar {
-    private XListView      mListviewPost            = null;
-    private XListView      mListviewUser            = null;
+    private XListView                mListviewPost            = null;
+    private XListView                mListviewUser            = null;
     private AdapterPostList          mAdapterPost             = null;
     private AdapterUserSearchList    mAdapterUser             = null;
     private HomeActionListener       mHomeActionListener      = null;
@@ -65,6 +65,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                                                                               .get(position - 1));
                                                                   }
                                                               };
+    private boolean                  isOutOfDataLoadMore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,6 +104,8 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
             mListviewPost.setVisibility(View.GONE);
             mListviewUser.setVisibility(View.GONE);
             requestGetTimeLine(mSessionLogin);
+        } else {
+            isOutOfDataLoadMore = false;
         }
     }
 
@@ -208,7 +211,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         mListviewPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewPost.setVisibility(View.GONE);
         mListviewPost.setXListViewListener(new IXListViewListener() {
-            
+
             @Override
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
@@ -218,25 +221,25 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 else
                     onStopPullAndLoadRecentPostListView();
             }
-            
+
             @Override
             public void onLoadMore() {
                 int size = mObGetTimelineBravo.data.size();
-                if (size > 0)
+                if (size > 0 && !isOutOfDataLoadMore)
                     onPullDownToRefreshBravoItems(mObGetTimelineBravo.data.get(size - 1), false);
                 else
                     onStopPullAndLoadRecentPostListView();
                 AIOLog.d("IOnLoadMoreListener");
-                
+
             }
         });
         mListviewUser.setXListViewListener(new IXListViewListener() {
-            
+
             @Override
             public void onRefresh() {
                 onStopPullAndLoadUserListView();
             }
-            
+
             @Override
             public void onLoadMore() {
                 onStopPullAndLoadUserListView();
@@ -277,9 +280,10 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 else {
                     AIOLog.d("size of recent post list: " + obGetTimeline.data.size());
                     int reponseSize = obGetTimeline.data.size();
-                    if (reponseSize <= 0)
+                    if (reponseSize <= 0) {
+                        isOutOfDataLoadMore = true;
                         return;
-
+                    }
                     ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
                     mAdapterPost.updatePullDownLoadMorePostList(newObBravos, isPulDownToRefresh);
                     if (mListviewPost.getVisibility() == View.GONE)
@@ -335,12 +339,12 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
     }
-    
+
     private void onStopPullAndLoadRecentPostListView() {
         mListviewPost.stopRefresh();
         mListviewPost.stopLoadMore();
     }
-    
+
     private void onStopPullAndLoadUserListView() {
         mListviewUser.stopRefresh();
         mListviewUser.stopLoadMore();
