@@ -225,8 +225,19 @@
     <string name="bravo_action_alert_title">Are you sure you want to Bravo this spot?</string>
     <string name="bravo_action_alert_no">No</string>
     <string name="bravo_action_alert_yes">Yes</string>
-    <string name="return_to_spots">Return to Spots</string>
-     <string name="text_spot_name">Cộng CaPhe</string>
+    <string name="bravo_after_complete">Return to Spots</string>
+    <string name="text_spot_name">Cộng CaPhe</string>
+    <string name="bravo_after_add_picture">Add a Photo</string>
+    <string name="bravo_after_add_picture_complete">Your photo was successfully uploaded.</string>
+    <string name="bravo_after_share_sns">Share</string>
+    <string name="bravo_add_picture_title">Attach a photo to your Bravo?</string>
+    <string name="bravo_add_picture_action_take_pic">Take a Photo</string>
+    <string name="bravo_add_picture_action_select_lib">Choose from Library</string>
+    <string name="bravo_add_picture_action_cancel">Cancel</string>
+    <string name="post_default_bravo_store">Store</string>
+    <string name="post_default_bravo_area">Favorite</string>
+    <string name="bravo_add_action_zoom_pic">Zoom a Picture</string>
+    <string name="bravo_count">You have already spent a Bravo today so please come back tomorrow!</string>
 
     <!-- Version Manager -->
     <string name="update_now">Update Now</string>

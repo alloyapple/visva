@@ -62,7 +62,7 @@ public class ActivityGIFAnimation extends GraphicsActivity {
             }
             mMovie.setTime(relTime);
             AIOLog.d("movie width:" + mMovie.width() + ", movie height:" + mMovie.height());
-            mMovie.draw(canvas, 0, 80, paint);
+            mMovie.draw(canvas, 0, 140, paint);
             this.invalidate();
         }
     }

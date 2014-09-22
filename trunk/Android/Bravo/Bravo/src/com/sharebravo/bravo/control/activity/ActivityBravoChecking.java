@@ -160,9 +160,11 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
         if (currentView.equals(FRAGMENT_BRAVO_MAP)) {
             mTransaction.show(mFragmentBravoSearch);
+        } else if (currentView.equals(FRAGMENT_BRAVO_RETURN_SPOTS_ID)) {
+            mTransaction.show(mFragmentBravoReturnSpots);
         } else if (currentView.equals(FRAGMENT_BRAVO_TAB)) {
             onBackPressed();
-            return;
+            return; 
         }
         mTransaction.commitAllowingStateLoss();
     }
