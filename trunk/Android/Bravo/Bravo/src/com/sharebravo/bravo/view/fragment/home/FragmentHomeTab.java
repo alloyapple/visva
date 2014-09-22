@@ -63,6 +63,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                                                                     }
                                                                 };
     private TextView                  mNotificationIcon;
+    private boolean                   isOutOfDataLoadMore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -148,41 +149,12 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mListviewRecentPost.setVisibility(View.GONE);
 
         mNotificationIcon = (TextView) root.findViewById(R.id.notification_icon);
-        // /* load more old items */
-        // mListviewRecentPost.setOnLoadMoreListener(new IOnLoadMoreListener() {
-        //
-        // @Override
-        // public void onLoadMore() {
-        // int size = mObGetAllBravoRecentPosts.data.size();
-        // if (size > 0)
-        // onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
-        // else
-        // mListviewRecentPost.onLoadMoreComplete();
-        // AIOLog.d("IOnLoadMoreListener");
-        // }
-        // });
-        //
-        // /* on refresh new items */
-        // /* load more old items */
-        // mListviewRecentPost.setOnRefreshListener(new IOnRefreshListener() {
-        //
-        // @Override
-        // public void onRefresh() {
-        // AIOLog.d("IOnRefreshListener");
-        // int size = mObGetAllBravoRecentPosts.data.size();
-        // if (size > 0)
-        // onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
-        // else
-        // mListviewRecentPost.onRefreshComplete();
-        // }
-        // });
-        //
 
         mListviewRecentPost.setXListViewListener(new IXListViewListener() {
 
             @Override
             public void onRefresh() {
-                AIOLog.d("IOnRefreshListener");
+                AIOLog.d("IOnRefreshListener isOutOfDataLoadMore:" + isOutOfDataLoadMore);
                 int size = mObGetAllBravoRecentPosts.data.size();
                 if (size > 0)
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
@@ -192,8 +164,9 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
 
             @Override
             public void onLoadMore() {
+                AIOLog.d("isOutOfDataLoadMore:" + isOutOfDataLoadMore);
                 int size = mObGetAllBravoRecentPosts.data.size();
-                if (size > 0)
+                if (size > 0 && !isOutOfDataLoadMore)
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
                 else
                     onStopPullAndLoadListView();
@@ -201,6 +174,14 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
 
             }
         });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            isOutOfDataLoadMore = false;
+        }
     }
 
     public void showDialogWelcome() {
@@ -265,7 +246,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                     int reponseSize = obGetAllBravoRecentPosts.data.size();
                     if (reponseSize <= 0) {
                         if (!isPulDownToRefresh)
-                            mListviewRecentPost.setSelection(mObGetAllBravoRecentPosts.data.size() - 5);
+                            isOutOfDataLoadMore = true;
                         return;
                     }
                     mAdapterRecentPost.updatePullDownLoadMorePostList(obGetAllBravoRecentPosts.data, isPulDownToRefresh);

@@ -39,7 +39,6 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterSpotDetail;
 import com.sharebravo.bravo.view.adapter.DetailSpotListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
