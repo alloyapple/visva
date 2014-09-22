@@ -13,7 +13,7 @@
             android:layout_height="@dimen/height_post_content_area" >
 
             <ImageView
-                android:id="@+id/img_user_cover"
+                android:id="@+id/image_post_detail"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@color/click_color"

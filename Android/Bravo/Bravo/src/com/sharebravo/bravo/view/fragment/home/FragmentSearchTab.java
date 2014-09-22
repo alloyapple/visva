@@ -120,7 +120,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
@@ -292,25 +291,21 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     @Override
     public void onLocationChanged(Location location) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -322,12 +317,10 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 .getSystemService(Context.LOCATION_SERVICE);
 
         // getting GPS status
-        boolean isGPSEnabled = locationManager
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         // getting network status
-        boolean isNetworkEnabled = locationManager
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         if (!isGPSEnabled && !isNetworkEnabled) {
             // no network provider is enabled

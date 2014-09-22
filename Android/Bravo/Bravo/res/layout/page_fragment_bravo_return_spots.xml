@@ -9,13 +9,27 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/height_post_content_area" >
 
-        <ImageView
-            android:id="@+id/image_post_detail"
+         <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop" >
-        </ImageView>
+            android:layout_height="@dimen/height_post_content_area" >
+
+            <ImageView
+                android:id="@+id/img_user_cover"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/click_color"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop" >
+            </ImageView>
+
+            <ImageButton
+                android:id="@+id/btn_img_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/icon_camera_cover"
+                android:contentDescription="@string/app_name" />
+        </FrameLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -57,7 +71,7 @@
         android:layout_marginRight="@dimen/btn_done_registration_margin_left_right"
         android:layout_marginTop="@dimen/btn_done_registration_margin_top"
         android:background="@drawable/bt_white"
-        android:text="@string/return_to_spots"
+        android:text="@string/bravo_after_complete"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
@@ -73,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="@string/share"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black"
+            android:textColor="@color/grey_3"
             android:textStyle="bold" />
 
         <Button
@@ -81,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_share_return_spots"
-            android:background="@drawable/facebook_logo" />
+            android:background="@drawable/facebook_share_off" />
 
         <Button
             android:id="@+id/btn_return_spot_share_twitter"
@@ -90,7 +104,7 @@
             android:layout_below="@id/text_share_return_spots"
             android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
             android:layout_toRightOf="@id/btn_return_spot_share_facebook"
-            android:background="@drawable/twitter_logo" />
+            android:background="@drawable/twitter_share_off" />
 
         <Button
             android:id="@+id/btn_return_spot_share_foursquare"
@@ -99,7 +113,7 @@
             android:layout_below="@id/text_share_return_spots"
             android:layout_marginLeft="@dimen/btn_done_registration_margin_left_right"
             android:layout_toRightOf="@id/btn_return_spot_share_twitter"
-            android:background="@drawable/foursquare_icon" />
+            android:background="@drawable/foursquare_share_off" />
     </RelativeLayout>
 
 </LinearLayout>

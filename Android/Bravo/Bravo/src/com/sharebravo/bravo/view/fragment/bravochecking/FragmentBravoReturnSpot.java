@@ -2,13 +2,10 @@ package com.sharebravo.bravo.view.fragment.bravochecking;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.List;
 
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -17,10 +14,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +34,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     // ====================Constant Define=================
     private static final int      REQUEST_CODE_CAMERA  = 7001;
     private static final int      REQUEST_CODE_GALLERY = 7002;
-    private static final int      CROP_FROM_CAMERA     = 7003;
     // ====================Class Define====================
     private Spot                  mSpot;
     private BravoCheckingListener mBravoCheckingListener;
@@ -61,6 +57,16 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         return root;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            if (mSpot != null) {
+                AIOLog.d("mSpot.Spot_Name:" + mSpot.Spot_Name);
+                mTextSpotName.setText(mSpot.Spot_Name);
+            }
+        }
+    }
     private void initializeView(View root) {
         mImageSpot = (ImageView) root.findViewById(R.id.image_post_detail);
         mImageChooseImage = (ImageView) root.findViewById(R.id.img_picture_choose);
@@ -77,16 +83,16 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 showDialogChooseImage();
             }
         });
-        
-        mTextSpotName.setText(mSpot.Spot_Name);
+
         mBtnReturnSpot.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
                 mBravoCheckingListener.goToBack();
             }
         });
-    }
+        
+    } 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +105,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     }
 
     public void setBravoSpot(Spot _spot) {
+        AIOLog.d("spot:=>" + _spot);
         this.mSpot = _spot;
     }
 
@@ -220,8 +227,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 cursor.close();
 
                 File file = new File(imagePath);
-                Uri fileUri = null;
                 if (file.exists()) {
+                    Uri fileUri = Uri.fromFile(file); 
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bitmap = BravoUtils.decodeBitmapFromFile(imagePath, 1000, 1000, orientation);
                     mSpotBitmap = bitmap;
@@ -231,48 +238,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 }
             }
             break;
-        case CROP_FROM_CAMERA:
-            if (resultCode == getActivity().RESULT_OK) {
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    Bitmap photo = extras.getParcelable("data");
-                    mSpotBitmap = photo;
-                    mImageSpot.setImageBitmap(photo);
-                }
-            }
-            break;
         default:
             return;
-        }
-    }
-
-    private void cropImageFromUri(Uri uri) {
-        AIOLog.d("uri:" + uri);
-        Intent intent = new Intent("com.android.camera.action.CROP");
-
-        intent.setType("image/*");
-
-        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
-
-        int size = list.size();
-        AIOLog.d("size:" + size);
-        if (size == 0) {
-            showToast("Can not crop image");
-            return;
-        } else {
-            intent.setData(uri);
-            intent.putExtra("outputX", 1000);
-            intent.putExtra("outputY", 1000);
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1);
-            intent.putExtra("scale", true);
-            intent.putExtra("return-data", true);
-            if (size >= 1) {
-                Intent i = new Intent(intent);
-                ResolveInfo res = list.get(0);
-                i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-                startActivityForResult(i, CROP_FROM_CAMERA);
-            }
         }
     }
 }
