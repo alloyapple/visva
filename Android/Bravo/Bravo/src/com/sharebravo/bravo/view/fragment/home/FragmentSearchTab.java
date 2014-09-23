@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +30,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.internal.fi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.foursquare.FactoryFoursquareParams;
+import com.sharebravo.bravo.foursquare.models.OFGetVenue;
+import com.sharebravo.bravo.foursquare.models.OFGetVenueSearch;
+import com.sharebravo.bravo.foursquare.models.OFGetVenueSearch.Venue;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpGet;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetSpotSearch;
@@ -120,6 +129,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void onClick(View v) {
+                // TODO Auto-generated method stub
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
@@ -186,7 +196,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         super.onResume();
     }
 
-    public void requestSpotSearch(String nameSpot) {
+    public void requestSpotSearch(ArrayList<String> mVenues) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         AIOLog.d("mUserId:" + mSessionLogin.userID + ", mAccessToken:" + mSessionLogin.accessToken);
@@ -194,9 +204,10 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             userId = "";
             accessToken = "";
         }
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Start", "0");
-        subParams.put("Name", nameSpot);
+        HashMap<String, Object> subParams = new HashMap<String, Object>();
+       // subParams.put("Start", "0");
+        subParams.put("Source", "foursquare");
+        subParams.put("FID", mVenues);
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;
@@ -239,7 +250,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         }
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Start", "0");
-        subParams.put("Location", (float) location.getLatitude() + "," + (float) location.getLongitude());
+        subParams.put("Location", (float) location.getLongitude() + "," + (float) location.getLatitude());
         if (mode == SEARCH_LOCAL_BRAVO)
             subParams.put("Global", "TRUE");
         if (mode == SEARCH_LOCAL_BRAVO_KEY || mode == SEARCH_PEOPLE_FOLLOWING_KEY)
@@ -276,6 +287,37 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     }
 
+    private void requestGet4squareVenueSearch(String query) {
+        String url = BravoWebServiceConfig.URL_FOURSQUARE_GET_VENUE_SEARCH;
+        List<NameValuePair> params = FactoryFoursquareParams
+                .createSubParamsRequestSearchVenue(location.getLatitude(), location.getLongitude(), query);
+        FAsyncHttpGet request = new FAsyncHttpGet(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("mOFGetVenueSearch:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                OFGetVenueSearch mOFGetVenueSearch;
+                mOFGetVenueSearch = gson.fromJson(response.toString(), OFGetVenueSearch.class);
+                AIOLog.d("mOFGetVenueSearch:" + mOFGetVenueSearch);
+                if (mOFGetVenueSearch == null)
+                    return;
+                else {
+                    ArrayList<String> fids = new ArrayList<String>();
+                    for (int i = 0; i < mOFGetVenueSearch.response.venues.size(); i++) {
+                        fids.add(mOFGetVenueSearch.response.venues.get(i).id);
+                    }
+                    requestSpotSearch(fids);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        request.execute(url);
+    }
+
     public void onBack(int mode) {
         mMode = SEARCH_FOR_SPOT;
         listViewResult.setVisibility(View.GONE);
@@ -291,21 +333,25 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     @Override
     public void onLocationChanged(Location location) {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
 
     }
 
@@ -317,10 +363,12 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 .getSystemService(Context.LOCATION_SERVICE);
 
         // getting GPS status
-        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isGPSEnabled = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         // getting network status
-        boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean isNetworkEnabled = locationManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         if (!isGPSEnabled && !isNetworkEnabled) {
             // no network provider is enabled
@@ -368,7 +416,8 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     public void onSearch(String key) {
         if (mMode == SEARCH_FOR_SPOT) {
-            requestSpotSearch(key);
+            requestGet4squareVenueSearch(key);
+
         } else if (mMode == SEARCH_LOCAL_BRAVO) {
             requestBravoSearch(key, SEARCH_LOCAL_BRAVO_KEY);
         }

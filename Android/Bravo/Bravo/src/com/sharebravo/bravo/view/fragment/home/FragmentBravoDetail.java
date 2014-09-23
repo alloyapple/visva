@@ -212,11 +212,9 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
     }
 
     private void requestGetFollowingCheck() {
-        if(mBravoObj == null)
-            return;
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", mBravoObj.User_ID+"");
+        String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", mBravoObj.User_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
         AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
@@ -1120,16 +1118,19 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
 
     @Override
     public void goToLiked() {
+        // TODO Auto-generated method stub
         mHomeActionListener.goToLiked(mBravoObj.Spot_ID);
     }
 
     @Override
     public void goToSaved() {
+        // TODO Auto-generated method stub
         mHomeActionListener.goToSaved(mBravoObj.Spot_ID);
     }
 
     @Override
     public void goToLike(boolean isLike) {
+        // TODO Auto-generated method stub
         if (isLike)
             requestToPutLike(mBravoObj);
         else

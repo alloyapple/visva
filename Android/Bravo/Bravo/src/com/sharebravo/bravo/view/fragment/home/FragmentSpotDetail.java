@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
@@ -26,13 +27,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.foursquare.FactoryFoursquareParams;
+import com.sharebravo.bravo.foursquare.models.OFGetVenue;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpGet;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpot;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory;
 import com.sharebravo.bravo.model.response.ObGetSpotRank;
+import com.sharebravo.bravo.model.response.ObPutReport;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -46,21 +53,22 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListener {
-    private XListView           listviewContent    = null;
-    private AdapterSpotDetail   mAdapter           = null;
-    private Spot                mSpot              = null;
+    private XListView           listviewContent     = null;
+    private AdapterSpotDetail   mAdapter            = null;
+    private Spot                mSpot               = null;
 
     private Button              btnBack;
-    private OnItemClickListener onItemClick        = new OnItemClickListener() {
+    private OnItemClickListener onItemClick         = new OnItemClickListener() {
 
-                                                       @Override
-                                                       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                                                       }
-                                                   };
+                                                        }
+                                                    };
 
-    private SessionLogin        mSessionLogin      = null;
-    private int                 mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
+    private SessionLogin        mSessionLogin       = null;
+    private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private String              mFourquareDetailURL = "http:\\";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -148,11 +156,11 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                // AIOLog.d("requestBravoNews:" + response);
+                AIOLog.d("mObGetSpot:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetSpot mObGetSpot;
                 mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + mObGetSpot);
+                AIOLog.d("mObGetSpotd:" + mObGetSpot);
                 if (mObGetSpot == null)
                     return;
                 else {
@@ -190,10 +198,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
                 if (mObGetSpotRank == null)
                     return;
                 else {
-
-                    // mAdapter.updateMapView();
-                    mAdapter.notifyDataSetChanged();
-
+                    mAdapter.updateSpotRanks(mObGetSpotRank.data);
                 }
             }
 
@@ -205,12 +210,94 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         getSpotRankRequest.execute(url);
     }
 
+    private void requestGet4squareVenue(String SpotFID) {
+
+        String url = BravoWebServiceConfig.URL_FOURSQUARE_GET_VENUE.replace("{Spot_FID}", SpotFID);
+        List<NameValuePair> params = FactoryFoursquareParams.createSubParamsRequest();
+        FAsyncHttpGet getSpotRankRequest = new FAsyncHttpGet(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("mOFGetVenue:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                OFGetVenue mOFGetVenue;
+                mOFGetVenue = gson.fromJson(response.toString(), OFGetVenue.class);
+                AIOLog.d("mOFGetVenue:" + mOFGetVenue);
+                if (mOFGetVenue == null)
+                    return;
+                else {
+                    mFourquareDetailURL = mOFGetVenue.response.venue.canonicalUrl;
+
+                    // mAdapter.updateSpotRanks(mOFGetVenue.response.venue);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getSpotRankRequest.execute(url);
+    }
+   
+    private void requestToPutReport(Spot mSpot) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Foreign_ID", mSpot.Spot_ID);
+        subParams.put("Report_Type", "spot");
+        subParams.put("User_ID", userId);
+        subParams.put("Detail", "");
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_REPORT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putReport = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putReport :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPutReport obPutReport;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    showDialogReportOk();
+                } else {
+                    obPutReport = gson.fromJson(response.toString(), ObPutReport.class);
+                    showToast(obPutReport.error);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putReport.execute(url);
+    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetSpot(mSpot.Spot_ID);
             requestGetSpotHistory(mSpot.Spot_ID);
+            requestGetSpotRank(mSpot.Spot_ID);
+            requestGet4squareVenue(mSpot.Spot_FID);
         }
     }
 
@@ -271,6 +358,53 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         dialog.show();
     }
 
+    public void showDialogReportOk() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_report_ok, null);
+        Button btnReportClose = (Button) dialog_view.findViewById(R.id.btn_report_close);
+        btnReportClose.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(dialog_view);
+
+        dialog.show();
+    }
+
+    public void showDialogReport() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_report, null);
+        Button btnOk = (Button) dialog_view.findViewById(R.id.btn_report_yes);
+        btnOk.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                requestToPutReport(mSpot);
+            }
+        });
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_report_no);
+        btnCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(dialog_view);
+        dialog.show();
+    }
+
     public Spot getSpot() {
         return mSpot;
     }
@@ -285,12 +419,25 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     @Override
     public void tapToBravo() {
         // TODO Auto-generated method stub
-
+        mHomeActionListener.goToAddSpot();
     }
 
     @Override
     public void goToUserDataTab(String useId) {
         mHomeActionListener.goToUserData(useId);
+    }
+
+    @Override
+    public void goToMoreDetailOn4square() {
+        // TODO Auto-generated method stub
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mFourquareDetailURL));
+        startActivity(browserIntent);
+    }
+
+    @Override
+    public void goToReport() {
+        // TODO Auto-generated method stub
+        showDialogReport();
     }
 
 }
