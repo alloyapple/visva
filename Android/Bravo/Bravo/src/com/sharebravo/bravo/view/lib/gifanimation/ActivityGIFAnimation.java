@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.sdk.log.AIOLog;
 
 @SuppressLint("DrawAllocation")
 public class ActivityGIFAnimation extends GraphicsActivity {
@@ -23,18 +22,16 @@ public class ActivityGIFAnimation extends GraphicsActivity {
     private long              mMovieStart;
     private int               mWidth, mHeight;
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = new GIFView(this);
-        mWidth = getWindowManager().getDefaultDisplay().getWidth();
-        mHeight = getWindowManager().getDefaultDisplay().getHeight();
         view.setLayoutParams(new LayoutParams(mWidth, mHeight));
         setContentView(view);
 
         mInputStream = getResources().openRawResource(R.drawable.bravo_jump);
         mMovie = Movie.decodeStream(mInputStream);
+        mHeight = (int) getResources().getDimension(R.dimen.gif_animation_margin_top);
     }
 
     private class GIFView extends View {
@@ -61,8 +58,7 @@ public class ActivityGIFAnimation extends GraphicsActivity {
                 finish();
             }
             mMovie.setTime(relTime);
-            AIOLog.d("movie width:" + mMovie.width() + ", movie height:" + mMovie.height());
-            mMovie.draw(canvas, 0, 140, paint);
+            mMovie.draw(canvas, 0, mHeight, paint);
             this.invalidate();
         }
     }
