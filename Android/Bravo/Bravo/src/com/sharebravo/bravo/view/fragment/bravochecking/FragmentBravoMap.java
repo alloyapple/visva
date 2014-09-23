@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.bravochecking;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Movie;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -44,6 +46,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
+import com.sharebravo.bravo.control.activity.ActivityGIFAnimation;
 import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
@@ -59,7 +62,6 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
-import com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation;
 
 public class FragmentBravoMap extends FragmentMapBasic implements LocationListener {
     public static final int       MAKER_BY_LOCATION_SPOT            = 0;
@@ -82,7 +84,9 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
     private SessionLogin          mSessionLogin                     = null;
     private String                foreignID                         = null;
     private int                   mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
-    private Spot                  mSpot;
+    private Movie                 mMovie                            = null;
+    private InputStream           mInputStream                      = null;
+    private long                  mMovieStart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -150,11 +154,10 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mGoogleMap.clear();
-                Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-                startActivityForResult(intent, REQUEST_SHOW_BRAVO_JUMP_ANIMATION);
+                // getActivity().finish();
+                // Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
+                // intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                // startActivity(intent);
             }
         });
         Button btnBravoAlertNo = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_no);
@@ -178,16 +181,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-        case REQUEST_SHOW_BRAVO_JUMP_ANIMATION:
-            if (mSpot == null)
-                return;
-            mBravoCheckingListener.goToReturnSpotFragment(mSpot);
-            break;
-        default:
-            return;
-        }
-
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void requestGetUserTimeLine(String checkingUserId, final double latitude, final double longitude) {
@@ -264,7 +258,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             }
         });
         getMap().clear();
-        addMaker(latitude, longitude, "" + mSpot.Spot_Name);
+        addMaker(latitude, longitude, "");
     }
 
     public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
@@ -303,12 +297,12 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             }
         });
         getMap().clear();
-        addMaker(latitude, longitude, "" + mSpot.Spot_Name);
+        addMaker(latitude, longitude, "");
         if (data == null)
             return;
 
         for (int i = 0; i < data.size(); i++) {
-            addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "" + data.get(i).Spot_Name);
+            addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "");
         }
     }
 
@@ -319,16 +313,12 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
     }
 
     private Marker addMaker(double latitude, double longitute, String name) {
-        AIOLog.d("spot name:" + name);
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
         // Changing marker icon
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.nearby_icon);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
-        marker.title(name);
         Marker markerObject = getMap().addMarker(marker);
-        marker.snippet(name);
-        markerObject.showInfoWindow();
         return markerObject;
     }
 
@@ -400,7 +390,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
     }
 
     public void setBravoSpot(Spot spot) {
-        mSpot = spot;
         mLat = spot.Spot_Latitude;
         mLong = spot.Spot_Longitude;
     }

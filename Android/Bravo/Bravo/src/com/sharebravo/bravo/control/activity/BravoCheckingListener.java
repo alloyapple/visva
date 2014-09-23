@@ -10,6 +10,4 @@ public interface BravoCheckingListener {
     public void goToMapView(String foreignID, int locationType);
 
     public void goToBack();
-
-    public void goToReturnSpotFragment(Spot mSpot);
 }
