@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Movie;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -83,7 +82,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
     private SessionLogin          mSessionLogin                     = null;
     private String                foreignID                         = null;
     private int                   mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
-    private Movie                 mMovie                            = null;
     private Spot                  mSpot;
 
     @Override
@@ -152,7 +150,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                // getActivity().finish();
                 mGoogleMap.clear();
                 Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

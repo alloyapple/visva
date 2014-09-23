@@ -20,18 +20,16 @@ public class ActivityGIFAnimation extends GraphicsActivity {
     private Movie             mMovie;
     private InputStream       mInputStream   = null;
     private long              mMovieStart;
-    private int               mWidth, mHeight;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = new GIFView(this);
-        view.setLayoutParams(new LayoutParams(mWidth, mHeight));
+        view.setLayoutParams(new LayoutParams(1920, 1080));
         setContentView(view);
 
         mInputStream = getResources().openRawResource(R.drawable.bravo_jump);
         mMovie = Movie.decodeStream(mInputStream);
-        mHeight = (int) getResources().getDimension(R.dimen.gif_animation_margin_top);
     }
 
     private class GIFView extends View {
@@ -58,7 +56,10 @@ public class ActivityGIFAnimation extends GraphicsActivity {
                 finish();
             }
             mMovie.setTime(relTime);
-            mMovie.draw(canvas, 0, mHeight, paint);
+            double scalex = (double) this.getWidth() / (double) mMovie.width();
+            double scaley = (double) this.getHeight() / (double) mMovie.height();
+            canvas.scale((float) scalex, (float) scaley);
+            mMovie.draw(canvas, 0, -20, paint);
             this.invalidate();
         }
     }

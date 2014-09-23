@@ -1,17 +1,27 @@
 package com.sharebravo.bravo.view.fragment.bravochecking;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TimeZone;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,9 +35,16 @@ import android.widget.TextView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
 import com.sharebravo.bravo.control.activity.BravoCheckingListener;
+import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoReturnSpot extends FragmentBasic {
@@ -60,13 +77,78 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden){
+        if (!hidden) {
             if (mSpot != null) {
                 AIOLog.d("mSpot.Spot_Name:" + mSpot.Spot_Name);
                 mTextSpotName.setText(mSpot.Spot_Name);
             }
         }
     }
+
+    private void requestToPostBravoSpotWithImage(Spot spot, Bitmap spotImage) {
+        String encodedImage = null;
+        if (mSpotBitmap != null) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+
+            options.inSampleSize = 1;
+            options.inPurgeable = true;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            mSpotBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+            // bitmap object
+            byte byteImage_photo[] = baos.toByteArray();
+            encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+            try {
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            byte imageByte[] = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+            if (bitmap == null)
+                AIOLog.d("bitmap:" + bitmap);
+        }
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Bravo_Type", "spot");
+        subParams.put("Spot_ID", "" + spot.Spot_ID);
+        subParams.put("Time_Zone", TimeZone.getDefault().getID());
+        subParams.put("Is_Private", "TRUE");
+        subParams.put("SNS_Post", "");
+        subParams.put("FS_User_ID", "");
+        subParams.put("FS_Access_Token", "");
+        if (mSpotBitmap == null)
+            subParams.put("images", "");
+        else
+            subParams.put("images", encodedImage);
+
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        AIOLog.d("encodedImage:" + encodedImage);
+        String putUserUrl = BravoWebServiceConfig.URL_POST_BRAVO.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{Bravo_ID}", "");
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPostImage postBravo = new AsyncHttpPostImage(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after post bravo:" + response);
+                /* go to home screen */
+                mBravoCheckingListener.goToBack();
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postBravo.execute(putUserUrl);
+    }
+
     private void initializeView(View root) {
         mImageSpot = (ImageView) root.findViewById(R.id.image_post_detail);
         mImageChooseImage = (ImageView) root.findViewById(R.id.img_picture_choose);
@@ -88,11 +170,12 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                mBravoCheckingListener.goToBack();
+                requestToPostBravoSpotWithImage(mSpot, mSpotBitmap);
+                // mBravoCheckingListener.goToBack();
             }
         });
-        
-    } 
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -205,7 +288,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bitmap = BravoUtils.decodeBitmapFromFile(capturedImageFilePath, 1000, 1000, orientation);
-                    if(bitmap == null)
+                    if (bitmap == null)
                         return;
                     mSpotBitmap = bitmap;
                     mImageSpot.setImageBitmap(bitmap);
@@ -230,10 +313,10 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
                 File file = new File(imagePath);
                 if (file.exists()) {
-                    Uri fileUri = Uri.fromFile(file); 
+                    Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bitmap = BravoUtils.decodeBitmapFromFile(imagePath, 1000, 1000, orientation);
-                    if(bitmap == null)
+                    if (bitmap == null)
                         return;
                     mSpotBitmap = bitmap;
                     mImageSpot.setImageBitmap(bitmap);

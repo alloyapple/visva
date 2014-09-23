@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.utils.StringUtility;
 
 @SuppressLint("InflateParams")
 public class AdapterBravoSearch extends BaseAdapter {
@@ -55,7 +57,16 @@ public class AdapterBravoSearch extends BaseAdapter {
         holder.numberBravos = (TextView) convertView.findViewById(R.id.text_number_bravo);
         if (mSpots.size() > 0 && position < mSpots.size()) {
             holder.spotName.setText(mSpots.get(position).Spot_Name);
-            holder.numberBravos.setText(mSpots.get(position).Total_Bravos + " Bravos");
+            holder.numberBravos.setText(mSpots.get(position).Total_Bravos + " Bravos"); 
+            
+            String profile_img_url = mSpots.get(position).Spot_Icon;
+
+            AIOLog.d("obGetBravo.Profile_Img_URL: " + profile_img_url);
+            if (StringUtility.isEmpty(profile_img_url)) {
+                holder.spotAvatar.setImageResource(R.drawable.user_picture_default);
+            } else {
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holder.spotAvatar, true);
+            }
         }
         return convertView;
     }
