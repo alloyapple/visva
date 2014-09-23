@@ -8,4 +8,8 @@ public interface DetailSpotListener {
     public void tapToBravo();
 
     public void goToUserDataTab(String useId);
+
+    public void goToMoreDetailOn4square();
+
+    public void goToReport();
 }

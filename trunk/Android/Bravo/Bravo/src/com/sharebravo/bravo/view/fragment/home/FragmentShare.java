@@ -16,9 +16,9 @@ import com.facebook.Request;
 import com.facebook.Request.Callback;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginTextView;
 import com.facebook.widget.LoginTextView.UserInfoChangedCallback;
@@ -149,15 +149,7 @@ public class FragmentShare extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                String textShare = mTxtboxShare.getText().toString();
-                if (StringUtility.isEmpty(textShare)) {
-                    isSharedTextEmpty = true;
-                    mTxtboxShare.setText("");
-                    mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
-                    mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
-                } else {
-                    mHomeActionListener.shareViaSNS(BravoConstant.LINE, mBravo, textShare);
-                }
+                showToast("This feature is comming soon!");
             }
         });
         return root;
@@ -170,6 +162,7 @@ public class FragmentShare extends FragmentBasic {
             @Override
             public void onCompleted(GraphUser user, Response response) {
                 AIOLog.d("requestUserFacebookInfo:" + user);
+                // onFacebookUserConnected(user);
                 if (user != null)
                     FacebookUtil.getInstance(getActivity()).publishShareInBackground(mTxtboxShare.getText().toString(), new Callback() {
 

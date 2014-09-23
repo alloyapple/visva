@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.view.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
@@ -19,23 +21,26 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory.SpotHistory;
+import com.sharebravo.bravo.model.response.ObGetSpotRank;
+import com.sharebravo.bravo.model.response.ObGetSpotRank.SpotRank;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
-import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.home.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail;
 
 public class AdapterSpotDetail extends BaseAdapter {
-    private ArrayList<SpotHistory> mSpotHistorys;
-    private Context                mContext;
-    private Spot                   mSpot;
-    FragmentTransaction            fragmentTransaction;
-    FragmentSpotDetail             fragment;
-    FragmentMapCover               mapFragment;
-    private DetailSpotListener     listener;
-    private ImageLoader            mImageLoader = null;
+    private ArrayList<SpotHistory>  mSpotHistorys;
+    private Context                 mContext;
+    private Spot                    mSpot;
+    FragmentTransaction             fragmentTransaction;
+    FragmentSpotDetail              fragment;
+    FragmentMapCover                mapFragment;
+    private DetailSpotListener      listener;
+    private HashMap<String, String> FID_Icons    = new HashMap<String, String>();
+    private ArrayList<SpotRank>     mSpotRanks   = new ArrayList<ObGetSpotRank.SpotRank>();
+    private ImageLoader             mImageLoader = null;
 
     public AdapterSpotDetail(Context context, FragmentSpotDetail fragment) {
         // TODO Auto-generated constructor stub
@@ -72,6 +77,10 @@ public class AdapterSpotDetail extends BaseAdapter {
     LayoutInflater mLayoutInflater;
     ImageView      imgCoverSpot;
     FrameLayout    layoutMapview = null;
+    LinearLayout   layoutListTopFans;
+    LinearLayout   layoutTopFans;
+    TextView       btnMoreDetail;
+    TextView       btnReport;
 
     @Override
     public View getView(int position, View convertView, ViewGroup arg2) {
@@ -93,7 +102,27 @@ public class AdapterSpotDetail extends BaseAdapter {
                 btnTapBravo = (Button) convertView.findViewById(R.id.btn_tap_to_bravo);
                 imgCoverSpot = (ImageView) convertView.findViewById(R.id.image_cover_spot);
                 layoutMapview = (FrameLayout) convertView.findViewById(R.id.layout_map_cover_spot);
+                layoutTopFans = (LinearLayout) convertView.findViewById(R.id.layout_top_fans);
+                layoutListTopFans = (LinearLayout) convertView.findViewById(R.id.list_top_fans);
             }
+            layoutListTopFans.removeAllViews();
+            for (int i = 0; i < mSpotRanks.size(); i++) {
+                ImageView fanAvatar = new ImageView(mContext);
+                fanAvatar.setLayoutParams(new LinearLayout.LayoutParams((int) mContext.getResources().getDimension(R.dimen.size_avatar_recent_post),
+                        (int) mContext.getResources().getDimension(R.dimen.size_avatar_recent_post)));
+                String profile_img_url = mSpotRanks.get(i).profileImgUrl;
+
+                if (StringUtility.isEmpty(profile_img_url)) {
+                    fanAvatar.setImageResource(R.drawable.user_picture_default);
+                } else {
+                    mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, fanAvatar, true);
+                }
+                layoutListTopFans.addView(fanAvatar);
+            }
+            if (mSpotRanks.size() > 0)
+                layoutTopFans.setVisibility(View.VISIBLE);
+            else
+                layoutTopFans.setVisibility(View.GONE);
             String imgSpotCoverUrl = mSpot.Last_Pic;
 
             if (StringUtility.isEmpty(imgSpotCoverUrl)) {
@@ -127,13 +156,32 @@ public class AdapterSpotDetail extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
-
+                    listener.tapToBravo();
                 }
             });
         } else if (position == getCount() - 1)
         {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.layout_spot_detail_footer, null, false);
+            btnMoreDetail = (TextView) convertView.findViewById(R.id.btn_detail_foursquare);
+            btnMoreDetail.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    // TODO Auto-generated method stub
+                    listener.goToMoreDetailOn4square();
+                }
+            });
+
+            btnReport = (TextView) convertView.findViewById(R.id.btn_report);
+            btnReport.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    listener.goToReport();
+                }
+            });
         } else {
             if (mLayoutInflater == null)
                 mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -172,8 +220,8 @@ public class AdapterSpotDetail extends BaseAdapter {
 
             // set observer to view
 
-            // String imgSpotUrl = mBravo.bravoPics.size() > 0 ? mBravo.bravoPics.get(0) : null;
-            String imgSpotUrl = null;
+            String imgSpotUrl = (mBravo.bravoPics != null && mBravo.bravoPics.size() > 0) ? mBravo.bravoPics.get(0) : null;
+            // String imgSpotUrl = null;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.recent_post_none_img);
@@ -240,6 +288,15 @@ public class AdapterSpotDetail extends BaseAdapter {
 
     public void updatSpotHistory(ArrayList<SpotHistory> mSpotHistorys) {
         this.mSpotHistorys = mSpotHistorys;
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<SpotRank> getSpotRanks() {
+        return mSpotRanks;
+    }
+
+    public void updateSpotRanks(ArrayList<SpotRank> mSpotRanks) {
+        this.mSpotRanks = mSpotRanks;
         notifyDataSetChanged();
     }
 
