@@ -1,11 +1,5 @@
 package com.sharebravo.bravo.view.fragment.setting;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.RequestToken;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -26,12 +20,13 @@ import br.com.condesales.listeners.AccessTokenRequestListener;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
 import com.facebook.widget.ToggleButtonLogin;
+import com.facebook.widget.ToggleButtonLogin.UserInfoChangedCallback;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivitySplash;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.control.activity.WebAuthActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
@@ -40,7 +35,6 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentSetting extends FragmentBasic implements AccessTokenRequestListener {
@@ -63,10 +57,8 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     private ToggleButton           mToggleBtnBravoNotifications;
     private Button                 mBtnBack;
 
-    private static RequestToken    mTwitterRequestToken;
     private UiLifecycleHelper      mUiLifecycleHelper;
     private Session.StatusCallback mFacebookCallback;
-    protected static Twitter       mTwitter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,18 +82,40 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
             }
         });
+        mToggleBtnPostOnFacebook.setUserInfoChangedCallback(new UserInfoChangedCallback() {
+
+            @Override
+            public void onUserInfoFetched(GraphUser user) {
+                if (user == null) {
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
+                    mToggleBtnPostOnFacebook.setChecked(false);
+                } else {
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
+                    mToggleBtnPostOnFacebook.setChecked(true);
+                }
+            }
+        });
         mToggleBtnPostOnTwitter.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                onCheckedToggleBtnTwitter(isChecked);
+                mToggleBtnPostOnTwitter.setChecked(false);
+                if (isChecked){
+                    mHomeActionListener.requestToLoginSNS(BravoConstant.TWITTER);
+                }
+                else
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, false);
             }
         });
         mToggleBtnPostOnFourSquare.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                onCheckedToggleBtnFourSquareF(isChecked);
+                mToggleBtnPostOnFourSquare.setChecked(false);
+                if (isChecked)
+                    onCheckedToggleBtnFourSquare(isChecked);
+                else
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, false);
             }
         });
 
@@ -154,59 +168,12 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         }
     }
 
-    private void onCheckedToggleBtnTwitter(boolean isChecked) {
-        String _preKeySessionRegisteredByTwitter = BravoSharePrefs.getInstance(getActivity()).getStringValue(
-                BravoConstant.PREF_KEY_SESSION_REGISTER_BY_TWITTER);
-        AIOLog.d("_preKeySessionRegisteredByTwitter:" + _preKeySessionRegisteredByTwitter);
-        if (!StringUtility.isEmpty(_preKeySessionRegisteredByTwitter)) {
-            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, isChecked);
-        } else {
-            onClickTwitterLoginButton();
-        }
-    }
-
-    private void onClickTwitterLoginButton() {
-        if (mTwitter == null) {
-            AIOLog.e("mTwitter is null");
-            return;
-        }
-
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_URL);
-                    if (getActivity() == null)
-                        return;
-                    Intent intent = new Intent(getActivity(), WebAuthActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    intent.putExtra("URL", mTwitterRequestToken.getAuthenticationURL());
-                    getActivity().startActivityForResult(intent, 0);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
-    private void onCheckedToggleBtnFourSquareF(boolean isChecked) {
-        /* 4square api */
-        // ask for access
+    private void onCheckedToggleBtnFourSquare(boolean isChecked) {
         mEasyFoursquareAsync = new EasyFoursquareAsync(getActivity());
         mEasyFoursquareAsync.requestAccess(this);
-
     }
 
     private void initializeData() {
-        ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
-        builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
-        Configuration configuration = builder.build();
-
-        TwitterFactory factory = new TwitterFactory(configuration);
-        mTwitter = factory.getInstance();
 
         boolean isPostOnFacebook = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK);
         if (isPostOnFacebook) {
@@ -366,13 +333,16 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
     @Override
     public void onError(String errorMsg) {
+        AIOLog.d("errorMsg: " + errorMsg);
         BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, false);
-        mToggleBtnPostOnTwitter.setChecked(false);
+        mToggleBtnPostOnFourSquare.setChecked(false);
     }
 
     @Override
     public void onAccessGrant(String accessToken) {
+        AIOLog.d("accessToken: " + accessToken);
         BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, true);
+        mToggleBtnPostOnFourSquare.setChecked(true);
     }
 
     @Override
@@ -380,31 +350,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         super.onResume();
 
         AIOLog.d("isTwitterLogined");
-        // final String verifier = MyApplication.getInstance().getBravoSharePrefs().getStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_VERIFIER);
-        // // if()
-        // if (mTwitter == null) {
-        // AIOLog.d("mTwitter is null");
-        // }
-        // Thread thread = new Thread(new Runnable() {
-        //
-        // @Override
-        // public void run() {
-        // try {
-        // if (mTwitter == null) {
-        // AIOLog.d("mTwitter is null");
-        // return;
-        // }
-        // AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
-        // if (accessToken != null) {
-        // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, true);
-        // }
-        // }
-        // catch (TwitterException e) {
-        // AIOLog.d("Error Twitter OAuth Token = " + e.getMessage());
-        // }
-        // }
-        // });
-        // thread.start();
     }
 
     @Override
@@ -419,5 +364,10 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         };
         mUiLifecycleHelper = new UiLifecycleHelper(getActivity(), mFacebookCallback);
         mUiLifecycleHelper.onCreate(savedInstanceState);
+    }
+
+    public void setLoginedTwitter(boolean isLoginedTwitter) { 
+        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, isLoginedTwitter);
+        mToggleBtnPostOnTwitter.setChecked(isLoginedTwitter);
     }
 }

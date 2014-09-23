@@ -10,7 +10,6 @@ import android.graphics.Movie;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 
 import com.sharebravo.bravo.R;
 
@@ -25,7 +24,6 @@ public class ActivityGIFAnimation extends GraphicsActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = new GIFView(this);
-        view.setLayoutParams(new LayoutParams(1920, 1080));
         setContentView(view);
 
         mInputStream = getResources().openRawResource(R.drawable.bravo_jump);
