@@ -42,4 +42,6 @@ public interface HomeActionListener {
     public void goToLocateMySpot();
 
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
+    
+    public void requestToLoginSNS(String snsType);
 }

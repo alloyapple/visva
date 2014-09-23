@@ -51,6 +51,7 @@ public class BravoConstant {
     public final static String  TWITTER_CONSUMER_SECRET                            = "N1ykxuPu0VhCsgM5AZ8k2Rq9tJmVCE5HVtyZcbg";
     public static final String  TWITTER_CALLBACK_URL                               = "oauth://bravoconnect";
     public static final String  TWITTER_CALLBACK_HOME_URL                          = "oauth://bravoconnecthome";
+    public static final String  TWITTER_CALLBACK_SETTING_URL                       = "oauth://bravoconnectsetting";
 
     // Twitter oauth urls
     public static final String  URL_TWITTER_AUTH                                   = "auth_url";
@@ -112,5 +113,6 @@ public class BravoConstant {
     public static final String  FACEBOOK                                           = "Facebook";
     public static final String  FOURSQUARE                                         = "Foursquare";
     public static final String  TWITTER                                            = "Twitter";
+    public static final String  LINE                                               = "Line";
     public static final String  BRAVO                                              = "Bravo";
 }
