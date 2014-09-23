@@ -115,6 +115,9 @@
                 <data
                     android:host="bravoconnecthome"
                     android:scheme="oauth" />
+                <data
+                    android:host="bravoconnectsetting"
+                    android:scheme="oauth" />
             </intent-filter>
         </activity>
         <activity
