@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -135,21 +137,29 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
         mListviewUser.setAdapter(mAdapterUser);
 
         mListviewUser.setXListViewListener(new IXListViewListener() {
-            
+
             @Override
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
                 onStopPullAndLoadListView();
             }
-            
+
             @Override
             public void onLoadMore() {
                 AIOLog.d("IOnLoadMoreListener");
                 onStopPullAndLoadListView();
             }
         });
+        mListviewUser.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
+    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mHomeActionListener = (HomeActionListener) getActivity();
@@ -168,7 +178,7 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
     }
-    
+
     private void onStopPullAndLoadListView() {
         mListviewUser.stopRefresh();
         mListviewUser.stopLoadMore();

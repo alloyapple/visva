@@ -46,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
-                android:hint="@string/friends_search_input"
+                android:gravity="center"
+                android:hint="@string/share_with_friends"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
         </LinearLayout>
