@@ -156,15 +156,6 @@ public class AdapterUserDetail extends BaseAdapter {
 
     }
 
-    public void updatePullDownLoadMorePostList(ArrayList<ObBravo> bravoItems, boolean isPulDownToRefresh) {
-        // ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(bravoItems);
-        if (isPulDownToRefresh)
-            mObGetTimeLine.addAll(0, bravoItems);
-        else
-            mObGetTimeLine.addAll(bravoItems);
-        notifyDataSetChanged();
-    }
-
     public void updateRecentPostList(ArrayList<ObBravo> bravoItems) {
 
         if (bravoItems == null)
@@ -374,7 +365,7 @@ public class AdapterUserDetail extends BaseAdapter {
         if (totalFans <= 0)
             textTotalFans.setText(0 + "");
         else
-            textTotalFans.setText(totalFans + "");
+            textTotalFans.setText(totalBravos + "");
     }
 
     private void loadingUserImageInfo(View convertView, int position) {

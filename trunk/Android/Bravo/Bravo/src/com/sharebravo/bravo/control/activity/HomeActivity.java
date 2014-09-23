@@ -12,9 +12,6 @@ import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,7 +44,6 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
-import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
@@ -229,9 +225,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
          * */
         if (!isTwitterLoggedInAlready()) {
             Uri uri = getIntent().getData();
-            if (uri != null
-                    && (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL) || uri.toString().startsWith(
-                            BravoConstant.TWITTER_CALLBACK_SETTING_URL))) {
+            if (uri != null && uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL)) {
                 // oAuth verifier
                 String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
 
@@ -252,17 +246,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                         AIOLog.e("user twitter to share is null");
                         return;
                     }
-                    AIOLog.d("uri:" + uri);
-                    if (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL)) {
-                        // Check for blank text
-                        if (mSharedSnsText.trim().length() > 0) {
-                            new UpdateTwitterStatus().execute(mSharedSnsText);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Please enter status message", Toast.LENGTH_SHORT).show();
-                        }
+                    // Check for blank text
+                    if (mSharedSnsText.trim().length() > 0) {
+                        new UpdateTwitterStatus().execute(mSharedSnsText);
                     } else {
-                        mFragmentSetting.setLoginedTwitter(true);
-                        goToFragment(FRAGMENT_SETTINGS_ID);
+                        Toast.makeText(getApplicationContext(), "Please enter status message", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     // Check log for login errors
@@ -625,8 +613,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToRecentPostDetail(ObBravo obGetBravo) {
-        if (obGetBravo == null)
-            return;
         AIOLog.d("obGetBravo:" + obGetBravo);
         hideTabButton();
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);
@@ -803,43 +789,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             shareViaTwitter();
         } else if (BravoConstant.FACEBOOK.equals(snsType)) {
             shareViaFacebook();
-        } else if (BravoConstant.LINE.equals(snsType)) {
-            shareViaLINE();
         }
-    }
-
-    private void shareViaLINE() {
-        PackageManager pm = getPackageManager();
-        try {
-            Intent waIntent = new Intent(Intent.ACTION_SEND);
-            waIntent.setType("text/plain");
-            String sharedText;
-            if (StringUtility.isEmpty(mObBravo.Last_Pic)) {
-                sharedText = mSharedSnsText;
-            } else
-                sharedText = mSharedSnsText + ": " + mObBravo.Last_Pic;
-
-            PackageInfo info = pm.getPackageInfo("jp.naver.line.android", PackageManager.GET_META_DATA);
-            if (info == null) {
-            }
-            // Check if package exists or not. If not then code
-            // in catch block will be called
-            waIntent.setPackage("jp.naver.line.android");
-            waIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
-            startActivity(Intent.createChooser(waIntent, getString(R.string.share)));
-        } catch (NameNotFoundException e) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=jp.naver.line.android"));
-                startActivity(intent);
-            } catch (Exception exception) { // google play app is not installed
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=jp.naver.line.android"));
-                startActivity(intent);
-            }
-        }
-
-        goToBack();
     }
 
     private void shareViaFacebook() {
@@ -1002,6 +952,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToUserTimeLine(ObGetUserInfo userInfo) {
+        // TODO Auto-generated method stub
         mFragmentHistory.setmUserInfo(userInfo);
         showFragment(FRAGMENT_HISTORY_ID);
     }
@@ -1037,43 +988,26 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToSpotDetail(Spot mSpot) {
+        // TODO Auto-generated method stub
         mFragmentSpotDetail.setSpot(mSpot);
         showFragment(FRAGMENT_SPOT_DETAIL_ID);
     }
 
     @Override
     public void goToAddSpot() {
+        // TODO Auto-generated method stub
         showFragment(FRAGMENT_ADD_MYSPOT_ID);
     }
 
     @Override
     public void goToInputMySpot() {
+        // TODO Auto-generated method stub
         showFragment(FRAGMENT_INPUT_MYSPOT_ID);
     }
 
     @Override
     public void goToLocateMySpot() {
+        // TODO Auto-generated method stub
         showFragment(FRAGMENT_LOCATE_MYSPOT_ID);
-    }
-
-    @Override
-    public void requestToLoginSNS(String snsType) {
-        if (BravoConstant.TWITTER.equals(snsType)) {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
-            builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
-            Configuration configuration = builder.build();
-
-            TwitterFactory factory = new TwitterFactory(configuration);
-            mTwitter = factory.getInstance();
-
-            try {
-                mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_SETTING_URL);
-                this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL())));
-                finish();
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
