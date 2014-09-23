@@ -1,6 +1,5 @@
 package com.sharebravo.bravo.view.fragment.bravochecking;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -154,6 +153,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             public void onClick(View v) {
                 dialog.dismiss();
                 // getActivity().finish();
+                mGoogleMap.clear();
                 Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
@@ -188,7 +188,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             mBravoCheckingListener.goToReturnSpotFragment(mSpot);
             break;
         default:
-            return; 
+            return;
         }
 
     }
@@ -267,7 +267,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             }
         });
         getMap().clear();
-        addMaker(latitude, longitude, "");
+        addMaker(latitude, longitude, "" + mSpot.Spot_Name);
     }
 
     public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
@@ -306,12 +306,12 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             }
         });
         getMap().clear();
-        addMaker(latitude, longitude, "");
+        addMaker(latitude, longitude, "" + mSpot.Spot_Name);
         if (data == null)
             return;
 
         for (int i = 0; i < data.size(); i++) {
-            addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "");
+            addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "" + data.get(i).Spot_Name);
         }
     }
 
@@ -322,12 +322,16 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
     }
 
     private Marker addMaker(double latitude, double longitute, String name) {
+        AIOLog.d("spot name:" + name);
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
         // Changing marker icon
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.nearby_icon);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
+        marker.title(name);
         Marker markerObject = getMap().addMarker(marker);
+        marker.snippet(name);
+        markerObject.showInfoWindow();
         return markerObject;
     }
 

@@ -205,6 +205,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bitmap = BravoUtils.decodeBitmapFromFile(capturedImageFilePath, 1000, 1000, orientation);
+                    if(bitmap == null)
+                        return;
                     mSpotBitmap = bitmap;
                     mImageSpot.setImageBitmap(bitmap);
                 }
@@ -231,6 +233,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                     Uri fileUri = Uri.fromFile(file); 
                     int orientation = BravoUtils.checkOrientation(fileUri);
                     Bitmap bitmap = BravoUtils.decodeBitmapFromFile(imagePath, 1000, 1000, orientation);
+                    if(bitmap == null)
+                        return;
                     mSpotBitmap = bitmap;
                     mImageSpot.setImageBitmap(bitmap);
                 } else {

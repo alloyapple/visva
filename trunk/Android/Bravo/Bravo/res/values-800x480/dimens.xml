@@ -83,8 +83,9 @@
 
     <!-- User data -->
     <dimen name="user_data_avatar_width_heght">60dp</dimen>
-    
+
     <!-- Bravo Tab -->
     <dimen name="height_text_area_return_spot">50dp</dimen>
+    <dimen name="gif_animation_margin_top">80dp</dimen>
 
 </resources>
