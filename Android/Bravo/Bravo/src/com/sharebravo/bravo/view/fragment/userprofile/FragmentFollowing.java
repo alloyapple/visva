@@ -115,8 +115,7 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
                 AIOLog.d("mObGetUserFollowing:" + mObGetUserFollowing);
                 if (mObGetUserFollowing == null || mObGetUserFollowing.data.size() == 0) {
                     return;
-                }
-                else {
+                }else {
                     mAdapterUserList.updateUserList(removeIncorrectUserItem(mObGetUserFollowing.data));
                 }
                 mListviewFollowing.setVisibility(View.VISIBLE);
@@ -141,16 +140,18 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
 
             @Override
             public void onRefresh() {
-                AIOLog.d("IOnRefreshListener");
-                if (mObGetUserFollowing == null) {
-                    onStopPullAndLoadListView();
-                    return;
-                }
-                int size = mObGetUserFollowing.data.size();
-                if (size > 0)
-                    onPullDownToRefreshBravoItems(true, 0);
-                else
-                    onStopPullAndLoadListView();
+                /*
+                 * AIOLog.d("IOnRefreshListener");
+                 * if (mObGetUserFollowing == null) {
+                 * onStopPullAndLoadListView();
+                 * return;
+                 * }
+                 * int size = mObGetUserFollowing.data.size();
+                 * if (size > 0)
+                 * onPullDownToRefreshBravoItems(true, 0);
+                 * else
+                 */
+                onStopPullAndLoadListView();
             }
 
             @Override

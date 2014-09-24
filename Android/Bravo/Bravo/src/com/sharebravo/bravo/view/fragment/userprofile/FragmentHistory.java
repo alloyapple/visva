@@ -144,8 +144,9 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
                     mAdapterPost.updateRecentPostList(null);
                     return;
                 } else {
-                    addUserNameBravoItems(mObGetUserTimeline.data);
-                    mAdapterPost.updateRecentPostList(mObGetUserTimeline.data);
+                    ArrayList<ObBravo> obBravos = modifyIncorrectBravoItems(mObGetUserTimeline.data);
+                    // addUserNameBravoItems(obBravos);
+                    mAdapterPost.updateRecentPostList(obBravos);
                 }
             }
 
@@ -159,6 +160,20 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     }
 
+    private ArrayList<ObBravo> modifyIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
+        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
+        for (ObBravo obBravo : bravoItems) {
+            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+                obBravo.User_ID = mUserInfo.data.User_ID;
+                obBravo.Full_Name = mUserInfo.data.Full_Name;
+                obBravo.Profile_Img_URL = mUserInfo.data.Profile_Img_URL;
+            }
+            obBravos.add(obBravo);
+        }
+        return obBravos;
+    }
+
     private void intializeView(View root) {
         mAdapterPost = new AdapterUserBravos(getActivity(), null);
         mListviewHistory = (XListView) root.findViewById(R.id.listview_history);
@@ -168,16 +183,16 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
             @Override
             public void onRefresh() {
-                AIOLog.d("IOnRefreshListener");
-                if (mObGetUserTimeline == null) {
-                    onStopPullAndLoadListView();
-                    return;
-                }
-                int size = mObGetUserTimeline.data.size();
-                if (size > 0)
-                    onPullDownToRefreshBravoItems(true, 0);
-                else
-                    onStopPullAndLoadListView();
+                // AIOLog.d("IOnRefreshListener");
+                // if (mObGetUserTimeline == null) {
+                // onStopPullAndLoadListView();
+                // return;
+                // }
+                // int size = mObGetUserTimeline.data.size();
+                // if (size > 0)
+                // onPullDownToRefreshBravoItems(true, 0);
+                // else
+                onStopPullAndLoadListView();
             }
 
             @Override
@@ -185,8 +200,8 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
                 if (mObGetUserTimeline == null) {
                     onStopPullAndLoadListView();
                     return;
-                }
-                AIOLog.d("IOnRefreshListener");
+                } 
+                AIOLog.d("IOnRefreshListener:" + mObGetUserTimeline.data.size());
                 int size = mObGetUserTimeline.data.size();
                 if (size > 0 && !isOutOfDataLoadMore)
                     onPullDownToRefreshBravoItems(false, size);
@@ -213,16 +228,21 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
         AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                onStopPullAndLoadListView();
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetUserTimeline obGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
-                AIOLog.d("obGetUserTimeline:" + mObGetUserTimeline);
+                AIOLog.d("obGetUserTimeline:" + obGetUserTimeline);
                 if (obGetUserTimeline == null || obGetUserTimeline.data.size() == 0) {
                     if (!isPulDownToRefresh)
                         isOutOfDataLoadMore = true;
                 } else {
-                    mAdapterPost.updatePullDownLoadMorePostList(obGetUserTimeline.data, isPulDownToRefresh);
+                    ArrayList<ObBravo> obBravos = modifyIncorrectBravoItems(obGetUserTimeline.data);
+                    if (isPulDownToRefresh)
+                        mObGetUserTimeline.data.addAll(obBravos);
+                    else
+                        mObGetUserTimeline.data.addAll(0, obBravos);
+                    mAdapterPost.updatePullDownLoadMorePostList(obBravos, isPulDownToRefresh);
                 }
+                onStopPullAndLoadListView();
                 return;
             }
 
@@ -269,15 +289,15 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     }
 
-    public void addUserNameBravoItems(ArrayList<ObBravo> bravoItems) {
-        if (bravoItems == null)
-            return;
-        for (int i = 0; i < bravoItems.size(); i++) {
-            bravoItems.get(i).Profile_Img_URL = mUserInfo.data.Profile_Img_URL;
-            bravoItems.get(i).Full_Name = mUserInfo.data.Full_Name;
-            bravoItems.get(i).User_ID = mUserInfo.data.User_ID;
-        }
-    }
+    // public void addUserNameBravoItems(ArrayList<ObBravo> bravoItems) {
+    // if (bravoItems == null)
+    // return;
+    // for (int i = 0; i < bravoItems.size(); i++) {
+    // bravoItems.get(i).Profile_Img_URL = mUserInfo.data.Profile_Img_URL;
+    // bravoItems.get(i).Full_Name = mUserInfo.data.Full_Name;
+    // bravoItems.get(i).User_ID = mUserInfo.data.User_ID;
+    // }
+    // }
 
     public ObGetUserInfo getmUserInfo() {
         return mUserInfo;

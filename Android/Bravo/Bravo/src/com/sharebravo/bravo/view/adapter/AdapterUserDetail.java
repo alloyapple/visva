@@ -481,4 +481,13 @@ public class AdapterUserDetail extends BaseAdapter {
     public ImageView getBackGroundParallax() {
         return mImgUserCover;
     }
+
+    public void updatePullDownLoadMorePostList(ArrayList<ObBravo> obBravos, boolean isPulDownToRefresh) {
+        if(isPulDownToRefresh){
+            mObGetTimeLine.addAll(0, obBravos);
+        }else{
+            mObGetTimeLine.addAll(obBravos);
+        }
+        notifyDataSetChanged();
+    }
 }

@@ -72,7 +72,6 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
 
                                                                   @Override
                                                                   public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-                                                                      // TODO Auto-generated method stub
                                                                       mHomeActionListener.goToUserData(mUsers.get(pos - 1).userID);
                                                                   }
                                                               };
@@ -294,6 +293,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                             isOutOfDataLoadMore = true;
                         return;
                     }
+                    AIOLog.d("mObGetTimelineBravo.data.size():" + mObGetTimelineBravo);
                     ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
                     mAdapterPost.updatePullDownLoadMorePostList(newObBravos, isPulDownToRefresh);
                     if (mListviewPost.getVisibility() == View.GONE)
