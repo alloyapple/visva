@@ -149,7 +149,9 @@
     <string name="report_alert_text_error">Please check your internet connection and try again.</string>
     <string name="dialog_report_close">Close</string>
     <string name="btn_ok">OK</string>
-    <string name="content_following">You are following %s%</string>
+    <string name="content_following">You are following %s</string>
+    <string name="share_bravo_on_sns_text">Share %s Bravos</string>
+    <string name="share_indicator">Sharing...</string>
     <!-- +++++ -->
 
 

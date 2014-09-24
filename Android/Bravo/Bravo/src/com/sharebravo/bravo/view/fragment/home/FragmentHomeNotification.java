@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -31,9 +30,11 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterHomeNotification;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentHomeNotification extends FragmentBasic implements com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar {
-    private ListView                   mListViewNotifications;
+    private XListView                  mListViewNotifications;
     private TextView                   mTextNoNotifications;
     private Button                     mBtnCloseNotifications;
     private IClosePageHomeNotification iClosePageHomeNotification;
@@ -43,12 +44,12 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_home_notification, container);
         initializeView(root);
-        mHomeActionListener =(HomeActivity) getActivity();
+        mHomeActionListener = (HomeActivity) getActivity();
         return root;
     }
 
     private void initializeView(View root) {
-        mListViewNotifications = (ListView) root.findViewById(R.id.listview_home_notification);
+        mListViewNotifications = (XListView) root.findViewById(R.id.listview_home_notification);
         mTextNoNotifications = (TextView) root.findViewById(R.id.text_no_notification);
         mBtnCloseNotifications = (Button) root.findViewById(R.id.btn_home_close_notification);
         mBtnCloseNotifications.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +62,23 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
         mAdapterHomeNotification = new AdapterHomeNotification(getActivity());
         mAdapterHomeNotification.setListener(this);
         mListViewNotifications.setAdapter(mAdapterHomeNotification);
+        mListViewNotifications.setXListViewListener(new IXListViewListener() {
+
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+
+            @Override
+            public void onLoadMore() {
+                onStopPullAndLoadListView();
+            }
+        });
+    }
+
+    private void onStopPullAndLoadListView() {
+        mListViewNotifications.stopRefresh();
+        mListViewNotifications.stopLoadMore();
     }
 
     public void onRequestListHomeNotification() {
@@ -131,7 +149,6 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
 
     @Override
     public void onClickUserAvatar(String userId) {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToUserData(userId);
     }
 }

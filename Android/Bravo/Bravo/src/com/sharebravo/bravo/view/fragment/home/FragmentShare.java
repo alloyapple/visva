@@ -228,7 +228,8 @@ public class FragmentShare extends FragmentBasic {
             default:
                 break;
             }
-            mTxtboxShare.setText("Share " + mBravo.Spot_Name + " Bravos");
+            String share = getActivity().getResources().getString(R.string.share_bravo_on_sns_text, mBravo.Spot_Name);
+            mTxtboxShare.setText(share);
         }
     }
 

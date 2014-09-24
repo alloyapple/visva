@@ -255,9 +255,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     AIOLog.d("uri:" + uri);
                     if (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL)) {
                         // Check for blank text
-                        if (mSharedSnsText.trim().length() > 0) {
+                        if (StringUtility.isEmpty(mObBravo.Last_Pic)) {
                             new UpdateTwitterStatus().execute(mSharedSnsText);
                         } else {
+                            new UpdateTwitterStatus().execute(mSharedSnsText + " \n" + mObBravo.Last_Pic);
                             Toast.makeText(getApplicationContext(), "Please enter status message", Toast.LENGTH_SHORT).show();
                         }
                     } else {
@@ -270,7 +271,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 }
             }
         }
-
     }
 
     public void onClick(View v) {
@@ -362,7 +362,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             });
             request.executeAsync();
         }
-
     }
 
     private void initializeFragments() {
@@ -817,7 +816,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             if (StringUtility.isEmpty(mObBravo.Last_Pic)) {
                 sharedText = mSharedSnsText;
             } else
-                sharedText = mSharedSnsText + ": " + mObBravo.Last_Pic;
+                sharedText = mSharedSnsText + ":\n " + mObBravo.Last_Pic;
 
             PackageInfo info = pm.getPackageInfo("jp.naver.line.android", PackageManager.GET_META_DATA);
             if (info == null) {
@@ -825,6 +824,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             // Check if package exists or not. If not then code
             // in catch block will be called
             waIntent.setPackage("jp.naver.line.android");
+            waIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
             waIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
             startActivity(Intent.createChooser(waIntent, getString(R.string.share)));
         } catch (NameNotFoundException e) {
