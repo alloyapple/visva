@@ -133,7 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot" />
-            <fragment
+
+            <fragment
                 android:id="@+id/fragment_locate_myspot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -283,5 +284,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="com.sharebravo.bravo.view.fragment.home.FragmentAddMySpot" />
+
+    <fragment
+        android:id="@+id/fragment_after_bravo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.sharebravo.bravo.view.fragment.home.FragmentAfterBravo" />
 
 </FrameLayout>
