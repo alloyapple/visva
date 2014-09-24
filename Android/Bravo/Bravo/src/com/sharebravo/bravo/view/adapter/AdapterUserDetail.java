@@ -3,6 +3,7 @@ package com.sharebravo.bravo.view.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,16 +25,18 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
 public class AdapterUserDetail extends BaseAdapter {
-    public static final int         USER_AVATAR_ID = 2003;
-    public static final int         USER_COVER_ID  = 2004;
-    private FragmentActivity        mContext       = null;
-    private UserPostProfileListener mListener      = null;
-    private boolean                 isMyData       = false;
-    private ObGetUserInfo           mObGetUserInfo = null;
-    private ImageLoader             mImageLoader   = null;
-    private ArrayList<ObBravo>      mObGetTimeLine = new ArrayList<ObBravo>();
-    private boolean                 isFollowing    = false;
-    private boolean                 isBlocked      = true;
+    public static final int         USER_AVATAR_ID       = 2003;
+    public static final int         USER_COVER_ID        = 2004;
+    private FragmentActivity        mContext             = null;
+    private UserPostProfileListener mListener            = null;
+    private boolean                 isMyData             = false;
+    private ObGetUserInfo           mObGetUserInfo       = null;
+    private ImageLoader             mImageLoader         = null;
+    private ArrayList<ObBravo>      mObGetTimeLine       = new ArrayList<ObBravo>();
+    private boolean                 isFollowing          = false;
+    private boolean                 isBlocked            = true;
+    private ImageView               mImgUserCover;
+    private int                     lastTopValueAssigned = 0;
 
     public AdapterUserDetail(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
@@ -333,7 +336,6 @@ public class AdapterUserDetail extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mListener.goToUserFollower();
             }
         });
@@ -370,7 +372,7 @@ public class AdapterUserDetail extends BaseAdapter {
 
     private void loadingUserImageInfo(View convertView, int position) {
 
-        ImageView imgUserCover = (ImageView) convertView.findViewById(R.id.img_user_cover);
+        mImgUserCover = (ImageView) convertView.findViewById(R.id.img_user_cover);
         ImageView imgUserAvatar = (ImageView) convertView.findViewById(R.id.img_user_avatar);
         ImageView btnImgCover = (ImageView) convertView.findViewById(R.id.btn_img_cover);
         TextView textUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
@@ -381,11 +383,11 @@ public class AdapterUserDetail extends BaseAdapter {
             String userCoverImgUrl = mObGetUserInfo.data.Cover_Img_URL;
             AIOLog.d("userCoverImgUrl:" + userCoverImgUrl);
             if (StringUtility.isEmpty(userCoverImgUrl)) {
-                imgUserCover.setImageBitmap(null);
+                mImgUserCover.setImageBitmap(null);
                 btnImgCover.setVisibility(View.VISIBLE);
-                imgUserCover.setBackgroundResource(R.color.click_color);
+                mImgUserCover.setBackgroundResource(R.color.click_color);
             } else {
-                mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, imgUserCover, false);
+                mImageLoader.DisplayImage(userCoverImgUrl, R.drawable.user_picture_default, mImgUserCover, false);
                 btnImgCover.setVisibility(View.GONE);
             }
 
@@ -399,7 +401,7 @@ public class AdapterUserDetail extends BaseAdapter {
                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, imgUserAvatar, true);
             }
 
-            imgUserCover.setOnClickListener(new View.OnClickListener() {
+            mImgUserCover.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -467,4 +469,16 @@ public class AdapterUserDetail extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void parallaxImage(View view) {
+        Rect rect = new Rect();
+        view.getLocalVisibleRect(rect);
+        if (lastTopValueAssigned != rect.top) {
+            lastTopValueAssigned = rect.top;
+            view.setY((float) (rect.top / 2.0));
+        }
+    }
+
+    public ImageView getBackGroundParallax() {
+        return mImgUserCover;
+    }
 }

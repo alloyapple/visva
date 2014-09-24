@@ -1,6 +1,7 @@
 package com.sharebravo.bravo.view.adapter;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,14 +36,15 @@ public class AdapterBravoDetail extends BaseAdapter {
     private Context            mContext;
     // private ArrayList<String> commentsData = new ArrayList<String>();
     private DetailPostListener listener;
-    private ObBravo            bravoObj           = null;
-    private ObGetComments      mObGetComments     = null;
-    private ImageLoader        mImageLoader       = null;
-    private Spot               mSpot              = null;
+    private ObBravo            bravoObj             = null;
+    private ObGetComments      mObGetComments       = null;
+    private ImageLoader        mImageLoader         = null;
+    private Spot               mSpot                = null;
     FragmentBravoDetail        fragment;
     // FragmentTransaction transaction;
-    private SessionLogin       mSessionLogin      = null;
-    private int                mLoginBravoViaType = BravoConstant.NO_LOGIN_SNS;
+    private SessionLogin       mSessionLogin        = null;
+    private int                mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
+    private int                lastTopValueAssigned = 0;
 
     public AdapterBravoDetail(Context context, FragmentBravoDetail fragment) {
         this.mContext = context;
@@ -166,9 +168,9 @@ public class AdapterBravoDetail extends BaseAdapter {
                 }
             });
             String imgSpotUrl = null;
-            if(bravoObj.Bravo_Pics .size() >0)
+            if (bravoObj.Bravo_Pics.size() > 0)
                 imgSpotUrl = bravoObj.Bravo_Pics.get(0);
-            
+
             AIOLog.d("bravoObj.Last_Pic: " + bravoObj.Last_Pic);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
@@ -439,6 +441,20 @@ public class AdapterBravoDetail extends BaseAdapter {
     }
 
     class ViewHolderHeader {
+    }
+
+    public View getBackGroundParallax() {
+        return imagePost;
+    }
+
+    public void parallaxImage(View view) {
+        Rect rect = new Rect();
+        view.getLocalVisibleRect(rect);
+        if (lastTopValueAssigned != rect.top) {
+            lastTopValueAssigned = rect.top;
+            view.setY((float) (rect.top / 2.0));
+        }
+
     }
 
 }

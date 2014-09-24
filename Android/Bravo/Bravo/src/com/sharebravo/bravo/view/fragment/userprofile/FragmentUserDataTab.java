@@ -31,8 +31,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -170,6 +172,18 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             requestGetFollowingCheck();
         }
         mListViewUserPostProfile.setVisibility(View.GONE);
+        mListViewUserPostProfile.setOnScrollListener(new OnScrollListener() {
+            
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                
+            }
+            
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                mAdapterUserDataProfile.parallaxImage(mAdapterUserDataProfile.getBackGroundParallax());
+            }
+        });
     }
 
     /**
