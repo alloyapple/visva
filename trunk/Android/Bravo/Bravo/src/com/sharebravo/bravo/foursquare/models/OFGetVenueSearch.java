@@ -22,9 +22,30 @@ public class OFGetVenueSearch {
 
     public class Venue {
         @SerializedName("id")
-        public String     id;
+        public String                id;
+        @SerializedName("name")
+        public String                name;
+        @SerializedName("location")
+        public Location              location;
+        @SerializedName("contact")
+        public Contact               contact;
         @SerializedName("categories")
         public ArrayList<Categories> categories;
+    }
+
+    public class Location {
+        @SerializedName("address")
+        public String address;
+        @SerializedName("lat")
+        public double lat;
+        @SerializedName("lon")
+        public double lon;
+    }
+
+    public class Contact {
+        @SerializedName("phone")
+        public String phone;
+
     }
 
     public class Categories {

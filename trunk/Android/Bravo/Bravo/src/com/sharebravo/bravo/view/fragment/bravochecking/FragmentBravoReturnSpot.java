@@ -36,7 +36,7 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
 import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
+import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;

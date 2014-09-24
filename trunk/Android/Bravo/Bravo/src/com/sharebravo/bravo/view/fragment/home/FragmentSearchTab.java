@@ -1,6 +1,5 @@
 package com.sharebravo.bravo.view.fragment.home;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,21 +29,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.internal.fi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.foursquare.FactoryFoursquareParams;
-import com.sharebravo.bravo.foursquare.models.OFGetVenue;
 import com.sharebravo.bravo.foursquare.models.OFGetVenueSearch;
-import com.sharebravo.bravo.foursquare.models.OFGetVenueSearch.Venue;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpGet;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetSpotSearch;
+import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -77,7 +72,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     private TextView                btnLocalBravos;
     private TextView                btnAroundMe;
     private TextView                btnPeopleFollowing;
+
     private int                     mMode;
+    private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
     private ObGetSpotSearch         mObGetSpotSearch            = null;
     Location                        location                    = null;
     LocationManager                 locationManager             = null;
@@ -86,8 +83,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                                                                     @Override
                                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                         if (position < mAdapter.getCount())
-                                                                            mHomeActionListener.goToSpotDetail(mObGetSpotSearch.data
-                                                                                    .get(position - 1));
+                                                                            mHomeActionListener.goToSpotDetail(mSpots.get(position - 1));
                                                                     }
                                                                 };
 
@@ -183,7 +179,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         super.onHiddenChanged(hidden);
         if (!hidden) {
             location = getLocation();
-            Toast.makeText(getActivity(), "location =" + location.getLatitude() + "," + location.getLatitude(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "location =" + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_LONG).show();
             mMode = SEARCH_FOR_SPOT;
             listViewResult.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);
@@ -205,9 +201,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             accessToken = "";
         }
         HashMap<String, Object> subParams = new HashMap<String, Object>();
-       // subParams.put("Start", "0");
-        subParams.put("Source", "foursquare");
+        // subParams.put("Start", "0");
         subParams.put("FID", mVenues);
+        subParams.put("Source", "foursquare");
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;
@@ -226,8 +222,8 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     layoutQuickSearchOptions.setVisibility(View.GONE);
                     listViewResult.setVisibility(View.VISIBLE);
                     btnBack.setVisibility(View.VISIBLE);
-                    addSpotIconDefault(mObGetSpotSearch.data);
-                    mAdapter.updateData(mObGetSpotSearch.data);
+                    // addSpotIconDefault(mObGetSpotSearch.data);
+                    mAdapter.updateData(mSpots);
                 }
             }
 
@@ -274,7 +270,8 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     listViewResult.setVisibility(View.VISIBLE);
                     btnBack.setVisibility(View.VISIBLE);
                     addSpotIconDefault(mObGetSpotSearch.data);
-                    mAdapter.updateData(mObGetSpotSearch.data);
+                    mSpots = mObGetSpotSearch.data;
+                    mAdapter.updateData(mSpots);
                 }
             }
 
@@ -303,8 +300,21 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     return;
                 else {
                     ArrayList<String> fids = new ArrayList<String>();
+                    mSpots.clear();
                     for (int i = 0; i < mOFGetVenueSearch.response.venues.size(); i++) {
                         fids.add(mOFGetVenueSearch.response.venues.get(i).id);
+                        Spot newSpot = new Spot();
+                        newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
+                        newSpot.Spot_Name = mOFGetVenueSearch.response.venues.get(i).name;
+                        newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix
+                                + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
+                        newSpot.Total_Bravos = 0;
+                        newSpot.Spot_Latitude = mOFGetVenueSearch.response.venues.get(i).location.lat;
+                        newSpot.Spot_Longitude = mOFGetVenueSearch.response.venues.get(i).location.lon;
+                        newSpot.Spot_Source = "foursqure";
+                        newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
+                        newSpot.Spot_Type = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
+                        mSpots.add(newSpot);
                     }
                     requestSpotSearch(fids);
                 }

@@ -17,7 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,29 +41,38 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterUserBravos;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, LocationListener {
-    private XListView          mListviewHistory    = null;
+    private XListView           mListviewHistory    = null;
 
-    private AdapterPostList    mAdapterPost        = null;
+    private AdapterUserBravos   mAdapterPost        = null;
 
-    private HomeActionListener mHomeActionListener = null;
-    private ObGetUserTimeline  mObGetUserTimeline  = null;
+    private HomeActionListener  mHomeActionListener = null;
+    private ObGetUserTimeline   mObGetUserTimeline  = null;
 
-    private SessionLogin       mSessionLogin       = null;
+    private SessionLogin        mSessionLogin       = null;
 
-    private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
 
-    private ObGetUserInfo      mUserInfo           = null;
+    private ObGetUserInfo       mUserInfo           = null;
 
-    Location                   location            = null;
-    LocationManager            locationManager     = null;
-    double                     mLat, mLong;
-    String                     provider;
-    Button                     btnBack             = null;
+    Location                    location            = null;
+    LocationManager             locationManager     = null;
+    double                      mLat, mLong;
+    String                      provider;
+    Button                      btnBack             = null;
+    private OnItemClickListener itemClickListener   = new OnItemClickListener() {
+
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+                                                            // TODO Auto-generated method stub
+                                                            mHomeActionListener.goToRecentPostDetail(mObGetUserTimeline.data.get(pos - 1));
+                                                        }
+                                                    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -151,9 +162,9 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
     }
 
     private void intializeView(View root) {
-        mAdapterPost = new AdapterPostList(getActivity(), null);
-        mAdapterPost.setListener(this);
+        mAdapterPost = new AdapterUserBravos(getActivity(), null);
         mListviewHistory = (XListView) root.findViewById(R.id.listview_history);
+        mListviewHistory.setOnItemClickListener(itemClickListener);
         mListviewHistory.setAdapter(mAdapterPost);
         mListviewHistory.setXListViewListener(new IXListViewListener() {
 
@@ -208,6 +219,7 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
         for (int i = 0; i < bravoItems.size(); i++) {
             bravoItems.get(i).Profile_Img_URL = mUserInfo.data.Profile_Img_URL;
             bravoItems.get(i).Full_Name = mUserInfo.data.Full_Name;
+            bravoItems.get(i).User_ID = mUserInfo.data.User_ID;
         }
     }
 

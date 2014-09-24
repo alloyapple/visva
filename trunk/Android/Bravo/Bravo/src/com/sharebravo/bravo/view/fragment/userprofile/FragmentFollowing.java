@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,7 +49,14 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
     private String             foreignID           = "";
     private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     Button                     btnBack             = null;
+    private OnItemClickListener itemClickListener   = new OnItemClickListener() {
 
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+            // TODO Auto-generated method stub
+            mHomeActionListener.goToUserData(mObGetUserFollowing.data.get(pos-1).User_ID);
+        }
+    };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_following, container);
@@ -125,6 +134,7 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
         mAdapterUserList.setListener(this);
         mListviewFollowing = (XListView) root.findViewById(R.id.listview_following);
         mListviewFollowing.setAdapter(mAdapterUserList);
+        mListviewFollowing.setOnItemClickListener(itemClickListener);
         onStopPullAndLoadListView();
         mListviewFollowing.setXListViewListener(new IXListViewListener() {
 
