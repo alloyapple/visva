@@ -18,13 +18,13 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 
 public class AdapterUserList extends BaseAdapter {
-    private ArrayList<User> mObUserList;
-    private ImageLoader           mImageLoader = null;
+    private ArrayList<User>  mObUserList;
+    private ImageLoader      mImageLoader = null;
 
-    private Context               mContext;
-    private LayoutInflater        mLayoutInflater;
+    private Context          mContext;
+    private LayoutInflater   mLayoutInflater;
 
-    private IClickUserAvatar      iClickUserAvatar;
+    private IClickUserAvatar iClickUserAvatar;
 
     public AdapterUserList(Context context) {
         // TODO Auto-generated constructor stub
@@ -57,8 +57,8 @@ public class AdapterUserList extends BaseAdapter {
         ViewHolder holder;
         if (mLayoutInflater == null)
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-       // if (convertView == null)
-            convertView = mLayoutInflater.inflate(R.layout.row_user_list, null);
+        // if (convertView == null)
+        convertView = mLayoutInflater.inflate(R.layout.row_user_list, null);
 
         holder = new ViewHolder();
         holder._userAvatar = (ImageView) convertView.findViewById(R.id.image_user_search);
@@ -103,5 +103,13 @@ public class AdapterUserList extends BaseAdapter {
     class ViewHolder {
         ImageView _userAvatar;
         TextView  _userName;
+    }
+
+    public void updatePullDownLoadMorePostList(ArrayList<User> obUserList, boolean isPulDownToRefresh) {
+        if (isPulDownToRefresh)
+            mObUserList.addAll(0, obUserList);
+        else
+            mObUserList.addAll(obUserList);
+        notifyDataSetChanged();
     }
 }

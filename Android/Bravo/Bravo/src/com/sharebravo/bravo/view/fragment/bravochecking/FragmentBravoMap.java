@@ -153,7 +153,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
                 mGoogleMap.clear();
                 Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
                 startActivityForResult(intent, REQUEST_SHOW_BRAVO_JUMP_ANIMATION);
             }
         });
@@ -163,6 +162,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                mBravoCheckingListener.goToBack();
             }
         });
         dialog.setContentView(dialog_view);

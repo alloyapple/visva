@@ -38,33 +38,34 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar {
-    private XListView          mListviewFollowing  = null;
+    private XListView           mListviewFollowing  = null;
 
-    private AdapterUserList    mAdapterUserList    = null;
+    private AdapterUserList     mAdapterUserList    = null;
 
-    private HomeActionListener mHomeActionListener = null;
-    private ObGetUserFollowing mObGetUserFollowing = null;
+    private HomeActionListener  mHomeActionListener = null;
+    private ObGetUserFollowing  mObGetUserFollowing = null;
 
-    private SessionLogin       mSessionLogin       = null;
-    private String             foreignID           = "";
-    private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
-    Button                     btnBack             = null;
+    private SessionLogin        mSessionLogin       = null;
+    private String              mForeignUserID      = "";
+    private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private Button              mBtnBack            = null;
+    private boolean             isOutOfDataLoadMore;
     private OnItemClickListener itemClickListener   = new OnItemClickListener() {
 
-        @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-            // TODO Auto-generated method stub
-            mHomeActionListener.goToUserData(mObGetUserFollowing.data.get(pos-1).User_ID);
-        }
-    };
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+                                                            mHomeActionListener.goToUserData(mObGetUserFollowing.data.get(pos - 1).User_ID);
+                                                        }
+                                                    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_following, container);
 
         intializeView(root);
         mHomeActionListener = (HomeActivity) getActivity();
-        btnBack = (Button) root.findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new OnClickListener() {
+        mBtnBack = (Button) root.findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -76,7 +77,6 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
 
         return root;
-
     }
 
     @Override
@@ -84,6 +84,8 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetUserFollowing(mSessionLogin);
+        } else {
+            isOutOfDataLoadMore = false;
         }
         mListviewFollowing.setVisibility(View.GONE);
     }
@@ -101,18 +103,15 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
         subParams.put("Start", "0");
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
-        String url = BravoWebServiceConfig.URL_GET_USER_FOLLOWING.replace("{User_ID}", foreignID);
+        String url = BravoWebServiceConfig.URL_GET_USER_FOLLOWING.replace("{User_ID}", mForeignUserID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-
                 mObGetUserFollowing = gson.fromJson(response.toString(), ObGetUserFollowing.class);
                 AIOLog.d("mObGetUserFollowing:" + mObGetUserFollowing);
                 if (mObGetUserFollowing == null || mObGetUserFollowing.data.size() == 0) {
-
                     return;
                 }
                 else {
@@ -140,14 +139,70 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
 
             @Override
             public void onRefresh() {
-                onStopPullAndLoadListView();
+                AIOLog.d("IOnRefreshListener");
+                if (mObGetUserFollowing == null) {
+                    onStopPullAndLoadListView();
+                    return;
+                }
+                int size = mObGetUserFollowing.data.size();
+                if (size > 0)
+                    onPullDownToRefreshBravoItems(true, 0);
+                else
+                    onStopPullAndLoadListView();
             }
 
             @Override
             public void onLoadMore() {
-                onStopPullAndLoadListView();
+                AIOLog.d("onLoadMore");
+                if (mObGetUserFollowing == null) {
+                    onStopPullAndLoadListView();
+                    return;
+                }
+                int size = mAdapterUserList.getCount();
+                if (size > 0 && !isOutOfDataLoadMore && size < mObGetUserFollowing.data.size())
+                    onPullDownToRefreshBravoItems(true, size);
+                else
+                    onStopPullAndLoadListView();
             }
         });
+    }
+
+    private void onPullDownToRefreshBravoItems(final boolean isPullDownToRefresh, int position) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", position + "");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_FOLLOWING.replace("{User_ID}", mForeignUserID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                // AIOLog.d("requestBravoNews:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+
+                ObGetUserFollowing obGetUserFollowing = gson.fromJson(response.toString(), ObGetUserFollowing.class);
+                AIOLog.d("mObGetUserFollowing:" + mObGetUserFollowing);
+                if (obGetUserFollowing == null || obGetUserFollowing.data.size() == 0) {
+                    if (!isPullDownToRefresh)
+                        isOutOfDataLoadMore = true;
+                    return;
+                }
+                else {
+                    mAdapterUserList.updatePullDownLoadMorePostList(obGetUserFollowing.data, isPullDownToRefresh);
+                }
+                mListviewFollowing.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getUserFollowing.execute(url);
+
     }
 
     @Override
@@ -156,11 +211,11 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
     }
 
     public String getForeignID() {
-        return foreignID;
+        return mForeignUserID;
     }
 
     public void setForeignID(String foreignID) {
-        this.foreignID = foreignID;
+        this.mForeignUserID = foreignID;
     }
 
     private void onStopPullAndLoadListView() {

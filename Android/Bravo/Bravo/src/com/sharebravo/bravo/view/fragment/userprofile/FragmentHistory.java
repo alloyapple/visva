@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,7 +39,6 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterPostList;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterUserBravos;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
@@ -60,16 +59,16 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     private ObGetUserInfo       mUserInfo           = null;
 
-    Location                    location            = null;
-    LocationManager             locationManager     = null;
-    double                      mLat, mLong;
-    String                      provider;
-    Button                      btnBack             = null;
-    private OnItemClickListener itemClickListener   = new OnItemClickListener() {
+    private Location            mLocation           = null;
+    private LocationManager     mLocationManager    = null;
+    private double              mLat, mLong;
+    private String              mProvider;
+    private Button              mBtnBack            = null;
+    private boolean             isOutOfDataLoadMore;
+    private OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
                                                         @Override
                                                         public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-                                                            // TODO Auto-generated method stub
                                                             mHomeActionListener.goToRecentPostDetail(mObGetUserTimeline.data.get(pos - 1));
                                                         }
                                                     };
@@ -80,8 +79,8 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
         intializeView(root);
         mHomeActionListener = (HomeActivity) getActivity();
-        btnBack = (Button) root.findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(new OnClickListener() {
+        mBtnBack = (Button) root.findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -91,22 +90,22 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
         /* request news */
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-        locationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) getActivity().getSystemService(Activity.LOCATION_SERVICE);
 
         // Creating a criteria object to retrieve provider
         Criteria criteria = new Criteria();
 
         // Getting the name of the best provider
-        provider = locationManager.getBestProvider(criteria, true);
+        mProvider = mLocationManager.getBestProvider(criteria, true);
 
         // Getting Current Location
-        location = locationManager.getLastKnownLocation(provider);
+        mLocation = mLocationManager.getLastKnownLocation(mProvider);
 
-        if (location != null) {
-            onLocationChanged(location);
+        if (mLocation != null) {
+            onLocationChanged(mLocation);
         }
 
-        locationManager.requestLocationUpdates(provider, 20000, 0, this);
+        mLocationManager.requestLocationUpdates(mProvider, 20000, 0, this);
         return root;
 
     }
@@ -116,6 +115,8 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetUserTimeLine(mUserInfo.data.User_ID);
+        } else {
+            isOutOfDataLoadMore = false;
         }
     }
 
@@ -128,7 +129,6 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
         }
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Start", "0");
-        // subParams.put("Location", String.valueOf(mLat) + "," + String.valueOf(mLong));
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", checkingUserId);
@@ -136,17 +136,14 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
         AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                // AIOLog.d("requestBravoNews:" + response);
+                onStopPullAndLoadListView();
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                // ObGetUserTimeline obGetUserTimeline;
                 mObGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
                 AIOLog.d("obGetUserTimeline:" + mObGetUserTimeline);
                 if (mObGetUserTimeline == null || mObGetUserTimeline.data.size() == 0) {
                     mAdapterPost.updateRecentPostList(null);
                     return;
-                }
-                else {
-                    // ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(mObGetUserTimeline.data);
+                } else {
                     addUserNameBravoItems(mObGetUserTimeline.data);
                     mAdapterPost.updateRecentPostList(mObGetUserTimeline.data);
                 }
@@ -155,6 +152,7 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
             @Override
             public void processIfResponseFail() {
                 AIOLog.d("response error");
+                onStopPullAndLoadListView();
             }
         }, params, true);
         getTimeline.execute(url);
@@ -164,20 +162,77 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
     private void intializeView(View root) {
         mAdapterPost = new AdapterUserBravos(getActivity(), null);
         mListviewHistory = (XListView) root.findViewById(R.id.listview_history);
-        mListviewHistory.setOnItemClickListener(itemClickListener);
+        mListviewHistory.setOnItemClickListener(onItemClickListener);
         mListviewHistory.setAdapter(mAdapterPost);
         mListviewHistory.setXListViewListener(new IXListViewListener() {
 
             @Override
             public void onRefresh() {
-                onStopPullAndLoadListView();
+                AIOLog.d("IOnRefreshListener");
+                if (mObGetUserTimeline == null) {
+                    onStopPullAndLoadListView();
+                    return;
+                }
+                int size = mAdapterPost.getCount();
+                if (size > 0 && size < mObGetUserTimeline.data.size())
+                    onPullDownToRefreshBravoItems(true, 0);
+                else
+                    onStopPullAndLoadListView();
             }
 
             @Override
             public void onLoadMore() {
-                onStopPullAndLoadListView();
+                if (mObGetUserTimeline == null) {
+                    onStopPullAndLoadListView();
+                    return;
+                }
+                AIOLog.d("IOnRefreshListener");
+                int size = mAdapterPost.getCount();
+                if (size > 0 && !isOutOfDataLoadMore && size < mObGetUserTimeline.data.size())
+                    onPullDownToRefreshBravoItems(false, size);
+                else
+                    onStopPullAndLoadListView();
+
             }
         });
+    }
+
+    private void onPullDownToRefreshBravoItems(final boolean isPulDownToRefresh, int position) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        if (StringUtility.isEmpty(mSessionLogin.userID) || StringUtility.isEmpty(mSessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", position + "");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", mUserInfo.data.User_ID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                onStopPullAndLoadListView();
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetUserTimeline obGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
+                AIOLog.d("obGetUserTimeline:" + mObGetUserTimeline);
+                if (obGetUserTimeline == null || obGetUserTimeline.data.size() == 0) {
+                    if (!isPulDownToRefresh)
+                        isOutOfDataLoadMore = true;
+                } else {
+                    mAdapterPost.updatePullDownLoadMorePostList(obGetUserTimeline.data, isPulDownToRefresh);
+                }
+                return;
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getTimeline.execute(url);
+
     }
 
     private void onStopPullAndLoadListView() {

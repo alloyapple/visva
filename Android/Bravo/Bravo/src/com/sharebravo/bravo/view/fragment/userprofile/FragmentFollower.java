@@ -46,14 +46,14 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     private ObGetUsersList      mObGetUserFollower  = null;
 
     private SessionLogin        mSessionLogin       = null;
-    private String              foreignID           = "";
+    private String              mForeignUserID      = "";
     private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private boolean             isOutOfDataLoadMore;
     private OnItemClickListener itemClickListener   = new OnItemClickListener() {
 
                                                         @Override
                                                         public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-                                                            // TODO Auto-generated method stub
-                                                            mHomeActionListener.goToUserData(mObGetUserFollower.data.get(pos-1).User_ID);
+                                                            mHomeActionListener.goToUserData(mObGetUserFollower.data.get(pos - 1).User_ID);
                                                         }
                                                     };
     Button                      btnBack             = null;
@@ -85,6 +85,8 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetUserFollowing(mSessionLogin);
+        } else {
+            isOutOfDataLoadMore = false;
         }
     }
 
@@ -101,18 +103,16 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         subParams.put("Start", "0");
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
-        String url = BravoWebServiceConfig.URL_GET_USER_FLOWER.replace("{User_ID}", foreignID);
+        String url = BravoWebServiceConfig.URL_GET_USER_FLOWER.replace("{User_ID}", mForeignUserID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-
                 mObGetUserFollower = gson.fromJson(response.toString(), ObGetUsersList.class);
                 AIOLog.d("mObGetUserFollowing:" + mObGetUserFollower);
                 if (mObGetUserFollower == null || mObGetUserFollower.data.size() == 0) {
-
                     return;
                 }
                 else {
@@ -139,14 +139,65 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
             @Override
             public void onRefresh() {
-                onStopPullAndLoadListView();
+                if (mObGetUserFollower == null) {
+                    onStopPullAndLoadListView();
+                    return;
+                }
+                int size = mAdapterUserList.getCount();
+                if (size > 0 && size < mObGetUserFollower.data.size())
+                    onPullDownToRefreshBravoItems(true, 0);
+                else
+                    onStopPullAndLoadListView();
             }
 
             @Override
             public void onLoadMore() {
-                onStopPullAndLoadListView();
+                AIOLog.d("IOnRefreshListener");
+                if (mObGetUserFollower == null) {
+                    onStopPullAndLoadListView();
+                    return;
+                }
+                int size = mAdapterUserList.getCount();
+                if (size > 0 && !isOutOfDataLoadMore && size < mObGetUserFollower.data.size())
+                    onPullDownToRefreshBravoItems(false, size);
+                else
+                    onStopPullAndLoadListView();
             }
         });
+    }
+
+    private void onPullDownToRefreshBravoItems(final boolean isPullDownToRefresh, int position) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", position + "");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_FLOWER.replace("{User_ID}", mForeignUserID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetUsersList obGetUserFollower = gson.fromJson(response.toString(), ObGetUsersList.class);
+                AIOLog.d("obGetUserFollower:" + obGetUserFollower);
+                if (obGetUserFollower == null || obGetUserFollower.data.size() == 0) {
+                    if (mObGetUserFollower.data.size() == 0)
+                        if (!isPullDownToRefresh)
+                            isOutOfDataLoadMore = true;
+                } else {
+                    mAdapterUserList.updatePullDownLoadMorePostList(obGetUserFollower.data, isPullDownToRefresh);
+                }
+                return;
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getUserFollowing.execute(url);
     }
 
     @Override
@@ -155,11 +206,11 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     }
 
     public String getForeignID() {
-        return foreignID;
+        return mForeignUserID;
     }
 
     public void setForeignID(String foreignID) {
-        this.foreignID = foreignID;
+        this.mForeignUserID = foreignID;
     }
 
     private void onStopPullAndLoadListView() {
