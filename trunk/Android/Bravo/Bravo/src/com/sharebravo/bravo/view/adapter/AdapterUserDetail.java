@@ -367,7 +367,7 @@ public class AdapterUserDetail extends BaseAdapter {
         if (totalFans <= 0)
             textTotalFans.setText(0 + "");
         else
-            textTotalFans.setText(totalBravos + "");
+            textTotalFans.setText(totalFans + "");
     }
 
     private void loadingUserImageInfo(View convertView, int position) {
