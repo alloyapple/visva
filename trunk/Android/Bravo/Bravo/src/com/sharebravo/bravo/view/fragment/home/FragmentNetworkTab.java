@@ -27,7 +27,6 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetTimeline;
-import com.sharebravo.bravo.model.response.ObGetUserBlocking.User;
 import com.sharebravo.bravo.model.response.ObGetUserSearch;
 import com.sharebravo.bravo.model.response.UserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -68,6 +67,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                                                                               .get(position - 1));
                                                                   }
                                                               };
+    private boolean                  isOutOfDataLoadMore;
     private OnItemClickListener      itemClickListener        = new OnItemClickListener() {
 
                                                                   @Override
@@ -101,9 +101,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 return false;
             }
         });
-
         return root;
-
     }
 
     @Override
@@ -114,6 +112,8 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
             mListviewPost.setVisibility(View.GONE);
             mListviewUser.setVisibility(View.GONE);
             requestGetTimeLine(mSessionLogin);
+        } else {
+            isOutOfDataLoadMore = false;
         }
     }
 
@@ -234,7 +234,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
             @Override
             public void onLoadMore() {
                 int size = mObGetTimelineBravo.data.size();
-                if (size > 0)
+                if (size > 0 && !isOutOfDataLoadMore)
                     onPullDownToRefreshBravoItems(mObGetTimelineBravo.data.get(size - 1), false);
                 else
                     onStopPullAndLoadRecentPostListView();
@@ -289,9 +289,11 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 else {
                     AIOLog.d("size of recent post list: " + obGetTimeline.data.size());
                     int reponseSize = obGetTimeline.data.size();
-                    if (reponseSize <= 0)
+                    if (reponseSize <= 0) {
+                        if (!isPulDownToRefresh)
+                            isOutOfDataLoadMore = true;
                         return;
-
+                    }
                     ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(obGetTimeline.data);
                     mAdapterPost.updatePullDownLoadMorePostList(newObBravos, isPulDownToRefresh);
                     if (mListviewPost.getVisibility() == View.GONE)
