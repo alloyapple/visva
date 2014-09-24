@@ -28,6 +28,7 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -47,7 +48,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private XListView                 mListviewRecentPost       = null;
     private AdapterPostList           mAdapterRecentPost        = null;
     private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
-
+    private ObGetUserInfo             mObGetUserInfo;
     private Button                    mBtnHomeNotification      = null;
     private IShowPageHomeNotification mListener                 = null;
     private SessionLogin              mSessionLogin             = null;
@@ -76,6 +77,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         requestNewsItemsOnBravoServer(mSessionLogin);
+        requestGetUserInfo();
         isNoFirstTime = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME);
         if (!isNoFirstTime) {
             showDialogWelcome();
@@ -96,6 +98,61 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         if (hidden) {
             isOutOfDataLoadMore = false;
         }
+    }
+
+    public void requestGetUserInfo() {
+
+        final int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+        AIOLog.d("mUserId:" + _sessionLogin.userID + ", mAccessToken:" + _sessionLogin.accessToken);
+        if (StringUtility.isEmpty(_sessionLogin.userID) || StringUtility.isEmpty(_sessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
+        String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + userId;
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
+        AsyncHttpGet getUserInfoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("get user info at my data:" + response);
+                if (StringUtility.isEmpty(response))
+                    return;
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                mObGetUserInfo = gson.fromJson(response.toString(), ObGetUserInfo.class);
+                if (mObGetUserInfo == null) {
+                    AIOLog.e("obGetUserInfo is null");
+                } else {
+                    switch (mObGetUserInfo.status) {
+                    case BravoConstant.STATUS_FAILED:
+                        showToast(getActivity().getResources().getString(R.string.get_user_info_error));
+                        break;
+                    case BravoConstant.STATUS_SUCCESS:
+                        AIOLog.d("BravoConstant.STATUS_SUCCESS");
+                        if (mObGetUserInfo.data.Badge_Num <= 0)
+                            mNotificationIcon.setVisibility(View.GONE);
+                        else {
+                            mNotificationIcon.setVisibility(View.VISIBLE);
+                            if (mObGetUserInfo.data.Badge_Num < 11)
+                                mNotificationIcon.setText(mObGetUserInfo.data.Badge_Num);
+                            else
+                                mNotificationIcon.setText("10+");
+                        }
+                        break;
+                    default:
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        getUserInfoRequest.execute(url);
     }
 
     private void requestNewsItemsOnBravoServer(SessionLogin sessionLogin) {

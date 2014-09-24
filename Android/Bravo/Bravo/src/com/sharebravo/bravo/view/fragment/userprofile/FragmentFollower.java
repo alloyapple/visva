@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.userprofile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObGetUserBlocking.User;
 import com.sharebravo.bravo.model.response.ObGetUsersList;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -44,6 +46,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
     private HomeActionListener  mHomeActionListener = null;
     private ObGetUsersList      mObGetUserFollower  = null;
+    private ArrayList<User>     mUserCorrect        = new ArrayList<User>();
 
     private SessionLogin        mSessionLogin       = null;
     private String              mForeignUserID      = "";
@@ -84,14 +87,14 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetUserFollowing(mSessionLogin);
+            requestGetUserFollower(mSessionLogin);
         } else {
             isOutOfDataLoadMore = false;
             mAdapterUserList.removeAllList();
         }
     }
 
-    private void requestGetUserFollowing(SessionLogin sessionLogin) {
+    private void requestGetUserFollower(SessionLogin sessionLogin) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
@@ -109,6 +112,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
+                AIOLog.d("mObGetUserFollower:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 mObGetUserFollower = gson.fromJson(response.toString(), ObGetUsersList.class);
                 AIOLog.d("mObGetUserFollowing:" + mObGetUserFollower);
@@ -116,7 +120,8 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
                     return;
                 }
                 else {
-                    mAdapterUserList.updateUserList(mObGetUserFollower.data);
+                    mUserCorrect = removeIncorrectUserItem(mObGetUserFollower.data);
+                    mAdapterUserList.updateUserList(removeIncorrectUserItem(mObGetUserFollower.data));
                 }
             }
 
@@ -186,7 +191,16 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
                     if (!isPullDownToRefresh)
                         isOutOfDataLoadMore = true;
                 } else {
-                    mAdapterUserList.updatePullDownLoadMorePostList(obGetUserFollower.data, isPullDownToRefresh);
+                    ArrayList<User> mCorrects = removeIncorrectUserItem(obGetUserFollower.data);
+                    if (isPullDownToRefresh) {
+                        mUserCorrect.addAll(0, mCorrects);
+                        mObGetUserFollower.data.addAll(0, obGetUserFollower.data);
+                    }
+                    else {
+                        mUserCorrect.addAll(mCorrects);
+                        mObGetUserFollower.data.addAll(obGetUserFollower.data);
+                    }
+                    mAdapterUserList.updatePullDownLoadMorePostList(mCorrects, isPullDownToRefresh);
                 }
                 onStopPullAndLoadListView();
                 return;
@@ -199,6 +213,17 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
             }
         }, params, true);
         getUserFollowing.execute(url);
+    }
+
+    private ArrayList<User> removeIncorrectUserItem(ArrayList<User> mUsers) {
+        ArrayList<User> users = new ArrayList<User>();
+        for (User user : mUsers) {
+            if (StringUtility.isEmpty(user.Full_Name) || (StringUtility.isEmpty(user.Full_Name))) {
+                AIOLog.e("The incorrect bravo items:" + user.User_ID + ", obBravo.Full_Name:" + user.Full_Name);
+            } else
+                users.add(user);
+        }
+        return users;
     }
 
     @Override
