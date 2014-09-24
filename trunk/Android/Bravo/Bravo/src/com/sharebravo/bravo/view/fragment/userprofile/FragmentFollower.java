@@ -144,15 +144,17 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
             @Override
             public void onRefresh() {
-                if (mObGetUserFollower == null) {
-                    onStopPullAndLoadListView();
-                    return;
-                }
-                int size = mObGetUserFollower.data.size();
-                if (size > 0)
-                    onPullDownToRefreshBravoItems(true, 0);
-                else
-                    onStopPullAndLoadListView();
+                /*
+                 * if (mObGetUserFollower == null) {
+                 * onStopPullAndLoadListView();
+                 * return;
+                 * }
+                 * int size = mObGetUserFollower.data.size();
+                 * if (size > 0)
+                 * onPullDownToRefreshBravoItems(true, 0);
+                 * else
+                 */
+                onStopPullAndLoadListView();
             }
 
             @Override
@@ -218,12 +220,12 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     private ArrayList<User> removeIncorrectUserItem(ArrayList<User> mUsers) {
         ArrayList<User> users = new ArrayList<User>();
         for (User user : mUsers) {
-            if (StringUtility.isEmpty(user.Full_Name) || (StringUtility.isEmpty(user.Full_Name))) {
+            if (StringUtility.isEmpty(user.Full_Name) || (StringUtility.isEmpty(user.User_ID))) {
                 AIOLog.e("The incorrect bravo items:" + user.User_ID + ", obBravo.Full_Name:" + user.Full_Name);
             } else
                 users.add(user);
         }
-        return users;
+        return users; 
     }
 
     @Override

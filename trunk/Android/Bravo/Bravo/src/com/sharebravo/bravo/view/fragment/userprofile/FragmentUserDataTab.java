@@ -31,10 +31,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -72,32 +72,34 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentUserDataTab extends FragmentBasic implements UserPostProfileListener {
-    private static final int       REQUEST_CODE_CAMERA      = 2001;
-    private static final int       REQUEST_CODE_GALLERY     = 2002;
-    private static final int       CROP_FROM_CAMERA         = 2003;
+    private static final int    REQUEST_CODE_CAMERA      = 2001;
+    private static final int    REQUEST_CODE_GALLERY     = 2002;
+    private static final int    CROP_FROM_CAMERA         = 2003;
 
-    private Uri                    mCapturedImageURI        = null;
-    private Button                 mBtnSettings;
-    private IShowPageSettings      iShowPageSettings;
-    private XListView              mListViewUserPostProfile = null;
-    private ObGetUserInfo          mObGetUserInfo;
-    private AdapterUserDetail mAdapterUserDataProfile  = null;
-    private Button                 mBtnBack;
-    private boolean                isMyData                 = false;
-    private static int             mUserImageType;
+    private Uri                 mCapturedImageURI        = null;
+    private Button              mBtnSettings;
+    private IShowPageSettings   iShowPageSettings;
+    private XListView           mListViewUserPostProfile = null;
+    private ObGetUserInfo       mObGetUserInfo;
+    private AdapterUserDetail   mAdapterUserDataProfile  = null;
+    private Button              mBtnBack;
+    private boolean             isMyData                 = false;
+    private static int          mUserImageType;
 
-    private OnItemClickListener    onItemClick              = new OnItemClickListener() {
+    private OnItemClickListener onItemClick              = new OnItemClickListener() {
 
-                                                                @Override
-                                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                             @Override
+                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                 if (position >= 2)
+                                                                     mHomeActionListener.goToRecentPostDetail(mObGetUserTimeline.data.get(position));
+                                                             }
+                                                         };
+    private SessionLogin        mSessionLogin            = null;
+    private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+    private String              foreignID                = "";
 
-                                                                }
-                                                            };
-    private SessionLogin           mSessionLogin            = null;
-    private int                    mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
-    private String                 foreignID                = "";
-
-    String                         provider;
+    private ObGetUserTimeline   mObGetUserTimeline;
+    private boolean             isOutOfDataLoadMore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,6 +134,16 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
             @Override
             public void onLoadMore() {
+                if (mObGetUserTimeline == null) {
+                    onStopPullAndLoadListView();
+                    return;
+                }
+                AIOLog.d("IOnRefreshListener:" + mObGetUserTimeline.data.size());
+                int size = mObGetUserTimeline.data.size();
+                if (size > 0 && !isOutOfDataLoadMore)
+                    onPullDownToRefreshBravoItems(false, size);
+                else
+                    onStopPullAndLoadListView();
                 onStopPullAndLoadListView();
             }
         });
@@ -152,6 +164,64 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         });
     }
 
+    private void onPullDownToRefreshBravoItems(final boolean isPulDownToRefresh, int position) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        if (StringUtility.isEmpty(mSessionLogin.userID) || StringUtility.isEmpty(mSessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Start", position + "");
+        JSONObject subParamsJson = new JSONObject(subParams);
+        String subParamsJsonStr = subParamsJson.toString();
+        String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", foreignID);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetUserTimeline obGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
+                AIOLog.d("obGetUserTimeline:" + obGetUserTimeline);
+                if (obGetUserTimeline == null || obGetUserTimeline.data.size() == 0) {
+                    if (!isPulDownToRefresh)
+                        isOutOfDataLoadMore = true;
+                } else {
+                    ArrayList<ObBravo> obBravos = modifyIncorrectBravoItems(obGetUserTimeline.data);
+                    if (isPulDownToRefresh)
+                        mObGetUserTimeline.data.addAll(obBravos);
+                    else
+                        mObGetUserTimeline.data.addAll(0, obBravos);
+                    mAdapterUserDataProfile.updatePullDownLoadMorePostList(obBravos, isPulDownToRefresh);
+                }
+                onStopPullAndLoadListView();
+                return;
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+                onStopPullAndLoadListView();
+            }
+        }, params, true);
+        getTimeline.execute(url);
+
+    }
+
+    private ArrayList<ObBravo> modifyIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
+        ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
+        for (ObBravo obBravo : bravoItems) {
+            if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+                obBravo.User_ID = mObGetUserInfo.data.User_ID;
+                obBravo.Full_Name = mObGetUserInfo.data.Full_Name;
+                obBravo.Profile_Img_URL = mObGetUserInfo.data.Profile_Img_URL;
+            }
+            obBravos.add(obBravo);
+        }
+        return obBravos;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,15 +240,17 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             requestGetUserTimeLine(foreignID);
             requestGetBlockingCheck();
             requestGetFollowingCheck();
+        } else {
+            isOutOfDataLoadMore = false;
         }
         mListViewUserPostProfile.setVisibility(View.GONE);
         mListViewUserPostProfile.setOnScrollListener(new OnScrollListener() {
-            
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                
+
             }
-            
+
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 mAdapterUserDataProfile.parallaxImage(mAdapterUserDataProfile.getBackGroundParallax());
@@ -272,17 +344,17 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 AIOLog.d("obGetUserTimeline:" + response);
                 mListViewUserPostProfile.setVisibility(View.VISIBLE);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetUserTimeline obGetUserTimeline;
-                obGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
-                AIOLog.d("obGetUserTimeline:" + obGetUserTimeline);
-                if (obGetUserTimeline == null || obGetUserTimeline.data.size() == 0) {
+                mObGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
+                AIOLog.d("obGetUserTimeline:" + mObGetUserTimeline);
+                if (mObGetUserTimeline == null || mObGetUserTimeline.data.size() == 0) {
                     mAdapterUserDataProfile.updateRecentPostList(null);
                     return;
                 }
                 else {
                     // ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetUserTimeline.data);
-                    addUserBravoLastPic(obGetUserTimeline.data);
-                    mAdapterUserDataProfile.updateRecentPostList(obGetUserTimeline.data);
+                    ArrayList<ObBravo> obBravos = modifyIncorrectBravoItems(mObGetUserTimeline.data);
+                    // addUserNameBravoItems(obBravos);
+                    mAdapterUserDataProfile.updateRecentPostList(obBravos);
                 }
                 mListViewUserPostProfile.setVisibility(View.VISIBLE);
             }

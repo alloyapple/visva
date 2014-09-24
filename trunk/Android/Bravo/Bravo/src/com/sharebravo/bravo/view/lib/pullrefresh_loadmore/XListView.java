@@ -1,12 +1,3 @@
-/**
- * @file XListView.java
- * @package me.maxwin.view
- * @create Mar 18, 2012 6:28:41 PM
- * @author Maxwin
- * @description An ListView support (a) Pull down to refresh, (b) Pull up to load more.
- * 		Implement IXListViewListener, and see stopRefresh() / stopLoadMore().
- */
-
 package com.sharebravo.bravo.view.lib.pullrefresh_loadmore;
 
 import android.content.Context;
@@ -23,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.sdk.log.AIOLog;
 
 public class XListView extends ListView implements OnScrollListener {
 
@@ -239,7 +229,6 @@ public class XListView extends ListView implements OnScrollListener {
         if (mListViewListener != null) {
             mListViewListener.onLoadMore();
         }
-        AIOLog.d("mTotalItemCount=>" + mTotalItemCount);
     }
 
     @Override
@@ -334,16 +323,13 @@ public class XListView extends ListView implements OnScrollListener {
          }
 
         if (visibleItemCount < totalItemCount) {
-
             boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
-            AIOLog.d("totalItemCount:" + totalItemCount + ", getSelectedItemPosition=>" + getSelectedItemId());
             if (mEnablePullLoad && !mPullLoading && loadMore) {
                 mFooterView.setVisibility(View.VISIBLE);
                 mFooterView.show();
                 updateFooterHeight(PULL_LOAD_MORE_DELTA);
                 startLoadMore();
                 mEnablePullLoad = false;
-                setSelection(totalItemCount - 2);
             }
 
         } else {
