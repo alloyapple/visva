@@ -2,6 +2,7 @@ package com.sharebravo.bravo.view.adapter;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
 
+@SuppressLint("ViewHolder")
 public class AdapterUserList extends BaseAdapter {
     private ArrayList<User>  mObUserList;
     private ImageLoader      mImageLoader = null;
@@ -27,7 +29,6 @@ public class AdapterUserList extends BaseAdapter {
     private IClickUserAvatar iClickUserAvatar;
 
     public AdapterUserList(Context context) {
-        // TODO Auto-generated constructor stub
         this.mContext = context;
         mImageLoader = new ImageLoader(mContext);
         mObUserList = new ArrayList<User>();
@@ -35,29 +36,24 @@ public class AdapterUserList extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return mObUserList.size();
     }
 
     @Override
     public Object getItem(int arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
         return arg0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         ViewHolder holder;
         if (mLayoutInflater == null)
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        // if (convertView == null)
         convertView = mLayoutInflater.inflate(R.layout.row_user_list, null);
 
         holder = new ViewHolder();
@@ -110,6 +106,11 @@ public class AdapterUserList extends BaseAdapter {
             mObUserList.addAll(0, obUserList);
         else
             mObUserList.addAll(obUserList);
+        notifyDataSetChanged();
+    }
+
+    public void removeAllList() {
+        mObUserList.clear();
         notifyDataSetChanged();
     }
 }

@@ -158,8 +158,8 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
                     onStopPullAndLoadListView();
                     return;
                 }
-                int size = mAdapterUserList.getCount();
-                if (size > 0 && !isOutOfDataLoadMore && size < mObGetUserFollowing.data.size())
+                int size = mObGetUserFollowing.data.size();
+                if (size > 0 && !isOutOfDataLoadMore)
                     onPullDownToRefreshBravoItems(true, size);
                 else
                     onStopPullAndLoadListView();
@@ -181,8 +181,8 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
             @Override
             public void processIfResponseSuccess(String response) {
                 // AIOLog.d("requestBravoNews:" + response);
+                onStopPullAndLoadListView();
                 Gson gson = new GsonBuilder().serializeNulls().create();
-
                 ObGetUserFollowing obGetUserFollowing = gson.fromJson(response.toString(), ObGetUserFollowing.class);
                 AIOLog.d("mObGetUserFollowing:" + mObGetUserFollowing);
                 if (obGetUserFollowing == null || obGetUserFollowing.data.size() == 0) {
@@ -199,6 +199,7 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
             @Override
             public void processIfResponseFail() {
                 AIOLog.d("response error");
+                onStopPullAndLoadListView();
             }
         }, params, true);
         getUserFollowing.execute(url);

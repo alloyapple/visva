@@ -87,6 +87,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
             requestGetUserFollowing(mSessionLogin);
         } else {
             isOutOfDataLoadMore = false;
+            mAdapterUserList.removeAllList();
         }
     }
 
@@ -108,7 +109,6 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         AsyncHttpGet getUserFollowing = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 mObGetUserFollower = gson.fromJson(response.toString(), ObGetUsersList.class);
                 AIOLog.d("mObGetUserFollowing:" + mObGetUserFollower);
@@ -143,8 +143,8 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
                     onStopPullAndLoadListView();
                     return;
                 }
-                int size = mAdapterUserList.getCount();
-                if (size > 0 && size < mObGetUserFollower.data.size())
+                int size = mObGetUserFollower.data.size();
+                if (size > 0)
                     onPullDownToRefreshBravoItems(true, 0);
                 else
                     onStopPullAndLoadListView();
@@ -157,8 +157,8 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
                     onStopPullAndLoadListView();
                     return;
                 }
-                int size = mAdapterUserList.getCount();
-                if (size > 0 && !isOutOfDataLoadMore && size < mObGetUserFollower.data.size())
+                int size = mObGetUserFollower.data.size();
+                if (size > 0 && !isOutOfDataLoadMore)
                     onPullDownToRefreshBravoItems(false, size);
                 else
                     onStopPullAndLoadListView();
@@ -183,18 +183,19 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
                 ObGetUsersList obGetUserFollower = gson.fromJson(response.toString(), ObGetUsersList.class);
                 AIOLog.d("obGetUserFollower:" + obGetUserFollower);
                 if (obGetUserFollower == null || obGetUserFollower.data.size() == 0) {
-                    if (mObGetUserFollower.data.size() == 0)
-                        if (!isPullDownToRefresh)
-                            isOutOfDataLoadMore = true;
+                    if (!isPullDownToRefresh)
+                        isOutOfDataLoadMore = true;
                 } else {
                     mAdapterUserList.updatePullDownLoadMorePostList(obGetUserFollower.data, isPullDownToRefresh);
                 }
+                onStopPullAndLoadListView();
                 return;
             }
 
             @Override
             public void processIfResponseFail() {
                 AIOLog.d("response error");
+                onStopPullAndLoadListView();
             }
         }, params, true);
         getUserFollowing.execute(url);

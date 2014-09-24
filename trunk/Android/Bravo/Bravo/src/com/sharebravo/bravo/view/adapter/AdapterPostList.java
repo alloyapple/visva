@@ -97,7 +97,7 @@ public class AdapterPostList extends BaseAdapter {
             // set observer to view
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
             String imgSpotUrl = null;
-            if(obGetBravo.Bravo_Pics.size() > 0)
+            if (obGetBravo.Bravo_Pics.size() > 0)
                 imgSpotUrl = obGetBravo.Bravo_Pics.get(0);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
@@ -167,8 +167,6 @@ public class AdapterPostList extends BaseAdapter {
         }
         return obBravos;
     }
-
-   
 
     public interface IClickUserAvatar {
         public void onClickUserAvatar(String userId);
