@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_background"
+        android:orientation="vertical" >
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_post_content_area" >
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/height_post_content_area" >
+
+            <ImageView
+                android:id="@+id/image_cover_spot"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop" >
+            </ImageView>
+
+            <ImageButton
+                android:id="@+id/btn_img_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/icon_camera_cover"
+                android:contentDescription="@string/app_name" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_text_area_recent_post"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_cover"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txt_spot_name"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_text_area_recent_post"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/img_picture_choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/setting_take_picture_icon"
+                android:contentDescription="@string/app_name" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_tap_to_bravo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/white_btn"
+        android:gravity="center"
+        android:text="@string/bravo_after_complete"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Share"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/list_top_fans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center|center_horizontal"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp" >
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/facebook_share_off" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/twitter_share_off" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/foursquare_share_off" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
