@@ -173,8 +173,8 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
                     onStopPullAndLoadListView();
                     return;
                 }
-                int size = mAdapterPost.getCount();
-                if (size > 0 && size < mObGetUserTimeline.data.size())
+                int size = mObGetUserTimeline.data.size();
+                if (size > 0)
                     onPullDownToRefreshBravoItems(true, 0);
                 else
                     onStopPullAndLoadListView();
@@ -187,8 +187,8 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
                     return;
                 }
                 AIOLog.d("IOnRefreshListener");
-                int size = mAdapterPost.getCount();
-                if (size > 0 && !isOutOfDataLoadMore && size < mObGetUserTimeline.data.size())
+                int size = mObGetUserTimeline.data.size();
+                if (size > 0 && !isOutOfDataLoadMore)
                     onPullDownToRefreshBravoItems(false, size);
                 else
                     onStopPullAndLoadListView();
@@ -229,6 +229,7 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
             @Override
             public void processIfResponseFail() {
                 AIOLog.d("response error");
+                onStopPullAndLoadListView();
             }
         }, params, true);
         getTimeline.execute(url);
