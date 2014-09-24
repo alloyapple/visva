@@ -12,9 +12,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.Spot;
-import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 
 public class AdapterSearchSpotResult extends BaseAdapter {
@@ -25,7 +27,7 @@ public class AdapterSearchSpotResult extends BaseAdapter {
 
     public AdapterSearchSpotResult(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
-        mImageLoader = new ImageLoader(mContext);
+        mImageLoader = MyApplication.getInstance().getImageLoader();
     }
 
     @Override
@@ -64,7 +66,7 @@ public class AdapterSearchSpotResult extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.row_search_spot_result, null);
             ViewHolder holder = new ViewHolder();
-            holder.spotAvatar = (ImageView) convertView.findViewById(R.id.img_avatar_spot);
+            holder.spotAvatar = (NetworkImageView) convertView.findViewById(R.id.img_avatar_spot);
             holder.spotName = (TextView) convertView.findViewById(R.id.txt_spot_name);
             holder.numberBravos = (TextView) convertView.findViewById(R.id.text_number_bravo);
             holder.spotName.setText(mSpots.get(position).Spot_Name);
@@ -72,7 +74,9 @@ public class AdapterSearchSpotResult extends BaseAdapter {
             if (StringUtility.isEmpty(mSpots.get(position).Spot_Icon)) {
                 holder.spotAvatar.setImageResource(R.drawable.place_icon);
             } else {
-                mImageLoader.DisplayImage(mSpots.get(position).Last_Pic, R.drawable.place_icon, holder.spotAvatar, true);
+                holder.spotAvatar.setErrorImageResId(R.drawable.place_icon);
+                holder.spotAvatar.setImageUrl(mSpots.get(position).Last_Pic, mImageLoader);
+
             }
             holder.spotAvatar.setOnClickListener(new View.OnClickListener() {
 
@@ -101,8 +105,8 @@ public class AdapterSearchSpotResult extends BaseAdapter {
     }
 
     class ViewHolder {
-        ImageView spotAvatar;
-        TextView  spotName;
-        TextView  numberBravos;
+        NetworkImageView spotAvatar;
+        TextView         spotName;
+        TextView         numberBravos;
     }
 }

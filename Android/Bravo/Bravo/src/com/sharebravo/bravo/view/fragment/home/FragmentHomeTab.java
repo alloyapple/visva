@@ -87,7 +87,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TOTAL_BRAVO_NOTIFICATIONS, true);
         }
         return root;
-
     }
 
     private void requestNewsItemsOnBravoServer(SessionLogin sessionLogin) {
@@ -98,8 +97,13 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             userId = "";
             accessToken = "";
         }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Global", "TRUE");
+        subParams.put("View_Deleted_Users", "0");
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsJsonStr = jsonObject.toString();
         String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
+        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {

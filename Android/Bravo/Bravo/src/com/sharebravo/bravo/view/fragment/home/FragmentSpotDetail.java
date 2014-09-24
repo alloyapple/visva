@@ -238,7 +238,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         }, params, true);
         getSpotRankRequest.execute(url);
     }
-   
+
     private void requestToPutReport(Spot mSpot) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
@@ -294,10 +294,12 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetSpot(mSpot.Spot_ID);
-            requestGetSpotHistory(mSpot.Spot_ID);
-            requestGetSpotRank(mSpot.Spot_ID);
-            requestGet4squareVenue(mSpot.Spot_FID);
+            if (mSpot.Spot_ID != null) {
+                requestGetSpot(mSpot.Spot_ID);
+                requestGetSpotHistory(mSpot.Spot_ID);
+                requestGetSpotRank(mSpot.Spot_ID);
+                requestGet4squareVenue(mSpot.Spot_FID);
+            }
         }
     }
 
