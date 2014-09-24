@@ -56,7 +56,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
 
                                                         @Override
                                                         public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-                                                            mHomeActionListener.goToUserData(mObGetUserFollower.data.get(pos - 1).User_ID);
+                                                            mHomeActionListener.goToUserData(mUserCorrect.get(pos - 1).User_ID);
                                                         }
                                                     };
     Button                      btnBack             = null;
