@@ -422,6 +422,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 else {
                     AIOLog.e("Spot.data" + mObGetSpot.data);
                     adapterRecentPostDetail.updateLikedandSaved(mObGetSpot.data);
+                    
                 }
             }
 
@@ -556,6 +557,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 ObDeleteLike mObDeleteLike;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
                     adapterRecentPostDetail.updateLike(false);
+                    requestGetLiked();
                 } else {
                     mObDeleteLike = gson.fromJson(response.toString(), ObDeleteLike.class);
                     showToast(mObDeleteLike.error);
@@ -604,6 +606,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 ObPutLike mObPutLike;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
                     adapterRecentPostDetail.updateLike(true);
+                    requestGetLiked();
                 } else {
                     mObPutLike = gson.fromJson(response.toString(), ObPutLike.class);
                     showToast(mObPutLike.error);

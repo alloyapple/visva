@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.userprofile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetUserFollowing;
+import com.sharebravo.bravo.model.response.ObGetUserBlocking.User;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -115,7 +117,7 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
                     return;
                 }
                 else {
-                    mAdapterUserList.updateUserList(mObGetUserFollowing.data);
+                    mAdapterUserList.updateUserList(removeIncorrectUserItem(mObGetUserFollowing.data));
                 }
                 mListviewFollowing.setVisibility(View.VISIBLE);
             }
@@ -217,6 +219,17 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
 
     public void setForeignID(String foreignID) {
         this.mForeignUserID = foreignID;
+    }
+
+    private ArrayList<User> removeIncorrectUserItem(ArrayList<User> mUsers) {
+        ArrayList<User> users = new ArrayList<User>();
+        for (User user : mUsers) {
+            if (StringUtility.isEmpty(user.Full_Name) || (StringUtility.isEmpty(user.Full_Name))) {
+                AIOLog.e("The incorrect bravo items:" + user.User_ID + ", obBravo.Full_Name:" + user.Full_Name);
+            } else
+                users.add(user);
+        }
+        return users;
     }
 
     private void onStopPullAndLoadListView() {

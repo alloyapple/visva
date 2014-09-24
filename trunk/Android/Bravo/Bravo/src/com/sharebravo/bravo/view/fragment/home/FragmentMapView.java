@@ -7,13 +7,11 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -28,9 +26,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -57,25 +58,27 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 
 public class FragmentMapView extends FragmentMapBasic implements LocationListener {
-    public static final int   MAKER_BY_LOCATION_SPOT = 0;
-    public static final int   MAKER_BY_LOCATION_USER = 1;
-    private ArrayList<Marker> mMakers                = new ArrayList<Marker>();
+    public static final int               MAKER_BY_LOCATION_SPOT = 0;
+    public static final int               MAKER_BY_LOCATION_USER = 1;
+    private HashMap<Marker, SpotTimeline> mMakers                = new HashMap<Marker, SpotTimeline>();
 
-    private GoogleMap         map;
-    private Marker            curMarker              = null;
+    private GoogleMap                     map;
+    private Marker                        curMarker              = null;
 
-    private int               typeMaker;
-    private double            mLat, mLong;
+    private int                           typeMaker;
+    private double                        mLat, mLong;
 
-    private View              mOriginalContentView;
-    private TouchableWrapper  mTouchView;
-    Location                  location               = null;
-    LocationManager           locationManager        = null;
-    Button                    btnBack                = null;
-    HomeActionListener        mHomeActionListener    = null;
-    private SessionLogin      mSessionLogin          = null;
-    private String            foreignID              = null;
-    private int               mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
+    private View                          mOriginalContentView;
+    private TouchableWrapper              mTouchView;
+    Location                              location               = null;
+    LocationManager                       locationManager        = null;
+    Button                                btnBack                = null;
+    HomeActionListener                    mHomeActionListener    = null;
+    private SessionLogin                  mSessionLogin          = null;
+    private String                        foreignID              = null;
+    private int                           mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
+    private Context                       mContext;
+    LayoutInflater                        mLayoutInflater;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,7 +87,8 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         mTouchView.addView(mOriginalContentView);
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-
+        mContext = getActivity();
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mHomeActionListener = (HomeActivity) getActivity();
         LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
         btnBack = (Button) mView.findViewById(R.id.btn_back);
@@ -154,6 +158,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     }
 
     public void changeLocation(double latitude, double longitude) {
+
         if (map == null)
             map = getMap();
 
@@ -216,21 +221,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
                 }
             }
         });
-        map.setOnMarkerClickListener(new OnMarkerClickListener() {
 
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                // TODO Auto-generated method stub
-
-                if (curMarker != null) {
-
-                }
-                else {
-
-                }
-                return true;
-            }
-        });
         getMap().clear();
         // addMaker(latitude, longitude, "");
         if (data == null)
@@ -238,14 +229,33 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         mMakers.clear();
         for (int i = 0; i < data.size(); i++) {
             Marker marker = addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "" + data.get(i).Spot_Name);
-            mMakers.add(marker);
+            mMakers.put(marker, data.get(i));
         }
-        getMap().setOnMarkerClickListener(new OnMarkerClickListener() {
+        getMap().setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
             @Override
-            public boolean onMarkerClick(Marker marker) {
-                // TODO Auto-generated method stub
-                return true;
+            public void onInfoWindowClick(Marker marker) {
+
+            }
+        });
+        getMap().setInfoWindowAdapter(new InfoWindowAdapter() {
+            View window = mLayoutInflater.inflate(R.layout.custom_maker_title, null);
+
+            @Override
+            public View getInfoWindow(Marker marker) {
+
+                SpotTimeline spot = mMakers.get(marker);
+                TextView txtTitle = ((TextView) window.findViewById(R.id.txt_spot_name));
+
+                txtTitle.setText("abc");
+                return window;
+
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                // this method is not called if getInfoWindow(Marker) does not return null
+                return null;
             }
         });
     }
