@@ -1,6 +1,6 @@
 package com.sharebravo.bravo.control.activity;
 
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
+import com.sharebravo.bravo.model.response.Spot;
 
 public interface BravoCheckingListener {
     public void goToFragment(int fragmentID);
