@@ -24,8 +24,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -109,6 +111,18 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
             @Override
             public void onLoadMore() {
                 onStopPullAndLoadListView();
+            }
+        });
+        listviewRecentPostDetail.setOnScrollListener(new OnScrollListener() {
+            
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                
+            }
+            
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                adapterRecentPostDetail.parallaxImage(adapterRecentPostDetail.getBackGroundParallax());
             }
         });
         btnBack = (Button) root.findViewById(R.id.btn_back);
