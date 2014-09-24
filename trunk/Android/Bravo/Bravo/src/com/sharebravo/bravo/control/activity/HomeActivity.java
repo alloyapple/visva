@@ -41,27 +41,26 @@ import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.view.fragment.home.FragmentAddMySpot;
+import com.sharebravo.bravo.view.fragment.home.FragmentAfterBravo;
+import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
-
-import com.sharebravo.bravo.view.fragment.home.FragmentAddMySpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentLiked;
 import com.sharebravo.bravo.view.fragment.home.FragmentLocateMySpot;
-
 import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
-import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentSaved;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
@@ -110,6 +109,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static final String      FRAGMENT_ADD_MYSPOT            = "add_my_spot";
     private static final String      FRAGMENT_INPUT_MYSPOT          = "input_my_spot";
     private static final String      FRAGMENT_LOCATE_MYSPOT         = "loate_my_spot";
+    private static final String      FRAGMENT_AFTER_BRAVO           = "after_bravo";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -136,6 +136,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_ADD_MYSPOT_ID         = FRAGMENT_BASE_ID + 23;
     public static final int          FRAGMENT_INPUT_MYSPOT_ID       = FRAGMENT_BASE_ID + 24;
     public static final int          FRAGMENT_LOCATE_MYSPOT_ID      = FRAGMENT_BASE_ID + 25;
+    public static final int          FRAGMENT_AFTER_BRAVO_ID        = FRAGMENT_BASE_ID + 26;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -165,6 +166,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentAddMySpot        mFragmentAddMySpot;
     private FragmentInputMySpot      mFragmentInputMySpot;
     private FragmentLocateMySpot     mFragmentLocateMySpot;
+    private FragmentAfterBravo       mFragmentAfterBravo;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -391,6 +393,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentAddMySpot = (FragmentAddMySpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
         mFragmentLocateMySpot = (FragmentLocateMySpot) mFmManager.findFragmentById(R.id.fragment_locate_myspot);
+        mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
 
         mFragmentHomeTab.setListener(this);
         mFragmentHomeNotification.setListener(this);
@@ -530,6 +533,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentLocateMySpot);
             addToSBackStack(FRAGMENT_LOCATE_MYSPOT);
             break;
+        case FRAGMENT_AFTER_BRAVO_ID:
+            mTransaction.show(mFragmentAfterBravo);
+            addToSBackStack(FRAGMENT_AFTER_BRAVO);
+            break;
         default:
             break;
         }
@@ -564,6 +571,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentAddMySpot);
         mTransaction.hide(mFragmentInputMySpot);
         mTransaction.hide(mFragmentLocateMySpot);
+        mTransaction.hide(mFragmentAfterBravo);
 
         return mTransaction;
     }
@@ -1057,6 +1065,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
+    public void goToAfterBravo() {
+        // TODO Auto-generated method stub
+        showFragment(FRAGMENT_AFTER_BRAVO_ID);
+    }
+
+
+    @Override
     public void requestToLoginSNS(String snsType) {
         if (BravoConstant.TWITTER.equals(snsType)) {
             ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -1076,4 +1091,5 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             }
         }
     }
+
 }

@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
+import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;

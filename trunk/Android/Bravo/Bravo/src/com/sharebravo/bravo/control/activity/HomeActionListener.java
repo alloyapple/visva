@@ -1,8 +1,8 @@
 package com.sharebravo.bravo.control.activity;
 
 import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.Spot;
 
 public interface HomeActionListener {
     public void goToRecentPostDetail(ObBravo obGetBravo);
@@ -40,6 +40,8 @@ public interface HomeActionListener {
     public void goToInputMySpot();
 
     public void goToLocateMySpot();
+
+    public void goToAfterBravo();
 
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 
