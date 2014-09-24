@@ -306,8 +306,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                         Spot newSpot = new Spot();
                         newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
                         newSpot.Spot_Name = mOFGetVenueSearch.response.venues.get(i).name;
-                        newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix
+                        newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix + "bg_44"
                                 + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
+                        AIOLog.e(newSpot.Spot_Icon, mSpots);
                         newSpot.Total_Bravos = 0;
                         newSpot.Spot_Latitude = mOFGetVenueSearch.response.venues.get(i).location.lat;
                         newSpot.Spot_Longitude = mOFGetVenueSearch.response.venues.get(i).location.lon;

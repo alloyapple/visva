@@ -27,7 +27,9 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetTimeline;
+import com.sharebravo.bravo.model.response.ObGetUserBlocking.User;
 import com.sharebravo.bravo.model.response.ObGetUserSearch;
+import com.sharebravo.bravo.model.response.UserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -45,11 +47,12 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvatar {
-    private XListView      mListviewPost            = null;
-    private XListView      mListviewUser            = null;
+    private XListView                mListviewPost            = null;
+    private XListView                mListviewUser            = null;
     private AdapterPostList          mAdapterPost             = null;
     private AdapterUserSearchList    mAdapterUser             = null;
     private HomeActionListener       mHomeActionListener      = null;
+    private ArrayList<UserSearch>    mUsers                   = new ArrayList<UserSearch>();
     private ObGetAllBravoRecentPosts mObGetTimelineBravo      = null;
 
     private SessionLogin             mSessionLogin            = null;
@@ -63,6 +66,14 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                                                                       AIOLog.d("position:" + position);
                                                                       mHomeActionListener.goToRecentPostDetail(mObGetTimelineBravo.data
                                                                               .get(position - 1));
+                                                                  }
+                                                              };
+    private OnItemClickListener      itemClickListener        = new OnItemClickListener() {
+
+                                                                  @Override
+                                                                  public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+                                                                      // TODO Auto-generated method stub
+                                                                      mHomeActionListener.goToUserData(mUsers.get(pos - 1).userID);
                                                                   }
                                                               };
 
@@ -133,7 +144,8 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                     return;
                 }
                 else {
-                    mAdapterUser.updateUserList(obGetUserSearch.data);
+                    mUsers = obGetUserSearch.data;
+                    mAdapterUser.updateUserList(mUsers);
                 }
             }
 
@@ -204,11 +216,11 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         mAdapterPost.setListener(this);
         mListviewPost.setAdapter(mAdapterPost);
         mListviewUser.setAdapter(mAdapterUser);
-
+        mListviewUser.setOnItemClickListener(itemClickListener);
         mListviewPost.setOnItemClickListener(iRecentPostClickListener);
         mListviewPost.setVisibility(View.GONE);
         mListviewPost.setXListViewListener(new IXListViewListener() {
-            
+
             @Override
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
@@ -218,7 +230,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 else
                     onStopPullAndLoadRecentPostListView();
             }
-            
+
             @Override
             public void onLoadMore() {
                 int size = mObGetTimelineBravo.data.size();
@@ -227,16 +239,16 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                 else
                     onStopPullAndLoadRecentPostListView();
                 AIOLog.d("IOnLoadMoreListener");
-                
+
             }
         });
         mListviewUser.setXListViewListener(new IXListViewListener() {
-            
+
             @Override
             public void onRefresh() {
                 onStopPullAndLoadUserListView();
             }
-            
+
             @Override
             public void onLoadMore() {
                 onStopPullAndLoadUserListView();
@@ -335,12 +347,12 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
     }
-    
+
     private void onStopPullAndLoadRecentPostListView() {
         mListviewPost.stopRefresh();
         mListviewPost.stopLoadMore();
     }
-    
+
     private void onStopPullAndLoadUserListView() {
         mListviewUser.stopRefresh();
         mListviewUser.stopLoadMore();
