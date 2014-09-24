@@ -18,11 +18,11 @@ import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory.SpotHistory;
 import com.sharebravo.bravo.model.response.ObGetSpotRank;
 import com.sharebravo.bravo.model.response.ObGetSpotRank.SpotRank;
+import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;

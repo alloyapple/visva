@@ -78,7 +78,7 @@ public class FragmentAddMySpot extends FragmentMapBasic implements LocationListe
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                mHomeActionListener.goToInputMySpot();
+                mHomeActionListener.goToAfterBravo();
             }
         });
         btnNo = (Button) mView.findViewById(R.id.btn_no);

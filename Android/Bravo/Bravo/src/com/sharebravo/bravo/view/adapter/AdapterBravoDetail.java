@@ -21,7 +21,7 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
-import com.sharebravo.bravo.model.response.ObGetSpot.Spot;
+import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -29,8 +29,8 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
-import com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
+import com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover;
 
 public class AdapterBravoDetail extends BaseAdapter {
     private Context            mContext;

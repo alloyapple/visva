@@ -57,24 +57,25 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 
 public class FragmentMapView extends FragmentMapBasic implements LocationListener {
-    public static final int  MAKER_BY_LOCATION_SPOT = 0;
-    public static final int  MAKER_BY_LOCATION_USER = 1;
+    public static final int   MAKER_BY_LOCATION_SPOT = 0;
+    public static final int   MAKER_BY_LOCATION_USER = 1;
+    private ArrayList<Marker> mMakers                = new ArrayList<Marker>();
 
-    private GoogleMap        map;
-    private Marker           curMarker              = null;
+    private GoogleMap         map;
+    private Marker            curMarker              = null;
 
-    private int              typeMaker;
-    private double           mLat, mLong;
+    private int               typeMaker;
+    private double            mLat, mLong;
 
-    private View             mOriginalContentView;
-    private TouchableWrapper mTouchView;
-    Location                 location               = null;
-    LocationManager          locationManager        = null;
-    Button                   btnBack                = null;
-    HomeActionListener       mHomeActionListener    = null;
-    private SessionLogin     mSessionLogin          = null;
-    private String           foreignID              = null;
-    private int              mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
+    private View              mOriginalContentView;
+    private TouchableWrapper  mTouchView;
+    Location                  location               = null;
+    LocationManager           locationManager        = null;
+    Button                    btnBack                = null;
+    HomeActionListener        mHomeActionListener    = null;
+    private SessionLogin      mSessionLogin          = null;
+    private String            foreignID              = null;
+    private int               mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -234,10 +235,19 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         // addMaker(latitude, longitude, "");
         if (data == null)
             return;
-
+        mMakers.clear();
         for (int i = 0; i < data.size(); i++) {
-            addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "");
+            Marker marker = addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "" + data.get(i).Spot_Name);
+            mMakers.add(marker);
         }
+        getMap().setOnMarkerClickListener(new OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // TODO Auto-generated method stub
+                return true;
+            }
+        });
     }
 
     public int getPixelByDp(int dp) {
@@ -252,7 +262,10 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         // Changing marker icon
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
+        marker.title(name);
         Marker markerObject = getMap().addMarker(marker);
+        marker.snippet(name);
+        markerObject.showInfoWindow();
         return markerObject;
     }
 

@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
 import com.google.gson.Gson;
@@ -36,16 +38,24 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentFollower extends FragmentBasic implements IClickUserAvatar {
-    private XListView mListviewFollower   = null;
+    private XListView           mListviewFollower   = null;
 
     private AdapterUserList     mAdapterUserList    = null;
 
     private HomeActionListener  mHomeActionListener = null;
-    private ObGetUsersList     mObGetUserFollower  = null;
+    private ObGetUsersList      mObGetUserFollower  = null;
 
     private SessionLogin        mSessionLogin       = null;
     private String              foreignID           = "";
     private int                 mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private OnItemClickListener itemClickListener   = new OnItemClickListener() {
+
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+                                                            // TODO Auto-generated method stub
+                                                            mHomeActionListener.goToUserData(mObGetUserFollower.data.get(pos-1).User_ID);
+                                                        }
+                                                    };
     Button                      btnBack             = null;
 
     @Override
@@ -123,14 +133,15 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
         mAdapterUserList.setListener(this);
         mListviewFollower = (XListView) root.findViewById(R.id.listview_user);
         mListviewFollower.setAdapter(mAdapterUserList);
+        mListviewFollower.setOnItemClickListener(itemClickListener);
         onStopPullAndLoadListView();
         mListviewFollower.setXListViewListener(new IXListViewListener() {
-            
+
             @Override
             public void onRefresh() {
                 onStopPullAndLoadListView();
             }
-            
+
             @Override
             public void onLoadMore() {
                 onStopPullAndLoadListView();
@@ -150,7 +161,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     public void setForeignID(String foreignID) {
         this.foreignID = foreignID;
     }
-    
+
     private void onStopPullAndLoadListView() {
         mListviewFollower.stopRefresh();
         mListviewFollower.stopLoadMore();
