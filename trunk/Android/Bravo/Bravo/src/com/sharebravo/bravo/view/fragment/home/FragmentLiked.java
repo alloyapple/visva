@@ -61,7 +61,6 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -75,7 +74,6 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden) {
             requestGetLiked(mSessionLogin);

@@ -21,11 +21,11 @@
         </Button>
     </LinearLayout>
 
-    <ListView
+    <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_home_notification"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </ListView>
+    </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
     <TextView
         android:id="@+id/text_no_notification"
