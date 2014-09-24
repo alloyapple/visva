@@ -33,7 +33,8 @@
                 android:layout_gravity="right|top"
                 android:background="@drawable/icon_notification"
                 android:gravity="center"
-                android:text="3"
+                android:textSize="10sp"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </FrameLayout>
