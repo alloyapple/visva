@@ -15,6 +15,7 @@ import com.facebook.Session;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 
 public class FacebookUtil {
@@ -30,15 +31,15 @@ public class FacebookUtil {
         return mInstance;
     }
 
-    public void publishShareInBackground(String sharedText, final Callback callback) {
+    public void publishShareInBackground(ObBravo obBravo, String sharedText, final Callback callback) {
         AIOLog.d("sharedText" + sharedText);
         String message = sharedText;
         String name = mContext.getString(R.string.app_name);
-        String link = BravoWebServiceConfig.URL_BRAVO_HOME_PAGE;
+        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", obBravo.Bravo_ID);
         String pic = mContext.getString(R.string.picture_share_fb);
         final Bundle _postParameter = new Bundle();
         _postParameter.putString("name", name);
-        _postParameter.putString("link", link);
+        _postParameter.putString("link", bravoUrl);
         _postParameter.putString("picture", pic);
         _postParameter.putString("description", message);
 

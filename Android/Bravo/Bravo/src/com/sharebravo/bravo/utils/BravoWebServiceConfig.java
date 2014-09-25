@@ -7,6 +7,7 @@ public class BravoWebServiceConfig {
     public static int          STATUS_RESPONSE_DATA_ERROR           = 0x2;
     public static final String URL_BRAVO_RULE                       = "https://dev1.sharebravo.com/rule";
     public static final String URL_BRAVO_HOME_PAGE                  = "https://dev1.sharebravo.com/login";
+    public static final String URL_BRAVO_ID_DETAIL                  = "https://dev1.sharebravo.com/bravo/{Bravo_ID}";
     // Server api
     public static final String URL_BRAVO_BASE                       = "https://dev1.sharebravo.com/api";
     public static final String URL_GET_NOTIFICATION                 = URL_BRAVO_BASE + "/notification";
