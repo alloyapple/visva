@@ -83,33 +83,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     // ======================Constant Define===============
     private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
-    private static final String      FRAGMENT_HOME_TAB              = "home_tab";
-    private static final String      FRAGMENT_NETWORK_TAB           = "network_tab";
-    private static final String      FRAGMENT_SEARCH_TAB            = "search_tab";
-    private static final String      FRAGMENT_USER_DATA_TAB         = "user_data_tab";
-
-    private static final String      FRAGMENT_RECENT_POST_DETAIL    = "post_detail";
-    private static final String      FRAGMENT_MAP_VIEW              = "map_view";
-
-    private static final String      FRAGMENT_HOME_NOTIFICATION     = "notification";
-    private static final String      FRAGMENT_SETTINGS              = "settings";
-    private static final String      FRAGMENT_UPDATE_USER_INFO      = "update_user_info";
-    private static final String      FRAGMENT_TERM_OF_USE           = "term_of_use";
-    private static final String      FRAGMENT_COVER_IMAGE           = "cover_image";
-    private static final String      FRAGMENT_SHARE                 = "page_share";
-    private static final String      FRAGMENT_SHARE_WITH_FRIENDS    = "page_settings_share_with_friends";
-    private static final String      FRAGMENT_HISTORY               = "page_history";
-    private static final String      FRAGMENT_FOLOWING              = "page_following";
-    private static final String      FRAGMENT_FOLLOWER              = "page_follower";
-    private static final String      FRAGMENT_FAVOURITE             = "favourite";
-    private static final String      FRAGMENT_LIKED                 = "liked";
-    private static final String      FRAGMENT_SAVED                 = "saved";
-    private static final String      FRAGMENT_VIEW_IMAGE            = "view_image";
-    private static final String      FRAGMENT_SPOT_DETAIL           = "spot_detail";
-    private static final String      FRAGMENT_ADD_MYSPOT            = "add_my_spot";
-    private static final String      FRAGMENT_INPUT_MYSPOT          = "input_my_spot";
-    private static final String      FRAGMENT_LOCATE_MYSPOT         = "loate_my_spot";
-    private static final String      FRAGMENT_AFTER_BRAVO           = "after_bravo";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -184,7 +157,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static ObBravo           mObBravo;
     private static String            mSharedSnsText;
     // ======================Variable Define===============
-    private ArrayList<String>        backstack                      = new ArrayList<String>();
+    // private ArrayList<String> backstack = new ArrayList<String>();
     private ArrayList<Integer>       backstackID                    = new ArrayList<Integer>();
 
     private UiLifecycleHelper        mUiLifecycleHelper;
@@ -278,14 +251,16 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.btn_home:
+            backstackID.clear();
             hideTabButton();
-            showFragment(FRAGMENT_HOME_TAB_ID);
+            showFragment(FRAGMENT_HOME_TAB_ID, false);
             btnHome.setBackgroundResource(R.drawable.tab_home_on);
             txtHome.setTextColor(Color.WHITE);
             break;
         case R.id.btn_network:
+            backstackID.clear();
             hideTabButton();
-            showFragment(FRAGMENT_NETWORK_TAB_ID);
+            showFragment(FRAGMENT_NETWORK_TAB_ID, false);
             btnNetwork.setBackgroundResource(R.drawable.tab_feed_on);
             txtNetwork.setTextColor(Color.WHITE);
             break;
@@ -295,15 +270,17 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
             break;
         case R.id.btn_search:
+            backstackID.clear();
             hideTabButton();
-            showFragment(FRAGMENT_SEARCH_TAB_ID);
+            showFragment(FRAGMENT_SEARCH_TAB_ID, false);
             btnSearch.setBackgroundResource(R.drawable.tab_search_on);
             txtSearch.setTextColor(Color.WHITE);
             break;
         case R.id.btn_mydata:
-            hideTabButton();
-            showFragment(FRAGMENT_USER_DATA_TAB_ID);
+            backstackID.clear();
             mFragmentUserDataTab.setForeignID(userId);
+            showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
+            hideTabButton();
             btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
             txtMyData.setTextColor(Color.WHITE);
             break;
@@ -342,12 +319,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     protected void onResume() {
         super.onResume();
         mUiLifecycleHelper.onResume();
-
-        // Call the 'activateApp' method to log an app event for use in
-        // analytics and advertising reporting. Do so in
-        // the onResume methods of the primary Activities that an app may be
-        // launched into.
-
         final Session session = Session.getActiveSession();
         if (session == null || session.isClosed() || !session.isOpened()) {
             mUiLifecycleHelper = new UiLifecycleHelper(this, mFacebookCallback);
@@ -400,8 +371,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentUserDataTab.setListener(this);
         mFragmentSetting.setListener(this);
 
-        mTransaction = hideFragment();
-        showFragment(FRAGMENT_HOME_TAB_ID);
+        showFragment(FRAGMENT_HOME_TAB_ID, false);
     }
 
     private void initializeUITab() {
@@ -430,128 +400,89 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         txtMyData.setTextColor(getResources().getColor(R.color.click_color));
     }
 
-    private void showFragment(int fragment) {
+    private void showFragment(int fragment, boolean isback) {
         mTransaction = hideFragment();
         switch (fragment) {
         case FRAGMENT_HOME_TAB_ID:
             mTransaction.show(mFragmentHomeTab);
-            addToSBackStack(FRAGMENT_HOME_TAB);
-            hideTabButton();
-            btnHome.setBackgroundResource(R.drawable.tab_home_on);
-            txtHome.setTextColor(Color.WHITE);
             break;
-
         case FRAGMENT_NETWORK_TAB_ID:
             mTransaction.show(mFragmentNetworkTab);
-            addToSBackStack(FRAGMENT_NETWORK_TAB);
-            hideTabButton();
-            btnNetwork.setBackgroundResource(R.drawable.tab_home_on);
-            txtNetwork.setTextColor(Color.WHITE);
             break;
         case FRAGMENT_SEARCH_TAB_ID:
             mTransaction.show(mFragmentSearchTab);
-            addToSBackStack(FRAGMENT_SEARCH_TAB);
-            hideTabButton();
-            btnSearch.setBackgroundResource(R.drawable.tab_home_on);
-            txtSearch.setTextColor(Color.WHITE);
             break;
         case FRAGMENT_USER_DATA_TAB_ID:
             mTransaction.show(mFragmentUserDataTab);
-            addToSBackStack(FRAGMENT_USER_DATA_TAB);
-            hideTabButton();
-            btnMyData.setBackgroundResource(R.drawable.tab_home_on);
-            txtMyData.setTextColor(Color.WHITE);
             break;
         case FRAGMENT_RECENT_POST_DETAIL_ID:
             mTransaction.show(mFragmentRecentPostDetail);
-            addToSBackStack(FRAGMENT_RECENT_POST_DETAIL);
             break;
         case FRAGMENT_MAP_VIEW_ID:
             mTransaction.show(mFragmentMapView);
-            addToSBackStack(FRAGMENT_MAP_VIEW);
             break;
         case FRAGMENT_HOME_NOTIFICATION_ID:
             mTransaction.show(mFragmentHomeNotification);
-            addToSBackStack(FRAGMENT_HOME_NOTIFICATION);
             break;
         case FRAGMENT_SETTINGS_ID:
             mTransaction.show(mFragmentSetting);
-            addToSBackStack(FRAGMENT_SETTINGS);
             break;
         case FRAGMENT_UPDATE_USER_INFO_ID:
             mTransaction.show(mFragmentUpdateUserInfo);
-            addToSBackStack(FRAGMENT_UPDATE_USER_INFO);
             break;
         case FRAGMENT_TERM_OF_USE_ID:
             mTransaction.show(mFragmentTermOfUse);
-            addToSBackStack(FRAGMENT_TERM_OF_USE);
             break;
         case FRAGMENT_COVER_IMAGE_ID:
             mTransaction.show(mFragmentCoverImage);
-            addToSBackStack(FRAGMENT_COVER_IMAGE);
             break;
         case FRAGMENT_SHARE_ID:
             mTransaction.show(mFragmentShare);
-            addToSBackStack(FRAGMENT_SHARE);
             break;
         case FRAGMENT_SHARE_WITH_FRIENDS_ID:
             mTransaction.show(mFragmentShareWithFriends);
-            addToSBackStack(FRAGMENT_SHARE_WITH_FRIENDS);
             break;
-
         case FRAGMENT_HISTORY_ID:
             mTransaction.show(mFragmentHistory);
-            addToSBackStack(FRAGMENT_HISTORY);
             break;
         case FRAGMENT_FOLLOWING_ID:
             mTransaction.show(mFragmentFollowing);
-            addToSBackStack(FRAGMENT_FOLOWING);
             break;
         case FRAGMENT_FOLLOWER_ID:
             mTransaction.show(mFragmentFollower);
-            addToSBackStack(FRAGMENT_FOLLOWER);
             break;
-
         case FRAGMENT_FAVOURITE_ID:
             mTransaction.show(mFragmentFavourite);
-            addToSBackStack(FRAGMENT_FAVOURITE);
             break;
         case FRAGMENT_LIKED_ID:
             mTransaction.show(mFragmentLiked);
-            addToSBackStack(FRAGMENT_LIKED);
             break;
-
         case FRAGMENT_SAVED_ID:
             mTransaction.show(mFragmentSaved);
-            addToSBackStack(FRAGMENT_SAVED);
             break;
         case FRAGMENT_VIEW_IMAGE_ID:
             mTransaction.show(mFragmentViewImage);
-            addToSBackStack(FRAGMENT_VIEW_IMAGE);
             break;
         case FRAGMENT_SPOT_DETAIL_ID:
             mTransaction.show(mFragmentSpotDetail);
-            addToSBackStack(FRAGMENT_SPOT_DETAIL);
             break;
         case FRAGMENT_ADD_MYSPOT_ID:
             mTransaction.show(mFragmentAddMySpot);
-            addToSBackStack(FRAGMENT_ADD_MYSPOT);
             break;
         case FRAGMENT_INPUT_MYSPOT_ID:
             mTransaction.show(mFragmentInputMySpot);
-            addToSBackStack(FRAGMENT_INPUT_MYSPOT);
             break;
         case FRAGMENT_LOCATE_MYSPOT_ID:
             mTransaction.show(mFragmentLocateMySpot);
-            addToSBackStack(FRAGMENT_LOCATE_MYSPOT);
             break;
         case FRAGMENT_AFTER_BRAVO_ID:
             mTransaction.show(mFragmentAfterBravo);
-            addToSBackStack(FRAGMENT_AFTER_BRAVO);
             break;
         default:
             break;
         }
+        if (!isback)
+            addToSBackStack(fragment);
         mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         mTransaction.commit();
     }
@@ -588,82 +519,24 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         return mTransaction;
     }
 
-    public void addToSBackStack(String tag) {
-
-        int index = backstack.lastIndexOf(tag);
-        if (index == -1) {
-            backstack.add(tag);
-            return;
-        }
-        try {
-            if (!backstack.get(index - 1).equals(
-                    backstack.get(backstack.size() - 1))) {
-                backstack.add(tag);
-                return;
-            }
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-        try {
-            ArrayList<String> subStack = new ArrayList<String>(backstack);
-            for (int i = 0; i < subStack.size(); i++) {
-                if (i > index) {
-                    backstack.remove(index);
-                }
-            }
-        } catch (IndexOutOfBoundsException e) {
-        }
-    }
-
-    public void addToSBackStackID(int ID) {
-
-        int index = backstackID.lastIndexOf(ID);
-        if (index == -1) {
-            backstackID.add(ID);
-            return;
-        }
-        try {
-            if (!backstackID.get(index - 1).equals(
-                    backstackID.get(backstackID.size() - 1))) {
-                backstackID.add(ID);
-                return;
-            }
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-        try {
-            ArrayList<Integer> subStack = new ArrayList<Integer>(backstackID);
-            for (int i = 0; i < subStack.size(); i++) {
-                if (i > index) {
-                    backstackID.remove(index);
-                }
-            }
-        } catch (IndexOutOfBoundsException e) {
-        }
+    public void addToSBackStack(int ID) {
+        backstackID.add(ID);
     }
 
     @Override
     public void goToRecentPostDetail(ObBravo obGetBravo) {
-        if (obGetBravo == null)
-            return;
-        AIOLog.d("obGetBravo:" + obGetBravo);
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);
-        showFragment(FRAGMENT_RECENT_POST_DETAIL_ID);
-        // btnHome.setBackgroundResource(R.drawable.tab_home_on);
+        showFragment(FRAGMENT_RECENT_POST_DETAIL_ID, false);
     }
 
-    @Override
     public void goToBack() {
-        AIOLog.d("mBackstack=" + backstack);
-        String currentView = null;
-        if (backstack.size() - 1 > 0)
-            currentView = backstack.get(backstack.size() - 1);
-        String previousView = null;
-        if (backstack.size() - 2 > 0)
-            previousView = backstack.get(backstack.size() - 2);
+        int currentIndex = backstackID.size() - 1;
+        int previousView = -1;
+        if (currentIndex > 0)
+            previousView = backstackID.get(currentIndex - 1);
         try {
-            backstack.remove(backstack.size() - 1);
-            if (backstack.size() == 0) {
+            backstackID.remove(currentIndex);
+            if (backstackID.size() == 0) {
                 super.onBackPressed();
                 return;
             }
@@ -671,81 +544,15 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             super.onBackPressed();
             return;
         }
-        mTransaction = hideFragment();
 
-        Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
-        if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL) && previousView != null) {
-            if (previousView.equals(FRAGMENT_HOME_TAB))
-                mTransaction.show(mFragmentHomeTab);
-            else if (previousView.equals(FRAGMENT_USER_DATA_TAB))
-                mTransaction.show(mFragmentUserDataTab);
-            else if (previousView.equals(FRAGMENT_HISTORY))
-                mTransaction.show(mFragmentHistory);
-            else if (previousView.equals(FRAGMENT_NETWORK_TAB))
-                mTransaction.show(mFragmentNetworkTab);
-            else if (previousView.equals(FRAGMENT_SPOT_DETAIL))
-                mTransaction.show(mFragmentSpotDetail);
-            else if (previousView.equals(FRAGMENT_MAP_VIEW)) {
-                mTransaction.show(mFragmentMapView);
-            }
-
-        } else if (currentView.equals(FRAGMENT_USER_DATA_TAB) && previousView != null) {
-            if (previousView.equals(FRAGMENT_RECENT_POST_DETAIL))
-                mTransaction.show(mFragmentRecentPostDetail);
-            else if (previousView.equals(FRAGMENT_HOME_TAB)) {
-                mTransaction.show(mFragmentHomeTab);
-            } else if (previousView.equals(FRAGMENT_NETWORK_TAB)) {
-                mTransaction.show(mFragmentNetworkTab);
-            } else if (previousView.equals(FRAGMENT_SPOT_DETAIL)) {
-                mTransaction.show(mFragmentSpotDetail);
-            }else if (previousView.equals(FRAGMENT_FOLOWING)) {
-                mTransaction.show(mFragmentFollowing);
-            }else if (previousView.equals(FRAGMENT_FOLLOWER)) {
-                mTransaction.show(mFragmentFollower);
-            }
-
-        } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
-            if (previousView != null && previousView.equals(FRAGMENT_RECENT_POST_DETAIL))
-                mTransaction.show(mFragmentRecentPostDetail);
-            else if (previousView != null && previousView.equals(FRAGMENT_USER_DATA_TAB))
-                mTransaction.show(mFragmentUserDataTab);
-            else if (previousView != null && previousView.equals(FRAGMENT_SPOT_DETAIL))
-                mTransaction.show(mFragmentSpotDetail);
-        } else if (currentView.equals(FRAGMENT_COVER_IMAGE) || currentView.equals(FRAGMENT_SHARE)) {
-            mTransaction.show(mFragmentRecentPostDetail);
-        } else if (currentView.equals(FRAGMENT_SETTINGS) || currentView.equals(FRAGMENT_FAVOURITE)) {
-            mTransaction.show(mFragmentUserDataTab);
-            mFragmentUserDataTab.getUserInfo("");
-        } else if (currentView.equals(FRAGMENT_TERM_OF_USE) || currentView.equals(FRAGMENT_UPDATE_USER_INFO)
-                || currentView.equals(FRAGMENT_SHARE_WITH_FRIENDS)) {
-            mTransaction.show(mFragmentSetting);
-        } else if (currentView.equals(FRAGMENT_HISTORY) || currentView.equals(FRAGMENT_FOLOWING) || currentView.equals(FRAGMENT_FOLLOWER)
-                || currentView.equals(FRAGMENT_VIEW_IMAGE)) {
-            mTransaction.show(mFragmentUserDataTab);
-
-        } else if (currentView.equals(FRAGMENT_LIKED) || currentView.equals(FRAGMENT_SAVED)) {
-            mTransaction.show(mFragmentRecentPostDetail);
-        } else if (currentView.equals(FRAGMENT_SPOT_DETAIL)) {
-            mTransaction.show(mFragmentSearchTab);
-        } else if (currentView.equals(FRAGMENT_ADD_MYSPOT) || currentView.equals(FRAGMENT_INPUT_MYSPOT)) {
-            mTransaction.show(mFragmentSearchTab);
-        } else if (currentView.equals(FRAGMENT_LOCATE_MYSPOT)) {
-            mTransaction.show(mFragmentInputMySpot);
-        } else if (currentView.equals(FRAGMENT_HOME_NOTIFICATION)) {
-            mTransaction.show(mFragmentHomeTab);
-        } else if (currentView.equals(FRAGMENT_HOME_TAB) || currentView.equals(FRAGMENT_NETWORK_TAB)
-                || currentView.equals(FRAGMENT_SEARCH_TAB)) {
-            super.onBackPressed();
-            return;
+        if (previousView > 0) {
+            showFragment(previousView, true);
         }
-
-        mTransaction.commitAllowingStateLoss();
-
     }
 
     @Override
     public void goToFragment(int fragmentID) {
-        showFragment(fragmentID);
+        showFragment(fragmentID, false);
     }
 
     @Override
@@ -781,13 +588,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void showPageTermOfUse() {
-        showFragment(FRAGMENT_TERM_OF_USE_ID);
+        showFragment(FRAGMENT_TERM_OF_USE_ID, false);
     }
 
     @Override
     public void goToUserData(String userId) {
         mFragmentUserDataTab.setForeignID(userId);
-        showFragment(FRAGMENT_USER_DATA_TAB_ID);
+        showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
     }
 
     @Override
@@ -795,38 +602,38 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         if (lat != null && log != null)
             mFragmentMapView.setCordinate(lat, log);
         mFragmentMapView.setTypeMaker(locationType);
-        showFragment(FRAGMENT_MAP_VIEW_ID);
+        showFragment(FRAGMENT_MAP_VIEW_ID, false);
     }
 
     @Override
     public void onClickUserAvatar(String userId) {
         mFragmentUserDataTab.setForeignID(userId);
-        showFragment(FRAGMENT_USER_DATA_TAB_ID);
+        showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
 
     }
 
     @Override
     public void goToShare(ObBravo bravoObj, int shareType) {
         mFragmentShare.setData(bravoObj, shareType);
-        showFragment(FRAGMENT_SHARE_ID);
+        showFragment(FRAGMENT_SHARE_ID, false);
     }
 
     @Override
     public void goToCoverImage(ObBravo obGetBravo) {
         mFragmentCoverImage.setObBravo(obGetBravo);
-        showFragment(FRAGMENT_COVER_IMAGE_ID);
+        showFragment(FRAGMENT_COVER_IMAGE_ID, false);
     }
 
     @Override
     public void goToUsergFollowing(String foreignID) {
         mFragmentFollowing.setForeignID(foreignID);
-        showFragment(FRAGMENT_FOLLOWING_ID);
+        showFragment(FRAGMENT_FOLLOWING_ID, false);
     }
 
     @Override
     public void goToUsergFollower(String foreignID) {
         mFragmentFollower.setForeignID(foreignID);
-        showFragment(FRAGMENT_FOLLOWER_ID);
+        showFragment(FRAGMENT_FOLLOWER_ID, false);
     }
 
     @Override
@@ -942,8 +749,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             AIOLog.e("user twitter is null");
             return;
         }
-        // Call update status function
-        // Get the status from EditText
 
         // Check for blank text
         if (sharedText.trim().length() > 0) {
@@ -1039,7 +844,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void goToUserTimeLine(ObGetUserInfo userInfo) {
         mFragmentHistory.setmUserInfo(userInfo);
-        showFragment(FRAGMENT_HISTORY_ID);
+        showFragment(FRAGMENT_HISTORY_ID, false);
     }
 
     private enum PendingAction {
@@ -1051,52 +856,52 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentMapView.setForeignID(foreignID);
         mFragmentMapView.setTypeMaker(locationType);
         mFragmentMapView.setFullName(fullName);
-        showFragment(FRAGMENT_MAP_VIEW_ID);
+        showFragment(FRAGMENT_MAP_VIEW_ID, false);
     }
 
     @Override
     public void goToLiked(String mSpotID) {
         mFragmentLiked.setSpotID(mSpotID);
-        showFragment(FRAGMENT_LIKED_ID);
+        showFragment(FRAGMENT_LIKED_ID, false);
     }
 
     @Override
     public void goToSaved(String mSpotID) {
         mFragmentSaved.setSpotID(mSpotID);
-        showFragment(FRAGMENT_SAVED_ID);
+        showFragment(FRAGMENT_SAVED_ID, false);
     }
 
     @Override
     public void goToViewImage(ObGetUserInfo obGetUserInfo, int userImageType) {
         mFragmentViewImage.setObGetUserInfo(obGetUserInfo, userImageType);
-        showFragment(FRAGMENT_VIEW_IMAGE_ID);
+        showFragment(FRAGMENT_VIEW_IMAGE_ID, false);
     }
 
     @Override
     public void goToSpotDetail(Spot mSpot) {
         mFragmentSpotDetail.setSpot(mSpot);
-        showFragment(FRAGMENT_SPOT_DETAIL_ID);
+        showFragment(FRAGMENT_SPOT_DETAIL_ID, false);
     }
 
     @Override
     public void goToAddSpot() {
-        showFragment(FRAGMENT_ADD_MYSPOT_ID);
+        showFragment(FRAGMENT_ADD_MYSPOT_ID, false);
     }
 
     @Override
     public void goToInputMySpot() {
-        showFragment(FRAGMENT_INPUT_MYSPOT_ID);
+        showFragment(FRAGMENT_INPUT_MYSPOT_ID, false);
     }
 
     @Override
     public void goToLocateMySpot() {
-        showFragment(FRAGMENT_LOCATE_MYSPOT_ID);
+        showFragment(FRAGMENT_LOCATE_MYSPOT_ID, false);
     }
 
     @Override
     public void goToAfterBravo() {
         // TODO Auto-generated method stub
-        showFragment(FRAGMENT_AFTER_BRAVO_ID);
+        showFragment(FRAGMENT_AFTER_BRAVO_ID, false);
     }
 
     @Override
