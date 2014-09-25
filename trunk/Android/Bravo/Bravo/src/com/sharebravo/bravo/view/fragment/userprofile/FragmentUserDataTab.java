@@ -150,6 +150,19 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 onStopPullAndLoadListView();
             }
         });
+        mListViewUserPostProfile.setOnScrollListener(new OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (mAdapterUserDataProfile != null)
+                    mAdapterUserDataProfile.parallaxImage(mAdapterUserDataProfile.getBackGroundParallax());
+            }
+        });
         mBtnBack = (Button) root.findViewById(R.id.btn_back);
         mBtnBack.setOnClickListener(new OnClickListener() {
 
@@ -248,19 +261,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         } else {
             isOutOfDataLoadMore = false;
         }
-        mListViewUserPostProfile.setVisibility(View.GONE);
-        mListViewUserPostProfile.setOnScrollListener(new OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                mAdapterUserDataProfile.parallaxImage(mAdapterUserDataProfile.getBackGroundParallax());
-            }
-        });
+//        mListViewUserPostProfile.setVisibility(View.GONE);
     }
 
     /**
