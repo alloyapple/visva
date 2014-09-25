@@ -203,7 +203,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetBravo obGetBravo;
                 obGetBravo = gson.fromJson(response.toString(), ObGetBravo.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo);
+                AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo); 
                 if (obGetBravo == null)
                     return;
                 else {

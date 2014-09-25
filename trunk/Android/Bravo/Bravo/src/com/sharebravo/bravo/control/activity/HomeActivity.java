@@ -47,7 +47,7 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
-import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.home.FragmentAddMySpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentAfterBravo;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
@@ -230,12 +230,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     AIOLog.d("uri:" + uri);
                     if (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL)) {
                         // Check for blank text
-                        if (StringUtility.isEmpty(mObBravo.Last_Pic)) {
-                            new UpdateTwitterStatus().execute(mSharedSnsText);
-                        } else {
-                            new UpdateTwitterStatus().execute(mSharedSnsText + " \n" + mObBravo.Last_Pic);
-                            Toast.makeText(getApplicationContext(), "Please enter status message", Toast.LENGTH_SHORT).show();
-                        }
+                        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mObBravo.Bravo_ID);
+                        new UpdateTwitterStatus().execute(mSharedSnsText + " \n" + bravoUrl);
+                        goToRecentPostDetail(mObBravo);
                     } else {
                         mFragmentSetting.setLoginedTwitter(true);
                         goToFragment(FRAGMENT_SETTINGS_ID);
@@ -681,10 +678,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             Intent waIntent = new Intent(Intent.ACTION_SEND);
             waIntent.setType("text/plain");
             String sharedText;
-            if (StringUtility.isEmpty(mObBravo.Last_Pic)) {
-                sharedText = mSharedSnsText;
-            } else
-                sharedText = mSharedSnsText + ":\n " + mObBravo.Last_Pic;
+            String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mObBravo.Bravo_ID);
+            sharedText = mSharedSnsText + " \n" + bravoUrl;
 
             PackageInfo info = pm.getPackageInfo("jp.naver.line.android", PackageManager.GET_META_DATA);
             if (info == null) {
@@ -774,11 +769,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             AIOLog.e("user twitter is null");
             return;
         }
-
+        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mObBravo.Bravo_ID);
         // Check for blank text
         if (sharedText.trim().length() > 0) {
             // update status
-            new UpdateTwitterStatus().execute(sharedText);
+            new UpdateTwitterStatus().execute(sharedText + " \n" + bravoUrl);
         } else {
             // EditText is empty
             Toast.makeText(getApplicationContext(),
@@ -925,7 +920,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToAfterBravo() {
-        // TODO Auto-generated method stub
         showFragment(FRAGMENT_AFTER_BRAVO_ID, false);
     }
 
