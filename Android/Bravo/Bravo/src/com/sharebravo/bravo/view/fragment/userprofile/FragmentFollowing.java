@@ -85,7 +85,8 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetUserFollowing(mSessionLogin);
+            if (!isBackStatus())
+                requestGetUserFollowing(mSessionLogin);
         } else {
             isOutOfDataLoadMore = false;
         }
@@ -115,7 +116,7 @@ public class FragmentFollowing extends FragmentBasic implements IClickUserAvatar
                 AIOLog.d("mObGetUserFollowing:" + mObGetUserFollowing);
                 if (mObGetUserFollowing == null || mObGetUserFollowing.data.size() == 0) {
                     return;
-                }else {
+                } else {
                     mAdapterUserList.updateUserList(removeIncorrectUserItem(mObGetUserFollowing.data));
                 }
                 mListviewFollowing.setVisibility(View.VISIBLE);

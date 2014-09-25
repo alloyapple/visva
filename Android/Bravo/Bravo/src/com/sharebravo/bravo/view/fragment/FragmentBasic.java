@@ -8,7 +8,8 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
 
-public class FragmentBasic extends Fragment implements IUISync{
+public class FragmentBasic extends Fragment implements IUISync {
+    private boolean              backStatus  = false;
     protected Object             mData       = null;
     protected HomeActionListener mHomeActionListener;
     private boolean              dataChange  = false;
@@ -81,5 +82,13 @@ public class FragmentBasic extends Fragment implements IUISync{
 
     protected void onClickGoToFragment() {
 
+    }
+
+    public boolean isBackStatus() {
+        return backStatus;
+    }
+
+    public void setBackStatus(boolean backStatus) {
+        this.backStatus = backStatus;
     }
 }

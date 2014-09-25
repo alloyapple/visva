@@ -726,12 +726,11 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
             requestGetBravo();
             requestGetFollowingCheck();
             requestGetMyListItem();
             requestGetComments();
-
             requestGetLikeItem();
         }
     }

@@ -110,7 +110,9 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
             layoutSearch.setVisibility(View.GONE);
             mListviewPost.setVisibility(View.GONE);
             mListviewUser.setVisibility(View.GONE);
-            requestGetTimeLine(mSessionLogin);
+            if (!isBackStatus()) {
+                requestGetTimeLine(mSessionLogin);
+            }
         } else {
             isOutOfDataLoadMore = false;
         }

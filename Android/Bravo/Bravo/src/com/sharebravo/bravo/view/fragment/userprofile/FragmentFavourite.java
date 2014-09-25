@@ -82,7 +82,9 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
         super.onHiddenChanged(hidden);
         if (!hidden) {
             initLocation();
-            requestUserFavouriteSortByDate();
+            if (!isBackStatus()) {
+                requestUserFavouriteSortByDate();
+            }
             isSortByDate = true;
             mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_2);
             mBtnSortByLocation.setBackgroundResource(R.drawable.btn_save_1);

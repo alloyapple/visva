@@ -404,78 +404,103 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction = hideFragment();
         switch (fragment) {
         case FRAGMENT_HOME_TAB_ID:
+            mFragmentHomeTab.setBackStatus(isback);
             mTransaction.show(mFragmentHomeTab);
             break;
         case FRAGMENT_NETWORK_TAB_ID:
+            mFragmentNetworkTab.setBackStatus(isback);
             mTransaction.show(mFragmentNetworkTab);
             break;
         case FRAGMENT_SEARCH_TAB_ID:
+            mFragmentSearchTab.setBackStatus(isback);
             mTransaction.show(mFragmentSearchTab);
             break;
         case FRAGMENT_USER_DATA_TAB_ID:
+            mFragmentUserDataTab.setBackStatus(isback);
             mTransaction.show(mFragmentUserDataTab);
             break;
         case FRAGMENT_RECENT_POST_DETAIL_ID:
+            mFragmentRecentPostDetail.setBackStatus(isback);
             mTransaction.show(mFragmentRecentPostDetail);
             break;
         case FRAGMENT_MAP_VIEW_ID:
+            mFragmentMapView.setBackStatus(isback);
             mTransaction.show(mFragmentMapView);
             break;
         case FRAGMENT_HOME_NOTIFICATION_ID:
+            mFragmentHomeNotification.setBackStatus(isback);
             mTransaction.show(mFragmentHomeNotification);
             break;
         case FRAGMENT_SETTINGS_ID:
+            mFragmentSetting.setBackStatus(isback);
             mTransaction.show(mFragmentSetting);
             break;
         case FRAGMENT_UPDATE_USER_INFO_ID:
+            mFragmentUpdateUserInfo.setBackStatus(isback);
             mTransaction.show(mFragmentUpdateUserInfo);
             break;
         case FRAGMENT_TERM_OF_USE_ID:
+            mFragmentTermOfUse.setBackStatus(isback);
             mTransaction.show(mFragmentTermOfUse);
             break;
         case FRAGMENT_COVER_IMAGE_ID:
+            mFragmentCoverImage.setBackStatus(isback);
             mTransaction.show(mFragmentCoverImage);
             break;
         case FRAGMENT_SHARE_ID:
+            mFragmentShare.setBackStatus(isback);
             mTransaction.show(mFragmentShare);
             break;
         case FRAGMENT_SHARE_WITH_FRIENDS_ID:
+            mFragmentShareWithFriends.setBackStatus(isback);
             mTransaction.show(mFragmentShareWithFriends);
             break;
         case FRAGMENT_HISTORY_ID:
+            mFragmentHistory.setBackStatus(isback);
             mTransaction.show(mFragmentHistory);
             break;
         case FRAGMENT_FOLLOWING_ID:
+            mFragmentFollowing.setBackStatus(isback);
             mTransaction.show(mFragmentFollowing);
             break;
         case FRAGMENT_FOLLOWER_ID:
+            mFragmentFollower.setBackStatus(isback);
             mTransaction.show(mFragmentFollower);
             break;
         case FRAGMENT_FAVOURITE_ID:
+            mFragmentFavourite.setBackStatus(isback);
             mTransaction.show(mFragmentFavourite);
             break;
         case FRAGMENT_LIKED_ID:
+            mFragmentLiked.setBackStatus(isback);
             mTransaction.show(mFragmentLiked);
             break;
         case FRAGMENT_SAVED_ID:
+            mFragmentSaved.setBackStatus(isback);
             mTransaction.show(mFragmentSaved);
             break;
         case FRAGMENT_VIEW_IMAGE_ID:
+            mFragmentViewImage.setBackStatus(isback);
             mTransaction.show(mFragmentViewImage);
             break;
         case FRAGMENT_SPOT_DETAIL_ID:
+            mFragmentSpotDetail.setBackStatus(isback);
             mTransaction.show(mFragmentSpotDetail);
             break;
         case FRAGMENT_ADD_MYSPOT_ID:
+            mFragmentAddMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentAddMySpot);
             break;
         case FRAGMENT_INPUT_MYSPOT_ID:
+            mFragmentInputMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentInputMySpot);
             break;
         case FRAGMENT_LOCATE_MYSPOT_ID:
+            mFragmentLocateMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentLocateMySpot);
             break;
         case FRAGMENT_AFTER_BRAVO_ID:
+            mFragmentAfterBravo.setBackStatus(isback);
             mTransaction.show(mFragmentAfterBravo);
             break;
         default:

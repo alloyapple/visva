@@ -40,7 +40,7 @@ public class FragmentAfterBravo extends FragmentBasic {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
 
         }
     }

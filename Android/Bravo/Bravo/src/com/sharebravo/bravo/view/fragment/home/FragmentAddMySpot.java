@@ -98,7 +98,7 @@ public class FragmentAddMySpot extends FragmentMapBasic implements LocationListe
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
             location = getLocation();
             changeLocation(location.getLatitude(), location.getLongitude());
         }

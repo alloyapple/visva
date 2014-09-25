@@ -75,7 +75,8 @@ public class FragmentSaved extends FragmentBasic implements IClickUserAvatar {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetSaved(mSessionLogin);
+            if (!isBackStatus())
+                requestGetSaved(mSessionLogin);
         }
     }
 

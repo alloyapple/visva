@@ -87,7 +87,8 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetUserFollower(mSessionLogin);
+            if (!isBackStatus())
+                requestGetUserFollower(mSessionLogin);
         } else {
             isOutOfDataLoadMore = false;
             mAdapterUserList.removeAllList();
@@ -225,7 +226,7 @@ public class FragmentFollower extends FragmentBasic implements IClickUserAvatar 
             } else
                 users.add(user);
         }
-        return users; 
+        return users;
     }
 
     @Override
