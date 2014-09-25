@@ -87,7 +87,7 @@ public class FragmentInputMySpot extends FragmentBasic {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
             // requestGetBravo();
         }
     }

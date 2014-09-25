@@ -235,10 +235,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            getUserInfo(foreignID);
-            requestGetUserTimeLine(foreignID);
-            requestGetBlockingCheck();
-            requestGetFollowingCheck();
+            if (!isBackStatus()) {
+                getUserInfo(foreignID);
+                requestGetUserTimeLine(foreignID);
+                requestGetBlockingCheck();
+                requestGetFollowingCheck();
+            }
         } else {
             isOutOfDataLoadMore = false;
         }

@@ -148,7 +148,7 @@ public class FragmentCoverImage extends FragmentBasic {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
             mImageLoader.DisplayImage(mObBravo.Last_Pic, R.drawable.user_picture_default, coverImage, false);
         }
     }

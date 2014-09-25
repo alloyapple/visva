@@ -114,7 +114,8 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            requestGetUserTimeLine(mUserInfo.data.User_ID);
+            if (!isBackStatus())
+                requestGetUserTimeLine(mUserInfo.data.User_ID);
         } else {
             isOutOfDataLoadMore = false;
         }
@@ -163,12 +164,12 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
     private ArrayList<ObBravo> modifyIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
         ArrayList<ObBravo> obBravos = new ArrayList<ObBravo>();
         for (ObBravo obBravo : bravoItems) {
-           // if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
-                AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
-                obBravo.User_ID = mUserInfo.data.User_ID;
-                obBravo.Full_Name = mUserInfo.data.Full_Name;
-                obBravo.Profile_Img_URL = mUserInfo.data.Profile_Img_URL;
-            //}
+            // if (StringUtility.isEmpty(obBravo.User_ID) || (StringUtility.isEmpty(obBravo.Full_Name) || "0".equals(obBravo.User_ID))) {
+            AIOLog.e("The incorrect bravo items:" + obBravo.User_ID + ", obBravo.Full_Name:" + obBravo.Full_Name);
+            obBravo.User_ID = mUserInfo.data.User_ID;
+            obBravo.Full_Name = mUserInfo.data.Full_Name;
+            obBravo.Profile_Img_URL = mUserInfo.data.Profile_Img_URL;
+            // }
             obBravos.add(obBravo);
         }
         return obBravos;
@@ -200,7 +201,7 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
                 if (mObGetUserTimeline == null) {
                     onStopPullAndLoadListView();
                     return;
-                } 
+                }
                 AIOLog.d("IOnRefreshListener:" + mObGetUserTimeline.data.size());
                 int size = mObGetUserTimeline.data.size();
                 if (size > 0 && !isOutOfDataLoadMore)

@@ -39,7 +39,6 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
 
     private XListView          mListviewUser       = null;
 
-
     private AdapterUserList    mAdapterUserList    = null;
 
     private HomeActionListener mHomeActionListener = null;
@@ -75,7 +74,7 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
             requestGetLiked(mSessionLogin);
         }
     }
@@ -138,7 +137,7 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
             }
         });
     }
-    
+
     @Override
     public void onClickUserAvatar(String userId) {
         mHomeActionListener.goToUserData(userId);
@@ -151,7 +150,7 @@ public class FragmentLiked extends FragmentBasic implements IClickUserAvatar {
     public void setSpotID(String mSpotID) {
         this.mSpotID = mSpotID;
     }
-    
+
     private void onStopPullAndLoadListView() {
         mListviewUser.stopRefresh();
         mListviewUser.stopLoadMore();

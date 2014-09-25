@@ -110,7 +110,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
             } else if (typeMaker == MAKER_BY_LOCATION_USER) {

@@ -295,10 +295,12 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         super.onHiddenChanged(hidden);
         if (!hidden) {
             if (mSpot.Spot_ID != null) {
-                requestGetSpot(mSpot.Spot_ID);
-                requestGetSpotHistory(mSpot.Spot_ID);
-                requestGetSpotRank(mSpot.Spot_ID);
-                requestGet4squareVenue(mSpot.Spot_FID);
+                if (!isBackStatus()) {
+                    requestGetSpot(mSpot.Spot_ID);
+                    requestGetSpotHistory(mSpot.Spot_ID);
+                    requestGetSpotRank(mSpot.Spot_ID);
+                    requestGet4squareVenue(mSpot.Spot_FID);
+                }
             }
         }
     }

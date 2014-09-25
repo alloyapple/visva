@@ -87,7 +87,7 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && !isBackStatus()) {
             onRequestListHomeNotification();
             putUpdateBadgeNum();
         }
