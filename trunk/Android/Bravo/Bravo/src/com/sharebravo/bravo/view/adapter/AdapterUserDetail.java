@@ -299,12 +299,33 @@ public class AdapterUserDetail extends BaseAdapter {
         TextView textTotalFollowing = (TextView) convertView.findViewById(R.id.text_total_following);
 
         TextView textTotalFans = (TextView) convertView.findViewById(R.id.text_total_fans);
+        final int totalBravos = mObGetUserInfo.data.Total_Bravos;
+        AIOLog.d("totalBravos:" + totalBravos);
+        if (totalBravos <= 0)
+            textTotalBravos.setText(0 + "");
+        else
+            textTotalBravos.setText(totalBravos + "");
+
+        final int totalFollowing = mObGetUserInfo.data.Total_Following;
+        AIOLog.d("totalFollowing:" + totalFollowing);
+        if (totalFollowing <= 0)
+            textTotalFollowing.setText(0 + "");
+        else
+            textTotalFollowing.setText(totalFollowing + "");
+
+        final int totalFans = mObGetUserInfo.data.Total_Followers;
+        AIOLog.d("totalFans:" + totalFans);
+        if (totalFans <= 0)
+            textTotalFans.setText(0 + "");
+        else
+            textTotalFans.setText(totalFans + "");
         LinearLayout btnTotalBravos = (LinearLayout) convertView.findViewById(R.id.btn_bravos);
         btnTotalBravos.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                mListener.goToUserTimeline();
+                if (totalBravos > 0)
+                    mListener.goToUserTimeline();
             }
         });
 
@@ -322,7 +343,8 @@ public class AdapterUserDetail extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                mListener.goToUserFollowing();
+                if (totalFollowing > 0)
+                    mListener.goToUserFollowing();
             }
         });
 
@@ -338,7 +360,8 @@ public class AdapterUserDetail extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                mListener.goToUserFollower();
+                if (totalFans > 0)
+                    mListener.goToUserFollower();
             }
         });
         /*
@@ -350,26 +373,7 @@ public class AdapterUserDetail extends BaseAdapter {
          * }
          * });
          */
-        int totalBravos = mObGetUserInfo.data.Total_Bravos;
-        AIOLog.d("totalBravos:" + totalBravos);
-        if (totalBravos <= 0)
-            textTotalBravos.setText(0 + "");
-        else
-            textTotalBravos.setText(totalBravos + "");
 
-        int totalFollowing = mObGetUserInfo.data.Total_Following;
-        AIOLog.d("totalFollowing:" + totalFollowing);
-        if (totalFollowing <= 0)
-            textTotalFollowing.setText(0 + "");
-        else
-            textTotalFollowing.setText(totalFollowing + "");
-
-        int totalFans = mObGetUserInfo.data.Total_Followers;
-        AIOLog.d("totalFans:" + totalFans);
-        if (totalFans <= 0)
-            textTotalFans.setText(0 + "");
-        else
-            textTotalFans.setText(totalFans + "");
     }
 
     private void loadingUserImageInfo(View convertView, int position) {
@@ -485,9 +489,9 @@ public class AdapterUserDetail extends BaseAdapter {
     }
 
     public void updatePullDownLoadMorePostList(ArrayList<ObBravo> obBravos, boolean isPulDownToRefresh) {
-        if(isPulDownToRefresh){
+        if (isPulDownToRefresh) {
             mObGetTimeLine.addAll(0, obBravos);
-        }else{
+        } else {
             mObGetTimeLine.addAll(obBravos);
         }
         notifyDataSetChanged();
