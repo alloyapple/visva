@@ -685,16 +685,23 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 mTransaction.show(mFragmentNetworkTab);
             else if (previousView.equals(FRAGMENT_SPOT_DETAIL))
                 mTransaction.show(mFragmentSpotDetail);
+            else if (previousView.equals(FRAGMENT_MAP_VIEW)) {
+                mTransaction.show(mFragmentMapView);
+            }
+
         } else if (currentView.equals(FRAGMENT_USER_DATA_TAB) && previousView != null) {
             if (previousView.equals(FRAGMENT_RECENT_POST_DETAIL))
                 mTransaction.show(mFragmentRecentPostDetail);
             else if (previousView.equals(FRAGMENT_HOME_TAB)) {
                 mTransaction.show(mFragmentHomeTab);
-            }
-            else if (previousView.equals(FRAGMENT_NETWORK_TAB)) {
+            } else if (previousView.equals(FRAGMENT_NETWORK_TAB)) {
                 mTransaction.show(mFragmentNetworkTab);
             } else if (previousView.equals(FRAGMENT_SPOT_DETAIL)) {
                 mTransaction.show(mFragmentSpotDetail);
+            }else if (previousView.equals(FRAGMENT_FOLOWING)) {
+                mTransaction.show(mFragmentFollowing);
+            }else if (previousView.equals(FRAGMENT_FOLLOWER)) {
+                mTransaction.show(mFragmentFollower);
             }
 
         } else if (currentView.equals(FRAGMENT_MAP_VIEW)) {
