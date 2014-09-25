@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.internal.me;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
@@ -180,9 +181,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden&& !isBackStatus()) {
             location = getLocation();
-            Toast.makeText(getActivity(), "location =" + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), "location =" + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_LONG).show();
             mMode = SEARCH_FOR_SPOT;
             listViewResult.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);
@@ -232,6 +233,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     layoutQuickSearchOptions.setVisibility(View.GONE);
                     listViewResult.setVisibility(View.VISIBLE);
                     btnBack.setVisibility(View.VISIBLE);
+                    mergeData(mSpots, mObGetSpotSearch.data);
                     mAdapter.updateData(mSpots, ownMode);
                 }
             }
@@ -243,6 +245,22 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         }, params, true);
         getSpotSearch.execute(url);
 
+    }
+
+    public void mergeData(ArrayList<Spot> mF, ArrayList<Spot> mA) {
+        for (int i = 0; i < mA.size(); i++) {
+            for (int j = 0; j < mF.size(); j++)
+            {
+                if (mA.get(i).Spot_FID.equals(mF.get(j).Spot_FID)) {
+                    mF.add(j, mA.get(i));
+                    mA.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+        if (mA.size() > 0)
+            mF.addAll(mA);
     }
 
     public void requestBravoSearch(String nameSpot, final int mode) {

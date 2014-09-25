@@ -688,7 +688,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         View dialog_view = inflater.inflate(R.layout.dialog_following, null);
         Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
         TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
-        txtContent.setText(getActivity().getResources().getString(R.string.content_following).replace("%s%", mObGetUserInfo.data.Full_Name));
+        txtContent.setText(getActivity().getResources().getString(R.string.content_following).replace("%s", mObGetUserInfo.data.Full_Name));
         btnOK.setOnClickListener(new OnClickListener() {
 
             @Override
