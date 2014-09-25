@@ -905,7 +905,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToAddSpot() {
-        showFragment(FRAGMENT_ADD_MYSPOT_ID, false);
+        showFragment(FRAGMENT_INPUT_MYSPOT_ID, false);
     }
 
     @Override
@@ -942,6 +942,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void goToBravoSpot() {
+        // TODO Auto-generated method stub
+        showFragment(FRAGMENT_ADD_MYSPOT_ID, false);
     }
 
 }
