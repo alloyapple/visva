@@ -284,14 +284,23 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
          * if(mTopPanel.isOpen()){ mTopPanel.setOpen(false, true); return; }
          * super.onBackPressed(); backstack.clear(); } return; }
          */
+       
         try {
             mBackstack.remove(mBackstack.size() - 1);
             if (mBackstack.size() == 0) {
-                super.onBackPressed();
-                return;
+                Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+                startActivity(intent);
+                finish();
             }
         } catch (IndexOutOfBoundsException e) {
-            super.onBackPressed();
+            Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+            startActivity(intent);
+            finish();
+        }
+        if (mBackstack.size() == 0) {
+            Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+            startActivity(intent);
+            finish();
             return;
         }
         String currentView = mBackstack.get(mBackstack.size() - 1);
@@ -307,6 +316,10 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             mTransaction.show(mFragmentRegister);
         } else if (currentView.equals(FRAGMENT_REGISTER_USER_INFO)) {
             mTransaction.show(mFragmentRegisterUserInfo);
+        }else{
+            Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+            startActivity(intent);
+            finish();
         }
         AIOLog.d("currentView:" + currentView);
         mTransaction.commitAllowingStateLoss();
@@ -315,44 +328,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
     }
 
     public void onClickBackPersonal(View v) {
-        AIOLog.d("mBackstack=" + mBackstack);
-        /*
-         * if (backstack.size() == 0) { if(mTopPanel.isOpen()){
-         * mTopPanel.setOpen(false, true); return; } super.onBackPressed();
-         * return; } if (backstack.size() == 1) { if
-         * (!backstack.get(0).equals(VIEW_HOME)) { showToast(backstack.get(0));
-         * mTransaction = hideFragment(); mTransaction.show(mFmHome);
-         * backstack.clear(); addToSBackStack(VIEW_HOME); mFmHome.refreshUI();
-         * mTransaction.commitAllowingStateLoss(); } else {
-         * if(mTopPanel.isOpen()){ mTopPanel.setOpen(false, true); return; }
-         * super.onBackPressed(); backstack.clear(); } return; }
-         */
-        try {
-            mBackstack.remove(mBackstack.size() - 1);
-            if (mBackstack.size() == 0) {
-                super.onBackPressed();
-                return;
-            }
-        } catch (IndexOutOfBoundsException e) {
-            super.onBackPressed();
-            return;
-        }
-        String currentView = mBackstack.get(mBackstack.size() - 1);
-        int fragmentAnimationType = 0;
-        mTransaction = hideFragment(fragmentAnimationType);
-        if (currentView.equals(FRAGMENT_BRAVO_LOGIN)) {
-            mTransaction.show(mFragmentBravoLogin);
-        } else if (currentView.equals(FRAGMENT_BRAVO_REGISTER)) {
-            mTransaction.show(mFragmentBravoRegister);
-        } else if (currentView.equals(FRAGMENT_LOGIN)) {
-            mTransaction.show(mFragmentLogin);
-        } else if (currentView.equals(FRAGMENT_REGISTER)) {
-            mTransaction.show(mFragmentRegister);
-        } else if (currentView.equals(FRAGMENT_REGISTER_USER_INFO)) {
-            mTransaction.show(mFragmentRegisterUserInfo);
-        }
-        AIOLog.d("currentView:" + currentView);
-        mTransaction.commitAllowingStateLoss();
+        onBackPressed();
     }
 
     @Override
