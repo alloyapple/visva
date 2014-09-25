@@ -114,12 +114,12 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
             }
         });
         listviewRecentPostDetail.setOnScrollListener(new OnScrollListener() {
-            
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                
+
             }
-            
+
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 adapterRecentPostDetail.parallaxImage(adapterRecentPostDetail.getBackGroundParallax());
@@ -213,7 +213,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                     adapterRecentPostDetail.setBravoOb(mBravoObj);
                     adapterRecentPostDetail.updateMapView();
                     adapterRecentPostDetail.notifyDataSetChanged();
-
+                    requestGetLiked();
                 }
             }
 
@@ -422,7 +422,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 else {
                     AIOLog.e("Spot.data" + mObGetSpot.data);
                     adapterRecentPostDetail.updateLikedandSaved(mObGetSpot.data);
-                    
+
                 }
             }
 
@@ -731,7 +731,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
             requestGetFollowingCheck();
             requestGetMyListItem();
             requestGetComments();
-            requestGetLiked();
+
             requestGetLikeItem();
         }
     }

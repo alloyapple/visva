@@ -44,6 +44,7 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetSpotTimeline;
 import com.sharebravo.bravo.model.response.ObGetSpotTimeline.SpotTimeline;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -76,6 +77,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     HomeActionListener                    mHomeActionListener    = null;
     private SessionLogin                  mSessionLogin          = null;
     private String                        foreignID              = null;
+    private String                        fullName               = null;
     private int                           mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
     private Context                       mContext;
     LayoutInflater                        mLayoutInflater;
@@ -171,32 +173,8 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         map.getUiSettings().setCompassEnabled(true);
         map.getUiSettings().setRotateGesturesEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
-        map.setOnMapClickListener(new OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng arg0) {
-                // TODO Auto-generated method stub
-                if (curMarker != null) {
-                }
-            }
-        });
-        map.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                // TODO Auto-generated method stub
-
-                if (curMarker != null) {
-
-                }
-                else {
-
-                }
-                return true;
-            }
-        });
         getMap().clear();
-        addMaker(latitude, longitude, "");
+        addMaker(latitude, longitude, "").showInfoWindow();
     }
 
     public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
@@ -236,28 +214,18 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
             @Override
             public void onInfoWindowClick(Marker marker) {
 
+                SpotTimeline mSpot = mMakers.get(marker);
+                ObBravo mBravo = new ObBravo();
+                mBravo.Bravo_ID = mSpot.Bravo_ID;
+                mBravo.Spot_Longitude = mSpot.Spot_Longitude;
+                mBravo.Spot_Latitude = mSpot.Spot_Latitude;
+                mBravo.Spot_Name = mSpot.Spot_Name;
+                mBravo.User_ID = foreignID;
+                mBravo.Full_Name = fullName;
+                mHomeActionListener.goToRecentPostDetail(mBravo);
             }
         });
-        getMap().setInfoWindowAdapter(new InfoWindowAdapter() {
-            View window = mLayoutInflater.inflate(R.layout.custom_maker_title, null);
 
-            @Override
-            public View getInfoWindow(Marker marker) {
-
-                SpotTimeline spot = mMakers.get(marker);
-                TextView txtTitle = ((TextView) window.findViewById(R.id.txt_spot_name));
-
-                txtTitle.setText("abc");
-                return window;
-
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-                // this method is not called if getInfoWindow(Marker) does not return null
-                return null;
-            }
-        });
     }
 
     public int getPixelByDp(int dp) {
@@ -274,8 +242,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
         marker.title(name);
         Marker markerObject = getMap().addMarker(marker);
-        marker.snippet(name);
-        markerObject.showInfoWindow();
+        // markerObject.showInfoWindow();
         return markerObject;
     }
 
@@ -405,6 +372,14 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
             }
         }
         return location;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
 }

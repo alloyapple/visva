@@ -76,6 +76,18 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private static final int    REQUEST_CODE_GALLERY     = 2002;
     private static final int    CROP_FROM_CAMERA         = 2003;
 
+//<<<<<<< .mine
+//    private Uri                 mCapturedImageURI        = null;
+//    private Button              mBtnSettings;
+//    private IShowPageSettings   iShowPageSettings;
+//    private XListView           mListViewUserPostProfile = null;
+//    private ObGetUserInfo       mObGetUserInfo;
+//    private AdapterUserDetail   mAdapterUserDataProfile  = null;
+//    ObGetUserTimeline           obGetUserTimeline        = null;
+//    private Button              mBtnBack;
+//    private boolean             isMyData                 = false;
+//    private static int          mUserImageType;
+//=======
     private Uri                 mCapturedImageURI        = null;
     private Button              mBtnSettings;
     private IShowPageSettings   iShowPageSettings;
@@ -85,9 +97,25 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private Button              mBtnBack;
     private boolean             isMyData                 = false;
     private static int          mUserImageType;
+//>>>>>>> .r1180
 
     private OnItemClickListener onItemClick              = new OnItemClickListener() {
 
+//<<<<<<< .mine
+//                                                             @Override
+//                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                                                 if (position > 1) {
+//                                                                     ObBravo mBravo = obGetUserTimeline.data
+//                                                                             .get(position - 2);
+//                                                                     mBravo.Full_Name = mObGetUserInfo.data.Full_Name;
+//                                                                     mHomeActionListener.goToRecentPostDetail(mBravo);
+//                                                                 }
+//                                                             }
+//                                                         };
+//    private SessionLogin        mSessionLogin            = null;
+//    private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+//    private String              foreignID                = "";
+//=======
                                                              @Override
                                                              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                  if (position >= 2)
@@ -97,9 +125,14 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private SessionLogin        mSessionLogin            = null;
     private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
     private String              foreignID                = "";
+//>>>>>>> .r1180
 
+//<<<<<<< .mine
+//    String                      provider;
+//=======
     private ObGetUserTimeline   mObGetUserTimeline;
     private boolean             isOutOfDataLoadMore;
+//>>>>>>> .r1180
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -344,9 +377,16 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 AIOLog.d("obGetUserTimeline:" + response);
                 mListViewUserPostProfile.setVisibility(View.VISIBLE);
                 Gson gson = new GsonBuilder().serializeNulls().create();
+//<<<<<<< .mine
+//
+//                obGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
+//                AIOLog.d("obGetUserTimeline:" + obGetUserTimeline);
+//                if (obGetUserTimeline == null || obGetUserTimeline.data.size() == 0) {
+//=======
                 mObGetUserTimeline = gson.fromJson(response.toString(), ObGetUserTimeline.class);
                 AIOLog.d("obGetUserTimeline:" + mObGetUserTimeline);
                 if (mObGetUserTimeline == null || mObGetUserTimeline.data.size() == 0) {
+//>>>>>>> .r1180
                     mAdapterUserDataProfile.updateRecentPostList(null);
                     return;
                 }
@@ -373,7 +413,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             return;
         for (int i = 0; i < bravoItems.size(); i++) {
             bravoItems.get(i).Last_Pic = bravoItems.get(i).Bravo_Pics.size() > 0 ? bravoItems.get(i).Bravo_Pics.get(0) : "";
-
+            bravoItems.get(i).User_ID = foreignID;
         }
     }
 
@@ -892,7 +932,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToMapView() {
-        mHomeActionListener.goToMapView(mObGetUserInfo.data.User_ID, FragmentMapView.MAKER_BY_LOCATION_USER);
+        mHomeActionListener.goToMapView(mObGetUserInfo.data.User_ID, FragmentMapView.MAKER_BY_LOCATION_USER, mObGetUserInfo.data.Full_Name);
     }
 
     @Override

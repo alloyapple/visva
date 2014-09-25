@@ -19,8 +19,10 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetNotificationSearch;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -81,6 +83,16 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
         mListViewNotifications.stopLoadMore();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            onRequestListHomeNotification();
+            putUpdateBadgeNum();
+        }
+    }
+
     public void onRequestListHomeNotification() {
         int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
@@ -137,6 +149,36 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
             }
         }, params, true);
         getNotificationSearch.execute(url);
+    }
+
+    private void putUpdateBadgeNum() {
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Badge_Num", "0");
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPut postRegister = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after uploading image:" + response);
+                /* go to home screen */
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(putUserUrl);
+
     }
 
     public interface IClosePageHomeNotification {
