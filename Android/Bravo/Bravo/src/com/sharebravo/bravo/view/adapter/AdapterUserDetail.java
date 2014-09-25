@@ -476,6 +476,8 @@ public class AdapterUserDetail extends BaseAdapter {
     }
 
     public void parallaxImage(View view) {
+        if (view == null)
+            return;
         Rect rect = new Rect();
         view.getLocalVisibleRect(rect);
         if (lastTopValueAssigned != rect.top) {
