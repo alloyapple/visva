@@ -61,15 +61,14 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     private Location            mLocation           = null;
     private LocationManager     mLocationManager    = null;
-    private double              mLat, mLong;
     private String              mProvider;
     private Button              mBtnBack            = null;
     private boolean             isOutOfDataLoadMore;
     private OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
                                                         @Override
-                                                        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-                                                            mHomeActionListener.goToRecentPostDetail(mObGetUserTimeline.data.get(pos - 1));
+                                                        public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                                                            mHomeActionListener.goToRecentPostDetail(mObGetUserTimeline.data.get(position - 1));
                                                         }
                                                     };
 
@@ -237,7 +236,7 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
                         isOutOfDataLoadMore = true;
                 } else {
                     ArrayList<ObBravo> obBravos = modifyIncorrectBravoItems(obGetUserTimeline.data);
-                    if (isPulDownToRefresh)
+                    if (!isPulDownToRefresh)
                         mObGetUserTimeline.data.addAll(obBravos);
                     else
                         mObGetUserTimeline.data.addAll(0, obBravos);
@@ -269,10 +268,10 @@ public class FragmentHistory extends FragmentBasic implements IClickUserAvatar, 
 
     @Override
     public void onLocationChanged(Location location) {
-        mLat = location.getLatitude();
-
-        // Getting longitude
-        mLong = location.getLongitude();
+        // mLat = location.getLatitude();
+        //
+        // // Getting longitude
+        // mLong = location.getLongitude();
     }
 
     @Override

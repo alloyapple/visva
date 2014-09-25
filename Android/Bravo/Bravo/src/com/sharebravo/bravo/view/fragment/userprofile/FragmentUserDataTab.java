@@ -90,8 +90,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
                                                              @Override
                                                              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                 if (position >= 2)
-                                                                     mHomeActionListener.goToRecentPostDetail(mObGetUserTimeline.data.get(position));
+                                                                 AIOLog.d("mObGetUserTimeline.data.size:" + mObGetUserTimeline.data.size()
+                                                                         + ",position" + position);
+                                                                 if (position >= 2) {
+                                                                     mHomeActionListener.goToRecentPostDetail(mObGetUserTimeline.data
+                                                                             .get(position - 2));
+                                                                 }
                                                              }
                                                          };
     private SessionLogin        mSessionLogin            = null;
@@ -187,7 +191,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         isOutOfDataLoadMore = true;
                 } else {
                     ArrayList<ObBravo> obBravos = modifyIncorrectBravoItems(obGetUserTimeline.data);
-                    if (isPulDownToRefresh)
+                    if (!isPulDownToRefresh)
                         mObGetUserTimeline.data.addAll(obBravos);
                     else
                         mObGetUserTimeline.data.addAll(0, obBravos);
