@@ -65,7 +65,7 @@ public class AdapterHomeNotification extends BaseAdapter {
         holder._userName = (TextView) convertView.findViewById(R.id.user_name_notify);
         holder._notification = (TextView) convertView.findViewById(R.id.text_notification_description);
         holder._dateTime = (TextView) convertView.findViewById(R.id.text_notification_time);
-        Notification mNo = mNotificationList.get(position);
+        final Notification mNo = mNotificationList.get(position);
         String urlAvatar = "";
         String userName = "Unknow";
         String userID = "";
@@ -73,6 +73,8 @@ public class AdapterHomeNotification extends BaseAdapter {
             userName = mNo.Last_Commenter_Name;
             urlAvatar = mNo.Last_Commenter_Pic;
             userID = mNo.Last_Commenter_ID;
+        } else if (mNo.Notification_Type.equals("bravo")) {
+            userName = mContext.getResources().getString(R.string.app_name);
         } else {
             userName = mNo.Notification_Users.get(0).Full_Name;
             urlAvatar = mNo.Notification_Users.get(0).Profile_Img_URL;
@@ -81,17 +83,21 @@ public class AdapterHomeNotification extends BaseAdapter {
         final String userIDClick = userID;
         holder._userName.setText(userName);
 
-        if (StringUtility.isEmpty(urlAvatar)) {
-            holder._userAvatar.setImageResource(R.drawable.user_picture_default);
-        } else {
-            mImageLoader.DisplayImage(urlAvatar, R.drawable.user_picture_default, holder._userAvatar, true);
-        }
+        if (!mNo.Notification_Type.equals("bravo")) {
+            if (StringUtility.isEmpty(urlAvatar)) {
+                holder._userAvatar.setImageResource(R.drawable.user_picture_default);
+            } else {
+                mImageLoader.DisplayImage(urlAvatar, R.drawable.user_picture_default, holder._userAvatar, true);
+            }
+        } else
+            holder._userAvatar.setImageResource(R.drawable.ic_launcher);
 
         holder._userAvatar.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                iClickUserAvatar.onClickUserAvatar(userIDClick);
+                if (!mNo.Notification_Type.equals("bravo"))
+                    iClickUserAvatar.onClickUserAvatar(userIDClick);
             }
         });
         String notificationContent = "";

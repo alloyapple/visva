@@ -19,7 +19,7 @@ public interface HomeActionListener {
 
     public void goToMapView(String lat, String log, int locationType);
 
-    public void goToMapView(String foreignID, int locationType);
+    public void goToMapView(String foreignID, int locationType, String fullName);
 
     public void goToUserTimeLine(ObGetUserInfo userInfo);
 

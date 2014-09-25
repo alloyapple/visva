@@ -115,7 +115,9 @@ public class AdapterUserDetail extends BaseAdapter {
 
             // set observer to view
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
-            String imgSpotUrl = obGetBravo.Last_Pic;
+            String imgSpotUrl = null;
+            if (obGetBravo.Bravo_Pics.size() > 0)
+                imgSpotUrl = obGetBravo.Bravo_Pics.get(0);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.recent_post_none_img);

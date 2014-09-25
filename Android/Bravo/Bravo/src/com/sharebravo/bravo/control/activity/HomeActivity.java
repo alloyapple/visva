@@ -436,19 +436,31 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case FRAGMENT_HOME_TAB_ID:
             mTransaction.show(mFragmentHomeTab);
             addToSBackStack(FRAGMENT_HOME_TAB);
+            hideTabButton();
+            btnHome.setBackgroundResource(R.drawable.tab_home_on);
+            txtHome.setTextColor(Color.WHITE);
             break;
 
         case FRAGMENT_NETWORK_TAB_ID:
             mTransaction.show(mFragmentNetworkTab);
             addToSBackStack(FRAGMENT_NETWORK_TAB);
+            hideTabButton();
+            btnNetwork.setBackgroundResource(R.drawable.tab_home_on);
+            txtNetwork.setTextColor(Color.WHITE);
             break;
         case FRAGMENT_SEARCH_TAB_ID:
             mTransaction.show(mFragmentSearchTab);
             addToSBackStack(FRAGMENT_SEARCH_TAB);
+            hideTabButton();
+            btnSearch.setBackgroundResource(R.drawable.tab_home_on);
+            txtSearch.setTextColor(Color.WHITE);
             break;
         case FRAGMENT_USER_DATA_TAB_ID:
             mTransaction.show(mFragmentUserDataTab);
             addToSBackStack(FRAGMENT_USER_DATA_TAB);
+            hideTabButton();
+            btnMyData.setBackgroundResource(R.drawable.tab_home_on);
+            txtMyData.setTextColor(Color.WHITE);
             break;
         case FRAGMENT_RECENT_POST_DETAIL_ID:
             mTransaction.show(mFragmentRecentPostDetail);
@@ -635,7 +647,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         if (obGetBravo == null)
             return;
         AIOLog.d("obGetBravo:" + obGetBravo);
-        hideTabButton();
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);
         showFragment(FRAGMENT_RECENT_POST_DETAIL_ID);
         // btnHome.setBackgroundResource(R.drawable.tab_home_on);
@@ -663,8 +674,17 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction = hideFragment();
 
         Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
-        if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL)) {
-            mTransaction.show(mFragmentHomeTab);
+        if (currentView.equals(FRAGMENT_RECENT_POST_DETAIL) && previousView != null) {
+            if (previousView.equals(FRAGMENT_HOME_TAB))
+                mTransaction.show(mFragmentHomeTab);
+            else if (previousView.equals(FRAGMENT_USER_DATA_TAB))
+                mTransaction.show(mFragmentUserDataTab);
+            else if (previousView.equals(FRAGMENT_HISTORY))
+                mTransaction.show(mFragmentHistory);
+            else if (previousView.equals(FRAGMENT_NETWORK_TAB))
+                mTransaction.show(mFragmentNetworkTab);
+            else if (previousView.equals(FRAGMENT_SPOT_DETAIL))
+                mTransaction.show(mFragmentSpotDetail);
         } else if (currentView.equals(FRAGMENT_USER_DATA_TAB) && previousView != null) {
             if (previousView.equals(FRAGMENT_RECENT_POST_DETAIL))
                 mTransaction.show(mFragmentRecentPostDetail);
@@ -704,6 +724,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentSearchTab);
         } else if (currentView.equals(FRAGMENT_LOCATE_MYSPOT)) {
             mTransaction.show(mFragmentInputMySpot);
+        } else if (currentView.equals(FRAGMENT_HOME_NOTIFICATION)) {
+            mTransaction.show(mFragmentHomeTab);
         } else if (currentView.equals(FRAGMENT_HOME_TAB) || currentView.equals(FRAGMENT_NETWORK_TAB)
                 || currentView.equals(FRAGMENT_SEARCH_TAB)) {
             super.onBackPressed();
@@ -716,7 +738,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToFragment(int fragmentID) {
-        hideTabButton();
         showFragment(fragmentID);
     }
 
@@ -738,7 +759,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void showPageHomeNotification() {
         goToFragment(FRAGMENT_HOME_NOTIFICATION_ID);
-        mFragmentHomeNotification.onRequestListHomeNotification();
+        // mFragmentHomeNotification.onRequestListHomeNotification();
     }
 
     @Override
@@ -1019,9 +1040,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToMapView(String foreignID, int locationType) {
+    public void goToMapView(String foreignID, int locationType, String fullName) {
         mFragmentMapView.setForeignID(foreignID);
         mFragmentMapView.setTypeMaker(locationType);
+        mFragmentMapView.setFullName(fullName);
         showFragment(FRAGMENT_MAP_VIEW_ID);
     }
 
@@ -1069,7 +1091,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         // TODO Auto-generated method stub
         showFragment(FRAGMENT_AFTER_BRAVO_ID);
     }
-
 
     @Override
     public void requestToLoginSNS(String snsType) {
