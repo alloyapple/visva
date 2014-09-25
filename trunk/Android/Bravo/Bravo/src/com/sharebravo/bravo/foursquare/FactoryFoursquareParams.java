@@ -30,4 +30,25 @@ public class FactoryFoursquareParams {
         parameters.add(new BasicNameValuePair("limit", "20"));
         return parameters;
     }
+
+    public static List<NameValuePair> createSubParamsRequestSearchArroundMe(double _lat, double _long, String _query) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("client_id", client_id));
+        parameters.add(new BasicNameValuePair("client_secret", client_secret));
+        parameters.add(new BasicNameValuePair("v", v + ""));
+        parameters.add(new BasicNameValuePair("ll", _lat + "," + _long));
+        parameters.add(new BasicNameValuePair("query", _query));
+        parameters.add(new BasicNameValuePair("limit", "20"));
+        return parameters;
+    }
+
+    public static List<NameValuePair> createSubParamsRequestSearchArroundMe(double _lat, double _long) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("client_id", client_id));
+        parameters.add(new BasicNameValuePair("client_secret", client_secret));
+        parameters.add(new BasicNameValuePair("v", v + ""));
+        parameters.add(new BasicNameValuePair("ll", _lat + "," + _long));
+        parameters.add(new BasicNameValuePair("limit", "20"));
+        return parameters;
+    }
 }

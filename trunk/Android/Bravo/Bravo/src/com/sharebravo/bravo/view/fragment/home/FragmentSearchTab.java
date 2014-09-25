@@ -142,6 +142,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
                 mMode = SEARCH_ARROUND_ME;
+                requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
             }
         });
         btnPeopleFollowing = (TextView) root.findViewById(R.id.text_people_following);
@@ -284,10 +285,18 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     }
 
-    private void requestGet4squareVenueSearch(String query) {
+    private void requestGet4squareVenueSearch(String query, int mode) {
         String url = BravoWebServiceConfig.URL_FOURSQUARE_GET_VENUE_SEARCH;
-        List<NameValuePair> params = FactoryFoursquareParams
-                .createSubParamsRequestSearchVenue(location.getLatitude(), location.getLongitude(), query);
+        List<NameValuePair> params = null;
+        if (mode == SEARCH_FOR_SPOT)
+            params = FactoryFoursquareParams
+                    .createSubParamsRequestSearchVenue(location.getLatitude(), location.getLongitude(), query);
+        if (mode == SEARCH_ARROUND_ME)
+            params = FactoryFoursquareParams
+                    .createSubParamsRequestSearchArroundMe(location.getLatitude(), location.getLongitude());
+        if (mode == SEARCH_ARROUND_KEY)
+            params = FactoryFoursquareParams
+                    .createSubParamsRequestSearchArroundMe(location.getLatitude(), location.getLongitude(), query);
         FAsyncHttpGet request = new FAsyncHttpGet(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
             @Override
             public void processIfResponseSuccess(String response) {
@@ -427,12 +436,13 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     public void onSearch(String key) {
         if (mMode == SEARCH_FOR_SPOT) {
-            requestGet4squareVenueSearch(key);
+            requestGet4squareVenueSearch(key, SEARCH_FOR_SPOT);
 
         } else if (mMode == SEARCH_LOCAL_BRAVO) {
             requestBravoSearch(key, SEARCH_LOCAL_BRAVO_KEY);
         }
         else if (mMode == SEARCH_ARROUND_ME) {
+            requestGet4squareVenueSearch(key, SEARCH_ARROUND_KEY);
         }
         else if (mMode == SEARCH_PEOPLE_FOLLOWING) {
             requestBravoSearch(key, SEARCH_PEOPLE_FOLLOWING_KEY);
