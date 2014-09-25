@@ -10,24 +10,32 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.foursquare.imgloader.ImageLoader;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.utils.StringUtility;
 
 public class AdapterSearchSpotResult extends BaseAdapter {
-    private FragmentActivity   mContext     = null;
-    private ImageLoader        mImageLoader = null;
-    private ArrayList<Spot>    mSpots       = new ArrayList<Spot>();
+    public static int          SEARCH_FOR_SPOT             = 0;
+    public static int          SEARCH_LOCAL_BRAVO          = 1;
+    public static int          SEARCH_LOCAL_BRAVO_KEY      = 2;
+    public static int          SEARCH_ARROUND_ME           = 3;
+    public static int          SEARCH_ARROUND_KEY          = 4;
+    public static int          SEARCH_PEOPLE_FOLLOWING     = 5;
+    public static int          SEARCH_PEOPLE_FOLLOWING_KEY = 6;
+    private FragmentActivity   mContext                    = null;
+    private ImageLoader        mImageLoader                = null;
+    private ArrayList<Spot>    mSpots                      = new ArrayList<Spot>();
     private SpotSearchListener listener;
+    private int                mMode                       = SEARCH_LOCAL_BRAVO;
 
     public AdapterSearchSpotResult(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
-        mImageLoader = MyApplication.getInstance().getImageLoader();
+        // mImageLoader = MyApplication.getInstance().getImageLoader();
+        mImageLoader = new ImageLoader(fragmentActivity);
     }
 
     @Override
@@ -45,7 +53,8 @@ public class AdapterSearchSpotResult extends BaseAdapter {
         return arg0;
     }
 
-    TextView btnAddSpot;
+    TextView     btnAddSpot;
+    LinearLayout layoutBtnAddSpot;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parentView) {
@@ -53,6 +62,11 @@ public class AdapterSearchSpotResult extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.layout_search_result_footer, null);
             btnAddSpot = (TextView) convertView.findViewById(R.id.text_find_nothing);
+            layoutBtnAddSpot = (LinearLayout) convertView.findViewById(R.id.layout_find_nothing);
+            if (mMode == SEARCH_LOCAL_BRAVO || mMode == SEARCH_PEOPLE_FOLLOWING || mMode == SEARCH_ARROUND_ME)
+                layoutBtnAddSpot.setVisibility(View.GONE);
+            else
+                layoutBtnAddSpot.setVisibility(View.VISIBLE);
             btnAddSpot.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -66,7 +80,7 @@ public class AdapterSearchSpotResult extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.row_search_spot_result, null);
             ViewHolder holder = new ViewHolder();
-            holder.spotAvatar = (NetworkImageView) convertView.findViewById(R.id.img_avatar_spot);
+            holder.spotAvatar = (ImageView) convertView.findViewById(R.id.img_avatar_spot);
             holder.spotName = (TextView) convertView.findViewById(R.id.txt_spot_name);
             holder.numberBravos = (TextView) convertView.findViewById(R.id.text_number_bravo);
             holder.spotName.setText(mSpots.get(position).Spot_Name);
@@ -74,9 +88,7 @@ public class AdapterSearchSpotResult extends BaseAdapter {
             if (StringUtility.isEmpty(mSpots.get(position).Spot_Icon)) {
                 holder.spotAvatar.setImageResource(R.drawable.place_icon);
             } else {
-                holder.spotAvatar.setErrorImageResId(R.drawable.place_icon);
-                holder.spotAvatar.setImageUrl(mSpots.get(position).Last_Pic, mImageLoader);
-
+                mImageLoader.DisplayImage(mSpots.get(position).Spot_Icon, R.drawable.place_icon, holder.spotAvatar);
             }
             holder.spotAvatar.setOnClickListener(new View.OnClickListener() {
 
@@ -91,8 +103,9 @@ public class AdapterSearchSpotResult extends BaseAdapter {
         return convertView;
     }
 
-    public void updateData(ArrayList<Spot> mSpots) {
+    public void updateData(ArrayList<Spot> mSpots, int mode) {
         this.mSpots = mSpots;
+        this.mMode = mode;
         notifyDataSetChanged();
     }
 
@@ -105,8 +118,8 @@ public class AdapterSearchSpotResult extends BaseAdapter {
     }
 
     class ViewHolder {
-        NetworkImageView spotAvatar;
-        TextView         spotName;
-        TextView         numberBravos;
+        ImageView spotAvatar;
+        TextView  spotName;
+        TextView  numberBravos;
     }
 }

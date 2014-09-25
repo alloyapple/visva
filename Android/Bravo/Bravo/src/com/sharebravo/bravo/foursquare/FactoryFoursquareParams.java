@@ -31,22 +31,26 @@ public class FactoryFoursquareParams {
         return parameters;
     }
 
-    public static List<NameValuePair> createSubParamsRequestSearchArroundMe(double _lat, double _long, String _query) {
+    public static List<NameValuePair> createSubParamsRequestSearchArroundMe(double _lat, double _long, String categoryIds) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("client_id", client_id));
         parameters.add(new BasicNameValuePair("client_secret", client_secret));
         parameters.add(new BasicNameValuePair("v", v + ""));
+        parameters.add(new BasicNameValuePair("intent", "browse"));
         parameters.add(new BasicNameValuePair("ll", _lat + "," + _long));
-        parameters.add(new BasicNameValuePair("query", _query));
+        parameters.add(new BasicNameValuePair("radius", "3000"));
+        parameters.add(new BasicNameValuePair("categoryId", categoryIds));
         parameters.add(new BasicNameValuePair("limit", "20"));
         return parameters;
     }
 
-    public static List<NameValuePair> createSubParamsRequestSearchArroundMe(double _lat, double _long) {
+    public static List<NameValuePair> createSubParamsRequestSearchArroundMeQuery(double _lat, double _long, String _query) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("client_id", client_id));
         parameters.add(new BasicNameValuePair("client_secret", client_secret));
         parameters.add(new BasicNameValuePair("v", v + ""));
+        parameters.add(new BasicNameValuePair("query", _query));
+        parameters.add(new BasicNameValuePair("intent", "global"));
         parameters.add(new BasicNameValuePair("ll", _lat + "," + _long));
         parameters.add(new BasicNameValuePair("limit", "20"));
         return parameters;
