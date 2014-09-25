@@ -56,18 +56,19 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 
 public class FragmentSearchTab extends FragmentBasic implements LocationListener, SpotSearchListener {
     public static int               SEARCH_FOR_SPOT             = 0;
-    public static int               SEARCH_LOCAL_BRAVO          = 2;
-    public static int               SEARCH_LOCAL_BRAVO_KEY      = 3;
+    public static int               SEARCH_LOCAL_BRAVO          = 1;
+    public static int               SEARCH_LOCAL_BRAVO_KEY      = 2;
     public static int               SEARCH_ARROUND_ME           = 3;
-    public static int               SEARCH_ARROUND_KEY          = 5;
-    public static int               SEARCH_PEOPLE_FOLLOWING     = 6;
-    public static int               SEARCH_PEOPLE_FOLLOWING_KEY = 7;
+    public static int               SEARCH_ARROUND_KEY          = 4;
+    public static int               SEARCH_PEOPLE_FOLLOWING     = 5;
+    public static int               SEARCH_PEOPLE_FOLLOWING_KEY = 6;
     private SessionLogin            mSessionLogin               = null;
     private int                     mLoginBravoViaType          = BravoConstant.NO_LOGIN_SNS;
     private EditText                textboxSearch               = null;
     private LinearLayout            layoutQuickSearchOptions    = null;
     private AdapterSearchSpotResult mAdapter;
     private XListView               listViewResult;
+    private static final String     CategoryIDs                 = "4bf58dd8d48988d1e7931735,4bf58dd8d48988d1e8931735,4bf58dd8d48988d1a1941735,4d4b7105d754a06374d81259,4d4b7105d754a06376d81259,4bf58dd8d48988d160941735,4d4b7105d754a06378d81259,4bf58dd8d48988d1fa931735,4bf58dd8d48988d104941735";
     private Button                  btnBack;
     private TextView                btnLocalBravos;
     private TextView                btnAroundMe;
@@ -108,6 +109,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         layoutQuickSearchOptions = (LinearLayout) root.findViewById(R.id.layout_quicksearch_options);
         listViewResult = (XListView) root.findViewById(R.id.listview_result_search);
         listViewResult.setOnItemClickListener(iSpotClickListener);
+        listViewResult.setFooterDividersEnabled(false);
         mAdapter = new AdapterSearchSpotResult(getActivity());
         mAdapter.setListener(this);
         listViewResult.setAdapter(mAdapter);
@@ -193,7 +195,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         super.onResume();
     }
 
-    public void requestSpotSearch(ArrayList<String> mVenues) {
+    public void requestSpotSearch(ArrayList<String> mVenues, final int mode) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         AIOLog.d("mUserId:" + mSessionLogin.userID + ", mAccessToken:" + mSessionLogin.accessToken);
@@ -202,14 +204,21 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             accessToken = "";
         }
         HashMap<String, Object> subParams = new HashMap<String, Object>();
-        // subParams.put("Start", "0");
-        subParams.put("FID", mVenues);
-        subParams.put("Source", "foursquare");
+        if (mode == SEARCH_FOR_SPOT || mode == SEARCH_ARROUND_KEY) {
+            subParams.put("FID", mVenues);
+            subParams.put("Source", "foursquare");
+        }
+        if (mode == SEARCH_ARROUND_ME) {
+            subParams.put("Start", "0");
+            subParams.put("Location", (float) location.getLongitude() + "," + (float) location.getLatitude());
+        }
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;
         List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getSpotSearch = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            final int ownMode = mode;
+
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("getSpotSearch:" + response);
@@ -223,8 +232,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     layoutQuickSearchOptions.setVisibility(View.GONE);
                     listViewResult.setVisibility(View.VISIBLE);
                     btnBack.setVisibility(View.VISIBLE);
-                    // addSpotIconDefault(mObGetSpotSearch.data);
-                    mAdapter.updateData(mSpots);
+                    mAdapter.updateData(mSpots, ownMode);
                 }
             }
 
@@ -237,7 +245,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     }
 
-    public void requestBravoSearch(String nameSpot, int mode) {
+    public void requestBravoSearch(String nameSpot, final int mode) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         AIOLog.d("mUserId:" + mSessionLogin.userID + ", mAccessToken:" + mSessionLogin.accessToken);
@@ -248,16 +256,17 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Start", "0");
         subParams.put("Location", (float) location.getLongitude() + "," + (float) location.getLatitude());
-        if (mode == SEARCH_LOCAL_BRAVO)
+        if (mode == SEARCH_LOCAL_BRAVO || mode == SEARCH_LOCAL_BRAVO_KEY)
             subParams.put("Global", "TRUE");
         if (mode == SEARCH_LOCAL_BRAVO_KEY || mode == SEARCH_PEOPLE_FOLLOWING_KEY)
             subParams.put("Name", nameSpot);
         JSONObject subParamsJson = new JSONObject(subParams);
-
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_BRAVO_SEARCH;
         List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getBravoSearch = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            int ownMode = mode;
+
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("getBravoSearch:" + response);
@@ -272,7 +281,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     btnBack.setVisibility(View.VISIBLE);
                     addSpotIconDefault(mObGetSpotSearch.data);
                     mSpots = mObGetSpotSearch.data;
-                    mAdapter.updateData(mSpots);
+                    mAdapter.updateData(mSpots, ownMode);
                 }
             }
 
@@ -285,7 +294,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     }
 
-    private void requestGet4squareVenueSearch(String query, int mode) {
+    private void requestGet4squareVenueSearch(String query, final int mode) {
         String url = BravoWebServiceConfig.URL_FOURSQUARE_GET_VENUE_SEARCH;
         List<NameValuePair> params = null;
         if (mode == SEARCH_FOR_SPOT)
@@ -293,11 +302,13 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     .createSubParamsRequestSearchVenue(location.getLatitude(), location.getLongitude(), query);
         if (mode == SEARCH_ARROUND_ME)
             params = FactoryFoursquareParams
-                    .createSubParamsRequestSearchArroundMe(location.getLatitude(), location.getLongitude());
+                    .createSubParamsRequestSearchArroundMe(location.getLatitude(), location.getLongitude(), CategoryIDs);
         if (mode == SEARCH_ARROUND_KEY)
             params = FactoryFoursquareParams
-                    .createSubParamsRequestSearchArroundMe(location.getLatitude(), location.getLongitude(), query);
+                    .createSubParamsRequestSearchArroundMeQuery(location.getLatitude(), location.getLongitude(), query);
         FAsyncHttpGet request = new FAsyncHttpGet(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+            final int ownMode = mode;
+
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("mOFGetVenueSearch:" + response);
@@ -326,7 +337,8 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                         newSpot.Spot_Type = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
                         mSpots.add(newSpot);
                     }
-                    requestSpotSearch(fids);
+
+                    requestSpotSearch(fids, ownMode);
                 }
             }
 
@@ -437,7 +449,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     public void onSearch(String key) {
         if (mMode == SEARCH_FOR_SPOT) {
             requestGet4squareVenueSearch(key, SEARCH_FOR_SPOT);
-
         } else if (mMode == SEARCH_LOCAL_BRAVO) {
             requestBravoSearch(key, SEARCH_LOCAL_BRAVO_KEY);
         }
