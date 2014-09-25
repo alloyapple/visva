@@ -269,6 +269,51 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         AIOLog.d("mBackstack size:" + mBackstack.size());
     }
 
+    @Override
+    public void onBackPressed() {
+
+        AIOLog.d("mBackstack=" + mBackstack);
+        /*
+         * if (backstack.size() == 0) { if(mTopPanel.isOpen()){
+         * mTopPanel.setOpen(false, true); return; } super.onBackPressed();
+         * return; } if (backstack.size() == 1) { if
+         * (!backstack.get(0).equals(VIEW_HOME)) { showToast(backstack.get(0));
+         * mTransaction = hideFragment(); mTransaction.show(mFmHome);
+         * backstack.clear(); addToSBackStack(VIEW_HOME); mFmHome.refreshUI();
+         * mTransaction.commitAllowingStateLoss(); } else {
+         * if(mTopPanel.isOpen()){ mTopPanel.setOpen(false, true); return; }
+         * super.onBackPressed(); backstack.clear(); } return; }
+         */
+        try {
+            mBackstack.remove(mBackstack.size() - 1);
+            if (mBackstack.size() == 0) {
+                super.onBackPressed();
+                return;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            super.onBackPressed();
+            return;
+        }
+        String currentView = mBackstack.get(mBackstack.size() - 1);
+        int fragmentAnimationType = 0;
+        mTransaction = hideFragment(fragmentAnimationType);
+        if (currentView.equals(FRAGMENT_BRAVO_LOGIN)) {
+            mTransaction.show(mFragmentBravoLogin);
+        } else if (currentView.equals(FRAGMENT_BRAVO_REGISTER)) {
+            mTransaction.show(mFragmentBravoRegister);
+        } else if (currentView.equals(FRAGMENT_LOGIN)) {
+            mTransaction.show(mFragmentLogin);
+        } else if (currentView.equals(FRAGMENT_REGISTER)) {
+            mTransaction.show(mFragmentRegister);
+        } else if (currentView.equals(FRAGMENT_REGISTER_USER_INFO)) {
+            mTransaction.show(mFragmentRegisterUserInfo);
+        }
+        AIOLog.d("currentView:" + currentView);
+        mTransaction.commitAllowingStateLoss();
+    
+        //super.onBackPressed();
+    }
+
     public void onClickBackPersonal(View v) {
         AIOLog.d("mBackstack=" + mBackstack);
         /*
@@ -460,7 +505,7 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        if (user == null){
+        if (user == null) {
             AIOLog.e("user twitter is null");
             return;
         }
