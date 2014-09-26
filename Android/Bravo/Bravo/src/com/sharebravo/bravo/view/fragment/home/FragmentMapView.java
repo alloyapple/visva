@@ -26,14 +26,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -98,7 +95,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -108,13 +104,15 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
             } else if (typeMaker == MAKER_BY_LOCATION_USER) {
                 location = getLocation();
+                if (location == null)
+                    return;
+                changeLocation(location.getLatitude(), location.getLongitude());
                 requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
             }
         }
@@ -174,7 +172,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         map.getUiSettings().setRotateGesturesEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
         getMap().clear();
-        addMaker(latitude, longitude, "").showInfoWindow();
+        //addMaker(latitude, longitude, "").showInfoWindow();
     }
 
     public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
@@ -194,7 +192,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
             @Override
             public void onMapClick(LatLng arg0) {
-                // TODO Auto-generated method stub
                 if (curMarker != null) {
                 }
             }
@@ -297,13 +294,11 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
     @Override
     public void onProviderEnabled(String arg0) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-        // TODO Auto-generated method stub
 
     }
 
