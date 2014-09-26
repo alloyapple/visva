@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.internal.me;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
@@ -78,7 +77,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     private int                     mMode;
     private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
-    private ObGetSpotSearch         mObGetSpotSearch            = null;
+//    private ObGetSpotSearch         mObGetSpotSearch            = null;
     Location                        location                    = null;
     LocationManager                 locationManager             = null;
     private OnItemClickListener     iSpotClickListener          = new OnItemClickListener() {
@@ -225,14 +224,14 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             accessToken = "";
         }
         HashMap<String, Object> subParams = new HashMap<String, Object>();
-        if (mode == SEARCH_FOR_SPOT || mode == SEARCH_ARROUND_KEY) {
-            subParams.put("FID", mVenues);
-            subParams.put("Source", "foursquare");
-        }
-        if (mode == SEARCH_ARROUND_ME) {
-            subParams.put("Start", "0");
-            subParams.put("Location", (float) location.getLongitude() + "," + (float) location.getLatitude());
-        }
+        // if (mode == SEARCH_FOR_SPOT || mode == SEARCH_ARROUND_KEY) {
+        subParams.put("FID", mVenues);
+        subParams.put("Source", "foursquare");
+        // }
+        // if (mode == SEARCH_ARROUND_ME) {
+        // subParams.put("Start", "0");
+        // subParams.put("Location", (float) location.getLongitude() + "," + (float) location.getLatitude());
+        // }
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;
@@ -245,7 +244,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 AIOLog.d("getSpotSearch:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
 
-                mObGetSpotSearch = gson.fromJson(response.toString(), ObGetSpotSearch.class);
+                ObGetSpotSearch mObGetSpotSearch = gson.fromJson(response.toString(), ObGetSpotSearch.class);
                 AIOLog.d("mObGetSpotSearch:" + mObGetSpotSearch);
                 if (mObGetSpotSearch == null) {
                     return;
@@ -267,12 +266,28 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     }
 
+    private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
+        float pk = (float) (180 / 3.14169);
+
+        float a1 = lat_a / pk;
+        float a2 = lng_a / pk;
+        float b1 = lat_b / pk;
+        float b2 = lng_b / pk;
+
+        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
+        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
+        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
+        double tt = Math.acos(t1 + t2 + t3);
+
+        return 6366000 * tt / 1000;
+    }
+
     public void mergeData(ArrayList<Spot> mF, ArrayList<Spot> mA) {
         for (int i = 0; i < mA.size(); i++) {
             for (int j = 0; j < mF.size(); j++)
             {
                 if (mA.get(i).Spot_FID.equals(mF.get(j).Spot_FID)) {
-                    mF.add(j, mA.get(i));
+                    mF.set(j, mA.get(i));
                     mA.remove(i);
                     i--;
                     break;
@@ -281,6 +296,33 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         }
         if (mA.size() > 0)
             mF.addAll(mA);
+         sortSpotWithDistance(mF);
+    }
+
+    public void sortSpotWithDistance(ArrayList<Spot> mF) {
+        float lLat = (float) location.getLatitude();
+        float lLon = (float) location.getLongitude();
+        int n = mF.size();
+        int i, j, min;
+        // Spot temp = new Spot();
+        for (i = 0; i < n - 1; i++) {
+            min = i;
+            for (j = i + 1; j < n; j++) {
+                double dI = gps2m(lLat, lLon, (float) mF.get(i).Spot_Latitude, (float) mF.get(i).Spot_Latitude);
+                double dJ = gps2m(lLat, lLon, (float) mF.get(j).Spot_Latitude, (float) mF.get(j).Spot_Latitude);
+                if (dJ < dI)
+                    min = j;
+            }
+            swap(mF, i, min);
+        }
+    }
+
+    public void swap(ArrayList<Spot> mF, int i, int j) {
+        Spot temp = new Spot();
+        temp = mF.get(i);
+        mF.set(i, mF.get(j));
+        mF.set(j, temp);
+        
     }
 
     public void requestBravoSearch(String nameSpot, final int mode) {
@@ -309,7 +351,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("getBravoSearch:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                mObGetSpotSearch = gson.fromJson(response.toString(), ObGetSpotSearch.class);
+                ObGetSpotSearch mObGetSpotSearch = gson.fromJson(response.toString(), ObGetSpotSearch.class);
                 AIOLog.d("getBravoSearch:" + mObGetSpotSearch);
                 if (mObGetSpotSearch == null) {
                     return;

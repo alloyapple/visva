@@ -149,6 +149,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         this.mBravoObj = obj;
         FragmentMapViewCover.mLat = mBravoObj.Spot_Latitude;
         FragmentMapViewCover.mLong = mBravoObj.Spot_Longitude;
+        adapterRecentPostDetail.updateMapView();
         adapterRecentPostDetail.setBravoOb(mBravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
 
@@ -204,7 +205,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetBravo obGetBravo;
                 obGetBravo = gson.fromJson(response.toString(), ObGetBravo.class);
-                AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo); 
+                AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo);
                 if (obGetBravo == null)
                     return;
                 else {
@@ -212,7 +213,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                     mBravoObj = obGetBravo.data;
                     mBravoObj.Last_Pic = Last_Pic;
                     adapterRecentPostDetail.setBravoOb(mBravoObj);
-                    adapterRecentPostDetail.updateMapView();
+
                     adapterRecentPostDetail.notifyDataSetChanged();
                     requestGetLiked();
                 }
@@ -766,7 +767,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater(); 
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_call_spot, null);
         TextView content = (TextView) dialog_view.findViewById(R.id.call_spot_dialog_content);
         content.setText("Call " + mBravoObj.Spot_Name + "?");
