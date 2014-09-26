@@ -423,7 +423,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     @Override
     public void tapToBravo() {
         // TODO Auto-generated method stub
-        mHomeActionListener.goToBravoSpot();
+        mHomeActionListener.goToBravoSpot(mSpot.Spot_Latitude, mSpot.Spot_Longitude);
     }
 
     @Override

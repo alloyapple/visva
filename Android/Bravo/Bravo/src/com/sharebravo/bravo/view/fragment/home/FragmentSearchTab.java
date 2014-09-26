@@ -54,6 +54,7 @@ import com.sharebravo.bravo.view.adapter.AdapterSearchSpotResult;
 import com.sharebravo.bravo.view.adapter.SpotSearchListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentSearchTab extends FragmentBasic implements LocationListener, SpotSearchListener {
     public static int               SEARCH_FOR_SPOT             = 0;
@@ -110,6 +111,20 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         layoutQuickSearchOptions = (LinearLayout) root.findViewById(R.id.layout_quicksearch_options);
         listViewResult = (XListView) root.findViewById(R.id.listview_result_search);
         listViewResult.setOnItemClickListener(iSpotClickListener);
+        listViewResult.setXListViewListener(new IXListViewListener() {
+
+            @Override
+            public void onRefresh() {
+                onStopPullAndLoadListView();
+            }
+
+            @Override
+            public void onLoadMore() {
+                AIOLog.d("IOnRefreshListener");
+
+                onStopPullAndLoadListView();
+            }
+        });
         listViewResult.setFooterDividersEnabled(false);
         mAdapter = new AdapterSearchSpotResult(getActivity());
         mAdapter.setListener(this);
@@ -169,6 +184,11 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         return root;
     }
 
+    private void onStopPullAndLoadListView() {
+        listViewResult.stopRefresh();
+        listViewResult.stopLoadMore();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,9 +201,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        if (!hidden&& !isBackStatus()) {
+        if (!hidden && !isBackStatus()) {
             location = getLocation();
-//            Toast.makeText(getActivity(), "location =" + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_LONG).show();
+            // Toast.makeText(getActivity(), "location =" + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_LONG).show();
             mMode = SEARCH_FOR_SPOT;
             listViewResult.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);

@@ -32,23 +32,26 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
+import com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation;
 
-public class FragmentAddMySpot extends FragmentMapBasic implements LocationListener {
-    public static final int  MAKER_BY_LOCATION_SPOT = 0;
-    public static final int  MAKER_BY_LOCATION_USER = 1;
+public class FragmentBravoSpot extends FragmentMapBasic implements LocationListener {
+    public static final int  MAKER_BY_LOCATION_SPOT            = 0;
+    public static final int  MAKER_BY_LOCATION_USER            = 1;
+
+    public static final int  REQUEST_SHOW_BRAVO_JUMP_ANIMATION = 6001;
 
     private GoogleMap        map;
-    private Marker           curMarker              = null;
+    private Marker           curMarker                         = null;
 
     private int              typeMaker;
-    // private double mLat, mLong;
+    private double           mLat, mLong;
 
     private View             mOriginalContentView;
     private TouchableWrapper mTouchView;
-    Location                 location               = null;
-    LocationManager          locationManager        = null;
-    Button                   btnBack                = null;
-    HomeActionListener       mHomeActionListener    = null;
+    Location                 location                          = null;
+    LocationManager          locationManager                   = null;
+    Button                   btnBack                           = null;
+    HomeActionListener       mHomeActionListener               = null;
     Button                   btnYes, btnNo;
 
     @Override
@@ -78,7 +81,10 @@ public class FragmentAddMySpot extends FragmentMapBasic implements LocationListe
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                mHomeActionListener.goToAfterBravo();
+                map.clear();
+                Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivityForResult(intent, REQUEST_SHOW_BRAVO_JUMP_ANIMATION);
             }
         });
         btnNo = (Button) mView.findViewById(R.id.btn_no);
@@ -99,8 +105,8 @@ public class FragmentAddMySpot extends FragmentMapBasic implements LocationListe
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
-            location = getLocation();
-            changeLocation(location.getLatitude(), location.getLongitude());
+//            location = getLocation();
+            changeLocation(mLat, mLong);
         }
     }
 
@@ -274,5 +280,21 @@ public class FragmentAddMySpot extends FragmentMapBasic implements LocationListe
             }
         }
         return location;
+    }
+
+    public double getLat() {
+        return mLat;
+    }
+
+    public void setLat(double mLat) {
+        this.mLat = mLat;
+    }
+
+    public double getLong() {
+        return mLong;
+    }
+
+    public void setLong(double mLong) {
+        this.mLong = mLong;
     }
 }
