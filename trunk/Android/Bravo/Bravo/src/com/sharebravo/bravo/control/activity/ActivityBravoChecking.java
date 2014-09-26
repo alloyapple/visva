@@ -14,23 +14,27 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
+import com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail;
 
 public class ActivityBravoChecking extends VisvaAbstractFragmentActivity implements BravoCheckingListener {
     // ======================Constant Define===============
     private static final String     FRAGMENT_BRAVO_MAP             = "bravo_map";
     private static final String     FRAGMENT_BRAVO_RETURN_SPOTS    = "return_spots";
     private static final String     FRAGMENT_BRAVO_TAB             = "bravo_tab";
+    private static final String     FRAGMENT_SPOT_DETAILS          = "spot_details";
 
     public static final int         FRAGMENT_BASE_ID               = 1000;
     public static final int         FRAGMENT_BRAVO_SEARCH_ID       = FRAGMENT_BASE_ID + 1;
     public static final int         FRAGMENT_BRAVO_MAP_ID          = FRAGMENT_BASE_ID + 2;
     public static final int         FRAGMENT_BRAVO_RETURN_SPOTS_ID = FRAGMENT_BASE_ID + 3;
+    public static final int         FRAGMENT_SPOT_DETAIL_ID        = FRAGMENT_BASE_ID + 4;
     // ======================Class Define==================
     private FragmentManager         mFmManager;
     private FragmentTransaction     mTransaction;
     private FragmentBravoMap        mFragmentBravoMap;
     private FragmentBravoReturnSpot mFragmentBravoReturnSpots;
     private FragmentBravoSearch     mFragmentBravoSearch;
+    private FragmentSpotDetail      mFragmentSpotDetail;
 
     // ======================Variable Define===============
     private ArrayList<String>       mBackstack                     = new ArrayList<String>();
@@ -57,11 +61,12 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         mFragmentBravoMap = (FragmentBravoMap) mFmManager.findFragmentById(R.id.fragment_bravo_map);
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spot);
         mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
+        mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_bravo_spot_detail);
 
-        showFragment(FRAGMENT_BRAVO_SEARCH_ID);
+        showFragment(FRAGMENT_BRAVO_SEARCH_ID, false);
     }
 
-    private void showFragment(int fragmentID) {
+    private void showFragment(int fragmentID, boolean isBackStatus) {
         mTransaction = hideFragment();
         switch (fragmentID) {
         case FRAGMENT_BRAVO_SEARCH_ID:
@@ -72,9 +77,14 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
             mTransaction.show(mFragmentBravoMap);
             addToSBackStack(FRAGMENT_BRAVO_MAP);
             break;
+        case FRAGMENT_SPOT_DETAIL_ID:
+            mTransaction.show(mFragmentSpotDetail);
+            addToSBackStack(FRAGMENT_SPOT_DETAILS);
+            break;
         case FRAGMENT_BRAVO_RETURN_SPOTS_ID:
             mTransaction.show(mFragmentBravoReturnSpots);
             addToSBackStack(FRAGMENT_BRAVO_RETURN_SPOTS);
+            break;
         }
         mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         mTransaction.commit();
@@ -122,8 +132,8 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     }
 
     @Override
-    public void goToFragment(int fragmentID) {
-        showFragment(fragmentID);
+    public void goToFragment(int fragmentID, boolean isBackStatus) {
+        showFragment(fragmentID, isBackStatus);
     }
 
     @Override
@@ -131,12 +141,18 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         AIOLog.d("spot:" + spot + ", locationType" + locationType);
         AIOLog.d("" + spot.Spot_Latitude + ",longt:" + spot.Spot_Longitude);
         mFragmentBravoMap.setBravoSpot(spot);
-        goToFragment(FRAGMENT_BRAVO_MAP_ID);
+        goToFragment(FRAGMENT_BRAVO_MAP_ID, false);
     }
 
     @Override
     public void goToMapView(String foreignID, int locationType) {
 
+    }
+
+    @Override
+    public void goToSpotDetail(Spot mSpot) {
+        mFragmentSpotDetail.setSpot(mSpot);
+        showFragment(FRAGMENT_SPOT_DETAIL_ID, false);
     }
 
     @Override
@@ -158,13 +174,13 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         mTransaction = hideFragment();
 
         Toast.makeText(this, currentView, Toast.LENGTH_LONG).show();
-        if (currentView.equals(FRAGMENT_BRAVO_MAP)) {
+        if (currentView.equals(FRAGMENT_BRAVO_MAP) || currentView.equals(FRAGMENT_SPOT_DETAILS)) {
             mTransaction.show(mFragmentBravoSearch);
         } else if (currentView.equals(FRAGMENT_BRAVO_RETURN_SPOTS_ID)) {
             mTransaction.show(mFragmentBravoReturnSpots);
         } else if (currentView.equals(FRAGMENT_BRAVO_TAB)) {
             onBackPressed();
-            return; 
+            return;
         }
         mTransaction.commitAllowingStateLoss();
     }
@@ -172,6 +188,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     @Override
     public void goToReturnSpotFragment(Spot _spot) {
         mFragmentBravoReturnSpots.setBravoSpot(_spot);
-        goToFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID);
+        goToFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID, true);
     }
 }
