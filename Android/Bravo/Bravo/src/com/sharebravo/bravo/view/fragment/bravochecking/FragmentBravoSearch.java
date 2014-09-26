@@ -22,8 +22,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
-import com.sharebravo.bravo.control.activity.BravoCheckingListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpotSearch;
 import com.sharebravo.bravo.model.response.Spot;
@@ -53,12 +52,11 @@ public class FragmentBravoSearch extends FragmentBasic {
     private XListView             mListViewResult;
     private Button                mBtnClose;
     private ObGetSpotSearch       mObGetSpotSearch;
-    private BravoCheckingListener mBravoCheckingListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mBravoCheckingListener = (ActivityBravoChecking) getActivity();
+        mHomeActionListener = (HomeActivity) getActivity();
         View root = (ViewGroup) inflater.inflate(R.layout.page_bravo_tab, container);
         textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_spot);
         textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -98,7 +96,7 @@ public class FragmentBravoSearch extends FragmentBasic {
                 if (spot == null)
                     return;
                 AIOLog.d("mObGetSpotSearch:spot=>" + spot);
-                mBravoCheckingListener.goToMapView(spot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
+                mHomeActionListener.goToMapView(spot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
             }
         });
         mBtnClose = (Button) root.findViewById(R.id.btn_close);
@@ -106,7 +104,7 @@ public class FragmentBravoSearch extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                mBravoCheckingListener.goToBack();
+                mHomeActionListener.goToBack();
             }
         });
         return root;
