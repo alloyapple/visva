@@ -61,26 +61,28 @@ import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 import com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation;
 
 public class FragmentBravoMap extends FragmentMapBasic implements LocationListener {
-    public static final int       MAKER_BY_LOCATION_SPOT            = 0;
-    public static final int       MAKER_BY_LOCATION_USER            = 1;
+    public static final int  MAKER_BY_LOCATION_SPOT            = 0;
+    public static final int  MAKER_BY_LOCATION_USER            = 1;
 
-    public static final int       REQUEST_SHOW_BRAVO_JUMP_ANIMATION = 6001;
+    public static final int  REQUEST_SHOW_BRAVO_JUMP_ANIMATION = 6001;
 
-    private GoogleMap             mGoogleMap;
-    private Marker                mCurMarker                        = null;
+    private GoogleMap        mGoogleMap;
+    private Marker           mCurMarker                        = null;
 
-    private int                   mTypeMaker;
-    private double                mLat, mLong;
+    private int              mTypeMaker;
+    private double           mLat, mLong;
 
-    private View                  mOriginalContentView;
-    private TouchableWrapper      mTouchView;
-    private Location              mLocation                         = null;
-    private LocationManager       mLocationManager                  = null;
-    private Button                mBtnBack                          = null;
-    private SessionLogin          mSessionLogin                     = null;
-    private String                foreignID                         = null;
-    private int                   mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
-    private Spot                  mSpot;
+    private View             mOriginalContentView;
+    private TouchableWrapper mTouchView;
+    private Location         mLocation                         = null;
+    private LocationManager  mLocationManager                  = null;
+
+    private SessionLogin     mSessionLogin                     = null;
+    private String           foreignID                         = null;
+    private int              mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
+    private Spot             mSpot;
+    Button                   btnYes, btnNo;
+    LinearLayout             layoutConfirm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,16 +111,32 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
 
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         mHomeActionListener = (HomeActivity) getActivity();
-        LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
-        mBtnBack = (Button) mView.findViewById(R.id.btn_back);
-        mBtnBack.setOnClickListener(new OnClickListener() {
+        LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.page_fragment_bravo_map, container);
+        FrameLayout layoutMap = (FrameLayout) mView.findViewById(R.id.layout_map);
+        layoutConfirm = (LinearLayout) mView.findViewById(R.id.layout_confirm);
+        btnYes = (Button) mView.findViewById(R.id.btn_yes);
+        btnYes.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                layoutConfirm.setVisibility(View.GONE);
+                mGoogleMap.clear();
+                Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivityForResult(intent, REQUEST_SHOW_BRAVO_JUMP_ANIMATION);
+            }
+        });
+        btnNo = (Button) mView.findViewById(R.id.btn_no);
+        btnNo.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
-        mView.addView(mTouchView);
+        layoutMap.addView(mTouchView);
         return mView;
     }
 
@@ -129,51 +147,53 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         if (!hidden) {
             if (mTypeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
+                layoutConfirm.setVisibility(View.VISIBLE);
             } else if (mTypeMaker == MAKER_BY_LOCATION_USER) {
                 requestGetUserTimeLine(foreignID, mLocation.getLatitude(), mLocation.getLongitude());
             }
-            showDialogBravoConfirm();
+            // showDialogBravoConfirm();
         }
     }
 
-    private void showDialogBravoConfirm() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_bravo_confirm, null);
-        Button btnBravoAlertYes = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_yes);
-        btnBravoAlertYes.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                mGoogleMap.clear();
-                Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivityForResult(intent, REQUEST_SHOW_BRAVO_JUMP_ANIMATION);
-            }
-        });
-        Button btnBravoAlertNo = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_no);
-        btnBravoAlertNo.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                mHomeActionListener.goToBack();
-            }
-        });
-        dialog.setContentView(dialog_view);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        // This makes the dialog take up the full width
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        dialog.show();
-    }
-
+    /*
+     * private void showDialogBravoConfirm() {
+     * final Dialog dialog = new Dialog(getActivity());
+     * dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+     * dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+     * LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+     * View dialog_view = inflater.inflate(R.layout.dialog_bravo_confirm, null);
+     * Button btnBravoAlertYes = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_yes);
+     * btnBravoAlertYes.setOnClickListener(new OnClickListener() {
+     * 
+     * @Override
+     * public void onClick(View v) {
+     * dialog.dismiss();
+     * mGoogleMap.clear();
+     * Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
+     * intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+     * startActivityForResult(intent, REQUEST_SHOW_BRAVO_JUMP_ANIMATION);
+     * }
+     * });
+     * Button btnBravoAlertNo = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_no);
+     * btnBravoAlertNo.setOnClickListener(new OnClickListener() {
+     * 
+     * @Override
+     * public void onClick(View v) {
+     * dialog.dismiss();
+     * mHomeActionListener.goToBack();
+     * }
+     * });
+     * dialog.setContentView(dialog_view);
+     * WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+     * Window window = dialog.getWindow();
+     * lp.copyFrom(window.getAttributes());
+     * // This makes the dialog take up the full width
+     * lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+     * lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+     * window.setAttributes(lp);
+     * dialog.show();
+     * }
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {

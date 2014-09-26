@@ -51,8 +51,6 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
-import com.sharebravo.bravo.view.fragment.home.FragmentBravoSpot;
-import com.sharebravo.bravo.view.fragment.home.FragmentAfterBravo;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
@@ -142,10 +140,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentLiked            mFragmentLiked;
     private FragmentSaved            mFragmentSaved;
     private FragmentSpotDetail       mFragmentSpotDetail;
-    private FragmentBravoSpot        mFragmentAddMySpot;
+//    private FragmentBravoSpot        mFragmentAddMySpot;
     private FragmentInputMySpot      mFragmentInputMySpot;
     private FragmentLocateMySpot     mFragmentLocateMySpot;
-    private FragmentAfterBravo       mFragmentAfterBravo;
+//    private FragmentAfterBravo       mFragmentAfterBravo;
 
     private FragmentBravoMap         mFragmentBravoMap;
     private FragmentBravoReturnSpot  mFragmentBravoReturnSpots;
@@ -367,10 +365,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentLiked = (FragmentLiked) mFmManager.findFragmentById(R.id.fragment_liked);
         mFragmentSaved = (FragmentSaved) mFmManager.findFragmentById(R.id.fragment_saved);
         mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_spot_detail);
-        mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
+//        mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
         mFragmentLocateMySpot = (FragmentLocateMySpot) mFmManager.findFragmentById(R.id.fragment_locate_myspot);
-        mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
+//        mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
 
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spots);
         mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
@@ -497,10 +495,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mFragmentSpotDetail.setBackStatus(isback);
             mTransaction.show(mFragmentSpotDetail);
             break;
-        case FRAGMENT_ADD_MYSPOT_ID:
-            mFragmentAddMySpot.setBackStatus(isback);
-            mTransaction.show(mFragmentAddMySpot);
-            break;
+
         case FRAGMENT_INPUT_MYSPOT_ID:
             mFragmentInputMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentInputMySpot);
@@ -509,10 +504,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mFragmentLocateMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentLocateMySpot);
             break;
-        case FRAGMENT_AFTER_BRAVO_ID:
-            mFragmentAfterBravo.setBackStatus(isback);
-            mTransaction.show(mFragmentAfterBravo);
-            break;
+    
         case FRAGMENT_BRAVO_SEARCH_ID:
             mFragmentBravoSearch.setBackStatus(isback);
             mTransaction.show(mFragmentBravoSearch);
@@ -558,10 +550,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentFollower);
         mTransaction.hide(mFragmentFavourite);
         mTransaction.hide(mFragmentSpotDetail);
-        mTransaction.hide(mFragmentAddMySpot);
+
         mTransaction.hide(mFragmentInputMySpot);
         mTransaction.hide(mFragmentLocateMySpot);
-        mTransaction.hide(mFragmentAfterBravo);
+
 
         mTransaction.hide(mFragmentBravoMap);
         mTransaction.hide(mFragmentBravoReturnSpots);
@@ -946,10 +938,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         showFragment(FRAGMENT_LOCATE_MYSPOT_ID, false);
     }
 
-    @Override
-    public void goToAfterBravo() {
-        showFragment(FRAGMENT_AFTER_BRAVO_ID, false);
-    }
+//    @Override
+//    public void goToAfterBravo() {
+//        showFragment(FRAGMENT_AFTER_BRAVO_ID, false);
+//    }
 
     @Override
     public void requestToLoginSNS(String snsType) {
@@ -972,12 +964,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
     }
 
-    @Override
-    public void goToBravoSpot(double lat, double lon) {
-        mFragmentAddMySpot.setLat(lat);
-        mFragmentAddMySpot.setLong(lon);
-        showFragment(FRAGMENT_ADD_MYSPOT_ID, false); 
-    }
+
 
     @Override
     public void goToReturnSpotFragment(Spot _spot) {

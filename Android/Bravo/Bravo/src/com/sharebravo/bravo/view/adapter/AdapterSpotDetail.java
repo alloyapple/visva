@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -103,9 +104,11 @@ public class AdapterSpotDetail extends BaseAdapter {
             layoutListTopFans.removeAllViews();
             for (int i = 0; i < mSpotRanks.size(); i++) {
                 ImageView fanAvatar = new ImageView(mContext);
+                fanAvatar.setScaleType(ScaleType.FIT_XY);
                 fanAvatar.setLayoutParams(new LinearLayout.LayoutParams((int) mContext.getResources().getDimension(R.dimen.size_avatar_recent_post),
                         (int) mContext.getResources().getDimension(R.dimen.size_avatar_recent_post)));
                 String profile_img_url = mSpotRanks.get(i).profileImgUrl;
+                ((LinearLayout.LayoutParams) fanAvatar.getLayoutParams()).leftMargin = 10;
 
                 if (StringUtility.isEmpty(profile_img_url)) {
                     fanAvatar.setImageResource(R.drawable.user_picture_default);
