@@ -225,14 +225,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             accessToken = "";
         }
         HashMap<String, Object> subParams = new HashMap<String, Object>();
-        // if (mode == SEARCH_FOR_SPOT || mode == SEARCH_ARROUND_KEY) {
         subParams.put("FID", mVenues);
         subParams.put("Source", "foursquare");
-        // }
-        // if (mode == SEARCH_ARROUND_ME) {
-        // subParams.put("Start", "0");
-        // subParams.put("Location", (float) location.getLongitude() + "," + (float) location.getLatitude());
-        // }
+
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;
