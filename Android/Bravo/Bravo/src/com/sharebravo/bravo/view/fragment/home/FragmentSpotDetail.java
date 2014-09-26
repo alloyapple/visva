@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,7 +35,9 @@ import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpot;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory;
+import com.sharebravo.bravo.model.response.ObGetSpotHistory.SpotHistory;
 import com.sharebravo.bravo.model.response.ObGetSpotRank;
+import com.sharebravo.bravo.model.response.ObGetSpotRank.SpotRank;
 import com.sharebravo.bravo.model.response.ObPutReport;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -161,7 +164,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetSpot mObGetSpot;
                 mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
-                AIOLog.d("mObGetSpotd:" + mObGetSpot);
+                AIOLog.d("mObGetSpot:" + mObGetSpot);
                 if (mObGetSpot == null)
                     return;
                 else {
@@ -302,6 +305,11 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
                     requestGetSpotRank(mSpot.Spot_ID);
                     requestGet4squareVenue(mSpot.Spot_FID);
                 }
+            } else {
+                // mAdapter.updateMapView();
+                mAdapter.updatSpot(mSpot);
+                mAdapter.updatSpotHistory(new ArrayList<SpotHistory>());
+                mAdapter.updateSpotRanks(new ArrayList<SpotRank>());
             }
         }
     }
