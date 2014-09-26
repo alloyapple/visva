@@ -728,6 +728,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
+            listviewRecentPostDetail.setVisibility(View.GONE);
             requestGetBravo();
             requestGetFollowingCheck();
             requestGetMyListItem();

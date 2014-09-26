@@ -253,6 +253,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         super.onHiddenChanged(hidden);
         if (!hidden) {
             if (!isBackStatus()) {
+                mListViewUserPostProfile.setVisibility(View.GONE);
                 getUserInfo(foreignID);
                 requestGetUserTimeLine(foreignID);
                 requestGetBlockingCheck();
@@ -261,7 +262,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         } else {
             isOutOfDataLoadMore = false;
         }
-//        mListViewUserPostProfile.setVisibility(View.GONE);
     }
 
     /**
