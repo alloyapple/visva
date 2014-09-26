@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     private int                     mMode;
     private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
-//    private ObGetSpotSearch         mObGetSpotSearch            = null;
+    // private ObGetSpotSearch mObGetSpotSearch = null;
     Location                        location                    = null;
     LocationManager                 locationManager             = null;
     private OnItemClickListener     iSpotClickListener          = new OnItemClickListener() {
@@ -296,7 +297,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         }
         if (mA.size() > 0)
             mF.addAll(mA);
-         sortSpotWithDistance(mF);
+        sortSpotWithDistance(mF);
     }
 
     public void sortSpotWithDistance(ArrayList<Spot> mF) {
@@ -322,7 +323,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         temp = mF.get(i);
         mF.set(i, mF.get(j));
         mF.set(j, temp);
-        
+
     }
 
     public void requestBravoSearch(String nameSpot, final int mode) {
@@ -404,6 +405,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     for (int i = 0; i < mOFGetVenueSearch.response.venues.size(); i++) {
                         fids.add(mOFGetVenueSearch.response.venues.get(i).id);
                         Spot newSpot = new Spot();
+                        newSpot.Spot_FID = mOFGetVenueSearch.response.venues.get(i).id;
                         newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
                         newSpot.Spot_Name = mOFGetVenueSearch.response.venues.get(i).name;
                         newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix + "bg_44"
