@@ -41,7 +41,7 @@ public interface HomeActionListener {
 
     public void goToLocateMySpot();
 
-    public void goToBravoSpot();
+    public void goToBravoSpot(double lat, double lon);
 
     public void goToAfterBravo();
 

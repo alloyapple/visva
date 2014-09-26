@@ -48,7 +48,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.view.fragment.home.FragmentAddMySpot;
+import com.sharebravo.bravo.view.fragment.home.FragmentBravoSpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentAfterBravo;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
@@ -136,7 +136,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentLiked            mFragmentLiked;
     private FragmentSaved            mFragmentSaved;
     private FragmentSpotDetail       mFragmentSpotDetail;
-    private FragmentAddMySpot        mFragmentAddMySpot;
+    private FragmentBravoSpot        mFragmentAddMySpot;
     private FragmentInputMySpot      mFragmentInputMySpot;
     private FragmentLocateMySpot     mFragmentLocateMySpot;
     private FragmentAfterBravo       mFragmentAfterBravo;
@@ -358,7 +358,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentLiked = (FragmentLiked) mFmManager.findFragmentById(R.id.fragment_liked);
         mFragmentSaved = (FragmentSaved) mFmManager.findFragmentById(R.id.fragment_saved);
         mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_spot_detail);
-        mFragmentAddMySpot = (FragmentAddMySpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
+        mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
         mFragmentLocateMySpot = (FragmentLocateMySpot) mFmManager.findFragmentById(R.id.fragment_locate_myspot);
         mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
@@ -945,8 +945,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToBravoSpot() {
+    public void goToBravoSpot(double lat, double lon) {
         // TODO Auto-generated method stub
+        mFragmentAddMySpot.setLat(lat);
+        mFragmentAddMySpot.setLong(lon);
         showFragment(FRAGMENT_ADD_MYSPOT_ID, false);
     }
 
