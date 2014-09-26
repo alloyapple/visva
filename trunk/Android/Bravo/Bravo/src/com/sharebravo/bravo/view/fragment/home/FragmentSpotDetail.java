@@ -417,6 +417,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         this.mSpot = mSpot;
         FragmentMapCover.mLat = mSpot.Spot_Latitude;
         FragmentMapCover.mLong = mSpot.Spot_Longitude;
+//        mAdapter.updateMapView();
         mAdapter.updatSpot(mSpot);
     }
 

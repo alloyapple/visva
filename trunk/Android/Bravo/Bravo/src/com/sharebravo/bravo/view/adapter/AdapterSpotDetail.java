@@ -265,7 +265,6 @@ public class AdapterSpotDetail extends BaseAdapter {
     }
 
     public void updateMapView() {
-        notifyDataSetChanged();
         mapFragment.changeLocation(FragmentMapCover.mLat, FragmentMapCover.mLong);
     }
 
