@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,11 +10,11 @@
         android:gravity="center_vertical" >
 
         <Button
-            android:id="@+id/btn_close"
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:background="@drawable/bt_close"
+            android:background="@drawable/back_button"
             android:text="@string/close"
             android:textColor="#FFFFFF" >
         </Button>
@@ -37,7 +36,6 @@
                 android:layout_width="@dimen/search_icon"
                 android:layout_height="@dimen/search_icon"
                 android:layout_marginLeft="10dp"
-                android:contentDescription="@string/app_name"
                 android:background="@drawable/icon_search" />
 
             <EditText
@@ -52,10 +50,98 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
-        android:id="@+id/listview_bravo_search"
+    <LinearLayout
+        android:id="@+id/layout_quicksearch_options"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/text_quick_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/text_quick_search"
+            android:textColor="@color/grey_3"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DAD9DC" />
+
+        <TextView
+            android:id="@+id/text_local_bravo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:drawableLeft="@drawable/icon_local_bravo"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/search_quick_near_bravo"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DAD9DC" />
+
+        <TextView
+            android:id="@+id/text_around_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:drawableLeft="@drawable/icon_around_me"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/search_quick_around"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DAD9DC" />
+
+        <TextView
+            android:id="@+id/text_people_following"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/color_button"
+            android:drawableLeft="@drawable/icon_people"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/search_quick_following"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DAD9DC" />
+    </LinearLayout>
+
+    <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
+        android:id="@+id/listview_result_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
+
+    <!-- <include layout="@layout/layout_search_result_footer" /> -->
 
 </LinearLayout>
