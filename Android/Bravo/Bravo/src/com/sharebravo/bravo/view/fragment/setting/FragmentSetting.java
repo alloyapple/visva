@@ -90,7 +90,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
                     mToggleBtnPostOnFacebook.setChecked(false);
                 } else {
-                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
                     mToggleBtnPostOnFacebook.setChecked(true);
                 }
             }

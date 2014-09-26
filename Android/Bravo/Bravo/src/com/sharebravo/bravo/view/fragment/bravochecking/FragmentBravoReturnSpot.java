@@ -29,16 +29,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
 import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostBravoWithImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -57,6 +62,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     // ====================Variable Define=================
     private ImageView             mImageSpot;
     private ImageView             mImageChooseImage;
+    private ImageButton           mBtnImageCover;
     private TextView              mTextSpotName;
     private Button                mBtnReturnSpot;
     private Button                mBtnShareFacebook;
@@ -86,27 +92,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     }
 
     private void requestToPostBravoSpotWithImage(Spot spot, Bitmap spotImage) {
-        String encodedImage = null;
-        if (mSpotBitmap != null) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-
-            options.inSampleSize = 1;
-            options.inPurgeable = true;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            mSpotBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-            // bitmap object
-            byte byteImage_photo[] = baos.toByteArray();
-            encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
-            try {
-                baos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            byte imageByte[] = Base64.decode(encodedImage, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-            if (bitmap == null)
-                AIOLog.d("bitmap:" + bitmap);
-        }
         int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
         String userId = _sessionLogin.userID;
@@ -116,29 +101,30 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         subParams.put("Bravo_Type", "spot");
         subParams.put("Spot_ID", "" + spot.Spot_ID);
         subParams.put("Time_Zone", TimeZone.getDefault().getID());
-        subParams.put("Is_Private", "TRUE");
-        subParams.put("SNS_Post", "");
-        subParams.put("FS_User_ID", "");
-        subParams.put("FS_Access_Token", "");
-        if (mSpotBitmap == null)
-            subParams.put("images", "");
-        else
-            subParams.put("images", encodedImage);
 
         JSONObject jsonObject = new JSONObject(subParams);
         String subParamsStr = jsonObject.toString();
 
-        AIOLog.d("encodedImage:" + encodedImage);
         String putUserUrl = BravoWebServiceConfig.URL_POST_BRAVO.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{Bravo_ID}", "");
+                .replace("/{Bravo_ID}", "");
         AIOLog.d("putUserUrl:" + putUserUrl);
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPostImage postBravo = new AsyncHttpPostImage(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpPost postBravo = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("reponse after post bravo:" + response);
-                /* go to home screen */
-                mBravoCheckingListener.goToBack();
+                AIOLog.d("obPostBravo:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPostBravo obPostBravo = gson.fromJson(response.toString(), ObPostBravo.class);
+                AIOLog.d("obPostBravo:" + obPostBravo);
+                if (obPostBravo == null)
+                    return;
+                AIOLog.d("obPostBravo.Bravo_ID:" + obPostBravo.data.Bravo_ID + ", FS_Checkin_Bravo" + obPostBravo.data.FS_Checkin_Bravo);
+                if (mSpotBitmap != null) {
+                    updateBravoWithImage(obPostBravo, mSpotBitmap);
+                }
+                //else
+                    /* go to home screen */
+                    //mBravoCheckingListener.goToBack();
             }
 
             @Override
@@ -149,9 +135,65 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         postBravo.execute(putUserUrl);
     }
 
+    private void updateBravoWithImage(ObPostBravo obPostBravo, Bitmap spotBitmap) {
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+        if (spotBitmap == null)
+            return;
+        String encodedImage = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        options.inSampleSize = 1;
+        options.inPurgeable = true;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        spotBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        // bitmap object
+        byte byteImage_photo[] = baos.toByteArray();
+        encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("image", encodedImage);
+        subParams.put("Is_Private", "TRUE");
+
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+        String putUserUrl = BravoWebServiceConfig.URL_POST_BRAVO.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{Bravo_ID}", obPostBravo.data.Bravo_ID + "");
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPostBravoWithImage postBravoImage = new AsyncHttpPostBravoWithImage(getActivity(),
+                new AsyncHttpResponseProcess(getActivity(), this) {
+                    @Override
+                    public void processIfResponseSuccess(String response) {
+                        AIOLog.d("reponse after post bravo image:" + response);
+                        // Gson gson = new GsonBuilder().serializeNulls().create();
+                        // ObPostBravo obPostBravo = gson.fromJson(response.toString(), ObPostBravo.class);
+                        // if (mSpotBitmap != null) {
+                        // updateBravoWithImage(obPostBravo, mSpotBitmap);
+                        // }
+                        // /* go to home screen */
+                        // mBravoCheckingListener.goToBack();
+                    }
+
+                    @Override
+                    public void processIfResponseFail() {
+                        AIOLog.d("response error");
+                    }
+                }, params, true);
+        postBravoImage.execute(putUserUrl);
+    }
+
     private void initializeView(View root) {
         mImageSpot = (ImageView) root.findViewById(R.id.image_post_detail);
         mImageChooseImage = (ImageView) root.findViewById(R.id.img_picture_choose);
+        mBtnImageCover = (ImageButton) root.findViewById(R.id.btn_img_cover);
         mTextSpotName = (TextView) root.findViewById(R.id.txtView_spot_name);
         mBtnReturnSpot = (Button) root.findViewById(R.id.btn_return_spot);
         mBtnShareFacebook = (Button) root.findViewById(R.id.btn_return_spot_share_facebook);
@@ -171,10 +213,27 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 requestToPostBravoSpotWithImage(mSpot, mSpotBitmap);
-                // mBravoCheckingListener.goToBack();
             }
         });
 
+        boolean isPostOnFacebook = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK);
+        if (isPostOnFacebook) {
+            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
+        } else {
+            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
+        }
+        boolean isPostOnTwitter = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER);
+        if (isPostOnTwitter) {
+            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
+        } else {
+            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
+        }
+        boolean isPostOnFourSquare = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE);
+        if (isPostOnFourSquare) {
+            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
+        } else {
+            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
+        }
     }
 
     @Override
@@ -268,6 +327,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                     else {
                         mSpotBitmap = photo;
                         mImageSpot.setImageBitmap(photo);
+                        mBtnImageCover.setVisibility(View.GONE);
                         return;
                     }
                 }
@@ -292,6 +352,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                         return;
                     mSpotBitmap = bitmap;
                     mImageSpot.setImageBitmap(bitmap);
+                    mBtnImageCover.setVisibility(View.GONE);
                 }
             }
             break;
@@ -320,6 +381,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                         return;
                     mSpotBitmap = bitmap;
                     mImageSpot.setImageBitmap(bitmap);
+                    mBtnImageCover.setVisibility(View.GONE);
                 } else {
                     AIOLog.d("file don't exist !");
                 }

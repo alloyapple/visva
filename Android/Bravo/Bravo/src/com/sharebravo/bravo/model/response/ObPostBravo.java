@@ -3,12 +3,22 @@ package com.sharebravo.bravo.model.response;
 import com.google.gson.annotations.SerializedName;
 
 public class ObPostBravo {
-    @SerializedName("FS_Checkin_Bravo")
-    String FSCheckinBravo;
-    @SerializedName("Bravo_ID")
-    String bravoID;
+    @SerializedName("data")
+    public Data data;
+    @SerializedName("status")
+    public int  status;
 
     public ObPostBravo() {
-        // TODO Auto-generated constructor stub
+    }
+
+    public class Data {
+        @SerializedName("FS_Checkin_Bravo")
+        public String FS_Checkin_Bravo;
+        @SerializedName("Bravo_ID")
+        public String Bravo_ID;
+
+        public Data() {
+
+        }
     }
 }
