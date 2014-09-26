@@ -11,15 +11,15 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/color_button"
         android:drawableLeft="@drawable/infomation_icon"
-        android:drawablePadding="0dp"
+        android:drawablePadding="dp"
         android:gravity="center"
-        android:padding="20dp"
+        android:padding="10dp"
         android:text="@string/btn_more_detail_spot"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="@color/devider_color" />
 
     <TextView
@@ -31,13 +31,13 @@
         android:drawableLeft="@drawable/report_icon"
         android:drawablePadding="0dp"
         android:gravity="center"
-        android:padding="20dp"
+        android:padding="10dp"
         android:text="@string/report_button_spot"
         android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="@color/devider_color" />
 
     <ImageView

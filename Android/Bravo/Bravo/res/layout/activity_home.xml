@@ -280,18 +280,6 @@
         class="com.sharebravo.bravo.view.fragment.home.FragmentShare" />
 
     <fragment
-        android:id="@+id/fragment_add_myspot"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.sharebravo.bravo.view.fragment.home.FragmentBravoSpot" />
-
-    <fragment
-        android:id="@+id/fragment_after_bravo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.sharebravo.bravo.view.fragment.home.FragmentAfterBravo" />
-
-    <fragment
         android:id="@+id/fragment_bravo_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
