@@ -48,4 +48,8 @@ public interface HomeActionListener {
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 
     public void requestToLoginSNS(String snsType);
+
+    public void goToReturnSpotFragment(Spot mSpot);
+
+    public void goToMapView(Spot spot, int makerByLocationSpot);
 }

@@ -291,4 +291,22 @@
         android:layout_height="match_parent"
         class="com.sharebravo.bravo.view.fragment.home.FragmentAfterBravo" />
 
+    <fragment
+        android:id="@+id/fragment_bravo_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch" />
+
+    <fragment
+        android:id="@+id/fragment_bravo_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap" />
+
+    <fragment
+        android:id="@+id/fragment_bravo_return_spots"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot" />
+
 </FrameLayout>

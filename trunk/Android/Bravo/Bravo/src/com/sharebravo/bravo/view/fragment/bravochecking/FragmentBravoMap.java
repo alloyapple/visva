@@ -43,8 +43,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
-import com.sharebravo.bravo.control.activity.BravoCheckingListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetSpotTimeline;
 import com.sharebravo.bravo.model.response.ObGetSpotTimeline.SpotTimeline;
@@ -78,7 +77,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
     private Location              mLocation                         = null;
     private LocationManager       mLocationManager                  = null;
     private Button                mBtnBack                          = null;
-    private BravoCheckingListener mBravoCheckingListener            = null;
     private SessionLogin          mSessionLogin                     = null;
     private String                foreignID                         = null;
     private int                   mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
@@ -110,14 +108,14 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         }
 
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        mBravoCheckingListener = (ActivityBravoChecking) getActivity();
+        mHomeActionListener = (HomeActivity) getActivity();
         LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
         mBtnBack = (Button) mView.findViewById(R.id.btn_back);
         mBtnBack.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                mBravoCheckingListener.goToBack();
+                mHomeActionListener.goToBack();
             }
         });
         mView.addView(mTouchView);
@@ -162,7 +160,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mBravoCheckingListener.goToBack();
+                mHomeActionListener.goToBack();
             }
         });
         dialog.setContentView(dialog_view);
@@ -182,7 +180,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         case REQUEST_SHOW_BRAVO_JUMP_ANIMATION:
             if (mSpot == null)
                 return;
-            mBravoCheckingListener.goToReturnSpotFragment(mSpot);
+            mHomeActionListener.goToReturnSpotFragment(mSpot);
             break;
         default:
             return;

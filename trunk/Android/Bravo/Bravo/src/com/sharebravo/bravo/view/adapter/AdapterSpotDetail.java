@@ -43,7 +43,6 @@ public class AdapterSpotDetail extends BaseAdapter {
     private ImageLoader             mImageLoader = null;
 
     public AdapterSpotDetail(Context context, FragmentSpotDetail fragment) {
-        // TODO Auto-generated constructor stub
         this.mContext = context;
         mSpotHistorys = new ArrayList<ObGetSpotHistory.SpotHistory>();
         this.fragment = fragment;
@@ -53,19 +52,16 @@ public class AdapterSpotDetail extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return mSpotHistorys.size() + 2;
     }
 
     @Override
     public Object getItem(int arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
         return arg0;
     }
 
@@ -84,7 +80,6 @@ public class AdapterSpotDetail extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup arg2) {
-        // TODO Auto-generated method stub
         if (position == 0)
         {
             if (convertView == null) {

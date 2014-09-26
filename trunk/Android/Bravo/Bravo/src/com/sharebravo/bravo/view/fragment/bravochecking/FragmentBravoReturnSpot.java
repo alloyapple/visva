@@ -36,8 +36,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
-import com.sharebravo.bravo.control.activity.BravoCheckingListener;
+import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.Spot;
@@ -58,7 +57,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     private static final int      REQUEST_CODE_GALLERY = 7002;
     // ====================Class Define====================
     private Spot                  mSpot;
-    private BravoCheckingListener mBravoCheckingListener;
     // ====================Variable Define=================
     private ImageView             mImageSpot;
     private ImageView             mImageChooseImage;
@@ -75,7 +73,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_bravo_return_spots, container);
 
-        mBravoCheckingListener = (ActivityBravoChecking) getActivity();
+        mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
         return root;
     }
@@ -122,9 +120,9 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 if (mSpotBitmap != null) {
                     updateBravoWithImage(obPostBravo, mSpotBitmap);
                 }
-                //else
-                    /* go to home screen */
-                    //mBravoCheckingListener.goToBack();
+                else
+                    /* go to return to spot detail */
+                    mHomeActionListener.goToSpotDetail(mSpot);
             }
 
             @Override
@@ -180,11 +178,13 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                         // }
                         // /* go to home screen */
                         // mBravoCheckingListener.goToBack();
+                        mHomeActionListener.goToSpotDetail(mSpot);
                     }
 
                     @Override
                     public void processIfResponseFail() {
                         AIOLog.d("response error");
+                        mHomeActionListener.goToSpotDetail(mSpot);
                     }
                 }, params, true);
         postBravoImage.execute(putUserUrl);
