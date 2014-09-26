@@ -53,8 +53,8 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoReturnSpot extends FragmentBasic {
     // ====================Constant Define=================
-    private static final int      REQUEST_CODE_CAMERA  = 7001;
-    private static final int      REQUEST_CODE_GALLERY = 7002;
+    private static final int      REQUEST_CODE_CAMERA  = 101;
+    private static final int      REQUEST_CODE_GALLERY = 102;
     // ====================Class Define====================
     private Spot                  mSpot;
     // ====================Variable Define=================
@@ -347,11 +347,10 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bitmap = BravoUtils.decodeBitmapFromFile(capturedImageFilePath, 1000, 1000, orientation);
-                    if (bitmap == null)
+                    mSpotBitmap = BravoUtils.decodeBitmapFromFile(capturedImageFilePath, 1000, 1000, orientation);
+                    if (mSpotBitmap == null)
                         return;
-                    mSpotBitmap = bitmap;
-                    mImageSpot.setImageBitmap(bitmap);
+                    mImageSpot.setImageBitmap(mSpotBitmap);
                     mBtnImageCover.setVisibility(View.GONE);
                 }
             }
@@ -376,11 +375,10 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
                     int orientation = BravoUtils.checkOrientation(fileUri);
-                    Bitmap bitmap = BravoUtils.decodeBitmapFromFile(imagePath, 1000, 1000, orientation);
-                    if (bitmap == null)
+                    mSpotBitmap = BravoUtils.decodeBitmapFromFile(imagePath, 1000, 1000, orientation);
+                    if (mSpotBitmap == null)
                         return;
-                    mSpotBitmap = bitmap;
-                    mImageSpot.setImageBitmap(bitmap);
+                    mImageSpot.setImageBitmap(mSpotBitmap);
                     mBtnImageCover.setVisibility(View.GONE);
                 } else {
                     AIOLog.d("file don't exist !");
