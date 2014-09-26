@@ -976,7 +976,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToBravoSpot(double lat, double lon) {
         mFragmentAddMySpot.setLat(lat);
         mFragmentAddMySpot.setLong(lon);
-        showFragment(FRAGMENT_ADD_MYSPOT_ID, false);
+        showFragment(FRAGMENT_ADD_MYSPOT_ID, false); 
     }
 
     @Override
