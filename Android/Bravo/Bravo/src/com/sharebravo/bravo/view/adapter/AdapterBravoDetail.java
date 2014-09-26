@@ -53,7 +53,7 @@ public class AdapterBravoDetail extends BaseAdapter {
         mLoginBravoViaType = BravoSharePrefs.getInstance(context).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(context, mLoginBravoViaType);
         fragmentTransaction = fragment.getChildFragmentManager().beginTransaction();
-
+        
     }
 
     public void setListener(DetailPostListener listener) {
@@ -454,7 +454,9 @@ public class AdapterBravoDetail extends BaseAdapter {
             lastTopValueAssigned = rect.top;
             view.setY((float) (rect.top / 2.0));
         }
-
     }
 
+    public FrameLayout getMapParallax() {
+        return layoutMapview;
+    }
 }

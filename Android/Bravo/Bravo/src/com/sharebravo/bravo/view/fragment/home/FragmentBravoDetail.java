@@ -123,6 +123,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 adapterRecentPostDetail.parallaxImage(adapterRecentPostDetail.getBackGroundParallax());
+                adapterRecentPostDetail.parallaxImage(adapterRecentPostDetail.getMapParallax());
             }
         });
         btnBack = (Button) root.findViewById(R.id.btn_back);
@@ -764,7 +765,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater(); 
         View dialog_view = inflater.inflate(R.layout.dialog_call_spot, null);
         TextView content = (TextView) dialog_view.findViewById(R.id.call_spot_dialog_content);
         content.setText("Call " + mBravoObj.Spot_Name + "?");
