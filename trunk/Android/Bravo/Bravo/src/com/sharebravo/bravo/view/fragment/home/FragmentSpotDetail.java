@@ -73,9 +73,9 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab, container);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_spot_detail, container);
         mHomeActionListener = (HomeActivity) getActivity();
-        listviewContent = (XListView) root.findViewById(R.id.listview_recent_post_detail);
+        listviewContent = (XListView) root.findViewById(R.id.listview_spot_detail);
         mAdapter = new AdapterSpotDetail(getActivity(), this);
         mAdapter.setListener(this);
         listviewContent.setFooterDividersEnabled(false);
@@ -418,14 +418,14 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         this.mSpot = mSpot;
         FragmentMapCover.mLat = mSpot.Spot_Latitude;
         FragmentMapCover.mLong = mSpot.Spot_Longitude;
-//        mAdapter.updateMapView();
+        // mAdapter.updateMapView();
         mAdapter.updatSpot(mSpot);
     }
 
     @Override
     public void tapToBravo() {
         // TODO Auto-generated method stub
-//        mHomeActionListener.goToBravoSpot(mSpot.Spot_Latitude, mSpot.Spot_Longitude);
+        // mHomeActionListener.goToBravoSpot(mSpot.Spot_Latitude, mSpot.Spot_Longitude);
         mHomeActionListener.goToMapView(mSpot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
     }
 
