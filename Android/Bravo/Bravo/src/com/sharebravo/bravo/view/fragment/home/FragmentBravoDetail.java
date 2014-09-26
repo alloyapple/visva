@@ -149,7 +149,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         this.mBravoObj = obj;
         FragmentMapViewCover.mLat = mBravoObj.Spot_Latitude;
         FragmentMapViewCover.mLong = mBravoObj.Spot_Longitude;
-        adapterRecentPostDetail.updateMapView();
+//        adapterRecentPostDetail.updateMapView();
         adapterRecentPostDetail.setBravoOb(mBravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
 
@@ -213,7 +213,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                     mBravoObj = obGetBravo.data;
                     mBravoObj.Last_Pic = Last_Pic;
                     adapterRecentPostDetail.setBravoOb(mBravoObj);
-
+                    adapterRecentPostDetail.updateMapView();
                     adapterRecentPostDetail.notifyDataSetChanged();
                     requestGetLiked();
                 }
