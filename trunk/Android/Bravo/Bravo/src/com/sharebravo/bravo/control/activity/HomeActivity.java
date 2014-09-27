@@ -140,10 +140,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentLiked            mFragmentLiked;
     private FragmentSaved            mFragmentSaved;
     private FragmentSpotDetail       mFragmentSpotDetail;
-//    private FragmentBravoSpot        mFragmentAddMySpot;
+    // private FragmentBravoSpot mFragmentAddMySpot;
     private FragmentInputMySpot      mFragmentInputMySpot;
     private FragmentLocateMySpot     mFragmentLocateMySpot;
-//    private FragmentAfterBravo       mFragmentAfterBravo;
+    // private FragmentAfterBravo mFragmentAfterBravo;
 
     private FragmentBravoMap         mFragmentBravoMap;
     private FragmentBravoReturnSpot  mFragmentBravoReturnSpots;
@@ -269,7 +269,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             txtNetwork.setTextColor(Color.WHITE);
             break;
         case R.id.btn_bravo:
-            backstackID.clear();
+            // backstackID.clear();
             hideTabButton();
             showFragment(FRAGMENT_BRAVO_SEARCH_ID, false);
             break;
@@ -365,10 +365,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentLiked = (FragmentLiked) mFmManager.findFragmentById(R.id.fragment_liked);
         mFragmentSaved = (FragmentSaved) mFmManager.findFragmentById(R.id.fragment_saved);
         mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_spot_detail);
-//        mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
+        // mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
         mFragmentLocateMySpot = (FragmentLocateMySpot) mFmManager.findFragmentById(R.id.fragment_locate_myspot);
-//        mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
+        // mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
 
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spots);
         mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
@@ -504,7 +504,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mFragmentLocateMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentLocateMySpot);
             break;
-    
+
         case FRAGMENT_BRAVO_SEARCH_ID:
             mFragmentBravoSearch.setBackStatus(isback);
             mTransaction.show(mFragmentBravoSearch);
@@ -520,7 +520,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         default:
             break;
         }
-        if (!isback)
+        if (!isback && fragment != FRAGMENT_BRAVO_RETURN_SPOTS_ID)
             addToSBackStack(fragment);
         mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         mTransaction.commit();
@@ -553,7 +553,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
         mTransaction.hide(mFragmentInputMySpot);
         mTransaction.hide(mFragmentLocateMySpot);
-
 
         mTransaction.hide(mFragmentBravoMap);
         mTransaction.hide(mFragmentBravoReturnSpots);
@@ -938,10 +937,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         showFragment(FRAGMENT_LOCATE_MYSPOT_ID, false);
     }
 
-//    @Override
-//    public void goToAfterBravo() {
-//        showFragment(FRAGMENT_AFTER_BRAVO_ID, false);
-//    }
+    // @Override
+    // public void goToAfterBravo() {
+    // showFragment(FRAGMENT_AFTER_BRAVO_ID, false);
+    // }
 
     @Override
     public void requestToLoginSNS(String snsType) {
@@ -964,8 +963,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
     }
 
-
-
     @Override
     public void goToReturnSpotFragment(Spot _spot) {
         mFragmentBravoReturnSpots.setBravoSpot(_spot);
@@ -978,6 +975,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         AIOLog.d("" + spot.Spot_Latitude + ",longt:" + spot.Spot_Longitude);
         mFragmentBravoMap.setBravoSpot(spot);
         showFragment(FRAGMENT_BRAVO_MAP_ID, false);
-        
+
     }
 }
