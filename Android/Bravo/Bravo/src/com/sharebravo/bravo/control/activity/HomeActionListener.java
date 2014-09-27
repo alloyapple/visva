@@ -41,9 +41,8 @@ public interface HomeActionListener {
 
     public void goToLocateMySpot();
 
-//    public void goToBravoSpot(double lat, double lon);
+    // public void goToBravoSpot(double lat, double lon);
 
-//    public void goToAfterBravo();
 
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 
