@@ -19,13 +19,13 @@ import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 @SuppressLint("InflateParams")
 public class AdapterBravoSearch extends BaseAdapter {
     private FragmentActivity mContext     = null;
-    private ImageLoader      mImageLoader = null;
+//    private ImageLoader      mImageLoader = null;
     private ArrayList<Spot>  mSpots       = new ArrayList<Spot>();
     private LayoutInflater   mLayoutInflater;
 
     public AdapterBravoSearch(FragmentActivity fragmentActivity) {
         mContext = fragmentActivity;
-        mImageLoader = new ImageLoader(mContext);
+//        mImageLoader = new ImageLoader(mContext);
     }
 
     @Override

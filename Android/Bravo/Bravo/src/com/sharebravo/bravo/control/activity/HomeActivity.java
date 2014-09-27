@@ -971,8 +971,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToMapView(Spot spot, int locationType) {
-        AIOLog.d("spot:" + spot + ", locationType" + locationType);
-        AIOLog.d("" + spot.Spot_Latitude + ",longt:" + spot.Spot_Longitude);
+//        AIOLog.d("spot:" + spot + ", locationType" + locationType);
+//        AIOLog.d("" + spot.Spot_Latitude + ",longt:" + spot.Spot_Longitude);
+//        mFragmentMapView.setCordinate(spot.Spot_Latitude, spot.Spot_Longitude);
         mFragmentBravoMap.setBravoSpot(spot);
         showFragment(FRAGMENT_BRAVO_MAP_ID, false);
 
