@@ -377,4 +377,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         this.fullName = fullName;
     }
 
+   
+
 }

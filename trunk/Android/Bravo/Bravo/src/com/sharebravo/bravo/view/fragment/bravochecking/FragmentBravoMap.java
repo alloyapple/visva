@@ -145,55 +145,17 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         super.onHiddenChanged(hidden);
         AIOLog.d("hidden:" + hidden);
         if (!hidden) {
-            if (mTypeMaker == MAKER_BY_LOCATION_SPOT) {
+            //if (mTypeMaker == MAKER_BY_LOCATION_SPOT) {
                 changeLocation(mLat, mLong);
+                AIOLog.d("lat:" + mLat+"; "+"lon:" + mLong);
                 layoutConfirm.setVisibility(View.VISIBLE);
-            } else if (mTypeMaker == MAKER_BY_LOCATION_USER) {
-                requestGetUserTimeLine(foreignID, mLocation.getLatitude(), mLocation.getLongitude());
-            }
+          //  } else if (mTypeMaker == MAKER_BY_LOCATION_USER) {
+             //   requestGetUserTimeLine(foreignID, mLocation.getLatitude(), mLocation.getLongitude());
+           // }
             // showDialogBravoConfirm();
         }
     }
 
-    /*
-     * private void showDialogBravoConfirm() {
-     * final Dialog dialog = new Dialog(getActivity());
-     * dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-     * dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-     * LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-     * View dialog_view = inflater.inflate(R.layout.dialog_bravo_confirm, null);
-     * Button btnBravoAlertYes = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_yes);
-     * btnBravoAlertYes.setOnClickListener(new OnClickListener() {
-     * 
-     * @Override
-     * public void onClick(View v) {
-     * dialog.dismiss();
-     * mGoogleMap.clear();
-     * Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
-     * intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-     * startActivityForResult(intent, REQUEST_SHOW_BRAVO_JUMP_ANIMATION);
-     * }
-     * });
-     * Button btnBravoAlertNo = (Button) dialog_view.findViewById(R.id.btn_bravo_action_alert_no);
-     * btnBravoAlertNo.setOnClickListener(new OnClickListener() {
-     * 
-     * @Override
-     * public void onClick(View v) {
-     * dialog.dismiss();
-     * mHomeActionListener.goToBack();
-     * }
-     * });
-     * dialog.setContentView(dialog_view);
-     * WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-     * Window window = dialog.getWindow();
-     * lp.copyFrom(window.getAttributes());
-     * // This makes the dialog take up the full width
-     * lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-     * lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-     * window.setAttributes(lp);
-     * dialog.show();
-     * }
-     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -208,44 +170,7 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
 
     }
 
-    private void requestGetUserTimeLine(String checkingUserId, final double latitude, final double longitude) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        if (StringUtility.isEmpty(mSessionLogin.userID) || StringUtility.isEmpty(mSessionLogin.accessToken)) {
-            userId = "";
-            accessToken = "";
-        }
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Location", String.valueOf(mLat) + "," + String.valueOf(mLong));
-        JSONObject subParamsJson = new JSONObject(subParams);
-        String subParamsJsonStr = subParamsJson.toString();
-        String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", checkingUserId);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
-            @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("obGetUserTimeline:" + response);
-
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetSpotTimeline mObGetSpotTimeline;
-                mObGetSpotTimeline = gson.fromJson(response.toString(), ObGetSpotTimeline.class);
-                AIOLog.d("mObGetSpotTimeline:" + mObGetSpotTimeline);
-                if (mObGetSpotTimeline == null || mObGetSpotTimeline.data.size() == 0) {
-                    return;
-                } else {
-                    changeLocation(mObGetSpotTimeline.data, latitude, longitude);
-                }
-
-            }
-
-            @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
-            }
-        }, params, true);
-        getTimeline.execute(url);
-
-    }
+ 
 
     public void changeLocation(double latitude, double longitude) {
         if (mGoogleMap == null)
