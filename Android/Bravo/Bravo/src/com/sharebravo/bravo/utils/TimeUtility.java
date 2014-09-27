@@ -63,12 +63,19 @@ public class TimeUtility {
     public static Calendar getDatePart(Date date) {
         Calendar cal = Calendar.getInstance(); // get calendar instance
         cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, 0); // set hour to midnight
+        cal.set(Calendar.YEAR, 0); // set hour to midnight
         cal.set(Calendar.MINUTE, 0); // set minute in hour
         cal.set(Calendar.SECOND, 0); // set second in minute
         cal.set(Calendar.MILLISECOND, 0); // set millisecond in second
 
         return cal; // return the date part
+    }
+
+    public static String convertDateToString(Date date) {
+        Calendar cal = Calendar.getInstance(); // get calendar instance
+        cal.setTime(date);
+        String dateStr = cal.get(Calendar.YEAR) + "." + cal.get(Calendar.MONTH) + "." + cal.get(Calendar.DATE);
+        return dateStr;
     }
 
     /**
@@ -141,7 +148,7 @@ public class TimeUtility {
             deltaTime = (_millesTime - System.currentTimeMillis()) / 1000;
         }
         if (deltaTime < 60)
-            returnDate = deltaTime + "s"; 
+            returnDate = deltaTime + "s";
         else if (deltaTime >= 60 && deltaTime < 3600)
         {
             int deltaMinute = (int) deltaTime / 60;
