@@ -95,6 +95,8 @@ public class BravoConstant {
     public static final String  PREF_KEY_POST_ON_TWITTER                           = "pref_key_POST_ON_TWITTER";
     public static final String  PREF_KEY_POST_ON_FOURSQUARE                        = "pref_key_POST_ON_FOURSQUARE";
 
+    public static final String  PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY                = "pref_key_CHECKING_BRAVO_SPENT_A_DAY";
+
     /* SNS Login, Register */
     public static final String  LOGIN_SNS_TYPE                                     = "login_sns_type";
     public static final String  REGISTER_SNS_TYPE                                  = "register_sns_type";

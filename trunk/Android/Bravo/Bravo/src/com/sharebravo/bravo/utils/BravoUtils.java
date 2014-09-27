@@ -2,6 +2,7 @@ package com.sharebravo.bravo.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -209,7 +210,7 @@ public class BravoUtils {
 
         return decodeBitmap(BitmapFactory.decodeFile(filePath, options), orientation);
     }
-    
+
     public static Bitmap decodedBitmapFromFile(String filePath, int orientation) {
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -364,5 +365,23 @@ public class BravoUtils {
                 obBravos.add(obBravo);
         }
         return obBravos;
+    }
+
+    public static boolean isSpentBravoADay(Context context) {
+        boolean isSpent = false;
+        String dataCheckingBravoAday = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY);
+        Date date = new Date();
+        AIOLog.d("convertDateToString " + TimeUtility.convertDateToString(date));
+        if (dataCheckingBravoAday.equals(TimeUtility.convertDateToString(date))) {
+            isSpent = true;
+        } else {
+            isSpent = false;
+        }
+        return isSpent;
+    }
+
+    public static String putBravoDateTime() {
+        Date date = new Date();
+        return TimeUtility.convertDateToString(date);
     }
 }
