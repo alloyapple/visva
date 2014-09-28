@@ -1,20 +1,13 @@
 package com.sharebravo.bravo.view.fragment.bravochecking;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -26,8 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -40,23 +31,15 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObGetSpotTimeline;
 import com.sharebravo.bravo.model.response.ObGetSpotTimeline.SpotTimeline;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
-import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
-import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 import com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation;
 
@@ -119,7 +102,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 layoutConfirm.setVisibility(View.GONE);
                 mGoogleMap.clear();
                 Intent intent = new Intent(getActivity(), ActivityGIFAnimation.class);
@@ -132,7 +114,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 mHomeActionListener.goToBack();
             }
         });
@@ -145,14 +126,9 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         super.onHiddenChanged(hidden);
         AIOLog.d("hidden:" + hidden);
         if (!hidden) {
-            //if (mTypeMaker == MAKER_BY_LOCATION_SPOT) {
-                changeLocation(mLat, mLong);
-                AIOLog.d("lat:" + mLat+"; "+"lon:" + mLong);
-                layoutConfirm.setVisibility(View.VISIBLE);
-          //  } else if (mTypeMaker == MAKER_BY_LOCATION_USER) {
-             //   requestGetUserTimeLine(foreignID, mLocation.getLatitude(), mLocation.getLongitude());
-           // }
-            // showDialogBravoConfirm();
+            changeLocation(mLat, mLong);
+            AIOLog.d("lat:" + mLat + "; " + "lon:" + mLong);
+            layoutConfirm.setVisibility(View.VISIBLE);
         }
     }
 
@@ -169,8 +145,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         }
 
     }
-
- 
 
     public void changeLocation(double latitude, double longitude) {
         if (mGoogleMap == null)
