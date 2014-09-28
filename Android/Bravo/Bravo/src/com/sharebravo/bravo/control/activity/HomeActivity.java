@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -170,6 +171,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private UiLifecycleHelper        mUiLifecycleHelper;
     private Session.StatusCallback   mFacebookCallback;
     private PendingAction            mPendingAction                 = PendingAction.NONE;
+    private boolean                  mBackPressedToExitOnce         = false;
 
     @Override
     public int contentView() {
@@ -578,11 +580,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         try {
             backstackID.remove(currentIndex);
             if (backstackID.size() == 0) {
-                super.onBackPressed();
-                return;
+                onBackPressedToExit();
             }
         } catch (IndexOutOfBoundsException e) {
-            super.onBackPressed();
+            onBackPressedToExit();
             return;
         }
 
@@ -968,6 +969,25 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToMapView(Spot spot, int locationType) {
         mFragmentBravoMap.setBravoSpot(spot);
         showFragment(FRAGMENT_BRAVO_MAP_ID, false);
+    }
 
+    private void onBackPressedToExit() {
+        AIOLog.d("onBackPressed:" + mBackPressedToExitOnce);
+        if (mBackPressedToExitOnce) {
+            super.onBackPressed();
+        } else {
+            this.mBackPressedToExitOnce = true;
+            showToast("Press again to exit");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mBackPressedToExitOnce = false;
+                }
+            }, 2000);
+        }
+    }
+
+    private void showToast(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
     }
 }
