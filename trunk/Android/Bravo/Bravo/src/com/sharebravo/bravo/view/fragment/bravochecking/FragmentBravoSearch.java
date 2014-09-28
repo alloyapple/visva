@@ -7,8 +7,10 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,6 +21,8 @@ import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -66,10 +70,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
     private SessionLogin            mSessionLogin               = null;
     private int                     mLoginBravoViaType          = BravoConstant.NO_LOGIN_SNS;
     private EditText                textboxSearch               = null;
-    // private AdapterBravoSearch mAdapterBravoSearch;
-    // private XListView mListViewResult;
     private Button                  mBtnClose;
-    // private ObGetSpotSearch mObGetSpotSearch;
 
     private LinearLayout            layoutQuickSearchOptions    = null;
     private AdapterSearchSpotResult mAdapter;
@@ -81,7 +82,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
     private int                     mMode;
     private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
-    // private ObGetSpotSearch mObGetSpotSearch = null;
     Location                        location                    = null;
     LocationManager                 locationManager             = null;
     private OnItemClickListener     iSpotClickListener          = new OnItemClickListener() {
@@ -116,7 +116,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 listViewResult.setVisibility(View.GONE);
                 layoutQuickSearchOptions.setVisibility(View.VISIBLE);
             }
@@ -147,7 +146,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 mBtnClose.setVisibility(View.VISIBLE);
@@ -172,7 +170,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 mBtnClose.setVisibility(View.VISIBLE);
@@ -212,7 +209,42 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
             layoutQuickSearchOptions.setVisibility(View.GONE);
             mMode = SEARCH_ARROUND_ME;
             requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
+            boolean isSpentADay = BravoUtils.isSpentBravoADay(getActivity());
+            if (isSpentADay) {
+                // showDialogSpentBravoADay();
+            }
         }
+    }
+
+    public void showDialogSpentBravoADay() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_spent_bravo_today, null);
+        Button btnYes = (Button) dialog_view.findViewById(R.id.btn_ok);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                mHomeActionListener.goToBack();
+                return;
+            }
+        });
+
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
+
     }
 
     @Override
@@ -411,16 +443,16 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                                 + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
                         AIOLog.e(newSpot.Spot_Icon, mSpots);
                         newSpot.Total_Bravos = 0;
-//                        int size = mOFGetVenueSearch.response.venues.size();
-//                        for (int j = 0; j < size; j++) {
-                            double lat = mOFGetVenueSearch.response.venues.get(i).location.lat;
-                            double lon = mOFGetVenueSearch.response.venues.get(i).location.lon;
-//                            if (lat != 0 && lon != 0) {
-                                newSpot.Spot_Latitude = lat;
-                                newSpot.Spot_Longitude = lon;
-//                                break;
-//                            }
-//                        }
+                        // int size = mOFGetVenueSearch.response.venues.size();
+                        // for (int j = 0; j < size; j++) {
+                        double lat = mOFGetVenueSearch.response.venues.get(i).location.lat;
+                        double lon = mOFGetVenueSearch.response.venues.get(i).location.lon;
+                        // if (lat != 0 && lon != 0) {
+                        newSpot.Spot_Latitude = lat;
+                        newSpot.Spot_Longitude = lon;
+                        // break;
+                        // }
+                        // }
                         newSpot.Spot_Source = "foursqure";
                         newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
                         newSpot.Spot_Type = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
@@ -511,31 +543,26 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
     @Override
     public void goToAddMySpot() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToAddSpot();
     }
 
     @Override
     public void onLocationChanged(Location arg0) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderDisabled(String arg0) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderEnabled(String arg0) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-        // TODO Auto-generated method stub
 
     }
 

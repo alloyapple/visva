@@ -74,7 +74,7 @@ public class TimeUtility {
     public static String convertDateToString(Date date) {
         Calendar cal = Calendar.getInstance(); // get calendar instance
         cal.setTime(date);
-        String dateStr = cal.get(Calendar.YEAR) + "." + cal.get(Calendar.MONTH) + "." + cal.get(Calendar.DATE);
+        String dateStr = cal.get(Calendar.YEAR) + "." + (cal.get(Calendar.MONTH) + 1) + "." + cal.get(Calendar.DATE);
         return dateStr;
     }
 

@@ -384,4 +384,10 @@ public class BravoUtils {
         Date date = new Date();
         return TimeUtility.convertDateToString(date);
     }
+    
+    public static void putPostBravoToSharePrefs(Context context){
+        Date date = new Date();
+        String dataCheckingBravoAday =  TimeUtility.convertDateToString(date);
+        BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY, dataCheckingBravoAday);
+    }
 }

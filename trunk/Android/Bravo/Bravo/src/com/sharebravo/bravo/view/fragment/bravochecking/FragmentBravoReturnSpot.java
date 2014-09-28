@@ -122,7 +122,9 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 }
                 else
                     /* go to return to spot detail */
-                    mHomeActionListener.goToSpotDetail(mSpot);
+                    mHomeActionListener.goToBack();
+                
+                BravoUtils.putPostBravoToSharePrefs(getActivity());
             }
 
             @Override
@@ -178,13 +180,13 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                         // }
                         // /* go to home screen */
                         // mBravoCheckingListener.goToBack();
-                        mHomeActionListener.goToSpotDetail(mSpot);
+                        mHomeActionListener.goToBack();
                     }
 
                     @Override
                     public void processIfResponseFail() {
                         AIOLog.d("response error");
-                        mHomeActionListener.goToSpotDetail(mSpot);
+                        mHomeActionListener.goToBack();
                     }
                 }, params, true);
         postBravoImage.execute(putUserUrl);

@@ -937,11 +937,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         showFragment(FRAGMENT_LOCATE_MYSPOT_ID, false);
     }
 
-    // @Override
-    // public void goToAfterBravo() {
-    // showFragment(FRAGMENT_AFTER_BRAVO_ID, false);
-    // }
-
     @Override
     public void requestToLoginSNS(String snsType) {
         if (BravoConstant.TWITTER.equals(snsType)) {
@@ -971,9 +966,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToMapView(Spot spot, int locationType) {
-//        AIOLog.d("spot:" + spot + ", locationType" + locationType);
-//        AIOLog.d("" + spot.Spot_Latitude + ",longt:" + spot.Spot_Longitude);
-//        mFragmentMapView.setCordinate(spot.Spot_Latitude, spot.Spot_Longitude);
         mFragmentBravoMap.setBravoSpot(spot);
         showFragment(FRAGMENT_BRAVO_MAP_ID, false);
 
