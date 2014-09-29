@@ -3,7 +3,6 @@ package com.sharebravo.bravo.model.response;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetComment {
     @SerializedName("Comment_ID")
@@ -17,7 +16,7 @@ public class ObGetComment {
     @SerializedName("Profile_Img_URL")
     public String           profileImgUrl;
     @SerializedName("SNS_List")
-    public HashMap<String, SNS> snsList     = new HashMap<String, ObBravo.SNS>();
+    public HashMap<String, SNS> snsList     = new HashMap<String, SNS>();
     @SerializedName("Comment_Text")
     public String           commentText;
     @SerializedName("Date_Created")

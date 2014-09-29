@@ -450,12 +450,6 @@ public class FragmentBravoRegister extends FragmentBasic {
                 if (file.exists()) {
                     fileUri = Uri.fromFile(file);
                     cropImageFromUri(fileUri);
-                    // int orientation = BravoUtils.checkOrientation(fileUri);
-                    // Bitmap bmp;
-                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    // mUserAvatarBitmap = bmp;
-                    // mImgUserPicture.setImageBitmap(bmp);
-                    // mUserAvatarBitmap = bmp;
                 } else {
                     AIOLog.d("file don't exist !");
                 }
@@ -498,8 +492,6 @@ public class FragmentBravoRegister extends FragmentBasic {
     }
 
     private void cropImageFromUri(Uri uri) {
-        // final ArrayList<CropOption> cropOptions = new
-        // ArrayList<CropOption>();
         AIOLog.d("uri:" + uri);
         Intent intent = new Intent("com.android.camera.action.CROP");
 

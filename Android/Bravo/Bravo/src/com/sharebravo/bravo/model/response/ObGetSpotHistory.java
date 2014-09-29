@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetSpotHistory {
     @SerializedName("data")
@@ -21,7 +20,7 @@ public class ObGetSpotHistory {
         @SerializedName("User_ID")
         public String               userID;
         @SerializedName("SNS_List")
-        public HashMap<String, SNS> snsList   = new HashMap<String, ObBravo.SNS>();
+        public HashMap<String, SNS> snsList   = new HashMap<String, SNS>();
         @SerializedName("Full_Name")
         public String               fullName;
         @SerializedName("Profile_Img_URL")

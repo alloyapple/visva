@@ -39,8 +39,8 @@ import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
 import com.sharebravo.bravo.model.response.ObPostBravo;
+import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -81,7 +81,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
         mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
-        initializeData();
         return root;
     }
 
@@ -122,6 +121,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            initializeData();
             if (mSpot != null) {
                 AIOLog.d("mSpot.Spot_Name:" + mSpot.Spot_Name);
                 mTextSpotName.setText(mSpot.Spot_Name);

@@ -2,6 +2,7 @@ package com.sharebravo.bravo.control.activity;
 
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.Spot;
 
 public interface HomeActionListener {
@@ -51,4 +52,6 @@ public interface HomeActionListener {
     public void goToReturnSpotFragment(Spot mSpot);
 
     public void goToMapView(Spot spot, int makerByLocationSpot);
+
+    public void putSNS(SNS snn);
 }
