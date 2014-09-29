@@ -198,6 +198,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
                             if (StringUtility.isEmpty(userAvatarUrl)) {
 
+                                
                                 mImgUserPicture.setImageBitmap(null);
                                 mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
                             } else {
