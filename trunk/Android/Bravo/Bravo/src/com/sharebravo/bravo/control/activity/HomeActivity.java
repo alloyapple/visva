@@ -790,19 +790,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             return;
         }
         String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mObBravo.Bravo_ID);
-        // Check for blank text
-        if (sharedText.trim().length() > 0) {
-            // update status
-            new UpdateTwitterStatus().execute(sharedText + " \n" + bravoUrl);
-        } else {
-            // EditText is empty
-            Toast.makeText(getApplicationContext(),
-                    "Please enter status message", Toast.LENGTH_SHORT)
-                    .show();
-        }
-
-        AIOLog.d("accessToken.getTokenSecret():" + accessToken.getTokenSecret() + ",accessToken.getToken():" + accessToken.getToken());
-
+        // update twitter status
+        new UpdateTwitterStatus().execute(sharedText + " \n" + bravoUrl);
     }
 
     /**

@@ -134,7 +134,6 @@ public class FragmentBravoLogin extends FragmentBasic {
                 } else if (obGetUserInfoWithBravoAccount.status == BravoConstant.STATUS_FAILED) {
                     showToast(getActivity().getResources().getString(R.string.username_password_not_valid));
                 } else {
-                    showToast("Hello " + obGetUserInfoWithBravoAccount.data.get(0).Full_Name);
                     /* save data to share preferences */
                     BravoUtils.saveResponseToSharePreferences(getActivity(), BravoConstant.LOGIN_BY_BRAVO_ACC, response);
 
