@@ -50,7 +50,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
     private ObGetUserInfo             mObGetUserInfo;
     private Button                    mBtnHomeNotification      = null;
-    private IShowPageHomeNotification mListener                 = null;
     private SessionLogin              mSessionLogin             = null;
     private int                       mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
     private boolean                   isNoFirstTime             = false;
@@ -209,7 +208,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             @Override
             public void onClick(View v) {
                 // show home notification tab
-                mListener.showPageHomeNotification();
+                mHomeActionListener.showPageHomeNotification();
                 mNotificationIcon.setVisibility(View.GONE);
             }
         });
@@ -335,14 +334,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    public interface IShowPageHomeNotification {
-        public void showPageHomeNotification();
-    }
-
-    public void setListener(IShowPageHomeNotification iShowPageHomeNotification) {
-        this.mListener = iShowPageHomeNotification;
     }
 
     private ArrayList<ObBravo> removeIncorrectBravoItems(ArrayList<ObBravo> bravoItems) {
