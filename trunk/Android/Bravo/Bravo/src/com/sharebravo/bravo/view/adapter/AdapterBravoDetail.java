@@ -175,7 +175,7 @@ public class AdapterBravoDetail extends BaseAdapter {
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
             } else {
-                layoutMapview.setVisibility(View.INVISIBLE);
+                layoutMapview.setVisibility(View.GONE);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, false);
             }
             if (mSpot != null) {

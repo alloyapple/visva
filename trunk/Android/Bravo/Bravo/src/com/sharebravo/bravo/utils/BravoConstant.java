@@ -91,9 +91,9 @@ public class BravoConstant {
     public static final String  PREF_KEY_BRAVO_NOTIFICATIONS                       = "pref_key_BRAVO_NOTIFICATIONS";
 
     /* share preference key to post on sns */
-    public static final String  PREF_KEY_POST_ON_FACEBOOK                          = "pref_key_POST_ON_FACEBOOK";
-    public static final String  PREF_KEY_POST_ON_TWITTER                           = "pref_key_POST_ON_TWITTER";
-    public static final String  PREF_KEY_POST_ON_FOURSQUARE                        = "pref_key_POST_ON_FOURSQUARE";
+    // public static final String PREF_KEY_POST_ON_FACEBOOK = "pref_key_POST_ON_FACEBOOK";
+    // public static final String PREF_KEY_POST_ON_TWITTER = "pref_key_POST_ON_TWITTER";
+    // public static final String PREF_KEY_POST_ON_FOURSQUARE = "pref_key_POST_ON_FOURSQUARE";
     public static final String  PREF_KEY_SNS_LIST                                  = "pref_key_SNS_LIST";
 
     public static final String  PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY                = "pref_key_CHECKING_BRAVO_SPENT_A_DAY";
