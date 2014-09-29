@@ -43,6 +43,7 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -979,4 +980,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private void showToast(String string) {
         Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void putSNS(SNS sns) {
+        // TODO Auto-generated method stub
+        
+    }
+    
 }

@@ -30,7 +30,7 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivitySplash;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
+import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
@@ -73,9 +73,24 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         mHomeActionListener = (HomeActivity) getActivity();
 
         initializeView(root);
-        initializeData();
         handlerToggleBtnEvents();
         return root;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        AIOLog.d("hidden:" + hidden);
+        if (mArrSNSList == null) {
+            AIOLog.d("array sns is null");
+        } else {
+            AIOLog.d("mArrSNSList.size()" + mArrSNSList.size());
+        }
+        if (!hidden) {
+            initializeData();
+        } else {
+
+        }
     }
 
     private void handlerToggleBtnEvents() {
@@ -85,8 +100,8 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
                     onCheckedToggleBtnFacebook(isChecked);
-                // else
-                // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
+                else
+                    isPostOnFacebook = false;
             }
         });
         mToggleBtnPostOnFacebook.setUserInfoChangedCallback(new UserInfoChangedCallback() {
@@ -96,9 +111,21 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 if (user == null) {
                     // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
                     mToggleBtnPostOnFacebook.setChecked(false);
+                    isPostOnFacebook = false;
                 } else {
                     // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
+                    checkDataToPutSNS(BravoConstant.FACEBOOK);
                     mToggleBtnPostOnFacebook.setChecked(true);
+                    isPostOnFacebook = true;
+                    Session session = Session.getActiveSession();
+                    SNS sns = null;
+                    sns = new SNS();
+                    if (session != null || session.isOpened()) {
+                        sns.foreignAccessToken = session.getAccessToken();
+                        sns.foreignID = user.getId();
+                        sns.foreignSNS = BravoConstant.FACEBOOK;
+                        mHomeActionListener.putSNS(sns);
+                    }
                 }
             }
         });
@@ -165,6 +192,11 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         });
     }
 
+    private void checkDataToPutSNS(String facebook) {
+        // TODO Auto-generated method stub
+
+    }
+
     private void onCheckedToggleBtnFacebook(boolean isChecked) {
         Session session = Session.getActiveSession();
         AIOLog.d("session=>" + session);
@@ -183,7 +215,10 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
     private void initializeData() {
         mSNSList = BravoUtils.getSNSList(getActivity());
-        mArrSNSList = mSNSList.snsArrList;
+        if (mSNSList == null)
+            mArrSNSList = new ArrayList<SNS>();
+        else
+            mArrSNSList = mSNSList.snsArrList;
         if (mArrSNSList == null || mArrSNSList.size() == 0) {
             isPostOnFacebook = false;
             isPostOnFourSquare = false;
@@ -384,7 +419,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     }
 
     public void setLoginedTwitter(boolean isLoginedTwitter) {
-        //BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, isLoginedTwitter);
+        // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, isLoginedTwitter);
         mToggleBtnPostOnTwitter.setChecked(isLoginedTwitter);
     }
 }

@@ -15,7 +15,7 @@ public class ObBravo {
     @SerializedName("Profile_Img_URL")
     public String               Profile_Img_URL;
     @SerializedName("SNS_List")
-    public HashMap<String, SNS> SNS_List   = new HashMap<String, ObBravo.SNS>();
+    public HashMap<String, SNS> SNS_List   = new HashMap<String, SNS>();
     @SerializedName("Bravo_Pics")
     public ArrayList<String>    Bravo_Pics = new ArrayList<String>();
     @SerializedName("Total_Bravo_Pics")
@@ -66,16 +66,6 @@ public class ObBravo {
 
     public ObBravo() {
 
-    }
-
-    public class SNS {
-        @SerializedName("Foreign_SNS")
-        public String foreignSNS;
-        @SerializedName("Foreign_ID")
-        public String foreignID;
-
-        public SNS() {
-        }
     }
 
     public Date_Created getDateCreated() {

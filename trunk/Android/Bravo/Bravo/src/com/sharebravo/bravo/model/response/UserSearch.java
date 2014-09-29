@@ -3,7 +3,6 @@ package com.sharebravo.bravo.model.response;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class UserSearch {
     @SerializedName("User_ID")

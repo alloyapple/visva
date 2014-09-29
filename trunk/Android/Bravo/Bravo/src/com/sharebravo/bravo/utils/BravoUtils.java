@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
+import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.model.user.ObPostUserSuccess;
@@ -403,18 +403,19 @@ public class BravoUtils {
             if (sns == null)
                 continue;
             if (snsList.snsArrList == null) {
-                snsList.snsArrList = new ArrayList<ObBravo.SNS>();
+                snsList.snsArrList = new ArrayList<SNS>();
                 snsList.snsArrList.add(sns);
-            } else if (snsList.snsArrList.size() == 0 || !snsList.snsArrList.contains(sns)) {
+            } else if (snsList.snsArrList.size() == 0) {
                 snsList.snsArrList.add(sns);
             } else {
                 boolean isCheckExist = false;
+                AIOLog.d("sNS_List snsArrList.size():" + snsList.snsArrList.size());
                 for (int i = 0; i < snsList.snsArrList.size(); i++) {
                     if (snsList.snsArrList.get(i).foreignSNS.equals(sns.foreignSNS))
                         isCheckExist = true;
                 }
-                if(!isCheckExist)
-                    snsList.snsArrList.add(sns); 
+                if (!isCheckExist)
+                    snsList.snsArrList.add(sns);
             }
         }
 

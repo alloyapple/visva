@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharebravo.bravo.model.response.ObBravo.SNS;
 
 public class ObGetSpotRank {
     @SerializedName("data")
