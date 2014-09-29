@@ -234,12 +234,10 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getSpotSearch = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             final int ownMode = mode;
-
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("getSpotSearch:" + response);
-                Gson gson = new GsonBuilder().serializeNulls().create();
-
+                Gson gson = new Gson();
                 ObGetSpotSearch mObGetSpotSearch = gson.fromJson(response.toString(), ObGetSpotSearch.class);
                 AIOLog.d("mObGetSpotSearch:" + mObGetSpotSearch);
                 if (mObGetSpotSearch == null) {
@@ -304,9 +302,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         for (i = 0; i < n - 1; i++) {
             min = i;
             for (j = i + 1; j < n; j++) {
-                double dI = gps2m(lLat, lLon, (float) mF.get(i).Spot_Latitude, (float) mF.get(i).Spot_Latitude);
-                double dJ = gps2m(lLat, lLon, (float) mF.get(j).Spot_Latitude, (float) mF.get(j).Spot_Latitude);
-                if (dJ < dI)
+                double dMin = gps2m(lLat, lLon, (float) mF.get(min).Spot_Latitude, (float) mF.get(min).Spot_Longitude);
+                double dJ = gps2m(lLat, lLon, (float) mF.get(j).Spot_Latitude, (float) mF.get(j).Spot_Longitude);
+                if (dJ < dMin)
                     min = j;
             }
             swap(mF, i, min);

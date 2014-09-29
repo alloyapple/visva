@@ -28,8 +28,8 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
-import com.sharebravo.bravo.view.fragment.home.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover3;
 
 public class AdapterSpotDetail extends BaseAdapter {
     private ArrayList<SpotHistory>  mSpotHistorys;
@@ -37,7 +37,7 @@ public class AdapterSpotDetail extends BaseAdapter {
     private Spot                    mSpot;
     FragmentTransaction             fragmentTransaction;
     FragmentSpotDetail              fragment;
-    FragmentMapCover                mapFragment;
+    FragmentMapCover3               mapFragment;
     private DetailSpotListener      listener;
     private HashMap<String, String> FID_Icons    = new HashMap<String, String>();
     private ArrayList<SpotRank>     mSpotRanks   = new ArrayList<ObGetSpotRank.SpotRank>();
@@ -86,9 +86,9 @@ public class AdapterSpotDetail extends BaseAdapter {
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.layout_spot_detail_header, null, false);
-                mapFragment = (FragmentMapCover) fragment.getChildFragmentManager().findFragmentById(R.id.myspot_map);
+                mapFragment = (FragmentMapCover3) fragment.getChildFragmentManager().findFragmentById(R.id.myspot_map);
                 if (mapFragment == null) {
-                    mapFragment = new FragmentMapCover();
+                    mapFragment = new FragmentMapCover3();
                     fragmentTransaction.add(R.id.myspot_map, mapFragment).commit();
                 }
                 btnCall = (Button) convertView.findViewById(R.id.btn_call_spot);
@@ -263,7 +263,7 @@ public class AdapterSpotDetail extends BaseAdapter {
     }
 
     public void updateMapView() {
-        mapFragment.changeLocation(FragmentMapCover.mLat, FragmentMapCover.mLong);
+        mapFragment.changeLocation(FragmentMapCover3.mLat, FragmentMapCover3.mLong);
     }
 
     public DetailSpotListener getListener() {

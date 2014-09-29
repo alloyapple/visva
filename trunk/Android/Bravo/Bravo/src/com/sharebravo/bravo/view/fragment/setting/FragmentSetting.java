@@ -68,7 +68,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_settings, container);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_settings, null);
         mHomeActionListener = (HomeActivity) getActivity();
 
         initializeView(root);

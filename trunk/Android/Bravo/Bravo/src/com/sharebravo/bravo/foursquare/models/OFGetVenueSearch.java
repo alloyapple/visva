@@ -38,7 +38,7 @@ public class OFGetVenueSearch {
         public String address;
         @SerializedName("lat")
         public double lat;
-        @SerializedName("lon")
+        @SerializedName("lng")
         public double lon;
     }
 

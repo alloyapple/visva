@@ -53,6 +53,8 @@ import com.sharebravo.bravo.view.adapter.AdapterSpotDetail;
 import com.sharebravo.bravo.view.adapter.DetailSpotListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover2;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
@@ -424,8 +426,8 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
 
     public void setSpot(Spot mSpot) {
         this.mSpot = mSpot;
-        FragmentMapCover.mLat = mSpot.Spot_Latitude;
-        FragmentMapCover.mLong = mSpot.Spot_Longitude;
+        FragmentMapCover2.mLat = mSpot.Spot_Latitude;
+        FragmentMapCover2.mLong = mSpot.Spot_Longitude;
         // mAdapter.updateMapView();
         mAdapter.updatSpot(mSpot);
     }
