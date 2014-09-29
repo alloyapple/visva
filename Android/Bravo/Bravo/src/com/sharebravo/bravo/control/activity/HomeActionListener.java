@@ -42,9 +42,6 @@ public interface HomeActionListener {
 
     public void goToLocateMySpot();
 
-    // public void goToBravoSpot(double lat, double lon);
-
-
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 
     public void requestToLoginSNS(String snsType);
@@ -54,4 +51,10 @@ public interface HomeActionListener {
     public void goToMapView(Spot spot, int makerByLocationSpot);
 
     public void putSNS(SNS snn);
+
+    public void showPageHomeNotification();
+
+    public void closePageHomeNotification();
+
+    public void showPageTermOfUse();
 }

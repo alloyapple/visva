@@ -44,7 +44,6 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 public class FragmentSetting extends FragmentBasic implements AccessTokenRequestListener {
     // =======================Constant Define==============
     // =======================Class Define=================
-    private IShowPageTermOfUse     iShowPageTermOfUse;
     private EasyFoursquareAsync    mEasyFoursquareAsync;
     // =======================Variable Define==============
     private TextView               mTextTermOfUse;
@@ -118,8 +117,12 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     mToggleBtnPostOnFacebook.setChecked(true);
                     isPostOnFacebook = true;
                     Session session = Session.getActiveSession();
-                    SNS sns = null;
-                    sns = new SNS();
+                    if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
+                       AIOLog.d("session is null");
+                       isPostOnFacebook = false;
+                       return;
+                    }
+                    SNS sns = new SNS();
                     if (session != null || session.isOpened()) {
                         sns.foreignAccessToken = session.getAccessToken();
                         sns.foreignID = user.getId();
@@ -294,7 +297,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
             @Override
             public void onClick(View v) {
-                iShowPageTermOfUse.showPageTermOfUse();
+                mHomeActionListener.showPageTermOfUse();
             }
         });
         mBtnBack = (Button) root.findViewById(R.id.btn_back);
@@ -312,14 +315,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 mHomeActionListener.goToFragment(HomeActivity.FRAGMENT_SHARE_WITH_FRIENDS_ID);
             }
         });
-    }
-
-    public interface IShowPageTermOfUse {
-        public void showPageTermOfUse();
-    }
-
-    public void setListener(IShowPageTermOfUse iShowPageTermOfUse) {
-        this.iShowPageTermOfUse = iShowPageTermOfUse;
     }
 
     private void requestToDeleteMyAccount() {

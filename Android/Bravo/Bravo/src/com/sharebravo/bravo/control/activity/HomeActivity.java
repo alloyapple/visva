@@ -1,6 +1,11 @@
 package com.sharebravo.bravo.control.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -46,6 +51,9 @@ import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
@@ -56,9 +64,7 @@ import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
-import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification.IClosePageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
-import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab.IShowPageHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentLiked;
 import com.sharebravo.bravo.view.fragment.home.FragmentLocateMySpot;
@@ -69,7 +75,6 @@ import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
 import com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail;
 import com.sharebravo.bravo.view.fragment.setting.FragmentSetting;
-import com.sharebravo.bravo.view.fragment.setting.FragmentSetting.IShowPageTermOfUse;
 import com.sharebravo.bravo.view.fragment.setting.FragmentShareWithFriends;
 import com.sharebravo.bravo.view.fragment.setting.FragmentTermOfUse;
 import com.sharebravo.bravo.view.fragment.setting.FragmentUpdateUserInfo;
@@ -81,8 +86,7 @@ import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab.IShowPageSettings;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageHomeNotification, IClosePageHomeNotification,
-        IShowPageSettings, IShowPageTermOfUse {
+public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener,IShowPageSettings {
 
     // ======================Constant Define===============
     private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
@@ -173,6 +177,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private Session.StatusCallback   mFacebookCallback;
     private PendingAction            mPendingAction                 = PendingAction.NONE;
     private boolean                  mBackPressedToExitOnce         = false;
+    private SessionLogin             mSessionLogin                  = null;
+    private int                      mLoginBravoViaType             = BravoConstant.NO_LOGIN_SNS;
 
     @Override
     public int contentView() {
@@ -187,10 +193,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onCreate() {
         MyApplication myApp = (MyApplication) getApplication();
         myApp._homeActivity = this;
-        final int _loginBravoViaType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
-        SessionLogin _sessionLogin = BravoUtils.getSession(this, _loginBravoViaType);
-        userId = _sessionLogin.userID;
-        accessToken = _sessionLogin.accessToken;
+        mLoginBravoViaType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(this, mLoginBravoViaType);
+        userId = mSessionLogin.userID;
+        accessToken = mSessionLogin.accessToken;
         /* facebook api */
         mFacebookCallback = new Session.StatusCallback() {
             @Override
@@ -377,11 +383,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
         mFragmentBravoMap = (FragmentBravoMap) mFmManager.findFragmentById(R.id.fragment_bravo_map);
 
-        mFragmentHomeTab.setListener(this);
-        mFragmentHomeNotification.setListener(this);
         mFragmentUserDataTab.setListener(this);
-        mFragmentSetting.setListener(this);
-
         showFragment(FRAGMENT_HOME_TAB_ID, false);
     }
 
@@ -608,7 +610,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         default:
             break;
         }
-        // return super.onKeyDown(keyCode, event);
         return false;
 
     }
@@ -616,7 +617,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void showPageHomeNotification() {
         goToFragment(FRAGMENT_HOME_NOTIFICATION_ID);
-        // mFragmentHomeNotification.onRequestListHomeNotification();
     }
 
     @Override
@@ -983,8 +983,27 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void putSNS(SNS sns) {
-        // TODO Auto-generated method stub
-        
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Foreign_SNS", sns.foreignSNS);
+        subParams.put("Foreign_ID",sns.foreignID);
+        subParams.put("Foreign_Access_Token", sns.foreignAccessToken);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putReport = new AsyncHttpPut(this, new AsyncHttpResponseProcess(this, mFragmentSetting) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putSNS :===>" + response);
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putReport.execute(url);
     }
-    
 }

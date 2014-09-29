@@ -19,7 +19,6 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObGetNotificationSearch;
-import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
@@ -39,7 +38,6 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
     private XListView                  mListViewNotifications;
     private TextView                   mTextNoNotifications;
     private Button                     mBtnCloseNotifications;
-    private IClosePageHomeNotification iClosePageHomeNotification;
     private AdapterHomeNotification    mAdapterHomeNotification;
 
     @Override
@@ -58,7 +56,7 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
 
             @Override
             public void onClick(View v) {
-                iClosePageHomeNotification.closePageHomeNotification();
+                mHomeActionListener.closePageHomeNotification();
             }
         });
         mAdapterHomeNotification = new AdapterHomeNotification(getActivity());
@@ -179,14 +177,6 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
         }, params, true);
         postRegister.execute(putUserUrl);
 
-    }
-
-    public interface IClosePageHomeNotification {
-        public void closePageHomeNotification();
-    }
-
-    public void setListener(IClosePageHomeNotification iClosePageHomeNotification) {
-        this.iClosePageHomeNotification = iClosePageHomeNotification;
     }
 
     @Override

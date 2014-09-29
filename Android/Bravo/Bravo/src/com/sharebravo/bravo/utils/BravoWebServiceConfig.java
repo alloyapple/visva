@@ -52,7 +52,8 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/timeline";
     public static final String URL_GET_RANK                         = URL_BRAVO_BASE + "/rank?User_ID={str}&Access_Token={str}";
 
-    public static final String URL_POST_BRAVO                       = URL_BRAVO_BASE + "/bravo/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
+    public static final String URL_POST_BRAVO                       = URL_BRAVO_BASE
+                                                                            + "/bravo/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_POST_BRAVO_SNS                   = URL_BRAVO_BASE + "/bravo/{str}/sns?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_COMMENT                     = URL_BRAVO_BASE + "/comment?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_POST_SPOTS                       = URL_BRAVO_BASE + "/spot?User_ID={str}&Access_Token={str}";
@@ -67,7 +68,8 @@ public class BravoWebServiceConfig {
     public static final String URL_PUT_NOTIFICATION                 = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/notifications?User_ID={str}&Access_Token={str}";
     public static final String URL_PUT_REPORT                       = URL_BRAVO_BASE + "/report?User_ID={User_ID}&Access_Token={Access_Token}";
-    public static final String URL_PUT_SNS                          = URL_BRAVO_BASE + "/user/{User_ID}/sns?User_ID={str}&Access_Token={str}";
+    public static final String URL_PUT_SNS                          = URL_BRAVO_BASE
+                                                                            + "/user/{User_ID}/sns?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_PUT_USER                         = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_BLOCKING                  = URL_BRAVO_BASE
