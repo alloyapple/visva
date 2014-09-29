@@ -136,15 +136,18 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                         else {
                             mNotificationIcon.setVisibility(View.VISIBLE);
                             if (mObGetUserInfo.data.Badge_Num < 11)
-                                mNotificationIcon.setText(mObGetUserInfo.data.Badge_Num+"");
+                                mNotificationIcon.setText(mObGetUserInfo.data.Badge_Num + "");
                             else
                                 mNotificationIcon.setText("10+");
+                        }
+                        if (mObGetUserInfo.data.SNS_List.size() > 0) {
+                            BravoUtils.putSNSList(getActivity(), mObGetUserInfo.data.SNS_List);
                         }
                         break;
                     default:
                         break;
                     }
-                }
+                } 
             }
 
             @Override

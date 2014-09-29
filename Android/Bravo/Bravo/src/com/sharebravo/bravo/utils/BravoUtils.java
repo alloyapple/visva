@@ -3,6 +3,8 @@ package com.sharebravo.bravo.utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +17,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObBravo.SNS;
+import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
 import com.sharebravo.bravo.model.user.ObPostUserSuccess;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -384,10 +388,48 @@ public class BravoUtils {
         Date date = new Date();
         return TimeUtility.convertDateToString(date);
     }
-    
-    public static void putPostBravoToSharePrefs(Context context){
+
+    public static void putPostBravoToSharePrefs(Context context) {
         Date date = new Date();
-        String dataCheckingBravoAday =  TimeUtility.convertDateToString(date);
+        String dataCheckingBravoAday = TimeUtility.convertDateToString(date);
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY, dataCheckingBravoAday);
+    }
+
+    public static void putSNSList(Context context, HashMap<String, SNS> sNS_List) {
+        AIOLog.d("sNS_List:" + sNS_List.values() + ", sNS_List.size():" + sNS_List.size());
+        SNSList snsList = getSNSList(context);
+        AIOLog.d("sNS_List getListItem:" + getSNSList(context));
+        if (snsList == null) {
+            snsList = new SNSList();
+        }
+
+        for (Map.Entry<String, SNS> entry : sNS_List.entrySet()) {
+            snsList.key = entry.getKey();
+            SNS sns = entry.getValue();
+            if (sns == null)
+                continue;
+            if (snsList.snsArrList == null) {
+                snsList.snsArrList = new ArrayList<ObBravo.SNS>();
+                snsList.snsArrList.add(sns);
+            } else if (snsList.snsArrList.size() == 0 || !snsList.snsArrList.contains(sns)) {
+                snsList.snsArrList.add(sns);
+            }
+        }
+
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String snsListJSON = gson.toJson(snsList.toString());
+        AIOLog.d("sNS_List snsListItem:" + snsListJSON.toString());
+        BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SNS_LIST, snsListJSON.toString());
+    }
+
+    public static SNSList getSNSList(Context context) {
+        String snsListStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_SNS_LIST);
+        AIOLog.d("sNS_List snsListStr:" + snsListStr);
+        if (StringUtility.isEmpty(snsListStr)) {
+            return null; 
+        }
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        SNSList snsList = gson.fromJson(snsListStr, SNSList.class);
+        return snsList;
     }
 }
