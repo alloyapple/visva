@@ -340,9 +340,9 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
         for (i = 0; i < n - 1; i++) {
             min = i;
             for (j = i + 1; j < n; j++) {
-                double dI = gps2m(lLat, lLon, (float) mF.get(i).Spot_Latitude, (float) mF.get(i).Spot_Latitude);
+                double dMin = gps2m(lLat, lLon, (float) mF.get(min).Spot_Latitude, (float) mF.get(min).Spot_Longitude);
                 double dJ = gps2m(lLat, lLon, (float) mF.get(j).Spot_Latitude, (float) mF.get(j).Spot_Latitude);
-                if (dJ < dI)
+                if (dJ < dMin)
                     min = j;
             }
             swap(mF, i, min);

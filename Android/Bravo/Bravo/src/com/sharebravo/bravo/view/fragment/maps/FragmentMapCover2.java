@@ -1,11 +1,10 @@
-package com.sharebravo.bravo.view.fragment.home;
+package com.sharebravo.bravo.view.fragment.maps;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,33 +14,22 @@ import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.sdk.log.AIOLog;
 
-public class FragmentMapViewCover extends SupportMapFragment {
-    public static double        mLat, mLong;
-    private GoogleMap        map;
-    private Marker           curMarker = null;
-    // private double mLat, mLong;
+public class FragmentMapCover2 extends SupportMapFragment {
+    public static double mLat, mLong;
+    private GoogleMap    map;
+    private View         mOriginalContentView;
 
-    private View             mOriginalContentView;
-    private TouchableWrapper mTouchView;
-
-    // private HomeActionListener mHomeActionListener = null;
-    //
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        mOriginalContentView = super.onCreateView(inflater, parent, savedInstanceState);
-        mTouchView = new TouchableWrapper(getActivity());
-        mTouchView.addView(mOriginalContentView);
-        return mTouchView;
+        mOriginalContentView = super.onCreateView(inflater, null, null);
+        return mOriginalContentView;
     }
 
     @Override
@@ -51,7 +39,6 @@ public class FragmentMapViewCover extends SupportMapFragment {
     }
 
     public void changeLocation(double latitude, double longitute) {
-        AIOLog.d("changeLocation:" + "-------------------------------");
         if (map == null)
             map = getMap();
 
@@ -64,30 +51,6 @@ public class FragmentMapViewCover extends SupportMapFragment {
         map.getUiSettings().setCompassEnabled(true);
         map.getUiSettings().setRotateGesturesEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
-        map.setOnMapClickListener(new OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng arg0) {
-                // TODO Auto-generated method stub
-                if (curMarker != null) {
-                }
-            }
-        });
-        map.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                // TODO Auto-generated method stub
-
-                if (curMarker != null) {
-
-                }
-                else {
-
-                }
-                return true;
-            }
-        });
         addMaker(latitude, longitute, "");
     }
 
@@ -102,8 +65,6 @@ public class FragmentMapViewCover extends SupportMapFragment {
     public void onViewStateRestored(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewStateRestored(savedInstanceState);
-        Log.e(getClass().toString(), "MapView onViewStateRestored...............");
-
     }
 
     public int getPixelByDp(int dp) {

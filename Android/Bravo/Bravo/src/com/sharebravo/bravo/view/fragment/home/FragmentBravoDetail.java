@@ -24,10 +24,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -65,6 +65,8 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.adapter.AdapterBravoDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover1;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
@@ -147,9 +149,9 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
 
     public void setBravoOb(ObBravo obj) {
         this.mBravoObj = obj;
-        FragmentMapViewCover.mLat = mBravoObj.Spot_Latitude;
-        FragmentMapViewCover.mLong = mBravoObj.Spot_Longitude;
-//        adapterRecentPostDetail.updateMapView();
+        FragmentMapCover1.mLat = mBravoObj.Spot_Latitude;
+        FragmentMapCover1.mLong = mBravoObj.Spot_Longitude;
+        // adapterRecentPostDetail.updateMapView();
         adapterRecentPostDetail.setBravoOb(mBravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
 

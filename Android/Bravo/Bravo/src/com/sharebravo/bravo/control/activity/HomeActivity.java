@@ -67,13 +67,13 @@ import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentLiked;
-import com.sharebravo.bravo.view.fragment.home.FragmentLocateMySpot;
-import com.sharebravo.bravo.view.fragment.home.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.home.FragmentNetworkTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentSaved;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
 import com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail;
+import com.sharebravo.bravo.view.fragment.maps.FragmentLocateMySpot;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.setting.FragmentSetting;
 import com.sharebravo.bravo.view.fragment.setting.FragmentShareWithFriends;
 import com.sharebravo.bravo.view.fragment.setting.FragmentTermOfUse;
@@ -382,6 +382,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spots);
         mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
         mFragmentBravoMap = (FragmentBravoMap) mFmManager.findFragmentById(R.id.fragment_bravo_map);
+        // mFragmentMapCoverAdd = (FragmentMapViewCover) mFmManager.findFragmentById(R.id.spot_map_add);
 
         mFragmentUserDataTab.setListener(this);
         showFragment(FRAGMENT_HOME_TAB_ID, false);
@@ -438,6 +439,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             break;
         case FRAGMENT_MAP_VIEW_ID:
             mFragmentMapView.setBackStatus(isback);
+            mTransaction.replace(R.id.fragment_map_view, mFragmentMapView);
             mTransaction.show(mFragmentMapView);
             break;
         case FRAGMENT_HOME_NOTIFICATION_ID:
@@ -504,6 +506,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case FRAGMENT_INPUT_MYSPOT_ID:
             mFragmentInputMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentInputMySpot);
+            // mTransaction.show(mFragmentMapCoverAdd);
             break;
         case FRAGMENT_LOCATE_MYSPOT_ID:
             mFragmentLocateMySpot.setBackStatus(isback);
@@ -883,6 +886,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToMapView(String foreignID, int locationType, String fullName) {
+//        mFragmentMapView = new FragmentMapView();
         mFragmentMapView.setForeignID(foreignID);
         mFragmentMapView.setTypeMaker(locationType);
         mFragmentMapView.setFullName(fullName);

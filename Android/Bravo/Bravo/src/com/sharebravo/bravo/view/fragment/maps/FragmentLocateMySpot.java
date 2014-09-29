@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment.home;
+package com.sharebravo.bravo.view.fragment.maps;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -22,8 +22,6 @@ import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -34,28 +32,25 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 
 public class FragmentLocateMySpot extends FragmentMapBasic implements LocationListener {
-    private GoogleMap        map;
-    private Marker           curMarker              = null;
-
-    private int              typeMaker;
-    // private double mLat, mLong;
-
-    private View             mOriginalContentView;
-    private TouchableWrapper mTouchView;
-    Location                 location               = null;
-    LocationManager          locationManager        = null;
-    Button                   btnBack                = null;
-    HomeActionListener       mHomeActionListener    = null;
-
+    private GoogleMap  map;
+    private int        typeMaker;
+    private View       mOriginalContentView;
+    Location           location            = null;
+    LocationManager    locationManager     = null;
+    Button             btnBack             = null;
+    HomeActionListener mHomeActionListener = null;
+    LayoutInflater     mLayoutInflater;
+    private Context    mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mOriginalContentView = super.onCreateView(inflater, container, savedInstanceState);
-        mTouchView = new TouchableWrapper(getActivity());
-        mTouchView.addView(mOriginalContentView);
+        mOriginalContentView = super.onCreateView(inflater, null, null);
+        setMapTransparent((ViewGroup) mOriginalContentView);
         mHomeActionListener = (HomeActivity) getActivity();
+        mContext = getActivity();
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.page_fragment_locate_map, container);
-        FrameLayout layoutMap = (FrameLayout) mView.findViewById(R.id.layout_map);
+        FrameLayout layoutMap = (FrameLayout) mView.findViewById(R.id.layout_map_locate_spot);
 
         btnBack = (Button) mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new OnClickListener() {
@@ -66,10 +61,21 @@ public class FragmentLocateMySpot extends FragmentMapBasic implements LocationLi
                 mHomeActionListener.goToBack();
             }
         });
-        layoutMap.addView(mTouchView);
+        layoutMap.addView(mOriginalContentView);
         return mView;
     }
+    private void setMapTransparent(ViewGroup group) {
+        int childCount = group.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = group.getChildAt(i);
 
+            if (child instanceof ViewGroup) {
+                setMapTransparent((ViewGroup) child);
+            } else if (child instanceof SurfaceView) {
+                child.setBackgroundColor(0x00000000);
+            }
+        }
+    }
     @Override
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
@@ -93,30 +99,16 @@ public class FragmentLocateMySpot extends FragmentMapBasic implements LocationLi
         map.getUiSettings().setCompassEnabled(true);
         map.getUiSettings().setRotateGesturesEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
-        map.setOnMapClickListener(new OnMapClickListener() {
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
-            public void onMapClick(LatLng arg0) {
-                // TODO Auto-generated method stub
-                if (curMarker != null) {
-                }
-            }
-        });
-        map.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
+            public void onMapClick(LatLng point) {
                 // TODO Auto-generated method stub
 
-                if (curMarker != null) {
-
-                }
-                else {
-
-                }
-                return true;
+                addMaker(point.latitude, point.longitude, "");
             }
         });
+
         getMap().clear();
         addMaker(latitude, longitude, "");
     }
@@ -133,6 +125,7 @@ public class FragmentLocateMySpot extends FragmentMapBasic implements LocationLi
         // Changing marker icon
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.nearby_icon);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
+        getMap().clear();
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
     }
@@ -143,32 +136,6 @@ public class FragmentLocateMySpot extends FragmentMapBasic implements LocationLi
 
     public void setTypeMaker(int typeMaker) {
         this.typeMaker = typeMaker;
-    }
-
-    public class TouchableWrapper extends FrameLayout {
-        private int lastX;
-
-        public TouchableWrapper(Context context) {
-            super(context);
-        }
-
-        @Override
-        public boolean dispatchTouchEvent(MotionEvent event) {
-            switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                break;
-            case MotionEvent.ACTION_UP:
-                lastX = (int) event.getX();
-                break;
-            }
-            return super.dispatchTouchEvent(event);
-        }
-
-        public int getXLastTouchOnScreen() {
-            int location[] = new int[2];
-            getLocationOnScreen(location);
-            return lastX + location[0];
-        }
     }
 
     @Override

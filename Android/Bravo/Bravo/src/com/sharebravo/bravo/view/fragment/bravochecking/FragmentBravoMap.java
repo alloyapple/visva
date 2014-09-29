@@ -1,7 +1,5 @@
 package com.sharebravo.bravo.view.fragment.bravochecking;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +14,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -25,8 +24,6 @@ import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -34,7 +31,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObGetSpotTimeline.SpotTimeline;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -44,36 +40,36 @@ import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 import com.sharebravo.bravo.view.lib.gifanimation.ActivityGIFAnimation;
 
 public class FragmentBravoMap extends FragmentMapBasic implements LocationListener {
-    public static final int  MAKER_BY_LOCATION_SPOT            = 0;
-    public static final int  MAKER_BY_LOCATION_USER            = 1;
+    public static final int MAKER_BY_LOCATION_SPOT            = 0;
+    public static final int MAKER_BY_LOCATION_USER            = 1;
 
-    public static final int  REQUEST_SHOW_BRAVO_JUMP_ANIMATION = 6001;
+    public static final int REQUEST_SHOW_BRAVO_JUMP_ANIMATION = 6001;
 
-    private GoogleMap        mGoogleMap;
-    private Marker           mCurMarker                        = null;
+    private GoogleMap       mGoogleMap;
+    private Marker          mCurMarker                        = null;
 
-    private int              mTypeMaker;
-    private double           mLat, mLong;
+    private int             mTypeMaker;
+    private double          mLat;
+    private double          mLong;
 
-    private View             mOriginalContentView;
-    private TouchableWrapper mTouchView;
-    private Location         mLocation                         = null;
-    private LocationManager  mLocationManager                  = null;
+    private View            mOriginalContentView;
+    private Location        mLocation                         = null;
+    private LocationManager mLocationManager                  = null;
 
-    private SessionLogin     mSessionLogin                     = null;
-    private String           foreignID                         = null;
-    private int              mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
-    private Spot             mSpot;
-    Button                   btnYes, btnNo;
-    LinearLayout             layoutConfirm;
+    private SessionLogin    mSessionLogin                     = null;
+    private String          foreignID                         = null;
+    private int             mLoginBravoViaType                = BravoConstant.NO_LOGIN_SNS;
+    private Spot            mSpot;
+    Button                  btnYes, btnNo;
+    LinearLayout            layoutConfirm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mOriginalContentView = super.onCreateView(inflater, container, savedInstanceState);
-        mTouchView = new TouchableWrapper(getActivity());
-        mTouchView.addView(mOriginalContentView);
+        setMapTransparent((ViewGroup) mOriginalContentView);
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
+
         if (mTypeMaker == MAKER_BY_LOCATION_SPOT) {
             // changeLocation(mLat, mLong);
         }
@@ -117,8 +113,21 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
                 mHomeActionListener.goToBack();
             }
         });
-        layoutMap.addView(mTouchView);
+        layoutMap.addView(mOriginalContentView);
         return mView;
+    }
+
+    private void setMapTransparent(ViewGroup group) {
+        int childCount = group.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = group.getChildAt(i);
+
+            if (child instanceof ViewGroup) {
+                setMapTransparent((ViewGroup) child);
+            } else if (child instanceof SurfaceView) {
+                child.setBackgroundColor(0x00000000);
+            }
+        }
     }
 
     @Override
@@ -159,74 +168,8 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         mGoogleMap.getUiSettings().setCompassEnabled(true);
         mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-        mGoogleMap.setOnMapClickListener(new OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng arg0) {
-                if (mCurMarker != null) {
-                }
-            }
-        });
-        mGoogleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                if (mCurMarker != null) {
-
-                }
-                else {
-
-                }
-                return true;
-            }
-        });
         getMap().clear();
         addMaker(latitude, longitude, "" + mSpot.Spot_Name);
-    }
-
-    public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
-        if (mGoogleMap == null)
-            mGoogleMap = getMap();
-
-        LatLng latLng = new LatLng(latitude, longitude);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-        mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
-        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mGoogleMap.getUiSettings().setCompassEnabled(true);
-        mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
-        mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-        mGoogleMap.setOnMapClickListener(new OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng arg0) {
-                if (mCurMarker != null) {
-                }
-            }
-        });
-        mGoogleMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-
-                if (mCurMarker != null) {
-
-                }
-                else {
-
-                }
-                return true;
-            }
-        });
-        getMap().clear();
-        addMaker(latitude, longitude, "" + mSpot.Spot_Name);
-        if (data == null)
-            return;
-
-        for (int i = 0; i < data.size(); i++) {
-            addMaker(data.get(i).Spot_Latitude, data.get(i).Spot_Longitude, "" + data.get(i).Spot_Name);
-        }
     }
 
     public int getPixelByDp(int dp) {
@@ -255,11 +198,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
 
     public void setTypeMaker(int typeMaker) {
         this.mTypeMaker = typeMaker;
-    }
-
-    public void setCordinate(String _lat, String _long) {
-        mLat = Double.parseDouble(_lat);
-        mLong = Double.parseDouble(_long);
     }
 
     public class TouchableWrapper extends FrameLayout {

@@ -30,7 +30,7 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
-import com.sharebravo.bravo.view.fragment.home.FragmentMapViewCover;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover1;
 
 public class AdapterBravoDetail extends BaseAdapter {
     private Context            mContext;
@@ -53,7 +53,7 @@ public class AdapterBravoDetail extends BaseAdapter {
         mLoginBravoViaType = BravoSharePrefs.getInstance(context).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(context, mLoginBravoViaType);
         fragmentTransaction = fragment.getChildFragmentManager().beginTransaction();
-        
+
     }
 
     public void setListener(DetailPostListener listener) {
@@ -79,39 +79,39 @@ public class AdapterBravoDetail extends BaseAdapter {
         this.bravoObj = obj;
     }
 
-    ImageView            imagePost;
-    TextView             contentPost;
-    ImageView            userAvatar;
-    TextView             txtUserName;
-    Button               btnCallSpot;
-    Button               btnViewMap;
-    Button               btnFollow;
-    ImageView            followIcon;
-    boolean              isFollowing   = false;
-    EditText             textboxComment;
-    Button               btnSubmitComment;
-    TextView             btnLeft;
-    TextView             txtLikedNumber;
-    TextView             txtCommentNumber;
-    TextView             btnRight;
-    boolean              isLiked;
-    TextView             btnMiddle;
-    boolean              isSave;
-    TextView             btnReport;
-    FragmentMapViewCover mapFragment;
-    Button               btnLiked;
+    ImageView           imagePost;
+    TextView            contentPost;
+    ImageView           userAvatar;
+    TextView            txtUserName;
+    Button              btnCallSpot;
+    Button              btnViewMap;
+    Button              btnFollow;
+    ImageView           followIcon;
+    boolean             isFollowing   = false;
+    EditText            textboxComment;
+    Button              btnSubmitComment;
+    TextView            btnLeft;
+    TextView            txtLikedNumber;
+    TextView            txtCommentNumber;
+    TextView            btnRight;
+    boolean             isLiked;
+    TextView            btnMiddle;
+    boolean             isSave;
+    TextView            btnReport;
+    FragmentMapCover1   mapFragment;
+    Button              btnLiked;
 
-    ImageView            iconLiked;
-    TextView             txtNumberLiked;
-    Button               btnSaved;
-    ImageView            iconSaved;
-    TextView             txtNumberSaved;
-    FrameLayout          layoutMapview = null;
-    FragmentTransaction  fragmentTransaction;
-    ImageView            btnChooseImage;
-    LinearLayout         layoutLiked;
-    LinearLayout         layoutSaved;
-    boolean              isShowMap     = false;
+    ImageView           iconLiked;
+    TextView            txtNumberLiked;
+    Button              btnSaved;
+    ImageView           iconSaved;
+    TextView            txtNumberSaved;
+    FrameLayout         layoutMapview = null;
+    FragmentTransaction fragmentTransaction;
+    ImageView           btnChooseImage;
+    LinearLayout        layoutLiked;
+    LinearLayout        layoutSaved;
+    boolean             isShowMap     = false;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -146,9 +146,9 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 btnChooseImage = (ImageView) convertView.findViewById(R.id.img_picture_choose);
 
-                mapFragment = (FragmentMapViewCover) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
+                mapFragment = (FragmentMapCover1) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
                 if (mapFragment == null) {
-                    mapFragment = new FragmentMapViewCover();
+                    mapFragment = new FragmentMapCover1();
                     fragmentTransaction.add(R.id.img_map, mapFragment).commit();
                 }
             }
@@ -407,7 +407,7 @@ public class AdapterBravoDetail extends BaseAdapter {
 
     public void updateMapView() {
         notifyDataSetChanged();
-        mapFragment.changeLocation(FragmentMapViewCover.mLat, FragmentMapViewCover.mLong);
+        mapFragment.changeLocation(FragmentMapCover1.mLat, FragmentMapCover1.mLong);
     }
 
     public void updateSave(boolean isSave) {

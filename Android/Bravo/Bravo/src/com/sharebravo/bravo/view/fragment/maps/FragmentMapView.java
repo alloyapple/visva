@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment.home;
+package com.sharebravo.bravo.view.fragment.maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,18 +19,16 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -61,13 +59,9 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     private HashMap<Marker, SpotTimeline> mMakers                = new HashMap<Marker, SpotTimeline>();
 
     private GoogleMap                     map;
-    private Marker                        curMarker              = null;
-
     private int                           typeMaker;
     private double                        mLat, mLong;
-
     private View                          mOriginalContentView;
-    private TouchableWrapper              mTouchView;
     Location                              location               = null;
     LocationManager                       locationManager        = null;
     Button                                btnBack                = null;
@@ -82,8 +76,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mOriginalContentView = super.onCreateView(inflater, container, savedInstanceState);
-        mTouchView = new TouchableWrapper(getActivity());
-        mTouchView.addView(mOriginalContentView);
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         mContext = getActivity();
@@ -98,9 +90,22 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
                 mHomeActionListener.goToBack();
             }
         });
-        mView.addView(mTouchView);
+        mView.addView(mOriginalContentView);
         return mView;
     }
+
+//    private void setMapTransparent(ViewGroup group) {
+//        int childCount = group.getChildCount();
+//        for (int i = 0; i < childCount; i++) {
+//            View child = group.getChildAt(i);
+//
+//            if (child instanceof ViewGroup) {
+//                setMapTransparent((ViewGroup) child);
+//            } else if (child instanceof SurfaceView) {
+//                child.setBackgroundColor(0x00000000);
+//            }
+//        }
+//    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -172,7 +177,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         map.getUiSettings().setRotateGesturesEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
         getMap().clear();
-        //addMaker(latitude, longitude, "").showInfoWindow();
+        // addMaker(latitude, longitude, "").showInfoWindow();
     }
 
     public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
@@ -188,17 +193,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         map.getUiSettings().setCompassEnabled(true);
         map.getUiSettings().setRotateGesturesEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
-        map.setOnMapClickListener(new OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng arg0) {
-                if (curMarker != null) {
-                }
-            }
-        });
-
         getMap().clear();
-        // addMaker(latitude, longitude, "");
         if (data == null)
             return;
         mMakers.clear();
@@ -239,7 +234,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
         marker.title(name);
         Marker markerObject = getMap().addMarker(marker);
-        // markerObject.showInfoWindow();
+
         return markerObject;
     }
 
@@ -254,32 +249,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     public void setCordinate(String _lat, String _long) {
         mLat = Double.parseDouble(_lat);
         mLong = Double.parseDouble(_long);
-    }
-
-    public class TouchableWrapper extends FrameLayout {
-        private int lastX;
-
-        public TouchableWrapper(Context context) {
-            super(context);
-        }
-
-        @Override
-        public boolean dispatchTouchEvent(MotionEvent event) {
-            switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                break;
-            case MotionEvent.ACTION_UP:
-                lastX = (int) event.getX();
-                break;
-            }
-            return super.dispatchTouchEvent(event);
-        }
-
-        public int getXLastTouchOnScreen() {
-            int location[] = new int[2];
-            getLocationOnScreen(location);
-            return lastX + location[0];
-        }
     }
 
     @Override
@@ -376,7 +345,5 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-
-   
 
 }
