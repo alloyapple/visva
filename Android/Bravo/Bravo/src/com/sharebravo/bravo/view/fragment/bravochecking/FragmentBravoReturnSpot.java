@@ -3,6 +3,7 @@ package com.sharebravo.bravo.view.fragment.bravochecking;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,9 @@ import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo.SNS;
 import com.sharebravo.bravo.model.response.ObPostBravo;
+import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
@@ -53,21 +56,24 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoReturnSpot extends FragmentBasic {
     // ====================Constant Define=================
-    private static final int      REQUEST_CODE_CAMERA  = 101;
-    private static final int      REQUEST_CODE_GALLERY = 102;
+    private static final int REQUEST_CODE_CAMERA  = 101;
+    private static final int REQUEST_CODE_GALLERY = 102;
     // ====================Class Define====================
-    private Spot                  mSpot;
+    private Spot             mSpot;
+    private SNSList          mSNSList;
+    private ArrayList<SNS>   mArrSNSList;
     // ====================Variable Define=================
-    private ImageView             mImageSpot;
-    private ImageView             mImageChooseImage;
-    private ImageButton           mBtnImageCover;
-    private TextView              mTextSpotName;
-    private Button                mBtnReturnSpot;
-    private Button                mBtnShareFacebook;
-    private Button                mBtnShareTwitter;
-    private Button                mBtnShareFourSquare;
-    private Uri                   mCapturedImageURI;
-    private Bitmap                mSpotBitmap;
+    private ImageView        mImageSpot;
+    private ImageView        mImageChooseImage;
+    private ImageButton      mBtnImageCover;
+    private TextView         mTextSpotName;
+    private Button           mBtnReturnSpot;
+    private Button           mBtnShareFacebook;
+    private Button           mBtnShareTwitter;
+    private Button           mBtnShareFourSquare;
+    private Uri              mCapturedImageURI;
+    private Bitmap           mSpotBitmap;
+    private boolean          isPostOnFacebook, isPostOnFourSquare, isPostOnTwitter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +81,41 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
         mHomeActionListener = (HomeActivity) getActivity();
         initializeView(root);
+        initializeData();
         return root;
+    }
+
+    private void initializeData() {
+        mSNSList = BravoUtils.getSNSList(getActivity());
+        mArrSNSList = mSNSList.snsArrList;
+        if (mArrSNSList == null || mArrSNSList.size() == 0) {
+            isPostOnFacebook = false;
+            isPostOnFourSquare = false;
+            isPostOnTwitter = false;
+        } else
+            for (int i = 0; i < mArrSNSList.size(); i++) {
+                if (BravoConstant.FACEBOOK.equals(mArrSNSList.get(i).foreignSNS))
+                    isPostOnFacebook = true;
+                if (BravoConstant.FOURSQUARE.equals(mArrSNSList.get(i).foreignSNS))
+                    isPostOnFourSquare = true;
+                if (BravoConstant.TWITTER.equals(mArrSNSList.get(i).foreignSNS))
+                    isPostOnTwitter = true;
+            }
+        if (isPostOnFacebook) {
+            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
+        } else {
+            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
+        }
+        if (isPostOnTwitter) {
+            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
+        } else {
+            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
+        }
+        if (isPostOnFourSquare) {
+            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
+        } else {
+            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
+        }
     }
 
     @Override
@@ -123,7 +163,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 else
                     /* go to return to spot detail */
                     mHomeActionListener.goToBack();
-                
+
                 BravoUtils.putPostBravoToSharePrefs(getActivity());
             }
 
@@ -217,25 +257,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 requestToPostBravoSpotWithImage(mSpot, mSpotBitmap);
             }
         });
-
-        boolean isPostOnFacebook = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK);
-        if (isPostOnFacebook) {
-            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
-        } else {
-            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
-        }
-        boolean isPostOnTwitter = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER);
-        if (isPostOnTwitter) {
-            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_on);
-        } else {
-            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
-        }
-        boolean isPostOnFourSquare = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE);
-        if (isPostOnFourSquare) {
-            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_on);
-        } else {
-            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
-        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.sharebravo.bravo.view.fragment.setting;
 
+import java.util.ArrayList;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -28,6 +30,8 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivitySplash;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo.SNS;
+import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
@@ -56,6 +60,9 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     private ToggleButton           mToggleBtnTotalBravoNotifications;
     private ToggleButton           mToggleBtnBravoNotifications;
     private Button                 mBtnBack;
+    private SNSList                mSNSList;
+    private ArrayList<SNS>         mArrSNSList;
+    private boolean                isPostOnFacebook, isPostOnTwitter, isPostOnFourSquare;
 
     private UiLifecycleHelper      mUiLifecycleHelper;
     private Session.StatusCallback mFacebookCallback;
@@ -78,8 +85,8 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
                     onCheckedToggleBtnFacebook(isChecked);
-                else
-                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
+                // else
+                // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
             }
         });
         mToggleBtnPostOnFacebook.setUserInfoChangedCallback(new UserInfoChangedCallback() {
@@ -87,10 +94,10 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             @Override
             public void onUserInfoFetched(GraphUser user) {
                 if (user == null) {
-                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
+                    // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, false);
                     mToggleBtnPostOnFacebook.setChecked(false);
                 } else {
-                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
+                    // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
                     mToggleBtnPostOnFacebook.setChecked(true);
                 }
             }
@@ -100,11 +107,11 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mToggleBtnPostOnTwitter.setChecked(false);
-                if (isChecked){
+                if (isChecked) {
                     mHomeActionListener.requestToLoginSNS(BravoConstant.TWITTER);
                 }
-                else
-                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, false);
+                // else
+                // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, false);
             }
         });
         mToggleBtnPostOnFourSquare.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -114,8 +121,8 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 mToggleBtnPostOnFourSquare.setChecked(false);
                 if (isChecked)
                     onCheckedToggleBtnFourSquare(isChecked);
-                else
-                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, false);
+                // else
+                // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, false);
             }
         });
 
@@ -163,9 +170,10 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         AIOLog.d("session=>" + session);
         if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
             mToggleBtnPostOnFacebook.onClickLoginFb();
-        } else {
-            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
         }
+        // else {
+        // BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK, true);
+        // }
     }
 
     private void onCheckedToggleBtnFourSquare(boolean isChecked) {
@@ -174,20 +182,31 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     }
 
     private void initializeData() {
-
-        boolean isPostOnFacebook = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FACEBOOK);
+        mSNSList = BravoUtils.getSNSList(getActivity());
+        mArrSNSList = mSNSList.snsArrList;
+        if (mArrSNSList == null || mArrSNSList.size() == 0) {
+            isPostOnFacebook = false;
+            isPostOnFourSquare = false;
+            isPostOnTwitter = false;
+        } else
+            for (int i = 0; i < mArrSNSList.size(); i++) {
+                if (BravoConstant.FACEBOOK.equals(mArrSNSList.get(i).foreignSNS))
+                    isPostOnFacebook = true;
+                if (BravoConstant.FOURSQUARE.equals(mArrSNSList.get(i).foreignSNS))
+                    isPostOnFourSquare = true;
+                if (BravoConstant.TWITTER.equals(mArrSNSList.get(i).foreignSNS))
+                    isPostOnTwitter = true;
+            }
         if (isPostOnFacebook) {
             mToggleBtnPostOnFacebook.setChecked(true);
         } else {
             mToggleBtnPostOnFacebook.setChecked(false);
         }
-        boolean isPostOnTwitter = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER);
         if (isPostOnTwitter) {
             mToggleBtnPostOnTwitter.setChecked(true);
         } else {
             mToggleBtnPostOnTwitter.setChecked(false);
         }
-        boolean isPostOnFourSquare = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE);
         if (isPostOnFourSquare) {
             mToggleBtnPostOnFourSquare.setChecked(true);
         } else {
@@ -334,14 +353,12 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     @Override
     public void onError(String errorMsg) {
         AIOLog.d("errorMsg: " + errorMsg);
-        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, false);
         mToggleBtnPostOnFourSquare.setChecked(false);
     }
 
     @Override
     public void onAccessGrant(String accessToken) {
         AIOLog.d("accessToken: " + accessToken);
-        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_FOURSQUARE, true);
         mToggleBtnPostOnFourSquare.setChecked(true);
     }
 
@@ -366,8 +383,8 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         mUiLifecycleHelper.onCreate(savedInstanceState);
     }
 
-    public void setLoginedTwitter(boolean isLoginedTwitter) { 
-        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, isLoginedTwitter);
+    public void setLoginedTwitter(boolean isLoginedTwitter) {
+        //BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_POST_ON_TWITTER, isLoginedTwitter);
         mToggleBtnPostOnTwitter.setChecked(isLoginedTwitter);
     }
 }
