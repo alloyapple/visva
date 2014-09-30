@@ -2,7 +2,6 @@ package com.sharebravo.bravo.control.activity;
 
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
-import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.Spot;
 

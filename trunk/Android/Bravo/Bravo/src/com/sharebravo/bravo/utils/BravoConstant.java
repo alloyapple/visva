@@ -116,4 +116,6 @@ public class BravoConstant {
     public static final String  TWITTER                                            = "Twitter";
     public static final String  LINE                                               = "Line";
     public static final String  BRAVO                                              = "Bravo";
+
+    public static final String  EXTRA_SPOT_JSON                                    = "extra_SPOT_JSON";
 }

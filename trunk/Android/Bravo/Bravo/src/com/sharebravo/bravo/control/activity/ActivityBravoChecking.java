@@ -8,10 +8,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
@@ -32,7 +36,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     private FragmentBravoMap        mFragmentBravoMap;
     private FragmentBravoReturnSpot mFragmentBravoReturnSpots;
     private FragmentBravoSearch     mFragmentBravoSearch;
-
+    private Spot                    mSpot;
     // ======================Variable Define===============
     private ArrayList<String>       mBackstack                     = new ArrayList<String>();
 
@@ -54,8 +58,20 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spot);
         mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
 
-        showFragment(FRAGMENT_BRAVO_TAB_ID);
-        Toast.makeText(this, "This feature is coming soon", Toast.LENGTH_SHORT).show();
+        String spotJSon = getIntent().getExtras().getString(BravoConstant.EXTRA_SPOT_JSON);
+        AIOLog.d("spotJSon:" + spotJSon);
+        if (StringUtility.isEmpty(spotJSon))
+            showFragment(FRAGMENT_BRAVO_TAB_ID);
+        else {
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            mSpot = gson.fromJson(spotJSon.toString(), Spot.class);
+            if (mSpot == null)
+                showFragment(FRAGMENT_BRAVO_TAB_ID);
+            else {
+                mFragmentBravoMap.setBravoSpot(mSpot);
+                showFragment(FRAGMENT_BRAVO_MAP_ID);
+            }
+        }
     }
 
     private void showFragment(int fragmentID) {
@@ -67,11 +83,9 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
             break;
         case FRAGMENT_BRAVO_MAP_ID:
             mTransaction.show(mFragmentBravoMap);
-            addToSBackStack(FRAGMENT_BRAVO_MAP);
             break;
         case FRAGMENT_BRAVO_RETURN_SPOTS_ID:
             mTransaction.show(mFragmentBravoReturnSpots);
-            addToSBackStack(FRAGMENT_BRAVO_RETURN_SPOTS);
             break;
         }
         mTransaction.commit();
@@ -165,16 +179,23 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void goToReturnSpotFragment(Spot mSpot) {
-        
+        mFragmentBravoReturnSpots.setBravoSpot(mSpot);
+        showFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID);
     }
 
     @Override
     public void goToAddSpot() {
-        
+
     }
 
     @Override
     public void putSNS(SNS sns) {
+
+    }
+
+    @Override
+    public void finishPostBravo() {
+        // TODO Auto-generated method stub
         
     }
 }

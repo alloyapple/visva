@@ -44,6 +44,8 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.SessionLogin;
@@ -274,9 +276,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             txtNetwork.setTextColor(Color.WHITE);
             break;
         case R.id.btn_bravo:
-            // backstackID.clear();
             hideTabButton();
             Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
+            bravoIntent.putExtra(BravoConstant.EXTRA_SPOT_JSON, "");
             startActivity(bravoIntent);
             overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
             break;
@@ -372,7 +374,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentLiked = (FragmentLiked) mFmManager.findFragmentById(R.id.fragment_liked);
         mFragmentSaved = (FragmentSaved) mFmManager.findFragmentById(R.id.fragment_saved);
         mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_spot_detail);
-        // mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
 
         mFragmentUserDataTab.setListener(this);
@@ -1053,6 +1054,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToMapView(Spot mSpot, int makerByLocationSpot) {
-        
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String snsListJSON = gson.toJson(mSpot);
+        Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
+        bravoIntent.putExtra(BravoConstant.EXTRA_SPOT_JSON, snsListJSON);
+        startActivity(bravoIntent);
+        overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
     }
 }
