@@ -9,38 +9,17 @@
     <LinearLayout
         android:id="@+id/layout_delete"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
-        android:background="#33333333"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingRight="8dp" >
-
-        <!--
-        <TextView
-            android:id="@+id/undo_row_texttv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/delete"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="#ffffff" />
-        -->
+        android:background="@drawable/delete_favourite"
+        android:gravity="center" >
 
         <Button
             android:id="@+id/undo_row_undobutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:drawableLeft="@drawable/ic_undo"
-            android:paddingRight="8dp"
-            android:text="@string/tap_to_undo"
+            android:text="@string/delete"
             android:textColor="#ffffff"
             android:textSize="16sp" />
     </LinearLayout>

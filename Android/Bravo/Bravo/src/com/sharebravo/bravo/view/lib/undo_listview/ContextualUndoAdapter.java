@@ -18,16 +18,15 @@ package com.sharebravo.bravo.view.lib.undo_listview;
 
 import static com.nineoldandroids.view.ViewHelper.setAlpha;
 import static com.nineoldandroids.view.ViewHelper.setTranslationX;
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.FloatMath;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -38,11 +37,11 @@ import android.widget.TextView;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.ViewHelper;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
@@ -56,6 +55,7 @@ import com.sharebravo.bravo.utils.TimeUtility;
  * * Call setDeleteItemCallback to be notified of when items should be removed from your collection. <br>
  * * Set your ListView to this ContextualUndoAdapter, and set this ContextualUndoAdapter to your ListView. <br>
  */
+@SuppressLint("DefaultLocale")
 public class ContextualUndoAdapter extends BaseAdapterDecorator implements ContextualUndoListViewTouchListener.Callback {
 
     private final int           mUndoLayoutId;
@@ -79,15 +79,22 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      *            The layout resource id to show as undo
      * @param undoActionId
      *            The id of the component which undoes the dismissal
+     * @param mLong2
+     * @param mLat2
      */
     public ContextualUndoAdapter(Context context, BaseAdapter baseAdapter, ArrayList<ObBravo> obGetAllBravoRecentPosts, int undoLayoutId,
-            int undoActionId, boolean isSortByDate) {
+            int undoActionId, boolean isSortByDate, Double mLat2, Double mLong2) {
         super(baseAdapter);
         mImageLoader = new ImageLoader(context);
         mObGetAllBravoRecentPosts = obGetAllBravoRecentPosts;
         mUndoLayoutId = undoLayoutId;
         mUndoActionId = undoActionId;
         mCurrentRemovedId = -1;
+        this.isSortByDate = isSortByDate;
+        if (!isSortByDate) {
+            this.mLat = mLat2;
+            this.mLong = mLong2;
+        }
     }
 
     @Override
@@ -98,7 +105,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
             AIOLog.d("mUndoActionId:" + contextualUndoView.findViewById(mUndoActionId));
 
             initializeView(contextualUndoView, position);
-            contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(contextualUndoView));
+            contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(position));
         }
 
         View contentView = super.getView(position, contextualUndoView.getContentView(), parent);
@@ -135,25 +142,11 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
                 holder._userName.setText(obGetBravo.Full_Name);
             holder._recentPostSpotName.setText(obGetBravo.Spot_Name);
 
-            String profile_img_url = obGetBravo.Profile_Img_URL;
-
-            AIOLog.d("obGetBravo.Profile_Img_URL: " + obGetBravo.Profile_Img_URL);
-            // if (StringUtility.isEmpty(profile_img_url)) {
-            // holder._userAvatar.setImageResource(R.drawable.user_picture_default);
-            // } else {
-            // mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holder._userAvatar, true);
-            // }
-            // holder._userAvatar.setOnClickListener(new View.OnClickListener() {
-            //
-            // @Override
-            // public void onClick(View v) {
-            // // iClickUserAvatar.onClickUserAvatar(obGetBravo.User_ID);
-            // }
-            // });
-
             // set observer to view
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
-            String imgSpotUrl = obGetBravo.Last_Pic;
+            String imgSpotUrl = null;
+            if (obGetBravo.Bravo_Pics.size() > 0)
+                imgSpotUrl = obGetBravo.Bravo_Pics.get(0);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.recent_post_none_img);
@@ -162,6 +155,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.bg_home_cover);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, holder._recentPostImage, false);
             }
+            AIOLog.d("isSortByDate:" + isSortByDate);
             if (isSortByDate) {
                 long createdTime = 0;
                 if (obGetBravo.Date_Created == null)
@@ -177,7 +171,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
                     AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
                 }
             } else {
-                Double distance = gps2m((float) mLat, (float) mLong, (float) obGetBravo.Spot_Latitude, (float) obGetBravo.Spot_Longitude);
+                AIOLog.d("mLat:" + mLat + ",mLong:" + mLong);
+                Double distance = BravoUtils.gps2m((float) mLat, (float) mLong, (float) obGetBravo.Spot_Latitude, (float) obGetBravo.Spot_Longitude);
                 String result = String.format("%.1f", distance);
                 holder._recentPostTime.setText(result + "km");
             }
@@ -211,29 +206,21 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     @Override
     public void onViewSwiped(View dismissView, int dismissPosition) {
-        AIOLog.d("dismissView:" + dismissView);
         ContextualUndoView contextualUndoView = (ContextualUndoView) dismissView;
         if (contextualUndoView.isContentDisplayed()) {
             restoreViewPosition(contextualUndoView);
             contextualUndoView.displayUndo();
-            removePreviousContextualUndoIfPresent();
             setCurrentRemovedView(contextualUndoView);
         } else {
-            if (mCurrentRemovedView != null) {
-                performRemoval();
-            }
+            restoreViewPosition(mCurrentRemovedView);
+            mCurrentRemovedView.displayContentView();
+            setCurrentRemovedView(mCurrentRemovedView);
         }
     }
 
     private void restoreViewPosition(View view) {
         setAlpha(view, 1f);
         setTranslationX(view, 0);
-    }
-
-    private void removePreviousContextualUndoIfPresent() {
-        if (mCurrentRemovedView != null) {
-            performRemoval();
-        }
     }
 
     private void setCurrentRemovedView(ContextualUndoView currentRemovedView) {
@@ -308,7 +295,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
             mActiveAnimators.remove(mDismissView);
             restoreViewPosition(mDismissView);
             restoreViewDimension(mDismissView);
-            deleteCurrentItem();
+            // deleteCurrentItem();
         }
 
         private void restoreViewDimension(View view) {
@@ -316,14 +303,6 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
             lp = view.getLayoutParams();
             lp.height = mOriginalHeight;
             view.setLayoutParams(lp);
-        }
-
-        private void deleteCurrentItem() {
-            ContextualUndoView contextualUndoView = (ContextualUndoView) mDismissView;
-            if (getAbsListView() != null) {
-                int position = getAbsListView().getPositionForView(contextualUndoView);
-                mDeleteItemCallback.deleteItem(position);
-            }
         }
     }
 
@@ -346,26 +325,15 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     private class UndoListener implements View.OnClickListener {
 
-        private final ContextualUndoView mContextualUndoView;
+        private int _position;
 
-        public UndoListener(ContextualUndoView contextualUndoView) {
-            mContextualUndoView = contextualUndoView;
+        public UndoListener(int position) {
+            _position = position;
         }
 
         @Override
         public void onClick(View v) {
-            clearCurrentRemovedView();
-            mContextualUndoView.displayContentView();
-            moveViewOffScreen();
-            animateViewComingBack();
-        }
-
-        private void moveViewOffScreen() {
-            ViewHelper.setTranslationX(mContextualUndoView, mContextualUndoView.getWidth());
-        }
-
-        private void animateViewComingBack() {
-            animate(mContextualUndoView).translationX(0).setDuration(mAnimationTime).setListener(null);
+            mDeleteItemCallback.deleteItem(_position);
         }
     }
 
@@ -379,19 +347,8 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         }
     }
 
-    private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
-        float pk = (float) (180 / 3.14169);
-
-        float a1 = lat_a / pk;
-        float a2 = lng_a / pk;
-        float b1 = lat_b / pk;
-        float b2 = lng_b / pk;
-
-        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
-        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
-        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
-        double tt = Math.acos(t1 + t2 + t3);
-
-        return 6366000 * tt / 1000;
+    public void updateSortType(boolean isSortByDate) {
+        this.isSortByDate = isSortByDate;
+        notifyDataSetChanged();
     }
 }
