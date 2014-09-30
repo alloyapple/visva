@@ -57,11 +57,12 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     public static final int               MAKER_BY_LOCATION_SPOT = 0;
     public static final int               MAKER_BY_LOCATION_USER = 1;
     public static final int               MAKER_BY_USER          = 2;
+    public static final int               MAKER_BY_COVER         = 3;
     private HashMap<Marker, SpotTimeline> mMakers                = new HashMap<Marker, SpotTimeline>();
 
     private GoogleMap                     map;
     private int                           typeMaker;
-    private double                        mLat, mLong;
+    private static double                 mLat, mLong;
     private View                          mOriginalContentView;
     Location                              location               = null;
     LocationManager                       locationManager        = null;
@@ -96,6 +97,13 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onActivityCreated(savedInstanceState);
+        changeLocationCover(mLat, mLong);
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
@@ -103,9 +111,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
                 changeLocation(mLat, mLong);
             } else if (typeMaker == MAKER_BY_LOCATION_USER) {
                 location = getLocation();
-                if (location == null)
-                    return;
-                changeLocation(location.getLatitude(), location.getLongitude());
                 requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
             } else if (typeMaker == MAKER_BY_USER) {
                 changeLocation(mLat, mLong);
@@ -151,6 +156,21 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         }, params, true);
         getTimeline.execute(url);
 
+    }
+
+    public void changeLocationCover(double latitude, double longitute) {
+        if (map == null)
+            map = getMap();
+        LatLng latLng = new LatLng(latitude, longitute);
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        map.animateCamera(CameraUpdateFactory.zoomTo(14));
+        map.setMyLocationEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(false);
+        map.getUiSettings().setMyLocationButtonEnabled(true);
+        map.getUiSettings().setCompassEnabled(true);
+        map.getUiSettings().setRotateGesturesEnabled(true);
+        map.getUiSettings().setZoomGesturesEnabled(true);
+        addMaker(latitude, longitute, "");
     }
 
     public void changeLocation(double latitude, double longitude) {

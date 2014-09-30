@@ -1,8 +1,13 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,16 +33,30 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.foursquare.FactoryFoursquareParams;
+import com.sharebravo.bravo.foursquare.models.OFPostVenue;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpPost;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObPostSpot;
+import com.sharebravo.bravo.model.response.Spot;
+import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.view.adapter.AdapterMapInputSpot;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 
+@SuppressLint("ClickableViewAccessibility")
 public class FragmentInputMySpot extends FragmentBasic implements LocationListener {
 
     private Button       btnBack;
@@ -47,7 +66,9 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
     private TextView     btnLocateSpot;
     private Button       btnAdd             = null;
     FragmentTransaction  fragmentTransaction;
-    FragmentMapCover     mapFragment;
+    // FragmentMapCover mapFragment;
+    XListView            mListView;
+    AdapterMapInputSpot  mAdapter;
     EditText             txtboxName;
     EditText             txtboxGenre;
     EditText             txtboxAddress;
@@ -90,13 +111,9 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
         });
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-
-        fragmentTransaction = getChildFragmentManager().beginTransaction();
-        mapFragment = (FragmentMapCover) getChildFragmentManager().findFragmentById(R.id.img_map);
-        if (mapFragment == null) {
-            mapFragment = new FragmentMapCover();
-            fragmentTransaction.add(R.id.spot_map_add, mapFragment).commit();
-        }
+        mListView = (XListView) root.findViewById(R.id.listview_map_cover_input_spot);
+        mAdapter = new AdapterMapInputSpot(getActivity(), this);
+        mListView.setAdapter(mAdapter);
         ImageView btnMap = (ImageView) root.findViewById(R.id.layout_spot_map_add);
         btnMap.setOnClickListener(new OnClickListener() {
 
@@ -157,11 +174,17 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
         super.onResume();
     }
 
+    String name    = "";
+    String genre   = "";
+    String address = "";
+    String type    = "";
+
     public void onAddMySpot() {
         boolean isAdd = true;
-        String name = txtboxName.getEditableText().toString();
-        String genre = txtboxGenre.getEditableText().toString();
-        String address = txtboxAddress.getEditableText().toString();
+        type = mSpinnerCategory.getSelectedItem().toString();
+        name = txtboxName.getEditableText().toString();
+        genre = txtboxGenre.getEditableText().toString();
+        address = txtboxAddress.getEditableText().toString();
         if (name.equals("")) {
             txtboxName.setHintTextColor(Color.RED);
             txtboxName.setHint("Please enter your");
@@ -178,7 +201,7 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
             isAdd = false;
         }
         if (isAdd) {
-            
+            requestPost4squareVenueSearch(checkLat, checkLong, name, address);
         }
     }
 
@@ -193,7 +216,9 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
             } else {
 
             }
-            mapFragment.changeLocation(checkLat, checkLong);
+            FragmentMapCover.mLat = checkLat;
+            FragmentMapCover.mLong = checkLong;
+            mAdapter.updateMapView();
             txtboxAddress.setText(getCompleteAddressString(location.getLatitude(), location.getLongitude()));
         }
     }
@@ -279,6 +304,95 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
             }
         }
         return location;
+    }
+
+    private Spot mSpot;
+
+    private void requestPost4squareVenueSearch(double lat, double lng, String name, String address) {
+        String url = BravoWebServiceConfig.URL_FOURSQUARE_POST_VENUE.replace("{client_id}", FactoryFoursquareParams.client_id).replace(
+                "{client_secret}", FactoryFoursquareParams.client_secret).replace("{oauth_token}", FactoryFoursquareParams.authen_token)
+                .replace("{v}", FactoryFoursquareParams.v + "");
+        List<NameValuePair> params = null;
+        params = FactoryFoursquareParams
+                .createSubParamsRequestAddVenue(lat, lng, name, address);
+        FAsyncHttpPost request = new FAsyncHttpPost(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response OFPostVenue:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                OFPostVenue mOFPostVenue;
+                mOFPostVenue = gson.fromJson(response.toString(), OFPostVenue.class);
+                AIOLog.d("mOFGetVenue:" + mOFPostVenue);
+                if (mOFPostVenue == null)
+                    return;
+                else {
+                    mSpot = new Spot();
+                    mSpot.Spot_FID = mOFPostVenue.response.venue.id;
+                    mSpot.Spot_Address = mOFPostVenue.response.venue.location.address;
+                    mSpot.Spot_Name = mOFPostVenue.response.venue.name;
+                    if (mOFPostVenue.response.venue.categories.size() > 0)
+                        mSpot.Spot_Icon = mOFPostVenue.response.venue.categories.get(0).icon.prefix + "bg_44"
+                                + mOFPostVenue.response.venue.categories.get(0).icon.suffix;
+
+                    mSpot.Total_Bravos = 0;
+                    mSpot.Spot_Latitude = mOFPostVenue.response.venue.location.lat;
+                    mSpot.Spot_Longitude = mOFPostVenue.response.venue.location.lon;
+                    mSpot.Spot_Source = "foursqure";
+                    mSpot.Spot_Phone = mOFPostVenue.response.venue.contact.phone;
+                    mSpot.Spot_Type = type;
+                    mSpot.Spot_Genre = genre;
+                    requestPostSpot(mSpot);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        request.execute(url);
+    }
+
+    private void requestPostSpot(Spot spot) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_POST_SPOTS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Spot_Name", spot.Spot_Name);
+        subParams.put("Spot_FID", spot.Spot_FID);
+        subParams.put("Spot_Source", spot.Spot_Source);
+        subParams.put("Spot_Longitude", spot.Spot_Longitude + "");
+        subParams.put("Spot_Latitude", spot.Spot_Latitude + "");
+        subParams.put("Spot_Type", spot.Spot_Type);
+        subParams.put("Spot_Genre", spot.Spot_Genre);
+        subParams.put("Spot_Address", spot.Spot_Address);
+        // subParams.put("Spot_Phone", spot.Spot_Phone);
+        // subParams.put("Spot_Price", spot.Spot_Price);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        FAsyncHttpPost request = new FAsyncHttpPost(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response mObPostSpot:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPostSpot mObPostSpot;
+                mObPostSpot = gson.fromJson(response.toString(), ObPostSpot.class);
+                AIOLog.d("mObPostSpot:" + mObPostSpot);
+                if (mObPostSpot == null)
+                    return;
+                else {
+                    mSpot.Spot_ID = mObPostSpot.data.Spot_ID;
+                    mHomeActionListener.goToSpotDetail(mSpot);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        request.execute(url);
     }
 
     @Override

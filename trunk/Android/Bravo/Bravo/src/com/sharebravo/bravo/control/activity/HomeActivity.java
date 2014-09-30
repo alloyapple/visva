@@ -91,6 +91,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     // ======================Constant Define===============
     private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
+    public static final int          REQUEST_CODE_CHECKING_BRAVO    = 1;
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -162,7 +163,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static String            mBravoId;
     private static String            mSharedSnsText;
     // ======================Variable Define===============
-    private ArrayList<Integer>       backstackID                    = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackID;
+    private ArrayList<Integer>       backstackHome                  = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackNetwork               = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackSearch                = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackMyData                = new ArrayList<Integer>();
 
     private UiLifecycleHelper        mUiLifecycleHelper;
     private Session.StatusCallback   mFacebookCallback;
@@ -259,41 +264,52 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.btn_home:
+        case R.id.btn_home: {
             backstackID.clear();
             hideTabButton();
+
             showFragment(FRAGMENT_HOME_TAB_ID, false);
+
             btnHome.setBackgroundResource(R.drawable.tab_home_on);
             txtHome.setTextColor(Color.WHITE);
+        }
             break;
-        case R.id.btn_network:
-            backstackID.clear();
+        case R.id.btn_network: {
+            // backstackID.clear();
             hideTabButton();
+            backstackID = backstackNetwork;
+
             showFragment(FRAGMENT_NETWORK_TAB_ID, false);
+
             btnNetwork.setBackgroundResource(R.drawable.tab_feed_on);
             txtNetwork.setTextColor(Color.WHITE);
+        }
             break;
         case R.id.btn_bravo:
             hideTabButton();
             Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
             bravoIntent.putExtra(BravoConstant.EXTRA_SPOT_JSON, "");
-            startActivity(bravoIntent);
+            startActivityForResult(bravoIntent, REQUEST_CODE_CHECKING_BRAVO);
             overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
             break;
-        case R.id.btn_search:
+        case R.id.btn_search: {
             backstackID.clear();
             hideTabButton();
             showFragment(FRAGMENT_SEARCH_TAB_ID, false);
             btnSearch.setBackgroundResource(R.drawable.tab_search_on);
             txtSearch.setTextColor(Color.WHITE);
+        }
             break;
-        case R.id.btn_mydata:
-            backstackID.clear();
+        case R.id.btn_mydata: {
+            // backstackID.clear();
             mFragmentUserDataTab.setForeignID(userId);
+            backstackID = backstackMyData;
+            showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
             showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
             hideTabButton();
             btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
             txtMyData.setTextColor(Color.WHITE);
+        }
             break;
         default:
             break;
@@ -312,6 +328,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mUiLifecycleHelper.onActivityResult(requestCode, resultCode, data, null);
+        if (requestCode == REQUEST_CODE_CHECKING_BRAVO) {
+            goToAddSpot();
+        }
     }
 
     @Override
@@ -375,6 +394,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
 
         mFragmentUserDataTab.setListener(this);
+        backstackID = backstackHome;
         showFragment(FRAGMENT_HOME_TAB_ID, false);
     }
 
@@ -545,6 +565,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToRecentPostDetail(ObBravo obGetBravo) {
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);
         showFragment(FRAGMENT_RECENT_POST_DETAIL_ID, false);
+    }
+
+    public int getTopBackStack(ArrayList<Integer> backStack) {
+        if (backStack.size() > 0)
+            return backStack.size() - 1;
+        else
+            return -1;
     }
 
     public void goToBack() {
@@ -1050,4 +1077,5 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         startActivity(bravoIntent);
         overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
     }
+
 }

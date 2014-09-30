@@ -151,7 +151,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         this.mBravoObj = obj;
         FragmentMapCover.mLat = mBravoObj.Spot_Latitude;
         FragmentMapCover.mLong = mBravoObj.Spot_Longitude;
-        // adapterRecentPostDetail.updateMapView();
         adapterRecentPostDetail.setBravoOb(mBravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
 
@@ -211,11 +210,11 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 if (obGetBravo == null)
                     return;
                 else {
+
                     String Last_Pic = mBravoObj.Last_Pic;
                     mBravoObj = obGetBravo.data;
                     mBravoObj.Last_Pic = Last_Pic;
                     adapterRecentPostDetail.setBravoOb(mBravoObj);
-                    adapterRecentPostDetail.updateMapView();
                     adapterRecentPostDetail.notifyDataSetChanged();
                     requestGetLiked();
                 }
@@ -241,7 +240,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetFollowingCheck obGetFollowCheck;
                 obGetFollowCheck = gson.fromJson(response.toString(), ObGetFollowingCheck.class);
-
                 if (obGetFollowCheck == null)
                     return;
                 else {
@@ -364,7 +362,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
                 ObGetMylistItem obGetMylistItem;
                 obGetMylistItem = gson.fromJson(response.toString(), ObGetMylistItem.class);
                 // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
-
                 if (obGetMylistItem == null)
                     return;
                 else {
@@ -731,7 +728,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
-            listviewRecentPostDetail.setVisibility(View.GONE);
+            adapterRecentPostDetail.updateMapView();
             requestGetBravo();
             requestGetFollowingCheck();
             requestGetMyListItem();
