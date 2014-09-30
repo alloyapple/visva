@@ -49,11 +49,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <fragment
+            <!--
+                 <fragment
                 android:id="@+id/spot_map_add"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.maps.FragmentMapCover" />
+            -->
+
+            <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
+                android:id="@+id/listview_map_cover_input_spot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="beforeDescendants"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp" >
+            </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
             <ImageView
                 android:id="@+id/layout_spot_map_add"
