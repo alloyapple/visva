@@ -89,26 +89,9 @@ public class FAsyncHttpResponseProcess implements FAsyncHttpResponseListener {
 				DialogUtility.alert(context, "Can't extract server data");
 				return;
 			}
-
-			// Parser information
-//			log.i(TAG, "Webservice response : " + json);
-			// CommonInfo commonInfo = ParserUtility.parserCommonResponse(json);
-			// if (commonInfo.isSuccess()) {
 			processIfResponseSuccess(json);
-			// } else {
-			// processIfResponseFail();
-			// context.checkInvalidToken(commonInfo.getMessage());
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
-			// try {
-			// DialogUtility.alert(context, "Server error");
-			// } catch (Exception e1) {
-			// // TODO Auto-generated catch block
-			// DialogUtility.alert(context.getParent(), "Server error");
-			// e1.printStackTrace();
-			// }
-
 		}
 	}
 

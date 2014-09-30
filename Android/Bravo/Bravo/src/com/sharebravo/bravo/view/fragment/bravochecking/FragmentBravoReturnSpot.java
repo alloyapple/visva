@@ -159,7 +159,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -167,8 +166,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                String sharedText = getActivity().getString(R.string.share_bravo_on_sns_text, mSpot.Spot_Name);
-               // mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, mObPostBravo, sharedText);
+                mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, null, null);
             }
         });
     }
@@ -210,7 +208,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
     }
 
-    private void requestToPostBravoSpotWithImage(Spot spot, Bitmap spotImage) {
+    private void requestToPostBravoSpot(Spot spot, Bitmap spotImage) {
         int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
         String userId = _sessionLogin.userID;
@@ -235,8 +233,10 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 mObPostBravo = gson.fromJson(response.toString(), ObPostBravo.class);
                 AIOLog.d("obPostBravo:" + mObPostBravo);
-                if (mObPostBravo == null)
+                if (mObPostBravo == null){
+                    mBravoCheckingListener.finishPostBravo();
                     return;
+                }
                 AIOLog.d("obPostBravo.Bravo_ID:" + mObPostBravo.data.Bravo_ID + ", FS_Checkin_Bravo" + mObPostBravo.data.FS_Checkin_Bravo);
                 if (mSpotBitmap != null) {
                     updateBravoWithImage(mObPostBravo, mSpotBitmap);
@@ -244,7 +244,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 else
                     /* go to return to spot detail */
                     mBravoCheckingListener.goToBack();
-
+                shareViaSNS(mObPostBravo);
                 BravoUtils.putPostBravoToSharePrefs(getActivity());
             }
 
@@ -254,6 +254,16 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
             }
         }, params, true);
         postBravo.execute(putUserUrl);
+    }
+
+    private void shareViaSNS(ObPostBravo mObPostBravo) {
+        String sharedText = getActivity().getString(R.string.share_bravo_on_sns_text,mSpot.Spot_Name);
+        if(isPostOnFacebook)
+            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FACEBOOK, mObPostBravo, sharedText);
+        if(isPostOnFourSquare)
+            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FOURSQUARE, mObPostBravo, sharedText);
+        if(isPostOnTwitter)
+            mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, mObPostBravo, sharedText);
     }
 
     private void updateBravoWithImage(ObPostBravo obPostBravo, Bitmap spotBitmap) {
@@ -293,21 +303,13 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 new AsyncHttpResponseProcess(getActivity(), this) {
                     @Override
                     public void processIfResponseSuccess(String response) {
-                        AIOLog.d("reponse after post bravo image:" + response);
-                        Gson gson = new GsonBuilder().serializeNulls().create();
-                        ObPostBravo obPostBravo = gson.fromJson(response.toString(), ObPostBravo.class);
-                        // if (mSpotBitmap != null) {
-                        // updateBravoWithImage(obPostBravo, mSpotBitmap);
-                        // }
-                        // /* go to home screen */
-                        // mBravoCheckingListener.goToBack();
-                        mBravoCheckingListener.goToBack();
+                        mBravoCheckingListener.finishPostBravo();
                     }
 
                     @Override
                     public void processIfResponseFail() {
                         AIOLog.d("response error");
-                        mBravoCheckingListener.goToBack();
+                        mBravoCheckingListener.finishPostBravo();
                     }
                 }, params, true);
         postBravoImage.execute(putUserUrl);
@@ -335,7 +337,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                requestToPostBravoSpotWithImage(mSpot, mSpotBitmap);
+                requestToPostBravoSpot(mSpot, mSpotBitmap);
             }
         });
     }
@@ -491,6 +493,19 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
             break;
         default:
             return;
+        }
+    }
+
+    public void updatePostSNS(SNS sns, boolean b) {
+        if (BravoConstant.FACEBOOK.equals(sns.foreignSNS)) {
+            isPostOnFacebook = false;
+            mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_off);
+        } else if (BravoConstant.FOURSQUARE.equals(sns.foreignSNS)) {
+            isPostOnFourSquare = false;
+            mBtnShareFourSquare.setBackgroundResource(R.drawable.foursquare_share_off);
+        } else if (BravoConstant.TWITTER.equals(sns.foreignSNS)) {
+            isPostOnTwitter = false;
+            mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
         }
     }
 }

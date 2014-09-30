@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.control.activity;
 
+import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.Spot;
 
@@ -18,5 +19,9 @@ public interface BravoCheckingListener {
 
     public void putSNS(SNS sns);
     
+    public void deleteSNS(SNS sns);
+    
     public void finishPostBravo();
+
+    public void shareViaSNSByRecentPost(String twitter, ObPostBravo mObPostBravo, String sharedText);
 }

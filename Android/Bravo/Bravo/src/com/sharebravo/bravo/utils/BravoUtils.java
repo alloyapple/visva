@@ -438,4 +438,13 @@ public class BravoUtils {
             return null;
         return snsList;
     }
+
+    /**
+     * Check user already logged in your application using twitter Login flag is
+     * fetched from Shared Preferences
+     * */
+    public static boolean isTwitterLoggedInAlready(Context context) {
+        // return twitter login status from Shared Preferences
+        return BravoSharePrefs.getInstance(context).getBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN);
+    }
 }
