@@ -52,7 +52,7 @@ public class BravoConstant {
     public static final String  TWITTER_CALLBACK_URL                               = "oauth://bravoconnect";
     public static final String  TWITTER_CALLBACK_HOME_URL                          = "oauth://bravoconnecthome";
     public static final String  TWITTER_CALLBACK_SETTING_URL                       = "oauth://bravoconnectsetting";
-    public static final String  TWITTER_CALLBACK_RECENT_POST_URL                   = "oauth://bravoconnectrecentpost";
+    public static final String  TWITTER_CALLBACK_RECENT_POST_URL                   = "oauth://bravoconnectpost";
 
     // Twitter oauth urls
     public static final String  URL_TWITTER_AUTH                                   = "auth_url";

@@ -211,7 +211,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
             requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
             boolean isSpentADay = BravoUtils.isSpentBravoADay(getActivity());
             if (isSpentADay) {
-                // showDialogSpentBravoADay();
+                showDialogSpentBravoADay();
             }
         }
     }

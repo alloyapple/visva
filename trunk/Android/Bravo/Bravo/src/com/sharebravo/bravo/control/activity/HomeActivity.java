@@ -211,7 +211,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
          * redirected from twitter page. Parse the uri to get oAuth
          * Verifier
          * */
-        if (!isTwitterLoggedInAlready()) {
+        if (!BravoUtils.isTwitterLoggedInAlready(this)) {
             Uri uri = getIntent().getData();
             if (uri != null
                     && (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL) || uri.toString().startsWith(
@@ -248,9 +248,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                         sns.foreignSNS = BravoConstant.TWITTER;
                         sns.foreignAccessToken = accessToken.getToken() + "," + accessToken.getTokenSecret();
                         putSNS(sns);
-                        if (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL)) {
-                        } else
-                            goToFragment(FRAGMENT_SETTINGS_ID);
+                        goToFragment(FRAGMENT_SETTINGS_ID);
                     }
                 } catch (Exception e) {
                     Log.e("Twitter Login Error", "> " + e.getMessage());
@@ -709,7 +707,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        if (!isTwitterLoggedInAlready()) {
+        if (!BravoUtils.isTwitterLoggedInAlready(this)) {
             ConfigurationBuilder builder = new ConfigurationBuilder();
             builder.setOAuthConsumerKey(BravoConstant.TWITTER_CONSUMER_KEY);
             builder.setOAuthConsumerSecret(BravoConstant.TWITTER_CONSUMER_SECRET);
@@ -768,15 +766,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mBravoId);
         // update twitter status
         new UpdateTwitterStatus().execute(sharedText + " \n" + bravoUrl);
-    }
-
-    /**
-     * Check user already logged in your application using twitter Login flag is
-     * fetched from Shared Preferences
-     * */
-    private boolean isTwitterLoggedInAlready() {
-        // return twitter login status from Shared Preferences
-        return BravoSharePrefs.getInstance(this).getBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN);
     }
 
     /**

@@ -110,7 +110,7 @@ public class FragmentShare extends FragmentBasic {
             public void onUserInfoFetched(GraphUser user) {
                 AIOLog.d("user at share facebook:" + user);
                 if (isClickFacebook && user != null)
-                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mBravo, mTxtboxShare.getText().toString(), new Callback() {
+                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mBravo.Bravo_ID, mTxtboxShare.getText().toString(), new Callback() {
 
                         @Override
                         public void onCompleted(Response response) {
@@ -149,7 +149,7 @@ public class FragmentShare extends FragmentBasic {
             public void onCompleted(final GraphUser user, Response response) {
                 AIOLog.d("requestUserFacebookInfo:" + user);
                 if (user != null)
-                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mBravo, mTxtboxShare.getText().toString(), new Callback() {
+                    FacebookUtil.getInstance(getActivity()).publishShareInBackground(mBravo.Bravo_ID, mTxtboxShare.getText().toString(), new Callback() {
 
                         @Override
                         public void onCompleted(Response response) {

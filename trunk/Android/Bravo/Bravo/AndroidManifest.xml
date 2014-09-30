@@ -118,9 +118,6 @@
                 <data
                     android:host="bravoconnectsetting"
                     android:scheme="oauth" />
-                <data
-                    android:host="bravoconnectrecentpost"
-                    android:scheme="oauth" />
             </intent-filter>
         </activity>
         <activity
@@ -140,6 +137,16 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                
+                <data
+                    android:host="bravoconnectpost"
+                    android:scheme="oauth" />
+            </intent-filter>
         </activity>
 
         <receiver
