@@ -17,6 +17,7 @@ import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
@@ -98,7 +99,9 @@ public class AdapterFavourite extends BaseAdapter {
 
             // set observer to view
             AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
-            String imgSpotUrl = obGetBravo.Last_Pic;
+            String imgSpotUrl = null;
+            if (obGetBravo.Bravo_Pics.size() > 0)
+                imgSpotUrl = obGetBravo.Bravo_Pics.get(0);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.recent_post_none_img);
@@ -118,15 +121,12 @@ public class AdapterFavourite extends BaseAdapter {
                 } else {
                     String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
                     holder._recentPostTime.setText(createdTimeConvertStr);
-                    AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
-                    AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
                 }
             } else {
-                Double distance = gps2m((float) mLat, (float) mLong, (float) obGetBravo.Spot_Latitude, (float) obGetBravo.Spot_Longitude);
+                Double distance = BravoUtils.gps2m((float) mLat, (float) mLong, (float) obGetBravo.Spot_Latitude, (float) obGetBravo.Spot_Longitude);
                 String result = String.format("%.1f", distance);
                 holder._recentPostTime.setText(result + "km");
             }
-            AIOLog.d("obGetBravo.Total_Comments: " + obGetBravo.Total_Comments + "  holder._totalComment : " + holder._totalComment);
             if (obGetBravo.Total_Comments <= 0) {
                 holder._totalComment.setVisibility(View.GONE);
             } else {
@@ -189,21 +189,5 @@ public class AdapterFavourite extends BaseAdapter {
         if (position < mObGetAllBravoRecentPosts.size())
             mObGetAllBravoRecentPosts.remove(position);
         notifyDataSetChanged();
-    }
-
-    private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
-        float pk = (float) (180 / 3.14169);
-
-        float a1 = lat_a / pk;
-        float a2 = lng_a / pk;
-        float b1 = lat_b / pk;
-        float b2 = lng_b / pk;
-
-        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
-        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
-        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
-        double tt = Math.acos(t1 + t2 + t3);
-
-        return 6366000 * tt / 1000;
     }
 }

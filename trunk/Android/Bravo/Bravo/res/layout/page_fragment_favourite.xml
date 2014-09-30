@@ -63,7 +63,28 @@
     <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_fragment_favourite"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:visibility="gone" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
+
+    <LinearLayout
+        android:id="@+id/layout_no_favourite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mylist_nothing_title" />
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/not_memo" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -274,8 +274,6 @@ public class AdapterUserDetail extends BaseAdapter {
             public void onClick(View v) {
                 if (mObGetUserInfo == null)
                     return;
-                if (mObGetUserInfo.data.Total_My_List <= 0)
-                    return;
                 mListener.goToFravouriteView(HomeActivity.FRAGMENT_FAVOURITE_ID);
             }
         });
