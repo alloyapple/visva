@@ -56,7 +56,7 @@ public class BravoWebServiceConfig {
                                                                             + "/bravo/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_POST_BRAVO_SNS                   = URL_BRAVO_BASE + "/bravo/{str}/sns?User_ID={str}&Access_Token={str}";
     public static final String URL_POST_COMMENT                     = URL_BRAVO_BASE + "/comment?User_ID={User_ID}&Access_Token={Access_Token}";
-    public static final String URL_POST_SPOTS                       = URL_BRAVO_BASE + "/spot?User_ID={str}&Access_Token={str}";
+    public static final String URL_POST_SPOTS                       = URL_BRAVO_BASE + "/spot?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_POST_USER                        = URL_BRAVO_BASE + "/user";
     public static final String URL_POST_FORGOT                      = URL_BRAVO_BASE + "/forgot";
     public static final String URL_PUT_BLOCKING                     = URL_BRAVO_BASE
@@ -101,5 +101,5 @@ public class BravoWebServiceConfig {
     public static final String URL_FOURSQUARE_GET_VENUE             = URL_FOURSQUARE_BASE + "/venues/{Spot_FID}";
     public static final String URL_FOURSQUARE_GET_VENUE_SEARCH      = URL_FOURSQUARE_BASE + "/venues/search";
     public static final String URL_FOURSQUARE_POST_VENUE            = URL_FOURSQUARE_BASE
-                                                                            + "/add?client_id={client_id}&client_secret={client_secret}&v={v}";
+                                                                            + "/venues/add?client_id={client_id}&client_secret={client_secret}&oauth_token={oauth_token}&v={v}";
 }

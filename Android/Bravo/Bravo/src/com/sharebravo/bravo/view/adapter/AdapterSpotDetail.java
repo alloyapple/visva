@@ -37,7 +37,7 @@ public class AdapterSpotDetail extends BaseAdapter {
     private Spot                    mSpot;
     FragmentTransaction             fragmentTransaction;
     FragmentSpotDetail              fragment;
-    FragmentMapCover               mapFragment;
+    FragmentMapCover                mapFragment;
     private DetailSpotListener      listener;
     private HashMap<String, String> FID_Icons    = new HashMap<String, String>();
     private ArrayList<SpotRank>     mSpotRanks   = new ArrayList<ObGetSpotRank.SpotRank>();
@@ -89,7 +89,7 @@ public class AdapterSpotDetail extends BaseAdapter {
                 mapFragment = (FragmentMapCover) fragment.getChildFragmentManager().findFragmentById(R.id.myspot_map);
                 if (mapFragment == null) {
                     mapFragment = new FragmentMapCover();
-                    fragmentTransaction.add(R.id.myspot_map, mapFragment).commit();
+                    fragmentTransaction.replace(R.id.myspot_map, mapFragment).commit();
                 }
                 btnCall = (Button) convertView.findViewById(R.id.btn_call_spot);
                 btnViewMap = (Button) convertView.findViewById(R.id.btn_view_map);
@@ -263,7 +263,8 @@ public class AdapterSpotDetail extends BaseAdapter {
     }
 
     public void updateMapView() {
-        mapFragment.changeLocation(FragmentMapCover.mLat, FragmentMapCover.mLong);
+        if (mapFragment != null)
+            mapFragment.changeLocation(FragmentMapCover.mLat, FragmentMapCover.mLong);
     }
 
     public DetailSpotListener getListener() {

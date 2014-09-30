@@ -26,13 +26,22 @@ public class FragmentMapCover extends SupportMapFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         mOriginalContentView = super.onCreateView(inflater, null, null);
+        changeLocation(mLat, mLong);
         return mOriginalContentView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
+
     }
 
     public void changeLocation(double latitude, double longitute) {

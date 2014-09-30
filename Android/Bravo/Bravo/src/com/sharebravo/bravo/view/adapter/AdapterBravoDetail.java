@@ -98,7 +98,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     TextView            btnMiddle;
     boolean             isSave;
     TextView            btnReport;
-    FragmentMapCover   mapFragment;
+    FragmentMapCover    mapFragment;
     Button              btnLiked;
 
     ImageView           iconLiked;
@@ -149,8 +149,9 @@ public class AdapterBravoDetail extends BaseAdapter {
                 mapFragment = (FragmentMapCover) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
                 if (mapFragment == null) {
                     mapFragment = new FragmentMapCover();
-                    fragmentTransaction.add(R.id.img_map, mapFragment).commit();
+                    fragmentTransaction.replace(R.id.img_map, mapFragment).commit();
                 }
+
             }
 
             btnChooseImage.setOnClickListener(new OnClickListener() {
@@ -406,8 +407,8 @@ public class AdapterBravoDetail extends BaseAdapter {
     }
 
     public void updateMapView() {
-        notifyDataSetChanged();
-        mapFragment.changeLocation(FragmentMapCover.mLat, FragmentMapCover.mLong);
+        if (mapFragment != null)
+            mapFragment.changeLocation(FragmentMapCover.mLat, FragmentMapCover.mLong);
     }
 
     public void updateSave(boolean isSave) {

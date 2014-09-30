@@ -45,8 +45,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpPost;
+import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObPostBravo;
+import com.sharebravo.bravo.model.response.ObPostSpot;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
@@ -81,12 +84,15 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     private Uri              mCapturedImageURI;
     private Bitmap           mSpotBitmap;
     private ObPostBravo      mObPostBravo;
+    private SessionLogin     mSessionLogin        = null;
+    private int              mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
     private boolean          isPostOnFacebook, isPostOnFourSquare, isPostOnTwitter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_bravo_return_spots, container);
-
+        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         mBravoCheckingListener = (ActivityBravoChecking) getActivity();
         initializeView(root);
         return root;
@@ -233,7 +239,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 mObPostBravo = gson.fromJson(response.toString(), ObPostBravo.class);
                 AIOLog.d("obPostBravo:" + mObPostBravo);
-                if (mObPostBravo == null){
+                if (mObPostBravo == null) {
                     mBravoCheckingListener.finishPostBravo();
                     return;
                 }
@@ -257,12 +263,12 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     }
 
     private void shareViaSNS(ObPostBravo mObPostBravo) {
-        String sharedText = getActivity().getString(R.string.share_bravo_on_sns_text,mSpot.Spot_Name);
-        if(isPostOnFacebook)
+        String sharedText = getActivity().getString(R.string.share_bravo_on_sns_text, mSpot.Spot_Name);
+        if (isPostOnFacebook)
             mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FACEBOOK, mObPostBravo, sharedText);
-        if(isPostOnFourSquare)
+        if (isPostOnFourSquare)
             mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FOURSQUARE, mObPostBravo, sharedText);
-        if(isPostOnTwitter)
+        if (isPostOnTwitter)
             mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.TWITTER, mObPostBravo, sharedText);
     }
 
@@ -337,7 +343,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                requestToPostBravoSpot(mSpot, mSpotBitmap);
+
             }
         });
     }
@@ -496,6 +502,48 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         }
     }
 
+    private void requestPostSpot(Spot spot) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_POST_SPOTS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Spot_Name", spot.Spot_Name);
+        subParams.put("Spot_FID", spot.Spot_FID);
+        subParams.put("Spot_Source", spot.Spot_Source);
+        subParams.put("Spot_Longitude", spot.Spot_Longitude + "");
+        subParams.put("Spot_Latitude", spot.Spot_Latitude + "");
+        subParams.put("Spot_Type", spot.Spot_Type);
+        subParams.put("Spot_Genre", spot.Spot_Genre);
+        subParams.put("Spot_Address", spot.Spot_Address);
+        // subParams.put("Spot_Phone", spot.Spot_Phone);
+        // subParams.put("Spot_Price", spot.Spot_Price);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        FAsyncHttpPost request = new FAsyncHttpPost(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response mObPostSpot:" + response);
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObPostSpot mObPostSpot;
+                mObPostSpot = gson.fromJson(response.toString(), ObPostSpot.class);
+                AIOLog.d("mObPostSpot:" + mObPostSpot);
+                if (mObPostSpot == null)
+                    return;
+                else {
+                    mSpot.Spot_ID = mObPostSpot.data.Spot_ID;
+                    requestToPostBravoSpot(mSpot, mSpotBitmap);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        request.execute(url);
+    }
+
     public void updatePostSNS(SNS sns, boolean b) {
         if (BravoConstant.FACEBOOK.equals(sns.foreignSNS)) {
             isPostOnFacebook = false;
@@ -506,6 +554,14 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         } else if (BravoConstant.TWITTER.equals(sns.foreignSNS)) {
             isPostOnTwitter = false;
             mBtnShareTwitter.setBackgroundResource(R.drawable.twitter_share_off);
+        }
+    }
+
+    public void onReturnToSpot() {
+        if (mSpot.Spot_ID != null && !mSpot.Spot_FID.endsWith("")) {
+            requestToPostBravoSpot(mSpot, mSpotBitmap);
+        } else {
+            requestPostSpot(mSpot);
         }
     }
 }

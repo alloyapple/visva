@@ -2,12 +2,16 @@ package com.sharebravo.bravo.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
-
 public class ObPostSpot {
-    @SerializedName("Spot_ID")
-   String spotID;
+    @SerializedName("data")
+    public Data data;
+    @SerializedName("status")
+    public int  status;
 
-    public ObPostSpot() {
-        // TODO Auto-generated constructor stub
+    public class Data {
+
+        @SerializedName("Spot_ID")
+        public String Spot_ID;
+
     }
 }

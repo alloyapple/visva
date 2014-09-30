@@ -7,8 +7,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 public class FactoryFoursquareParams {
-    public static final String client_id     = "1PE10F3WC5LEFMNQ113TAKWJRR11AOPH33QZUE0VWDP3XDXD";
-    public static final String client_secret = "JM1AYBSTBDZX00H3Z5J2IS2QJQFFORUIWOMIL42NUYM0OXGR";
+    // public static final String client_id = "1PE10F3WC5LEFMNQ113TAKWJRR11AOPH33QZUE0VWDP3XDXD";
+    // public static final String client_secret = "JM1AYBSTBDZX00H3Z5J2IS2QJQFFORUIWOMIL42NUYM0OXGR";
+    // public static final String authen_token = "RR31UYN1IQJUDU5B3MC3QSJ10PCPJW2BGXFZIBQ3MVMVE3L5";
+    public static final String client_id     = "WM4ZYMAHYHOFMYDJLP11A2ILREDZSJTF2NBW1QHZHZKKAVCW";
+    public static final String client_secret = "HID5OW04WBSRECQQO4UCFJRKYCZ35MGUP5HNMSW53K5TWMQJ";
+    public static final String authen_token  = "RR31UYN1IQJUDU5B3MC3QSJ10PCPJW2BGXFZIBQ3MVMVE3L5";
     public static final int    v             = 20131121;
 
     public static List<NameValuePair> createSubParamsRequest() {
@@ -53,6 +57,14 @@ public class FactoryFoursquareParams {
         parameters.add(new BasicNameValuePair("intent", "global"));
         parameters.add(new BasicNameValuePair("ll", _lat + "," + _long));
         parameters.add(new BasicNameValuePair("limit", "20"));
+        return parameters;
+    }
+
+    public static List<NameValuePair> createSubParamsRequestAddVenue(double lat, double lng, String name, String address) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("ll", lat + "," + lng));
+        parameters.add(new BasicNameValuePair("address", address));
+        parameters.add(new BasicNameValuePair("name", name));
         return parameters;
     }
 }
