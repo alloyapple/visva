@@ -86,7 +86,7 @@ import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentUserDataTab.IShowPageSettings;
 import com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage;
 
-public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener,IShowPageSettings {
+public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeActionListener, IShowPageSettings {
 
     // ======================Constant Define===============
     private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
@@ -115,11 +115,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_SPOT_DETAIL_ID        = FRAGMENT_BASE_ID + 22;
     public static final int          FRAGMENT_ADD_MYSPOT_ID         = FRAGMENT_BASE_ID + 23;
     public static final int          FRAGMENT_INPUT_MYSPOT_ID       = FRAGMENT_BASE_ID + 24;
-    public static final int          FRAGMENT_LOCATE_MYSPOT_ID      = FRAGMENT_BASE_ID + 25;
-    public static final int          FRAGMENT_AFTER_BRAVO_ID        = FRAGMENT_BASE_ID + 26;
-    public static final int          FRAGMENT_BRAVO_SEARCH_ID       = FRAGMENT_BASE_ID + 27;
-    public static final int          FRAGMENT_BRAVO_MAP_ID          = FRAGMENT_BASE_ID + 28;
-    public static final int          FRAGMENT_BRAVO_RETURN_SPOTS_ID = FRAGMENT_BASE_ID + 29;
+    public static final int          FRAGMENT_AFTER_BRAVO_ID        = FRAGMENT_BASE_ID + 25;
+    public static final int          FRAGMENT_BRAVO_SEARCH_ID       = FRAGMENT_BASE_ID + 26;
+    public static final int          FRAGMENT_BRAVO_MAP_ID          = FRAGMENT_BASE_ID + 27;
+    public static final int          FRAGMENT_BRAVO_RETURN_SPOTS_ID = FRAGMENT_BASE_ID + 28;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -148,8 +147,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentSpotDetail       mFragmentSpotDetail;
     // private FragmentBravoSpot mFragmentAddMySpot;
     private FragmentInputMySpot      mFragmentInputMySpot;
-    private FragmentLocateMySpot     mFragmentLocateMySpot;
-    // private FragmentAfterBravo mFragmentAfterBravo;
 
     private FragmentBravoMap         mFragmentBravoMap;
     private FragmentBravoReturnSpot  mFragmentBravoReturnSpots;
@@ -376,7 +373,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_spot_detail);
         // mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
-        mFragmentLocateMySpot = (FragmentLocateMySpot) mFmManager.findFragmentById(R.id.fragment_locate_myspot);
+
         // mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
 
         mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spots);
@@ -439,7 +436,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             break;
         case FRAGMENT_MAP_VIEW_ID:
             mFragmentMapView.setBackStatus(isback);
-            mTransaction.replace(R.id.fragment_map_view, mFragmentMapView);
             mTransaction.show(mFragmentMapView);
             break;
         case FRAGMENT_HOME_NOTIFICATION_ID:
@@ -508,10 +504,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTransaction.show(mFragmentInputMySpot);
             // mTransaction.show(mFragmentMapCoverAdd);
             break;
-        case FRAGMENT_LOCATE_MYSPOT_ID:
-            mFragmentLocateMySpot.setBackStatus(isback);
-            mTransaction.show(mFragmentLocateMySpot);
-            break;
 
         case FRAGMENT_BRAVO_SEARCH_ID:
             mFragmentBravoSearch.setBackStatus(isback);
@@ -560,7 +552,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentSpotDetail);
 
         mTransaction.hide(mFragmentInputMySpot);
-        mTransaction.hide(mFragmentLocateMySpot);
 
         mTransaction.hide(mFragmentBravoMap);
         mTransaction.hide(mFragmentBravoReturnSpots);
@@ -644,9 +635,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToMapView(String lat, String log, int locationType) {
-        if (lat != null && log != null)
-            mFragmentMapView.setCordinate(lat, log);
+    public void goToMapView(double lat, double log, int locationType) {
+        mFragmentMapView.setCordinate(lat, log);
         mFragmentMapView.setTypeMaker(locationType);
         showFragment(FRAGMENT_MAP_VIEW_ID, false);
     }
@@ -886,7 +876,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToMapView(String foreignID, int locationType, String fullName) {
-//        mFragmentMapView = new FragmentMapView();
+        // mFragmentMapView = new FragmentMapView();
         mFragmentMapView.setForeignID(foreignID);
         mFragmentMapView.setTypeMaker(locationType);
         mFragmentMapView.setFullName(fullName);
@@ -928,8 +918,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToLocateMySpot() {
-        showFragment(FRAGMENT_LOCATE_MYSPOT_ID, false);
+    public void goToLocateMySpot(double lat, double log, int locationType) {
+        mFragmentMapView.setCordinate(lat, log);
+        mFragmentMapView.setTypeMaker(locationType);
+        showFragment(FRAGMENT_MAP_VIEW_ID, false);
     }
 
     @Override
@@ -991,7 +983,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         String accessToken = mSessionLogin.accessToken;
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Foreign_SNS", sns.foreignSNS);
-        subParams.put("Foreign_ID",sns.foreignID);
+        subParams.put("Foreign_ID", sns.foreignID);
         subParams.put("Foreign_Access_Token", sns.foreignAccessToken);
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());

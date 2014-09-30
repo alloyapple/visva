@@ -66,7 +66,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mOriginalContentView = super.onCreateView(inflater, container, savedInstanceState);
-        setMapTransparent((ViewGroup) mOriginalContentView);
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
 
@@ -115,19 +114,6 @@ public class FragmentBravoMap extends FragmentMapBasic implements LocationListen
         });
         layoutMap.addView(mOriginalContentView);
         return mView;
-    }
-
-    private void setMapTransparent(ViewGroup group) {
-        int childCount = group.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = group.getChildAt(i);
-
-            if (child instanceof ViewGroup) {
-                setMapTransparent((ViewGroup) child);
-            } else if (child instanceof SurfaceView) {
-                child.setBackgroundColor(0x00000000);
-            }
-        }
     }
 
     @Override

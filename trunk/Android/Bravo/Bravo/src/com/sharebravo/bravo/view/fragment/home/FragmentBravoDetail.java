@@ -65,7 +65,7 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.adapter.AdapterBravoDetail;
 import com.sharebravo.bravo.view.adapter.DetailPostListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover1;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
@@ -149,8 +149,8 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
 
     public void setBravoOb(ObBravo obj) {
         this.mBravoObj = obj;
-        FragmentMapCover1.mLat = mBravoObj.Spot_Latitude;
-        FragmentMapCover1.mLong = mBravoObj.Spot_Longitude;
+        FragmentMapCover.mLat = mBravoObj.Spot_Latitude;
+        FragmentMapCover.mLong = mBravoObj.Spot_Longitude;
         // adapterRecentPostDetail.updateMapView();
         adapterRecentPostDetail.setBravoOb(mBravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
@@ -758,7 +758,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
     @Override
     public void goToFragment(int fragmentID) {
         if (fragmentID == HomeActivity.FRAGMENT_MAP_VIEW_ID) {
-            mHomeActionListener.goToMapView(String.valueOf(mBravoObj.Spot_Latitude), String.valueOf(mBravoObj.Spot_Longitude),
+            mHomeActionListener.goToMapView(mBravoObj.Spot_Latitude, mBravoObj.Spot_Longitude,
                     FragmentMapView.MAKER_BY_LOCATION_SPOT);
             return;
         }

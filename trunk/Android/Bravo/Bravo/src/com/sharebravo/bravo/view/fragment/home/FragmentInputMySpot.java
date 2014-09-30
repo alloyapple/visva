@@ -32,7 +32,8 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
-import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover2;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 
 public class FragmentInputMySpot extends FragmentBasic implements LocationListener {
 
@@ -43,13 +44,14 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
     private TextView     btnLocateSpot;
     private Button       btnAdd             = null;
     FragmentTransaction  fragmentTransaction;
-    FragmentMapCover2    mapFragment;
+    FragmentMapCover    mapFragment;
     EditText             txtboxName;
     EditText             txtboxGenre;
     EditText             txtboxAddress;
     Spinner              mSpinnerCategory;
     Location             location           = null;
     LocationManager      locationManager    = null;
+    public static double checkLat, checkLong;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +73,7 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                mHomeActionListener.goToLocateMySpot();
+                mHomeActionListener.goToLocateMySpot(checkLat, checkLong, FragmentMapView.MAKER_BY_USER);
             }
         });
         btnAdd = (Button) root.findViewById(R.id.btn_add);
@@ -87,9 +89,9 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
 
         fragmentTransaction = getChildFragmentManager().beginTransaction();
-        mapFragment = (FragmentMapCover2) getChildFragmentManager().findFragmentById(R.id.img_map);
+        mapFragment = (FragmentMapCover) getChildFragmentManager().findFragmentById(R.id.img_map);
         if (mapFragment == null) {
-            mapFragment = new FragmentMapCover2();
+            mapFragment = new FragmentMapCover();
             fragmentTransaction.add(R.id.spot_map_add, mapFragment).commit();
         }
         ImageView btnMap = (ImageView) root.findViewById(R.id.layout_spot_map_add);
@@ -98,7 +100,7 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                mHomeActionListener.goToLocateMySpot();
+                mHomeActionListener.goToLocateMySpot(checkLat, checkLong, FragmentMapView.MAKER_BY_USER);
             }
         });
         txtboxAddress = (EditText) root.findViewById(R.id.txtbox_address);
@@ -123,15 +125,15 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        // fragmentTransaction = getChildFragmentManager().beginTransaction();
-        // if (!hidden)
-        // fragmentTransaction.show(mapFragment);
-        // else
-        // fragmentTransaction.hide(mapFragment);
-        // fragmentTransaction.commit();
-        if (!hidden && !isBackStatus()) {
-            location = getLocation();
-            mapFragment.changeLocation(location.getLatitude(), location.getLongitude());
+        if (!hidden) {
+            if (!isBackStatus()) {
+                location = getLocation();
+                checkLat = location.getLatitude();
+                checkLong = location.getLongitude();
+            } else {
+
+            }
+            mapFragment.changeLocation(checkLat, checkLong);
             txtboxAddress.setText(getCompleteAddressString(location.getLatitude(), location.getLongitude()));
         }
     }

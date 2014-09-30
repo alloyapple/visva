@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -45,7 +44,6 @@ public class FragmentLocateMySpot extends FragmentMapBasic implements LocationLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mOriginalContentView = super.onCreateView(inflater, null, null);
-        setMapTransparent((ViewGroup) mOriginalContentView);
         mHomeActionListener = (HomeActivity) getActivity();
         mContext = getActivity();
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,18 +62,7 @@ public class FragmentLocateMySpot extends FragmentMapBasic implements LocationLi
         layoutMap.addView(mOriginalContentView);
         return mView;
     }
-    private void setMapTransparent(ViewGroup group) {
-        int childCount = group.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = group.getChildAt(i);
 
-            if (child instanceof ViewGroup) {
-                setMapTransparent((ViewGroup) child);
-            } else if (child instanceof SurfaceView) {
-                child.setBackgroundColor(0x00000000);
-            }
-        }
-    }
     @Override
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub

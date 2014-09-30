@@ -1,16 +1,13 @@
 package com.sharebravo.bravo.view.fragment.maps;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,7 +18,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sharebravo.bravo.R;
 
-public class FragmentMapCover3 extends SupportMapFragment {
+public class FragmentMapCover extends SupportMapFragment {
     public static double mLat, mLong;
     private GoogleMap    map;
     private View         mOriginalContentView;
@@ -41,7 +38,6 @@ public class FragmentMapCover3 extends SupportMapFragment {
     public void changeLocation(double latitude, double longitute) {
         if (map == null)
             map = getMap();
-
         LatLng latLng = new LatLng(latitude, longitute);
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         map.animateCamera(CameraUpdateFactory.zoomTo(14));
@@ -58,6 +54,13 @@ public class FragmentMapCover3 extends SupportMapFragment {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewStateRestored(savedInstanceState);
 
     }
 
@@ -79,31 +82,5 @@ public class FragmentMapCover3 extends SupportMapFragment {
         getMap().clear();
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
-    }
-
-    public class TouchableWrapper extends FrameLayout {
-        private int lastX;
-
-        public TouchableWrapper(Context context) {
-            super(context);
-        }
-
-        @Override
-        public boolean dispatchTouchEvent(MotionEvent event) {
-            switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                break;
-            case MotionEvent.ACTION_UP:
-                lastX = (int) event.getX();
-                break;
-            }
-            return super.dispatchTouchEvent(event);
-        }
-
-        public int getXLastTouchOnScreen() {
-            int location[] = new int[2];
-            getLocationOnScreen(location);
-            return lastX + location[0];
-        }
     }
 }

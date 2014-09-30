@@ -30,7 +30,7 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
-import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover1;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 
 public class AdapterBravoDetail extends BaseAdapter {
     private Context            mContext;
@@ -98,7 +98,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     TextView            btnMiddle;
     boolean             isSave;
     TextView            btnReport;
-    FragmentMapCover1   mapFragment;
+    FragmentMapCover   mapFragment;
     Button              btnLiked;
 
     ImageView           iconLiked;
@@ -146,9 +146,9 @@ public class AdapterBravoDetail extends BaseAdapter {
 
                 btnChooseImage = (ImageView) convertView.findViewById(R.id.img_picture_choose);
 
-                mapFragment = (FragmentMapCover1) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
+                mapFragment = (FragmentMapCover) fragment.getChildFragmentManager().findFragmentById(R.id.img_map);
                 if (mapFragment == null) {
-                    mapFragment = new FragmentMapCover1();
+                    mapFragment = new FragmentMapCover();
                     fragmentTransaction.add(R.id.img_map, mapFragment).commit();
                 }
             }
@@ -407,7 +407,7 @@ public class AdapterBravoDetail extends BaseAdapter {
 
     public void updateMapView() {
         notifyDataSetChanged();
-        mapFragment.changeLocation(FragmentMapCover1.mLat, FragmentMapCover1.mLong);
+        mapFragment.changeLocation(FragmentMapCover.mLat, FragmentMapCover.mLong);
     }
 
     public void updateSave(boolean isSave) {
