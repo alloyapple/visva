@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.view.fragment.home;
+package com.sharebravo.bravo.view.fragment.bravochecking;
 
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +38,7 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 
-public class FragmentInputMySpot extends FragmentBasic implements LocationListener {
+public class FragmentBravoInputMySpot extends FragmentBasic implements LocationListener {
 
     private Button       btnBack;
 
