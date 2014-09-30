@@ -24,7 +24,7 @@
                 android:id="@+id/myspot_map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.maps.FragmentMapCover2" />
+                class="com.sharebravo.bravo.view.fragment.maps.FragmentMapCover" />
         </FrameLayout>
     </FrameLayout>
 

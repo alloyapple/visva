@@ -53,7 +53,7 @@
                 android:id="@+id/spot_map_add"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.maps.FragmentMapCover3" />
+                class="com.sharebravo.bravo.view.fragment.maps.FragmentMapCover" />
 
             <ImageView
                 android:id="@+id/layout_spot_map_add"
