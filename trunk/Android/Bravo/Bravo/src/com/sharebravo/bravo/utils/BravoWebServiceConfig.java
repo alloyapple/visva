@@ -100,4 +100,6 @@ public class BravoWebServiceConfig {
     public static final String URL_FOURSQUARE_BASE                  = "https://api.foursquare.com/v2";
     public static final String URL_FOURSQUARE_GET_VENUE             = URL_FOURSQUARE_BASE + "/venues/{Spot_FID}";
     public static final String URL_FOURSQUARE_GET_VENUE_SEARCH      = URL_FOURSQUARE_BASE + "/venues/search";
+    public static final String URL_FOURSQUARE_POST_VENUE            = URL_FOURSQUARE_BASE
+                                                                            + "/add?client_id={client_id}&client_secret={client_secret}&v={v}";
 }
