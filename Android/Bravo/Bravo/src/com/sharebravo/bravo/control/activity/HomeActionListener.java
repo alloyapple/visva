@@ -2,6 +2,7 @@ package com.sharebravo.bravo.control.activity;
 
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.Spot;
 
@@ -46,10 +47,6 @@ public interface HomeActionListener {
 
     public void requestToLoginSNS(String snsType);
 
-    public void goToReturnSpotFragment(Spot mSpot);
-
-    public void goToMapView(Spot spot, int makerByLocationSpot);
-
     public void putSNS(SNS snn);
 
     public void showPageHomeNotification();
@@ -57,4 +54,8 @@ public interface HomeActionListener {
     public void closePageHomeNotification();
 
     public void showPageTermOfUse();
+
+    public void deleteSNS(SNS sns);
+
+    public void goToMapView(Spot mSpot, int makerByLocationSpot);
 }

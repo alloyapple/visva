@@ -398,10 +398,11 @@ public class BravoUtils {
         }
 
         for (Map.Entry<String, SNS> entry : sNS_List.entrySet()) {
-            snsList.key = entry.getKey();
+            String key = entry.getKey();
             SNS sns = entry.getValue();
             if (sns == null)
                 continue;
+            sns.key = key;
             if (snsList.snsArrList == null) {
                 snsList.snsArrList = new ArrayList<SNS>();
                 snsList.snsArrList.add(sns);
@@ -421,7 +422,6 @@ public class BravoUtils {
 
         Gson gson = new GsonBuilder().serializeNulls().create();
         String snsListJSON = gson.toJson(snsList);
-        AIOLog.d("sNS_List snsListItem:" + snsList.key);
         AIOLog.d("sNS_List snsListItem:" + snsList.snsArrList.get(0).foreignSNS);
         BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SNS_LIST, snsListJSON.toString());
     }

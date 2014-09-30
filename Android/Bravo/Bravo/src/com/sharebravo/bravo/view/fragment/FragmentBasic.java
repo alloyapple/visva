@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
+import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
@@ -12,12 +14,14 @@ public class FragmentBasic extends Fragment implements IUISync {
     private boolean              backStatus  = false;
     protected Object             mData       = null;
     protected HomeActionListener mHomeActionListener;
+    protected BravoCheckingListener mBravoCheckingListener;
     private boolean              dataChange  = false;
     private VisvaDialog          mProgressDialog;
     public int                   mNumLoading = 0;
 
     public FragmentBasic() {
         mHomeActionListener = (HomeActivity) getActivity();
+        mBravoCheckingListener = (ActivityBravoChecking) getActivity();
     }
 
     public void before() {

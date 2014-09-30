@@ -52,6 +52,7 @@ public class BravoConstant {
     public static final String  TWITTER_CALLBACK_URL                               = "oauth://bravoconnect";
     public static final String  TWITTER_CALLBACK_HOME_URL                          = "oauth://bravoconnecthome";
     public static final String  TWITTER_CALLBACK_SETTING_URL                       = "oauth://bravoconnectsetting";
+    public static final String  TWITTER_CALLBACK_RECENT_POST_URL                   = "oauth://bravoconnectrecentpost";
 
     // Twitter oauth urls
     public static final String  URL_TWITTER_AUTH                                   = "auth_url";
@@ -91,9 +92,6 @@ public class BravoConstant {
     public static final String  PREF_KEY_BRAVO_NOTIFICATIONS                       = "pref_key_BRAVO_NOTIFICATIONS";
 
     /* share preference key to post on sns */
-    // public static final String PREF_KEY_POST_ON_FACEBOOK = "pref_key_POST_ON_FACEBOOK";
-    // public static final String PREF_KEY_POST_ON_TWITTER = "pref_key_POST_ON_TWITTER";
-    // public static final String PREF_KEY_POST_ON_FOURSQUARE = "pref_key_POST_ON_FOURSQUARE";
     public static final String  PREF_KEY_SNS_LIST                                  = "pref_key_SNS_LIST";
 
     public static final String  PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY                = "pref_key_CHECKING_BRAVO_SPENT_A_DAY";

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import twitter4j.Twitter;
@@ -49,8 +50,10 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.SNS;
+import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
@@ -58,9 +61,6 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
-import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
-import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoReturnSpot;
-import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoSearch;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
@@ -72,7 +72,6 @@ import com.sharebravo.bravo.view.fragment.home.FragmentSaved;
 import com.sharebravo.bravo.view.fragment.home.FragmentSearchTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentShare;
 import com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail;
-import com.sharebravo.bravo.view.fragment.maps.FragmentLocateMySpot;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.fragment.setting.FragmentSetting;
 import com.sharebravo.bravo.view.fragment.setting.FragmentShareWithFriends;
@@ -116,9 +115,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_ADD_MYSPOT_ID         = FRAGMENT_BASE_ID + 23;
     public static final int          FRAGMENT_INPUT_MYSPOT_ID       = FRAGMENT_BASE_ID + 24;
     public static final int          FRAGMENT_AFTER_BRAVO_ID        = FRAGMENT_BASE_ID + 25;
-    public static final int          FRAGMENT_BRAVO_SEARCH_ID       = FRAGMENT_BASE_ID + 26;
-    public static final int          FRAGMENT_BRAVO_MAP_ID          = FRAGMENT_BASE_ID + 27;
-    public static final int          FRAGMENT_BRAVO_RETURN_SPOTS_ID = FRAGMENT_BASE_ID + 28;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -145,12 +141,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentLiked            mFragmentLiked;
     private FragmentSaved            mFragmentSaved;
     private FragmentSpotDetail       mFragmentSpotDetail;
-    // private FragmentBravoSpot mFragmentAddMySpot;
     private FragmentInputMySpot      mFragmentInputMySpot;
-
-    private FragmentBravoMap         mFragmentBravoMap;
-    private FragmentBravoReturnSpot  mFragmentBravoReturnSpots;
-    private FragmentBravoSearch      mFragmentBravoSearch;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -166,6 +157,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     protected static Twitter         mTwitter;
     protected ProgressDialog         pDialog;
     private static ObBravo           mObBravo;
+    private static String            mBravoId;
     private static String            mSharedSnsText;
     // ======================Variable Define===============
     private ArrayList<Integer>       backstackID                    = new ArrayList<Integer>();
@@ -176,6 +168,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private boolean                  mBackPressedToExitOnce         = false;
     private SessionLogin             mSessionLogin                  = null;
     private int                      mLoginBravoViaType             = BravoConstant.NO_LOGIN_SNS;
+    private SNSList                  mSNSList;
+    private ArrayList<SNS>           mArrSNSList;
 
     @Override
     public int contentView() {
@@ -243,15 +237,20 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     AIOLog.d("uri:" + uri);
                     if (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL)) {
                         // Check for blank text
-                        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mObBravo.Bravo_ID);
+                        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mBravoId);
                         new UpdateTwitterStatus().execute(mSharedSnsText + " \n" + bravoUrl);
                         goToRecentPostDetail(mObBravo);
                     } else {
-                        mFragmentSetting.setLoginedTwitter(true);
-                        goToFragment(FRAGMENT_SETTINGS_ID);
+                        SNS sns = new SNS();
+                        sns.foreignID = userId;
+                        sns.foreignSNS = BravoConstant.TWITTER;
+                        sns.foreignAccessToken = accessToken.getToken() + "," + accessToken.getTokenSecret();
+                        putSNS(sns);
+                        if (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_RECENT_POST_URL)) {
+                        } else
+                            goToFragment(FRAGMENT_SETTINGS_ID);
                     }
                 } catch (Exception e) {
-                    // Check log for login errors
                     Log.e("Twitter Login Error", "> " + e.getMessage());
                 }
             }
@@ -277,7 +276,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case R.id.btn_bravo:
             // backstackID.clear();
             hideTabButton();
-            showFragment(FRAGMENT_BRAVO_SEARCH_ID, false);
+            Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
+            startActivity(bravoIntent);
+            overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
             break;
         case R.id.btn_search:
             backstackID.clear();
@@ -373,13 +374,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_spot_detail);
         // mFragmentAddMySpot = (FragmentBravoSpot) mFmManager.findFragmentById(R.id.fragment_add_myspot);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
-
-        // mFragmentAfterBravo = (FragmentAfterBravo) mFmManager.findFragmentById(R.id.fragment_after_bravo);
-
-        mFragmentBravoReturnSpots = (FragmentBravoReturnSpot) mFmManager.findFragmentById(R.id.fragment_bravo_return_spots);
-        mFragmentBravoSearch = (FragmentBravoSearch) mFmManager.findFragmentById(R.id.fragment_bravo_search);
-        mFragmentBravoMap = (FragmentBravoMap) mFmManager.findFragmentById(R.id.fragment_bravo_map);
-        // mFragmentMapCoverAdd = (FragmentMapViewCover) mFmManager.findFragmentById(R.id.spot_map_add);
 
         mFragmentUserDataTab.setListener(this);
         showFragment(FRAGMENT_HOME_TAB_ID, false);
@@ -505,22 +499,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             // mTransaction.show(mFragmentMapCoverAdd);
             break;
 
-        case FRAGMENT_BRAVO_SEARCH_ID:
-            mFragmentBravoSearch.setBackStatus(isback);
-            mTransaction.show(mFragmentBravoSearch);
-            break;
-        case FRAGMENT_BRAVO_MAP_ID:
-            mFragmentBravoMap.setBackStatus(isback);
-            mTransaction.show(mFragmentBravoMap);
-            break;
-        case FRAGMENT_BRAVO_RETURN_SPOTS_ID:
-            mFragmentBravoReturnSpots.setBackStatus(isback);
-            mTransaction.show(mFragmentBravoReturnSpots);
-            break;
         default:
             break;
         }
-        if (!isback && fragment != FRAGMENT_BRAVO_RETURN_SPOTS_ID)
+        if (!isback)
             addToSBackStack(fragment);
         mTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         mTransaction.commit();
@@ -553,9 +535,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
         mTransaction.hide(mFragmentInputMySpot);
 
-        mTransaction.hide(mFragmentBravoMap);
-        mTransaction.hide(mFragmentBravoReturnSpots);
-        mTransaction.hide(mFragmentBravoSearch);
         return mTransaction;
     }
 
@@ -583,7 +562,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             onBackPressedToExit();
             return;
         }
-
+        AIOLog.d("previousView:" + previousView);
         if (previousView > 0) {
             showFragment(previousView, true);
         }
@@ -675,10 +654,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void shareViaSNS(String snsType, ObBravo obBravo, String sharedText) {
         mObBravo = obBravo;
+        mBravoId = mObBravo.Bravo_ID;
         mSharedSnsText = sharedText;
         // Check if already logged in
         if (BravoConstant.TWITTER.equals(snsType)) {
-            shareViaTwitter();
+            shareViaTwitter(BravoConstant.TWITTER_CALLBACK_HOME_URL);
         } else if (BravoConstant.FACEBOOK.equals(snsType)) {
             shareViaFacebook();
         } else if (BravoConstant.LINE.equals(snsType)) {
@@ -692,7 +672,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             Intent waIntent = new Intent(Intent.ACTION_SEND);
             waIntent.setType("text/plain");
             String sharedText;
-            String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mObBravo.Bravo_ID);
+            String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mBravoId);
             sharedText = mSharedSnsText + " \n" + bravoUrl;
 
             PackageInfo info = pm.getPackageInfo("jp.naver.line.android", PackageManager.GET_META_DATA);
@@ -723,7 +703,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     }
 
-    private void shareViaTwitter() {
+    private void shareViaTwitter(String urlCallback) {
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -738,7 +718,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mTwitter = factory.getInstance();
 
             try {
-                mTwitterRequestToken = mTwitter.getOAuthRequestToken(BravoConstant.TWITTER_CALLBACK_HOME_URL);
+                mTwitterRequestToken = mTwitter.getOAuthRequestToken(urlCallback);
                 this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mTwitterRequestToken.getAuthenticationURL())));
                 finish();
             } catch (TwitterException e) {
@@ -746,11 +726,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             }
         } else {
             // user already logged into twitter
-            requestToGetTwitterUserInfo(mObBravo, mSharedSnsText);
+            if (BravoConstant.TWITTER_CALLBACK_HOME_URL.equals(urlCallback))
+                requestToGetTwitterUserInfo(mBravoId, mSharedSnsText);
         }
     }
 
-    private void requestToGetTwitterUserInfo(ObBravo obBravo, String sharedText) {
+    private void requestToGetTwitterUserInfo(String bravoId, String sharedText) {
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -783,7 +764,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             AIOLog.e("user twitter is null");
             return;
         }
-        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mObBravo.Bravo_ID);
+        String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mBravoId);
         // update twitter status
         new UpdateTwitterStatus().execute(sharedText + " \n" + bravoUrl);
     }
@@ -945,18 +926,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
     }
 
-    @Override
-    public void goToReturnSpotFragment(Spot _spot) {
-        mFragmentBravoReturnSpots.setBravoSpot(_spot);
-        showFragment(FRAGMENT_BRAVO_RETURN_SPOTS_ID, false);
-    }
-
-    @Override
-    public void goToMapView(Spot spot, int locationType) {
-        mFragmentBravoMap.setBravoSpot(spot);
-        showFragment(FRAGMENT_BRAVO_MAP_ID, false);
-    }
-
     private void onBackPressedToExit() {
         AIOLog.d("onBackPressed:" + mBackPressedToExitOnce);
         if (mBackPressedToExitOnce) {
@@ -978,7 +947,19 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void putSNS(SNS sns) {
+    public void putSNS(final SNS sns) {
+        boolean isCheckExistedSNS = false;
+        mSNSList = BravoUtils.getSNSList(this);
+        if (mSNSList == null)
+            mArrSNSList = new ArrayList<SNS>();
+        else
+            mArrSNSList = mSNSList.snsArrList;
+        for (int i = 0; i < mArrSNSList.size(); i++) {
+            if (sns.foreignSNS.equals(mArrSNSList.get(i).foreignSNS))
+                isCheckExistedSNS = true;
+        }
+        if (!isCheckExistedSNS)
+            return;
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         HashMap<String, String> subParams = new HashMap<String, String>();
@@ -992,14 +973,86 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response putSNS :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    mFragmentSetting.updatePostSNS(sns, true);
+                } else {
+                    mFragmentSetting.updatePostSNS(sns, false);
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                mFragmentSetting.updatePostSNS(sns, false);
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putReport.execute(url);
+    }
+
+    @Override
+    public void deleteSNS(final SNS sns) {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{SNS_ID}", sns.foreignID);
+        AsyncHttpDelete deleteSNS = new AsyncHttpDelete(this, new AsyncHttpResponseProcess(this, mFragmentSetting) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response deleteSNS :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    mFragmentSetting.updatePostSNS(sns, false);
+                } else {
+                    mFragmentSetting.updatePostSNS(sns, true);
+                }
             }
 
             @Override
             public void processIfResponseFail() {
                 AIOLog.d("response error");
+                mFragmentSetting.updatePostSNS(sns, true);
             }
-        }, params, true);
+        }, null, true);
         AIOLog.d(url);
-        putReport.execute(url);
+        deleteSNS.execute(url);
+
+    }
+
+    @Override
+    public void goToMapView(Spot mSpot, int makerByLocationSpot) {
+        
     }
 }

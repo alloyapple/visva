@@ -9,6 +9,8 @@ public class SNS {
     public String foreignID;
     @SerializedName("Foreign_Access_Token")
     public String foreignAccessToken;
+    @SerializedName("key")
+    public String key;
 
     public SNS() {
     }

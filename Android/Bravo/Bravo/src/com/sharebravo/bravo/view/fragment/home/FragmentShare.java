@@ -25,10 +25,10 @@ import com.facebook.widget.LoginTextView.UserInfoChangedCallback;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.FacebookUtil;
-import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentShare extends FragmentBasic {
@@ -83,32 +83,24 @@ public class FragmentShare extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-                String textShare = mTxtboxShare.getText().toString();
-                if (StringUtility.isEmpty(textShare)) {
-                    isSharedTextEmpty = true;
-                    mTxtboxShare.setText("");
-                    mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
-                    mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
+                isClickFacebook = true;
+                Session session = Session.getActiveSession();
+                AIOLog.d("getActiveSession=>" + session);
+                if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
+                    mTxtShareFacebook.onClickLoginFb();
                 } else {
-                    isClickFacebook = true;
-                    Session session = Session.getActiveSession();
-                    AIOLog.d("getActiveSession=>" + session);
-                    if (session == null || session.isClosed() || session.getState() == null || !session.getState().isOpened()) {
-                        mTxtShareFacebook.onClickLoginFb();
-                    } else {
-                        // isClickFacebook = true;
-                        final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+                    // isClickFacebook = true;
+                    final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 
-                        if (Session.getActiveSession() != null) {
-                            List<String> sessionPermission = Session.getActiveSession().getPermissions();
-                            if (!sessionPermission.containsAll(PERMISSIONS)) {
-                                NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(getActivity(), PERMISSIONS);
-                                Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
-                            }
+                    if (Session.getActiveSession() != null) {
+                        List<String> sessionPermission = Session.getActiveSession().getPermissions();
+                        if (!sessionPermission.containsAll(PERMISSIONS)) {
+                            NewPermissionsRequest reauthRequest = new Session.NewPermissionsRequest(getActivity(), PERMISSIONS);
+                            Session.getActiveSession().requestNewPublishPermissions(reauthRequest);
                         }
-                        mTxtShareFacebook.setPublishPermissions(PERMISSIONS);
-                        requestUserFacebookInfo(session);
                     }
+                    mTxtShareFacebook.setPublishPermissions(PERMISSIONS);
+                    requestUserFacebookInfo(session);
                 }
             }
         });
@@ -135,14 +127,7 @@ public class FragmentShare extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 String textShare = mTxtboxShare.getText().toString();
-                if (StringUtility.isEmpty(textShare)) {
-                    isSharedTextEmpty = true;
-                    mTxtboxShare.setText("");
-                    mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
-                    mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
-                } else {
-                    mHomeActionListener.shareViaSNS(BravoConstant.TWITTER, mBravo, textShare);
-                }
+                mHomeActionListener.shareViaSNS(BravoConstant.TWITTER, mBravo, textShare);
             }
         });
         mTxtShareLine.setOnClickListener(new View.OnClickListener() {
@@ -150,25 +135,18 @@ public class FragmentShare extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 String textShare = mTxtboxShare.getText().toString();
-                if (StringUtility.isEmpty(textShare)) {
-                    isSharedTextEmpty = true;
-                    mTxtboxShare.setText("");
-                    mTxtboxShare.setHint(getString(R.string.sharedtext_is_empty));
-                    mTxtboxShare.setHintTextColor(getActivity().getResources().getColor(R.color.red));
-                } else {
-                    mHomeActionListener.shareViaSNS(BravoConstant.LINE, mBravo, textShare);
-                }
+                mHomeActionListener.shareViaSNS(BravoConstant.LINE, mBravo, textShare);
             }
         });
         return root;
     }
 
-    private void requestUserFacebookInfo(Session activeSession) {
+    private void requestUserFacebookInfo(final Session activeSession) {
         AIOLog.d("activeSession:" + activeSession);
         Request infoRequest = Request.newMeRequest(activeSession, new com.facebook.Request.GraphUserCallback() {
 
             @Override
-            public void onCompleted(GraphUser user, Response response) {
+            public void onCompleted(final GraphUser user, Response response) {
                 AIOLog.d("requestUserFacebookInfo:" + user);
                 if (user != null)
                     FacebookUtil.getInstance(getActivity()).publishShareInBackground(mBravo, mTxtboxShare.getText().toString(), new Callback() {
@@ -177,6 +155,11 @@ public class FragmentShare extends FragmentBasic {
                         public void onCompleted(Response response) {
                             Toast.makeText(getActivity(), "share facebook successfully", Toast.LENGTH_SHORT).show();
                             isClickFacebook = false;
+                            SNS sns = new SNS();
+                            sns.foreignAccessToken = activeSession.getAccessToken();
+                            sns.foreignID = user.getId();
+                            sns.foreignSNS = BravoConstant.FACEBOOK;
+                            mHomeActionListener.putSNS(sns);
                             mHomeActionListener.goToBack();
                         }
                     });
