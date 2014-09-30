@@ -138,7 +138,6 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
         boolean isActivedSession = session.isOpened();
         AIOLog.d("isActivedSession=" + isActivedSession);
         AppEventsLogger.activateApp(getActivity());
-
     }
 
     /**
@@ -168,12 +167,6 @@ public class FragmentRegister extends FragmentBasic implements AccessTokenReques
 
             @Override
             public void onUserInfoFetched(User user) {
-                // OWww. did i already got user!?
-                // if (user.getBitmapPhoto() == null) {
-                // UserImageRequest request = new UserImageRequest(getActivity(), getActivity());
-                // request.execute(user.getPhoto());
-                // } else {
-                // userImage.setImageBitmap(user.getBitmapPhoto());
                 AIOLog.d("user 4square:" + user);
                 if (user == null)
                     return;

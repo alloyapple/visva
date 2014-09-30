@@ -21,10 +21,10 @@ import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -36,7 +36,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
 import com.sharebravo.bravo.foursquare.FactoryFoursquareParams;
 import com.sharebravo.bravo.foursquare.models.OFGetVenueSearch;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpGet;
@@ -89,7 +89,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                                                                     @Override
                                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                                         if (position < mAdapter.getCount())
-                                                                            mHomeActionListener.goToMapView((mSpots.get(position - 1)),
+                                                                            mBravoCheckingListener.goToMapView((mSpots.get(position - 1)),
                                                                                     FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
                                                                     }
                                                                 };
@@ -97,7 +97,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_bravo_tab, container);
-        mHomeActionListener = (HomeActivity) getActivity();
+        mBravoCheckingListener = (ActivityBravoChecking) getActivity();
         textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_spot);
         textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -187,7 +187,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
             @Override
             public void onClick(View v) {
-                mHomeActionListener.goToBack();
+                mBravoCheckingListener.goToBack();
             }
         });
         location = getLocation();
@@ -229,7 +229,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mHomeActionListener.goToBack();
+                mBravoCheckingListener.goToBack();
                 return;
             }
         });
@@ -543,7 +543,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
     @Override
     public void goToAddMySpot() {
-        mHomeActionListener.goToAddSpot();
+        mBravoCheckingListener.goToAddSpot();
     }
 
     @Override

@@ -86,7 +86,7 @@ public class BravoWebServiceConfig {
     public static final String URL_DELETE_NOTIFICATION              = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/notifications/{Type}?User_ID={str}&Access_Token={str}";
     public static final String URL_DELETE_SNS                       = URL_BRAVO_BASE
-                                                                            + "/user/{User_ID}/sns/{SNS_ID}?User_ID={str}&Access_Token={str}";
+                                                                            + "/user/{User_ID}/sns/{SNS_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_USER                      = "https://dev.sharebravo.com/user/{User_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
 
     public static final String URL_PUT_LIKE                         = URL_BRAVO_BASE
