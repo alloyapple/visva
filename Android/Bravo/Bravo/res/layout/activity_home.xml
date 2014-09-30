@@ -48,7 +48,7 @@
                 android:id="@+id/fragment_map_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentMapView" />
+                class="com.sharebravo.bravo.view.fragment.maps.FragmentMapView" />
 
             <fragment
                 android:id="@+id/fragment_home_notification"
@@ -133,12 +133,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot" />
-
-            <fragment
-                android:id="@+id/fragment_locate_myspot"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentLocateMySpot" />
         </RelativeLayout>
 
         <FrameLayout
