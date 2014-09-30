@@ -17,4 +17,6 @@ public interface BravoCheckingListener {
     public void goToAddSpot();
 
     public void putSNS(SNS sns);
+    
+    public void finishPostBravo();
 }

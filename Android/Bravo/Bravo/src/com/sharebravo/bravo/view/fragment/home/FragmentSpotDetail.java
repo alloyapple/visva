@@ -431,7 +431,6 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
 
     @Override
     public void tapToBravo() {
-        // mHomeActionListener.goToBravoSpot(mSpot.Spot_Latitude, mSpot.Spot_Longitude);
         mHomeActionListener.goToMapView(mSpot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
     }
 
@@ -442,14 +441,12 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
 
     @Override
     public void goToMoreDetailOn4square() {
-        // TODO Auto-generated method stub
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mFourquareDetailURL));
         startActivity(browserIntent);
     }
 
     @Override
     public void goToReport() {
-        // TODO Auto-generated method stub
         showDialogReport();
     }
 
