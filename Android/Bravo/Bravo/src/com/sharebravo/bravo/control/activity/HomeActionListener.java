@@ -18,7 +18,7 @@ public interface HomeActionListener {
 
     public void goToShare(ObBravo bravoObj, int shareType);
 
-    public void goToMapView(String lat, String log, int locationType);
+    public void goToMapView(double lat, double log, int locationType);
 
     public void goToMapView(String foreignID, int locationType, String fullName);
 
@@ -40,7 +40,7 @@ public interface HomeActionListener {
 
     public void goToInputMySpot();
 
-    public void goToLocateMySpot();
+    public void goToLocateMySpot(double lat, double log, int locationType);
 
     public void shareViaSNS(String snsType, ObBravo mBravo, String sharedText);
 

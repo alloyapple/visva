@@ -53,7 +53,7 @@ import com.sharebravo.bravo.view.adapter.AdapterSpotDetail;
 import com.sharebravo.bravo.view.adapter.DetailSpotListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.bravochecking.FragmentBravoMap;
-import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover2;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
@@ -232,8 +232,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
                     return;
                 else {
                     mFourquareDetailURL = mOFGetVenue.response.venue.canonicalUrl;
-
-                    // mAdapter.updateSpotRanks(mOFGetVenue.response.venue);
+                    mAdapter.updateMapView();
                 }
             }
 
@@ -300,18 +299,21 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (mSpot.Spot_ID != null) {
-                if (!isBackStatus()) {
+            if (!isBackStatus()) {
+                if (mSpot.Spot_ID != null && !mSpot.Spot_ID.equals("")) {
+
                     requestGetSpot(mSpot.Spot_ID);
                     requestGetSpotHistory(mSpot.Spot_ID);
                     requestGetSpotRank(mSpot.Spot_ID);
                     requestGet4squareVenue(mSpot.Spot_FID);
+
+                } else {
+                    requestGet4squareVenue(mSpot.Spot_FID);
+                    mAdapter.updatSpot(mSpot);
+                    mAdapter.updatSpotHistory(new ArrayList<SpotHistory>());
+                    mAdapter.updateSpotRanks(new ArrayList<SpotRank>());
+
                 }
-            } else {
-                // mAdapter.updateMapView();
-                mAdapter.updatSpot(mSpot);
-                mAdapter.updatSpotHistory(new ArrayList<SpotHistory>());
-                mAdapter.updateSpotRanks(new ArrayList<SpotRank>());
             }
         }
     }
@@ -328,12 +330,8 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
 
     @Override
     public void goToFragment(int fragmentID) {
-        if (fragmentID == HomeActivity.FRAGMENT_MAP_VIEW_ID) {
-            mHomeActionListener.goToMapView(String.valueOf(mSpot.Spot_Latitude), String.valueOf(mSpot.Spot_Longitude),
-                    FragmentMapView.MAKER_BY_LOCATION_SPOT);
-            return;
-        }
-        mHomeActionListener.goToFragment(fragmentID);
+        mHomeActionListener.goToMapView(mSpot.Spot_Latitude, mSpot.Spot_Longitude,
+                FragmentMapView.MAKER_BY_LOCATION_SPOT);
     }
 
     public void showDialogCallSpot() {
@@ -426,9 +424,8 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
 
     public void setSpot(Spot mSpot) {
         this.mSpot = mSpot;
-        FragmentMapCover2.mLat = mSpot.Spot_Latitude;
-        FragmentMapCover2.mLong = mSpot.Spot_Longitude;
-        // mAdapter.updateMapView();
+        FragmentMapCover.mLat = mSpot.Spot_Latitude;
+        FragmentMapCover.mLong = mSpot.Spot_Longitude;
         mAdapter.updatSpot(mSpot);
     }
 

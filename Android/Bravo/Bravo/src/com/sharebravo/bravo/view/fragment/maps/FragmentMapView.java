@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -52,10 +51,12 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
+import com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot;
 
 public class FragmentMapView extends FragmentMapBasic implements LocationListener {
     public static final int               MAKER_BY_LOCATION_SPOT = 0;
     public static final int               MAKER_BY_LOCATION_USER = 1;
+    public static final int               MAKER_BY_USER          = 2;
     private HashMap<Marker, SpotTimeline> mMakers                = new HashMap<Marker, SpotTimeline>();
 
     private GoogleMap                     map;
@@ -94,19 +95,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         return mView;
     }
 
-//    private void setMapTransparent(ViewGroup group) {
-//        int childCount = group.getChildCount();
-//        for (int i = 0; i < childCount; i++) {
-//            View child = group.getChildAt(i);
-//
-//            if (child instanceof ViewGroup) {
-//                setMapTransparent((ViewGroup) child);
-//            } else if (child instanceof SurfaceView) {
-//                child.setBackgroundColor(0x00000000);
-//            }
-//        }
-//    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -119,7 +107,10 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
                     return;
                 changeLocation(location.getLatitude(), location.getLongitude());
                 requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
+            } else if (typeMaker == MAKER_BY_USER) {
+                changeLocation(mLat, mLong);
             }
+
         }
     }
 
@@ -176,8 +167,26 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         map.getUiSettings().setCompassEnabled(true);
         map.getUiSettings().setRotateGesturesEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
+
         getMap().clear();
-        // addMaker(latitude, longitude, "").showInfoWindow();
+        if (typeMaker == MAKER_BY_LOCATION_SPOT) {
+            addMaker(latitude, longitude, "").showInfoWindow();
+            map.setOnMapClickListener(null);
+        }
+        else {
+            addMakerCheck(latitude, longitude, "").showInfoWindow();
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+                @Override
+                public void onMapClick(LatLng point) {
+                    // TODO Auto-generated method stub
+
+                    addMakerCheck(point.latitude, point.longitude, "");
+                    FragmentInputMySpot.checkLat = point.latitude;
+                    FragmentInputMySpot.checkLong = point.longitude;
+                }
+            });
+        }
     }
 
     public void changeLocation(ArrayList<SpotTimeline> data, double latitude, double longitude) {
@@ -233,8 +242,20 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
         marker.title(name);
+        getMap().clear();
         Marker markerObject = getMap().addMarker(marker);
+        return markerObject;
+    }
 
+    private Marker addMakerCheck(double latitude, double longitute, String name) {
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitute)).title(name);
+        // Changing marker icon
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.nearby_icon);
+        marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
+        marker.title(name);
+        getMap().clear();
+        Marker markerObject = getMap().addMarker(marker);
         return markerObject;
     }
 
@@ -246,9 +267,9 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         this.typeMaker = typeMaker;
     }
 
-    public void setCordinate(String _lat, String _long) {
-        mLat = Double.parseDouble(_lat);
-        mLong = Double.parseDouble(_long);
+    public void setCordinate(Double _lat, Double _long) {
+        mLat = _lat;
+        mLong = _long;
     }
 
     @Override

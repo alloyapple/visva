@@ -234,6 +234,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getSpotSearch = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             final int ownMode = mode;
+
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("getSpotSearch:" + response);
@@ -393,7 +394,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 if (mOFGetVenueSearch == null)
                     return;
                 else {
-                    ArrayList<String> fids = new ArrayList<String>();
+                    final ArrayList<String> fids = new ArrayList<String>();
                     mSpots.clear();
                     for (int i = 0; i < mOFGetVenueSearch.response.venues.size(); i++) {
                         fids.add(mOFGetVenueSearch.response.venues.get(i).id);
@@ -412,7 +413,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                         newSpot.Spot_Type = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
                         mSpots.add(newSpot);
                     }
-
                     requestSpotSearch(fids, ownMode);
                 }
             }
