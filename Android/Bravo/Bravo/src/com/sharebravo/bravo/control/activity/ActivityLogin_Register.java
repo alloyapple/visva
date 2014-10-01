@@ -162,8 +162,9 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
                 }
             }
         }
-
     }
+
+   
 
     private void initializeFragments(Bundle savedInstanceState) {
         mFmManager = getSupportFragmentManager();
@@ -284,21 +285,21 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
          * if(mTopPanel.isOpen()){ mTopPanel.setOpen(false, true); return; }
          * super.onBackPressed(); backstack.clear(); } return; }
          */
-       
+
         try {
             mBackstack.remove(mBackstack.size() - 1);
             if (mBackstack.size() == 0) {
-                Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+                Intent intent = new Intent(ActivityLogin_Register.this, ActivitySplash.class);
                 startActivity(intent);
                 finish();
             }
         } catch (IndexOutOfBoundsException e) {
-            Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+            Intent intent = new Intent(ActivityLogin_Register.this, ActivitySplash.class);
             startActivity(intent);
             finish();
         }
         if (mBackstack.size() == 0) {
-            Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+            Intent intent = new Intent(ActivityLogin_Register.this, ActivitySplash.class);
             startActivity(intent);
             finish();
             return;
@@ -316,15 +317,15 @@ public class ActivityLogin_Register extends FragmentActivity implements IShowPag
             mTransaction.show(mFragmentRegister);
         } else if (currentView.equals(FRAGMENT_REGISTER_USER_INFO)) {
             mTransaction.show(mFragmentRegisterUserInfo);
-        }else{
-            Intent intent= new Intent(ActivityLogin_Register.this, ActivitySplash.class);
+        } else {
+            Intent intent = new Intent(ActivityLogin_Register.this, ActivitySplash.class);
             startActivity(intent);
             finish();
         }
         AIOLog.d("currentView:" + currentView);
         mTransaction.commitAllowingStateLoss();
-    
-        //super.onBackPressed();
+
+        // super.onBackPressed();
     }
 
     public void onClickBackPersonal(View v) {

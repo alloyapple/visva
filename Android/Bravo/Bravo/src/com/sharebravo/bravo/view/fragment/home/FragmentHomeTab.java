@@ -8,6 +8,7 @@ import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -45,37 +47,38 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
-    private XListView                 mListviewRecentPost       = null;
-    private AdapterPostList           mAdapterRecentPost        = null;
-    private ObGetAllBravoRecentPosts  mObGetAllBravoRecentPosts = null;
-    private ObGetUserInfo             mObGetUserInfo;
-    private Button                    mBtnHomeNotification      = null;
-    private SessionLogin              mSessionLogin             = null;
-    private int                       mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
-    private boolean                   isNoFirstTime             = false;
-    private OnItemClickListener       iRecentPostClickListener  = new OnItemClickListener() {
+    private XListView                mListviewRecentPost       = null;
+    private AdapterPostList          mAdapterRecentPost        = null;
+    private ObGetAllBravoRecentPosts mObGetAllBravoRecentPosts = null;
+    private ObGetUserInfo            mObGetUserInfo;
+    private Button                   mBtnHomeNotification      = null;
+    private SessionLogin             mSessionLogin             = null;
+    private int                      mLoginBravoViaType        = BravoConstant.NO_LOGIN_SNS;
+    private boolean                  isNoFirstTime             = false;
+    private OnItemClickListener      iRecentPostClickListener  = new OnItemClickListener() {
 
-                                                                    @Override
-                                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                                        AIOLog.d("position:" + position);
-                                                                        mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
-                                                                                .get(position - 1));
-                                                                    }
-                                                                };
-    private TextView                  mNotificationIcon;
-    private boolean                   isOutOfDataLoadMore;
+                                                                   @Override
+                                                                   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                       AIOLog.d("position:" + position);
+                                                                       mHomeActionListener.goToRecentPostDetail(mObGetAllBravoRecentPosts.data
+                                                                               .get(position - 1));
+                                                                   }
+                                                               };
+    private TextView                 mNotificationIcon;
+    private boolean                  isOutOfDataLoadMore;
+    private String                   mRegisterId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_home_tab, container);
 
         intializeView(root);
-
         /* request news */
         mHomeActionListener = (HomeActivity) getActivity();
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         requestNewsItemsOnBravoServer(mSessionLogin);
+        mRegisterId = getRegistrationId(getActivity());
         requestGetUserInfo();
         isNoFirstTime = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME);
         if (!isNoFirstTime) {
@@ -88,6 +91,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FAVOURITE_NOTIFICATIONS, true);
             BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TOTAL_BRAVO_NOTIFICATIONS, true);
         }
+        
         return root;
     }
 
@@ -139,6 +143,10 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                             else
                                 mNotificationIcon.setText("10+");
                         }
+
+                        // for GCM
+                        putUpdateUserProfile(mObGetUserInfo);
+
                         if (mObGetUserInfo.data.SNS_List.size() > 0) {
                             BravoUtils.putSNSList(getActivity(), mObGetUserInfo.data.SNS_List);
                         }
@@ -146,7 +154,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                     default:
                         break;
                     }
-                } 
+                }
             }
 
             @Override
@@ -155,6 +163,39 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             }
         }, params, true);
         getUserInfoRequest.execute(url);
+    }
+
+    private void putUpdateUserProfile(ObGetUserInfo obGetUserInfo) {
+        int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Full_Name", mObGetUserInfo.data.Full_Name);
+        subParams.put("About_Me", mObGetUserInfo.data.About_Me);
+        subParams.put("APNS_Token", mRegisterId);
+
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsStr = jsonObject.toString();
+
+        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AIOLog.d("putUserUrl:" + putUserUrl);
+        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        AsyncHttpPut postRegister = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after uploading image:" + response);
+                /* go to home screen */
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        postRegister.execute(putUserUrl);
+
     }
 
     private void requestNewsItemsOnBravoServer(SessionLogin sessionLogin) {
@@ -356,4 +397,21 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mListviewRecentPost.stopRefresh();
         mListviewRecentPost.stopLoadMore();
     }
+    
+    /**
+     * Gets the current registration ID for application on GCM service.
+     * <p>
+     * If result is empty, the app needs to register.
+     * 
+     * @return registration ID, or empty string if there is no existing
+     *         registration ID.
+     */
+    private String getRegistrationId(Context context) {
+        String registrationId = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PROPERTY_REG_ID, "");
+        if (registrationId.isEmpty()) {
+            return "";
+        }
+        return registrationId;
+    }
+
 }
