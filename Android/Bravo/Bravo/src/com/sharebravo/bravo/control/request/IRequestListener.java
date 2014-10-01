@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.sdk.request;
+package com.sharebravo.bravo.control.request;
 
 public interface IRequestListener {
     public void onResponse(String response);

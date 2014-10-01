@@ -168,7 +168,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         String bravoID = mBravoObj.Bravo_ID;
         String url = BravoWebServiceConfig.URL_GET_COMMENTS.replace("{Bravo_ID}", bravoID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetComments(userId, accessToken);
-        AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestGetComments:" + response);
@@ -233,7 +233,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", mBravoObj.User_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);
@@ -354,7 +354,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_MYLIST_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", mBravoObj.Bravo_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getMyListItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getMyListItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);
@@ -382,7 +382,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_LIKE_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", mBravoObj.Bravo_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getLikeItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getLikeItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestLikingCheck:" + response);
@@ -411,7 +411,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", mBravoObj.Spot_ID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getLikedSavedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getLikedSavedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("ObGetSpot:" + response);

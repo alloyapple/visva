@@ -274,7 +274,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         }
         String url = BravoWebServiceConfig.URL_GET_TIMELINE.replace("{User_ID}", userId);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("onLoadMoreTimeline:" + response);

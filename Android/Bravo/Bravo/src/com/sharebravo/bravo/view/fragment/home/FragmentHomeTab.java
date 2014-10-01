@@ -116,7 +116,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         }
         String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + userId;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetAllBravoItems(userId, accessToken);
-        AsyncHttpGet getUserInfoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getUserInfoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
 
             @Override
             public void processIfResponseSuccess(String response) {
@@ -173,9 +173,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         String accessToken = _sessionLogin.accessToken;
 
         HashMap<String, String> subParams = new HashMap<String, String>();
-        //subParams.put("Full_Name", mObGetUserInfo.data.Full_Name);
-        //subParams.put("About_Me", mObGetUserInfo.data.About_Me);
-        // subParams.put("APNS_Token", mRegisterId);
         subParams.put("GCM_Token", mRegisterId);
 
         JSONObject jsonObject = new JSONObject(subParams);
@@ -184,7 +181,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
         AIOLog.d("putUserUrl:" + putUserUrl);
         List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
-        AsyncHttpPut postRegister = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpPut postRegister = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("reponse after update registerId:" + response);
@@ -335,7 +332,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         }
         String url = BravoWebServiceConfig.URL_GET_BRAVO_SEARCH;
         List<NameValuePair> params = ParameterFactory.createSubParamsGetNewsBravoItems(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getPullDown_LoadMoreRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("onLoadMoreBravoItems:" + response);
