@@ -34,18 +34,14 @@ import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivitySplash;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.request.BravoRequestManager;
 import com.sharebravo.bravo.sdk.request.IRequestListener;
-import com.sharebravo.bravo.sdk.request.RequestWrapper;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
-import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentSetting extends FragmentBasic implements AccessTokenRequestListener {
@@ -76,7 +72,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_settings, null);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_settings, container);
         mHomeActionListener = (HomeActivity) getActivity();
 
         initializeView(root);
@@ -179,22 +175,8 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         mToggleBtnBravoNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_NOTIFICATIONS, isChecked);
-                // RequestWrapper.getInstance(getActivity()).requestToChangeNotificationsType(BravoConstant.BRAVO_NOTIFICATIONS_TYPE,isChecked,new IRequestListener() {
-                //
-                // @Override
-                // public void onResponse(String response) {
-                // // TODO Auto-generated method stub
-                //
-                // }
-                //
-                // @Override
-                // public void onErrorResponse(String errorMessage) {
-                // // TODO Auto-generated method stub
-                //
-                // }
-                // });
+            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+                requestToChangeNotificationsType(BravoConstant.PREF_KEY_BRAVO_NOTIFICATIONS, isChecked);
             }
         });
 
@@ -202,21 +184,21 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_COMMENT_NOTIFICATIONS, isChecked);
+                requestToChangeNotificationsType(BravoConstant.PREF_KEY_COMMENT_NOTIFICATIONS, isChecked);
             }
         });
         mToggleBtnFavouriteNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FAVOURITE_NOTIFICATIONS, isChecked);
+                requestToChangeNotificationsType(BravoConstant.PREF_KEY_FAVOURITE_NOTIFICATIONS, isChecked);
             }
         });
         mToggleBtnFollowNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOLLOW_NOTIFICATIONS, isChecked);
+                requestToChangeNotificationsType(BravoConstant.PREF_KEY_FOLLOW_NOTIFICATIONS, isChecked);
             }
         });
         mToggleBtnTotalBravoNotifications.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -361,29 +343,20 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     }
 
     private void requestToDeleteMyAccount() {
-        int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
-        SessionLogin sessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
-        String userId = sessionLogin.userID;
-        String accessToken = sessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-
-        AsyncHttpDelete deleteAccount = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestToDeleteMyAccount(this, new IRequestListener() {
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
                 BravoUtils.clearSession(MyApplication.getInstance().getApplicationContext());
                 Intent splashIntent = new Intent(getActivity(), ActivitySplash.class);
                 getActivity().startActivity(splashIntent);
                 getActivity().finish();
             }
-
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                
             }
-        }, null, true);
-        AIOLog.d("requestToDeleteMyAccount:" + url);
-        deleteAccount.execute(url);
+        });
     }
 
     private void showDialogToDeleteMyAccount() {
@@ -497,5 +470,22 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             isPostOnFourSquare = isPostOnSNS;
             mToggleBtnPostOnFourSquare.setChecked(isPostOnSNS);
         }
+    }
+
+    private void requestToChangeNotificationsType(final String bravoNotificationsType, final boolean isChecked) {
+        BravoRequestManager.getInstance(getActivity()).requestToChangeNotificationsType(bravoNotificationsType, isChecked,
+                new IRequestListener() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        AIOLog.d("requestToChangeNotificationsType: " + response + " ,bravoNotificationsType:" + bravoNotificationsType);
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(bravoNotificationsType, isChecked);
+                    }
+
+                    @Override
+                    public void onErrorResponse(String errorMessage) {
+                        AIOLog.d("errorMessage: " +errorMessage);
+                    }
+                });
     }
 }

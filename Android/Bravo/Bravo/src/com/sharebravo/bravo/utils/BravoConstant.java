@@ -92,11 +92,11 @@ public class BravoConstant {
     public static final String  PREF_KEY_SESSION_USER_INFO_VIA_TWITTER_REGISTER    = "pref_key_session_user_login_via_TWITTER_REGISTER";
     public static final String  PREF_KEY_SESSION_USER_INFO_VIA_FOURSQUARE_REGISTER = "pref_key_session_user_login_via_FOURSQUARE_REGISTER";
 
-    public static final String  PREF_KEY_COMMENT_NOTIFICATIONS                     = "pref_key_COMMENT_NOTIFICATIONS";
-    public static final String  PREF_KEY_FOLLOW_NOTIFICATIONS                      = "pref_key_FOLLOW_NOTIFICATIONS";
-    public static final String  PREF_KEY_FAVOURITE_NOTIFICATIONS                   = "pref_key_FAVOURITE_NOTIFICATIONS";
+    public static final String  PREF_KEY_COMMENT_NOTIFICATIONS                     = "comment";
+    public static final String  PREF_KEY_FOLLOW_NOTIFICATIONS                      = "follow";
+    public static final String  PREF_KEY_FAVOURITE_NOTIFICATIONS                   = "mylist";
     public static final String  PREF_KEY_TOTAL_BRAVO_NOTIFICATIONS                 = "pref_key_TOTAL_BRAVO_NOTIFICATIONS";
-    public static final String  PREF_KEY_BRAVO_NOTIFICATIONS                       = "pref_key_BRAVO_NOTIFICATIONS";
+    public static final String  PREF_KEY_BRAVO_NOTIFICATIONS                       = "daily_bravos";
 
     /* share preference key to post on sns */
     public static final String  PREF_KEY_SNS_LIST                                  = "pref_key_SNS_LIST";
@@ -126,9 +126,4 @@ public class BravoConstant {
 
     public static final String  EXTRA_SPOT_JSON                                    = "extra_SPOT_JSON";
 
-    /* Notification type */
-    public static final String  COMMENT_NOTIFICATIONS_TYPE                         = "comment";
-    public static final String  FOLLOW_NOTIFICATIONS_TYPE                          = "follow";
-    public static final String  FAVOURITE_NOTIFICATIONS_TYPE                       = "mylist";
-    public static final String  BRAVO_NOTIFICATIONS_TYPE                           = "bravos";
 }

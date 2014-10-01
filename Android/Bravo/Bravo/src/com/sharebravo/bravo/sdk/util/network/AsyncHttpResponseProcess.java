@@ -5,12 +5,11 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.sdk.util.DialogUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.FragmentMapBasic;
 import com.sharebravo.bravo.view.fragment.IUISync;
@@ -23,24 +22,17 @@ import com.sharebravo.bravo.view.fragment.IUISync;
 public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
     private static final String TAG = "AsyncHttpResponseProcess";
 
-    private Activity            context;
+    private Context             mContext;
     IUISync                     asyncUI;
 
-    // boolean isShowUI;
-    // boolean isDismissUI;
-
-    public AsyncHttpResponseProcess(Activity context, FragmentBasic asyncUI/* , boolean isShowUI, boolean isDismissUI */) {
-        this.context = context;
+    public AsyncHttpResponseProcess(Context mContext, FragmentBasic asyncUI/* , boolean isShowUI, boolean isDismissUI */) {
+        this.mContext = mContext;
         this.asyncUI = asyncUI;
-        // this.isShowUI = isShowUI;
-        // this.isDismissUI = isDismissUI;
     }
 
-    public AsyncHttpResponseProcess(Activity context, FragmentMapBasic asyncUI/* , boolean isShowUI, boolean isDismissUI */) {
-        this.context = context;
+    public AsyncHttpResponseProcess(Context context, FragmentMapBasic asyncUI, boolean isShowUI) {
+        this.mContext = context;
         this.asyncUI = asyncUI;
-        // this.isShowUI = isShowUI;
-        // this.isDismissUI = isDismissUI;
     }
 
     @Override
@@ -58,19 +50,13 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
 
         switch (statusCode) {
         case AsyncHttpBase.NETWORK_STATUS_OFF:
-            Toast.makeText(context, context.getString(R.string.network_unvailable), Toast.LENGTH_SHORT).show();
-            // try {
-            // DialogUtility.alert(context, context.getString(R.string.network_unvailable));
-            // } catch (Exception e) {
-            // DialogUtility.alert(context.getParent(), context.getString(R.string.network_unvailable));
-            // e.printStackTrace();
-            // }
+            Toast.makeText(mContext, mContext.getString(R.string.network_unvailable), Toast.LENGTH_SHORT).show();
             break;
         case AsyncHttpBase.NETWORK_STATUS_OK:
             processHttpResponse(response);
             break;
         default:
-            Toast.makeText(context, context.getString(R.string.failed_to_conect_server), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, mContext.getString(R.string.failed_to_conect_server), Toast.LENGTH_SHORT).show();
             // try {
             // DialogUtility.alert(context, context.getString(R.string.failed_to_conect_server));
             // } catch (Exception e) {
@@ -91,30 +77,15 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
             json = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
             if (json == null) {
-                Toast.makeText(context, context.getString(R.string.network_unvailable), Toast.LENGTH_SHORT).show();
-                DialogUtility.alert(context, "Can't extract server data");
+                Toast.makeText(mContext, mContext.getString(R.string.network_unvailable), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // Parser information
             Log.i(TAG, "Webservice response : " + json);
-            // CommonInfo commonInfo = ParserUtility.parserCommonResponse(json);
-            // if (commonInfo.isSuccess()) {
             processIfResponseSuccess(json);
-            // } else {
-            // processIfResponseFail();
-            // context.checkInvalidToken(commonInfo.getMessage());
-            // }
         } catch (Exception e) {
             e.printStackTrace();
-            // try {
-            // DialogUtility.alert(context, "Server error");
-            // } catch (Exception e1) {
-            // // TODO Auto-generated catch block
-            // DialogUtility.alert(context.getParent(), "Server error");
-            // e1.printStackTrace();
-            // }
-
         }
     }
 
@@ -133,12 +104,4 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
     public void processIfResponseFail() {
         // SmartLog.log(TAG, "Process if response is fail ===================");
     }
-
-    // public boolean isLoading() {
-    // return isLoading;
-    // }
-    //
-    // public void setLoading(boolean isLoading) {
-    // this.isLoading = isLoading;
-    // }
 }
