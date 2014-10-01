@@ -193,7 +193,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", foreignID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 Gson gson = new GsonBuilder().serializeNulls().create();
@@ -255,9 +255,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             if (!isBackStatus()) {
                 mListViewUserPostProfile.setVisibility(View.GONE);
                 getUserInfo(foreignID);
-                requestGetUserTimeLine(foreignID);
                 requestGetBlockingCheck();
                 requestGetFollowingCheck();
+                requestGetUserTimeLine(foreignID);
             }
         } else {
             isOutOfDataLoadMore = false;
@@ -344,7 +344,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", checkingUserId);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetTimeLine(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getTimeline = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("obGetUserTimeline:" + response);
@@ -388,7 +388,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", foreignID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);
@@ -510,7 +510,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_GET_BLOCKING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", foreignID);
         List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getBkockingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        AsyncHttpGet getBkockingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);

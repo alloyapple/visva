@@ -1,4 +1,4 @@
-package com.sharebravo.bravo.sdk.request;
+package com.sharebravo.bravo.control.request;
 
 import java.util.HashMap;
 import java.util.List;
