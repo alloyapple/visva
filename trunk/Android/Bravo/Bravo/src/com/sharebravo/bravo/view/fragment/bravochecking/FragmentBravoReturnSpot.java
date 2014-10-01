@@ -62,6 +62,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class FragmentBravoReturnSpot extends FragmentBasic {
@@ -343,7 +344,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-
+                onReturnToSpot();
             }
         });
     }
@@ -558,7 +559,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     }
 
     public void onReturnToSpot() {
-        if (mSpot.Spot_ID != null && !mSpot.Spot_FID.endsWith("")) {
+        if (mSpot.Spot_ID != null && !StringUtility.isEmpty(mSpot.Spot_ID)) {
             requestToPostBravoSpot(mSpot, mSpotBitmap);
         } else {
             requestPostSpot(mSpot);
