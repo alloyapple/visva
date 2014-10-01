@@ -38,6 +38,8 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.request.IRequestListener;
+import com.sharebravo.bravo.sdk.request.RequestWrapper;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -179,6 +181,20 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_BRAVO_NOTIFICATIONS, isChecked);
+                // RequestWrapper.getInstance(getActivity()).requestToChangeNotificationsType(BravoConstant.BRAVO_NOTIFICATIONS_TYPE,isChecked,new IRequestListener() {
+                //
+                // @Override
+                // public void onResponse(String response) {
+                // // TODO Auto-generated method stub
+                //
+                // }
+                //
+                // @Override
+                // public void onErrorResponse(String errorMessage) {
+                // // TODO Auto-generated method stub
+                //
+                // }
+                // });
             }
         });
 
@@ -366,6 +382,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 AIOLog.d("response error");
             }
         }, null, true);
+        AIOLog.d("requestToDeleteMyAccount:" + url);
         deleteAccount.execute(url);
     }
 
@@ -467,7 +484,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
         mToggleBtnPostOnTwitter.setChecked(isLoginedTwitter);
         isPostOnTwitter = isLoginedTwitter;
         mHomeActionListener.putSNS(sns);
-
     }
 
     public void updatePostSNS(SNS sns, boolean isPostOnSNS) {

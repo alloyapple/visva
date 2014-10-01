@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.util.DialogUtility;
@@ -45,33 +46,35 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
     @Override
     public void before() {
         // Show waiting dialog during connection
-        asyncUI.before();
+        if (asyncUI != null)
+            asyncUI.before();
     }
 
     @Override
     public void after(int statusCode, HttpResponse response) {
         // Process server response
-
-        asyncUI.after();
+        if (asyncUI != null)
+            asyncUI.after();
 
         switch (statusCode) {
         case AsyncHttpBase.NETWORK_STATUS_OFF:
-            try {
-                DialogUtility.alert(context, context.getString(R.string.network_unvailable));
-            } catch (Exception e) {
-                DialogUtility.alert(context.getParent(),
-                        context.getString(R.string.network_unvailable));
-                e.printStackTrace();
-            }
+            Toast.makeText(context, context.getString(R.string.network_unvailable), Toast.LENGTH_SHORT).show();
+            // try {
+            // DialogUtility.alert(context, context.getString(R.string.network_unvailable));
+            // } catch (Exception e) {
+            // DialogUtility.alert(context.getParent(), context.getString(R.string.network_unvailable));
+            // e.printStackTrace();
+            // }
             break;
         case AsyncHttpBase.NETWORK_STATUS_OK:
             processHttpResponse(response);
             break;
         default:
-            try {
-                DialogUtility.alert(context, context.getString(R.string.failed_to_conect_server));
-            } catch (Exception e) {
-            }
+            Toast.makeText(context, context.getString(R.string.failed_to_conect_server), Toast.LENGTH_SHORT).show();
+            // try {
+            // DialogUtility.alert(context, context.getString(R.string.failed_to_conect_server));
+            // } catch (Exception e) {
+            // }
             break;
         }
     }
@@ -88,6 +91,7 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
             json = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
             if (json == null) {
+                Toast.makeText(context, context.getString(R.string.network_unvailable), Toast.LENGTH_SHORT).show();
                 DialogUtility.alert(context, "Can't extract server data");
                 return;
             }

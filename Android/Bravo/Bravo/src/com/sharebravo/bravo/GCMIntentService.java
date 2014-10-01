@@ -9,19 +9,14 @@ import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.utils.BravoConstant;
 
 public class GCMIntentService extends GCMBaseIntentService {
-    // ===========================Constant Define============
-    private static final String DISPLAY_MESSAGE_ACTION = "com.sharebravo.bravo.pushnotifications.DISPLAY_MESSAGE";
-    private static final String EXTRA_MESSAGE          = "message";
-    private static final String SENDER_ID              = "";
-    // ===========================Class Define ==============
-    // ===========================Variable Define============
-
-    private static final String TAG                    = "GCMIntentService";
+    private static final String TAG = "GCMIntentService";
 
     public GCMIntentService() {
-        super(SENDER_ID);
+        super(BravoConstant.GCM_SENDER_ID);
     }
 
     /**
@@ -50,12 +45,51 @@ public class GCMIntentService extends GCMBaseIntentService {
      * */
     @Override
     protected void onMessage(Context context, Intent intent) {
-        Log.i(TAG, "Received message");
-        String message = intent.getExtras().getString("price");
 
-        displayMessage(context, message);
+        String alert = intent.getExtras().getString("alert");
+        String badge = intent.getExtras().getString("badge");
+        String sound = intent.getExtras().getString("sound");
+        String source = intent.getExtras().getString("source");
+
+        displayMessage(context, alert, badge, sound, source);
         // notifies user
-        generateNotification(context, message);
+        generateNotification(context, alert, badge, sound, source);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void generateNotification(Context context, String alert, String badge, String sound, String source) {
+        Log.d(TAG, "alert:" + alert + ",badge:" + badge);
+        int icon = R.drawable.ic_launcher;
+        long when = System.currentTimeMillis();
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = new Notification(icon, alert, when);
+
+        String title = context.getString(R.string.app_name);
+
+        Intent notificationIntent = new Intent(context, HomeActivity.class);
+        // set intent so it does not start a new activity
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(context, title, alert, intent);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        // Play default notification sound
+        notification.defaults |= Notification.DEFAULT_SOUND;
+
+        // notification.sound = Uri.parse("android.resource://" + context.getPackageName() + "your_sound_file_name.mp3");
+
+        // Vibrate if vibrate is enabled
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notificationManager.notify(0, notification);
+
+    }
+
+    private void displayMessage(Context context, String alert, String badge, String sound, String source) {
+        AIOLog.d("alert:" + alert + ",badge:" + badge);
+        Intent intent = new Intent(BravoConstant.DISPLAY_MESSAGE_ACTION);
+        intent.putExtra(BravoConstant.EXTRA_MESSAGE, alert);
+        context.sendBroadcast(intent);
     }
 
     /**
@@ -90,12 +124,14 @@ public class GCMIntentService extends GCMBaseIntentService {
     /**
      * Issues a notification to inform the user that server has sent a message.
      */
+    @SuppressWarnings("deprecation")
     private static void generateNotification(Context context, String message) {
+        Log.d(TAG, "message:" + message);
         int icon = R.drawable.ic_launcher;
         long when = System.currentTimeMillis();
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(icon, message, when);
+        Notification notification = new Notification(icon, "Test", when);
 
         String title = context.getString(R.string.app_name);
 
@@ -103,8 +139,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         // set intent so it does not start a new activity
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(context, title, message, intent);
-        notification.icon = R.drawable.ic_launcher;
+        notification.setLatestEventInfo(context, title, "Test", intent);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
         // Play default notification sound
@@ -128,8 +163,8 @@ public class GCMIntentService extends GCMBaseIntentService {
      *            message to be displayed.
      */
     static void displayMessage(Context context, String message) {
-        Intent intent = new Intent(DISPLAY_MESSAGE_ACTION);
-        intent.putExtra(EXTRA_MESSAGE, message);
+        Intent intent = new Intent(BravoConstant.DISPLAY_MESSAGE_ACTION);
+        intent.putExtra(BravoConstant.EXTRA_MESSAGE, message);
         context.sendBroadcast(intent);
     }
 }
