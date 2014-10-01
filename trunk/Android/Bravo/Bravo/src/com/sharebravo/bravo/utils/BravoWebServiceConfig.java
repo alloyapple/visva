@@ -66,7 +66,7 @@ public class BravoWebServiceConfig {
     public static final String URL_PUT_MYLIST                       = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylist?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_PUT_NOTIFICATION                 = URL_BRAVO_BASE
-                                                                            + "/user/{User_ID}/notifications?User_ID={str}&Access_Token={str}";
+                                                                            + "/user/{User_ID}/notifications?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_PUT_REPORT                       = URL_BRAVO_BASE + "/report?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_PUT_SNS                          = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/sns?User_ID={User_ID}&Access_Token={Access_Token}";
@@ -84,7 +84,7 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/mylist/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
 
     public static final String URL_DELETE_NOTIFICATION              = URL_BRAVO_BASE
-                                                                            + "/user/{User_ID}/notifications/{Type}?User_ID={str}&Access_Token={str}";
+                                                                            + "/user/{User_ID}/notifications/{Type}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_SNS                       = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/sns/{SNS_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_USER                      = "https://dev.sharebravo.com/user/{User_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
