@@ -5,6 +5,10 @@ public class BravoConstant {
     public static final String  ACCESS_TYPE                                        = "access_type";
     public static final int     STATUS_SUCCESS                                     = 1;
     public static final int     STATUS_FAILED                                      = 0;
+    public static final String  GCM_SENDER_ID                                      = "544352034042";
+    public final static int     PLAY_SERVICES_RESOLUTION_REQUEST                   = 9000;
+    public final static String  PROPERTY_REG_ID                                    = "PROPERTY_REG_ID";
+    public static final String  PROPERTY_APP_VERSION                               = "PROPERTY_APP_VERSION";
 
     /**
      * set the value to show the log for sdk

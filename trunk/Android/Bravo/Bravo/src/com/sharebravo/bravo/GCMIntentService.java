@@ -104,6 +104,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
         notification.setLatestEventInfo(context, title, message, intent);
+        notification.icon = R.drawable.ic_launcher;
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
         // Play default notification sound
@@ -114,7 +115,6 @@ public class GCMIntentService extends GCMBaseIntentService {
         // Vibrate if vibrate is enabled
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         notificationManager.notify(0, notification);
-
     }
 
     /**

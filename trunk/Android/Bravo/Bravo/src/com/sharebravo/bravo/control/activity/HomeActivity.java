@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.control.activity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -44,6 +46,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.MyApplication;
@@ -92,6 +95,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     // ======================Constant Define===============
     private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
     public static final int          REQUEST_CODE_CHECKING_BRAVO    = 1;
+    public static final String       EXTRA_MESSAGE                  = "message";
 
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
@@ -177,6 +181,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private int                      mLoginBravoViaType             = BravoConstant.NO_LOGIN_SNS;
     private SNSList                  mSNSList;
     private ArrayList<SNS>           mArrSNSList;
+    private GoogleCloudMessaging     mGoogleCloudMessaging;
+    private String                   mRegisterId;
 
     @Override
     public int contentView() {
@@ -259,6 +265,20 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     Log.e("Twitter Login Error", "> " + e.getMessage());
                 }
             }
+        }
+
+        /**
+         * GCM
+         */
+        if (BravoUtils.checkPlayServices(this)) {
+            mGoogleCloudMessaging = GoogleCloudMessaging.getInstance(this);
+            mRegisterId = getRegistrationId(this);
+            AIOLog.d("regid:" + mRegisterId);
+            if (mRegisterId.isEmpty()) {
+                registerInBackground();
+            }
+        } else {
+            AIOLog.e("No valid Google Play Services APK found.");
         }
     }
 
@@ -1080,4 +1100,84 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
     }
 
+    /***
+     * GCM only
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void registerInBackground() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                String msg = "";
+                try {
+                    if (mGoogleCloudMessaging == null) {
+                        mGoogleCloudMessaging = GoogleCloudMessaging.getInstance(HomeActivity.this);
+                    }
+                    mRegisterId = mGoogleCloudMessaging.register(BravoConstant.GCM_SENDER_ID);
+                    msg = "Device registered, registration ID=" + mRegisterId;
+                    AIOLog.d("registerInBackground regid:" + mRegisterId);
+                    sendRegistrationIdToBackend();
+
+                    storeRegistrationId(HomeActivity.this, mRegisterId);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                }
+                return msg;
+            }
+        }.execute(null, null, null);
+    }
+
+    private void sendRegistrationIdToBackend() {
+        // Your implementation here.
+
+    }
+
+    /**
+     * Stores the registration ID and app versionCode in the application's {@code SharedPreferences}.
+     * 
+     * @param context
+     *            application's context.
+     * @param regId
+     *            registration ID
+     */
+    private void storeRegistrationId(Context context, String regId) {
+        int appVersion = getAppVersion(context);
+        BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PROPERTY_REG_ID, regId);
+        BravoSharePrefs.getInstance(context).putIntValue(BravoConstant.PROPERTY_APP_VERSION, appVersion);
+    }
+
+    /**
+     * Gets the current registration ID for application on GCM service.
+     * <p>
+     * If result is empty, the app needs to register.
+     * 
+     * @return registration ID, or empty string if there is no existing
+     *         registration ID.
+     */
+    private String getRegistrationId(Context context) {
+        String registrationId = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PROPERTY_REG_ID, "");
+        if (registrationId.isEmpty()) {
+            return "";
+        }
+        int registeredVersion = BravoSharePrefs.getInstance(context).getIntValue(BravoConstant.PROPERTY_APP_VERSION);
+        int currentVersion = getAppVersion(context);
+        if (registeredVersion != currentVersion) {
+            return "";
+        }
+        return registrationId;
+    }
+
+    /**
+     * @return Application's version code from the {@code PackageManager}.
+     */
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (NameNotFoundException e) {
+            // should never happen
+            throw new RuntimeException("Could not get package name: " + e);
+        }
+    }
 }

@@ -13,7 +13,10 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.util.FloatMath;
+import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.model.SessionLogin;
@@ -448,7 +451,7 @@ public class BravoUtils {
         // return twitter login status from Shared Preferences
         return BravoSharePrefs.getInstance(context).getBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN);
     }
-    
+
     public static double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
         float pk = (float) (180 / 3.14169);
 
@@ -463,5 +466,23 @@ public class BravoUtils {
         double tt = Math.acos(t1 + t2 + t3);
 
         return 6366000 * tt / 1000;
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    public static boolean checkPlayServices(Context context) {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                //GooglePlayServicesUtil.getErrorDialog(resultCode, context, BravoConstant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                AIOLog.e("This device is not supported.");
+            }
+            return false;
+        }
+        return true;
     }
 }
