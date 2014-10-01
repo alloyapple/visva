@@ -309,7 +309,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void goToAddSpot() {
-        setResult(ActivityBravoChecking.RESULT_OK);
+        setResult(ActivityBravoChecking.RESULT_CANCELED);
         finish();
     }
 

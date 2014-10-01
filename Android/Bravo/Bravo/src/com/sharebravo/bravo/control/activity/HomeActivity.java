@@ -328,8 +328,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mUiLifecycleHelper.onActivityResult(requestCode, resultCode, data, null);
-        if (requestCode == REQUEST_CODE_CHECKING_BRAVO) {
-            goToAddSpot();
+        if (requestCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_CHECKING_BRAVO) {
+                goToAddSpot();
+            }
         }
     }
 
