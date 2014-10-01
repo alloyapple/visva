@@ -302,7 +302,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
             if (!isBackStatus()) {
                 mAdapter.updateMapView();
                 if (mSpot.Spot_ID != null && !mSpot.Spot_ID.equals("")) {
-                    requestGetSpot(mSpot.Spot_ID);
+//                    requestGetSpot(mSpot.Spot_ID);
                     requestGetSpotHistory(mSpot.Spot_ID);
                     requestGetSpotRank(mSpot.Spot_ID);
                     requestGet4squareVenue(mSpot.Spot_FID);
