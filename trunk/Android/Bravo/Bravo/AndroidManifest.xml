@@ -25,10 +25,7 @@
     <!-- This app has permission to register and receive data message. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission
-        android:name="com.google.android.c2dm.permission.RECEIVE"
-        android:protectionLevel="signature" />
-    
+    <permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <permission
         android:name="com.sharebravo.bravo.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -153,7 +150,7 @@
                 <!-- Receives the registration id. -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.androidhive.pushnotifications" />
+                <category android:name="com.sharebravo.bravo.pushnotifications" />
             </intent-filter>
         </receiver>
 

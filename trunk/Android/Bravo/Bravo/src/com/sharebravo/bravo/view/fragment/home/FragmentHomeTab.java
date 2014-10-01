@@ -91,7 +91,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FAVOURITE_NOTIFICATIONS, true);
             BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TOTAL_BRAVO_NOTIFICATIONS, true);
         }
-        
+
         return root;
     }
 
@@ -166,15 +166,17 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     }
 
     private void putUpdateUserProfile(ObGetUserInfo obGetUserInfo) {
+        AIOLog.d("mRegisterId:" + mRegisterId);
         int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
         String userId = _sessionLogin.userID;
         String accessToken = _sessionLogin.accessToken;
 
         HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Full_Name", mObGetUserInfo.data.Full_Name);
-        subParams.put("About_Me", mObGetUserInfo.data.About_Me);
-        subParams.put("APNS_Token", mRegisterId);
+        //subParams.put("Full_Name", mObGetUserInfo.data.Full_Name);
+        //subParams.put("About_Me", mObGetUserInfo.data.About_Me);
+        // subParams.put("APNS_Token", mRegisterId);
+        subParams.put("GCM_Token", mRegisterId);
 
         JSONObject jsonObject = new JSONObject(subParams);
         String subParamsStr = jsonObject.toString();
@@ -185,7 +187,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         AsyncHttpPut postRegister = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
-                AIOLog.d("reponse after uploading image:" + response);
+                AIOLog.d("reponse after update registerId:" + response);
                 /* go to home screen */
             }
 
@@ -397,7 +399,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mListviewRecentPost.stopRefresh();
         mListviewRecentPost.stopLoadMore();
     }
-    
+
     /**
      * Gets the current registration ID for application on GCM service.
      * <p>

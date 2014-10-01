@@ -9,6 +9,9 @@ public class BravoConstant {
     public final static int     PLAY_SERVICES_RESOLUTION_REQUEST                   = 9000;
     public final static String  PROPERTY_REG_ID                                    = "PROPERTY_REG_ID";
     public static final String  PROPERTY_APP_VERSION                               = "PROPERTY_APP_VERSION";
+    public static final String  DISPLAY_MESSAGE_ACTION                             = "com.sharebravo.bravo.pushnotifications.DISPLAY_MESSAGE";
+    public static final String  EXTRA_MESSAGE                                      = "message";
+    public static final String  EXTRA_TYPE                                         = "Type";
 
     /**
      * set the value to show the log for sdk
@@ -122,4 +125,10 @@ public class BravoConstant {
     public static final String  BRAVO                                              = "Bravo";
 
     public static final String  EXTRA_SPOT_JSON                                    = "extra_SPOT_JSON";
+
+    /* Notification type */
+    public static final String  COMMENT_NOTIFICATIONS_TYPE                         = "comment";
+    public static final String  FOLLOW_NOTIFICATIONS_TYPE                          = "follow";
+    public static final String  FAVOURITE_NOTIFICATIONS_TYPE                       = "mylist";
+    public static final String  BRAVO_NOTIFICATIONS_TYPE                           = "bravos";
 }

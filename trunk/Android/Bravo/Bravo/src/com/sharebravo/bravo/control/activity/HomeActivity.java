@@ -18,8 +18,10 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -66,6 +68,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.WakeLocker;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
@@ -267,6 +270,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             }
         }
 
+        registerReceiver(mHandleMessageReceiver, new IntentFilter(BravoConstant.DISPLAY_MESSAGE_ACTION));
+
         /**
          * GCM
          */
@@ -361,6 +366,16 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onDestroy() {
         super.onDestroy();
         mUiLifecycleHelper.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        try {
+            unregisterReceiver(mHandleMessageReceiver);
+        } catch (IllegalArgumentException e) {
+
+        }
+        super.onStop();
     }
 
     @Override
@@ -1111,7 +1126,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     mRegisterId = mGoogleCloudMessaging.register(BravoConstant.GCM_SENDER_ID);
                     msg = "Device registered, registration ID=" + mRegisterId;
                     AIOLog.d("registerInBackground regid:" + mRegisterId);
-                    sendRegistrationIdToBackend();
 
                     storeRegistrationId(HomeActivity.this, mRegisterId);
                 } catch (IOException ex) {
@@ -1120,11 +1134,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                 return msg;
             }
         }.execute(null, null, null);
-    }
-
-    private void sendRegistrationIdToBackend() {
-        // Your implementation here.
-
     }
 
     /**
@@ -1175,4 +1184,30 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             throw new RuntimeException("Could not get package name: " + e);
         }
     }
+
+    /**
+     * Receiving push messages
+     * */
+    private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+                                                               @Override
+                                                               public void onReceive(Context context, Intent intent) {
+                                                                   String type = intent.getExtras().getString(BravoConstant.EXTRA_TYPE);
+                                                                   // Waking up mobile if it is sleeping
+                                                                   WakeLocker.acquire(getApplicationContext());
+
+                                                                   /**
+                                                                    * Take appropriate action on this message depending upon your app
+                                                                    * requirement For now i am just displaying it on the screen
+                                                                    * */
+
+                                                                   // Showing received message
+                                                                   // lblMessage.append(newMessage + "\n");
+                                                                   Toast.makeText(getApplicationContext(),
+                                                                           "New Message: " + type + ":", Toast.LENGTH_LONG)
+                                                                           .show();
+
+                                                                   // Releasing wake lock
+                                                                   WakeLocker.release();
+                                                               }
+                                                           };
 }
