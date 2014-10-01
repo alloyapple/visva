@@ -358,12 +358,12 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_POST_SPOTS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
 
-        HashMap<String, String> subParams = new HashMap<String, String>();
+        HashMap<String, Object> subParams = new HashMap<String, Object>();
         subParams.put("Spot_Name", spot.Spot_Name);
         subParams.put("Spot_FID", spot.Spot_FID);
         subParams.put("Spot_Source", spot.Spot_Source);
-        subParams.put("Spot_Longitude", spot.Spot_Longitude + "");
-        subParams.put("Spot_Latitude", spot.Spot_Latitude + "");
+        subParams.put("Spot_Longitude", spot.Spot_Longitude);
+        subParams.put("Spot_Latitude", spot.Spot_Latitude);
         subParams.put("Spot_Type", spot.Spot_Type);
         subParams.put("Spot_Genre", spot.Spot_Genre);
         subParams.put("Spot_Address", spot.Spot_Address);

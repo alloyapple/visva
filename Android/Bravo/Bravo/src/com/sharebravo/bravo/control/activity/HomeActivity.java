@@ -167,11 +167,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static String            mBravoId;
     private static String            mSharedSnsText;
     // ======================Variable Define===============
-    private ArrayList<Integer>       backstackID;
-    private ArrayList<Integer>       backstackHome                  = new ArrayList<Integer>();
-    private ArrayList<Integer>       backstackNetwork               = new ArrayList<Integer>();
-    private ArrayList<Integer>       backstackSearch                = new ArrayList<Integer>();
-    private ArrayList<Integer>       backstackMyData                = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackID                    = new ArrayList<Integer>();
+//    private ArrayList<Integer>       backstackHome                  = new ArrayList<Integer>();
+//    private ArrayList<Integer>       backstackNetwork               = new ArrayList<Integer>();
+//    private ArrayList<Integer>       backstackSearch                = new ArrayList<Integer>();
+//    private ArrayList<Integer>       backstackMyData                = new ArrayList<Integer>();
 
     private UiLifecycleHelper        mUiLifecycleHelper;
     private Session.StatusCallback   mFacebookCallback;
@@ -297,10 +297,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case R.id.btn_network: {
             // backstackID.clear();
             hideTabButton();
-            backstackID = backstackNetwork;
-
             showFragment(FRAGMENT_NETWORK_TAB_ID, false);
-
             btnNetwork.setBackgroundResource(R.drawable.tab_feed_on);
             txtNetwork.setTextColor(Color.WHITE);
         }
@@ -323,7 +320,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         case R.id.btn_mydata: {
             // backstackID.clear();
             mFragmentUserDataTab.setForeignID(userId);
-            backstackID = backstackMyData;
             showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
             showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
             hideTabButton();
@@ -416,7 +412,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
 
         mFragmentUserDataTab.setListener(this);
-        backstackID = backstackHome;
         showFragment(FRAGMENT_HOME_TAB_ID, false);
     }
 
