@@ -171,10 +171,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static String            mSharedSnsText;
     // ======================Variable Define===============
     private ArrayList<Integer>       backstackID                    = new ArrayList<Integer>();
-//    private ArrayList<Integer>       backstackHome                  = new ArrayList<Integer>();
-//    private ArrayList<Integer>       backstackNetwork               = new ArrayList<Integer>();
-//    private ArrayList<Integer>       backstackSearch                = new ArrayList<Integer>();
-//    private ArrayList<Integer>       backstackMyData                = new ArrayList<Integer>();
+    // private ArrayList<Integer> backstackHome = new ArrayList<Integer>();
+    // private ArrayList<Integer> backstackNetwork = new ArrayList<Integer>();
+    // private ArrayList<Integer> backstackSearch = new ArrayList<Integer>();
+    // private ArrayList<Integer> backstackMyData = new ArrayList<Integer>();
 
     private UiLifecycleHelper        mUiLifecycleHelper;
     private Session.StatusCallback   mFacebookCallback;
@@ -1191,7 +1191,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
                                                                @Override
                                                                public void onReceive(Context context, Intent intent) {
-                                                                   String type = intent.getExtras().getString(BravoConstant.EXTRA_TYPE);
+                                                                   String alert = intent.getExtras().getString("alert");
+                                                                   String badge = intent.getExtras().getString("badge");
+                                                                   String sound = intent.getExtras().getString("sound");
+                                                                   String source = intent.getExtras().getString("source");
                                                                    // Waking up mobile if it is sleeping
                                                                    WakeLocker.acquire(getApplicationContext());
 
@@ -1201,11 +1204,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                                                                     * */
 
                                                                    // Showing received message
-                                                                   // lblMessage.append(newMessage + "\n");
-                                                                   Toast.makeText(getApplicationContext(),
-                                                                           "New Message: " + type + ":", Toast.LENGTH_LONG)
-                                                                           .show();
-
+                                                                   mFragmentHomeTab.updateNotification(badge, alert, source);
                                                                    // Releasing wake lock
                                                                    WakeLocker.release();
                                                                }
