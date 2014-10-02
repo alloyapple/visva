@@ -67,6 +67,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private TextView                 mNotificationIcon;
     private boolean                  isOutOfDataLoadMore;
     private String                   mRegisterId;
+    private static int               mNumberOfNewNotifications = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -138,8 +139,10 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                             mNotificationIcon.setVisibility(View.GONE);
                         else {
                             mNotificationIcon.setVisibility(View.VISIBLE);
-                            if (mObGetUserInfo.data.Badge_Num < 11)
-                                mNotificationIcon.setText(mObGetUserInfo.data.Badge_Num + "");
+                            mNumberOfNewNotifications += mObGetUserInfo.data.Badge_Num;
+                            if (mNumberOfNewNotifications < 11) {
+                                mNotificationIcon.setText(mNumberOfNewNotifications + "");
+                            }
                             else
                                 mNotificationIcon.setText("10+");
                         }
@@ -249,6 +252,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             public void onClick(View v) {
                 // show home notification tab
                 mHomeActionListener.showPageHomeNotification();
+                mNumberOfNewNotifications = 0;
                 mNotificationIcon.setVisibility(View.GONE);
             }
         });
@@ -411,6 +415,22 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             return "";
         }
         return registrationId;
+    }
+
+    public void updateNotification(String badge, String alert, String source) {
+        // TODO Auto-generated method stub
+        int numberBadge = Integer.valueOf(badge);
+        mNumberOfNewNotifications += numberBadge;
+        if (mNumberOfNewNotifications < 11) {
+            mNotificationIcon.setText(mNumberOfNewNotifications + "");
+        }
+        else
+            mNotificationIcon.setText("10+");
+        if (mNumberOfNewNotifications <= 0)
+            mNotificationIcon.setVisibility(View.GONE);
+        else {
+            mNotificationIcon.setVisibility(View.VISIBLE);
+        }
     }
 
 }

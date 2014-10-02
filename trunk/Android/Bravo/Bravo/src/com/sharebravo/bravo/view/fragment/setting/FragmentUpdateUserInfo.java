@@ -197,10 +197,9 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
                             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
                             if (StringUtility.isEmpty(userAvatarUrl)) {
-
                                 
                                 mImgUserPicture.setImageBitmap(null);
-                                mImgUserPicture.setBackgroundResource(R.drawable.btn_user_avatar_profile);
+                                mImgUserPicture.setImageResource(R.drawable.user_picture_default);
                             } else {
 
                                 mImageLoader.DisplayImage(userAvatarUrl, R.drawable.user_picture_default, mImgUserPicture, true);

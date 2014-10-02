@@ -88,7 +88,10 @@ public class GCMIntentService extends GCMBaseIntentService {
     private void displayMessage(Context context, String alert, String badge, String sound, String source) {
         AIOLog.d("alert:" + alert + ",badge:" + badge);
         Intent intent = new Intent(BravoConstant.DISPLAY_MESSAGE_ACTION);
-        intent.putExtra(BravoConstant.EXTRA_MESSAGE, alert);
+        intent.putExtra("alert", alert);
+        intent.putExtra("badge", badge);
+        intent.putExtra("sound", sound);
+        intent.putExtra("source", source);
         context.sendBroadcast(intent);
     }
 
