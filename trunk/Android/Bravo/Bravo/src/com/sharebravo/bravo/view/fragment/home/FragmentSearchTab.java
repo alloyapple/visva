@@ -402,18 +402,22 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                         newSpot.Spot_FID = mOFGetVenueSearch.response.venues.get(i).id;
                         newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
                         newSpot.Spot_Name = mOFGetVenueSearch.response.venues.get(i).name;
-                        if (mOFGetVenueSearch.response.venues.get(i).categories.size() > 0){
+                        if (mOFGetVenueSearch.response.venues.get(i).categories != null
+                                && mOFGetVenueSearch.response.venues.get(i).categories.size() > 0) {
                             newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix + "bg_44"
                                     + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
                             newSpot.Spot_Type = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
+                        } else {
+                            newSpot.Spot_Type = "Restaurant";
                         }
+                        newSpot.Spot_Genre = "Genre";
 
                         newSpot.Total_Bravos = 0;
                         newSpot.Spot_Latitude = mOFGetVenueSearch.response.venues.get(i).location.lat;
                         newSpot.Spot_Longitude = mOFGetVenueSearch.response.venues.get(i).location.lon;
                         newSpot.Spot_Source = "foursqure";
                         newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
-                        
+
                         mSpots.add(newSpot);
                     }
                     requestSpotSearch(fids, ownMode);
