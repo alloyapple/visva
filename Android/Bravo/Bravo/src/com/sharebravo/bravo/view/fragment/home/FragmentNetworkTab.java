@@ -8,14 +8,18 @@ import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,6 +62,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     private LinearLayout             layoutSearch             = null;
     private int                      mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
     private EditText                 textboxSearch            = null;
+    private ImageButton               cancelSearch;
     private OnItemClickListener      iRecentPostClickListener = new OnItemClickListener() {
 
                                                                   @Override
@@ -86,6 +91,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         layoutSearch = (LinearLayout) root.findViewById(R.id.layout_search);
+        cancelSearch = (ImageButton) root.findViewById(R.id.icon_cancel_search);
         textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_network);
         textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -98,6 +104,41 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                     return true;
                 }
                 return false;
+            }
+        });
+        textboxSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+                if (!textboxSearch.getEditableText().toString().equals("")) {
+                    if (cancelSearch.getVisibility() == View.GONE) {
+                        cancelSearch.setVisibility(View.VISIBLE);
+                    }
+                } else
+                    cancelSearch.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        cancelSearch.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                cancelSearch.setVisibility(View.GONE);
+                textboxSearch.setText("");
+
             }
         });
         return root;

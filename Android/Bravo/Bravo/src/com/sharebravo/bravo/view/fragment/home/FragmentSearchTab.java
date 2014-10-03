@@ -16,6 +16,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -27,6 +29,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -75,6 +79,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     private TextView                btnLocalBravos;
     private TextView                btnAroundMe;
     private TextView                btnPeopleFollowing;
+    private ImageButton             cancelSearch;
 
     private int                     mMode;
     private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
@@ -94,6 +99,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_search_tab, null);
         mHomeActionListener = (HomeActivity) getActivity();
+        cancelSearch = (ImageButton) root.findViewById(R.id.icon_cancel_search);
         textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_spot);
         textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -106,6 +112,41 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     return true;
                 }
                 return false;
+            }
+        });
+        textboxSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+                if (!textboxSearch.getEditableText().toString().equals("")) {
+                    if (cancelSearch.getVisibility() == View.GONE) {
+                        cancelSearch.setVisibility(View.VISIBLE);
+                    }
+                } else
+                    cancelSearch.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        cancelSearch.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                cancelSearch.setVisibility(View.GONE);
+                textboxSearch.setText("");
+
             }
         });
         layoutQuickSearchOptions = (LinearLayout) root.findViewById(R.id.layout_quicksearch_options);
@@ -258,7 +299,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     }
 
     @SuppressLint("FloatMath")
-	private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
+    private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
         float pk = (float) (180 / 3.14169);
 
         float a1 = lat_a / pk;

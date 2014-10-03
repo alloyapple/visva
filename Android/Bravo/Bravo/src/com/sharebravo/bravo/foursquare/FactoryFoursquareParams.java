@@ -67,4 +67,14 @@ public class FactoryFoursquareParams {
         parameters.add(new BasicNameValuePair("name", name));
         return parameters;
     }
+
+    public static List<NameValuePair> createSubParamsRequestAddVenueDuplicate(double lat, double lng, String name, String address, String keyDuplicate) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("ll", lat + "," + lng));
+        parameters.add(new BasicNameValuePair("address", address));
+        parameters.add(new BasicNameValuePair("name", name));
+        parameters.add(new BasicNameValuePair("ignoreDuplicates", true + ""));
+        parameters.add(new BasicNameValuePair("ignoreDuplicatesKey", keyDuplicate));
+        return parameters;
+    }
 }

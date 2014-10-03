@@ -80,7 +80,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         requestNewsItemsOnBravoServer(mSessionLogin);
         mRegisterId = getRegistrationId(getActivity());
-        requestGetUserInfo();
         isNoFirstTime = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME);
         if (!isNoFirstTime) {
             showDialogWelcome();
@@ -101,6 +100,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         super.onHiddenChanged(hidden);
         if (hidden) {
             isOutOfDataLoadMore = false;
+            requestGetUserInfo();
         }
     }
 
