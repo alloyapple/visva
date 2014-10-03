@@ -44,10 +44,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_search_spot"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/icon_cancel_search"
+                android:layout_width="@dimen/cancel_search_icon"
+                android:layout_height="@dimen/cancel_search_icon"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/icon_cancel"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

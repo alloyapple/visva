@@ -33,10 +33,10 @@
                 android:layout_gravity="right|top"
                 android:background="@drawable/icon_notification"
                 android:gravity="center"
-                android:textSize="10sp"
-                android:visibility="gone"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>
 
@@ -58,7 +58,9 @@
     <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_recent_post"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:divider="#ffc8c7cc"
+        android:dividerHeight="1px" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
 </LinearLayout>
