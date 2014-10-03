@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_post_content_area"
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/spot_map_add_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_post_content_area"
+        class="com.sharebravo.bravo.view.fragment.maps.FragmentMapCover" />
+
+</LinearLayout>

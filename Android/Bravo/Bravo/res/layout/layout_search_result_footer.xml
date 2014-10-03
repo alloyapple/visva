@@ -20,7 +20,8 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/search_result_nothing"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="10sp" />
 
         <TextView
             android:layout_width="match_parent"

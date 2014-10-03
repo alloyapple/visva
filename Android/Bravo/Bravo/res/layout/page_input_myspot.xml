@@ -49,14 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <!--
-                 <fragment
-                android:id="@+id/spot_map_add"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.maps.FragmentMapCover" />
-            -->
-
             <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
                 android:id="@+id/listview_map_cover_input_spot"
                 android:layout_width="match_parent"
@@ -136,7 +128,7 @@
                     android:layout_margin="10dp"
                     android:background="@android:color/transparent"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -214,9 +206,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:background="@android:color/transparent"
-                    android:hint="@string/input_hint_my_spot"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -252,13 +243,13 @@
                     android:id="@+id/txtbox_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_vertical"
                     android:layout_margin="10dp"
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <TextView
