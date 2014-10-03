@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -74,6 +75,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
     private int                           mLoginBravoViaType     = BravoConstant.NO_LOGIN_SNS;
     private Context                       mContext;
     LayoutInflater                        mLayoutInflater;
+    private LinearLayout                  mLayoutTitleLocate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +86,9 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mHomeActionListener = (HomeActivity) getActivity();
         LinearLayout mView = (LinearLayout) inflater.inflate(R.layout.header_fragment, container);
+        FrameLayout layoutMap = (FrameLayout) mView.findViewById(R.id.layout_map_contain);
+        mLayoutTitleLocate = (LinearLayout) mView.findViewById(R.id.layout_title_locate);
+        layoutMap.addView(mOriginalContentView);
         btnBack = (Button) mView.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new OnClickListener() {
 
@@ -92,7 +97,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
                 mHomeActionListener.goToBack();
             }
         });
-        mView.addView(mOriginalContentView);
+
         return mView;
     }
 
@@ -108,11 +113,14 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
             if (typeMaker == MAKER_BY_LOCATION_SPOT) {
+                mLayoutTitleLocate.setVisibility(View.GONE);
                 changeLocation(mLat, mLong);
             } else if (typeMaker == MAKER_BY_LOCATION_USER) {
                 location = getLocation();
+                mLayoutTitleLocate.setVisibility(View.GONE);
                 requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
             } else if (typeMaker == MAKER_BY_USER) {
+                mLayoutTitleLocate.setVisibility(View.VISIBLE);
                 changeLocation(mLat, mLong);
             }
 

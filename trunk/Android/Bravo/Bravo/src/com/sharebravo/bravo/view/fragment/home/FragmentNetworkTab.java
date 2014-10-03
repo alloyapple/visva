@@ -107,9 +107,9 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            layoutSearch.setVisibility(View.GONE);
-            mListviewPost.setVisibility(View.GONE);
-            mListviewUser.setVisibility(View.GONE);
+//            layoutSearch.setVisibility(View.GONE);
+//            mListviewPost.setVisibility(View.GONE);
+//            mListviewUser.setVisibility(View.GONE);
             if (!isBackStatus()) {
                 requestGetTimeLine(mSessionLogin);
             }

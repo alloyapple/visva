@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -16,7 +17,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,7 +121,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             @Override
             public void onLoadMore() {
                 AIOLog.d("IOnRefreshListener");
-
                 onStopPullAndLoadListView();
             }
         });
@@ -203,7 +202,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
             location = getLocation();
-            // Toast.makeText(getActivity(), "location =" + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_LONG).show();
             mMode = SEARCH_FOR_SPOT;
             listViewResult.setVisibility(View.GONE);
             btnBack.setVisibility(View.GONE);
@@ -227,7 +225,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         HashMap<String, Object> subParams = new HashMap<String, Object>();
         subParams.put("FID", mVenues);
         subParams.put("Source", "foursquare");
-
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;
@@ -240,7 +237,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 AIOLog.d("getSpotSearch:" + response);
                 Gson gson = new Gson();
                 ObGetSpotSearch mObGetSpotSearch = gson.fromJson(response.toString(), ObGetSpotSearch.class);
-                AIOLog.d("mObGetSpotSearch:" + mObGetSpotSearch);
                 if (mObGetSpotSearch == null) {
                     return;
                 } else {
@@ -261,7 +257,8 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     }
 
-    private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
+    @SuppressLint("FloatMath")
+	private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
         float pk = (float) (180 / 3.14169);
 
         float a1 = lat_a / pk;
@@ -347,7 +344,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 AIOLog.d("getBravoSearch:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetSpotSearch mObGetSpotSearch = gson.fromJson(response.toString(), ObGetSpotSearch.class);
-                AIOLog.d("getBravoSearch:" + mObGetSpotSearch);
                 if (mObGetSpotSearch == null) {
                     return;
                 } else {
@@ -390,7 +386,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 OFGetVenueSearch mOFGetVenueSearch;
                 mOFGetVenueSearch = gson.fromJson(response.toString(), OFGetVenueSearch.class);
-                AIOLog.d("mOFGetVenueSearch:" + mOFGetVenueSearch);
                 if (mOFGetVenueSearch == null)
                     return;
                 else {
@@ -411,13 +406,11 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                             newSpot.Spot_Type = "Restaurant";
                         }
                         newSpot.Spot_Genre = "Genre";
-
                         newSpot.Total_Bravos = 0;
                         newSpot.Spot_Latitude = mOFGetVenueSearch.response.venues.get(i).location.lat;
                         newSpot.Spot_Longitude = mOFGetVenueSearch.response.venues.get(i).location.lon;
                         newSpot.Spot_Source = "foursqure";
                         newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
-
                         mSpots.add(newSpot);
                     }
                     requestSpotSearch(fids, ownMode);

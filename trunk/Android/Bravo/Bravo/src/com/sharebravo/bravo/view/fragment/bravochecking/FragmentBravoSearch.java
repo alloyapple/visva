@@ -439,23 +439,27 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                         newSpot.Spot_FID = mOFGetVenueSearch.response.venues.get(i).id;
                         newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
                         newSpot.Spot_Name = mOFGetVenueSearch.response.venues.get(i).name;
-                        newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix + "bg_44"
-                                + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
-                        AIOLog.e(newSpot.Spot_Icon, mSpots);
+                        
+                        if (mOFGetVenueSearch.response.venues.get(i).categories != null
+                                && mOFGetVenueSearch.response.venues.get(i).categories.size() > 0) {
+                            newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix + "bg_44"
+                                    + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
+                            newSpot.Spot_Type = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
+                        } else {
+                            newSpot.Spot_Type = "Restaurant";
+                        }
+                        newSpot.Spot_Genre = "Genre";
+                        
                         newSpot.Total_Bravos = 0;
-                        // int size = mOFGetVenueSearch.response.venues.size();
-                        // for (int j = 0; j < size; j++) {
                         double lat = mOFGetVenueSearch.response.venues.get(i).location.lat;
                         double lon = mOFGetVenueSearch.response.venues.get(i).location.lon;
-                        // if (lat != 0 && lon != 0) {
+                  
                         newSpot.Spot_Latitude = lat;
                         newSpot.Spot_Longitude = lon;
-                        // break;
-                        // }
-                        // }
+                        
                         newSpot.Spot_Source = "foursqure";
                         newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
-                        newSpot.Spot_Type = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
+                       
                         mSpots.add(newSpot);
                     }
 

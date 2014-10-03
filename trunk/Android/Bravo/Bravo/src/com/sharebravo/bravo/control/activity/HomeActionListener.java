@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.control.activity;
 
+import com.sharebravo.bravo.foursquare.models.OFPostVenue;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.SNS;
@@ -51,6 +52,8 @@ public interface HomeActionListener {
     public void showPageHomeNotification();
 
     public void closePageHomeNotification();
+
+    public void goToDuplicateSpot(Spot mSpot, OFPostVenue mOPostVenue);
 
     public void showPageTermOfUse();
 
