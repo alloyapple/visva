@@ -61,6 +61,7 @@
     <dimen name="height_network_search">56dp</dimen>
     <dimen name="height_searchbar">40dp</dimen>
     <dimen name="search_icon">25dp</dimen>
+    <dimen name="cancel_search_icon">20dp</dimen>
     <dimen name="size_avatar_recent_post">50dp</dimen>
     <dimen name="height_recent_post_item">140dp</dimen>
     <dimen name="height_image_recent_post">160dp</dimen>
@@ -80,8 +81,8 @@
     <dimen name="height_row_comment_content">50dp</dimen>
     <!-- User Data Tab -->
     <string name="text_user_data_name_size">20dp]</string>
-    
-     <!-- Bravo Tab -->
+
+    <!-- Bravo Tab -->
     <dimen name="height_text_area_return_spot">50dp</dimen>
 
 </resources>
