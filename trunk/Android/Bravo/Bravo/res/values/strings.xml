@@ -259,5 +259,13 @@
     <string name="btn_add">Add</string>
     <string name="btn_tap_to_bravo">Tap here to Bravo!</string>
     <string name="btn_more_detail_spot">More Detail On Forsquare</string>
+    <string name="notification_follow">%s is now following you.</string>
+    <string name="notification_save_bravo" formatted="false">%s has been added to %n \'s favorites list.</string>
+    <string name="notification_post_comment"> %s has been got some comments.</string>
+    <string name="notification_have_bravo"> %2$s bravoed %1$s.</string>
+    <string name="notification_news_bravos_yesterday">Yesterday brought %d new </string>
+    
+    <string name="duplicate_found_title">Found one close match. Add this shop?</string>
+    <string name="duplicate_mean_shop">Did you mean one of these shops?</string>
 
 </resources>

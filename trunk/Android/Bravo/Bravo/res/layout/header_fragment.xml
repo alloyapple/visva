@@ -21,4 +21,33 @@
         </Button>
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:id="@+id/layout_map_contain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </FrameLayout>
+
+        <LinearLayout android:id="@+id/layout_title_locate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_text_area_recent_post"
+            android:background="@drawable/bg_cover"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_text_area_recent_post"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:text="@string/msg_please_locate_your_spot"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
 </LinearLayout>
