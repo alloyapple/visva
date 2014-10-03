@@ -103,12 +103,22 @@ public class AdapterHomeNotification extends BaseAdapter {
         String notificationContent = "";
         if (mNo.Notification_Type.equals("bravo")) {
         } else if (mNo.Notification_Type.equals("follow")) {
-            notificationContent = userName + " is now following you.";
+            notificationContent = mContext.getResources().getString(R.string.notification_follow).replace("%s", userName);
         }
         else if (mNo.Notification_Type.equals("comment")) {
-            notificationContent = mNo.Spot_Name + " has been got some comments.";
+            notificationContent = mContext.getResources().getString(R.string.notification_post_comment)
+                    .replace("%s", mNo.Spot_Name);
         }
         else if (mNo.Notification_Type.equals("mylist")) {
+            notificationContent = mContext.getResources().getString(R.string.notification_save_bravo)
+                    .replace("%s", mNo.Spot_Name).replace("%n", userName);
+        }
+        else if (mNo.Notification_Type.equals("bravo")) {
+            notificationContent = mContext.getResources().getString(R.string.notification_have_bravo)
+                    .replace("%1$s", mNo.Spot_Name).replace("%2$s", userName);
+        } else {
+            notificationContent = mContext.getResources().getString(R.string.notification_news_bravos_yesterday)
+                    .replace("%d", "");
         }
         holder._notification.setText(notificationContent);
         long createdTime = 0;
