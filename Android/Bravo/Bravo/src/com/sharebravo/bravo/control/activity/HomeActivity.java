@@ -53,6 +53,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.foursquare.models.OFPostVenue;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
@@ -71,6 +72,7 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.WakeLocker;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
+import com.sharebravo.bravo.view.fragment.home.FragmentDuplicateSpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeTab;
 import com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot;
@@ -100,6 +102,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          REQUEST_CODE_CHECKING_BRAVO    = 1;
     public static final String       EXTRA_MESSAGE                  = "message";
 
+    // private int mTab;
+
     public static final int          FRAGMENT_BASE_ID               = 1000;
     public static final int          FRAGMENT_HOME_TAB_ID           = FRAGMENT_BASE_ID + 1;
     public static final int          FRAGMENT_NETWORK_TAB_ID        = FRAGMENT_BASE_ID + 2;
@@ -122,9 +126,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          FRAGMENT_SAVED_ID              = FRAGMENT_BASE_ID + 20;
     public static final int          FRAGMENT_VIEW_IMAGE_ID         = FRAGMENT_BASE_ID + 21;
     public static final int          FRAGMENT_SPOT_DETAIL_ID        = FRAGMENT_BASE_ID + 22;
-    public static final int          FRAGMENT_ADD_MYSPOT_ID         = FRAGMENT_BASE_ID + 23;
-    public static final int          FRAGMENT_INPUT_MYSPOT_ID       = FRAGMENT_BASE_ID + 24;
-    public static final int          FRAGMENT_AFTER_BRAVO_ID        = FRAGMENT_BASE_ID + 25;
+    public static final int          FRAGMENT_INPUT_MYSPOT_ID       = FRAGMENT_BASE_ID + 23;
+    public static final int          FRAGMENT_AFTER_BRAVO_ID        = FRAGMENT_BASE_ID + 24;
+    public static final int          FRAGMENT_SPOT_DUPLICATE_ID     = FRAGMENT_BASE_ID + 25;
 
     // ======================Class Define==================
     private FragmentManager          mFmManager;
@@ -152,6 +156,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private FragmentSaved            mFragmentSaved;
     private FragmentSpotDetail       mFragmentSpotDetail;
     private FragmentInputMySpot      mFragmentInputMySpot;
+    private FragmentDuplicateSpot    mFragmentDuplicateSpot;
 
     private Button                   btnHome;
     private Button                   btnNetwork;
@@ -171,10 +176,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private static String            mSharedSnsText;
     // ======================Variable Define===============
     private ArrayList<Integer>       backstackID                    = new ArrayList<Integer>();
-    // private ArrayList<Integer> backstackHome = new ArrayList<Integer>();
-    // private ArrayList<Integer> backstackNetwork = new ArrayList<Integer>();
-    // private ArrayList<Integer> backstackSearch = new ArrayList<Integer>();
-    // private ArrayList<Integer> backstackMyData = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackHome                  = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackNetwork               = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackSearch                = new ArrayList<Integer>();
+    private ArrayList<Integer>       backstackMyData                = new ArrayList<Integer>();
 
     private UiLifecycleHelper        mUiLifecycleHelper;
     private Session.StatusCallback   mFacebookCallback;
@@ -287,22 +292,32 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
     }
 
+    public void resetStack() {
+
+    }
+
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.btn_home: {
-            backstackID.clear();
+            backstackID = backstackHome;
             hideTabButton();
-
-            showFragment(FRAGMENT_HOME_TAB_ID, false);
-
+            if (backstackID.size() == 0) {
+                showFragment(FRAGMENT_HOME_TAB_ID, false);
+            } else {
+                showFragment(getTopBackStack(), true);
+            }
             btnHome.setBackgroundResource(R.drawable.tab_home_on);
             txtHome.setTextColor(Color.WHITE);
         }
             break;
         case R.id.btn_network: {
-            // backstackID.clear();
+            backstackID = backstackNetwork;
             hideTabButton();
-            showFragment(FRAGMENT_NETWORK_TAB_ID, false);
+            if (backstackID.size() == 0) {
+                showFragment(FRAGMENT_NETWORK_TAB_ID, false);
+            } else {
+                showFragment(getTopBackStack(), true);
+            }
             btnNetwork.setBackgroundResource(R.drawable.tab_feed_on);
             txtNetwork.setTextColor(Color.WHITE);
         }
@@ -315,18 +330,25 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
             break;
         case R.id.btn_search: {
-            backstackID.clear();
+            backstackID = backstackSearch;
             hideTabButton();
-            showFragment(FRAGMENT_SEARCH_TAB_ID, false);
+            if (backstackID.size() == 0) {
+                showFragment(FRAGMENT_SEARCH_TAB_ID, false);
+            } else {
+                showFragment(getTopBackStack(), true);
+            }
             btnSearch.setBackgroundResource(R.drawable.tab_search_on);
             txtSearch.setTextColor(Color.WHITE);
         }
             break;
         case R.id.btn_mydata: {
-            // backstackID.clear();
+            backstackID = backstackMyData;
             mFragmentUserDataTab.setForeignID(userId);
-            showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
-            showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
+            if (backstackID.size() == 0) {
+                showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
+            } else {
+                showFragment(getTopBackStack(), true);
+            }
             hideTabButton();
             btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
             txtMyData.setTextColor(Color.WHITE);
@@ -425,6 +447,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentSaved = (FragmentSaved) mFmManager.findFragmentById(R.id.fragment_saved);
         mFragmentSpotDetail = (FragmentSpotDetail) mFmManager.findFragmentById(R.id.fragment_spot_detail);
         mFragmentInputMySpot = (FragmentInputMySpot) mFmManager.findFragmentById(R.id.fragment_input_myspot);
+        mFragmentDuplicateSpot = (FragmentDuplicateSpot) mFmManager.findFragmentById(R.id.fragment_duplicate_spot);
 
         mFragmentUserDataTab.setListener(this);
         showFragment(FRAGMENT_HOME_TAB_ID, false);
@@ -543,13 +566,14 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             mFragmentSpotDetail.setBackStatus(isback);
             mTransaction.show(mFragmentSpotDetail);
             break;
-
         case FRAGMENT_INPUT_MYSPOT_ID:
             mFragmentInputMySpot.setBackStatus(isback);
             mTransaction.show(mFragmentInputMySpot);
-            // mTransaction.show(mFragmentMapCoverAdd);
             break;
-
+        case FRAGMENT_SPOT_DUPLICATE_ID:
+            mFragmentDuplicateSpot.setBackStatus(isback);
+            mTransaction.show(mFragmentDuplicateSpot);
+            break;
         default:
             break;
         }
@@ -583,7 +607,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.hide(mFragmentFollower);
         mTransaction.hide(mFragmentFavourite);
         mTransaction.hide(mFragmentSpotDetail);
-
+        mTransaction.hide(mFragmentDuplicateSpot);
         mTransaction.hide(mFragmentInputMySpot);
 
         return mTransaction;
@@ -599,9 +623,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         showFragment(FRAGMENT_RECENT_POST_DETAIL_ID, false);
     }
 
-    public int getTopBackStack(ArrayList<Integer> backStack) {
-        if (backStack.size() > 0)
-            return backStack.size() - 1;
+    public int getTopBackStack() {
+        if (backstackID.size() > 0)
+            return backstackID.get(backstackID.size() - 1);
         else
             return -1;
     }
@@ -1209,4 +1233,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                                                                    WakeLocker.release();
                                                                }
                                                            };
+
+    @Override
+    public void goToDuplicateSpot(Spot mSpot,OFPostVenue mOPostVenue) {
+        // TODO Auto-generated method stub
+        mFragmentDuplicateSpot.setSpot(mSpot);
+        mFragmentDuplicateSpot.setOFPostVenue(mOPostVenue);
+        showFragment(FRAGMENT_SPOT_DUPLICATE_ID, false);
+    }
 }

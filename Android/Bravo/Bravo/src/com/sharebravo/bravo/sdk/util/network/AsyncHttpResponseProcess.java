@@ -56,11 +56,7 @@ public class AsyncHttpResponseProcess implements AsyncHttpResponseListener {
             processHttpResponse(response);
             break;
         default:
-            Toast.makeText(mContext, mContext.getString(R.string.failed_to_conect_server), Toast.LENGTH_SHORT).show();
-            // try {
-            // DialogUtility.alert(context, context.getString(R.string.failed_to_conect_server));
-            // } catch (Exception e) {
-            // }
+            //Toast.makeText(mContext, mContext.getString(R.string.failed_to_conect_server), Toast.LENGTH_SHORT).show();
             break;
         }
     }

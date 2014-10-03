@@ -253,7 +253,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         super.onHiddenChanged(hidden);
         if (!hidden) {
             if (!isBackStatus()) {
-                mListViewUserPostProfile.setVisibility(View.GONE);
+//                mListViewUserPostProfile.setVisibility(View.GONE);
                 getUserInfo(foreignID);
                 requestGetBlockingCheck();
                 requestGetFollowingCheck();

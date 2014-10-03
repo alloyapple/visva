@@ -17,7 +17,11 @@ public class OFPostVenue {
 
     public class Response {
         @SerializedName("venue")
-        public Venue venue;
+        public Venue            venue;
+        @SerializedName("ignoreDuplicatesKey")
+        public String          ignoreDuplicatesKey;
+        @SerializedName("candidateDuplicateVenues")
+        public ArrayList<Venue> venues;
     }
 
     public class Venue {

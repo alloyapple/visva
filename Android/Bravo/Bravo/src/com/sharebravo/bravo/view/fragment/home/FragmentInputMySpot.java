@@ -326,22 +326,35 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
                 if (mOFPostVenue == null)
                     return;
                 else {
-                    mSpot = new Spot();
-                    mSpot.Spot_FID = mOFPostVenue.response.venue.id;
-                    mSpot.Spot_Address = mOFPostVenue.response.venue.location.address;
-                    mSpot.Spot_Name = mOFPostVenue.response.venue.name;
-                    if (mOFPostVenue.response.venue.categories.size() > 0)
-                        mSpot.Spot_Icon = mOFPostVenue.response.venue.categories.get(0).icon.prefix + "bg_44"
-                                + mOFPostVenue.response.venue.categories.get(0).icon.suffix;
+                    if (mOFPostVenue.meta.code == 200) {
+                        mSpot = new Spot();
+                        mSpot.Spot_FID = mOFPostVenue.response.venue.id;
+                        mSpot.Spot_Address = mOFPostVenue.response.venue.location.address;
+                        mSpot.Spot_Name = mOFPostVenue.response.venue.name;
+                        if (mOFPostVenue.response.venue.categories.size() > 0)
+                            mSpot.Spot_Icon = mOFPostVenue.response.venue.categories.get(0).icon.prefix + "bg_44"
+                                    + mOFPostVenue.response.venue.categories.get(0).icon.suffix;
 
-                    mSpot.Total_Bravos = 0;
-                    mSpot.Spot_Latitude = mOFPostVenue.response.venue.location.lat;
-                    mSpot.Spot_Longitude = mOFPostVenue.response.venue.location.lon;
-                    mSpot.Spot_Source = "foursqure";
-                    mSpot.Spot_Phone = mOFPostVenue.response.venue.contact.phone;
-                    mSpot.Spot_Type = type;
-                    mSpot.Spot_Genre = genre;
-                    requestPostSpot(mSpot);
+                        mSpot.Total_Bravos = 0;
+                        mSpot.Spot_Latitude = mOFPostVenue.response.venue.location.lat;
+                        mSpot.Spot_Longitude = mOFPostVenue.response.venue.location.lon;
+                        mSpot.Spot_Source = "foursqure";
+                        mSpot.Spot_Phone = mOFPostVenue.response.venue.contact.phone;
+                        mSpot.Spot_Type = type;
+                        mSpot.Spot_Genre = genre;
+                        requestPostSpot(mSpot);
+                    } else if (mOFPostVenue.meta.code == 409) {
+                        mSpot = new Spot();
+                        mSpot.Spot_Address = FragmentInputMySpot.this.address;
+                        mSpot.Spot_Name = FragmentInputMySpot.this.name;
+                        mSpot.Total_Bravos = 0;
+                        mSpot.Spot_Latitude = checkLat;
+                        mSpot.Spot_Longitude = checkLong;
+                        mSpot.Spot_Source = "foursqure";
+                        mSpot.Spot_Type = type;
+                        mSpot.Spot_Genre = genre;
+                        mHomeActionListener.goToDuplicateSpot(mSpot, mOFPostVenue);
+                    }
                 }
             }
 
