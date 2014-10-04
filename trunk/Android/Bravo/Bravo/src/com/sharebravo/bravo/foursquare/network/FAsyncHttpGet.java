@@ -21,7 +21,6 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
  * @author Visva
  */
 public class FAsyncHttpGet extends FAsyncHttpBase {
-	private static final String TAG = "AsyncHttpGet";
 
 	/**
 	 * Constructor

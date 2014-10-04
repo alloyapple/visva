@@ -1,16 +1,15 @@
 package com.sharebravo.bravo.view.adapter;
 
-import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.view.fragment.home.FragmentDuplicateSpot;
-import com.sharebravo.bravo.view.fragment.home.FragmentInputMySpot;
-import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
-
 import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.view.fragment.home.FragmentDuplicateSpot;
+import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 
 public class AdapterMapDuplicateSpot extends BaseAdapter {
     private Context       mContext;

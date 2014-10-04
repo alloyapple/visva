@@ -1,7 +1,6 @@
 package com.sharebravo.bravo.view.adapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
@@ -39,7 +38,6 @@ public class AdapterSpotDetail extends BaseAdapter {
     FragmentSpotDetail              fragment;
     FragmentMapCover                mapFragment;
     private DetailSpotListener      listener;
-    private HashMap<String, String> FID_Icons    = new HashMap<String, String>();
     private ArrayList<SpotRank>     mSpotRanks   = new ArrayList<ObGetSpotRank.SpotRank>();
     private ImageLoader             mImageLoader = null;
 

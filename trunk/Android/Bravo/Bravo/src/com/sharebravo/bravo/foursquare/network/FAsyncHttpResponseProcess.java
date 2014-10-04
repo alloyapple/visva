@@ -17,7 +17,6 @@ import com.sharebravo.bravo.sdk.util.VisvaDialog;
  * @author Visva
  */
 public class FAsyncHttpResponseProcess implements FAsyncHttpResponseListener {
-	private static final String TAG = "AsyncHttpResponseProcess";
 
 	private Activity context;
 	private VisvaDialog progressDialog;
