@@ -80,7 +80,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
     private TextView                btnAroundMe;
     private TextView                btnPeopleFollowing;
 
-    private int                     mMode;
     private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
     Location                        location                    = null;
     LocationManager                 locationManager             = null;
@@ -149,7 +148,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 mBtnClose.setVisibility(View.VISIBLE);
-                mMode = SEARCH_LOCAL_BRAVO;
                 requestBravoSearch("", SEARCH_LOCAL_BRAVO);
             }
         });
@@ -161,7 +159,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 mBtnClose.setVisibility(View.VISIBLE);
-                mMode = SEARCH_ARROUND_ME;
                 requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
             }
         });
@@ -173,7 +170,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 mBtnClose.setVisibility(View.VISIBLE);
-                mMode = SEARCH_PEOPLE_FOLLOWING;
                 requestBravoSearch("", SEARCH_PEOPLE_FOLLOWING);
             }
         });
@@ -207,7 +203,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
         if (!hidden && !isBackStatus()) {
             listViewResult.setVisibility(View.GONE);
             layoutQuickSearchOptions.setVisibility(View.GONE);
-            mMode = SEARCH_ARROUND_ME;
             requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
             boolean isSpentADay = BravoUtils.isSpentBravoADay(getActivity());
             if (isSpentADay) {
@@ -535,9 +530,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
     }
 
     public void onSearch(String key) {
-        mMode = SEARCH_FOR_SPOT;
         requestGet4squareVenueSearch(key, SEARCH_FOR_SPOT);
-
     }
 
     private void onStopPullAndLoadListView() {

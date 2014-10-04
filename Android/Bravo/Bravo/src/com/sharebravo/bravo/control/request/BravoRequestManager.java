@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
@@ -36,7 +37,6 @@ public class BravoRequestManager {
     public BravoRequestManager(Context context) {
         super();
         mContext = context;
-
     }
 
     /**
@@ -192,5 +192,12 @@ public class BravoRequestManager {
         }, null, true);
         AIOLog.d("requestToDeleteMyAccount:" + url);
         deleteAccount.execute(url);
+    }
+    
+    /**
+     *  request to delete image avatar, cover of user
+     */
+    public void requestToDeleteImageUserProfile(ObGetUserInfo obGetUserInfo, String imageType,IRequestListener iRequestListener){
+        
     }
 }

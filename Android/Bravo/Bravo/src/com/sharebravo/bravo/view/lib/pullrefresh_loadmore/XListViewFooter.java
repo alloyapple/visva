@@ -86,6 +86,7 @@ public class XListViewFooter extends LinearLayout {
         mContentView.setLayoutParams(lp);
     }
 
+    @SuppressWarnings("deprecation")
     private void initView(Context context) {
         mContext = context;
         LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.xlistview_footer, null);

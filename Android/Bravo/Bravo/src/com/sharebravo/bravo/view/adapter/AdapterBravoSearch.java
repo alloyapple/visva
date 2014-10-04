@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.model.response.Spot;
-import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 
 @SuppressLint("InflateParams")
 public class AdapterBravoSearch extends BaseAdapter {

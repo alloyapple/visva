@@ -59,6 +59,7 @@ public class PictureLayout extends ViewGroup {
         super.addView(child, index, params);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
