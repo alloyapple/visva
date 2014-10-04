@@ -60,4 +60,6 @@ public interface HomeActionListener {
     public void deleteSNS(SNS sns);
 
     public void goToMapView(Spot mSpot, int makerByLocationSpot);
+
+    public void requestUpdateUserInfo();
 }

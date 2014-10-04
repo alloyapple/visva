@@ -1235,10 +1235,16 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                                                            };
 
     @Override
-    public void goToDuplicateSpot(Spot mSpot,OFPostVenue mOPostVenue) {
+    public void goToDuplicateSpot(Spot mSpot, OFPostVenue mOPostVenue) {
         // TODO Auto-generated method stub
         mFragmentDuplicateSpot.setSpot(mSpot);
         mFragmentDuplicateSpot.setOFPostVenue(mOPostVenue);
         showFragment(FRAGMENT_SPOT_DUPLICATE_ID, false);
+    }
+
+    @Override
+    public void requestUpdateUserInfo() {
+        goToBack();
+        mFragmentUserDataTab.updateAllInformation();
     }
 }

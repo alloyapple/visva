@@ -253,14 +253,13 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         super.onHiddenChanged(hidden);
         if (!hidden) {
             if (!isBackStatus()) {
-//                mListViewUserPostProfile.setVisibility(View.GONE);
                 getUserInfo(foreignID);
                 requestGetBlockingCheck();
                 requestGetFollowingCheck();
                 requestGetUserTimeLine(foreignID);
             }
         } else {
-            isOutOfDataLoadMore = false;
+            isOutOfDataLoadMore = false; 
         }
     }
 
@@ -1034,5 +1033,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     public void setForeignID(String foreignID) {
         this.foreignID = foreignID;
+    }
+
+    public void updateAllInformation() {
+        getUserInfo(foreignID);
+        requestGetBlockingCheck();
+        requestGetFollowingCheck();
+        requestGetUserTimeLine(foreignID);
     }
 }

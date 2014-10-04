@@ -22,44 +22,40 @@ import android.widget.TextView;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
-import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
-import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.utils.BravoSharePrefs;
-import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.touchview.TouchImageView;
 
 public class FragmentViewImage extends FragmentBasic {
-    TouchImageView             coverImage;
+    private TouchImageView     mCoverImage;
     private ObGetUserInfo      mObGetUserInfo;
     private ImageLoader        mImageLoader        = null;
-    private Button             mBtnClose            = null;
-    private TextView           mBtnDownload         = null;
-    private Button             mBtnDelete           = null;
-    private SessionLogin       mSessionLogin       = null;
-    private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
+    private Button             mBtnClose           = null;
+    private TextView           mBtnDownload        = null;
+    private Button             mBtnDelete          = null;
     private HomeActionListener mHomeActionListener = null;
     private String             mImageUrl;
+    private int                mUserImageType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mHomeActionListener = (HomeActivity) getActivity();
-        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
-        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_view_image, container);
-        coverImage = (TouchImageView) root.findViewById(R.id.img_cover);
+        mCoverImage = (TouchImageView) root.findViewById(R.id.img_cover);
         mImageLoader = new ImageLoader(getActivity());
         mBtnDownload = (TextView) root.findViewById(R.id.btn_download);
         mBtnDownload.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Bitmap bitmap = Bitmap.createBitmap(coverImage.getWidth(), coverImage.getHeight(), Bitmap.Config.RGB_565);
+                Bitmap bitmap = Bitmap.createBitmap(mCoverImage.getWidth(), mCoverImage.getHeight(), Bitmap.Config.RGB_565);
                 Canvas canvas = new Canvas(bitmap);
-                coverImage.draw(canvas);
+                mCoverImage.draw(canvas);
                 saveImage(bitmap);
             }
         });
@@ -82,12 +78,11 @@ public class FragmentViewImage extends FragmentBasic {
         return root;
     }
 
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            mImageLoader.DisplayImage(mImageUrl, R.drawable.user_picture_default, coverImage, false);
+            mImageLoader.DisplayImage(mImageUrl, R.drawable.user_picture_default, mCoverImage, false);
         }
     }
 
@@ -111,6 +106,7 @@ public class FragmentViewImage extends FragmentBasic {
             this.mImageUrl = mObGetUserInfo.data.Profile_Img_URL;
         else
             this.mImageUrl = mObGetUserInfo.data.Cover_Img_URL;
+        mUserImageType = userImageType;
     }
 
     public void showDialogDelete() {
@@ -125,7 +121,19 @@ public class FragmentViewImage extends FragmentBasic {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                //requestToPutReport(mObGetUserInfo); 
+                BravoRequestManager.getInstance(getActivity()).requestToDeleteImageUserProfile(mObGetUserInfo, mUserImageType, new IRequestListener() {
+                    
+                    @Override
+                    public void onResponse(String response) {
+                        mHomeActionListener.requestUpdateUserInfo();
+                        showDialogRemovePhotoOk();
+                    }
+                    
+                    @Override
+                    public void onErrorResponse(String errorMessage) {
+                        AIOLog.d("Cannot remove photo");
+                    }
+                }, FragmentViewImage.this);
             }
         });
         Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_delete_no);
@@ -149,11 +157,38 @@ public class FragmentViewImage extends FragmentBasic {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
         lp.copyFrom(window.getAttributes());
-        //This makes the dialog take up the full width
+        // This makes the dialog take up the full width
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
         Button btnReportClose = (Button) dialog_view.findViewById(R.id.btn_save_photo_ok);
+        btnReportClose.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(dialog_view);
+
+        dialog.show();
+    }
+
+    private void showDialogRemovePhotoOk() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_removed_photo, null);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        Button btnReportClose = (Button) dialog_view.findViewById(R.id.btn_remove_photo_ok);
         btnReportClose.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -187,7 +222,7 @@ public class FragmentViewImage extends FragmentBasic {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         showDialogSavePhotoOk();
     }
 }

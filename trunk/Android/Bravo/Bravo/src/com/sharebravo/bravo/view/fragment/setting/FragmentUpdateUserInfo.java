@@ -230,7 +230,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
         options.inSampleSize = 1;
         options.inPurgeable = true;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userAvatarBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        userAvatarBmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         // bitmap object
         byte byteImage_photo[] = baos.toByteArray();
         String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
@@ -265,11 +265,14 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                 AIOLog.d("reponse after uploading image:" + response);
                 /* go to home screen */
                 mHomeActionListener.goToBack();
+                mHomeActionListener.requestUpdateUserInfo();
             }
 
             @Override
             public void processIfResponseFail() {
                 AIOLog.d("response error");
+                mHomeActionListener.goToBack();
+                mHomeActionListener.requestUpdateUserInfo();
             }
         }, params, true);
         postRegister.execute(putUserUrl);
@@ -298,11 +301,14 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                 AIOLog.d("reponse after uploading image:" + response);
                 /* go to home screen */
                 mHomeActionListener.goToBack();
+                mHomeActionListener.requestUpdateUserInfo();
             }
 
             @Override
             public void processIfResponseFail() {
                 AIOLog.d("response error");
+                mHomeActionListener.goToBack();
+                mHomeActionListener.requestUpdateUserInfo();
             }
         }, params, true);
         postRegister.execute(putUserUrl);

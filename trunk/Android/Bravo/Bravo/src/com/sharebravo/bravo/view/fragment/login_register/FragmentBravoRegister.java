@@ -301,7 +301,7 @@ public class FragmentBravoRegister extends FragmentBasic {
         subParams.put("Cover_Img", "");
         subParams.put("Profile_Img_Del", "0");
         subParams.put("Cover_Img_Del", "0");
-        subParams.put("About_Me", "xxxxx");
+        subParams.put("About_Me", "");
         subParams.put("UserId", userId);
 
         JSONObject jsonObject = new JSONObject(subParams);
