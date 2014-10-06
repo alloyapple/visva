@@ -17,6 +17,7 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -36,7 +38,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,8 +57,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.MyApplication;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.foursquare.models.OFPostVenue;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObAllowBravo;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.SNS;
@@ -1125,13 +1132,64 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     }
 
     @Override
-    public void goToMapView(Spot mSpot, int makerByLocationSpot) {
+    public void goToMapView(final Spot mSpot, int makerByLocationSpot) {
         Gson gson = new GsonBuilder().serializeNulls().create();
-        String snsListJSON = gson.toJson(mSpot);
-        Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
-        bravoIntent.putExtra(BravoConstant.EXTRA_SPOT_JSON, snsListJSON);
-        startActivity(bravoIntent);
-        overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
+        BravoRequestManager.getInstance(this).getNumberAllowBravo(this, new IRequestListener() {
+
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObAllowBravo obAllowBravo = gson.fromJson(response.toString(), ObAllowBravo.class);
+                if (obAllowBravo == null)
+                    return;
+                AIOLog.d("obAllowBravo.data.Allow_Bravo:" + obAllowBravo.data.Allow_Bravo);
+                int numberAllowBravo = obAllowBravo.data.Allow_Bravo;
+                if (numberAllowBravo > 0) {
+                    String snsListJSON = gson.toJson(mSpot);
+                    Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
+                    bravoIntent.putExtra(BravoConstant.EXTRA_SPOT_JSON, snsListJSON);
+                    startActivity(bravoIntent);
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
+                } else {
+                    showDialogSpentBravoADay();
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String errorMessage) {
+
+            }
+        }, mFragmentHomeTab);
+    }
+
+    public void showDialogSpentBravoADay() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_spent_bravo_today, null);
+        Button btnYes = (Button) dialog_view.findViewById(R.id.btn_ok);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                return;
+            }
+        });
+
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
+
     }
 
     /***

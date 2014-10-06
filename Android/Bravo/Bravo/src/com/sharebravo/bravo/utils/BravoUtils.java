@@ -368,28 +368,9 @@ public class BravoUtils {
         return obBravos;
     }
 
-    public static boolean isSpentBravoADay(Context context) {
-        boolean isSpent = false;
-        String dataCheckingBravoAday = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY);
-        Date date = new Date();
-        AIOLog.d("convertDateToString " + TimeUtility.convertDateToString(date));
-        if (dataCheckingBravoAday.equals(TimeUtility.convertDateToString(date))) {
-            isSpent = true;
-        } else {
-            isSpent = false;
-        }
-        return isSpent;
-    }
-
     public static String putBravoDateTime() {
         Date date = new Date();
         return TimeUtility.convertDateToString(date);
-    }
-
-    public static void putPostBravoToSharePrefs(Context context) {
-        Date date = new Date();
-        String dataCheckingBravoAday = TimeUtility.convertDateToString(date);
-        BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_CHECKING_BRAVO_SPENT_A_DAY, dataCheckingBravoAday);
     }
 
     public static void putSNSList(Context context, HashMap<String, SNS> sNS_List) {

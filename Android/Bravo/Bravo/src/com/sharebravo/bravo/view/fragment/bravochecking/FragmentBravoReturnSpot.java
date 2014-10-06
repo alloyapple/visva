@@ -244,7 +244,6 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                     mBravoCheckingListener.finishPostBravo();
                     return;
                 }
-                BravoUtils.putPostBravoToSharePrefs(getActivity());
                 AIOLog.d("obPostBravo.Bravo_ID:" + mObPostBravo.data.Bravo_ID + ", FS_Checkin_Bravo" + mObPostBravo.data.FS_Checkin_Bravo);
                 if (mSpotBitmap != null) {
                     updateBravoWithImage(mObPostBravo, mSpotBitmap);

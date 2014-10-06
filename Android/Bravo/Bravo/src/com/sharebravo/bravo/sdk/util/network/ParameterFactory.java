@@ -57,6 +57,22 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
         return parameters;
     }
+    
+    /**
+     * get recent post
+     * 
+     * @param userID
+     * @param accessToken
+     * @param startPoint
+     * @return
+     */
+    public static List<NameValuePair> createSubParamsGetNumberAllowBravo(String userID, String accessToken) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("Allow_Bravo_Only", "1"));
+        parameters.add(new BasicNameValuePair("User_ID", userID));
+        parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
+        return parameters;
+    }
 
     public static List<NameValuePair> createSubParamsGetAllowBravoOnly(String userID, String accessToken) {
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
