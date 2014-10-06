@@ -26,8 +26,8 @@ public class ObBravo {
     public String               Spot_ID;
     @SerializedName("Spot_Name")
     public String               Spot_Name;
-    @SerializedName("Spot_PID")
-    public String               Spot_PID;
+    @SerializedName("Spot_FID")
+    public String               Spot_FID;
     @SerializedName("Spot_Source")
     public String               Spot_Source;
     @SerializedName("Spot_Longitude")

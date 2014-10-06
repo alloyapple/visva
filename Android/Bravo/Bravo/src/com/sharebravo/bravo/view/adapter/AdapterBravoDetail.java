@@ -35,7 +35,7 @@ import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 public class AdapterBravoDetail extends BaseAdapter {
     private Context            mContext;
     // private ArrayList<String> commentsData = new ArrayList<String>();
-    private DetailPostListener listener;
+    private DetailBravoListener listener;
     private ObBravo            bravoObj             = null;
     private ObGetComments      mObGetComments       = null;
     private ImageLoader        mImageLoader         = null;
@@ -56,7 +56,7 @@ public class AdapterBravoDetail extends BaseAdapter {
 
     }
 
-    public void setListener(DetailPostListener listener) {
+    public void setListener(DetailBravoListener listener) {
         this.listener = listener;
     }
 
@@ -80,7 +80,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     }
 
     ImageView           imagePost;
-    TextView            contentPost;
+    TextView            spotName;
     ImageView           userAvatar;
     TextView            txtUserName;
     Button              btnCallSpot;
@@ -121,7 +121,7 @@ public class AdapterBravoDetail extends BaseAdapter {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.layout_post_detail_header, null, false);
                 imagePost = (ImageView) convertView.findViewById(R.id.image_post_detail);
-                contentPost = (TextView) convertView.findViewById(R.id.content_post_detail);
+                spotName = (TextView) convertView.findViewById(R.id.content_post_detail);
                 userAvatar = (ImageView) convertView.findViewById(R.id.img_avatar);
                 txtUserName = (TextView) convertView.findViewById(R.id.txt_user_name);
                 btnCallSpot = (Button) convertView.findViewById(R.id.btn_call_spot);
@@ -154,6 +154,14 @@ public class AdapterBravoDetail extends BaseAdapter {
 
             }
 
+            spotName.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    listener.goToSpotDetail();
+                }
+            });
             btnChooseImage.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -190,7 +198,7 @@ public class AdapterBravoDetail extends BaseAdapter {
                 txtNumberSaved.setText("0");
             }
             txtCommentNumber.setText("" + bravoObj.Total_Comments);
-            contentPost.setText(bravoObj.Spot_Name);
+            spotName.setText(bravoObj.Spot_Name);
             String avatarUrl = bravoObj.Profile_Img_URL;
             AIOLog.d("obGetBravo.Profile_Img_URL: " + bravoObj.Profile_Img_URL);
             if (StringUtility.isEmpty(avatarUrl)) {
