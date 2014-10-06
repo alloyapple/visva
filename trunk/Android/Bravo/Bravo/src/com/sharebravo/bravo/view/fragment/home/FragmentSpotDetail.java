@@ -33,8 +33,11 @@ import com.sharebravo.bravo.foursquare.models.OFGetVenue;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpGet;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObGetAllowBravoOnly;
 import com.sharebravo.bravo.model.response.ObGetSpot;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory.SpotHistory;
 import com.sharebravo.bravo.model.response.ObGetSpotRank;
 import com.sharebravo.bravo.model.response.ObGetSpotRank.SpotRank;
@@ -49,6 +52,7 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterSpotDetail;
 import com.sharebravo.bravo.view.adapter.DetailSpotListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
@@ -244,6 +248,65 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         getSpotRankRequest.execute(url);
     }
 
+    private void requestGetAllowBravoOnly() {
+        String userId = mSessionLogin.userID;
+        String accessToken = mSessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_GET_USER_INFO + "/" + userId;
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetAllowBravoOnly(userId, accessToken);
+        AsyncHttpGet request = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
+
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("get bravo_only:" + response);
+                if (StringUtility.isEmpty(response))
+                    return;
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetAllowBravoOnly mAllows = gson.fromJson(response.toString(), ObGetAllowBravoOnly.class);
+                if (mAllows.data.allow_bravo == 1) {
+                    showDialogSpentBravoADay();
+                } else {
+                    onTabToBravo();
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+            }
+        }, params, true);
+        request.execute(url);
+    }
+
+    public void showDialogSpentBravoADay() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_spent_bravo_today, null);
+        Button btnYes = (Button) dialog_view.findViewById(R.id.btn_ok);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                return;
+            }
+        });
+
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
+
+    }
+
     private void requestToPutReport(Spot mSpot) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
@@ -302,7 +365,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
             if (!isBackStatus()) {
                 mAdapter.updateMapView();
                 if (mSpot.Spot_ID != null && !mSpot.Spot_ID.equals("")) {
-//                    requestGetSpot(mSpot.Spot_ID);
+                    // requestGetSpot(mSpot.Spot_ID);
                     requestGetSpotHistory(mSpot.Spot_ID);
                     requestGetSpotRank(mSpot.Spot_ID);
                     requestGet4squareVenue(mSpot.Spot_FID);
@@ -431,6 +494,11 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
 
     @Override
     public void tapToBravo() {
+        // mHomeActionListener.goToMapView(mSpot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
+        requestGetAllowBravoOnly();
+    }
+
+    public void onTabToBravo() {
         mHomeActionListener.goToMapView(mSpot, FragmentBravoMap.MAKER_BY_LOCATION_SPOT);
     }
 

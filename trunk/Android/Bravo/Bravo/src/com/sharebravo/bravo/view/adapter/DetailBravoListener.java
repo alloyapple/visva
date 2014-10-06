@@ -1,6 +1,8 @@
 package com.sharebravo.bravo.view.adapter;
 
-public interface DetailPostListener {
+import com.sharebravo.bravo.model.response.Spot;
+
+public interface DetailBravoListener {
     public void goToCallSpot();
 
     public void goToFragment(int framentID);
@@ -8,6 +10,7 @@ public interface DetailPostListener {
     public void goToShare();
 
     public void goToSave(boolean isSave);
+
     public void goToLike(boolean isLike);
 
     public void goToSubmitComment(String commentText);
@@ -25,5 +28,7 @@ public interface DetailPostListener {
     public void goToSaved();
 
     public void choosePicture();
+
+    public void goToSpotDetail();
 
 }

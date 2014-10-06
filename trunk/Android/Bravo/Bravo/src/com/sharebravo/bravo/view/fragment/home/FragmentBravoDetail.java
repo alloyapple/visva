@@ -51,6 +51,7 @@ import com.sharebravo.bravo.model.response.ObPutFollowing;
 import com.sharebravo.bravo.model.response.ObPutLike;
 import com.sharebravo.bravo.model.response.ObPutMyList;
 import com.sharebravo.bravo.model.response.ObPutReport;
+import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -63,14 +64,14 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.adapter.AdapterBravoDetail;
-import com.sharebravo.bravo.view.adapter.DetailPostListener;
+import com.sharebravo.bravo.view.adapter.DetailBravoListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
-public class FragmentBravoDetail extends FragmentBasic implements DetailPostListener {
+public class FragmentBravoDetail extends FragmentBasic implements DetailBravoListener {
     private static final int    REQUEST_CODE_CAMERA      = 2001;
     private static final int    REQUEST_CODE_GALLERY     = 2002;
 
@@ -90,6 +91,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
     private ObBravo             mBravoObj;
     private SessionLogin        mSessionLogin            = null;
     private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+    private Spot                mSpot;
 
     // FragmentMapViewCover mapFragment = new FragmentMapViewCover();
 
@@ -149,6 +151,17 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
 
     public void setBravoOb(ObBravo obj) {
         this.mBravoObj = obj;
+        mSpot = new Spot();
+        mSpot.Spot_ID = mBravoObj.Spot_ID;
+        mSpot.Spot_FID = mBravoObj.Spot_FID;
+        mSpot.Spot_Name = mBravoObj.Spot_Name;
+        mSpot.Spot_Source = mBravoObj.Spot_Source;
+        mSpot.Spot_Latitude = mBravoObj.Spot_Latitude;
+        mSpot.Spot_Longitude = mBravoObj.Spot_Longitude;
+        mSpot.Spot_Genre = mBravoObj.Spot_Genre;
+        mSpot.Spot_Phone = mBravoObj.Spot_Phone;
+        mSpot.Spot_Price = mBravoObj.Spot_Price;
+        mSpot.Spot_Type = mBravoObj.Spot_Type;
         FragmentMapCover.mLat = mBravoObj.Spot_Latitude;
         FragmentMapCover.mLong = mBravoObj.Spot_Longitude;
         adapterRecentPostDetail.setBravoOb(mBravoObj);
@@ -1153,5 +1166,11 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailPostList
             requestToPutLike(mBravoObj);
         else
             requestDeleteLike(mBravoObj);
+    }
+
+    @Override
+    public void goToSpotDetail() {
+        // TODO Auto-generated method stub
+        mHomeActionListener.goToSpotDetail(mSpot);
     }
 }
