@@ -259,7 +259,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 requestGetUserTimeLine(foreignID);
             }
         } else {
-            isOutOfDataLoadMore = false; 
+            isOutOfDataLoadMore = false;
         }
     }
 
@@ -824,13 +824,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(capturedImageFilePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType)
-                        cropImageFromUri(fileUri);
-                    else {
-                        int orientation = BravoUtils.checkOrientation(fileUri);
-                        Bitmap bitmap = BravoUtils.decodeBitmapFromFile(capturedImageFilePath, 1000, 1000, orientation);
-                        postUpdateUserProfile(bitmap, mUserImageType);
-                    }
+                    cropImageFromUri(fileUri);
                 }
             }
             break;
@@ -859,13 +853,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 File file = new File(imagePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType) {
-                        cropImageFromUri(fileUri);
-                    } else {
-                        int orientation = BravoUtils.checkOrientation(fileUri);
-                        Bitmap bitmap = BravoUtils.decodeBitmapFromFile(imagePath, 1000, 1000, orientation);
-                        postUpdateUserProfile(bitmap, mUserImageType);
-                    }
+                    cropImageFromUri(fileUri);
                 } else {
 
                     AIOLog.d("file don't exist !");

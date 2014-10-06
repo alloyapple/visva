@@ -37,11 +37,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.foursquare.FactoryFoursquareParams;
 import com.sharebravo.bravo.foursquare.models.OFGetVenueSearch;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpGet;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObAllowBravo;
 import com.sharebravo.bravo.model.response.ObGetSpotSearch;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
@@ -81,8 +84,8 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
     private TextView                btnPeopleFollowing;
 
     private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
-    Location                        location                    = null;
-    LocationManager                 locationManager             = null;
+    private Location                location                    = null;
+    private LocationManager         locationManager             = null;
     private OnItemClickListener     iSpotClickListener          = new OnItemClickListener() {
 
                                                                     @Override
@@ -203,11 +206,30 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
         if (!hidden && !isBackStatus()) {
             listViewResult.setVisibility(View.GONE);
             layoutQuickSearchOptions.setVisibility(View.GONE);
-            requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
-            boolean isSpentADay = BravoUtils.isSpentBravoADay(getActivity());
-            if (isSpentADay) {
-                showDialogSpentBravoADay();
-            }
+            BravoRequestManager.getInstance(getActivity()).getNumberAllowBravo(getActivity(), new IRequestListener() {
+
+                @Override
+                public void onResponse(String response) {
+                    if (StringUtility.isEmpty(response))
+                        return;
+                    Gson gson = new GsonBuilder().serializeNulls().create();
+                    ObAllowBravo obAllowBravo = gson.fromJson(response.toString(), ObAllowBravo.class);
+                    if (obAllowBravo == null)
+                        return;
+                    AIOLog.d("obAllowBravo.data.Allow_Bravo:" + obAllowBravo.data.Allow_Bravo);
+                    int numberAllowBravo = obAllowBravo.data.Allow_Bravo;
+                    if (numberAllowBravo > 0) {
+                        requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
+                    } else {
+                        showDialogSpentBravoADay();
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(String errorMessage) {
+
+                }
+            }, FragmentBravoSearch.this);
         }
     }
 
@@ -224,7 +246,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mBravoCheckingListener.goToBack();
                 return;
             }
         });
@@ -434,7 +455,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                         newSpot.Spot_FID = mOFGetVenueSearch.response.venues.get(i).id;
                         newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
                         newSpot.Spot_Name = mOFGetVenueSearch.response.venues.get(i).name;
-                        
+
                         if (mOFGetVenueSearch.response.venues.get(i).categories != null
                                 && mOFGetVenueSearch.response.venues.get(i).categories.size() > 0) {
                             newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix + "bg_44"
@@ -444,17 +465,17 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                             newSpot.Spot_Type = "Restaurant";
                         }
                         newSpot.Spot_Genre = "Genre";
-                        
+
                         newSpot.Total_Bravos = 0;
                         double lat = mOFGetVenueSearch.response.venues.get(i).location.lat;
                         double lon = mOFGetVenueSearch.response.venues.get(i).location.lon;
-                  
+
                         newSpot.Spot_Latitude = lat;
                         newSpot.Spot_Longitude = lon;
-                        
+
                         newSpot.Spot_Source = "foursqure";
                         newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
-                       
+
                         mSpots.add(newSpot);
                     }
 
