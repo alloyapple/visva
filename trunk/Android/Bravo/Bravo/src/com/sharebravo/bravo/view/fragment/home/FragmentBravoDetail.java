@@ -10,8 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -35,6 +37,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
@@ -72,8 +76,9 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentBravoDetail extends FragmentBasic implements DetailBravoListener {
-    private static final int    REQUEST_CODE_CAMERA      = 2001;
-    private static final int    REQUEST_CODE_GALLERY     = 2002;
+    private static final int    REQUEST_CODE_CAMERA      = 8001;
+    private static final int    REQUEST_CODE_GALLERY     = 8002;
+    private static final int    CROP_FROM_CAMERA         = 8003;
 
     private Uri                 mCapturedImageURI        = null;
     private XListView           listviewRecentPostDetail = null;
@@ -1045,7 +1050,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                     if (photo == null)
                         return;
                     else {
-                        // postUpdateUserProfile(photo, mUserImageType);
+                        cropImageFromUri(data.getData());
                         return;
                     }
                 }
@@ -1063,13 +1068,9 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                 String capturedImageFilePath = cursor.getString(column_index_data);
 
                 File file = new File(capturedImageFilePath);
-                String imagePath = capturedImageFilePath;
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    // Bitmap bmp;
-                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    // postUpdateUserProfile(bmp, mUserImageType);
+                    cropImageFromUri(fileUri);
                 }
             }
             break;
@@ -1082,8 +1083,14 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                 }
 
                 Uri uri = data.getData();
+                if (uri == null)
+                    return;
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                if (getActivity().getContentResolver() == null)
+                    return;
                 Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
+                if (cursor == null)
+                    return;
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String imagePath = cursor.getString(columnIndex);
@@ -1092,17 +1099,68 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                 File file = new File(imagePath);
                 if (file.exists()) {
                     Uri fileUri = Uri.fromFile(file);
-                    int orientation = BravoUtils.checkOrientation(fileUri);
-                    // Bitmap bmp;
-                    // bmp = BravoUtils.decodeSampledBitmapFromFile(imagePath, 100, 100, orientation);
-                    // postUpdateUserProfile(bmp, mUserImageType);
+                    cropImageFromUri(fileUri);
                 } else {
+
                     AIOLog.d("file don't exist !");
+                }
+            }
+            break;
+        case CROP_FROM_CAMERA:
+            if (resultCode == getActivity().RESULT_OK) {
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data");
+                    updateBravoImage(photo);
                 }
             }
             break;
         default:
             return;
+        }
+    }
+
+    private void updateBravoImage(Bitmap photo) {
+        BravoRequestManager.getInstance(getActivity()).requestToUpdateImageForBravo(photo, mBravoObj.Bravo_ID, FragmentBravoDetail.this,
+                new IRequestListener() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        requestGetBravo();
+                    }
+
+                    @Override
+                    public void onErrorResponse(String errorMessage) {
+                        requestGetBravo();
+                    }
+                });
+    }
+
+    private void cropImageFromUri(Uri uri) {
+        AIOLog.d("uri:" + uri);
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setType("image/*");
+        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+
+        int size = list.size();
+        AIOLog.d("size:" + size);
+        if (size == 0) {
+            showToast("Can not crop image");
+            return;
+        } else {
+            intent.setData(uri);
+            intent.putExtra("outputX", 1500);
+            intent.putExtra("outputY", 1500);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+            intent.putExtra("return-data", true);
+            if (size >= 1) {
+                Intent i = new Intent(intent);
+                ResolveInfo res = list.get(0);
+                i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                startActivityForResult(i, CROP_FROM_CAMERA);
+            }
         }
     }
 
@@ -1149,19 +1207,16 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
     @Override
     public void goToLiked() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToLiked(mBravoObj.Spot_ID);
     }
 
     @Override
     public void goToSaved() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToSaved(mBravoObj.Spot_ID);
     }
 
     @Override
     public void goToLike(boolean isLike) {
-        // TODO Auto-generated method stub
         if (isLike)
             requestToPutLike(mBravoObj);
         else
@@ -1170,7 +1225,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
     @Override
     public void goToSpotDetail() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToSpotDetail(mSpot);
     }
 }

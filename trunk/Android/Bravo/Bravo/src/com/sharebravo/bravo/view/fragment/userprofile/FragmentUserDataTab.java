@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.apache.log4j.lf5.viewer.configure.MRUFileManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -1004,10 +1005,15 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             return;
         } else {
             intent.setData(uri);
-            intent.putExtra("outputX", 1000);
-            intent.putExtra("outputY", 1000);
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1);
+            if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType) {
+                intent.putExtra("outputX", 1000);
+                intent.putExtra("outputY", 1000);
+            } else {
+                intent.putExtra("outputX", 1500);
+                intent.putExtra("outputY", 1500);
+            }
+            intent.putExtra("aspectX", 2);
+            intent.putExtra("aspectY", 2);
             intent.putExtra("scale", true);
             intent.putExtra("return-data", true);
             if (size >= 1) {
