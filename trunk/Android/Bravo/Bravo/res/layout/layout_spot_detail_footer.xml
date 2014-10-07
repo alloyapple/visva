@@ -17,28 +17,35 @@
         android:text="@string/btn_more_detail_spot"
         android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/devider_color" />
-
-    <TextView
-        android:id="@+id/btn_report"
+    <LinearLayout
+        android:id="@+id/layout_btn_report"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/color_button"
-        android:drawableLeft="@drawable/report_icon"
-        android:drawablePadding="0dp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/report_button_spot"
-        android:textStyle="bold" />
+        android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/devider_color" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/devider_color" />
+
+        <TextView
+            android:id="@+id/btn_report"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/color_button"
+            android:drawableLeft="@drawable/report_icon"
+            android:drawablePadding="0dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/report_button_spot"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/devider_color" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
