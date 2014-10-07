@@ -148,7 +148,9 @@
     <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_result_search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:divider="#ffc8c7cc"
+        android:dividerHeight="1px" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
     <!-- <include layout="@layout/layout_search_result_footer" /> -->
