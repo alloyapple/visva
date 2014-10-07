@@ -74,41 +74,73 @@ import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
+import com.sharebravo.bravo.view.lib.undo_listview.ContextualUndoAdapterComment;
 
 public class FragmentBravoDetail extends FragmentBasic implements DetailBravoListener {
-    private static final int    REQUEST_CODE_CAMERA      = 8001;
-    private static final int    REQUEST_CODE_GALLERY     = 8002;
-    private static final int    CROP_FROM_CAMERA         = 8003;
 
-    private Uri                 mCapturedImageURI        = null;
-    private XListView           listviewRecentPostDetail = null;
-    private AdapterBravoDetail  adapterRecentPostDetail  = null;
+    private static final int             REQUEST_CODE_CAMERA      = 8001;
+    private static final int             REQUEST_CODE_GALLERY     = 8002;
+    private static final int             CROP_FROM_CAMERA         = 8003;
 
-    private Button              btnBack;
-    private OnItemClickListener onItemClick              = new OnItemClickListener() {
+    private Uri                          mCapturedImageURI        = null;
+    private XListView                    listviewRecentPostDetail = null;
+    private AdapterBravoDetail           adapterRecentPostDetail  = null;
+    ObGetComments                        mObGetComments           = null;
+    private Button                       btnBack;
+    private OnItemClickListener          onItemClick              = new OnItemClickListener() {
 
-                                                             @Override
-                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                                      @Override
+                                                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                                                             }
-                                                         };
+                                                                      }
+                                                                  };
 
-    private ObBravo             mBravoObj;
-    private SessionLogin        mSessionLogin            = null;
-    private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
-    private Spot                mSpot;
+    private ObBravo                      mBravoObj;
+    private SessionLogin                 mSessionLogin            = null;
+    private int                          mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+    private Spot                         mSpot;
+    private ContextualUndoAdapterComment mContextualUndoAdapter;
 
     // FragmentMapViewCover mapFragment = new FragmentMapViewCover();
+    private class MyDeleteItemCallback implements ContextualUndoAdapterComment.DeleteItemCallback {
+
+        @Override
+        public void deleteItem(int position) {
+            // int _position = 0;
+            // if (position > 0)
+            // _position = position - 1;
+            // mAdapterFavourite.remove(_position);
+            // int size = mObGetAllBravoRecentPosts.data.size();
+            // AIOLog.d("mObGetAllBravoRecentPosts.position:" + position + ",size:" + size);
+            // if (position > size)
+            // return;
+            // ObBravo obBravo = mObGetAllBravoRecentPosts.data.get(_position);
+            // if (obBravo == null)
+            // return;
+            // requestDeleteMyListItem(obBravo, _position);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab, container);
         mHomeActionListener = (HomeActivity) getActivity();
         listviewRecentPostDetail = (XListView) root.findViewById(R.id.listview_recent_post_detail);
+
         adapterRecentPostDetail = new AdapterBravoDetail(getActivity(), this);
+        if (mObGetComments != null)
+            mContextualUndoAdapter = new ContextualUndoAdapterComment(getActivity(), adapterRecentPostDetail, mObGetComments,
+                    R.layout.row_comment_content_undo, R.id.undo_row_undobutton);
+        else
+            mContextualUndoAdapter = new ContextualUndoAdapterComment(getActivity(), adapterRecentPostDetail, null,
+                    R.layout.row_comment_content_undo, R.id.undo_row_undobutton);
         adapterRecentPostDetail.setListener(this);
+        mContextualUndoAdapter.setAbsListView(listviewRecentPostDetail);
+
+        mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
         listviewRecentPostDetail.setFooterDividersEnabled(false);
-        listviewRecentPostDetail.setAdapter(adapterRecentPostDetail);
+        listviewRecentPostDetail.setAdapter(mContextualUndoAdapter);
+        // listviewRecentPostDetail.setAdapter(adapterRecentPostDetail);
         listviewRecentPostDetail.setOnItemClickListener(onItemClick);
         listviewRecentPostDetail.setXListViewListener(new IXListViewListener() {
 

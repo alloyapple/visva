@@ -263,9 +263,10 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetAllowBravoOnly mAllows = gson.fromJson(response.toString(), ObGetAllowBravoOnly.class);
                 if (mAllows.data.allow_bravo == 1) {
-                    showDialogSpentBravoADay();
-                } else {
                     onTabToBravo();
+                } else {
+                    
+                    showDialogSpentBravoADay();
                 }
             }
 

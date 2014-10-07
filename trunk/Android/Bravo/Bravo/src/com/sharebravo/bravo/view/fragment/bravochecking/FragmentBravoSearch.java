@@ -17,6 +17,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -82,6 +85,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
     private TextView                btnLocalBravos;
     private TextView                btnAroundMe;
     private TextView                btnPeopleFollowing;
+    private ImageButton             cancelSearch;
 
     private ArrayList<Spot>         mSpots                      = new ArrayList<Spot>();
     private Location                location                    = null;
@@ -101,6 +105,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
         View root = (ViewGroup) inflater.inflate(R.layout.page_bravo_tab, container);
         mBravoCheckingListener = (ActivityBravoChecking) getActivity();
         textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_spot);
+        cancelSearch = (ImageButton) root.findViewById(R.id.icon_cancel_search);
         textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -112,6 +117,41 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                     return true;
                 }
                 return false;
+            }
+        });
+        textboxSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+                if (!textboxSearch.getEditableText().toString().equals("")) {
+                    if (cancelSearch.getVisibility() == View.GONE) {
+                        cancelSearch.setVisibility(View.VISIBLE);
+                    }
+                } else
+                    cancelSearch.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        cancelSearch.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                cancelSearch.setVisibility(View.GONE);
+                textboxSearch.setText("");
+
             }
         });
         textboxSearch.setOnClickListener(new OnClickListener() {
