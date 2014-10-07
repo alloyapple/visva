@@ -19,7 +19,6 @@ package com.sharebravo.bravo.view.lib.undo_listview;
 import static com.nineoldandroids.view.ViewHelper.setAlpha;
 import static com.nineoldandroids.view.ViewHelper.setTranslationX;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,10 +37,10 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.sharebravo.bravo.R;
-import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetComment;
+import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
-import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
@@ -60,15 +59,13 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
 
     private final int           mUndoLayoutId;
     private final int           mUndoActionId;
-    private final int           mAnimationTime            = 150;
+    private final int           mAnimationTime   = 150;
     private ContextualUndoView  mCurrentRemovedView;
     private long                mCurrentRemovedId;
-    private Map<View, Animator> mActiveAnimators          = new ConcurrentHashMap<View, Animator>();
+    private Map<View, Animator> mActiveAnimators = new ConcurrentHashMap<View, Animator>();
     private DeleteItemCallback  mDeleteItemCallback;
-    private ArrayList<ObBravo>  mObGetAllBravoRecentPosts = new ArrayList<ObBravo>();
-    private ImageLoader         mImageLoader              = null;
-    private double              mLat, mLong;
-    private boolean             isSortByDate;
+    private ObGetComments       mObGetComments   = null;
+    private ImageLoader         mImageLoader     = null;
 
     /**
      * Create a new ContextualUndoAdapter based on given parameters.
@@ -82,38 +79,39 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
      * @param mLong2
      * @param mLat2
      */
-    public ContextualUndoAdapterComment(Context context, BaseAdapter baseAdapter, ArrayList<ObBravo> obGetAllBravoRecentPosts, int undoLayoutId,
-            int undoActionId, boolean isSortByDate, Double mLat2, Double mLong2) {
+    public ContextualUndoAdapterComment(Context context, BaseAdapter baseAdapter, ObGetComments mObGetComments, int undoLayoutId,
+            int undoActionId) {
         super(baseAdapter);
         mImageLoader = new ImageLoader(context);
-        mObGetAllBravoRecentPosts = obGetAllBravoRecentPosts;
+        this.mObGetComments = mObGetComments;
         mUndoLayoutId = undoLayoutId;
         mUndoActionId = undoActionId;
         mCurrentRemovedId = -1;
-        this.isSortByDate = isSortByDate;
-        if (!isSortByDate) {
-            this.mLat = mLat2;
-            this.mLong = mLong2;
-        }
+
     }
 
     @Override
     public final View getView(int position, View convertView, ViewGroup parent) {
+
         ContextualUndoView contextualUndoView = (ContextualUndoView) convertView;
         if (contextualUndoView == null) {
             contextualUndoView = new ContextualUndoView(parent.getContext(), mUndoLayoutId);
             AIOLog.d("mUndoActionId:" + contextualUndoView.findViewById(mUndoActionId));
 
             initializeView(contextualUndoView, position);
-            contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(position));
+            if (position > 0 && position < getCount() - 1)
+                contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(position));
         }
 
-        View contentView = super.getView(position, contextualUndoView.getContentView(), parent);
-        contextualUndoView.updateContentView(contentView);
+        View contentView = null;
+        if (position > 0 && position < getCount() - 1) {
+            contentView = super.getView(position, contextualUndoView.getContentView(), parent);
+            contextualUndoView.updateContentView(contentView);
+        }
 
         long itemId = getItemId(position);
 
-        if (itemId == mCurrentRemovedId) {
+        if (itemId == mCurrentRemovedId && position > 0 && position < getCount() - 1) {
             contextualUndoView.displayUndo();
             mCurrentRemovedView = contextualUndoView;
         } else {
@@ -124,75 +122,61 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
         return contextualUndoView;
     }
 
-    private void initializeView(ContextualUndoView contextualUndoView, int position) {
-        ViewHolder holder = new ViewHolder();
-        holder._recentPostImage = (ImageView) contextualUndoView.findViewById(R.id.img_post_recent);
-        holder._recentPostTime = (TextView) contextualUndoView.findViewById(R.id.text_recent_post_time);
-        holder._recentPostSpotName = (TextView) contextualUndoView.findViewById(R.id.text_recent_post_spot_name);
-        // holder._userAvatar = (ImageView) contextualUndoView.findViewById(R.id.img_recent_post_user_avatar);
-        holder._userName = (TextView) contextualUndoView.findViewById(R.id.text_recent_post_user_name);
-        holder._totalComment = (TextView) contextualUndoView.findViewById(R.id.text_total_spot_comment);
-        AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
-        if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
-            final ObBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
+    private void initializeView(ContextualUndoView convertView, int position) {
 
-            if (StringUtility.isEmpty(obGetBravo.Full_Name)) {
-                holder._userName.setText("Unknown");
-            } else
-                holder._userName.setText(obGetBravo.Full_Name);
-            holder._recentPostSpotName.setText(obGetBravo.Spot_Name);
+        if (position == 0) // post content
+        {
 
-            // set observer to view
-            AIOLog.d("obGetBravo.Last_Pic: " + obGetBravo.Last_Pic);
-            String imgSpotUrl = null;
-            if (obGetBravo.Bravo_Pics.size() > 0)
-                imgSpotUrl = obGetBravo.Bravo_Pics.get(0);
-            if (StringUtility.isEmpty(imgSpotUrl)) {
-                holder._recentPostImage.setVisibility(View.GONE);
-                holder._recentPostSpotName.setBackgroundResource(R.drawable.recent_post_none_img);
-            } else {
-                holder._recentPostImage.setVisibility(View.VISIBLE);
-                holder._recentPostSpotName.setBackgroundResource(R.drawable.bg_home_cover);
-                mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, holder._recentPostImage, false);
-            }
-            AIOLog.d("isSortByDate:" + isSortByDate);
-            if (isSortByDate) {
-                long createdTime = 0;
-                if (obGetBravo.Date_Created == null)
-                    createdTime = 0;
-                else
-                    createdTime = obGetBravo.Date_Created.getSec();
-                if (createdTime == 0) {
-                    holder._recentPostTime.setText("Unknown");
-                } else {
-                    String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
-                    holder._recentPostTime.setText(createdTimeConvertStr);
-                    AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
-                    AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
-                }
-            } else {
-                AIOLog.d("mLat:" + mLat + ",mLong:" + mLong);
-                Double distance = BravoUtils.gps2m((float) mLat, (float) mLong, (float) obGetBravo.Spot_Latitude, (float) obGetBravo.Spot_Longitude);
-                String result = String.format("%.1f", distance);
-                holder._recentPostTime.setText(result + "km");
-            }
-            AIOLog.d("obGetBravo.Total_Comments: " + obGetBravo.Total_Comments + "  holder._totalComment : " + holder._totalComment);
-            if (obGetBravo.Total_Comments <= 0) {
-                holder._totalComment.setVisibility(View.GONE);
-            } else {
-                holder._totalComment.setVisibility(View.VISIBLE);
-                holder._totalComment.setText(obGetBravo.Total_Comments + "");
-            }
         }
+        else if (position == getCount() - 1) // post content
+        {
+
+        } else {
+            int index = position - 1;
+            ViewHolder holderComment = new ViewHolder();
+
+            holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
+            holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
+            holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
+            holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
+            final ObGetComment comment = mObGetComments.data.get(index);
+
+            String profile_img_url = comment.profileImgUrl;
+
+            if (StringUtility.isEmpty(profile_img_url)) {
+                holderComment.mAvatarComment.setBackgroundResource(R.drawable.user_picture_default);
+            } else {
+                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holderComment.mAvatarComment, true);
+            }
+            if (comment.fullName != null)
+                holderComment.mUserNameComment.setText(comment.fullName);
+            else
+                holderComment.mUserNameComment.setText("Unknown");
+            holderComment.mCommentContent.setText(comment.commentText);
+
+            long createdTime = 0;
+            if (comment.dateCreated == null)
+                createdTime = 0;
+            else
+                createdTime = comment.dateCreated.getSec();
+            if (createdTime == 0) {
+                holderComment.mCommentDate.setText("Unknown");
+            } else {
+                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+                holderComment.mCommentDate.setText(createdTimeConvertStr);
+                AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
+                AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
+            }
+
+        }
+
     }
 
     class ViewHolder {
-        ImageView _userAvatar;
-        TextView  _userName;
-        ImageView _recentPostImage;
-        TextView  _recentPostTime;
-        TextView  _recentPostSpotName;
-        TextView  _totalComment;
+        ImageView mAvatarComment;
+        TextView  mUserNameComment;
+        TextView  mCommentContent;
+        TextView  mCommentDate;
     }
 
     @Override
@@ -347,8 +331,4 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
         }
     }
 
-    public void updateSortType(boolean isSortByDate) {
-        this.isSortByDate = isSortByDate;
-        notifyDataSetChanged();
-    }
 }
