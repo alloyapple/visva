@@ -34,7 +34,7 @@ import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
-public class FragmentHomeNotification extends FragmentBasic implements com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar {
+public class FragmentHomeNotification extends FragmentBasic implements com.sharebravo.bravo.view.adapter.AdapterBravoList.IClickUserAvatar {
     private XListView                  mListViewNotifications;
     private TextView                   mTextNoNotifications;
     private Button                     mBtnCloseNotifications;

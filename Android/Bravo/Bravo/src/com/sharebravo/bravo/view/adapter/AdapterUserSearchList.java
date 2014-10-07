@@ -15,7 +15,7 @@ import com.sharebravo.bravo.model.response.UserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterBravoList.IClickUserAvatar;
 
 public class AdapterUserSearchList extends BaseAdapter {
     private ArrayList<UserSearch> mObUserList;

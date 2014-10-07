@@ -40,15 +40,15 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterPostList;
-import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterBravoList;
+import com.sharebravo.bravo.view.adapter.AdapterBravoList.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private XListView                mListviewRecentPost       = null;
-    private AdapterPostList          mAdapterRecentPost        = null;
+    private AdapterBravoList          mAdapterRecentPost        = null;
     private ObGetAllBravoRecentPosts mObGetAllBravoRecentPosts = null;
     private ObGetUserInfo            mObGetUserInfo;
     private Button                   mBtnHomeNotification      = null;
@@ -257,7 +257,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             }
         });
         mListviewRecentPost = (XListView) root.findViewById(R.id.listview_recent_post);
-        mAdapterRecentPost = new AdapterPostList(getActivity(), mObGetAllBravoRecentPosts);
+        mAdapterRecentPost = new AdapterBravoList(getActivity(), mObGetAllBravoRecentPosts);
         mAdapterRecentPost.setListener(this);
         mListviewRecentPost.setAdapter(mAdapterRecentPost);
         mListviewRecentPost.setOnItemClickListener(iRecentPostClickListener);

@@ -31,15 +31,15 @@ import com.sharebravo.bravo.view.fragment.home.FragmentSpotDetail;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 
 public class AdapterSpotDetail extends BaseAdapter {
-    private ArrayList<SpotHistory>  mSpotHistorys;
-    private Context                 mContext;
-    private Spot                    mSpot;
-    FragmentTransaction             fragmentTransaction;
-    FragmentSpotDetail              fragment;
-    FragmentMapCover                mapFragment;
-    private DetailSpotListener      listener;
-    private ArrayList<SpotRank>     mSpotRanks   = new ArrayList<ObGetSpotRank.SpotRank>();
-    private ImageLoader             mImageLoader = null;
+    private ArrayList<SpotHistory> mSpotHistorys;
+    private Context                mContext;
+    private Spot                   mSpot;
+    FragmentTransaction            fragmentTransaction;
+    FragmentSpotDetail             fragment;
+    FragmentMapCover               mapFragment;
+    private DetailSpotListener     listener;
+    private ArrayList<SpotRank>    mSpotRanks   = new ArrayList<ObGetSpotRank.SpotRank>();
+    private ImageLoader            mImageLoader = null;
 
     public AdapterSpotDetail(Context context, FragmentSpotDetail fragment) {
         this.mContext = context;
@@ -76,6 +76,7 @@ public class AdapterSpotDetail extends BaseAdapter {
     LinearLayout   layoutTopFans;
     TextView       btnMoreDetail;
     TextView       btnReport;
+    LinearLayout   layoutBtnReport;
 
     @Override
     public View getView(int position, View convertView, ViewGroup arg2) {
@@ -129,7 +130,11 @@ public class AdapterSpotDetail extends BaseAdapter {
             }
             if (mSpot != null) {
                 txtSpotName.setText(mSpot.Spot_Name);
-                txtBravoNumber.setText("" + mSpot.Total_Bravos);
+                if (mSpot.Total_Bravos > 0) {
+                    txtBravoNumber.setVisibility(View.VISIBLE);
+                    txtBravoNumber.setText("" + mSpot.Total_Bravos);
+                } else
+                    txtBravoNumber.setVisibility(View.GONE);
             }
             btnCall.setOnClickListener(new OnClickListener() {
 
@@ -168,7 +173,7 @@ public class AdapterSpotDetail extends BaseAdapter {
                     listener.goToMoreDetailOn4square();
                 }
             });
-
+            layoutBtnReport = (LinearLayout) convertView.findViewById(R.id.layout_btn_report);
             btnReport = (TextView) convertView.findViewById(R.id.btn_report);
             btnReport.setOnClickListener(new OnClickListener() {
 
@@ -178,6 +183,11 @@ public class AdapterSpotDetail extends BaseAdapter {
                     listener.goToReport();
                 }
             });
+            if(mSpot.Total_Bravos<=0)
+                layoutBtnReport.setVisibility(View.GONE);
+            else
+                layoutBtnReport.setVisibility(View.VISIBLE);
+            
         } else {
             if (mLayoutInflater == null)
                 mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

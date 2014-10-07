@@ -19,7 +19,7 @@ import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 
-public class AdapterPostList extends BaseAdapter {
+public class AdapterBravoList extends BaseAdapter {
     private ArrayList<ObBravo> mObPostsList = new ArrayList<ObBravo>();
     private ImageLoader        mImageLoader = null;
 
@@ -28,7 +28,7 @@ public class AdapterPostList extends BaseAdapter {
 
     private IClickUserAvatar   iClickUserAvatar;
 
-    public AdapterPostList(Context context, ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
+    public AdapterBravoList(Context context, ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
         this.mContext = context;
 
         if (obGetAllBravoRecentPosts != null)
