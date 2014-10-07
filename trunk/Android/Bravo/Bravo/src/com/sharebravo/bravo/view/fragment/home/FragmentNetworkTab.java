@@ -42,8 +42,8 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterPostList;
-import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterBravoList;
+import com.sharebravo.bravo.view.adapter.AdapterBravoList.IClickUserAvatar;
 import com.sharebravo.bravo.view.adapter.AdapterUserSearchList;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
@@ -52,7 +52,7 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewLi
 public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvatar {
     private XListView                mListviewPost            = null;
     private XListView                mListviewUser            = null;
-    private AdapterPostList          mAdapterPost             = null;
+    private AdapterBravoList          mAdapterPost             = null;
     private AdapterUserSearchList    mAdapterUser             = null;
     private HomeActionListener       mHomeActionListener      = null;
     private ArrayList<UserSearch>    mUsers                   = new ArrayList<UserSearch>();
@@ -251,7 +251,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     private void intializeView(View root) {
         mListviewPost = (XListView) root.findViewById(R.id.listview_post);
         mListviewUser = (XListView) root.findViewById(R.id.listview_user);
-        mAdapterPost = new AdapterPostList(getActivity(), mObGetTimelineBravo);
+        mAdapterPost = new AdapterBravoList(getActivity(), mObGetTimelineBravo);
         mAdapterUser = new AdapterUserSearchList(getActivity());
         mAdapterUser.setListener(this);
         mAdapterPost.setListener(this);

@@ -16,7 +16,7 @@ import com.sharebravo.bravo.model.response.ObGetUserBlocking.User;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterBravoList.IClickUserAvatar;
 
 @SuppressLint("ViewHolder")
 public class AdapterUserList extends BaseAdapter {

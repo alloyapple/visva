@@ -88,6 +88,7 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         mAdapter = new AdapterSpotDetail(getActivity(), this);
         mAdapter.setListener(this);
         listviewContent.setFooterDividersEnabled(false);
+        listviewContent.setHeaderDividersEnabled(false);
         listviewContent.setAdapter(mAdapter);
         listviewContent.setOnItemClickListener(onItemClick);
         listviewContent.setXListViewListener(new IXListViewListener() {

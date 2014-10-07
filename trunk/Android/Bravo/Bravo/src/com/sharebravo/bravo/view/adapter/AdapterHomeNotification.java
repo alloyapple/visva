@@ -15,7 +15,7 @@ import com.sharebravo.bravo.model.response.ObGetNotification.Notification;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
-import com.sharebravo.bravo.view.adapter.AdapterPostList.IClickUserAvatar;
+import com.sharebravo.bravo.view.adapter.AdapterBravoList.IClickUserAvatar;
 
 public class AdapterHomeNotification extends BaseAdapter {
     private ArrayList<Notification> mNotificationList;
