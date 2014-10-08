@@ -19,6 +19,7 @@ package com.sharebravo.bravo.view.lib.undo_listview;
 import static com.nineoldandroids.view.ViewHelper.setAlpha;
 import static com.nineoldandroids.view.ViewHelper.setTranslationX;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,6 +27,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -37,12 +39,15 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetComment;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
+import com.sharebravo.bravo.view.adapter.AdapterBravoDetail;
 
 /**
  * Warning: a stable id for each item in the adapter is required. The decorated
@@ -55,17 +60,17 @@ import com.sharebravo.bravo.utils.TimeUtility;
  * * Set your ListView to this ContextualUndoAdapter, and set this ContextualUndoAdapter to your ListView. <br>
  */
 @SuppressLint("DefaultLocale")
-public class ContextualUndoAdapterComment extends BaseAdapterDecorator implements ContextualUndoListViewTouchListener.Callback {
+public class ContextualUndoAdapterComment2 extends BaseAdapterDecorator implements ContextualUndoListViewTouchListener.Callback {
 
-    private final int           mUndoLayoutId;
-    private final int           mUndoActionId;
-    private final int           mAnimationTime   = 150;
-    private ContextualUndoView  mCurrentRemovedView;
-    private long                mCurrentRemovedId;
-    private Map<View, Animator> mActiveAnimators = new ConcurrentHashMap<View, Animator>();
-    private DeleteItemCallback  mDeleteItemCallback;
-    private ObGetComments       mObGetComments   = null;
-    private ImageLoader         mImageLoader     = null;
+    private final int               mUndoLayoutId;
+    private final int               mUndoActionId;
+    private final int               mAnimationTime            = 150;
+    private ContextualUndoView      mCurrentRemovedView;
+    private long                    mCurrentRemovedId;
+    private Map<View, Animator>     mActiveAnimators          = new ConcurrentHashMap<View, Animator>();
+    private DeleteItemCallback      mDeleteItemCallback;
+    private ArrayList<ObGetComment> mObGetAllBravoGetComments = new ArrayList<ObGetComment>();
+    private ImageLoader             mImageLoader              = null;
 
     /**
      * Create a new ContextualUndoAdapter based on given parameters.
@@ -76,108 +81,63 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
      *            The layout resource id to show as undo
      * @param undoActionId
      *            The id of the component which undoes the dismissal
-     * @param mLong2
-     * @param mLat2
      */
-    public ContextualUndoAdapterComment(Context context, BaseAdapter baseAdapter, ObGetComments mObGetComments, int undoLayoutId,
+    public ContextualUndoAdapterComment2(Context context, BaseAdapter baseAdapter, ArrayList<ObGetComment> obGetAllBravoGetComments,
+            int undoLayoutId,
             int undoActionId) {
         super(baseAdapter);
         mImageLoader = new ImageLoader(context);
-        this.mObGetComments = mObGetComments;
+        mObGetAllBravoGetComments = obGetAllBravoGetComments;
         mUndoLayoutId = undoLayoutId;
         mUndoActionId = undoActionId;
         mCurrentRemovedId = -1;
-
     }
 
     @Override
     public final View getView(int position, View convertView, ViewGroup parent) {
-
         ContextualUndoView contextualUndoView = (ContextualUndoView) convertView;
         if (contextualUndoView == null) {
             contextualUndoView = new ContextualUndoView(parent.getContext(), mUndoLayoutId);
             AIOLog.d("mUndoActionId:" + contextualUndoView.findViewById(mUndoActionId));
-
             initializeView(contextualUndoView, position);
-            if (position > 0 && position < getCount() - 1)
-                contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(position));
+            contextualUndoView.findViewById(mUndoActionId).setOnClickListener(new UndoListener(position));
         }
 
-        View contentView = null;
-        if (position > 0 && position < getCount() - 1) {
-            contentView = super.getView(position, contextualUndoView.getContentView(), parent);
-            contextualUndoView.updateContentView(contentView);
-        }
+        View contentView = super.getView(position, contextualUndoView.getContentView(), parent);
+        contextualUndoView.updateContentView(contentView);
 
         long itemId = getItemId(position);
-        if (itemId == mCurrentRemovedId && position > 0 && position < getCount() - 1) {
+
+        if (itemId == mCurrentRemovedId) {
             contextualUndoView.displayUndo();
             mCurrentRemovedView = contextualUndoView;
         } else {
             contextualUndoView.displayContentView();
         }
-
         contextualUndoView.setItemId(itemId);
         return contextualUndoView;
     }
 
-    private void initializeView(ContextualUndoView convertView, int position) {
+    private void initializeView(ContextualUndoView contextualUndoView, int position) {
+        ViewHolder holder = new ViewHolder();
+        holder._textUserName = (TextView) contextualUndoView.findViewById(R.id.txtview_user_name_comment);
+        if (mObGetAllBravoGetComments == null || mObGetAllBravoGetComments.size() <= 1)
+            return;
+        AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoGetComments.size() + ", position:" + position);
+        if (mObGetAllBravoGetComments.size() > 0 && position < mObGetAllBravoGetComments.size()) {
+            final ObGetComment obGetComment = mObGetAllBravoGetComments.get(position);
 
-        if (position == 0) // post content
-        {
-
+            if (StringUtility.isEmpty(obGetComment.fullName)) {
+                holder._textUserName.setText("Unknown");
+            } else
+                holder._textUserName.setText(obGetComment.fullName);
         }
-        else if (position == getCount() - 1) // post content
-        {
-
-        } else {
-            int index = position - 1;
-            ViewHolder holderComment = new ViewHolder();
-
-            holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
-            holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
-            holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
-            holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
-            if (mObGetComments == null || mObGetComments.data.size() == 0)
-                return;
-            final ObGetComment comment = mObGetComments.data.get(index);
-
-            String profile_img_url = comment.profileImgUrl;
-
-            if (StringUtility.isEmpty(profile_img_url)) {
-                holderComment.mAvatarComment.setBackgroundResource(R.drawable.user_picture_default);
-            } else {
-                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holderComment.mAvatarComment, true);
-            }
-            if (comment.fullName != null)
-                holderComment.mUserNameComment.setText(comment.fullName);
-            else
-                holderComment.mUserNameComment.setText("Unknown");
-            holderComment.mCommentContent.setText(comment.commentText);
-
-            long createdTime = 0;
-            if (comment.dateCreated == null)
-                createdTime = 0;
-            else
-                createdTime = comment.dateCreated.getSec();
-            if (createdTime == 0) {
-                holderComment.mCommentDate.setText("Unknown");
-            } else {
-                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
-                holderComment.mCommentDate.setText(createdTimeConvertStr);
-                AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
-                AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
-            }
-
-        }
-
     }
 
     class ViewHolder {
-        ImageView mAvatarComment;
-        TextView  mUserNameComment;
-        TextView  mCommentContent;
-        TextView  mCommentDate;
+        TextView  _textUserName;
+        ImageView _userAvatar;
+        TextView  _textComment;
     }
 
     @Override
@@ -191,16 +151,16 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
 
     @Override
     public void onViewSwiped(View dismissView, int dismissPosition) {
-        ContextualUndoView contextualUndoView = (ContextualUndoView) dismissView;
-        if (contextualUndoView.isContentDisplayed()) {
-            restoreViewPosition(contextualUndoView);
-            contextualUndoView.displayUndo();
-            setCurrentRemovedView(contextualUndoView);
-        } else {
-            restoreViewPosition(mCurrentRemovedView);
-            mCurrentRemovedView.displayContentView();
-            setCurrentRemovedView(mCurrentRemovedView);
-        }
+        // ContextualUndoView contextualUndoView = (ContextualUndoView) dismissView;
+        // if (contextualUndoView.isContentDisplayed()) {
+        // restoreViewPosition(contextualUndoView);
+        // contextualUndoView.displayUndo();
+        // setCurrentRemovedView(contextualUndoView);
+        // } else {
+        // restoreViewPosition(mCurrentRemovedView);
+        // mCurrentRemovedView.displayContentView();
+        // setCurrentRemovedView(mCurrentRemovedView);
+        // }
     }
 
     private void restoreViewPosition(View view) {
@@ -221,7 +181,7 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
     @Override
     public void onListScrolled() {
         if (mCurrentRemovedView != null) {
-            performRemoval();
+           // performRemoval();
         }
     }
 
@@ -331,5 +291,4 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
             }
         }
     }
-
 }

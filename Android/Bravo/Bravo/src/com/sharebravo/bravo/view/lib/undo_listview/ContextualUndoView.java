@@ -24,50 +24,51 @@ import android.widget.LinearLayout;
 @SuppressLint("ViewConstructor")
 public class ContextualUndoView extends LinearLayout {
 
-	private View mUndoView;
-	private View mContentView;
-	private long mItemId;
+    private View mUndoView;
+    private View mContentView;
+    private long mItemId;
 
-	public ContextualUndoView(Context context, int undoLayoutResourceId) {
-		super(context);
-		initUndo(undoLayoutResourceId);
-	}
+    public ContextualUndoView(Context context, int undoLayoutResourceId) {
+        super(context);
+        initUndo(undoLayoutResourceId);
+    }
 
-	private void initUndo(int undoLayoutResourceId) {
-		mUndoView = View.inflate(getContext(), undoLayoutResourceId, null);
-		addView(mUndoView);
-	}
+    private void initUndo(int undoLayoutResourceId) {
+        mUndoView = View.inflate(getContext(), undoLayoutResourceId, null);
+        addView(mUndoView);
+    }
 
-	public void updateContentView(View contentView) {
-		if (this.mContentView == null) {
-			addView(contentView);
-		}
-		this.mContentView = contentView;
-	}
+    public void updateContentView(View contentView) {
+        if (this.mContentView == null) {
+            addView(contentView);
+        }
+        this.mContentView = contentView;
+    }
 
-	public View getContentView() {
-		return mContentView;
-	}
+    public View getContentView() {
+        return mContentView;
+    }
 
-	public void setItemId(long itemId) {
-		this.mItemId = itemId;
-	}
+    public void setItemId(long itemId) {
+        this.mItemId = itemId;
+    }
 
-	public long getItemId() {
-		return mItemId;
-	}
+    public long getItemId() {
+        return mItemId;
+    }
 
-	public boolean isContentDisplayed() {
-		return mContentView.getVisibility() == View.VISIBLE;
-	}
+    public boolean isContentDisplayed() {
+        return mContentView.getVisibility() == View.VISIBLE;
+    }
 
-	public void displayUndo() {
-		mContentView.setVisibility(View.GONE);
-		mUndoView.setVisibility(View.VISIBLE);
-	}
+    public void displayUndo() {
+        mContentView.setVisibility(View.GONE);
+        mUndoView.setVisibility(View.VISIBLE);
+    }
 
-	public void displayContentView() {
-		mContentView.setVisibility(View.VISIBLE);
-		mUndoView.setVisibility(View.GONE);
-	}
+    public void displayContentView() {
+        if (mContentView != null)
+            mContentView.setVisibility(View.VISIBLE);
+        mUndoView.setVisibility(View.GONE);
+    }
 }

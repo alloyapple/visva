@@ -354,7 +354,7 @@ public class AdapterBravoDetail extends BaseAdapter {
             // if (convertView == null) {
             ViewHolderComment holderComment = new ViewHolderComment();
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_comment_content, null, false);
+            convertView = inflater.inflate(R.layout.row_comment_content_undo_2, null, false);
             holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
             holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
             holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
@@ -458,6 +458,8 @@ public class AdapterBravoDetail extends BaseAdapter {
 
     public void parallaxImage(View view) {
         Rect rect = new Rect();
+        if(view == null)
+            return;
         view.getLocalVisibleRect(rect);
         if (lastTopValueAssigned != rect.top) {
             lastTopValueAssigned = rect.top;

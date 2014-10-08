@@ -27,7 +27,7 @@ public class BravoWebServiceConfig {
     public static final String URL_GET_LIKE_ITEM                    = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylikelist/{Bravo_ID}";
     public static final String URL_GET_NEWS                         = URL_BRAVO_BASE + "/news/{News_ID}?User_ID={str}&Access_Token={str}";
-    public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                          /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
+    public static final String URL_GET_NEWS_SEARCH                  = URL_BRAVO_BASE + "/news";                                                                                 /* ?User_ID={str}&Access_Token={str}&params={JSON_Encoded_Params} */
     public static final String URL_GET_SPOT                         = URL_BRAVO_BASE + "/spot/{Spot_ID}";
     public static final String URL_GET_SPOT_SEARCH                  = URL_BRAVO_BASE
                                                                             + "/spot";
@@ -97,6 +97,8 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{Spot_ID}/liking";
     public static final String URL_GET_SAVE_LIST                    = URL_BRAVO_BASE
                                                                             + "/user/{Spot_ID}/saving";
+
+    public static final String URL_GET_USER_DELETE_IMAGE            = URL_BRAVO_BASE + "/user/{User_ID}?";
     public static final String URL_FOURSQUARE_BASE                  = "https://api.foursquare.com/v2";
     public static final String URL_FOURSQUARE_GET_VENUE             = URL_FOURSQUARE_BASE + "/venues/{Spot_FID}";
     public static final String URL_FOURSQUARE_GET_VENUE_SEARCH      = URL_FOURSQUARE_BASE + "/venues/search";
