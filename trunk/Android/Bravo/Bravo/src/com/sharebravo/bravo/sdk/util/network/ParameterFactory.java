@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
+
 public final class ParameterFactory {
 
     public static List<NameValuePair> createSubParams(String subParams) {
@@ -153,6 +155,18 @@ public final class ParameterFactory {
         parameters.add(new BasicNameValuePair("User_ID", userID));
         parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
         parameters.add(new BasicNameValuePair("params", subParams));
+        return parameters;
+    }
+
+    public static List<NameValuePair> createSubParamsGetDeleteUserImage(String userId, String accessToken, int imageType) {
+        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("User_ID", userId));
+        parameters.add(new BasicNameValuePair("Access_Token", String.valueOf(accessToken)));
+        if (AdapterUserDetail.USER_COVER_ID == imageType) {
+            parameters.add(new BasicNameValuePair("Cover_Img_Del", "true"));
+        } else {
+            parameters.add(new BasicNameValuePair("Profile_Img_Del", "true"));
+        }
         return parameters;
     }
 }

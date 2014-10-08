@@ -28,7 +28,6 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
-import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class BravoRequestManager {
@@ -213,20 +212,8 @@ public class BravoRequestManager {
         SessionLogin _sessionLogin = BravoUtils.getSession(mContext, _loginBravoViaType);
         String userId = _sessionLogin.userID;
         String accessToken = _sessionLogin.accessToken;
-
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        if (AdapterUserDetail.USER_COVER_ID == imageType) {
-            subParams.put("Cover_Img_Del", "true");
-        } else {
-            subParams.put("Profile_Img_Del", "true");
-        }
-
-        JSONObject jsonObject = new JSONObject(subParams);
-        String subParamsStr = jsonObject.toString();
-
-        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AIOLog.d("putUserUrl:" + putUserUrl);
-        List<NameValuePair> params = ParameterFactory.createSubParams(subParamsStr);
+        String putUserUrl = BravoWebServiceConfig.URL_GET_USER_DELETE_IMAGE.replace("{User_ID}", userId);
+        List<NameValuePair> params = ParameterFactory.createSubParamsGetDeleteUserImage(userId, accessToken,imageType);
         AsyncHttpGet postRegister = new AsyncHttpGet(mContext, new AsyncHttpResponseProcess(mContext, fragmentBasic) {
             @Override
             public void processIfResponseSuccess(String response) {
