@@ -187,8 +187,16 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
-                mMode = SEARCH_LOCAL_BRAVO;
-                requestBravoSearch("", SEARCH_LOCAL_BRAVO);
+
+                String s = textboxSearch.getEditableText().toString();
+                if (s.equals("")) {
+                    mMode = SEARCH_LOCAL_BRAVO;
+                    requestBravoSearch("", SEARCH_LOCAL_BRAVO);
+                }
+                else {
+                    mMode = SEARCH_LOCAL_BRAVO_KEY;
+                    requestBravoSearch(s, SEARCH_LOCAL_BRAVO_KEY);
+                }
             }
         });
         btnAroundMe = (TextView) root.findViewById(R.id.text_around_me);
@@ -199,8 +207,16 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
-                mMode = SEARCH_ARROUND_ME;
-                requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
+
+                String s = textboxSearch.getEditableText().toString();
+                if (s.equals("")) {
+                    mMode = SEARCH_ARROUND_ME;
+                    requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
+                }
+                else {
+                    mMode = SEARCH_ARROUND_KEY;
+                    requestGet4squareVenueSearch(s, SEARCH_ARROUND_KEY);
+                }
             }
         });
         btnPeopleFollowing = (TextView) root.findViewById(R.id.text_people_following);
@@ -213,7 +229,16 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
                 mMode = SEARCH_PEOPLE_FOLLOWING;
-                requestBravoSearch("", SEARCH_PEOPLE_FOLLOWING);
+                String s = textboxSearch.getEditableText().toString();
+                if (s.equals("")) {
+                    mMode = SEARCH_PEOPLE_FOLLOWING;
+                    requestBravoSearch("", SEARCH_PEOPLE_FOLLOWING);
+                }
+                else {
+                    requestBravoSearch("", SEARCH_PEOPLE_FOLLOWING_KEY);
+                    mMode = SEARCH_PEOPLE_FOLLOWING_KEY;
+
+                }
             }
         });
         if (android.os.Build.VERSION.SDK_INT > 8) {
@@ -329,7 +354,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
         }
         if (mA.size() > 0)
             mF.addAll(mA);
-        sortSpotWithDistance(mF);
+        // sortSpotWithDistance(mF);
     }
 
     public void sortSpotWithDistance(ArrayList<Spot> mF) {
@@ -433,7 +458,7 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     final ArrayList<String> fids = new ArrayList<String>();
                     mSpots.clear();
                     for (int i = 0; i < mOFGetVenueSearch.response.venues.size(); i++) {
-                        fids.add(mOFGetVenueSearch.response.venues.get(i).id);
+                        // fids.add(mOFGetVenueSearch.response.venues.get(i).id);
                         Spot newSpot = new Spot();
                         newSpot.Spot_FID = mOFGetVenueSearch.response.venues.get(i).id;
                         newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
@@ -453,6 +478,11 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                         newSpot.Spot_Source = "foursqure";
                         newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
                         mSpots.add(newSpot);
+                    }
+
+                    sortSpotWithDistance(mSpots);
+                    for (int i = 0; i < mSpots.size(); i++) {
+                        fids.add(mSpots.get(i).Spot_FID);
                     }
                     requestSpotSearch(fids, ownMode);
                 }
