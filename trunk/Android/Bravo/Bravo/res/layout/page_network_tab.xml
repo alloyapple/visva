@@ -57,13 +57,16 @@
         <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
             android:id="@+id/listview_post"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:divider="#ffc8c7cc"
+            android:dividerHeight="1px" >
         </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
         <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
             android:id="@+id/listview_user"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:dividerHeight="1px" >
         </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
     </FrameLayout>
 
