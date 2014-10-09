@@ -50,7 +50,7 @@
             android:background="@color/devider_color" />
     </LinearLayout>
 
-    <LinearLayout
+    <LinearLayout android:id="@+id/layout_btn_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
