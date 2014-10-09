@@ -87,17 +87,15 @@ public class BravoWebServiceConfig {
                                                                             + "/user/{User_ID}/notifications/{Type}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_SNS                       = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/sns/{SNS_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
-    public static final String URL_DELETE_USER                      = "https://dev.sharebravo.com/user/{User_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
+    public static final String URL_DELETE_USER                      = URL_BRAVO_BASE
+                                                                            + "/user/{User_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
 
     public static final String URL_PUT_LIKE                         = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylikelist?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_LIKE                      = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/mylikelist/{Bravo_ID}?User_ID={User_ID}&Access_Token={Access_Token}";
-    public static final String URL_GET_LIKED_LIST                   = URL_BRAVO_BASE
-                                                                            + "/user/{Spot_ID}/liking";
-    public static final String URL_GET_SAVE_LIST                    = URL_BRAVO_BASE
-                                                                            + "/user/{Spot_ID}/saving";
-
+    public static final String URL_GET_LIKED_LIST                   = URL_BRAVO_BASE + "/user/{Spot_ID}/liking";
+    public static final String URL_GET_SAVE_LIST                    = URL_BRAVO_BASE + "/user/{Spot_ID}/saving";
     public static final String URL_GET_USER_DELETE_IMAGE            = URL_BRAVO_BASE + "/user/{User_ID}?";
     public static final String URL_FOURSQUARE_BASE                  = "https://api.foursquare.com/v2";
     public static final String URL_FOURSQUARE_GET_VENUE             = URL_FOURSQUARE_BASE + "/venues/{Spot_FID}";

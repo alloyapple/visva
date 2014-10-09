@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
 public class BravoRequestManager {
@@ -207,14 +209,20 @@ public class BravoRequestManager {
      */
     public void requestToDeleteImageUserProfile(ObGetUserInfo obGetUserInfo, int imageType, final IRequestListener iRequestListener,
             FragmentBasic fragmentBasic) {
-
+        HashMap<String, Boolean> subParams = new HashMap<String, Boolean>();
+        if (AdapterUserDetail.USER_COVER_ID == imageType) {
+            subParams.put("Cover_Img_Del", true);
+        } else {
+            subParams.put("Profile_Img_Del", true);
+        }
+        JSONObject jsonObject = new JSONObject(subParams);
         int _loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin _sessionLogin = BravoUtils.getSession(mContext, _loginBravoViaType);
         String userId = _sessionLogin.userID;
         String accessToken = _sessionLogin.accessToken;
-        String putUserUrl = BravoWebServiceConfig.URL_GET_USER_DELETE_IMAGE.replace("{User_ID}", userId);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetDeleteUserImage(userId, accessToken,imageType);
-        AsyncHttpGet postRegister = new AsyncHttpGet(mContext, new AsyncHttpResponseProcess(mContext, fragmentBasic) {
+        String putUserUrl = BravoWebServiceConfig.URL_PUT_USER.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        List<NameValuePair> params = ParameterFactory.createSubParamsRequestToDeleteImage(jsonObject.toString());
+        AsyncHttpPut postRegister = new AsyncHttpPut(mContext, new AsyncHttpResponseProcess(mContext, fragmentBasic) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("reponse after delete image:" + response);

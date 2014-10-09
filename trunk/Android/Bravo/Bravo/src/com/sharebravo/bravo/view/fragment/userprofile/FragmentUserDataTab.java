@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.log4j.lf5.viewer.configure.MRUFileManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
