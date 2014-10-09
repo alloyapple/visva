@@ -19,6 +19,7 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -325,19 +326,29 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     @SuppressLint("FloatMath")
     private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
-        float pk = (float) (180 / 3.14169);
+//        float pk = (float) (180 / 3.14169);
+//
+//        float a1 = lat_a / pk;
+//        float a2 = lng_a / pk;
+//        float b1 = lat_b / pk;
+//        float b2 = lng_b / pk;
+//
+//        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
+//        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
+//        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
+//        double tt = Math.acos(t1 + t2 + t3);
+//
+//        return 6366000 * tt / 1000;
+        Location loc1 = new Location("");
+        loc1.setLatitude(lat_a);
+        loc1.setLongitude(lng_a);
 
-        float a1 = lat_a / pk;
-        float a2 = lng_a / pk;
-        float b1 = lat_b / pk;
-        float b2 = lng_b / pk;
+        Location loc2 = new Location("");
+        loc2.setLatitude(lat_b);
+        loc2.setLongitude(lng_b);
 
-        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
-        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
-        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
-        double tt = Math.acos(t1 + t2 + t3);
-
-        return 6366000 * tt / 1000;
+        float distanceInMeters = loc1.distanceTo(loc2);
+        return distanceInMeters;
     }
 
     public void mergeData(ArrayList<Spot> mF, ArrayList<Spot> mA) {
@@ -372,6 +383,10 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     min = j;
             }
             swap(mF, i, min);
+        }
+        for (int k = 0; k < mF.size(); k++) {
+            double dMin = gps2m(lLat, lLon, (float) mF.get(k).Spot_Latitude, (float) mF.get(k).Spot_Longitude);
+            Log.i("------------------------", dMin+"");
         }
     }
 
@@ -483,8 +498,10 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                     sortSpotWithDistance(mSpots);
                     for (int i = 0; i < mSpots.size(); i++) {
                         fids.add(mSpots.get(i).Spot_FID);
+                        
                     }
                     requestSpotSearch(fids, ownMode);
+                    
                 }
             }
 

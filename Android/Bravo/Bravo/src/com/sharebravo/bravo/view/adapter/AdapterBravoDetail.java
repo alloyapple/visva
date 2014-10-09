@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.internal.ly;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
@@ -33,18 +34,18 @@ import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 
 public class AdapterBravoDetail extends BaseAdapter {
-    private Context            mContext;
+    private Context             mContext;
     // private ArrayList<String> commentsData = new ArrayList<String>();
     private DetailBravoListener listener;
-    private ObBravo            bravoObj             = null;
-    private ObGetComments      mObGetComments       = null;
-    private ImageLoader        mImageLoader         = null;
-    private Spot               mSpot                = null;
-    FragmentBravoDetail        fragment;
+    private ObBravo             bravoObj             = null;
+    private ObGetComments       mObGetComments       = null;
+    private ImageLoader         mImageLoader         = null;
+    private Spot                mSpot                = null;
+    FragmentBravoDetail         fragment;
     // FragmentTransaction transaction;
-    private SessionLogin       mSessionLogin        = null;
-    private int                mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
-    private int                lastTopValueAssigned = 0;
+    private SessionLogin        mSessionLogin        = null;
+    private int                 mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
+    private int                 lastTopValueAssigned = 0;
 
     public AdapterBravoDetail(Context context, FragmentBravoDetail fragment) {
         this.mContext = context;
@@ -111,6 +112,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     ImageView           btnChooseImage;
     LinearLayout        layoutLiked;
     LinearLayout        layoutSaved;
+    LinearLayout        layoutReport;
     boolean             isShowMap     = false;
 
     @Override
@@ -155,7 +157,7 @@ public class AdapterBravoDetail extends BaseAdapter {
             }
 
             spotName.setOnClickListener(new OnClickListener() {
-                
+
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
@@ -332,6 +334,7 @@ public class AdapterBravoDetail extends BaseAdapter {
             textboxComment = (EditText) convertView.findViewById(R.id.textbox_comment);
             btnSubmitComment = (Button) convertView.findViewById(R.id.btn_submit_comment);
             btnReport = (TextView) convertView.findViewById(R.id.btn_report);
+            layoutReport = (LinearLayout) convertView.findViewById(R.id.layout_btn_report);
             btnSubmitComment.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -348,6 +351,10 @@ public class AdapterBravoDetail extends BaseAdapter {
                     listener.goToReport();
                 }
             });
+            if (bravoObj.User_ID.equals(mSessionLogin.userID))
+                layoutReport.setVisibility(View.GONE);
+            else
+                layoutReport.setVisibility(View.VISIBLE);
 
         } else {
             int index = position - 1;
@@ -458,7 +465,7 @@ public class AdapterBravoDetail extends BaseAdapter {
 
     public void parallaxImage(View view) {
         Rect rect = new Rect();
-        if(view == null)
+        if (view == null)
             return;
         view.getLocalVisibleRect(rect);
         if (lastTopValueAssigned != rect.top) {
