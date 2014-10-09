@@ -6,12 +6,12 @@
 
     <TextView
         android:id="@+id/btn_detail_foursquare"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/color_button"
         android:drawableLeft="@drawable/infomation_icon"
-        android:drawablePadding="dp"
+        android:drawablePadding="10dp"
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/btn_more_detail_spot"
@@ -30,12 +30,12 @@
 
         <TextView
             android:id="@+id/btn_report"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/color_button"
             android:drawableLeft="@drawable/report_icon"
-            android:drawablePadding="0dp"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/report_button_spot"
