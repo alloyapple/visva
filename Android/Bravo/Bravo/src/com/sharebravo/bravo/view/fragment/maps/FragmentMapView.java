@@ -199,7 +199,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
         getMap().clear();
         if (typeMaker == MAKER_BY_LOCATION_SPOT) {
-            addMaker(latitude, longitude, "").showInfoWindow();
+            addMaker(latitude, longitude, fullName);
             map.setOnMapClickListener(null);
         }
         else {

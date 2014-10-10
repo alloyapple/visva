@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +18,9 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -268,6 +271,10 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
+            boolean isFirstTime = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME);
+            if(!isFirstTime){
+                textboxSearch.setError(getSpanError("Search for spots"));
+            }
             location = getLocation();
             mMode = SEARCH_FOR_SPOT;
             listViewResult.setVisibility(View.GONE);
@@ -275,7 +282,12 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             layoutQuickSearchOptions.setVisibility(View.VISIBLE);
         }
     }
-
+    public SpannableStringBuilder getSpanError(String s) {
+        ForegroundColorSpan fgcspan = new ForegroundColorSpan(Color.BLACK);
+        SpannableStringBuilder ssbuilder = new SpannableStringBuilder(s);
+        ssbuilder.setSpan(fgcspan, 0, s.length(), 0);
+        return ssbuilder;
+    }
     @Override
     public void onResume() {
         super.onResume();
