@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
@@ -235,6 +235,32 @@ public class BravoRequestManager {
                 iRequestListener.onErrorResponse("error");
             }
         }, params, true);
+        postRegister.execute(putUserUrl);
+    }
+
+    /**
+     * request to delete bravo picture of my spot
+     */
+    public void requestToDeleteBravoImage(ObBravo obBravo, final IRequestListener iRequestListener, FragmentBasic fragmentBasic) {
+        int _loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(mContext, _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+        String putUserUrl = BravoWebServiceConfig.URL_DELETE_BRAVO_PIC.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{Bravo_ID}", obBravo.Bravo_ID).replace("{Pic_Index}", "0");
+        AsyncHttpDelete postRegister = new AsyncHttpDelete(mContext, new AsyncHttpResponseProcess(mContext, fragmentBasic) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("reponse after delete bravo image:" + response);
+                /* go to home screen */
+                iRequestListener.onResponse(response);
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                iRequestListener.onErrorResponse("error");
+            }
+        }, null, true);
         postRegister.execute(putUserUrl);
     }
 
