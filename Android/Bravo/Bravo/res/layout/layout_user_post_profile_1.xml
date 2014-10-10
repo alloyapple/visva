@@ -45,7 +45,7 @@
                 android:background="@drawable/color_button"
                 android:baselineAligned="true"
                 android:gravity="center"
-                android:text="@string/btn_bravos"
+                android:text="@string/mydata_bravo_many"
                 android:textColor="@color/grey_2"
                 android:textStyle="bold" />
         </LinearLayout>

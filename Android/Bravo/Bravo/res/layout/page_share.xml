@@ -35,7 +35,7 @@
         android:layout_marginTop="30dp"
         android:lines="3"
         android:background="@drawable/input_user_login"
-        android:hint="@string/email_address"
+        android:hint="@string/forgot_mailaddress"
         android:inputType="textEmailAddress"
         android:paddingLeft="10dp"
         android:textColor="@color/black" />
@@ -57,7 +57,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/share_on_facebook"
+            android:text="@string/share_action_facebook"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -69,7 +69,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/share_on_twitter"
+            android:text="@string/share_action_twitter"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -81,7 +81,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/share_on_line"
+            android:text="@string/share_action_line"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>

@@ -27,7 +27,7 @@
             android:layout_toRightOf="@id/icon_saved"
             android:background="@drawable/bt_follow"
             android:gravity="center"
-            android:text="@string/btn_saved"
+            android:text="@string/bravo_info_saved"
             android:textColor="@color/black" />
 
         <TextView

@@ -23,7 +23,7 @@
             android:drawableTop="@drawable/save_bravo_off"
             android:gravity="center"
             android:paddingTop="6dp"
-            android:text="@string/save_pics_button"
+            android:text="@string/bravo_info_save"
             android:textColor="@color/black" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:drawableTop="@drawable/icon_like"
             android:gravity="center"
             android:paddingTop="6dp"
-            android:text="@string/save_pics_button"
+            android:text="@string/bravo_info_save"
             android:textColor="@color/black" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:drawableTop="@drawable/share_icon_press"
             android:gravity="center"
             android:paddingTop="6dp"
-            android:text="@string/btn_share"
+            android:text="@string/bravo_info_share"
             android:textColor="@color/black" />
     </LinearLayout>
 

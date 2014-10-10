@@ -114,7 +114,7 @@
             android:layout_centerInParent="true"
             android:layout_marginRight="@dimen/layout_or_margin_left"
             android:background="@drawable/border"
-            android:contentDescription="@string/sign_up_bravo" />
+            android:contentDescription="@string/signup_bravo" />
     </RelativeLayout>
 
     <RelativeLayout

@@ -52,7 +52,7 @@ public class FragmentForgotPassword extends FragmentBasic {
                 if (isEmailNotVaid) {
                     isEmailNotVaid = false;
                     mEditTextEmailForgot.setText("");
-                    mEditTextEmailForgot.setHint(getString(R.string.email_address));
+                    mEditTextEmailForgot.setHint(getString(R.string.forgot_mailaddress));
                     mEditTextEmailForgot.setHintTextColor(getActivity().getResources().getColor(R.color.black));
                 }
             }
@@ -79,7 +79,7 @@ public class FragmentForgotPassword extends FragmentBasic {
         } else {
             isEmailNotVaid = true;
             mEditTextEmailForgot.setText("");
-            mEditTextEmailForgot.setHint(getString(R.string.email_not_valid));
+            mEditTextEmailForgot.setHint(getString(R.string.signup_bravo_regex_error));
             mEditTextEmailForgot.setHintTextColor(getActivity().getResources().getColor(R.color.red));
         }
 

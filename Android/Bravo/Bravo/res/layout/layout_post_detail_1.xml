@@ -21,7 +21,7 @@
             android:background="@drawable/color_button"
             android:baselineAligned="true"
             android:gravity="center"
-            android:text="@string/btn_call_spot"
+            android:text="@string/store_info_tel_restaurant"
             android:textStyle="bold" />
 
         <ImageView
@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:background="@drawable/color_button"
             android:gravity="center"
-            android:text="@string/btn_view_map"
+            android:text="@string/store_info_view_map"
             android:textStyle="bold" />
     </LinearLayout>
 

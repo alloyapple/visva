@@ -63,7 +63,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_search_spot"
+                android:hint="@string/search_search_bar"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
 

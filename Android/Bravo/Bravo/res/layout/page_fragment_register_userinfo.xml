@@ -95,7 +95,7 @@
         android:layout_marginTop="@dimen/text_sign_up_term_margin_top"
         android:gravity="center"
         android:layout_gravity="center"
-        android:text="@string/sign_up_term"
+        android:text="@string/signup_terms"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/grey_4" />
 

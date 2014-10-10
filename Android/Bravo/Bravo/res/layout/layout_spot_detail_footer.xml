@@ -14,7 +14,7 @@
         android:drawablePadding="10dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="@string/btn_more_detail_spot"
+        android:text="@string/store_info_tel_restaurant"
         android:textStyle="bold" />
 
     <LinearLayout

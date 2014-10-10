@@ -23,7 +23,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/share_white_btn"
                 android:padding="15dp"
-                android:text="@string/share_on_facebook"
+                android:text="@string/share_action_facebook"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -49,7 +49,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/share_white_btn"
                 android:padding="15dp"
-                android:text="@string/share_on_twitter"
+                android:text="@string/share_action_twitter"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/share_white_btn"
                 android:padding="15dp"
-                android:text="@string/share_on_line"
+                android:text="@string/share_action_line"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 

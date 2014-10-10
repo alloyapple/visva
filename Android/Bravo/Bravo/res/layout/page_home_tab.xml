@@ -22,7 +22,7 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/bt_notification"
-                android:text="@string/btn_notification"
+                android:text="@string/home_notification"
                 android:textColor="#FFFFFF" >
             </Button>
 
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="@string/label_recent_post"
+            android:text="@string/home_header_section_new"
             android:textColor="#2B2B2B"
             android:textStyle="bold" />
     </LinearLayout>
