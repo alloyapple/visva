@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -30,6 +31,8 @@ import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObPutReport;
@@ -43,6 +46,7 @@ import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
+import com.sharebravo.bravo.view.fragment.userprofile.FragmentViewImage;
 import com.sharebravo.bravo.view.lib.touchview.TouchImageView;
 
 public class FragmentCoverImage extends FragmentBasic {
@@ -51,7 +55,7 @@ public class FragmentCoverImage extends FragmentBasic {
     private ImageLoader        mImageLoader        = null;
     Button                     btnClose            = null;
     TextView                   btnDownload         = null;
-    Button                     btnReport           = null;
+    Button                     btnDeleteImage      = null;
     private SessionLogin       mSessionLogin       = null;
     private int                mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     private HomeActionListener mHomeActionListener = null;
@@ -83,67 +87,17 @@ public class FragmentCoverImage extends FragmentBasic {
                 mHomeActionListener.goToBack();
             }
         });
-        btnReport = (Button) root.findViewById(R.id.btn_report);
-        btnReport.setOnClickListener(new OnClickListener() {
+        btnDeleteImage = (Button) root.findViewById(R.id.btn_delete_image);
+        btnDeleteImage.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                showDialogReport();
+                showDialogDelete();
             }
         });
         return root;
     }
 
-    private void requestToPutReport(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Foreign_ID", obBravo.User_ID);
-        subParams.put("Report_Type", "bravo");
-        subParams.put("User_ID", userId);
-        subParams.put("Detail", "");
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_PUT_REPORT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putReport = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
-            @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("response putReport :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPutReport obPutReport;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    showDialogReportOk();
-                } else {
-                    obPutReport = gson.fromJson(response.toString(), ObPutReport.class);
-                    showToast(obPutReport.error);
-                }
-            }
-
-            @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
-            }
-        }, params, true);
-        AIOLog.d(url);
-        putReport.execute(url);
-    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -171,22 +125,34 @@ public class FragmentCoverImage extends FragmentBasic {
         this.mObBravo = mObBravo;
     }
 
-    public void showDialogReport() {
+    public void showDialogDelete() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_report, null);
-        Button btnOk = (Button) dialog_view.findViewById(R.id.btn_report_yes);
+        View dialog_view = inflater.inflate(R.layout.dialog_delete_image, null);
+        Button btnOk = (Button) dialog_view.findViewById(R.id.btn_delete_yes);
         btnOk.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                requestToPutReport(mObBravo);
+                BravoRequestManager.getInstance(getActivity()).requestToDeleteBravoImage(mObBravo, new IRequestListener() {
+                    
+                    @Override
+                    public void onResponse(String response) {
+                        mHomeActionListener.requestBravoDetailInfo();
+                        showDialogRemovePhotoOk();
+                    }
+                    
+                    @Override
+                    public void onErrorResponse(String errorMessage) {
+                        AIOLog.d("Cannot remove photo");
+                    }
+                }, FragmentCoverImage.this);
             }
         });
-        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_report_no);
+        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_delete_no);
         btnCancel.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -198,18 +164,24 @@ public class FragmentCoverImage extends FragmentBasic {
         dialog.show();
     }
 
-    public void showDialogReportOk() {
+    public void showDialogRemovePhotoOk() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_report_ok, null);
-        Button btnReportClose = (Button) dialog_view.findViewById(R.id.btn_report_close);
+        View dialog_view = inflater.inflate(R.layout.dialog_removed_photo, null);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        Button btnReportClose = (Button) dialog_view.findViewById(R.id.btn_remove_photo_ok);
         btnReportClose.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
 
             }

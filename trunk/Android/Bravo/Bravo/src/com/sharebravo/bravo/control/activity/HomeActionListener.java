@@ -62,4 +62,6 @@ public interface HomeActionListener {
     public void goToMapView(Spot mSpot, int makerByLocationSpot);
 
     public void requestUpdateUserInfo();
+
+    public void requestBravoDetailInfo();
 }

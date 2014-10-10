@@ -1011,12 +1011,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         AIOLog.d("onBackPressed:" + mBackPressedToExitOnce);
         if (mBackPressedToExitOnce) {
             ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = mFragmentHomeTab.getRecentPostData();
-            BravoUtils.saveDataBeforeExit(this,obGetAllBravoRecentPosts);
+            BravoUtils.saveDataBeforeExit(this, obGetAllBravoRecentPosts);
             super.onBackPressed();
         } else {
             this.mBackPressedToExitOnce = true;
             showToast("Press again to exit");
-            new Handler().postDelayed(new Runnable() { 
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mBackPressedToExitOnce = false;
@@ -1304,5 +1304,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void requestUpdateUserInfo() {
         goToBack();
         mFragmentUserDataTab.updateAllInformation();
+    }
+
+    @Override
+    public void requestBravoDetailInfo() {
+        goToBack();
+        mFragmentRecentPostDetail.updateInfo();
     }
 }

@@ -168,7 +168,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         });
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-
         return root;
     }
 
@@ -981,6 +980,8 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
+        Button btnZoomAPicture = (Button) dialog_view.findViewById(R.id.btn_zoom_a_picture);
+        btnZoomAPicture.setVisibility(View.GONE);
         Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
         btnTakeAPicture.setOnClickListener(new OnClickListener() {
 
@@ -1250,5 +1251,16 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
     @Override
     public void goToSpotDetail() {
         mHomeActionListener.goToSpotDetail(mSpot);
+    }
+
+    public void updateInfo() {
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            adapterRecentPostDetail.updateMapView();
+            requestGetBravo();
+            requestGetFollowingCheck();
+            requestGetMyListItem();
+            requestGetComments();
+            requestGetLikeItem();
+        }
     }
 }

@@ -75,7 +75,7 @@ public class BravoWebServiceConfig {
     public static final String URL_DELETE_BLOCKING                  = URL_BRAVO_BASE
                                                                             + "/user/{User_ID}/blocking/{User_ID_Other}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_BRAVO_PIC                 = URL_BRAVO_BASE
-                                                                            + "/bravo/{Bravo_ID}/pic/{Pic_Index}?User_ID={str}&Access_Token={str}";
+                                                                            + "/bravo/{Bravo_ID}/pic/{Pic_Index}?User_ID={User_ID}&Access_Token={Access_Token}";
     public static final String URL_DELETE_COMMENT                   = URL_BRAVO_BASE
                                                                             + "/comment/{Comment_ID}?User_ID={str}&Access_ToUser_IDken={str}";
     public static final String URL_DELETE_FOLLOWING                 = URL_BRAVO_BASE

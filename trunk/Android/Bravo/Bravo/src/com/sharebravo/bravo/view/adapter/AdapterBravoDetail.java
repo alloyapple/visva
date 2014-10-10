@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.internal.ly;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.model.SessionLogin;
@@ -35,14 +34,12 @@ import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 
 public class AdapterBravoDetail extends BaseAdapter {
     private Context             mContext;
-    // private ArrayList<String> commentsData = new ArrayList<String>();
     private DetailBravoListener listener;
     private ObBravo             bravoObj             = null;
     private ObGetComments       mObGetComments       = null;
     private ImageLoader         mImageLoader         = null;
     private Spot                mSpot                = null;
     FragmentBravoDetail         fragment;
-    // FragmentTransaction transaction;
     private SessionLogin        mSessionLogin        = null;
     private int                 mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
     private int                 lastTopValueAssigned = 0;
@@ -54,7 +51,6 @@ public class AdapterBravoDetail extends BaseAdapter {
         mLoginBravoViaType = BravoSharePrefs.getInstance(context).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(context, mLoginBravoViaType);
         fragmentTransaction = fragment.getChildFragmentManager().beginTransaction();
-
     }
 
     public void setListener(DetailBravoListener listener) {
@@ -153,14 +149,12 @@ public class AdapterBravoDetail extends BaseAdapter {
                     mapFragment = new FragmentMapCover();
                     fragmentTransaction.replace(R.id.img_map, mapFragment).commit();
                 }
-
             }
 
             spotName.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     listener.goToSpotDetail();
                 }
             });
@@ -187,6 +181,7 @@ public class AdapterBravoDetail extends BaseAdapter {
                 layoutMapview.setVisibility(View.VISIBLE);
             } else {
                 layoutMapview.setVisibility(View.GONE);
+                btnChooseImage.setVisibility(View.GONE);
                 mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, imagePost, false);
             }
             if (mSpot != null) {
@@ -250,7 +245,8 @@ public class AdapterBravoDetail extends BaseAdapter {
                 btnFollow.setVisibility(View.GONE);
                 layoutLiked.setVisibility(View.VISIBLE);
                 layoutSaved.setVisibility(View.VISIBLE);
-                btnChooseImage.setVisibility(View.VISIBLE);
+                if (StringUtility.isEmpty(imgSpotUrl))
+                    btnChooseImage.setVisibility(View.VISIBLE);
             }
             else {
                 followIcon.setVisibility(View.VISIBLE);
@@ -361,7 +357,7 @@ public class AdapterBravoDetail extends BaseAdapter {
             // if (convertView == null) {
             ViewHolderComment holderComment = new ViewHolderComment();
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_comment_content_undo_2, null, false);
+            convertView = inflater.inflate(R.layout.row_comment_content_undo, null, false);
             holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
             holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
             holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
