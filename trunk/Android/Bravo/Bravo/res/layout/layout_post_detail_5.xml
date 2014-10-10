@@ -27,7 +27,7 @@
             android:layout_toRightOf="@id/icon_liked"
             android:background="@drawable/bt_follow"
             android:gravity="center"
-            android:text="@string/btn_liked"
+            android:text="@string/bravo_info_liked"
             android:textColor="@color/black" />
 
         <TextView

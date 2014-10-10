@@ -9,10 +9,12 @@
     <string name="network_unvailable">Network is not available</string>
     <string name="failed_to_conect_server">Failed to connect to server</string>
     <string name="unknown">Unknown</string>
-    <string name="welcome">Welcome to Bravo!</string>
-    <string name="welcome_content">First let\' take a look\n at the latest post on Bravo!</string>
+    <string name="welcome_alert_title">Welcome to Bravo!</string>
+    <string name="welcome_alert_text">First let\' take a look\n at the latest post on Bravo!</string>
     <string name="picture_share_fb">https://c4.staticflickr.com/4/3923/15229819096_db573bc162_t.jpg</string>
-    <string name="btn_start">Start</string>
+    <string name="welcome_alert_start">Start</string>
+    <string name="policy_url">https://sharebravo.com/rule/en</string>
+
     <!-- Location provider -->
     <string name="invalid_action">Invalid intent action %1$s</string>
     <string name="invalid_integer_id">Invalid integer request ID: %1$s</string>
@@ -32,12 +34,18 @@
 
     <!-- Login/Register -->
     <string name="intro_logo_label">The shop app \nthat\'s taking the \nworld by storm!</string>
-    <string name="reset_password">Reset password</string>
+    <string name="non_exist_mailaddress_error_text">The email address you entered is not registered</string>
+    <string name="submit_forgot_mail_title">An email was sent to %s with instructions on how to reset you password.</string>
+    <string name="submit_forgot_mail_text">Click on the link in the email to proceed.</string>
+    <string name="login_error_wrong">Please check your email address and password</string>
+    <string name="login_error_same">A user with this info has already been registered</string>
+    <string name="login_error_disconnect">Unable to connect.\nPlease try again</string>
+    <string name="forgot_submit">Reset password</string>
     <string name="intro_signup">Register</string>
-    <string name="sign_up_facebook">Sign up with Facebook</string>
-    <string name="sign_up_twitter">Sign up with Twitter</string>
-    <string name="sign_up_4square">Sign up with Foursquare</string>
-    <string name="sign_up_bravo">Sign up with Bravo!</string>
+    <string name="signup_facebook">Sign up with Facebook</string>
+    <string name="signup_twitter">Sign up with Twitter</string>
+    <string name="signup_foursquare">Sign up with Foursquare</string>
+    <string name="signup_bravo">Sign up with Bravo!</string>
     <string name="login_facebook">Login with Facebook</string>
     <string name="login_twitter">Login with Twitter</string>
     <string name="login_4square">Login with Foursquare</string>
@@ -46,36 +54,42 @@
     <string name="pick_image">Pick An Image</string>
     <string name="text_new_user_registration">New User Registration</string>
     <string name="text_user_name">Name</string>
-    <string name="email_address">Email address</string>
+    <string name="forgot_mailaddress">Email address</string>
     <string name="pass_word">Password</string>
-    <string name="forgot_password">Forgot password?</string>
+    <string name="login_bravo_forgot_password">Forgot password?</string>
     <string name="intro_login">Login</string>
+    <string name="login_error_title">Login Failure</string>
     <string name="done">Done</string>
-    <string name="sign_up_term">By signing up,you agree to\n the Terms of Service.</string>
+    <string name="signup_terms">By signing up,you agree to\n the Terms of Service.</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="email_is_empty">Please enter your Email address</string>
-    <string name="email_not_valid">Please enter a valid Email address</string>
+    <string name="signup_bravo_regex_error">Please enter a valid Email address</string>
     <string name="password_is_empty">Please enter your Password</string>
-    <string name="password_not_valid">Your password must be at least 8 characters.</string>
+    <string name="signup_bravo_password_error">Your password must be at least 8 characters.</string>
     <string name="sharedtext_is_empty">Please enter text to share.</string>
     <string name="username_is_empty">Please enter your Name</string>
     <string name="username_password_not_valid">User name or password not correct</string>
     <string name="tab_home">Home</string>
     <string name="tab_feed">Network</string>
-    <string name="tab_search">Search</string>
+    <string name="feed_nothing_search_button">Search</string>
     <string name="tab_mydata">My Data</string>
+
     <!-- +++++ -->
 
 
     <!-- Home -->
-    <string name="label_recent_post">Recent Posts</string>
-    <string name="btn_notification">Notifications</string>
+    <string name="home_header_section_news">News</string>
+    <string name="home_header_section_new">Recent Posts</string>
+    <string name="home_notification">Notifications</string>
     <string name="btn_close">Close</string>
     <string name="btn_back">Back</string>
     <string name="btn_setting">Settings</string>
     <string name="friends_search_input">Search for friends</string>
-    <string name="hint_search_spot">Search for spots</string>
+    <string name="search_search_bar">Search for spots</string>
+    <string name="search_header_section_restaurant">Spots</string>
+    <string name="search_location_unable_title">Search local spots?</string>
+    <string name="search_location_unable_sub">You can enable your phone\'s location services in your privacy settings.</string>
     <!-- +++++ -->
 
 
@@ -114,33 +128,41 @@
     <string name="deleted_user_full_name">Deleted User</string>
 
     <!-- Post Detail -->
-    <string name="btn_call_spot">Call Spot</string>
-    <string name="btn_view_map">View Map</string>
+    <string name="store_info_tel_restaurant">Call Spot</string>
+    <string name="store_info_call_check">Call %s?</string>
+    <string name="store_info_view_map">View Map</string>
+    <string name="store_info_fan_many">Top Fans</string>
     <string name="btn_follow">Follow</string>
     <string name="btn_favorites">Favorites</string>
-    <string name="btn_liked">Liked</string>
-    <string name="btn_saved">Saved</string>
-    <string name="save_pics_button">Save</string>
+    <string name="bravo_info_like"> Like</string>
+    <string name="bravo_info_liked">Liked</string>
+    <string name="bravo_info_saved">Saved</string>
+    <string name="bravo_info_save">Save</string>
     <string name="save_pics">Save Photo</string>
     <string name="save_picture_complete">Photo saved</string>
     <string name="delete_picture_alert_title">Remove Photo</string>
     <string name="delete_picture_alert_text">Would you remove this photo?</string>
     <string name="delete_picture_complete">Removed photo</string>
+    <string name="delete_picture_indicator">Removing photo...</string>
     <string name="cancel_save_pics">Cancel</string>
-    <string name="btn_share">Share</string>
-    <string name="hint_input_comment">Write a comment ...</string>
+    <string name="bravo_info_share">Share</string>
+    <string name="more_comment">View previous comments...</string>
+    <string name="comment_text_field">Write a comment ...</string>
     <string name="report_button_bravo">Report inappropriate bravo</string>
     <string name="report_button_spot">Report inappropriate spot</string>
     <string name="report_alert_title">Report inappropriate content</string>
     <string name="report_alert_text_for_bravo">Would you like to report this bravo for inappropriate content?</string>
     <string name="report_alert_text_for_image">Would you like to report this photo for inappropriate content?</string>
     <string name="report_alert_text_for_spot">Would you like to report this spot for inappropriate content?</string>
-    <string name="btn_post">Post</string>
+    <string name="comment_submit">Post</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
-    <string name="share_on_facebook">Share on Facebook</string>
-    <string name="share_on_twitter">Share on Twitter</string>
-    <string name="share_on_line">Share on Line</string>
+    <string name="share_action_facebook">Share on Facebook</string>
+    <string name="share_action_twitter">Share on Twitter</string>
+    <string name="share_action_line">Share on Line</string>
+    <string name="share_complete_facebook">Shared on Facebook</string>
+    <string name="share_complete_twitter">Shared on Twitter</string>
+    <string name="input_share_placeholder">About this bravo.</string>
     <string name="share_cancel">Cancel</string>
     <string name="dialog_stop_following_msg">Stop following this user?</string>
     <string name="report_alert_title_finish ">You have submitted a report for inappropriate content.</string>
@@ -151,12 +173,14 @@
     <string name="btn_ok">OK</string>
     <string name="content_following">You are following %s</string>
     <string name="share_bravo_on_sns_text">Share %s Bravos</string>
+    <string name="search_how_many_bravo">%s Bravo</string>
+    <string name="search_how_many_bravos">%s Bravos</string>
     <string name="share_indicator">Sharing...</string>
     <!-- +++++ -->
 
 
     <!-- Use profile -->
-    <string name="btn_bravos">Bravos</string>
+    <string name="mydata_bravo_many">Bravos</string>
     <string name="total_0_bravo">0</string>
     <string name="btn_followings">Following</string>
     <string name="total_0_following">0</string>
@@ -173,6 +197,17 @@
     <string name="tap_to_undo">Tap to undo</string>
     <string name="profile_action_zoom_pic">Zoom a Picture</string>
     <string name="mylist_nothing_title">Your favorite spots will be listed here.</string>
+    <string name="signup_bravo_action_title">Add Profile Picture</string>
+    <string name="signup_bravo_action_take_pic">Take a Picture</string>
+    <string name="signup_bravo_action_select_lib">Choose from Library</string>
+    <string name="signup_bravo_action_sns_regist">Use %s Picture</string>
+    <string name="signup_bravo_action_cancel">Cancel</string>
+    <string name="signup_bravo_explain">New User Registration</string>
+    <string name="signup_bravo_name">Name</string>
+    <string name="signup_bravo_mailaddress">Email address</string>
+    <string name="signup_bravo_password">Password</string>
+    <string name="signup_bravo_regist">Done</string>
+    <string name="signup_error_title">Registration Failure"</string>
     <!-- +++++ -->
 
 
@@ -209,6 +244,10 @@
     <string name="search_quick_following">People I\'m following</string>
     <string name="search_quick_header">Quick spot search</string>
     <string name="search_result_nothing">Unable to find your spot?\nYou can easily add it!</string>
+    <string name="search_result_nothing_bravo">Unable to find any bravos nearby.</string>
+    <string name="search_result_nothing_follower_bravo">Unable to find any of your followers\' bravos nearby.</string>
+    <string name="search_add_store_title">Complete</string>
+    <string name="search_add_store_text">You have successfully added a spot!</string>
 
     <!-- Pull To Refresh -->
     <string name="pull_refresh_pull_down">Pull down to update...</string>
@@ -241,6 +280,11 @@
     <string name="post_default_bravo_area">Favorite</string>
     <string name="bravo_add_action_zoom_pic">Zoom a Picture</string>
     <string name="bravo_count">You have already spent a Bravo today so please come back tomorrow!</string>
+    <string name="post_bravo_message">You spent a bravo on a %1$s in %2$s.</string>
+    <string name="post_unknown_bravo_message">You spent a bravo in %s.</string>
+    <string name="post_locale_address">%1$s, %2$s"</string>
+    <string name="post_bravo_message_special">You have spent a bravo.</string>
+    <string name="feed_nothing_text">Search for friends to follow.</string>
 
     <!-- Version Manager -->
     <string name="update_now">Update Now</string>
@@ -251,14 +295,19 @@
     <string name="confirm_bravo_spot">Are you sure you want to Bravo this spot?</string>
     <string name="msg_please_locate_your_spot">Please locate your spot on the map.</string>
     <!-- my Spot -->
-    <string name="title_name">Name</string>
-    <string name="title_category">Categroy</string>
-    <string name="title_genre">Genre</string>
-    <string name="title_adress">Address</string>
+    <string name="add_store_name">Name</string>
+    <string name="add_store_category">Categroy</string>
+    <string name="add_store_genre">Genre</string>
+    <string name="add_store_address">Address</string>
     <string name="input_hint_my_spot">Please enter your</string>
-    <string name="btn_add">Add</string>
-    <string name="btn_tap_to_bravo">Tap here to Bravo!</string>
-    <string name="btn_more_detail_spot">More Detail On Forsquare</string>
+    <string name="add_store_name_nothing">Please enter the store name.</string>
+    <string name="add_store_category_nothing">Please enter the store category.</string>
+    <string name="add_store_address_nothing">Please enter the store address.</string>
+    <string name="add_store_genre_nothing">Please enter the store gunre.</string>
+    <string name="add_store_map">Please locate your spot on the map.</string>
+    <string name="add_store_add_button">Add</string>
+    <string name="store_inst_pop">Tap here to Bravo!</string>
+    <string name="more_details_on_foursquare">More Detail On Forsquare</string>
     <string name="notification_follow">%s is now following you.</string>
     <string name="notification_save_bravo" formatted="false">%s has been added to %n \'s favorites list.</string>
     <string name="notification_post_comment"> %s has been got some comments.</string>

@@ -18,7 +18,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:gravity="center"
-            android:text="@string/welcome"
+            android:text="@string/welcome_alert_title"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -38,7 +38,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="@string/welcome_content"
+            android:text="@string/welcome_alert_text"
             android:textColor="@color/black" />
 
         <Button
@@ -50,7 +50,7 @@
             android:background="@drawable/btn_start"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:text="@string/btn_start"
+            android:text="@string/welcome_alert_start"
             android:textColor="@color/white" />
     </LinearLayout>
 

@@ -34,7 +34,7 @@
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="3dp"
             android:background="@drawable/bt_setting"
-            android:text="@string/btn_add"
+            android:text="@string/add_store_add_button"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" >
@@ -116,7 +116,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:text="@string/title_name"
+                    android:text="@string/add_store_name"
                     android:textColor="@color/grey"
                     android:textStyle="bold" />
 
@@ -156,7 +156,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:text="@string/title_category"
+                    android:text="@string/add_store_category"
                     android:textColor="@color/grey"
                     android:textStyle="bold" />
 
@@ -195,7 +195,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:text="@string/title_genre"
+                    android:text="@string/add_store_genre"
                     android:textColor="@color/grey"
                     android:textStyle="bold" />
 
@@ -235,7 +235,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:text="@string/title_adress"
+                    android:text="@string/add_store_address"
                     android:textColor="@color/grey"
                     android:textStyle="bold" />
 

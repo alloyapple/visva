@@ -22,7 +22,7 @@
             android:layout_marginTop="30dp"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:hint="@string/email_address"
+            android:hint="@string/forgot_mailaddress"
             android:inputType="textEmailAddress"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black" />
@@ -34,7 +34,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/grey_2"
-            android:contentDescription="@string/email_address" />
+            android:contentDescription="@string/forgot_mailaddress" />
 
         <EditText
             android:id="@+id/edittext_input_pass"
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/forgot_password"
+        android:text="@string/login_bravo_forgot_password"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#575757" />
 

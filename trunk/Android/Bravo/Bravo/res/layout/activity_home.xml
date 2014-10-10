@@ -229,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
-                        android:text="@string/tab_search"
+                        android:text="@string/feed_nothing_search_button"
                         android:textColor="@color/click_color" />
                 </FrameLayout>
 

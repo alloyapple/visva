@@ -77,7 +77,7 @@
             android:contentDescription="@string/app_name"
             android:scaleType="fitXY"
             android:src="@drawable/user_picture_default"
-            android:text="@string/btn_add"
+            android:text="@string/add_store_add_button"
             android:textColor="@color/white" />
     </RelativeLayout>
 

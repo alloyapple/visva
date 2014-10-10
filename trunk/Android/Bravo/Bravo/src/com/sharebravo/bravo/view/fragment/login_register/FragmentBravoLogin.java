@@ -109,7 +109,7 @@ public class FragmentBravoLogin extends FragmentBasic {
                 if (isUsernamenotValid) {
                     isUsernamenotValid = false;
                     mEditTextUserEmail.setText("");
-                    mEditTextUserEmail.setHint(getString(R.string.email_address));
+                    mEditTextUserEmail.setHint(getString(R.string.forgot_mailaddress));
                     mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.black));
                 }
             }
@@ -160,14 +160,14 @@ public class FragmentBravoLogin extends FragmentBasic {
             else {
                 isPasswordnotValid = true;
                 mEditTextPassWord.setText("");
-                mEditTextPassWord.setHint(getString(R.string.password_not_valid));
+                mEditTextPassWord.setHint(getString(R.string.signup_bravo_password_error));
                 mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.red));
                 return false;
             }
         else {
             isUsernamenotValid = true;
             mEditTextUserEmail.setText("");
-            mEditTextUserEmail.setHint(getString(R.string.email_not_valid));
+            mEditTextUserEmail.setHint(getString(R.string.signup_bravo_regex_error));
             mEditTextUserEmail.setHintTextColor(getActivity().getResources().getColor(R.color.red));
             return false;
         }

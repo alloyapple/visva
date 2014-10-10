@@ -26,7 +26,7 @@
             android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
             android:drawableLeft="@drawable/facebook_logo"
             android:gravity="center"
-            android:text="@string/sign_up_facebook"
+            android:text="@string/signup_facebook"
            android:textSize="@dimen/size_login_text"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -52,7 +52,7 @@
             android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
             android:drawableLeft="@drawable/twitter_logo"
             android:gravity="center"
-            android:text="@string/sign_up_twitter"
+            android:text="@string/signup_twitter"
             android:textSize="@dimen/size_login_text"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -78,7 +78,7 @@
             android:layout_marginLeft="@dimen/sns_login_text_view_margin_left"
             android:drawableLeft="@drawable/foursquare_logo"
             android:gravity="center"
-            android:text="@string/sign_up_4square"
+            android:text="@string/signup_foursquare"
             android:textSize="@dimen/size_login_text"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/sign_up_bravo"
+            android:text="@string/signup_bravo"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/grey_3"
             android:textStyle="bold" />
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/btn_sign_up_bravo_margin_up"
             android:background="@drawable/signup_button"
-            android:contentDescription="@string/sign_up_bravo" />
+            android:contentDescription="@string/signup_bravo" />
     </LinearLayout>
 
 </LinearLayout>
