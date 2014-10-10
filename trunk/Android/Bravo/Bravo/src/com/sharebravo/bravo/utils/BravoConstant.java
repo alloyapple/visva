@@ -92,6 +92,7 @@ public class BravoConstant {
     public static final String  PREF_KEY_SESSION_USER_INFO_VIA_TWITTER_REGISTER    = "pref_key_session_user_login_via_TWITTER_REGISTER";
     public static final String  PREF_KEY_SESSION_USER_INFO_VIA_FOURSQUARE_REGISTER = "pref_key_session_user_login_via_FOURSQUARE_REGISTER";
 
+    public static final String  PREF_KEY_FIRST_SEARCH                              = "pref_key_first_search";
     public static final String  PREF_KEY_COMMENT_NOTIFICATIONS                     = "comment";
     public static final String  PREF_KEY_FOLLOW_NOTIFICATIONS                      = "follow";
     public static final String  PREF_KEY_FAVOURITE_NOTIFICATIONS                   = "mylist";

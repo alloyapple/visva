@@ -73,9 +73,9 @@ public class AdapterHomeNotification extends BaseAdapter {
             userName = mNo.Last_Commenter_Name;
             urlAvatar = mNo.Last_Commenter_Pic;
             userID = mNo.Last_Commenter_ID;
-        } else if (mNo.Notification_Type.equals("bravo")) {
+        } /*else if (mNo.Notification_Type.equals("bravo")) {
             userName = mContext.getResources().getString(R.string.app_name);
-        } else {
+        }*/ else{
             userName = mNo.Notification_Users.get(0).Full_Name;
             urlAvatar = mNo.Notification_Users.get(0).Profile_Img_URL;
             userID = mNo.Notification_Users.get(0).User_ID;
@@ -83,14 +83,14 @@ public class AdapterHomeNotification extends BaseAdapter {
         final String userIDClick = userID;
         holder._userName.setText(userName);
 
-        if (!mNo.Notification_Type.equals("bravo")) {
+       // if (!mNo.Notification_Type.equals("bravo")) {
             if (StringUtility.isEmpty(urlAvatar)) {
                 holder._userAvatar.setImageResource(R.drawable.user_picture_default);
             } else {
                 mImageLoader.DisplayImage(urlAvatar, R.drawable.user_picture_default, holder._userAvatar, true);
             }
-        } else
-            holder._userAvatar.setImageResource(R.drawable.ic_launcher);
+//        } else
+//            holder._userAvatar.setImageResource(R.drawable.ic_launcher);
 
         holder._userAvatar.setOnClickListener(new View.OnClickListener() {
 
@@ -101,8 +101,7 @@ public class AdapterHomeNotification extends BaseAdapter {
             }
         });
         String notificationContent = "";
-        if (mNo.Notification_Type.equals("bravo")) {
-        } else if (mNo.Notification_Type.equals("follow")) {
+        if (mNo.Notification_Type.equals("follow")) {
             notificationContent = mContext.getResources().getString(R.string.notification_follow).replace("%s", userName);
         }
         else if (mNo.Notification_Type.equals("comment")) {
