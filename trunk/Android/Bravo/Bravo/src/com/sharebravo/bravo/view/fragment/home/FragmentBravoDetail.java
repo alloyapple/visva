@@ -31,6 +31,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -62,6 +63,7 @@ import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -77,30 +79,37 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewLi
 
 public class FragmentBravoDetail extends FragmentBasic implements DetailBravoListener {
 
-    private static final int             REQUEST_CODE_CAMERA      = 8001;
-    private static final int             REQUEST_CODE_GALLERY     = 8002;
-    private static final int             CROP_FROM_CAMERA         = 8003;
+    private static final int    REQUEST_CODE_CAMERA      = 8001;
+    private static final int    REQUEST_CODE_GALLERY     = 8002;
+    private static final int    CROP_FROM_CAMERA         = 8003;
 
-    private Uri                          mCapturedImageURI        = null;
-    private XListView                    listviewRecentPostDetail = null;
-    private AdapterBravoDetail           adapterRecentPostDetail  = null;
-    private Button                       btnBack;
-    private OnItemClickListener          onItemClick              = new OnItemClickListener() {
+    private Uri                 mCapturedImageURI        = null;
+    private XListView           listviewRecentPostDetail = null;
+    private AdapterBravoDetail  adapterRecentPostDetail  = null;
+    private Button              btnBack;
+    private OnItemClickListener onItemClick              = new OnItemClickListener() {
 
-                                                                      @Override
-                                                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                             @Override
+                                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                                                                      }
-                                                                  };
+                                                             }
+                                                         };
 
-    private ObBravo                      mBravoObj;
-    private SessionLogin                 mSessionLogin            = null;
-    private int                          mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
-    private Spot                         mSpot;
+    private ObBravo             mBravoObj;
+    private SessionLogin        mSessionLogin            = null;
+    private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
+    private Spot                mSpot;
+    private LinearLayout        mLayoutPoorConnection;
 
-    @Override 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_recent_post_detail_tab, container);
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mHomeActionListener = (HomeActivity) getActivity();
         listviewRecentPostDetail = (XListView) root.findViewById(R.id.listview_recent_post_detail);
         adapterRecentPostDetail = new AdapterBravoDetail(getActivity(), this);
@@ -185,7 +194,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         FragmentMapCover.mLong = mBravoObj.Spot_Longitude;
         adapterRecentPostDetail.setBravoOb(mBravoObj);
         adapterRecentPostDetail.notifyDataSetChanged();
-
     }
 
     private void onStopPullAndLoadListView() {
@@ -761,7 +769,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden && !isBackStatus()) {
+        if (!hidden && !isBackStatus() && NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
             adapterRecentPostDetail.updateMapView();
             requestGetBravo();
             requestGetFollowingCheck();

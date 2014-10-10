@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,6 +44,7 @@ import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -72,6 +74,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     private boolean          isChangeImage;
     private boolean          isChangeText;
     private Bitmap           mUserProfileImg;
+    private LinearLayout     mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +90,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
+        if (!hidden && NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
             getUserInfo();
         }
     }
@@ -103,6 +106,12 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
     }
 
     private void initializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mBtnBack = (Button) root.findViewById(R.id.btn_back_update_user_profile);
         mBtnDone = (Button) root.findViewById(R.id.btn_done_update_user_profile);
         mEditTextUserName = (EditText) root.findViewById(R.id.edittext_input_user_name);
@@ -197,7 +206,7 @@ public class FragmentUpdateUserInfo extends FragmentBasic {
                             String userAvatarUrl = mObGetUserInfo.data.Profile_Img_URL;
                             AIOLog.d("userAvatarUrl:" + userAvatarUrl);
                             if (StringUtility.isEmpty(userAvatarUrl)) {
-                                
+
                                 mImgUserPicture.setImageBitmap(null);
                                 mImgUserPicture.setImageResource(R.drawable.user_picture_default);
                             } else {

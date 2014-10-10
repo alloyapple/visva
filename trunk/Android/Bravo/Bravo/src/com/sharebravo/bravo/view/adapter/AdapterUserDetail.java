@@ -34,7 +34,7 @@ public class AdapterUserDetail extends BaseAdapter {
     private ImageLoader             mImageLoader         = null;
     private ArrayList<ObBravo>      mObGetTimeLine       = new ArrayList<ObBravo>();
     private boolean                 isFollowing          = false;
-    private boolean                 isBlocked            = true;
+    private boolean                 isBlocked            = false;
     private ImageView               mImgUserCover;
     private int                     lastTopValueAssigned = 0;
 
@@ -75,10 +75,8 @@ public class AdapterUserDetail extends BaseAdapter {
     private View makeLayoutForUserHistoryTimeLine(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        // if (convertView == null) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.row_recent_post, null);
-        // }
 
         holder = new ViewHolder();
         holder._recentPostImage = (ImageView) convertView.findViewById(R.id.img_post_recent);
@@ -167,7 +165,6 @@ public class AdapterUserDetail extends BaseAdapter {
             mObGetTimeLine.clear();
         else {
             AIOLog.d("bravoItems.size():" + bravoItems.size());
-            // ArrayList<ObBravo> newObBravos = removeIncorrectBravoItems(bravoItems);
             mObGetTimeLine = bravoItems;
         }
         notifyDataSetChanged();
@@ -185,25 +182,23 @@ public class AdapterUserDetail extends BaseAdapter {
     }
 
     private View makeLayoutForUserBasicInfo(View convertView, int position) {
-        // if (convertView == null) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.layout_user_post_profile_header, null, false);
-        // }
-        if (mObGetUserInfo != null) {
-            loadingUserImageInfo(convertView, position);
-            loadingUserProfileMessageInfo(convertView, position);
-            loadingUserBravos_FollowingInfo(convertView, position);
-            loadingUserBravoMapInfo(convertView, position);
-            loadingUserFavouriteInfo(convertView, position);
-            loadingUserFollowInfo(convertView, position);
-            loadingUserBlockInfo(convertView, position);
-        }
+        loadingUserImageInfo(convertView, position);
+        loadingUserProfileMessageInfo(convertView, position);
+        loadingUserBravos_FollowingInfo(convertView, position);
+        loadingUserBravoMapInfo(convertView, position);
+        loadingUserFavouriteInfo(convertView, position);
+        loadingUserFollowInfo(convertView, position);
+        loadingUserBlockInfo(convertView, position);
         return convertView;
     }
 
     private void loadingUserProfileMessageInfo(View convertView, int position) {
         TextView textProfileMessage = (TextView) convertView.findViewById(R.id.txt_profile_message);
-        String profileMessage = mObGetUserInfo.data.About_Me;
+        String profileMessage = null;
+        if (mObGetUserInfo != null)
+            profileMessage = mObGetUserInfo.data.About_Me;
         if (StringUtility.isEmpty(profileMessage)) {
             textProfileMessage.setVisibility(View.GONE);
         } else {
@@ -239,6 +234,7 @@ public class AdapterUserDetail extends BaseAdapter {
         Button btnFollow = (Button) convertView.findViewById(R.id.btn_following);
         followIcon.setImageResource(isFollowing ? R.drawable.following_icon : R.drawable.follow_icon);
         btnFollow.setText(isFollowing ? "Following" : "Follow");
+        AIOLog.d("isMyData:" + isMyData + ",isBlocked:" + isBlocked);
         if (isMyData || isBlocked) {
             layoutFollow.setVisibility(View.GONE);
         } else {
@@ -259,7 +255,9 @@ public class AdapterUserDetail extends BaseAdapter {
         TextView totalFavourites = (TextView) convertView.findViewById(R.id.total_favorite);
         if (isMyData) {
             layoutFavourites.setVisibility(View.VISIBLE);
-            int totalMyList = mObGetUserInfo.data.Total_My_List;
+            int totalMyList = 0;
+            if (mObGetUserInfo != null)
+                totalMyList = mObGetUserInfo.data.Total_My_List;
             if (totalMyList <= 0) {
                 totalFavourites.setText(0 + "");
             } else {
@@ -297,32 +295,35 @@ public class AdapterUserDetail extends BaseAdapter {
         TextView textTotalFollowing = (TextView) convertView.findViewById(R.id.text_total_following);
 
         TextView textTotalFans = (TextView) convertView.findViewById(R.id.text_total_fans);
-        final int totalBravos = mObGetUserInfo.data.Total_Bravos;
-        AIOLog.d("totalBravos:" + totalBravos);
-        if (totalBravos <= 0)
-            textTotalBravos.setText(0 + "");
-        else
-            textTotalBravos.setText(totalBravos + "");
+        int totalBravos = 0, totalFollowing, totalFans;
+        if (mObGetUserInfo != null) {
+            totalBravos = mObGetUserInfo.data.Total_Bravos;
+            AIOLog.d("totalBravos:" + totalBravos);
+            if (totalBravos <= 0)
+                textTotalBravos.setText(0 + "");
+            else
+                textTotalBravos.setText(totalBravos + "");
 
-        final int totalFollowing = mObGetUserInfo.data.Total_Following;
-        AIOLog.d("totalFollowing:" + totalFollowing);
-        if (totalFollowing <= 0)
-            textTotalFollowing.setText(0 + "");
-        else
-            textTotalFollowing.setText(totalFollowing + "");
+            totalFollowing = mObGetUserInfo.data.Total_Following;
+            AIOLog.d("totalFollowing:" + totalFollowing);
+            if (totalFollowing <= 0)
+                textTotalFollowing.setText(0 + "");
+            else
+                textTotalFollowing.setText(totalFollowing + "");
 
-        final int totalFans = mObGetUserInfo.data.Total_Followers;
-        AIOLog.d("totalFans:" + totalFans);
-        if (totalFans <= 0)
-            textTotalFans.setText(0 + "");
-        else
-            textTotalFans.setText(totalFans + "");
+            totalFans = mObGetUserInfo.data.Total_Followers;
+            AIOLog.d("totalFans:" + totalFans);
+            if (totalFans <= 0)
+                textTotalFans.setText(0 + "");
+            else
+                textTotalFans.setText(totalFans + "");
+        }
         LinearLayout btnTotalBravos = (LinearLayout) convertView.findViewById(R.id.btn_bravos);
         btnTotalBravos.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (totalBravos > 0)
+                if (mObGetUserInfo != null && mObGetUserInfo.data.Total_Bravos > 0)
                     mListener.goToUserTimeline();
             }
         });
@@ -341,37 +342,20 @@ public class AdapterUserDetail extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                if (totalFollowing > 0)
+                if (mObGetUserInfo != null && mObGetUserInfo.data.Total_Following > 0)
                     mListener.goToUserFollowing();
             }
         });
 
-        // textTotalFollowing.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // mListener.goToUserFollowing();
-        // }
-        // });
         LinearLayout btnTotalFans = (LinearLayout) convertView.findViewById(R.id.btn_fans);
         btnTotalFans.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (totalFans > 0)
+                if (mObGetUserInfo != null && mObGetUserInfo.data.Total_Followers > 0)
                     mListener.goToUserFollower();
             }
         });
-        /*
-         * textTotalFans.setOnClickListener(new OnClickListener() {
-         * 
-         * @Override
-         * public void onClick(View v) {
-         * mListener.goToUserFollower();
-         * }
-         * });
-         */
-
     }
 
     private void loadingUserImageInfo(View convertView, int position) {
@@ -470,7 +454,7 @@ public class AdapterUserDetail extends BaseAdapter {
     }
 
     public void setUserImage(int userImageType) {
-        notifyDataSetChanged();
+        notifyDataSetChanged(); 
     }
 
     public void parallaxImage(View view) {
@@ -494,6 +478,11 @@ public class AdapterUserDetail extends BaseAdapter {
         } else {
             mObGetTimeLine.addAll(obBravos);
         }
+        notifyDataSetChanged();
+    }
+
+    public void updateUserProfileType(boolean isMyData) {
+        this.isMyData = isMyData;
         notifyDataSetChanged();
     }
 }

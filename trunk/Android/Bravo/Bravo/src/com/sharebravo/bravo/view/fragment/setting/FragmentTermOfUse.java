@@ -12,10 +12,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 
@@ -25,10 +27,17 @@ public class FragmentTermOfUse extends FragmentBasic {
     private WebView            mWebView;
     private Button             btnBack;
     private HomeActionListener mHomeActionListener;
+    private LinearLayout       mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_term_of_use, container);
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mWebView = (WebView) root.findViewById(R.id.web_support);
         mWebView.setWebViewClient(new MyWebViewClient());
         mWebView.loadUrl(BravoWebServiceConfig.URL_BRAVO_RULE);

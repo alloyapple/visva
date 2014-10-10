@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -29,6 +30,7 @@ import com.sharebravo.bravo.model.response.ObGetUserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -50,6 +52,7 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
     private int                   mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     private EditText              textboxSearch       = null;
     private Button                btnBack;
+    private LinearLayout          mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
             public boolean onEditorAction(TextView arg0, int actionId, KeyEvent arg2) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String keySearch = textboxSearch.getEditableText().toString();
-                    if (!keySearch.equals(""))
+                    if (!keySearch.equals("") && NetworkUtility.getInstance(getActivity()).isNetworkAvailable())
                         requestUserSearch(mSessionLogin, keySearch);
                     return true;
                 }
@@ -131,6 +134,12 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
     }
 
     private void intializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mListviewUser = (XListView) root.findViewById(R.id.listview_user);
         mAdapterUser = new AdapterUserSearchList(getActivity());
         mAdapterUser.setListener(this);
@@ -159,7 +168,6 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
         });
     }
 
-    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mHomeActionListener = (HomeActionListener) getActivity();

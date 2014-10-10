@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.util.FloatMath;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -21,6 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
+import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.user.ObGetLoginedUser;
@@ -468,12 +471,53 @@ public class BravoUtils {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                //GooglePlayServicesUtil.getErrorDialog(resultCode, context, BravoConstant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                // GooglePlayServicesUtil.getErrorDialog(resultCode, context, BravoConstant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 AIOLog.e("This device is not supported.");
             }
             return false;
         }
         return true;
+    }
+
+    /**
+     * save data of recent post and user info before exiting
+     * 
+     * @param context
+     * @param obGetAllBravoRecentPosts
+     * @param obGetUserInfo
+     */
+    public static void saveDataBeforeExit(Context context, ObGetAllBravoRecentPosts obGetAllBravoRecentPosts) {
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        /* save data for recent post */
+        if (obGetAllBravoRecentPosts != null) {
+            String recentPostData = gson.toJson(obGetAllBravoRecentPosts);
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.HOME_RECENT_POST_LAST_DATA, recentPostData);
+        }
+    }
+
+    public static ObGetAllBravoRecentPosts getDataFromDb(Context context) {
+        String recentPostStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.HOME_RECENT_POST_LAST_DATA);
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = gson.fromJson(recentPostStr, ObGetAllBravoRecentPosts.class);
+        AIOLog.d("obGetAllBravoRecentPosts:" + obGetAllBravoRecentPosts);
+        return obGetAllBravoRecentPosts;
+    }
+
+    public static ObGetUserInfo getUserInfoFromDb(Context context) {
+        String userInfoStr = BravoSharePrefs.getInstance(context).getStringValue(BravoConstant.USER_INFO_LAST_DATA);
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        ObGetUserInfo obGetUserInfo = gson.fromJson(userInfoStr, ObGetUserInfo.class);
+        AIOLog.d("userInfoStr:" + obGetUserInfo);
+        return obGetUserInfo;
+    }
+
+    public static void saveUserDataBeforeExit(Context context, ObGetUserInfo obGetUserInfo) {
+        /* save data for user */
+        if (obGetUserInfo != null) {
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            String userData = gson.toJson(obGetUserInfo);
+            BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.USER_INFO_LAST_DATA, userData);
+        }
     }
 }

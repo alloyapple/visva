@@ -63,6 +63,7 @@ import com.sharebravo.bravo.foursquare.models.OFPostVenue;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObAllowBravo;
 import com.sharebravo.bravo.model.response.ObBravo;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
@@ -1009,11 +1010,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private void onBackPressedToExit() {
         AIOLog.d("onBackPressed:" + mBackPressedToExitOnce);
         if (mBackPressedToExitOnce) {
+            ObGetAllBravoRecentPosts obGetAllBravoRecentPosts = mFragmentHomeTab.getRecentPostData();
+            BravoUtils.saveDataBeforeExit(this,obGetAllBravoRecentPosts);
             super.onBackPressed();
         } else {
             this.mBackPressedToExitOnce = true;
             showToast("Press again to exit");
-            new Handler().postDelayed(new Runnable() {
+            new Handler().postDelayed(new Runnable() { 
                 @Override
                 public void run() {
                     mBackPressedToExitOnce = false;
@@ -1133,7 +1136,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToMapView(final Spot mSpot, int makerByLocationSpot) {
-        Gson gson = new GsonBuilder().serializeNulls().create();
         BravoRequestManager.getInstance(this).getNumberAllowBravo(this, new IRequestListener() {
 
             @Override
@@ -1275,7 +1277,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                                                                public void onReceive(Context context, Intent intent) {
                                                                    String alert = intent.getExtras().getString("alert");
                                                                    String badge = intent.getExtras().getString("badge");
-                                                                   String sound = intent.getExtras().getString("sound");
                                                                    String source = intent.getExtras().getString("source");
                                                                    // Waking up mobile if it is sleeping
                                                                    WakeLocker.acquire(getApplicationContext());
@@ -1294,7 +1295,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void goToDuplicateSpot(Spot mSpot, OFPostVenue mOPostVenue) {
-        // TODO Auto-generated method stub
         mFragmentDuplicateSpot.setSpot(mSpot);
         mFragmentDuplicateSpot.setOFPostVenue(mOPostVenue);
         showFragment(FRAGMENT_SPOT_DUPLICATE_ID, false);

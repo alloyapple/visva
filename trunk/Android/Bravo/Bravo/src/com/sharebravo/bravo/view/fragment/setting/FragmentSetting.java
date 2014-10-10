@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -39,6 +40,7 @@ import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
@@ -69,6 +71,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
     private UiLifecycleHelper      mUiLifecycleHelper;
     private Session.StatusCallback mFacebookCallback;
+    private LinearLayout           mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -290,6 +293,12 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     }
 
     private void initializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mTextTermOfUse = (TextView) root.findViewById(R.id.text_term_of_use);
         mTextUpdateUserInfo = (TextView) root.findViewById(R.id.text_edit_profile);
         mTextShareWithFriends = (TextView) root.findViewById(R.id.text_share_friends);
@@ -352,9 +361,10 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 getActivity().startActivity(splashIntent);
                 getActivity().finish();
             }
+
             @Override
             public void onErrorResponse(String errorMessage) {
-                
+
             }
         });
     }
@@ -484,7 +494,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
                     @Override
                     public void onErrorResponse(String errorMessage) {
-                        AIOLog.d("errorMessage: " +errorMessage);
+                        AIOLog.d("errorMessage: " + errorMessage);
                     }
                 });
     }
