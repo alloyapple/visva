@@ -53,6 +53,7 @@ import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -123,7 +124,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                // TODO Auto-generated method stub
                 if (!textboxSearch.getEditableText().toString().equals("")) {
                     if (cancelSearch.getVisibility() == View.GONE) {
                         cancelSearch.setVisibility(View.VISIBLE);
@@ -134,13 +134,11 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -148,7 +146,6 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 cancelSearch.setVisibility(View.GONE);
                 textboxSearch.setText("");
 
@@ -246,30 +243,32 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
         if (!hidden && !isBackStatus()) {
             listViewResult.setVisibility(View.GONE);
             layoutQuickSearchOptions.setVisibility(View.GONE);
-            BravoRequestManager.getInstance(getActivity()).getNumberAllowBravo(getActivity(), new IRequestListener() {
+            if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+                BravoRequestManager.getInstance(getActivity()).getNumberAllowBravo(getActivity(), new IRequestListener() {
 
-                @Override
-                public void onResponse(String response) {
-                    if (StringUtility.isEmpty(response))
-                        return;
-                    Gson gson = new GsonBuilder().serializeNulls().create();
-                    ObAllowBravo obAllowBravo = gson.fromJson(response.toString(), ObAllowBravo.class);
-                    if (obAllowBravo == null)
-                        return;
-                    AIOLog.d("obAllowBravo.data.Allow_Bravo:" + obAllowBravo.data.Allow_Bravo);
-                    int numberAllowBravo = obAllowBravo.data.Allow_Bravo;
-                    if (numberAllowBravo > 0) {
-                        requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
-                    } else {
-                        showDialogSpentBravoADay();
+                    @Override
+                    public void onResponse(String response) {
+                        if (StringUtility.isEmpty(response))
+                            return;
+                        Gson gson = new GsonBuilder().serializeNulls().create();
+                        ObAllowBravo obAllowBravo = gson.fromJson(response.toString(), ObAllowBravo.class);
+                        if (obAllowBravo == null)
+                            return;
+                        AIOLog.d("obAllowBravo.data.Allow_Bravo:" + obAllowBravo.data.Allow_Bravo);
+                        int numberAllowBravo = obAllowBravo.data.Allow_Bravo;
+                        if (numberAllowBravo > 0) {
+                            requestGet4squareVenueSearch(null, SEARCH_ARROUND_ME);
+                        } else {
+                            showDialogSpentBravoADay();
+                        }
                     }
-                }
 
-                @Override
-                public void onErrorResponse(String errorMessage) {
+                    @Override
+                    public void onErrorResponse(String errorMessage) {
 
-                }
-            }, FragmentBravoSearch.this);
+                    }
+                }, FragmentBravoSearch.this);
+            }
         }
     }
 

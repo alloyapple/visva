@@ -125,5 +125,6 @@ public class BravoConstant {
     public static final String  BRAVO                                              = "Bravo";
 
     public static final String  EXTRA_SPOT_JSON                                    = "extra_SPOT_JSON";
-
+    public static final String  HOME_RECENT_POST_LAST_DATA                         = "home_recent_post_last_data";
+    public static final String  USER_INFO_LAST_DATA                                = "user_info_last_data";
 }

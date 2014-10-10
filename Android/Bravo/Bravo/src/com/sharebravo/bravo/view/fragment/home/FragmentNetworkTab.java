@@ -36,6 +36,7 @@ import com.sharebravo.bravo.model.response.UserSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -52,7 +53,7 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewLi
 public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvatar {
     private XListView                mListviewPost            = null;
     private XListView                mListviewUser            = null;
-    private AdapterBravoList          mAdapterPost             = null;
+    private AdapterBravoList         mAdapterPost             = null;
     private AdapterUserSearchList    mAdapterUser             = null;
     private HomeActionListener       mHomeActionListener      = null;
     private ArrayList<UserSearch>    mUsers                   = new ArrayList<UserSearch>();
@@ -62,7 +63,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     private LinearLayout             layoutSearch             = null;
     private int                      mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
     private EditText                 textboxSearch            = null;
-    private ImageButton               cancelSearch;
+    private ImageButton              cancelSearch;
     private OnItemClickListener      iRecentPostClickListener = new OnItemClickListener() {
 
                                                                   @Override
@@ -80,6 +81,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
                                                                       mHomeActionListener.goToUserData(mUsers.get(pos - 1).userID);
                                                                   }
                                                               };
+    private LinearLayout             mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,13 +123,11 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -135,7 +135,6 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 cancelSearch.setVisibility(View.GONE);
                 textboxSearch.setText("");
 
@@ -148,10 +147,7 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-//            layoutSearch.setVisibility(View.GONE);
-//            mListviewPost.setVisibility(View.GONE);
-//            mListviewUser.setVisibility(View.GONE);
-            if (!isBackStatus()) {
+            if (!isBackStatus() && NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
                 requestGetTimeLine(mSessionLogin);
             }
         } else {
@@ -249,6 +245,12 @@ public class FragmentNetworkTab extends FragmentBasic implements IClickUserAvata
     }
 
     private void intializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mListviewPost = (XListView) root.findViewById(R.id.listview_post);
         mListviewUser = (XListView) root.findViewById(R.id.listview_user);
         mAdapterPost = new AdapterBravoList(getActivity(), mObGetTimelineBravo);

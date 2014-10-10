@@ -35,6 +35,7 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -63,6 +64,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
     private LinearLayout             mLayoutNoFavorite;
     private boolean                  isSortByDate;
     private ContextualUndoAdapter    mContextualUndoAdapter;
+    private LinearLayout             mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
         super.onHiddenChanged(hidden);
         if (!hidden) {
             initLocation();
-            if (!isBackStatus()) {
+            if (!isBackStatus() && NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
                 requestUserFavouriteSortByLocation();
             }
             isSortByDate = false;
@@ -201,6 +203,12 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
     }
 
     private void initializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mBtnBack = (Button) root.findViewById(R.id.btn_back);
         mBtnBack.setOnClickListener(new View.OnClickListener() {
 

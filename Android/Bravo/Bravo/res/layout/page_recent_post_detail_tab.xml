@@ -26,6 +26,23 @@
             android:textSize="@dimen/com_facebook_loginview_text_size" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_poor_connection"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/delete_favourite"
+        android:gravity="center_vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/poor_connection"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
     <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_recent_post_detail"
         android:layout_width="match_parent"

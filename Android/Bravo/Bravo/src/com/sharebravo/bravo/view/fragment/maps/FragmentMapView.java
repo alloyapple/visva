@@ -45,6 +45,7 @@ import com.sharebravo.bravo.model.response.ObGetSpotTimeline.SpotTimeline;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -103,7 +104,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
         changeLocationCover(mLat, mLong);
     }
@@ -118,7 +118,8 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
             } else if (typeMaker == MAKER_BY_LOCATION_USER) {
                 location = getLocation();
                 mLayoutTitleLocate.setVisibility(View.GONE);
-                requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
+                if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable())
+                    requestGetUserTimeLine(foreignID, location.getLatitude(), location.getLongitude());
             } else if (typeMaker == MAKER_BY_USER) {
                 mLayoutTitleLocate.setVisibility(View.VISIBLE);
                 changeLocation(mLat, mLong);
@@ -207,8 +208,6 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
                 @Override
                 public void onMapClick(LatLng point) {
-                    // TODO Auto-generated method stub
-
                     addMakerCheck(point.latitude, point.longitude, "");
                     FragmentInputMySpot.checkLat = point.latitude;
                     FragmentInputMySpot.checkLong = point.longitude;

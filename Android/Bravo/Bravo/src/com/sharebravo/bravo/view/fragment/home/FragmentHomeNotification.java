@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -35,10 +37,11 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
 
 public class FragmentHomeNotification extends FragmentBasic implements com.sharebravo.bravo.view.adapter.AdapterBravoList.IClickUserAvatar {
-    private XListView                  mListViewNotifications;
-    private TextView                   mTextNoNotifications;
-    private Button                     mBtnCloseNotifications;
-    private AdapterHomeNotification    mAdapterHomeNotification;
+    private XListView               mListViewNotifications;
+    private TextView                mTextNoNotifications;
+    private Button                  mBtnCloseNotifications;
+    private AdapterHomeNotification mAdapterHomeNotification;
+    private LinearLayout            mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +52,12 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
     }
 
     private void initializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mListViewNotifications = (XListView) root.findViewById(R.id.listview_home_notification);
         mTextNoNotifications = (TextView) root.findViewById(R.id.text_no_notification);
         mBtnCloseNotifications = (Button) root.findViewById(R.id.btn_home_close_notification);
@@ -83,9 +92,8 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        if (!hidden && !isBackStatus()) {
+        if (!hidden && !isBackStatus() && NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
             onRequestListHomeNotification();
             putUpdateBadgeNum();
         }

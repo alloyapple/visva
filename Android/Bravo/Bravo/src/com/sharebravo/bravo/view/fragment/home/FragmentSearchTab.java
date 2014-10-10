@@ -31,7 +31,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,6 +48,7 @@ import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -95,11 +95,19 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                                                                             mHomeActionListener.goToSpotDetail(mSpots.get(position - 1));
                                                                     }
                                                                 };
+    private LinearLayout            mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = (ViewGroup) inflater.inflate(R.layout.page_search_tab, null);
+        View root = (ViewGroup) inflater.inflate(R.layout.page_search_tab, container);
         mHomeActionListener = (HomeActivity) getActivity();
+        
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         cancelSearch = (ImageButton) root.findViewById(R.id.icon_cancel_search);
         textboxSearch = (EditText) root.findViewById(R.id.txtbox_search_spot);
         textboxSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -119,7 +127,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                // TODO Auto-generated method stub
                 if (!textboxSearch.getEditableText().toString().equals("")) {
                     if (cancelSearch.getVisibility() == View.GONE) {
                         cancelSearch.setVisibility(View.VISIBLE);
@@ -130,13 +137,11 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -144,7 +149,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 cancelSearch.setVisibility(View.GONE);
                 textboxSearch.setText("");
 
@@ -175,7 +179,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 onBack(mMode);
             }
         });
@@ -184,7 +187,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
@@ -225,7 +227,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 layoutQuickSearchOptions.setVisibility(View.GONE);
                 listViewResult.setVisibility(View.GONE);
                 btnBack.setVisibility(View.VISIBLE);
@@ -265,7 +266,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
             location = getLocation();
@@ -528,25 +528,21 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     @Override
     public void onLocationChanged(Location location) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -625,7 +621,6 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
 
     @Override
     public void goToAddMySpot() {
-        // TODO Auto-generated method stub
         mHomeActionListener.goToAddSpot();
     }
 }

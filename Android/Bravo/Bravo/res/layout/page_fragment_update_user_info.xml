@@ -39,6 +39,23 @@
             android:textSize="@dimen/com_facebook_loginview_text_size" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_poor_connection"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/delete_favourite"
+        android:gravity="center_vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/poor_connection"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/layout_update_user_name_image"
         android:layout_width="match_parent"
@@ -57,8 +74,8 @@
                 android:id="@+id/img_user_picture"
                 android:layout_width="@dimen/img_user_picture_width"
                 android:layout_height="@dimen/img_user_picture_height"
-                android:background="@drawable/user_picture_default"
                 android:layout_centerInParent="true"
+                android:background="@drawable/user_picture_default"
                 android:contentDescription="@string/text_new_user_registration"
                 android:scaleType="fitXY" />
 

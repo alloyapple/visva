@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -34,6 +35,7 @@ import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -48,7 +50,7 @@ import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewLi
 
 public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private XListView                mListviewRecentPost       = null;
-    private AdapterBravoList          mAdapterRecentPost        = null;
+    private AdapterBravoList         mAdapterRecentPost        = null;
     private ObGetAllBravoRecentPosts mObGetAllBravoRecentPosts = null;
     private ObGetUserInfo            mObGetUserInfo;
     private Button                   mBtnHomeNotification      = null;
@@ -68,6 +70,8 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private boolean                  isOutOfDataLoadMore;
     private String                   mRegisterId;
     private static int               mNumberOfNewNotifications = 0;
+    private LinearLayout             mLayoutRecentPostText;
+    private LinearLayout             mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +82,18 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mHomeActionListener = (HomeActivity) getActivity();
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
-        requestNewsItemsOnBravoServer(mSessionLogin);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            requestNewsItemsOnBravoServer(mSessionLogin);
+        } else {
+            mObGetAllBravoRecentPosts = BravoUtils.getDataFromDb(getActivity());
+            if (mObGetAllBravoRecentPosts != null) {
+                ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
+                mObGetAllBravoRecentPosts.data = obBravos;
+                mAdapterRecentPost.updateRecentPostList(obBravos);
+                if (mListviewRecentPost.getVisibility() == View.GONE)
+                    mListviewRecentPost.setVisibility(View.VISIBLE);
+            }
+        }
         mRegisterId = getRegistrationId(getActivity());
         isNoFirstTime = BravoSharePrefs.getInstance(getActivity()).getBooleanValue(BravoConstant.PREF_KEY_BRAVO_FISRT_TIME);
         if (!isNoFirstTime) {
@@ -100,7 +115,8 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         super.onHiddenChanged(hidden);
         if (hidden) {
             isOutOfDataLoadMore = false;
-            requestGetUserInfo();
+            if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable())
+                requestGetUserInfo();
         }
     }
 
@@ -245,6 +261,15 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     }
 
     private void intializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        mLayoutRecentPostText = (LinearLayout) root.findViewById(R.id.layout_recent_post);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+            mLayoutRecentPostText.setVisibility(View.VISIBLE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+            mLayoutRecentPostText.setVisibility(View.GONE);
+        }
         mBtnHomeNotification = (Button) root.findViewById(R.id.btn_home_notification);
         mBtnHomeNotification.setOnClickListener(new View.OnClickListener() {
 
@@ -271,7 +296,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             public void onRefresh() {
                 AIOLog.d("IOnRefreshListener");
                 int size = mObGetAllBravoRecentPosts.data.size();
-                if (size > 0)
+                if (size > 0 && NetworkUtility.getInstance(getActivity()).isNetworkAvailable())
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(0), true);
                 else
                     onStopPullAndLoadListView();
@@ -280,12 +305,11 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             @Override
             public void onLoadMore() {
                 int size = mObGetAllBravoRecentPosts.data.size();
-                if (size > 0 && !isOutOfDataLoadMore)
+                if (size > 0 && !isOutOfDataLoadMore && NetworkUtility.getInstance(getActivity()).isNetworkAvailable())
                     onPullDownToRefreshBravoItems(mObGetAllBravoRecentPosts.data.get(size - 1), false);
                 else
                     onStopPullAndLoadListView();
                 AIOLog.d("IOnLoadMoreListener");
-
             }
         });
     }
@@ -418,7 +442,6 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     }
 
     public void updateNotification(String badge, String alert, String source) {
-        // TODO Auto-generated method stub
         int numberBadge = Integer.valueOf(badge);
         mNumberOfNewNotifications += numberBadge;
         if (mNumberOfNewNotifications < 11) {
@@ -433,4 +456,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         }
     }
 
+    public ObGetAllBravoRecentPosts getRecentPostData() {
+        return mObGetAllBravoRecentPosts;
+    }
 }

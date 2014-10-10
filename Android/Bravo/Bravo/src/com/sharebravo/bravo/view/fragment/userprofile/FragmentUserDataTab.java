@@ -36,6 +36,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -58,6 +59,7 @@ import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
+import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -103,6 +105,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     private String              foreignID                = "";
     private ObGetUserTimeline   mObGetUserTimeline;
     private boolean             isOutOfDataLoadMore;
+    private LinearLayout        mLayoutPoorConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,6 +123,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     private void initializeView(View root) {
+        mLayoutPoorConnection = (LinearLayout) root.findViewById(R.id.layout_poor_connection);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            mLayoutPoorConnection.setVisibility(View.GONE);
+        } else {
+            mLayoutPoorConnection.setVisibility(View.VISIBLE);
+        }
         mBtnSettings = (Button) root.findViewById(R.id.btn_settings);
         mListViewUserPostProfile = (XListView) root.findViewById(R.id.listview_user_post_profile);
         mAdapterUserDataProfile = new AdapterUserDetail(getActivity());
@@ -143,11 +152,10 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 }
                 AIOLog.d("IOnRefreshListener:" + mObGetUserTimeline.data.size());
                 int size = mObGetUserTimeline.data.size();
-                if (size > 0 && !isOutOfDataLoadMore)
+                if (size > 0 && !isOutOfDataLoadMore && NetworkUtility.getInstance(getActivity()).isNetworkAvailable())
                     onPullDownToRefreshBravoItems(false, size);
                 else
                     onStopPullAndLoadListView();
-                onStopPullAndLoadListView();
             }
         });
         mListViewUserPostProfile.setOnScrollListener(new OnScrollListener() {
@@ -253,14 +261,36 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         super.onHiddenChanged(hidden);
         if (!hidden) {
             if (!isBackStatus()) {
-                getUserInfo(foreignID);
-                requestGetBlockingCheck();
-                requestGetFollowingCheck();
-                requestGetUserTimeLine(foreignID);
+                if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+                    getUserInfo(foreignID);
+                    requestGetBlockingCheck();
+                    requestGetFollowingCheck();
+                    requestGetUserTimeLine(foreignID);
+                } else {
+                    mObGetUserInfo = BravoUtils.getUserInfoFromDb(getActivity());
+                    if (mObGetUserInfo == null) {
+                        AIOLog.e("obGetUserInfo is null");
+                    } else {
+                        mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
+                    }
+                }
             }
+            checkUserDataType(foreignID);
         } else {
             isOutOfDataLoadMore = false;
         }
+    }
+
+    private void checkUserDataType(String foreignID) {
+        final int _loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(getActivity(), _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        if (foreignID.equals(userId)) {
+            isMyData = true;
+        } else {
+            isMyData = false;
+        }
+        mAdapterUserDataProfile.updateUserProfileType(isMyData);
     }
 
     /**
@@ -314,6 +344,9 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         AIOLog.d("BravoConstant.data" + mObGetUserInfo.data);
                         mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
                         onStopPullAndLoadListView();
+                        if (isMyData) {
+                            BravoUtils.saveUserDataBeforeExit(getActivity(), mObGetUserInfo);
+                        }
                         break;
                     default:
                         break;
@@ -338,7 +371,6 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         }
         HashMap<String, String> subParams = new HashMap<String, String>();
         subParams.put("Start", "0");
-        // subParams.put("Location", String.valueOf(mLat) + "," + String.valueOf(mLong));
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_USER_TIMELINE.replace("{User_ID}", checkingUserId);
@@ -356,9 +388,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     return;
                 }
                 else {
-                    // ArrayList<ObBravo> obBravos = removeIncorrectBravoItems(obGetUserTimeline.data);
                     ArrayList<ObBravo> obBravos = modifyIncorrectBravoItems(mObGetUserTimeline.data);
-                    // addUserNameBravoItems(obBravos);
                     mAdapterUserDataProfile.updateRecentPostList(obBravos);
                 }
                 mListViewUserPostProfile.setVisibility(View.VISIBLE);
@@ -885,7 +915,10 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     @Override
     public void goToMapView() {
-        mHomeActionListener.goToMapView(mObGetUserInfo.data.User_ID, FragmentMapView.MAKER_BY_LOCATION_USER, mObGetUserInfo.data.Full_Name);
+        if (mObGetUserInfo != null)
+            mHomeActionListener.goToMapView(mObGetUserInfo.data.User_ID, FragmentMapView.MAKER_BY_LOCATION_USER, mObGetUserInfo.data.Full_Name);
+        else
+            mHomeActionListener.goToMapView(null, FragmentMapView.MAKER_BY_LOCATION_USER, null);
     }
 
     @Override
@@ -1029,9 +1062,15 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     public void updateAllInformation() {
-        getUserInfo(foreignID);
-        requestGetBlockingCheck();
-        requestGetFollowingCheck();
-        requestGetUserTimeLine(foreignID);
+        if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+            getUserInfo(foreignID);
+            requestGetBlockingCheck();
+            requestGetFollowingCheck();
+            requestGetUserTimeLine(foreignID);
+        }
+    }
+
+    public ObGetUserInfo getUserInfo() {
+        return mObGetUserInfo;
     }
 }
