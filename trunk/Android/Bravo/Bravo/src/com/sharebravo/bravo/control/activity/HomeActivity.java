@@ -108,6 +108,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     // ======================Constant Define===============
     private static final String      PENDING_ACTION_BUNDLE_KEY      = "com.sharebravo.bravo:PendingAction";
     public static final int          REQUEST_CODE_CHECKING_BRAVO    = 1;
+    public static final int          REQUEST_CODE_TAP_HERE_BRAVO    = 2;
     public static final String       EXTRA_MESSAGE                  = "message";
 
     // private int mTab;
@@ -379,9 +380,10 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mUiLifecycleHelper.onActivityResult(requestCode, resultCode, data, null);
-        if (requestCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_CHECKING_BRAVO) {
                 goToAddSpot();
+            } else if (requestCode == REQUEST_CODE_TAP_HERE_BRAVO) {
             }
         }
     }
@@ -1150,7 +1152,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     String snsListJSON = gson.toJson(mSpot);
                     Intent bravoIntent = new Intent(HomeActivity.this, ActivityBravoChecking.class);
                     bravoIntent.putExtra(BravoConstant.EXTRA_SPOT_JSON, snsListJSON);
-                    startActivity(bravoIntent);
+                    startActivityForResult(bravoIntent, REQUEST_CODE_TAP_HERE_BRAVO);
                     overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
                 } else {
                     showDialogSpentBravoADay();

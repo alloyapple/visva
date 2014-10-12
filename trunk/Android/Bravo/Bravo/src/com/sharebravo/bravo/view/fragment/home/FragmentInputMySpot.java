@@ -45,6 +45,8 @@ import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObPostSpot;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
@@ -384,7 +386,7 @@ public class FragmentInputMySpot extends FragmentBasic implements LocationListen
         // subParams.put("Spot_Price", spot.Spot_Price);
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        FAsyncHttpPost request = new FAsyncHttpPost(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpPost request = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response mObPostSpot:" + response);

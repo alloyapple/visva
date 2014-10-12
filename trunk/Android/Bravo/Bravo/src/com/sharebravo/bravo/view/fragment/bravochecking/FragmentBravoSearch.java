@@ -19,7 +19,6 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -354,19 +353,19 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
     }
 
     private double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
-//        float pk = (float) (180 / 3.14169);
-//
-//        float a1 = lat_a / pk;
-//        float a2 = lng_a / pk;
-//        float b1 = lat_b / pk;
-//        float b2 = lng_b / pk;
-//
-//        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
-//        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
-//        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
-//        double tt = Math.acos(t1 + t2 + t3);
-//
-//        return 6366000 * tt / 1000;
+        // float pk = (float) (180 / 3.14169);
+        //
+        // float a1 = lat_a / pk;
+        // float a2 = lng_a / pk;
+        // float b1 = lat_b / pk;
+        // float b2 = lng_b / pk;
+        //
+        // float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
+        // float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
+        // float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
+        // double tt = Math.acos(t1 + t2 + t3);
+        //
+        // return 6366000 * tt / 1000;
         Location loc1 = new Location("");
         loc1.setLatitude(lat_a);
         loc1.setLongitude(lng_a);
@@ -502,9 +501,22 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                         fids.add(mOFGetVenueSearch.response.venues.get(i).id);
                         Spot newSpot = new Spot();
                         newSpot.Spot_FID = mOFGetVenueSearch.response.venues.get(i).id;
-                        newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
+                        // newSpot.Spot_Address = mOFGetVenueSearch.response.venues.get(i).location.address;
+                        String addr = mOFGetVenueSearch.response.venues.get(i).location.address;
+                        newSpot.Spot_Address = new String();
+                        if (addr != null)
+                            newSpot.Spot_Address += addr + ", ";
+                        String city = mOFGetVenueSearch.response.venues.get(i).location.city;
+                        if (city != null)
+                            newSpot.Spot_Address += city + ", ";
+                        String state = mOFGetVenueSearch.response.venues.get(i).location.state;
+                        if (state != null)
+                            newSpot.Spot_Address += state + ", ";
+                        String country = mOFGetVenueSearch.response.venues.get(i).location.country;
+                        if (country != null)
+                            newSpot.Spot_Address += country + ", ";
+                        newSpot.Spot_Address = newSpot.Spot_Address.substring(0, newSpot.Spot_Address.length() - 2);
                         newSpot.Spot_Name = mOFGetVenueSearch.response.venues.get(i).name;
-
                         if (mOFGetVenueSearch.response.venues.get(i).categories != null
                                 && mOFGetVenueSearch.response.venues.get(i).categories.size() > 0) {
                             newSpot.Spot_Icon = mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.prefix + "bg_44"
@@ -522,7 +534,7 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                         newSpot.Spot_Latitude = lat;
                         newSpot.Spot_Longitude = lon;
 
-                        newSpot.Spot_Source = "foursqure";
+                        newSpot.Spot_Source = "foursquare";
                         newSpot.Spot_Phone = mOFGetVenueSearch.response.venues.get(i).contact.phone;
 
                         mSpots.add(newSpot);

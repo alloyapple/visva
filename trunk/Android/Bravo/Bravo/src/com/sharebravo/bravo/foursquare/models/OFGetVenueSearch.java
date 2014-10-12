@@ -35,11 +35,19 @@ public class OFGetVenueSearch {
 
     public class Location {
         @SerializedName("address")
-        public String address;
+        public String            address;
         @SerializedName("lat")
-        public double lat;
+        public double            lat;
         @SerializedName("lng")
-        public double lon;
+        public double            lon;
+        @SerializedName("city")
+        public String            city;
+        @SerializedName("state")
+        public String            state;
+        @SerializedName("country")
+        public String            country;
+        @SerializedName("formattedAddress")
+        public ArrayList<String> formattedAddress;
     }
 
     public class Contact {

@@ -45,8 +45,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
-import com.sharebravo.bravo.foursquare.network.FAsyncHttpPost;
-import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.ObPostSpot;
@@ -511,8 +509,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         subParams.put("Spot_Name", spot.Spot_Name);
         subParams.put("Spot_FID", spot.Spot_FID);
         subParams.put("Spot_Source", spot.Spot_Source);
-        subParams.put("Spot_Longitude", spot.Spot_Longitude);
-        subParams.put("Spot_Latitude", spot.Spot_Latitude);
+        subParams.put("Spot_Longitude", (float)spot.Spot_Longitude);
+        subParams.put("Spot_Latitude", (float)spot.Spot_Latitude);
         subParams.put("Spot_Type", spot.Spot_Type);
         subParams.put("Spot_Genre", spot.Spot_Genre);
         subParams.put("Spot_Address", spot.Spot_Address);
@@ -520,7 +518,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         // subParams.put("Spot_Price", spot.Spot_Price);
         JSONObject jsonObject = new JSONObject(subParams);
         List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        FAsyncHttpPost request = new FAsyncHttpPost(getActivity(), new FAsyncHttpResponseProcess(getActivity()) {
+        AsyncHttpPost request = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response mObPostSpot:" + response);
