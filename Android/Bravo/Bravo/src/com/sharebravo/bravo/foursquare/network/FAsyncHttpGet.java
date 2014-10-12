@@ -12,6 +12,7 @@ import org.apache.http.params.HttpParams;
 
 import android.content.Context;
 
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 
 
@@ -73,6 +74,7 @@ public class FAsyncHttpGet extends FAsyncHttpBase {
 			HttpConnectionParams.setSoTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
 			// Lemon commented 19/04/2012
 			 HttpClient httpclient = createHttpClient(url, params);
+			 AIOLog.e("GET URL executed  : " + url + combinedParams);
 //			DefaultHttpClient httpclient = new DefaultHttpClient();
 			HttpGet httpget = new HttpGet(url + combinedParams);
 			HttpGet httpget1 = new HttpGet(url + combinedParams);

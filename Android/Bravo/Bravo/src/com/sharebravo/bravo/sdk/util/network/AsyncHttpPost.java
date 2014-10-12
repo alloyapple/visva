@@ -12,6 +12,7 @@ import org.apache.http.params.HttpParams;
 
 import android.content.Context;
 
+import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 
 /**
@@ -58,7 +59,7 @@ public class AsyncHttpPost extends AsyncHttpBase {
             HttpConnectionParams.setSoTimeout(params, BravoWebServiceConfig.NETWORK_TIME_OUT);
             HttpClient httpclient = createHttpClient(url, params);
             HttpPost httppost = new HttpPost(url);
-            
+            AIOLog.e("POST URL executed  : " + url + parameters);
             httppost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
             response = httpclient.execute(httppost);
             statusCode = NETWORK_STATUS_OK;
