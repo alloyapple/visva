@@ -34,7 +34,7 @@
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="3dp"
             android:background="@drawable/bt_setting"
-            android:text="@string/btn_setting"
+            android:text="@string/mydata_bar_button_setup"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             android:textStyle="bold" >

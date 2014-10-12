@@ -83,7 +83,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/color_button"
                 android:gravity="center"
-                android:text="@string/btn_followings"
+                android:text="@string/mydata_follow_many"
                 android:textColor="@color/grey_2"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -121,7 +121,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/color_button"
                 android:gravity="center"
-                android:text="@string/btn_fans"
+                android:text="@string/mydata_follower_many"
                 android:textColor="@color/grey_2"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bt_follow"
             android:gravity="center"
-            android:text="@string/btn_bravo_map"
+            android:text="@string/profile_bravomap"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>

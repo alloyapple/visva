@@ -27,7 +27,7 @@
             android:layout_toRightOf="@id/icon_follow"
             android:background="@drawable/bt_follow"
             android:gravity="center"
-            android:text="@string/btn_favorites"
+            android:text="@string/mydata_mylist"
             android:textColor="@color/black"
             android:textStyle="bold" />
 

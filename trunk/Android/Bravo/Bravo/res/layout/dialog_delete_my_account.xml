@@ -22,7 +22,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/delete_account_title"
+            android:text="@string/delete_bravo_info_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"
             android:textStyle="bold" />

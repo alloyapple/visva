@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:background="@drawable/bt_close"
-            android:text="@string/btn_close"
+            android:text="@string/close"
             android:textColor="#FFFFFF" >
         </Button>
     </LinearLayout>
