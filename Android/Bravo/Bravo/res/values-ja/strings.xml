@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="intro_logo_label">みんなが\n絶賛する店\n一覧アプリ</string>
+<string name="intro_login">ログイン</string>
+<string name="intro_signup">はじめて</string>
+
+<string name="policy_url">https://sharebravo.com/rule/ja</string>
+
+<string name="signup_facebook">Facebookでかんたん登録</string>
+<string name="signup_twitter">Twitterでかんたん登録</string>
+<string name="signup_foursquare">Foursquareでかんたん登録</string>
+<string name="signup_bravo">まるで初めての方はこちら</string>
+<string name="signup_terms">アカウント登録することで, Bravoの利用規約に\n同意するものと見なされます。</string>
+
+<string name="signup_bravo_action_title">あなたのプロフィール写真を設定しますか？</string>
+<string name="signup_bravo_action_take_pic">写真を撮る</string>
+<string name="signup_bravo_action_select_lib">ライブラリから選択</string>
+<string name="signup_bravo_action_sns_regist">%@の画像をつかう</string>
+<string name="signup_bravo_action_cancel">キャンセル</string>
+<string name="signup_bravo_explain">お名前と写真を登録します</string>
+<string name="signup_bravo_name">お名前</string>
+<string name="signup_bravo_mailaddress">メールアドレス</string>
+<string name="signup_bravo_password">パスワード(8文字以上)</string>
+<string name="signup_bravo_regist">登録</string>
+<string name="signup_error_title">登録に失敗しました</string>
+
+<string name="signup_bravo_empty_error">%sが入力されていません</string>
+<string name="signup_bravo_regex_error">無効なメールアドレスです</string>
+<string name="signup_bravo_password_error">パスワードは8文字以上です</string>
+
+
+<string name="login_facebook">Facebookでログイン</string>
+<string name="login_twitter">Twitterでログイン</string>
+<string name="login_foursquare">Foursquareでログイン</string>
+<string name="login_bravo">Bravo!でログイン</string>
+
+<string name="login_bravo_forgot_password">パスワードを忘れた方はこちら</string>
+<string name="login_bravo_login">ログイン</string>
+<string name="login_error_title">ログインに失敗しました</string>
+
+<string name="forgot_mailaddress">あなたのメールアドレス</string>
+<string name="forgot_submit">パスワードを再設定する</string>
+
+<string name="non_exist_mailaddress_error_text">登録されていないメールアドレスです</string>
+<string name="non_exist_mailaddress_error_title">パスワードの再設定</string>
+<string name="submit_forgot_mail_title">%@にメールを送りました</string>
+<string name="submit_forgot_mail_text">メールからパスワードを再設定してください</string>
+<string name="login_error_wrong">メールアドレスかパスワードが\n間違っています</string>
+<string name="login_error_same">そのユーザは既に登録されています</string>
+<string name="login_error_disconnect">接続に失敗しました。\nもう一度認証を行なってください。</string>
+
+
+<string name="welcome_alert_title">ようこそ！</string>
+<string name="welcome_alert_text">まずは全国の新着Bravo!を\n見てみよう！</string>
+<string name="welcome_alert_start">スタート</string>
+<string name="home_notification">お知らせ</string>
+<string name="home_header_section_news">ニュース</string>
+<string name="home_header_section_new">新着</string>
+
+<string name="notification_follow">あなたをフォローしました。</string>
+<string name="notification_save_bravo">%@をお気に入りに保存しました。</string>
+<string name="notification_post_comment">%@のブラボーにコメントがつきました。</string>
+<string name="notification_have_bravo">%@にブラボーしました。</string>
+<string name="notification_news_bravos_yesterday">昨日は世界中で %d ブラボーされました。</string>
+
+<string name="post_bravo_message">%1$@の%2$@をブラボーしました</string>
+<string name="post_unknown_bravo_message">%1$@の某店をブラボーしました</string>
+<string name="post_locale_address">%1$s %2$s</string>
+<string name="post_bravo_message_special">とっておきのお店をブラボーしました</string>
+<string name="feed_nothing_text">友達をフォローして\n素敵なお店を教えてもらおう！</string>
+<string name="feed_nothing_search_button">友達を探す</string>
+
+
+<string name="more_comment">コメントをもっと表示する</string>
+<string name="comment_text_field">コメントする</string>
+<string name="comment_submit">送信</string>
+<string name="delete_picture_indicator">写真の削除中</string>
+
+<string name="bravo_info_like">連れてって！</string>
+<string name="bravo_info_liked">連れてって！</string>
+<string name="bravo_info_save">保存する</string>
+<string name="bravo_info_saved">保存済み</string>
+<string name="bravo_info_share">共有する</string>
+<string name="share_bravo_on_sns_text">%@ のブラボーを共有しました。</string>
+<string name="share_indicator">共有中...</string>
+
+<string name="share_action_facebook">Facebookに共有する</string>
+<string name="share_action_twitter">Twitterに共有する</string>
+<string name="share_action_line">LINEに共有する</string>
+<string name="input_share_placeholder">このブラボーの説明を入力してください。</string>
+
+<string name="share_complete_facebook">Facebookに共有しました</string>
+
+
+<string name="share_complete_twitter">Twitterに共有しました</string>
+
+<string name="search_inst_pop"> まわりのお店を検索します </string>
+<string name="search_search_bar">お店の名前を検索してね</string>
+<string name="search_how_many_bravo">%dブラボーされています</string>
+<string name="search_how_many_bravos">%dブラボーされています</string>
+<string name="search_header_section_restaurant">お店</string>
+<string name="search_result_nothing">ブラボーしたい場所が見つからない？\nあなたのお気に入りの場所を追加する</string>
+<string name="search_result_nothing_bravo">近くにブラボーはありませんでした</string>
+<string name="search_result_nothing_follower_bravo">近くにフォローしている人のブラボーは\nありませんでした</string>
+<string name="search_add_store_title">お店を追加しました！</string>
+<string name="search_add_store_text">ありがとうございます！</string>
+<string name="search_add_store_button">確認</string>
+<string name="search_location_unable_title">周辺のお店を探す？</string>
+<string name="search_location_unable_sub">\"プライバシー設定\"で\n位置情報サービスを有効にできます。</string>
+
+
+<string name="add_store_name">名前</string>
+<string name="add_store_genre">ジャンル</string>
+<string name="add_store_category">カテゴリ</string>
+<string name="add_store_address">住所</string>
+<string name="add_store_name_nothing">お店の名前が入力されていません。</string>
+<string name="add_store_category_nothing">お店のカテゴリが入力されていません。</string>
+<string name="add_store_address_nothing">住所が入力されていません。</string>
+<string name="add_store_genre_nothing">ジャンルが入力されていません。</string>
+<string name="add_store_map">お店の場所を地図で教えてください</string>
+<string name="add_store_add_button">追加</string>
+
+<string name="store_inst_pop"> ここをタップしてお店をブラボー！ </string>
+<string name="more_details_on_foursquare">Foursquareでお店の詳細を見る</string>
+
+<string name="store_info_tel_restaurant">お店に電話する</string>
+<string name="store_info_call_check">%@ に電話をしますか？</string>
+<string name="store_info_view_map">地図を見る</string>
+<string name="store_info_bravo_button">このお店をブラボーする</string>
+<string name="bravo_count">Bravo!は一日一回までです。\nごめんなさい。</string>
+
+<string name="bravo_action_alert_title">こちらのお店でよろしいですか？</string>
+<string name="bravo_action_alert_no">いいえ</string>
+<string name="bravo_action_alert_yes">はい</string>
+
+<string name="bravo_after_add_picture">タップして写真を追加</string>
+<string name="bravo_after_add_picture_complete">写真を追加しました！</string>
+<string name="bravo_after_complete">完了</string>
+<string name="bravo_after_share_sns">共有</string>
+<string name="bravo_add_picture_title">ブラボーに写真を追加しますか？</string>
+<string name="bravo_add_picture_action_take_pic">写真を撮る</string>
+<string name="bravo_add_picture_action_select_lib">ライブラリから選択</string>
+<string name="bravo_add_picture_action_cancel">キャンセル</string>
+<string name="post_default_bravo_store">お店</string>
+<string name="post_default_bravo_area">とっておき</string>
+<string name="bravo_add_action_zoom_pic">拡大する</string>
+
+<string name="store_info_fan_many">この店の大ファン</string>
+<string name="mydata_bravo_many">ブラボーした数</string>
+<string name="mydata_follow_many">フォローしてる数</string>
+<string name="mydata_follower_many">ファンの数</string>
+<string name="mydata_mylist">あなたの保存リスト</string>
+<string name="profile_bravomap">この人のブラボーマップ</string>
+<string name="profile_your_bravomap">あなたのブラボーマップ</string>
+<string name="profile_bravo_button">この人をブラボーする</string>
+<string name="profile_put_block">ブロックする</string>
+<string name="profile_put_blocking">ブロックを解除する</string>
+<string name="spot_liked">連れてって</string>
+<string name="spot_saved">保存"</string>
+   
+<string name="profile_action_zoom_pic">拡大する</string>
+<string name="profile_action_take_cover_pic">カバー写真を撮る</string>
+<string name="profile_action_take_profile_pic">プロフィール写真を撮る</string>
+<string name="profile_action_cover_picture_title">あなたのカバー写真を設定しますか？</string>
+<string name="mydata_bar_button_setup">設定</string>
+<string name="alert_remove_follow_title">フォローを解除しますか？</string>
+<string name="profile_follow_alert">フォローしました♪</string>
+<string name="follow">フォローする</string>
+<string name="following">フォロー中</string>
+<string name="bravo_map">ブラボーマップ</string>
+
+<string name="mylist_tab_near">近い順</string>
+<string name="mylist_tab_save">保存順</string>
+<string name="mylist_nothing_title">気になるブラボーを保存して\n素敵な体験をしよう！</string>
+
+<string name="setup_account_table_header">アカウント設定</string>
+<string name="setup_friends_table_header">友達</string>
+<string name="setup_share_table_header">共有</string>
+<string name="setup_notification_table_header">通知設定</string>
+<string name="setup_edit_profile">プロフィールを設定する</string>
+<string name="setup_search_friends">友達を検索する</string>
+<string name="setup_share_sns_facebook">Facebook投稿</string>
+<string name="setup_share_sns_twitter">Twitter投稿</string>
+<string name="setup_share_sns_foursquare">Foursquare投稿</string>
+<string name="setup_notification_comment">コメント通知</string>
+<string name="setup_notification_follow">フォロー通知</string>
+<string name="setup_notification_mylist">保存された通知</string>
+<string name="setup_notification_total_bravo">昨日のブラボー数の通知</string>
+<string name="setup_notification_bravo">友達のブラボーの通知</string>
+<string name="setup_terms">利用規約</string>
+<string name="setup_resignation">退会する</string>
+<string name="delete_bravo_info_title">退会してもよろしいですか？</string>
+<string name="delete_bravo_info_text">退会すると今までのデータは利用できなくなります。</string>
+
+<string name="search_quick_header">かんたん周辺検索</string>
+<string name="search_quick_near_bravo">近くにあるブラボーを探す</string>
+<string name="search_quick_around">あなたが今いるお店を探す</string>
+<string name="search_quick_following">フォローしてる人のブラボーを探す</string>
+
+<string name="friends_search_input">フォローしたい友達の名前を入力してね</string>
+<string name="friends_search_facebook">Facebookから友達を探す</string>
+<string name="friends_search_twitter">Twitterから友達を探す</string>
+<string name="friends_search_foursquare">Foursquareから友達を探す</string>
+<string name="friends_search_recommend_user"> あなたにおすすめのユーザ</string>
+<string name="friends_search_result_header_section"> %@の友達</string>
+<string name="friends_search_result_nothing">Bravo!をはじめている友達がいないようです</string>
+<string name="friends_search_no_connect">%1$sに接続することで、\n%2$sの友達をさがすことができます。</string>
+<string name="friends_search_twitter_connect">Twitterと接続する</string>
+<string name="friends_search_facebook_connect">Facebookと接続する</string>
+<string name="friends_search_foursquare_connect">Foursquareと接続する</string>
+<string name="input_about_me_placeholder">プロフィールを入力してください。</string>
+<string name="btn_back">戻る</string>
+
+<string name="tab_home">ホーム</string>
+<string name="tab_feed">フォロー中</string>
+<string name="tab_search">さがす？</string>
+<string name="tab_mydata">マイデータ</string>
+
+<string name="feed_date_seconds">%d 秒前</string>
+<string name="feed_date_minuts">%d 分前</string>
+<string name="feed_date_hours">%d 時間前</string>
+<string name="feed_date_date">M月d日</string>
+<string name="date_ym">yyyy年M月</string>
+
+<string name="deleted_user_full_name">退会したユーザ</string>
+
+<string name="pull_refresh_release">指をはなして更新...</string>
+<string name="pull_refresh_pull_down">画面を引き下げて...</string>
+<string name="pull_refresh_loading">読み込み中...</string>
+
+<string name="save_pics_button">保存する</string>
+<string name="save_pics">写真を保存</string>
+<string name="save_picture_complete">写真を保存しました</string>
+<string name="delete_picture_alert_title">写真の削除</string>
+<string name="delete_picture_alert_text">この写真を削除しますか？</string>
+<string name="delete_picture_complete">写真を削除しました</string>
+<string name="cancel_save_pics">キャンセル</string>
+
+<string name="cancel">キャンセル</string>
+<string name="close">閉じる</string>
+
+<string name="camera_dismiss_retake">再撮影</string>
+<string name="camera_dismiss_use">使用</string>
+
+<string name="report_button_bravo">このブラボーを違反報告する</string>
+<string name="report_button_spot">このお店を違反報告する</string>
+<string name="report_alert_title">不適切な投稿の報告</string>
+<string name="report_alert_text_for_bravo">このブラボーを不適切な投稿として報告しますか？</string>
+<string name="report_alert_text_for_image">この写真を不適切な投稿として報告しますか？</string>
+<string name="report_alert_text_for_spot">このお店を不適切な投稿として報告しますか？</string>
+<string name="report_alert_title_finish">不適切な投稿を報告しました。</string>
+<string name="report_alert_text_finish">ご報告ありがとうございました。</string>
+<string name="report_alert_title_error">報告が失敗しました。</string>
+<string name="report_alert_text_error">再度電波の良い所でお試しください。</string>
+
+<string name="error_alert_max_following">フォロー数が上限に達しました</string>
+<string name="error_alert_insert_following">フォローが失敗しました</string>
+<string name="error_alert_max_blocking">ブロック数が上限に達しました</string>
+<string name="error_alert_insert_blocking">ブロックが失敗しました</string>
+<string name="error_alert_max_mylist">保存数が上限に達しました</string>
+<string name="error_alert_insert_mylist">保存が失敗しました</string>
+
+<string name="loading_default_title">読み込み中</string>
+
+<string name="confirm_near_store">似ているお店があります。追加しますか？</string>
+<string name="confirm_search_store">もしかしてこのお店をお探しですか？</string>
+
+<string name="new_version_avaiable">新しいバージョンがあります。今すぐアップデートしますか？</string>
+<string name="update_later">後で アップデート</string>
+<string name="update_now">アップデート</string>
+</resources>

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:text="@string/dialog_stop_following_msg"
+            android:text="@string/alert_remove_follow_title"
             android:textColor="@color/black"
             android:textStyle="bold" />
 

@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bt_follow"
             android:gravity="center"
-            android:text="@string/btn_follow" />
+            android:text="@string/follow" />
     </LinearLayout>
 
 </LinearLayout>

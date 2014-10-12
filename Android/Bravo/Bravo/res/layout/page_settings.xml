@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/account"
+                    android:text="@string/setup_account_table_header"
                     android:textColor="@color/grey_3"
                     android:textStyle="bold" />
 
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/edit_profile"
+                    android:text="@string/setup_edit_profile"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
                     android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                    android:text="@string/friends"
+                    android:text="@string/setup_friends_table_header"
                     android:textColor="@color/grey_3"
                     android:textStyle="bold" />
 
@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/share_with_friends"
+                    android:text="@string/setup_search_friends"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -163,7 +163,7 @@
                     android:drawableLeft="@drawable/facebook_logo"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/post_on_facebook"
+                    android:text="@string/setup_share_sns_facebook"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -198,7 +198,7 @@
                     android:drawableLeft="@drawable/twitter_logo"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/post_on_twitter"
+                    android:text="@string/setup_share_sns_twitter"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -233,7 +233,7 @@
                     android:drawableLeft="@drawable/foursquare_logo"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/post_on_foursquare"
+                    android:text="@string/setup_share_sns_foursquare"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -272,7 +272,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
                     android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                    android:text="@string/notifications"
+                    android:text="@string/home_notification"
                     android:textColor="@color/grey_3"
                     android:textStyle="bold" />
 
@@ -293,7 +293,7 @@
                     android:layout_marginTop="10dp"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/comment_notifications"
+                    android:text="@string/setup_notification_comment"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -328,7 +328,7 @@
                     android:layout_marginTop="10dp"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/follow_notifications"
+                    android:text="@string/setup_notification_follow"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -363,7 +363,7 @@
                     android:layout_marginTop="10dp"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/favourite_notifications"
+                    android:text="@string/setup_notification_mylist"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -398,7 +398,7 @@
                     android:layout_marginTop="10dp"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/total_bravo_notifications"
+                    android:text="@string/setup_notification_total_bravo"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -433,7 +433,7 @@
                     android:layout_marginTop="10dp"
                     android:drawablePadding="15dp"
                     android:gravity="center_vertical"
-                    android:text="@string/bravo_notifications"
+                    android:text="@string/setup_notification_bravo"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -478,7 +478,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/term_of_use"
+                    android:text="@string/setup_terms"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -493,7 +493,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/delete_my_account"
+                    android:text="@string/setup_resignation"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 

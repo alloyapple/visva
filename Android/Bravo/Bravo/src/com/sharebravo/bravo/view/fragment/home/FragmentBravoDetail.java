@@ -955,7 +955,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         View dialog_view = inflater.inflate(R.layout.dialog_following, null);
         Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
         TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
-        txtContent.setText(getActivity().getResources().getString(R.string.content_following).replace("%s", mBravoObj.Full_Name));
+        txtContent.setText(getActivity().getResources().getString(R.string.profile_follow_alert).replace("%s", mBravoObj.Full_Name));
         btnOK.setOnClickListener(new OnClickListener() {
 
             @Override

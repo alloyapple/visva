@@ -28,7 +28,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="@string/content_following"
+            android:text="@string/profile_follow_alert"
             android:textColor="@color/black" />
 
         <Button

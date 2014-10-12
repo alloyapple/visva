@@ -177,8 +177,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
+                        android:singleLine="true"
                         android:text="@string/tab_home"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_home_tabs" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -200,8 +202,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
+                        android:singleLine="true"
                         android:text="@string/tab_feed"
-                        android:textColor="@color/click_color" />
+                        android:textColor="@color/click_color"
+                        android:textSize="@dimen/text_home_tabs" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -229,8 +233,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:gravity="center_horizontal"
+                        android:singleLine="true"
                         android:text="@string/feed_nothing_search_button"
-                        android:textColor="@color/click_color" />
+                        android:textColor="@color/click_color"
+                        android:textSize="@dimen/text_home_tabs" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -251,9 +257,12 @@
                         android:layout_width="@dimen/width_btn_tab"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
+                        android:ellipsize="end"
                         android:gravity="center_horizontal"
+                        android:singleLine="true"
                         android:text="@string/tab_mydata"
-                        android:textColor="@color/click_color" />
+                        android:textColor="@color/click_color"
+                        android:textSize="@dimen/text_home_tabs" />
                 </FrameLayout>
             </LinearLayout>
         </FrameLayout>
