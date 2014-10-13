@@ -1,9 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/navigation_background"
@@ -21,8 +22,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_network_search"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_network_search"
+        android:layout_below="@id/layout_top"
         android:background="@drawable/search_background" >
 
         <LinearLayout
@@ -58,11 +61,11 @@
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
+    <LinearLayout
         android:id="@+id/layout_quicksearch_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/layout_network_search"
         android:layout_marginTop="10dp"
         android:orientation="vertical" >
 
@@ -148,9 +151,10 @@
         android:id="@+id/listview_result_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/layout_network_search"
         android:background="@color/white" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
     <!-- <include layout="@layout/layout_search_result_footer" /> -->
 
-</LinearLayout>
+</RelativeLayout>

@@ -110,6 +110,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public static final int          REQUEST_CODE_CHECKING_BRAVO    = 1;
     public static final int          REQUEST_CODE_TAP_HERE_BRAVO    = 2;
     public static final String       EXTRA_MESSAGE                  = "message";
+    private static final int         NOT_SHOW_FRAGMENT              = 0;
+    private static final int         SHOW_ANIMATION_TO_LEFT         = 1;
+    private static final int         SHOW_ANIMATION_TO_RIGHT        = 2;
 
     // private int mTab;
 
@@ -311,9 +314,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             backstackID = backstackHome;
             hideTabButton();
             if (backstackID.size() == 0) {
-                showFragment(FRAGMENT_HOME_TAB_ID, false);
+                showFragment(FRAGMENT_HOME_TAB_ID, false, NOT_SHOW_FRAGMENT);
             } else {
-                showFragment(getTopBackStack(), true);
+                showFragment(getTopBackStack(), true, NOT_SHOW_FRAGMENT);
             }
             btnHome.setBackgroundResource(R.drawable.tab_home_on);
             txtHome.setTextColor(Color.WHITE);
@@ -323,9 +326,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             backstackID = backstackNetwork;
             hideTabButton();
             if (backstackID.size() == 0) {
-                showFragment(FRAGMENT_NETWORK_TAB_ID, false);
+                showFragment(FRAGMENT_NETWORK_TAB_ID, false, NOT_SHOW_FRAGMENT);
             } else {
-                showFragment(getTopBackStack(), true);
+                showFragment(getTopBackStack(), true, NOT_SHOW_FRAGMENT);
             }
             btnNetwork.setBackgroundResource(R.drawable.tab_feed_on);
             txtNetwork.setTextColor(Color.WHITE);
@@ -342,9 +345,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             backstackID = backstackSearch;
             hideTabButton();
             if (backstackID.size() == 0) {
-                showFragment(FRAGMENT_SEARCH_TAB_ID, false);
+                showFragment(FRAGMENT_SEARCH_TAB_ID, false, NOT_SHOW_FRAGMENT);
             } else {
-                showFragment(getTopBackStack(), true);
+                showFragment(getTopBackStack(), true, NOT_SHOW_FRAGMENT);
             }
             btnSearch.setBackgroundResource(R.drawable.tab_search_on);
             txtSearch.setTextColor(Color.WHITE);
@@ -354,9 +357,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             backstackID = backstackMyData;
             mFragmentUserDataTab.setForeignID(userId);
             if (backstackID.size() == 0) {
-                showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
+                showFragment(FRAGMENT_USER_DATA_TAB_ID, false, NOT_SHOW_FRAGMENT);
             } else {
-                showFragment(getTopBackStack(), true);
+                showFragment(getTopBackStack(), true, NOT_SHOW_FRAGMENT);
             }
             hideTabButton();
             btnMyData.setBackgroundResource(R.drawable.tab_mydata_on);
@@ -460,7 +463,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentDuplicateSpot = (FragmentDuplicateSpot) mFmManager.findFragmentById(R.id.fragment_duplicate_spot);
 
         mFragmentUserDataTab.setListener(this);
-        showFragment(FRAGMENT_HOME_TAB_ID, false);
+        showFragment(FRAGMENT_HOME_TAB_ID, false, NOT_SHOW_FRAGMENT);
     }
 
     private void initializeUITab() {
@@ -489,8 +492,8 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         txtMyData.setTextColor(getResources().getColor(R.color.click_color));
     }
 
-    private void showFragment(int fragment, boolean isback) {
-        mTransaction = hideFragment();
+    private void showFragment(int fragment, boolean isback, int fragmentAnimationType) {
+        mTransaction = hideFragment(fragmentAnimationType);
         switch (fragment) {
         case FRAGMENT_HOME_TAB_ID:
             mFragmentHomeTab.setBackStatus(isback);
@@ -593,8 +596,12 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction.commit();
     }
 
-    public FragmentTransaction hideFragment() {
+    public FragmentTransaction hideFragment(int fragmentAnimationType) {
         mTransaction = mFmManager.beginTransaction();
+        if (fragmentAnimationType == 1)
+            mTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.fade_in);
+        else
+            mTransaction.setCustomAnimations(0, R.anim.slide_in_left);
         mTransaction.hide(mFragmentHomeTab);
         mTransaction.hide(mFragmentNetworkTab);
         mTransaction.hide(mFragmentSearchTab);
@@ -630,7 +637,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void goToRecentPostDetail(ObBravo obGetBravo) {
         mFragmentRecentPostDetail.setBravoOb(obGetBravo);
-        showFragment(FRAGMENT_RECENT_POST_DETAIL_ID, false);
+        showFragment(FRAGMENT_RECENT_POST_DETAIL_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     public int getTopBackStack() {
@@ -656,13 +663,13 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         }
         AIOLog.d("previousView:" + previousView);
         if (previousView > 0) {
-            showFragment(previousView, true);
+            showFragment(previousView, true, SHOW_ANIMATION_TO_RIGHT);
         }
     }
 
     @Override
     public void goToFragment(int fragmentID) {
-        showFragment(fragmentID, false);
+        showFragment(fragmentID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
@@ -696,51 +703,51 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void showPageTermOfUse() {
-        showFragment(FRAGMENT_TERM_OF_USE_ID, false);
+        showFragment(FRAGMENT_TERM_OF_USE_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToUserData(String userId) {
         mFragmentUserDataTab.setForeignID(userId);
-        showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
+        showFragment(FRAGMENT_USER_DATA_TAB_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToMapView(double lat, double log, int locationType) {
         mFragmentMapView.setCordinate(lat, log);
         mFragmentMapView.setTypeMaker(locationType);
-        showFragment(FRAGMENT_MAP_VIEW_ID, false);
+        showFragment(FRAGMENT_MAP_VIEW_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void onClickUserAvatar(String userId) {
         mFragmentUserDataTab.setForeignID(userId);
-        showFragment(FRAGMENT_USER_DATA_TAB_ID, false);
+        showFragment(FRAGMENT_USER_DATA_TAB_ID, false, SHOW_ANIMATION_TO_LEFT);
 
     }
 
     @Override
     public void goToShare(ObBravo bravoObj, int shareType) {
         mFragmentShare.setData(bravoObj, shareType);
-        showFragment(FRAGMENT_SHARE_ID, false);
+        showFragment(FRAGMENT_SHARE_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToCoverImage(ObBravo obGetBravo) {
         mFragmentCoverImage.setObBravo(obGetBravo);
-        showFragment(FRAGMENT_COVER_IMAGE_ID, false);
+        showFragment(FRAGMENT_COVER_IMAGE_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToUsergFollowing(String foreignID) {
         mFragmentFollowing.setForeignID(foreignID);
-        showFragment(FRAGMENT_FOLLOWING_ID, false);
+        showFragment(FRAGMENT_FOLLOWING_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToUsergFollower(String foreignID) {
         mFragmentFollower.setForeignID(foreignID);
-        showFragment(FRAGMENT_FOLLOWER_ID, false);
+        showFragment(FRAGMENT_FOLLOWER_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
@@ -931,7 +938,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     public void goToUserTimeLine(ObGetUserInfo userInfo) {
         mFragmentHistory.setmUserInfo(userInfo);
-        showFragment(FRAGMENT_HISTORY_ID, false);
+        showFragment(FRAGMENT_HISTORY_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     private enum PendingAction {
@@ -944,48 +951,48 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mFragmentMapView.setForeignID(foreignID);
         mFragmentMapView.setTypeMaker(locationType);
         mFragmentMapView.setFullName(fullName);
-        showFragment(FRAGMENT_MAP_VIEW_ID, false);
+        showFragment(FRAGMENT_MAP_VIEW_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToLiked(String mSpotID) {
         mFragmentLiked.setSpotID(mSpotID);
-        showFragment(FRAGMENT_LIKED_ID, false);
+        showFragment(FRAGMENT_LIKED_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToSaved(String mSpotID) {
         mFragmentSaved.setSpotID(mSpotID);
-        showFragment(FRAGMENT_SAVED_ID, false);
+        showFragment(FRAGMENT_SAVED_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToViewImage(ObGetUserInfo obGetUserInfo, int userImageType) {
         mFragmentViewImage.setObGetUserInfo(obGetUserInfo, userImageType);
-        showFragment(FRAGMENT_VIEW_IMAGE_ID, false);
+        showFragment(FRAGMENT_VIEW_IMAGE_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToSpotDetail(Spot mSpot) {
         mFragmentSpotDetail.setSpot(mSpot);
-        showFragment(FRAGMENT_SPOT_DETAIL_ID, false);
+        showFragment(FRAGMENT_SPOT_DETAIL_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToAddSpot() {
-        showFragment(FRAGMENT_INPUT_MYSPOT_ID, false);
+        showFragment(FRAGMENT_INPUT_MYSPOT_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToInputMySpot() {
-        showFragment(FRAGMENT_INPUT_MYSPOT_ID, false);
+        showFragment(FRAGMENT_INPUT_MYSPOT_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
     public void goToLocateMySpot(double lat, double log, int locationType) {
         mFragmentMapView.setCordinate(lat, log);
         mFragmentMapView.setTypeMaker(locationType);
-        showFragment(FRAGMENT_MAP_VIEW_ID, false);
+        showFragment(FRAGMENT_MAP_VIEW_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
@@ -1299,7 +1306,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void goToDuplicateSpot(Spot mSpot, OFPostVenue mOPostVenue) {
         mFragmentDuplicateSpot.setSpot(mSpot);
         mFragmentDuplicateSpot.setOFPostVenue(mOPostVenue);
-        showFragment(FRAGMENT_SPOT_DUPLICATE_ID, false);
+        showFragment(FRAGMENT_SPOT_DUPLICATE_ID, false, SHOW_ANIMATION_TO_LEFT);
     }
 
     @Override
