@@ -600,7 +600,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         mTransaction = mFmManager.beginTransaction();
         if (fragmentAnimationType == 1)
             mTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.fade_in);
-        else
+        else if(fragmentAnimationType == 2)
             mTransaction.setCustomAnimations(0, R.anim.slide_in_left);
         mTransaction.hide(mFragmentHomeTab);
         mTransaction.hide(mFragmentNetworkTab);
