@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigation_background"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/back_button"
+            android:gravity="center"
+            android:onClick="onClickBackPersonal"
+            android:paddingLeft="@dimen/back_btn_margin_left"
+            android:text="@string/back_to_top"
+            android:textColor="@color/white"
+            android:textSize="@dimen/com_facebook_loginview_text_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_poor_connection"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@drawable/delete_favourite"
+        android:gravity="center_vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/poor_connection"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <include layout="@layout/layout_post_detail_0" />
+
+            <include layout="@layout/layout_post_detail_1" />
+
+            <include layout="@layout/layout_post_detail_2" />
+
+            <include layout="@layout/layout_post_detail_3" />
+
+            <include layout="@layout/layout_post_detail_4" />
+
+            <include layout="@layout/layout_post_detail_5" />
+
+            <include layout="@layout/layout_post_detail_6" />
+            
+            <include layout="@layout/layout_post_detail_footer" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

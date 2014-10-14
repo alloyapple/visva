@@ -599,9 +599,9 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public FragmentTransaction hideFragment(int fragmentAnimationType) {
         mTransaction = mFmManager.beginTransaction();
         if (fragmentAnimationType == 1)
-            mTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.fade_in);
+            mTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
         else if(fragmentAnimationType == 2)
-            mTransaction.setCustomAnimations(0, R.anim.slide_in_left);
+            mTransaction.setCustomAnimations(R.anim.slide_out_left, R.anim.slide_in_left);
         mTransaction.hide(mFragmentHomeTab);
         mTransaction.hide(mFragmentNetworkTab);
         mTransaction.hide(mFragmentSearchTab);
