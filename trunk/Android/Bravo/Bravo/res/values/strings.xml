@@ -180,6 +180,7 @@
     <string name="mydata_bravo_many">Bravos</string>
     <string name="total_0_bravo">0</string>
     <string name="mydata_follow_many">Following</string>
+    <string name="following">Following</string>
     <string name="total_0_following">0</string>
     <string name="mydata_follower_many">Fans</string>
     <string name="total_0_fan">0</string>
