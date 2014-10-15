@@ -66,6 +66,8 @@
 
             <include layout="@layout/layout_post_detail_6" />
             
+            <include layout="@layout/layout_post_detail_comment"/>
+            
             <include layout="@layout/layout_post_detail_footer" />
         </LinearLayout>
     </ScrollView>

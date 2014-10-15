@@ -122,55 +122,43 @@ public class ContextualUndoAdapterComment extends BaseAdapterDecorator implement
     }
 
     private void initializeView(ContextualUndoView convertView, int position) {
+        int index = position - 1;
+        ViewHolder holderComment = new ViewHolder();
+        holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
+        holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
+        holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
+        holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
+        AIOLog.d("mObGetComments:" + mObGetComments + ",mObGetComments.data.size():" + mObGetComments.data.size());
+        if (mObGetComments == null || mObGetComments.data.size() == 0)
+            return;
+        final ObGetComment comment = mObGetComments.data.get(index);
 
-        if (position == 0) // post content
-        {
+        String profile_img_url = comment.profileImgUrl;
 
-        }
-        else if (position == getCount() - 1) // post content
-        {
-
+        if (StringUtility.isEmpty(profile_img_url)) {
+            holderComment.mAvatarComment.setBackgroundResource(R.drawable.user_picture_default);
         } else {
-            int index = position - 1;
-            ViewHolder holderComment = new ViewHolder();
-
-            holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
-            holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
-            holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
-            holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
-            if (mObGetComments == null || mObGetComments.data.size() == 0)
-                return;
-            final ObGetComment comment = mObGetComments.data.get(index);
-
-            String profile_img_url = comment.profileImgUrl;
-
-            if (StringUtility.isEmpty(profile_img_url)) {
-                holderComment.mAvatarComment.setBackgroundResource(R.drawable.user_picture_default);
-            } else {
-                mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holderComment.mAvatarComment, true);
-            }
-            if (comment.fullName != null)
-                holderComment.mUserNameComment.setText(comment.fullName);
-            else
-                holderComment.mUserNameComment.setText("Unknown");
-            holderComment.mCommentContent.setText(comment.commentText);
-
-            long createdTime = 0;
-            if (comment.dateCreated == null)
-                createdTime = 0;
-            else
-                createdTime = comment.dateCreated.getSec();
-            if (createdTime == 0) {
-                holderComment.mCommentDate.setText("Unknown");
-            } else {
-                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
-                holderComment.mCommentDate.setText(createdTimeConvertStr);
-                AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
-                AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
-            }
-
+            mImageLoader.DisplayImage(profile_img_url, R.drawable.user_picture_default, holderComment.mAvatarComment, true);
         }
+        if (comment.fullName != null)
+            holderComment.mUserNameComment.setText(comment.fullName);
+        else
+            holderComment.mUserNameComment.setText("Unknown");
+        holderComment.mCommentContent.setText(comment.commentText);
 
+        long createdTime = 0;
+        if (comment.dateCreated == null)
+            createdTime = 0;
+        else
+            createdTime = comment.dateCreated.getSec();
+        if (createdTime == 0) {
+            holderComment.mCommentDate.setText("Unknown");
+        } else {
+            String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+            holderComment.mCommentDate.setText(createdTimeConvertStr);
+            AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
+            AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
+        }
     }
 
     class ViewHolder {
