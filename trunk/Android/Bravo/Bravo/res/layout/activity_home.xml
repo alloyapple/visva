@@ -42,7 +42,7 @@
                 android:id="@+id/fragment_recent_post_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                class="com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail" />
+                class="com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail2" />
 
             <fragment
                 android:id="@+id/fragment_map_view"

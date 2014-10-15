@@ -21,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -61,62 +63,69 @@ import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.DialogUtility;
 import com.sharebravo.bravo.utils.IDialogListener;
 import com.sharebravo.bravo.utils.StringUtility;
+import com.sharebravo.bravo.view.adapter.AdapterComments;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
+import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
+import com.sharebravo.bravo.view.lib.undo_listview.ContextualUndoAdapterComment;
 
 public class FragmentBravoDetail2 extends FragmentBasic {
     // =================================Constant Define================
-    private static final int    REQUEST_CODE_CAMERA  = 8001;
-    private static final int    REQUEST_CODE_GALLERY = 8002;
-    private static final int    CROP_FROM_CAMERA     = 8003;
+    private static final int             REQUEST_CODE_CAMERA  = 8001;
+    private static final int             REQUEST_CODE_GALLERY = 8002;
+    private static final int             CROP_FROM_CAMERA     = 8003;
     // =================================Class Define===================
     // =================================Variable Define================
-    private Uri                 mCapturedImageURI    = null;
+    private Uri                          mCapturedImageURI    = null;
     // ================================Control Define==================
-    private Button              btnBack;
-    private ObBravo             mBravoObj;
-    private SessionLogin        mSessionLogin        = null;
-    private int                 mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
-    private Spot                mSpot;
-    private LinearLayout        mLayoutPoorConnection;
-    private ImageView           imagePost;
-    private TextView            spotName;
-    private ImageView           userAvatar;
-    private TextView            txtUserName;
-    private Button              btnCallSpot;
-    private Button              btnViewMap;
-    private Button              btnFollow;
-    private ImageView           followIcon;
-    private boolean             isFollowing          = false;
-    private EditText            textboxComment;
-    private Button              btnSubmitComment;
-    private TextView            btnLeft;
-    private TextView            txtLikedNumber;
-    private TextView            txtCommentNumber;
-    private TextView            btnRight;
-    private boolean             isLiked;
-    private TextView            btnMiddle;
-    private boolean             isSave;
-    private TextView            btnReport;
-    private FragmentMapCover    mapFragment;
-    private Button              btnLiked;
+    private Button                       btnBack;
+    private ObBravo                      mBravoObj;
+    private SessionLogin                 mSessionLogin        = null;
+    private int                          mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
+    private Spot                         mSpot;
+    private LinearLayout                 mLayoutPoorConnection;
+    private ImageView                    imagePost;
+    private TextView                     spotName;
+    private ImageView                    userAvatar;
+    private TextView                     txtUserName;
+    private Button                       btnCallSpot;
+    private Button                       btnViewMap;
+    private Button                       btnFollow;
+    private ImageView                    followIcon;
+    private boolean                      isFollowing          = false;
+    private EditText                     textboxComment;
+    private Button                       btnSubmitComment;
+    private TextView                     btnLeft;
+    private TextView                     txtLikedNumber;
+    private TextView                     txtCommentNumber;
+    private TextView                     btnRight;
+    private boolean                      isLiked;
+    private TextView                     btnMiddle;
+    private boolean                      isSave;
+    private TextView                     btnReport;
+    private FragmentMapCover             mapFragment;
+    private Button                       btnLiked;
 
-    private ImageView           iconLiked;
-    private TextView            txtNumberLiked;
-    private Button              btnSaved;
-    private ImageView           iconSaved;
-    private TextView            txtNumberSaved;
-    private FrameLayout         layoutMapview        = null;
-    private FragmentTransaction fragmentTransaction;
-    private ImageView           btnChooseImage;
-    private LinearLayout        layoutLiked;
-    private LinearLayout        layoutSaved;
-    private LinearLayout        layoutReport;
+    private ImageView                    iconLiked;
+    private TextView                     txtNumberLiked;
+    private Button                       btnSaved;
+    private ImageView                    iconSaved;
+    private TextView                     txtNumberSaved;
+    private FrameLayout                  layoutMapview        = null;
+    private FragmentTransaction          fragmentTransaction;
+    private ImageView                    btnChooseImage;
+    private LinearLayout                 layoutLiked;
+    private LinearLayout                 layoutSaved;
+    private LinearLayout                 layoutReport;
+    private XListView                    mListviewComments;
+    private AdapterComments              mAdapterComments;
+    private ContextualUndoAdapterComment mContextualUndoAdapterComment;
 
-    private ObGetComments       mObGetComments       = null;
-    private ImageLoader         mImageLoader         = null;
-    private int                 lastTopValueAssigned = 0;
+    private ObGetComments                mObGetComments       = null;
+    private ImageLoader                  mImageLoader         = null;
+    private int                          lastTopValueAssigned = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -147,11 +156,39 @@ public class FragmentBravoDetail2 extends FragmentBasic {
         });
 
         initializeViewForDetail(root);
-        initializeViewForComment(root);
     }
 
     private void initializeViewForComment(View root) {
+        LinearLayout layoutPostDetailComments = (LinearLayout) root.findViewById(R.id.layout_post_detail_comments);
+        mListviewComments = (XListView) layoutPostDetailComments.findViewById(R.id.listview_fragment_comments);
+        mAdapterComments = new AdapterComments(getActivity(), mObGetComments);
+       // mContextualUndoAdapterComment = new ContextualUndoAdapterComment(getActivity(), mAdapterComments, mObGetComments, R.layout.row_comment_content_undo_2, R.id.undo_row_undobutton);
+//        mAdapterComments.setListener(this);
+        //mContextualUndoAdapterComment.setAbsListView(mListviewComments);
+        mListviewComments.setAdapter(mAdapterComments);
+        // mContextualUndoAdapterComment.setDeleteItemCallback(new DeleteItemCallback());
+        //
+        
+        mListviewComments.setOnItemClickListener(new OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        /* load more old items */
+        mListviewComments.setXListViewListener(new IXListViewListener() {
+
+            @Override
+            public void onRefresh() {
+
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
     }
 
     private void initializeViewForDetail(View root) {
@@ -162,6 +199,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
         initializeViewForSave_Like(root);
         initializeViewForLikedInfo(root);
         initializeViewForSavedInfo(root);
+        initializeViewForComment(root);
         initializeViewForDetailFooter(root);
     }
 
@@ -394,7 +432,15 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                     return;
                 else {
                     AIOLog.d("size of recent post list: " + mObGetComments.data.size());
-                    // adapterRecentPostDetail.updateAllCommentList(mObGetComments);
+                    mAdapterComments = new AdapterComments(getActivity(), mObGetComments);
+                   // mContextualUndoAdapterComment = new ContextualUndoAdapterComment(getActivity(), mAdapterComments, mObGetComments, R.layout.row_comment_content_undo_2, R.id.undo_row_undobutton);
+//                    mAdapterComments.setListener(this);
+                  //  mContextualUndoAdapterComment.setAbsListView(mListviewComments);
+                    mListviewComments.setAdapter(mAdapterComments);
+                    // mContextualUndoAdapterComment.setDeleteItemCallback(new DeleteItemCallback());
+                    //
+                    mAdapterComments.notifyDataSetChanged();
+                   // mContextualUndoAdapterComment.notifyDataSetChanged();
                 }
             }
 
@@ -446,8 +492,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                     return;
                 else {
                     isFollowing = obGetFollowCheck.valid == 1 ? true : false;
-                    followIcon.setImageResource(isFollowing ? R.drawable.following_icon : R.drawable.follow_icon);
-                    btnFollow.setText(isFollowing ? getString(R.string.following) : getString(R.string.follow));
+                    updateFollowing(isFollowing);
                 }
             }
 
@@ -487,9 +532,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObDeleteFollowing obDeleteFollowing;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    isFollowing = false;
-                    followIcon.setImageResource(isFollowing ? R.drawable.following_icon : R.drawable.follow_icon);
-                    btnFollow.setText(isFollowing ? getString(R.string.following) : getString(R.string.follow));
+                    updateFollowing(false);
                 } else {
                     obDeleteFollowing = gson.fromJson(response.toString(), ObDeleteFollowing.class);
                     showToast(obDeleteFollowing.error);
@@ -544,10 +587,27 @@ public class FragmentBravoDetail2 extends FragmentBasic {
             }
         }, FragmentBravoDetail2.this);
     }
+
     private void updateFollowing(boolean b) {
-        // TODO Auto-generated method stub
-        
+        isFollowing = b;
+        followIcon.setImageResource(isFollowing ? R.drawable.following_icon : R.drawable.follow_icon);
+        btnFollow.setText(isFollowing ? getString(R.string.following) : getString(R.string.follow));
     }
+
+    private void updateSave(boolean b) {
+        isSave = b;
+        btnLeft.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
+        btnLeft.setText(isSave ? getString(R.string.bravo_info_saved) : getString(R.string.bravo_info_save));
+        btnMiddle.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
+        btnMiddle.setText(isSave ? getString(R.string.bravo_info_saved) : getString(R.string.bravo_info_save));
+    }
+
+    private void updateLike(boolean isLiked) {
+        this.isLiked = isLiked;
+        btnLeft.setCompoundDrawablesWithIntrinsicBounds(0, isLiked ? R.drawable.icon_like : R.drawable.icon_like_off, 0, 0);
+        btnLeft.setText(isLiked ? getString(R.string.bravo_info_liked) : getString(R.string.bravo_info_like));
+    }
+
     private void requestGetMyListItem() {
         BravoRequestManager.getInstance(getActivity()).requestGetMyListItem(mBravoObj.Bravo_ID, new IRequestListener() {
 
@@ -557,11 +617,10 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetMylistItem obGetMylistItem;
                 obGetMylistItem = gson.fromJson(response.toString(), ObGetMylistItem.class);
-                // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
                 if (obGetMylistItem == null)
                     return;
                 else {
-                    // adapterRecentPostDetail.updateSave(obGetMylistItem.valid == 1 ? true : false);
+                    updateSave(obGetMylistItem.valid == 1 ? true : false);
                 }
             }
 
@@ -584,7 +643,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 if (mObGetLikeItem == null)
                     return;
                 else {
-                    // adapterRecentPostDetail.updateLike(mObGetLikeItem.valid == 1 ? true : false);
+                    updateLike(mObGetLikeItem.valid == 1 ? true : false);
                 }
             }
 
@@ -645,7 +704,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObDeleteMylist obDeleteMylist;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    // adapterRecentPostDetail.updateSave(false);
+                    updateSave(false);
                 } else {
                     obDeleteMylist = gson.fromJson(response.toString(), ObDeleteMylist.class);
                     showToast(obDeleteMylist.error);
@@ -686,7 +745,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObPutMyList obPutMyList;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    // adapterRecentPostDetail.updateSave(true);
+                    updateSave(true);
                 } else {
                     obPutMyList = gson.fromJson(response.toString(), ObPutMyList.class);
                     showToast(obPutMyList.error);
@@ -726,7 +785,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObDeleteLike mObDeleteLike;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    // adapterRecentPostDetail.updateLike(false);
+                    updateLike(false);
                     requestGetLiked();
                 } else {
                     mObDeleteLike = gson.fromJson(response.toString(), ObDeleteLike.class);
@@ -767,7 +826,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObPutLike mObPutLike;
                 if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    // adapterRecentPostDetail.updateLike(true);
+                    updateLike(true);
                     requestGetLiked();
                 } else {
                     mObPutLike = gson.fromJson(response.toString(), ObPutLike.class);
