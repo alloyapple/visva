@@ -667,7 +667,7 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                     return;
                 else {
                     AIOLog.e("Spot.data" + mObGetSpot.data);
-                    // adapterRecentPostDetail.updateLikedandSaved(mObGetSpot.data);
+                    updateLikedandSaved(mObGetSpot.data);
                 }
             }
 
@@ -676,6 +676,11 @@ public class FragmentBravoDetail2 extends FragmentBasic {
                 AIOLog.d("response error");
             }
         });
+    }
+
+    private void updateLikedandSaved(Spot spot) {
+        // TODO Auto-generated method stub
+
     }
 
     private void requestDeleteMyListItem(ObBravo obBravo) {
