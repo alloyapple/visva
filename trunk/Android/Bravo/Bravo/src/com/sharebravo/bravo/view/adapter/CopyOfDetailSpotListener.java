@@ -1,7 +1,6 @@
-
 package com.sharebravo.bravo.view.adapter;
 
-public interface DetailSpotListener {
+public interface CopyOfDetailSpotListener {
     public void goToCallSpot();
 
     public void goToFragment(int framentID);

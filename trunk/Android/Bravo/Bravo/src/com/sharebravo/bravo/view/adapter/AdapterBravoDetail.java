@@ -31,6 +31,7 @@ import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapCover;
+import com.sharebravo.bravo.view.lib.undo_listview.SwipeDismissTouchListener;
 
 public class AdapterBravoDetail extends BaseAdapter {
     private Context             mContext;
@@ -43,6 +44,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     private SessionLogin        mSessionLogin        = null;
     private int                 mLoginBravoViaType   = BravoConstant.NO_LOGIN_SNS;
     private int                 lastTopValueAssigned = 0;
+    private boolean             isMovedRight;
 
     public AdapterBravoDetail(Context context, FragmentBravoDetail fragment) {
         this.mContext = context;
@@ -355,13 +357,14 @@ public class AdapterBravoDetail extends BaseAdapter {
         } else {
             int index = position - 1;
             // if (convertView == null) {
-            ViewHolderComment holderComment = new ViewHolderComment();
+            final ViewHolderComment holderComment = new ViewHolderComment();
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_comment_content_undo, null, false);
+            convertView = inflater.inflate(R.layout.row_comment_content_undo_2, null, false);
             holderComment.mAvatarComment = (ImageView) convertView.findViewById(R.id.img_avatar_comment);
             holderComment.mUserNameComment = (TextView) convertView.findViewById(R.id.txtview_user_name_comment);
             holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
             holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
+            holderComment.linearDelete = (LinearLayout) convertView.findViewById(R.id.layout_delete);
             // }
             /*
              * else
@@ -401,9 +404,29 @@ public class AdapterBravoDetail extends BaseAdapter {
                 AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
             }
+            holderComment.linearDelete.setOnClickListener(new View.OnClickListener() {
 
+                @Override
+                public void onClick(View v) {
+                    AIOLog.d("delete comment:" + comment.commentID);
+                }
+            });
+            if (mSessionLogin.userID.equals(comment.userID))
+                convertView.setOnTouchListener(new SwipeDismissTouchListener(mContext, convertView, null,
+                        new SwipeDismissTouchListener.OnDismissCallback() {
+                            public void onEndAnimation(View view, Object token) {
+                                if (!isMovedRight) {
+                                    holderComment.linearDelete.setVisibility(View.GONE);
+                                }
+                            }
+
+                            @Override
+                            public void onStartAnimation(boolean isMoveRight) {
+                                isMovedRight = isMoveRight;
+                                holderComment.linearDelete.setVisibility(View.VISIBLE);
+                            }
+                        }));
         }
-
         return convertView;
     }
 
@@ -446,10 +469,11 @@ public class AdapterBravoDetail extends BaseAdapter {
     }
 
     class ViewHolderComment {
-        ImageView mAvatarComment;
-        TextView  mUserNameComment;
-        TextView  mCommentContent;
-        TextView  mCommentDate;
+        ImageView    mAvatarComment;
+        TextView     mUserNameComment;
+        TextView     mCommentContent;
+        TextView     mCommentDate;
+        LinearLayout linearDelete;
     }
 
     class ViewHolderHeader {

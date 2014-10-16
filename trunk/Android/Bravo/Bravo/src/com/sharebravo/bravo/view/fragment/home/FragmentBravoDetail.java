@@ -130,21 +130,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             }
         });
 
-        listviewRecentPostDetail.setFooterDividersEnabled(false);
-        listviewRecentPostDetail.setAdapter(adapterRecentPostDetail);
-        listviewRecentPostDetail.setOnItemClickListener(onItemClick);
-        listviewRecentPostDetail.setXListViewListener(new IXListViewListener() {
-
-            @Override
-            public void onRefresh() {
-                onStopPullAndLoadListView();
-            }
-
-            @Override
-            public void onLoadMore() {
-                onStopPullAndLoadListView();
-            }
-        });
         listviewRecentPostDetail.setOnScrollListener(new OnScrollListener() {
 
             @Override
@@ -1263,4 +1248,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             requestGetLikeItem();
         }
     }
+    
+    
 }
