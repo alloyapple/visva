@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
-
 public final class ParameterFactory {
 
     public static List<NameValuePair> createSubParams(String subParams) {

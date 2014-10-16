@@ -1,6 +1,5 @@
 package com.sharebravo.bravo.view.adapter;
 
-import com.sharebravo.bravo.model.response.Spot;
 
 public interface DetailBravoListener {
     public void goToCallSpot();
@@ -30,5 +29,7 @@ public interface DetailBravoListener {
     public void choosePicture();
 
     public void goToSpotDetail();
+
+    public void deleteComment(String commentID);
 
 }

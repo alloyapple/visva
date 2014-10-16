@@ -33,11 +33,8 @@ import com.sharebravo.bravo.foursquare.models.OFGetVenue;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpGet;
 import com.sharebravo.bravo.foursquare.network.FAsyncHttpResponseProcess;
 import com.sharebravo.bravo.model.SessionLogin;
-import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetAllowBravoOnly;
-import com.sharebravo.bravo.model.response.ObGetSpot;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory;
-import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.ObGetSpotHistory.SpotHistory;
 import com.sharebravo.bravo.model.response.ObGetSpotRank;
 import com.sharebravo.bravo.model.response.ObGetSpotRank.SpotRank;
@@ -159,35 +156,35 @@ public class FragmentSpotDetail extends FragmentBasic implements DetailSpotListe
         getSpotHistoryRequest.execute(url);
     }
 
-    private void requestGetSpot(String spotID) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", spotID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken);
-        AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
-            @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("mObGetSpot:" + response);
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetSpot mObGetSpot;
-                mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
-                AIOLog.d("mObGetSpot:" + mObGetSpot);
-                if (mObGetSpot == null)
-                    return;
-                else {
-                    mAdapter.updateMapView();
-                    mAdapter.updatSpot(mObGetSpot.data);
-
-                }
-            }
-
-            @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
-            }
-        }, params, true);
-        getBravoRequest.execute(url);
-    }
+//    private void requestGetSpot(String spotID) {
+//        String userId = mSessionLogin.userID;
+//        String accessToken = mSessionLogin.accessToken;
+//        String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", spotID);
+//        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken);
+//        AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+//            @Override
+//            public void processIfResponseSuccess(String response) {
+//                AIOLog.d("mObGetSpot:" + response);
+//                Gson gson = new GsonBuilder().serializeNulls().create();
+//                ObGetSpot mObGetSpot;
+//                mObGetSpot = gson.fromJson(response.toString(), ObGetSpot.class);
+//                AIOLog.d("mObGetSpot:" + mObGetSpot);
+//                if (mObGetSpot == null)
+//                    return;
+//                else {
+//                    mAdapter.updateMapView();
+//                    mAdapter.updatSpot(mObGetSpot.data);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void processIfResponseFail() {
+//                AIOLog.d("response error");
+//            }
+//        }, params, true);
+//        getBravoRequest.execute(url);
+//    }
 
     private void requestGetSpotRank(String spotID) {
         String userId = mSessionLogin.userID;

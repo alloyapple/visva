@@ -78,40 +78,39 @@ public class AdapterBravoDetail extends BaseAdapter {
         this.bravoObj = obj;
     }
 
-    ImageView           imagePost;
-    TextView            spotName;
-    ImageView           userAvatar;
-    TextView            txtUserName;
-    Button              btnCallSpot;
-    Button              btnViewMap;
-    Button              btnFollow;
-    ImageView           followIcon;
-    boolean             isFollowing   = false;
-    EditText            textboxComment;
-    Button              btnSubmitComment;
-    TextView            btnLeft;
-    TextView            txtLikedNumber;
-    TextView            txtCommentNumber;
-    TextView            btnRight;
-    boolean             isLiked;
-    TextView            btnMiddle;
-    boolean             isSave;
-    TextView            btnReport;
-    FragmentMapCover    mapFragment;
-    Button              btnLiked;
+    private ImageView        imagePost;
+    private TextView         spotName;
+    private ImageView        userAvatar;
+    private TextView         txtUserName;
+    private Button           btnCallSpot;
+    private Button           btnViewMap;
+    private Button           btnFollow;
+    private ImageView        followIcon;
+    private boolean          isFollowing   = false;
+    private EditText         textboxComment;
+    private Button           btnSubmitComment;
+    private TextView         btnLeft;
+    private TextView         txtLikedNumber;
+    private TextView         txtCommentNumber;
+    private TextView         btnRight;
+    private boolean          isLiked;
+    private TextView         btnMiddle;
+    private boolean          isSave;
+    private TextView         btnReport;
+    private FragmentMapCover mapFragment;
+    private Button           btnLiked;
 
-    ImageView           iconLiked;
-    TextView            txtNumberLiked;
-    Button              btnSaved;
-    ImageView           iconSaved;
-    TextView            txtNumberSaved;
-    FrameLayout         layoutMapview = null;
-    FragmentTransaction fragmentTransaction;
-    ImageView           btnChooseImage;
-    LinearLayout        layoutLiked;
-    LinearLayout        layoutSaved;
-    LinearLayout        layoutReport;
-    boolean             isShowMap     = false;
+    private ImageView        iconLiked;
+    private TextView         txtNumberLiked;
+    private Button           btnSaved;
+    private ImageView        iconSaved;
+    private TextView         txtNumberSaved;
+    private FrameLayout      layoutMapview = null;
+    FragmentTransaction      fragmentTransaction;
+    private ImageView        btnChooseImage;
+    private LinearLayout     layoutLiked;
+    private LinearLayout     layoutSaved;
+    private LinearLayout     layoutReport;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -409,6 +408,7 @@ public class AdapterBravoDetail extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     AIOLog.d("delete comment:" + comment.commentID);
+                    listener.deleteComment(comment.commentID);
                 }
             });
             if (mSessionLogin.userID.equals(comment.userID))
@@ -496,5 +496,12 @@ public class AdapterBravoDetail extends BaseAdapter {
 
     public FrameLayout getMapParallax() {
         return layoutMapview;
+    }
+
+    public void removeComment(int i) {
+        if (mObGetComments == null)
+            return;
+        mObGetComments.data.remove(i);
+        notifyDataSetChanged();
     }
 }
