@@ -76,7 +76,6 @@ public class FAsyncHttpGet extends FAsyncHttpBase {
 			 HttpClient httpclient = createHttpClient(url, params);
 			 AIOLog.e("GET URL executed  : " + url + combinedParams);
 //			DefaultHttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpget = new HttpGet(url + combinedParams);
 			HttpGet httpget1 = new HttpGet(url + combinedParams);
 			response = httpclient.execute(httpget1);
 			// Lemon added

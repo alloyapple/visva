@@ -13,8 +13,6 @@ import android.graphics.Matrix;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
-import android.util.FloatMath;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;

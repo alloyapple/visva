@@ -435,7 +435,56 @@ public class BravoRequestManager {
         AIOLog.d(url);
         deleteFollow.execute(url);
     }
+    /**
+     * request delete follow
+     * 
+     * @param bravoUserID
+     * @param iRequestListener
+     * @param fragmentBasic
+     */
+    public void requestToDeleteComment(String commentID, final IRequestListener iRequestListener) {
+        int loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin sessionLogin = BravoUtils.getSession(mContext, loginBravoViaType);
+        String userId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_COMMENT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{Comment_ID}", commentID);
+        AsyncHttpDelete deleteFollow = new AsyncHttpDelete(mContext, new AsyncHttpResponseProcess(mContext, null) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response delete comment :===>" + response);
+                JSONObject jsonObject = null;
 
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    iRequestListener.onResponse(response);
+                } else {
+                    iRequestListener.onErrorResponse("Cannot delete this comment");
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                iRequestListener.onErrorResponse("Cannot delete this comment");
+            }
+        }, null, true);
+        AIOLog.d(url);
+        deleteFollow.execute(url);
+    }
     /**
      * request to delete this item from my list item
      * 

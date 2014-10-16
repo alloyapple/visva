@@ -37,10 +37,8 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
-@SuppressLint("NewApi")
+@SuppressLint({ "NewApi", "ClickableViewAccessibility" })
 public class TouchImageView extends ImageView {
-
-    private int             positionForTouchImageView = -1;
 
     // private static final String TAG = "Touch";
     // These matrices will be used to move and zoom image

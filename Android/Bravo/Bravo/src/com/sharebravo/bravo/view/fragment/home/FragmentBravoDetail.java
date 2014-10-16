@@ -2,21 +2,14 @@ package com.sharebravo.bravo.view.fragment.home;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,15 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,35 +30,18 @@ import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.control.request.BravoRequestManager;
 import com.sharebravo.bravo.control.request.IRequestListener;
-import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObDeleteFollowing;
-import com.sharebravo.bravo.model.response.ObDeleteLike;
-import com.sharebravo.bravo.model.response.ObDeleteMylist;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetComments;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObGetLikeItem;
 import com.sharebravo.bravo.model.response.ObGetMylistItem;
 import com.sharebravo.bravo.model.response.ObGetSpot;
-import com.sharebravo.bravo.model.response.ObPostComment;
-import com.sharebravo.bravo.model.response.ObPutFollowing;
-import com.sharebravo.bravo.model.response.ObPutLike;
-import com.sharebravo.bravo.model.response.ObPutMyList;
-import com.sharebravo.bravo.model.response.ObPutReport;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpPost;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
-import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
-import com.sharebravo.bravo.utils.BravoConstant;
-import com.sharebravo.bravo.utils.BravoSharePrefs;
-import com.sharebravo.bravo.utils.BravoUtils;
-import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.DialogUtility;
+import com.sharebravo.bravo.utils.IDialogListener;
 import com.sharebravo.bravo.view.adapter.AdapterBravoDetail;
 import com.sharebravo.bravo.view.adapter.DetailBravoListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
@@ -96,10 +69,9 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                                                          };
 
     private ObBravo             mBravoObj;
-    private SessionLogin        mSessionLogin            = null;
-    private int                 mLoginBravoViaType       = BravoConstant.NO_LOGIN_SNS;
     private Spot                mSpot;
     private LinearLayout        mLayoutPoorConnection;
+    private ObGetComments       mObGetComments;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -151,8 +123,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                 mHomeActionListener.goToBack();
             }
         });
-        mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
-        mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         return root;
     }
 
@@ -186,18 +156,13 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
     }
 
     private void requestGetComments() {
-        // mObGetComments = null;
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String bravoID = mBravoObj.Bravo_ID;
-        String url = BravoWebServiceConfig.URL_GET_COMMENTS.replace("{Bravo_ID}", bravoID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetComments(userId, accessToken);
-        AsyncHttpGet getCommentsRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
+        BravoRequestManager.getInstance(getActivity()).requestToGetCommentsForSpotDetail(getActivity(), mBravoObj.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("requestGetComments:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetComments mObGetComments = gson.fromJson(response.toString(), ObGetComments.class);
+                mObGetComments = gson.fromJson(response.toString(), ObGetComments.class);
                 AIOLog.d("mObGetComments:" + mObGetComments);
                 if (mObGetComments == null)
                     return;
@@ -210,56 +175,45 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+
             }
-        }, params, true);
-        getCommentsRequest.execute(url);
+        });
     }
 
     private void requestGetBravo() {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String bravoID = mBravoObj.Bravo_ID;
-        String url = BravoWebServiceConfig.URL_GET_BRAVO.replace("{Bravo_ID}", bravoID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getBravoRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        if (mBravoObj == null)
+            return;
+        BravoRequestManager.getInstance(getActivity()).requestToGetBravoForSpotDetail(getActivity(), mBravoObj.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
-                // AIOLog.d("requestBravoNews:" + response);
+            public void onResponse(String response) {
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetBravo obGetBravo;
-                obGetBravo = gson.fromJson(response.toString(), ObGetBravo.class);
+                ObGetBravo obGetBravo = gson.fromJson(response.toString(), ObGetBravo.class);
                 AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo);
                 if (obGetBravo == null)
                     return;
                 else {
-
                     String Last_Pic = mBravoObj.Last_Pic;
                     mBravoObj = obGetBravo.data;
                     mBravoObj.Last_Pic = Last_Pic;
-                    adapterRecentPostDetail.setBravoOb(mBravoObj);
-                    adapterRecentPostDetail.notifyDataSetChanged();
+                    setBravoOb(mBravoObj);
                     requestGetLiked();
                 }
             }
 
             @Override
-            public void processIfResponseFail() {
+            public void onErrorResponse(String errorMessage) {
                 AIOLog.d("response error");
             }
-        }, params, true);
-        getBravoRequest.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestGetFollowingCheck() {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_FOLLOWING_CHECK.replace("{User_ID}", userId).replace("{User_ID_Other}", mBravoObj.User_ID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getFollowingCheckRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
+        BravoRequestManager.getInstance(getActivity()).requestGetFollowingCheck(mBravoObj.User_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetFollowingCheck obGetFollowCheck;
@@ -272,120 +226,57 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             }
 
             @Override
-            public void processIfResponseFail() {
+            public void onErrorResponse(String errorMessage) {
                 AIOLog.d("response error");
             }
-        }, params, true);
-        getFollowingCheckRequest.execute(url);
+        });
     }
 
     private void requestDeleteFollow(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{User_ID_Other}", mBravoObj.User_ID);
-        AsyncHttpDelete deleteFollow = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        if (mBravoObj == null)
+            return;
+        BravoRequestManager.getInstance(getActivity()).requestDeleteFollow(mBravoObj.User_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObDeleteFollowing obDeleteFollowing;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    adapterRecentPostDetail.updateFollowing(false);
-                } else {
-                    obDeleteFollowing = gson.fromJson(response.toString(), ObDeleteFollowing.class);
-                    showToast(obDeleteFollowing.error);
-                }
+                adapterRecentPostDetail.updateFollowing(false);
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, null, true);
-        AIOLog.d(url);
-        deleteFollow.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestToPutFollow(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("User_ID", obBravo.User_ID);
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_PUT_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putFollow = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestToPutFollow(obBravo.User_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
+
                 AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPutFollowing obPutFollowing;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    adapterRecentPostDetail.updateFollowing(true);
-                    showDialogFollowingOK();
-                } else {
-                    obPutFollowing = gson.fromJson(response.toString(), ObPutFollowing.class);
-                    showToast(obPutFollowing.error);
-                }
+                adapterRecentPostDetail.updateFollowing(true);
+                DialogUtility.showDialogFollowingOK(getActivity(), mBravoObj.Full_Name);
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.e("errorMessage");
             }
-        }, params, true);
-        AIOLog.d(url);
-        putFollow.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestGetMyListItem() {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_MYLIST_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", mBravoObj.Bravo_ID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getMyListItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
+        BravoRequestManager.getInstance(getActivity()).requestGetMyListItem(mBravoObj.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("requestFollowingCheck:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetMylistItem obGetMylistItem;
                 obGetMylistItem = gson.fromJson(response.toString(), ObGetMylistItem.class);
-                // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
                 if (obGetMylistItem == null)
                     return;
                 else {
@@ -394,27 +285,21 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, params, true);
-        getMyListItemRequest.execute(url);
+        });
     }
 
     private void requestGetLikeItem() {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_LIKE_ITEM.replace("{User_ID}", userId).replace("{Bravo_ID}", mBravoObj.Bravo_ID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getLikeItemRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
+        BravoRequestManager.getInstance(getActivity()).requestGetLikeItem(mBravoObj.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("requestLikingCheck:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetLikeItem mObGetLikeItem;
                 mObGetLikeItem = gson.fromJson(response.toString(), ObGetLikeItem.class);
-                // AIOLog.d("obGetAllBravoRecentPosts:" + mObGetComments);
-
                 if (mObGetLikeItem == null)
                     return;
                 else {
@@ -423,21 +308,17 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, params, true);
-        getLikeItemRequest.execute(url);
+        });
     }
 
     private void requestGetLiked() {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_GET_SPOT.replace("{Spot_ID}", mBravoObj.Spot_ID);
-        List<NameValuePair> params = ParameterFactory.createSubParamsGetBravo(userId, accessToken);
-        AsyncHttpGet getLikedSavedRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), null) {
+        BravoRequestManager.getInstance(getActivity()).requestGetLiked(mBravoObj.Spot_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("ObGetSpot:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 ObGetSpot mObGetSpot;
@@ -447,307 +328,111 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                 else {
                     AIOLog.e("Spot.data" + mObGetSpot.data);
                     adapterRecentPostDetail.updateLikedandSaved(mObGetSpot.data);
-
                 }
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, params, true);
-        getLikedSavedRequest.execute(url);
+        });
     }
 
     private void requestDeleteMyListItem(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{Bravo_ID}", mBravoObj.Bravo_ID);
-        AsyncHttpDelete deleteMyListItem = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestDeleteMyListItem(mBravoObj.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObDeleteMylist obDeleteMylist;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    adapterRecentPostDetail.updateSave(false);
-                } else {
-                    obDeleteMylist = gson.fromJson(response.toString(), ObDeleteMylist.class);
-                    showToast(obDeleteMylist.error);
-                }
+            public void onResponse(String response) {
+                AIOLog.d("response requestDeleteMyListItem :===>" + response);
+                adapterRecentPostDetail.updateSave(false);
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage: " + errorMessage);
             }
-        }, null, true);
-        AIOLog.d(url);
-        deleteMyListItem.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestToPutMyListItem(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Bravo_ID", obBravo.Bravo_ID);
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_PUT_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putMyListItem = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestToPutMyListItem(obBravo.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPutMyList obPutMyList;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    adapterRecentPostDetail.updateSave(true);
-                } else {
-                    obPutMyList = gson.fromJson(response.toString(), ObPutMyList.class);
-                    showToast(obPutMyList.error);
-                }
+                adapterRecentPostDetail.updateSave(true);
             }
 
             @Override
-            public void processIfResponseFail() {
+            public void onErrorResponse(String errorMessage) {
                 AIOLog.d("response error");
             }
-        }, params, true);
-        AIOLog.d(url);
-        putMyListItem.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestDeleteLike(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_LIKE.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{Bravo_ID}", obBravo.Bravo_ID);
-        AsyncHttpDelete deleteLike = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestDeleteLike(obBravo.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObDeleteLike mObDeleteLike;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    adapterRecentPostDetail.updateLike(false);
-                    requestGetLiked();
-                } else {
-                    mObDeleteLike = gson.fromJson(response.toString(), ObDeleteLike.class);
-                    showToast(mObDeleteLike.error);
-                }
+                adapterRecentPostDetail.updateLike(false);
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, null, true);
-        AIOLog.d(url);
-        deleteLike.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestToPutLike(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Bravo_ID", obBravo.Bravo_ID);
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_PUT_LIKE.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putLikeItem = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestToPutLike(obBravo.Bravo_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPutLike mObPutLike;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    adapterRecentPostDetail.updateLike(true);
-                    requestGetLiked();
-                } else {
-                    mObPutLike = gson.fromJson(response.toString(), ObPutLike.class);
-                    showToast(mObPutLike.error);
-                }
+                adapterRecentPostDetail.updateLike(true);
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, params, true);
-        AIOLog.d(url);
-        putLikeItem.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestToPutReport(ObBravo obBravo) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Foreign_ID", obBravo.User_ID);
-        subParams.put("Report_Type", "bravo");
-        subParams.put("User_ID", userId);
-        subParams.put("Detail", "");
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_PUT_REPORT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putReport = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestToPutReport(obBravo.User_ID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putReport :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPutReport obPutReport;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    showDialogReportOk();
-                } else {
-                    obPutReport = gson.fromJson(response.toString(), ObPutReport.class);
-                    showToast(obPutReport.error);
-                }
+                DialogUtility.showDialogReportOk(getActivity());
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, params, true);
-        AIOLog.d(url);
-        putReport.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     private void requestToPostComment(String commentText) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("User_ID", mSessionLogin.userID);
-        subParams.put("Bravo_ID", mBravoObj.Bravo_ID);
-        subParams.put("Comment_Text", commentText);
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_POST_COMMENT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPost postComment = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        if (mBravoObj == null)
+            return;
+        BravoRequestManager.getInstance(getActivity()).requestToPostComment(getActivity(), commentText, mBravoObj.Bravo_ID, new IRequestListener() {
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObPostComment obPostComment;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    requestGetComments();
-                } else {
-                    obPostComment = gson.fromJson(response.toString(), ObPostComment.class);
-                    if (obPostComment == null)
-                        return;
-                    showToast(obPostComment.error);
-                }
+                requestGetComments();
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, params, true);
-        AIOLog.d(url);
-        postComment.execute(url);
+        }, FragmentBravoDetail.this);
     }
 
     @Override
@@ -765,17 +450,12 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
     @Override
     public void goToCallSpot() {
-        showDialogCallSpot();
-    }
-
-    public void onCallSpot() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mBravoObj.Spot_Phone));
-        startActivity(intent);
+        DialogUtility.showDialogCallSpot(getActivity(), mBravoObj);
     }
 
     @Override
     public void goToShare() {
-        showDialogShare();
+        DialogUtility.showDialogShare(getActivity(), mHomeActionListener, mBravoObj);
     }
 
     @Override
@@ -786,264 +466,6 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             return;
         }
         mHomeActionListener.goToFragment(fragmentID);
-    }
-
-    public void showDialogCallSpot() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_call_spot, null);
-        TextView content = (TextView) dialog_view.findViewById(R.id.call_spot_dialog_content);
-        content.setText("Call " + mBravoObj.Spot_Name + "?");
-        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_call_spot_no);
-        btnCancel.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-            }
-        });
-        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_call_spot_yes);
-        btnOK.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                onCallSpot();
-            }
-        });
-        dialog.setContentView(dialog_view);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        // This makes the dialog take up the full width
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        window.setAttributes(lp);
-        dialog.show();
-    }
-
-    public void showDialogStopFollowing() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_stop_following, null);
-        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_stop_following_no);
-        btnCancel.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-            }
-        });
-        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_stop_following_yes);
-        btnOK.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                requestDeleteFollow(mBravoObj);
-            }
-        });
-        dialog.setContentView(dialog_view);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        // This makes the dialog take up the full width
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        window.setAttributes(lp);
-        dialog.show();
-    }
-
-    public void showDialogShare() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_goto_share, null);
-        Button btnShareFacebook = (Button) dialog_view.findViewById(R.id.btn_share_facebook);
-        btnShareFacebook.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                mHomeActionListener.goToShare(mBravoObj, FragmentShare.SHARE_ON_FACEBOOK);
-            }
-        });
-        Button btnShareTwitter = (Button) dialog_view.findViewById(R.id.btn_share_twitter);
-        btnShareTwitter.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                mHomeActionListener.goToShare(mBravoObj, FragmentShare.SHARE_ON_TWITTER);
-            }
-        });
-        Button btnShareLine = (Button) dialog_view.findViewById(R.id.btn_share_line);
-        btnShareLine.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                mHomeActionListener.goToShare(mBravoObj, FragmentShare.SHARE_ON_LINE);
-            }
-        });
-        Button btnShareCancel = (Button) dialog_view.findViewById(R.id.btn_share_cancel);
-        btnShareCancel.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setContentView(dialog_view);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        // This makes the dialog take up the full width
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        dialog.show();
-    }
-
-    public void showDialogReportOk() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_report_ok, null);
-        Button btnReportClose = (Button) dialog_view.findViewById(R.id.btn_report_close);
-        btnReportClose.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-            }
-        });
-        dialog.setContentView(dialog_view);
-
-        dialog.show();
-    }
-
-    public void showDialogFollowingOK() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_following, null);
-        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
-        TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
-        txtContent.setText(getActivity().getResources().getString(R.string.profile_follow_alert).replace("%s", mBravoObj.Full_Name));
-        btnOK.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-            }
-        });
-        dialog.setContentView(dialog_view);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        window.setAttributes(lp);
-        dialog.show();
-    }
-
-    private void showDialogChooseImage() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_choose_picture, null);
-        Button btnZoomAPicture = (Button) dialog_view.findViewById(R.id.btn_zoom_a_picture);
-        btnZoomAPicture.setVisibility(View.GONE);
-        Button btnTakeAPicture = (Button) dialog_view.findViewById(R.id.btn_take_picture);
-        btnTakeAPicture.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // when user click camera to get image
-                try {
-                    String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media.TITLE, fileName);
-                    mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
-                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
-                } catch (Exception e) {
-                    AIOLog.e("exception:" + e.getMessage());
-                }
-                dialog.dismiss();
-
-            }
-        });
-        Button btnChooseFromLibrary = (Button) dialog_view.findViewById(R.id.btn_choose_from_library);
-        btnChooseFromLibrary.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // when user click gallery to get image
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
-                dialog.dismiss();
-            }
-        });
-        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_choose_picture_cancel);
-        btnCancel.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setContentView(dialog_view);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        // This makes the dialog take up the full width
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-
-        dialog.show();
-    }
-
-    public void showDialogReport() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_report, null);
-        Button btnOk = (Button) dialog_view.findViewById(R.id.btn_report_yes);
-        btnOk.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                requestToPutReport(mBravoObj);
-            }
-        });
-        Button btnCancel = (Button) dialog_view.findViewById(R.id.btn_report_no);
-        btnCancel.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setContentView(dialog_view);
-        dialog.show();
     }
 
     @SuppressWarnings("static-access")
@@ -1176,7 +598,23 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
     @Override
     public void goToReport() {
-        showDialogReport();
+        DialogUtility.showDialogReport(getActivity(), new IDialogListener() {
+
+            @Override
+            public void onClickPositve() {
+                requestToPutReport(mBravoObj);
+            }
+
+            @Override
+            public void onClickNegative() {
+
+            }
+
+            @Override
+            public void onClickCancel() {
+
+            }
+        });
     }
 
     @Override
@@ -1184,7 +622,23 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         if (isFollow)
             requestToPutFollow(mBravoObj);
         else
-            showDialogStopFollowing();
+            DialogUtility.showDialogStopFollowing(getActivity(), new IDialogListener() {
+
+                @Override
+                public void onClickPositve() {
+                    requestDeleteFollow(mBravoObj);
+                }
+
+                @Override
+                public void onClickNegative() {
+
+                }
+
+                @Override
+                public void onClickCancel() {
+
+                }
+            });
     }
 
     @Override
@@ -1212,7 +666,36 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
     @Override
     public void choosePicture() {
-        showDialogChooseImage();
+        DialogUtility.showDialogChooseImage(getActivity(), new IDialogListener() {
+
+            @Override
+            public void onClickPositve() {
+                // when user click camera to get image
+                try {
+                    String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
+                    mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                } catch (Exception e) {
+                    AIOLog.e("exception:" + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onClickNegative() {
+                // when user click gallery to get image
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
+            }
+
+            @Override
+            public void onClickCancel() {
+
+            }
+        });
     }
 
     @Override
@@ -1248,6 +731,28 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
             requestGetLikeItem();
         }
     }
-    
-    
+
+    @Override
+    public void deleteComment(String commentID) {
+        if (mObGetComments == null)
+            return;
+        for (int i = 0; i < mObGetComments.data.size(); i++) {
+            if (mObGetComments.data.get(i).commentID.equals(commentID)) {
+                adapterRecentPostDetail.removeComment(i);
+                break;
+            }
+        }
+
+        BravoRequestManager.getInstance(getActivity()).requestToDeleteComment(commentID, new IRequestListener() {
+
+            @Override
+            public void onResponse(String response) {
+                AIOLog.d("requestToDeleteComment:" + response);
+            }
+
+            @Override
+            public void onErrorResponse(String errorMessage) {
+            }
+        });
+    }
 }
