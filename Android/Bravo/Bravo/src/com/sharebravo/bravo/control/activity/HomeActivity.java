@@ -78,6 +78,7 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.WakeLocker;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
+
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentDuplicateSpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
