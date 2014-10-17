@@ -7,8 +7,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sharebravo.bravo.R;
@@ -19,6 +21,8 @@ import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
+import com.sharebravo.bravo.view.lib.undo_listview.SwipeDismissFavouriteTouchListener;
+import com.sharebravo.bravo.view.lib.undo_listview.SwipeDismissFavouriteTouchListener.OnDismissCallback;
 
 public class AdapterFavourite extends BaseAdapter {
     private boolean            isSortByDate              = true;
@@ -27,6 +31,7 @@ public class AdapterFavourite extends BaseAdapter {
     private double             mLat, mLong;
     private Context            mContext;
     private LayoutInflater     mLayoutInflater;
+    private boolean            isMovedRight;
 
     private IClickUserAvatar   iClickUserAvatar;
 
@@ -56,20 +61,22 @@ public class AdapterFavourite extends BaseAdapter {
 
     @SuppressLint("InflateParams")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(int position, View convertView, final ViewGroup parent) {
+        final ViewHolder holder;
         if (mLayoutInflater == null)
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null)
-            convertView = mLayoutInflater.inflate(R.layout.row_recent_post, null);
+            convertView = mLayoutInflater.inflate(R.layout.row_recent_post_undo, null);
 
         holder = new ViewHolder();
+        holder._layoutFavourite = (LinearLayout) convertView.findViewById(R.id.layout_row_post_undo);
         holder._recentPostImage = (ImageView) convertView.findViewById(R.id.img_post_recent);
         holder._recentPostTime = (TextView) convertView.findViewById(R.id.text_recent_post_time);
         holder._recentPostSpotName = (TextView) convertView.findViewById(R.id.text_recent_post_spot_name);
         holder._userAvatar = (ImageView) convertView.findViewById(R.id.img_recent_post_user_avatar);
         holder._userName = (TextView) convertView.findViewById(R.id.text_recent_post_user_name);
         holder._totalComment = (TextView) convertView.findViewById(R.id.text_total_spot_comment);
+        holder._linearDelete = (LinearLayout) convertView.findViewById(R.id.layout_delete);
         AIOLog.d("mObGetAllBravoRecentPosts.size():" + mObGetAllBravoRecentPosts.size() + ", position:" + position);
         if (mObGetAllBravoRecentPosts.size() > 0 && position < mObGetAllBravoRecentPosts.size()) {
             final ObBravo obGetBravo = mObGetAllBravoRecentPosts.get(position);
@@ -132,17 +139,71 @@ public class AdapterFavourite extends BaseAdapter {
                 holder._totalComment.setVisibility(View.VISIBLE);
                 holder._totalComment.setText(obGetBravo.Total_Comments + "");
             }
+            holder._layoutFavourite.setOnTouchListener(new SwipeDismissFavouriteTouchListener(mContext, holder._layoutFavourite, null,
+                    new OnDismissCallback() {
+
+                        @Override
+                        public void onStartAnimation(boolean dismissRight) {
+                            isMovedRight = dismissRight;
+                            // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                            // RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                            // holder._linearDelete.setLayoutParams(lp);
+                            // holder._linearDelete.getH
+                            // holder._linearDelete.setVisibility(View.VISIBLE);
+                            final ViewGroup.LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+                            final int originalHeight = holder._layoutFavourite.getHeight();
+                            lp.width = 100;
+                            lp.height = originalHeight;
+                            holder._linearDelete.setLayoutParams(lp);
+                        }
+
+                        @Override
+                        public void onEndAnimation(View view, Object token) {
+                            if (!isMovedRight) {
+                                // holder._linearDelete.setVisibility(View.GONE);
+                                // parent.removeView(holder._linearDelete);
+                            }
+                        }
+                    }));
+            holder._linearDelete.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    iClickUserAvatar.deleteItem(obGetBravo.Bravo_ID);
+                }
+            });
         }
+        convertView.setOnTouchListener(new SwipeDismissFavouriteTouchListener(mContext, convertView, null, new OnDismissCallback() {
+
+            @Override
+            public void onStartAnimation(boolean dismissRight) {
+                isMovedRight = dismissRight;
+                // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                // RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                // holder._linearDelete.setLayoutParams(lp);
+                // holder._linearDelete.getH
+                holder._linearDelete.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onEndAnimation(View view, Object token) {
+                if (!isMovedRight) {
+                    holder._linearDelete.setVisibility(View.GONE);
+                }
+            }
+        }));
         return convertView;
     }
 
     class ViewHolder {
-        ImageView _userAvatar;
-        TextView  _userName;
-        ImageView _recentPostImage;
-        TextView  _recentPostTime;
-        TextView  _recentPostSpotName;
-        TextView  _totalComment;
+        LinearLayout _layoutFavourite;
+        ImageView    _userAvatar;
+        TextView     _userName;
+        ImageView    _recentPostImage;
+        TextView     _recentPostTime;
+        TextView     _recentPostSpotName;
+        TextView     _totalComment;
+        LinearLayout _linearDelete;
     }
 
     public void updateRecentPostList(ObGetAllBravoRecentPosts obGetAllBravoRecentPosts, boolean isSortByDate, Double _lat, Double _long) {
@@ -178,6 +239,8 @@ public class AdapterFavourite extends BaseAdapter {
 
     public interface IClickUserAvatar {
         public void onClickUserAvatar(String userId);
+
+        public void deleteItem(String bravo_ID);
     }
 
     public void setListener(IClickUserAvatar iClickUserAvatar) {

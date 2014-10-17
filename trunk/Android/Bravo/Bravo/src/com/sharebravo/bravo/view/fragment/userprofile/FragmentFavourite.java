@@ -47,7 +47,6 @@ import com.sharebravo.bravo.view.adapter.AdapterFavourite.IClickUserAvatar;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView;
 import com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView.IXListViewListener;
-import com.sharebravo.bravo.view.lib.undo_listview.ContextualUndoAdapter;
 
 public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar, LocationListener {
     // =======================Constant Define==============
@@ -63,7 +62,6 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
     private XListView                mFavouriteListView;
     private LinearLayout             mLayoutNoFavorite;
     private boolean                  isSortByDate;
-    private ContextualUndoAdapter    mContextualUndoAdapter;
     private LinearLayout             mLayoutPoorConnection;
 
     @Override
@@ -122,13 +120,6 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     AIOLog.d("size of recent post list by date: " + mObGetAllBravoRecentPosts.data.size());
                     if (mObGetAllBravoRecentPosts.data.size() > 0) {
                         mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, true, mLat, mLong);
-
-                        if (mObGetAllBravoRecentPosts != null)
-                            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
-                                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, true, (double) 0, (double) 0);
-                        mContextualUndoAdapter.setAbsListView(mFavouriteListView);
-                        mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
-                        mFavouriteListView.setAdapter(mContextualUndoAdapter);
                         if (mFavouriteListView.getVisibility() == View.GONE) {
                             mFavouriteListView.setVisibility(View.VISIBLE);
                             mLayoutNoFavorite.setVisibility(View.GONE);
@@ -181,14 +172,10 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                         ArrayList<ObBravo> obBravos = BravoUtils.removeIncorrectBravoItems(mObGetAllBravoRecentPosts.data);
                         mObGetAllBravoRecentPosts.data = obBravos;
                         mAdapterFavourite.updateRecentPostList(mObGetAllBravoRecentPosts, false, mLat, mLong);
-                        if (mObGetAllBravoRecentPosts != null)
-                            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
-                                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, false, mLat, mLong);
-                        mContextualUndoAdapter.setAbsListView(mFavouriteListView);
-                        mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
-                        mFavouriteListView.setAdapter(mContextualUndoAdapter);
-                        if (mFavouriteListView.getVisibility() == View.GONE)
+                        if (mFavouriteListView.getVisibility() == View.GONE) {
                             mFavouriteListView.setVisibility(View.VISIBLE);
+                            mLayoutNoFavorite.setVisibility(View.GONE);
+                        }
                     }
                 }
             }
@@ -221,16 +208,16 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
         mBtnSortByLocation = (Button) root.findViewById(R.id.btn_sort_by_location);
         mFavouriteListView = (XListView) root.findViewById(R.id.listview_fragment_favourite);
         mAdapterFavourite = new AdapterFavourite(getActivity(), mObGetAllBravoRecentPosts);
-        if (mObGetAllBravoRecentPosts != null)
-            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
-                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate, (double) 0, (double) 0);
-        else
-            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, null,
-                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate, (double) 0, (double) 0);
+//        if (mObGetAllBravoRecentPosts != null)
+//            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, mObGetAllBravoRecentPosts.data,
+//                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate, (double) 0, (double) 0);
+//        else
+//            mContextualUndoAdapter = new ContextualUndoAdapter(getActivity(), mAdapterFavourite, null,
+//                    R.layout.row_recent_post_undo, R.id.undo_row_undobutton, isSortByDate, (double) 0, (double) 0);
         mAdapterFavourite.setListener(this);
-        mContextualUndoAdapter.setAbsListView(mFavouriteListView);
-        mFavouriteListView.setAdapter(mContextualUndoAdapter);
-        mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
+//        mContextualUndoAdapter.setAbsListView(mFavouriteListView);
+        mFavouriteListView.setAdapter(mAdapterFavourite);
+//        mContextualUndoAdapter.setDeleteItemCallback(new MyDeleteItemCallback());
         mLayoutNoFavorite = (LinearLayout) root.findViewById(R.id.layout_no_favourite);
         //
         mFavouriteListView.setOnItemClickListener(new OnItemClickListener() {
@@ -276,7 +263,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_2);
                     mBtnSortByLocation.setBackgroundResource(R.drawable.btn_save_1);
                     requestUserFavouriteSortByDate();
-                    mContextualUndoAdapter.updateSortType(isSortByDate);
+//                    mContextualUndoAdapter.updateSortType(isSortByDate);
                 }
             }
         });
@@ -289,7 +276,7 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
                     mBtnSortByDate.setBackgroundResource(R.drawable.btn_share_1);
                     mBtnSortByLocation.setBackgroundResource(R.drawable.btn_save_2);
                     requestUserFavouriteSortByLocation();
-                    mContextualUndoAdapter.updateSortType(isSortByDate);
+//                    mContextualUndoAdapter.updateSortType(isSortByDate);
                 }
             }
         });
@@ -314,30 +301,30 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
 
     }
 
-    private class MyDeleteItemCallback implements ContextualUndoAdapter.DeleteItemCallback {
+//    private class MyDeleteItemCallback implements ContextualUndoAdapter.DeleteItemCallback {
+//
+//        @Override
+//        public void deleteItem(int position) {
+//            int _position = 0;
+//            if (position > 0)
+//                _position = position - 1;
+//            mAdapterFavourite.remove(_position);
+//            int size = mObGetAllBravoRecentPosts.data.size();
+//            AIOLog.d("mObGetAllBravoRecentPosts.position:" + position + ",size:" + size);
+//            if (position > size)
+//                return;
+//            ObBravo obBravo = mObGetAllBravoRecentPosts.data.get(_position);
+//            if (obBravo == null)
+//                return;
+//            requestDeleteMyListItem(obBravo, _position);
+//        }
+//    }
 
-        @Override
-        public void deleteItem(int position) {
-            int _position = 0;
-            if (position > 0)
-                _position = position - 1;
-            mAdapterFavourite.remove(_position);
-            int size = mObGetAllBravoRecentPosts.data.size();
-            AIOLog.d("mObGetAllBravoRecentPosts.position:" + position + ",size:" + size);
-            if (position > size)
-                return;
-            ObBravo obBravo = mObGetAllBravoRecentPosts.data.get(_position);
-            if (obBravo == null)
-                return;
-            requestDeleteMyListItem(obBravo, _position);
-        }
-    }
-
-    private void requestDeleteMyListItem(ObBravo obBravo, final int position) {
+    private void requestDeleteMyListItem(String bravoID) {
         String userId = mSessionLogin.userID;
         String accessToken = mSessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_MYLIST.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{Bravo_ID}", obBravo.Bravo_ID);
+                .replace("{Bravo_ID}", bravoID);
         AsyncHttpDelete deleteMyListItem = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
             @Override
             public void processIfResponseSuccess(String response) {
@@ -416,5 +403,15 @@ public class FragmentFavourite extends FragmentBasic implements IClickUserAvatar
     @Override
     public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 
+    }
+
+    @Override
+    public void deleteItem(String bravo_ID) {
+        if(mObGetAllBravoRecentPosts == null)
+            return;
+        for(int i = 0 ; i < mObGetAllBravoRecentPosts.data.size();i++)
+            if(mObGetAllBravoRecentPosts.data.get(i).Bravo_ID.equals(bravo_ID))
+                mAdapterFavourite.remove(i);
+        requestDeleteMyListItem(bravo_ID);
     }
 }
