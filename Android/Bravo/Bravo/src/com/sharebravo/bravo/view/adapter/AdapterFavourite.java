@@ -2,6 +2,8 @@ package com.sharebravo.bravo.view.adapter;
 
 import java.util.ArrayList;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,8 +23,8 @@ import com.sharebravo.bravo.sdk.util.network.ImageLoader;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.utils.TimeUtility;
-import com.sharebravo.bravo.view.lib.undo_listview.SwipeDismissFavouriteTouchListener;
-import com.sharebravo.bravo.view.lib.undo_listview.SwipeDismissFavouriteTouchListener.OnDismissCallback;
+import com.sharebravo.bravo.view.lib.undo_listview.SwipeDismissTouchListener;
+import com.sharebravo.bravo.view.lib.undo_listview.SwipeDismissTouchListener.OnDismissCallback;
 
 public class AdapterFavourite extends BaseAdapter {
     private boolean            isSortByDate              = true;
@@ -139,29 +141,23 @@ public class AdapterFavourite extends BaseAdapter {
                 holder._totalComment.setVisibility(View.VISIBLE);
                 holder._totalComment.setText(obGetBravo.Total_Comments + "");
             }
-            holder._layoutFavourite.setOnTouchListener(new SwipeDismissFavouriteTouchListener(mContext, holder._layoutFavourite, null,
+            holder._layoutFavourite.setOnTouchListener(new SwipeDismissTouchListener(mContext, holder._layoutFavourite, null,
                     new OnDismissCallback() {
 
                         @Override
                         public void onStartAnimation(boolean dismissRight) {
                             isMovedRight = dismissRight;
-                            // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                            // RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-                            // holder._linearDelete.setLayoutParams(lp);
-                            // holder._linearDelete.getH
-                            // holder._linearDelete.setVisibility(View.VISIBLE);
                             final ViewGroup.LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+                            final ViewGroup.LayoutParams lpLinearDelete  = holder._linearDelete.getLayoutParams();
                             final int originalHeight = holder._layoutFavourite.getHeight();
-                            lp.width = 100;
                             lp.height = originalHeight;
-                            holder._linearDelete.setLayoutParams(lp);
+                            lpLinearDelete.height = originalHeight;
+                            holder._linearDelete.setLayoutParams(lpLinearDelete);
                         }
 
                         @Override
                         public void onEndAnimation(View view, Object token) {
                             if (!isMovedRight) {
-                                // holder._linearDelete.setVisibility(View.GONE);
-                                // parent.removeView(holder._linearDelete);
                             }
                         }
                     }));
@@ -169,29 +165,31 @@ public class AdapterFavourite extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    iClickUserAvatar.deleteItem(obGetBravo.Bravo_ID);
+                    holder._layoutFavourite.animate().translationX(0).alpha(1).setDuration(500).setListener(new AnimatorListener() {
+                        
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            
+                        }
+                        
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                            
+                        }
+                        
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            iClickUserAvatar.deleteItem(obGetBravo.Bravo_ID);
+                        }
+                        
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                            
+                        }
+                    });
                 }
-            });
+            }); 
         }
-        convertView.setOnTouchListener(new SwipeDismissFavouriteTouchListener(mContext, convertView, null, new OnDismissCallback() {
-
-            @Override
-            public void onStartAnimation(boolean dismissRight) {
-                isMovedRight = dismissRight;
-                // RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                // RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-                // holder._linearDelete.setLayoutParams(lp);
-                // holder._linearDelete.getH
-                holder._linearDelete.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onEndAnimation(View view, Object token) {
-                if (!isMovedRight) {
-                    holder._linearDelete.setVisibility(View.GONE);
-                }
-            }
-        }));
         return convertView;
     }
 

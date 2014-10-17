@@ -382,6 +382,102 @@ public class BravoRequestManager {
     // ======================================================
     // Delete Request
     // ======================================================
+    public void deleteSNS(String foreignID, final IRequestListener iRequestListener, FragmentBasic fragmentBasic) {
+        int loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin sessionLogin = BravoUtils.getSession(mContext, loginBravoViaType);
+        String userId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{SNS_ID}", foreignID);
+        AsyncHttpDelete deleteSNS = new AsyncHttpDelete(mContext, new AsyncHttpResponseProcess(mContext, fragmentBasic) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response deleteSNS :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    iRequestListener.onResponse(response);
+                } else {
+                    iRequestListener.onErrorResponse("Cannot delete sns");
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+                iRequestListener.onErrorResponse("Cannot delete sns");
+            }
+        }, null, true);
+        AIOLog.d(url);
+        deleteSNS.execute(url);
+    }
+    /**
+     * request to delete block user
+     * 
+     * @param foreignID
+     * @param iRequestListener
+     * @param fragmentBasic
+     */
+    public void requestDeleteBlock(String foreignID, final IRequestListener iRequestListener, FragmentBasic fragmentBasic) {
+        int loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin sessionLogin = BravoUtils.getSession(mContext, loginBravoViaType);
+        String userId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+        String url = BravoWebServiceConfig.URL_DELETE_BLOCKING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
+                .replace("{User_ID_Other}", foreignID);
+        AsyncHttpDelete deleteBlock = new AsyncHttpDelete(mContext, new AsyncHttpResponseProcess(mContext, fragmentBasic) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putFollow :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    iRequestListener.onResponse(response);
+                } else {
+                    iRequestListener.onErrorResponse("Cannot delete block");
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+                iRequestListener.onErrorResponse("Cannot delete block");
+            }
+        }, null, true);
+        AIOLog.d(url);
+        deleteBlock.execute(url);
+    }
+
     /**
      * request delete follow
      * 
@@ -435,6 +531,7 @@ public class BravoRequestManager {
         AIOLog.d(url);
         deleteFollow.execute(url);
     }
+
     /**
      * request delete follow
      * 
@@ -485,6 +582,7 @@ public class BravoRequestManager {
         AIOLog.d(url);
         deleteFollow.execute(url);
     }
+
     /**
      * request to delete this item from my list item
      * 

@@ -69,7 +69,6 @@ import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
@@ -1100,47 +1099,19 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void deleteSNS(final SNS sns) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{SNS_ID}", sns.foreignID);
-        AsyncHttpDelete deleteSNS = new AsyncHttpDelete(this, new AsyncHttpResponseProcess(this, mFragmentSetting) {
+        BravoRequestManager.getInstance(this).deleteSNS(sns.foreignID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("response deleteSNS :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    mFragmentSetting.updatePostSNS(sns, false);
-                } else {
-                    mFragmentSetting.updatePostSNS(sns, true);
-                }
+            public void onResponse(String response) {
+                mFragmentSetting.updatePostSNS(sns, false);
             }
 
             @Override
-            public void processIfResponseFail() {
+            public void onErrorResponse(String errorMessage) {
                 AIOLog.d("response error");
                 mFragmentSetting.updatePostSNS(sns, true);
             }
-        }, null, true);
-        AIOLog.d(url);
-        deleteSNS.execute(url);
-
+        }, mFragmentSetting);
     }
 
     @Override

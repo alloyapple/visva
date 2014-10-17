@@ -1,5 +1,7 @@
 package com.sharebravo.bravo.view.adapter;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.v4.app.FragmentTransaction;
@@ -364,6 +366,7 @@ public class AdapterBravoDetail extends BaseAdapter {
             holderComment.mCommentContent = (TextView) convertView.findViewById(R.id.txtview_comment_content);
             holderComment.mCommentDate = (TextView) convertView.findViewById(R.id.comment_txtview_date);
             holderComment.linearDelete = (LinearLayout) convertView.findViewById(R.id.layout_delete);
+            holderComment.linearComment = (LinearLayout) convertView.findViewById(R.id.layout_row_comment);
             // }
             /*
              * else
@@ -408,22 +411,43 @@ public class AdapterBravoDetail extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     AIOLog.d("delete comment:" + comment.commentID);
-                    listener.deleteComment(comment.commentID);
+                    holderComment.linearComment.animate().translationX(0).alpha(1).setDuration(500).setListener(new AnimatorListener() {
+
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            listener.deleteComment(comment.commentID);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+                    });
                 }
             });
             if (mSessionLogin.userID.equals(comment.userID))
-                convertView.setOnTouchListener(new SwipeDismissTouchListener(mContext, convertView, null,
+                holderComment.linearComment.setOnTouchListener(new SwipeDismissTouchListener(mContext, holderComment.linearComment, null,
                         new SwipeDismissTouchListener.OnDismissCallback() {
                             public void onEndAnimation(View view, Object token) {
                                 if (!isMovedRight) {
-                                    holderComment.linearDelete.setVisibility(View.GONE);
+                                    // holderComment.linearDelete.setVisibility(View.GONE);
                                 }
                             }
 
                             @Override
                             public void onStartAnimation(boolean isMoveRight) {
                                 isMovedRight = isMoveRight;
-                                holderComment.linearDelete.setVisibility(View.VISIBLE);
+                                // holderComment.linearDelete.setVisibility(View.VISIBLE);
                             }
                         }));
         }
@@ -469,6 +493,7 @@ public class AdapterBravoDetail extends BaseAdapter {
     }
 
     class ViewHolderComment {
+        LinearLayout linearComment;
         ImageView    mAvatarComment;
         TextView     mUserNameComment;
         TextView     mCommentContent;

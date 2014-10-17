@@ -43,9 +43,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
-import com.sharebravo.bravo.model.response.ObDeleteFollowing;
 import com.sharebravo.bravo.model.response.ObGetBlockingCheck;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
@@ -54,7 +55,6 @@ import com.sharebravo.bravo.model.response.ObPutBlocking;
 import com.sharebravo.bravo.model.response.ObPutFollowing;
 import com.sharebravo.bravo.model.response.ObUserImagePost;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPostImage;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
@@ -441,48 +441,18 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     private void requestDeleteFollow() {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_FOLLOWING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{User_ID_Other}", foreignID);
-        AsyncHttpDelete deleteFollow = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestDeleteFollow(foreignID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObDeleteFollowing obDeleteFollowing;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    mAdapterUserDataProfile.updateFollow(false);
-                } else {
-                    obDeleteFollowing = gson.fromJson(response.toString(), ObDeleteFollowing.class);
-                    showToast(obDeleteFollowing.error);
-                }
+            public void onResponse(String response) {
+                mAdapterUserDataProfile.updateFollow(false);
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("errorMessage:" + errorMessage);
             }
-        }, null, true);
-        AIOLog.d(url);
-        deleteFollow.execute(url);
+        }, FragmentUserDataTab.this);
     }
 
     private void requestToPutFollow() {
@@ -563,48 +533,19 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     private void requestDeleteBlock() {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_BLOCKING.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{User_ID_Other}", foreignID);
-        AsyncHttpDelete deleteBlock = new AsyncHttpDelete(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+        BravoRequestManager.getInstance(getActivity()).requestDeleteBlock(foreignID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("response putFollow :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                ObDeleteFollowing obDeleteFollowing;
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    mAdapterUserDataProfile.updateBlock(false);
-                } else {
-                    obDeleteFollowing = gson.fromJson(response.toString(), ObDeleteFollowing.class);
-                    showToast(obDeleteFollowing.error);
-                }
+                mAdapterUserDataProfile.updateBlock(false);
             }
 
             @Override
-            public void processIfResponseFail() {
+            public void onErrorResponse(String errorMessage) {
                 AIOLog.d("response error");
             }
-        }, null, true);
-        AIOLog.d(url);
-        deleteBlock.execute(url);
+        }, FragmentUserDataTab.this);
     }
 
     private void requestToPutBlock() {
