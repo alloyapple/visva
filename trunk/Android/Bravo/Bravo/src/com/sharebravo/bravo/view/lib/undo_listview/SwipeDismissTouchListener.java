@@ -140,7 +140,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 mView.setLayoutParams(lp);
             }
         });
-        mView.animate().translationX(0).alpha(1).setDuration(mAnimationTime).setListener(null);
+        if (!dismissRight)
+            mView.animate().translationX(0).alpha(1).setDuration(mAnimationTime).setListener(null);
         mCallback.onEndAnimation(mView, mToken);
     }
 
@@ -175,7 +176,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
             }
             if (dismiss) {
                 // dismiss
-                mView.animate().translationX(dismissRight ? -100 : 120).alpha(1)
+                mView.animate().translationX(dismissRight ? -175 : 120).alpha(1)
                         .setDuration(mAnimationTime)
                         .setListener(new AnimatorListenerAdapter() {
                             @Override

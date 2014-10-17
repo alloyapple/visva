@@ -46,13 +46,14 @@ import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
@@ -315,7 +316,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void finishPostBravo() {
-        Toast.makeText(this, "You have spent a bravo.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.post_bravo_message_special), Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -544,46 +545,19 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void deleteSNS(final SNS sns) {
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        String url = BravoWebServiceConfig.URL_DELETE_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
-                .replace("{SNS_ID}", sns.foreignID);
-        AsyncHttpDelete deleteSNS = new AsyncHttpDelete(this, new AsyncHttpResponseProcess(this, mFragmentBravoReturnSpots) {
+        BravoRequestManager.getInstance(this).deleteSNS(sns.foreignID, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("response deleteSNS :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    mFragmentBravoReturnSpots.updatePostSNS(sns, false);
-                } else {
-                    mFragmentBravoReturnSpots.updatePostSNS(sns, true);
-                }
+            public void onResponse(String response) {
+                mFragmentBravoReturnSpots.updatePostSNS(sns, false);
             }
 
             @Override
-            public void processIfResponseFail() {
+            public void onErrorResponse(String errorMessage) {
                 AIOLog.d("response error");
                 mFragmentBravoReturnSpots.updatePostSNS(sns, true);
             }
-        }, null, true);
-        AIOLog.d(url);
-        deleteSNS.execute(url);
+        }, mFragmentBravoSearch);
     }
 
     private void requestToGetTwitterUserInfo(String bravoId, String sharedText) {
