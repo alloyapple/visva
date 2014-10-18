@@ -34,13 +34,24 @@
         android:text="@string/bravo_info_save"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btn_delete_image"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/delete_image" />
+        android:layout_marginRight="10dp" >
+
+        <Button
+            android:id="@+id/btn_delete_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/delete_image" />
+
+        <Button
+            android:id="@+id/btn_report_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/report_icon" />
+    </FrameLayout>
 
 </FrameLayout>
