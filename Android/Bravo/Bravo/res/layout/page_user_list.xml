@@ -10,7 +10,8 @@
         android:background="@drawable/navigation_background"
         android:gravity="center_vertical" >
 
-        <Button android:id="@+id/btn_back"
+        <Button
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
@@ -23,7 +24,9 @@
     <com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView
         android:id="@+id/listview_user"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:divider="#ffc8c7cc"
+        android:dividerHeight="1px" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
 </LinearLayout>

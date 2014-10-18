@@ -61,7 +61,8 @@
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
+
+    <LinearLayout
         android:id="@+id/layout_quicksearch_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -152,7 +153,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_network_search"
-        android:background="@color/white" >
+        android:background="@color/white"
+        android:divider="#ffc8c7cc"
+        android:dividerHeight="1px" >
     </com.sharebravo.bravo.view.lib.pullrefresh_loadmore.XListView>
 
     <!-- <include layout="@layout/layout_search_result_footer" /> -->
