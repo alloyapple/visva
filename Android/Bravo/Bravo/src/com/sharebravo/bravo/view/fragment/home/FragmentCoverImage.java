@@ -2,7 +2,13 @@ package com.sharebravo.bravo.view.fragment.home;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
@@ -25,9 +31,19 @@ import com.sharebravo.bravo.control.activity.HomeActionListener;
 import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.control.request.BravoRequestManager;
 import com.sharebravo.bravo.control.request.IRequestListener;
+import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.sdk.log.AIOLog;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
+import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
 import com.sharebravo.bravo.sdk.util.network.ImageLoader;
+import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
+import com.sharebravo.bravo.utils.BravoConstant;
+import com.sharebravo.bravo.utils.BravoSharePrefs;
+import com.sharebravo.bravo.utils.BravoUtils;
+import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.DialogUtility;
+import com.sharebravo.bravo.utils.IDialogListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.lib.touchview.TouchImageView;
 
@@ -38,6 +54,7 @@ public class FragmentCoverImage extends FragmentBasic {
     Button                     btnClose            = null;
     TextView                   btnDownload         = null;
     Button                     btnDeleteImage      = null;
+    Button                     btnReport           = null;
     private HomeActionListener mHomeActionListener = null;
 
     @Override
@@ -73,14 +90,35 @@ public class FragmentCoverImage extends FragmentBasic {
                 showDialogDelete();
             }
         });
+        btnReport = (Button) root.findViewById(R.id.btn_report_image);
+        btnReport.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                onReport();
+            }
+        });
+
         return root;
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus()) {
+            int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+            SessionLogin sessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
+            String userId = sessionLogin.userID;
+            if (userId.equals(mObBravo.User_ID))
+            {
+                btnReport.setVisibility(View.GONE);
+                btnDeleteImage.setVisibility(View.VISIBLE);
+
+            } else {
+                btnReport.setVisibility(View.VISIBLE);
+                btnDeleteImage.setVisibility(View.GONE);
+            }
             mImageLoader.DisplayImage(mObBravo.Last_Pic, R.drawable.user_picture_default, coverImage, false);
         }
     }
@@ -103,6 +141,91 @@ public class FragmentCoverImage extends FragmentBasic {
         this.mObBravo = mObBravo;
     }
 
+    public void onReport() {
+        DialogUtility.showDialogReport(getActivity(), new IDialogListener() {
+
+            @Override
+            public void onClickPositve() {
+                requestToPutReport(mObBravo);
+            }
+
+            @Override
+            public void onClickNegative() {
+
+            }
+
+            @Override
+            public void onClickCancel() {
+
+            }
+        });
+    }
+
+    private void requestToPutReport(ObBravo obBravo) {
+        int loginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin sessionLogin = BravoUtils.getSession(getActivity(), loginBravoViaType);
+        String userId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Foreign_ID", obBravo.User_ID);
+        subParams.put("Report_Type", "bravo");
+        subParams.put("User_ID", userId);
+        subParams.put("Detail", "");
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_REPORT.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putReport = new AsyncHttpPut(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putReport :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                // Gson gson = new GsonBuilder().serializeNulls().create();
+                // ObPutReport obPutReport;
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    DialogUtility.showDialogReportOk(getActivity());
+                } else {
+                    // obPutReport = gson.fromJson(response.toString(), ObPutReport.class);
+
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+
+            }
+        }, params, true);
+        putReport.execute(url);
+        // BravoRequestManager.getInstance(getActivity()).requestToPutReport(obBravo.User_ID, new IRequestListener() {
+        //
+        // @Override
+        // public void onResponse(String response) {
+        // AIOLog.d("response putReport :===>" + response);
+        // DialogUtility.showDialogReportOk(getActivity());
+        // }
+        //
+        // @Override
+        // public void onErrorResponse(String errorMessage) {
+        // AIOLog.d("errorMessage:" + errorMessage);
+        // }
+        // }, this);
+    }
+
     public void showDialogDelete() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -116,13 +239,13 @@ public class FragmentCoverImage extends FragmentBasic {
             public void onClick(View v) {
                 dialog.dismiss();
                 BravoRequestManager.getInstance(getActivity()).requestToDeleteBravoImage(mObBravo, new IRequestListener() {
-                    
+
                     @Override
                     public void onResponse(String response) {
                         mHomeActionListener.requestBravoDetailInfo();
                         showDialogRemovePhotoOk();
                     }
-                    
+
                     @Override
                     public void onErrorResponse(String errorMessage) {
                         AIOLog.d("Cannot remove photo");

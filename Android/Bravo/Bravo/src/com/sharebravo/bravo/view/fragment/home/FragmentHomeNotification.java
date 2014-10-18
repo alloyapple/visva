@@ -1,5 +1,6 @@
 package com.sharebravo.bravo.view.fragment.home;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +21,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.SessionLogin;
+import com.sharebravo.bravo.model.response.ObGetNotification.Notification;
+import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetNotificationSearch;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -42,13 +49,55 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
     private Button                  mBtnCloseNotifications;
     private AdapterHomeNotification mAdapterHomeNotification;
     private LinearLayout            mLayoutPoorConnection;
+    private ArrayList<Notification> mData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = (ViewGroup) inflater.inflate(R.layout.page_fragment_home_notification, container);
         initializeView(root);
         mHomeActionListener = (HomeActivity) getActivity();
+        mListViewNotifications.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                onClickItem(arg2);
+            }
+        });
         return root;
+    }
+
+    public void onClickItem(int pos) {
+        if (mData.get(pos).Notification_Type.equals("follow") || mData.get(pos).Notification_Type.equals("mylist")) {
+            mHomeActionListener.goToUserData(mData.get(pos).User_ID);
+        } else if (mData.get(pos).Notification_Type.equals("comment") || mData.get(pos).Notification_Type.equals("bravo")) {
+            requestGetBravo(mData.get(pos).Bravo_ID);
+        } else {
+
+        }
+    }
+
+    private void requestGetBravo(String Bravo_ID) {
+
+        BravoRequestManager.getInstance(getActivity()).requestToGetBravoForSpotDetail(getActivity(), Bravo_ID, new IRequestListener() {
+
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                ObGetBravo obGetBravo = gson.fromJson(response.toString(), ObGetBravo.class);
+                AIOLog.d("obGetAllBravoRecentPosts:" + obGetBravo);
+                if (obGetBravo == null)
+                    return;
+                else {
+                    mHomeActionListener.goToRecentPostDetail(obGetBravo.data);
+                }
+            }
+
+            @Override
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("response error");
+            }
+        }, this);
     }
 
     private void initializeView(View root) {
@@ -138,6 +187,7 @@ public class FragmentHomeNotification extends FragmentBasic implements com.share
                     } else {
                         mTextNoNotifications.setVisibility(View.GONE);
                         mListViewNotifications.setVisibility(View.VISIBLE);
+                        mData = mObGetNotificationSearch.data;
                         mAdapterHomeNotification.updateNotificationList(mObGetNotificationSearch.data);
                     }
                     break;
