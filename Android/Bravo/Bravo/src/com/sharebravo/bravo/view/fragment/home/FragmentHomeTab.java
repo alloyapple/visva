@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +29,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.HomeActivity;
+import com.sharebravo.bravo.control.request.BravoRequestManager;
+import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
@@ -72,6 +76,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
     private static int               mNumberOfNewNotifications = 0;
     private LinearLayout             mLayoutRecentPostText;
     private LinearLayout             mLayoutPoorConnection;
+    private LinearLayout             mLayoutLoading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +88,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         mLoginBravoViaType = BravoSharePrefs.getInstance(getActivity()).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(getActivity(), mLoginBravoViaType);
         if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
-            requestNewsItemsOnBravoServer(mSessionLogin);
+            requestNewsItemsOnBravoServer();
         } else {
             mObGetAllBravoRecentPosts = BravoUtils.getDataFromDb(getActivity());
             if (mObGetAllBravoRecentPosts != null) {
@@ -115,8 +120,14 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
         super.onHiddenChanged(hidden);
         if (hidden) {
             isOutOfDataLoadMore = false;
-            if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable())
+            if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
                 requestGetUserInfo();
+            }
+        } else {
+            AIOLog.d("mSessionLogin:" + mSessionLogin);
+            if (mSessionLogin == null || mObGetAllBravoRecentPosts == null)
+                return;
+            requestNewsItemsOnBravoServer();
         }
     }
 
@@ -216,24 +227,11 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
 
     }
 
-    private void requestNewsItemsOnBravoServer(SessionLogin sessionLogin) {
-        String userId = sessionLogin.userID;
-        String accessToken = sessionLogin.accessToken;
-        AIOLog.d("mUserId:" + sessionLogin.userID + ", mAccessToken:" + sessionLogin.accessToken);
-        if (StringUtility.isEmpty(sessionLogin.userID) || StringUtility.isEmpty(sessionLogin.accessToken)) {
-            userId = "";
-            accessToken = "";
-        }
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Global", "TRUE");
-        subParams.put("View_Deleted_Users", "0");
-        JSONObject jsonObject = new JSONObject(subParams);
-        String subParamsJsonStr = jsonObject.toString();
-        String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
-        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
-        AsyncHttpGet getLoginRequest = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
+    private void requestNewsItemsOnBravoServer() {
+        BravoRequestManager.getInstance(getActivity()).requestNewsItemsOnBravoServer(new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
+            public void onResponse(String response) {
                 AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
                 mObGetAllBravoRecentPosts = gson.fromJson(response.toString(), ObGetAllBravoRecentPosts.class);
@@ -247,17 +245,16 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
                     mAdapterRecentPost.updateRecentPostList(obBravos);
                     if (mListviewRecentPost.getVisibility() == View.GONE)
                         mListviewRecentPost.setVisibility(View.VISIBLE);
+                    if (mLayoutLoading.getVisibility() == View.VISIBLE)
+                        mLayoutLoading.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void processIfResponseFail() {
-                AIOLog.d("response error");
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("Can not get recent posts");
             }
-        }, params, true);
-
-        getLoginRequest.execute(url);
-
+        });
     }
 
     private void intializeView(View root) {
@@ -270,6 +267,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             mLayoutPoorConnection.setVisibility(View.VISIBLE);
             mLayoutRecentPostText.setVisibility(View.GONE);
         }
+        mLayoutLoading = (LinearLayout) root.findViewById(R.id.layout_loading);
         mBtnHomeNotification = (Button) root.findViewById(R.id.btn_home_notification);
         mBtnHomeNotification.setOnClickListener(new View.OnClickListener() {
 
@@ -313,7 +311,7 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             }
         });
     }
-
+    
     public void showDialogWelcome() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

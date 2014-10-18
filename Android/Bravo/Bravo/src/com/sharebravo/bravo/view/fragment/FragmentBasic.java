@@ -1,9 +1,9 @@
 package com.sharebravo.bravo.view.fragment;
 
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
 import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
@@ -11,13 +11,13 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.sdk.util.VisvaDialog;
 
 public class FragmentBasic extends Fragment implements IUISync {
-    private boolean              backStatus  = false;
-    protected Object             mData       = null;
-    protected HomeActionListener mHomeActionListener;
+    private boolean                 backStatus  = false;
+    protected Object                mData       = null;
+    protected HomeActionListener    mHomeActionListener;
     protected BravoCheckingListener mBravoCheckingListener;
-    private boolean              dataChange  = false;
-    private VisvaDialog          mProgressDialog;
-    public int                   mNumLoading = 0;
+    private boolean                 dataChange  = false;
+    private VisvaDialog             mProgressDialog;
+    public int                      mNumLoading = 0;
 
     public FragmentBasic() {
         mHomeActionListener = (HomeActivity) getActivity();
@@ -27,13 +27,12 @@ public class FragmentBasic extends Fragment implements IUISync {
     public void before() {
         // Show waiting dialog during connection
         if (mNumLoading == 0) {
+            // Show waiting dialog during connection
+            mProgressDialog = new VisvaDialog(getActivity(), R.style.ProgressHUD);
             try {
-                Log.d(getClass().toString(), "progress");
-                mProgressDialog = new VisvaDialog(getActivity());
                 mProgressDialog.show();
-                mProgressDialog.setCancelable(false);
             } catch (Exception e) {
-
+                mProgressDialog = null;
             }
         }
 

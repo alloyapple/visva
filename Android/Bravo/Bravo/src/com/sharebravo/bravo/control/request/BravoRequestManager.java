@@ -2,6 +2,7 @@ package com.sharebravo.bravo.control.request;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +23,7 @@ import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
 import com.sharebravo.bravo.model.response.ObDeleteLike;
 import com.sharebravo.bravo.model.response.ObDeleteMylist;
+import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObGetLikeItem;
@@ -426,6 +429,7 @@ public class BravoRequestManager {
         AIOLog.d(url);
         deleteSNS.execute(url);
     }
+
     /**
      * request to delete block user
      * 
@@ -833,6 +837,44 @@ public class BravoRequestManager {
     // =====================================================
     // Get Request
     // =====================================================
+    /**
+     * request all recent post at home tab
+     * 
+     * @param iRequestListener
+     */
+    public void requestNewsItemsOnBravoServer(final IRequestListener iRequestListener) {
+        int _loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin _sessionLogin = BravoUtils.getSession(mContext, _loginBravoViaType);
+        String userId = _sessionLogin.userID;
+        String accessToken = _sessionLogin.accessToken;
+        if (StringUtility.isEmpty(_sessionLogin.userID) || StringUtility.isEmpty(_sessionLogin.accessToken)) {
+            userId = "";
+            accessToken = "";
+        }
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Global", "TRUE");
+        subParams.put("View_Deleted_Users", "0");
+        JSONObject jsonObject = new JSONObject(subParams);
+        String subParamsJsonStr = jsonObject.toString();
+        String url = BravoWebServiceConfig.URL_GET_ALL_BRAVO;
+        List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
+        AsyncHttpGet getLoginRequest = new AsyncHttpGet(mContext, new AsyncHttpResponseProcess(mContext, null) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                iRequestListener.onResponse(response);
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                AIOLog.d("response error");
+                iRequestListener.onErrorResponse("response error");
+            }
+        }, params, true);
+
+        getLoginRequest.execute(url);
+
+    }
+
     /**
      * request to get my list item
      * 

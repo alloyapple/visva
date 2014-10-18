@@ -485,4 +485,11 @@ public class AdapterUserDetail extends BaseAdapter {
         this.isMyData = isMyData;
         notifyDataSetChanged();
     }
+
+    public void clearTimeLine() {
+        if(mObGetTimeLine == null)
+            return;
+        mObGetTimeLine.clear();
+        notifyDataSetChanged();
+    }
 }

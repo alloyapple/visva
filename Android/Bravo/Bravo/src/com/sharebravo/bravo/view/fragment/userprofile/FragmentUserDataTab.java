@@ -263,6 +263,8 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             if (!isBackStatus()) {
                 if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
                     getUserInfo(foreignID);
+                    mAdapterUserDataProfile.clearTimeLine();
+                    mListViewUserPostProfile.setSelection(0);
                     requestGetBlockingCheck();
                     requestGetFollowingCheck();
                     requestGetUserTimeLine(foreignID);

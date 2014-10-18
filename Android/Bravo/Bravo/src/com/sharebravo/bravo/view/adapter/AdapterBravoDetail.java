@@ -529,4 +529,11 @@ public class AdapterBravoDetail extends BaseAdapter {
         mObGetComments.data.remove(i);
         notifyDataSetChanged();
     }
+
+    public void removeAllComments() {
+        if (mObGetComments == null)
+            return;
+        mObGetComments.data.clear();
+        notifyDataSetChanged();
+    }
 }
