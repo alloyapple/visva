@@ -351,9 +351,9 @@ public class AdapterBravoDetail extends BaseAdapter {
                 }
             });
             if (bravoObj.User_ID.equals(mSessionLogin.userID))
-                layoutReport.setVisibility(View.GONE);
+                btnReport.setVisibility(View.GONE);
             else
-                layoutReport.setVisibility(View.VISIBLE);
+                btnReport.setVisibility(View.VISIBLE);
 
         } else {
             int index = position - 1;
