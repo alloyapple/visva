@@ -440,6 +440,8 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
         super.onHiddenChanged(hidden);
         if (!hidden && !isBackStatus() && NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
             adapterRecentPostDetail.updateMapView();
+            adapterRecentPostDetail.removeAllComments();
+            listviewRecentPostDetail.setSelection(0);
             requestGetBravo();
             requestGetFollowingCheck();
             requestGetMyListItem();

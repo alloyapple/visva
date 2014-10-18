@@ -1,9 +1,9 @@
 package com.sharebravo.bravo.view.fragment;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
+import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.activity.ActivityBravoChecking;
 import com.sharebravo.bravo.control.activity.BravoCheckingListener;
 import com.sharebravo.bravo.control.activity.HomeActionListener;
@@ -27,13 +27,11 @@ public class FragmentMapBasic extends SupportMapFragment implements IUISync {
     public void before() {
         // Show waiting dialog during connection
         if (mNumLoading == 0) {
+            mProgressDialog = new VisvaDialog(getActivity(), R.style.ProgressHUD);
             try {
-                Log.d(getClass().toString(), "progress");
-                mProgressDialog = new VisvaDialog(getActivity());
                 mProgressDialog.show();
-                mProgressDialog.setCancelable(false);
             } catch (Exception e) {
-
+                mProgressDialog = null;
             }
         }
 
@@ -55,7 +53,6 @@ public class FragmentMapBasic extends SupportMapFragment implements IUISync {
                 }
             }
         }
-
     }
 
     public void refreshUI() {
