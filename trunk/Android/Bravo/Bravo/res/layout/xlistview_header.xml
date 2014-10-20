@@ -10,12 +10,17 @@
         android:layout_height="60dp" >
 
         <LinearLayout
-            android:id="@+id/xlistview_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical" android:id="@+id/xlistview_header_text">
+
+            <TextView
+                android:id="@+id/xlistview_header_hint_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pull_refresh_pull_down" />
         </LinearLayout>
 
         <ImageView
@@ -25,7 +30,6 @@
             android:layout_alignLeft="@id/xlistview_header_text"
             android:layout_centerVertical="true"
             android:layout_marginLeft="-35dp"
-            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_pulltorefresh_arrow" />
 
         <ProgressBar
@@ -35,7 +39,7 @@
             android:layout_alignLeft="@id/xlistview_header_text"
             android:layout_centerVertical="true"
             android:layout_marginLeft="-40dp"
-            android:visibility="gone" />
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </LinearLayout>

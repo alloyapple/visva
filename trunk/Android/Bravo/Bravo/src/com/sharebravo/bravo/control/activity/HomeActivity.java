@@ -688,7 +688,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void showPageHomeNotification() {
-        goToFragment(FRAGMENT_HOME_NOTIFICATION_ID);
+        showFragment(FRAGMENT_HOME_NOTIFICATION_ID, false, SHOW_ANIMATION_TO_RIGHT);
     }
 
     @Override

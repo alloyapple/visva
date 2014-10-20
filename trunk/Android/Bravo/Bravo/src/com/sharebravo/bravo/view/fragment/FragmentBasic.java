@@ -30,6 +30,7 @@ public class FragmentBasic extends Fragment implements IUISync {
             // Show waiting dialog during connection
             mProgressDialog = new VisvaDialog(getActivity(), R.style.ProgressHUD);
             try {
+                mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
             } catch (Exception e) {
                 mProgressDialog = null;
