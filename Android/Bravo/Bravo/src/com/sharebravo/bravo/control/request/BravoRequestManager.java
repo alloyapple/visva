@@ -2,7 +2,6 @@ package com.sharebravo.bravo.control.request;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,7 +21,6 @@ import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObDeleteFollowing;
 import com.sharebravo.bravo.model.response.ObDeleteLike;
 import com.sharebravo.bravo.model.response.ObDeleteMylist;
-import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetBravo;
 import com.sharebravo.bravo.model.response.ObGetFollowingCheck;
 import com.sharebravo.bravo.model.response.ObGetLikeItem;

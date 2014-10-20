@@ -968,12 +968,28 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     }
 
     private void cropImageFromUri(Uri uri) {
-        AIOLog.d("uri:" + uri);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        int screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        int screenHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
+        // Returns null, sizes are in the options variable
+        BitmapFactory.decodeFile(uri.getPath(), options);
+        int width = options.outWidth;
+        int height = options.outHeight;
+        // If you want, the MIME type will also be decoded (if possible)
+        String type = options.outMimeType;
+        AIOLog.d("uri:" + uri.getPath() + ", width:" + width + ", height:" + height);
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setType("image/*");
         List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
 
         int size = list.size();
+        int sizeOfCrop = 1000;
+        if (screenWidth < screenHeight)
+            sizeOfCrop = screenWidth;
+        else
+            sizeOfCrop = screenHeight;
         AIOLog.d("size:" + size);
         if (size == 0) {
             showToast("Can not crop image");
@@ -984,12 +1000,13 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                 intent.putExtra("outputX", 1000);
                 intent.putExtra("outputY", 1000);
             } else {
-                intent.putExtra("outputX", 1500);
-                intent.putExtra("outputY", 1500);
+                intent.putExtra("outputX", sizeOfCrop * 2);
+                intent.putExtra("outputY", sizeOfCrop * 2);
             }
-            intent.putExtra("aspectX", 2);
-            intent.putExtra("aspectY", 2);
+            intent.putExtra("aspectX", sizeOfCrop);
+            intent.putExtra("aspectY", sizeOfCrop);
             intent.putExtra("scale", true);
+            intent.putExtra("crop", "true");
             intent.putExtra("return-data", true);
             if (size >= 1) {
                 Intent i = new Intent(intent);
