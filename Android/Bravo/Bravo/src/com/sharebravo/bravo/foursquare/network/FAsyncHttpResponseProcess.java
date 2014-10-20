@@ -30,6 +30,7 @@ public class FAsyncHttpResponseProcess implements FAsyncHttpResponseListener {
 		// Show waiting dialog during connection
 		progressDialog = new VisvaDialog(context);
 		try {
+		    progressDialog.setCancelable(false);
 			progressDialog.show();
 		} catch (Exception e) {
 			progressDialog = null;

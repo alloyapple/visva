@@ -194,7 +194,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                 if (obGetBravo == null)
                     return;
                 else {
-                    String Last_Pic = mBravoObj.Last_Pic;
+                    String Last_Pic = obGetBravo.data.Last_Pic;
                     mBravoObj = obGetBravo.data;
                     mBravoObj.Last_Pic = Last_Pic;
                     setBravoOb(mBravoObj);
@@ -560,6 +560,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
                     @Override
                     public void onResponse(String response) {
+                        AIOLog.d("updateBravoImage: " + response);
                         requestGetBravo();
                     }
 

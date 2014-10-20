@@ -29,6 +29,7 @@ public class FragmentMapBasic extends SupportMapFragment implements IUISync {
         if (mNumLoading == 0) {
             mProgressDialog = new VisvaDialog(getActivity(), R.style.ProgressHUD);
             try {
+                mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
             } catch (Exception e) {
                 mProgressDialog = null;

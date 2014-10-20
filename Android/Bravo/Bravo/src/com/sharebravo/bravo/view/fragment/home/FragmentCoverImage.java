@@ -95,7 +95,6 @@ public class FragmentCoverImage extends FragmentBasic {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 onReport();
             }
         });
@@ -119,7 +118,11 @@ public class FragmentCoverImage extends FragmentBasic {
                 btnReport.setVisibility(View.VISIBLE);
                 btnDeleteImage.setVisibility(View.GONE);
             }
-            mImageLoader.DisplayImage(mObBravo.Last_Pic, R.drawable.user_picture_default, coverImage, false);
+            AIOLog.d("mObBravo.Last_Pic: " + mObBravo.Last_Pic);
+            String imgSpotUrl = null;
+            if (mObBravo.Bravo_Pics.size() > 0)
+                imgSpotUrl = mObBravo.Bravo_Pics.get(0);
+            mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, coverImage, false);
         }
     }
 
