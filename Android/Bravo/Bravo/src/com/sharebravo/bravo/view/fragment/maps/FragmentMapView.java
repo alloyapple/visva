@@ -189,7 +189,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
         LatLng latLng = new LatLng(latitude, longitude);
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        map.animateCamera(CameraUpdateFactory.zoomTo(14));
+        map.animateCamera(CameraUpdateFactory.zoomTo(12));
         map.setMyLocationEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(false);
         map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -222,7 +222,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
 
         LatLng latLng = new LatLng(latitude, longitude);
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        map.animateCamera(CameraUpdateFactory.zoomTo(14));
+        map.animateCamera(CameraUpdateFactory.zoomTo(12));
         map.setMyLocationEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(false);
         map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -269,7 +269,7 @@ public class FragmentMapView extends FragmentMapBasic implements LocationListene
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
         marker.icon(BitmapDescriptorFactory.fromBitmap(icon));
         marker.title(name);
-        getMap().clear();
+//        getMap().clear();
         Marker markerObject = getMap().addMarker(marker);
         return markerObject;
     }

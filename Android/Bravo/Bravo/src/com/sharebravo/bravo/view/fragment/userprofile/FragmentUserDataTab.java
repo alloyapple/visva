@@ -260,7 +260,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (!isBackStatus()) {
+            //if (!isBackStatus()) {
                 if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
                     getUserInfo(foreignID);
                     mAdapterUserDataProfile.clearTimeLine();
@@ -276,7 +276,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                         mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
                     }
                 }
-            }
+          //  }
             checkUserDataType(foreignID);
         } else {
             isOutOfDataLoadMore = false;
