@@ -22,13 +22,13 @@
     <string name="holidays">Holidays</string>
     <string name="toefl">Toefl</string>
     <string name="sat">Sat</string>
-
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="show">Show</string>
     <string name="hide">Hide</string>
     <string name="sound">Sound</string>
     <string name="gallows">Gallows</string>
+    <string name="share_via">Share via</string>
     <!-- The application's publisher ID assigned by AdMob -->
     <string name="ADMOB_PUBLISHER_ID">your_id_admod" </string>
 
