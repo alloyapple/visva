@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -116,6 +117,8 @@ public class AdapterUserDetail extends BaseAdapter {
             String imgSpotUrl = null;
             if (obGetBravo.Bravo_Pics.size() > 0)
                 imgSpotUrl = obGetBravo.Bravo_Pics.get(0);
+            if (!URLUtil.isValidUrl(imgSpotUrl))
+                imgSpotUrl = obGetBravo.Last_Pic;
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 holder._recentPostImage.setVisibility(View.GONE);
                 holder._recentPostSpotName.setBackgroundResource(R.drawable.recent_post_none_img);
@@ -454,7 +457,7 @@ public class AdapterUserDetail extends BaseAdapter {
     }
 
     public void setUserImage(int userImageType) {
-        notifyDataSetChanged(); 
+        notifyDataSetChanged();
     }
 
     public void parallaxImage(View view) {
@@ -487,7 +490,7 @@ public class AdapterUserDetail extends BaseAdapter {
     }
 
     public void clearTimeLine() {
-        if(mObGetTimeLine == null)
+        if (mObGetTimeLine == null)
             return;
         mObGetTimeLine.clear();
         notifyDataSetChanged();
