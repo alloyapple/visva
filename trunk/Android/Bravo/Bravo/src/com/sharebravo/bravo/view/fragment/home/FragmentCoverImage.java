@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +123,8 @@ public class FragmentCoverImage extends FragmentBasic {
             String imgSpotUrl = null;
             if (mObBravo.Bravo_Pics.size() > 0)
                 imgSpotUrl = mObBravo.Bravo_Pics.get(0);
+            if (!URLUtil.isValidUrl(imgSpotUrl))
+                imgSpotUrl = mObBravo.Last_Pic;
             mImageLoader.DisplayImage(imgSpotUrl, R.drawable.user_picture_default, coverImage, false);
         }
     }

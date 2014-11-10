@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -178,7 +179,8 @@ public class AdapterBravoDetail extends BaseAdapter {
             String imgSpotUrl = null;
             if (bravoObj.Bravo_Pics.size() > 0)
                 imgSpotUrl = bravoObj.Bravo_Pics.get(0);
-
+            if (!URLUtil.isValidUrl(imgSpotUrl))
+                imgSpotUrl = bravoObj.Last_Pic;
             AIOLog.d("bravoObj.Last_Pic: " + bravoObj.Last_Pic);
             if (StringUtility.isEmpty(imgSpotUrl)) {
                 layoutMapview.setVisibility(View.VISIBLE);
