@@ -274,9 +274,9 @@ public class FragmentHomeTab extends FragmentBasic implements IClickUserAvatar {
             @Override
             public void onClick(View v) {
                 // show home notification tab
-                mHomeActionListener.showPageHomeNotification();
                 mNumberOfNewNotifications = 0;
                 mNotificationIcon.setVisibility(View.GONE);
+                mHomeActionListener.showPageHomeNotification();
             }
         });
         mListviewRecentPost = (XListView) root.findViewById(R.id.listview_recent_post);

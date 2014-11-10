@@ -73,6 +73,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
     private ArrayList<SNS>   mArrSNSList;
     // ====================Variable Define=================
     private ImageView        mImageSpot;
+    
     private ImageView        mImageChooseImage;
     private ImageButton      mBtnImageCover;
     private TextView         mTextSpotName;
@@ -329,6 +330,13 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         mBtnShareTwitter = (Button) root.findViewById(R.id.btn_return_spot_share_twitter);
         mBtnShareFourSquare = (Button) root.findViewById(R.id.btn_return_spot_share_foursquare);
 
+        mBtnImageCover.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                showDialogChooseImage();
+            }
+        });
         mImageChooseImage.setOnClickListener(new View.OnClickListener() {
 
             @Override

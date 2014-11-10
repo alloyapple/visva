@@ -997,14 +997,14 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         } else {
             intent.setData(uri);
             if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType) {
-                intent.putExtra("outputX", 1000);
-                intent.putExtra("outputY", 1000);
+                intent.putExtra("aspectX", 1);
+                intent.putExtra("aspectY", 1);
             } else {
-                intent.putExtra("outputX", sizeOfCrop * 2);
-                intent.putExtra("outputY", sizeOfCrop * 2);
+                intent.putExtra("aspectX", 3);
+                intent.putExtra("aspectY", 4);
             }
-            intent.putExtra("aspectX", sizeOfCrop);
-            intent.putExtra("aspectY", sizeOfCrop);
+            intent.putExtra("outputX", 256);
+            intent.putExtra("outputY", 256);
             intent.putExtra("scale", true);
             intent.putExtra("crop", "true");
             intent.putExtra("return-data", true);
