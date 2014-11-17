@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="adview_top_margin">22.0dip</dimen>
     <dimen name="yellow_top_margin">7.0dip</dimen>
     <dimen name="dialog_text_width">220.0dip</dimen>
@@ -80,4 +81,9 @@
     <dimen name="score_board_text_size">20.0sp</dimen>
     <dimen name="adview_width">320.0dip</dimen>
     <dimen name="adview_height">50.0dip</dimen>
+
+    <!-- New Define -->
+    <dimen name="hangman_width">118dp</dimen>
+    <dimen name="hangman_height">182dp</dimen>
+
 </resources>

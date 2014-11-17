@@ -92,4 +92,7 @@
 	<!-- option setting  -->
 	<dimen name="option_layout_margin_top">200dp</dimen>
 
+	<!-- New Define -->
+    <dimen name="hangman_width">118dp</dimen>
+    <dimen name="hangman_height">182dp</dimen>
 </resources>

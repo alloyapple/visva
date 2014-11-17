@@ -641,6 +641,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		} else {
 			// do nothing
 		}
+		gallowns_layout.invalidate();
 	}
 
 	private void drawHead() {
@@ -648,6 +649,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
+		im.invalidate();
 	}
 
 	private void drawTorso() {
