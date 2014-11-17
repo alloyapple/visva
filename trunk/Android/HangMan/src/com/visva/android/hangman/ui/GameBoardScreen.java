@@ -612,32 +612,20 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 			drawTorso();
 			break;
 		case 4:
-			drawLeftArm();
+		    drawRightLeg();
 			break;
 		case 5:
-			drawRightArm();
+		    drawLeftLeg();
 			break;
 		case 6:
-			drawLeftLeg();
+		    drawLeftArm();
 			break;
 		case 7:
-			drawRightLeg();
+		    drawRightArm();
 			break;
 		default:
 			ImageView gallowns_layout = (ImageView) findViewById(R.id.gallow);
 			gallowns_layout.setBackgroundResource(R.drawable.gallows_anim_0);
-			ImageView head = (ImageView) findViewById(R.id.head);
-			ImageView torso = (ImageView) findViewById(R.id.torso);
-			ImageView right_arm = (ImageView) findViewById(R.id.right_arm);
-			ImageView left_arm = (ImageView) findViewById(R.id.left_arm);
-			ImageView right_leg = (ImageView) findViewById(R.id.right_leg);
-			ImageView left_leg = (ImageView) findViewById(R.id.left_leg);
-			head.setBackgroundResource(R.drawable.head_anim_0);
-			torso.setBackgroundResource(R.drawable.torso_anim_0);
-			right_arm.setBackgroundResource(R.drawable.armright_anim_0);
-			left_arm.setBackgroundResource(R.drawable.armleft_anim_0);
-			right_leg.setBackgroundResource(R.drawable.legright_anim_0);
-			left_leg.setBackgroundResource(R.drawable.legleft_anim_0);
 			break;
 		}
 	}
@@ -657,35 +645,35 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 	public void drawHead() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_head);
-		ImageView im = (ImageView) findViewById(R.id.head);
+		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
 	public void drawTorso() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_torso);
-		ImageView im = (ImageView) findViewById(R.id.torso);
+		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
 	public void drawRightArm() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_arm);
-		ImageView im = (ImageView) findViewById(R.id.right_arm);
+		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
 	public void drawLeftArm() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_arm);
-		ImageView im = (ImageView) findViewById(R.id.left_arm);
+		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
 	public void drawRightLeg() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_leg);
-		ImageView im = (ImageView) findViewById(R.id.right_leg);
+		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 		im.invalidate();
@@ -693,7 +681,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 
 	public void drawLeftLeg() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_leg);
-		ImageView im = (ImageView) findViewById(R.id.left_leg);
+		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}

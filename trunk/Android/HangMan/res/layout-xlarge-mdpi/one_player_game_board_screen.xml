@@ -60,46 +60,10 @@
                 android:gravity="bottom|center" >
 
                 <com.visva.android.hangman.ui.SMImageView
-                    android:id="@id/gallow"
+                    android:id="@+id/gallow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/gallows_anim_8" />
-
-                <com.visva.android.hangman.ui.SMImageView
-                    android:id="@id/head"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/head_anim_8" />
-
-                <com.visva.android.hangman.ui.SMImageView
-                    android:id="@id/left_arm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/armleft_anim_3" />
-
-                <com.visva.android.hangman.ui.SMImageView
-                    android:id="@id/torso"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/torso_anim_3" />
-
-                <com.visva.android.hangman.ui.SMImageView
-                    android:id="@id/right_arm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/armright_anim_3" />
-
-                <com.visva.android.hangman.ui.SMImageView
-                    android:id="@id/left_leg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/legleft_anim_3" />
-
-                <com.visva.android.hangman.ui.SMImageView
-                    android:id="@id/right_leg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/legright_anim_3" />
             </RelativeLayout>
 
             <LinearLayout

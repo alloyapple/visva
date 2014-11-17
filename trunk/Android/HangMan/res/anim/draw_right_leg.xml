@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list android:oneshot="true"
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:duration="2" android:drawable="@drawable/legright_anim_0" />
-    <item android:duration="2" android:drawable="@drawable/legright_anim_1" />
-    <item android:duration="2" android:drawable="@drawable/legright_anim_2" />
-    <item android:duration="2" android:drawable="@drawable/legright_anim_3" />
+    <item android:duration="2" android:drawable="@drawable/gallows_anim_16" />
+    <item android:duration="2" android:drawable="@drawable/gallows_anim_17" />
 </animation-list>
