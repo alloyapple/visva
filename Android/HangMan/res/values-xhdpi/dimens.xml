@@ -93,4 +93,8 @@
 	<dimen name="option_layout_margin_top">200dp</dimen>
 	<dimen name="options_btn_with">60dp</dimen>
 	<dimen name="options_btn_height">20dp</dimen>
+	
+	<!-- New Define -->
+    <dimen name="hangman_width">118dp</dimen>
+    <dimen name="hangman_height">182dp</dimen>
 </resources>

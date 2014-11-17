@@ -46,14 +46,6 @@
     <public id="0x7f020079" name="g_lrg" type="drawable" />
     <public id="0x7f02007b" name="g_right_lrg" type="drawable" />
     <public id="0x7f02007d" name="gallows_anim_0_lrg" type="drawable" />
-    <public id="0x7f02007f" name="gallows_anim_1_lrg" type="drawable" />
-    <public id="0x7f020081" name="gallows_anim_2_lrg" type="drawable" />
-    <public id="0x7f020083" name="gallows_anim_3_lrg" type="drawable" />
-    <public id="0x7f020085" name="gallows_anim_4_lrg" type="drawable" />
-    <public id="0x7f020087" name="gallows_anim_5_lrg" type="drawable" />
-    <public id="0x7f020089" name="gallows_anim_6_lrg" type="drawable" />
-    <public id="0x7f02008b" name="gallows_anim_7_lrg" type="drawable" />
-    <public id="0x7f02008d" name="gallows_anim_8_lrg" type="drawable" />
     <public id="0x7f020097" name="h_disabled_lrg" type="drawable" />
     <public id="0x7f020098" name="h_lrg" type="drawable" />
     <public id="0x7f02009a" name="h_right_lrg" type="drawable" />
@@ -124,12 +116,6 @@
     <public id="0x7f020155" name="s_disabled_lrg" type="drawable" />
     <public id="0x7f020156" name="s_lrg" type="drawable" />
     <public id="0x7f020158" name="s_right_lrg" type="drawable" />
-    <public id="0x7f02015e" name="show_lrg" type="drawable" />
-    <public id="0x7f020160" name="show_select_lrg" type="drawable" />
-    <public id="0x7f02016b" name="start_lrg" type="drawable" />
-    <public id="0x7f02016d" name="start_pressed_lrg" type="drawable" />
-    <public id="0x7f020170" name="t_disabled_lrg" type="drawable" />
-    <public id="0x7f020171" name="t_lrg" type="drawable" />
     <public id="0x7f020000" name="a" type="drawable" />
     <public id="0x7f020001" name="a_disabled" type="drawable" />
     <public id="0x7f020004" name="a_right" type="drawable" />
@@ -273,14 +259,6 @@
     <public id="0x7f020153" name="s" type="drawable" />
     <public id="0x7f020154" name="s_disabled" type="drawable" />
     <public id="0x7f020157" name="s_right" type="drawable" />
-    <public id="0x7f02015d" name="show" type="drawable" />
-    <public id="0x7f02015f" name="show_select" type="drawable" />
-    <public id="0x7f020169" name="start" type="drawable" />
-    <public id="0x7f02016a" name="start_button" type="drawable" />
-    <public id="0x7f02016c" name="start_pressed" type="drawable" />
-    <public id="0x7f02016e" name="t" type="drawable" />
-    <public id="0x7f02016f" name="t_disabled" type="drawable" />
-    <public id="0x7f020172" name="t_right" type="drawable" />
     <public id="0x7f02002f" name="bg_main_menu" type="drawable" />
     <public id="0x7f02003c" name="blank" type="drawable" />
     <public id="0x7f030000" name="appirater" type="layout" />

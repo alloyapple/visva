@@ -60,4 +60,8 @@
     <dimen name="hangman_score_layout_top">15.0dip</dimen>
     <dimen name="gallows_top">5.0dip</dimen>
     <dimen name="hangman_top">28.0dip</dimen>
+    
+    <!-- New Define -->
+    <dimen name="hangman_width">118dp</dimen>
+    <dimen name="hangman_height">182dp</dimen>
 </resources>
