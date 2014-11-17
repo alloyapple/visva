@@ -60,102 +60,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/hangman_gallow_left" >
 
-                <LinearLayout
-                    android:id="@id/LinearLayout09"
+                <ImageView
+                    android:id="@id/gallow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <ImageView
-                        android:id="@id/gallow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/gallows_top"
-                        android:background="@drawable/gallows_anim_0" />
-
-                    <LinearLayout
-                        android:id="@id/LinearLayout10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/hangman_left"
-                        android:layout_marginTop="@dimen/hangman_top"
-                        android:fadingEdge="none"
-                        android:orientation="vertical" >
-
-                        <ImageView
-                            android:id="@id/head"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@drawable/head_anim_0"
-                            android:fadingEdge="none"
-                            android:soundEffectsEnabled="false"
-                            android:visibility="visible" />
-
-                        <LinearLayout
-                            android:id="@id/LinearLayout11"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-10.0dip"
-                            android:orientation="horizontal" >
-
-                            <ImageView
-                                android:id="@id/left_arm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="-5.0dip"
-                                android:background="@drawable/armleft_anim_0"
-                                android:soundEffectsEnabled="false"
-                                android:visibility="visible" />
-
-                            <ImageView
-                                android:id="@id/torso"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="-10.0dip"
-                                android:background="@drawable/torso_anim_0"
-                                android:soundEffectsEnabled="false"
-                                android:visibility="visible" />
-
-                            <ImageView
-                                android:id="@id/right_arm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="-10.0dip"
-                                android:layout_marginTop="-5.0dip"
-                                android:background="@drawable/armright_anim_0"
-                                android:soundEffectsEnabled="false"
-                                android:visibility="visible" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@id/LinearLayout12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-15.0dip" >
-
-                            <ImageView
-                                android:id="@id/left_leg"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10.0dip"
-                                android:layout_marginTop="-4.0dip"
-                                android:background="@drawable/legleft_anim_0"
-                                android:soundEffectsEnabled="false"
-                                android:visibility="visible" />
-
-                            <ImageView
-                                android:id="@id/right_leg"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/right_leg_left"
-                                android:layout_marginTop="-4.0dip"
-                                android:background="@drawable/legright_anim_0"
-                                android:soundEffectsEnabled="false"
-                                android:visibility="visible" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/gallows_top"
+                    android:background="@drawable/gallows_anim_0" />
             </LinearLayout>
 
             <LinearLayout

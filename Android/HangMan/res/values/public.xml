@@ -4,13 +4,7 @@
     <public id="0x7f020003" name="a_lrg" type="drawable" />
     <public id="0x7f020005" name="a_right_lrg" type="drawable" />
     <public id="0x7f02000b" name="armleft_anim_0_lrg" type="drawable" />
-    <public id="0x7f02000d" name="armleft_anim_1_lrg" type="drawable" />
-    <public id="0x7f02000f" name="armleft_anim_2_lrg" type="drawable" />
-    <public id="0x7f020011" name="armleft_anim_3_lrg" type="drawable" />
     <public id="0x7f020013" name="armright_anim_0_lrg" type="drawable" />
-    <public id="0x7f020015" name="armright_anim_1_lrg" type="drawable" />
-    <public id="0x7f020017" name="armright_anim_2_lrg" type="drawable" />
-    <public id="0x7f020019" name="armright_anim_3_lrg" type="drawable" />
     <public id="0x7f02001b" name="arrow_erase_lrg" type="drawable" />
     <public id="0x7f02001d" name="arrow_point_lrg" type="drawable" />
     <public id="0x7f020020" name="b_disabled_lrg" type="drawable" />
@@ -64,14 +58,6 @@
     <public id="0x7f020098" name="h_lrg" type="drawable" />
     <public id="0x7f02009a" name="h_right_lrg" type="drawable" />
     <public id="0x7f0200a0" name="head_anim_0_lrg" type="drawable" />
-    <public id="0x7f0200a2" name="head_anim_1_lrg" type="drawable" />
-    <public id="0x7f0200a4" name="head_anim_2_lrg" type="drawable" />
-    <public id="0x7f0200a6" name="head_anim_3_lrg" type="drawable" />
-    <public id="0x7f0200a8" name="head_anim_4_lrg" type="drawable" />
-    <public id="0x7f0200aa" name="head_anim_5_lrg" type="drawable" />
-    <public id="0x7f0200ac" name="head_anim_6_lrg" type="drawable" />
-    <public id="0x7f0200ae" name="head_anim_7_lrg" type="drawable" />
-    <public id="0x7f0200b0" name="head_anim_8_lrg" type="drawable" />
     <public id="0x7f0200b2" name="hide_lrg" type="drawable" />
     <public id="0x7f0200b4" name="hide_select_lrg" type="drawable" />
     <public id="0x7f0200bb" name="i_disabled_lrg" type="drawable" />
@@ -93,13 +79,7 @@
     <public id="0x7f0200dc" name="label_player_two_lrg" type="drawable" />
     <public id="0x7f0200de" name="label_sound_lrg" type="drawable" />
     <public id="0x7f0200e1" name="legleft_anim_0_lrg" type="drawable" />
-    <public id="0x7f0200e3" name="legleft_anim_1_lrg" type="drawable" />
-    <public id="0x7f0200e5" name="legleft_anim_2_lrg" type="drawable" />
-    <public id="0x7f0200e7" name="legleft_anim_3_lrg" type="drawable" />
     <public id="0x7f0200e9" name="legright_anim_0_lrg" type="drawable" />
-    <public id="0x7f0200eb" name="legright_anim_1_lrg" type="drawable" />
-    <public id="0x7f0200ed" name="legright_anim_2_lrg" type="drawable" />
-    <public id="0x7f0200ef" name="legright_anim_3_lrg" type="drawable" />
     <public id="0x7f0200f1" name="letters_bg_lrg" type="drawable" />
     <public id="0x7f0200f3" name="lines_lrg" type="drawable" />
     <public id="0x7f0200f9" name="loose_game_lrg" type="drawable" />
@@ -150,20 +130,11 @@
     <public id="0x7f02016d" name="start_pressed_lrg" type="drawable" />
     <public id="0x7f020170" name="t_disabled_lrg" type="drawable" />
     <public id="0x7f020171" name="t_lrg" type="drawable" />
-    <public id="0x7f020173" name="t_right_lrg" type="drawable" />
-    <public id="0x7f020179" name="torso_anim_0_lrg" type="drawable" />
-    <public id="0x7f02017b" name="torso_anim_1_lrg" type="drawable" />
     <public id="0x7f020000" name="a" type="drawable" />
     <public id="0x7f020001" name="a_disabled" type="drawable" />
     <public id="0x7f020004" name="a_right" type="drawable" />
     <public id="0x7f02000a" name="armleft_anim_0" type="drawable" />
-    <public id="0x7f02000c" name="armleft_anim_1" type="drawable" />
-    <public id="0x7f02000e" name="armleft_anim_2" type="drawable" />
-    <public id="0x7f020010" name="armleft_anim_3" type="drawable" />
     <public id="0x7f020012" name="armright_anim_0" type="drawable" />
-    <public id="0x7f020014" name="armright_anim_1" type="drawable" />
-    <public id="0x7f020016" name="armright_anim_2" type="drawable" />
-    <public id="0x7f020018" name="armright_anim_3" type="drawable" />
     <public id="0x7f02001a" name="arrow_erase" type="drawable" />
     <public id="0x7f02001c" name="arrow_point" type="drawable" />
     <public id="0x7f02001e" name="b" type="drawable" />
@@ -225,14 +196,6 @@
     <public id="0x7f020096" name="h_disabled" type="drawable" />
     <public id="0x7f020099" name="h_right" type="drawable" />
     <public id="0x7f02009f" name="head_anim_0" type="drawable" />
-    <public id="0x7f0200a1" name="head_anim_1" type="drawable" />
-    <public id="0x7f0200a3" name="head_anim_2" type="drawable" />
-    <public id="0x7f0200a5" name="head_anim_3" type="drawable" />
-    <public id="0x7f0200a7" name="head_anim_4" type="drawable" />
-    <public id="0x7f0200a9" name="head_anim_5" type="drawable" />
-    <public id="0x7f0200ab" name="head_anim_6" type="drawable" />
-    <public id="0x7f0200ad" name="head_anim_7" type="drawable" />
-    <public id="0x7f0200af" name="head_anim_8" type="drawable" />
     <public id="0x7f0200b1" name="hide" type="drawable" />
     <public id="0x7f0200b3" name="hide_select" type="drawable" />
     <public id="0x7f0200b9" name="i" type="drawable" />
@@ -256,13 +219,7 @@
     <public id="0x7f0200dd" name="label_sound" type="drawable" />
     <public id="0x7f0200df" name="left" type="drawable" />
     <public id="0x7f0200e0" name="legleft_anim_0" type="drawable" />
-    <public id="0x7f0200e2" name="legleft_anim_1" type="drawable" />
-    <public id="0x7f0200e4" name="legleft_anim_2" type="drawable" />
-    <public id="0x7f0200e6" name="legleft_anim_3" type="drawable" />
     <public id="0x7f0200e8" name="legright_anim_0" type="drawable" />
-    <public id="0x7f0200ea" name="legright_anim_1" type="drawable" />
-    <public id="0x7f0200ec" name="legright_anim_2" type="drawable" />
-    <public id="0x7f0200ee" name="legright_anim_3" type="drawable" />
     <public id="0x7f0200f0" name="letters_bg" type="drawable" />
     <public id="0x7f0200f2" name="lines" type="drawable" />
     <public id="0x7f0200f8" name="loose_game" type="drawable" />
@@ -324,11 +281,6 @@
     <public id="0x7f02016e" name="t" type="drawable" />
     <public id="0x7f02016f" name="t_disabled" type="drawable" />
     <public id="0x7f020172" name="t_right" type="drawable" />
-    <public id="0x7f020174" name="toefl" type="drawable" />
-    <public id="0x7f020176" name="toefl_selected" type="drawable" />
-    <public id="0x7f020178" name="torso_anim_0" type="drawable" />
-    <public id="0x7f02017a" name="torso_anim_1" type="drawable" />
-    <public id="0x7f02017c" name="torso_anim_2" type="drawable" />
     <public id="0x7f02002f" name="bg_main_menu" type="drawable" />
     <public id="0x7f02003c" name="blank" type="drawable" />
     <public id="0x7f030000" name="appirater" type="layout" />
@@ -513,7 +465,6 @@
     <public id="0x7f090042" name="LinearLayout03" type="id" />
     <public id="0x7f090043" name="LinearLayout09" type="id" />
     <public id="0x7f090044" name="gallow" type="id" />
-    <public id="0x7f090045" name="head" type="id" />
     <public id="0x7f090046" name="LinearLayout11" type="id" />
     <public id="0x7f090047" name="left_arm" type="id" />
     <public id="0x7f090048" name="torso" type="id" />
@@ -521,7 +472,6 @@
     <public id="0x7f09004a" name="LinearLayout12" type="id" />
     <public id="0x7f09004b" name="left_leg" type="id" />
     <public id="0x7f09004c" name="right_leg" type="id" />
-    <public id="0x7f09004d" name="arrow_point" type="id" />
     <public id="0x7f09004e" name="LinearLayout08" type="id" />
     <public id="0x7f09004f" name="lbl_category" type="id" />
     <public id="0x7f090050" name="txt_category" type="id" />
@@ -538,15 +488,12 @@
     <public id="0x7f09005b" name="lbl_player2" type="id" />
     <public id="0x7f09005c" name="txt_player_two" type="id" />
     <public id="0x7f09005d" name="ImageView02" type="id" />
-    <public id="0x7f09005e" name="easy" type="id" />
     <public id="0x7f09005f" name="standard" type="id" />
     <public id="0x7f090060" name="hard" type="id" />
     <public id="0x7f090061" name="animal" type="id" />
-    <public id="0x7f090062" name="food" type="id" />
     <public id="0x7f090063" name="geography" type="id" />
     <public id="0x7f090064" name="hlodays" type="id" />
     <public id="0x7f090065" name="sat" type="id" />
-    <public id="0x7f090066" name="toefl" type="id" />
     <public id="0x7f090067" name="navigation_bar" type="id" />
     <public id="0x7f090068" name="imgback" type="id" />
     <public id="0x7f090069" name="imgstart" type="id" />
@@ -563,6 +510,5 @@
     <public id="0x7f090074" name="arrow_point_player1" type="id" />
     <public id="0x7f090075" name="arrowpoint_player2" type="id" />
     <public id="0x7f090076" name="player1_score_layout" type="id" />
-    <public id="0x7f090077" name="player2_score_layout" type="id" />
 
 </resources>
