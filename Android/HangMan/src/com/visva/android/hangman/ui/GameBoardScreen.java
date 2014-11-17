@@ -630,7 +630,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		}
 	}
 
-	public void drawGallowns() {
+	private void drawGallowns() {
 		int gall_owns = GamePreferences.getIntVal(this, GALL_OWNS, SHOW);
 		ImageView gallowns_layout = (ImageView) findViewById(R.id.gallow);
 		if (gall_owns == SHOW) {
@@ -643,35 +643,35 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		}
 	}
 
-	public void drawHead() {
+	private void drawHead() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_head);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
-	public void drawTorso() {
+	private void drawTorso() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_torso);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
-	public void drawRightArm() {
+	private void drawRightArm() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_arm);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
-	public void drawLeftArm() {
+	private void drawLeftArm() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_arm);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
 		im.post(drawable);
 	}
 
-	public void drawRightLeg() {
+	private void drawRightLeg() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_right_leg);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
@@ -679,7 +679,7 @@ public class GameBoardScreen extends Activity implements GlobalDef {
 		im.invalidate();
 	}
 
-	public void drawLeftLeg() {
+	private void drawLeftLeg() {
 		AnimationDrawable drawable = (AnimationDrawable) getResources().getDrawable(R.anim.draw_left_leg);
 		ImageView im = (ImageView) findViewById(R.id.gallow);
 		im.setBackgroundDrawable(drawable);
