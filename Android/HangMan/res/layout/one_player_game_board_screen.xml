@@ -199,8 +199,6 @@
             android:layout_weight="45.0"
             android:gravity="center" >
 
-            <!-- ManhNT changed word layout -->
-
             <LinearLayout
                 android:id="@id/word_layout"
                 android:layout_width="wrap_content"

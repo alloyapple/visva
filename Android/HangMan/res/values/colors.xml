@@ -6,5 +6,6 @@
     <color name="font_default_color">#502c14</color>
     <color name="font_pressed_color">#d36002</color>
     <color name="font_pressed_color2">#ffffff</color>
+    <color name="found_word">#0693ae</color>
 
 </resources>
