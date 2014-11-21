@@ -31,5 +31,6 @@
     <string name="share_via">Share via</string>
     <!-- The application's publisher ID assigned by AdMob -->
     <string name="ADMOB_PUBLISHER_ID">your_id_admod" </string>
+    <string name="word">WORD:</string>
 
 </resources>
