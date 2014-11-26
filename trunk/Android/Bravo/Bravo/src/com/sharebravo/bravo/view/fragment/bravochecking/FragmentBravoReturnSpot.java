@@ -522,10 +522,10 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
         subParams.put("Spot_Type", spot.Spot_Type);
         subParams.put("Spot_Genre", spot.Spot_Genre);
         subParams.put("Spot_Address", spot.Spot_Address);
-        // subParams.put("Spot_Phone", spot.Spot_Phone);
+        subParams.put("Spot_Phone", spot.Spot_Phone);
         // subParams.put("Spot_Price", spot.Spot_Price);
         JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        List<NameValuePair> params = ParameterFactory.createSubParams(jsonObject.toString());
         AsyncHttpPost request = new AsyncHttpPost(getActivity(), new AsyncHttpResponseProcess(getActivity(),this) {
             @Override
             public void processIfResponseSuccess(String response) {
