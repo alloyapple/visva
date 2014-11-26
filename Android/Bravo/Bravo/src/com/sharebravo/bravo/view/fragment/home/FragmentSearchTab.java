@@ -511,9 +511,9 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
                                     + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
                             newSpot.Spot_Genre = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
                         } else {
-                            newSpot.Spot_Genre = "Other";
+                            newSpot.Spot_Genre = "Others";
                         }
-                        newSpot.Spot_Type = "Other";
+                        newSpot.Spot_Type = "Others";
                         newSpot.Total_Bravos = 0;
                         newSpot.Spot_Latitude = mOFGetVenueSearch.response.venues.get(i).location.lat;
                         newSpot.Spot_Longitude = mOFGetVenueSearch.response.venues.get(i).location.lon;

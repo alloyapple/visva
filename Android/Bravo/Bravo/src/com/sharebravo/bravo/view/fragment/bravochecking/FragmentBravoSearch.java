@@ -523,9 +523,9 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
                                     + mOFGetVenueSearch.response.venues.get(i).categories.get(0).icon.suffix;
                             newSpot.Spot_Genre = mOFGetVenueSearch.response.venues.get(i).categories.get(0).name;
                         } else {
-                            newSpot.Spot_Genre = "Other";
+                            newSpot.Spot_Genre = "Others";
                         }
-                        newSpot.Spot_Type = "Other";
+                        newSpot.Spot_Type = "Others";
 
                         newSpot.Total_Bravos = 0;
                         double lat = mOFGetVenueSearch.response.venues.get(i).location.lat;
