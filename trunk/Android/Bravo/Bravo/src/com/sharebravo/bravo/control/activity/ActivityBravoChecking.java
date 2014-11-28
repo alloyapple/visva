@@ -662,6 +662,9 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     @Override
     public void onAccessGrant(final String accessToken) {
         AIOLog.d("accessToken: " + accessToken);
+        SNS sns = new SNS();
+        sns.foreignSNS = BravoConstant.FOURSQUARE;
+        mFragmentBravoReturnSpots.updatePostSNS(sns, true);
         mEasyFoursquareAsync.getUserInfo(new UserInfoRequestListener() {
 
             @Override
