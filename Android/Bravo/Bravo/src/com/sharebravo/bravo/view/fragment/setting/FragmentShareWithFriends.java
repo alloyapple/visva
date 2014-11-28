@@ -52,6 +52,7 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
     private int                   mLoginBravoViaType  = BravoConstant.NO_LOGIN_SNS;
     private EditText              textboxSearch       = null;
     private Button                btnBack;
+    private ObGetUserSearch       mObGetUserSearch;
     private LinearLayout          mLayoutPoorConnection;
 
     @Override
@@ -114,14 +115,14 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
             public void processIfResponseSuccess(String response) {
                 // AIOLog.d("requestBravoNews:" + response);
                 Gson gson = new GsonBuilder().serializeNulls().create();
-                ObGetUserSearch obGetUserSearch;
-                obGetUserSearch = gson.fromJson(response.toString(), ObGetUserSearch.class);
-                AIOLog.d("obGetTimeline:" + obGetUserSearch);
-                if (obGetUserSearch == null) {
+
+                mObGetUserSearch = gson.fromJson(response.toString(), ObGetUserSearch.class);
+                AIOLog.d("obGetTimeline:" + mObGetUserSearch);
+                if (mObGetUserSearch == null) {
                     return;
                 }
                 else {
-                    mAdapterUser.updateUserList(obGetUserSearch.data);
+                    mAdapterUser.updateUserList(mObGetUserSearch.data);
                 }
             }
 
@@ -163,7 +164,12 @@ public class FragmentShareWithFriends extends FragmentBasic implements IClickUse
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                if (mObGetUserSearch == null)
+                    return;
+                if (mObGetUserSearch.data.size() < position)
+                    return;
+                String userId = mObGetUserSearch.data.get(position - 1).userID;
+                mHomeActionListener.goToUserData(userId);
             }
         });
     }

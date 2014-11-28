@@ -63,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
-                android:gravity="center"
                 android:hint="@string/setup_search_friends"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />

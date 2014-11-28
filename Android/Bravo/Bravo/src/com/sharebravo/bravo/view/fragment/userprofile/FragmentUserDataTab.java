@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,17 +11,19 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
-import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -67,6 +69,8 @@ import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
 import com.sharebravo.bravo.utils.StringUtility;
 import com.sharebravo.bravo.view.adapter.AdapterUserDetail;
+import com.sharebravo.bravo.view.adapter.CropOption;
+import com.sharebravo.bravo.view.adapter.CropOptionAdapter;
 import com.sharebravo.bravo.view.adapter.UserPostProfileListener;
 import com.sharebravo.bravo.view.fragment.FragmentBasic;
 import com.sharebravo.bravo.view.fragment.maps.FragmentMapView;
@@ -260,23 +264,23 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            //if (!isBackStatus()) {
-                if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
-                    getUserInfo(foreignID);
-                    mAdapterUserDataProfile.clearTimeLine();
-                    mListViewUserPostProfile.setSelection(0);
-                    requestGetBlockingCheck();
-                    requestGetFollowingCheck();
-                    requestGetUserTimeLine(foreignID);
+            // if (!isBackStatus()) {
+            if (NetworkUtility.getInstance(getActivity()).isNetworkAvailable()) {
+                getUserInfo(foreignID);
+                mAdapterUserDataProfile.clearTimeLine();
+                mListViewUserPostProfile.setSelection(0);
+                requestGetBlockingCheck();
+                requestGetFollowingCheck();
+                requestGetUserTimeLine(foreignID);
+            } else {
+                mObGetUserInfo = BravoUtils.getUserInfoFromDb(getActivity());
+                if (mObGetUserInfo == null) {
+                    AIOLog.e("obGetUserInfo is null");
                 } else {
-                    mObGetUserInfo = BravoUtils.getUserInfoFromDb(getActivity());
-                    if (mObGetUserInfo == null) {
-                        AIOLog.e("obGetUserInfo is null");
-                    } else {
-                        mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
-                    }
+                    mAdapterUserDataProfile.updateUserProfile(mObGetUserInfo, isMyData);
                 }
-          //  }
+            }
+            // }
             checkUserDataType(foreignID);
         } else {
             isOutOfDataLoadMore = false;
@@ -714,16 +718,19 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             @Override
             public void onClick(View v) {
                 // when user click camera to get image
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                mCapturedImageURI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+                        "tmp_avatar_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+
+                intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+
                 try {
-                    String fileName = "cover" + Calendar.getInstance().getTimeInMillis() + ".jpg";
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media.TITLE, fileName);
-                    mCapturedImageURI = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+                    intent.putExtra("return-data", true);
+
                     startActivityForResult(intent, REQUEST_CODE_CAMERA);
-                } catch (Exception e) {
-                    AIOLog.e("exception:" + e.getMessage());
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
                 }
                 dialog.dismiss();
             }
@@ -734,8 +741,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
             @Override
             public void onClick(View v) {
                 // when user click gallery to get image
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY);
+                Intent intent = new Intent();
+
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), REQUEST_CODE_GALLERY);
                 dialog.dismiss();
             }
         });
@@ -765,72 +776,14 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         switch (requestCode) {
         case REQUEST_CODE_CAMERA:
             if (resultCode == getActivity().RESULT_OK) {
-                if (mCapturedImageURI == null) {
-                    AIOLog.d("mCapturedImageURI is null");
-                    if (data == null || data.getExtras() == null)
-                        return;
-                    Bitmap photo = (Bitmap) data.getExtras().get("data");
-                    if (photo == null)
-                        return;
-                    else {
-                        if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType) {
-                            cropImageFromUri(data.getData());
-                        } else {
-                            postUpdateUserProfile(photo, mUserImageType);
-                        }
-                        return;
-                    }
-                }
-
-                String[] projection = { MediaStore.Images.Media.DATA };
-                Cursor cursor = getActivity().getContentResolver().query(mCapturedImageURI, projection, null, null, null);
-                if (cursor == null) {
-                    AIOLog.d("cursor is null");
-                    return;
-                }
-                int column_index_data = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-
-                // THIS IS WHAT YOU WANT!
-                String capturedImageFilePath = cursor.getString(column_index_data);
-
-                File file = new File(capturedImageFilePath);
-                if (file.exists()) {
-                    Uri fileUri = Uri.fromFile(file);
-                    cropImageFromUri(fileUri);
-                }
+                cropImageAfterPicking();
             }
             break;
         case REQUEST_CODE_GALLERY:
             if (resultCode == getActivity().RESULT_OK) {
-                AIOLog.d("data=" + data);
-                if (data == null) {
-                    AIOLog.d("Opps!Can not get data from gallery.");
-                    return;
-                }
+                mCapturedImageURI = data.getData();
 
-                Uri uri = data.getData();
-                if (uri == null)
-                    return;
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                if (getActivity().getContentResolver() == null)
-                    return;
-                Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
-                if (cursor == null)
-                    return;
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String imagePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                File file = new File(imagePath);
-                if (file.exists()) {
-                    Uri fileUri = Uri.fromFile(file);
-                    cropImageFromUri(fileUri);
-                } else {
-
-                    AIOLog.d("file don't exist !");
-                }
+                cropImageAfterPicking();
             }
             break;
         case CROP_FROM_CAMERA:
@@ -840,6 +793,10 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
                     Bitmap photo = extras.getParcelable("data");
                     postUpdateUserProfile(photo, mUserImageType);
                 }
+                File f = new File(mCapturedImageURI.getPath());
+
+                if (f.exists())
+                    f.delete();
             }
             break;
         default:
@@ -908,7 +865,7 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         options.inSampleSize = 1;
         options.inPurgeable = true;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userAvatarBmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+        userAvatarBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
         byte byteImage_photo[] = baos.toByteArray();
         String encodedImage = Base64.encodeToString(byteImage_photo, Base64.DEFAULT);
@@ -967,52 +924,81 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
 
     }
 
-    private void cropImageFromUri(Uri uri) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
+    private void cropImageAfterPicking() {
+        final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
 
-        int screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-        int screenHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
-        // Returns null, sizes are in the options variable
-        BitmapFactory.decodeFile(uri.getPath(), options);
-        int width = options.outWidth;
-        int height = options.outHeight;
-        // If you want, the MIME type will also be decoded (if possible)
-        String type = options.outMimeType;
-        AIOLog.d("uri:" + uri.getPath() + ", width:" + width + ", height:" + height);
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setType("image/*");
+
         List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
 
         int size = list.size();
-        int sizeOfCrop = 1000;
-        if (screenWidth < screenHeight)
-            sizeOfCrop = screenWidth;
-        else
-            sizeOfCrop = screenHeight;
-        AIOLog.d("size:" + size);
+
         if (size == 0) {
-            showToast("Can not crop image");
+            Toast.makeText(getActivity(), "Can not find image crop app", Toast.LENGTH_SHORT).show();
+
             return;
         } else {
-            intent.setData(uri);
+            intent.setData(mCapturedImageURI);
+
             if (AdapterUserDetail.USER_AVATAR_ID == mUserImageType) {
                 intent.putExtra("aspectX", 1);
                 intent.putExtra("aspectY", 1);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 200);
             } else {
                 intent.putExtra("aspectX", 3);
                 intent.putExtra("aspectY", 4);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 267);
             }
-            intent.putExtra("outputX", 256);
-            intent.putExtra("outputY", 256);
             intent.putExtra("scale", true);
-            intent.putExtra("crop", "true");
             intent.putExtra("return-data", true);
-            if (size >= 1) {
+
+            if (size == 1) {
                 Intent i = new Intent(intent);
                 ResolveInfo res = list.get(0);
+
                 i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+
                 startActivityForResult(i, CROP_FROM_CAMERA);
+            } else {
+                for (ResolveInfo res : list) {
+                    final CropOption co = new CropOption();
+
+                    co.title = getActivity().getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
+                    co.icon = getActivity().getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
+                    co.appIntent = new Intent(intent);
+
+                    co.appIntent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+
+                    cropOptions.add(co);
+                }
+
+                CropOptionAdapter adapter = new CropOptionAdapter(getActivity().getApplicationContext(), cropOptions);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Choose Crop App");
+                builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
+                    }
+                });
+
+                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+
+                        if (mCapturedImageURI != null) {
+                            getActivity().getContentResolver().delete(mCapturedImageURI, null, null);
+                            mCapturedImageURI = null;
+                        }
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+
+                alert.show();
             }
         }
     }

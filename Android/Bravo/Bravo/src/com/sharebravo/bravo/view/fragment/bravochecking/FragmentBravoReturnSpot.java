@@ -165,7 +165,7 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
 
             @Override
             public void onClick(View v) {
-
+                mBravoCheckingListener.shareViaSNSByRecentPost(BravoConstant.FOURSQUARE, null, null);
             }
         });
         mBtnShareTwitter.setOnClickListener(new View.OnClickListener() {
