@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -302,9 +303,13 @@ public class FragmentSearchTab extends FragmentBasic implements LocationListener
             userId = "";
             accessToken = "";
         }
+        JSONArray fids = new JSONArray();
+        for (int i = 0; i < mVenues.size(); i++)
+            fids.put(mVenues.get(i));
         HashMap<String, Object> subParams = new HashMap<String, Object>();
-        subParams.put("FID", mVenues);
+        subParams.put("FID", fids);
         subParams.put("Source", "foursquare");
+
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;

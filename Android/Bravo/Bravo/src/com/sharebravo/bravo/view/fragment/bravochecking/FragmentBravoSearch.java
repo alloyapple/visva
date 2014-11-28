@@ -2,9 +2,11 @@ package com.sharebravo.bravo.view.fragment.bravochecking;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Dialog;
@@ -314,12 +316,16 @@ public class FragmentBravoSearch extends FragmentBasic implements LocationListen
             userId = "";
             accessToken = "";
         }
+        JSONArray fids = new JSONArray();
+        for(int i=0; i< mVenues.size();i++)
+            fids.put(mVenues.get(i));
         HashMap<String, Object> subParams = new HashMap<String, Object>();
-        subParams.put("FID", mVenues);
+        subParams.put("FID", fids);
         subParams.put("Source", "foursquare");
-
+  
         JSONObject subParamsJson = new JSONObject(subParams);
         String subParamsJsonStr = subParamsJson.toString();
+        AIOLog.d("subParamsJson:" + subParamsJsonStr);
         String url = BravoWebServiceConfig.URL_GET_SPOT_SEARCH;
         List<NameValuePair> params = ParameterFactory.createSubParamsRequest(userId, accessToken, subParamsJsonStr);
         AsyncHttpGet getSpotSearch = new AsyncHttpGet(getActivity(), new AsyncHttpResponseProcess(getActivity(), this) {
