@@ -95,8 +95,6 @@
     <!-- Setttings -->
     <string name="delete_bravo_info_title">Are you sure you want to delete your account?</string>
     <string name="delete_bravo_info_text">If you choose to continue, all your Bravo data will be permanently deleted.</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="setup_account_table_header">Account</string>
     <string name="setup_edit_profile">Edit profile</string>
     <string name="setup_friends_table_header">Friends</string>
@@ -152,8 +150,6 @@
     <string name="report_alert_text_for_image">Would you like to report this photo for inappropriate content?</string>
     <string name="report_alert_text_for_spot">Would you like to report this spot for inappropriate content?</string>
     <string name="comment_submit">Post</string>
-    <string name="btn_yes">Yes</string>
-    <string name="btn_no">No</string>
     <string name="share_action_facebook">Share on Facebook</string>
     <string name="share_action_twitter">Share on Twitter</string>
     <string name="share_action_line">Share on Line</string>
@@ -190,7 +186,6 @@
     <string name="profile_put_blocking">Unblock</string>
     <string name="get_user_info_error">Cannot get user info</string>
     <string name="profile_action_take_cover_pic">Take a Picture of cover</string>
-    <string name="choose_from_library">Choose from Library</string>
     <string name="mylist_tab_near">Sort by location</string>
     <string name="mylist_tab_save">Sort by date</string>
     <string name="delete">Delete</string>
@@ -293,7 +288,6 @@
     <string name="new_version_avaiable">There is a newer version. Would you like to update now?</string>
     <string name="server_error">Server Error</string>
     <string name="no_internet">No internet connection</string>
-    <string name="confirm_bravo_spot">Are you sure you want to Bravo this spot?</string>
     <string name="msg_please_locate_your_spot">Please locate your spot on the map.</string>
     <!-- my Spot -->
     <string name="add_store_name">Name</string>

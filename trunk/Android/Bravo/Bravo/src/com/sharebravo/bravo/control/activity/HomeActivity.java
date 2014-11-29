@@ -280,6 +280,11 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     } else {
                         goToFragment(FRAGMENT_SETTINGS_ID);
                     }
+                    SNS sns = new SNS();
+                    sns.foreignID = userId;
+                    sns.foreignSNS = BravoConstant.TWITTER;
+                    sns.foreignAccessToken = accessToken.getToken() + "," + accessToken.getTokenSecret();
+                    putSNS(sns);
                 } catch (Exception e) {
                     Log.e("Twitter", " Login Error > " + e.getMessage());
                 }

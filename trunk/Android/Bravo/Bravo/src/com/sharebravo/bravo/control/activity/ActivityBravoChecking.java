@@ -672,6 +672,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 SNS sns = new SNS();
                 sns.foreignSNS = BravoConstant.FOURSQUARE;
                 mFragmentBravoReturnSpots.updatePostSNS(sns, false);
+                BravoSharePrefs.getInstance(ActivityBravoChecking.this).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, false);
             }
 
             @Override
@@ -685,6 +686,8 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 sns.foreignSNS = BravoConstant.FOURSQUARE;
                 sns.foreignAccessToken = accessToken;
                 putSNS(sns);
+                mFragmentBravoReturnSpots.updatePostSNS(sns, true);
+                BravoSharePrefs.getInstance(ActivityBravoChecking.this).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
             }
         });
     }
