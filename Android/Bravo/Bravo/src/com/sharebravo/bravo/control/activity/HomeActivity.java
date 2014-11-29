@@ -217,6 +217,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     public void onCreate() {
         MyApplication myApp = (MyApplication) getApplication();
         myApp._homeActivity = this;
+        Log.d("Twitter", "onCreated");
         mLoginBravoViaType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         mSessionLogin = BravoUtils.getSession(this, mLoginBravoViaType);
         userId = mSessionLogin.userID;
@@ -242,14 +243,17 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
          * redirected from twitter page. Parse the uri to get oAuth
          * Verifier
          * */
+        Log.d("Twitter", "BravoUtils.isTwitterLoggedInAlready:" + BravoUtils.isTwitterLoggedInAlready(this));
         if (!BravoUtils.isTwitterLoggedInAlready(this)) {
             Uri uri = getIntent().getData();
+            
+            Log.d("Twitter", "URI:"+uri);
             if (uri != null
                     && (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL) || uri.toString().startsWith(
                             BravoConstant.TWITTER_CALLBACK_SETTING_URL))) {
                 // oAuth verifier
                 String verifier = uri.getQueryParameter(BravoConstant.URL_TWITTER_OAUTH_VERIFIER);
-
+                Log.d("Twitter", "verifier:"+verifier);
                 try {
                     // Get the access token
                     AccessToken accessToken = mTwitter.getOAuthAccessToken(mTwitterRequestToken, verifier);
@@ -258,31 +262,26 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     BravoSharePrefs.getInstance(this).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET,
                             accessToken.getTokenSecret());
                     BravoSharePrefs.getInstance(this).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, true);
-                    Log.e("Twitter OAuth Token", "> " + accessToken.getToken());
+                    Log.e("Twitter", "> " + accessToken.getToken());
 
                     // Getting user details from twitter
                     long userID = accessToken.getUserId();
                     twitter4j.User user = mTwitter.showUser(userID);
                     if (user == null) {
-                        AIOLog.e("user twitter to share is null");
+                        Log.d("Twitter", "user twitter to share is null");
                         return;
                     }
-                    AIOLog.d("uri:" + uri);
+                    Log.d("Twitter", "twitter uri:" + uri);
                     if (uri.toString().startsWith(BravoConstant.TWITTER_CALLBACK_HOME_URL)) {
                         // Check for blank text
                         String bravoUrl = BravoWebServiceConfig.URL_BRAVO_ID_DETAIL.replace("{Bravo_ID}", mBravoId);
                         new UpdateTwitterStatus().execute(mSharedSnsText + " \n" + bravoUrl);
                         goToRecentPostDetail(mObBravo);
                     } else {
-                        SNS sns = new SNS();
-                        sns.foreignID = userId;
-                        sns.foreignSNS = BravoConstant.TWITTER;
-                        sns.foreignAccessToken = accessToken.getToken() + "," + accessToken.getTokenSecret();
-                        putSNS(sns);
                         goToFragment(FRAGMENT_SETTINGS_ID);
                     }
                 } catch (Exception e) {
-                    Log.e("Twitter Login Error", "> " + e.getMessage());
+                    Log.e("Twitter", " Login Error > " + e.getMessage());
                 }
             }
         }
@@ -416,6 +415,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("Twitter", "onResume");
         mUiLifecycleHelper.onResume();
         final Session session = Session.getActiveSession();
         if (session == null || session.isClosed() || !session.isOpened()) {

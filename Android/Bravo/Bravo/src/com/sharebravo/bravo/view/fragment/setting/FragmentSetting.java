@@ -145,7 +145,13 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mToggleBtnPostOnTwitter.setChecked(false);
                 if (isChecked) {
-                    mHomeActionListener.requestToLoginSNS(BravoConstant.TWITTER);
+                    if (BravoUtils.isTwitterLoggedInAlready(getActivity())) {
+                        SNS sns = new SNS();
+                        sns.foreignSNS = BravoConstant.TWITTER;
+                        updatePostSNS(sns, true);
+                    }
+                    else
+                        mHomeActionListener.requestToLoginSNS(BravoConstant.TWITTER);
                 } else {
                     isPostOnTwitter = false;
                     for (int i = 0; i < mArrSNSList.size(); i++) {
@@ -261,6 +267,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 if (BravoConstant.TWITTER.equals(mArrSNSList.get(i).foreignSNS))
                     isPostOnTwitter = true;
             }
+        isPostOnTwitter = BravoUtils.isTwitterLoggedInAlready(getActivity());
         if (isPostOnFacebook) {
             mToggleBtnPostOnFacebook.setChecked(true);
         } else {
