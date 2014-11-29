@@ -72,6 +72,7 @@ public class BravoConstant {
     public static final String  PREF_KEY_TWITTER_OAUTH_TOKEN                       = "pref_key_twitter_oauth_token";
     public static final String  PREF_KEY_TWITTER_OAUTH_SCRET                       = "pref_key_twitter_oauth_scret";
     public static final String  PREF_KEY_TWITTER_LOGIN                             = "pref_key_twitter_login";
+    public static final String  PREF_KEY_FOURSQUARE_LOGIN                          = "pref_key_foursquare_login";
 
     public static final String  PREF_KEY_SESSION_LOGIN_BY_BRAVO                    = "pref_key_session_login_by_bravo";
     public static final String  PREF_KEY_SESSION_LOGIN_BY_FACEBOOK                 = "pref_key_session_login_by_facebook";

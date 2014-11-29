@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:background="@drawable/bottom_left_corner_button"
             android:padding="15dp"
-            android:text="@string/btn_yes" />
+            android:text="@string/bravo_action_alert_yes" />
 
         <ImageView
             android:layout_width="1dp"
@@ -60,7 +60,7 @@
             android:layout_weight="1"
             android:background="@drawable/bottom_right_corner_button"
             android:padding="15dp"
-            android:text="@string/btn_no" >
+            android:text="@string/bravo_action_alert_no" >
         </Button>
     </LinearLayout>
 

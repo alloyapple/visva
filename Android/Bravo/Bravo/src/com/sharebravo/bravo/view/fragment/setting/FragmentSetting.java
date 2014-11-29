@@ -171,6 +171,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     onCheckedToggleBtnFourSquare(isChecked);
                 else {
                     isPostOnFourSquare = false;
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, isPostOnFourSquare);
                     for (int i = 0; i < mArrSNSList.size(); i++) {
                         if (BravoConstant.FOURSQUARE.equals(mArrSNSList.get(i).foreignSNS)) {
                             mHomeActionListener.deleteSNS(mArrSNSList.get(i));
@@ -430,6 +431,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             public void onError(String errorMsg) {
                 mToggleBtnPostOnFourSquare.setChecked(false);
                 isPostOnFourSquare = false;
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, false);
             }
 
             @Override
@@ -443,6 +445,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 sns.foreignID = user.getId() + "";
                 sns.foreignSNS = BravoConstant.FOURSQUARE;
                 mHomeActionListener.putSNS(sns);
+                BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
             }
         });
         mToggleBtnPostOnFourSquare.setChecked(true);

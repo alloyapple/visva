@@ -117,6 +117,8 @@ public class FragmentBravoReturnSpot extends FragmentBasic {
                 if (BravoConstant.TWITTER.equals(mArrSNSList.get(i).foreignSNS))
                     isPostOnTwitter = true;
             }
+        isPostOnTwitter = BravoUtils.isTwitterLoggedInAlready(getActivity());
+        isPostOnFourSquare = BravoUtils.isFourSquareLoggedInAlready(getActivity());
         if (isPostOnFacebook) {
             mBtnShareFacebook.setBackgroundResource(R.drawable.facebook_share_on);
         } else {

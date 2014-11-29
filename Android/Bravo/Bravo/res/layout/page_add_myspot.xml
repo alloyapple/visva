@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:text="@string/confirm_bravo_spot"
+                android:text="@string/bravo_action_alert_title"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/white_btn"
                 android:padding="15dp"
-                android:text="@string/btn_yes"
+                android:text="@string/bravo_action_alert_yes"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/black_btn"
                 android:padding="15dp"
-                android:text="@string/btn_no"
+                android:text="@string/bravo_action_alert_no"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>

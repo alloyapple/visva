@@ -61,7 +61,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/share_white_btn"
                 android:padding="15dp"
-                android:text="@string/choose_from_library"
+                android:text="@string/bravo_add_picture_action_select_lib"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
         </FrameLayout>
