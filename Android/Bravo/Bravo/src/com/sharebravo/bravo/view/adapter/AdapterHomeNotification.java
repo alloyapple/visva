@@ -27,7 +27,6 @@ public class AdapterHomeNotification extends BaseAdapter {
     private IClickUserAvatar        iClickUserAvatar;
 
     public AdapterHomeNotification(Context context) {
-        // TODO Auto-generated constructor stub
         this.mContext = context;
         mImageLoader = new ImageLoader(mContext);
         mNotificationList = new ArrayList<Notification>();
@@ -35,26 +34,22 @@ public class AdapterHomeNotification extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return mNotificationList.size();
         // return 0;
     }
 
     @Override
     public Object getItem(int arg0) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
         return arg0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         ViewHolder holder;
         if (mLayoutInflater == null)
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -73,9 +68,11 @@ public class AdapterHomeNotification extends BaseAdapter {
             userName = mNo.Last_Commenter_Name;
             urlAvatar = mNo.Last_Commenter_Pic;
             userID = mNo.Last_Commenter_ID;
-        } /*else if (mNo.Notification_Type.equals("bravo")) {
-            userName = mContext.getResources().getString(R.string.app_name);
-        }*/ else{
+        } /*
+           * else if (mNo.Notification_Type.equals("bravo")) {
+           * userName = mContext.getResources().getString(R.string.app_name);
+           * }
+           */else {
             userName = mNo.Notification_Users.get(0).Full_Name;
             urlAvatar = mNo.Notification_Users.get(0).Profile_Img_URL;
             userID = mNo.Notification_Users.get(0).User_ID;
@@ -83,14 +80,14 @@ public class AdapterHomeNotification extends BaseAdapter {
         final String userIDClick = userID;
         holder._userName.setText(userName);
 
-       // if (!mNo.Notification_Type.equals("bravo")) {
-            if (StringUtility.isEmpty(urlAvatar)) {
-                holder._userAvatar.setImageResource(R.drawable.user_picture_default);
-            } else {
-                mImageLoader.DisplayImage(urlAvatar, R.drawable.user_picture_default, holder._userAvatar, true);
-            }
-//        } else
-//            holder._userAvatar.setImageResource(R.drawable.ic_launcher);
+        // if (!mNo.Notification_Type.equals("bravo")) {
+        if (StringUtility.isEmpty(urlAvatar)) {
+            holder._userAvatar.setImageResource(R.drawable.user_picture_default);
+        } else {
+            mImageLoader.DisplayImage(urlAvatar, R.drawable.user_picture_default, holder._userAvatar, true);
+        }
+        // } else
+        // holder._userAvatar.setImageResource(R.drawable.ic_launcher);
 
         holder._userAvatar.setOnClickListener(new View.OnClickListener() {
 
@@ -128,7 +125,7 @@ public class AdapterHomeNotification extends BaseAdapter {
         if (createdTime == 0) {
             holder._dateTime.setText("Unknown");
         } else {
-            String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+            String createdTimeConvertStr = TimeUtility.convertToDateTime(mContext, createdTime);
             holder._dateTime.setText(createdTimeConvertStr);
         }
         return convertView;

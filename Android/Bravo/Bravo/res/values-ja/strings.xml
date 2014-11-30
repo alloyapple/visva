@@ -181,11 +181,6 @@
     <string name="tab_feed">フォロー中</string>
     <string name="tab_search">さがす？</string>
     <string name="tab_mydata">マイデータ</string>
-    <string name="feed_date_seconds">%s 秒前</string>
-    <string name="feed_date_minuts">%s 分前</string>
-    <string name="feed_date_hours">%s 時間前</string>
-    <string name="feed_date_date">M月d日</string>
-    <string name="date_ym">yyyy年M月</string>
     <string name="deleted_user_full_name">退会したユーザ</string>
     <string name="pull_refresh_release">指をはなして更新...</string>
     <string name="pull_refresh_pull_down">画面を引き下げて...</string>
@@ -224,5 +219,12 @@
     <string name="update_later">後で アップデート</string>
     <string name="update_now">アップデート</string>
     <string name="back_to_top">"戻る"</string>
+
+    <!-- Date,time -->
+    <string name="feed_date_seconds">%s 秒前</string>
+    <string name="feed_date_minuts">%s 分前</string>
+    <string name="feed_date_hours">%s 時間前</string>
+    <string name="feed_date_date">M月d日</string>
+    <string name="date_ym">yyyy年M月</string>
 
 </resources>

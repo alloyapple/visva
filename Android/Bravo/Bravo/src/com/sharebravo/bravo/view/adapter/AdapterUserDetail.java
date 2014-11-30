@@ -136,7 +136,7 @@ public class AdapterUserDetail extends BaseAdapter {
             if (createdTime == 0) {
                 holder._recentPostTime.setText("Unknown");
             } else {
-                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+                String createdTimeConvertStr = TimeUtility.convertToDateTime(mContext, createdTime);
                 holder._recentPostTime.setText(createdTimeConvertStr);
                 AIOLog.d("obGetBravo.Date_Created.sec: " + obGetBravo.Date_Created.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);

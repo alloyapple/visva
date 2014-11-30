@@ -183,11 +183,11 @@ public class AdapterSpotDetail extends BaseAdapter {
                     listener.goToReport();
                 }
             });
-            if(mSpot.Total_Bravos<=0)
+            if (mSpot.Total_Bravos <= 0)
                 layoutBtnReport.setVisibility(View.GONE);
             else
                 layoutBtnReport.setVisibility(View.VISIBLE);
-            
+
         } else {
             if (mLayoutInflater == null)
                 mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -245,7 +245,7 @@ public class AdapterSpotDetail extends BaseAdapter {
             if (createdTime == 0) {
                 holder._recentPostTime.setText("Unknown");
             } else {
-                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+                String createdTimeConvertStr = TimeUtility.convertToDateTime(mContext, createdTime);
                 holder._recentPostTime.setText(createdTimeConvertStr);
                 AIOLog.d("mBravo.Date_Created.sec: " + mBravo.Date_Created.getSec());
                 AIOLog.d("mBravo.Date_Created.Usec: " + createdTimeConvertStr);
