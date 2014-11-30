@@ -51,14 +51,10 @@
     <string name="login_bravo">Login with Bravo!</string>
     <string name="or">or</string>
     <string name="pick_image">Pick An Image</string>
-    <string name="text_new_user_registration">New User Registration</string>
-    <string name="text_user_name">Name</string>
     <string name="forgot_mailaddress">Email address</string>
-    <string name="pass_word">Password</string>
     <string name="login_bravo_forgot_password">Forgot password?</string>
     <string name="intro_login">Login</string>
     <string name="login_error_title">Login Failure</string>
-    <string name="done">Done</string>
     <string name="setup_terms">Terms of Service</string>
     <string name="signup_terms">By signing up,you agree to\n the Terms of Service.</string>
     <string name="cancel">Cancel</string>
@@ -82,7 +78,6 @@
     <string name="home_header_section_news">News</string>
     <string name="home_header_section_new">Recent Posts</string>
     <string name="home_notification">Notifications</string>
-    <string name="btn_back">Back</string>
     <string name="mydata_bar_button_setup">Settings</string>
     <string name="friends_search_input">Search for friends</string>
     <string name="search_search_bar">Search for spots</string>

@@ -147,7 +147,7 @@ public class FragmentBravoRegister extends FragmentBasic {
                 if (isPasswordNotValid || mEditTextPassWord.getText().length() == 0) {
                     isPasswordNotValid = false;
                     mEditTextPassWord.setText("");
-                    mEditTextPassWord.setHint(getString(R.string.pass_word));
+                    mEditTextPassWord.setHint(getString(R.string.signup_bravo_password));
                     mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.black));
                 }
             }
@@ -159,7 +159,7 @@ public class FragmentBravoRegister extends FragmentBasic {
                 if (isUserNameNotValid || mEditTextUserName.getText().length() == 0) {
                     isUserNameNotValid = false;
                     mEditTextUserName.setText("");
-                    mEditTextUserName.setHint(getString(R.string.text_user_name));
+                    mEditTextUserName.setHint(getString(R.string.signup_bravo_name));
                     mEditTextUserName.setHintTextColor(getActivity().getResources().getColor(R.color.black));
                 }
             }

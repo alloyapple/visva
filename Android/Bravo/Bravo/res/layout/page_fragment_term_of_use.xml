@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:background="@drawable/back_button"
-                android:text="@string/btn_back"
+                android:text="@string/back_to_top"
                 android:textColor="#FFFFFF" >
             </Button>
         </LinearLayout>
