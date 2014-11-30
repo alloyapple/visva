@@ -70,7 +70,7 @@
     <string name="tab_feed">Network</string>
     <string name="feed_nothing_search_button">Search</string>
     <string name="tab_mydata">My Data</string>
-
+    <string name="tab_search">Search</string>
     <!-- +++++ -->
 
 
@@ -94,7 +94,6 @@
     <string name="setup_edit_profile">Edit profile</string>
     <string name="setup_friends_table_header">Friends</string>
     <string name="setup_search_friends">Share with friends</string>
-    <string name="share">Share</string>
     <string name="setup_share_sns_facebook">Post on Facebook</string>
     <string name="setup_share_sns_twitter">Post on Twitter</string>
     <string name="setup_share_sns_foursquare">Post on Foursquare</string>
@@ -305,5 +304,15 @@
     <string name="notification_news_bravos_yesterday">Yesterday brought %d new </string>
     <string name="duplicate_found_title">Found one close match. Add this shop?</string>
     <string name="duplicate_mean_shop">Did you mean one of these shops?</string>
+
+    <!-- Date,time -->
+    <string name="feed_date_seconds">%ds</string>
+    <string name="feed_date_minuts">%dm</string>
+    <string name="feed_date_hours">%dh</string>
+    <string name="feed_date_date">MMM d</string>
+    <string name="date_ym">MMM, yyyy</string>
+    
+    <!--  -->
+    <string name="setup_notification_table_header">Notifications</string>
 
 </resources>

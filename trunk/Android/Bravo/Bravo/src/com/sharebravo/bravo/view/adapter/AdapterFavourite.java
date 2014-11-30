@@ -127,7 +127,7 @@ public class AdapterFavourite extends BaseAdapter {
                 if (createdTime == 0) {
                     holder._recentPostTime.setText("Unknown");
                 } else {
-                    String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+                    String createdTimeConvertStr = TimeUtility.convertToDateTime(mContext, createdTime);
                     holder._recentPostTime.setText(createdTimeConvertStr);
                 }
             } else {
@@ -148,7 +148,7 @@ public class AdapterFavourite extends BaseAdapter {
                         public void onStartAnimation(boolean dismissRight) {
                             isMovedRight = dismissRight;
                             final ViewGroup.LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-                            final ViewGroup.LayoutParams lpLinearDelete  = holder._linearDelete.getLayoutParams();
+                            final ViewGroup.LayoutParams lpLinearDelete = holder._linearDelete.getLayoutParams();
                             final int originalHeight = holder._layoutFavourite.getHeight();
                             lp.height = originalHeight;
                             lpLinearDelete.height = originalHeight;
@@ -166,29 +166,29 @@ public class AdapterFavourite extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     holder._layoutFavourite.animate().translationX(0).alpha(1).setDuration(500).setListener(new AnimatorListener() {
-                        
+
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            
+
                         }
-                        
+
                         @Override
                         public void onAnimationRepeat(Animator animation) {
-                            
+
                         }
-                        
+
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             iClickUserAvatar.deleteItem(obGetBravo.Bravo_ID);
                         }
-                        
+
                         @Override
                         public void onAnimationCancel(Animator animation) {
-                            
+
                         }
                     });
                 }
-            }); 
+            });
         }
         return convertView;
     }

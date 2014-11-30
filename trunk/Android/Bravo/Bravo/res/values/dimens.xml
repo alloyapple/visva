@@ -84,6 +84,6 @@
 
     <!-- Bravo Tab -->
     <dimen name="height_text_area_return_spot">50dp</dimen>
-    <dimen name="text_home_tabs">12px</dimen>
+    <dimen name="text_home_tabs">13sp</dimen>
 
 </resources>

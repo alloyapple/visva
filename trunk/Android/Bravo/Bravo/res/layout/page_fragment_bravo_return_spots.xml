@@ -90,7 +90,7 @@
             android:id="@+id/text_share_return_spots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/share"
+            android:text="@string/bravo_after_share_sns"
             android:textColor="@color/grey_3"
             android:textStyle="bold" />
 

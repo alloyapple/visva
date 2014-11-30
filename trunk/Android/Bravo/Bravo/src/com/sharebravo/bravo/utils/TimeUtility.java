@@ -5,9 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
 
 /**
  * 
@@ -118,28 +121,21 @@ public class TimeUtility {
         return result;
     }
 
-    public static String formatToSimple(Date input) {
-        final SimpleDateFormat df = new SimpleDateFormat("MMM dd");
+    public static String formatToSimple(Context context, Date input) {
+        Resources res = context.getResources();
+        String dateFormatStr = res.getString(R.string.feed_date_date);
+        final SimpleDateFormat df = new SimpleDateFormat(dateFormatStr);
         String dateStr = df.format(input);
         return dateStr;
     }
 
-    public static String getCurentDate() {
-        long currentTime = System.currentTimeMillis();
-        return formatToSimple(new Date(currentTime));
-    }
-
-    public static String getDateExpiry(int num) {
-        long expiryTime = System.currentTimeMillis() + num * MILLISECS_PER_DAY;
-        return formatToSimple(new Date(expiryTime));
-    }
-
     @SuppressLint("SimpleDateFormat")
-    public static String convertToDateTime(long createdTime) {
+    public static String convertToDateTime(Context context, long createdTime) {
         String returnDate;
+        Resources res = context.getResources();
         long _millesTime = 1000 * createdTime;
         Date date = new Date(_millesTime);
-        String createdDateStr = formatToSimple(date);
+        String createdDateStr = formatToSimple(context, date);
         AIOLog.d("currentTimeMillis:" + System.currentTimeMillis() + ",_millesTime:" + _millesTime);
         long deltaTime = 0;
         if (System.currentTimeMillis() > _millesTime) {
@@ -148,14 +144,14 @@ public class TimeUtility {
             deltaTime = (_millesTime - System.currentTimeMillis()) / 1000;
         }
         if (deltaTime < 60)
-            returnDate = deltaTime + "s";
+            returnDate = res.getString(R.string.feed_date_seconds, deltaTime);
         else if (deltaTime >= 60 && deltaTime < 3600)
         {
             int deltaMinute = (int) deltaTime / 60;
-            returnDate = deltaMinute + "m";
+            returnDate = res.getString(R.string.feed_date_minuts, deltaMinute);
         } else if (deltaTime >= 3600 && deltaTime < (3600 * 24)) {
             int deltaHour = (int) deltaTime / 3600;
-            returnDate = deltaHour + "h";
+            returnDate = res.getString(R.string.feed_date_hours, deltaHour);
         }
         // else if (deltaTime >= (3600 * 24) && deltaTime < (5 * 3600 * 24)) {
         // int deltaDays = (int) deltaTime / (3600 * 24);

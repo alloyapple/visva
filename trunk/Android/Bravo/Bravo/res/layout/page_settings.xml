@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/sns_login_text_view_margin_bottom"
                     android:layout_marginTop="@dimen/sns_login_text_view_margin_top"
-                    android:text="@string/share"
+                    android:text="@string/bravo_after_share_sns"
                     android:textColor="@color/grey_3"
                     android:textStyle="bold" />
 

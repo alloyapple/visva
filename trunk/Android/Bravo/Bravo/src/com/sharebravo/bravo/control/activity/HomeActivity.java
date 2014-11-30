@@ -787,7 +787,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
             waIntent.setPackage("jp.naver.line.android");
             waIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
             waIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
-            startActivity(Intent.createChooser(waIntent, getString(R.string.share)));
+            startActivity(Intent.createChooser(waIntent, getString(R.string.bravo_after_share_sns)));
         } catch (NameNotFoundException e) {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW);

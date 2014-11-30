@@ -243,7 +243,9 @@ public class AdapterBravoDetail extends BaseAdapter {
                 }
             });
             followIcon.setImageResource(isFollowing ? R.drawable.following_icon : R.drawable.follow_icon);
-            btnFollow.setText(isFollowing ? "Following" : "Follow");
+            String following = mContext.getString(R.string.following);
+            String follow = mContext.getString(R.string.follow);
+            btnFollow.setText(isFollowing ? following : follow);
             if (bravoObj.User_ID.equals(mSessionLogin.userID))
             {
                 followIcon.setVisibility(View.GONE);
@@ -278,10 +280,14 @@ public class AdapterBravoDetail extends BaseAdapter {
             });
             if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
                 btnLeft.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
-                btnLeft.setText(isSave ? "Saved" : "Save");
+                String saved = mContext.getString(R.string.bravo_info_saved);
+                String save = mContext.getString(R.string.bravo_info_save);
+                btnLeft.setText(isSave ? saved : save);
             } else {
+                String liked = mContext.getString(R.string.bravo_info_liked);
+                String like = mContext.getString(R.string.bravo_info_like);
                 btnLeft.setCompoundDrawablesWithIntrinsicBounds(0, isLiked ? R.drawable.icon_like : R.drawable.icon_like_off, 0, 0);
-                btnLeft.setText(isLiked ? "Liked" : "Like");
+                btnLeft.setText(isLiked ? liked : like);
             }
             btnMiddle.setBackgroundResource(R.drawable.btn_like2);
             if (bravoObj.User_ID.equals(mSessionLogin.userID)) {
@@ -290,7 +296,9 @@ public class AdapterBravoDetail extends BaseAdapter {
                 btnMiddle.setVisibility(View.VISIBLE);
             }
             btnMiddle.setCompoundDrawablesWithIntrinsicBounds(0, isSave ? R.drawable.save_bravo_on : R.drawable.save_bravo_off, 0, 0);
-            btnMiddle.setText(isSave ? "Saved" : "Save");
+            String saved = mContext.getString(R.string.bravo_info_saved);
+            String save = mContext.getString(R.string.bravo_info_save);
+            btnMiddle.setText(isSave ? saved : save);
             btnMiddle.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -403,7 +411,7 @@ public class AdapterBravoDetail extends BaseAdapter {
             if (createdTime == 0) {
                 holderComment.mCommentDate.setText("Unknown");
             } else {
-                String createdTimeConvertStr = TimeUtility.convertToDateTime(createdTime);
+                String createdTimeConvertStr = TimeUtility.convertToDateTime(mContext, createdTime);
                 holderComment.mCommentDate.setText(createdTimeConvertStr);
                 AIOLog.d("obGetBravo.Date_Created.sec: " + comment.dateCreated.getSec());
                 AIOLog.d("obGetBravo.Date_Created.Usec: " + createdTimeConvertStr);
