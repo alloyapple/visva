@@ -97,7 +97,7 @@ public class FragmentBravoLogin extends FragmentBasic {
                 if (isPasswordnotValid) {
                     isPasswordnotValid = false;
                     mEditTextPassWord.setText("");
-                    mEditTextPassWord.setHint(getString(R.string.pass_word));
+                    mEditTextPassWord.setHint(getString(R.string.signup_bravo_password));
                     mEditTextPassWord.setHintTextColor(getActivity().getResources().getColor(R.color.black));
                 }
             }
