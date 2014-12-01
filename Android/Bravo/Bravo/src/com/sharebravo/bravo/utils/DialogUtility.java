@@ -159,7 +159,7 @@ public class DialogUtility {
         dialog.show();
     }
 
-    public static void showDialogReport(FragmentActivity activity,final IDialogListener iDialogListener) {
+    public static void showDialogReport(FragmentActivity activity, final IDialogListener iDialogListener) {
         final Dialog dialog = new Dialog(activity);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -185,8 +185,8 @@ public class DialogUtility {
         dialog.setContentView(dialog_view);
         dialog.show();
     }
-    
-    public static void showDialogStopFollowing(FragmentActivity activity,final IDialogListener iDialogListener) {
+
+    public static void showDialogStopFollowing(FragmentActivity activity, final IDialogListener iDialogListener) {
         final Dialog dialog = new Dialog(activity);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -221,7 +221,7 @@ public class DialogUtility {
         dialog.show();
     }
 
-    public static void showDialogChooseImage(FragmentActivity activity,final IDialogListener iDialogListener) {
+    public static void showDialogChooseImage(FragmentActivity activity, final IDialogListener iDialogListener) {
         final Dialog dialog = new Dialog(activity);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -268,9 +268,39 @@ public class DialogUtility {
 
         dialog.show();
     }
-    
+
     private static void onCallSpot(FragmentActivity activity, String spot_Phone) {
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + spot_Phone));
         activity.startActivity(intent);
+    }
+
+    public static void showDialogSpentBravoADay(FragmentActivity activity) {
+        final Dialog dialog = new Dialog(activity);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) activity.getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_spent_bravo_today, null);
+        Button btnYes = (Button) dialog_view.findViewById(R.id.btn_ok);
+        btnYes.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                return;
+            }
+        });
+
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        // This makes the dialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        dialog.show();
+
     }
 }
