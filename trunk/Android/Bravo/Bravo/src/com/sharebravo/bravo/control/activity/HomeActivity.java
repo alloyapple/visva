@@ -17,7 +17,6 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,7 +26,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -38,9 +36,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -76,9 +72,9 @@ import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
 import com.sharebravo.bravo.utils.BravoWebServiceConfig;
+import com.sharebravo.bravo.utils.DialogUtility;
 import com.sharebravo.bravo.utils.WakeLocker;
 import com.sharebravo.bravo.view.fragment.home.FragmentBravoDetail;
-
 import com.sharebravo.bravo.view.fragment.home.FragmentCoverImage;
 import com.sharebravo.bravo.view.fragment.home.FragmentDuplicateSpot;
 import com.sharebravo.bravo.view.fragment.home.FragmentHomeNotification;
@@ -1139,7 +1135,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     startActivityForResult(bravoIntent, REQUEST_CODE_TAP_HERE_BRAVO);
                     overridePendingTransition(R.anim.slide_in_up, R.anim.fade_in);
                 } else {
-                    showDialogSpentBravoADay();
+                    DialogUtility.showDialogSpentBravoADay(HomeActivity.this);
                 }
             }
 
@@ -1148,36 +1144,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
             }
         }, mFragmentHomeTab);
-    }
-
-    public void showDialogSpentBravoADay() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
-        View dialog_view = inflater.inflate(R.layout.dialog_spent_bravo_today, null);
-        Button btnYes = (Button) dialog_view.findViewById(R.id.btn_ok);
-        btnYes.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                return;
-            }
-        });
-
-        dialog.setContentView(dialog_view);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        // This makes the dialog take up the full width
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-
-        dialog.show();
-
     }
 
     /***
