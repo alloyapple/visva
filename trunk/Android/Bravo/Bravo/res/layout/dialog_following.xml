@@ -12,15 +12,14 @@
         android:background="@drawable/all_corner"
         android:orientation="vertical" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <FrameLayout android:id="@+id/flower_loop"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/flower_loop"
-            android:contentDescription="@string/app_name" />
+            android:layout_marginTop="10dp" />
 
-        <TextView android:id="@+id/txt_following_content"
+        <TextView
+            android:id="@+id/txt_following_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
