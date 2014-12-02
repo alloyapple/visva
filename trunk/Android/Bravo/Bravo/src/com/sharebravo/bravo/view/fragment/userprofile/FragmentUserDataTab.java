@@ -3,6 +3,7 @@ package com.sharebravo.bravo.view.fragment.userprofile;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +16,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Movie;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +42,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -668,6 +674,12 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_following, null);
         Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
+        FrameLayout frameLoop = (FrameLayout) dialog_view.findViewById(R.id.flower_loop);
+        View view = new GIFView(getActivity());
+        view.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT));
+//        mInputStream = getActivity().getResources().openRawResource(R.drawable.flower_anim);
+//        mMovie = Movie.decodeStream(mInputStream);
+        frameLoop.addView(view);
         TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
         txtContent.setText(getActivity().getResources().getString(R.string.profile_follow_alert).replace("%s", mObGetUserInfo.data.Full_Name));
         btnOK.setOnClickListener(new OnClickListener() {
@@ -686,6 +698,36 @@ public class FragmentUserDataTab extends FragmentBasic implements UserPostProfil
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
         dialog.show();
+    }
+    private class GIFView extends View{
+
+        public GIFView(Context context) {
+            super(context);
+            mInputStream = context.getResources().openRawResource(R.drawable.flower_anim);
+            mMovie = Movie.decodeStream(mInputStream);
+        }
+
+        private Movie       mMovie;
+        private InputStream mInputStream = null;
+        private long              mMovieStart;
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            long now = android.os.SystemClock.uptimeMillis();
+            if (mMovieStart == 0) {
+                mMovieStart = now;
+            }
+            int relTime = (int) ((now - mMovieStart) % mMovie.duration());
+            mMovie.setTime(relTime);
+            double scalex = (double) this.getWidth() / (double) mMovie.width();
+             double scaley = (double) this.getHeight() / (double) mMovie.height();
+            canvas.scale((float) scalex, (float) scaley);
+            mMovie.draw(canvas, 0, 0, paint);
+            this.invalidate();
+        }
     }
 
     private void showDialogChooseImage(final int userImageType, ObGetUserInfo obGetUserInfo) {
