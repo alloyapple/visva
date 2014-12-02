@@ -14,7 +14,7 @@ public class GifView extends View{
 
     public GifView(Context context) {
         super(context);
-        mInputStream = context.getResources().openRawResource(R.drawable.flower_loop);
+        mInputStream = context.getResources().openRawResource(R.drawable.flower_anim);
         mMovie = Movie.decodeStream(mInputStream);
     }
 
@@ -36,7 +36,7 @@ public class GifView extends View{
         //double scalex = (double) this.getWidth() / (double) mMovie.width();
         // double scaley = (double) this.getHeight() / (double) mMovie.height();
         //canvas.scale((float) scalex, (float) scalex);
-        mMovie.draw(canvas, 0, 70, paint);
+        mMovie.draw(canvas, 0, 0, paint);
         this.invalidate();
     }
 }

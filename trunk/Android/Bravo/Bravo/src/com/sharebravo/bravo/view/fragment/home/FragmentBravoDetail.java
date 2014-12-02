@@ -1,15 +1,22 @@
 package com.sharebravo.bravo.view.fragment.home;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Movie;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,12 +24,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -258,7 +270,7 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
 
                 AIOLog.d("response putFollow :===>" + response);
                 adapterRecentPostDetail.updateFollowing(true);
-                DialogUtility.showDialogFollowingOK(getActivity(), mBravoObj.Full_Name);
+                showDialogFollowingOK(mBravoObj.Full_Name);
             }
 
             @Override
@@ -266,6 +278,76 @@ public class FragmentBravoDetail extends FragmentBasic implements DetailBravoLis
                 AIOLog.e("errorMessage");
             }
         }, FragmentBravoDetail.this);
+    }
+//    private static final long TIME_TO_FINISH = 14500;
+//    private Movie             mMovie;
+//    private InputStream       mInputStream   = null;
+//    private long              mMovieStart;
+    
+    public void showDialogFollowingOK(String fullName) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+        View dialog_view = inflater.inflate(R.layout.dialog_following, null);
+        Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
+        FrameLayout frameLoop = (FrameLayout) dialog_view.findViewById(R.id.flower_loop);
+        View view = new GIFView(getActivity());
+        view.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT));
+//        mInputStream = getActivity().getResources().openRawResource(R.drawable.flower_anim);
+//        mMovie = Movie.decodeStream(mInputStream);
+        frameLoop.addView(view);
+        TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
+        txtContent.setText(getActivity().getResources().getString(R.string.profile_follow_alert).replace("%s", fullName));
+        btnOK.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.setContentView(dialog_view);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialog.show();
+    }
+
+  
+
+    private class GIFView extends View{
+
+        public GIFView(Context context) {
+            super(context);
+            mInputStream = context.getResources().openRawResource(R.drawable.flower_anim);
+            mMovie = Movie.decodeStream(mInputStream);
+        }
+
+        private Movie       mMovie;
+        private InputStream mInputStream = null;
+        private long              mMovieStart;
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            long now = android.os.SystemClock.uptimeMillis();
+            if (mMovieStart == 0) {
+                mMovieStart = now;
+            }
+            int relTime = (int) ((now - mMovieStart) % mMovie.duration());
+            mMovie.setTime(relTime);
+            double scalex = (double) this.getWidth() / (double) mMovie.width();
+             double scaley = (double) this.getHeight() / (double) mMovie.height();
+            canvas.scale((float) scalex, (float) scaley);
+            mMovie.draw(canvas, 0, 0, paint);
+            this.invalidate();
+        }
     }
 
     private void requestGetMyListItem() {
