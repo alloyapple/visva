@@ -71,8 +71,6 @@ public class BravoConstant {
     public static final String  PREF_KEY_TWITTER_USER_ID                           = "pref_key_twitter_user_id";
     public static final String  PREF_KEY_TWITTER_OAUTH_TOKEN                       = "pref_key_twitter_oauth_token";
     public static final String  PREF_KEY_TWITTER_OAUTH_SCRET                       = "pref_key_twitter_oauth_scret";
-    public static final String  PREF_KEY_TWITTER_LOGIN                             = "pref_key_twitter_login";
-    public static final String  PREF_KEY_FOURSQUARE_LOGIN                          = "pref_key_foursquare_login";
 
     public static final String  PREF_KEY_SESSION_LOGIN_BY_BRAVO                    = "pref_key_session_login_by_bravo";
     public static final String  PREF_KEY_SESSION_LOGIN_BY_FACEBOOK                 = "pref_key_session_login_by_facebook";
@@ -125,6 +123,17 @@ public class BravoConstant {
     public static final String  TWITTER                                            = "Twitter";
     public static final String  LINE                                               = "Line";
     public static final String  BRAVO                                              = "Bravo";
+
+    public static final String  PREF_KEY_TWITTER_LOGIN                             = "pref_key_twitter_login";
+    public static final String  PREF_KEY_FOURSQUARE_LOGIN                          = "pref_key_foursquare_login";
+    public static final String  PREF_KEY_FACEBOOK_LOGIN                            = "pref_key_facebook_login";
+    public static final String  PREF_KEY_FACEBOOK_CHECKED                          = "pref_key_facebook_checked";
+    public static final String  PREF_KEY_FOURSQUARE_CHECKED                        = "pref_key_foursquare_checked";
+    public static final String  PREF_KEY_TWITTER_CHECKED                           = "pref_key_twitter_checked";
+
+    public static final String  PREF_KEY_TWITTER_ID_LOGINED                        = "pref_key_twitter_id_logined";
+    public static final String  PREF_KEY_FOURSQUARE_ID_LOGINED                     = "pref_key_foursquare_id_logined";
+    public static final String  PREF_KEY_FACEBOOK_ID_LOGINED                       = "pref_key_facebook_id_logined";
 
     public static final String  EXTRA_SPOT_JSON                                    = "extra_SPOT_JSON";
     public static final String  HOME_RECENT_POST_LAST_DATA                         = "home_recent_post_last_data";

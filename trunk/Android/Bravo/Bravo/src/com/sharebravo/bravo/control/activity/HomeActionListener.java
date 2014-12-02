@@ -57,7 +57,7 @@ public interface HomeActionListener {
 
     public void showPageTermOfUse();
 
-    public void deleteSNS(SNS sns);
+    public void deleteSNS(String snsID);
 
     public void goToMapView(Spot mSpot, int makerByLocationSpot);
 

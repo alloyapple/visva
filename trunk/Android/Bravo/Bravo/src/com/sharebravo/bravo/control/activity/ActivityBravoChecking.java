@@ -2,12 +2,7 @@ package com.sharebravo.bravo.control.activity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -48,15 +43,10 @@ import com.google.gson.GsonBuilder;
 import com.sharebravo.bravo.R;
 import com.sharebravo.bravo.control.request.BravoRequestManager;
 import com.sharebravo.bravo.control.request.IRequestListener;
-import com.sharebravo.bravo.model.SessionLogin;
 import com.sharebravo.bravo.model.response.ObPostBravo;
 import com.sharebravo.bravo.model.response.SNS;
-import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
-import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
@@ -94,10 +84,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
     protected static Twitter        mTwitter;
     private UiLifecycleHelper       mUiLifecycleHelper;
     private Session.StatusCallback  mFacebookCallback;
-    private SessionLogin            mSessionLogin                  = null;
-    private int                     mLoginBravoViaType             = BravoConstant.NO_LOGIN_SNS;
-    private SNSList                 mSNSList;
-    private ArrayList<SNS>          mArrSNSList;
     private EasyFoursquareAsync     mEasyFoursquareAsync;
 
     private enum PendingAction {
@@ -111,9 +97,6 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void onCreate() {
-
-        mLoginBravoViaType = BravoSharePrefs.getInstance(this).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
-        mSessionLogin = BravoUtils.getSession(this, mLoginBravoViaType);
         /* facebook api */
         mFacebookCallback = new Session.StatusCallback() {
             @Override
@@ -485,62 +468,18 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
 
     @Override
     public void putSNS(final SNS sns) {
-        boolean isCheckExistedSNS = false;
-        mSNSList = BravoUtils.getSNSList(this);
-        if (mSNSList == null)
-            mArrSNSList = new ArrayList<SNS>();
-        else
-            mArrSNSList = mSNSList.snsArrList;
-        for (int i = 0; i < mArrSNSList.size(); i++) {
-            if (sns.foreignSNS.equals(mArrSNSList.get(i).foreignSNS))
-                isCheckExistedSNS = true;
-        }
-        if (!isCheckExistedSNS)
-            return;
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Foreign_SNS", sns.foreignSNS);
-        subParams.put("Foreign_ID", sns.foreignID);
-        subParams.put("Foreign_Access_Token", sns.foreignAccessToken);
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_PUT_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putReport = new AsyncHttpPut(this, new AsyncHttpResponseProcess(this, mFragmentBravoReturnSpots) {
+        BravoRequestManager.getInstance(this).putSNS(this, sns, new IRequestListener() {
+
             @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("response putSNS :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    mFragmentBravoReturnSpots.updatePostSNS(sns, true);
-                } else {
-                    mFragmentBravoReturnSpots.updatePostSNS(sns, false);
-                }
+            public void onResponse(String response) {
+                AIOLog.d("putSNS to bravo onResponse:" + response);
             }
 
             @Override
-            public void processIfResponseFail() {
-                mFragmentBravoReturnSpots.updatePostSNS(sns, false);
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("putSNS to bravo onErrorResponse:" + errorMessage);
             }
-        }, params, true);
-        AIOLog.d(url);
-        putReport.execute(url);
+        });
     }
 
     @Override
@@ -557,7 +496,7 @@ public class ActivityBravoChecking extends VisvaAbstractFragmentActivity impleme
                 AIOLog.d("response error");
                 mFragmentBravoReturnSpots.updatePostSNS(sns, true);
             }
-        }, mFragmentBravoSearch);
+        });
     }
 
     private void requestToGetTwitterUserInfo(String bravoId, String sharedText) {

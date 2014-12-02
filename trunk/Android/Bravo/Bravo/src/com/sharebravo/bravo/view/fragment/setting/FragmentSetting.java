@@ -1,7 +1,5 @@
 package com.sharebravo.bravo.view.fragment.setting;
 
-import java.util.ArrayList;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -13,8 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import br.com.condesales.EasyFoursquareAsync;
@@ -38,7 +36,6 @@ import com.sharebravo.bravo.control.activity.HomeActivity;
 import com.sharebravo.bravo.control.request.BravoRequestManager;
 import com.sharebravo.bravo.control.request.IRequestListener;
 import com.sharebravo.bravo.model.response.SNS;
-import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.NetworkUtility;
 import com.sharebravo.bravo.utils.BravoConstant;
@@ -64,8 +61,6 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     private ToggleButton           mToggleBtnTotalBravoNotifications;
     private ToggleButton           mToggleBtnBravoNotifications;
     private Button                 mBtnBack;
-    private SNSList                mSNSList;
-    private ArrayList<SNS>         mArrSNSList;
     private boolean                isPostOnFacebook, isPostOnTwitter, isPostOnFourSquare;
     private boolean                isClickFacebookToggle;
 
@@ -96,15 +91,16 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
+                if (isChecked) {
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, true);
                     onCheckedToggleBtnFacebook(isChecked);
+                }
                 else {
                     isPostOnFacebook = false;
-                    for (int i = 0; i < mArrSNSList.size(); i++) {
-                        if (BravoConstant.FACEBOOK.equals(mArrSNSList.get(i).foreignSNS)) {
-                            mHomeActionListener.deleteSNS(mArrSNSList.get(i));
-                        }
-                    }
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, isPostOnFacebook);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                    String snsId = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED);
+                    mHomeActionListener.deleteSNS(snsId);
                 }
                 isClickFacebookToggle = true;
             }
@@ -118,6 +114,8 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     if (user == null) {
                         mToggleBtnPostOnFacebook.setChecked(false);
                         isPostOnFacebook = false;
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED, false);
+                        BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, false);
                     } else {
                         mToggleBtnPostOnFacebook.setChecked(true);
                         isPostOnFacebook = true;
@@ -132,6 +130,9 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                             sns.foreignAccessToken = session.getAccessToken();
                             sns.foreignID = user.getId();
                             sns.foreignSNS = BravoConstant.FACEBOOK;
+
+                            BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                            BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
                             mHomeActionListener.putSNS(sns);
                         }
                     }
@@ -145,20 +146,14 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mToggleBtnPostOnTwitter.setChecked(false);
                 if (isChecked) {
-                    if (BravoUtils.isTwitterLoggedInAlready(getActivity())) {
-                        SNS sns = new SNS();
-                        sns.foreignSNS = BravoConstant.TWITTER;
-                        updatePostSNS(sns, true);
-                    }
-                    else
-                        mHomeActionListener.requestToLoginSNS(BravoConstant.TWITTER);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_CHECKED, true);
+                    mHomeActionListener.requestToLoginSNS(BravoConstant.TWITTER);
                 } else {
                     isPostOnTwitter = false;
-                    for (int i = 0; i < mArrSNSList.size(); i++) {
-                        if (BravoConstant.TWITTER.equals(mArrSNSList.get(i).foreignSNS)) {
-                            mHomeActionListener.deleteSNS(mArrSNSList.get(i));
-                        }
-                    }
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_CHECKED, isPostOnTwitter);
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, isPostOnTwitter);
+                    String snsId = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_TWITTER_ID_LOGINED);
+                    mHomeActionListener.deleteSNS(snsId);
                 }
             }
         });
@@ -167,16 +162,16 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mToggleBtnPostOnFourSquare.setChecked(false);
-                if (isChecked)
+                if (isChecked){
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_CHECKED, true);
                     onCheckedToggleBtnFourSquare(isChecked);
+                }
                 else {
                     isPostOnFourSquare = false;
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_CHECKED, isPostOnFourSquare);
                     BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, isPostOnFourSquare);
-                    for (int i = 0; i < mArrSNSList.size(); i++) {
-                        if (BravoConstant.FOURSQUARE.equals(mArrSNSList.get(i).foreignSNS)) {
-                            mHomeActionListener.deleteSNS(mArrSNSList.get(i));
-                        }
-                    }
+                    String snsId = BravoSharePrefs.getInstance(getActivity()).getStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED);
+                    mHomeActionListener.deleteSNS(snsId);
                 }
             }
         });
@@ -234,6 +229,9 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                     sns.foreignAccessToken = session.getAccessToken();
                     sns.foreignID = user.getId();
                     sns.foreignSNS = BravoConstant.FACEBOOK;
+
+                    BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, isPostOnFacebook);
+                    BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
                     mHomeActionListener.putSNS(sns);
                 }
             });
@@ -250,36 +248,23 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
     }
 
     private void initializeData() {
-        mSNSList = BravoUtils.getSNSList(getActivity());
-        if (mSNSList == null)
-            mArrSNSList = new ArrayList<SNS>();
-        else
-            mArrSNSList = mSNSList.snsArrList;
-        if (mArrSNSList == null || mArrSNSList.size() == 0) {
-            isPostOnFacebook = false;
-            isPostOnFourSquare = false;
-            isPostOnTwitter = false;
-        } else
-            for (int i = 0; i < mArrSNSList.size(); i++) {
-                if (BravoConstant.FACEBOOK.equals(mArrSNSList.get(i).foreignSNS))
-                    isPostOnFacebook = true;
-                if (BravoConstant.FOURSQUARE.equals(mArrSNSList.get(i).foreignSNS))
-                    isPostOnFourSquare = true;
-                if (BravoConstant.TWITTER.equals(mArrSNSList.get(i).foreignSNS))
-                    isPostOnTwitter = true;
-            }
         isPostOnTwitter = BravoUtils.isTwitterLoggedInAlready(getActivity());
-        if (isPostOnFacebook) {
+        isPostOnFacebook = BravoUtils.isFacebookLoggedInAlready(getActivity());
+        isPostOnFourSquare = BravoUtils.isFourSquareLoggedInAlready(getActivity());
+        boolean isAlreadyFacebookCheck = BravoUtils.isFacebookAlreadyChecked(getActivity());
+        boolean isAlreadyTwitterCheck = BravoUtils.isTwitterAlreadyChecked(getActivity());
+        boolean isAlreadyFourSquareCheck = BravoUtils.isFourSquareAlreadyChecked(getActivity());
+        if (isPostOnFacebook && isAlreadyFacebookCheck) {
             mToggleBtnPostOnFacebook.setChecked(true);
         } else {
             mToggleBtnPostOnFacebook.setChecked(false);
         }
-        if (isPostOnTwitter) {
+        if (isPostOnTwitter && isAlreadyTwitterCheck) {
             mToggleBtnPostOnTwitter.setChecked(true);
         } else {
             mToggleBtnPostOnTwitter.setChecked(false);
         }
-        if (isPostOnFourSquare) {
+        if (isPostOnFourSquare && isAlreadyFourSquareCheck) {
             mToggleBtnPostOnFourSquare.setChecked(true);
         } else {
             mToggleBtnPostOnFourSquare.setChecked(false);
@@ -446,6 +431,7 @@ public class FragmentSetting extends FragmentBasic implements AccessTokenRequest
                 sns.foreignSNS = BravoConstant.FOURSQUARE;
                 mHomeActionListener.putSNS(sns);
                 BravoSharePrefs.getInstance(getActivity()).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
+                BravoSharePrefs.getInstance(getActivity()).putStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED, sns.foreignID);
             }
         });
         mToggleBtnPostOnFourSquare.setChecked(true);
