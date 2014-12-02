@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
 
 import com.google.gson.Gson;
@@ -32,6 +33,7 @@ import com.sharebravo.bravo.model.response.ObPutFollowing;
 import com.sharebravo.bravo.model.response.ObPutLike;
 import com.sharebravo.bravo.model.response.ObPutMyList;
 import com.sharebravo.bravo.model.response.ObPutReport;
+import com.sharebravo.bravo.model.response.SNS;
 import com.sharebravo.bravo.sdk.log.AIOLog;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpDelete;
 import com.sharebravo.bravo.sdk.util.network.AsyncHttpGet;
@@ -97,6 +99,62 @@ public class BravoRequestManager {
     // ==========================================================
     // Put Request
     // ==========================================================
+    /**
+     * put a SNS to bravo server
+     * @param sns
+     */
+    public void putSNS(FragmentActivity activity,final SNS sns,final IRequestListener iRequestListener) {
+        boolean isCheckExistedSNS = false;
+        isCheckExistedSNS = BravoUtils.isSNSAlreadyLoggined(activity,sns);
+        if (!isCheckExistedSNS)
+            return;
+        int loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
+        SessionLogin sessionLogin = BravoUtils.getSession(mContext, loginBravoViaType);
+        String userId = sessionLogin.userID;
+        String accessToken = sessionLogin.accessToken;
+        HashMap<String, String> subParams = new HashMap<String, String>();
+        subParams.put("Foreign_SNS", sns.foreignSNS);
+        subParams.put("Foreign_ID", sns.foreignID);
+        subParams.put("Foreign_Access_Token", sns.foreignAccessToken);
+        JSONObject jsonObject = new JSONObject(subParams);
+        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
+        String url = BravoWebServiceConfig.URL_PUT_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
+        AsyncHttpPut putReport = new AsyncHttpPut(activity, new AsyncHttpResponseProcess(activity, null) {
+            @Override
+            public void processIfResponseSuccess(String response) {
+                AIOLog.d("response putSNS :===>" + response);
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (jsonObject == null)
+                    return;
+
+                String status = null;
+                try {
+                    status = jsonObject.getString("status");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
+                    iRequestListener.onResponse(response);
+                } else {
+                    iRequestListener.onErrorResponse("Cannot put sns");
+                }
+            }
+
+            @Override
+            public void processIfResponseFail() {
+                iRequestListener.onErrorResponse("Cannot put sns");
+            }
+        }, params, true);
+        AIOLog.d(url);
+        putReport.execute(url);
+    }
     /**
      * request to put follow someone
      * 
@@ -382,14 +440,14 @@ public class BravoRequestManager {
     // ======================================================
     // Delete Request
     // ======================================================
-    public void deleteSNS(String foreignID, final IRequestListener iRequestListener, FragmentBasic fragmentBasic) {
+    public void deleteSNS(String foreignID, final IRequestListener iRequestListener) {
         int loginBravoViaType = BravoSharePrefs.getInstance(mContext).getIntValue(BravoConstant.PREF_KEY_SESSION_LOGIN_BRAVO_VIA_TYPE);
         SessionLogin sessionLogin = BravoUtils.getSession(mContext, loginBravoViaType);
         String userId = sessionLogin.userID;
         String accessToken = sessionLogin.accessToken;
         String url = BravoWebServiceConfig.URL_DELETE_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken)
                 .replace("{SNS_ID}", foreignID);
-        AsyncHttpDelete deleteSNS = new AsyncHttpDelete(mContext, new AsyncHttpResponseProcess(mContext, fragmentBasic) {
+        AsyncHttpDelete deleteSNS = new AsyncHttpDelete(mContext, new AsyncHttpResponseProcess(mContext, null) {
             @Override
             public void processIfResponseSuccess(String response) {
                 AIOLog.d("response deleteSNS :===>" + response);

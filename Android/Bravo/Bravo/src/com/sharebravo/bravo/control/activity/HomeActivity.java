@@ -2,12 +2,6 @@ package com.sharebravo.bravo.control.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -62,12 +56,8 @@ import com.sharebravo.bravo.model.response.ObBravo;
 import com.sharebravo.bravo.model.response.ObGetAllBravoRecentPosts;
 import com.sharebravo.bravo.model.response.ObGetUserInfo;
 import com.sharebravo.bravo.model.response.SNS;
-import com.sharebravo.bravo.model.response.SNSList;
 import com.sharebravo.bravo.model.response.Spot;
 import com.sharebravo.bravo.sdk.log.AIOLog;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpPut;
-import com.sharebravo.bravo.sdk.util.network.AsyncHttpResponseProcess;
-import com.sharebravo.bravo.sdk.util.network.ParameterFactory;
 import com.sharebravo.bravo.utils.BravoConstant;
 import com.sharebravo.bravo.utils.BravoSharePrefs;
 import com.sharebravo.bravo.utils.BravoUtils;
@@ -195,8 +185,6 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
     private boolean                  mBackPressedToExitOnce         = false;
     private SessionLogin             mSessionLogin                  = null;
     private int                      mLoginBravoViaType             = BravoConstant.NO_LOGIN_SNS;
-    private SNSList                  mSNSList;
-    private ArrayList<SNS>           mArrSNSList;
     private GoogleCloudMessaging     mGoogleCloudMessaging;
     private String                   mRegisterId;
 
@@ -258,6 +246,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
                     BravoSharePrefs.getInstance(this).putStringValue(BravoConstant.PREF_KEY_TWITTER_OAUTH_SCRET,
                             accessToken.getTokenSecret());
                     BravoSharePrefs.getInstance(this).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, true);
+                    BravoSharePrefs.getInstance(this).putStringValue(BravoConstant.PREF_KEY_TWITTER_ID_LOGINED, userId);
                     Log.e("Twitter", "> " + accessToken.getToken());
 
                     // Getting user details from twitter
@@ -302,6 +291,7 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
         } else {
             AIOLog.e("No valid Google Play Services APK found.");
         }
+        
     }
 
     public void resetStack() {
@@ -1041,79 +1031,34 @@ public class HomeActivity extends VisvaAbstractFragmentActivity implements HomeA
 
     @Override
     public void putSNS(final SNS sns) {
-        boolean isCheckExistedSNS = false;
-        mSNSList = BravoUtils.getSNSList(this);
-        if (mSNSList == null)
-            mArrSNSList = new ArrayList<SNS>();
-        else
-            mArrSNSList = mSNSList.snsArrList;
-        for (int i = 0; i < mArrSNSList.size(); i++) {
-            if (sns.foreignSNS.equals(mArrSNSList.get(i).foreignSNS))
-                isCheckExistedSNS = true;
-        }
-        if (!isCheckExistedSNS)
-            return;
-        String userId = mSessionLogin.userID;
-        String accessToken = mSessionLogin.accessToken;
-        HashMap<String, String> subParams = new HashMap<String, String>();
-        subParams.put("Foreign_SNS", sns.foreignSNS);
-        subParams.put("Foreign_ID", sns.foreignID);
-        subParams.put("Foreign_Access_Token", sns.foreignAccessToken);
-        JSONObject jsonObject = new JSONObject(subParams);
-        List<NameValuePair> params = ParameterFactory.createSubParamsPutFollow(jsonObject.toString());
-        String url = BravoWebServiceConfig.URL_PUT_SNS.replace("{User_ID}", userId).replace("{Access_Token}", accessToken);
-        AsyncHttpPut putReport = new AsyncHttpPut(this, new AsyncHttpResponseProcess(this, mFragmentSetting) {
+        BravoRequestManager.getInstance(this).putSNS(this, sns, new IRequestListener() {
+            
             @Override
-            public void processIfResponseSuccess(String response) {
-                AIOLog.d("response putSNS :===>" + response);
-                JSONObject jsonObject = null;
-
-                try {
-                    jsonObject = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (jsonObject == null)
-                    return;
-
-                String status = null;
-                try {
-                    status = jsonObject.getString("status");
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-                if (status == String.valueOf(BravoWebServiceConfig.STATUS_RESPONSE_DATA_SUCCESS)) {
-                    mFragmentSetting.updatePostSNS(sns, true);
-                } else {
-                    mFragmentSetting.updatePostSNS(sns, false);
-                }
+            public void onResponse(String response) {
+                AIOLog.d("putSNS onResponse:"+response);
             }
-
+            
             @Override
-            public void processIfResponseFail() {
-                mFragmentSetting.updatePostSNS(sns, false);
+            public void onErrorResponse(String errorMessage) {
+                AIOLog.d("putSNS onErrorResponse:"+errorMessage);
             }
-        }, params, true);
-        AIOLog.d(url);
-        putReport.execute(url);
+        });
     }
 
     @Override
-    public void deleteSNS(final SNS sns) {
-        BravoRequestManager.getInstance(this).deleteSNS(sns.foreignID, new IRequestListener() {
+    public void deleteSNS(String foreignID) {
+        BravoRequestManager.getInstance(this).deleteSNS(foreignID, new IRequestListener() {
 
             @Override
             public void onResponse(String response) {
-                mFragmentSetting.updatePostSNS(sns, false);
+                AIOLog.d("deleteSNS response:"+response);
             }
 
             @Override
             public void onErrorResponse(String errorMessage) {
                 AIOLog.d("response error");
-                mFragmentSetting.updatePostSNS(sns, true);
             }
-        }, mFragmentSetting);
+        });
     }
 
     @Override

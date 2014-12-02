@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -377,39 +378,23 @@ public class BravoUtils {
 
     public static void putSNSList(Context context, HashMap<String, SNS> sNS_List) {
         AIOLog.d("sNS_List:" + sNS_List.values() + ", sNS_List.size():" + sNS_List.size());
-        SNSList snsList = getSNSList(context);
-        AIOLog.d("sNS_List getListItem:" + getSNSList(context));
-        if (snsList == null) {
-            snsList = new SNSList();
-        }
-
         for (Map.Entry<String, SNS> entry : sNS_List.entrySet()) {
-            String key = entry.getKey();
             SNS sns = entry.getValue();
             if (sns == null)
                 continue;
-            sns.key = key;
-            if (snsList.snsArrList == null) {
-                snsList.snsArrList = new ArrayList<SNS>();
-                snsList.snsArrList.add(sns);
-            } else if (snsList.snsArrList.size() == 0) {
-                snsList.snsArrList.add(sns);
-            } else {
-                boolean isCheckExist = false;
-                AIOLog.d("sNS_List snsArrList.size():" + snsList.snsArrList.size());
-                for (int i = 0; i < snsList.snsArrList.size(); i++) {
-                    if (snsList.snsArrList.get(i).foreignSNS.equals(sns.foreignSNS))
-                        isCheckExist = true;
-                }
-                if (!isCheckExist)
-                    snsList.snsArrList.add(sns);
+            if(BravoConstant.FACEBOOK.equals(sns.foreignSNS)){
+                BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN, true);
+                BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_FACEBOOK_ID_LOGINED, sns.foreignID);
+            }
+            else if(BravoConstant.FOURSQUARE.equals(sns.foreignSNS)){
+                BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN, true);
+                BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_FOURSQUARE_ID_LOGINED, sns.foreignID);
+            }
+            else if(BravoConstant.TWITTER.equals(sns.foreignSNS)){
+                BravoSharePrefs.getInstance(context).putBooleanValue(BravoConstant.PREF_KEY_TWITTER_LOGIN, true);
+                BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_TWITTER_ID_LOGINED, sns.foreignID);
             }
         }
-
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        String snsListJSON = gson.toJson(snsList);
-        AIOLog.d("sNS_List snsListItem:" + snsList.snsArrList.get(0).foreignSNS);
-        BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.PREF_KEY_SNS_LIST, snsListJSON.toString());
     }
 
     public static SNSList getSNSList(Context context) {
@@ -436,6 +421,10 @@ public class BravoUtils {
 
     public static boolean isFourSquareLoggedInAlready(Context context) {
         return BravoSharePrefs.getInstance(context).getBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_LOGIN);
+    }
+
+    public static boolean isFacebookLoggedInAlready(Context context) {
+        return BravoSharePrefs.getInstance(context).getBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_LOGIN);
     }
 
     public static double gps2m(float lat_a, float lng_a, float lat_b, float lng_b) {
@@ -521,5 +510,26 @@ public class BravoUtils {
             String userData = gson.toJson(obGetUserInfo);
             BravoSharePrefs.getInstance(context).putStringValue(BravoConstant.USER_INFO_LAST_DATA, userData);
         }
+    }
+
+    public static boolean isSNSAlreadyLoggined(FragmentActivity activity, SNS sns) {
+        if (BravoConstant.FACEBOOK.equals(sns.foreignSNS))
+            return isFacebookLoggedInAlready(activity);
+        else if (BravoConstant.TWITTER.equals(sns.foreignSNS))
+            return isTwitterLoggedInAlready(activity);
+        else if (BravoConstant.FOURSQUARE.equals(sns.foreignSNS))
+            return isFourSquareLoggedInAlready(activity);
+        else
+            return false;
+    }
+
+    public static boolean isFacebookAlreadyChecked(FragmentActivity activity) {
+        return BravoSharePrefs.getInstance(activity).getBooleanValue(BravoConstant.PREF_KEY_FACEBOOK_CHECKED);
+    }
+    public static boolean isFourSquareAlreadyChecked(FragmentActivity activity) {
+        return BravoSharePrefs.getInstance(activity).getBooleanValue(BravoConstant.PREF_KEY_FOURSQUARE_CHECKED);
+    }
+    public static boolean isTwitterAlreadyChecked(FragmentActivity activity) {
+        return BravoSharePrefs.getInstance(activity).getBooleanValue(BravoConstant.PREF_KEY_TWITTER_CHECKED);
     }
 }
