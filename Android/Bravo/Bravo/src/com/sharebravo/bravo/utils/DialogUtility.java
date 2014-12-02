@@ -132,13 +132,17 @@ public class DialogUtility {
         dialog.show();
     }
 
-    public static void showDialogFollowingOK(FragmentActivity activity, String fullName) {
+   /* public static void showDialogFollowingOK(FragmentActivity activity, String fullName) {
         final Dialog dialog = new Dialog(activity);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater inflater = (LayoutInflater) activity.getLayoutInflater();
         View dialog_view = inflater.inflate(R.layout.dialog_following, null);
         Button btnOK = (Button) dialog_view.findViewById(R.id.btn_ok);
+        FrameLayout frameLoop = (FrameLayout) dialog_view.findViewById(R.id.flower_loop);
+        View view = new GIFView(activity);
+        mInputStream = activity.getResources().openRawResource(R.drawable.bravo_jump);
+        mMovie = Movie.decodeStream(mInputStream);
         TextView txtContent = (TextView) dialog_view.findViewById(R.id.txt_following_content);
         txtContent.setText(activity.getResources().getString(R.string.profile_follow_alert).replace("%s", fullName));
         btnOK.setOnClickListener(new OnClickListener() {
@@ -158,6 +162,43 @@ public class DialogUtility {
         window.setAttributes(lp);
         dialog.show();
     }
+
+    private static final long TIME_TO_FINISH = 14500;
+    private Movie             mMovie;
+    private InputStream       mInputStream   = null;
+    private long              mMovieStart;
+
+    private class GIFView extends View {
+
+        public GIFView(Context context) {
+            super(context);
+            mInputStream = context.getResources().openRawResource(R.drawable.bravo_jump);
+            mMovie = Movie.decodeStream(mInputStream);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            long now = android.os.SystemClock.uptimeMillis();
+            if (mMovieStart == 0) {
+                mMovieStart = now;
+            }
+            int relTime = (int) ((now - mMovieStart) % mMovie.duration());
+//            if (relTime > TIME_TO_FINISH) {
+//                Intent intent = new Intent();
+//                setResult(RESULT_OK, intent);
+//                finish();
+//            }
+            mMovie.setTime(relTime);
+            double scalex = (double) this.getWidth() / (double) mMovie.width();
+            // double scaley = (double) this.getHeight() / (double) mMovie.height();
+            canvas.scale((float) scalex, (float) scalex);
+            mMovie.draw(canvas, 0, 70, paint);
+            this.invalidate();
+        }
+    }*/
 
     public static void showDialogReport(FragmentActivity activity, final IDialogListener iDialogListener) {
         final Dialog dialog = new Dialog(activity);
